@@ -12980,3 +12980,9 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESIDENT-VISUAL-INGEST2`. Wired FSBW S
 ## 2026-10-03 — Studio World CASTING_THUMBNAIL authority (CASTING-THUMBNAIL-AUTHORITY1)
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CASTING-THUMBNAIL-AUTHORITY1`. **CASTING_THUMBNAIL** for Casting → Actors (`casting-thumbnails-v1/`). Founder moved review branch to `cursor/production-hub-descendants-opus1` (merged INGEST1+2 + thumbnails; tunnel dev preview on this branch). Tests: `tests/studioWorldCastingThumbnailAuthority1.test.ts`. Prior PR #1303 targeted narrative branch — superseded by descendants branch push.
+
+---
+
+## 2026-10-03 — Production bottom nav matches the founder icon pack
+
+Founder rejected the keyed PNG masks (outline hub, flattened red). Production bottom nav now draws the pack in `bottomNavPack.tsx`: filled hub plate with two cut lines, envelope + red dot, three outline design plates, circled play, cube with front bookmark, three books, pulse + red dot. Active tab turns linework red; accent dots stay `#eb1c24`. Branch `cursor/production-hub-descendants-opus1`.

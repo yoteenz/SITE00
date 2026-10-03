@@ -1,17 +1,7 @@
 /** Canonical Production bottom navigation — Production owns its own nav (no global SITE 00 mobile bar). */
 import { Link } from 'react-router-dom';
 import { hubDeepLink } from '../../../../shared/site00-production-hub/model.js';
-import hubIcon from './bottom-nav/01_HUB.png';
-import inboxIcon from './bottom-nav/02_INBOX.png';
-import designIcon from './bottom-nav/03_DESIGN.png';
-import experienceIcon from './bottom-nav/04_EXPERIENCE.png';
-import expressionIcon from './bottom-nav/05_EXPRESSION.png';
-import libraryIcon from './bottom-nav/06_LIBRARY.png';
-import activityIcon from './bottom-nav/07_ACTIVITY.png';
-
-function NavGlyph({ src }: { src: string }) {
-  return <span className="ph-nav__glyph" style={{ ['--nav-icon' as string]: `url("${src}")` }} aria-hidden />;
-}
+import { BottomNavPackIcon } from './bottomNavPack';
 
 export type ProductionNavId = 'hub' | 'inbox' | 'design' | 'experience' | 'expression' | 'library' | 'activity';
 
@@ -34,14 +24,14 @@ export function productionNavHref(id: ProductionNavId, projectId: string): strin
   }
 }
 
-const ITEMS: { id: ProductionNavId; label: string; icon: string }[] = [
-  { id: 'hub', label: 'HUB', icon: hubIcon },
-  { id: 'inbox', label: 'INBOX', icon: inboxIcon },
-  { id: 'design', label: 'DESIGN', icon: designIcon },
-  { id: 'experience', label: 'EXPERIENCE', icon: experienceIcon },
-  { id: 'expression', label: 'EXPRESSION', icon: expressionIcon },
-  { id: 'library', label: 'LIBRARY', icon: libraryIcon },
-  { id: 'activity', label: 'ACTIVITY', icon: activityIcon },
+const ITEMS: { id: ProductionNavId; label: string }[] = [
+  { id: 'hub', label: 'HUB' },
+  { id: 'inbox', label: 'INBOX' },
+  { id: 'design', label: 'DESIGN' },
+  { id: 'experience', label: 'EXPERIENCE' },
+  { id: 'expression', label: 'EXPRESSION' },
+  { id: 'library', label: 'LIBRARY' },
+  { id: 'activity', label: 'ACTIVITY' },
 ];
 
 /**
@@ -58,7 +48,7 @@ export function ProductionHostNav({
   inboxCount: number;
 }) {
   return (
-    <nav className="pxh-nav" aria-label="Production navigation" data-testid="hub-bottom-nav" data-nav-layout="horizontal">
+    <nav className="pxh-nav" aria-label="Production navigation" data-testid="hub-bottom-nav" data-nav-layout="horizontal" data-inbox-count={inboxCount}>
       {ITEMS.map((it) => {
         const isActive = it.id === active;
         return (
@@ -70,9 +60,7 @@ export function ProductionHostNav({
             data-testid={`nav-${it.id}`}
           >
             <span className="pxh-nav__icon">
-              <span className="pxh-nav__glyph" style={{ ['--nav-icon' as string]: `url("${it.icon}")` }} aria-hidden />
-              {it.id === 'inbox' && inboxCount > 0 ? <i className="pxh-nav__dot" aria-hidden /> : null}
-              {it.id === 'activity' ? <i className="pxh-nav__dot" aria-hidden /> : null}
+              <BottomNavPackIcon id={it.id} />
             </span>
             <span className="pxh-nav__label">{it.label}</span>
           </Link>
@@ -100,7 +88,7 @@ export function ProductionBottomNav({
         const body = (
           <>
             <span className="ph-nav__icon">
-              <NavGlyph src={it.icon} />
+              <BottomNavPackIcon id={it.id} />
               {it.id === 'inbox' && inboxCount > 0 ? <sup>{String(inboxCount).padStart(2, '0')}</sup> : null}
             </span>
             <span>{it.label}</span>
