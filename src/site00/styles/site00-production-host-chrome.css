@@ -415,8 +415,9 @@
 .pxa .prod-chrome-strip.ph--hub .ph-top__attn b {
   font-size: 36px;
 }
+/* 864-space type. The strip is zoomed (~0.45 on a phone), so 2px here is ~1px on screen. */
 .pxa .prod-chrome-strip.ph--hub .ph-nav__item {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /*
