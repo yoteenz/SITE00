@@ -25,6 +25,7 @@ describe('P0.STUDIOOS.PRODUCTION.EXPRESSION.RESIDENT-VISUAL-INGEST2', () => {
     for (const v of listResidentVisualProjections()) {
       expect(v.primaryNaturalImage).toMatch(/^\/site00\/studio-world-residents\/season1-v1\//);
       expect(v.cardImage).toBeTruthy();
+      expect(v.productionVisuals.castingThumbnail.url).toMatch(/casting-thumbnails-v1/);
     }
   });
 
@@ -43,24 +44,27 @@ describe('P0.STUDIOOS.PRODUCTION.EXPRESSION.RESIDENT-VISUAL-INGEST2', () => {
     expect(findResidentDossierById('SW-RESIDENT-002')!.canonicalName).toBe('ZURI XU');
   });
 
-  it('Marlowe card uses larger-body natural authority not alternate reference', () => {
+  it('Marlowe natural authority uses larger-body off-duty; casting thumb is separate', () => {
     const m = getResidentVisualProjection('SW-RESIDENT-007')!;
-    expect(m.cardImage).toMatch(/off-duty-cultural-icon/);
-    expect(m.cardImage).not.toMatch(/grand-cultural-icon/);
+    expect(m.primaryNaturalImage).toMatch(/off-duty-cultural-icon/);
+    expect(m.productionVisuals.castingThumbnail.url).toMatch(/MARLOWE_SAINT/i);
+    expect(m.productionVisuals.castingThumbnail.url).not.toMatch(/grand-cultural-icon/);
     expect(assertCastingCardNotNonPrimary('SW-RESIDENT-007', m.alternateModeRefs[0]!)).toBe(false);
   });
 
-  it('Iona glam is alternate only — card stays precision utilitarian', () => {
+  it('Iona glam is alternate only — casting thumbnail is not full-glam', () => {
     const i = getResidentVisualProjection('SW-RESIDENT-006')!;
-    expect(i.cardImage).toMatch(/precision-utilitarian/);
-    expect(i.cardImage).not.toMatch(/full-glam/);
+    expect(i.productionVisuals.castingThumbnail.url).toMatch(/IONA_WELLS/i);
+    expect(i.productionVisuals.castingThumbnail.url).not.toMatch(/full-glam/);
+    expect(i.closeupRefs[0]).toMatch(/precision-utilitarian/);
     expect(assertCastingCardNotNonPrimary('SW-RESIDENT-006', i.alternateModeRefs[0]!)).toBe(false);
   });
 
-  it('work uniform cannot become default resident card image', () => {
+  it('work uniform cannot become default Casting thumbnail', () => {
     for (const v of listResidentVisualProjections()) {
+      const thumb = v.productionVisuals.castingThumbnail.url;
       for (const u of v.uniformRefs) {
-        expect(v.cardImage).not.toBe(u);
+        expect(thumb).not.toBe(u);
         expect(assertCastingCardNotNonPrimary(v.sourceResidentId, u)).toBe(false);
       }
     }
