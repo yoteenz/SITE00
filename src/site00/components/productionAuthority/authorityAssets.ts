@@ -18,6 +18,15 @@ export const AUTHORITY_ASSETS = {
     `${BASE}/production-library-red-geometry-03-v1.jpg`,
   ],
   viewportCorridor: `${BASE}/production-viewport-corridor-v1.jpg`,
+  /**
+   * HUB hero plates (HUB.RECONSTRUCTION.OPUS1): the approved HUB authority's own crystal-pyramid chamber,
+   * cropped per viewport family with the baked-in copy inpainted out (see SOURCE.md). Live copy renders on top.
+   */
+  hubHero: {
+    mobile: `${BASE}/production-hub-hero-mobile-v1.jpg`,
+    tablet: `${BASE}/production-hub-hero-tablet-v1.jpg`,
+    desktop: `${BASE}/production-hub-hero-desktop-v1.jpg`,
+  },
   boards: {
     brand: `${BASE}/production-design-board-brand-v1.jpg`,
     experience: `${BASE}/production-design-board-experience-v1.jpg`,

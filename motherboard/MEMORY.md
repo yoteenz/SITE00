@@ -12935,3 +12935,14 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-TREE.COMPOSER1`. Forensic map only — 
 - **Method:** Routes (`Site00Routes`, production shells), registry canon vs `EXPERIENCE_CAPSULES`, Opus2 crawl cross-check; experience children labeled **UNMOUNTED** honestly; hub machine + expression-engine route **LEGACY_LOCKED**; design workspace mobile 768 scale flagged **RESPONSIVE_AUTHORITY_FAILURE**.
 - **Counts:** 37 route-equivalent surfaces; 23 interaction nodes; 5 temporary surfaces; 44 responsive-variant records; 4 genericization risks; 5 stale fallbacks; 2 authority conflicts.
 - **QA:** `tests/productionAuthorityConvergenceOpus2.test.ts` 18/18 pass (audit did not touch runtime).
+
+---
+
+## 2026-10-03 — HUB reconstruction (OPUS1), reference-locked
+
+Sprint `P0.STUDIOOS.PRODUCTION.HUB.RECONSTRUCTION.OPUS1`. Work in `yoteenz/SITE00` (the brief said `fsbw`, but all HUB code lives here and AGENTS.md forbids fsbw). Base `cursor/production-authority-tree-composer1-0daf` @ `0b65e430`. Branch `cursor/production-hub-reconstruction-opus1`. No merge, no deploy.
+
+- **Body:** `HubBody` now renders the approved HUB authority grammar with live data only: hero, status strip, overview, entries, icon components, operations and timeline. Geometry lives in `site00-production-hub-reconstruction.css`, authored per family on its own artboard (`--u` = 100cqi / 2000, 1792 or 1125), with a mobile micro-type floor. `AuthorityHero` / `LiveStatusBar` are unchanged for the other tabs.
+- **Hero plates:** `AUTHORITY_ASSETS.hubHero.{mobile,tablet,desktop}` are cropped from the approved HUB references, with the baked copy removed by OpenCV inpainting (see SOURCE.md).
+- **Shell:** the mobile host strip height is converged inside `.pxa` only (top 120 / nav 112 hub units). Desktop / tablet anatomy stays per the founder's canonical shell override (left cluster, icon-left nav), even though the new renders show a centred switcher and a stacked nav. This needs a founder decision.
+- **Proof:** `artifacts/production-hub-reconstruction-opus1/` (PARITY_REPORT.md, compare/, before/, after/, devices/). The hub machine route is untouched.
