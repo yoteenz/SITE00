@@ -14,7 +14,8 @@ describe('P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1', () => {
       const html = renderToStaticMarkup(createElement(ProductionNavIcon, { variant, active: false }));
       expect(html).toContain(`data-nav-glyph="${variant}"`);
       expect(html).toContain('data-nav-state="inactive"');
-      expect(html).not.toContain('#eb1c24');
+      expect(html).toContain('data-nav-fidelity="reference-masters"');
+      expect(html).toContain('#eb1c24');
     }
   });
 
@@ -42,13 +43,13 @@ describe('P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1', () => {
     expect(hub).toContain('pavilion');
   });
 
-  it('paints SITE00 red only on the active accent, and keeps inactive ink black', () => {
+  it('keeps the reference red inside every glyph and still marks the active tab', () => {
     const idle = renderToStaticMarkup(createElement(ProductionNavIcon, { variant: 'hub', active: false }));
-    const live = renderToStaticMarkup(createElement(ProductionNavIcon, { variant: 'hub', active: true }));
-    expect(idle).not.toContain('#eb1c24');
-    expect(live).toContain('#eb1c24');
+    const live = renderToStaticMarkup(createElement(ProductionNavIcon, { variant: 'library', active: true }));
+    expect(idle).toContain('#eb1c24');
+    expect(idle).toContain('#111111');
     expect(live).toContain('data-nav-state="active"');
-    expect(live).toContain('#141414');
+    expect(live).toContain('open-book');
   });
 
   it('keeps notification marks outside the glyph and preserves routes', () => {
