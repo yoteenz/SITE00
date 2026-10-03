@@ -23,3 +23,13 @@ Opaque environments and board plates were resized to JPEG. The design project co
 | production-library-red-geometry-03-v1.jpg | 72lmGVNfLD2IYeHKZ3GJ | Red geometry plate |
 
 Existing `production-hub/production/hub/chamber/atmosphere.webp` is a glass cylinder. It does not satisfy the atrium, the crystal core, or the canon hero, and it still feeds Activity.
+
+## HUB hero plates — P0.STUDIOOS.PRODUCTION.HUB.RECONSTRUCTION.OPUS1
+
+| File | Source | Role |
+|---|---|---|
+| production-hub-hero-mobile-v1.jpg | Founder-approved HUB mobile authority (1296×2304), hero band | Mobile HUB hero (crystal pyramid chamber) |
+| production-hub-hero-tablet-v1.jpg | Founder-approved HUB tablet authority (1792×1344), hero band | Tablet HUB hero |
+| production-hub-hero-desktop-v1.jpg | Founder-approved HUB desktop authority (2304×1296), hero band | Desktop HUB hero |
+
+Cropped from the approved references; the baked-in hero copy (PROJECT / NDXBOOK / ENTRY 002 / tagline, IDEAS…IN MOTION) was removed with OpenCV Telea inpainting so the live copy renders on top. No regeneration.

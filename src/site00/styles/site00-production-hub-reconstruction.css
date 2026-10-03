@@ -1,0 +1,919 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.HUB.RECONSTRUCTION.OPUS1 — HUB body, reference-locked.
+ *
+ * Geometry is authored in the approved HUB authority's own pixel space, one artboard per viewport family:
+ *   mobile  1125 wide (9:16)   tablet 1792 wide (4:3)   desktop 2000 wide (16:9)
+ * `--u` = one authority pixel at the current width (container units on `.hubx`), so each family reproduces its
+ * own reference proportionally; families are tuned independently, never by shrinking desktop.
+ * Mobile type keeps a legibility floor (max(…px, …)) where the authority micro-type would drop below ~7px.
+ * Body only: host chrome (.pxh-*, .ph-*, prod-chrome-*) is never selected here.
+ */
+
+.pxa .pxa-scroll:has(.hubx) {
+  background: #f4f4f6;
+}
+.pxa .pxa-scroll:has(.hubx) > .pxa-body {
+  padding-bottom: 0;
+}
+
+.pxa .hubx {
+  container-type: inline-size;
+  --u: calc(100cqi / 2000);
+  /* desktop tokens (authority px @ 2000) */
+  --pad: 65;
+  --hero-h: 308;
+  --copy-x: 80;
+  --copy-y: 66;
+  --f-kicker: 18;
+  --f-title: 66;
+  --f-entry: 44;
+  --f-tag: 23;
+  --f-side: 21;
+  --side-x: 118;
+  --side-y: 78;
+  --status-h: 100;
+  --status-pad: 62;
+  --f-label: 17;
+  --f-main: 20;
+  --f-sub: 16.5;
+  --f-num: 34;
+  --gap: 30;
+  --row-gap: 14;
+  --card-pad: 15;
+  --f-sec: 24;
+  --f-viewall: 17;
+  --ring: 146;
+  --f-ring: 34;
+  --legend-pitch: 28.5;
+  --f-legend: 17.5;
+  --feature-h: 122;
+  --f-feature: 26;
+  --entry-h: 178;
+  --entry-img: 85;
+  --entry-gap: 10;
+  --f-entry-t: 17;
+  --f-entry-s: 15;
+  --tile-h: 143;
+  --tile-gap: 10;
+  --icon: 40;
+  --f-tile: 16;
+  --f-tile-s: 15;
+  --op-pitch: 51;
+  --f-op-num: 26;
+  --op-thumb: 46;
+  --f-op-t: 15.5;
+  --f-op-s: 13.5;
+  --f-chip: 14;
+  --feed-pitch: 41;
+  --feed-thumb: 38;
+  --f-feed-t: 15;
+  --f-feed-s: 13.5;
+  --pair-cols: 457fr 438fr;
+  --pair-gap: 25;
+  --ink: #111114;
+  --ink-2: #3a3a40;
+  --mute: #6e6e76;
+  --faint: #9a9aa2;
+  --line: #e2e2e6;
+  --red: #e5231b;
+  color: var(--ink);
+  font-family: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+/* ── HERO / WORLD PANEL ───────────────────────────────────────────────────────────────────────────── */
+.pxa .hubx-hero {
+  position: relative;
+  height: calc(var(--u) * var(--hero-h));
+  overflow: hidden;
+  background: #eef0f2;
+}
+.pxa .hubx-hero__plate {
+  position: absolute;
+  inset: 0;
+  background: var(--hero-desktop) center 42% / cover no-repeat;
+}
+.pxa .hubx-hero::after {
+  /* soft floor fade into the status strip, as in the authority */
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 22%;
+  background: linear-gradient(180deg, rgba(244, 244, 246, 0), rgba(244, 244, 246, 0.85));
+  pointer-events: none;
+}
+.pxa .hubx-hero__copy {
+  position: absolute;
+  z-index: 1;
+  left: calc(var(--u) * var(--copy-x));
+  top: calc(var(--u) * var(--copy-y));
+  display: grid;
+  justify-items: start;
+  padding-left: calc(var(--u) * 24);
+  color: var(--ink);
+}
+.pxa .hubx-hero__copy > i {
+  position: absolute;
+  left: 0;
+  top: calc(var(--u) * 2);
+  width: calc(var(--u) * 3);
+  height: calc(var(--u) * (var(--f-kicker) + var(--f-title) * 1.05));
+  background: var(--red);
+}
+.pxa .hubx-hero__copy small {
+  font-size: calc(var(--u) * var(--f-kicker));
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+  line-height: 1.3;
+}
+.pxa .hubx-hero__copy h1 {
+  margin: 0;
+  font-size: calc(var(--u) * var(--f-title));
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.02;
+}
+.pxa .hubx-hero__copy strong {
+  font-size: calc(var(--u) * var(--f-entry));
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+}
+.pxa .hubx-hero__copy p {
+  margin: calc(var(--u) * 14) 0 0;
+  font-size: calc(var(--u) * var(--f-tag));
+  letter-spacing: 0.14em;
+  line-height: 1.22;
+  color: var(--ink-2);
+}
+.pxa .hubx-hero__side {
+  position: absolute;
+  z-index: 1;
+  right: calc(var(--u) * var(--side-x));
+  top: calc(var(--u) * var(--side-y));
+  display: grid;
+  gap: calc(var(--u) * 6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: calc(var(--u) * var(--f-side));
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  color: var(--ink-2);
+}
+.pxa .hubx-hero__tick {
+  width: calc(var(--u) * 26);
+  height: calc(var(--u) * 2);
+  margin-top: calc(var(--u) * 10);
+  background: var(--red);
+}
+
+/* ── STATUS STRIP ─────────────────────────────────────────────────────────────────────────────────── */
+.pxa .hubx-status {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 410fr 408fr 367fr 422fr 263fr;
+  height: calc(var(--u) * var(--status-h));
+  margin: calc(var(--u) * -4) calc(var(--u) * var(--pad)) 0;
+  border-radius: calc(var(--u) * 8);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 0 0 1px rgba(17, 17, 20, 0.04),
+    0 calc(var(--u) * 10) calc(var(--u) * 26) calc(var(--u) * -14) rgba(17, 17, 20, 0.28);
+}
+.pxa .hubx-status__cell {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  row-gap: calc(var(--u) * 2);
+  min-width: 0;
+  padding-left: calc(var(--u) * var(--status-pad));
+  white-space: nowrap;
+}
+.pxa .hubx-status__cell {
+  position: relative;
+}
+.pxa .hubx-status__cell + .hubx-status__cell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 1px;
+  background: var(--line);
+}
+.pxa .hubx-status__cell small,
+.pxa .hubx-status__cell span {
+  font-size: calc(var(--u) * var(--f-label));
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+}
+.pxa .hubx-status__cell small {
+  color: var(--mute);
+}
+.pxa .hubx-status__cell b {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 10);
+  font-size: calc(var(--u) * var(--f-main));
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.pxa .hubx-status__cell b .pxa-dot {
+  width: calc(var(--u) * 12);
+  height: calc(var(--u) * 12);
+}
+.pxa .hubx-status__cell em {
+  font-style: normal;
+  font-size: calc(var(--u) * var(--f-sub));
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.pxa .hubx-status__cell strong {
+  font-size: calc(var(--u) * var(--f-num));
+  font-weight: 500;
+  line-height: 0.95;
+  color: var(--red);
+}
+.pxa .hubx-status__cell a {
+  font-size: calc(var(--u) * var(--f-sub));
+  letter-spacing: 0.1em;
+  color: var(--red);
+}
+.pxa .hubx-status__cell a span {
+  font-size: 1.25em;
+  color: inherit;
+  letter-spacing: 0;
+}
+
+/* ── GRID ────────────────────────────────────────────────────────────────────────────────────────── */
+.pxa .hubx-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(var(--u) * var(--gap));
+  padding: calc(var(--u) * var(--row-gap)) calc(var(--u) * var(--pad)) calc(var(--u) * 16);
+  align-items: start;
+}
+.pxa .hubx-col {
+  display: grid;
+  gap: calc(var(--u) * var(--row-gap));
+  min-width: 0;
+}
+.pxa .hubx-pair {
+  display: grid;
+  grid-template-columns: var(--pair-cols);
+  gap: calc(var(--u) * var(--pair-gap));
+  min-width: 0;
+}
+.pxa .hubx-card {
+  min-width: 0;
+  padding: calc(var(--u) * 10) calc(var(--u) * var(--card-pad)) calc(var(--u) * 9);
+  border-radius: calc(var(--u) * 8);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 0 0 1px rgba(17, 17, 20, 0.035),
+    0 calc(var(--u) * 8) calc(var(--u) * 22) calc(var(--u) * -16) rgba(17, 17, 20, 0.22);
+}
+.pxa .hubx-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: calc(var(--u) * 7);
+}
+.pxa .hubx-head h2 {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 12);
+  margin: 0;
+  font-size: calc(var(--u) * var(--f-sec));
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+}
+.pxa .hubx-head h2 i {
+  width: calc(var(--u) * 3);
+  height: calc(var(--u) * var(--f-sec) * 0.95);
+  background: var(--red);
+}
+.pxa .hubx-head h2,
+.pxa .hubx-viewall {
+  white-space: nowrap;
+}
+.pxa .hubx-head {
+  gap: calc(var(--u) * 12);
+}
+.pxa .hubx-head h2 {
+  min-width: 0;
+  overflow: hidden;
+}
+.pxa .hubx-pair .hubx-head h2 {
+  font-size: calc(var(--u) * var(--f-sec) * 0.88);
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .hubx-pair .hubx-head h2 {
+    font-size: calc(var(--u) * var(--f-sec) * 0.78);
+  }
+  .pxa .hubx-pair .hubx-viewall {
+    font-size: calc(var(--u) * var(--f-viewall) * 0.85);
+  }
+}
+.pxa .hubx-viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 10);
+  font-size: calc(var(--u) * var(--f-viewall));
+  letter-spacing: 0.12em;
+  color: var(--mute);
+}
+.pxa .hubx-viewall span {
+  font-size: 1.35em;
+  color: var(--red);
+}
+.pxa .hubx .pxa-thumb {
+  border-radius: calc(var(--u) * 3);
+  background-color: #2a2a2e;
+}
+.pxa .hubx .pxa-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── PRODUCTION OVERVIEW ─────────────────────────────────────────────────────────────────────────── */
+.pxa .hubx-overview__body {
+  display: grid;
+  grid-template-columns: 228fr 300fr 374fr;
+  align-items: center;
+}
+.pxa .hubx-overview__body > * + * {
+  border-left: 1px solid var(--line);
+}
+.pxa .hubx-ring {
+  display: grid;
+  justify-items: center;
+  gap: calc(var(--u) * 2);
+  text-align: center;
+}
+.pxa .hubx-ring__dial {
+  position: relative;
+  width: calc(var(--u) * var(--ring));
+  height: calc(var(--u) * var(--ring));
+  margin-bottom: calc(var(--u) * 6);
+}
+.pxa .hubx-ring__dial svg {
+  width: 100%;
+  height: 100%;
+}
+.pxa .hubx-ring__track {
+  fill: none;
+  stroke: #e6e6ea;
+  stroke-width: 7;
+}
+.pxa .hubx-ring__bar {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.pxa .hubx-ring__dial b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--u) * var(--f-ring));
+  font-weight: 600;
+}
+.pxa .hubx-ring strong {
+  font-size: calc(var(--u) * var(--f-legend));
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+.pxa .hubx-ring small {
+  font-size: calc(var(--u) * var(--f-viewall));
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+.pxa .hubx-legend {
+  display: grid;
+  margin: 0;
+  padding: 0 calc(var(--u) * 16) 0 calc(var(--u) * 26);
+  list-style: none;
+}
+.pxa .hubx-legend li {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 22) 1fr auto;
+  column-gap: calc(var(--u) * 6);
+  align-items: center;
+  height: calc(var(--u) * var(--legend-pitch));
+  font-size: calc(var(--u) * var(--f-legend));
+  letter-spacing: 0.08em;
+}
+.pxa .hubx-legend .pxa-dot {
+  width: calc(var(--u) * 10);
+  height: calc(var(--u) * 10);
+}
+.pxa .hubx-legend span {
+  color: var(--mute);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pxa .hubx-legend em {
+  font-style: normal;
+  color: var(--ink);
+}
+.pxa .hubx-feature {
+  display: grid;
+  gap: calc(var(--u) * 3);
+  padding-left: calc(var(--u) * 20);
+  color: var(--ink);
+}
+.pxa .hubx-feature .pxa-thumb {
+  height: calc(var(--u) * var(--feature-h));
+  margin-bottom: calc(var(--u) * 8);
+}
+.pxa .hubx-feature b {
+  font-size: calc(var(--u) * var(--f-feature));
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+}
+.pxa .hubx-feature small,
+.pxa .hubx-feature em {
+  font-style: normal;
+  font-size: calc(var(--u) * var(--f-viewall));
+  letter-spacing: 0.1em;
+  color: var(--mute);
+}
+.pxa .hubx-feature small i {
+  font-style: normal;
+  margin: 0 calc(var(--u) * 8);
+  color: var(--faint);
+}
+
+/* ── ACTIVE ENTRIES ─────────────────────────────────────────────────────────────────────────────── */
+.pxa .hubx-entries__row {
+  display: grid;
+  grid-template-columns: repeat(4, 174fr) 151fr;
+  gap: calc(var(--u) * var(--entry-gap));
+}
+.pxa .hubx-entry {
+  display: grid;
+  align-content: start;
+  gap: calc(var(--u) * 4);
+  min-height: calc(var(--u) * var(--entry-h));
+  padding: calc(var(--u) * 10) calc(var(--u) * 13);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--u) * 6);
+  background: #fff;
+  color: var(--ink);
+}
+.pxa .hubx-entry.is-active {
+  border: calc(var(--u) * 2) solid var(--red);
+}
+.pxa .hubx-entry > b {
+  font-size: calc(var(--u) * var(--f-entry-t));
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+.pxa .hubx-entry .pxa-thumb {
+  height: calc(var(--u) * var(--entry-img));
+  border-radius: calc(var(--u) * 2);
+}
+.pxa .hubx-entry small {
+  margin-top: calc(var(--u) * 2);
+  font-size: calc(var(--u) * var(--f-entry-s));
+  letter-spacing: 0.08em;
+  color: var(--mute);
+}
+.pxa .hubx-entry__bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: calc(var(--u) * 10);
+}
+.pxa .hubx-entry__bar em {
+  font-style: normal;
+  font-size: calc(var(--u) * var(--f-entry-s));
+}
+.pxa .hubx-entry--new {
+  place-content: center;
+  justify-items: center;
+  border-style: dashed;
+  border-color: #cfcfd5;
+  background: rgba(255, 255, 255, 0.5);
+}
+.pxa .hubx-entry--new span {
+  font-size: calc(var(--u) * 46);
+  font-weight: 300;
+  line-height: 1;
+}
+.pxa .hubx-entry--new b {
+  font-size: calc(var(--u) * var(--f-entry-t));
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+}
+.pxa .hubx-meter {
+  position: relative;
+  display: block;
+  height: calc(var(--u) * 5);
+  border-radius: 99px;
+  background: #e6e6ea;
+  overflow: hidden;
+}
+.pxa .hubx-meter i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 99px;
+  background: var(--red);
+}
+
+/* ── PROJECT COMPONENTS ─────────────────────────────────────────────────────────────────────────── */
+.pxa .hubx-tiles {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: calc(var(--u) * var(--tile-gap));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .hubx-tiles a {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: calc(var(--u) * 4);
+  height: calc(var(--u) * var(--tile-h));
+  padding: 0 calc(var(--u) * 6);
+  border: 1px solid #ececf0;
+  border-radius: calc(var(--u) * 6);
+  background: #fff;
+  color: var(--ink);
+  text-align: center;
+}
+.pxa .hubx-icon {
+  width: calc(var(--u) * var(--icon));
+  height: calc(var(--u) * var(--icon));
+  margin-bottom: calc(var(--u) * 10);
+  color: var(--ink);
+}
+.pxa .hubx-tiles b {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: calc(var(--u) * var(--f-tile));
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.pxa .hubx-tiles small {
+  font-size: calc(var(--u) * var(--f-tile-s));
+  letter-spacing: 0.08em;
+  color: var(--mute);
+  white-space: nowrap;
+}
+.pxa .hubx-tiles .hubx-meter {
+  justify-self: stretch;
+  height: calc(var(--u) * 4);
+  margin: calc(var(--u) * 10) calc(var(--u) * 8) 0;
+  border-radius: 0;
+}
+.pxa .hubx-tiles .hubx-meter i {
+  border-radius: 0;
+}
+
+/* ── CURRENT OPERATIONS ─────────────────────────────────────────────────────────────────────────── */
+.pxa .hubx-ops__list,
+.pxa .hubx-feed__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .hubx-ops__list a {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 46) calc(var(--u) * var(--op-thumb)) 1fr auto calc(var(--u) * 26);
+  align-items: center;
+  gap: calc(var(--u) * 14);
+  min-height: calc(var(--u) * var(--op-pitch));
+  border-bottom: 1px solid #ececf0;
+  color: var(--ink);
+}
+.pxa .hubx-ops__list li:last-child a {
+  border-bottom: 0;
+}
+.pxa .hubx-ops__list em {
+  font-style: normal;
+  font-size: calc(var(--u) * var(--f-op-num));
+  color: var(--red);
+  text-align: center;
+}
+.pxa .hubx-ops__list .pxa-thumb,
+.pxa .hubx-feed__list .pxa-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: calc(var(--u) * 3);
+}
+.pxa .hubx-ops__list span,
+.pxa .hubx-feed__list span {
+  display: grid;
+  gap: calc(var(--u) * 2);
+  min-width: 0;
+}
+.pxa .hubx-ops__list b,
+.pxa .hubx-feed__list b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: calc(var(--u) * var(--f-op-t));
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.pxa .hubx-ops__list small,
+.pxa .hubx-feed__list small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: calc(var(--u) * var(--f-op-s));
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}
+.pxa .hubx .pxa-prio {
+  display: inline-grid;
+  place-items: center;
+  min-width: calc(var(--u) * 58);
+  height: calc(var(--u) * 26);
+  padding: 0 calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 4);
+  font-size: calc(var(--u) * var(--f-chip));
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--red);
+  background: rgba(229, 35, 27, 0.12);
+}
+.pxa .hubx .pxa-prio--med {
+  background: rgba(229, 35, 27, 0.08);
+}
+.pxa .hubx-chev {
+  font-style: normal;
+  font-size: calc(var(--u) * 30);
+  line-height: 1;
+  color: var(--ink);
+  text-align: center;
+}
+
+/* ── RECENT ACTIVITY (timeline) ─────────────────────────────────────────────────────────────────── */
+.pxa .hubx-feed__list {
+  position: relative;
+}
+.pxa .hubx-feed__list::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--u) * 16);
+  top: calc(var(--u) * 10);
+  bottom: calc(var(--u) * 10);
+  width: 1px;
+  background: #e3e3e7;
+}
+.pxa .hubx-feed__list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(var(--u) * 33) calc(var(--u) * var(--feed-thumb)) 1fr auto;
+  align-items: center;
+  gap: calc(var(--u) * 14);
+  min-height: calc(var(--u) * var(--feed-pitch));
+}
+.pxa .hubx-feed__list li + li {
+  border-top: 1px solid #f0f0f3;
+}
+.pxa .hubx-feed__node {
+  justify-self: center;
+  width: calc(var(--u) * 11);
+  height: calc(var(--u) * 11);
+  border: calc(var(--u) * 2.5) solid var(--red);
+  border-radius: 50%;
+  background: #fff;
+}
+.pxa .hubx-feed__list li:nth-child(even) .hubx-feed__node {
+  background: var(--red);
+}
+.pxa .hubx-feed__list b {
+  font-size: calc(var(--u) * var(--f-feed-t));
+}
+.pxa .hubx-feed__list small {
+  font-size: calc(var(--u) * var(--f-feed-s));
+}
+.pxa .hubx-feed__list time {
+  font-size: calc(var(--u) * var(--f-feed-s));
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.pxa .hubx .pxa-empty {
+  margin: 0;
+  padding: calc(var(--u) * 24) 0;
+  font-size: calc(var(--u) * var(--f-op-s));
+  letter-spacing: 0.1em;
+  color: var(--mute);
+  text-align: center;
+}
+
+/* ── TABLET (4:3 authority, 1792 artboard) ───────────────────────────────────────────────────────── */
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .hubx {
+    --u: calc(100cqi / 1792);
+    --pad: 47;
+    --hero-h: 358;
+    --copy-x: 85;
+    --copy-y: 84;
+    --f-kicker: 20;
+    --f-title: 74;
+    --f-entry: 50;
+    --f-tag: 26;
+    --f-side: 24;
+    --side-x: 82;
+    --side-y: 95;
+    --status-h: 110;
+    --status-pad: 50;
+    --f-label: 19;
+    --f-main: 22;
+    --f-sub: 18.5;
+    --f-num: 38;
+    --gap: 22;
+    --row-gap: 18;
+    --card-pad: 18;
+    --f-sec: 28;
+    --f-viewall: 19;
+    --ring: 156;
+    --f-ring: 36;
+    --legend-pitch: 32;
+    --f-legend: 17.5;
+    --feature-h: 137;
+    --f-feature: 28;
+    --entry-h: 205;
+    --entry-img: 94;
+    --entry-gap: 9;
+    --f-entry-t: 18;
+    --f-entry-s: 16;
+    --tile-h: 180;
+    --tile-gap: 9;
+    --icon: 44;
+    --f-tile: 16.5;
+    --f-tile-s: 16;
+    --op-pitch: 60;
+    --f-op-num: 28;
+    --op-thumb: 48;
+    --f-op-t: 16;
+    --f-op-s: 14;
+    --f-chip: 15;
+    --feed-pitch: 51;
+    --feed-thumb: 46;
+    --f-feed-t: 15.5;
+    --f-feed-s: 14;
+    --pair-cols: 423fr 395fr;
+    --pair-gap: 20;
+  }
+  .pxa .hubx-hero__plate {
+    background-image: var(--hero-tablet);
+  }
+  .pxa .hubx-status {
+    grid-template-columns: 365fr 357fr 333fr 380fr 263fr;
+  }
+}
+
+/* ── MOBILE (9:16 authority, 1125 artboard) ──────────────────────────────────────────────────────── */
+@media (max-width: 699px) {
+  .pxa .hubx {
+    --u: calc(100cqi / 1125);
+    --pad: 38;
+    --hero-h: 315;
+    --copy-x: 40;
+    --copy-y: 46;
+    --f-kicker: 20;
+    --f-title: 58;
+    --f-entry: 38;
+    --f-tag: 21;
+    --f-side: 19;
+    --side-x: 62;
+    --side-y: 74;
+    --status-h: 140;
+    --status-pad: 28;
+    --f-label: 19;
+    --f-main: 19;
+    --f-sub: 17;
+    --f-num: 34;
+    --row-gap: 15;
+    --card-pad: 17;
+    --f-sec: 24;
+    --f-viewall: 18;
+    --ring: 162;
+    --f-ring: 34;
+    --legend-pitch: 31;
+    --f-legend: 18;
+    --feature-h: 140;
+    --f-feature: 28;
+    --entry-h: 212;
+    --entry-img: 98;
+    --entry-gap: 10;
+    --f-entry-t: 17;
+    --f-entry-s: 15;
+    --tile-h: 155;
+    --tile-gap: 11;
+    --icon: 40;
+    --f-tile: 17;
+    --f-tile-s: 15;
+    --op-pitch: 70;
+    --f-op-num: 24;
+    --op-thumb: 58;
+    --f-op-t: 17;
+    --f-op-s: 14.5;
+    --f-chip: 15;
+    --feed-pitch: 60;
+    --feed-thumb: 56;
+    --f-feed-t: 15.5;
+    --f-feed-s: 14;
+    --pair-cols: 542fr 477fr;
+    --pair-gap: 30;
+  }
+  .pxa .hubx-hero__plate {
+    background-image: var(--hero-mobile);
+    background-position: center 40%;
+  }
+  .pxa .hubx-hero__copy p {
+    margin-top: calc(var(--u) * 10);
+  }
+  .pxa .hubx-status {
+    grid-template-columns: 232fr 218fr 212fr 225fr 162fr;
+    margin-top: 0;
+  }
+  .pxa .hubx-status__cell {
+    padding-right: calc(var(--u) * 6);
+  }
+  /* mobile: one column in authority order — overview, entries, components, operations | activity */
+  .pxa .hubx-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: calc(var(--u) * var(--row-gap));
+  }
+  .pxa .hubx-col {
+    display: contents;
+  }
+  .pxa .hubx-overview {
+    order: 1;
+  }
+  .pxa .hubx-entries {
+    order: 2;
+  }
+  .pxa .hubx-components {
+    order: 3;
+  }
+  .pxa .hubx-pair {
+    order: 4;
+  }
+  .pxa .hubx-overview__body {
+    grid-template-columns: 290fr 300fr 430fr;
+  }
+
+  /* legibility floor: the 9:16 authority micro-type would otherwise render under 7px on a phone */
+  .pxa .hubx-status__cell small,
+  .pxa .hubx-status__cell span,
+  .pxa .hubx-status__cell em,
+  .pxa .hubx-status__cell a,
+  .pxa .hubx-viewall,
+  .pxa .hubx-legend li,
+  .pxa .hubx-ring strong,
+  .pxa .hubx-ring small,
+  .pxa .hubx-feature small,
+  .pxa .hubx-feature em,
+  .pxa .hubx-entry small,
+  .pxa .hubx-entry__bar em,
+  .pxa .hubx-tiles small,
+  .pxa .hubx-ops__list small,
+  .pxa .hubx-feed__list small,
+  .pxa .hubx-feed__list time,
+  .pxa .hubx .pxa-prio {
+    font-size: max(6.5px, calc(var(--u) * var(--f-sub)));
+  }
+  .pxa .hubx-status__cell b,
+  .pxa .hubx-entry > b,
+  .pxa .hubx-tiles b,
+  .pxa .hubx-ops__list b,
+  .pxa .hubx-feed__list b {
+    font-size: max(7px, calc(var(--u) * var(--f-main)));
+  }
+  .pxa .hubx-head h2 {
+    font-size: max(8.5px, calc(var(--u) * var(--f-sec)));
+  }
+}
+
+/* ── very wide hosts keep the authority composition centred instead of stretching ─────────────────── */
+@media (min-width: 2200px) {
+  .pxa .hubx {
+    max-width: 2200px;
+    margin: 0 auto;
+  }
+}

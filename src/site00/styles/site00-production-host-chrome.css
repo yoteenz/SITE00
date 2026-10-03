@@ -357,3 +357,66 @@
   height: 100%;
   object-fit: cover;
 }
+
+/*
+ * HUB.RECONSTRUCTION.OPUS1 — mobile host strip height convergence (authority frame only).
+ * The phone strip is authored in the 864-wide hub space; the approved 9:16 authority gives the top bar
+ * ≈165 / 1125 of the width (≈120 hub units) and the nav ≈150 / 1125 (≈112). Anatomy, links and the
+ * CURRENT WORKSPACE selector are unchanged; only height, mark sizes and vertical rhythm move.
+ * Scoped to `.pxa` so PwFrame descendants, Character Fabrication and the hub machine keep their offsets.
+ * Static px only: no zoom, transform or viewport units are added here (the strip's existing zoom is untouched).
+ */
+.pxa .prod-chrome-strip.ph--hub .ph-top {
+  height: 120px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > * {
+  margin: 22px 0;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand::before {
+  top: 2px;
+  height: 52px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top .ph-top__thumb {
+  width: 44px;
+  height: 62px;
+  flex-basis: 44px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__attn svg {
+  width: 62px;
+  height: 62px;
+}
+.pxa .prod-chrome-strip.ph--hub .prod-chrome-pop {
+  top: 121px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav {
+  height: 112px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__item {
+  gap: 14px;
+  padding-top: 22px;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__icon {
+  width: 38px;
+  height: 36px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__glyph {
+  width: 34px;
+  height: 34px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__item.is-active::after {
+  bottom: 14px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand b {
+  font-size: 40px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand small {
+  font-size: 14px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__attn b {
+  font-size: 36px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__item {
+  font-size: 17px;
+}
