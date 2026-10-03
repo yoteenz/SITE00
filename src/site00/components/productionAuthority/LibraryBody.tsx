@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getStudioWorldActorCatalogue } from '../../../../shared/site00-studio-world/acting-catalogue/index.js';
+import { listStudioWorldResidentTalentActors } from '../../../../shared/site00-studio-world/acting-catalogue/index.js';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
 import { AUTHORITY_ASSETS } from './authorityAssets';
 import { Dot, Sec, Tabs, Thumb } from './primitives';
@@ -39,7 +39,7 @@ export function LibraryBody() {
   const [canon, setCanon] = useState<Canon>('canonical');
   const [category, setCategory] = useState<string>('AUTHORITIES');
   const [open, setOpen] = useState<string | null>(null);
-  const actors = getStudioWorldActorCatalogue().actors;
+  const actors = listStudioWorldResidentTalentActors();
   const production = data?.production ?? null;
   const graph = data?.graph;
   const sb = graph?.byId.storyboard;

@@ -12956,3 +12956,21 @@ Sprint `P0.STUDIOOS.PRODUCTION.HUB.DESCENDANTS-INTERACTIONS.OPUS1`. Repo `yoteen
 - **Menu:** one authored `ProductionMenuPanel` (in `chrome.tsx`) now serves both the phone strip and the tablet / desktop host top: red-pipe MENU head, indexed rows, current-route marker. Escape and an outside press close it. Destinations are unchanged. Styles are in `site00-production-host-chrome.css` (`.pxm`), px only.
 - **HUB states:** hover / focus / pressed states for every HUB action. Loading shows "SYNCING LIVE STATE". A no-production project now shows an honest dashed NO ENTRY slot instead of stale entry art. Empty states use a dashed inset with a red ring marker. `ProductionAuthorityDataContext` is exported for render tests and QA.
 - **Audit:** 22 actions × 3 families resolve to existing routes with no stale fallback. The hub machine stays LEGACY_LOCKED. Project switching, the NEW ENTRY creation flow and the error state are UNMOUNTED (not invented). Proof is in `artifacts/production-hub-descendants-opus1/`.
+
+---
+
+## 2026-10-03 — Studio World Season 1 resident ingest (INGEST1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.STUDIOWORLD-RESIDENT-INGEST1`. FSBW owns canon; SITE00 adds production dossier projection + Casting Actors tab swap (no full Expression redesign).
+
+- **Projection:** `shared/site00-studio-world/resident-intelligence/season1-ensemble/` — 8 residents (Etta, Zuri Xu, Jules, Noa, Caspian, Iona, Marlowe 54/larger-bodied, EV), relationships, camera behavior, anti-flattening, protected OPEN fields, cast-role override guard (`validateCastRoleOverridesForResident`).
+- **Catalogue:** Generic seed actors retired from Casting UI; `getProductionCastingResidentTalentCatalogue()` / `listStudioWorldResidentTalentActors()`. Entry 002 **SW-017 Maya** preserved as client-cast lookup, excluded from resident Actors gallery.
+- **UI:** Expression Casting → Actors shows **STUDIO WORLD RESIDENT** badge + role; Library Actor Catalogue count uses residents.
+- **Artifacts:** `artifacts/studio-world-resident-ingest/` including `MOCK_ACTOR_MIGRATION.md`.
+- **Tests:** `tests/studioWorldSeason1ResidentIngest1.test.ts`; updated catalogue diversity test; build OK.
+
+---
+
+## 2026-10-03 — Studio World resident visual ingest (INGEST2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESIDENT-VISUAL-INGEST2`. Wired FSBW Season 1 visual authority package (27 JPEGs) into `public/site00/studio-world-residents/season1-v1/` + `visualAuthority.ts`. Casting Actors tab uses `resolveCastingCardImage()` (no uniform/alternate defaults). Marlowe natural off-duty; Iona utilitarian not glam; Zuri Xu only. CF `findFabricationActor` resolves `sw-resident-*` with catalogue portraits. Tests: `tests/studioWorldResidentVisualIngest2.test.ts`.
