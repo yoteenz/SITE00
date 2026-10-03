@@ -241,11 +241,13 @@
   width: 22px;
   height: 22px;
 }
-.pxh-nav__icon .bnav-ico {
+.pxh-nav__glyph {
   display: block;
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
+  width: 22px;
+  height: 22px;
+  background: #141414;
+  -webkit-mask: var(--nav-icon) center / contain no-repeat;
+  mask: var(--nav-icon) center / contain no-repeat;
 }
 .pxh-nav__dot {
   position: absolute;
@@ -266,8 +268,8 @@
   color: var(--pxh-red);
   font-weight: 500;
 }
-.pxh-nav__item.is-active .pxh-nav__icon {
-  color: #141414;
+.pxh-nav__item.is-active .pxh-nav__glyph {
+  background: var(--pxh-red);
 }
 .pxh-nav__item.is-active::after {
   content: '';

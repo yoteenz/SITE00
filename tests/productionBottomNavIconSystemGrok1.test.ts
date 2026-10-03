@@ -15,8 +15,8 @@ describe('P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1', () => {
       const html = renderToStaticMarkup(createElement(ProductionNavIcon, { variant, active: false }));
       expect(html).toContain(`data-nav-glyph="${variant}"`);
       expect(html).toContain('data-nav-state="inactive"');
-      expect(html).toContain('data-nav-fidelity="reference-masters"');
-      expect(html).toContain('<img');
+      expect(html).toContain('data-nav-fidelity="keyed-png-mask"');
+      expect(html).toContain('ph-nav__glyph');
     }
   });
 
@@ -44,11 +44,11 @@ describe('P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1', () => {
     expect(hub).toContain('pavilion');
   });
 
-  it('keeps the reference red inside every glyph and still marks the active tab', () => {
+  it('uses the keyed PNG masks and marks the active tab', () => {
     const idle = renderToStaticMarkup(createElement(ProductionNavIcon, { variant: 'hub', active: false }));
     const live = renderToStaticMarkup(createElement(ProductionNavIcon, { variant: 'library', active: true }));
     expect(idle).toContain('01_HUB');
-    expect(idle).toContain('<img');
+    expect(idle).toContain('ph-nav__glyph');
     expect(live).toContain('data-nav-state="active"');
     expect(live).toContain('open-book');
   });

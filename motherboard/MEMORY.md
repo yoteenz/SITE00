@@ -13004,3 +13004,9 @@ Founder asked for smaller bottom-nav type, then 12px on mobile only, then said t
 ## 2026-10-03 — Remove duplicate CURRENT WORKSPACE from production chrome
 
 Founder: the current-work panel at the top of production workspace nav repeated the bottom tabs — remove it. On `cursor/production-hub-descendants-opus1`, `ProductionWorkspaceHeader` drops the mobile `ph-top__sel--prod` (CURRENT WORKSPACE / tab name) and tablet/desktop `pxh-top__loc` (HUB, DESIGN, etc.). Project selector, attention count, menu, and bottom nav unchanged. Hub machine and Character Fabrication headers untouched. Draft review only.
+
+---
+
+## 2026-10-03 — Inbox-branch nav icons on descendants (labels unchanged)
+
+Founder asked to bring nav icons from `cursor/production-inbox-activity-threeviewport-opus1` onto the main checkout (`cursor/production-hub-descendants-opus1`) without the inbox bottom-panel text behavior. `ProductionNavIcon` now uses the keyed `bottom-nav/01–07.png` mask glyphs (same as the three-viewport branch); CSS mask rules restored on host + hub chrome. Kept unscaled `ProductionNavLabelRow`, `prod-nav-dock`, 12px label row, and header workspace panel removal. Master PNGs remain in `bottom-nav/masters/` but are not mounted. Draft review only.

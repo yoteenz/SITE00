@@ -1,14 +1,14 @@
 /**
- * Production bottom-nav glyphs — founder master PNGs (transparent).
- * Notification dots stay outside the image.
+ * Production bottom-nav glyphs — keyed PNG masks (same art as the three-viewport review branch).
+ * Notification marks stay outside the glyph.
  */
-import hub from './bottom-nav/masters/01_HUB.png';
-import inbox from './bottom-nav/masters/02_INBOX.png';
-import design from './bottom-nav/masters/03_DESIGN.png';
-import experience from './bottom-nav/masters/04_EXPERIENCE.png';
-import expression from './bottom-nav/masters/05_EXPRESSION.png';
-import library from './bottom-nav/masters/06_LIBRARY.png';
-import activity from './bottom-nav/masters/07_ACTIVITY.png';
+import hub from './bottom-nav/01_HUB.png';
+import inbox from './bottom-nav/02_INBOX.png';
+import design from './bottom-nav/03_DESIGN.png';
+import experience from './bottom-nav/04_EXPERIENCE.png';
+import expression from './bottom-nav/05_EXPRESSION.png';
+import library from './bottom-nav/06_LIBRARY.png';
+import activity from './bottom-nav/07_ACTIVITY.png';
 
 export type ProductionNavGlyph =
   | 'hub'
@@ -42,29 +42,23 @@ const CONCEPT: Record<ProductionNavGlyph, string> = {
 export function ProductionNavIcon({
   variant,
   active = false,
-  size = 28,
   className,
   ariaHidden = true,
 }: {
   variant: ProductionNavGlyph;
   active?: boolean;
-  size?: number;
   className?: string;
   ariaHidden?: boolean;
 }) {
   return (
-    <img
-      src={SRC[variant]}
-      alt=""
-      width={size}
-      height={size}
-      draggable={false}
-      className={`bnav-ico${className ? ` ${className}` : ''}`}
+    <span
+      className={`ph-nav__glyph${className ? ` ${className}` : ''}`}
+      style={{ ['--nav-icon' as string]: `url("${SRC[variant]}")` }}
       aria-hidden={ariaHidden}
       data-nav-glyph={variant}
       data-nav-concept={CONCEPT[variant]}
       data-nav-state={active ? 'active' : 'inactive'}
-      data-nav-fidelity="reference-masters"
+      data-nav-fidelity="keyed-png-mask"
     />
   );
 }
