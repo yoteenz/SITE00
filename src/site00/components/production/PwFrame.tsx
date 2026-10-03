@@ -8,7 +8,7 @@ import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { canAccessAdminPages } from '../../../utils/adminAuth';
 import { SITE00_ROUTES } from '../../config/routes';
-import { ProductionChromeStrip, ProductionWorkspaceHeader, ProductionWorkspaceNav } from '../productionHub/chrome';
+import { ProductionBottomChrome, ProductionChromeStrip, ProductionWorkspaceHeader } from '../productionHub/chrome';
 import { IconGlyph } from './PwPrimitives';
 import '../../styles/site00-production-mobile.css';
 import '../../styles/site00-production-descendants-opus2.css';
@@ -103,9 +103,7 @@ export function PwFrame({
           : null}
           <div className="pw-scroll__body">{children}</div>
         </div>
-        <ProductionChromeStrip host>
-          <ProductionWorkspaceNav />
-        </ProductionChromeStrip>
+        <ProductionBottomChrome />
       </div>,
       document.body,
     );

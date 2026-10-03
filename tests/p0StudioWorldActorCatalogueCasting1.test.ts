@@ -160,8 +160,8 @@ describe('P0.STUDIO-WORLD-ACTOR-CATALOGUE-CASTING1', () => {
     const cat = getStudioWorldActorCatalogue();
     const presentations = new Set(cat.actors.map((a) => a.presentation));
     expect(presentations.size).toBeGreaterThan(1);
-    expect(cat.actors.some((a) => a.performanceProfile.includes('DOCUMENTARY'))).toBe(true);
-    expect(cat.actors.some((a) => a.roleArchetypes.includes('ARCHIVIST'))).toBe(true);
+    expect(cat.actors.some((a) => a.catalogueNumber.startsWith('SW-RESIDENT-'))).toBe(true);
+    expect(cat.actors.some((a) => a.roleArchetypes.includes('CREATIVE_DIRECTOR'))).toBe(true);
   });
 
   it('includes CAST in production journey', () => {

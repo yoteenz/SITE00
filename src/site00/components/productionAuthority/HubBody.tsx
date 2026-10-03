@@ -255,7 +255,7 @@ export function HubBody() {
   const expression = productionExpressionPath(slug);
   const slotFor = (nodeId: HubNodeId | null | undefined) => (nodeId ? (graph.byId[nodeId]?.assetSlotId ?? null) : null);
   return (
-    <div className="pxa-hub hubx" data-testid="authority-hub">
+    <div className="pxa-hub hubx" data-testid="authority-hub" data-loading={data.loading ? 'true' : undefined}>
       {/* ── HERO / WORLD PANEL ── */}
       <div
         className="hubx-hero"
@@ -290,7 +290,7 @@ export function HubBody() {
             <Dot tone="green" />
             {data.hasProduction ? 'IN PRODUCTION' : 'NO PRODUCTION'}
           </b>
-          <em>UPDATED {updated}</em>
+          <em data-testid="hub-live-updated">{data.loading ? 'SYNCING LIVE STATE' : `UPDATED ${updated}`}</em>
         </div>
         <div className="hubx-status__cell is-alert">
           <strong>{pad2(attention.length)}</strong>
@@ -334,20 +334,28 @@ export function HubBody() {
                   </li>
                 ))}
               </ul>
-              <Link to={expression} className="hubx-feature" data-testid="hub-entry-card">
-                <Thumb slotId={entryArt} url={data.assetUrl(entryArt)} label={production?.label ?? 'ENTRY'} />
-                <b>{production?.label ?? 'NO ENTRY'}</b>
-                <small>
-                  {cast ? `${cast.characters.length} CHARACTERS` : '—'} <i aria-hidden>|</i> {scenes.length} SCENES
-                </small>
-                <em>UPDATED {updated}</em>
-              </Link>
+              {production ?
+                <Link to={expression} className="hubx-feature" data-testid="hub-entry-card">
+                  <Thumb slotId={entryArt} url={data.assetUrl(entryArt)} label={production.label} />
+                  <b>{production.label}</b>
+                  <small>
+                    {cast ? `${cast.characters.length} CHARACTERS` : '—'} <i aria-hidden>|</i> {scenes.length} SCENES
+                  </small>
+                  <em>UPDATED {updated}</em>
+                </Link>
+              : <div className="hubx-feature hubx-feature--empty" data-testid="hub-entry-card-empty">
+                  <span className="hubx-slot" aria-hidden />
+                  <b>NO ENTRY</b>
+                  <small>NO PRODUCTION IN THIS PROJECT YET</small>
+                </div>
+              }
             </div>
           </section>
 
           {/* ── PROJECT COMPONENTS ── */}
           <section className="hubx-card hubx-components" data-testid="hub-components">
             <HubHead title="PROJECT COMPONENTS" to={expression} />
+            {nodes.length ? null : <p className="pxa-empty" data-testid="hub-components-empty">NO PRODUCTION COMPONENTS YET.</p>}
             <ul className="hubx-tiles">
               {nodes.map((n) => (
                 <li key={n.id}>

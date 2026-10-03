@@ -917,3 +917,111 @@
     margin: 0 auto;
   }
 }
+
+/* ── INTERACTION STATES (HUB.DESCENDANTS-INTERACTIONS.OPUS1) ─────────────────────────────────────────
+ * Every HUB action gets a hover, keyboard focus and pressed state in the HUB grammar: hairline red
+ * tint on cards / tiles, quiet grey wash on rows, a red focus ring, never a scale or bounce. */
+.pxa .hubx a {
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+.pxa .hubx a:focus-visible {
+  outline: 2px solid rgba(229, 35, 27, 0.55);
+  outline-offset: 2px;
+}
+.pxa .hubx-entry:hover,
+.pxa .hubx-tiles a:hover {
+  border-color: rgba(229, 35, 27, 0.45);
+  box-shadow: 0 calc(var(--u) * 10) calc(var(--u) * 20) calc(var(--u) * -14) rgba(229, 35, 27, 0.35);
+}
+.pxa .hubx-entry--new:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+.pxa .hubx-entry--new:hover b {
+  color: var(--red);
+}
+.pxa .hubx-tiles a:hover .hubx-icon {
+  color: var(--red);
+}
+.pxa .hubx-feature:hover b,
+.pxa .hubx-ops__list a:hover b {
+  color: var(--red);
+}
+.pxa .hubx-ops__list a:hover {
+  background: #fafafb;
+}
+.pxa .hubx-viewall:hover,
+.pxa .hubx-status__cell a:hover {
+  color: var(--red);
+}
+.pxa .hubx-entry:active,
+.pxa .hubx-tiles a:active,
+.pxa .hubx-ops__list a:active {
+  background: #f3f3f5;
+}
+
+/* ── LOADING: live hub state still syncing — strip reads SYNCING, ring + meters breathe quietly ── */
+.pxa .hubx[data-loading] .hubx-ring__bar,
+.pxa .hubx[data-loading] .hubx-meter i {
+  animation: hubx-sync 1.4s ease-in-out infinite;
+}
+.pxa .hubx[data-loading] [data-testid='hub-live-updated'] {
+  color: var(--red);
+}
+@keyframes hubx-sync {
+  50% {
+    opacity: 0.35;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pxa .hubx a {
+    transition: none;
+  }
+  .pxa .hubx[data-loading] .hubx-ring__bar,
+  .pxa .hubx[data-loading] .hubx-meter i {
+    animation: none;
+  }
+}
+
+/* ── EMPTY STATES: honest, in HUB grammar — dashed inset slot, red marker, technical label ── */
+.pxa .hubx .pxa-empty {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: calc(var(--u) * 92);
+  padding: calc(var(--u) * 18);
+  border: 1px dashed #d4d4da;
+  border-radius: calc(var(--u) * 6);
+  background: rgba(250, 250, 251, 0.7);
+  letter-spacing: 0.12em;
+}
+.pxa .hubx .pxa-empty::before {
+  content: '';
+  display: block;
+  width: calc(var(--u) * 8);
+  height: calc(var(--u) * 8);
+  margin-bottom: calc(var(--u) * 10);
+  border: calc(var(--u) * 2) solid var(--red);
+  border-radius: 50%;
+}
+.pxa .hubx-feature--empty {
+  align-content: start;
+}
+.pxa .hubx-slot {
+  display: block;
+  height: calc(var(--u) * var(--feature-h));
+  margin-bottom: calc(var(--u) * 8);
+  border: 1px dashed #d4d4da;
+  border-radius: calc(var(--u) * 3);
+  background:
+    repeating-linear-gradient(135deg, rgba(229, 35, 27, 0.05) 0 calc(var(--u) * 8), transparent calc(var(--u) * 8) calc(var(--u) * 16)),
+    #fafafb;
+}
+.pxa .hubx-feature--empty b {
+  color: var(--mute);
+}

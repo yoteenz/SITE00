@@ -4,6 +4,8 @@
  */
 
 export const ACTING_CATALOGUE_VERSION = '1.0.0' as const;
+export const STUDIO_WORLD_SEASON1_CATALOGUE_VERSION = 'season1-v1' as const;
+export type ActingCatalogueVersion = typeof ACTING_CATALOGUE_VERSION | typeof STUDIO_WORLD_SEASON1_CATALOGUE_VERSION;
 
 export const PERFORMANCE_QUALITIES = [
   'UNDERSTATED',
@@ -313,8 +315,8 @@ export type ActorCampaignHistoryEntry = {
 };
 
 export type StudioWorldActorCatalogue = {
-  catalogueId: 'studio-world-acting-company';
-  version: typeof ACTING_CATALOGUE_VERSION;
+  catalogueId: 'studio-world-acting-company' | 'studio-world-season1-resident-talent';
+  version: ActingCatalogueVersion;
   actors: readonly StudioWorldActor[];
   identityAuthorities: readonly ActorIdentityAuthority[];
   updatedAt: string;
