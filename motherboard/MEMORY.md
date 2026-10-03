@@ -12998,3 +12998,9 @@ Sprint `P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1` on `cursor/producti
 ## 2026-10-03 — Mobile bottom-nav labels outside the zoomed strip
 
 Founder asked for smaller bottom-nav type, then 12px on mobile only, then said the size was not changing because something was confining the text. Cause: mobile labels lived inside `.ph--hub`, which zooms the 864px canvas (~0.45 on a phone), so a stylesheet pixel is not a screen pixel. Fix on `cursor/production-hub-descendants-opus1`: `ProductionBottomChrome` keeps the icons in the zoomed strip and renders `ProductionNavLabelRow` as a sibling (`.prod-nav-labels`, 12px, no zoom ancestor). Tablet stays 10px and desktop stays 11.5px on `.pxh-nav`. No nested zoom. Draft review only — not merged, no GoDaddy ZIP.
+
+---
+
+## 2026-10-03 — Remove duplicate CURRENT WORKSPACE from production chrome
+
+Founder: the current-work panel at the top of production workspace nav repeated the bottom tabs — remove it. On `cursor/production-hub-descendants-opus1`, `ProductionWorkspaceHeader` drops the mobile `ph-top__sel--prod` (CURRENT WORKSPACE / tab name) and tablet/desktop `pxh-top__loc` (HUB, DESIGN, etc.). Project selector, attention count, menu, and bottom nav unchanged. Hub machine and Character Fabrication headers untouched. Draft review only.
