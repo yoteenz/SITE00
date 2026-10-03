@@ -12,6 +12,7 @@ import {
   listStudioWorldResidentTalentActors,
 } from '../../../../shared/site00-studio-world/acting-catalogue/index.js';
 import type { ResidentBackedStudioWorldActor } from '../../../../shared/site00-studio-world/resident-intelligence/season1-ensemble/projectToActor.js';
+import { resolveCastingThumbnailObjectPosition } from '../../../../shared/site00-studio-world/resident-intelligence/season1-ensemble/castingThumbnailAuthority.js';
 import type {
   CharacterCampaignLook,
   ProductionCharacter,
@@ -292,13 +293,17 @@ export function CastingScreen({ slug, entry }: SubProps) {
               const resident = a as ResidentBackedStudioWorldActor;
               const badge = 'residentBadgeLabel' in resident ? resident.residentBadgeLabel : null;
               const role = 'studioWorldRole' in resident ? resident.studioWorldRole : null;
+              const thumbPos =
+                badge && resident.sourceResidentId ?
+                  resolveCastingThumbnailObjectPosition(resident.sourceResidentId)
+                : 'center 22%';
               return (
                 <div key={a.actorId} className="pw-row" data-testid={`actor-row-${a.catalogueNumber}`} data-resident={badge ? '1' : '0'}>
                 {a.headshotPreviewUrl ?
                     <span
-                      className="pw-row__thumb pw-row__thumb--resident"
-                      style={{ backgroundImage: `url(${a.headshotPreviewUrl})`, backgroundSize: 'cover', backgroundPosition: 'center 20%' }}
-                      data-visual-authority="studio-world-resident"
+                      className="pw-row__thumb pw-row__thumb--resident-casting"
+                      style={{ backgroundImage: `url(${a.headshotPreviewUrl})`, backgroundPosition: thumbPos }}
+                      data-visual-authority="CASTING_THUMBNAIL"
                     />
                 : <Monogram text={a.stageName} size={64} />}
                   <span className="pw-row__text">

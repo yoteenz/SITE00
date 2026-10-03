@@ -374,6 +374,21 @@
   border: 1px solid var(--pw-line);
 }
 
+/* Studio World Casting → Actors: cohesive CASTING_THUMBNAIL roster (white studio, red collar). */
+.pw-row__thumb--resident-casting {
+  flex: 0 0 72px;
+  width: 72px;
+  align-self: center;
+  min-height: unset;
+  aspect-ratio: 3 / 4;
+  max-height: 96px;
+  background-color: #f4f4f4;
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .pw-row__thumb--right {
   position: relative;
   display: flex;
