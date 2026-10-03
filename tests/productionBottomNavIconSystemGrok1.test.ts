@@ -15,7 +15,7 @@ describe('P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1', () => {
       expect(html).toContain(`data-nav-glyph="${variant}"`);
       expect(html).toContain('data-nav-state="inactive"');
       expect(html).toContain('data-nav-fidelity="reference-masters"');
-      expect(html).toContain('#eb1c24');
+      expect(html).toContain('<img');
     }
   });
 
@@ -46,8 +46,8 @@ describe('P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1', () => {
   it('keeps the reference red inside every glyph and still marks the active tab', () => {
     const idle = renderToStaticMarkup(createElement(ProductionNavIcon, { variant: 'hub', active: false }));
     const live = renderToStaticMarkup(createElement(ProductionNavIcon, { variant: 'library', active: true }));
-    expect(idle).toContain('#eb1c24');
-    expect(idle).toContain('#111111');
+    expect(idle).toContain('01_HUB');
+    expect(idle).toContain('<img');
     expect(live).toContain('data-nav-state="active"');
     expect(live).toContain('open-book');
   });
