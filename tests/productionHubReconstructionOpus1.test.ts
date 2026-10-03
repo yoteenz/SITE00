@@ -96,8 +96,9 @@ describe('per-family geometry', () => {
 
 describe('host chrome safety', () => {
   const css = stripComments(read('src/site00/styles/site00-production-host-chrome.css'));
-  it('mobile strip height convergence is scoped to the authority frame and adds no scaling', () => {
-    expect(css).toMatch(/\.pxa \.prod-chrome-strip\.ph--hub \.ph-top\s*\{\s*height: 120px/);
+  it('mobile strip height convergence adds no scaling (top: shared 120-unit token since TOP-NAV.GLOBAL-CONVERGENCE)', () => {
+    expect(css).toMatch(/--phh-top-h: 120px/);
+    expect(css).toMatch(/\.prod-chrome-strip\.ph--hub \.ph-top\.ph-top--host\s*\{[^}]*height: var\(--phh-top-h\)/);
     expect(css).toMatch(/\.pxa \.prod-chrome-strip\.ph--hub \.ph-nav\s*\{\s*height: 112px/);
     expect(css).not.toMatch(/\bzoom\s*:/);
     expect(css).not.toMatch(/(^|[^-])\btransform\s*:/m);

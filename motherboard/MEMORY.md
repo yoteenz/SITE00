@@ -12974,3 +12974,21 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX-ACTIVITY.THREE-VIEWPORT-RECONSTRUCTION.OPUS
   - An earlier OPUS2 test pins the Activity hero to `hubCrystal`.
   - The Activity frames carry a DESIGN mode bar artifact.
 - **Proof:** `artifacts/production-inbox-activity-threeviewport-opus1/`.
+
+---
+
+## 2026-10-03 — Production top nav global convergence (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.TOP-NAV.GLOBAL-CONVERGENCE.OPUS1`. Base `cursor/production-inbox-activity-threeviewport-opus1` @ `7dcf37de`. Branch `cursor/production-top-nav-opus1`. No merge, no deploy.
+
+- **One header:** `ProductionWorkspaceHeader` (`chrome.tsx`) is the only workspace header. The authority frame, PwFrame and the Design overlay all mount it.
+  - The phone variant now has the same four groups as tablet/desktop (TAB, PROJECT, ATTENTION, MENU). The CURRENT WORKSPACE selector and the long-title ellipsis are gone.
+- **Root cause:** the phone `.ph--hub .ph-top` is a fixed five-track grid with `overflow: hidden` on every cell, and a `.pxa`-only type bump overflowed its tracks.
+  - ITEMS NEED YOU was cropped on every phone width.
+  - PwFrame descendants showed a second, 75-unit header.
+- **Tokens:**
+  - tablet/desktop: `--pxh-*` (heights 64 / 72)
+  - phone strip: `--phh-*` (120 units)
+  - Nothing in the header masks or ellipsizes text, and line-heights are at least 1.15.
+- **Proof:** `artifacts/production-top-nav-opus1/`. An ink-level clip detector went from 64/84 to 84/84 clean.
+- **Kept on purpose:** Character Fabrication and the legacy hub machine keep their own headers.
