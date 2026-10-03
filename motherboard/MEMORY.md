@@ -12986,3 +12986,9 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CASTING-THUMBNAIL-AUTHORITY1`. **CASTI
 ## 2026-10-03 — Production bottom nav matches the founder icon pack
 
 Founder rejected the keyed PNG masks (outline hub, flattened red). Production bottom nav now draws the pack in `bottomNavPack.tsx`: filled hub plate with two cut lines, envelope + red dot, three outline design plates, circled play, cube with front bookmark, three books, pulse + red dot. Active tab turns linework red; accent dots stay `#eb1c24`. Branch `cursor/production-hub-descendants-opus1`.
+
+---
+
+## 2026-10-03 — Production bottom-nav icon system (GROK1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1` on `cursor/production-hub-descendants-opus1`. Replaced the flat icon pack with the founder BOTTOM BAR ICON SYSTEM: pavilion hub, envelope tray, composition planes, portal, prism stage, open book, timeline. Glyphs live in `productionNavIcon.tsx`. Active state adds a SITE00 red accent and does not recolor the whole icon. Inbox count and activity dot stay outside the SVG. Proof: `artifacts/production-bottom-nav-icons-grok1/`. Tests: `tests/productionBottomNavIconSystemGrok1.test.ts`.

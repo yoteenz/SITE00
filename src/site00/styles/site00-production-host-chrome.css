@@ -245,9 +245,8 @@
   display: block;
   width: 22px;
   height: 22px;
-  color: #141414;
+  overflow: visible;
 }
-.pxh-nav__icon .bnav-dot { fill: #eb1c24; }
 .pxh-nav__dot {
   position: absolute;
   top: -2px;
@@ -267,8 +266,8 @@
   color: var(--pxh-red);
   font-weight: 500;
 }
-.pxh-nav__item.is-active .pxh-nav__icon .bnav-ico {
-  color: var(--pxh-red);
+.pxh-nav__item.is-active .pxh-nav__icon {
+  color: #141414;
 }
 .pxh-nav__item.is-active::after {
   content: '';

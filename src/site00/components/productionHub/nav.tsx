@@ -1,7 +1,7 @@
 /** Canonical Production bottom navigation — Production owns its own nav (no global SITE 00 mobile bar). */
 import { Link } from 'react-router-dom';
 import { hubDeepLink } from '../../../../shared/site00-production-hub/model.js';
-import { BottomNavPackIcon } from './bottomNavPack';
+import { ProductionNavIcon } from './productionNavIcon';
 
 export type ProductionNavId = 'hub' | 'inbox' | 'design' | 'experience' | 'expression' | 'library' | 'activity';
 
@@ -60,7 +60,9 @@ export function ProductionHostNav({
             data-testid={`nav-${it.id}`}
           >
             <span className="pxh-nav__icon">
-              <BottomNavPackIcon id={it.id} />
+              <ProductionNavIcon variant={it.id} active={isActive} />
+              {it.id === 'inbox' && inboxCount > 0 ? <i className="pxh-nav__dot" data-nav-notify="inbox" aria-hidden /> : null}
+              {it.id === 'activity' ? <i className="pxh-nav__dot" data-nav-notify="activity" aria-hidden /> : null}
             </span>
             <span className="pxh-nav__label">{it.label}</span>
           </Link>
@@ -88,8 +90,9 @@ export function ProductionBottomNav({
         const body = (
           <>
             <span className="ph-nav__icon">
-              <BottomNavPackIcon id={it.id} />
-              {it.id === 'inbox' && inboxCount > 0 ? <sup>{String(inboxCount).padStart(2, '0')}</sup> : null}
+              <ProductionNavIcon variant={it.id} active={isActive} />
+              {it.id === 'inbox' && inboxCount > 0 ? <sup data-nav-notify="inbox">{String(inboxCount).padStart(2, '0')}</sup> : null}
+              {it.id === 'activity' ? <i className="ph-nav__notify" data-nav-notify="activity" aria-hidden /> : null}
             </span>
             <span>{it.label}</span>
           </>

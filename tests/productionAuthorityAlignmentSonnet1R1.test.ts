@@ -92,9 +92,11 @@ describe('host chrome canon', () => {
     }
   });
 
-  it('renders the icon-pack SVGs and marks the active tab', () => {
-    expect([...html.matchAll(/class="bnav-ico"/g)]).toHaveLength(7);
-    expect(html).toContain('class="bnav-dot"');
+  it('renders the architectural nav glyphs and marks the active tab', () => {
+    expect([...html.matchAll(/data-nav-glyph="/g)]).toHaveLength(7);
+    expect(html).toContain('data-nav-concept="pavilion"');
+    expect(html).toContain('data-nav-concept="open-book"');
+    expect(html).toContain('data-nav-notify="inbox"');
     expect(html).toContain('aria-current="page"');
     expect(html.match(/is-active/g)).toHaveLength(1);
   });
