@@ -12956,3 +12956,21 @@ Sprint `P0.STUDIOOS.PRODUCTION.HUB.DESCENDANTS-INTERACTIONS.OPUS1`. Repo `yoteen
 - **Menu:** one authored `ProductionMenuPanel` (in `chrome.tsx`) now serves both the phone strip and the tablet / desktop host top: red-pipe MENU head, indexed rows, current-route marker. Escape and an outside press close it. Destinations are unchanged. Styles are in `site00-production-host-chrome.css` (`.pxm`), px only.
 - **HUB states:** hover / focus / pressed states for every HUB action. Loading shows "SYNCING LIVE STATE". A no-production project now shows an honest dashed NO ENTRY slot instead of stale entry art. Empty states use a dashed inset with a red ring marker. `ProductionAuthorityDataContext` is exported for render tests and QA.
 - **Audit:** 22 actions × 3 families resolve to existing routes with no stale fallback. The hub machine stays LEGACY_LOCKED. Project switching, the NEW ENTRY creation flow and the error state are UNMOUNTED (not invented). Proof is in `artifacts/production-hub-descendants-opus1/`.
+
+---
+
+## 2026-10-03 — INBOX + ACTIVITY three-viewport reconstruction (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX-ACTIVITY.THREE-VIEWPORT-RECONSTRUCTION.OPUS1`. Base `cursor/production-hub-descendants-opus1` @ `c508fc3d`. Branch `cursor/production-inbox-activity-threeviewport-opus1`. No merge, no deploy.
+
+- **Routes unchanged:** reference children are same-route query lenses.
+  - Inbox: `/production/queue?view=priority|approvals|direct|system` and `&item=<id>` for the approval detail.
+  - Activity: `/production/activity?view=approvals|updates|comments|blockers` and `?milestone=<node>`.
+  - Publish has no route or data, so it is NOT PRESENT and was not invented.
+- **Kit:** `iaKit.tsx` provides the hero, lens bar (search + filter popover), stats, panel, chip and empty/UNMOUNTED states. Styles are in `site00-production-inbox-activity.css`: body only, with desktop / tablet / mobile recompositions and no zoom or scale.
+- **Gate:** Approve / Revise are enabled only when the founder gate is open, `decidableInHub`, and on the item's node. Direct and Comments are honest UNMOUNTED shells.
+- **Lessons:**
+  - The triptychs hide narrow-phone overflow: the 360px matrix caught the lens row widening the body.
+  - An earlier OPUS2 test pins the Activity hero to `hubCrystal`.
+  - The Activity frames carry a DESIGN mode bar artifact.
+- **Proof:** `artifacts/production-inbox-activity-threeviewport-opus1/`.
