@@ -420,3 +420,195 @@
 .pxa .prod-chrome-strip.ph--hub .ph-nav__item {
   font-size: 17px;
 }
+
+/*
+ * HUB.DESCENDANTS-INTERACTIONS.OPUS1 — host MENU panel (both headers).
+ * HUB grammar: white panel, thin rules, red pipe head, red index numerals, uppercase technical type,
+ * current-route marker, chevrons, restrained shadow and radius. Static px only (no scaling added).
+ */
+.pxh-pop.pxm {
+  top: calc(100% + 6px);
+  right: 12px;
+  width: 300px;
+  padding: 0;
+  border: 1px solid #e2e2e6;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(17, 17, 20, 0.03),
+    0 18px 36px -18px rgba(17, 17, 20, 0.35);
+  overflow: hidden;
+}
+.pxm .pxm__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid #ececf0;
+}
+.pxm .pxm__head i {
+  width: 3px;
+  height: 16px;
+  background: #e5231b;
+}
+.pxm .pxm__head b {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #111114;
+}
+.pxm .pxm__close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid #e2e2e6;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 18px;
+  line-height: 1;
+  color: #3a3a40;
+  cursor: pointer;
+}
+.pxm .pxm__list {
+  display: grid;
+}
+.pxm .pxm__list a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr 14px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid #f0f0f3;
+  background: #fff;
+  color: #111114;
+  text-decoration: none;
+}
+.pxm .pxm__list a:last-child {
+  border-bottom: 0;
+}
+.pxm .pxm__list em {
+  font-style: normal;
+  font-size: 16px;
+  color: #e5231b;
+}
+.pxm .pxm__list span {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+}
+.pxm .pxm__list b {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+.pxm .pxm__list small {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: #8a8a93;
+}
+.pxm .pxm__list a > i {
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  color: #111114;
+}
+.pxm .pxm__list a.is-current::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: #e5231b;
+}
+.pxm .pxm__list a.is-current b {
+  color: #e5231b;
+}
+.pxm .pxm__list a:hover,
+.pxm .pxm__list a:focus-visible {
+  background: #fafafb;
+  outline: none;
+}
+.pxm .pxm__list a:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(229, 35, 27, 0.45);
+}
+.pxm .pxm__close:focus-visible {
+  outline: 2px solid rgba(229, 35, 27, 0.55);
+  outline-offset: 1px;
+}
+
+/* phone strip: same panel authored in the 864-wide strip space (≈ ×2.4 of the host px values) */
+.prod-chrome-pop.pxm {
+  left: auto;
+  right: 18px;
+  width: 560px;
+  gap: 0;
+  padding: 0;
+  border: 2px solid #e2e2e6;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 36px 80px -36px rgba(17, 17, 20, 0.45);
+  overflow: hidden;
+}
+.prod-chrome-pop.pxm .pxm__head {
+  gap: 22px;
+  padding: 26px 30px 22px;
+  border-bottom-width: 2px;
+}
+.prod-chrome-pop.pxm .pxm__head i {
+  width: 6px;
+  height: 36px;
+}
+.prod-chrome-pop.pxm .pxm__head b {
+  font-size: 30px;
+}
+.prod-chrome-pop.pxm .pxm__close {
+  width: 56px;
+  height: 56px;
+  border-width: 2px;
+  border-radius: 8px;
+  font-size: 40px;
+}
+.prod-chrome-pop.pxm .pxm__list a {
+  grid-template-columns: 64px 1fr 30px;
+  gap: 22px;
+  padding: 28px 30px;
+  border-bottom-width: 2px;
+  text-align: left;
+}
+.prod-chrome-pop.pxm .pxm__list em {
+  font-size: 36px;
+}
+.prod-chrome-pop.pxm .pxm__list b {
+  font-size: 30px;
+}
+.prod-chrome-pop.pxm .pxm__list small {
+  font-size: 22px;
+}
+.prod-chrome-pop.pxm .pxm__list a > i {
+  font-size: 46px;
+}
+.prod-chrome-pop.pxm .pxm__list a.is-current::before {
+  top: 22px;
+  bottom: 22px;
+  width: 5px;
+}
+
+/* host top interaction states (project switcher, attention, menu) */
+.pxh-top__project:hover,
+.pxh-top__attn:hover {
+  background: rgba(17, 17, 20, 0.025);
+}
+.pxh-top__project:focus-visible,
+.pxh-top__attn:focus-visible,
+.pxh-top__menu:focus-visible {
+  outline: 2px solid rgba(229, 35, 27, 0.5);
+  outline-offset: -2px;
+}
+.pxh-top__menu[aria-expanded='true'] {
+  color: #e5231b;
+}

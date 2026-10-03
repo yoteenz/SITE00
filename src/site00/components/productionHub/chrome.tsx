@@ -3,7 +3,7 @@
  * Authored in the 864px hub coordinate space and zoomed with the same scale as the hub,
  * so the bars land on the same screen pixels on every production workspace.
  */
-import { useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { hubAssetUrl } from '../../../../shared/site00-production-hub/assets.js';
@@ -120,11 +120,73 @@ export function useProductionWorkspaceChrome(): {
   return { brand, active, projectId, queued, sectionLabel, sectionValue };
 }
 
+type MenuItem = { to: string; title: string; sub: string };
+
+/**
+ * Host menu panel (HUB.DESCENDANTS-INTERACTIONS.OPUS1): one authored panel for the phone strip and the
+ * tablet / desktop host top — red-pipe head, indexed rows, current-route marker, chevrons. Same three
+ * destinations as before; Escape and an outside press close it.
+ */
+function ProductionMenuPanel({ items, className, onClose }: { items: MenuItem[]; className: string; onClose: () => void }) {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    const onDown = (e: PointerEvent) => {
+      const t = e.target as Element | null;
+      if (t && !t.closest('[data-production-menu], .pxh-top__menu, .ph-top__menu')) onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onDown);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onDown);
+    };
+  }, [onClose]);
+  return (
+    <div className={`${className} pxm`} role="dialog" aria-label="Production menu" data-production-menu data-testid="production-menu">
+      <header className="pxm__head">
+        <i aria-hidden />
+        <b>MENU</b>
+        <button type="button" className="pxm__close" aria-label="Close menu" onClick={onClose}>
+          ×
+        </button>
+      </header>
+      <nav className="pxm__list">
+        {items.map((it, i) => {
+          const current = it.to === pathname;
+          return (
+            <Link key={it.to} to={it.to} onClick={onClose} className={current ? 'is-current' : undefined} aria-current={current ? 'page' : undefined}>
+              <em>{String(i + 1).padStart(2, '0')}</em>
+              <span>
+                <b>{it.title}</b>
+                <small>{it.sub}</small>
+              </span>
+              <i aria-hidden>›</i>
+            </Link>
+          );
+        })}
+      </nav>
+    </div>
+  );
+}
+
+const MENU_PHONE: MenuItem[] = [
+  { to: '/production', title: 'PRODUCTION HUB', sub: 'RETURN TO CHAMBER' },
+  { to: '/production/queue', title: 'INBOX', sub: 'REQUESTS' },
+  { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
+];
+const MENU_HOST: MenuItem[] = [
+  { to: '/production', title: 'PRODUCTION HUB', sub: 'PROJECT COMMAND' },
+  { to: '/production/queue', title: 'INBOX', sub: 'REQUESTS' },
+  { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
+];
+
 /** Light authority header used by every production workspace that is not the hub or character fabrication. */
 export function ProductionWorkspaceHeader() {
   const { brand, projectId, queued, sectionLabel, sectionValue } = useProductionWorkspaceChrome();
   const family = useProductionViewportFamily();
   const [menu, setMenu] = useState(false);
+  const closeMenu = useCallback(() => setMenu(false), []);
   if (family !== 'mobile') {
     return <ProductionHostTop brand={brand} projectId={projectId} queued={queued} sectionLabel={sectionLabel} sectionValue={sectionValue} />;
   }
@@ -162,13 +224,7 @@ export function ProductionWorkspaceHeader() {
       <button type="button" className="ph-top__menu" aria-label="Menu" aria-expanded={menu} onClick={() => setMenu((v) => !v)}>
         <IcMenu width={22} height={22} />
       </button>
-      {menu ? (
-        <div className="prod-chrome-pop" role="dialog">
-          <Link to="/production" onClick={() => setMenu(false)}><b>PRODUCTION HUB</b><span>RETURN TO CHAMBER</span></Link>
-          <Link to="/production/queue" onClick={() => setMenu(false)}><b>INBOX</b><span>REQUESTS</span></Link>
-          <Link to="/control" onClick={() => setMenu(false)}><b>CONTROL</b><span>ACCOUNT</span></Link>
-        </div>
-      ) : null}
+      {menu ? <ProductionMenuPanel items={MENU_PHONE} className="prod-chrome-pop" onClose={closeMenu} /> : null}
     </header>
   );
 }
@@ -191,6 +247,7 @@ function ProductionHostTop({
   sectionValue: string;
 }) {
   const [menu, setMenu] = useState(false);
+  const closeMenu = useCallback(() => setMenu(false), []);
   return (
     <header className="pxh-top" data-testid="production-workspace-header" data-shell="host-top">
       <div className="pxh-top__cluster" data-testid="production-host-cluster">
@@ -217,13 +274,7 @@ function ProductionHostTop({
       <button type="button" className="pxh-top__menu" aria-label="Menu" aria-expanded={menu} onClick={() => setMenu((v) => !v)} data-testid="production-host-menu">
         <IcMenu width={24} height={24} />
       </button>
-      {menu ? (
-        <div className="pxh-pop" role="dialog">
-          <Link to="/production" onClick={() => setMenu(false)}><b>PRODUCTION HUB</b><span>PROJECT COMMAND</span></Link>
-          <Link to="/production/queue" onClick={() => setMenu(false)}><b>INBOX</b><span>REQUESTS</span></Link>
-          <Link to="/control" onClick={() => setMenu(false)}><b>CONTROL</b><span>ACCOUNT</span></Link>
-        </div>
-      ) : null}
+      {menu ? <ProductionMenuPanel items={MENU_HOST} className="pxh-pop" onClose={closeMenu} /> : null}
     </header>
   );
 }

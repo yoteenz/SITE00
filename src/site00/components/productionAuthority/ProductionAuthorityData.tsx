@@ -4,6 +4,9 @@ import { PRODUCTION_PROJECT } from '../../config/production-authority-registry';
 
 const Ctx = createContext<HubData | null>(null);
 
+/** The shared Production data context (exported for render tests and the HUB state QA harness). */
+export const ProductionAuthorityDataContext = Ctx;
+
 /**
  * One read of the existing Production Hub data (graph, attention, activity, cast, frames) shared by the
  * host chrome and the authority bodies. Nothing is authored here.

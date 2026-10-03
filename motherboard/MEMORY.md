@@ -12946,3 +12946,13 @@ Sprint `P0.STUDIOOS.PRODUCTION.HUB.RECONSTRUCTION.OPUS1`. Work in `yoteenz/SITE0
 - **Hero plates:** `AUTHORITY_ASSETS.hubHero.{mobile,tablet,desktop}` are cropped from the approved HUB references, with the baked copy removed by OpenCV inpainting (see SOURCE.md).
 - **Shell:** the mobile host strip height is converged inside `.pxa` only (top 120 / nav 112 hub units). Desktop / tablet anatomy stays per the founder's canonical shell override (left cluster, icon-left nav), even though the new renders show a centred switcher and a stacked nav. This needs a founder decision.
 - **Proof:** `artifacts/production-hub-reconstruction-opus1/` (PARITY_REPORT.md, compare/, before/, after/, devices/). The hub machine route is untouched.
+
+---
+
+## 2026-10-03 — HUB descendants and interactions (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.HUB.DESCENDANTS-INTERACTIONS.OPUS1`. Repo `yoteenz/SITE00` (the brief said fsbw). Base `cursor/production-hub-reconstruction-opus1` @ `f47629d7`. Branch `cursor/production-hub-descendants-opus1`. No merge, no deploy.
+
+- **Menu:** one authored `ProductionMenuPanel` (in `chrome.tsx`) now serves both the phone strip and the tablet / desktop host top: red-pipe MENU head, indexed rows, current-route marker. Escape and an outside press close it. Destinations are unchanged. Styles are in `site00-production-host-chrome.css` (`.pxm`), px only.
+- **HUB states:** hover / focus / pressed states for every HUB action. Loading shows "SYNCING LIVE STATE". A no-production project now shows an honest dashed NO ENTRY slot instead of stale entry art. Empty states use a dashed inset with a red ring marker. `ProductionAuthorityDataContext` is exported for render tests and QA.
+- **Audit:** 22 actions × 3 families resolve to existing routes with no stale fallback. The hub machine stays LEGACY_LOCKED. Project switching, the NEW ENTRY creation flow and the error state are UNMOUNTED (not invented). Proof is in `artifacts/production-hub-descendants-opus1/`.
