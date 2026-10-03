@@ -2,7 +2,17 @@
  * Production visual authority projection — ingested from
  * STUDIO_WORLD_SEASON1_VISUAL_AUTHORITY_CURSOR_LIGHT_v1 (FSBW Season 1 ensemble).
  * Uniform + alternate modes are non-default by design.
+ *
+ * Casting → Actors list uses CASTING_THUMBNAIL (casting-thumbnails-v1), not cardImage.
  */
+
+import {
+  buildCastingThumbnailAuthority,
+  type CastingThumbnailAuthority,
+} from './castingThumbnailAuthority.js';
+
+export { STUDIO_WORLD_CASTING_THUMBNAIL_BASE } from './castingThumbnailAuthority.js';
+export type { CastingThumbnailAuthority } from './castingThumbnailAuthority.js';
 
 export const STUDIO_WORLD_SEASON1_VISUAL_BASE = '/site00/studio-world-residents/season1-v1' as const;
 
@@ -13,11 +23,16 @@ export type VisualAuthorityStatus =
   | 'ALTERNATE_MODE_REFERENCE'
   | 'CONCEPT_REFERENCE_ONLY';
 
+export type ResidentProductionVisuals = {
+  castingThumbnail: CastingThumbnailAuthority;
+};
+
 export type ResidentVisualProjection = {
   sourceResidentId: string;
   primaryNaturalImage: string;
-  /** Casting row / card thumb — closeup when available for crop; else natural. */
+  /** Legacy listing closeup (not Casting → Actors — use productionVisuals.castingThumbnail). */
   cardImage: string;
+  productionVisuals: ResidentProductionVisuals;
   closeupRefs: readonly string[];
   uniformRefs: readonly string[];
   alternateModeRefs: readonly string[];
@@ -29,8 +44,10 @@ function url(relativeOrganizedPath: string): string {
   return `${STUDIO_WORLD_SEASON1_VISUAL_BASE}/${relativeOrganizedPath.replace(/^\/+/, '')}`;
 }
 
+type ResidentVisualProjectionBase = Omit<ResidentVisualProjection, 'productionVisuals'>;
+
 /** Organized paths relative to season1-v1 package root (matches ingested ZIP layout). */
-const PROJECTIONS: Record<string, ResidentVisualProjection> = {
+const PROJECTIONS: Record<string, ResidentVisualProjectionBase> = {
   'SW-RESIDENT-001': {
     sourceResidentId: 'SW-RESIDENT-001',
     primaryNaturalImage: url('SW-RESIDENT-001__etta-vale/01-natural-authority/etta-vale__natural-full-body__sophisticated-fashionista.jpg'),
@@ -117,19 +134,31 @@ const PROJECTIONS: Record<string, ResidentVisualProjection> = {
   },
 };
 
+function attachProductionVisuals(base: Omit<ResidentVisualProjection, 'productionVisuals'>): ResidentVisualProjection | null {
+  const castingThumbnail = buildCastingThumbnailAuthority(base.sourceResidentId);
+  if (!castingThumbnail) return null;
+  return { ...base, productionVisuals: { castingThumbnail } };
+}
+
 export function getResidentVisualProjection(sourceResidentId: string): ResidentVisualProjection | null {
-  return PROJECTIONS[sourceResidentId] ?? null;
+  const base = PROJECTIONS[sourceResidentId];
+  if (!base) return null;
+  return attachProductionVisuals(base);
 }
 
 export function listResidentVisualProjections(): readonly ResidentVisualProjection[] {
-  return Object.values(PROJECTIONS);
+  return Object.keys(PROJECTIONS)
+    .map((id) => getResidentVisualProjection(id))
+    .filter((v): v is ResidentVisualProjection => v != null);
 }
 
-/** Default Casting card image — never uniform or alternate mode. */
+/** Casting → Actors list — CASTING_THUMBNAIL only; never uniform, alternate, or natural-habitat. */
 export function resolveCastingCardImage(sourceResidentId: string): string | null {
-  const v = getResidentVisualProjection(sourceResidentId);
-  if (!v) return null;
-  return v.cardImage;
+  return buildCastingThumbnailAuthority(sourceResidentId)?.url ?? null;
+}
+
+export function getCastingThumbnailAuthority(sourceResidentId: string): CastingThumbnailAuthority | null {
+  return buildCastingThumbnailAuthority(sourceResidentId);
 }
 
 export function assertCastingCardNotNonPrimary(sourceResidentId: string, candidateUrl: string): boolean {
