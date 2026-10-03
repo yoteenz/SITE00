@@ -1,4 +1,5 @@
 import type { StudioWorldResidentDossier } from './types.js';
+import { assertCastingCardNotNonPrimary } from './visualAuthority.js';
 
 /** Role-level styling allowed without mutating resident canon. */
 export const ALLOWED_ROLE_FABRICATION_KEYS = [
@@ -52,6 +53,11 @@ export function validateCastRoleOverridesForResident(
     };
   }
   const applied = ALLOWED_ROLE_FABRICATION_KEYS.filter((k) => overrides[k] != null && String(overrides[k]).trim() !== '');
+  if (typeof overrides.faceReplacement === 'string' && overrides.faceReplacement.trim()) {
+    if (!assertCastingCardNotNonPrimary(resident.sourceResidentId, overrides.faceReplacement.trim())) {
+      return { ok: false, rejectedKeys: ['faceReplacement'], reason: 'Cannot use uniform/alternate imagery as resident visual authority' };
+    }
+  }
   return { ok: true, appliedKeys: applied };
 }
 

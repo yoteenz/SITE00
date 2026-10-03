@@ -15,3 +15,15 @@ Former seed catalogue (`seedCatalogue.ts` pre-ingest1) — **GENERIC_MOCK** acto
 **Resident gallery:** all eight `SW-RESIDENT-001` … `008` appear on Expression → Casting → Actors with **STUDIO WORLD RESIDENT** badge.
 
 No one-to-one mock→resident mapping (distinct purposes). Entry 002 **characters** (THE 2026 WOMAN, NDX, commenter chorus) unchanged.
+
+---
+
+## Visual ingest2 (RESIDENT-VISUAL-INGEST2)
+
+| Old mock | Old image | Replacement | New authority |
+|----------|-----------|-------------|---------------|
+| Generic seed actors (044, 008, …) | null / monogram | — | Removed from UI |
+| Resident rows (pre-visual) | Monogram initials | SW-RESIDENT-00X | `public/site00/studio-world-residents/season1-v1/` natural + closeup |
+| SW-017 Maya | (client cast) | unchanged | Entry 002 subject — not resident gallery |
+
+Card thumb source: `resolveCastingCardImage()` → closeup or natural (Marlowe: natural full-body off-duty). Uniform + alternate paths blocked from default card.
