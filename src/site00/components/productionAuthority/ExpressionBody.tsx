@@ -1,21 +1,26 @@
 import { Link } from 'react-router-dom';
 import { frameSlotId } from '../../../../shared/site00-production-hub/index.js';
+import type { HubNodeId } from '../../../../shared/site00-production-hub/types.js';
 import { subWorkspacesFor } from '../../../../shared/site00-production-workspace/registry.js';
 import { productionExpressionPath } from '../../../../shared/site00-production-workspace/routes.js';
-import { PW_IMG } from '../production/productionImagery';
 import { HubImage } from '../productionHub/HubImage';
 import { AUTHORITY_ASSETS } from './authorityAssets';
 import { NODE_SUB, AuthorityHero, LiveStatusBar } from './HubBody';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
 import { pad2, Priority, Sec, Thumb } from './primitives';
 
-const FLOORS: { id: string; sub: string; title: string; plate: string; entryway?: boolean }[] = [
-  { id: 'character-fabrication', sub: 'character-fabrication', title: 'CHARACTER FABRICATION', plate: PW_IMG.expressionRows.casting!, entryway: true },
-  { id: 'campaign-concepts', sub: 'narrative', title: 'CAMPAIGN CONCEPTS', plate: PW_IMG.expressionRows.narrative! },
-  { id: 'cast-performance', sub: 'casting', title: 'CAST + PERFORMANCE', plate: PW_IMG.expressionRows.casting! },
-  { id: 'look-wardrobe', sub: 'wardrobe', title: 'LOOK + WARDROBE', plate: PW_IMG.expressionRows.wardrobe! },
-  { id: 'sets-scenes', sub: 'sets', title: 'SETS + SCENES', plate: PW_IMG.expressionRows.sets! },
-  { id: 'motion-film', sub: 'storyboard', title: 'MOTION + FILM', plate: PW_IMG.expressionRows.storyboard! },
+/**
+ * Floor cards read the project's live hub node art (cast / narrative / look / set / storyboard …) —
+ * the same canonical slots the Hub renders. When a slot has no rendered asset yet the card falls back to
+ * the authority film-stage plate (cropped per floor), never to the retired production-mobile plates.
+ */
+const FLOORS: { id: string; sub: string; title: string; node: HubNodeId; crop: string; entryway?: boolean }[] = [
+  { id: 'character-fabrication', sub: 'character-fabrication', title: 'CHARACTER FABRICATION', node: 'cast', crop: '22% 55%', entryway: true },
+  { id: 'campaign-concepts', sub: 'narrative', title: 'CAMPAIGN CONCEPTS', node: 'narrative', crop: '50% 30%' },
+  { id: 'cast-performance', sub: 'casting', title: 'CAST + PERFORMANCE', node: 'performance', crop: '35% 60%' },
+  { id: 'look-wardrobe', sub: 'wardrobe', title: 'LOOK + WARDROBE', node: 'look', crop: '10% 50%' },
+  { id: 'sets-scenes', sub: 'sets', title: 'SETS + SCENES', node: 'set', crop: '65% 45%' },
+  { id: 'motion-film', sub: 'storyboard', title: 'MOTION + FILM', node: 'storyboard', crop: '85% 55%' },
 ];
 
 const FORMATS = ['REEL', 'TIKTOK', 'CAROUSEL', 'STORY', 'FEED', 'X'];
@@ -98,7 +103,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
                 data-entryway={f.entryway ? 'character-fabrication' : undefined}
                 data-testid={`expression-floor-${f.id}`}
               >
-                <Thumb plate={f.plate} />
+                <FloorPlate floor={f} slotId={graph?.byId[f.node]?.assetSlotId ?? null} url={data?.assetUrl(graph?.byId[f.node]?.assetSlotId ?? null) ?? null} />
                 <em>{pad2(i + 1)}</em>
                 <b>{f.title}</b>
                 {f.entryway ? <small>PRIMARY ENTRYWAY</small> : null}
@@ -165,5 +170,17 @@ export function ExpressionBody({ entry }: { entry: string }) {
         </Sec>
       </div>
     </div>
+  );
+}
+
+function FloorPlate({ floor, slotId, url }: { floor: (typeof FLOORS)[number]; slotId: string | null; url: string | null }) {
+  if (url) return <Thumb slotId={slotId} url={url} label={floor.node.toUpperCase()} className="pxa-floor__art" />;
+  return (
+    <span
+      className="pxa-thumb pxa-floor__art pxa-floor__art--stage"
+      data-floor-art="stage"
+      style={{ backgroundImage: `url(${AUTHORITY_ASSETS.expressionStage})`, backgroundPosition: floor.crop }}
+      aria-hidden
+    />
   );
 }

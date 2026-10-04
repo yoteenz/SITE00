@@ -12909,3 +12909,29 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ASSET-RENDER.GROK1`. Base verified as `
 - **Generation:** OpenArt GPT Image 2, 16 plates in `public/site00/production-authority-assets/`. The project core is a transparent PNG. Provenance is `SOURCE.md` in that folder.
 - **Integration:** plates drop into existing hero, atrium, overview-mark, panel, vault, and corridor slots. Live hub URLs, counts, routes, and the viewport iframe stay. Character Fabrication stays first.
 - **QA:** structural capture 36/36. Sonnet suite 14/14. Opus suite 12/12. Build and verify-production-dist pass.
+
+---
+
+## 2026-10-02 — Production authority convergence (OPUS2) after GROK1
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2`. Base `cursor/production-authority-asset-render-grok1` @ `85fe6848`. Work on `cursor/production-authority-convergence-opus2`. No deploy, no merge, no auth/route/state/data changes.
+
+- **Viewport:** `productionAuthority/viewportTargets.ts` owns the target geometry. DESKTOP is always a 1440×900 landscape canvas with orientation locked; the old chamber swapped it to 900×1440 in a phone bezel. The iframe is laid out at the target size and then scaled to fit (FIT / 50 / 75 / 100, with stage scroll for inspection). Host × target matrix is 16/16.
+- **Descendants:** every `PwFrame variant="production"` page carries `.pw--authority` and is re-skinned by `site00-production-descendants-opus2.css`: light glass, Saira, red pipe heads, workspace atmosphere band, 1180–1320 desktop width. The NME (Narrative Momentum) grandchild is remapped only inside `.pw.pw--authority`, so the founder expression engine is untouched.
+- **Experience children:** capsule row from `EXPERIENCE_CAPSULES` plus the Grok1 world plate. The dead MODULES → `build-a-wig` legacy link was removed.
+- **Assets:** Expression floors read live hub node art. Library collections use live cast art plus red-geometry plates. Activity hero uses the crystal chamber. Each ON YOUR TABLE card shows a distinct plate.
+- **Design workspace** (`design/workspace` + in-shell sections): palette and type are remapped for `data-workspace-role="production-provisional"` only, in `site00-production-design-workspace-opus2.css`.
+- **Character Fabrication:** wide hosts get the authority host nav and a stage atmosphere. Phones are unchanged.
+- **Residuals:** the mobile host strip height (34px vs ≈57px) is preserved because the 864-space strip is shared with the hub machine, CF popovers and the design overlay. The design workspace on phones is a fixed 768 canvas. The hub machine and the expression-engine content-ops route stay legacy.
+- **Tests:** `tests/productionAuthorityConvergenceOpus2.test.ts`. Full suite in this env: base 101 failing tests / 130 files, final identical (delta 0).
+
+---
+
+## 2026-10-03 — Production authority tree (COMPOSER1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-TREE.COMPOSER1`. Forensic map only — no redesign, no reconstruction, no runtime/UI changes. Base `cursor/production-authority-convergence-opus2` @ `269f2af5`. Branch `cursor/production-authority-tree-composer1-0daf`.
+
+- **Deliverables:** `artifacts/production-authority-tree/` — MASTER_TREE, seven tab trees, NODE_MATRIX (161 nodes), INHERITANCE_MATRIX, INTERACTION_INVENTORY, RESPONSIVE_TREE, STALE_FALLBACK_MAP, RECONSTRUCTION_ORDER, AUTHORITY_SOURCE_INDEX; `nodes.manifest.json` + generator scripts under `scripts/`.
+- **Method:** Routes (`Site00Routes`, production shells), registry canon vs `EXPERIENCE_CAPSULES`, Opus2 crawl cross-check; experience children labeled **UNMOUNTED** honestly; hub machine + expression-engine route **LEGACY_LOCKED**; design workspace mobile 768 scale flagged **RESPONSIVE_AUTHORITY_FAILURE**.
+- **Counts:** 37 route-equivalent surfaces; 23 interaction nodes; 5 temporary surfaces; 44 responsive-variant records; 4 genericization risks; 5 stale fallbacks; 2 authority conflicts.
+- **QA:** `tests/productionAuthorityConvergenceOpus2.test.ts` 18/18 pass (audit did not touch runtime).

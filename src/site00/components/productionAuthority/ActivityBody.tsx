@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import type { HubActivityCategory } from '../../../../shared/site00-production-hub/index.js';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
 import type { HubData } from '../productionHub/useProductionHubData';
+import { AUTHORITY_ASSETS } from './authorityAssets';
 import { AuthorityHero, LiveStatusBar } from './HubBody';
 import { agoLabel, Tabs } from './primitives';
 
@@ -106,6 +107,7 @@ export function ActivityBody() {
         title={(project?.name ?? 'NDXBOOK').toUpperCase()}
         sub={`${data?.production?.label ?? ''} · A CLEAR ROUTE FOR EVERY PERSON`}
         side={['IDEAS', 'PEOPLE', 'WORLDS', 'IN MOTION']}
+        plate={AUTHORITY_ASSETS.hubCrystal}
         testId="activity-hero"
       />
       <LiveStatusBar />

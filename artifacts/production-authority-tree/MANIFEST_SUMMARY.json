@@ -1,0 +1,21 @@
+{
+  "sprint": "P0.STUDIOOS.PRODUCTION.AUTHORITY-TREE.COMPOSER1",
+  "baseSha": "269f2af563b5e69044c4afa41a6a72605a284ae1",
+  "statusCounts": {
+    "REFERENCE_LOCKED": 134,
+    "STRUCTURALLY_CORRECT_VISUALLY_WRONG": 4,
+    "LEGACY_LOCKED": 4,
+    "PARTIAL": 12,
+    "UNMOUNTED": 7
+  },
+  "routeNodes": 30,
+  "sectionNodes": 59,
+  "interactionNodes": 23,
+  "temporarySurfaces": 5,
+  "responsiveVariants": 44,
+  "totalNodes": 161,
+  "genericizationRisks": 4,
+  "staleFallbacks": 5,
+  "authorityConflicts": 2,
+  "responsiveAuthorityFailures": 2
+}

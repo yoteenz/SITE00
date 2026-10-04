@@ -7,6 +7,7 @@ import { ProductionAuthorityDataProvider, useProductionAuthorityData } from './P
 import '../../styles/site00-production-authority.css';
 import '../../styles/site00-production-authority-opus.css';
 import '../../styles/site00-production-authority-assets.css';
+import '../../styles/site00-production-authority-opus2.css';
 
 function useBodyLock() {
   useEffect(() => {

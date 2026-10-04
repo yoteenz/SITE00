@@ -7,7 +7,7 @@ import { AuthorityHero } from './HubBody';
 import { Dot } from './primitives';
 
 /** Authority mode capsules → the existing EXPERIENCE sub-workspaces (routes are unchanged). */
-const MODES: { label: string; sub: string }[] = [
+export const EXPERIENCE_CAPSULES: { label: string; sub: string }[] = [
   { label: 'WORLD', sub: 'world' },
   { label: 'ZONES', sub: 'zones' },
   { label: 'PATHS', sub: 'environments' },
@@ -34,7 +34,7 @@ export function ExperienceBody() {
       />
       <div className="pxa-xpanel" data-testid="experience-panel">
         <nav className="pxa-capsules" aria-label="Experience sub-workspaces">
-          {MODES.map((m) => (
+          {EXPERIENCE_CAPSULES.map((m) => (
             <Link key={m.label} to={productionExperiencePath(slug, m.sub)} data-testid={`experience-sub-${m.sub}`}>
               {m.label}
             </Link>

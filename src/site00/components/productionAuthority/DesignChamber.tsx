@@ -6,6 +6,16 @@ import {
   type ProductionDesignMode,
 } from '../../config/production-authority-registry';
 import { AUTHORITY_ASSETS } from './authorityAssets';
+import {
+  VIEWPORT_PRESET_ORDER,
+  VIEWPORT_ZOOMS,
+  isViewportPreset,
+  resolveViewportTarget,
+  viewportScale,
+  type ViewportOrientation,
+  type ViewportPreset,
+  type ViewportZoom,
+} from './viewportTargets';
 import { DESIGN_CHAMBER, type ChamberPanel, type DesignChamberConfig } from './designChamberConfig';
 import { Orb, Sec } from './primitives';
 
@@ -142,13 +152,6 @@ function Panel({ panel, side }: { panel: ChamberPanel; side: 'left' | 'right' })
   );
 }
 
-/** Logical device sizes for the viewport presets (natural orientation). */
-const VIEWPORT_PRESETS: Record<string, [number, number]> = {
-  'MOBILE XL': [430, 932],
-  MOBILE: [390, 844],
-  TABLET: [834, 1194],
-  DESKTOP: [1440, 900],
-};
 /** Route options map onto the live client app's own sections. */
 const VIEWPORT_ROUTES: Record<string, string> = { 'HOME / FEED': '', PROJECTS: 'projects', PRODUCTION: 'project/build' };
 const IS_DEV = Boolean((import.meta as { env?: { DEV?: boolean } }).env?.DEV);
@@ -174,23 +177,23 @@ function useBoxSize<T extends HTMLElement>(): [React.RefObject<T>, { w: number; 
 
 function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
   const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
-  const [preset, setPreset] = useState('MOBILE XL');
+  const [preset, setPreset] = useState<ViewportPreset>('MOBILE XL');
   const [route, setRoute] = useState('HOME / FEED');
-  const [orientation, setOrientation] = useState('PORTRAIT');
-  const [zoom, setZoom] = useState('100%');
+  const [orientation, setOrientation] = useState<ViewportOrientation>('PORTRAIT');
+  const [zoom, setZoom] = useState<ViewportZoom>('FIT');
   const [safe, setSafe] = useState(false);
   const [stageRef, box] = useBoxSize<HTMLDivElement>();
-  const [pw, ph] = VIEWPORT_PRESETS[preset] ?? [430, 932];
-  const [w, h] = orientation === 'LANDSCAPE' ? [Math.max(pw, ph), Math.min(pw, ph)] : [Math.min(pw, ph), Math.max(pw, ph)];
-  const fit = box.w && box.h ? Math.min(box.w / w, box.h / h) : 0.3;
-  const scale = fit * (parseInt(zoom, 10) / 100 || 1);
+  const target = resolveViewportTarget(preset, orientation);
+  // The desktop canvas carries a browser bar above the client surface; fit the whole device into the stage.
+  const chromeH = target.kind === 'desktop' ? (box.w && box.w < 520 ? 18 : 30) : 0;
+  const scale = viewportScale(target, { w: box.w, h: Math.max(0, box.h - chromeH) }, zoom);
   const section = VIEWPORT_ROUTES[route] ?? '';
   const base = IS_DEV ? '/app/preview/fixture-app-ndxbook' : `/app/projects/${projectSlug}`;
   const src = section ? `${base}/${section}` : base;
-  const field = (label: string, value: string, set: (v: string) => void, options: string[], cls: string) => (
+  const select = (label: string, value: string, set: (v: string) => void, options: readonly string[], cls: string, disabled = false) => (
     <label className={`pxa-field pxa-field--${cls}`}>
       <small>{label}:</small>
-      <select value={value} onChange={(e) => set(e.target.value)}>
+      <select value={value} onChange={(e) => set(e.target.value)} disabled={disabled} data-testid={`design-viewport-${cls}`}>
         {options.map((o) => (
           <option key={o}>{o}</option>
         ))}
@@ -198,29 +201,53 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
     </label>
   );
   return (
-    <div className="pxa-chamber pxa-chamber--viewport" data-testid="design-chamber" data-mode="viewport">
+    <div className="pxa-chamber pxa-chamber--viewport" data-testid="design-chamber" data-mode="viewport" data-target-kind={target.kind}>
       <ChamberBackdrop environment="corridor" />
-      <div className="pxa-vstage" ref={stageRef}>
-        <div className="pxa-device" data-orientation={orientation.toLowerCase()} data-preset={preset} style={{ width: Math.round(w * scale), height: Math.round(h * scale) }} data-testid="design-viewport-device">
-          <span className="pxa-device__scaler" style={{ width: w, height: h, transform: `scale(${scale})` }}>
-            <iframe title="LIVE CLIENT APP" src={src} className="pxa-device__frame" data-testid="design-viewport-frame" />
+      <div className={`pxa-vstage pxa-vstage--${target.kind}`} ref={stageRef} data-zoom={zoom} data-testid="design-viewport-stage">
+        <div
+          className={`pxa-device pxa-device--${target.kind}`}
+          data-orientation={target.orientation.toLowerCase()}
+          data-preset={preset}
+          data-target-w={target.w}
+          data-target-h={target.h}
+          style={{ width: Math.round(target.w * scale), height: Math.round(target.h * scale) + chromeH }}
+          data-testid="design-viewport-device"
+        >
+          {target.kind === 'desktop' ?
+            <span className="pxa-device__bar" aria-hidden>
+              <i />
+              <i />
+              <i />
+              <b>{src.replace(/^\/app\/(preview\/[^/]+|projects\/[^/]+)/, 'site00.app')}</b>
+              <em>
+                {target.w} × {target.h}
+              </em>
+            </span>
+          : null}
+          <span className="pxa-device__screen" style={{ width: Math.round(target.w * scale), height: Math.round(target.h * scale) }}>
+            <span className="pxa-device__scaler" style={{ width: target.w, height: target.h, transform: `scale(${scale})` }}>
+              <iframe title="LIVE CLIENT APP" src={src} className="pxa-device__frame" data-testid="design-viewport-frame" />
+            </span>
+            {safe ? <i className="pxa-device__safe" aria-hidden data-testid="design-viewport-safe" /> : null}
           </span>
-          {safe ? <i className="pxa-device__safe" aria-hidden data-testid="design-viewport-safe" /> : null}
         </div>
       </div>
       <div className="pxa-vpanel" data-testid="design-viewport-controls">
         <div className="pxa-vpanel__fields">
-          {field('VIEWPORT PRESET', preset, setPreset, Object.keys(VIEWPORT_PRESETS), 'preset')}
-          {field('ROUTE', route, setRoute, Object.keys(VIEWPORT_ROUTES), 'route')}
+          {select('VIEWPORT PRESET', preset, (v) => isViewportPreset(v) && setPreset(v), VIEWPORT_PRESET_ORDER, 'preset')}
+          {select('ROUTE', route, setRoute, Object.keys(VIEWPORT_ROUTES), 'route')}
           <button type="button" className={`pxa-pill pxa-pill--safe${safe ? ' is-on' : ''}`} aria-pressed={safe} onClick={() => setSafe((v) => !v)} data-testid="design-viewport-safe-toggle">
             SAFE AREA
           </button>
-          {field('ORIENTATION', orientation, setOrientation, ['PORTRAIT', 'LANDSCAPE'], 'orientation')}
-          {field('ZOOM', zoom, setZoom, ['75%', '100%', '125%'], 'zoom')}
+          {select('ORIENTATION', target.orientation, (v) => setOrientation(v as ViewportOrientation), ['PORTRAIT', 'LANDSCAPE'], 'orientation', target.orientationLocked)}
+          {select('ZOOM', zoom, (v) => setZoom(v as ViewportZoom), VIEWPORT_ZOOMS, 'zoom')}
         </div>
         <Link to="/production/ndxbook/design/workspace" className="pxa-btn pxa-btn--wide" data-testid="design-validation-sheet">
           <i className="pxa-vpanel__doc" aria-hidden />
           <span>VALIDATION SHEET / REVIEW STATUS</span>
+          <small className="pxa-vpanel__target" data-testid="design-viewport-target">
+            {target.preset} · {target.w} × {target.h} · {target.orientation} · {zoom === 'FIT' ? `FIT ${Math.round(scale * 100)}%` : zoom}
+          </small>
           <span aria-hidden>›</span>
         </Link>
       </div>

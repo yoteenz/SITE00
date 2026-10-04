@@ -4,6 +4,7 @@ import { PwFrame } from '../../components/production/PwFrame';
 import { DesignChamber, DesignModeBar, useDesignMode } from '../../components/productionAuthority/DesignChamber';
 import { ExperienceBody } from '../../components/productionAuthority/ExperienceBody';
 import { ExpressionBody } from '../../components/productionAuthority/ExpressionBody';
+import { AUTHORITY_ASSETS } from '../../components/productionAuthority/authorityAssets';
 import { ProductionAuthorityFrame } from '../../components/productionAuthority/ProductionAuthorityFrame';
 import { ProductionAuthorityDataProvider } from '../../components/productionAuthority/ProductionAuthorityData';
 import { ProductionChromeOverlay } from '../../components/productionHub/chrome';
@@ -60,7 +61,8 @@ function ProjectLayoutInner() {
   else if (isFabrication) body = <Outlet />;
   else
     body = (
-      <PwFrame variant="production">
+      // Descendants keep their screens; the frame gives them the workspace's authority atmosphere.
+      <PwFrame variant="production" heroImage={/\/experience\//.test(pathname) ? AUTHORITY_ASSETS.experienceWorld : /\/expression\//.test(pathname) ? AUTHORITY_ASSETS.expressionStage : undefined}>
         <Outlet />
       </PwFrame>
     );
