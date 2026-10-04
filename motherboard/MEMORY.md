@@ -13280,3 +13280,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Status:** All generated PNGs are **`GENERATED` / `IN REVIEW`** until founder marks **`APPROVED` / `CANONICAL`**. Harvest crops are from production parent PNG—not speculative replacements.
 - **Scripts:** `scripts/jurnl-f01-harvest-parent.py`, `jurnl-f01-build-asset-sheet-a.py`, `jurnl-f01-build-sheet-b.py`.
 - **Conventions:** JURNL UI copy **UPPERCASE**; **square-rounded** interactive controls only; logo **small/integrated**; child screens must **descend** from parent materials without duplicating full welcome hero.
+
+---
+
+## 2026-10-04 — Founder: direct ZIP as clickable link (always)
+
+- **Request:** After JURNL F01 review package, founder asked agents to **always** send the direct ZIP as a **clickable link** (mobile review), not only paths or bare URLs in prose.
+- **Rule:** `AGENTS.md` + `.cursor/rules/session-close.mdc` — Part 3 line 1: markdown link to `releases/download/…/*.zip` on its own line; review/asset ZIPs via GitHub Release + same link format.
+- **JURNL F01 review ZIP:** [JURNL-F01-ENTRY-REVIEW-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-entry-review-2026-10-04/JURNL-F01-ENTRY-REVIEW-2026-10-04.zip)
