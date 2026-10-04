@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1] / "JURNL" / "F01_ENTRY"
 ASSETS = ROOT / "ASSETS"
+OVERLAYS = ROOT / "OVERLAYS"
 OUT = ROOT / "SHEETS" / "SHEET_A_F01_CANONICAL_HARVEST.png"
 
 COLS = 2
@@ -28,6 +29,7 @@ def load_font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
 
 def main() -> None:
     pngs = sorted(ASSETS.glob("ENTRY.*.png"))
+    pngs += sorted(OVERLAYS.glob("ENTRY.*.png"))
     if not pngs:
         raise SystemExit("No harvested assets")
     rows = (len(pngs) + COLS - 1) // COLS
@@ -39,7 +41,7 @@ def main() -> None:
     label_f = load_font(16)
     meta_f = load_font(13)
     draw.text((PAD, PAD), "F01 CANONICAL HARVEST — SHEET A", fill=(30, 30, 30), font=title_f)
-    draw.text((PAD, PAD + 36), "SOURCE: F01.00 PARENT PRODUCTION · STATUS: GENERATED / IN REVIEW", fill=(80, 80, 80), font=meta_f)
+    draw.text((PAD, PAD + 36), "SOURCE: F01.00 PARENT (RE-EXTRACTED) · RECOVERY1 · IN REVIEW", fill=(80, 80, 80), font=meta_f)
 
     for i, path in enumerate(pngs):
         col = i % COLS

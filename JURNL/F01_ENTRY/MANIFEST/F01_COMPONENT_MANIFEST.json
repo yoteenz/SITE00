@@ -12,11 +12,25 @@
     "checkboxes": "square-rounded (not circular)"
   },
   "buttons": {
-    "primary": {"fill": "deep emerald", "geometry": "square-rounded", "label": "UPPERCASE"},
-    "secondary": {"fill": "bone/ivory", "border": "subtle neutral", "geometry": "square-rounded"},
+    "primary": {
+      "fill": "deep emerald",
+      "geometry": "square-rounded",
+      "label": "UPPERCASE"
+    },
+    "secondary": {
+      "fill": "bone/ivory",
+      "border": "subtle neutral",
+      "geometry": "square-rounded"
+    },
     "tertiary": "text action or light square-rounded",
-    "destructive": {"fill": "burgundy/wine", "geometry": "square-rounded"},
-    "prohibited": ["circular tappable controls", "capsule pills"]
+    "destructive": {
+      "fill": "burgundy/wine",
+      "geometry": "square-rounded"
+    },
+    "prohibited": [
+      "circular tappable controls",
+      "capsule pills"
+    ]
   },
   "typography": {
     "display": "fashion-condensed uppercase serif",
@@ -24,6 +38,58 @@
   },
   "logo": {
     "mark": "muted rose botanical + vertical rule + stacked JURNL",
-    "integration": "small, embedded — never sticker hero"
+    "integration": "small, embedded \u2014 never sticker hero",
+    "canonicalFile": "ASSETS/REFERENCE_JURNL_LOGO_OFFICIAL.jpg",
+    "welcomePlacement": {
+      "normalizedBox": [
+        0.03,
+        0.03,
+        0.16,
+        0.12
+      ],
+      "canonicalLogoFile": "ASSETS/REFERENCE_JURNL_LOGO_OFFICIAL.jpg",
+      "sourceScreen": "F01.00",
+      "notes": "Use official logo asset \u2014 not a raster crop from parent."
+    }
+  },
+  "buttonReferences": {
+    "sourceScreen": "F01.00",
+    "sourceGeneration": "WjkVD1jNeggB0iWBABM6",
+    "note": "Implementation components \u2014 not reusable raster ASSETS.",
+    "primary": {
+      "id": "ENTRY.BUTTON.PRIMARY.001",
+      "implementation": {
+        "fill": "deep emerald",
+        "geometry": "square-rounded",
+        "label": "UPPERCASE"
+      },
+      "parentNormalizedBox": [
+        0.1,
+        0.835,
+        0.9,
+        0.875
+      ],
+      "visualReference": "MANIFEST/COMPONENT_REFERENCES/ENTRY.BUTTON.PRIMARY.001.png"
+    },
+    "secondary": {
+      "id": "ENTRY.BUTTON.SECONDARY.001",
+      "implementation": {
+        "fill": "bone/ivory",
+        "border": "subtle neutral",
+        "geometry": "square-rounded"
+      },
+      "parentNormalizedBox": [
+        0.1,
+        0.895,
+        0.9,
+        0.935
+      ],
+      "visualReference": "MANIFEST/COMPONENT_REFERENCES/ENTRY.BUTTON.SECONDARY.001.png"
+    }
+  },
+  "lightOverlay": {
+    "id": "ENTRY.LIGHT.SUN.001",
+    "file": "OVERLAYS/ENTRY.LIGHT.SUN.001.png",
+    "implementationRecipe": "Multiply warm soft-light overlay over plaster regions; anchor upper-left."
   }
 }

@@ -4,7 +4,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.ARCH.ARCHWAY.001.png",
+    "EXTRACTION": "re-extracted_crop",
+    "FILE": "ASSETS/ENTRY.ARCH.ARCHWAY.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -27,7 +28,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.ARCH.COAST.001.png",
+    "EXTRACTION": "re-extracted_crop",
+    "FILE": "ASSETS/ENTRY.ARCH.COAST.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -50,7 +52,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.MATERIAL.PLASTER.001.png",
+    "EXTRACTION": "re-extracted_crop",
+    "FILE": "ASSETS/ENTRY.MATERIAL.PLASTER.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -73,7 +76,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.MATERIAL.TRAVERTINE.001.png",
+    "EXTRACTION": "re-extracted_crop",
+    "FILE": "ASSETS/ENTRY.MATERIAL.TRAVERTINE.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -96,7 +100,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.MATERIAL.TEXTILE.ROSE.001.png",
+    "EXTRACTION": "re-extracted_crop",
+    "FILE": "ASSETS/ENTRY.MATERIAL.TEXTILE.ROSE.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -119,7 +124,32 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.MATERIAL.CURTAIN.001.png",
+    "EXTRACTION": "re-extracted_crop",
+    "FILE": "ASSETS/ENTRY.MATERIAL.CURTAIN.001.png",
+    "USED_BY": [
+      "F01_ENTRY_FAMILY"
+    ],
+    "ALLOWED_TRANSFORMS": [
+      "crop",
+      "scale",
+      "mask",
+      "responsive reposition",
+      "subtle tonal adjustment"
+    ],
+    "NOT_ALLOWED": [
+      "redesign",
+      "arbitrary recolor",
+      "material replacement",
+      "style drift"
+    ]
+  },
+  {
+    "ASSET_ID": "ENTRY.MATERIAL.PAPER.001",
+    "SOURCE_SCREEN": "F01.00",
+    "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
+    "STATUS": "CANONICAL",
+    "EXTRACTION": "re-extracted_crop",
+    "FILE": "ASSETS/ENTRY.MATERIAL.PAPER.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -142,7 +172,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.OBJECT.BUST.001.png",
+    "EXTRACTION": "re-extracted_isolated",
+    "FILE": "ASSETS/ENTRY.OBJECT.BUST.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -165,7 +196,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.OBJECT.BOWL.001.png",
+    "EXTRACTION": "re-extracted_isolated",
+    "FILE": "ASSETS/ENTRY.OBJECT.BOWL.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -188,7 +220,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.OBJECT.BOOKS.001.png",
+    "EXTRACTION": "re-extracted_isolated",
+    "FILE": "ASSETS/ENTRY.OBJECT.BOOKS.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -211,7 +244,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.OBJECT.JURNLBOOK.001.png",
+    "EXTRACTION": "re-extracted_isolated",
+    "FILE": "ASSETS/ENTRY.OBJECT.JURNLBOOK.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -234,7 +268,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.BOTANICAL.FOREGROUND.001.png",
+    "EXTRACTION": "re-extracted_isolated",
+    "FILE": "ASSETS/ENTRY.BOTANICAL.FOREGROUND.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -257,7 +292,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.BOTANICAL.ACCENT.001.png",
+    "EXTRACTION": "re-extracted_isolated",
+    "FILE": "ASSETS/ENTRY.BOTANICAL.ACCENT.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
@@ -280,99 +316,8 @@
     "SOURCE_SCREEN": "F01.00",
     "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
     "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.LIGHT.SUN.001.png",
-    "USED_BY": [
-      "F01_ENTRY_FAMILY"
-    ],
-    "ALLOWED_TRANSFORMS": [
-      "crop",
-      "scale",
-      "mask",
-      "responsive reposition",
-      "subtle tonal adjustment"
-    ],
-    "NOT_ALLOWED": [
-      "redesign",
-      "arbitrary recolor",
-      "material replacement",
-      "style drift"
-    ]
-  },
-  {
-    "ASSET_ID": "ENTRY.LOGO.PLACEMENT.001",
-    "SOURCE_SCREEN": "F01.00",
-    "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
-    "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.LOGO.PLACEMENT.001.png",
-    "USED_BY": [
-      "F01_ENTRY_FAMILY"
-    ],
-    "ALLOWED_TRANSFORMS": [
-      "crop",
-      "scale",
-      "mask",
-      "responsive reposition",
-      "subtle tonal adjustment"
-    ],
-    "NOT_ALLOWED": [
-      "redesign",
-      "arbitrary recolor",
-      "material replacement",
-      "style drift"
-    ]
-  },
-  {
-    "ASSET_ID": "ENTRY.BUTTON.PRIMARY.001",
-    "SOURCE_SCREEN": "F01.00",
-    "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
-    "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.BUTTON.PRIMARY.001.png",
-    "USED_BY": [
-      "F01_ENTRY_FAMILY"
-    ],
-    "ALLOWED_TRANSFORMS": [
-      "crop",
-      "scale",
-      "mask",
-      "responsive reposition",
-      "subtle tonal adjustment"
-    ],
-    "NOT_ALLOWED": [
-      "redesign",
-      "arbitrary recolor",
-      "material replacement",
-      "style drift"
-    ]
-  },
-  {
-    "ASSET_ID": "ENTRY.BUTTON.SECONDARY.001",
-    "SOURCE_SCREEN": "F01.00",
-    "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
-    "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.BUTTON.SECONDARY.001.png",
-    "USED_BY": [
-      "F01_ENTRY_FAMILY"
-    ],
-    "ALLOWED_TRANSFORMS": [
-      "crop",
-      "scale",
-      "mask",
-      "responsive reposition",
-      "subtle tonal adjustment"
-    ],
-    "NOT_ALLOWED": [
-      "redesign",
-      "arbitrary recolor",
-      "material replacement",
-      "style drift"
-    ]
-  },
-  {
-    "ASSET_ID": "ENTRY.PAPER.001",
-    "SOURCE_SCREEN": "F01.00",
-    "SOURCE_GENERATION": "WjkVD1jNeggB0iWBABM6",
-    "STATUS": "CANONICAL",
-    "FILE": "JURNL/F01_ENTRY/ASSETS/ENTRY.PAPER.001.png",
+    "EXTRACTION": "re-extracted_overlay",
+    "FILE": "OVERLAYS/ENTRY.LIGHT.SUN.001.png",
     "USED_BY": [
       "F01_ENTRY_FAMILY"
     ],
