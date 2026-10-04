@@ -70,52 +70,34 @@ const render = (Body: () => unknown, url: string, data: HubData = mock()) =>
 const has = (html: string, id: string) => html.includes(`data-testid="${id}"`);
 const hrefs = (html: string) => [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]!.replace(/&amp;/g, '&'));
 
-describe('INBOX lenses mount on the existing /production/queue route', () => {
-  const expect_: Record<string, string[]> = {
-    all: ['inbox-stats', 'inbox-incoming', 'inbox-awaiting', 'inbox-watching', 'inbox-resolved'],
-    priority: ['inbox-urgent', 'inbox-blockers', 'inbox-decisions', 'inbox-fast-actions'],
-    approvals: ['inbox-approvals', 'inbox-primary'],
-    direct: ['inbox-direct-list', 'inbox-direct-thread', 'inbox-direct-context'],
-    system: ['inbox-system-filters', 'inbox-system-notices'],
-  };
+/* INBOX blocks superseded by P0.STUDIOOS.PRODUCTION.INBOX.AUTHORITY-FAMILY-CONVERGENCE.OPUS2
+ * (lifecycle NEEDS YOU / WATCHING / RESOLVED + ALL / MESSAGES / SYSTEM; full coverage lives in
+ * tests/productionInboxAuthorityFamilyOpus2.test.ts). The OPUS1 intent is kept here: every Inbox view
+ * mounts on the existing route, approval stays gated, and the legacy approvals link still opens the detail. */
+describe('INBOX views mount on the existing /production/queue route', () => {
   for (const lens of INBOX_LENSES) {
     it(lens, () => {
       const html = render(InboxBody, inboxHref(lens));
       expect(html).toContain(`data-lens="${lens}"`);
-      for (const id of ['production-queue', 'inbox-hero', 'inbox-tabs', ...expect_[lens]!]) expect(has(html, id), `${lens}:${id}`).toBe(true);
+      expect(has(html, 'production-queue')).toBe(true);
+      expect(has(html, 'inbox-tabs')).toBe(true);
     });
   }
-  it('lens hrefs stay on /production/queue (no invented routes)', () => {
-    const html = render(InboxBody, '/production/queue');
-    for (const lens of INBOX_LENSES) expect(hrefs(html)).toContain(inboxHref(lens));
-    for (const h of hrefs(html)) expect(h, h).toMatch(/^\/production(\/|\?|$)/);
-  });
-  it('direct messaging is an honest UNMOUNTED shell, never sample threads', () => {
-    const html = render(InboxBody, inboxHref('direct'));
-    expect(html).toContain('data-state="UNMOUNTED"');
-    expect(html).not.toMatch(/Avery|Marco|Elena|Jordan|Priya/);
+  it('view hrefs stay on /production/queue (no invented routes)', () => {
+    for (const lens of INBOX_LENSES) expect(inboxHref(lens)).toMatch(/^\/production\/queue(\?|$)/);
   });
 });
 
-describe('INBOX approval detail (grandchild)', () => {
-  const url = inboxHref('approvals', 'attn.narrative');
-  it('mounts from the live attention item with back / pager / tabs', () => {
-    const html = render(InboxBody, url);
-    for (const id of ['inbox-approval-detail', 'inbox-detail-back', 'inbox-detail-prev', 'inbox-detail-next', 'inbox-detail-strip', 'inbox-detail-tab-details', 'inbox-detail-details'])
-      expect(has(html, id), id).toBe(true);
+describe('INBOX decision detail (grandchild)', () => {
+  it('the OPUS1 approvals link still opens the live decision', () => {
+    const html = render(InboxBody, '/production/queue?view=approvals&item=attn.narrative');
+    expect(has(html, 'inbox-decision-detail')).toBe(true);
     expect(html).toContain('NARRATIVE APPROVAL');
-    expect(hrefs(html)).toContain(inboxHref('approvals', 'attn.cast'));
   });
   it('approve is disabled unless the founder gate is decidable for this node', () => {
-    const blocked = render(InboxBody, url, mock({ decidable: false }));
-    expect(blocked).toMatch(/<button[^>]*disabled=""[^>]*data-testid="inbox-approve"/);
-    const open = render(InboxBody, url, mock({ decidable: true }));
-    expect(open).not.toMatch(/<button[^>]*disabled=""[^>]*data-testid="inbox-approve"/);
-    const otherNode = render(InboxBody, inboxHref('approvals', 'attn.cast'), mock({ decidable: true }));
-    expect(otherNode).toMatch(/<button[^>]*disabled=""[^>]*data-testid="inbox-approve"/);
-  });
-  it('unknown item reads as missing, not a fabricated record', () => {
-    expect(has(render(InboxBody, inboxHref('approvals', 'nope')), 'inbox-detail-missing')).toBe(true);
+    const url = inboxHref('needs', { item: 'attn.narrative' });
+    expect(render(InboxBody, url, mock({ decidable: false }))).toMatch(/<button[^>]*disabled=""[^>]*data-testid="inbox-approve"/);
+    expect(render(InboxBody, url, mock({ decidable: true }))).not.toMatch(/<button[^>]*disabled=""[^>]*data-testid="inbox-approve"/);
   });
 });
 
@@ -170,14 +152,14 @@ describe('ACTIVITY milestone detail (grandchild)', () => {
 
 describe('Inbox Approvals and Activity Approvals stay distinct', () => {
   it('different routes, different surfaces', () => {
-    expect(inboxHref('approvals')).toBe('/production/queue?view=approvals');
+    expect(inboxHref('needs')).toBe('/production/queue');
     expect(activityHref('approvals')).toBe('/production/activity?view=approvals');
-    const inbox = render(InboxBody, inboxHref('approvals'));
+    const inbox = render(InboxBody, '/production/queue');
     const act = render(ActivityBody, activityHref('approvals'));
-    expect(has(inbox, 'inbox-approvals')).toBe(true);
+    expect(has(inbox, 'inbox-focus')).toBe(true);
     expect(has(inbox, 'activity-approval-feed')).toBe(false);
     expect(has(act, 'activity-approval-feed')).toBe(true);
-    expect(has(act, 'inbox-approvals')).toBe(false);
+    expect(has(act, 'inbox-focus')).toBe(false);
   });
 });
 
