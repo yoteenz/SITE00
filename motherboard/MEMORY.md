@@ -12924,3 +12924,14 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2`. Base `cursor/produc
 - **Character Fabrication:** wide hosts get the authority host nav and a stage atmosphere. Phones are unchanged.
 - **Residuals:** the mobile host strip height (34px vs ≈57px) is preserved because the 864-space strip is shared with the hub machine, CF popovers and the design overlay. The design workspace on phones is a fixed 768 canvas. The hub machine and the expression-engine content-ops route stay legacy.
 - **Tests:** `tests/productionAuthorityConvergenceOpus2.test.ts`. Full suite in this env: base 101 failing tests / 130 files, final identical (delta 0).
+
+---
+
+## 2026-10-03 — Production authority tree (COMPOSER1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-TREE.COMPOSER1`. Forensic map only — no redesign, no reconstruction, no runtime/UI changes. Base `cursor/production-authority-convergence-opus2` @ `269f2af5`. Branch `cursor/production-authority-tree-composer1-0daf`.
+
+- **Deliverables:** `artifacts/production-authority-tree/` — MASTER_TREE, seven tab trees, NODE_MATRIX (161 nodes), INHERITANCE_MATRIX, INTERACTION_INVENTORY, RESPONSIVE_TREE, STALE_FALLBACK_MAP, RECONSTRUCTION_ORDER, AUTHORITY_SOURCE_INDEX; `nodes.manifest.json` + generator scripts under `scripts/`.
+- **Method:** Routes (`Site00Routes`, production shells), registry canon vs `EXPERIENCE_CAPSULES`, Opus2 crawl cross-check; experience children labeled **UNMOUNTED** honestly; hub machine + expression-engine route **LEGACY_LOCKED**; design workspace mobile 768 scale flagged **RESPONSIVE_AUTHORITY_FAILURE**.
+- **Counts:** 37 route-equivalent surfaces; 23 interaction nodes; 5 temporary surfaces; 44 responsive-variant records; 4 genericization risks; 5 stale fallbacks; 2 authority conflicts.
+- **QA:** `tests/productionAuthorityConvergenceOpus2.test.ts` 18/18 pass (audit did not touch runtime).
