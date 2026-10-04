@@ -13314,3 +13314,14 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, mar
 - **Unchanged:** NEEDS YOU keeps the parent-authority composition. Grandchildren (decision detail, thread, notice detail) and temporary sheets are unchanged apart from marking the attachment rail `data-scroll="internal-x"`.
 - **Cleanup:** 116 dead child rules were pruned from `site00-production-inbox-family.css` (postcss), and the unused `Attention` component was removed.
 - **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
+
+---
+
+## 2026-10-04 — Experience + Library convergence applied to live preview tunnel branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMPOSER1`.
+
+- **Tunnel:** Vite dev on `:5174` serves `/workspace` checkout. Branch `cursor/production-openart-asset-forensics-mount1-0daf`; rebased convergence onto remote merge `433a7622` (Inbox `ec6211f0` + Activity one-viewport retained).
+- **Method:** cherry-pick `e989bcdcb58d9699afd47c64b3e7e3c911f54817` (Experience + Library realm screens, routes, CSS, tests, QA artifacts) — not a full merge of PR #1312 branch history.
+- **Result:** `ExperienceScreen` / `LibraryScreen` under `productionAuthority/realm/`; 46 + 75 routes; retired `ExperienceBody` / `LibraryBody`. Minimal exports added to `productionNavIcon` / `iaKit` for Library icon reads. `100dvh` frame contract scoped for realm one-viewport.
+- **Proof:** `tests/productionExperienceLibraryConvergenceOpus1.test.ts` (136) + inbox/activity regression suites on rebased branch.

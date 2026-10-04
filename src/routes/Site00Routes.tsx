@@ -1469,6 +1469,18 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={`${SITE00_ROUTES.productionLibraries}/*`}
+        element={
+          <Site00Layout>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionLibrariesPage />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.productionActivity}
         element={
           <Site00Layout>

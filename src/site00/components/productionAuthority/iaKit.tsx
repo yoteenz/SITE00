@@ -30,6 +30,8 @@ const ICONS = {
   system: <><circle {...P} cx="16" cy="16" r="4" /><path {...P} d="M16 4v4M16 24v4M4 16h4M24 16h4M7.5 7.5l2.8 2.8M21.7 21.7l2.8 2.8M7.5 24.5l2.8-2.8M21.7 10.3l2.8-2.8" /></>,
 } as const;
 export type IaIconName = keyof typeof ICONS;
+/** Every functional line icon (LIBRARY / ICONS reads this list; nothing is authored there). */
+export const IA_ICON_NAMES = Object.keys(ICONS) as IaIconName[];
 
 export function IaIcon({ name, className = '' }: { name: IaIconName; className?: string }) {
   return (
