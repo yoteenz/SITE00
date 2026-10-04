@@ -10,7 +10,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
-import { ActivityBody, buildActivityRows } from '../src/site00/components/productionAuthority/ActivityBody';
+import { ACTIVITY_LENSES, ActivityBody, activityHref, blockerSeverity } from '../src/site00/components/productionAuthority/ActivityBody';
 import { INBOX_LENSES, InboxBody, inboxHref } from '../src/site00/components/productionAuthority/InboxBody';
 import { ProductionAuthorityDataContext } from '../src/site00/components/productionAuthority/ProductionAuthorityData';
 import type { HubData } from '../src/site00/components/productionHub/useProductionHubData';
@@ -101,41 +101,65 @@ describe('INBOX decision detail (grandchild)', () => {
   });
 });
 
-describe('ACTIVITY log on /production/activity (descendants authority layout)', () => {
-  it('mounts hero, live status strip, and ACTIVITY LOG timeline', () => {
+describe('ACTIVITY lenses mount on the existing /production/activity route', () => {
+  const expect_: Record<string, string[]> = {
+    all: ['activity-stats', 'activity-feed', 'activity-milestones', 'activity-attention'],
+    approvals: ['activity-approval-feed', 'activity-pending-review'],
+    updates: ['activity-updates', 'activity-related'],
+    comments: ['activity-comment-filters', 'activity-comments-unmounted'],
+    blockers: ['activity-blockers', 'activity-escalations'],
+  };
+  for (const lens of ACTIVITY_LENSES) {
+    it(lens, () => {
+      const html = render(ActivityBody, activityHref(lens));
+      expect(html).toContain(`data-lens="${lens}"`);
+      for (const id of ['authority-activity', 'activity-hero', 'activity-lenses', ...expect_[lens]!]) expect(has(html, id), `${lens}:${id}`).toBe(true);
+    });
+  }
+  it('Publish is not present (no route or data exists — not invented)', () => {
+    expect(ACTIVITY_LENSES).not.toContain('publish' as never);
     const html = render(ActivityBody, '/production/activity');
-    expect(html).toContain('data-testid="authority-activity"');
-    expect(html).toContain('data-testid="activity-hero"');
-    expect(html).toContain('data-testid="activity-log"');
-    expect(html).toContain('ACTIVITY LOG');
-    expect(html).toContain('pxa-timeline');
-    expect(html).toContain('data-testid="activity-category"');
-    expect(html).toContain('data-testid="activity-range"');
-    expect(html).toContain('FULL HISTORY');
-    expect(html).toContain('PEOPLE');
+    expect(html).not.toMatch(/>PUBLISH</);
+    expect(html).not.toContain('view=publish');
   });
-  it('feed rows come from live production data (recorded + graph state)', () => {
-    const rows = buildActivityRows(mock());
-    expect(rows.length).toBeGreaterThan(0);
-    const html = render(ActivityBody, '/production/activity');
-    expect((html.match(/data-testid="activity-row"/g) ?? []).length).toBeGreaterThan(0);
+  it('blocker rows come from the live graph and the gate node is CRITICAL', () => {
+    const html = render(ActivityBody, activityHref('blockers'));
+    expect((html.match(/data-testid="activity-blocker-row"/g) ?? []).length).toBeGreaterThan(0);
+    expect(blockerSeverity(NODES[0] as never, 'narrative')).toBe('CRITICAL');
+    expect(blockerSeverity(NODES[1] as never, 'narrative')).toBe('HIGH');
+    expect(blockerSeverity(NODES[4] as never, 'narrative')).toBe('MEDIUM');
   });
-  it('does not mount OPUS1 lens chrome (approvals/updates/comments/blockers tabs)', () => {
-    const html = render(ActivityBody, '/production/activity');
-    expect(html).not.toContain('activity-lenses');
-    expect(html).not.toContain('view=approvals');
-    expect(html).not.toMatch(/>APPROVALS</);
+  it('comments are an honest UNMOUNTED shell', () => {
+    const html = render(ActivityBody, activityHref('comments'));
+    expect(html).toContain('data-state="UNMOUNTED"');
+    expect(html).not.toMatch(/Maya Chen|Alex Rivas|Taylor Brooks/);
+  });
+  it('existing workspace + range filters are preserved in the filter popover source', () => {
+    const src = read('src/site00/components/productionAuthority/ActivityBody.tsx');
+    expect(src).toContain('testId="activity-category"');
+    expect(src).toContain('testId="activity-range"');
   });
 });
 
-describe('Inbox and Activity stay distinct routes', () => {
-  it('queue vs activity surfaces', () => {
+describe('ACTIVITY milestone detail (grandchild)', () => {
+  it('mounts for a live node', () => {
+    const html = render(ActivityBody, activityHref('all', 'cast'));
+    expect(html).toContain('data-node="cast"');
+    for (const id of ['activity-milestone-back', 'activity-milestone-open', 'activity-milestone-timeline', 'activity-milestone-dependencies', 'activity-milestone-unlocks'])
+      expect(has(html, id), id).toBe(true);
+  });
+});
+
+describe('Inbox Approvals and Activity Approvals stay distinct', () => {
+  it('different routes, different surfaces', () => {
     expect(inboxHref('needs')).toBe('/production/queue');
+    expect(activityHref('approvals')).toBe('/production/activity?view=approvals');
     const inbox = render(InboxBody, '/production/queue');
-    const act = render(ActivityBody, '/production/activity');
-    expect(has(inbox, 'production-queue')).toBe(true);
-    expect(has(act, 'activity-log')).toBe(true);
-    expect(has(inbox, 'activity-log')).toBe(false);
+    const act = render(ActivityBody, activityHref('approvals'));
+    expect(has(inbox, 'inbox-focus')).toBe(true);
+    expect(has(inbox, 'activity-approval-feed')).toBe(false);
+    expect(has(act, 'activity-approval-feed')).toBe(true);
+    expect(has(act, 'inbox-focus')).toBe(false);
   });
 });
 
@@ -150,8 +174,7 @@ describe('styles: body-only, recomposed per viewport, no scaling', () => {
     expect(css).not.toMatch(/\bzoom\s*:|scale\s*\(/);
   });
   it('reference triptychs are not used as UI', () => {
-    for (const f of ['InboxBody.tsx', 'iaKit.tsx']) expect(read(`src/site00/components/productionAuthority/${f}`)).not.toMatch(/three-viewports|AUTHORITY_LITE/);
-    expect(read('src/site00/components/productionAuthority/ActivityBody.tsx')).toContain('pxa-log');
+    for (const f of ['InboxBody.tsx', 'ActivityBody.tsx', 'iaKit.tsx']) expect(read(`src/site00/components/productionAuthority/${f}`)).not.toMatch(/three-viewports|AUTHORITY_LITE/);
     expect(css).not.toMatch(/three-viewports/);
   });
 });
