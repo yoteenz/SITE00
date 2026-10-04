@@ -13288,3 +13288,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Request:** After JURNL F01 review package, founder asked agents to **always** send the direct ZIP as a **clickable link** (mobile review), not only paths or bare URLs in prose.
 - **Rule:** `AGENTS.md` + `.cursor/rules/session-close.mdc` — Part 3 line 1: markdown link to `releases/download/…/*.zip` on its own line; review/asset ZIPs via GitHub Release + same link format.
 - **JURNL F01 review ZIP:** [JURNL-F01-ENTRY-REVIEW-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-entry-review-2026-10-04/JURNL-F01-ENTRY-REVIEW-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 asset harvest recovery (zero regen)
+
+- **Sprint:** P0.JURNL.F01-ASSET-HARVEST-RECOVERY1 — re-extract from existing `F01.00_WELCOME_GENERATED.png` only; **0** OpenArt credit spend.
+- **Done:** rembg isolation for objects/botanical; clean arch/material crops; light → `OVERLAYS/`; buttons + logo placement → `MANIFEST/COMPONENT_REFERENCES/` + `F01_COMPONENT_MANIFEST.json`; v1 crops → `ASSETS/_ARCHIVE_SCREENSHOT_CROPS_v1/`; Sheet A rebuilt; `scripts/jurnl-f01-recover-harvest.py`.
+- **Review ZIP:** [JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-asset-harvest-recovery-2026-10-04/JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip)
