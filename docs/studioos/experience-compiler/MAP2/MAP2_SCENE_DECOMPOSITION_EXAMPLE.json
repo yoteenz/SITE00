@@ -1,0 +1,377 @@
+{
+  "decompositions": [
+    {
+      "authority_id": "01_ORIGIN_MAIN",
+      "route": "/",
+      "viewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "layers": [
+        {
+          "layer_id": "01_ORIGIN_MAIN_ENV.ORIGIN.COLLAPSED",
+          "label": "DOUBLE-ZERO LANDMARK COURTYARD — COLLAPSED ORIGIN. EXISTING ORIGIN ENVIRONMENT A",
+          "ownership_type": "ENVIRONMENT_IMAGE",
+          "z_index": 10,
+          "bbox": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": "ENV.ORIGIN.COLLAPSED",
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": "full-bleed",
+          "opacity": 1,
+          "generated_or_live": "GENERATED",
+          "notes": "FULL-BLEED, BEHIND HEADER / HERO / CARDS"
+        },
+        {
+          "layer_id": "01_ORIGIN_MAIN_LIVE_SVG_LINEWORK",
+          "label": "technical linework",
+          "ownership_type": "LIVE_SVG",
+          "z_index": 45,
+          "bbox": {
+            "x": 0.05,
+            "y": 0.15,
+            "w": 0.9,
+            "h": 0.75
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Precision SVG — do not duplicate inside Grok environments"
+        },
+        {
+          "layer_id": "01_ORIGIN_MAIN_CARD.ORIGIN.IDNTY",
+          "label": "IDNTY CARD ATRIUM VIGNETTE (TREE, WHITE ARCH).",
+          "ownership_type": "CARD_IMAGE",
+          "z_index": 60,
+          "bbox": {
+            "x": 0.06,
+            "y": 0.58,
+            "w": 0.4,
+            "h": 0.14
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": "CARD.ORIGIN.IDNTY",
+          "parent_layer_id": null,
+          "mask": "card-viewport",
+          "clip": "card-inner",
+          "opacity": 1,
+          "generated_or_live": "GENERATED",
+          "notes": "Image region inside live card — no baked copy"
+        },
+        {
+          "layer_id": "01_ORIGIN_MAIN_CARD.ORIGIN.BLDR",
+          "label": "BLDR CARD STUDIO VIGNETTE (GLASS DISPLAY, PLINTH).",
+          "ownership_type": "CARD_IMAGE",
+          "z_index": 61,
+          "bbox": {
+            "x": 0.54,
+            "y": 0.58,
+            "w": 0.4,
+            "h": 0.14
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": "CARD.ORIGIN.BLDR",
+          "parent_layer_id": null,
+          "mask": "card-viewport",
+          "clip": "card-inner",
+          "opacity": 1,
+          "generated_or_live": "GENERATED",
+          "notes": "Image region inside live card — no baked copy"
+        },
+        {
+          "layer_id": "01_ORIGIN_MAIN_CARD.ORIGIN.EVOLVE",
+          "label": "EVOLVE CARD LANDSCAPE VIGNETTE (CLIFF ROAD, SKYLINE).",
+          "ownership_type": "CARD_IMAGE",
+          "z_index": 62,
+          "bbox": {
+            "x": 0.06,
+            "y": 0.76,
+            "w": 0.4,
+            "h": 0.14
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": "CARD.ORIGIN.EVOLVE",
+          "parent_layer_id": null,
+          "mask": "card-viewport",
+          "clip": "card-inner",
+          "opacity": 1,
+          "generated_or_live": "GENERATED",
+          "notes": "Image region inside live card — no baked copy"
+        },
+        {
+          "layer_id": "01_ORIGIN_MAIN_LIVE_HEADER",
+          "label": "header",
+          "ownership_type": "LIVE_CODE_UI",
+          "z_index": 100,
+          "bbox": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.1
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Top chrome — never bake into raster assets"
+        },
+        {
+          "layer_id": "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV",
+          "label": "bottom nav",
+          "ownership_type": "LIVE_CODE_UI",
+          "z_index": 200,
+          "bbox": {
+            "x": 0,
+            "y": 0.88,
+            "w": 1,
+            "h": 0.12
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Global navigation — excluded from all environment crops"
+        }
+      ],
+      "compiled_at": "2026-10-01T15:41:40.737Z"
+    },
+    {
+      "authority_id": "02_ORIGIN_IDNTY_EXPANDED",
+      "route": "/",
+      "viewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "layers": [
+        {
+          "layer_id": "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "label": "DOUBLE-ZERO LANDMARK WITH WATERFALL SKYLINE — EXPANDED PANEL STATE (CLEAN, NO BA",
+          "ownership_type": "ENVIRONMENT_IMAGE",
+          "z_index": 10,
+          "bbox": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": "ENV.ORIGIN.EXPANDED",
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": "full-bleed",
+          "opacity": 1,
+          "generated_or_live": "GENERATED",
+          "notes": "FULL-BLEED; LOWER 2/3 IS COVERED BY THE GLASS PANEL"
+        },
+        {
+          "layer_id": "02_ORIGIN_IDNTY_EXPANDED_LIVE_SVG_LINEWORK",
+          "label": "technical linework",
+          "ownership_type": "LIVE_SVG",
+          "z_index": 45,
+          "bbox": {
+            "x": 0.05,
+            "y": 0.15,
+            "w": 0.9,
+            "h": 0.75
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Precision SVG — do not duplicate inside Grok environments"
+        },
+        {
+          "layer_id": "02_ORIGIN_IDNTY_EXPANDED_ILLUSTRATION.ORIGIN.IDENTITY",
+          "label": "RED-LINE FACIAL GEOMETRY WIREFRAME (IDENTITY PANEL HERO).",
+          "ownership_type": "TRANSPARENT_OBJECT",
+          "z_index": 50,
+          "bbox": {
+            "x": 0.12,
+            "y": 0.22,
+            "w": 0.76,
+            "h": 0.38
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": "ILLUSTRATION.ORIGIN.IDENTITY",
+          "parent_layer_id": "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "GENERATED",
+          "notes": "Requires true alpha"
+        },
+        {
+          "layer_id": "02_ORIGIN_IDNTY_EXPANDED_LIVE_HEADER",
+          "label": "header",
+          "ownership_type": "LIVE_CODE_UI",
+          "z_index": 100,
+          "bbox": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.1
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Top chrome — never bake into raster assets"
+        },
+        {
+          "layer_id": "02_ORIGIN_IDNTY_EXPANDED_LIVE_BOTTOM_NAV",
+          "label": "bottom nav",
+          "ownership_type": "LIVE_CODE_UI",
+          "z_index": 200,
+          "bbox": {
+            "x": 0,
+            "y": 0.88,
+            "w": 1,
+            "h": 0.12
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Global navigation — excluded from all environment crops"
+        }
+      ],
+      "compiled_at": "2026-10-01T15:41:40.737Z"
+    },
+    {
+      "authority_id": "03_ORIGIN_BLDR_EXPANDED",
+      "route": "/",
+      "viewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "layers": [
+        {
+          "layer_id": "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "label": "DOUBLE-ZERO LANDMARK WITH WATERFALL SKYLINE — EXPANDED PANEL STATE (CLEAN, NO BA",
+          "ownership_type": "ENVIRONMENT_IMAGE",
+          "z_index": 10,
+          "bbox": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": "ENV.ORIGIN.EXPANDED",
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": "full-bleed",
+          "opacity": 1,
+          "generated_or_live": "GENERATED",
+          "notes": "FULL-BLEED; LOWER 2/3 IS COVERED BY THE GLASS PANEL"
+        },
+        {
+          "layer_id": "03_ORIGIN_BLDR_EXPANDED_LIVE_SVG_LINEWORK",
+          "label": "technical linework",
+          "ownership_type": "LIVE_SVG",
+          "z_index": 45,
+          "bbox": {
+            "x": 0.05,
+            "y": 0.15,
+            "w": 0.9,
+            "h": 0.75
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Precision SVG — do not duplicate inside Grok environments"
+        },
+        {
+          "layer_id": "03_ORIGIN_BLDR_EXPANDED_ILLUSTRATION.ORIGIN.BLDR",
+          "label": "RED-LINE ISOMETRIC BUILD LATTICE (BUILDER PANEL HERO).",
+          "ownership_type": "TRANSPARENT_OBJECT",
+          "z_index": 50,
+          "bbox": {
+            "x": 0.12,
+            "y": 0.22,
+            "w": 0.76,
+            "h": 0.38
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": "ILLUSTRATION.ORIGIN.BLDR",
+          "parent_layer_id": "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "GENERATED",
+          "notes": "Requires true alpha"
+        },
+        {
+          "layer_id": "03_ORIGIN_BLDR_EXPANDED_LIVE_HEADER",
+          "label": "header",
+          "ownership_type": "LIVE_CODE_UI",
+          "z_index": 100,
+          "bbox": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.1
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Top chrome — never bake into raster assets"
+        },
+        {
+          "layer_id": "03_ORIGIN_BLDR_EXPANDED_LIVE_BOTTOM_NAV",
+          "label": "bottom nav",
+          "ownership_type": "LIVE_CODE_UI",
+          "z_index": 200,
+          "bbox": {
+            "x": 0,
+            "y": 0.88,
+            "w": 1,
+            "h": 0.12
+          },
+          "surface": "MOBILE_WEB",
+          "asset_slot_id": null,
+          "parent_layer_id": null,
+          "mask": null,
+          "clip": null,
+          "opacity": 1,
+          "generated_or_live": "LIVE",
+          "notes": "Global navigation — excluded from all environment crops"
+        }
+      ],
+      "compiled_at": "2026-10-01T15:41:40.737Z"
+    }
+  ]
+}

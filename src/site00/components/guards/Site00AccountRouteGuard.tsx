@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useLocation, Navigate, Link } from 'react-router-dom';
 import { isSignedIn, persistAuthBackup, ensureAuthRestoredFromBackup, onSignInSuccess } from '../../../utils/adminAuth';
 import { getSupabase, isSupabaseConfigured, signOutIfSessionEmailUnconfirmed } from '../../../utils/supabase';
@@ -18,6 +18,11 @@ import { useGuardLoadingTimeout } from '../../../platform-stabilization/useGuard
 import { promiseWithTimeout } from '../../../platform-stabilization/promiseWithTimeout';
 import { isSite00CloudPreviewBuild } from '../loader/site00PreviewHost';
 import { isSite00SignInPaused } from '../../config/signInPaused';
+import { Site00ShellAuthProvider } from '../../auth/Site00ShellAuthContext';
+import {
+  isSite00EcPreviewGuestFeatureActive,
+  isSite00PreviewGuestAllowlistedPath,
+} from '../../auth/site00ShellAuthState';
 
 const SERVER_RESTORE_ATTEMPT_KEY = 'site00_ctrl_room_restore_v1';
 const AUTH_STEP_TIMEOUT_MS = 6_000;
@@ -39,14 +44,44 @@ function finishLocalAuthRecovery(): void {
   persistAuthBackup();
 }
 
+function previewGuestAllowedForRoute(
+  pathname: string,
+  flags: { allowExperienceCompilerPreviewGuest: boolean; allowStudioPreviewGuestLanding: boolean },
+): boolean {
+  if (!isSite00EcPreviewGuestFeatureActive() || !isSite00PreviewGuestAllowlistedPath(pathname)) {
+    return false;
+  }
+  if (flags.allowExperienceCompilerPreviewGuest && /\/experience-compiler\/?$/.test(pathname)) {
+    return true;
+  }
+  if (flags.allowStudioPreviewGuestLanding && /\/preview-guest\/?$/.test(pathname)) {
+    return true;
+  }
+  return false;
+}
+
 /** Protects SITE 00 CTRL ROOM — redirects to SITE 00 sign-in when signed out. */
-export function Site00AccountRouteGuard({ children }: { children: React.ReactNode }) {
+export function Site00AccountRouteGuard({
+  children,
+  allowExperienceCompilerPreviewGuest = false,
+  allowStudioPreviewGuestLanding = false,
+}: {
+  children: React.ReactNode;
+  /** Cloud preview/tunnel only — unsigned MAP2 workspace while Supabase is down (temporary). */
+  allowExperienceCompilerPreviewGuest?: boolean;
+  /** Cloud preview/tunnel only — minimal Studio parent for ← STUDIO navigation. */
+  allowStudioPreviewGuestLanding?: boolean;
+}) {
   const location = useLocation();
   const [recoveryDone, setRecoveryDone] = useState(false);
   const [apiTokenReady, setApiTokenReady] = useState<boolean | null>(null);
   const isLoading = !recoveryDone;
   const timedOut = useGuardLoadingTimeout(isLoading, 'Site00AccountRouteGuard');
   const cloudPreview = isSite00CloudPreviewBuild();
+  const previewGuestRoute = previewGuestAllowedForRoute(location.pathname, {
+    allowExperienceCompilerPreviewGuest,
+    allowStudioPreviewGuestLanding,
+  });
   const signInHref = site00SignInHrefWithReturnTo(location);
 
   const goldenDiffCapture =
@@ -63,6 +98,13 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     if (isSite00SignInPaused() || designPreviewCapture || goldenDiffCapture) {
       finishLocalAuthRecovery();
       setRecoveryDone(true);
+      return;
+    }
+
+    if (previewGuestRoute) {
+      finishLocalAuthRecovery();
+      setRecoveryDone(true);
+      setApiTokenReady(true);
       return;
     }
 
@@ -178,10 +220,17 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [cloudPreview, designPreviewCapture, goldenDiffCapture, location.search]);
+  }, [cloudPreview, designPreviewCapture, goldenDiffCapture, location.search, previewGuestRoute]);
 
   useEffect(() => {
-    if (!recoveryDone || isSite00SignInPaused() || cloudPreview || allowUnauthenticatedCaptureSurface || !isSupabaseConfigured()) {
+    if (
+      !recoveryDone ||
+      isSite00SignInPaused() ||
+      cloudPreview ||
+      previewGuestRoute ||
+      allowUnauthenticatedCaptureSurface ||
+      !isSupabaseConfigured()
+    ) {
       setApiTokenReady(true);
       return;
     }
@@ -192,49 +241,79 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [allowUnauthenticatedCaptureSurface, cloudPreview, goldenDiffCapture, recoveryDone]);
+  }, [allowUnauthenticatedCaptureSurface, cloudPreview, goldenDiffCapture, previewGuestRoute, recoveryDone]);
+
+  const shellWrapped = (body: ReactNode) => (
+    <Site00ShellAuthProvider
+      authLoading={!recoveryDone}
+      previewGuestRouteOverride={previewGuestRoute && !isSignedIn()}
+    >
+      {body}
+    </Site00ShellAuthProvider>
+  );
 
   if (timedOut && isLoading) {
-    return (
+    return shellWrapped(
       <GuardLoadingRecovery
         guard="Site00AccountRouteGuard"
         detail="CTRL ROOM SESSION RESTORE DID NOT COMPLETE. TRY RELOAD OR SIGN IN AGAIN."
         onRetry={() => setRecoveryDone(false)}
-      />
+      />,
     );
   }
 
   if (!recoveryDone) {
-    return (
+    return shellWrapped(
       <div className="site00-ctrl-room-loading" role="status" aria-live="polite">
         <p>ASSEMBLING CTRL ROOM…</p>
         {cloudPreview ? <small className="site00-ctrl-room-loading__hint">CLOUD PREVIEW · CHECKING LOCAL SESSION</small> : null}
-      </div>
+      </div>,
     );
   }
 
   if (isSite00SignInPaused()) return <>{children}</>;
 
   if (apiTokenReady === false && isSignedIn() && !allowUnauthenticatedCaptureSurface) {
-    return <Navigate to={signInHref} replace state={{ reason: 'api_session_expired' }} />;
+    return shellWrapped(<Navigate to={signInHref} replace state={{ reason: 'api_session_expired' }} />);
   }
 
   if (!isSignedIn()) {
-    if (allowUnauthenticatedCaptureSurface) {
-      return <>{children}</>;
+    if (allowUnauthenticatedCaptureSurface || previewGuestRoute) {
+      return shellWrapped(
+        <>
+          {previewGuestRoute ? (
+            <div
+              className="site00-ec-preview-guest-banner"
+              role="status"
+              style={{
+                background: '#1a1a1a',
+                color: '#f5c542',
+                fontSize: '11px',
+                letterSpacing: '0.06em',
+                padding: '8px 12px',
+                textAlign: 'center',
+                borderBottom: '1px solid #333',
+              }}
+            >
+              PREVIEW GUEST · STUDIO OS PREVIEW · SIGN-IN BYPASSED (SUPABASE DOWN) · NOT PRODUCTION
+            </div>
+          ) : null}
+          {children}
+        </>,
+      );
     }
     if (cloudPreview) {
-      return (
+      return shellWrapped(
         <div className="site00-ctrl-room-loading site00-ctrl-room-loading--sign-in" role="status" aria-live="polite">
           <p>SIGN IN REQUIRED FOR THIS ROUTE</p>
           <Link className="site00-ctrl-room-loading__cta" to={signInHref}>
             GO TO SIGN IN →
           </Link>
-        </div>
+        </div>,
       );
     }
-    return <Navigate to={signInHref} replace />;
+    return shellWrapped(<Navigate to={signInHref} replace />);
   }
 
-  return <>{children}</>;
+  return shellWrapped(<>{children}</>);
 }
