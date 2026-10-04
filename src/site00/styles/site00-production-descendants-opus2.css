@@ -105,12 +105,6 @@
 }
 
 /* ── glass panels for every legacy card surface ── */
-.pw.pw--authority :is(.pw-row, .pw-card, .pw-entry, .pw-note, .pw-empty, .pw-kv, .pw-pkg, .pw-req, .pw-pcard, .pw-action, .pw-context, .pw-pillar, .pw-check) {
-  background: var(--pwa-glass);
-  border: 1px solid rgba(255, 255, 255, 0.96);
-  box-shadow: var(--pwa-shadow);
-  color: var(--pw-ink);
-}
 .pw.pw--authority .pw-list {
   gap: 10px;
 }
@@ -141,16 +135,8 @@
 .pw.pw--authority .pw-row__chev {
   color: var(--pw-red);
 }
-.pw.pw--authority :is(.pw-row__thumb, .pw-pcard__thumb, .pw-req__thumb, .pw-plate, .pw-deliv-hero) {
-  background-color: #1c1c20;
-  border-color: rgba(255, 255, 255, 0.9);
-}
 .pw.pw--authority .pw-row__thumb--right::before {
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.2) 60%);
-}
-.pw.pw--authority .pw-plate {
-  border-radius: 8px;
-  box-shadow: var(--pwa-shadow), 0 0 22px rgba(229, 35, 27, 0.12);
 }
 .pw.pw--authority .pw-plate--blank,
 .pw.pw--authority .pw-pcard__thumb--blank {
@@ -158,13 +144,6 @@
     repeating-linear-gradient(135deg, rgba(229, 35, 27, 0.06) 0 8px, transparent 8px 16px),
     linear-gradient(160deg, #f6f6f8, #e6e6ea);
   color: var(--pw-mute);
-}
-.pw.pw--authority .pw-note {
-  border-left: 2px solid var(--pw-red);
-  border-radius: 6px;
-  /* inline legacy colours on notes were tuned for black; keep them readable on glass */
-  color: #3c3c42 !important;
-  background: var(--pwa-glass) !important;
 }
 .pw.pw--authority .pw-empty {
   border-radius: 8px;
@@ -291,20 +270,6 @@
     align-items: start;
   }
   /* A plate anchors the left column; every other block stacks in the right column beside it. */
-  .pw.pw--authority .pw-stack:has(> :is(.pw-plate, .pw-deliv-hero, .pw-detail__hero)) > * {
-    grid-column: 2;
-  }
-  .pw.pw--authority .pw-stack > :is(.pw-plate, .pw-deliv-hero, .pw-detail__hero) {
-    grid-column: 1;
-    grid-row: 1 / span 12;
-    width: auto;
-    min-width: 0;
-    min-height: 320px;
-    /* plates carry an inline phone aspect-ratio; the anchored desktop plate fills its column instead */
-    aspect-ratio: auto !important;
-    align-self: stretch;
-    max-height: 520px;
-  }
   .pw.pw--authority .pw-stack > :only-child {
     grid-column: 1 / -1;
   }
@@ -319,72 +284,6 @@
 }
 
 /* ── EXPERIENCE descendants: capsule row + world plate shared with the root ── */
-.pw.pw--authority .pwa-capsules {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 4px 0 14px;
-}
-.pw.pw--authority .pwa-capsules a {
-  padding: 6px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.96);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 6px 14px -10px rgba(0, 0, 0, 0.4);
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
-  color: #2d2d33;
-}
-.pw.pw--authority .pwa-capsules a.is-active {
-  border-color: var(--pw-red);
-  color: var(--pw-red);
-  box-shadow: 0 0 0 1px var(--pw-red), 0 8px 18px -10px rgba(229, 35, 27, 0.6);
-}
-.pw.pw--authority .pwa-xchild__world {
-  position: relative;
-  min-height: 220px;
-  background-size: 260%;
-}
-.pw.pw--authority .pwa-xchild__tag {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  display: grid;
-  gap: 2px;
-  padding: 8px 14px;
-  border-left: 2px solid var(--pw-red);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(6px);
-}
-.pw.pw--authority .pwa-xchild__tag b {
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-}
-.pw.pw--authority .pwa-xchild__tag small {
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  color: var(--pw-mute);
-}
-@media (min-width: 720px) {
-  .pw.pw--authority .pwa-xchild__world {
-    min-height: 380px;
-    background-size: 170%;
-  }
-}
-@media (max-width: 719px) {
-  .pw.pw--authority .pwa-capsules {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .pw.pw--authority .pwa-capsules a {
-    flex: none;
-    font-size: 9px;
-    padding: 5px 10px;
-  }
-}
 
 /* ── Grandchild: Narrative Momentum wizard inside Production (NARRATIVE → MOMENTUM) ───────────────
  * The widget is shared with the founder expression engine, so the remap is scoped to the authority
@@ -444,7 +343,6 @@
   .pw.pw--authority .pw-kv dd { font-size: 13px; }
   .pw.pw--authority .pw-label { font-size: 11px; }
   .pw.pw--authority .pw-btn { font-size: 12px; min-height: 46px; }
-  .pw.pw--authority .pw-note,
   .pw.pw--authority .pw-empty { font-size: 13px; }
   .pw.pw--authority .pw-select { font-size: 13px; }
 }

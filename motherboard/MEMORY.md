@@ -13314,3 +13314,40 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, mar
 - **Unchanged:** NEEDS YOU keeps the parent-authority composition. Grandchildren (decision detail, thread, notice detail) and temporary sheets are unchanged apart from marking the attachment rail `data-scroll="internal-x"`.
 - **Cleanup:** 116 dead child rules were pruned from `site00-production-inbox-family.css` (postcss), and the unused `Attention` component was removed.
 - **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
+
+---
+
+## 2026-10-04 — Experience + Library responsive authority convergence (121 routes)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1`.
+
+- **Base:** `cursor/production-openart-asset-forensics-mount1-0daf` (PR #1310) merged with the tunnel branch through `ec6211f0`. The only conflict was `MEMORY.md` (union). The merge is `433a7622`, pushed to the asset branch. The working branch is `cursor/production-experience-library-responsive-convergence-opus1`.
+- **Route model:** `src/site00/components/productionAuthority/realm/realmRoutes.ts`.
+  - EXPERIENCE: 7 families / 46 routes under `/production/:slug/experience/*`. The index is the WORLD root.
+  - LIBRARY: 10 families / 75 routes under `/production/libraries/*` (a new splat route next to the exact one).
+  - Every route carries its lite-pack authority stem.
+  - Legacy Experience sub ids (`environments`, `modules`, `simulations`, `assets`, `review`) resolve onto families.
+- **Data:** `realm/realmData.ts` is the only read model. Records come from:
+  - the asset registry and manifests, including `variantOf` lineage;
+  - residents and their portraits;
+  - the plan (beats = journeys, formats = entry/exit paths and specs);
+  - cast, actors and authority sheets (bibles);
+  - the graph (live state, conditions, triggers, issues);
+  - the design pack (swatches, devices, stages, plates, icons);
+  - the experience pipeline (layers) and the registry (destinations).
+
+  There is no authority-image copy. Zones, portals, zone plates, video/audio/3D, research, reports and archive are honest empties with reasons.
+- **UI:**
+  - `ExperienceScreen`: world-plate hero, family pills, and root / child / detail compositions.
+  - `LibraryScreen`: lifecycle + categories (left rail on desktop, grid on tablet/mobile), and root / child / detail / lineage compositions.
+  - Shared primitives are in `RealmKit`; styles in `site00-production-realm.css`.
+  - The mobile inspector is a drawer opened with `?sel=`.
+- **Frame:** a global `@supports (height:100dvh) .pxa {height:100dvh}` in `site00-production-authority.css`, plus an experience/library frame-pane lock.
+- **Retired:** `ExperienceBody.tsx`, `LibraryBody.tsx`, and 123 dead CSS rules.
+- **Proof:** `artifacts/production-experience-library-convergence-opus1/` contains:
+  - `QA_MATRIX.json`: 121 routes × 14 viewports = 1694/1694 pass;
+  - mobile drawers 116/116;
+  - `compare/` sheets for every family.
+
+  Test: `tests/productionExperienceLibraryConvergenceOpus1.test.ts`.
+- **Known divergence:** the Experience authorities paint route lines, zone callouts and counts onto the plate. These have no canonical coordinates or records, so they are not reproduced.
