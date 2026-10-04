@@ -8,11 +8,11 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const ROOT = process.cwd();
-const QUEUE =
-  process.argv[3] ??
-  path.join(ROOT, 'artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_job_queue_sw001_005.json');
 const emitOnly = process.argv[2] === 'emit';
 const index = Number(emitOnly ? process.argv[3] : process.argv[2]);
+const QUEUE =
+  process.argv[emitOnly ? 4 : 3] ??
+  path.join(ROOT, 'artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_job_queue_sw001_005.json');
 const jobs = JSON.parse(fs.readFileSync(QUEUE, 'utf8'));
 const job = jobs[index];
 if (!Number.isFinite(index) || !job) {
