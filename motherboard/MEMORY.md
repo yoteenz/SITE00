@@ -12995,4 +12995,35 @@ Cherry-picked `afb22c27` (design pack extract, chamber stand-in removal, no-scro
 
 Cherry-picked `37d19680` (Inbox authority family) onto `cursor/production-inbox-activity-threeviewport-opus1` for preview — not a branch switch. **Inbox:** `inboxModel.ts`, `InboxBody`, `site00-production-inbox-family.css`, no-scroll inbox contract; OPUS1 lens links still resolve. **Activity:** OPUS1 three-viewport `ActivityBody` + `iaKit` unchanged. **Still kept:** master PNG nav, header trim, design pack OPUS3. **Proof:** `artifacts/production-inbox-authority-opus2/`.
 
+<<<<<<< HEAD
 **Inbox + Activity tab sources (founder confirmed):** **Inbox** = `cursor/production-inbox-authority-opus2` @ **`37d19680`** (PR **#1307**). **Activity** = `cursor/production-inbox-activity-threeviewport-opus1` @ **`7dcf37de`** (`ActivityBody.tsx` OPUS1 three-viewport — PR **#1305**). Preview tunnel branch **`cursor/production-inbox-activity-threeviewport-opus1`** cherry-picks both onto one line (plus nav, design pack, header trim). Descendants ACTIVITY LOG (`1ca88e20`) is not the target for Activity tab.
+=======
+- **The DWS pack had never been extracted.** It ships only as two composite sheets. `scripts/site00-design-pack-extract.py` now makes exact crops into `public/site00/production-authority-assets/design-pack/` (hash-locked `SOURCE.json`). The only resolver is `designPackAssets.ts`.
+- **Root cause of the pack never showing:** stand-ins hard-coded in the renderer (`Orb`, hex swatches, empty phone and frame boxes, text tiles), plus the `designChamberConfig.ts` override loop that painted generated board art over any plate in config.
+  - The stand-ins are removed.
+  - The loop now skips `/design-pack/` files (`isDesignPackAsset`).
+- **HUB nav glyph:** now the pack's home glyph (it was the DESIGN stack). LIBRARY stays three volumes, because no open-book asset exists anywhere.
+- **No-scroll:** `.pxa[data-screen^='design-']` body fills the frame and the chamber flexes, with a ceiling of 360 (desktop) / 340 (tablet and mobile). 30/30 mode × viewport cases fit.
+- **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
+
+---
+
+## 2026-10-04 — Expression responsive authority convergence (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. Branch `cursor/production-expression-authority-opus1`. No merge, no deploy.
+
+- **One family system.** There are 10 families and 40 routes.
+  - Families: Narrative, Casting, Look + Wardrobe, Cast + Performance, Sets + Scenes, Storyboard, Review + Handoff, Format Studio, Content Package, Campaign Board.
+  - All routes live under the existing `expression/*` wildcard, resolved by `productionAuthority/expression/expressionRoutes.ts`. The router is unchanged.
+  - Family segments reuse the old sub-workspace ids: `wardrobe` = LOOK + WARDROBE, `performance` = CAST + PERFORMANCE. New segments: `format-studio`, `content-package`, `campaign-board`.
+- **Shell.** Family routes mount in `ProductionAuthorityFrame screen="expression-<family>"` (shared host plus bottom nav with EXPRESSION active).
+  - `ExpressionFamilyShell` = hero (breadcrumb · EXPRESSION · FAMILY / ROUTE) → `LiveStatusBar` (new optional `context`) → routed family tabs → 12/6-column panel grid with fractional rows.
+  - Panels declare spans per viewport; every panel body is a bounded internal pane.
+  - Measured 200/200 (40 routes × 5 viewports) with no page or frame scroll and nothing clipped.
+- **Data.** `expressionData.ts` keeps ROLE (`CastingRequirement`), ACTOR (catalogue) and CHARACTER (`ProductionCharacter`) separate. Each has its own route: `casting/roles/:id`, `casting/actors/:id`, `casting/characters/:id`.
+- **Downstream.** Format adaptations become PLANNED deliverables. Nothing is assembled, so Finalize and Send are disabled and the Campaign Board holds 0 completed packages.
+- **Sets** is NOT STARTED: environment, set and zone are honest empties.
+- **Actions.** Existing actions only: narrative judgment and recompile; storyboard approve/revise via `decideStoryboard` (gated); lock and handoff (gated). The old `expression-sub-screen-*` ids and picker test ids are kept.
+- **Residual:** the Expression root (Production Floor) still overflows its frame. It was out of scope.
+- **Proof:** `artifacts/production-expression-authority-opus1/`.
+>>>>>>> c05d1558 (feat(production): Expression responsive authority convergence — 10 families, 40 routes, one shell)

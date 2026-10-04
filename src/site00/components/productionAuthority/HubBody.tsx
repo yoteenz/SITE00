@@ -88,7 +88,7 @@ export function AuthorityHero({
   );
 }
 
-export function LiveStatusBar({ expressionMode = false }: { expressionMode?: boolean }) {
+export function LiveStatusBar({ expressionMode = false, context }: { expressionMode?: boolean; context?: { title: string; sub: string } }) {
   const data = useProductionAuthorityData();
   if (!data) return null;
   const { graph, attention, activity, production, scenes } = data;
@@ -113,8 +113,8 @@ export function LiveStatusBar({ expressionMode = false }: { expressionMode?: boo
       </StatusCell>
       <StatusCell>
         <span>
-          <b>{expressionMode ? 'EXPRESSION' : (production?.label ?? 'NO ENTRY')}</b>
-          <small>{expressionMode ? 'PRODUCTION FLOOR · 6 DEPARTMENTS' : `ACTIVE ENTRY · ${scenes.length} SCENES`}</small>
+          <b>{context?.title ?? (expressionMode ? 'EXPRESSION' : (production?.label ?? 'NO ENTRY'))}</b>
+          <small>{context?.sub ?? (expressionMode ? 'PRODUCTION FLOOR · 6 DEPARTMENTS' : `ACTIVE ENTRY · ${scenes.length} SCENES`)}</small>
         </span>
       </StatusCell>
       <StatusCell>
