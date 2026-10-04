@@ -13268,3 +13268,15 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.RECOVERY2` — forensic r
 - **Delivered:** `download_production_authorities.ps1` at repo root with embedded **242** CDN URLs (Experience 46 mobile + 46 desktop/tablet hybrid, Library 75 + 75). Regenerator: `scripts/build-download-production-authorities.ps1.py`. Manifest: `artifacts/production-openart-recovery2/AUTHORITY_DOWNLOADER_MANIFEST.json`.
 - **Identification:** Broad prompt matching (IMAGE-TO-IMAGE library/experience mobile, `ROUTE:` hybrid boards); library hybrid duplicates resolved to newest `EXACTLY TWO` batch (75 routes × 2 histories).
 - **Run (Windows Shadow PC):** `powershell -ExecutionPolicy Bypass -File ".\download_production_authorities.ps1"` → `PRODUCTION_AUTHORITY_EXPORT/` + four ZIPs beside script.
+
+---
+
+## 2026-10-04 — JURNL F01 Entry full family production (OpenArt)
+
+Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent run.
+
+- **Context:** Founder sprint to expand **approved F01 Welcome parent** into complete JURNL Family 01 Entry visual authorities via **OpenArt GPT Image 2.5 Sunburst**, 2K, 9:16 flat mobile screens (no device frames)—plus harvest, manifests, state/interaction/icon sheets. Product **JURNL** is separate from SITE 00 SPA; assets live under repo `JURNL/F01_ENTRY/`.
+- **Delivered:** Parent recreation (`F01.00`), 13 child screens (`F01.01`–`F01.13`), 4 composite **state authority** sheets, interaction authority sheet (drawers/modals/social transition), F01 icon pack sheet, **17** forensic parent asset crops (`ENTRY.*`), Sheet A (canonical harvest from real crops), Sheet B (child lineage), manifests (screen tree, components, interactions, asset lineage, implementation mapping, OpenArt log). OpenArt project **`TToQavm9coU1QGPRfEzU`**. ~**20** generations (~**3,484** credits).
+- **Status:** All generated PNGs are **`GENERATED` / `IN REVIEW`** until founder marks **`APPROVED` / `CANONICAL`**. Harvest crops are from production parent PNG—not speculative replacements.
+- **Scripts:** `scripts/jurnl-f01-harvest-parent.py`, `jurnl-f01-build-asset-sheet-a.py`, `jurnl-f01-build-sheet-b.py`.
+- **Conventions:** JURNL UI copy **UPPERCASE**; **square-rounded** interactive controls only; logo **small/integrated**; child screens must **descend** from parent materials without duplicating full welcome hero.
