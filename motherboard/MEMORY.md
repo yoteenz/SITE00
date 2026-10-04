@@ -13296,3 +13296,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Sprint:** P0.JURNL.F01-ASSET-HARVEST-RECOVERY1 — re-extract from existing `F01.00_WELCOME_GENERATED.png` only; **0** OpenArt credit spend.
 - **Done:** rembg isolation for objects/botanical; clean arch/material crops; light → `OVERLAYS/`; buttons + logo placement → `MANIFEST/COMPONENT_REFERENCES/` + `F01_COMPONENT_MANIFEST.json`; v1 crops → `ASSETS/_ARCHIVE_SCREENSHOT_CROPS_v1/`; Sheet A rebuilt; `scripts/jurnl-f01-recover-harvest.py`.
 - **Review ZIP:** [JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-asset-harvest-recovery-2026-10-04/JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 parent harvest proof1 (FAIL @ 50%)
+
+- **Sprint:** P0.JURNL.F01-PARENT-ASSET-HARVEST-PROOF1 — **1** new F01.00 parent (`z6y0GkA8kNuu8Egnk22P`), immediate harvest, **0** asset regen credits.
+- **Result:** **FAIL** — 7/14 assets usable (50%) &lt; 80% bar; hypothesis (fresh parent fixes extraction) **not supported**.
+- **Next method:** **ASSET-FIRST GENERATION PIPELINE** for future families; F01 repair without child regen **not** viable via extraction alone.
+- **Proof ZIP:** [JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-parent-harvest-proof1-2026-10-04/JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip)
