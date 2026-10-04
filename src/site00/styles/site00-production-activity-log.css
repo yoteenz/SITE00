@@ -1,0 +1,409 @@
+/*
+ * P0.PRODUCTION.INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2 — ACTIVITY LOG (authority: PARENT_3VIEW 11_ACTIVITY).
+ * HUB project band (shared, `.hubx` unit system) → ACTIVITY LOG card filling the rest of the frame.
+ * The page never scrolls: the timeline is the one internal pane. Mobile / tablet / desktop compose
+ * independently. Body only: no host chrome selectors, no zoom / transform scale.
+ */
+.pxa[data-screen='activity'] .pxa-scroll {
+  overflow: hidden;
+}
+.pxa[data-screen='activity'] .pxa-body {
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+}
+.pxa .actx {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: #f4f4f6;
+  --actx-red: #e5231b;
+  --actx-line: #e4e4e8;
+  --actx-mute: #74747c;
+  --actx-chip-w: 112px;
+  --actx-node: 28px;
+  --actx-f-title: 24px;
+  --actx-f-tab: 11px;
+  --actx-f-subject: 13px;
+  --actx-f-meta: 10px;
+  --actx-f-chip: 11px;
+}
+.pxa .actx > .hubx-hero,
+.pxa .actx > .hubx-status {
+  flex: none;
+}
+
+/* ── log card ────────────────────────────────────────────────────────────────────────────────────── */
+.pxa .actx-log {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 14px calc(var(--u) * var(--pad)) 12px;
+  padding: 14px 18px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(252, 252, 253, 0.92));
+  box-shadow: 0 0 0 1px rgba(20, 20, 26, 0.04), 0 12px 26px -18px rgba(20, 20, 26, 0.35);
+}
+.pxa .actx-log__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'title title' 'domain range';
+  align-items: end;
+  gap: 8px 24px;
+  flex: none;
+  border-bottom: 1px solid var(--actx-line);
+}
+.pxa .actx-log__head h1 {
+  grid-area: title;
+  margin: 0;
+  font-size: var(--actx-f-title);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+}
+.pxa .actx-tabs {
+  display: flex;
+  min-width: 0;
+}
+.pxa .actx-tabs--domain {
+  grid-area: domain;
+}
+.pxa .actx-tabs--range {
+  grid-area: range;
+}
+.pxa .actx-tabs a {
+  position: relative;
+  padding: 6px 0 8px;
+  margin-right: 30px;
+  font-size: var(--actx-f-tab);
+  letter-spacing: 0.1em;
+  color: #3c3c42;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pxa .actx-tabs--range a {
+  margin: 0 0 0 30px;
+}
+.pxa .actx-tabs a:hover {
+  color: #121214;
+}
+.pxa .actx-tabs a.is-active {
+  color: var(--actx-red);
+  font-weight: 600;
+}
+.pxa .actx-tabs a.is-active::after {
+  content: '';
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  bottom: -1px;
+  height: 2px;
+  background: var(--actx-red);
+}
+.pxa .actx-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  margin: 8px 0 0;
+  font-size: var(--actx-f-meta);
+  letter-spacing: 0.12em;
+  color: var(--actx-mute);
+}
+.pxa .actx-filter a {
+  padding: 2px 8px;
+  border: 1px solid var(--actx-red);
+  border-radius: 999px;
+  color: var(--actx-red);
+  text-decoration: none;
+}
+
+/* ── lineage timeline ────────────────────────────────────────────────────────────────────────────── */
+.pxa .actx-timeline {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0;
+  padding: 6px 0 4px;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.pxa .actx-event {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--actx-node) var(--actx-chip-w) minmax(0, 1fr) auto;
+  grid-template-areas: 'node verb body time' '. . lineage lineage';
+  align-items: start;
+  column-gap: 18px;
+  padding: 10px 0 10px;
+}
+.pxa .actx-event + .actx-event .actx-event__body::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10px;
+  height: 1px;
+  background: var(--actx-line);
+}
+/* vertical rail through the nodes */
+.pxa .actx-event::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--actx-node) / 2 - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(229, 35, 27, 0.35);
+}
+.pxa .actx-event:first-child::before {
+  top: 16px;
+}
+.pxa .actx-event:last-child::before {
+  bottom: calc(100% - 16px);
+}
+.pxa .actx-node {
+  grid-area: node;
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border: 2px solid var(--actx-red);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(229, 35, 27, 0.14);
+}
+.pxa .actx-node::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--actx-red);
+}
+.pxa .actx-verb {
+  grid-area: verb;
+  display: grid;
+  place-items: center;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--actx-red);
+  color: #fff;
+  font-size: var(--actx-f-chip);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.pxa .actx-event__body {
+  grid-area: body;
+  position: relative;
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .actx-event__body b {
+  font-size: var(--actx-f-subject);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.pxa .actx-event__body small {
+  text-transform: none;
+  font-size: var(--actx-f-meta);
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  color: #3c3c42;
+  overflow-wrap: anywhere;
+}
+.pxa .actx-event__body small.actx-cause {
+  color: var(--actx-mute);
+}
+.pxa .actx-event__body:hover b {
+  color: var(--actx-red);
+}
+.pxa .actx-time {
+  grid-area: time;
+  font-size: var(--actx-f-meta);
+  letter-spacing: 0.1em;
+  color: var(--actx-mute);
+  white-space: nowrap;
+}
+.pxa .actx-event.is-open .actx-event__body b {
+  color: var(--actx-red);
+}
+.pxa .actx-lineage {
+  grid-area: lineage;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 18px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--actx-red);
+  border-radius: 0 6px 6px 0;
+  background: rgba(229, 35, 27, 0.04);
+}
+.pxa .actx-lineage > div {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  min-width: 0;
+}
+.pxa .actx-lineage small {
+  font-size: calc(var(--actx-f-meta) - 1px);
+  letter-spacing: 0.14em;
+  color: var(--actx-mute);
+}
+.pxa .actx-lineage a,
+.pxa .actx-lineage span {
+  font-size: var(--actx-f-meta);
+  letter-spacing: 0.06em;
+  color: #121214;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.pxa .actx-lineage a:hover {
+  color: var(--actx-red);
+}
+.pxa .actx-empty {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  text-align: center;
+}
+.pxa .actx-empty b {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+.pxa .actx-empty span {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  font-size: var(--actx-f-meta);
+  letter-spacing: 0.1em;
+  color: var(--actx-mute);
+}
+.pxa .actx-empty a {
+  padding: 3px 10px;
+  border: 1px solid var(--actx-red);
+  border-radius: 999px;
+  color: var(--actx-red);
+  text-decoration: none;
+}
+
+/* ── desktop ≥ 1120 ──────────────────────────────────────────────────────────────────────────────── */
+@media (min-width: 1120px) {
+  .pxa .actx {
+    --actx-chip-w: 116px;
+    --actx-f-title: 26px;
+    --actx-f-tab: 11.5px;
+    --actx-f-subject: 14px;
+    --actx-f-meta: 10.5px;
+  }
+}
+@media (min-width: 1120px) and (max-height: 760px) {
+  .pxa .actx-log {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  .pxa .actx-event {
+    padding: 8px 0;
+  }
+}
+
+/* ── tablet 700–1119 ─────────────────────────────────────────────────────────────────────────────── */
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .actx {
+    --actx-chip-w: 104px;
+    --actx-f-title: 22px;
+    --actx-f-tab: 10px;
+  }
+  .pxa .actx-tabs a {
+    margin-right: 18px;
+  }
+  .pxa .actx-tabs--range a {
+    margin: 0 0 0 18px;
+  }
+  .pxa .actx-log {
+    margin-top: 12px;
+    padding: 12px 14px 6px;
+  }
+}
+
+/* ── mobile < 700: centred title, domain row, range row, single timeline column ──────────────────── */
+@media (max-width: 699px) {
+  .pxa .actx {
+    --actx-chip-w: 74px;
+    --actx-node: 20px;
+    --actx-f-title: 17px;
+    --actx-f-tab: 8px;
+    --actx-f-subject: 13px;
+    --actx-f-meta: 9px;
+    --actx-f-chip: 9px;
+  }
+  .pxa .actx-log {
+    margin: 8px 8px 8px;
+    padding: 8px 8px 4px;
+    border-radius: 6px;
+  }
+  .pxa .actx-log__head {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'title' 'domain' 'range';
+    gap: 4px;
+    border-bottom: 0;
+  }
+  .pxa .actx-log__head h1 {
+    text-align: center;
+  }
+  .pxa .actx-tabs {
+    justify-content: space-between;
+    border-bottom: 1px solid var(--actx-line);
+  }
+  .pxa .actx-tabs a,
+  .pxa .actx-tabs--range a {
+    margin: 0;
+    padding: 4px 0 5px;
+    letter-spacing: 0.06em;
+  }
+  .pxa .actx-tabs--range {
+    justify-content: space-around;
+  }
+  .pxa .actx-tabs a.is-active::after {
+    left: -4px;
+    right: -4px;
+  }
+  .pxa .actx-event {
+    column-gap: 10px;
+    padding: 10px 0;
+  }
+  .pxa .actx-verb {
+    height: 19px;
+  }
+  .pxa .actx-node {
+    width: 11px;
+    height: 11px;
+    margin-top: 2px;
+  }
+  .pxa .actx-node::after {
+    inset: 2px;
+  }
+  .pxa .actx-lineage {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 6px 8px;
+  }
+  .pxa .actx-empty b {
+    font-size: 10px;
+  }
+}

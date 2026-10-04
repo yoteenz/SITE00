@@ -221,6 +221,8 @@ describe('Grok asset integration converged', () => {
   });
 
   it('Activity hero uses the crystal chamber like the authority, not the glass-cylinder atmosphere slot', () => {
-    expect(read('src/site00/components/productionAuthority/ActivityBody.tsx')).toContain('plate={AUTHORITY_ASSETS.hubCrystal}');
+    // INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2: the ACTIVITY LOG authority reuses the HUB project band (crystal chamber plates)
+    expect(read('src/site00/components/productionAuthority/ActivityBody.tsx')).toContain('<ProjectHeroBand data={data} />');
+    expect(read('src/site00/components/productionAuthority/HubBody.tsx')).toMatch(/AUTHORITY_ASSETS\.hubHero\.(mobile|tablet|desktop)/);
   });
 });

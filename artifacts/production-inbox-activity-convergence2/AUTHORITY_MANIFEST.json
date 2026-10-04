@@ -1,0 +1,122 @@
+[
+  {
+    "authority_id": "00_HUB",
+    "desktop_source": "IMG_5981.png",
+    "tablet_source": "IMG_6004.png",
+    "mobile_source": "IMG_5922.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/00_HUB.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "01_INBOX",
+    "desktop_source": "IMG_5982.png",
+    "tablet_source": "IMG_6005.png",
+    "mobile_source": "IMG_5924.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/01_INBOX.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "02_DESIGN_BRAND",
+    "desktop_source": "IMG_5983.png",
+    "tablet_source": "IMG_6010.png",
+    "mobile_source": "IMG_5968.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/02_DESIGN_BRAND.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "03_DESIGN_EXPERIENCE",
+    "desktop_source": "IMG_5992.png",
+    "tablet_source": "IMG_6019.png",
+    "mobile_source": "IMG_5963.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/03_DESIGN_EXPERIENCE.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "04_DESIGN_SURFACES",
+    "desktop_source": "IMG_5984.png",
+    "tablet_source": "IMG_6011.png",
+    "mobile_source": "IMG_5969.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/04_DESIGN_SURFACES.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "05_DESIGN_COMPILER",
+    "desktop_source": "IMG_5985.png",
+    "tablet_source": "IMG_6012.png",
+    "mobile_source": "IMG_5970.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/05_DESIGN_COMPILER.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "06_DESIGN_ASSETS",
+    "desktop_source": "IMG_5986.png",
+    "tablet_source": "IMG_6013.png",
+    "mobile_source": "IMG_5974.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/06_DESIGN_ASSETS.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "07_DESIGN_VIEWPORT",
+    "desktop_source": "IMG_5987.png",
+    "tablet_source": "IMG_6014.png",
+    "mobile_source": "IMG_5975.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/07_DESIGN_VIEWPORT.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "08_EXPERIENCE",
+    "desktop_source": "IMG_5988.png",
+    "tablet_source": "IMG_6006.png",
+    "mobile_source": "IMG_5925.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/08_EXPERIENCE.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "09_EXPRESSION",
+    "desktop_source": "IMG_5989.png",
+    "tablet_source": "IMG_6007.png",
+    "mobile_source": "IMG_5957.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/09_EXPRESSION.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "10_LIBRARY",
+    "desktop_source": "IMG_5990.png",
+    "tablet_source": "IMG_6008.png",
+    "mobile_source": "IMG_5979.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/10_LIBRARY.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  },
+  {
+    "authority_id": "11_ACTIVITY",
+    "desktop_source": "IMG_5991.png",
+    "tablet_source": "IMG_6009.png",
+    "mobile_source": "IMG_5936.PNG",
+    "combined_board": "01_THREE_VIEW_BOARDS/11_ACTIVITY.jpg",
+    "status": "REFERENCE_LOCKED_PARENT",
+    "viewports": "desktop_16_9;tablet_4_3;mobile_9_19_5",
+    "purpose": "Parent/root Production authority board for Opus High refinement."
+  }
+]

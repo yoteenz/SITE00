@@ -134,6 +134,82 @@ export function LiveStatusBar({ expressionMode = false, context }: { expressionM
   );
 }
 
+/**
+ * HUB project band — hero / world panel + live status strip. Shared by HUB and ACTIVITY (the ACTIVITY LOG
+ * authority reuses the HUB band verbatim); must render inside a `.hubx` container (unit system + tokens).
+ */
+export function ProjectHeroBand({ data }: { data: NonNullable<ReturnType<typeof useProductionAuthorityData>> }) {
+  const { project, production, graph, attention, activity, scenes } = data;
+  const active = graph.activeNodeId ? graph.byId[graph.activeNodeId] : null;
+  const updated = agoLabel(activity[0]?.at ?? null);
+  return (
+    <>
+      {/* ── HERO / WORLD PANEL ── */}
+      <div
+        className="hubx-hero"
+        data-testid="authority-hero"
+        style={{
+          ['--hero-mobile' as string]: `url(${AUTHORITY_ASSETS.hubHero.mobile})`,
+          ['--hero-tablet' as string]: `url(${AUTHORITY_ASSETS.hubHero.tablet})`,
+          ['--hero-desktop' as string]: `url(${AUTHORITY_ASSETS.hubHero.desktop})`,
+        }}
+      >
+        <span className="hubx-hero__plate" aria-hidden />
+        <div className="hubx-hero__copy">
+          <i aria-hidden />
+          <small>PROJECT</small>
+          <h1>{project.name.toUpperCase()}</h1>
+          {production ? <strong>{production.label}</strong> : null}
+          <p>{production ? <>A CLEAR ROUTE<br />FOR EVERY PERSON</> : 'NO PRODUCTION IN THIS PROJECT YET.'}</p>
+        </div>
+        <ul className="hubx-hero__side" aria-hidden>
+          {['IDEAS', 'PEOPLE', 'WORLDS', 'IN MOTION'].map((w) => (
+            <li key={w}>{w}</li>
+          ))}
+          <li className="hubx-hero__tick" />
+        </ul>
+      </div>
+
+      {/* ── STATUS STRIP ── */}
+      <div className="hubx-status" data-testid="authority-status-bar">
+        <div className="hubx-status__cell">
+          <small>LIVE STATUS</small>
+          <b>
+            <Dot tone="green" />
+            {data.hasProduction ? 'IN PRODUCTION' : 'NO PRODUCTION'}
+          </b>
+          <em data-testid="hub-live-updated">{data.loading ? 'SYNCING LIVE STATE' : `UPDATED ${updated}`}</em>
+        </div>
+        <div className="hubx-status__cell is-alert">
+          <strong>{pad2(attention.length)}</strong>
+          <span>ITEMS NEED YOU</span>
+          <Link to="/production/queue">
+            VIEW NOW <span aria-hidden>→</span>
+          </Link>
+        </div>
+        <div className="hubx-status__cell">
+          <b>{production?.label ?? 'NO ENTRY'}</b>
+          <span>ACTIVE ENTRY</span>
+          <em>{scenes.length} SCENES</em>
+        </div>
+        <div className="hubx-status__cell">
+          <b>PRODUCTION</b>
+          <span>CURRENT PHASE</span>
+          <em>{active?.label ?? graph.operation.label}</em>
+        </div>
+        <div className="hubx-status__cell is-alert">
+          <strong>{pad2(graph.blockers.length)}</strong>
+          <span>BLOCKERS</span>
+          <Link to="/production/activity">
+            VIEW <span aria-hidden>→</span>
+          </Link>
+        </div>
+      </div>
+
+    </>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────
  * HUB — reference-locked reconstruction (P0.STUDIOOS.PRODUCTION.HUB.RECONSTRUCTION.OPUS1).
  * Markup follows the approved HUB authority module grammar; every value shown is live hub data.
@@ -256,67 +332,7 @@ export function HubBody() {
   const slotFor = (nodeId: HubNodeId | null | undefined) => (nodeId ? (graph.byId[nodeId]?.assetSlotId ?? null) : null);
   return (
     <div className="pxa-hub hubx" data-testid="authority-hub" data-loading={data.loading ? 'true' : undefined}>
-      {/* ── HERO / WORLD PANEL ── */}
-      <div
-        className="hubx-hero"
-        data-testid="authority-hero"
-        style={{
-          ['--hero-mobile' as string]: `url(${AUTHORITY_ASSETS.hubHero.mobile})`,
-          ['--hero-tablet' as string]: `url(${AUTHORITY_ASSETS.hubHero.tablet})`,
-          ['--hero-desktop' as string]: `url(${AUTHORITY_ASSETS.hubHero.desktop})`,
-        }}
-      >
-        <span className="hubx-hero__plate" aria-hidden />
-        <div className="hubx-hero__copy">
-          <i aria-hidden />
-          <small>PROJECT</small>
-          <h1>{project.name.toUpperCase()}</h1>
-          {production ? <strong>{production.label}</strong> : null}
-          <p>{production ? <>A CLEAR ROUTE<br />FOR EVERY PERSON</> : 'NO PRODUCTION IN THIS PROJECT YET.'}</p>
-        </div>
-        <ul className="hubx-hero__side" aria-hidden>
-          {['IDEAS', 'PEOPLE', 'WORLDS', 'IN MOTION'].map((w) => (
-            <li key={w}>{w}</li>
-          ))}
-          <li className="hubx-hero__tick" />
-        </ul>
-      </div>
-
-      {/* ── STATUS STRIP ── */}
-      <div className="hubx-status" data-testid="authority-status-bar">
-        <div className="hubx-status__cell">
-          <small>LIVE STATUS</small>
-          <b>
-            <Dot tone="green" />
-            {data.hasProduction ? 'IN PRODUCTION' : 'NO PRODUCTION'}
-          </b>
-          <em data-testid="hub-live-updated">{data.loading ? 'SYNCING LIVE STATE' : `UPDATED ${updated}`}</em>
-        </div>
-        <div className="hubx-status__cell is-alert">
-          <strong>{pad2(attention.length)}</strong>
-          <span>ITEMS NEED YOU</span>
-          <Link to="/production/queue">
-            VIEW NOW <span aria-hidden>→</span>
-          </Link>
-        </div>
-        <div className="hubx-status__cell">
-          <b>{production?.label ?? 'NO ENTRY'}</b>
-          <span>ACTIVE ENTRY</span>
-          <em>{scenes.length} SCENES</em>
-        </div>
-        <div className="hubx-status__cell">
-          <b>PRODUCTION</b>
-          <span>CURRENT PHASE</span>
-          <em>{active?.label ?? graph.operation.label}</em>
-        </div>
-        <div className="hubx-status__cell is-alert">
-          <strong>{pad2(graph.blockers.length)}</strong>
-          <span>BLOCKERS</span>
-          <Link to="/production/activity">
-            VIEW <span aria-hidden>→</span>
-          </Link>
-        </div>
-      </div>
+      <ProjectHeroBand data={data} />
 
       <div className="hubx-grid">
         <div className="hubx-col hubx-col--left">

@@ -20,7 +20,9 @@ function selectors(css: string): string[] {
 
 describe('HUB authority module grammar', () => {
   const src = read(HUB);
-  const body = src.slice(src.indexOf('export function HubBody()'));
+  // INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2: the hero + status band is the shared ProjectHeroBand (also used by the
+  // ACTIVITY LOG), defined directly above HubBody — the guarded HUB markup now starts there.
+  const body = src.slice(src.indexOf('export function ProjectHeroBand('));
 
   it('renders hero → status strip → overview / entries / components / operations / activity in authority order', () => {
     const at = (cls: string) => body.indexOf(`className="${cls}`);

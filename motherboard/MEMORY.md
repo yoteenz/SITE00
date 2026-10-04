@@ -13043,3 +13043,21 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1
 - **Actions.** Existing actions only: narrative judgment and recompile; storyboard approve/revise via `decideStoryboard` (gated); lock and handoff (gated). The old `expression-sub-screen-*` ids and picker test ids are kept.
 - **Residual:** the Expression root (Production Floor) still overflows its frame. It was out of scope.
 - **Proof:** `artifacts/production-expression-authority-opus1/`.
+
+---
+
+## 2026-10-04 — Inbox + Activity authority convergence 2
+
+Sprint `P0.PRODUCTION.INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2`. Same branch `cursor/production-expression-authority-opus1` (no branch switching). No merge, no deploy.
+
+- **Authority** = `STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1`: `01_INBOX` and `11_ACTIVITY` (three viewports each). The re-uploaded `INBOX_LITE_v2` is identical to the OPUS2 pack.
+- **Inbox.** The OPUS2 model, routing, gate and handlers are unchanged. Only the NEEDS YOU root is recomposed: decision surface (art · SOURCE/AREA/REQUEST/BLOCKS/BY + urgency · stacked REVIEW/APPROVE/REQUEST REVISION) → INCOMING DECISION OBJECTS | BLOCKERS & APPROVALS → RECENTLY RESOLVED strip (empty = dashed slots). Old root CSS removed.
+- **Activity = ACTIVITY LOG.**
+  - Hero: the HUB band extracted as `ProjectHeroBand` (shared by HUB and ACTIVITY).
+  - Tabs: domain (ALL … SYSTEM) and range (TODAY … FULL HISTORY).
+  - Timeline: verb chip · subject · Version · By · Affects/Downstream · Cause; open an event for CAUSED BY / LED TO.
+  - Model `activityLog.ts`: graph blockers become live BLOCKED events, plus canonical Entry 002 records (entry, narrative version, casts, locked authority sheets), recorded activity and requests.
+  - Query: `?domain= ?range= ?verb= ?event=`; legacy `?view=` and `?milestone=` still work.
+  - Retired: the OPUS1 kit components and the `site00-production-inbox-activity.css` stylesheet (dead).
+- **Live QA:** 80/80 (16 states × 5 viewports), no scroll, nothing clipped. Known pre-existing issue: the HUB root overflows 22/45px on tablet/desktop.
+- **Proof:** `artifacts/production-inbox-activity-convergence2/`.

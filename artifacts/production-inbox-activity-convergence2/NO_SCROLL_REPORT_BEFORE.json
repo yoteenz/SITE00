@@ -1,0 +1,148 @@
+[
+ {
+  "key": "inbox-needs",
+  "path": "/production/queue",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "inbox-watching",
+  "path": "/production/queue?view=watching",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [
+   "inbox-watch-row:"
+  ],
+  "errs": []
+ },
+ {
+  "key": "inbox-resolved",
+  "path": "/production/queue?view=resolved",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "activity",
+  "path": "/production/activity",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "overflow": 903,
+  "docOverflow": 0,
+  "navActive": "nav-activity",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "inbox-needs",
+  "path": "/production/queue",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "inbox-watching",
+  "path": "/production/queue?view=watching",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "inbox-resolved",
+  "path": "/production/queue?view=resolved",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "activity",
+  "path": "/production/activity",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "overflow": 445,
+  "docOverflow": 0,
+  "navActive": "nav-activity",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "inbox-needs",
+  "path": "/production/queue",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "inbox-watching",
+  "path": "/production/queue?view=watching",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "inbox-resolved",
+  "path": "/production/queue?view=resolved",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "activity",
+  "path": "/production/activity",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "overflow": 445,
+  "docOverflow": 0,
+  "navActive": "nav-activity",
+  "clipped": [],
+  "errs": []
+ }
+]
