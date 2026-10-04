@@ -1,6 +1,8 @@
 {
   "family": "F01_ENTRY",
   "sprint": "P0.JURNL.F01-INTERACTION-AUTHORITY-COMPLETE1",
+  "typographyRule": "ALL_USER_FACING_TEXT_UPPERCASE_ONLY",
+  "interactionSheetsRegeneratedUppercase": "2026-10-04",
   "screensAudited": 14,
   "interactionCount": 74,
   "interactions": [
