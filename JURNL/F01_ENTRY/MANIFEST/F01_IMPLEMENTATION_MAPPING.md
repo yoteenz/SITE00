@@ -33,9 +33,29 @@ Reference viewports (authorities generated at **9:16 mobile**):
 - Icons: extract from `ICONS/F01_ICON_PACK_SHEET.png` into SVG/React components (linear + filled pairs).
 - State UX: implement from `STATES/*.png` panels; do not invent new visual worlds per state.
 
+## Interaction authorities (Opus handoff)
+
+| Authority | Path | Scope |
+|-----------|------|--------|
+| Master primitives | `INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png` | 12 shared F01 interaction components |
+| Create account | `INTERACTIONS/F01_CREATE_ACCOUNT_INTERACTIONS.png` | F01.01 triggers |
+| Sign in | `INTERACTIONS/F01_SIGN_IN_INTERACTIONS.png` | F01.03 triggers |
+| Returning user | `INTERACTIONS/F01_RETURNING_USER_INTERACTIONS.png` | F01.04 triggers |
+| Email verification | `INTERACTIONS/F01_EMAIL_VERIFICATION_INTERACTIONS.png` | F01.02 triggers |
+| Biometric + device trust | `INTERACTIONS/F01_BIOMETRIC_INTERACTIONS.png` | F01.09–F01.10 |
+| Privacy | `INTERACTIONS/F01_PRIVACY_INTERACTIONS.png` | F01.11 drawers |
+| Security | `INTERACTIONS/F01_SECURITY_INTERACTIONS.png` | F01.12 surfaces |
+| Recovery | `INTERACTIONS/F01_RECOVERY_INTERACTIONS.png` | F01.05–F01.08 |
+| Family transition | `INTERACTIONS/F01_FAMILY_TRANSITION_AUTHORITY.png` | F01.00 routes + F01.13 → F02 |
+
+Machine-readable index: `MANIFEST/F01_INTERACTION_MANIFEST.json` (74 interactions).
+
+Implement using `F01_COMPONENT_MANIFEST.json` → `interactionPrimitives` (drawer, modal, handoff, etc.).
+
 ## QA gates (hard fail)
 
 - All UI strings uppercase
 - No circular interactive controls
 - Logo small and integrated
 - No blank white form screens
+- Interaction surfaces use JURNL materials (not generic system white cards)
