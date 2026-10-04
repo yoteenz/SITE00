@@ -13263,3 +13263,25 @@ Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked 
 - **Retired:** the iaKit components except `IaIcon` (Inbox only uses icons), and `site00-production-inbox-activity.css`.
 - **Links:** legacy `?view=blockers|approvals` maps to CHANGE BLOCKED/APPROVED on FULL HISTORY, so Inbox's blockers link still works.
 - **Proof:** `artifacts/production-activity-one-viewport-opus1/`, covering 14 viewports × 5 states = 70/70. Document and frame scroll are both 0 and nothing is clipped. Test: `tests/productionActivityOneViewportOpus1.test.ts`.
+
+---
+
+## 2026-10-04 — Inbox one-viewport family convergence (children → rail · rows · inspector)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL.
+
+- **Root cause:** the OPUS2 children (WATCHING / RESOLVED / ALL INBOX / SYSTEM / MESSAGES in `InboxBody.tsx`) kept the stale stacked mobile presentation from `SW_INBOX_AUTHORITY_LITE_v2`:
+  - a `.ibx-stats` block, then a search plus menus row, then `.ibx-row--watch` cards;
+  - each card had a 150px art column, a facts list and a permanent `.ibx-row__side` column (status pill + OPEN + STOP WATCHING, all `nowrap`);
+  - at 390px the side column's minimum width exceeded its track, and the list pane (`overflow-y:auto`, which forces `overflow-x:auto`) silently clipped the pill and the buttons;
+  - cards were about 260px tall, so on the iPhone they ran past the pane edge under the fixed nav.
+- **iOS:** the frame had no dvh contract.
+- **Now:** a shared `ListWorkspace`:
+  - rail: title + project/entry line, compact summary, search, FILTER / SORT sheet, menus on desktop, type views;
+  - compact `ObjectRow`s with no action column;
+  - an inspector at `?sel=` holding the actions (OPEN / STOP WATCHING / APPROVE behind the gate / REVIEW / ACKNOWLEDGE);
+  - compositions: desktop rail | list | inspector, tablet band + 60/40, mobile band + list + drawer.
+- **Styles:** in `site00-production-inbox-workspace.css`, with `100dvh` on the inbox frame under `@supports`.
+- **Unchanged:** NEEDS YOU keeps the parent-authority composition. Grandchildren (decision detail, thread, notice detail) and temporary sheets are unchanged apart from marking the attachment rail `data-scroll="internal-x"`.
+- **Cleanup:** 116 dead child rules were pruned from `site00-production-inbox-family.css` (postcss), and the unused `Attention` component was removed.
+- **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
