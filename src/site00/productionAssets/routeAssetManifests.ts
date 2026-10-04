@@ -20,8 +20,8 @@ export const PRODUCTION_ROUTE_ASSET_MANIFESTS: readonly RouteAssetManifest[] = [
     missingSlots: [
       {
         role: 'PROJECT_THUMBNAIL',
-        classification: 'MISSING_SOURCE_ASSET',
-        note: 'Inbox cards use live project data. No independent OpenArt attachment plate is mounted.',
+        classification: 'NO_SOURCE_ASSET_REQUIRED',
+        note: 'Inbox root is live project data. No bespoke thumbnail plate is required for the current OPUS2 authority.',
       },
     ],
   },
@@ -71,12 +71,18 @@ export const PRODUCTION_ROUTE_ASSET_MANIFESTS: readonly RouteAssetManifest[] = [
     productionTab: 'expression',
     authorityRef: 'EXPRESSION stage + family shells',
     requiredAssetIds: ['expression.stageHero', 'nav.expression'],
-    optionalAssetIds: [],
+    optionalAssetIds: [
+      'resident.sw001.etta.portrait',
+      'resident.sw003.jules.portrait',
+      'resident.sw005.caspian.portrait',
+      'resident.sw006.iona.portrait',
+      'resident.sw002.zuri.candidate',
+    ],
     missingSlots: [
       {
         role: 'RESIDENT_PORTRAIT',
         classification: 'MISSING_SOURCE_ASSET',
-        note: 'SW-001–SW-008 portraits are not mounted in production-authority-assets. Do not treat the empty stage plate as a resident.',
+        note: 'SW-004 Noa Kline, SW-007 Marlowe Saint, SW-008 Elio Vahn: no OpenArt project and no labeled approved-portrait upload in the workspace project list.',
       },
     ],
   },

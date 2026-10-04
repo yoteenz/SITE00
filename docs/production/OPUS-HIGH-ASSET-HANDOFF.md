@@ -19,4 +19,4 @@ If a slot is `MISSING_SOURCE_ASSET` or `SOURCE_MATCH_UNCERTAIN` on the manifest,
 
 OpenArt project `Q7IHYCEK3RPn2c1ConEG` recent history is mostly LIBRARY composition boards. Those boards are not the underlying plates. GROK1 plate history IDs are recorded in `public/site00/production-authority-assets/SOURCE.md`.
 
-Experience zones/portals and Studio World resident portraits (SW-001–SW-008) are not mounted. Do not paint residents from the empty expression stage plate.
+Mounted resident portraits (identity anchors, not singularity explorations): Etta Vale, Jules Mercer, Caspian Reed, Iona Wells under `public/site00/production-authority-assets/shared/residents/`. Zuri Xu is a candidate only. Noa Kline, Marlowe Saint, and Elio Vahn remain missing. Do not paint residents from the empty expression stage plate. Experience zone/portal files were not found as standalone plates after the design-project history was exhausted; responsive boards stay composition authority.

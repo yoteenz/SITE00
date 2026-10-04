@@ -50,5 +50,9 @@ export type RouteAssetManifest = {
   authorityRef: string;
   requiredAssetIds: readonly string[];
   optionalAssetIds: readonly string[];
-  missingSlots: readonly { role: string; classification: 'MISSING_SOURCE_ASSET' | 'SOURCE_MATCH_UNCERTAIN'; note: string }[];
+  missingSlots: readonly {
+    role: string;
+    classification: 'MISSING_SOURCE_ASSET' | 'SOURCE_MATCH_UNCERTAIN' | 'NO_SOURCE_ASSET_REQUIRED' | 'UNKNOWN_OPENART_PROVENANCE';
+    note: string;
+  }[];
 };

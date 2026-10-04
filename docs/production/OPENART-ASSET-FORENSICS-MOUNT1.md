@@ -21,6 +21,15 @@ Forensic mount of Production visual sources. No new OpenArt generations.
 
 Full OpenArt project was not copied into the repo.
 
-## Missing / uncertain
+## Recovery 2
 
-See missing slots on experience, expression, inbox, and library manifests. Resident portraits SW-001–SW-008: `MISSING_SOURCE_ASSET`.
+Design project `Q7IHYCEK3RPn2c1ConEG` creation list paginated until `hasMore: false`.
+
+- Unique histories in that list: 462
+- Oldest `createdAt`: 1790911331848
+- Newest `createdAt`: 1791090384443
+- Related resident projects (not the design project) were listed separately. Approved-portrait uploads mounted for Etta, Jules, Caspian, Iona. Zuri file is labeled identity candidate only.
+- No workspace project exists for Noa Kline, Marlowe Saint, or Elio Vahn.
+- The 16 GROK1 history ids in SOURCE.md did not reappear in this paginated list. Atrium id was confirmed earlier with creation_get. Treat that as a list-window gap, not as permission to regenerate.
+- Inbox project thumbnails: `NO_SOURCE_ASSET_REQUIRED` for the current data-driven root.
+- Nav PNGs: `UNKNOWN_OPENART_PROVENANCE`. Files stay canonical.
