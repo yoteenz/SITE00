@@ -13238,3 +13238,14 @@ Fetched `origin/main` and merged into `cursor/production-inbox-activity-threevie
 - **INBOX root:** ported the Inbox part of `ffc7f7c0` (from `cursor/production-expression-authority-opus1`) onto this branch. The NEEDS YOU root now follows PARENT_3VIEW 01_INBOX. The OPUS2 model, routing and gate are unchanged. The BLOCKERS count links to `?view=blockers` on OPUS1 Activity. Live 45/45 with no scroll. Proof: `artifacts/production-inbox-root-convergence2/`.
 - **ACTIVITY:** stays OPUS1 (founder decision). The ACTIVITY LOG was not ported.
 - **All-tabs forensic truth table:** `artifacts/production-all-tabs-forensic1/README.md`.
+
+---
+
+## 2026-10-04 — Production OpenArt asset forensics mount (GROK)
+
+Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/production-openart-asset-forensics-mount1-0daf` (draft PR, no merge, no deploy, no new generations).
+
+- **Context:** Stop recreating Production visuals from flattened screens. Reference screen = composition; OpenArt/repo = source; registry = runtime.
+- **Decisions:** Reused mounted GROK1 plates + hub hero crops + design pack + nav masters. Recent OpenArt history on `Q7IHYCEK3RPn2c1ConEG` is LIBRARY composition boards, not discrete plates. Resident portraits and experience zone/portal files flagged missing/uncertain.
+- **Changes:** `src/site00/productionAssets/*`, `authorityAssets.ts` now re-exports registry paths, docs handoff, vitest `productionOpenartAssetForensicsMount1`.
+- **Conventions:** Do not generate replacements for `MISSING_SOURCE_ASSET`. Do not treat OpenArt authority boards as the underlying asset.
