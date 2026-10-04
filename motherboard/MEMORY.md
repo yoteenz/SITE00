@@ -12947,3 +12947,9 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.STUDIOWORLD-RESIDENT-INGEST1`. FSBW ow
 - **UI:** Expression Casting → Actors shows **STUDIO WORLD RESIDENT** badge + role; Library Actor Catalogue count uses residents.
 - **Artifacts:** `artifacts/studio-world-resident-ingest/` including `MOCK_ACTOR_MIGRATION.md`.
 - **Tests:** `tests/studioWorldSeason1ResidentIngest1.test.ts`; updated catalogue diversity test; build OK.
+
+---
+
+## 2026-10-03 — Studio World resident visual ingest (INGEST2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESIDENT-VISUAL-INGEST2`. Wired FSBW Season 1 visual authority package (27 JPEGs) into `public/site00/studio-world-residents/season1-v1/` + `visualAuthority.ts`. Casting Actors tab uses `resolveCastingCardImage()` (no uniform/alternate defaults). Marlowe natural off-duty; Iona utilitarian not glam; Zuri Xu only. CF `findFabricationActor` resolves `sw-resident-*` with catalogue portraits. Tests: `tests/studioWorldResidentVisualIngest2.test.ts`.

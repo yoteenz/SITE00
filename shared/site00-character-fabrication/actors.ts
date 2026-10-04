@@ -64,7 +64,10 @@ export function listStudioWorldResidentsForFabricationContext(): ActorRecord[] {
 }
 
 export function findFabricationActor(actorId: string): ActorRecord | null {
-  return listFabricationActors().find((a) => a.actorId === actorId) ?? null;
+  const direct = listFabricationActors().find((a) => a.actorId === actorId);
+  if (direct) return direct;
+  const resident = getStudioWorldActorCatalogue().actors.find((a) => a.actorId === actorId);
+  return resident ? toRecord(resident) : null;
 }
 
 /** The project-specific CHARACTER instantiated from the selected actor (never the same object as the actor). */

@@ -294,9 +294,13 @@ export function CastingScreen({ slug, entry }: SubProps) {
               const role = 'studioWorldRole' in resident ? resident.studioWorldRole : null;
               return (
                 <div key={a.actorId} className="pw-row" data-testid={`actor-row-${a.catalogueNumber}`} data-resident={badge ? '1' : '0'}>
-                  {a.headshotPreviewUrl ?
-                    <span className="pw-row__thumb" style={{ backgroundImage: `url(${a.headshotPreviewUrl})` }} />
-                  : <Monogram text={a.stageName} size={64} />}
+                {a.headshotPreviewUrl ?
+                    <span
+                      className="pw-row__thumb pw-row__thumb--resident"
+                      style={{ backgroundImage: `url(${a.headshotPreviewUrl})`, backgroundSize: 'cover', backgroundPosition: 'center 20%' }}
+                      data-visual-authority="studio-world-resident"
+                    />
+                : <Monogram text={a.stageName} size={64} />}
                   <span className="pw-row__text">
                     <span className="pw-row__title">{a.stageName}</span>
                     <span className="pw-row__sub">

@@ -1,6 +1,7 @@
 import type { PerformanceQuality, RoleArchetype, StudioWorldActor } from '../../acting-catalogue/types.js';
 import { getStudioWorldSeason1ResidentDossiers } from './residents.js';
 import type { StudioWorldResidentDossier } from './types.js';
+import { resolveCastingCardImage } from './visualAuthority.js';
 
 const NOW = '2026-10-03T00:00:00.000Z';
 
@@ -100,7 +101,7 @@ export function projectResidentToStudioWorldActor(d: StudioWorldResidentDossier)
     charactersPlayed: [],
     availabilityState: mapEligibility(d.castingEligibility),
     continuityRisk: 'LOW',
-    headshotPreviewUrl: d.visualAssetManifestRef,
+    headshotPreviewUrl: resolveCastingCardImage(d.sourceResidentId),
     createdAt: NOW,
     updatedAt: NOW,
     talentClassification: 'STUDIO_WORLD_RESIDENT',
