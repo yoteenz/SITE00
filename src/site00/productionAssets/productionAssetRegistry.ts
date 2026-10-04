@@ -1,0 +1,143 @@
+import type { ProductionAssetRecord } from './types';
+
+const BASE = '/site00/production-authority-assets';
+const PACK = `${BASE}/design-pack`;
+
+function plate(
+  assetId: string,
+  file: string,
+  tab: ProductionAssetRecord['productionTab'],
+  role: string,
+  routes: readonly string[],
+  notes: string,
+): ProductionAssetRecord {
+  return {
+    assetId,
+    canonicalName: file.replace(/\.[a-z]+$/i, ''),
+    sourceType: 'OPENART',
+    repoPath: `public/site00/production-authority-assets/${file}`,
+    publicPath: `${BASE}/${file}`,
+    productionTab: tab,
+    assetRole: role,
+    authorityStatus: 'USED_BY_AUTHORITY',
+    usedByRoutes: routes,
+    variantOf: null,
+    confidence: 'high',
+    notes,
+  };
+}
+
+const NAV = [
+  ['nav.hub', '01_HUB.png', 'hub'],
+  ['nav.inbox', '02_INBOX.png', 'inbox'],
+  ['nav.design', '03_DESIGN.png', 'design'],
+  ['nav.experience', '04_EXPERIENCE.png', 'experience'],
+  ['nav.expression', '05_EXPRESSION.png', 'expression'],
+  ['nav.library', '06_LIBRARY.png', 'library'],
+  ['nav.activity', '07_ACTIVITY.png', 'activity'],
+] as const;
+
+const navRecords: ProductionAssetRecord[] = NAV.map(([assetId, file, tab]) => ({
+  assetId,
+  canonicalName: `production-nav-${tab}`,
+  sourceType: 'REPO_EXISTING',
+  repoPath: `src/site00/components/productionHub/bottom-nav/masters/${file}`,
+  publicPath: null,
+  productionTab: 'shared',
+  assetRole: 'NAVIGATION_ICON',
+  authorityStatus: 'USED_BY_AUTHORITY',
+  usedByRoutes: ['/production', '/production/queue', '/production/activity', '/production/libraries'],
+  variantOf: null,
+  confidence: 'high',
+  notes: 'Founder master PNG. OpenArt history id not recorded in repo — SOURCE_MATCH_UNCERTAIN for provider lineage only; file is the runtime canon.',
+}));
+
+export const PRODUCTION_ASSETS: readonly ProductionAssetRecord[] = [
+  plate('design.atrium', 'production-design-atrium-authority-v1.jpg', 'design', 'HERO_ENVIRONMENT', ['/production/:slug/design'], 'GROK1 OpenArt history VGvorDOJjL2Unqkf1q5R (verified retrieval).'),
+  plate('design.core', 'production-design-project-core-v1.png', 'design', 'SPATIAL_OBJECT', ['/production/:slug/design'], 'GROK1 history 3Juv9SpIPAx0dNceMk6C. Transparent PNG.'),
+  plate('design.board.brand', 'production-design-board-brand-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=brand'], 'GROK1 history 4uoqCynZnuazdU1wq6Ue.'),
+  plate('design.board.experience', 'production-design-board-experience-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=experience'], 'GROK1 history EfIyk1qqUtl58pDfSAl0.'),
+  plate('design.board.surfaces', 'production-design-board-surfaces-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=surfaces'], 'GROK1 history tS6iYO4zZNmDkfjvgCMx.'),
+  plate('design.board.compiler', 'production-design-board-compiler-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=compiler'], 'GROK1 history 37djxeQ20vw1suAd3fGO.'),
+  plate('design.board.assets', 'production-design-board-assets-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=assets'], 'GROK1 history j9brwPN3byXxomKTeL2l.'),
+  plate('design.board.viewport', 'production-design-board-viewport-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=viewport'], 'GROK1 history aEMVa12mDJRHWvrd8T1S.'),
+  plate('design.viewportCorridor', 'production-viewport-corridor-v1.jpg', 'design', 'WORLD_PLATE', ['/production/:slug/design?mode=viewport'], 'GROK1 history 6o0XaLWTe4vfNdjDKvXj.'),
+  plate('hub.crystal', 'production-hub-crystal-core-v1.jpg', 'hub', 'SPATIAL_OBJECT', ['/production', '/production/activity'], 'GROK1 history A0ClpAeWEb1IBmfSSIXZ. Activity hero still uses this plate.'),
+  plate('hub.hero.mobile', 'production-hub-hero-mobile-v1.jpg', 'hub', 'HERO_ENVIRONMENT', ['/production'], 'Crop of approved HUB authority; not a new OpenArt generation.'),
+  plate('hub.hero.tablet', 'production-hub-hero-tablet-v1.jpg', 'hub', 'HERO_ENVIRONMENT', ['/production'], 'Crop of approved HUB authority.'),
+  plate('hub.hero.desktop', 'production-hub-hero-desktop-v1.jpg', 'hub', 'HERO_ENVIRONMENT', ['/production'], 'Crop of approved HUB authority.'),
+  plate('experience.worldHero', 'production-experience-world-hero-v1.jpg', 'experience', 'WORLD_PLATE', ['/production/:slug/experience'], 'GROK1 history ZkrZOgliXqEMYUomeCCs. One plate for many zones — zone crops are SOURCE_MATCH_UNCERTAIN.'),
+  plate('expression.stageHero', 'production-expression-stage-hero-v1.jpg', 'expression', 'HERO_ENVIRONMENT', ['/production/:slug/expression'], 'GROK1 history MCORjl2rSq2FNbZhUJcw. Empty stage; residents not in this plate.'),
+  plate('library.canon', 'production-library-canon-hero-v1.jpg', 'library', 'HERO_ENVIRONMENT', ['/production/libraries'], 'GROK1 history tRzDXUtSh5k4KUPMadhH.'),
+  plate('library.geometry.01', 'production-library-red-geometry-01-v1.jpg', 'library', 'SPATIAL_OBJECT', ['/production/libraries'], 'GROK1 history KWS1aFWFGXUK4mSsn8Js.'),
+  plate('library.geometry.02', 'production-library-red-geometry-02-v1.jpg', 'library', 'SPATIAL_OBJECT', ['/production/libraries'], 'GROK1 history iF9RGIuWVeo8TrTIFvDY.'),
+  plate('library.geometry.03', 'production-library-red-geometry-03-v1.jpg', 'library', 'SPATIAL_OBJECT', ['/production/libraries'], 'GROK1 history 72lmGVNfLD2IYeHKZ3GJ.'),
+  {
+    assetId: 'design.pack.atrium',
+    canonicalName: 'design-pack-main-atrium',
+    sourceType: 'AUTHORITY_PACK',
+    repoPath: 'public/site00/production-authority-assets/design-pack/plates/main-atrium.jpg',
+    publicPath: `${PACK}/plates/main-atrium.jpg`,
+    productionTab: 'design',
+    assetRole: 'HERO_ENVIRONMENT',
+    authorityStatus: 'USED_BY_AUTHORITY',
+    usedByRoutes: ['/production/:slug/design'],
+    variantOf: 'design.atrium',
+    confidence: 'medium',
+    notes: 'Extracted crop from design pack sheets. Variant of generated atrium; pack is composition source.',
+  },
+  {
+    assetId: 'design.pack.nav.hub',
+    canonicalName: 'design-pack-nav-hub',
+    sourceType: 'AUTHORITY_PACK',
+    repoPath: 'public/site00/production-authority-assets/design-pack/icons/nav-hub.png',
+    publicPath: `${PACK}/icons/nav-hub.png`,
+    productionTab: 'design',
+    assetRole: 'NAVIGATION_ICON',
+    authorityStatus: 'CANDIDATE',
+    usedByRoutes: ['/production/:slug/design'],
+    variantOf: 'nav.hub',
+    confidence: 'medium',
+    notes: 'Pack glyph. Bottom nav runtime uses masters/01_HUB.png, not this file.',
+  },
+  ...navRecords,
+];
+
+const BY_ID = new Map(PRODUCTION_ASSETS.map((a) => [a.assetId, a]));
+
+export function getProductionAsset(assetId: string): ProductionAssetRecord | undefined {
+  return BY_ID.get(assetId);
+}
+
+export function productionAssetPublicPath(assetId: string): string | null {
+  return BY_ID.get(assetId)?.publicPath ?? null;
+}
+
+/** Paths consumed by existing Production components. Prefer these over new CDN strings. */
+export const productionAssetPaths = {
+  designAtrium: productionAssetPublicPath('design.atrium')!,
+  designCore: productionAssetPublicPath('design.core')!,
+  hubCrystal: productionAssetPublicPath('hub.crystal')!,
+  experienceWorld: productionAssetPublicPath('experience.worldHero')!,
+  expressionStage: productionAssetPublicPath('expression.stageHero')!,
+  libraryCanon: productionAssetPublicPath('library.canon')!,
+  libraryPlates: [
+    productionAssetPublicPath('library.geometry.01')!,
+    productionAssetPublicPath('library.geometry.02')!,
+    productionAssetPublicPath('library.geometry.03')!,
+  ],
+  viewportCorridor: productionAssetPublicPath('design.viewportCorridor')!,
+  hubHero: {
+    mobile: productionAssetPublicPath('hub.hero.mobile')!,
+    tablet: productionAssetPublicPath('hub.hero.tablet')!,
+    desktop: productionAssetPublicPath('hub.hero.desktop')!,
+  },
+  boards: {
+    brand: productionAssetPublicPath('design.board.brand')!,
+    experience: productionAssetPublicPath('design.board.experience')!,
+    surfaces: productionAssetPublicPath('design.board.surfaces')!,
+    compiler: productionAssetPublicPath('design.board.compiler')!,
+    assets: productionAssetPublicPath('design.board.assets')!,
+    viewport: productionAssetPublicPath('design.board.viewport')!,
+  },
+} as const;
