@@ -220,7 +220,8 @@ describe('Grok asset integration converged', () => {
     }
   });
 
-  it('Activity hero uses the crystal chamber like the authority, not the glass-cylinder atmosphere slot', () => {
-    expect(read('src/site00/components/productionAuthority/ActivityBody.tsx')).toContain('plate={AUTHORITY_ASSETS.hubCrystal}');
+  it('Activity carries no atmosphere plate (hero retired by ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1 — the timeline is the surface)', () => {
+    const src = read('src/site00/components/productionAuthority/ActivityBody.tsx');
+    expect(src).not.toMatch(/glass-cylinder|IaHero|plate=\{/);
   });
 });

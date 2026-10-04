@@ -13238,3 +13238,28 @@ Fetched `origin/main` and merged into `cursor/production-inbox-activity-threevie
 - **INBOX root:** ported the Inbox part of `ffc7f7c0` (from `cursor/production-expression-authority-opus1`) onto this branch. The NEEDS YOU root now follows PARENT_3VIEW 01_INBOX. The OPUS2 model, routing and gate are unchanged. The BLOCKERS count links to `?view=blockers` on OPUS1 Activity. Live 45/45 with no scroll. Proof: `artifacts/production-inbox-root-convergence2/`.
 - **ACTIVITY:** stays OPUS1 (founder decision). The ACTIVITY LOG was not ported.
 - **All-tabs forensic truth table:** `artifacts/production-all-tabs-forensic1/README.md`.
+
+---
+
+## 2026-10-04 — Activity one-viewport convergence (canonical DOMAIN × TIME project memory)
+
+Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL. It supersedes the earlier "Activity stays OPUS1" decision for presentation only.
+
+- **Root cause:** `/production/activity` still mounted the OPUS1 tree (7dcf37de, restored by 319ae2ff).
+  - It used the iaKit hero, the ALL/APPROVALS/UPDATES/COMMENTS/BLOCKERS lens bar, the search strip, KPI stats and stacked FEED / MILESTONES / ATTENTION panels.
+  - There was no `.pxa[data-screen='activity'] .pxa-scroll` lock, so the frame pane scrolled 435–903px.
+  - The canonical model lived only on other branches, unmounted.
+- **Now:**
+  - `activityLog.ts` provides `buildActivityMemory`, built from the entry, narrative, cast, authority sheets, storyboard, graph blockers/unlocks and recorded hub activity.
+  - `ActivityBody.tsx` is the `.amx` workspace.
+    - Primary filters are DOMAIN (ALL…SYSTEM) and TIME (TODAY…FULL HISTORY).
+    - CHANGE (verbs) is a secondary select.
+    - The timeline feeds an inspector with WHEN / BY / PROJECT / ENTRY / AREA / VERSION / STATE / AFFECTS / DOWNSTREAM / CAUSE, BEFORE/AFTER lineage and an OPEN source link.
+  - `buildActivityRows` is kept for the Hub.
+- **Height contract:** in `site00-production-activity-memory.css`:
+  - an activity-scoped frame lock, plus `100dvh` under `@supports`;
+  - only `.amx-events` and `.amx-insp__scroll` scroll;
+  - compositions: desktop rail | timeline | inspector, tablet band plus 62/38, mobile band plus timeline plus a drawer (`display:none` when closed).
+- **Retired:** the iaKit components except `IaIcon` (Inbox only uses icons), and `site00-production-inbox-activity.css`.
+- **Links:** legacy `?view=blockers|approvals` maps to CHANGE BLOCKED/APPROVED on FULL HISTORY, so Inbox's blockers link still works.
+- **Proof:** `artifacts/production-activity-one-viewport-opus1/`, covering 14 viewports × 5 states = 70/70. Document and frame scroll are both 0 and nothing is clipped. Test: `tests/productionActivityOneViewportOpus1.test.ts`.
