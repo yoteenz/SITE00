@@ -1,0 +1,55 @@
+{
+  "projectId": "Q7IHYCEK3RPn2c1ConEG",
+  "model": "gpt-image-2-5-sunburst",
+  "mode": "image2image",
+  "creditsPerFrameEstimate": 152,
+  "startedAt": "2026-10-04T17:23:10.521Z",
+  "completedAt": null,
+  "residents": {
+    "SW-001": {
+      "frames": {
+        "1": {
+          "historyId": "dQbsHK7KWPSnRyIbXm9V",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134673469_521f8502.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_01_FRONT_PORTRAIT.png"
+        }
+      },
+      "status": "PARTIAL"
+    },
+    "SW-002": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-003": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-004": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-005": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-006": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-007": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-008": {
+      "frames": {},
+      "status": "PENDING"
+    }
+  },
+  "failures": [],
+  "creditsUsedEstimate": 152,
+  "framesCompleted": 1,
+  "framesFailed": 0,
+  "shortfallNotes": []
+}
