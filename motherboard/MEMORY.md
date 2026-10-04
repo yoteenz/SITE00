@@ -13269,3 +13269,48 @@ Same chat also shipped the 242-file production authority downloader on `cursor/p
 - **Clusters (visual, before names):** 8 people. Anchors locked to mounted portraits: Etta (06/20/23), Zuri candidate (04/15/18 exact), Caspian (16/17/22), Iona (02/07/24/27, 24 exact). Remaining: East Asian man (01/09/13/19/25) = Noa; older sun-earring man (03/05/12) = Marlowe; burgundy shorter-wave man (10/11/21) = Elio. Locs cluster (08/14/26) is only a probable Jules match (hair differs from the mounted portrait) and was not swapped in.
 - **Mounted:** `studio-world-noa-kline-portrait.jpg`, `studio-world-marlowe-saint-portrait.jpg`, `studio-world-elio-vahn-portrait.jpg`, `studio-world-zuri-xu-portrait.jpg` plus full-body variants. Status `IDENTITY_CONFIRMED`, source `USER_SUPPLIED`, `UNKNOWN_OPENART_PROVENANCE`. Original `SW Team(1).zip` was not in the workspace, so these are lite interim masters (`HIGH_RES_SOURCE_REQUIRED_FOR_FINAL_RUNTIME_MOUNT`).
 - **Changes:** registry, expression manifest (missing slot cleared), Opus handoff, forensics test. `tsc --noEmit` and `npm run build` passed. Draft PR #1310 stays draft. No merge, no deploy.
+
+## 2026-10-04 — Activity one-viewport convergence (canonical DOMAIN × TIME project memory)
+
+Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL. It supersedes the earlier "Activity stays OPUS1" decision for presentation only.
+
+- **Root cause:** `/production/activity` still mounted the OPUS1 tree (7dcf37de, restored by 319ae2ff).
+  - It used the iaKit hero, the ALL/APPROVALS/UPDATES/COMMENTS/BLOCKERS lens bar, the search strip, KPI stats and stacked FEED / MILESTONES / ATTENTION panels.
+  - There was no `.pxa[data-screen='activity'] .pxa-scroll` lock, so the frame pane scrolled 435–903px.
+  - The canonical model lived only on other branches, unmounted.
+- **Now:**
+  - `activityLog.ts` provides `buildActivityMemory`, built from the entry, narrative, cast, authority sheets, storyboard, graph blockers/unlocks and recorded hub activity.
+  - `ActivityBody.tsx` is the `.amx` workspace.
+    - Primary filters are DOMAIN (ALL…SYSTEM) and TIME (TODAY…FULL HISTORY).
+    - CHANGE (verbs) is a secondary select.
+    - The timeline feeds an inspector with WHEN / BY / PROJECT / ENTRY / AREA / VERSION / STATE / AFFECTS / DOWNSTREAM / CAUSE, BEFORE/AFTER lineage and an OPEN source link.
+  - `buildActivityRows` is kept for the Hub.
+- **Height contract:** in `site00-production-activity-memory.css`:
+  - an activity-scoped frame lock, plus `100dvh` under `@supports`;
+  - only `.amx-events` and `.amx-insp__scroll` scroll;
+  - compositions: desktop rail | timeline | inspector, tablet band plus 62/38, mobile band plus timeline plus a drawer (`display:none` when closed).
+- **Retired:** the iaKit components except `IaIcon` (Inbox only uses icons), and `site00-production-inbox-activity.css`.
+- **Links:** legacy `?view=blockers|approvals` maps to CHANGE BLOCKED/APPROVED on FULL HISTORY, so Inbox's blockers link still works.
+- **Proof:** `artifacts/production-activity-one-viewport-opus1/`, covering 14 viewports × 5 states = 70/70. Document and frame scroll are both 0 and nothing is clipped. Test: `tests/productionActivityOneViewportOpus1.test.ts`.
+
+---
+
+## 2026-10-04 — Inbox one-viewport family convergence (children → rail · rows · inspector)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL.
+
+- **Root cause:** the OPUS2 children (WATCHING / RESOLVED / ALL INBOX / SYSTEM / MESSAGES in `InboxBody.tsx`) kept the stale stacked mobile presentation from `SW_INBOX_AUTHORITY_LITE_v2`:
+  - a `.ibx-stats` block, then a search plus menus row, then `.ibx-row--watch` cards;
+  - each card had a 150px art column, a facts list and a permanent `.ibx-row__side` column (status pill + OPEN + STOP WATCHING, all `nowrap`);
+  - at 390px the side column's minimum width exceeded its track, and the list pane (`overflow-y:auto`, which forces `overflow-x:auto`) silently clipped the pill and the buttons;
+  - cards were about 260px tall, so on the iPhone they ran past the pane edge under the fixed nav.
+- **iOS:** the frame had no dvh contract.
+- **Now:** a shared `ListWorkspace`:
+  - rail: title + project/entry line, compact summary, search, FILTER / SORT sheet, menus on desktop, type views;
+  - compact `ObjectRow`s with no action column;
+  - an inspector at `?sel=` holding the actions (OPEN / STOP WATCHING / APPROVE behind the gate / REVIEW / ACKNOWLEDGE);
+  - compositions: desktop rail | list | inspector, tablet band + 60/40, mobile band + list + drawer.
+- **Styles:** in `site00-production-inbox-workspace.css`, with `100dvh` on the inbox frame under `@supports`.
+- **Unchanged:** NEEDS YOU keeps the parent-authority composition. Grandchildren (decision detail, thread, notice detail) and temporary sheets are unchanged apart from marking the attachment rail `data-scroll="internal-x"`.
+- **Cleanup:** 116 dead child rules were pruned from `site00-production-inbox-family.css` (postcss), and the unused `Attention` component was removed.
+- **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
