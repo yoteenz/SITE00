@@ -13312,3 +13312,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 - **Sprint:** P0.JURNL.F01-INTERACTION-AUTHORITY-COMPLETE1 — **0** child screen regen; **10** interaction authority PNGs in `INTERACTIONS/`; **74** rows in `F01_INTERACTION_MANIFEST.json`; `interactionPrimitives` in component manifest; Family 02+ pipeline adds mandatory interaction audit step.
 - **ZIP:** [JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-interaction-authority-2026-10-04/JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 interaction authority uppercase regen
+
+- **Task:** Regenerate all **10** `JURNL/F01_ENTRY/INTERACTIONS/*.png` with **strict ALL-CAPS** user-facing text (founder requirement); same interaction content as INTERACTION-AUTHORITY-COMPLETE1.
+- **OpenArt:** `gpt-image-2-5-sunburst` image2image, project `TToQavm9coU1QGPRfEzU`, 2K 9:16 high, `autoEnhancePrompt: false`; every prompt prefixed with CRITICAL TYPOGRAPHY RULE (100% uppercase, zero lowercase on board).
+- **Log:** `openart_interaction_log.json` — `note: "uppercase-only regen 2026-10-04"`, new historyIds/urls; helper script `scripts/jurnl-f01-regen-interactions-uppercase.py` for prompt text + download workflow.
+- **Result:** **10/10** COMPLETED generations downloaded and overwritten in repo.
