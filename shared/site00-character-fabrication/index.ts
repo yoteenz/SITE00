@@ -7,3 +7,4 @@ export * from './simulation.js';
 export * from './reducer.js';
 export * from './assets.js';
 export * from './environment.js';
+export * from './characterViewportAnchor.js';

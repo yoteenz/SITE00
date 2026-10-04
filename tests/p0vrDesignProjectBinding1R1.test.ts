@@ -33,10 +33,10 @@ describe('P0.VR.DESIGN-PROJECT-BINDING1R1', () => {
     expect(formatDesignModuleBreadcrumb(segments)).toBe('PROJECTS > DESIGN > NDXBOOK');
   });
 
-  it('canonical design path is /projects/design/:slug', () => {
-    expect(site00ProjectDesignPath('ndxbook')).toBe('/projects/design/ndxbook');
+  it('canonical design path is /production/:slug/design', () => {
+    expect(site00ProjectDesignPath('ndxbook')).toBe('/production/ndxbook/design');
     const resolution = resolveLegacyProjectDesignRedirect('ndxbook', '');
-    expect(resolution.target.pathname).toBe('/projects/design/ndxbook');
+    expect(resolution.target.pathname).toBe('/production/ndxbook/design');
   });
 
   it('binds NDXBOOK page registry from route discovery (no empty registry)', () => {
@@ -71,11 +71,12 @@ describe('P0.VR.DESIGN-PROJECT-BINDING1R1', () => {
     expect(ctx?.route).toContain('/projects/ndxbook');
   });
 
-  it('routes register DESIGN module hub and legacy redirect', () => {
+  it('routes register production DESIGN gate and legacy redirects', () => {
     const routes = read('src/routes/Site00Routes.tsx');
-    expect(routes).toContain('projectsDesignModule');
+    expect(routes).toContain('Site00InternalProductionGuard');
+    expect(routes).toContain('DesignProductionRouteGate');
     expect(routes).toContain('projectsDesignActiveProject');
+    expect(routes).toContain('ProjectsDesignProjectRedirect');
     expect(routes).toContain('DesignLegacyProjectDesignRedirect');
-    expect(routes).toContain('DesignProjectsDesignHubPage');
   });
 });

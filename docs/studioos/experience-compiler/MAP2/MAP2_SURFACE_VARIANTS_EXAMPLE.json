@@ -1,0 +1,160 @@
+{
+  "variants": [
+    {
+      "asset_id": "ENV.ORIGIN.COLLAPSED__MASTER",
+      "surface": "MOBILE_WEB",
+      "derivation": "EXTENDED_CANVAS",
+      "crop_box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "extension_rules": "Desktop expands architecture laterally; same world, no reconcept",
+      "master_asset_id": "ENV.ORIGIN.COLLAPSED"
+    },
+    {
+      "asset_id": "ENV.ORIGIN.COLLAPSED__DESKTOP_WEB",
+      "surface": "DESKTOP_WEB",
+      "derivation": "EXTENDED_CANVAS",
+      "crop_box": {
+        "x": -0.15,
+        "y": 0,
+        "w": 1.3,
+        "h": 1
+      },
+      "extension_rules": "Lateral extension from mobile master focal anchor",
+      "master_asset_id": "ENV.ORIGIN.COLLAPSED"
+    },
+    {
+      "asset_id": "ENV.ORIGIN.COLLAPSED__TABLET_WEB",
+      "surface": "TABLET_WEB",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": -0.05,
+        "y": 0,
+        "w": 1.1,
+        "h": 1
+      },
+      "extension_rules": null,
+      "master_asset_id": "ENV.ORIGIN.COLLAPSED"
+    },
+    {
+      "asset_id": "ENV.ORIGIN.COLLAPSED__APP",
+      "surface": "APP",
+      "derivation": "APP_VARIANT_REQUIRED",
+      "crop_box": {
+        "x": 0,
+        "y": 0.02,
+        "w": 1,
+        "h": 0.96
+      },
+      "extension_rules": "Prefer web master with app-safe-zone unless composition fails",
+      "master_asset_id": "ENV.ORIGIN.COLLAPSED"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.IDNTY__MOBILE_WEB",
+      "surface": "MOBILE_WEB",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "extension_rules": null,
+      "master_asset_id": "CARD.ORIGIN.IDNTY"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.IDNTY__TABLET_WEB",
+      "surface": "TABLET_WEB",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": -0.05,
+        "y": 0,
+        "w": 1.1,
+        "h": 1
+      },
+      "extension_rules": null,
+      "master_asset_id": "CARD.ORIGIN.IDNTY"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.IDNTY__DESKTOP_WEB",
+      "surface": "DESKTOP_WEB",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": -0.12,
+        "y": 0,
+        "w": 1.24,
+        "h": 1
+      },
+      "extension_rules": null,
+      "master_asset_id": "CARD.ORIGIN.IDNTY"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.IDNTY__APP",
+      "surface": "APP",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": 0,
+        "y": 0.02,
+        "w": 1,
+        "h": 0.96
+      },
+      "extension_rules": null,
+      "master_asset_id": "CARD.ORIGIN.IDNTY"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.BLDR__MOBILE_WEB",
+      "surface": "MOBILE_WEB",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "extension_rules": null,
+      "master_asset_id": "CARD.ORIGIN.BLDR"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.BLDR__TABLET_WEB",
+      "surface": "TABLET_WEB",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": -0.05,
+        "y": 0,
+        "w": 1.1,
+        "h": 1
+      },
+      "extension_rules": null,
+      "master_asset_id": "CARD.ORIGIN.BLDR"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.BLDR__DESKTOP_WEB",
+      "surface": "DESKTOP_WEB",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": -0.12,
+        "y": 0,
+        "w": 1.24,
+        "h": 1
+      },
+      "extension_rules": null,
+      "master_asset_id": "CARD.ORIGIN.BLDR"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.BLDR__APP",
+      "surface": "APP",
+      "derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "crop_box": {
+        "x": 0,
+        "y": 0.02,
+        "w": 1,
+        "h": 0.96
+      },
+      "extension_rules": null,
+      "master_asset_id": "CARD.ORIGIN.BLDR"
+    }
+  ]
+}

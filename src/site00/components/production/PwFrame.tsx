@@ -93,7 +93,7 @@ export function PwFrame({
   if (variant === 'production') {
     return createPortal(
       <div className="pw pw--production pw--authority" data-testid="pw-frame-production">
-        <ProductionChromeStrip>
+        <ProductionChromeStrip host>
           <ProductionWorkspaceHeader />
         </ProductionChromeStrip>
         <div className="pw-scroll">
@@ -102,7 +102,7 @@ export function PwFrame({
           : null}
           <div className="pw-scroll__body">{children}</div>
         </div>
-        <ProductionChromeStrip>
+        <ProductionChromeStrip host>
           <ProductionWorkspaceNav />
         </ProductionChromeStrip>
       </div>,

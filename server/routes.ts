@@ -18,6 +18,8 @@ import site00OrchestrationHandler from '../api/admin/site00-orchestration.js';
 import site00EvolveHandler from '../api/admin/site00-evolve.js';
 import site00EvolveOAuthCallbackHandler from '../api/admin/site00-evolve-oauth-callback.js';
 import site00IntakesHandler from '../api/site00/intakes.js';
+import site00ExistingLocationHandler from '../api/site00/existing-location.js';
+import site00ExistingLocationAdminHandler from '../api/admin/site00-existing-location.js';
 import site00IdentityCommercialHandler from '../api/site00/identity-commercial.js';
 import site00IntakeAccessHandler from '../api/site00/intake-access.js';
 import site00IntakesAdminHandler from '../api/admin/site00-intakes.js';
@@ -34,6 +36,7 @@ import site00ImplementationSnapshotsHandler from '../api/site00/implementation-s
 import site00PageMirrorHandler from '../api/site00/page-mirror.js';
 import site00ExperienceEngineHandler from '../api/site00/experience-engine.js';
 import site00ExpressionEngineHandler from '../api/site00/expression-engine.js';
+import site00ExperienceCompilerCreativeDirectorHandler from '../api/site00/experience-compiler-creative-director.js';
 import site00CampaignPackageHandler from '../api/site00/campaign-package.js';
 import site00DesignControlPlaneHandler from '../api/site00/design-control-plane.js';
 import site00DesignAssetReconstructionHandler from '../api/site00/design-asset-reconstruction.js';
@@ -82,6 +85,8 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/admin/site00-evolve', handler: site00EvolveHandler },
   { path: '/api/admin/site00-evolve/oauth/callback', handler: site00EvolveOAuthCallbackHandler },
   { path: '/api/site00/intakes', handler: site00IntakesHandler },
+  { path: '/api/site00/existing-location', handler: site00ExistingLocationHandler },
+  { path: '/api/admin/site00-existing-location', handler: site00ExistingLocationAdminHandler },
   { path: '/api/site00/identity-commercial', handler: site00IdentityCommercialHandler },
   { path: '/api/site00/intake-access', handler: site00IntakeAccessHandler },
   { path: '/api/site00/world-intake', handler: site00WorldIntakeHandler },
@@ -95,6 +100,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/page-mirror', handler: site00PageMirrorHandler },
   { path: '/api/site00/experience-engine', handler: site00ExperienceEngineHandler },
   { path: '/api/site00/expression-engine', handler: site00ExpressionEngineHandler },
+  { path: '/api/site00/experience-compiler-creative-director', handler: site00ExperienceCompilerCreativeDirectorHandler },
   { path: '/api/site00/campaign-package', handler: site00CampaignPackageHandler },
   { path: '/api/site00/design-control-plane', handler: site00DesignControlPlaneHandler },
   { path: '/api/site00/design-asset-reconstruction', handler: site00DesignAssetReconstructionHandler },

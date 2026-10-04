@@ -56,6 +56,7 @@ import '../site00/styles/site00-project-lore-calibration.css';
 import '../site00/styles/site00-pages.css';
 import '../site00/styles/site00-mobile-shell.css';
 import '../site00/styles/site00-studio.css';
+import '../site00/styles/site00-experience-compiler-workspace.css';
 import '../site00/styles/site00-client-project-room-p0client1.css';
 import '../site00/styles/site00-client-reviews-p0client2.css';
 import '../site00/styles/site00-client-app.css';
@@ -75,6 +76,8 @@ const Site00BldrPage = lazy(() => import('../site00/pages/BldrPage'));
 const Site00BldrStatePage = lazy(() => import('../site00/pages/BldrStatePage'));
 const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
+const ExistingLocationEntryPage = lazy(() => import('../site00/pages/existing-location/ExistingLocationEntryPage'));
+const ExistingLocationCasePage = lazy(() => import('../site00/pages/existing-location/ExistingLocationCasePage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
 const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
 const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
@@ -103,6 +106,9 @@ const ReconstructionTwinPreviewPage = lazy(() => import('../site00/pages/Reconst
 const ConceptDirectedTwinV2PreviewPage = lazy(() => import('../site00/pages/ConceptDirectedTwinV2PreviewPage'));
 const HeroOutlierMeasureHarnessPage = import.meta.env.DEV
   ? lazy(() => import('../site00/pages/HeroOutlierMeasureHarnessPage'))
+  : null;
+const LiveCharacterRuntimePrototypePage = import.meta.env.DEV
+  ? lazy(() => import('../site00/pages/prototype/LiveCharacterRuntimePrototypePage'))
   : null;
 const ProjectAstralWorldReaderPage = lazy(() => import('../site00/pages/ProjectAstralWorldReaderPage'));
 const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
@@ -234,6 +240,11 @@ const ProductionLibrariesPage = lazy(() =>
     default: m.ProductionLibrariesPage,
   })),
 );
+const ProductionActivityPage = lazy(() =>
+  import('../site00/pages/production/ProductionActivityPage').then((m) => ({
+    default: m.ProductionActivityPage,
+  })),
+);
 const ProductionQueuePage = lazy(() =>
   import('../site00/pages/production/ProductionQueuePage').then((m) => ({
     default: m.ProductionQueuePage,
@@ -340,6 +351,8 @@ const ProjectProvisioningPage = lazy(() => import('../site00/pages/provisioning/
 const StudioDashboardPage = lazy(() => import('../site00/pages/studio/StudioDashboardPage'));
 const StudioWorkspaceRouterPage = lazy(() => import('../site00/pages/studio/StudioWorkspaceRouterPage'));
 const StudioReviewDetailPage = lazy(() => import('../site00/pages/studio/StudioReviewDetailPage'));
+const ExperienceCompilerWorkspacePage = lazy(() => import('../site00/pages/studio/ExperienceCompilerWorkspacePage'));
+const StudioPreviewGuestLandingPage = lazy(() => import('../site00/pages/studio/StudioPreviewGuestLandingPage'));
 const ClientProjectRoomOverviewPage = lazy(
   () => import('../site00/pages/clientProjectRoom/ClientProjectRoomOverviewPage'),
 );
@@ -1018,6 +1031,16 @@ export function Site00Routes() {
           }
         />
       ) : null}
+      {LiveCharacterRuntimePrototypePage ? (
+        <Route
+          path="/__dev/live-character-runtime"
+          element={
+            <Site00Suspense>
+              <LiveCharacterRuntimePrototypePage />
+            </Site00Suspense>
+          }
+        />
+      ) : null}
       <Route
         path={SITE00_ROUTES.projectReconstructionTwin}
         element={
@@ -1446,6 +1469,18 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.productionActivity}
+        element={
+          <Site00Layout>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionActivityPage />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.productionQueue}
         element={
           <Site00Layout>
@@ -1485,6 +1520,7 @@ export function Site00Routes() {
             }
           >
             <Route index element={null} />
+            <Route path="workspace" element={null} />
             <Route path="references" element={<Site00Suspense><DesignProductionSectionReferences /></Site00Suspense>} />
             <Route path="assets" element={<Site00Suspense><DesignProductionSectionAssets /></Site00Suspense>} />
             <Route path="pages" element={<Site00Suspense><DesignProductionSectionPages /></Site00Suspense>} />
@@ -2314,6 +2350,20 @@ export function Site00Routes() {
         }
       />
       {Site00PublicPageRoutes(SITE00_ROUTES.evolvePlans, EvolvePricingPage)}
+      {Site00PublicPageRoutes(SITE00_ROUTES.existingLocation, ExistingLocationEntryPage)}
+      {Site00PublicPageRoutes(SITE00_ROUTES.existingLocationStart, ExistingLocationEntryPage)}
+      <Route
+        path={`${SITE00_ROUTES.existingLocationCase}/*`}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <ExistingLocationCasePage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
       <Route
         path={SITE00_ROUTES.evolveMarketingIntake}
         element={
@@ -2377,6 +2427,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectProvisioningPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioPreviewGuest}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard allowStudioPreviewGuestLanding>
+              <Site00Suspense>
+                <StudioPreviewGuestLandingPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
@@ -2485,6 +2547,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioExperienceCompiler}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard allowExperienceCompilerPreviewGuest>
+              <Site00Suspense>
+                <ExperienceCompilerWorkspacePage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

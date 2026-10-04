@@ -24,6 +24,11 @@ const TAB_FILES = [
   'src/site00/components/designBench/production/projectTabs/ProjectMoreSurface.tsx',
 ] as const;
 
+/** Intentional post-429 tab deltas (documented in design-release429-restore-manifest). */
+const POST429_TAB_SURFACE_ALLOWLIST = new Set<string>([
+  'src/site00/components/designBench/production/projectTabs/ProjectMoreSurface.tsx',
+]);
+
 function read(rel: string): string {
   return readFileSync(join(ROOT, rel), 'utf8');
 }
@@ -32,6 +37,10 @@ describe('P0.VR.DESIGN-PROJECT-TABS-RELEASE429-RESTORE1', () => {
   itWithRelease429Git('tab surface components unchanged since release #429', () => {
     for (const file of TAB_FILES) {
       const diff = gitDiffNames(ROOT, release429Ref!, [file]);
+      if (POST429_TAB_SURFACE_ALLOWLIST.has(file)) {
+        expect(diff, file).toEqual([file]);
+        continue;
+      }
       expect(diff, file).toEqual([]);
     }
   });
