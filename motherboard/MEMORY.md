@@ -13337,3 +13337,13 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
 - **OpenArt:** project `Q7IHYCEK3RPn2c1ConEG`, `gpt-image-2-5-sunburst` image2image HIGH 2K; all 8 identity refs uploaded (`openart_identity_references.json`). Credit math ~152×128 ≈ 19.5k vs ~12.7k balance → full 128 frames needs top-up or phased runs.
 - **Repo:** `FABRICATION_IN_REVIEW` status, `residentFabricationManifest.ts` / registry, pack + runner scripts, manifest JSON (128 scaffold rows), audit + README under `artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/`; PNG masters gitignored; review ZIPs via `studio-world-resident-fabrication-pack.mjs finalize`.
 - **Gen progress at commit:** SW-001 frames 01–02 completed; background agent queued SW-001–005. No performance/wardrobe batches. Draft PR only — no merge/deploy.
+
+---
+
+## 2026-10-04 — RECOVERY4 white-tee/red-collar fabrication source authority
+
+Sprint `P0.STUDIOWORLD.RESIDENT-AUTHORITY.RECOVERY4-WHITE-TEE-RED-COLLAR`.
+
+- **Problem:** PR #1313 geometry batch anchored OpenArt on `production-authority-assets/shared/residents/*-portrait.jpg` (forensics/black tee / outdated). Founder: correct set is **white T-shirt + red collar** already in repo history.
+- **Recovery:** `casting-thumbnails-v1/` (commit `4cdac10c`, PR #1303) = work look + fabrication portrait; `season1-v1/01-natural-authority/` (PR #1302 `a59131ef`) = full-body. Bundle on `cursor/production-hub-descendants-opus1` (not current `main`). Ivory `*-uniform.jpg` / season1 `03-work-uniform-candidates` are **not** white-tee authority.
+- **Branch:** `cursor/studio-world-resident-authority-recovery4`; halted OpenArt; invalidated SW-001 generated frames (16) as `SUPERSEDED_OUTPUT_WRONG_SOURCE`; pending 112 frames `NOT_GENERATED`. Review ZIPs `STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW*.zip`. Next: founder review → 16-frame validation gen before full 128 resume.
