@@ -13258,3 +13258,14 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/produc
 - **Mounted:** approved portraits for Etta Vale, Jules Mercer, Caspian Reed, Iona Wells; Zuri Xu kept as candidate. Noa, Marlowe, Elio still missing (no project).
 - **Inbox:** project thumbnail slot reclassified `NO_SOURCE_ASSET_REQUIRED`. Nav PNGs stay canonical with `UNKNOWN_OPENART_PROVENANCE`.
 - **Build:** `npm run build` passed. No merge, no deploy, no new generations.
+
+---
+
+## 2026-10-04 — Resident recovery 3 from founder SW team pack (PR #1310)
+
+Same chat also shipped the 242-file production authority downloader on `cursor/production-openart-downloader-recovery2-0daf` (merged PR #1311). This entry is the resident ingest on draft PR #1310.
+
+- **Context:** Founder supplied `STUDIO_WORLD_TEAM_LITE_FORENSIC_REFERENCE.zip` (27 images). RECOVERY2 had marked Noa, Marlowe, and Elio `MISSING_SOURCE_ASSET` and Zuri as candidate only. No new OpenArt search. No generation.
+- **Clusters (visual, before names):** 8 people. Anchors locked to mounted portraits: Etta (06/20/23), Zuri candidate (04/15/18 exact), Caspian (16/17/22), Iona (02/07/24/27, 24 exact). Remaining: East Asian man (01/09/13/19/25) = Noa; older sun-earring man (03/05/12) = Marlowe; burgundy shorter-wave man (10/11/21) = Elio. Locs cluster (08/14/26) is only a probable Jules match (hair differs from the mounted portrait) and was not swapped in.
+- **Mounted:** `studio-world-noa-kline-portrait.jpg`, `studio-world-marlowe-saint-portrait.jpg`, `studio-world-elio-vahn-portrait.jpg`, `studio-world-zuri-xu-portrait.jpg` plus full-body variants. Status `IDENTITY_CONFIRMED`, source `USER_SUPPLIED`, `UNKNOWN_OPENART_PROVENANCE`. Original `SW Team(1).zip` was not in the workspace, so these are lite interim masters (`HIGH_RES_SOURCE_REQUIRED_FOR_FINAL_RUNTIME_MOUNT`).
+- **Changes:** registry, expression manifest (missing slot cleared), Opus handoff, forensics test. `tsc --noEmit` and `npm run build` passed. Draft PR #1310 stays draft. No merge, no deploy.
