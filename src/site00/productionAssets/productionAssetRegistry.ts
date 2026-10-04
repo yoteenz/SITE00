@@ -52,6 +52,43 @@ const navRecords: ProductionAssetRecord[] = NAV.map(([assetId, file, tab]) => ({
   notes: 'Founder master PNG remains runtime canon. UNKNOWN_OPENART_PROVENANCE — design-project history pages inspected did not yield a standalone nav-icon generation id.',
 }));
 
+const founderVariantRecords: ProductionAssetRecord[] = [
+  ['resident.sw001.etta.fullBody', 'studio-world-etta-vale-full-body.jpg', 'resident.sw001.etta.portrait', 'IDENTITY_CONFIRMED', 'high', 'full_body_variant of Etta. Lite 20. Does not replace the mounted portrait.'],
+  ['resident.sw001.etta.uniform', 'studio-world-etta-vale-uniform.jpg', 'resident.sw001.etta.portrait', 'CANDIDATE', 'medium', 'Work-uniform candidate only. Lite 23.'],
+  ['resident.sw002.zuri.fullBody', 'studio-world-zuri-xu-full-body.jpg', 'resident.sw002.zuri.portrait', 'IDENTITY_CONFIRMED', 'high', 'full_body_variant of Zuri. Lite 15.'],
+  ['resident.sw002.zuri.uniform', 'studio-world-zuri-xu-uniform.jpg', 'resident.sw002.zuri.portrait', 'CANDIDATE', 'medium', 'Work-uniform candidate only. Lite 04.'],
+  ['resident.sw003.jules.locsCloseup', 'studio-world-jules-mercer-locs-closeup-candidate.jpg', 'resident.sw003.jules.portrait', 'CANDIDATE', 'medium', 'PROBABLE_MATCH only. Locs cluster lite 14. Hair differs from the mounted Jules portrait. Do not replace it.'],
+  ['resident.sw003.jules.locsFullBody', 'studio-world-jules-mercer-locs-full-body-candidate.jpg', 'resident.sw003.jules.portrait', 'CANDIDATE', 'medium', 'PROBABLE full-body of the locs cluster. Lite 26. Pending founder confirmation.'],
+  ['resident.sw003.jules.locsUniform', 'studio-world-jules-mercer-locs-uniform-candidate.jpg', 'resident.sw003.jules.portrait', 'CANDIDATE', 'low', 'PROBABLE uniform of the locs cluster. Lite 08. Not confirmed Jules.'],
+  ['resident.sw004.noa.closeupAlt', 'studio-world-noa-kline-closeup-alt.jpg', 'resident.sw004.noa.portrait', 'IDENTITY_CONFIRMED', 'high', 'Alternate closeup of Noa. Lite 09.'],
+  ['resident.sw004.noa.closeupAlt2', 'studio-world-noa-kline-closeup-alt-2.jpg', 'resident.sw004.noa.portrait', 'IDENTITY_CONFIRMED', 'high', 'Alternate closeup of Noa. Lite 25.'],
+  ['resident.sw001.etta.closeup', 'studio-world-etta-vale-closeup-variant.jpg', 'resident.sw001.etta.portrait', 'IDENTITY_CONFIRMED', 'high', 'Closeup variant of Etta. Lite 06. Does not replace the mounted portrait.'],
+  ['resident.sw005.caspian.closeup', 'studio-world-caspian-reed-closeup-variant.jpg', 'resident.sw005.caspian.portrait', 'IDENTITY_CONFIRMED', 'high', 'Closeup variant of Caspian. Lite 22. Does not replace the mounted portrait.'],
+  ['resident.sw006.iona.closeup', 'studio-world-iona-wells-closeup-variant.jpg', 'resident.sw006.iona.portrait', 'IDENTITY_CONFIRMED', 'high', 'Closeup variant of Iona. Lite 24. Does not replace the mounted portrait.'],
+  ['resident.sw004.noa.uniform', 'studio-world-noa-kline-uniform.jpg', 'resident.sw004.noa.portrait', 'CANDIDATE', 'medium', 'Work-uniform candidate only. Lite 01.'],
+  ['resident.sw005.caspian.fullBody', 'studio-world-caspian-reed-full-body.jpg', 'resident.sw005.caspian.portrait', 'IDENTITY_CONFIRMED', 'high', 'full_body_variant of Caspian. Lite 17. Does not replace the mounted portrait.'],
+  ['resident.sw005.caspian.uniform', 'studio-world-caspian-reed-uniform.jpg', 'resident.sw005.caspian.portrait', 'CANDIDATE', 'medium', 'Work-uniform candidate only. Lite 16.'],
+  ['resident.sw006.iona.fullBody', 'studio-world-iona-wells-full-body.jpg', 'resident.sw006.iona.portrait', 'IDENTITY_CONFIRMED', 'high', 'full_body_variant of Iona. Lite 27. Does not replace the mounted portrait.'],
+  ['resident.sw006.iona.uniform', 'studio-world-iona-wells-uniform.jpg', 'resident.sw006.iona.portrait', 'CANDIDATE', 'medium', 'Work-uniform candidate only. Lite 07.'],
+  ['resident.sw006.iona.glam', 'studio-world-iona-wells-glam-variant.jpg', 'resident.sw006.iona.portrait', 'CANDIDATE', 'medium', 'Alternate glam mode. Lite 02. Not the default portrait.'],
+  ['resident.sw007.marlowe.uniform', 'studio-world-marlowe-saint-uniform.jpg', 'resident.sw007.marlowe.portrait', 'CANDIDATE', 'medium', 'Work-uniform candidate only. Lite 05.'],
+  ['resident.sw008.elio.uniform', 'studio-world-elio-vahn-uniform.jpg', 'resident.sw008.elio.portrait', 'CANDIDATE', 'medium', 'Work-uniform candidate only. Lite 21.'],
+].map(([assetId, file, variantOf, authorityStatus, confidence, notes]) => ({
+  assetId,
+  canonicalName: file.replace(/\.jpg$/, ''),
+  sourceType: 'USER_SUPPLIED' as const,
+  repoPath: `public/site00/production-authority-assets/shared/residents/${file}`,
+  publicPath: `${BASE}/shared/residents/${file}`,
+  productionTab: 'expression' as const,
+  assetRole: 'RESIDENT_PORTRAIT',
+  authorityStatus: authorityStatus as ProductionAssetRecord['authorityStatus'],
+  usedByRoutes: [],
+  variantOf,
+  confidence: confidence as ProductionAssetRecord['confidence'],
+  notes: `${notes} UNKNOWN_OPENART_PROVENANCE. HIGH_RES_SOURCE_REQUIRED_FOR_FINAL_RUNTIME_MOUNT.`,
+}));
+
+
 export const PRODUCTION_ASSETS: readonly ProductionAssetRecord[] = [
   plate('design.atrium', 'production-design-atrium-authority-v1.jpg', 'design', 'HERO_ENVIRONMENT', ['/production/:slug/design'], 'GROK1 OpenArt history VGvorDOJjL2Unqkf1q5R (verified retrieval).'),
   plate('design.core', 'production-design-project-core-v1.png', 'design', 'SPATIAL_OBJECT', ['/production/:slug/design'], 'GROK1 history 3Juv9SpIPAx0dNceMk6C. Transparent PNG.'),
@@ -269,6 +306,7 @@ export const PRODUCTION_ASSETS: readonly ProductionAssetRecord[] = [
     confidence: 'high',
     notes: 'full_body_variant of Elio. Lite 11__589F06FC. Not a second person.',
   },
+  ...founderVariantRecords,
 ];
 
 const BY_ID = new Map(PRODUCTION_ASSETS.map((a) => [a.assetId, a]));

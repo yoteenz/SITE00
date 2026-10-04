@@ -82,7 +82,16 @@ describe('production OpenArt asset forensics mount1', () => {
     for (const code of primaries) {
       expect(residentIds.some((id) => id.includes(code))).toBe(true);
     }
-    expect(residentIds.filter((id) => id.includes('sw004') && !id.includes('fullBody'))).toEqual(['resident.sw004.noa.portrait']);
+    const noaPrimary = PRODUCTION_ASSETS.find((a) => a.assetId === 'resident.sw004.noa.portrait');
+    expect(noaPrimary?.variantOf).toBeNull();
+    for (const asset of PRODUCTION_ASSETS.filter((a) => a.assetId.startsWith('resident.sw004.') && a.assetId !== 'resident.sw004.noa.portrait')) {
+      expect(asset.variantOf).toBe('resident.sw004.noa.portrait');
+    }
+    const canonicalResidents = new Set(
+      PRODUCTION_ASSETS.filter((a) => a.assetId.startsWith('resident.sw') && a.variantOf === null).map((a) => a.assetId.split('.')[1]),
+    );
+    expect([...canonicalResidents].sort()).toEqual(['sw001', 'sw002', 'sw003', 'sw004', 'sw005', 'sw006', 'sw007', 'sw008']);
+    expect(PRODUCTION_ASSETS.filter((a) => a.assetId.startsWith('resident.sw') && a.variantOf === null)).toHaveLength(8);
     expect(PRODUCTION_ASSETS.some((a) => a.assetRole === 'CAST_MEMBER' || a.assetId.startsWith('character.'))).toBe(false);
   });
 });
