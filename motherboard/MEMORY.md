@@ -13249,3 +13249,12 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/produc
 - **Decisions:** Reused mounted GROK1 plates + hub hero crops + design pack + nav masters. Recent OpenArt history on `Q7IHYCEK3RPn2c1ConEG` is LIBRARY composition boards, not discrete plates. Resident portraits and experience zone/portal files flagged missing/uncertain.
 - **Changes:** `src/site00/productionAssets/*`, `authorityAssets.ts` now re-exports registry paths, docs handoff, vitest `productionOpenartAssetForensicsMount1`.
 - **Conventions:** Do not generate replacements for `MISSING_SOURCE_ASSET`. Do not treat OpenArt authority boards as the underlying asset.
+
+---
+
+## 2026-10-04 — OpenArt asset recovery 2 (same draft PR #1310)
+
+- **History:** Design project `Q7IHYCEK3RPn2c1ConEG` list exhausted (`hasMore: false`), 462 unique histories. Resident portraits recovered from separate Studio World OpenArt projects, not from composition boards.
+- **Mounted:** approved portraits for Etta Vale, Jules Mercer, Caspian Reed, Iona Wells; Zuri Xu kept as candidate. Noa, Marlowe, Elio still missing (no project).
+- **Inbox:** project thumbnail slot reclassified `NO_SOURCE_ASSET_REQUIRED`. Nav PNGs stay canonical with `UNKNOWN_OPENART_PROVENANCE`.
+- **Build:** `npm run build` passed. No merge, no deploy, no new generations.
