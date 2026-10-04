@@ -29,9 +29,9 @@
           "hair_status": "PASS",
           "anatomy_status": "PASS",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "PASS",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-001",
           "credits": 152
         },
@@ -54,9 +54,9 @@
           "hair_status": "PASS",
           "anatomy_status": "PASS",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "credits": 152
         }
       ]
@@ -84,9 +84,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-002",
           "credits": 152
         },
@@ -109,9 +109,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-002",
           "credits": 152
         }
@@ -140,9 +140,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-003",
           "credits": 152
         },
@@ -165,9 +165,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-003",
           "credits": 152
         }
@@ -196,9 +196,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-004",
           "credits": 152
         },
@@ -221,9 +221,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-004",
           "credits": 152
         }
@@ -252,9 +252,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-005",
           "credits": 152
         },
@@ -277,9 +277,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-005",
           "credits": 152
         }
@@ -308,9 +308,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-006",
           "credits": 152
         },
@@ -333,9 +333,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-006",
           "credits": 152
         }
@@ -364,9 +364,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-007",
           "credits": 152
         },
@@ -389,9 +389,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-007",
           "credits": 152
         }
@@ -420,9 +420,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-008",
           "credits": 152
         },
@@ -445,9 +445,9 @@
           "hair_status": "PENDING",
           "anatomy_status": "PENDING",
           "retry_count": 0,
-          "approval_status": "FABRICATION_VALIDATION_IN_REVIEW",
-          "classification": "FOUNDER_REVIEW_REQUIRED",
-          "notes": "",
+          "approval_status": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "classification": "SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING",
+          "notes": " Superseded pending sha256 source-binding canary.",
           "resident_id": "SW-008",
           "credits": 152
         }
@@ -455,5 +455,6 @@
     }
   ],
   "total_generated": 16,
-  "total_retries": 0
+  "total_retries": 0,
+  "sprint_note": "Prior 16-frame batch superseded; source-binding recovery1 active."
 }

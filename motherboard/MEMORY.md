@@ -13357,3 +13357,13 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.OPENART1` on br
 - **Scope:** 8 residents × 2 frames (work portrait + work full-body front) using casting-thumbnails-v1 + season1 natural full-body refs uploaded to OpenArt project `Q7IHYCEK3RPn2c1ConEG`; `gpt-image-2-5-sunburst` image2image HIGH 2K (~152 credits/frame).
 - **Completed:** All **16/16** validation PNGs (8× portrait + 8× full-body) via OpenArt MCP + recovery4 casting-thumbnails-v1 / season1 full-body refs (`openart_visual_references.json`). Contact sheets, master overview, `failure_retry_report.json`, review ZIPs refreshed. Classifications: agent spot-check **PASS** on SW-001; all frames remain `approval_status: FABRICATION_VALIDATION_IN_REVIEW` / mostly `FOUNDER_REVIEW_REQUIRED` until founder sign-off. **128 geometry batch not resumed.**
 - **Credits recorded:** 2432 (16 × ~152). Draft PR on `cursor/studio-world-resident-fabrication-validation-openart1` links #1314 + #1313.
+
+---
+
+## 2026-10-04 — Validation source-binding recovery (RECOVERY1)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1`.
+
+- **Root cause:** Geometry OpenArt runner (`studio-world-resident-fabrication-openart-runner.mjs` `plan()`) binds `visualReference` from `openart_identity_references.json` → `production-authority-assets/shared/residents/*-portrait.jpg` (black-tee mounts). Validation had a parallel unverified cache (`openart_visual_references.json`) with no sha256 gate — ambiguous vs geometry identity uploads.
+- **Fix:** `validationSourceBinding.ts` (explicit identityFace / workLook / bodyGeometry roles, throws on superseded paths); `source-binding-registry.json` sha256 ↔ OpenArt upload IDs; `studio-world-validation-openart-run-one.mjs` refuses stale refs; proof script + 8 `SW-00X_SOURCE_BINDING_PROOF.jpg` sheets. Prior 16 validation PNGs marked `SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING`.
+- **Canary:** 1× Etta work portrait (`VBxhMWHBMtT6R63sRCnW`) using new upload `fujq0PYW5H3SwY15Oq35` (sha256 matches casting thumbnail); superseded geometry id `h5j5eTZfam3mnxVql57l`. Branch `cursor/studio-world-resident-fabrication-validation-source-binding-recovery1`. Tests: `residentFabricationValidationSourceBinding.test.ts`.
