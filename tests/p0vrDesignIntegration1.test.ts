@@ -24,8 +24,8 @@ describe('P0.VR.DESIGN-INTEGRATION1', () => {
   });
 
   it('production DESIGN path is per-project slug', () => {
-    expect(site00ProjectDesignPath('ndxbook')).toBe('/projects/design/ndxbook');
-    expect(site00ProjectDesignSectionPath('ndxbook', 'pages')).toBe('/projects/design/ndxbook/pages');
+    expect(site00ProjectDesignPath('ndxbook')).toBe('/production/ndxbook/design');
+    expect(site00ProjectDesignSectionPath('ndxbook', 'pages')).toBe('/production/ndxbook/design/pages');
   });
 
   it('registers production route against twin authority for Opus targeting', () => {
@@ -42,9 +42,12 @@ describe('P0.VR.DESIGN-INTEGRATION1', () => {
 
   it('registers index route so bare /design mounts the workspace layout', () => {
     const routes = read('src/routes/Site00Routes.tsx');
-    const productionStart = routes.indexOf('path={SITE00_ROUTES.projectsDesignActiveProject}');
+    const productionStart = routes.indexOf('path="design/*"');
     expect(productionStart).toBeGreaterThan(-1);
-    const productionBlock = routes.slice(productionStart, routes.indexOf('path={SITE00_ROUTES.projectExperiments}', productionStart));
+    const productionBlock = routes.slice(
+      productionStart,
+      routes.indexOf('path="experience/*"', productionStart),
+    );
     expect(productionBlock).toMatch(/<Route\s+index\s+element=\{null\}\s*\/>/);
     const twinStart = routes.indexOf('path={SITE00_ROUTES.projectDesignTwinOpusDirect}');
     const twinBlock = routes.slice(twinStart, routes.indexOf('path={SITE00_ROUTES.projectDesignTwinFableDirect}', twinStart));
@@ -71,6 +74,6 @@ describe('P0.VR.DESIGN-INTEGRATION1', () => {
   it('ndxbook legacy redirect does not loop to site00 query route', () => {
     const resolution = resolveLegacyProjectDesignRedirect('ndxbook', '');
     expect(resolution.redirect).toBe(false);
-    expect(resolution.target.pathname).toBe('/projects/design/ndxbook');
+    expect(resolution.target.pathname).toBe('/production/ndxbook/design');
   });
 });

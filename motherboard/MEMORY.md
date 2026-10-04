@@ -12874,3 +12874,226 @@ Founder approved the seven high-quality bottom-nav renders and asked for them on
 - **Decisions / outcomes:** The production bottom nav masks those PNGs. Inactive ink is charcoal. The active item uses the host red. Sign-in is skipped only on `site00.fsbw-dev.com` and localhost. site00.com still requires sign-in.
 - **Changes:** `productionHub/nav.tsx`, `productionHub/bottom-nav/*.png`, `signInPaused.ts`, the production and account guards, and the sign-in shell. Draft PR 1266 stays unmerged.
 - **Conventions:** Turn sign-in back on by removing the preview-host pause when Supabase is up. Do not bake that pause into a GoDaddy upload.
+
+---
+
+## 2026-10-02 — Production authority alignment (SONNET1R1) on the PR #1266 review branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1`. Base corrected to `cursor/grok-plus-environment-unified-review-87ed` @ `4dc9f839` (PR #1266, draft, not merged). Work lives on `cursor/production-authority-alignment-sonnet1r1` (draft PR #1295). No deploy, no auth changes.
+
+- **Shell:** Tablet/desktop use a scale-free `.pxh-*` host chrome (left cluster LOCATION / PROJECT NDXBOOK / ITEMS NEED YOU, hamburger far right, horizontal icon-left bottom nav). Mobile keeps the approved legacy top and icon-above nav. Host chrome must not use zoom, `transform: scale`, vw/cqw, rem scaling or clamp.
+- **Bodies:** `src/site00/components/productionAuthority/` holds Hub, Inbox, Activity (`/production/activity`), Experience, Expression (Character Fabrication first), Library (full width) and the Design chamber (six `?mode=` modes). Registry of all 36 authority screens: `src/site00/config/production-authority-registry.ts`. Legacy machine stays at `/production?view=machine`; old design workspace at `design/workspace`.
+- **QA:** `scripts/production-authority/capture-matrix.mjs` renders all 36 states and asserts structure (36/36 pass). Proof matrix and screenshots were written to the agent artifacts dir. Full `npm test` has 57 failing files / 80 tests, identical on the base commit (pre-existing).
+- **Residual:** Imagery reuses existing plates; design chamber has no 3D atrium; pixel polish (tilt, glass density, internal type) is left for Opus.
+
+---
+
+## 2026-09-30 — Origin expanded panel forensics (IDNTY / BLDR / EVOLVE)
+
+Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero product code/CSS/React/copy changes. Full implementation receipt for creative director / ChatGPT redesign of expanded states.
+
+- **Context:** Document current Origin `/` and `/origin` three expandable panels (01 IDNTY, 02 BLDR, 03 EVOLVE): exact copy, DOM hierarchy, interaction (`Site00Context.homeMode`), CSS (mobile 390×844 + desktop artboard), Supabase environment PNG swap WITH_PANELS→CLEAN on expand, panel icon PNGs, framework assets, routes to `/idnty/state`, `/bldr/state`, `/evolve/state` (desktop `/…/desktop` when on origin desktop path).
+- **Topics covered:** Source tree `OriginPage`, `OriginCards`, `*ExpandedPanel`, `origin-panel-state.ts`, `origin-background-assets.ts`, `origin-home-composition.ts`, `site00.css` mobile origin block, `site00-desktop-artboard.css`. Playwright screenshots at 390×844 on local `:5174/origin?preview=mobile` → `/opt/cursor/artifacts/01–04_*_mobile.png`.
+- **Decisions / outcomes:** Forensic report delivered in chat (no visual authority redesign). Expanded mobile geometry: collapsed cards ~360×318 @ ~53% top; scaled teasers ~42×100 hit target; expanded column ~313px wide centered (scale 0.92) — tall glass panel overflows viewport (measured height >844px, BACK may sit below fold; swipe-up strip can intercept clicks). Collapsed teasers are transparent `<button.site00-origin-teaser>` over baked WITH_PANELS mobile BG; expanded uses CLEAN BG + `ArchitecturalPanel` glass shell.
+- **Changes:** `MEMORY.md` only (this entry). No merge/deploy.
+- **Conventions:** Expanded IDNTY title copy is `IDENTITY` (not card label `IDNTY`). EVOLVE collapsed copy differs mobile vs desktop (`evolve.ts`). EVOLVE expanded secondary CTA `HOW IT WORKS` → `/evolve` mobile only.
+
+---
+
+## 2026-09-29 — CI fix: production design route test drift (post #1255)
+
+Production Release workflow failed after #1255: tests still expected `/projects/design/:slug` and embedded `ProjectIndexDesignCard` on Projects index.
+
+- **Tests updated:** `p0vrDesignIntegration1`, `p0vrDesignProjectBinding1R1`, `p0vrDesignWorkspaceSelfCapture1`, founder sprint B59R2/R5/R6, release #429 allowlist manifest (`POST429_DESIGN_ALLOWLIST` 50 paths + `ProjectMoreSurface` tab exception).
+- **API:** `designWorkspaceCaptureService` returns `resolveWorkspaceSelfDesignRoute` (`/production/…/design`) in vitest + live capture metadata (was hardcoded legacy path).
+- **Ship:** PR merge to `main` — no new cPanel bundle required (test/API metadata only).
+
+---
+
+## 2026-10-01 — STUDIO OS Experience Compiler MAP1 (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP1)
+
+Forensic inventory + authority inheritance + batch planning for SITE 00 public redesign — no visual redesign, no route/UI production changes.
+
+- **Context:** Scale approved ORIGIN/IDNTY/BLDR/EVOLVE/LOCATIONS authorities into a reusable **Experience Compiler** (page graph → archetypes → inheritance → derivation → founder gates → Sonnet batches).
+- **Topics covered:** Full sprint MAP1 spec; prior IDNTY intake forensics; public redesign 37-authority manifest from Sonnet-structure branch ingested into `main` as code metadata (`src/site00/authority/publicRedesignAuthorityManifest.ts`).
+- **Decisions / outcomes:** Deterministic compiler under `src/studioos/experience-compiler/` with `runExperienceCompiler()` pipeline; artifacts under `docs/studioos/experience-compiler/`; `npx tsx scripts/run-site00-experience-compiler.ts` to regenerate; vitest `src/studioos/experience-compiler/__tests__/experienceCompiler.test.ts`. Product-family firewall tests (IDNTY evolution ≠ public EVOLVE; Build Ready ≠ BLDR intake). Checkout/auth/locations-child remain **CREATIVE_AUTHORITY_REQUIRED** — never invented.
+- **Changes:** New compiler modules, authority manifest + asset slots copy, JSON/MD docs, sonnet batch manifests for Sonnet-ready batches (ORIGIN_MOBILE, LOCATIONS_DIRECTORY, PUBLIC_EVOLVE_STATE, BLDR_ASSESSMENT_INTAKE at time of ship).
+- **Conventions:** Superseded authority IDs never inherit; WAITING_FOR_AUTHORITY routes from manifest drive gates; composite derivation = family environment + IDNTY working-panel grammar where explicit in compiler rules.
+
+---
+
+## 2026-10-01 — Existing Location service architecture (P0.SITE00.EXISTING-LOCATION.SERVICE-ARCHITECTURE1)
+
+Formalized **EXISTING LOCATION** — work on client’s existing Shopify/WordPress/etc. property without full rebuild.
+
+- **Context:** Sprint for diagnose/repair/enhance/install/custom experience; Shopify free-sample promotion as founding example (general diagnostic system, not one-off feature); courtesy comp codes for trusted clients; no primary passwords.
+- **Decisions:** Internal id `EXISTING_LOCATION`; public label EXISTING LOCATION; separate from BLDR and from full EVOLVE transform; intervention types under Existing Location; EVOLVE paths may align later but not forced (DIAGNOSE→REPAIR vs TRANSFORM).
+- **Shipped:** `shared/site00-existing-location/` types, Shopify adapter, courtesy hashing; API `/api/site00/existing-location` + admin; memory store (vitest) + Supabase migration `20261001150000_site00_existing_location_service.sql` (apply on Railway/Supabase); public routes `/existing-location` + case flow; docs under `docs/site00/existing-location/`; checkout UI marked WAITING_FOR_AUTHORITY; $0 comp creates entitlement + redemption records server-side.
+- **Gaps:** No live Shopify OAuth/API; diagnosis/findings UI founder-populated; paid checkout throws PAYMENT_REQUIRED until payment integration; Supabase persistence wired migration-only (runtime still memory in VITEST/production until supabase store adapter added).
+
+---
+
+## 2026-10-01 — STUDIO OS Experience Compiler MAP2 creative architecture (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-CREATIVE-ARCHITECTURE1)
+
+Extended MAP1 with greenfield creative pipeline, multi-surface families, authority planning foundation — no mass OpenArt, no public SITE 00 redesign.
+
+- **Context:** MAP2 sprint spec: three distinct conceptual directions, gates 0/A/B/C, experience units/families, surface expressions, authority reduction, OpenArt batch + pack planning, SITE 00 INGEST validation, LUMINA ATELIER greenfield fixture.
+- **Decisions:** Fundamental unit = Experience Unit; GREENFIELD / INGEST / HYBRID modes; graph expansion blocked until GATE_0; authority plan blocked until GATE_B; functional capability reuse firewall (visual isolated per client).
+- **Changes:** `src/studioos/experience-compiler/map2/*` (orchestrator, gates, concepts, graph, families, surfaces, authority planner/review, OpenArt batch, pack compiler); `export * as map2` from compiler index; vitest `map2CreativeArchitecture.test.ts` (17 tests); `scripts/run-map2-experience-compiler-fixtures.ts`; docs + JSON fixtures under `docs/studioos/experience-compiler/MAP2/`.
+- **Conventions:** SITE 00 validates as INGEST via `buildSite00IngestFixture()` wrapping `runExperienceCompiler()` — no replacement concept directions for product truth.
+
+---
+
+## 2026-10-01 — Experience Compiler MAP2 workspace UI (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-WORKSPACE-UI1)
+
+Founder-operable Experience Compiler workspace: gates, authority review, OpenArt emit/ingest, pack + Sonnet emit — no public redesign, no mass OpenArt jobs.
+
+- **Context:** MAP2 domain merged on main; sprint adds Studio OS workspace UI and operational pipeline (manifest emit/ingest, master/lite pack sizing, Sonnet batch copy).
+- **Shipped:** Route `/studio/:projectSlug/experience-compiler` (`ExperienceCompilerWorkspacePage`); tabs PROJECT/CONCEPT/EXPERIENCE/FAMILIES/AUTHORITY/CAPABILITIES/PRODUCTION/HISTORY; `src/studioos/experience-compiler/workspace/*` (browser bootstrap via JSON fixture, persistence localStorage); link from Studio dashboard; vitest `map2Workspace.test.ts` (10 tests); docs `docs/studioos/experience-compiler/MAP2-WORKSPACE/`.
+- **Conventions:** Browser bundle must not import MAP1 `pageDiscovery` fs — use `bootstrapBrowser.ts` + `MAP2_SITE00_INGEST_FIXTURE.json` for SITE 00 ingest UI; Node tests use `bootstrap.ts` + live compiler.
+
+---
+
+## 2026-10-01 — MAP2 icon + micro-asset expression (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-ICON-EXPRESSION1)
+
+Extended MAP2 pipeline with project-wide icon requirement compiler, icon family authority before page authorities, Grok/Sonnet handoff manifests — no mass Grok generation, no SITE 00 public redesign.
+
+- **Context:** Icons compiled after graph/families/surfaces; Gate B now requires `icon_expression_approved` before `compileAuthorityPlan`; OpenArt emits `ICON_FAMILY_AUTHORITY` batch before page batches; page prompts reference approved icon language.
+- **Shipped:** `src/studioos/experience-compiler/icons/*` (semantics, requirements, classifier, expression, family, surface variants, manifest, coverage, pipeline); MAP2 types + orchestrator integration; workspace Families tab icon approval + pack `icons/` paths; fixtures `MAP2_ICON_*`; vitest `map2IconExpression.test.ts` (11 tests); 45 total compiler tests.
+- **Conventions:** Global semantics reusable; per-project icon family visual isolation; LIVE_CODE_SVG for utility chevrons; SITE 00 ingest classifies only.
+
+---
+
+## 2026-10-01 — MAP2 visual asset surgery (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-VISUAL-ASSET-SURGERY1)
+
+Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry and Grok fabrication — manifests/specs only, no mass Grok generation, no public SITE 00 redesign.
+
+- **Context:** Sprint adds surgical image layer: layer ownership, image requirements (must include/exclude), continuity groups, multi-surface derivation, reference crops, safe zones, fabrication specs, Grok pack, QA; SITE 00 INGEST validates all authorities + asset slots.
+- **Shipped:** `src/studioos/experience-compiler/visual-surgery/*` + `runVisualAssetSurgeryPipeline()`; `Map2PipelineState.visual_surgery_pipeline`; SITE 00 ingest + workspace browser bootstrap attach surgery; authority pack export `images/` + `GROK_ASSET_PACK/` stubs; workspace Image system + Visual asset surgery panels; vitest `map2VisualAssetSurgery.test.ts` (14 tests, 59 compiler total); docs + `MAP2_*` fixtures via `scripts/run-map2-visual-surgery-fixtures.ts`.
+- **Conventions:** Bboxes are normalized heuristics until Opus live geometry probes land; reference crops/safe-zone overlays are metadata paths only in MAP2 sprints; Grok receives per-asset specs not full screenshots.
+
+---
+
+## 2026-10-02 — Sign-in authorization hang (Supabase unreachable)
+
+Founder: sign-in / authorization stuck on tunnel (Experience Compiler path).
+
+- **Cause:** Supabase `hyycomvcaqxxvyrfupes` **522/timeouts**; `signInWithPassword` / `getSession` unbounded → submitting state hung.
+- **Fix (PR #1279):** Supabase client global fetch timeout ~15s; sign-in/magic-link + bootstrap/getAccessToken capped; message **SIGN-IN SERVICE IS TEMPORARILY UNAVAILABLE** when down.
+- **Founder:** Restore Supabase project health in dashboard; redeploy cPanel/tunnel CI dist after merge for tunnel bundle.
+
+---
+
+## 2026-10-02 — Experience Compiler preview guest bypass (Supabase down)
+
+Founder: compiler route sent to sign-in / origin flow on tunnel while Supabase Auth unhealthy — needed MAP2 workspace view only, temporarily.
+
+- **Shipped (PR #1280 → `main` `e1e986ef`):** Tunnel/cloud-preview-only guest bypass on **`/studio/:projectSlug/experience-compiler`** via `allowExperienceCompilerPreviewGuest` + `isSite00ExperienceCompilerPreviewGuestBypass()` (`site00-cloud-preview` meta or `site00.fsbw-dev.com`). Yellow **PREVIEW GUEST** banner; other CTRL ROOM routes still require sign-in on tunnel.
+- **Not production:** `site00.com` without preview meta does not bypass.
+- **Cloud preview:** Rebuilt local dist `index.CWJzK2ZT.js` on tunnel; verified workspace loads without sign-in.
+- **Remove when healthy:** Drop bypass or gate behind explicit env when Supabase Auth is stable again.
+
+---
+
+## 2026-10-02 — PREVIEW_GUEST shell fix (P0.STUDIOOS.EXPERIENCE-COMPILER.PREVIEW-GUEST-SHELL-FIX1)
+
+Preview guest route worked but shell/nav/auth-state was inconsistent.
+
+- **Auth:** `Site00ShellAuthMode` + `Site00ShellAuthProvider` — `PREVIEW_GUEST` with derived `canUseExperienceCompiler`, `canNavigateStudioPreview`, no protected read/mutate.
+- **Gate:** `VITE_SITE00_EC_PREVIEW_GUEST=1` at build (cloud preview script) + tunnel/cloud-preview meta/host — not production CI default.
+- **Studio nav:** `/studio/:slug/preview-guest` landing; ← STUDIO + top nav STUDIO → preview landing (not `/admin/site00/studio` or sign-in).
+- **Contrast:** EC workspace dark text on light `site00-ecosystem-mobile-shell` (#f4f4f2) — was light-on-light ghost UI.
+- **Creative tab:** stub + persistence degraded copy in preview guest.
+- **PRs #1282, #1283** → `main`.
+
+---
+
+## 2026-10-02 — Founder creative workspace (CREATIVE-WORKSPACE-EXPERIENCE1)
+
+Branch `cursor/creative-workspace-experience1-87ed`: merged CGPT creative director backend + visual **ExperienceCompilerCreativeWorkspace** (`?tab=creative`). Territory boards, journey rail, founder director, conversation dock secondary, run details collapsed. Empty states when no live model output. Browser proof on tunnel (desktop/mobile/tablet screenshots). Live CONCEPT_TERRITORIES run still needs API deploy + OpenAI key.
+
+## 2026-10-01 — CGPT Creative Director loop (Experience Compiler MAP2)
+
+Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch `cursor/cgpt-creative-director-loop1-87ed`.
+
+- **Shipped:** `CreativeDirectorAgent` + `CreativeModelGateway` (server OpenAI JSON contracts), `CreativeContextPack` compiler, project-scoped creative threads, `FounderJudgment` persistence, structured validation for concept/graph/family/surface/authority modes, revision translator, Visual Authority Model / Sonnet / Opus handoff compilers, API `/api/site00/experience-compiler-creative-director`, workspace tab `?tab=creative` (3-column UI + journey rail).
+- **Runtime:** No fabricated territories; vitest + missing `OPENAI_API_KEY` → `MODEL_RUNTIME_BLOCKED`. Founder must set `founder_initiated: true` for runs.
+- **First thread:** SITE 00 → YOUR SPACE seed context in pack (not hard-coded engine logic).
+- **Not done:** No production deploy; no merge; live 3-territory proof requires configured server key.
+
+---
+
+## 2026-10-02 — CGPT live runtime + durable persistence (P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-LIVE-RUNTIME-PERSISTENCE1)
+
+Continuation on `cursor/cgpt-creative-director-loop1-87ed` (HEAD `c72efe6c`).
+
+- **Context:** Prove live OpenAI Creative Director + Supabase persistence for YOUR SPACE CONCEPT_TERRITORIES; fix model id (`gpt-5.6-sol` + separate reasoning); Responses API; founder judgment quarantine (`TEST_JUDGMENT_ONLY` cannot LOVE_IT).
+- **Shipped:** `modelConfig.ts`, Supabase persistence module + migration `20261001200000_site00_experience_compiler_creative_director.sql`, async agent/store/API, `runtime-status` with `OPENAI_API_KEY_PRESENT`, history adapter, expanded territory UI + run metadata, live-proof scripts, vitest persistence/model/quarantine tests (13 tests pass).
+- **Runtime proof:** Cloud VM + local API `OPENAI_API_KEY_PRESENT: NO`. Production `api.site00.com` still 404 on creative-director route (branch not deployed). Supabase MCP/REST timeout (522) — migration not applied from agent; use dashboard/CLI.
+- **Classification:** BLOCKED for full sprint PASS until Railway redeploy + migration apply + one live CONCEPT_TERRITORIES run.
+- **Next:** Merge/deploy API branch; apply migration; run `tsx scripts/studioos/run-creative-director-live-proof.ts` with key; set `SITE00_CREATIVE_DIRECTOR_STRICT_PERSISTENCE=1` in prod when tables verified.
+
+---
+
+## 2026-10-02 — Supabase apply-all-migrations (blocked from cloud VM)
+
+Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`.
+
+- **Blocker:** Project REST/auth health returns **Cloudflare 522** (~20s) from cloud agent; Supabase MCP `list_migrations` / `execute_sql` / `apply_migration` all **connection timeout**. Management API reports `ACTIVE_HEALTHY` but DB/API origin unreachable.
+- **Likely pending (verify in dashboard):** `20260921120000`, `20260929153000`, `20260929160000`, `20261001150000`, `20261001200000` — see `docs/supabase/PENDING_MIGRATIONS_CHECKLIST.md`.
+- **Founder apply:** When dashboard health is green, run `bash scripts/supabase/apply-pending-site00-migrations.sh` (Supabase CLI) or paste SQL from `supabase/migrations/` in order.
+
+---
+
+## 2026-10-02 — Remove Mobile/Desktop layout preview switcher (Shadow PC)
+
+Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile / Desktop** debug switcher.
+
+- **Shipped:** `isSite00LayoutPreviewSwitchEnabled()` → `false` in `preview-mode.ts`; `Site00OriginLayoutSwitch`, `Site00PublicLayoutSwitch`, `Site00EcosystemLayoutSwitch` render nothing; `Site00Context` ignores session-stored preview mode when switch off and uses `defaultPreviewDeviceModeForViewport()` (desktop on ≥768px).
+- **Branch:** `cursor/remove-layout-preview-switch-87ed`.
+
+---
+
+## 2026-10-02 — Cloud preview tunnel pinned to 6c85fbcb
+
+Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (`cursor/design-unified-workspace-sonnet-structure2` — unified design workspace).
+
+- **Ops:** VM checkout `6c85fbcb`, `SITE00_PREVIEW_SYNC_MAIN=0` + `SITE00_CLOUD_PREVIEW_MODE=local` rebuild; tunnel serves `release-manifest.json` with `commitSha` `6c85fbcba83d`, `bundleEntry` `index.B15a40Ht.js`.
+- **Persist pin:** `/tmp/site00-cloud-preview-pinned-ref` + `run-site00-cloud-preview-server.sh` reads `SITE00_PREVIEW_PIN_REF` / pin file (local build, no main ff-merge). Bootstrap skips CI sync when pin file present.
+- **Revert to main CI preview:** `rm /tmp/site00-cloud-preview-pinned-ref`, `git checkout main`, restart `site00-vite` terminal (or `restart-site00-cloud-preview-full.sh`).
+
+---
+
+## 2026-10-02 — Client app mobile QA audit (P0.SITE00.CLIENT-APP.COMPOSER-RUNTIME-AUDIT1)
+
+Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Expo/Capacitor; no `android/`/`ios/`). Mobile QA path = **BrowserStack Live** (mobile browser) + cloud preview tunnel; **not** App Live/APK.
+
+- **Shipped:** `VITE_SITE00_CLIENT_APP_PREVIEW=1` + `clientAppPreviewState.ts` enables `/app/preview/*` fixtures on cloud preview (was dev-only). `docs/mobile-qa.md`, `npm run client-app:qa:urls|capture`, cloud preview build sets flag alongside EC guest. Playwright proof: fixture route shows bottom nav + NDXBOOK header on 390×844.
+- **Auth:** Real `/app/projects/*` still requires Supabase sign-in; fixtures need no auth. Tunnel API → `https://api.site00.com`.
+- **Blocker for APK:** No native project — Capacitor wrapper deferred.
+
+---
+
+## 2026-10-02 — Production authority handoff v2: attachment review (pre-implementation)
+
+Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus three authority archives (Desktop 16:9 / Tablet 4:3 / Mobile 9:16, 12 images each = 36) and said "review all attachments before implementing." This entry records the review only; no product code was changed.
+
+- **Context:** Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1` — align the live Production workspace to 12 logical screens (6 global tabs HUB/INBOX/EXPERIENCE/EXPRESSION/LIBRARY/ACTIVITY + 6 DESIGN modes BRAND/EXPERIENCE/SURFACES/COMPILER/ASSETS/VIEWPORT) x 3 viewport families. Opus pixel pass follows (queue in file 06).
+- **Manifest (body authority; files arrive as `.jpg`, manifest says `.png`/`.PNG`):** Mobile 5922 HUB, 5924 INBOX, 5925 EXPERIENCE, 5957 EXPRESSION, 5979 LIBRARY, 5936 ACTIVITY, 5968 BRAND, 5963 D-EXPERIENCE, 5969 SURFACES, 5970 COMPILER, 5974 ASSETS, 5975 VIEWPORT. Desktop 5981/5982/5988/5989/5990/5991 (global, same order) and 5983 BRAND, 5992 D-EXPERIENCE, 5984 SURFACES, 5985 COMPILER, 5986 ASSETS, 5987 VIEWPORT. Tablet 6004/6005/6006/6007/6008/6009 (global) and 6010 BRAND, 6019 D-EXPERIENCE, 6011 SURFACES, 6012 COMPILER, 6013 ASSETS, 6014 VIEWPORT. Sizes: mobile 720x1280, desktop 1280x720, tablet 1200x900.
+- **Shell canon (overrides hallucinated desktop/tablet chrome):** tablet+desktop top = one full-width panel, LEFT cluster [LOCATION/WORKSPACE][PROJECT NDXBOOK][ITEMS NEED YOU], hamburger alone far right; bottom nav = horizontal icon-LEFT/label-RIGHT. Mobile keeps icon-above-text. Several desktop/tablet images show the project selector centered and attention near the right; those are NOT literal. No `zoom`, transform-scale, vw/rem/cqw scaling in top/bottom nav (explicit px per viewport).
+- **BASELINE FINDING (important):** On `main` @ `355c4adc`, `.ph--hub { zoom: var(--phz) }` is still present in `site00-production-hub-authority.css` and the Production hub is a mobile-only 864px authority canvas capped at 520 CSS px (`chrome.tsx` `productionChromeScale`). The handoff assumes the nav-typography fix (zoom removed from chrome), the unified Design workspace cutover and Viewport Lab — these exist only on unmerged `origin/cursor/nav-typography-fix-production-87ed` (HEAD `ff361d78`, 30 commits ahead of main, 0 behind, linear stack incl. `site00-production-system-chrome-typography.css` and `tests/productionNavTypographyFix1.test.ts`). Implementing on bare `main` would start from the wrong baseline; branch from that stack (or merge it first) and record start SHA.
+- **Existing Production code map:** `src/site00/components/productionHub/{chrome,nav,ProductionHub,panels,machine,overlays}.tsx`, `src/site00/components/production/PwFrame.tsx`, `src/site00/pages/production/*`, routes `/production`, `/production/queue` (INBOX), `/production/libraries` (LIBRARY), `/production?panel=activity` (ACTIVITY), `/production/:slug/{design,experience,expression}`; Design workspace `src/site00/components/designWorkspace/`. No tablet/desktop families, no LIBRARY full-width vault, no standalone ACTIVITY page on main.
+- **Review limits:** image review in this session was via textual descriptions only; pixel-level geometry claims need browser capture at 390x844 / 768x1024 (4:3) / 1440x810 and a PASS/FAIL 36-row proof matrix (file 05).
+- **Convention:** Authority images are QA inputs only (never shipped as runtime assets); build a typed registry (workspace, designMode, viewportFamily, authorityFile, route/state selector) in code/tests.
+
+---
+
+## 2026-10-02 — Merge `origin/main` into `cursor/production-authority-alignment-sonnet1r1` (conflict triage)
+
+Fetched `origin/main` @ `dbfebd31` and merged into authority-alignment branch. Git reported **3 content conflicts** — all **simple** (orthogonal edits, no competing product intent in the marked hunks).
+
+- **`.cursor/scripts/run-site00-cloud-preview-server.sh`:** Branch added `SITE00_CLOUD_PREVIEW_ROOT` worktree serving; main added `/tmp/site00-cloud-preview-pinned-ref` checkout. Resolution: **both** — log worktree root when set, then run pin-ref checkout when set.
+- **`Site00AccountRouteGuard.tsx`:** Branch added preview-host `isSite00SignInPaused()` bypass; main added `Site00ShellAuthProvider` + EC preview-guest allowlist. Resolution: **union imports** and **union** api-token skip conditions (`signInPaused` + `previewGuestRoute` + existing capture/cloud paths).
+- **`motherboard/MEMORY.md`:** Divergent append-only chronicles. Resolution: keep branch Grok/unified-review + SONNET1R1 entries, then main entries (Origin forensics, handoff v2, etc.) with `---` separators — no duplicate facts removed in conflict window.
+- **Complication (not in conflict markers):** This merge also auto-integrates a large `main` delta (Experience Compiler MAP2, existing-location service, creative director, shell auth tests, etc.) on top of the Grok-based authority stack. Re-validate Production authority QA on the merged tip; unrelated main features may affect routes/build size. Authority sprint assumed optional stacks (nav-typography, design cutover) still **not** on bare `main` — merged tree is authority + main, not necessarily + cutover stack unless those branches are merged separately.
+- **Verify:** `npm run build` OK after resolution.

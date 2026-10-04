@@ -1,0 +1,96 @@
+{
+  "packs": [
+    {
+      "pack_id": "BLDR_VISUAL_FAMILY_PACK_V1",
+      "experience_family": "BLDR",
+      "image_family_ids": [
+        "BLDR_ENVIRONMENT_FAMILY_V1",
+        "BLDR_TRANSPARENT_OBJECT_FAMILY_V1",
+        "BLDR_CARD_IMAGE_FAMILY_V1"
+      ],
+      "continuity_group_ids": [
+        "BLDR_WORLD_SYSTEM_V1"
+      ],
+      "master_asset_ids": [
+        "ENV.BLDR.COMMAND_CENTER",
+        "ENV.BLDR.PATH.OVERVIEW",
+        "ENV.BLDR.PATH.SITE",
+        "ENV.BLDR.PATH.WORLD",
+        "ENV.BLDR.PATH.SYSTEMS",
+        "ENV.BLDR.PATH.EXTENSIONS"
+      ],
+      "surface_derivation_guide": "Prefer master environment + extended canvas for desktop; same-world contact sheet review",
+      "icon_family_reference": "icons/ICON_FAMILY_AUTHORITY.*"
+    },
+    {
+      "pack_id": "EVOLVE_VISUAL_FAMILY_PACK_V1",
+      "experience_family": "EVOLVE",
+      "image_family_ids": [
+        "EVOLVE_ENVIRONMENT_FAMILY_V1",
+        "EVOLVE_TRANSPARENT_OBJECT_FAMILY_V1",
+        "EVOLVE_CARD_IMAGE_FAMILY_V1"
+      ],
+      "continuity_group_ids": [
+        "EVOLVE_INTERVENTION_SYSTEM_V1"
+      ],
+      "master_asset_ids": [
+        "ENV.EVOLVE.INTERVENTION_CENTER",
+        "ENV.EVOLVE.PATH.REFINE",
+        "ENV.EVOLVE.PATH.INSTALL",
+        "ENV.EVOLVE.PATH.TRANSFORM"
+      ],
+      "surface_derivation_guide": "Prefer master environment + extended canvas for desktop; same-world contact sheet review",
+      "icon_family_reference": "icons/ICON_FAMILY_AUTHORITY.*"
+    },
+    {
+      "pack_id": "ORIGIN_VISUAL_FAMILY_PACK_V1",
+      "experience_family": "ORIGIN",
+      "image_family_ids": [
+        "ORIGIN_ENVIRONMENT_FAMILY_V1",
+        "ORIGIN_CARD_IMAGE_FAMILY_V1",
+        "ORIGIN_TRANSPARENT_OBJECT_FAMILY_V1"
+      ],
+      "continuity_group_ids": [
+        "SITE00_ORIGIN_UNIVERSE_V1"
+      ],
+      "master_asset_ids": [
+        "ENV.ORIGIN.COLLAPSED",
+        "ENV.ORIGIN.EXPANDED"
+      ],
+      "surface_derivation_guide": "Prefer master environment + extended canvas for desktop; same-world contact sheet review",
+      "icon_family_reference": "icons/ICON_FAMILY_AUTHORITY.*"
+    },
+    {
+      "pack_id": "IDNTY_VISUAL_FAMILY_PACK_V1",
+      "experience_family": "IDNTY",
+      "image_family_ids": [
+        "IDNTY_ENVIRONMENT_FAMILY_V1",
+        "IDNTY_TRANSPARENT_OBJECT_FAMILY_V1"
+      ],
+      "continuity_group_ids": [
+        "IDNTY_ATRIUM_CONTINUITY_V1"
+      ],
+      "master_asset_ids": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "surface_derivation_guide": "Prefer master environment + extended canvas for desktop; same-world contact sheet review",
+      "icon_family_reference": "icons/ICON_FAMILY_AUTHORITY.*"
+    },
+    {
+      "pack_id": "LOCATIONS_VISUAL_FAMILY_PACK_V1",
+      "experience_family": "LOCATIONS",
+      "image_family_ids": [
+        "LOCATIONS_ENVIRONMENT_FAMILY_V1",
+        "LOCATIONS_CARD_IMAGE_FAMILY_V1"
+      ],
+      "continuity_group_ids": [
+        "SITE00_LOCATIONS_UNIVERSE_V1"
+      ],
+      "master_asset_ids": [
+        "ENV.LOCATIONS.ARCH"
+      ],
+      "surface_derivation_guide": "Prefer master environment + extended canvas for desktop; same-world contact sheet review",
+      "icon_family_reference": "icons/ICON_FAMILY_AUTHORITY.*"
+    }
+  ]
+}
