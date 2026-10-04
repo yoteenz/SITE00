@@ -12982,3 +12982,11 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX-ACTIVITY.THREE-VIEWPORT-RECONSTRUCTION.OPUS
 Founder wanted preview on `cursor/production-inbox-activity-threeviewport-opus1` with founder master PNG bottom-nav icons from the descendants work, but **not** the descendants unscaled label row below the bar (`ProductionNavLabelRow` / `prod-nav-dock`). Commit `43611fd8`: `ProductionNavIcon` + `bottom-nav/masters/*.png`; labels stay under each icon inside the zoomed `.ph-nav`. Preview tunnel serves this branch. PR #1305.
 
 Also ported descendants chrome fix: drop duplicate CURRENT WORKSPACE readout from production top header (mobile `ph-top__sel--prod`, host `pxh-top__loc`); 4-column mobile top grid in host CSS. Bottom nav owns tab identity.
+
+---
+
+## 2026-10-04 — Design asset OPUS3 cherry-picked onto INBOX/ACTIVITY branch
+
+Cherry-picked `afb22c27` (design pack extract, chamber stand-in removal, no-scroll Design parent) onto `cursor/production-inbox-activity-threeviewport-opus1` without switching the preview branch. **Kept:** OPUS1 INBOX/ACTIVITY three-viewport bodies, `ProductionNavIcon` + `masters/*.png` (HUB master updated from pack `nav-hub.png`), header trim. **Not merged:** OPUS2 inbox authority family or top-nav-only branch wholesale.
+
+- **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
