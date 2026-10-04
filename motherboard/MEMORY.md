@@ -13347,3 +13347,13 @@ Sprint `P0.STUDIOWORLD.RESIDENT-AUTHORITY.RECOVERY4-WHITE-TEE-RED-COLLAR`.
 - **Problem:** PR #1313 geometry batch anchored OpenArt on `production-authority-assets/shared/residents/*-portrait.jpg` (forensics/black tee / outdated). Founder: correct set is **white T-shirt + red collar** already in repo history.
 - **Recovery:** `casting-thumbnails-v1/` (commit `4cdac10c`, PR #1303) = work look + fabrication portrait; `season1-v1/01-natural-authority/` (PR #1302 `a59131ef`) = full-body. Bundle on `cursor/production-hub-descendants-opus1` (not current `main`). Ivory `*-uniform.jpg` / season1 `03-work-uniform-candidates` are **not** white-tee authority.
 - **Branch:** `cursor/studio-world-resident-authority-recovery4`; halted OpenArt; invalidated SW-001 generated frames (16) as `SUPERSEDED_OUTPUT_WRONG_SOURCE`; pending 112 frames `NOT_GENERATED`. Review ZIPs `STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW*.zip`. Next: founder review → 16-frame validation gen before full 128 resume.
+
+---
+
+## 2026-10-04 — Resident fabrication authority validation OpenArt (16-frame pack)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.OPENART1` on branch `cursor/studio-world-resident-fabrication-validation-openart1`.
+
+- **Scope:** 8 residents × 2 frames (work portrait + work full-body front) using casting-thumbnails-v1 + season1 natural full-body refs uploaded to OpenArt project `Q7IHYCEK3RPn2c1ConEG`; `gpt-image-2-5-sunburst` image2image HIGH 2K (~152 credits/frame).
+- **Completed:** SW-001 portrait + SW-002–SW-008 both frames generated via OpenArt MCP; PNGs + `validation_manifest.json` under `artifacts/STUDIO_WORLD_RESIDENT_FABRICATION_VALIDATION/`; contact sheets + `STUDIO_WORLD_RESIDENT_FABRICATION_VALIDATION_REVIEW.zip` / `_LITE.zip` via `studio-world-resident-fabrication-validation-openart.mjs finalize`. All completed frames `classification: FOUNDER_REVIEW_REQUIRED` (no auto PASS/FAIL). **SW-001 full body** still pending (separate run). **128 geometry batch not resumed.**
+- **Credits recorded:** 2280 (15 generations in manifest estimate).
