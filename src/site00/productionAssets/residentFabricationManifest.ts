@@ -9,7 +9,13 @@ import {
   type StudioWorldResidentId,
 } from '../../../shared/site00-studio-world/resident-fabrication/residentGeometryFrames.js';
 
-export type FabricationApprovalStatus = 'IN_REVIEW' | 'FOUNDER_REVIEW_REQUIRED' | 'APPROVED' | 'REJECTED';
+export type FabricationApprovalStatus =
+  | 'IN_REVIEW'
+  | 'FOUNDER_REVIEW_REQUIRED'
+  | 'APPROVED'
+  | 'REJECTED'
+  | 'NOT_GENERATED'
+  | 'SUPERSEDED_OUTPUT_WRONG_SOURCE';
 
 export type ResidentFabricationFrameRecord = {
   resident_id: StudioWorldResidentId;
@@ -54,6 +60,9 @@ export type ResidentFabricationStagePointers = {
 };
 
 export const RESIDENT_FABRICATION_OPENART_PROJECT_ID = 'Q7IHYCEK3RPn2c1ConEG';
+
+/** RECOVERY4: geometry batch halted until founder confirms recovered white-tee/red-collar authorities. */
+export { listFabricationSourceAuthorities, FABRICATION_BATCH_STATUS } from '../../../shared/site00-studio-world/resident-fabrication/fabricationSourceAuthority.js';
 
 export const RESIDENT_FABRICATION_PACK_ROOT = 'artifacts/STUDIO_WORLD_RESIDENT_FABRICATION';
 

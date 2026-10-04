@@ -23,13 +23,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:24:53.582Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_01_FRONT_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f01"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f01",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -53,13 +56,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:27:39.436Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_02_LEFT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f02"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f02",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -83,13 +89,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:28:35.124Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_03_RIGHT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f03"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f03",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -113,13 +122,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:28:35.602Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_04_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f04"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f04",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -143,13 +155,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:28:36.000Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_05_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f05"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f05",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -173,13 +188,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:28:36.395Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_06_REAR_HEAD.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f06"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f06",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -203,13 +221,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:30:00.654Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_07_FULL_FRONT.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f07"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f07",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -233,13 +254,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:30:01.045Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_08_FULL_LEFT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f08"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f08",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -263,13 +287,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:30:01.441Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_09_FULL_RIGHT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f09"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f09",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -293,13 +320,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:33:13.345Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_10_FULL_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f10"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f10",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -323,13 +353,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:33:13.866Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_11_FULL_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f11"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f11",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -353,13 +386,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:33:14.388Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_12_FULL_BACK.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f12"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f12",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -383,13 +419,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:33:14.904Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_13_SEATED.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f13"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f13",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -413,13 +452,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:33:15.297Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_14_CONVERSATIONAL.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f14"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f14",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -443,13 +485,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:33:15.809Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_15_WALK.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f15"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f15",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-001",
@@ -473,13 +518,16 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "SUPERSEDED_OUTPUT_WRONG_SOURCE",
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
       "created_at": "2026-10-04T17:33:16.203Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_16_DOCUMENTARY.png",
-      "fabrication_asset_id": "fabrication.sw-001.geometry.f16"
+      "fabrication_asset_id": "fabrication.sw-001.geometry.f16",
+      "invalid_for_canonical_review": true,
+      "wrong_source_authority": true,
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -503,13 +551,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_01_FRONT_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f01"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f01",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -533,13 +583,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_02_LEFT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f02"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f02",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -563,13 +615,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_03_RIGHT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f03"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f03",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -593,13 +647,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_04_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f04"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f04",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -623,13 +679,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_05_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f05"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f05",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -653,13 +711,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_06_REAR_HEAD.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f06"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f06",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -683,13 +743,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_07_FULL_FRONT.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f07"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f07",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -713,13 +775,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_08_FULL_LEFT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f08"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f08",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -743,13 +807,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_09_FULL_RIGHT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f09"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f09",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -773,13 +839,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_10_FULL_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f10"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f10",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -803,13 +871,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_11_FULL_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f11"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f11",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -833,13 +903,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_12_FULL_BACK.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f12"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f12",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -863,13 +935,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/04_NATURAL_POSE/SW-002_13_SEATED.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f13"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f13",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -893,13 +967,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/04_NATURAL_POSE/SW-002_14_CONVERSATIONAL.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f14"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f14",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -923,13 +999,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/04_NATURAL_POSE/SW-002_15_WALK.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f15"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f15",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-002",
@@ -953,13 +1031,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED founder pack; LITE_ONLY source.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/04_NATURAL_POSE/SW-002_16_DOCUMENTARY.png",
-      "fabrication_asset_id": "fabrication.sw-002.geometry.f16"
+      "fabrication_asset_id": "fabrication.sw-002.geometry.f16",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -983,13 +1063,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_01_FRONT_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f01"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f01",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1013,13 +1095,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_02_LEFT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f02"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f02",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1043,13 +1127,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_03_RIGHT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f03"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f03",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1073,13 +1159,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_04_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f04"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f04",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1103,13 +1191,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_05_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f05"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f05",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1133,13 +1223,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_06_REAR_HEAD.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f06"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f06",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1163,13 +1255,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_07_FULL_FRONT.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f07"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f07",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1193,13 +1287,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_08_FULL_LEFT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f08"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f08",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1223,13 +1319,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_09_FULL_RIGHT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f09"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f09",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1253,13 +1351,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_10_FULL_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f10"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f10",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1283,13 +1383,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_11_FULL_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f11"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f11",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1313,13 +1415,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_12_FULL_BACK.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f12"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f12",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1343,13 +1447,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/04_NATURAL_POSE/SW-003_13_SEATED.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f13"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f13",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1373,13 +1479,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/04_NATURAL_POSE/SW-003_14_CONVERSATIONAL.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f14"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f14",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1403,13 +1511,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/04_NATURAL_POSE/SW-003_15_WALK.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f15"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f15",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-003",
@@ -1433,13 +1543,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Mounted portrait is authority; locs cluster remains CANDIDATE_ALTERNATE_LOOK only.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/04_NATURAL_POSE/SW-003_16_DOCUMENTARY.png",
-      "fabrication_asset_id": "fabrication.sw-003.geometry.f16"
+      "fabrication_asset_id": "fabrication.sw-003.geometry.f16",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1463,13 +1575,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_01_FRONT_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f01"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f01",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1493,13 +1607,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_02_LEFT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f02"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f02",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1523,13 +1639,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_03_RIGHT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f03"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f03",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1553,13 +1671,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_04_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f04"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f04",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1583,13 +1703,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_05_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f05"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f05",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1613,13 +1735,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_06_REAR_HEAD.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f06"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f06",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1643,13 +1767,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_07_FULL_FRONT.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f07"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f07",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1673,13 +1799,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_08_FULL_LEFT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f08"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f08",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1703,13 +1831,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_09_FULL_RIGHT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f09"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f09",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1733,13 +1863,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_10_FULL_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f10"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f10",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1763,13 +1895,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_11_FULL_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f11"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f11",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1793,13 +1927,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_12_FULL_BACK.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f12"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f12",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1823,13 +1959,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/04_NATURAL_POSE/SW-004_13_SEATED.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f13"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f13",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1853,13 +1991,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/04_NATURAL_POSE/SW-004_14_CONVERSATIONAL.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f14"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f14",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1883,13 +2023,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/04_NATURAL_POSE/SW-004_15_WALK.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f15"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f15",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-004",
@@ -1913,13 +2055,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/04_NATURAL_POSE/SW-004_16_DOCUMENTARY.png",
-      "fabrication_asset_id": "fabrication.sw-004.geometry.f16"
+      "fabrication_asset_id": "fabrication.sw-004.geometry.f16",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -1943,13 +2087,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_01_FRONT_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f01"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f01",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -1973,13 +2119,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_02_LEFT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f02"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f02",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2003,13 +2151,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_03_RIGHT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f03"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f03",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2033,13 +2183,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_04_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f04"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f04",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2063,13 +2215,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_05_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f05"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f05",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2093,13 +2247,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_06_REAR_HEAD.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f06"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f06",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2123,13 +2279,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_07_FULL_FRONT.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f07"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f07",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2153,13 +2311,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_08_FULL_LEFT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f08"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f08",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2183,13 +2343,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_09_FULL_RIGHT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f09"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f09",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2213,13 +2375,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_10_FULL_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f10"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f10",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2243,13 +2407,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_11_FULL_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f11"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f11",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2273,13 +2439,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_12_FULL_BACK.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f12"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f12",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2303,13 +2471,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/04_NATURAL_POSE/SW-005_13_SEATED.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f13"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f13",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2333,13 +2503,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/04_NATURAL_POSE/SW-005_14_CONVERSATIONAL.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f14"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f14",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2363,13 +2535,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/04_NATURAL_POSE/SW-005_15_WALK.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f15"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f15",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-005",
@@ -2393,13 +2567,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "USED_BY_AUTHORITY portrait.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/04_NATURAL_POSE/SW-005_16_DOCUMENTARY.png",
-      "fabrication_asset_id": "fabrication.sw-005.geometry.f16"
+      "fabrication_asset_id": "fabrication.sw-005.geometry.f16",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2423,13 +2599,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/02_FACE_GEOMETRY/SW-006_01_FRONT_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f01"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f01",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2453,13 +2631,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/02_FACE_GEOMETRY/SW-006_02_LEFT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f02"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f02",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2483,13 +2663,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/02_FACE_GEOMETRY/SW-006_03_RIGHT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f03"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f03",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2513,13 +2695,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/02_FACE_GEOMETRY/SW-006_04_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f04"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f04",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2543,13 +2727,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/02_FACE_GEOMETRY/SW-006_05_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f05"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f05",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2573,13 +2759,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/02_FACE_GEOMETRY/SW-006_06_REAR_HEAD.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f06"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f06",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2603,13 +2791,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/03_BODY_GEOMETRY/SW-006_07_FULL_FRONT.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f07"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f07",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2633,13 +2823,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/03_BODY_GEOMETRY/SW-006_08_FULL_LEFT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f08"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f08",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2663,13 +2855,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/03_BODY_GEOMETRY/SW-006_09_FULL_RIGHT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f09"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f09",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2693,13 +2887,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/03_BODY_GEOMETRY/SW-006_10_FULL_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f10"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f10",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2723,13 +2919,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/03_BODY_GEOMETRY/SW-006_11_FULL_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f11"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f11",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2753,13 +2951,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/03_BODY_GEOMETRY/SW-006_12_FULL_BACK.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f12"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f12",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2783,13 +2983,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/04_NATURAL_POSE/SW-006_13_SEATED.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f13"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f13",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2813,13 +3015,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/04_NATURAL_POSE/SW-006_14_CONVERSATIONAL.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f14"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f14",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2843,13 +3047,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/04_NATURAL_POSE/SW-006_15_WALK.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f15"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f15",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-006",
@@ -2873,13 +3079,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "Glam variant is alternate mode only — not default identity.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/04_NATURAL_POSE/SW-006_16_DOCUMENTARY.png",
-      "fabrication_asset_id": "fabrication.sw-006.geometry.f16"
+      "fabrication_asset_id": "fabrication.sw-006.geometry.f16",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -2903,13 +3111,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/02_FACE_GEOMETRY/SW-007_01_FRONT_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f01"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f01",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -2933,13 +3143,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/02_FACE_GEOMETRY/SW-007_02_LEFT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f02"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f02",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -2963,13 +3175,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/02_FACE_GEOMETRY/SW-007_03_RIGHT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f03"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f03",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -2993,13 +3207,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/02_FACE_GEOMETRY/SW-007_04_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f04"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f04",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3023,13 +3239,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/02_FACE_GEOMETRY/SW-007_05_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f05"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f05",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3053,13 +3271,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/02_FACE_GEOMETRY/SW-007_06_REAR_HEAD.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f06"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f06",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3083,13 +3303,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/03_BODY_GEOMETRY/SW-007_07_FULL_FRONT.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f07"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f07",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3113,13 +3335,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/03_BODY_GEOMETRY/SW-007_08_FULL_LEFT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f08"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f08",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3143,13 +3367,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/03_BODY_GEOMETRY/SW-007_09_FULL_RIGHT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f09"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f09",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3173,13 +3399,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/03_BODY_GEOMETRY/SW-007_10_FULL_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f10"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f10",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3203,13 +3431,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/03_BODY_GEOMETRY/SW-007_11_FULL_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f11"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f11",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3233,13 +3463,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/03_BODY_GEOMETRY/SW-007_12_FULL_BACK.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f12"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f12",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3263,13 +3495,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/04_NATURAL_POSE/SW-007_13_SEATED.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f13"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f13",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3293,13 +3527,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/04_NATURAL_POSE/SW-007_14_CONVERSATIONAL.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f14"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f14",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3323,13 +3559,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/04_NATURAL_POSE/SW-007_15_WALK.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f15"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f15",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-007",
@@ -3353,13 +3591,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/04_NATURAL_POSE/SW-007_16_DOCUMENTARY.png",
-      "fabrication_asset_id": "fabrication.sw-007.geometry.f16"
+      "fabrication_asset_id": "fabrication.sw-007.geometry.f16",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3383,13 +3623,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/02_FACE_GEOMETRY/SW-008_01_FRONT_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f01"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f01",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3413,13 +3655,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/02_FACE_GEOMETRY/SW-008_02_LEFT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f02"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f02",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3443,13 +3687,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/02_FACE_GEOMETRY/SW-008_03_RIGHT_3Q_PORTRAIT.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f03"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f03",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3473,13 +3719,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/02_FACE_GEOMETRY/SW-008_04_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f04"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f04",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3503,13 +3751,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/02_FACE_GEOMETRY/SW-008_05_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f05"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f05",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3533,13 +3783,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/02_FACE_GEOMETRY/SW-008_06_REAR_HEAD.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f06"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f06",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3563,13 +3815,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/03_BODY_GEOMETRY/SW-008_07_FULL_FRONT.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f07"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f07",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3593,13 +3847,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/03_BODY_GEOMETRY/SW-008_08_FULL_LEFT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f08"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f08",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3623,13 +3879,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/03_BODY_GEOMETRY/SW-008_09_FULL_RIGHT_3Q.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f09"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f09",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3653,13 +3911,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/03_BODY_GEOMETRY/SW-008_10_FULL_LEFT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f10"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f10",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3683,13 +3943,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/03_BODY_GEOMETRY/SW-008_11_FULL_RIGHT_PROFILE.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f11"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f11",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3713,13 +3975,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/03_BODY_GEOMETRY/SW-008_12_FULL_BACK.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f12"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f12",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3743,13 +4007,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/04_NATURAL_POSE/SW-008_13_SEATED.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f13"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f13",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3773,13 +4039,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/04_NATURAL_POSE/SW-008_14_CONVERSATIONAL.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f14"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f14",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3803,13 +4071,15 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/04_NATURAL_POSE/SW-008_15_WALK.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f15"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f15",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     },
     {
       "resident_id": "SW-008",
@@ -3833,13 +4103,28 @@
         "autoEnhancePrompt": false,
         "projectId": "Q7IHYCEK3RPn2c1ConEG"
       },
-      "approval_status": "IN_REVIEW",
+      "approval_status": "NOT_GENERATED",
       "identity_confidence": "high",
       "continuity_notes": "IDENTITY_CONFIRMED; LITE_ONLY.",
       "retry_count": 0,
       "created_at": null,
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/04_NATURAL_POSE/SW-008_16_DOCUMENTARY.png",
-      "fabrication_asset_id": "fabrication.sw-008.geometry.f16"
+      "fabrication_asset_id": "fabrication.sw-008.geometry.f16",
+      "generation_halted_reason": "SOURCE_AUTHORITY_RECOVERY4",
+      "fabrication_identity_source_pending": "casting-thumbnails-v1 + season1-v1 (see recovery4 manifest)"
     }
-  ]
+  ],
+  "batch_status": "SOURCE_AUTHORITY_RECOVERED_HALT_GENERATION",
+  "fabrication_source_authority": {
+    "white_tee_red_collar_root": "public/site00/studio-world-residents/casting-thumbnails-v1/",
+    "full_body_root": "public/site00/studio-world-residents/season1-v1/*/01-natural-authority/",
+    "source_commit_casting": "4cdac10c6885de7482d82c4b39ee601eb3f604c8",
+    "source_pr_casting": 1303,
+    "source_commit_season1": "a59131ef",
+    "source_pr_season1": 1302,
+    "bundle_branch": "origin/cursor/production-hub-descendants-opus1",
+    "superseded": "public/site00/production-authority-assets/shared/residents/*-portrait.jpg"
+  },
+  "generated_frames_invalidated": 16,
+  "openart_generation_halted": true
 }

@@ -256,7 +256,7 @@ export const STUDIO_WORLD_RESIDENT_FABRICATION_PROFILES: readonly ResidentFabric
     portraitAssetId: 'resident.sw001.etta.portrait',
     portraitRepoPath: 'public/site00/production-authority-assets/shared/residents/studio-world-etta-vale-portrait.jpg',
     baselineWardrobe:
-      'Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.',
+      'Studio World shared work look: plain white T-shirt with thin SITE 00 red collar trim (casting-thumbnails-v1 authority). Natural-habitat fashion may differ on full-body season1 refs.',
     registryNotes: 'Identity anchor; lite portrait authority until SW Team(1).zip recovered.',
   },
   {
@@ -267,7 +267,7 @@ export const STUDIO_WORLD_RESIDENT_FABRICATION_PROFILES: readonly ResidentFabric
     portraitAssetId: 'resident.sw002.zuri.portrait',
     portraitRepoPath: 'public/site00/production-authority-assets/shared/residents/studio-world-zuri-xu-portrait.jpg',
     baselineWardrobe:
-      'Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.',
+      'Plain white T-shirt with SITE 00 red collar trim (casting-thumbnails-v1). Not beige suiting.',
     registryNotes: 'IDENTITY_CONFIRMED founder pack; LITE_ONLY source.',
   },
   {
