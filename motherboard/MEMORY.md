@@ -12992,3 +12992,19 @@ Sprint `P0.STUDIOOS.PRODUCTION.TOP-NAV.GLOBAL-CONVERGENCE.OPUS1`. Base `cursor/p
   - Nothing in the header masks or ellipsizes text, and line-heights are at least 1.15.
 - **Proof:** `artifacts/production-top-nav-opus1/`. An ink-level clip detector went from 64/84 to 84/84 clean.
 - **Kept on purpose:** Character Fabrication and the legacy hub machine keep their own headers.
+
+---
+
+## 2026-10-04 — Inbox authority family convergence (OPUS2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX.AUTHORITY-FAMILY-CONVERGENCE.OPUS2`. Base `cursor/production-top-nav-opus1` @ `72b2ad5a`. Branch `cursor/production-inbox-authority-opus2`. No merge, no deploy.
+
+- **Model.** Inbox = lifecycle STATE (NEEDS YOU / WATCHING / RESOLVED) × object TYPE (DECISION / MESSAGE / SYSTEM). `inboxModel.ts` builds objects from attention, requests, recorded activity and the graph. No message source exists, so Messages and Thread are UNMOUNTED.
+- **Routes.** Still `/production/queue`:
+  - children: `?view=watching|resolved|all|messages|system`
+  - grandchildren: `?item=`, `?thread=`, `?notice=sys.<node>`
+  - the OPUS1 `priority`, `approvals` and `direct` links still resolve
+  - temporary surfaces (revision, approval confirmation, filter/sort, attachment preview) are contained overlays
+- **Viewport contract.** `.pxa[data-screen='inbox']` locks the body and only `[data-scroll=internal]` panes scroll. Measured 45/45 with no page scroll across 390×844, 360×640, 1024×768, 1440×810 and 1280×720.
+- **Desktop/tablet boards.** The `cdn.openart.ai` OpenArt boards are blocked by the network policy (CONNECT 403), so those layouts are MOBILE_AUTHORITY_TRANSLATED. A compare pass against the real boards is still owed.
+- **Proof:** `artifacts/production-inbox-authority-opus2/`.
