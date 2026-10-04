@@ -4,6 +4,7 @@ import { productionExpressionPath } from '../../../../shared/site00-production-w
 import { HubImage } from '../productionHub/HubImage';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
 import { buildActivityRows } from './ActivityBody';
+import { AUTHORITY_ASSETS } from './authorityAssets';
 import { agoLabel, Dot, Donut, pad2, Priority, Sec, StatusCell, Thumb } from './primitives';
 
 export const NODE_SUB: Record<HubNodeId, string> = {
@@ -60,7 +61,7 @@ export function AuthorityHero({
   return (
     <div className="pxa-hero" data-testid={testId}>
       {plate ?
-        <span className="pxa-hero__bg" style={{ backgroundImage: `url(${plate})` }} aria-hidden />
+        <span className="pxa-hero__bg pxa-hero__bg--plate" style={{ backgroundImage: `url(${plate})` }} aria-hidden />
       : (
         <span className="pxa-hero__bg" aria-hidden>
           <HubImage slotId={slotId} url={url} label="CHAMBER ATMOSPHERE" />
@@ -156,6 +157,7 @@ export function HubBody() {
         title={project.name.toUpperCase()}
         sub={production ? `${production.label} · A CLEAR ROUTE FOR EVERY PERSON.` : 'NO PRODUCTION IN THIS PROJECT YET.'}
         side={['IDEAS', 'PEOPLE', 'WORLDS', 'IN MOTION']}
+        plate={AUTHORITY_ASSETS.hubCrystal}
       />
       <LiveStatusBar />
       <div className="pxa-hub__grid">

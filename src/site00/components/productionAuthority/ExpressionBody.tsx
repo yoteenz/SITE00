@@ -4,6 +4,7 @@ import { subWorkspacesFor } from '../../../../shared/site00-production-workspace
 import { productionExpressionPath } from '../../../../shared/site00-production-workspace/routes.js';
 import { PW_IMG } from '../production/productionImagery';
 import { HubImage } from '../productionHub/HubImage';
+import { AUTHORITY_ASSETS } from './authorityAssets';
 import { NODE_SUB, AuthorityHero, LiveStatusBar } from './HubBody';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
 import { pad2, Priority, Sec, Thumb } from './primitives';
@@ -36,6 +37,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
         title="PRODUCTION FLOOR"
         sub="IDEAS INTO WORLDS. CHARACTERS INTO CULTURE. EVERYWHERE."
         side={['CAST', 'STYLE', 'STAGE', 'FILM', 'PACKAGE', 'PUBLISH']}
+        plate={AUTHORITY_ASSETS.expressionStage}
         testId="expression-hero"
       />
       <LiveStatusBar expressionMode />
