@@ -12981,6 +12981,7 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX-ACTIVITY.THREE-VIEWPORT-RECONSTRUCTION.OPUS
 
 Founder wanted preview on `cursor/production-inbox-activity-threeviewport-opus1` with founder master PNG bottom-nav icons from the descendants work, but **not** the descendants unscaled label row below the bar (`ProductionNavLabelRow` / `prod-nav-dock`). Commit `43611fd8`: `ProductionNavIcon` + `bottom-nav/masters/*.png`; labels stay under each icon inside the zoomed `.ph-nav`. Preview tunnel serves this branch. PR #1305.
 
+<<<<<<< HEAD
 Also ported descendants chrome fix: drop duplicate CURRENT WORKSPACE readout from production top header (mobile `ph-top__sel--prod`, host `pxh-top__loc`); 4-column mobile top grid in host CSS. Bottom nav owns tab identity.
 
 ---
@@ -12990,3 +12991,32 @@ Also ported descendants chrome fix: drop duplicate CURRENT WORKSPACE readout fro
 Cherry-picked `afb22c27` (design pack extract, chamber stand-in removal, no-scroll Design parent) onto `cursor/production-inbox-activity-threeviewport-opus1` without switching the preview branch. **Kept:** OPUS1 INBOX/ACTIVITY three-viewport bodies, `ProductionNavIcon` + `masters/*.png` (HUB master updated from pack `nav-hub.png`), header trim. **Not merged:** OPUS2 inbox authority family or top-nav-only branch wholesale.
 
 - **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
+=======
+- **One header:** `ProductionWorkspaceHeader` (`chrome.tsx`) is the only workspace header. The authority frame, PwFrame and the Design overlay all mount it.
+  - The phone variant now has the same four groups as tablet/desktop (TAB, PROJECT, ATTENTION, MENU). The CURRENT WORKSPACE selector and the long-title ellipsis are gone.
+- **Root cause:** the phone `.ph--hub .ph-top` is a fixed five-track grid with `overflow: hidden` on every cell, and a `.pxa`-only type bump overflowed its tracks.
+  - ITEMS NEED YOU was cropped on every phone width.
+  - PwFrame descendants showed a second, 75-unit header.
+- **Tokens:**
+  - tablet/desktop: `--pxh-*` (heights 64 / 72)
+  - phone strip: `--phh-*` (120 units)
+  - Nothing in the header masks or ellipsizes text, and line-heights are at least 1.15.
+- **Proof:** `artifacts/production-top-nav-opus1/`. An ink-level clip detector went from 64/84 to 84/84 clean.
+- **Kept on purpose:** Character Fabrication and the legacy hub machine keep their own headers.
+
+---
+
+## 2026-10-04 — Inbox authority family convergence (OPUS2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX.AUTHORITY-FAMILY-CONVERGENCE.OPUS2`. Base `cursor/production-top-nav-opus1` @ `72b2ad5a`. Branch `cursor/production-inbox-authority-opus2`. No merge, no deploy.
+
+- **Model.** Inbox = lifecycle STATE (NEEDS YOU / WATCHING / RESOLVED) × object TYPE (DECISION / MESSAGE / SYSTEM). `inboxModel.ts` builds objects from attention, requests, recorded activity and the graph. No message source exists, so Messages and Thread are UNMOUNTED.
+- **Routes.** Still `/production/queue`:
+  - children: `?view=watching|resolved|all|messages|system`
+  - grandchildren: `?item=`, `?thread=`, `?notice=sys.<node>`
+  - the OPUS1 `priority`, `approvals` and `direct` links still resolve
+  - temporary surfaces (revision, approval confirmation, filter/sort, attachment preview) are contained overlays
+- **Viewport contract.** `.pxa[data-screen='inbox']` locks the body and only `[data-scroll=internal]` panes scroll. Measured 45/45 with no page scroll across 390×844, 360×640, 1024×768, 1440×810 and 1280×720.
+- **Desktop/tablet boards.** The `cdn.openart.ai` OpenArt boards are blocked by the network policy (CONNECT 403), so those layouts are MOBILE_AUTHORITY_TRANSLATED. A compare pass against the real boards is still owed.
+- **Proof:** `artifacts/production-inbox-authority-opus2/`.
+>>>>>>> 37d19680 (feat(production): Inbox authority family — one responsive Inbox system)
