@@ -1,34 +1,11 @@
 {
-  "sprint": "P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1",
+  "sprint": "P0.JURNL.F01-ASSET-HARVEST-RECOVERY1",
   "parentGeneration": "WjkVD1jNeggB0iWBABM6",
+  "parentFile": "PARENT/F01.00_WELCOME_GENERATED.png",
   "canonicalHarvest": "MANIFEST/asset_lineage_harvest.json",
-  "entries": [
-    {
-      "ASSET_ID": "ENTRY.VERIFICATION.CORRESPONDENCE.001",
-      "SOURCE_SCREEN": "F01.02",
-      "SOURCE_GENERATION": "JFWn03gqCpxDuCPrRELy",
-      "STATUS": "NEW",
-      "USED_BY": ["F01.02", "F01.06", "STATES.EMAIL_RECOVERY"],
-      "ALLOWED_TRANSFORMS": ["crop", "scale", "mask", "responsive reposition"],
-      "NOT_ALLOWED": ["redesign", "arbitrary recolor", "style drift"]
-    },
-    {
-      "ASSET_ID": "ENTRY.SECURITY.BIOMETRIC_PANEL.001",
-      "SOURCE_SCREEN": "F01.09",
-      "SOURCE_GENERATION": "UjStTRybqYtQXY7kzOJ1",
-      "STATUS": "NEW",
-      "USED_BY": ["F01.09", "STATES.SECURITY_NETWORK"],
-      "ALLOWED_TRANSFORMS": ["crop", "scale", "mask"],
-      "NOT_ALLOWED": ["circular biometric hero", "generic cyber shield"]
-    },
-    {
-      "ASSET_ID": "ENTRY.SECURITY.BRASS_LOCK.001",
-      "SOURCE_SCREEN": "F01.12",
-      "SOURCE_GENERATION": "2gIrjqgIh3QQ3Rtb4T4i",
-      "STATUS": "NEW",
-      "USED_BY": ["F01.12", "F01.10"],
-      "ALLOWED_TRANSFORMS": ["crop", "scale", "tonal adjustment"],
-      "NOT_ALLOWED": ["material replacement"]
-    }
-  ]
+  "recoveryReport": "MANIFEST/F01_ASSET_RECOVERY_REPORT.json",
+  "componentReferences": "MANIFEST/COMPONENT_REFERENCES/",
+  "priorCropsArchive": "ASSETS/_ARCHIVE_SCREENSHOT_CROPS_v1/",
+  "newChildAssetsFromOpenArt": [],
+  "notes": "Post-recovery: raster ASSETS exclude buttons and logo placement; see F01_COMPONENT_MANIFEST.json."
 }
