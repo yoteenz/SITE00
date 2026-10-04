@@ -135,7 +135,3 @@ export function Tabs<T extends string>({
   );
 }
 
-/** Abstract production orb used by pipeline stages (CSS art, no raster). */
-export function Orb({ variant }: { variant: number }) {
-  return <span className={`pxa-orb pxa-orb--${variant % 5}`} aria-hidden />;
-}
