@@ -360,7 +360,7 @@ function Attention({ objects, data }: { objects: InboxObject[]; data: Data }) {
     </section>
   );
 }
-function RecentlyResolved({ objects, url }: { objects: InboxObject[]; url: Url }) {
+function RecentlyResolved({ objects, url, strip = false }: { objects: InboxObject[]; url: Url; strip?: boolean }) {
   const done = objects.filter((o) => o.state === 'RESOLVED').slice(0, 8);
   return (
     <section className="ibx-recent" data-testid="inbox-resolved-rail">
@@ -382,6 +382,13 @@ function RecentlyResolved({ objects, url }: { objects: InboxObject[]; url: Url }
               </i>
             </Link>
           ))}
+        </div>
+      : strip ?
+        <div className="ibx-recent__rail ibx-recent__rail--empty" data-testid="inbox-resolved-empty">
+          {Array.from({ length: 6 }, (_, i) => (
+            <span key={i} className="ibx-slot" aria-hidden />
+          ))}
+          <p>NOTHING RESOLVED YET · APPROVALS, REVISIONS AND COMPLETED STAGES LAND HERE</p>
         </div>
       : <Empty title="NOTHING RESOLVED YET" body="Approvals, revisions and completed stages land here." />}
     </section>
@@ -408,12 +415,14 @@ function Search({ value, onChange, placeholder, testId }: { value: string; onCha
 }
 const match = (q: string, o: InboxObject) => !q.trim() || `${o.entry} ${o.title} ${o.area} ${o.why} ${o.blocks.join(' ')}`.toLowerCase().includes(q.trim().toLowerCase());
 
-/* ── ROOT · NEEDS YOU ────────────────────────────────────────────────────────────────────────────── */
+/* ── ROOT · NEEDS YOU ────────────────────────────────────────────────────────────────────────────────
+ * INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2 composition (PARENT_3VIEW 01_INBOX): selected decision surface across
+ * the top (art · facts + urgency · REVIEW / APPROVE / REQUEST REVISION) → INCOMING DECISION OBJECTS beside
+ * BLOCKERS & APPROVALS → RECENTLY RESOLVED strip. Same objects, same gate, same handlers as OPUS2. */
 function NeedsYou({ objects, data, url, actions }: { objects: InboxObject[]; data: Data; url: Url; actions: Actions }) {
   const needs = objects.filter((o) => o.state === 'NEEDS_YOU');
   const focus = needs.find((o) => o.type === 'DECISION') ?? needs[0] ?? null;
-  const [filter, setFilter] = useState<'ALL' | InboxType>('ALL');
-  const incoming = needs.filter((o) => o !== focus && (filter === 'ALL' || o.type === filter));
+  const incoming = needs.filter((o) => o !== focus);
   return (
     <div className="ibx-view ibx-root" data-testid="inbox-needs-you">
       {focus ?
@@ -421,36 +430,50 @@ function NeedsYou({ objects, data, url, actions }: { objects: InboxObject[]; dat
       : <Empty title="NOTHING NEEDS YOU" body="Open decisions, messages and system notices that need your judgment appear here." testId="queue-empty" />}
       <section className="ibx-incoming" data-testid="inbox-incoming">
         <Head
-          title="INCOMING"
+          title="INCOMING DECISION OBJECTS"
           extra={
             <Link to={inboxHref('all')} className="ibx-viewall" data-testid="inbox-open-all">
               ALL INBOX <IaIcon name="next" />
             </Link>
           }
-        >
-          <div className="ibx-seg" role="tablist" aria-label="Incoming type">
-            {(['ALL', 'DECISION', 'MESSAGE', 'SYSTEM'] as const).map((t) => (
-              <button key={t} type="button" role="tab" aria-selected={filter === t} className={filter === t ? 'is-active' : undefined} onClick={() => setFilter(t)} data-testid={`inbox-incoming-${t.toLowerCase()}`}>
-                {t === 'ALL' ? 'ALL' : `${t}S`}
-              </button>
-            ))}
-          </div>
-        </Head>
+        />
         <div className="ibx-incoming__rail">
           {incoming.map((o) => (
             <Link key={o.id} to={detailHref(o) ?? inboxHref('all')} className="ibx-card" data-testid={o.source === 'REQUEST' ? 'queue-request' : 'inbox-item'} data-type={o.type}>
               <Art o={o} url={url} />
-              <i className="ibx-dot" aria-hidden />
-              <small>{o.type === 'SYSTEM' ? 'SYSTEM' : o.entry}</small>
-              <b>{o.title}</b>
+              <b>
+                {o.type === 'SYSTEM' ? 'SYSTEM' : o.entry} – {o.title}
+              </b>
+              <small className="ibx-card__status">{STATUS_LABEL[o.status]}</small>
             </Link>
           ))}
-          {incoming.length === 0 ? <Empty title={filter === 'ALL' ? 'NOTHING ELSE INCOMING' : `NO ${filter}S INCOMING`} /> : null}
+          {incoming.length === 0 ? <Empty title="NOTHING ELSE INCOMING" /> : null}
         </div>
       </section>
-      <Attention objects={objects} data={data} />
-      <RecentlyResolved objects={objects} url={url} />
+      <BlockersApprovals objects={objects} data={data} />
+      <RecentlyResolved objects={objects} url={url} strip />
     </div>
+  );
+}
+
+/** Root attention module: the two counts the authority surfaces (blockers · approvals waiting on you). */
+function BlockersApprovals({ objects, data }: { objects: InboxObject[]; data: Data }) {
+  const rows = [
+    { id: 'blockers', n: data?.graph.blockers.length ?? 0, label: 'BLOCKERS', to: '/production/activity?view=blockers' },
+    { id: 'approvals', n: objects.filter((o) => o.type === 'DECISION' && o.state === 'NEEDS_YOU').length, label: 'APPROVALS', to: inboxHref('all', { type: 'DECISION', state: 'NEEDS_YOU' }) },
+  ];
+  return (
+    <section className="ibx-attn ibx-ba" data-testid="inbox-attention">
+      <Head title="BLOCKERS & APPROVALS" />
+      <div className="ibx-ba__list">
+        {rows.map((r) => (
+          <Link key={r.id} to={r.to} data-testid={`inbox-attention-${r.id}`}>
+            <b>{pad2(r.n)}</b>
+            <span>{r.label}</span>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -460,20 +483,19 @@ function FocusCard({ o, url, actions }: { o: InboxObject; url: Url; actions: Act
     <article className="ibx-focus" data-testid="inbox-focus" data-type={o.type} data-state={o.state}>
       <Art o={o} url={url} className="ibx-focus__art" />
       <div className="ibx-focus__body">
-        <div className="ibx-focus__type">
-          <span>TYPE</span>
-          <b>{o.type}</b>
-          {o.urgency === 'HIGH' ? <Chip tone="red">HIGH</Chip> : <Chip tone="ink">NORMAL</Chip>}
-        </div>
         <Facts
+          className="ibx-focus__facts"
           rows={[
             ['SOURCE', o.entry],
             ['AREA', o.area],
             ['REQUEST', o.title],
-            ['BLOCKS', o.blocks.slice(0, 2).join(' + ')],
+            ['BLOCKS', o.blocks.slice(0, 2).join(' + ') || '—'],
             ['BY', o.by],
           ]}
         />
+        <Chip tone={o.urgency === 'HIGH' ? 'red' : 'ink'} testId="inbox-focus-urgency">
+          URGENCY: {o.urgency}
+        </Chip>
       </div>
       <div className="ibx-focus__actions ibx-actions">
         <Link to={inboxHref('needs', { item: o.id })} className="ibx-btn" data-testid="inbox-review">
@@ -482,10 +504,11 @@ function FocusCard({ o, url, actions }: { o: InboxObject; url: Url; actions: Act
         <button type="button" className="ibx-btn ibx-btn--red" disabled={!ok || actions.deciding} onClick={() => actions.approve(o)} title={ok ? undefined : actions.gateReason} data-testid="inbox-approve">
           APPROVE
         </button>
-        <button type="button" className="ibx-btn ibx-btn--soft" onClick={() => actions.requestRevision(o)} data-testid="inbox-revise">
+        <button type="button" className="ibx-btn" onClick={() => actions.requestRevision(o)} data-testid="inbox-revise">
           REQUEST REVISION
         </button>
       </div>
+      {!ok ? <p className="ibx-focus__gate" data-testid="inbox-focus-gate">{actions.gateReason}</p> : null}
     </article>
   );
 }

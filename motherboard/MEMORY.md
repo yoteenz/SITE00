@@ -13230,3 +13230,11 @@ Fetched `origin/main` and merged into `cursor/production-inbox-activity-threevie
 - **MEMORY:** Union timeline — branch production/inbox/activity/expression entries plus main-only EC/preview-guest/origin forensics entries (skipped duplicate design-pack bullets already in 2026-10-04 design cherry-pick entry).
 - **Tests:** inbox OPUS2 + activity OPUS1 + expression OPUS1 suites 116/116 pass post-merge.
 - **Convention:** When merging main into this tunnel branch, preserve both sign-in pause and EC preview-guest shell auth.
+
+---
+
+## 2026-10-04 — Inbox root convergence 2 on tunnel + all-tabs forensic
+
+- **INBOX root:** ported the Inbox part of `ffc7f7c0` (from `cursor/production-expression-authority-opus1`) onto this branch. The NEEDS YOU root now follows PARENT_3VIEW 01_INBOX. The OPUS2 model, routing and gate are unchanged. The BLOCKERS count links to `?view=blockers` on OPUS1 Activity. Live 45/45 with no scroll. Proof: `artifacts/production-inbox-root-convergence2/`.
+- **ACTIVITY:** stays OPUS1 (founder decision). The ACTIVITY LOG was not ported.
+- **All-tabs forensic truth table:** `artifacts/production-all-tabs-forensic1/README.md`.
