@@ -13258,3 +13258,13 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/produc
 - **Mounted:** approved portraits for Etta Vale, Jules Mercer, Caspian Reed, Iona Wells; Zuri Xu kept as candidate. Noa, Marlowe, Elio still missing (no project).
 - **Inbox:** project thumbnail slot reclassified `NO_SOURCE_ASSET_REQUIRED`. Nav PNGs stay canonical with `UNKNOWN_OPENART_PROVENANCE`.
 - **Build:** `npm run build` passed. No merge, no deploy, no new generations.
+
+---
+
+## 2026-10-04 — Production authority downloader (RECOVERY2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.RECOVERY2` — forensic retrieval only (OpenArt project `Q7IHYCEK3RPn2c1ConEG`, zero generations).
+
+- **Delivered:** `download_production_authorities.ps1` at repo root with embedded **242** CDN URLs (Experience 46 mobile + 46 desktop/tablet hybrid, Library 75 + 75). Regenerator: `scripts/build-download-production-authorities.ps1.py`. Manifest: `artifacts/production-openart-recovery2/AUTHORITY_DOWNLOADER_MANIFEST.json`.
+- **Identification:** Broad prompt matching (IMAGE-TO-IMAGE library/experience mobile, `ROUTE:` hybrid boards); library hybrid duplicates resolved to newest `EXACTLY TWO` batch (75 routes × 2 histories).
+- **Run (Windows Shadow PC):** `powershell -ExecutionPolicy Bypass -File ".\download_production_authorities.ps1"` → `PRODUCTION_AUTHORITY_EXPORT/` + four ZIPs beside script.
