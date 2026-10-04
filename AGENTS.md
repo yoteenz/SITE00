@@ -66,9 +66,9 @@ One fenced code block for founder mobile copy-paste.
 - **Do NOT put deploy URLs inside this box.**
 
 #### Part 3 — Deploy links (each on its own line)
-Immediately after the code box — bare URLs or markdown links, **one per line**:
+Immediately after the code box — **one per line**. Founder works on mobile: **always** give the direct ZIP as a **clickable markdown link** on its own line (e.g. `[Download … ZIP](https://github.com/.../file.zip)`), not only a bare URL or prose mention.
 
-1. Direct ZIP download URL
+1. Direct ZIP (markdown link)
 2. GitHub Release page URL
 3. `SITE00-DEPLOY-README.txt` download URL (when release exists)
 4. One-line verify reminder (e.g. page source must NOT reference `index.BT7zuSxb.js`)
@@ -86,6 +86,14 @@ gh release create site00-deploy-YYYY-MM-DD-vN \
 ```
 
 Increment `vN` from latest release. API-only changes: parts 1 + 2 required; part 3 deploy links optional unless UI bundle changed.
+
+### Founder review / asset ZIPs (JURNL, design packs, etc.)
+
+When a sprint deliverable is a **review ZIP** (not only a git tree):
+
+1. Publish `gh release create …` with the ZIP (+ README txt when helpful).
+2. End the session with a **clickable markdown link** to the **direct** `releases/download/…/*.zip` URL (same rule as Part 3).
+3. Do not close with “files are on main” alone if the founder asked for an attached/review package.
 
 ### Handoff rule
 
