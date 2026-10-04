@@ -1,0 +1,29 @@
+{
+  "family": "F01_ENTRY",
+  "formSystem": {
+    "fieldGeometry": "square-rounded",
+    "fieldMaterial": "bone / soft ivory",
+    "border": "subtle neutral",
+    "focus": "deep emerald",
+    "error": "burgundy / wine",
+    "success": "deep emerald",
+    "labels": "UPPERCASE",
+    "placeholders": "UPPERCASE",
+    "checkboxes": "square-rounded (not circular)"
+  },
+  "buttons": {
+    "primary": {"fill": "deep emerald", "geometry": "square-rounded", "label": "UPPERCASE"},
+    "secondary": {"fill": "bone/ivory", "border": "subtle neutral", "geometry": "square-rounded"},
+    "tertiary": "text action or light square-rounded",
+    "destructive": {"fill": "burgundy/wine", "geometry": "square-rounded"},
+    "prohibited": ["circular tappable controls", "capsule pills"]
+  },
+  "typography": {
+    "display": "fashion-condensed uppercase serif",
+    "functional": "clean condensed sans uppercase"
+  },
+  "logo": {
+    "mark": "muted rose botanical + vertical rule + stacked JURNL",
+    "integration": "small, embedded — never sticker hero"
+  }
+}

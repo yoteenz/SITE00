@@ -1,0 +1,42 @@
+{
+  "family": "F01_ENTRY",
+  "surfaces": [
+    {
+      "id": "DRAWER_PRIVACY_DETAIL",
+      "type": "bottom_context_drawer",
+      "geometry": "square-rounded",
+      "sections": ["WHAT JURNL USES", "WHAT JURNL STORES", "CONNECTED ACCOUNT ACCESS", "AI PERMISSIONS", "EXPORT / DELETE CONTROLS"],
+      "authority": "SHEETS/SHEET_INTERACTION_AUTHORITY.png"
+    },
+    {
+      "id": "DRAWER_SECURITY_DETAIL",
+      "type": "bottom_context_drawer",
+      "geometry": "square-rounded",
+      "sections": ["BIOMETRICS", "DEVICE TRUST", "SESSION SECURITY", "CONNECTED ACCOUNTS"],
+      "authority": "SHEETS/SHEET_INTERACTION_AUTHORITY.png"
+    },
+    {
+      "id": "DRAWER_TERMS",
+      "type": "bottom_context_drawer",
+      "geometry": "square-rounded",
+      "sections": ["MINIMAL POLICY PREVIEW"],
+      "authority": "SHEETS/SHEET_INTERACTION_AUTHORITY.png"
+    },
+    {
+      "id": "MODAL_SIGN_OUT_SWITCH",
+      "type": "decision_modal",
+      "geometry": "square-rounded",
+      "authority": "SHEETS/SHEET_INTERACTION_AUTHORITY.png"
+    },
+    {
+      "id": "PANEL_AUTH_ERROR",
+      "type": "inline_or_drawer_by_severity",
+      "authority": "SHEETS/SHEET_INTERACTION_AUTHORITY.png"
+    },
+    {
+      "id": "SOCIAL_AUTH_TRANSITION",
+      "providers": ["APPLE", "GOOGLE"],
+      "authority": "SHEETS/SHEET_INTERACTION_AUTHORITY.png"
+    }
+  ]
+}
