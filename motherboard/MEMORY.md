@@ -13217,3 +13217,16 @@ Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus thr
 - **Existing Production code map:** `src/site00/components/productionHub/{chrome,nav,ProductionHub,panels,machine,overlays}.tsx`, `src/site00/components/production/PwFrame.tsx`, `src/site00/pages/production/*`, routes `/production`, `/production/queue` (INBOX), `/production/libraries` (LIBRARY), `/production?panel=activity` (ACTIVITY), `/production/:slug/{design,experience,expression}`; Design workspace `src/site00/components/designWorkspace/`. No tablet/desktop families, no LIBRARY full-width vault, no standalone ACTIVITY page on main.
 - **Review limits:** image review in this session was via textual descriptions only; pixel-level geometry claims need browser capture at 390x844 / 768x1024 (4:3) / 1440x810 and a PASS/FAIL 36-row proof matrix (file 05).
 - **Convention:** Authority images are QA inputs only (never shipped as runtime assets); build a typed registry (workspace, designMode, viewportFamily, authorityFile, route/state selector) in code/tests.
+
+---
+
+## 2026-10-04 — Merge `main` into inbox-activity tunnel branch (3 conflicts)
+
+Fetched `origin/main` and merged into `cursor/production-inbox-activity-threeviewport-opus1` (commit `9bfc7faa`).
+
+- **Conflicts (3 files):** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `Site00AccountRouteGuard.tsx`, `motherboard/MEMORY.md`. All **simple / compatible** — no opposing product intents.
+- **Preview script:** Combined `SITE00_PREVIEW_PIN_REF` checkout (main) with `SITE00_CLOUD_PREVIEW_ROOT` worktree logging (branch) as separate `if` blocks.
+- **Guard:** Kept branch `isSite00SignInPaused()` plus main `Site00ShellAuthProvider` / preview-guest allowlist; API-token skip effect includes both pause and `previewGuestRoute`.
+- **MEMORY:** Union timeline — branch production/inbox/activity/expression entries plus main-only EC/preview-guest/origin forensics entries (skipped duplicate design-pack bullets already in 2026-10-04 design cherry-pick entry).
+- **Tests:** inbox OPUS2 + activity OPUS1 + expression OPUS1 suites 116/116 pass post-merge.
+- **Convention:** When merging main into this tunnel branch, preserve both sign-in pause and EC preview-guest shell auth.
