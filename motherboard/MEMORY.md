@@ -13022,3 +13022,24 @@ Sprint `P0.STUDIOOS.PRODUCTION.DESIGN.ASSET-AUTHORITY-CONVERGENCE.OPUS3`. Base `
 - **HUB nav glyph:** now the pack's home glyph (it was the DESIGN stack). LIBRARY stays three volumes, because no open-book asset exists anywhere.
 - **No-scroll:** `.pxa[data-screen^='design-']` body fills the frame and the chamber flexes, with a ceiling of 360 (desktop) / 340 (tablet and mobile). 30/30 mode × viewport cases fit.
 - **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
+
+---
+
+## 2026-10-04 — Expression responsive authority convergence (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. Branch `cursor/production-expression-authority-opus1`. No merge, no deploy.
+
+- **One family system.** There are 10 families and 40 routes.
+  - Families: Narrative, Casting, Look + Wardrobe, Cast + Performance, Sets + Scenes, Storyboard, Review + Handoff, Format Studio, Content Package, Campaign Board.
+  - All routes live under the existing `expression/*` wildcard, resolved by `productionAuthority/expression/expressionRoutes.ts`. The router is unchanged.
+  - Family segments reuse the old sub-workspace ids: `wardrobe` = LOOK + WARDROBE, `performance` = CAST + PERFORMANCE. New segments: `format-studio`, `content-package`, `campaign-board`.
+- **Shell.** Family routes mount in `ProductionAuthorityFrame screen="expression-<family>"` (shared host plus bottom nav with EXPRESSION active).
+  - `ExpressionFamilyShell` = hero (breadcrumb · EXPRESSION · FAMILY / ROUTE) → `LiveStatusBar` (new optional `context`) → routed family tabs → 12/6-column panel grid with fractional rows.
+  - Panels declare spans per viewport; every panel body is a bounded internal pane.
+  - Measured 200/200 (40 routes × 5 viewports) with no page or frame scroll and nothing clipped.
+- **Data.** `expressionData.ts` keeps ROLE (`CastingRequirement`), ACTOR (catalogue) and CHARACTER (`ProductionCharacter`) separate. Each has its own route: `casting/roles/:id`, `casting/actors/:id`, `casting/characters/:id`.
+- **Downstream.** Format adaptations become PLANNED deliverables. Nothing is assembled, so Finalize and Send are disabled and the Campaign Board holds 0 completed packages.
+- **Sets** is NOT STARTED: environment, set and zone are honest empties.
+- **Actions.** Existing actions only: narrative judgment and recompile; storyboard approve/revise via `decideStoryboard` (gated); lock and handoff (gated). The old `expression-sub-screen-*` ids and picker test ids are kept.
+- **Residual:** the Expression root (Production Floor) still overflows its frame. It was out of scope.
+- **Proof:** `artifacts/production-expression-authority-opus1/`.

@@ -4,6 +4,7 @@ import { PwFrame } from '../../components/production/PwFrame';
 import { DesignChamber, DesignModeBar, useDesignMode } from '../../components/productionAuthority/DesignChamber';
 import { ExperienceBody } from '../../components/productionAuthority/ExperienceBody';
 import { ExpressionBody } from '../../components/productionAuthority/ExpressionBody';
+import { expressionFrameScreen } from '../../components/productionAuthority/expression/expressionRoutes';
 import { AUTHORITY_ASSETS } from '../../components/productionAuthority/authorityAssets';
 import { ProductionAuthorityFrame } from '../../components/productionAuthority/ProductionAuthorityFrame';
 import { ProductionAuthorityDataProvider } from '../../components/productionAuthority/ProductionAuthorityData';
@@ -41,6 +42,7 @@ function ProjectLayoutInner() {
   const isExperienceRoot = /^\/production\/[^/]+\/experience\/?$/.test(pathname);
   const isExpressionRoot = /^\/production\/[^/]+\/expression\/?$/.test(pathname);
   const isFabrication = /\/character-fabrication(\/|$)/.test(pathname);
+  const expressionScreen = expressionFrameScreen(pathname);
 
   let body;
   if (isDesignRoot) body = <DesignRoot />;
@@ -51,6 +53,13 @@ function ProjectLayoutInner() {
       </ProductionAuthorityFrame>
     );
   else if (isExpressionRoot) body = <ExpressionRoot slug={slug} />;
+  else if (expressionScreen)
+    // Expression families (40 routes) share the one authority frame: host header, bottom nav, no page scroll.
+    body = (
+      <ProductionAuthorityFrame screen={expressionScreen}>
+        <Outlet />
+      </ProductionAuthorityFrame>
+    );
   else if (isDesign)
     body = (
       <>
