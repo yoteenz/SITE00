@@ -43,8 +43,8 @@
       "wardrobe_state": "baseline_controlled",
       "identity_source": "resident.sw001.etta.portrait",
       "identity_source_quality": "LITE_ONLY",
-      "openart_generation_id": null,
-      "openart_output_url": null,
+      "openart_generation_id": "70i9mehgjKyIY2D6Qt5E",
+      "openart_output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134613309_3ca2afb0.png",
       "generation_model": "gpt-image-2-5-sunburst",
       "generation_settings": {
         "mode": "image2image",
@@ -57,7 +57,7 @@
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
-      "created_at": null,
+      "created_at": "2026-10-04T17:27:39.436Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_02_LEFT_3Q_PORTRAIT.png",
       "fabrication_asset_id": "fabrication.sw-001.geometry.f02"
     },
@@ -73,8 +73,8 @@
       "wardrobe_state": "baseline_controlled",
       "identity_source": "resident.sw001.etta.portrait",
       "identity_source_quality": "LITE_ONLY",
-      "openart_generation_id": null,
-      "openart_output_url": null,
+      "openart_generation_id": "G70MRF2haOd8Mmr6zAtc",
+      "openart_output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134898344_9ab9d40f.png",
       "generation_model": "gpt-image-2-5-sunburst",
       "generation_settings": {
         "mode": "image2image",
@@ -87,7 +87,7 @@
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
-      "created_at": null,
+      "created_at": "2026-10-04T17:28:35.124Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_03_RIGHT_3Q_PORTRAIT.png",
       "fabrication_asset_id": "fabrication.sw-001.geometry.f03"
     },
@@ -103,8 +103,8 @@
       "wardrobe_state": "baseline_controlled",
       "identity_source": "resident.sw001.etta.portrait",
       "identity_source_quality": "LITE_ONLY",
-      "openart_generation_id": null,
-      "openart_output_url": null,
+      "openart_generation_id": "yiNXJcvQzl8RV4RidTwp",
+      "openart_output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134900119_86fef6bb.png",
       "generation_model": "gpt-image-2-5-sunburst",
       "generation_settings": {
         "mode": "image2image",
@@ -117,7 +117,7 @@
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
-      "created_at": null,
+      "created_at": "2026-10-04T17:28:35.602Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_04_LEFT_PROFILE.png",
       "fabrication_asset_id": "fabrication.sw-001.geometry.f04"
     },
@@ -133,8 +133,8 @@
       "wardrobe_state": "baseline_controlled",
       "identity_source": "resident.sw001.etta.portrait",
       "identity_source_quality": "LITE_ONLY",
-      "openart_generation_id": null,
-      "openart_output_url": null,
+      "openart_generation_id": "UhI0XP7AYKcyVC2r4Qmf",
+      "openart_output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134900627_66e8850f.png",
       "generation_model": "gpt-image-2-5-sunburst",
       "generation_settings": {
         "mode": "image2image",
@@ -147,7 +147,7 @@
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
-      "created_at": null,
+      "created_at": "2026-10-04T17:28:36.000Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_05_RIGHT_PROFILE.png",
       "fabrication_asset_id": "fabrication.sw-001.geometry.f05"
     },
@@ -163,8 +163,8 @@
       "wardrobe_state": "baseline_controlled",
       "identity_source": "resident.sw001.etta.portrait",
       "identity_source_quality": "LITE_ONLY",
-      "openart_generation_id": null,
-      "openart_output_url": null,
+      "openart_generation_id": "2JpqaKLuFE5QCFe8Osie",
+      "openart_output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134902784_5e39356c.png",
       "generation_model": "gpt-image-2-5-sunburst",
       "generation_settings": {
         "mode": "image2image",
@@ -177,7 +177,7 @@
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
-      "created_at": null,
+      "created_at": "2026-10-04T17:28:36.395Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_06_REAR_HEAD.png",
       "fabrication_asset_id": "fabrication.sw-001.geometry.f06"
     },
@@ -193,8 +193,8 @@
       "wardrobe_state": "baseline_controlled",
       "identity_source": "resident.sw001.etta.portrait",
       "identity_source_quality": "LITE_ONLY",
-      "openart_generation_id": null,
-      "openart_output_url": null,
+      "openart_generation_id": "WRTJ9wfVvuaULuDoc6lZ",
+      "openart_output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134988711_9cdd37ca.png",
       "generation_model": "gpt-image-2-5-sunburst",
       "generation_settings": {
         "mode": "image2image",
@@ -207,7 +207,7 @@
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
-      "created_at": null,
+      "created_at": "2026-10-04T17:30:00.654Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_07_FULL_FRONT.png",
       "fabrication_asset_id": "fabrication.sw-001.geometry.f07"
     },
@@ -223,8 +223,8 @@
       "wardrobe_state": "baseline_controlled",
       "identity_source": "resident.sw001.etta.portrait",
       "identity_source_quality": "LITE_ONLY",
-      "openart_generation_id": null,
-      "openart_output_url": null,
+      "openart_generation_id": "XTY9kH3A4hlajBUqBqHn",
+      "openart_output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134989494_0368bf27.png",
       "generation_model": "gpt-image-2-5-sunburst",
       "generation_settings": {
         "mode": "image2image",
@@ -237,7 +237,7 @@
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
-      "created_at": null,
+      "created_at": "2026-10-04T17:30:01.045Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_08_FULL_LEFT_3Q.png",
       "fabrication_asset_id": "fabrication.sw-001.geometry.f08"
     },
@@ -253,8 +253,8 @@
       "wardrobe_state": "baseline_controlled",
       "identity_source": "resident.sw001.etta.portrait",
       "identity_source_quality": "LITE_ONLY",
-      "openart_generation_id": null,
-      "openart_output_url": null,
+      "openart_generation_id": "u1TzzJueBYwymGvvL47w",
+      "openart_output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134991946_47c6d5b7.png",
       "generation_model": "gpt-image-2-5-sunburst",
       "generation_settings": {
         "mode": "image2image",
@@ -267,7 +267,7 @@
       "identity_confidence": "high",
       "continuity_notes": "Identity anchor; lite portrait authority until SW Team(1).zip recovered.",
       "retry_count": 0,
-      "created_at": null,
+      "created_at": "2026-10-04T17:30:01.441Z",
       "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_09_FULL_RIGHT_3Q.png",
       "fabrication_asset_id": "fabrication.sw-001.geometry.f09"
     },

@@ -42,3 +42,18 @@ node scripts/studio-world-resident-fabrication-pack.mjs finalize
 ```
 
 Generation is executed via OpenArt MCP (see `GENERATION_AUDIT.json`).
+
+### Batch generation (cloud agent)
+
+```bash
+# Job queue (80 frames = SW-001..SW-005), params per index in _gen_params_<n>.json
+node scripts/studio-world-resident-fabrication-openart-batch-step.mjs emit 9
+
+# After openart_generate_image + openart_creation_wait:
+npx tsx scripts/studio-world-resident-fabrication-openart-runner.mjs record '<json>'
+
+# Optional headless loop (requires OPENART_MCP_BRIDGE executable):
+# OPENART_MCP_BRIDGE=./my-bridge.sh node scripts/studio-world-resident-fabrication-openart-autogen.mjs run 71
+```
+
+Resume index: `artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_autogen_state.json` (`nextIndex`).
