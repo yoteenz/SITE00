@@ -1,0 +1,619 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1 — tablet + desktop HOST CHROME.
+ *
+ * Canon (overrides hallucinated shell in the tablet/desktop authority renders):
+ *   TOP    [ PROJECT NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
+ *   BOTTOM [ ICON ] LABEL  x7  (HUB INBOX DESIGN EXPERIENCE EXPRESSION LIBRARY ACTIVITY)
+ *
+ * SCALE GUARD: this file never uses zoom, transform scale, viewport/container units, rem scaling or
+ * clamp() for type. Every size is explicit px per viewport class (tablet / desktop).
+ */
+
+.pxh-strip {
+  --pxh-red: #e5231b;
+  --pxh-ink: #121214;
+  --pxh-mute: #6d6d73;
+  --pxh-line: #d8d8dc;
+  --pxh-font: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  flex: 0 0 auto;
+  font-family: var(--pxh-font);
+  color: var(--pxh-ink);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.pxh-strip *,
+.pxh-strip *::before,
+.pxh-strip *::after {
+  box-sizing: border-box;
+}
+
+/* ═══ TOP ═══ */
+.pxh-top {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 58px;
+  padding: 0 0 0 20px;
+  background: linear-gradient(180deg, #fbfbfc, #f2f2f4);
+  border-bottom: 1px solid var(--pxh-line);
+}
+.pxh-top__cluster {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 0;
+}
+.pxh-top__cluster > * {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  border-right: 1px solid var(--pxh-line);
+  margin: 9px 0;
+  padding: 0 24px;
+  color: inherit;
+  text-decoration: none;
+}
+.pxh-top__cluster > :first-child {
+  padding-left: 14px;
+  position: relative;
+}
+.pxh-top__cluster > :first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 3px;
+  background: var(--pxh-red);
+}
+.pxh-top__cluster > :last-child {
+  border-right: 0;
+}
+.pxh-top__loc {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.pxh-top__loc b {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.pxh-top__loc small {
+  margin-top: 3px;
+  font-size: 10.5px;
+  line-height: 1.1;
+  letter-spacing: 0.14em;
+  color: var(--pxh-mute);
+  white-space: nowrap;
+}
+.pxh-top__project {
+  gap: 12px;
+}
+.pxh-top__thumb,
+.pxa .pxh-top .pxh-top__thumb {
+  /* the project mark belongs inside the PROJECT group: never inherit the body-level absolute image fill */
+  position: relative;
+  inset: auto;
+  display: block;
+  overflow: hidden;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 40px;
+  border-radius: 1px;
+  object-fit: cover;
+}
+.pxh-top__thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pxh-top__project > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pxh-top__project small,
+.pxh-top__attn small {
+  font-size: 10px;
+  line-height: 1.1;
+  letter-spacing: 0.12em;
+  color: #3c3c42;
+  white-space: nowrap;
+}
+.pxh-top__project b {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.08em;
+}
+.pxh-top__attn {
+  gap: 10px;
+}
+.pxh-top__attn > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pxh-top__attn b {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  color: var(--pxh-red);
+}
+.pxh-top__attn small {
+  color: var(--pxh-red);
+}
+.pxh-top__menu {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 64px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--pxh-line);
+  background: transparent;
+  color: var(--pxh-ink);
+  cursor: pointer;
+}
+.pxh-top__menu:focus-visible,
+.pxh-nav__item:focus-visible,
+.pxh-top__cluster a:focus-visible {
+  outline: 2px solid var(--pxh-red);
+  outline-offset: -2px;
+}
+.pxh-pop {
+  position: absolute;
+  top: 100%;
+  right: 8px;
+  z-index: 40;
+  display: grid;
+  width: 240px;
+  background: #fff;
+  border: 1px solid var(--pxh-line);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+}
+.pxh-pop a {
+  display: grid;
+  gap: 2px;
+  padding: 12px 16px;
+  color: var(--pxh-ink);
+  text-decoration: none;
+  border-bottom: 1px solid #ececef;
+}
+.pxh-pop a:last-child {
+  border-bottom: 0;
+}
+.pxh-pop b {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+.pxh-pop span {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--pxh-mute);
+}
+
+/* ═══ BOTTOM NAV — [ ICON ] LABEL ═══ */
+.pxh-nav {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  height: 56px;
+  padding: 0 0 env(safe-area-inset-bottom, 0px);
+  background: linear-gradient(180deg, #f8f8f9, #f0f0f2);
+  border-top: 1px solid var(--pxh-line);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+}
+.pxh-nav__item {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 0 8px;
+  color: #4a4a50;
+  text-decoration: none;
+  border-left: 1px solid #dcdce0;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+.pxh-nav__item:first-child {
+  border-left: 0;
+}
+.pxh-nav__icon {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+}
+.pxh-nav__icon .bnav-ico {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.pxh-nav__dot {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pxh-red);
+}
+.pxh-nav__label {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1.05;
+}
+.pxh-nav__item.is-active {
+  color: var(--pxh-red);
+  font-weight: 500;
+}
+.pxh-nav__item.is-active .pxh-nav__icon {
+  color: #141414;
+}
+.pxh-nav__item.is-active::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 7px;
+  height: 2px;
+  background: var(--pxh-red);
+}
+
+/* ═══ DESKTOP (>= 1120px): explicit px, wider gutters ═══ */
+@media (min-width: 1120px) {
+  .pxh-top {
+    height: 62px;
+    padding-left: 28px;
+  }
+  .pxh-top__cluster > * {
+    padding: 0 32px;
+  }
+  .pxh-top__loc b {
+    font-size: 24px;
+  }
+  .pxh-top__project b {
+    font-size: 18px;
+  }
+  .pxh-top__attn b {
+    font-size: 24px;
+  }
+  .pxh-top__menu {
+    width: 72px;
+  }
+  .pxh-nav {
+    height: 58px;
+  }
+  .pxh-nav__item {
+    gap: 11px;
+    font-size: 11.5px;
+  }
+  .pxh-nav__icon,
+  .pxh-nav__icon .bnav-ico {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ═══ TABLET (700–1119px): explicit px, tighter cluster ═══ */
+@media (max-width: 1119px) {
+  .pxh-top__cluster > * {
+    padding: 0 18px;
+  }
+  .pxh-top__loc b {
+    font-size: 19px;
+  }
+  .pxh-top__project b {
+    font-size: 15px;
+  }
+  .pxh-top__attn b {
+    font-size: 19px;
+  }
+  .pxh-nav__item {
+    gap: 7px;
+    padding: 0 4px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  .pxh-nav__icon,
+  .pxh-nav__icon .bnav-ico {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Mobile host top: the project mark sits inside its PROJECT selector (never the body-level absolute image fill). */
+.pxa .ph-top .ph-top__thumb {
+  position: relative;
+  inset: auto;
+  display: block;
+  flex: 0 0 auto;
+}
+.pxa .ph-top .ph-top__thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*
+ * HUB.RECONSTRUCTION.OPUS1 — mobile host strip height convergence (authority frame only).
+ * The phone strip is authored in the 864-wide hub space; the approved 9:16 authority gives the top bar
+ * ≈165 / 1125 of the width (≈120 hub units) and the nav ≈150 / 1125 (≈112). Anatomy, links and the
+ * The duplicate workspace tab readout is gone (bottom nav owns the tab). Only height, mark sizes and vertical rhythm move.
+ * Scoped to `.pxa` so PwFrame descendants, Character Fabrication and the hub machine keep their offsets.
+ * Static px only: no zoom, transform or viewport units are added here (the strip's existing zoom is untouched).
+ */
+.pxa .prod-chrome-strip.ph--hub .ph-top {
+  height: 120px;
+  grid-template-columns: 278px 190px minmax(0, 1fr) 48px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > :nth-child(3) {
+  border-right: 1px solid #d0d0d4;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > :nth-child(4) {
+  border-right: 0;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > * {
+  margin: 22px 0;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand::before {
+  top: 2px;
+  height: 52px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top .ph-top__thumb {
+  width: 44px;
+  height: 62px;
+  flex-basis: 44px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__attn svg {
+  width: 62px;
+  height: 62px;
+}
+.pxa .prod-chrome-strip.ph--hub .prod-chrome-pop {
+  top: 121px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav {
+  height: 112px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__item {
+  gap: 14px;
+  padding-top: 22px;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__icon {
+  width: 38px;
+  height: 36px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__icon .bnav-ico {
+  width: 34px;
+  height: 34px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__item.is-active::after {
+  bottom: 14px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand b {
+  font-size: 40px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand small {
+  font-size: 14px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__attn b {
+  font-size: 36px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-nav__item {
+  font-size: 17px;
+}
+
+/*
+ * HUB.DESCENDANTS-INTERACTIONS.OPUS1 — host MENU panel (both headers).
+ * HUB grammar: white panel, thin rules, red pipe head, red index numerals, uppercase technical type,
+ * current-route marker, chevrons, restrained shadow and radius. Static px only (no scaling added).
+ */
+.pxh-pop.pxm {
+  top: calc(100% + 6px);
+  right: 12px;
+  width: 300px;
+  padding: 0;
+  border: 1px solid #e2e2e6;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(17, 17, 20, 0.03),
+    0 18px 36px -18px rgba(17, 17, 20, 0.35);
+  overflow: hidden;
+}
+.pxm .pxm__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid #ececf0;
+}
+.pxm .pxm__head i {
+  width: 3px;
+  height: 16px;
+  background: #e5231b;
+}
+.pxm .pxm__head b {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #111114;
+}
+.pxm .pxm__close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid #e2e2e6;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 18px;
+  line-height: 1;
+  color: #3a3a40;
+  cursor: pointer;
+}
+.pxm .pxm__list {
+  display: grid;
+}
+.pxm .pxm__list a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr 14px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid #f0f0f3;
+  background: #fff;
+  color: #111114;
+  text-decoration: none;
+}
+.pxm .pxm__list a:last-child {
+  border-bottom: 0;
+}
+.pxm .pxm__list em {
+  font-style: normal;
+  font-size: 16px;
+  color: #e5231b;
+}
+.pxm .pxm__list span {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+}
+.pxm .pxm__list b {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+.pxm .pxm__list small {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: #8a8a93;
+}
+.pxm .pxm__list a > i {
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  color: #111114;
+}
+.pxm .pxm__list a.is-current::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: #e5231b;
+}
+.pxm .pxm__list a.is-current b {
+  color: #e5231b;
+}
+.pxm .pxm__list a:hover,
+.pxm .pxm__list a:focus-visible {
+  background: #fafafb;
+  outline: none;
+}
+.pxm .pxm__list a:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(229, 35, 27, 0.45);
+}
+.pxm .pxm__close:focus-visible {
+  outline: 2px solid rgba(229, 35, 27, 0.55);
+  outline-offset: 1px;
+}
+
+/* phone strip: same panel authored in the 864-wide strip space (≈ ×2.4 of the host px values) */
+.prod-chrome-pop.pxm {
+  left: auto;
+  right: 18px;
+  width: 560px;
+  gap: 0;
+  padding: 0;
+  border: 2px solid #e2e2e6;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 36px 80px -36px rgba(17, 17, 20, 0.45);
+  overflow: hidden;
+}
+.prod-chrome-pop.pxm .pxm__head {
+  gap: 22px;
+  padding: 26px 30px 22px;
+  border-bottom-width: 2px;
+}
+.prod-chrome-pop.pxm .pxm__head i {
+  width: 6px;
+  height: 36px;
+}
+.prod-chrome-pop.pxm .pxm__head b {
+  font-size: 30px;
+}
+.prod-chrome-pop.pxm .pxm__close {
+  width: 56px;
+  height: 56px;
+  border-width: 2px;
+  border-radius: 8px;
+  font-size: 40px;
+}
+.prod-chrome-pop.pxm .pxm__list a {
+  grid-template-columns: 64px 1fr 30px;
+  gap: 22px;
+  padding: 28px 30px;
+  border-bottom-width: 2px;
+  text-align: left;
+}
+.prod-chrome-pop.pxm .pxm__list em {
+  font-size: 36px;
+}
+.prod-chrome-pop.pxm .pxm__list b {
+  font-size: 30px;
+}
+.prod-chrome-pop.pxm .pxm__list small {
+  font-size: 22px;
+}
+.prod-chrome-pop.pxm .pxm__list a > i {
+  font-size: 46px;
+}
+.prod-chrome-pop.pxm .pxm__list a.is-current::before {
+  top: 22px;
+  bottom: 22px;
+  width: 5px;
+}
+
+/* host top interaction states (project switcher, attention, menu) */
+.pxh-top__project:hover,
+.pxh-top__attn:hover {
+  background: rgba(17, 17, 20, 0.025);
+}
+.pxh-top__project:focus-visible,
+.pxh-top__attn:focus-visible,
+.pxh-top__menu:focus-visible {
+  outline: 2px solid rgba(229, 35, 27, 0.5);
+  outline-offset: -2px;
+}
+.pxh-top__menu[aria-expanded='true'] {
+  color: #e5231b;
+}

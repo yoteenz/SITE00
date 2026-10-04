@@ -11,6 +11,7 @@ import { SITE00_ROUTES } from '../../config/routes';
 import { ProductionChromeStrip, ProductionWorkspaceHeader, ProductionWorkspaceNav } from '../productionHub/chrome';
 import { IconGlyph } from './PwPrimitives';
 import '../../styles/site00-production-mobile.css';
+import '../../styles/site00-production-descendants-opus2.css';
 
 type NavItem = { id: string; label: string; href: string; icon: string; match: (p: string) => boolean };
 
@@ -93,7 +94,7 @@ export function PwFrame({
   if (variant === 'production') {
     return createPortal(
       <div className="pw pw--production pw--authority" data-testid="pw-frame-production">
-        <ProductionChromeStrip>
+        <ProductionChromeStrip host>
           <ProductionWorkspaceHeader />
         </ProductionChromeStrip>
         <div className="pw-scroll">
@@ -102,7 +103,7 @@ export function PwFrame({
           : null}
           <div className="pw-scroll__body">{children}</div>
         </div>
-        <ProductionChromeStrip>
+        <ProductionChromeStrip host>
           <ProductionWorkspaceNav />
         </ProductionChromeStrip>
       </div>,

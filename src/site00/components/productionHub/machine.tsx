@@ -11,6 +11,7 @@ import type {
   HubNode,
   HubNodeAction,
   HubNodeId,
+  HubNodePanelFace,
   HubNodeStatus,
   HubScene,
   HubStoryboardFrame,
@@ -362,8 +363,9 @@ export function ProductionNode({
   imageUrl,
   slotLabel,
   compact,
-  showDetail,
+  panelFace = 'SUMMARY',
   onSelect,
+  onBack,
   onAction,
 }: {
   node: HubNode;
@@ -371,45 +373,75 @@ export function ProductionNode({
   imageUrl: string | null;
   slotLabel: string;
   compact?: boolean;
-  showDetail?: boolean;
+  panelFace?: HubNodePanelFace;
   onSelect: () => void;
+  onBack?: () => void;
   onAction: (a: HubNodeAction) => void;
 }) {
   const st = node.status.toLowerCase();
+  const detail = selected && !compact && panelFace === 'DETAIL';
   return (
     <div
-      className={`ph-node ph-node--${st}${selected ? ' is-selected' : ''}${compact ? ' is-compact' : ''}`}
+      className={`ph-node ph-node--${st}${selected ? ' is-selected' : ''}${compact ? ' is-compact' : ''}${detail ? ' is-detail' : ''}`}
       data-testid={`hub-node-${node.id}`}
       data-node-status={node.status}
+      data-panel-face={selected ? panelFace : 'SUMMARY'}
     >
       <button type="button" className="ph-node__face" onClick={onSelect} aria-pressed={selected} aria-label={`${node.label}, ${HUB_STATUS_LABEL[node.status]}`}>
-        <span className="ph-node__head">
-          <span className="ph-node__no">{pad(node.order)}</span>
-          <span className="ph-node__label">{node.label}</span>
-        </span>
-        {node.status === 'REVIEW_REQUIRED' && !compact ? (
-          <span className="ph-node__flag">
-            <IcWarn width={10} height={10} /> REVIEW REQUIRED
-          </span>
-        ) : null}
-        <HubImage slotId={node.assetSlotId} url={imageUrl} label={slotLabel} className="ph-node__img" />
-        {node.status === 'REVIEW_REQUIRED' ? (
-          <span className="ph-node__go" aria-hidden>
-            <IcChevR width={14} height={14} />
-          </span>
+        {detail ? (
+          <>
+            <span className="ph-node__detailbar">
+              <span
+                className="ph-node__back"
+                role="button"
+                tabIndex={0}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onBack?.();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onBack?.();
+                  }
+                }}
+                data-testid={`hub-node-back-${node.id}`}
+              >
+                <IcArrowL width={12} height={12} /> BACK
+              </span>
+              <span className="ph-node__label">{node.label}</span>
+            </span>
+            <span className="ph-node__detailcopy">
+              <b>{HUB_STATUS_LABEL[node.status]}</b>
+              <span>{node.statusDetail}</span>
+            </span>
+            <NodeQuickActions actions={node.quickActions} onAction={onAction} />
+          </>
         ) : (
-          <span className="ph-node__beacon">
-            <StatusBeacon status={node.status} size={compact ? 14 : 18} />
-          </span>
+          <>
+            <span className="ph-node__head">
+              <span className="ph-node__no">{pad(node.order)}</span>
+              <span className="ph-node__label">{node.label}</span>
+            </span>
+            {node.status === 'REVIEW_REQUIRED' && !compact ? (
+              <span className="ph-node__flag">
+                <IcWarn width={10} height={10} /> REVIEW REQUIRED
+              </span>
+            ) : null}
+            <HubImage slotId={node.assetSlotId} url={imageUrl} label={slotLabel} className="ph-node__img" />
+            {node.status === 'REVIEW_REQUIRED' ? (
+              <span className="ph-node__go" aria-hidden>
+                <IcChevR width={14} height={14} />
+              </span>
+            ) : (
+              <span className="ph-node__beacon">
+                <StatusBeacon status={node.status} size={compact ? 14 : 18} />
+              </span>
+            )}
+          </>
         )}
       </button>
-      {showDetail ? (
-        <div className="ph-node__detail">
-          <b>{HUB_STATUS_LABEL[node.status]}</b>
-          <span>{node.statusDetail}</span>
-        </div>
-      ) : null}
-      {selected && !compact ? <NodeQuickActions actions={node.quickActions} onAction={onAction} /> : null}
     </div>
   );
 }
@@ -564,14 +596,18 @@ export function Filmstrip({
 export function FlowStack({
   nodes,
   selectedNodeId,
+  selectedNodePanelFace = 'SUMMARY',
   urlFor,
   onSelect,
+  onBack,
   onAction,
 }: {
   nodes: readonly HubNode[];
   selectedNodeId: HubNodeId | null;
+  selectedNodePanelFace?: HubNodePanelFace;
   urlFor: (n: HubNode) => string | null;
   onSelect: (id: HubNodeId) => void;
+  onBack?: () => void;
   onAction: (a: HubNodeAction, n: HubNode) => void;
 }) {
   return (
@@ -581,32 +617,62 @@ export function FlowStack({
           <span className="ph-flow__clamp ph-flow__clamp--l" aria-hidden />
           <span className="ph-flow__clamp ph-flow__clamp--r" aria-hidden />
           <button type="button" className="ph-flow__card" onClick={() => onSelect(n.id)} aria-pressed={selectedNodeId === n.id}>
-            <span className="ph-flow__title">
-              <b>{pad(n.order)}</b>
-              <span>{n.label}</span>
-              {n.status === 'REVIEW_REQUIRED' || n.status === 'BLOCKED' ? (
-                <em>
-                  <IcWarn width={11} height={11} /> {HUB_STATUS_LABEL[n.status]}
-                </em>
-              ) : n.status === 'LOCKED' ? (
-                <em>
-                  <IcLock width={11} height={11} /> LOCKED
-                </em>
-              ) : null}
-            </span>
-            <HubImage slotId={n.assetSlotId} url={urlFor(n)} label={n.label} className="ph-flow__img" />
-            <span className="ph-flow__state">
-              {n.status === 'COMPLETE' ? <small>COMPLETED</small> : n.status === 'ACTIVE' ? <small>IN PROGRESS</small> : n.status === 'NOT_STARTED' ? <small>NOT STARTED</small> : null}
-              {n.status === 'REVIEW_REQUIRED' ? (
-                <span className="ph-flow__go" aria-hidden>
-                  <IcArrowR width={16} height={16} />
+            {selectedNodeId === n.id && selectedNodePanelFace === 'DETAIL' ? (
+              <>
+                <span className="ph-flow__detailbar">
+                  <span
+                    className="ph-flow__back"
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onBack?.();
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onBack?.();
+                      }
+                    }}
+                    data-testid={`flow-node-back-${n.id}`}
+                  >
+                    <IcArrowL width={12} height={12} /> BACK
+                  </span>
+                  <span>{n.label}</span>
                 </span>
-              ) : (
-                <StatusBeacon status={n.status} size={26} />
-              )}
-            </span>
+                <span className="ph-flow__detailcopy">{n.statusDetail}</span>
+                <NodeQuickActions actions={n.quickActions} onAction={(a) => onAction(a, n)} />
+              </>
+            ) : (
+              <>
+                <span className="ph-flow__title">
+                  <b>{pad(n.order)}</b>
+                  <span>{n.label}</span>
+                  {n.status === 'REVIEW_REQUIRED' || n.status === 'BLOCKED' ? (
+                    <em>
+                      <IcWarn width={11} height={11} /> {HUB_STATUS_LABEL[n.status]}
+                    </em>
+                  ) : n.status === 'LOCKED' ? (
+                    <em>
+                      <IcLock width={11} height={11} /> LOCKED
+                    </em>
+                  ) : null}
+                </span>
+                <HubImage slotId={n.assetSlotId} url={urlFor(n)} label={n.label} className="ph-flow__img" />
+                <span className="ph-flow__state">
+                  {n.status === 'COMPLETE' ? <small>COMPLETED</small> : n.status === 'ACTIVE' ? <small>IN PROGRESS</small> : n.status === 'NOT_STARTED' ? <small>NOT STARTED</small> : null}
+                  {n.status === 'REVIEW_REQUIRED' ? (
+                    <span className="ph-flow__go" aria-hidden>
+                      <IcArrowR width={16} height={16} />
+                    </span>
+                  ) : (
+                    <StatusBeacon status={n.status} size={26} />
+                  )}
+                </span>
+              </>
+            )}
           </button>
-          {selectedNodeId === n.id ? <NodeQuickActions actions={n.quickActions} onAction={(a) => onAction(a, n)} /> : null}
           {i < nodes.length - 1 ? (
             <span className="ph-flow__link" aria-hidden>
               <IcArrowD width={12} height={12} />
@@ -689,31 +755,72 @@ export function DependencyCard({
 export function DependencyNode({
   node,
   selected,
+  panelFace = 'SUMMARY',
   url,
   slotLabel,
   onSelect,
+  onBack,
   onAction,
 }: {
   node: HubNode;
   selected: boolean;
+  panelFace?: HubNodePanelFace;
   url: string | null;
   slotLabel: string;
   onSelect: () => void;
+  onBack?: () => void;
   onAction: (a: HubNodeAction) => void;
 }) {
+  const detail = selected && panelFace === 'DETAIL';
   return (
-    <div className={`ph-depnode ph-depnode--${node.status.toLowerCase()}${selected ? ' is-selected' : ''}`} data-testid={`dep-node-${node.id}`} data-node-status={node.status}>
+    <div
+      className={`ph-depnode ph-depnode--${node.status.toLowerCase()}${selected ? ' is-selected' : ''}${detail ? ' is-detail' : ''}`}
+      data-testid={`dep-node-${node.id}`}
+      data-node-status={node.status}
+      data-panel-face={selected ? panelFace : 'SUMMARY'}
+    >
       <button type="button" onClick={onSelect} aria-pressed={selected} className="ph-depnode__face">
-        <span className="ph-depnode__head">
-          <b>{pad(node.order)}</b>
-          <span>{node.label}</span>
-          <StatusBeacon status={node.status} size={16} />
-        </span>
-        <HubImage slotId={node.assetSlotId} url={url} label={slotLabel} className="ph-depnode__img" />
-        <span className="ph-depnode__status">{HUB_STATUS_LABEL[node.status]}</span>
-        <span className="ph-depnode__detail">{node.statusDetail}</span>
+        {detail ? (
+          <>
+            <span className="ph-depnode__detailbar">
+              <span
+                className="ph-depnode__back"
+                role="button"
+                tabIndex={0}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onBack?.();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onBack?.();
+                  }
+                }}
+                data-testid={`dep-node-back-${node.id}`}
+              >
+                <IcArrowL width={12} height={12} /> BACK
+              </span>
+              <span>{node.label}</span>
+            </span>
+            <span className="ph-depnode__status">{HUB_STATUS_LABEL[node.status]}</span>
+            <span className="ph-depnode__detail">{node.statusDetail}</span>
+            <NodeQuickActions actions={node.quickActions} onAction={onAction} />
+          </>
+        ) : (
+          <>
+            <span className="ph-depnode__head">
+              <b>{pad(node.order)}</b>
+              <span>{node.label}</span>
+              <StatusBeacon status={node.status} size={16} />
+            </span>
+            <HubImage slotId={node.assetSlotId} url={url} label={slotLabel} className="ph-depnode__img" />
+            <span className="ph-depnode__status">{HUB_STATUS_LABEL[node.status]}</span>
+            <span className="ph-depnode__detail">{node.statusDetail}</span>
+          </>
+        )}
       </button>
-      {selected ? <NodeQuickActions actions={node.quickActions} onAction={onAction} /> : null}
     </div>
   );
 }

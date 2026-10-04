@@ -17,6 +17,7 @@ import { GuardLoadingRecovery } from '../../../platform-stabilization/GuardLoadi
 import { useGuardLoadingTimeout } from '../../../platform-stabilization/useGuardLoadingTimeout';
 import { promiseWithTimeout } from '../../../platform-stabilization/promiseWithTimeout';
 import { isSite00CloudPreviewBuild } from '../loader/site00PreviewHost';
+import { isSite00SignInPaused } from '../../config/signInPaused';
 import { Site00ShellAuthProvider } from '../../auth/Site00ShellAuthContext';
 import {
   isSite00EcPreviewGuestFeatureActive,
@@ -94,7 +95,7 @@ export function Site00AccountRouteGuard({
   const allowUnauthenticatedCaptureSurface = goldenDiffCapture || designPreviewCapture;
 
   useEffect(() => {
-    if (designPreviewCapture || goldenDiffCapture) {
+    if (isSite00SignInPaused() || designPreviewCapture || goldenDiffCapture) {
       finishLocalAuthRecovery();
       setRecoveryDone(true);
       return;
@@ -224,6 +225,7 @@ export function Site00AccountRouteGuard({
   useEffect(() => {
     if (
       !recoveryDone ||
+      isSite00SignInPaused() ||
       cloudPreview ||
       previewGuestRoute ||
       allowUnauthenticatedCaptureSurface ||
@@ -268,6 +270,8 @@ export function Site00AccountRouteGuard({
       </div>,
     );
   }
+
+  if (isSite00SignInPaused()) return <>{children}</>;
 
   if (apiTokenReady === false && isSignedIn() && !allowUnauthenticatedCaptureSurface) {
     return shellWrapped(<Navigate to={signInHref} replace state={{ reason: 'api_session_expired' }} />);

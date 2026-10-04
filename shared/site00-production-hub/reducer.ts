@@ -17,6 +17,7 @@ export type HubAction =
   | { type: 'ENSURE_FRAME'; frameIds: readonly string[] }
   | { type: 'STEP_FRAME'; delta: 1 | -1; frameIds: readonly string[] }
   | { type: 'SELECT_NODE'; nodeId: HubNodeId | null }
+  | { type: 'NODE_PANEL_BACK' }
   | { type: 'OPEN_INSPECTOR'; nodeId: HubNodeId; tab: string }
   | { type: 'SET_INSPECTOR_TAB'; tab: string }
   | { type: 'CLOSE_INSPECTOR' }
@@ -34,6 +35,7 @@ export function initialHubState(projectId: string): HubUiState {
     selectedProductionId: null,
     selectedSceneId: null,
     selectedNodeId: null,
+    selectedNodePanelFace: 'SUMMARY',
     selectedArtifactId: null,
     selectedStoryboardFrameId: null,
     currentMode: 'LIVE',
@@ -79,10 +81,30 @@ export function hubReducer(s: HubUiState, a: HubAction): HubUiState {
       const next = a.frameIds[(cur + a.delta + a.frameIds.length) % a.frameIds.length]!;
       return { ...s, selectedStoryboardFrameId: next, selectedArtifactId: next };
     }
-    case 'SELECT_NODE':
-      return { ...s, selectedNodeId: s.selectedNodeId === a.nodeId ? null : a.nodeId, inspectionState: { open: false, tab: '' } };
+    case 'SELECT_NODE': {
+      if (a.nodeId === null) {
+        return { ...s, selectedNodeId: null, selectedNodePanelFace: 'SUMMARY', inspectionState: { open: false, tab: '' } };
+      }
+      if (s.selectedNodeId === a.nodeId) {
+        return { ...s, selectedNodeId: null, selectedNodePanelFace: 'SUMMARY', inspectionState: { open: false, tab: '' } };
+      }
+      return {
+        ...s,
+        selectedNodeId: a.nodeId,
+        selectedNodePanelFace: 'DETAIL',
+        inspectionState: { open: false, tab: '' },
+      };
+    }
+    case 'NODE_PANEL_BACK':
+      return s.selectedNodeId ? { ...s, selectedNodePanelFace: 'SUMMARY' } : s;
     case 'OPEN_INSPECTOR':
-      return { ...s, selectedNodeId: a.nodeId, inspectionState: { open: true, tab: a.tab }, compareOpen: false };
+      return {
+        ...s,
+        selectedNodeId: a.nodeId,
+        selectedNodePanelFace: 'DETAIL',
+        inspectionState: { open: true, tab: a.tab },
+        compareOpen: false,
+      };
     case 'SET_INSPECTOR_TAB':
       return { ...s, inspectionState: { open: s.inspectionState.open, tab: a.tab } };
     case 'CLOSE_INSPECTOR':
@@ -114,6 +136,7 @@ export function serializableHubContext(s: HubUiState): Partial<HubUiState> {
     selectedProductionId: s.selectedProductionId,
     selectedSceneId: s.selectedSceneId,
     selectedNodeId: s.selectedNodeId,
+    selectedNodePanelFace: s.selectedNodePanelFace,
     selectedStoryboardFrameId: s.selectedStoryboardFrameId,
     currentMode: s.currentMode,
     inspectionState: s.inspectionState,
