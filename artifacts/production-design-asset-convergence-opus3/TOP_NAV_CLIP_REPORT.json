@@ -1,0 +1,1346 @@
+[
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "brand",
+  "route": "/production/ndxbook/design?mode=brand",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "experience",
+  "route": "/production/ndxbook/design?mode=experience",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "surfaces",
+  "route": "/production/ndxbook/design?mode=surfaces",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "compiler",
+  "route": "/production/ndxbook/design?mode=compiler",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "assets",
+  "route": "/production/ndxbook/design?mode=assets",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "viewport",
+  "route": "/production/ndxbook/design?mode=viewport",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "brand",
+  "route": "/production/ndxbook/design?mode=brand",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "experience",
+  "route": "/production/ndxbook/design?mode=experience",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "surfaces",
+  "route": "/production/ndxbook/design?mode=surfaces",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "compiler",
+  "route": "/production/ndxbook/design?mode=compiler",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "assets",
+  "route": "/production/ndxbook/design?mode=assets",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "viewport",
+  "route": "/production/ndxbook/design?mode=viewport",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "brand",
+  "route": "/production/ndxbook/design?mode=brand",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "experience",
+  "route": "/production/ndxbook/design?mode=experience",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "surfaces",
+  "route": "/production/ndxbook/design?mode=surfaces",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "compiler",
+  "route": "/production/ndxbook/design?mode=compiler",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "assets",
+  "route": "/production/ndxbook/design?mode=assets",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "viewport",
+  "route": "/production/ndxbook/design?mode=viewport",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "brand",
+  "route": "/production/ndxbook/design?mode=brand",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "experience",
+  "route": "/production/ndxbook/design?mode=experience",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "surfaces",
+  "route": "/production/ndxbook/design?mode=surfaces",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "compiler",
+  "route": "/production/ndxbook/design?mode=compiler",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "assets",
+  "route": "/production/ndxbook/design?mode=assets",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "viewport",
+  "route": "/production/ndxbook/design?mode=viewport",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "brand",
+  "route": "/production/ndxbook/design?mode=brand",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "experience",
+  "route": "/production/ndxbook/design?mode=experience",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "surfaces",
+  "route": "/production/ndxbook/design?mode=surfaces",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "compiler",
+  "route": "/production/ndxbook/design?mode=compiler",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "assets",
+  "route": "/production/ndxbook/design?mode=assets",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "viewport",
+  "route": "/production/ndxbook/design?mode=viewport",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "brand",
+  "route": "/production/ndxbook/design?mode=brand",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "experience",
+  "route": "/production/ndxbook/design?mode=experience",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "surfaces",
+  "route": "/production/ndxbook/design?mode=surfaces",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "compiler",
+  "route": "/production/ndxbook/design?mode=compiler",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "assets",
+  "route": "/production/ndxbook/design?mode=assets",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "viewport",
+  "route": "/production/ndxbook/design?mode=viewport",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "brand",
+  "route": "/production/ndxbook/design?mode=brand",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "experience",
+  "route": "/production/ndxbook/design?mode=experience",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "surfaces",
+  "route": "/production/ndxbook/design?mode=surfaces",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "compiler",
+  "route": "/production/ndxbook/design?mode=compiler",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "assets",
+  "route": "/production/ndxbook/design?mode=assets",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "viewport",
+  "route": "/production/ndxbook/design?mode=viewport",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "DESIGN",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ }
+]

@@ -19,6 +19,7 @@ import {
 import { EXPERIENCE_CAPSULES } from '../src/site00/components/productionAuthority/ExperienceBody';
 import { DESIGN_CHAMBER } from '../src/site00/components/productionAuthority/designChamberConfig';
 import { AUTHORITY_ASSETS } from '../src/site00/components/productionAuthority/authorityAssets';
+import { DESIGN_PACK_FILES } from '../src/site00/components/productionAuthority/designPackAssets';
 import { PRODUCTION_DESIGN_MODE_ORDER } from '../src/site00/config/production-authority-registry';
 
 const root = path.resolve(__dirname, '..');
@@ -206,6 +207,8 @@ describe('Grok asset integration converged', () => {
       AUTHORITY_ASSETS.viewportCorridor,
       ...AUTHORITY_ASSETS.libraryPlates,
       ...Object.values(AUTHORITY_ASSETS.boards),
+      // canonical DWS pack files (DESIGN.ASSET-AUTHORITY-CONVERGENCE.OPUS3)
+      ...DESIGN_PACK_FILES,
     ]);
     for (const mode of PRODUCTION_DESIGN_MODE_ORDER) {
       const plates = DESIGN_CHAMBER[mode].table.map((t) => t.plate);

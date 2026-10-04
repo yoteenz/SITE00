@@ -13008,3 +13008,23 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX.AUTHORITY-FAMILY-CONVERGENCE.OPUS2`. Base `
 - **Viewport contract.** `.pxa[data-screen='inbox']` locks the body and only `[data-scroll=internal]` panes scroll. Measured 45/45 with no page scroll across 390×844, 360×640, 1024×768, 1440×810 and 1280×720.
 - **Desktop/tablet boards.** The `cdn.openart.ai` OpenArt boards are blocked by the network policy (CONNECT 403), so those layouts are MOBILE_AUTHORITY_TRANSLATED. A compare pass against the real boards is still owed.
 - **Proof:** `artifacts/production-inbox-authority-opus2/`.
+
+---
+
+## 2026-10-04 — Design asset authority convergence (OPUS3)
+
+Sprint `P0.STUDIOOS.PRODUCTION.DESIGN.ASSET-AUTHORITY-CONVERGENCE.OPUS3`. Base `cursor/production-inbox-authority-opus2` @ `37d19680`. Branch `cursor/production-design-asset-convergence-opus3`. No merge, no deploy.
+
+- **The DWS pack had never been extracted.** It ships only as two composite sheets. `scripts/site00-design-pack-extract.py` now makes exact crops into `public/site00/production-authority-assets/design-pack/` (hash-locked `SOURCE.json`). The only resolver is `designPackAssets.ts`.
+- **Root cause of the pack never showing:** stand-ins hard-coded in the renderer (`Orb`, hex swatches, empty phone and frame boxes, text tiles), plus the `designChamberConfig.ts` override loop that painted generated board art over any plate in config.
+  - The stand-ins are removed.
+  - The loop now skips `/design-pack/` files (`isDesignPackAsset`).
+- **HUB nav glyph:** now the pack's home glyph (it was the DESIGN stack). LIBRARY stays three volumes, because no open-book asset exists anywhere.
+- **No-scroll:** `.pxa[data-screen^='design-']` body fills the frame and the chamber flexes, with a ceiling of 360 (desktop) / 340 (tablet and mobile). 30/30 mode × viewport cases fit.
+- **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
+
+---
+
+## 2026-10-04 — Cloud preview on design-asset-convergence branch
+
+Founder asked to point `site00.fsbw-dev.com` tunnel at `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. VM checkout switched; Vite dev on `:5174` with `SITE00_CLOUD_PREVIEW_MODE=dev`, `SITE00_PREVIEW_SYNC_MAIN=0`; tunnel restarted.
