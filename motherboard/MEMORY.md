@@ -13022,3 +13022,9 @@ Sprint `P0.STUDIOOS.PRODUCTION.DESIGN.ASSET-AUTHORITY-CONVERGENCE.OPUS3`. Base `
 - **HUB nav glyph:** now the pack's home glyph (it was the DESIGN stack). LIBRARY stays three volumes, because no open-book asset exists anywhere.
 - **No-scroll:** `.pxa[data-screen^='design-']` body fills the frame and the chamber flexes, with a ceiling of 360 (desktop) / 340 (tablet and mobile). 30/30 mode × viewport cases fit.
 - **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
+
+---
+
+## 2026-10-04 — Cloud preview on design-asset-convergence branch
+
+Founder asked to point `site00.fsbw-dev.com` tunnel at `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. VM checkout switched; Vite dev on `:5174` with `SITE00_CLOUD_PREVIEW_MODE=dev`, `SITE00_PREVIEW_SYNC_MAIN=0`; tunnel restarted.
