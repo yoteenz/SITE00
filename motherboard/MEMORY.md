@@ -815,12 +815,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 ---
 
 
-## 2026-08-19 — Sign-in password input width match
+## 2026-08-19 — Assessment complete secondary links row layout
 
-- **Request:** Password field on sign-in page was too wide vs email field above it.
-- **Cause:** Auth shell lacked `box-sizing: border-box`; password `width: 100%` + extra `padding-right` for SHOW overflowed the form column.
-- **Fix:** Added border-box on `.site00-auth-shell *`; constrained `.site00-signin-form__password-wrap` and `--password` input to `width/max-width: 100%`.
-- **Branch:** `cursor/signin-password-width-match-796f`.
+- **Request:** On IDNTY (and BLDR) assessment complete panels, put “SIGN IN TO SAVE” on the same row as “RETURN TO IDNTY”, opposite side — not stacked below.
+- **Fix:** Wrapped secondary links in `.site00-idnty-complete-actions__secondary-row` with `display: flex; justify-content: space-between` in `IdntyAssessmentCompletePage.tsx`, `BldrAssessmentCompletePage.tsx`, `site00-idnty-assessment.css`.
+- **Branch:** `cursor/idnty-complete-secondary-row-796f`.
 
 ---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
@@ -2418,6 +2417,26 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
 
+---
+
+## 2026-08-22 — Calibration step counter reset (frozen session steps)
+
+- **Symptom:** Near end of calibration, progress jumped (e.g. 06/08 → 01/01) as if a different questionnaire; tunnel refresh landed on step 1 with total count 1.
+
+- **Root cause:** `steps` was recomputed from **current** `missingDomains` on every load. Each saved answer satisfied domains, shrinking the step list on refresh. Counter used `steps.length` so total dropped mid-session.
+
+- **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
+
+- **Branch:** `cursor/calibration-frozen-steps-4f59`.
+
+## 2026-08-19 — Sign-in password input width match
+
+- **Request:** Password field on sign-in page was too wide vs email field above it.
+- **Cause:** Auth shell lacked `box-sizing: border-box`; password `width: 100%` + extra `padding-right` for SHOW overflowed the form column.
+- **Fix:** Added border-box on `.site00-auth-shell *`; constrained `.site00-signin-form__password-wrap` and `--password` input to `width/max-width: 100%`.
+- **Branch:** `cursor/signin-password-width-match-796f`.
+
+---
 ## 2026-08-19 — Origin desktop coordinate line +4px
 
 - **Request:** Move “YOU ARE AT 00.00 ORIGIN POINT” down 4px on Origin desktop only.
@@ -2432,15 +2451,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/idnty-state-subhead-wrap-796f`.
 
 ---
-## 2026-08-22 — Calibration step counter reset (frozen session steps)
-
-- **Symptom:** Near end of calibration, progress jumped (e.g. 06/08 → 01/01) as if a different questionnaire; tunnel refresh landed on step 1 with total count 1.
-
-- **Root cause:** `steps` was recomputed from **current** `missingDomains` on every load. Each saved answer satisfied domains, shrinking the step list on refresh. Counter used `steps.length` so total dropped mid-session.
-
-- **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
-
-- **Branch:** `cursor/calibration-frozen-steps-4f59`.
 ## 2026-08-19 — IDNTY investment duplicate icons (mobile + desktop)
 
 - **Request:** Remove duplicate brand-state icons from IDNTY / INVESTMENT section; user reported icons still visible on mobile (prior PR #99 not merged to main).
