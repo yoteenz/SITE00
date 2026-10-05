@@ -13493,6 +13493,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — Reference binding cost guard (SITE 00 production methodology)
+
+- **Context:** Follow-up to F03/F04 Grok production where initial F03/F04 parents used OpenArt text2image while `REFERENCE_F01.00_WELCOME_APPROVED` existed. Founder corrected to image2image like F02. Sprint `P0.SITE00.PRODUCTION-METHODOLOGY.REFERENCE-BINDING-COST-GUARD1` formalizes pre-dispatch blocking across SITE 00 projects (not JURNL-only).
+- **Decisions / outcomes:** Reference exists → `REFERENCE_GUIDED` with image attached. No reference and true net-new → `TEXT_TO_IMAGE_NET_NEW`. Required reference missing or not attached → block before dispatch (`credits_spent = 0`). No prompt-from-memory. No silent fallback to text2image. Project firewall on reference resolution. Default policy `REQUIRED_WHEN_AVAILABLE`. F03/F04 ledgers v2.0.0 tag postmortem rows for superseded text2image parents. Zero new paid generations.
+- **Changes:** `shared/site00-production-guardrails/` (`validateGenerationReferenceBinding`, `precheckGenerationDispatch`, `runPrecheckedProviderDispatch`, resolver, sidekick rules, ledger metrics). Contracts under `docs/production/reference-binding/`. Incident `incidents/REFERENCE_BINDING_FAILURE_F02_F03.json`. Tests `tests/referenceBindingGuard.test.ts`.
+- **Conventions:** Paid jobs classify → resolve → validate → budget → dispatch. Sidekick plates/botanicals/lockups derive from screen authority reference. Historical ledger rows stay valid with nullable reference fields; only mark `INVALID_GENERATION_POSTMORTEM` when a reference was actually required.
+
+---
+
 ## 2026-10-05 — F02 SETUP live family
 
 - **Context:** This chat built the F02 SETUP visual package, a review ZIP, the botanical repair, the canonical mount, the repair binding, and then the live family. The family name is SETUP (`F02_SETUP`), not FINANCE. Sonnet is skipped. Grok owns the live pass. Opus gets one family-wide structural audit afterward.

@@ -1,4 +1,7 @@
 {
+  "ledger_schema_version": "2.0.0",
+  "reference_binding_policy": "REQUIRED_WHEN_AVAILABLE",
+  "methodology_incident_id": "REFERENCE_BINDING_FAILURE_F02_F03_2026",
   "family_id": "F04_ACTIVITY",
   "model": "gpt-image-2-5-sunburst",
   "configured_resolution_tier": "4k",
@@ -30,7 +33,17 @@
       "attempt": 1,
       "qa_status": "SUPERSEDED",
       "approval_status": "SUPERSEDED",
-      "lineage": "TEXT ONLY. NOT THE REFERENCE WORLD."
+      "lineage": "TEXT ONLY. NOT THE REFERENCE WORLD.",
+      "project_id": "JURNL",
+      "generation_intent": "DERIVED",
+      "generation_mode": "TEXT_TO_IMAGE_NET_NEW",
+      "reference_required": true,
+      "reference_found": false,
+      "reference_input_attached": false,
+      "reference_authority_id": "REFERENCE_F01.00_WELCOME_APPROVED",
+      "dispatch_status": "INVALID_GENERATION_POSTMORTEM",
+      "failure_class": "REFERENCE_BINDING_FAILURE",
+      "corrective_action": "REFERENCE_BINDING_REQUIRED"
     },
     {
       "generation_id": "W1QADhSrAL9ReszaWnQK",
