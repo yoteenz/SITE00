@@ -1,0 +1,21 @@
+{
+  "note": "Founder high-quality renders. Pixels are keyed to transparent charcoal. They are not redrawn.",
+  "assignment": {
+    "HUB": "Tighter open diamond stack (c655). The low-res sheet filled the top slab; this render does not.",
+    "DESIGN": "More open diamond stack (c687). Also an outline, not a filled slab.",
+    "INBOX": "Rounded envelope with an inner flap.",
+    "EXPERIENCE": "Circle and rounded play triangle.",
+    "EXPRESSION": "Isometric cube wireframe. No front-edge notch.",
+    "LIBRARY": "Three rounded volumes. The right volume is tilted. No spine dash.",
+    "ACTIVITY": "Pulse with a small rise, a deep valley, a tall peak, and an open ring joined to the stroke."
+  },
+  "files": {
+    "HUB": "01a0fd6b-c655-7ab2-beea-68feaa55981c.jpg",
+    "INBOX": "01a0fd6b-c67c-726b-ac8b-b51a36e1d059.jpg",
+    "DESIGN": "01a0fd6b-c687-7c7a-8f17-e95d11995549.jpg",
+    "EXPERIENCE": "01a0fd6b-c648-7d99-ace6-676af7cc02ae.jpg",
+    "EXPRESSION": "01a0fd6b-c670-7ae4-83a2-970c88dc3fcf.jpg",
+    "LIBRARY": "01a0fd6b-c664-77bf-b1bd-36eb90a09335.jpg",
+    "ACTIVITY": "01a0fd6b-c692-7364-a209-ae73cced5033.jpg"
+  }
+}
