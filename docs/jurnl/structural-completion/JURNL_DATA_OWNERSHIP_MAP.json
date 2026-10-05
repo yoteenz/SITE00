@@ -174,19 +174,20 @@
         "F06",
         "F08",
         "F09",
-        "F15"
+        "F15",
+        "F07"
       ],
       "writers": [
         "F06",
-        "F02"
+        "GS.QUICK_ADD"
       ],
       "derived": false,
-      "currentSource": "F02 draft cadence + amount; MOCK PAY row",
-      "currentPersistence": "SESSION",
+      "currentSource": "repository incomeSources[] (seeded from setup once)",
+      "currentPersistence": "DEVICE",
       "targetPersistence": "REPOSITORY",
-      "criteria": "R- U- Dh I0 S0 Vh E0 M- L- P- A- N-",
+      "criteria": "R- U- Dh Ih S1 V1 E1 M- L- P- A- N-",
       "conflicts": [
-        "DRAFT CADENCE/AMOUNT VS MOCK PAY MOVEMENT; F06 HAS NO RECORD TYPE."
+        "SETUP DRAFT STILL HOLDS LEGACY CADENCE/AMOUNT UNTIL FULL MIGRATION."
       ],
       "wave": 2
     },
@@ -209,13 +210,12 @@
         "F02"
       ],
       "derived": false,
-      "currentSource": "F02 draft obligations[{name,cadence}] OR MOCK_UPCOMING",
-      "currentPersistence": "SESSION",
+      "currentSource": "repository obligations[] + wave2Seed from setup/MOCK",
+      "currentPersistence": "DEVICE",
       "targetPersistence": "REPOSITORY",
-      "criteria": "R- U- Dh I0 S0 Vh E0 M- L- P- A- N-",
+      "criteria": "R- U- Dh Ih S1 V1 E1 M- L- P- A- N-",
       "conflicts": [
-        "upcomingFor() maps setup obligations with amount 0; safeToSpend() then uses [] → obligations contribute $0.",
-        "MOCK_UPCOMING VS SETUP OBLIGATIONS VS F07."
+        "F07 UPCOMING IS DERIVED — NOT A SECOND OWNER."
       ],
       "wave": 2
     },
@@ -578,15 +578,14 @@
       "domain": "DD.INCOME_SOURCES",
       "owner": "F06",
       "conflicts": [
-        "DRAFT CADENCE/AMOUNT VS MOCK PAY MOVEMENT; F06 HAS NO RECORD TYPE."
+        "SETUP DRAFT STILL HOLDS LEGACY CADENCE/AMOUNT UNTIL FULL MIGRATION."
       ]
     },
     {
       "domain": "DD.OBLIGATIONS",
       "owner": "F07",
       "conflicts": [
-        "upcomingFor() maps setup obligations with amount 0; safeToSpend() then uses [] → obligations contribute $0.",
-        "MOCK_UPCOMING VS SETUP OBLIGATIONS VS F07."
+        "F07 UPCOMING IS DERIVED — NOT A SECOND OWNER."
       ]
     },
     {
@@ -654,16 +653,6 @@
     },
     {
       "id": "DD.ACCOUNTS",
-      "current": "SESSION",
-      "target": "REPOSITORY"
-    },
-    {
-      "id": "DD.INCOME_SOURCES",
-      "current": "SESSION",
-      "target": "REPOSITORY"
-    },
-    {
-      "id": "DD.OBLIGATIONS",
       "current": "SESSION",
       "target": "REPOSITORY"
     },

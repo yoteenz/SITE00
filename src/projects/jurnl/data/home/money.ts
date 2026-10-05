@@ -6,6 +6,7 @@
 import { useSyncExternalStore } from 'react';
 import { getSetupDraft, type SetupDraft } from '../f02/setupDraft';
 import { computeSafeToSpend, setupObligationsAsUpcoming } from '../f09/safeToSpend';
+import { projectUpcoming } from '../foundation/upcomingProjection';
 import { getRepository } from '../repository/deviceRepository';
 import type { QuickAddQuote } from './currency';
 import { MOCK_UPCOMING } from './mockScenario';
@@ -63,6 +64,18 @@ export function useAddedEntries(): LedgerEntry[] {
 }
 
 export function upcomingFor(draft: SetupDraft = getSetupDraft()): UpcomingItem[] {
+  const income = getRepository().listIncomeSources();
+  const obligations = getRepository().listObligations();
+  if (income.length || obligations.length) {
+    return projectUpcoming(income, obligations).map((p) => ({
+      id: p.upcoming_id,
+      name: p.label,
+      when: p.due_date,
+      amount: p.amount,
+      kind: p.source_domain === 'OBLIGATION' ? 'BILL' : 'BILL',
+      source: 'SETUP' as const,
+    }));
+  }
   if (draft.obligations.length) return setupObligationsAsUpcoming(draft);
   return MOCK_UPCOMING;
 }

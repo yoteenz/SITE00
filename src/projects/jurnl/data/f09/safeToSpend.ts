@@ -62,11 +62,17 @@ export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries:
   let upcoming = 0;
   let upcomingSource: SafeToSpendBreakdown['upcomingSource'] = 'DERIVED';
   let unknownUpcoming = false;
-  const setupItems = draft.obligations.length ? setupObligationsAsUpcoming(draft) : [];
+  const repoObligations = getRepository().listObligations();
 
-  if (setupItems.length) {
+  if (repoObligations.length) {
     upcomingSource = 'SETUP';
-    for (const item of setupItems) {
+    for (const item of repoObligations) {
+      if (item.amount > 0) upcoming += item.amount;
+      else unknownUpcoming = true;
+    }
+  } else if (draft.obligations.length) {
+    upcomingSource = 'SETUP';
+    for (const item of setupObligationsAsUpcoming(draft)) {
       if (item.amount > 0) upcoming += item.amount;
       else unknownUpcoming = true;
     }
@@ -77,7 +83,7 @@ export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries:
 
   let completeness: SafeToSpendCompleteness = 'COMPLETE';
   if (draft.accounts === 'SKIPPED' || (!draft.cadence && !draft.amount && draft.started)) completeness = 'UNSTATED';
-  else if (unknownUpcoming || setupItems.some((i) => i.amount <= 0)) completeness = 'PARTIAL';
+  else if (unknownUpcoming || repoObligations.some((i) => i.amount <= 0)) completeness = 'PARTIAL';
 
   const value = completeness === 'UNSTATED' ? cash - held : cash - upcoming - held;
 
@@ -91,7 +97,7 @@ export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries:
     protectedSource: held > 0 ? 'SETUP' : 'DERIVED',
     valueSource: 'DERIVED',
     completeness,
-    setupObligationCount: setupItems.length,
+    setupObligationCount: repoObligations.length || draft.obligations.length,
     unknownUpcoming,
     userBuffer: held,
   };

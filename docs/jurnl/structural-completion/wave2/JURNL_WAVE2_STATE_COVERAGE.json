@@ -1,0 +1,26 @@
+{
+  "families": ["F05", "F06", "F07"],
+  "states": {
+    "F05": {
+      "empty": ["NO ACCOUNTS / NOTHING PLACED"],
+      "loaded": ["HUB WITH PLACES", "PLACES LIST", "PLACE DETAIL"],
+      "partial": ["MANUAL + UNAVAILABLE CONNECTION LABEL"],
+      "error": ["REPOSITORY READ FAILURE — inherited JurnlScreen patterns"],
+      "connection": ["MANUAL", "PROVIDER_UNAVAILABLE", "DEVELOPMENT_MOCK via honest connect copy"]
+    },
+    "F06": {
+      "empty": ["NO INCOME SOURCES"],
+      "expected": ["EXPECTED / RECURRING ROWS"],
+      "received": ["RECEIVED WITH LEDGER LINK"],
+      "late": ["LATE WHEN past expected_date"],
+      "estimated": ["is_estimated flag in model"]
+    },
+    "F07": {
+      "empty": ["NO UPCOMING ITEMS"],
+      "grouped": ["OVERDUE", "TODAY", "THIS WEEK", "LATER"],
+      "partial": ["UNKNOWN AMOUNT on obligation"],
+      "source_missing": ["projection omits archived sources"]
+    }
+  },
+  "deferred_ui_states": ["F05 move sheet", "F06 pattern sheet", "F07 when/skip-once sheet"]
+}

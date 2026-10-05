@@ -1,0 +1,6 @@
+{
+  "family": "F07",
+  "routes": ["upcoming", "upcoming/:itemId"],
+  "projection": "derived",
+  "sources": ["incomeSources", "obligations"]
+}

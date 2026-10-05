@@ -1,0 +1,37 @@
+{
+  "conflicts_before": 13,
+  "conflicts_after_estimate": 11,
+  "resolved_this_wave": [
+    {
+      "domain": "DD.INCOME_SOURCES",
+      "canonical_owner": "F06",
+      "action": "Repository snapshot incomeSources + wave2Seed from setup; receiveIncome links one ledger tx"
+    },
+    {
+      "domain": "DD.OBLIGATIONS",
+      "canonical_owner": "F07",
+      "action": "Repository obligations; F07 UI is derived projection only"
+    },
+    {
+      "domain": "DD.ACCOUNTS",
+      "canonical_owner": "F05",
+      "action": "F05 material screens use listActiveAccounts / accountMutations; reduced QuickAdd hard-coded drift"
+    },
+    {
+      "domain": "DD.SAFE_TO_SPEND",
+      "canonical_owner": "F09",
+      "action": "Upcoming obligations read from listObligations() before legacy mocks"
+    }
+  ],
+  "deferred_wave3": [
+    "DD.PLAN_ALLOCATIONS",
+    "DD.PROTECTED_HOLD setup draft handoff",
+    "DD.GOALS"
+  ],
+  "deferred_wave4": ["DD.TRANSACTIONS mock read-only rows", "DD.CATEGORIES fragmentation"],
+  "deferred_wave5": ["DD.IDENTITY preview storage", "DD.ENTITLEMENTS server RLS"],
+  "unchanged_notes": [
+    "DD.SETUP_PROFILE still seeds F02 draft until full handoff to F07/F09",
+    "DD.CURRENCY writer via Ask partially remains; settings is canonical reader"
+  ]
+}

@@ -5,8 +5,10 @@ import type { LedgerEntry } from '../home/moneyTypes';
 import type { JurnlAccountRecord } from '../foundation/accounts';
 import type { ConsentRecord } from '../foundation/consent';
 import type { JurnlSettings } from '../foundation/settings';
+import type { JurnlIncomeSource } from '../foundation/income';
+import type { JurnlObligation } from '../foundation/obligations';
 
-export const REPOSITORY_SCHEMA_VERSION = 2;
+export const REPOSITORY_SCHEMA_VERSION = 3;
 
 export type RepositoryEventType =
   | 'ACCOUNT_CREATED'
@@ -28,7 +30,11 @@ export type RepositoryEventType =
   | 'SAFE_TO_SPEND_RECALCULATED'
   | 'SETTING_CHANGED'
   | 'CONSENT_GRANTED'
-  | 'CONSENT_REVOKED';
+  | 'CONSENT_REVOKED'
+  | 'INCOME_UPDATED'
+  | 'INCOME_DELETED'
+  | 'OBLIGATION_UPDATED'
+  | 'OBLIGATION_DELETED';
 
 export type RepositoryEvent = { type: RepositoryEventType; at: string; entityId?: string };
 
@@ -40,6 +46,8 @@ export type RepositorySnapshot = {
   transactions: LedgerEntry[];
   settings: JurnlSettings;
   consent: ConsentRecord[];
+  incomeSources: JurnlIncomeSource[];
+  obligations: JurnlObligation[];
   updatedAt: string;
 };
 
@@ -64,6 +72,13 @@ export interface JurnlRepository {
   patchSettings(patch: Partial<JurnlSettings>): JurnlSettings;
   getConsent(): ConsentRecord[];
   patchConsent(type: ConsentRecord['consent_type'], granted: boolean, source: string): ConsentRecord[];
+  listIncomeSources(): JurnlIncomeSource[];
+  upsertIncomeSource(source: JurnlIncomeSource): JurnlIncomeSource;
+  deleteIncomeSource(id: string): boolean;
+  markIncomeReceived(id: string, transactionId: string): JurnlIncomeSource | null;
+  listObligations(): JurnlObligation[];
+  upsertObligation(item: JurnlObligation): JurnlObligation;
+  deleteObligation(id: string): boolean;
   onEvent(cb: (event: RepositoryEvent) => void): () => void;
 }
 

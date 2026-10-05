@@ -1,0 +1,32 @@
+{
+  "gaps_before": 9,
+  "gaps_after_estimate": 7,
+  "resolved_this_wave": [
+    {
+      "id": "DD.INCOME_SOURCES",
+      "current": "REPOSITORY (device v3)",
+      "note": "incomeSources[] on device snapshot"
+    },
+    {
+      "id": "DD.OBLIGATIONS",
+      "current": "REPOSITORY (device v3)",
+      "note": "obligations[] on device snapshot"
+    }
+  ],
+  "partial": [
+    {
+      "id": "DD.ACCOUNTS",
+      "current": "REPOSITORY + setup session seed",
+      "target": "Full disconnect from setup-only accountName on complete"
+    }
+  ],
+  "deferred_server": ["DD.IDENTITY auth provider", "DD.ENTITLEMENTS"],
+  "deferred_family": [
+    "DD.PLAN_ALLOCATIONS",
+    "DD.GOALS",
+    "DD.CREDIT_ATTRIBUTES",
+    "DD.PURCHASE_CONSIDERATIONS",
+    "DD.TRIPS"
+  ],
+  "not_applicable": ["F07 upcoming projection — derived, not a persistence gap"]
+}

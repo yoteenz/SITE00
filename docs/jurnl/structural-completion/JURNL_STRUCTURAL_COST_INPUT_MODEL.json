@@ -95,11 +95,11 @@
     {
       "family_id": "F05",
       "implementation_inputs": {
-        "nodes_to_complete": 21,
+        "nodes_to_complete": 16,
         "new_routes": 2,
         "new_sheets_drawers_modals": 4,
         "states_to_wire": 4,
-        "interactions_to_wire": 9,
+        "interactions_to_wire": 4,
         "owned_domains": [
           "DD.ACCOUNTS"
         ],
@@ -115,11 +115,11 @@
     {
       "family_id": "F06",
       "implementation_inputs": {
-        "nodes_to_complete": 17,
+        "nodes_to_complete": 13,
         "new_routes": 1,
         "new_sheets_drawers_modals": 4,
         "states_to_wire": 4,
-        "interactions_to_wire": 6,
+        "interactions_to_wire": 2,
         "owned_domains": [
           "DD.INCOME_SOURCES"
         ],
@@ -135,11 +135,11 @@
     {
       "family_id": "F07",
       "implementation_inputs": {
-        "nodes_to_complete": 19,
+        "nodes_to_complete": 15,
         "new_routes": 1,
         "new_sheets_drawers_modals": 4,
         "states_to_wire": 5,
-        "interactions_to_wire": 7,
+        "interactions_to_wire": 3,
         "owned_domains": [
           "DD.OBLIGATIONS"
         ],

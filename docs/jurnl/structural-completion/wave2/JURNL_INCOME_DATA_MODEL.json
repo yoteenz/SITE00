@@ -1,0 +1,5 @@
+{
+  "entity": "JurnlIncomeSource",
+  "path": "src/projects/jurnl/data/foundation/income.ts",
+  "persistence": "repository.snapshot.incomeSources"
+}

@@ -143,22 +143,22 @@
   "interactions": [
     {
       "id": "F07.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F07.ITEM"
     },
     {
       "id": "F07.IN.ADD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F07.SH.ADD_ITEM"
     },
     {
       "id": "F07.IN.EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F07.SH.EDIT_ITEM"
     },
     {
       "id": "F07.IN.REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F07.MD.REMOVE_ITEM"
     },
     {
@@ -281,12 +281,12 @@
     "ADVANCED_AUTOMATION (ADVANCED)"
   ],
   "functional_status": {
-    "score": 12.4,
-    "strict": 9.5,
+    "score": 34.3,
+    "strict": 28.6,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 16,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 13,
+      "COMPLETE_FUNCTIONAL": 6,
       "LEGACY": 1,
       "PARTIAL_FUNCTIONAL": 1
     }

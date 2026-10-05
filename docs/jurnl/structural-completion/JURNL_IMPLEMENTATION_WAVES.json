@@ -386,7 +386,7 @@
           "parallelGroup": "W2-F07"
         }
       ],
-      "nodes_completed": 53
+      "nodes_completed": 40
     },
     {
       "wave": 3,
@@ -747,23 +747,23 @@
   "simulation": [
     {
       "after_wave": 0,
-      "functional_completion": 35.2,
-      "node_weighted": 52.4,
+      "functional_completion": 39.2,
+      "node_weighted": 55.3,
       "nodes_completed_in_wave": 32,
-      "strict": 27.8
+      "strict": 31.4
     },
     {
       "after_wave": 1,
-      "functional_completion": 44,
-      "node_weighted": 59.9,
+      "functional_completion": 48,
+      "node_weighted": 62.8,
       "nodes_completed_in_wave": 52,
-      "strict": 39.1
+      "strict": 42.7
     },
     {
       "after_wave": 2,
       "functional_completion": 58.2,
       "node_weighted": 70.2,
-      "nodes_completed_in_wave": 53,
+      "nodes_completed_in_wave": 40,
       "strict": 54
     },
     {

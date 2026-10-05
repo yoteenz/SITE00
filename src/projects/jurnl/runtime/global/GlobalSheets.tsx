@@ -5,7 +5,9 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { buildAskJurnlContext, explainFromContext } from '../../data/foundation/askJurnl';
-import { quickAddTypesForFamily } from '../../data/foundation/quickAddRegistry';
+import { quickAddTypesForFamily, type QuickAddTypeId } from '../../data/foundation/quickAddRegistry';
+import { getTodayKey } from '../../data/foundation/dates';
+import { createIncomeSource } from '../../data/f06/incomeStore';
 import {
   addLedgerEntry,
   formatAmountInput,
@@ -40,7 +42,7 @@ export function AskJurnlSheet({ familyId, nodeId, onClose }: { familyId: string;
 
 export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null; onClose: () => void }) {
   const types = quickAddTypesForFamily(familyId);
-  const [typeId] = useState(types[0]?.type_id ?? 'TRANSACTION');
+  const [typeId, setTypeId] = useState<QuickAddTypeId>(types[0]?.type_id ?? 'TRANSACTION');
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [direction, setDirection] = useState<'EXPENSE' | 'INCOME'>('EXPENSE');
@@ -51,7 +53,10 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
   const currency = useCurrency();
   const numeric = Number(amount);
   const quote = /^\d+(\.\d{1,2})?$/.test(amount.trim()) && numeric > 0 ? quoteQuickAdd(numeric, currency.code) : null;
-  const valid = typeId === 'TRANSACTION' && name.trim().length > 0 && quote != null && account.length > 0;
+  const valid =
+    typeId === 'TRANSACTION' ? name.trim().length > 0 && quote != null && account.length > 0
+    : typeId === 'INCOME' ? name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim())
+    : false;
 
   return (
     <JurnlDrawer
@@ -67,9 +72,14 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
           trigger="quick-add-save"
           disabled={!valid}
           onClick={() => {
-            if (!quote) return;
             setError(null);
             try {
+              if (typeId === 'INCOME') {
+                createIncomeSource({ source_name: name, amount: Number(amount), cadence: 'MONTHLY', next_due_date: getTodayKey() });
+                onClose();
+                return;
+              }
+              if (!quote) return;
               addLedgerEntry({
                 merchant: name.trim().toUpperCase(),
                 amount: quote.canonicalAmount,
@@ -90,7 +100,13 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
       }
     >
       {error ? <p className="jrn-currency__note" role="alert">{error}</p> : null}
-      <p className="jrn-currency__label">TYPE · {types.find((t) => t.type_id === typeId)?.label ?? 'MOVEMENT'}</p>
+      {types.length > 1 ?
+        <div className="jrn-home__choices" role="radiogroup" aria-label="TYPE">
+          {types.map((t) => (
+            <button key={t.type_id} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={typeId === t.type_id} onClick={() => setTypeId(t.type_id)}>{t.label}</button>
+          ))}
+        </div>
+      : <p className="jrn-currency__label">TYPE · {types.find((t) => t.type_id === typeId)?.label ?? 'MOVEMENT'}</p>}
       <JurnlInput label="NAME" value={name} onValue={setName} trigger="quick-add-name" />
       <JurnlInput
         label="AMOUNT"
@@ -103,20 +119,24 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
         autoComplete="off"
         onFocusChange={(focused) => setKeyboard(focused)}
       />
-      <div className="jrn-home__choices" role="radiogroup" aria-label="DIRECTION">
-        {(['EXPENSE', 'INCOME'] as const).map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={direction === item} data-active={direction === item ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setDirection(item)}>
-            {item}
-          </button>
-        ))}
-      </div>
-      <div className="jrn-home__choices" role="radiogroup" aria-label="ACCOUNT">
-        {accountOptions.map((item) => (
-          <button key={item.id} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item.id} data-active={account === item.id ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.id.toLowerCase().replace(/\s+/g, '-')}`} onClick={() => setAccount(item.id)}>
-            {item.label}
-          </button>
-        ))}
-      </div>
+      {typeId === 'TRANSACTION' ?
+        <>
+          <div className="jrn-home__choices" role="radiogroup" aria-label="DIRECTION">
+            {(['EXPENSE', 'INCOME'] as const).map((item) => (
+              <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={direction === item} data-active={direction === item ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setDirection(item)}>
+                {item}
+              </button>
+            ))}
+          </div>
+          <div className="jrn-home__choices" role="radiogroup" aria-label="ACCOUNT">
+            {accountOptions.map((item) => (
+              <button key={item.id} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item.id} data-active={account === item.id ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.id.toLowerCase().replace(/\s+/g, '-')}`} onClick={() => setAccount(item.id)}>
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </>
+      : null}
     </JurnlDrawer>
   );
 }
