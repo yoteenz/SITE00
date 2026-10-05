@@ -9,6 +9,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import type { ProjectRuntimeProps } from '../../../site00/projectRuntime/projectRuntimeRegistry';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS } from '../data/f01/screens';
 import { JurnlOverlayHostContext, JurnlSuccessBanner } from './components/primitives';
+import { JurnlEntitlementsProvider } from './monetization/JurnlEntitlements';
 import { JurnlStoreProvider, useJurnl } from './state/store';
 import { CreateAccountScreen, ReturningUnlockScreen, SignInScreen, VerifyEmailScreen, WelcomeScreen } from './screens/EntryScreens';
 import { ForgotPasswordScreen, NewPasswordScreen, ResetSentScreen, ResetSuccessScreen } from './screens/RecoveryScreens';
@@ -70,10 +71,13 @@ export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps
   return (
     <div className="jrn" data-project-runtime="jurnl" data-runtime-mode={mode} lang="en">
       <JurnlOverlayHostContext.Provider value={overlayHost}>
-        <JurnlStoreProvider basePath={basePath} mode={mode}>
-          <JurnlRoutes />
-          <Toast />
-        </JurnlStoreProvider>
+        {/* Entitlements context only (no DOM): future families query capabilities; F01 never renders monetization UI. */}
+        <JurnlEntitlementsProvider mode={mode}>
+          <JurnlStoreProvider basePath={basePath} mode={mode}>
+            <JurnlRoutes />
+            <Toast />
+          </JurnlStoreProvider>
+        </JurnlEntitlementsProvider>
       </JurnlOverlayHostContext.Provider>
       <div className="jrn-overlay-host" ref={setOverlayHost} data-jrn-overlay-host />
     </div>

@@ -20,5 +20,7 @@ Family 01 ENTRY (F01.00–F01.13) runs as live UI inside the DESIGN workspace.
 | [BUDGET_CONTRACT.md](BUDGET_CONTRACT.md) | Family budget data contract |
 | [F01_LIVE_QA.md](F01_LIVE_QA.md) | Live browser QA proof index |
 | [F01_LIVE_VIEWPORT_DELIVERY.md](F01_LIVE_VIEWPORT_DELIVERY.md) | Live viewport delivery: how to open, hosting audit, viewport QA (163/163) |
+| [monetization/MONETIZATION_FOUNDATION.md](monetization/MONETIZATION_FOUNDATION.md) | Monetization foundation: plans, capabilities, entitlements, billing boundary, trust rules (no prices, no checkout) |
+| [monetization/DRAFT_16_FAMILY_ENTITLEMENT_MAP.md](monetization/DRAFT_16_FAMILY_ENTITLEMENT_MAP.md) | Draft 16-family entitlement map — for founder review |
 
 Firewall rules for any project runtime: `src/projects/README.md`.

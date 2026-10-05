@@ -49,7 +49,7 @@ around inside JURNL). Classes per sprint §30.
 
 | ID | Issue | Resolution |
 |----|-------|-----------|
-| J-01 | F02 transition authority labels F02 as "FAMILY FINANCE", while the F01.13 child authority's CTA is "CONTINUE TO SETUP". | Runtime follows the child authority: the F02 boundary is named SETUP (not implemented, holding surface only). Name conflict flagged for founder. |
+| J-01 | F02 transition authority labels F02 as "FAMILY FINANCE", while the F01.13 child authority's CTA is "CONTINUE TO SETUP". | Runtime follows the child authority: the F02 boundary is named SETUP (not implemented, holding surface only). **Resolved** by the founder product tree in P0.JURNL.MONETIZATION-FOUNDATION1 (02 SETUP). |
 | J-02 | State sheets `STATES.EMAIL_RECOVERY` and `STATES.SECURITY_NETWORK` are off-brand (blue / yellow / dark UI). | Used for state *coverage* only; rendered in the JURNL palette. |
 | J-03 | Password rule conflict (children: "8+ CHARACTERS / ONE NUMBER / ONE LETTER" vs interaction authorities: uppercase + number + special). | Interaction authorities win (latest, more specific): 8+ / UPPERCASE / NUMBER / SPECIAL. |
 | J-04 | Validation authority requires the terms agreement; F01.01 child shows no checkbox. | Square agree checkbox added (validation authority). |

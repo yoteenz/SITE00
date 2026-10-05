@@ -1,0 +1,49 @@
+/* JURNL monetization primitives — scoped to .jrn; square-rounded only; quiet, editorial (not SaaS paywall). */
+
+.jrn .jrn-mon {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--jrn-line);
+  border-radius: var(--jrn-r);
+  background: var(--jrn-field);
+  color: var(--jrn-ink);
+}
+.jrn .jrn-mon__fact {
+  font-family: var(--jrn-display);
+  font-size: 20px;
+  line-height: 1.05;
+}
+.jrn .jrn-mon__value {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--jrn-ink-2);
+}
+.jrn .jrn-mon--notice,
+.jrn .jrn-mon--usage,
+.jrn .jrn-mon--trial {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  gap: 4px;
+}
+.jrn .jrn-mon--notice span,
+.jrn .jrn-mon--usage span {
+  color: var(--jrn-ink-3);
+}
+.jrn .jrn-mon-gate {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.jrn .jrn-mon-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--jrn-emerald);
+  border-radius: 4px;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  color: var(--jrn-emerald);
+}

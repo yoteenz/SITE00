@@ -341,15 +341,24 @@ describe('control geometry — zero circular tappable controls', () => {
 
 describe('host / project firewall', () => {
   const runtimeFiles = walk('src/projects/jurnl/runtime');
-  it('runtime imports nothing from the host except the type-only mount contract', () => {
+  it('runtime imports nothing from the host except the type-only mount contract (shared pure domain modules allowed)', () => {
+    const PURE_SHARED = /^shared\/site00-(monetization|product-families)\//;
     for (const f of runtimeFiles.filter((x) => /\.tsx?$/.test(x))) {
       for (const m of read(f).matchAll(/^import\s+(type\s+)?[^;]*?from\s+'([^']+)'/gm)) {
         const spec = m[2]!;
-        if (/site00/.test(spec)) {
+        if (!spec.startsWith('.')) continue;
+        const target = path.relative(root, path.resolve(path.dirname(path.join(root, f)), spec)).split(path.sep).join('/');
+        if (target.startsWith('src/site00/')) {
           expect(m[1], `${f}: ${spec}`).toBe('type ');
           expect(spec, f).toMatch(/projectRuntime\/projectRuntimeRegistry$/);
+        } else if (target.startsWith('shared/')) {
+          expect(target, `${f}: only pure shared domain modules`).toMatch(PURE_SHARED);
         }
       }
+    }
+    // the allowed shared modules are dependency-free: no React, no CSS, no host code
+    for (const f of [...walk('shared/site00-monetization'), ...walk('shared/site00-product-families')].filter((x) => /\.ts$/.test(x) && !x.endsWith('.test.ts'))) {
+      expect(read(f), f).not.toMatch(/from 'react|\.css'|src\/site00/);
     }
   });
   it('host code never imports a project runtime module directly (only via the lazy registry)', () => {
