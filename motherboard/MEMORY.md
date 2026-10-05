@@ -13394,3 +13394,19 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Founder:** The tunnel was showing an outdated production DESIGN workspace. Asked whether the tunnel branch had been switched.
 - **Answer:** The hostname stays `site00.fsbw-dev.com` → port 5174. It had not been restarted, so it was still serving `c0cc47d` / `index.BiG_RmhR.js` (2026-10-04).
 - **Now:** Preview restarted onto `origin/main` `4d340947` / `index.4cz58TFm.js`, which includes the phone PROJECTS dropdown. Hard refresh the tunnel.
+
+---
+
+## 2026-10-05 — F01 canonical plates injected into the live runtime
+
+- **Sprint:** P0.JURNL.F01-GROK-CANONICAL-ASSET-REGEN-INJECTION1. Step 03. Do not rebuild the app. Do not deploy site00.com. Do not change the 60,000 credit ceiling.
+- **Method:** Approved screens are references, not crop sources. The failed harvest library stays out.
+- **Reuse:** `ENTRY.ENVIRONMENT.PLATE.001` (2016×3584, history `omTTAjRt3LgV0RB2lC5I`) is the atrium for welcome, sign-in, unlock, new password, success, biometric, trust, security, complete, and the F02 boundary. Create and sign-in use a tighter mobile crop of that same plate so the form sits on plaster.
+- **Generated:** Four clean plates, one attempt each, GPT Image 2.5 Sunburst image-to-image, 4k tier, 9:16, quality high, auto-enhance off. Each delivered 2016×3584 (gallery 3K) and cost 317 credits. Total spend 1,268. Balance 51,630 → 50,362.
+  - `ENTRY.ENVIRONMENT.VERIFY.001` — `zrmnyPzh2o8hiSImFwT5`
+  - `ENTRY.ENVIRONMENT.FORGOT.001` — `e8tkgJ5BhWrsKGq5XJjE`
+  - `ENTRY.ENVIRONMENT.RESET_SENT.001` — `7h17j8WkPY48zdMyjI5k`
+  - `ENTRY.ENVIRONMENT.PRIVACY.001` — `mrYewK2YnNDwIXQy1iWH`
+- **Not generated:** Isolated objects, botanicals, materials, and icons. Those stay inside the plates or in the existing SVG icon pack. Apple and Google stay brand marks.
+- **Runtime:** Live text, forms, and controls stay above the plate. No full-screen static UI. Ledger: `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/F01_GROK_GENERATION_LEDGER.json`.
+- **Gaps:** Biometric face-id stone, device-trust journal, and security padlock are table props on the shared atrium, not separate files. The create-account footer line still sits close to the table.

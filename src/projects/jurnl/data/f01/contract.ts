@@ -13,6 +13,7 @@ import { F01_CLAIMS } from './copy';
 import { F01_INTERACTION_MANIFEST } from './interactionBindings';
 import { F01_SCREENS, F01_STATES, F01_STATE_SHEETS } from './screens';
 import { JURNL_F01_MONETIZATION } from '../monetization/familyMonetization';
+import { F01_ENVIRONMENT_PLATES } from './environmentPlates';
 
 export const JURNL_BUDGET_BASELINE: ProjectBudgetBaseline = {
   projectId: 'JURNL',
@@ -106,16 +107,43 @@ export const JURNL_F01_CONTRACT: FamilyProductionContract = {
     { id: 'JURNL.FONT.FUNCTIONAL', assetClass: 'GLOBAL_INHERITED', scope: 'GLOBAL_INHERITED', status: 'CANONICAL', source: 'BARLOW SEMI CONDENSED (OFL) — CONDENSED SANS' },
   ],
   familyAssets: [
-    { id: 'ENTRY.ENV.PLASTER_LIGHT', assetClass: 'FAMILY_BACKGROUND', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'CSS + SVG NOISE (runtime/components/Environment.tsx)' },
-    { id: 'ENTRY.ARCH.WINDOW_COAST', assetClass: 'ARCHITECTURAL_LAYER', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'SVG' },
-    { id: 'ENTRY.MATERIAL.CURTAIN', assetClass: 'MATERIAL_TEXTURE', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'SVG GRADIENT FOLDS' },
-    { id: 'ENTRY.MATERIAL.TRAVERTINE', assetClass: 'MATERIAL_TEXTURE', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'CSS + SVG NOISE' },
-    { id: 'ENTRY.BOTANICAL.OLIVE', assetClass: 'BOTANICAL', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'SVG' },
-    { id: 'ENTRY.LIGHT.SUN', assetClass: 'LIGHT_OVERLAY', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'CSS GRADIENT SHAFTS' },
-    { id: 'ENTRY.OBJECT.BOOKS', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'CSS (LIVE "JURNL" SPINE TEXT)' },
-    { id: 'ENTRY.OBJECT.BOWL', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'SVG' },
-    { id: 'ENTRY.OBJECT.BUST', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'MISSING', source: 'NONE', notes: 'NOT RECONSTRUCTED IN CODE (WOULD BE INVENTED ART). NEEDS A CANONICAL ISOLATED ASSET — ASSET-FIRST.' },
-    { id: 'ENTRY.OBJECT.SOFA_CUSHIONS', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'CSS' },
+    ...Object.values(F01_ENVIRONMENT_PLATES).map((plate) => ({
+      id: plate.assetId,
+      assetClass: plate.assetClass,
+      scope: 'FAMILY' as const,
+      status: 'CANONICAL' as const,
+      source: `VERIFIED PLATE ${plate.configuredResolutionTier} TIER, DELIVERED ${plate.deliveredWidth}x${plate.deliveredHeight}, GALLERY ${plate.galleryLabel}`,
+      sourceAuthority: plate.sourceAuthority,
+      filePath: plate.filePath,
+      format: plate.format,
+      nativeWidth: plate.nativeWidth,
+      nativeHeight: plate.nativeHeight,
+      transparency: plate.transparency,
+      routes: [...plate.routes],
+      providerGenerationId: plate.providerGenerationId,
+      qaStatus: plate.qaStatus,
+      runtimeStatus: plate.runtimeStatus,
+      focal: {
+        aspectRatio: plate.aspectRatio,
+        focalX: plate.shared.focalX,
+        focalY: plate.shared.focalY,
+        mobilePosition: plate.shared.mobile,
+        tabletPosition: plate.shared.tablet,
+        desktopPosition: plate.shared.desktop,
+        cropBehavior: plate.cropBehavior,
+        overlayBehavior: plate.overlayBehavior,
+      },
+    })),
+    { id: 'ENTRY.ENV.PLASTER_LIGHT', assetClass: 'FAMILY_BACKGROUND', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'CSS + SVG NOISE', notes: 'SUPERSEDED BY ENTRY.ENVIRONMENT.PLATE.001. NOT MOUNTED.' },
+    { id: 'ENTRY.ARCH.WINDOW_COAST', assetClass: 'ARCHITECTURAL_LAYER', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'SVG', notes: 'BAKED INTO THE CANONICAL PLATES. NOT MOUNTED.' },
+    { id: 'ENTRY.MATERIAL.CURTAIN', assetClass: 'MATERIAL_TEXTURE', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'SVG GRADIENT FOLDS', notes: 'BAKED INTO THE CANONICAL PLATES. NOT MOUNTED.' },
+    { id: 'ENTRY.MATERIAL.TRAVERTINE', assetClass: 'MATERIAL_TEXTURE', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'CSS + SVG NOISE', notes: 'BAKED INTO THE CANONICAL PLATES. NOT MOUNTED.' },
+    { id: 'ENTRY.BOTANICAL.OLIVE', assetClass: 'BOTANICAL', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'SVG', notes: 'BAKED INTO THE CANONICAL PLATES. NOT MOUNTED AS A SEPARATE FILE.' },
+    { id: 'ENTRY.LIGHT.SUN', assetClass: 'LIGHT_OVERLAY', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'CSS GRADIENT SHAFTS', notes: 'BAKED INTO THE CANONICAL PLATES.' },
+    { id: 'ENTRY.OBJECT.BOOKS', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'CSS', notes: 'BAKED INTO THE ATRIUM PLATE. NOT A SEPARATE RUNTIME FILE.' },
+    { id: 'ENTRY.OBJECT.BOWL', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'SVG', notes: 'BAKED INTO THE ATRIUM PLATE. NOT A SEPARATE RUNTIME FILE.' },
+    { id: 'ENTRY.OBJECT.BUST', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'NONE', notes: 'BAKED INTO THE ATRIUM AND PRIVACY PLATES. NOT ISOLATED.' },
+    { id: 'ENTRY.OBJECT.SOFA_CUSHIONS', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'CSS', notes: 'BAKED INTO THE ATRIUM PLATE. NOT A SEPARATE RUNTIME FILE.' },
     { id: 'ENTRY.HARVEST.V1', assetClass: 'ISOLATED_OBJECT', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'JURNL/F01_ENTRY/ASSETS (FAILED HARVEST, 50%)', notes: 'EXCLUDED FROM RUNTIME.' },
     { id: 'ENTRY.UI.CONTROLS', assetClass: 'IMPLEMENTATION_COMPONENT', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'COMPONENTS — NEVER RASTER' },
   ],
@@ -140,8 +168,8 @@ export const JURNL_F01_CONTRACT: FamilyProductionContract = {
   assetPolicy: assetPolicyFor({
     legacyPilot: true,
     reason:
-      'F01 IS THE LEGACY PILOT FROM BEFORE ASSET-FIRST. PARENT → REVERSE-EXTRACT FAILED FORMAL PROOF (14 ATTEMPTED / 7 ISOLATED / 50%; TRANSPARENT + MATERIAL EXTRACTION FAILED). F01 IS IMPLEMENTED FROM AUTHORITIES WITH CODE-CONSTRUCTED ENVIRONMENT; NO HARVESTED RASTER IS MOUNTED.',
-    evidence: ['14 ATTEMPTED · 7 ISOLATED · 50%', 'TRANSPARENT OBJECT EXTRACTION FAILED', 'MATERIAL EXTRACTION FAILED', 'ARCHITECTURAL EXTRACTION PASSED', 'SCREENSHOT-CROP CONTAMINATION'],
+      'F01 IS THE LEGACY PILOT. PARENT → REVERSE-EXTRACT FAILED (14 ATTEMPTED / 7 ISOLATED / 50%). THE RUNTIME MOUNTS VERIFIED ENVIRONMENT PLATES: THE ATRIUM PLATE IS REUSED, AND FOUR DISTINCT PLATES WERE GENERATED CLEAN FROM THE SCREEN AUTHORITIES. FAILED HARVEST LIBRARIES STAY EXCLUDED. LIVE UI STAYS CODE.',
+    evidence: ['14 ATTEMPTED · 7 ISOLATED · 50%', 'TRANSPARENT OBJECT EXTRACTION FAILED', 'MATERIAL EXTRACTION FAILED', 'SCREENSHOT-CROP CONTAMINATION', '4K TIER DELIVERS 2016x3584', 'VERIFIED 4K IMAGE2IMAGE RATE 317 CREDITS'],
     excludedSources: ['JURNL/F01_ENTRY/ASSETS/**', 'JURNL/F01_ENTRY/OVERLAYS/**', 'JURNL/F01_ENTRY/ASSET_HARVEST_PROOF1/**', 'JURNL/F01_ENTRY/SHEETS/SHEET_A_F01_CANONICAL_HARVEST.png', 'JURNL/F01_ENTRY/MANIFEST/COMPONENT_REFERENCES/**'],
   }),
   approvalStatus: 'IMPLEMENTATION_READY',

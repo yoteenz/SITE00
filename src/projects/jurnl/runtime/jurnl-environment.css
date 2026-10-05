@@ -10,6 +10,26 @@
   overflow: hidden;
   pointer-events: none;
 }
+.jrn .jrn-plate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: var(--jrn-plate-mobile, 50% 46%);
+  pointer-events: none;
+  user-select: none;
+}
+@media (max-width: 599px) {
+  .jrn .jrn-plate {
+    top: var(--jrn-plate-top, 0);
+    left: var(--jrn-plate-left, 0);
+    width: calc(100% * var(--jrn-plate-scale, 1));
+    height: calc(100% * var(--jrn-plate-scale, 1));
+  }
+}
 .jrn .jrn-p {
   position: absolute;
   display: block;
@@ -388,6 +408,9 @@
 
 /* ─── TABLET (600–1099) — architecture expands, content column stays readable ─── */
 @media (min-width: 600px) {
+  .jrn .jrn-plate {
+    object-position: var(--jrn-plate-tablet, 56% 38%);
+  }
   .jrn .jrn-p--arch {
     right: 7%;
     top: 3%;
@@ -513,6 +536,9 @@
 
 /* ─── DESKTOP (≥1100) — split: content over plaster on the left, the world opens on the right ─── */
 @media (min-width: 1100px) {
+  .jrn .jrn-plate {
+    object-position: var(--jrn-plate-desktop, 62% 34%);
+  }
   .jrn .jrn-p--arch {
     right: 13%;
     top: 5%;

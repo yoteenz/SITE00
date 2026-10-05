@@ -404,11 +404,33 @@ describe('assets + OpenArt restrictions', () => {
       expect(src, f).not.toMatch(/\/authorities\//);
     }
   });
-  it('the only raster the runtime mounts is the official logo mark', () => {
+  it('each screen mounts the official logo plus its canonical environment plate', () => {
+    const logo = '/site00/projects/jurnl/brand/jurnl-logo-official.png';
+    const plateFor: Record<string, string> = {
+      'F01.00': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.01': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.02': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.VERIFY.001.png',
+      'F01.03': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.04': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.05': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.FORGOT.001.png',
+      'F01.06': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.RESET_SENT.001.png',
+      'F01.07': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.08': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.09': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.10': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.11': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PRIVACY.001.png',
+      'F01.12': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.13': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+    };
     for (const s of F01_SCREENS) {
-      const imgs = [...renderRuntime(s.route).matchAll(/<img[^>]*src="([^"]+)"/g)].map((m) => m[1]);
-      expect(new Set(imgs), s.id).toEqual(new Set(['/site00/projects/jurnl/brand/jurnl-logo-official.png']));
+      const html = renderRuntime(s.route);
+      const imgs = [...html.matchAll(/<img[^>]*src="([^"]+)"/g)].map((m) => m[1]);
+      expect(new Set(imgs), s.id).toEqual(new Set([logo, plateFor[s.id]]));
+      expect(html, s.id).toContain('data-testid="jurnl-environment"');
+      expect(html, s.id).not.toMatch(/archive-unnecessary-isolation|ASSET_HARVEST|_ARCHIVE_SCREENSHOT_CROPS/);
     }
+    expect(renderRuntime('entry/create')).toContain('data-env="TRANSFORMED_EXISTING_PLATE"');
+    expect(renderRuntime('entry')).toContain('data-env="SHARED_EXISTING_PLATE"');
   });
   it('no OpenArt access anywhere in the ingestion / runtime code', () => {
     for (const f of projectCode) expect(read(f), f).not.toMatch(/openart/i);
