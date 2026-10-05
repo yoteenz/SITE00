@@ -815,11 +815,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 ---
 
 
-## 2026-08-19 — IDNTY investment duplicate icons (mobile + desktop)
+## 2026-08-19 — IDNTY state subhead line break before WE'LL
 
-- **Request:** Remove duplicate brand-state icons from IDNTY / INVESTMENT section; user reported icons still visible on mobile (prior PR #99 not merged to main).
-- **Fix:** Stop passing `brandStateId` to `InvestmentColumn` on `IdntyStatePage`; removed `brandStateId` from `InvestmentTier` config. Same component serves mobile and desktop — no viewport-specific icon path.
-- **Branch:** `cursor/idnty-investment-remove-icons-796f`.
+- **Request:** On IDNTY state page, wrap subhead so “WE'LL DETERMINE…” starts on line 2 instead of “WE'LL” hanging at end of line 1.
+- **Fix:** Split `IDNTY_STATE_COPY` into `subheadLine1` / `subheadLine2`; render with `<br />` in `IdntyStatePage.tsx`.
+- **Branch:** `cursor/idnty-state-subhead-wrap-796f`.
 
 ---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
@@ -2417,13 +2417,8 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
 
-## 2026-08-19 — Mobile nav PNG icons (Supabase NAV assets)
-
-- **Request:** Update mobile bottom-nav icons to approved Supabase PNGs for ORIGIN, IDNTY, LOCATIONS, PROJECTS, CTRL ROOM.
-- **Fix:** `mobile-nav-icons.ts` + `Site00MobileNavAssetIcon`; `MobileSiteNavigation` renders PNGs via `resolveSite00PublicAsset` (`live-preview/site00/NAV/*.png`). Legacy SVG components retained but unused in nav.
-- **Branch:** `cursor/mobile-nav-png-icons-796f`.
-
 ---
+
 ## 2026-08-22 — Calibration step counter reset (frozen session steps)
 
 - **Symptom:** Near end of calibration, progress jumped (e.g. 06/08 → 01/01) as if a different questionnaire; tunnel refresh landed on step 1 with total count 1.
@@ -2433,6 +2428,21 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
+
+## 2026-08-19 — IDNTY investment duplicate icons (mobile + desktop)
+
+- **Request:** Remove duplicate brand-state icons from IDNTY / INVESTMENT section; user reported icons still visible on mobile (prior PR #99 not merged to main).
+- **Fix:** Stop passing `brandStateId` to `InvestmentColumn` on `IdntyStatePage`; removed `brandStateId` from `InvestmentTier` config. Same component serves mobile and desktop — no viewport-specific icon path.
+- **Branch:** `cursor/idnty-investment-remove-icons-796f`.
+
+---
+## 2026-08-19 — Mobile nav PNG icons (Supabase NAV assets)
+
+- **Request:** Update mobile bottom-nav icons to approved Supabase PNGs for ORIGIN, IDNTY, LOCATIONS, PROJECTS, CTRL ROOM.
+- **Fix:** `mobile-nav-icons.ts` + `Site00MobileNavAssetIcon`; `MobileSiteNavigation` renders PNGs via `resolveSite00PublicAsset` (`live-preview/site00/NAV/*.png`). Legacy SVG components retained but unused in nav.
+- **Branch:** `cursor/mobile-nav-png-icons-796f`.
+
+---
 ## 2026-08-19 — Origin mobile tagline +4px
 
 - **Request:** Move red “WHERE DIGITAL PLACES BEGIN.” down on Origin mobile (follow-up: 4px total, not 2px).
