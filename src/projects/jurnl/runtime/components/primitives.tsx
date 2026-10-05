@@ -3,7 +3,7 @@
  * One structural grammar, JURNL expression only (no SITE 00 styling reaches these). Square-rounded geometry only.
  */
 
-import { createContext, useContext, useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { F01_COPY } from '../../data/f01/copy';
 import { JurnlIcon, type JurnlIconName } from './icons';
@@ -122,6 +122,7 @@ export function JurnlInput({
   onFocusChange?: (focused: boolean) => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'>) {
   const id = useId();
+  const errorId = `${id}-error`;
   const [focused, setFocused] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const isFocused = focused || forceFocused;
@@ -152,6 +153,7 @@ export function JurnlInput({
             value={value}
             data-jrn-trigger={trigger}
             aria-invalid={error || invalid ? true : undefined}
+            aria-describedby={error ? errorId : undefined}
             onChange={(e) => onValue(e.target.value)}
             onFocus={() => {
               setFocused(true);
@@ -179,7 +181,7 @@ export function JurnlInput({
         : null}
       </div>
       {error ?
-        <p className="jrn-field__error" role="alert">
+        <p className="jrn-field__error" id={errorId} role="alert">
           {error}
         </p>
       : null}
@@ -208,9 +210,16 @@ export function JurnlToggle({ checked, onChange, label, trigger }: { checked: bo
   );
 }
 
-export function JurnlChoice({ selected, onSelect, children, trigger }: { selected: boolean; onSelect: () => void; children: ReactNode; trigger?: string }) {
+/* `icon` puts the glyph in its own leading column: [ ICON ] [ LABEL ] [ MARK ]. A wrapped label never starts under it.
+   `multi` is for pick-several groups (checkbox semantics); the default is one-of-many (radio). */
+export function JurnlChoice({ selected, onSelect, children, trigger, icon, multi }: { selected: boolean; onSelect: () => void; children: ReactNode; trigger?: string; icon?: JurnlIconName; multi?: boolean }) {
   return (
-    <button type="button" role="radio" aria-checked={selected} className="jrn-row jrn-choice" onClick={onSelect} data-jrn-trigger={trigger}>
+    <button type="button" role={multi ? 'checkbox' : 'radio'} aria-checked={selected} className={`jrn-row jrn-choice${icon ? ' jrn-choice--icon' : ''}`} onClick={onSelect} data-jrn-trigger={trigger}>
+      {icon ?
+        <span className="jrn-choice__icon" aria-hidden>
+          <JurnlIcon name={icon} size={15} />
+        </span>
+      : null}
       <span className="jrn-row__copy">{children}</span>
       <span className="jrn-choice__mark" aria-hidden />
     </button>
@@ -335,11 +344,12 @@ export function JurnlSuccessBanner({ tone, title, body, onClose, testId }: { ton
   );
 }
 
-/* focus containment for every overlay surface */
+/* focus containment for every overlay surface. A callback ref: the surface can mount a render after the hook (the
+   overlay host arrives after the first paint, e.g. an overlay opened from a deep link), and focus, Tab containment and
+   Escape must attach whenever it does. */
 function useOverlayFocus(onClose: () => void) {
-  const ref = useRef<HTMLDivElement>(null);
+  const [el, ref] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
-    const el = ref.current;
     if (!el) return;
     const prev = document.activeElement as HTMLElement | null;
     const focusables = () => [...el.querySelectorAll<HTMLElement>('button:not([disabled]),input,[tabindex]:not([tabindex="-1"])')];
@@ -364,7 +374,7 @@ function useOverlayFocus(onClose: () => void) {
       el.removeEventListener('keydown', onKey);
       prev?.focus?.({ preventScroll: true });
     };
-  }, [onClose]);
+  }, [el, onClose]);
   return ref;
 }
 

@@ -3,7 +3,7 @@
  * Screen authorities are not rendered.
  */
 
-import { useState, type ReactNode } from 'react';
+import { useId, useState, type ReactNode } from 'react';
 import { JurnlIcon } from '../components/icons';
 import {
   JurnlButton,
@@ -91,32 +91,37 @@ function Frame({
   const draft = useSetup();
   const showResumeMark = !headerEmblem && screen.id === 'F02.00' && forcedState !== 'fresh' && (draft.started || forcedState === 'resume');
   const emblemOverride = headerEmblem ?? (showResumeMark && !validation ? F02_STATE_SCREENS['F02.ST.RESUME'].emblem : null);
+  // The validation lockup already reads JURNL. SETUP.; a second SETUP label would repeat it.
+  const lockupCarriesSetup = !emblemOverride && !!validation && F02_STATE_SCREENS['F02.ST.VALIDATION'].lockup === 'F02.BRANDLOCKUP.JURNL_SETUP.001';
   return (
     <JurnlScreen screenId={screen.id} plate={plate ?? screen.plate} family={screen.id === 'F02.00'} layout="form">
+      {/* One left editorial grid: back, mark, SETUP + progress, headline, helper, panel, CTA. */}
       <div className="jrn-setup" data-runtime-bounds="copy">
-        <div className="jrn-setup__top">
-          {screen.back ?
+        {screen.back ?
+          <div className="jrn-setup__top">
             <JurnlIconButton icon="back" label="BACK" trigger="setup-back" onClick={() => go(screen.back!)} />
-          : <span />}
-          {segments(screen.phase)}
-        </div>
+          </div>
+        : null}
         {emblemOverride ?
           <span className="jrn-setup__mark">
             <img className="jrn-setup__emblem" src={F02_EMBLEMS[emblemOverride]} alt="" data-asset-id={emblemOverride} draggable={false} />
             <span className="jrn-setup__word">JURNL</span>
           </span>
         : <Brand screen={screen} validation={validation} />}
-        <span className="jrn-eyebrow">SETUP</span>
+        <div className="jrn-setup__meta">
+          {lockupCarriesSetup ? null : <span className="jrn-eyebrow">SETUP</span>}
+          {segments(screen.phase)}
+        </div>
         <JurnlHeadline lines={title} />
         {sub ? <JurnlLines lines={[sub]} /> : null}
         {children}
+        {foot ? <p className="jrn-setup__foot">{foot}</p> : null}
       </div>
       <div className="jrn-cta" data-runtime-bounds="cta">
         <JurnlButton trigger="setup-continue" onClick={onCta} disabled={ctaDisabled}>
           {cta}
         </JurnlButton>
         {secondary}
-        {foot ? <p className="jrn-setup__foot">{foot}</p> : null}
       </div>
     </JurnlScreen>
   );
@@ -142,7 +147,8 @@ export function SetupParentScreen() {
       sub={resume ? 'PICK UP WHERE YOU LEFT THE SHAPE.' : 'JURNL LEARNS ONLY WHAT IT NEEDS.'}
       cta={resume ? 'CONTINUE SETUP' : 'CONTINUE'}
       onCta={() => {
-        remember('F02.01');
+        // Resuming keeps the saved place; only a fresh start records F02.01.
+        if (!resume) remember('F02.01');
         go(resume ? draft.resumeAt : 'F02.01');
       }}
       foot={resume ? undefined : 'A FEW QUIET MINUTES.'}
@@ -222,12 +228,12 @@ export function SetupAccountsScreen() {
           <JurnlSuccessPanel title="ACCOUNT LINKED" body="JURNL CAN SEE THE SHAPE. NOT THE LEDGER." testId="setup-connected" />
         </div>
       : null}
-      <div className="jrn-setup__choices">
-        <JurnlChoice selected={draft.accounts === 'CONNECTED'} trigger="setup-connect" onSelect={() => openOverlay('permission')}>
-          <JurnlIcon name="link" size={16} /> CONNECT AN ACCOUNT
+      <div className="jrn-setup__choices" role="radiogroup" aria-label="ACCOUNT SOURCE">
+        <JurnlChoice icon="link" selected={draft.accounts === 'CONNECTED'} trigger="setup-connect" onSelect={() => openOverlay('permission')}>
+          CONNECT AN ACCOUNT
         </JurnlChoice>
-        <JurnlChoice selected={draft.accounts === 'NAMED'} trigger="setup-name-account" onSelect={() => go('F02.02.1')}>
-          <JurnlIcon name="account" size={16} /> NAME AN ACCOUNT
+        <JurnlChoice icon="account" selected={draft.accounts === 'NAMED'} trigger="setup-name-account" onSelect={() => go('F02.02.1')}>
+          NAME AN ACCOUNT
         </JurnlChoice>
       </div>
       {overlay === 'permission' ?
@@ -318,8 +324,8 @@ export function SetupIncomeScreen() {
       {showError ? <JurnlErrorPanel title="FIELD NEEDS A NUMBER" body="USE A PLAIN AMOUNT." testId="setup-validation" /> : null}
       <div className="jrn-setup__choices" role="radiogroup" aria-label="CADENCE">
         {F02_CADENCES.map((cadence) => (
-          <JurnlChoice key={cadence} selected={draft.cadence === cadence} trigger={`setup-cadence-${cadence}`} onSelect={() => patchSetup({ cadence })}>
-            <JurnlIcon name="clock" size={16} /> {cadence}
+          <JurnlChoice key={cadence} icon="clock" selected={draft.cadence === cadence} trigger={`setup-cadence-${cadence}`} onSelect={() => patchSetup({ cadence })}>
+            {cadence}
           </JurnlChoice>
         ))}
       </div>
@@ -332,6 +338,9 @@ export function SetupCommitmentsScreen() {
   const { go, overlay, openOverlay, closeOverlay, forcedState } = useJurnl();
   const draft = useSetup();
   const s = screenOf('F02.04');
+  // The validation state opens the add sheet; closing it must still close it.
+  const [validationClosed, setValidationClosed] = useState(false);
+  const showValidation = forcedState === 'validation' && !validationClosed;
   return (
     <Frame
       screen={s}
@@ -358,10 +367,18 @@ export function SetupCommitmentsScreen() {
             </li>
           ))}
       </ul>
-      <JurnlButton variant="secondary" trigger="setup-add" onClick={() => openOverlay('add')}>
-        <JurnlIcon name="plus" size={16} /> ADD ANOTHER
+      <JurnlButton variant="secondary" icon={<JurnlIcon name="plus" size={15} />} trigger="setup-add" onClick={() => openOverlay('add')}>
+        ADD ANOTHER
       </JurnlButton>
-      {overlay === 'add' || forcedState === 'validation' ? <AddSheet onClose={closeOverlay} invalid={forcedState === 'validation'} /> : null}
+      {overlay === 'add' || showValidation ?
+        <AddSheet
+          onClose={() => {
+            setValidationClosed(true);
+            closeOverlay();
+          }}
+          invalid={showValidation}
+        />
+      : null}
       {overlay === 'skip' ? <SkipSheet next="F02.05" onSkip={() => patchSetup({ obligationsSkipped: true })} /> : null}
     </Frame>
   );
@@ -394,12 +411,12 @@ function AddSheet({ onClose, invalid }: { onClose: () => void; invalid: boolean 
         </JurnlButton>
       }
     >
-      {invalid ? <JurnlErrorPanel title="NEEDS A NAME" testId="setup-add-validation" /> : null}
-      <JurnlInput label="NAME" value={pendingName} onValue={setPendingName} trigger="setup-obligation-name" />
-      <div className="jrn-setup__choices">
+      {invalid && !pendingName.trim() ? <JurnlErrorPanel title="NEEDS A NAME" testId="setup-add-validation" /> : null}
+      <JurnlInput label="NAME" value={pendingName} onValue={setPendingName} trigger="setup-obligation-name" invalid={invalid && !pendingName.trim()} />
+      <div className="jrn-setup__choices" role="radiogroup" aria-label="CADENCE">
         {F02_CADENCES.map((cadence) => (
-          <JurnlChoice key={cadence} selected={pendingCadence === cadence} onSelect={() => setPendingCadence(cadence)} trigger={`setup-obligation-${cadence}`}>
-            <JurnlIcon name="clock" size={16} /> {cadence}
+          <JurnlChoice key={cadence} icon="clock" selected={pendingCadence === cadence} onSelect={() => setPendingCadence(cadence)} trigger={`setup-obligation-${cadence}`}>
+            {cadence}
           </JurnlChoice>
         ))}
       </div>
@@ -428,9 +445,9 @@ export function SetupPrioritiesScreen() {
         go(next);
       }}
     >
-      <div className="jrn-setup__choices">
+      <div className="jrn-setup__choices" role="group" aria-label="PRIORITIES">
         {F02_PRIORITIES.map((item) => (
-          <JurnlChoice key={item} selected={draft.priorities.includes(item)} trigger={`setup-priority-${item}`} onSelect={() => toggle(item)}>
+          <JurnlChoice key={item} multi selected={draft.priorities.includes(item)} trigger={`setup-priority-${item}`} onSelect={() => toggle(item)}>
             {item}
           </JurnlChoice>
         ))}
@@ -521,6 +538,7 @@ export function SetupBoundariesScreen() {
   const { go } = useJurnl();
   const draft = useSetup();
   const [open, setOpen] = useState(false);
+  const readId = useId();
   const s = screenOf('F02.07');
   return (
     <Frame
@@ -538,11 +556,13 @@ export function SetupBoundariesScreen() {
         <Consent icon="privacy" label="LINKED ACCOUNTS STAY OPTIONAL" sub="YOU ARE ALWAYS IN CONTROL." checked={draft.consentLinks} onChange={(consentLinks) => patchSetup({ consentLinks })} trigger="setup-consent-links" />
         <Consent icon="info" label="NOTHING IS SOLD" sub="YOUR CONTENT STAYS YOURS." checked={draft.consentSale} onChange={(consentSale) => patchSetup({ consentSale })} trigger="setup-consent-sale" />
       </div>
-      <button type="button" className="jrn-row jrn-setup__read" data-jrn-trigger="setup-boundary-read" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+      <button type="button" className="jrn-row jrn-setup__read" data-jrn-trigger="setup-boundary-read" aria-expanded={open} aria-controls={readId} onClick={() => setOpen((v) => !v)}>
         <span>READ THE BOUNDARY</span>
         <JurnlIcon name="chevron" size={16} />
       </button>
-      {open ? <p className="jrn-body">JURNL KEEPS ONLY WHAT YOU ALLOW. NOTHING IS SOLD.</p> : null}
+      <p className="jrn-body" id={readId} hidden={!open}>
+        JURNL KEEPS ONLY WHAT YOU ALLOW. NOTHING IS SOLD.
+      </p>
     </Frame>
   );
 }
@@ -550,7 +570,7 @@ export function SetupBoundariesScreen() {
 function Consent({ icon, label, sub, checked, onChange, trigger }: { icon: 'shield' | 'privacy' | 'info'; label: string; sub: string; checked: boolean; onChange: (v: boolean) => void; trigger: string }) {
   return (
     <div className="jrn-setup__consent">
-      <JurnlIcon name={icon} size={16} />
+      <JurnlIcon name={icon} size={15} />
       <span>
         <b>{label}</b>
         <small>{sub}</small>
@@ -590,7 +610,7 @@ export function SetupReadyScreen() {
       <div className="jrn-setup__choices" role="radiogroup" aria-label="VOICE">
         {(['GUIDED', 'QUIET'] as const).map((voice) => (
           <JurnlChoice key={voice} selected={draft.voice === voice} trigger={`setup-voice-${voice}`} onSelect={() => patchSetup({ voice })}>
-            {draft.voice === voice ? <JurnlIcon name="check" size={14} /> : null} {voice}
+            {voice}
           </JurnlChoice>
         ))}
       </div>

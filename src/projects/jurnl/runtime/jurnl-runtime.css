@@ -514,6 +514,18 @@
   border-radius: 2px;
   background: var(--jrn-emerald);
 }
+/* [ ICON ] [ LABEL ] [ MARK ]: the icon keeps its own column, so a long label wraps beside it, never under it. */
+.jrn .jrn-choice--icon {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: 12px;
+}
+.jrn .jrn-choice__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--jrn-ink-3);
+}
 
 /* ─── rows / tiles ─── */
 .jrn .jrn-tile {
