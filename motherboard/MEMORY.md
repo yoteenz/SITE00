@@ -13564,3 +13564,15 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-CANONICAL-ASSET-INJECTION1` on `curs
 - **Mounted:** Atrium master on Hub and Design; white production floor on Expression; viewport corridor; NDX experience child heroes only. Experience root and Library root plates unchanged.
 - **Icons:** Founder hub nav master restored (384×284).
 - **Not generated:** pipeline objects, portal, CF residual slots, materials. No site00.com deploy.
+
+---
+
+## 2026-10-05 — Production workspace post-injection live reconciliation
+
+Sprint `P0.SITE00.PRODUCTION-WORKSPACE.POST-INJECTION.LIVE-RECONCILIATION1` on `cursor/production-post-injection-live-reconciliation1`, branched from tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `ee50baaa`.
+
+- **Context:** Canonical asset injection had mounted plates, but the live post-mount workspace was not recaptured or remeasured.
+- **Topics:** Live capture of Hub, Inbox, Design, Experience, Expression, Library, and Activity (root, child, detail; mobile, tablet, desktop). Page scroll and horizontal overflow at 14 viewports. Pipeline stage size, portal gate, 30 generic icons, U-07, U-08, U-05, U-15, U-11, U-01, Activity inspector, host/project firewall.
+- **Decisions:** No new paid generations. Do not invent missing authorities. Do not swap the frozen Experience or Library roots. Do not enlarge the 76px pipeline crops: Design already has zero page slack, and a larger stage row would scroll or shrink the chamber. Portal gate has no isolated canonical file. Icon substitutions stay; founder nav masters are already mounted, and design-pack crops are grid tiles, not control glyphs.
+- **Changes:** Reports under `artifacts/site00-workspace-post-injection/` (`LIVE_TAB_AUDIT.json`, `NO_SCROLL_REPORT.json`, `VISUAL_GAP_REPORT.json`, `ICON_RECONCILIATION.json`, `ALL_TABS_POST_MOUNT_CONTACT_SHEET.jpg`, captures). Detector: `scripts/production-authority/post-injection-capture.mjs`. Page scroll violations 0. Horizontal overflow 0.
+- **Conventions:** Measure the live product after a mount. A good registry is not a pass. Missing tablet/desktop Character Fabrication boards and Inbox URL-only boards stay unresolved. Activity inspector stays text-only.
