@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "precheck_pipeline": [
+    "classify_generation_request",
+    "resolve_reference",
+    "validate_reference_file_health",
+    "validate_generation_reference_binding",
+    "budget_gate",
+    "provider_dispatch"
+  ],
+  "required_classification_fields": [
+    "visual_id",
+    "project_id",
+    "family_id",
+    "generation_class",
+    "generation_intent",
+    "reference_required",
+    "reference_status",
+    "reference_path",
+    "reference_authority_id",
+    "generation_mode",
+    "provider",
+    "model",
+    "estimated_cost_if_available"
+  ],
+  "precheck_result_fields": [
+    "status",
+    "dispatch_allowed",
+    "blocked_reason",
+    "reference_required",
+    "reference_found",
+    "reference_input_attached",
+    "generation_mode",
+    "credits_spent"
+  ],
+  "pass_status": "PASS",
+  "block_status": "BLOCKED",
+  "dispatch_defaults": {
+    "blocked_credits_spent": 0
+  }
+}

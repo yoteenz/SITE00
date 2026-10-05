@@ -1,0 +1,455 @@
+{
+ "artifact": "SITE00_AUTH_PERMISSION_MAP",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "verdict": {
+  "auth": "FAIL",
+  "reason": "Identity (Supabase JWT) is real and admin APIs under api/admin/* are server-enforced, but there is no role/membership model, no project invite flow, password reset cannot complete, client roles are request-spoofable, and a large set of generation/mutation endpoints are unauthenticated. Not client-ready."
+ },
+ "required_client_contract": {
+  "MAY": [
+   "VIEW",
+   "COMMENT",
+   "REVIEW",
+   "APPROVE",
+   "DOWNLOAD",
+   "UPLOAD_REFERENCE",
+   "SEND_MESSAGE",
+   "REQUEST_REVISION"
+  ],
+  "MAY_NOT": [
+   "GENERATE",
+   "MUTATE_CANON",
+   "PROPAGATE",
+   "CAPTURE_INTERNAL",
+   "APPLY_SOURCE_CHANGE",
+   "ACCESS_PROVIDER",
+   "ACCESS_ADMIN",
+   "ACCESS_INTERNAL_PRODUCTION",
+   "ACCESS_MODEL_CONFIGURATION",
+   "ACCESS_INTERNAL_COSTS"
+  ]
+ },
+ "proposed_roles": [
+  {
+   "role": "FOUNDER",
+   "scope": "all projects",
+   "source": "admin role row (not email list)"
+  },
+  {
+   "role": "INTERNAL_PRODUCTION",
+   "scope": "assigned projects"
+  },
+  {
+   "role": "CLIENT_OWNER",
+   "scope": "member project",
+   "can": "all client MAY actions"
+  },
+  {
+   "role": "CLIENT_COLLABORATOR",
+   "scope": "member project",
+   "can": "VIEW, COMMENT, UPLOAD_REFERENCE, SEND_MESSAGE"
+  },
+  {
+   "role": "CLIENT_VIEWER",
+   "scope": "member project",
+   "can": "VIEW, DOWNLOAD"
+  }
+ ],
+ "enforcement_rule": "Every API route declares a policy; server checks membership+role from the DB, never from request body/query; client guards are UX only.",
+ "auth_mechanisms": [
+  {
+   "name": "Supabase email+password",
+   "evidence": "src/utils/auth/site00SignInActions.ts:117 (signInWithPassword); src/utils/auth/site00CreateAccountActions.ts:118 (signUp)",
+   "status": "WIRED"
+  },
+  {
+   "name": "Supabase magic link (OTP email)",
+   "evidence": "src/utils/auth/site00SignInActions.ts:156-189 (signInWithOtp, shouldCreateUser:true at :177)",
+   "status": "WIRED, open self-registration"
+  },
+  {
+   "name": "Password reset request",
+   "evidence": "src/utils/auth/site00SignInActions.ts:206 resetPasswordForEmail(redirectTo /account/settings)",
+   "status": "REQUEST ONLY"
+  },
+  {
+   "name": "Password reset completion page",
+   "evidence": "src/site00/pages/auth/Site00ResetPasswordPage.tsx:11 onSubmit e.preventDefault() \u2014 never calls updateUser",
+   "status": "STUB"
+  },
+  {
+   "name": "Server bearer-token validation",
+   "evidence": "api/_lib/auth.ts:15-46 getAuthUser -> GET {SUPABASE_URL}/auth/v1/user",
+   "status": "WIRED"
+  },
+  {
+   "name": "Email allowlist admin",
+   "evidence": "api/_lib/adminAuth.ts:10-28 DEFAULT_ADMIN_EMAILS / ADMIN_EMAILS env; src/utils/adminAuth.ts:342-367 (client copy)",
+   "status": "WIRED \u2014 sole admin model"
+  },
+  {
+   "name": "Single founder email hardcode",
+   "evidence": "api/_lib/adminAuth.ts:8 FOUNDER_PRIVILEGED_ADMIN_EMAIL; :65-73 requireAdminFounder; src/utils/adminAuth.ts:355",
+   "status": "WIRED"
+  },
+  {
+   "name": "HttpOnly refresh-token cookie restore",
+   "evidence": "api/session-cookie.ts:17-22,57; api/session-restore.ts:27-35 (HMAC-signed),65-70",
+   "status": "WIRED"
+  },
+  {
+   "name": "localStorage auth flags + backup cookie",
+   "evidence": "src/utils/adminAuth.ts:14 baw_auth_backup; :162-200 persistAuthBackup; :543-567 getCurrentUser/isSignedIn read 'currentUser'/'isSignedIn' from localStorage",
+   "status": "WIRED \u2014 client trust source for UI guards"
+  },
+  {
+   "name": "Passkey",
+   "evidence": "src/utils/adminAuth.ts:53 method type only; no WebAuthn calls found",
+   "status": "MISSING"
+  },
+  {
+   "name": "OAuth/social provider auth",
+   "evidence": "no signInWithOAuth in src/api; JURNL adapter social() returns PROVIDER_NOT_CONFIGURED (src/projects/jurnl/runtime/state/adapters.ts:188-191)",
+   "status": "MISSING"
+  },
+  {
+   "name": "MFA / trusted devices",
+   "evidence": "src/site00/pages/idnty/IdntySignInSecurityPage.tsx: 'TWO-FACTOR AUTHENTICATION NOT AVAILABLE', 'TRUSTED DEVICES NOT AVAILABLE'",
+   "status": "MISSING"
+  },
+  {
+   "name": "Guest token (world intake / intake access)",
+   "evidence": "api/_lib/site00WorldIntake/worldIntakeService.ts:50-134 hashed token, TTL, revoke; api/site00/world-intake.ts:34-37; api/site00/intake-access.ts",
+   "status": "WIRED \u2014 intake only, not project room"
+  },
+  {
+   "name": "Webhook HMAC",
+   "evidence": "api/site00/studio-world-webhook.ts:16-19",
+   "status": "WIRED"
+  },
+  {
+   "name": "OAuth CSRF state (Meta, Evolve)",
+   "evidence": "api/admin/site00-evolve-oauth-callback.ts:4,14",
+   "status": "WIRED"
+  }
+ ],
+ "guards": [
+  {
+   "name": "AdminGuard",
+   "file": "src/components/AdminGuard.tsx:17-38",
+   "enforces": "signed-in + email in ALLOWED_ADMIN_PAGE_EMAILS for /admin/site00/*; BYPASSED entirely on preview hosts (TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW=true, :10,:20-26)",
+   "client_or_server": "CLIENT"
+  },
+  {
+   "name": "Site00AccountRouteGuard",
+   "file": "src/site00/components/guards/Site00AccountRouteGuard.tsx:64-319",
+   "enforces": "signed-in (localStorage isSignedIn) for CTRL ROOM; bypass when isSite00SignInPaused (:98,:274), ?designPreview=1 or ?goldenDiffCapture=1 query (:87-95,:281), cloud preview build, preview-guest allowlist",
+   "client_or_server": "CLIENT"
+  },
+  {
+   "name": "Site00InternalProductionGuard",
+   "file": "src/site00/components/guards/Site00InternalProductionGuard.tsx:9-24",
+   "enforces": "canAccessAdminPages() email allowlist for production workspace + /production/:slug/runtime/*; bypass on isSite00SignInPaused hosts (:12)",
+   "client_or_server": "CLIENT"
+  },
+  {
+   "name": "AstralWorldRouteGuard",
+   "file": "src/site00/components/guards/AstralWorldRouteGuard.tsx:18-24",
+   "enforces": "open on preview env for astral-world prototype paths, else Site00AccountRouteGuard",
+   "client_or_server": "CLIENT"
+  },
+  {
+   "name": "Site00ComposerDraftRouteGuard",
+   "file": "src/site00/components/guards/Site00ComposerDraftRouteGuard.tsx",
+   "enforces": "draft route visibility (not auth)",
+   "client_or_server": "CLIENT"
+  },
+  {
+   "name": "Site00ShellAuthContext / deriveSite00ShellAccess",
+   "file": "src/site00/auth/site00ShellAuthState.ts:101-128",
+   "enforces": "UI capability flags derived from localStorage isSignedIn; no role",
+   "client_or_server": "CLIENT"
+  },
+  {
+   "name": "isSite00SignInPaused",
+   "file": "src/site00/config/signInPaused.ts:6-10",
+   "enforces": "disables sign-in on site00.fsbw-dev.com/localhost",
+   "client_or_server": "CLIENT"
+  },
+  {
+   "name": "resolveAdminAuth / requireAdmin",
+   "file": "api/_lib/adminAuth.ts:37-62",
+   "enforces": "valid Supabase JWT + email allowlist",
+   "client_or_server": "SERVER"
+  },
+  {
+   "name": "requireAdminFounder",
+   "file": "api/_lib/adminAuth.ts:65-73",
+   "enforces": "valid JWT + email == kateenaarmstrong@gmail.com",
+   "client_or_server": "SERVER"
+  },
+  {
+   "name": "accessModel (canAccessFounderProjectAsOwner, canAccessProjectAsOwner, assertFounderProjectAccess)",
+   "file": "api/_lib/site00Access/accessModel.ts:11-60",
+   "enforces": "founder/registered slugs => admin email; DB projects => clientOwnsProject",
+   "client_or_server": "SERVER"
+  },
+  {
+   "name": "clientOwnsProject / loadProjectForClient",
+   "file": "api/_lib/site00Production/clientStudio.ts:152-172",
+   "enforces": "site00_projects.client_email or client_user_id match",
+   "client_or_server": "SERVER"
+  },
+  {
+   "name": "denyUnlessProjectCapability",
+   "file": "api/_lib/site00Projects/projectCapabilityGuard.ts:24-66",
+   "enforces": "per-slug feature capability (not per-user permission)",
+   "client_or_server": "SERVER"
+  },
+  {
+   "name": "Client review preview bypass",
+   "file": "shared/site00-client-reviews/previewGuard.ts:20-54",
+   "enforces": "fail-closed in production; synthetic QA principal only in preview mode",
+   "client_or_server": "SERVER"
+  },
+  {
+   "name": "Supabase RLS",
+   "file": "supabase/migrations/*.sql",
+   "enforces": "213/216 tables RLS-enabled; policies are service_role_all except 3 astral reader + 4 fs_* public-read; 2 tables have USING(true) for ALL roles",
+   "client_or_server": "DATABASE"
+  }
+ ],
+ "roles_found": [
+  {
+   "role": "ADMIN (platform)",
+   "source": "email allowlist",
+   "evidence": "api/_lib/site00Access/accessModel.ts:11-13 resolvePlatformRole; shared/site00-access/types.ts:3 'ADMIN'|'STANDARD'"
+  },
+  {
+   "role": "FOUNDER (privileged)",
+   "source": "single hardcoded email",
+   "evidence": "api/_lib/adminAuth.ts:8,65-73; api/_lib/site00Access/accessModel.ts:15-17"
+  },
+  {
+   "role": "STANDARD",
+   "source": "everyone else with a Supabase account",
+   "evidence": "api/_lib/site00Access/accessModel.ts:12"
+  },
+  {
+   "role": "CLIENT_OWNER / CLIENT_COLLABORATOR / CLIENT_VIEWER",
+   "source": "site00_projects.metadata.client_role (single value per project, not per user)",
+   "evidence": "api/_lib/site00ClientReviews/reviewService.ts:54-60; shared/site00-client-project-room/capabilities.ts:15-59"
+  },
+  {
+   "role": "INTERNAL_USER (non-founder staff)",
+   "source": "NOT MODELED \u2014 any allowlisted email is full admin",
+   "evidence": "no internal role type anywhere; isAdminEmail is binary"
+  },
+  {
+   "role": "client-side user.role === 'admin'",
+   "source": "localStorage currentUser JSON",
+   "evidence": "src/utils/adminAuth.ts:499,579 isAdminUser trusts user.role from localStorage (UI only)"
+  }
+ ],
+ "role_model_verdict": "No real role/membership model. Admin = email allowlist (server-verified email from Supabase JWT). Client = single client_email/client_user_id column on site00_projects. No project_members table, no invitations table for projects, no per-user role rows.",
+ "permission_matrix": [
+  {
+   "action": "view",
+   "founder": true,
+   "internal_user": "n/a (no role)",
+   "client": true,
+   "enforced_where": "api/site00/client-project-room.ts:25-46 -> roomService.ts:194-208 canAccessProjectAsOwner",
+   "status": "ENFORCED"
+  },
+  {
+   "action": "comment",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": true,
+   "enforced_where": "api/_lib/site00ClientReviews/reviewService.ts:242-243 assertMutationAllowed(role,'CAN_COMMENT') \u2014 role taken from request body (input.role ?? access.role)",
+   "status": "ENFORCED (ownership) / ROLE SPOOFABLE"
+  },
+  {
+   "action": "review",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": true,
+   "enforced_where": "reviewService.ts:139-162 detail; roleOverride from query (api/site00/client-reviews.ts:69-76)",
+   "status": "ENFORCED (ownership) / ROLE SPOOFABLE"
+  },
+  {
+   "action": "approve",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": true,
+   "enforced_where": "reviewService.ts:347-348 CAN_APPROVE; role from body.role (client-reviews.ts:155)",
+   "status": "ENFORCED (ownership) / ROLE SPOOFABLE \u2014 a CLIENT_VIEWER can send role:'CLIENT_OWNER' and approve"
+  },
+  {
+   "action": "request_revision",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": true,
+   "enforced_where": "reviewService.ts:422-423",
+   "status": "ENFORCED (ownership) / ROLE SPOOFABLE"
+  },
+  {
+   "action": "download",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": true,
+   "enforced_where": "CAN_DOWNLOAD_APPROVED defined (shared/site00-client-project-room/capabilities.ts:22) but never checked by any API",
+   "status": "MISSING"
+  },
+  {
+   "action": "upload_reference",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": true,
+   "enforced_where": "only founder path api/site00/projects.ts:2643 (founder_creative_ingestion_upload_reference); no client upload capability/endpoint",
+   "status": "MISSING"
+  },
+  {
+   "action": "send_message",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": true,
+   "enforced_where": "CAN_VIEW_MESSAGES only; no client messages table/endpoint (only site00_ec_creative_messages, founder EC thread)",
+   "status": "MISSING"
+  },
+  {
+   "action": "generate",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "many paid generation endpoints have NO auth: api/site00/twin-v2-visual-concept.ts:79 (body flag founderConfirmedSpend only), twin-v2-*, twin-v3-*, design-asset-reconstruction, opus-native, sol-design-bench, twin-test-a-design-bench, vision-replication, master-skin, brand-family-skin, experience-compiler-creative-director, expression-engine; some are founder-gated (page-concept-generation.ts:142-149, workspace-self-capture.ts:38-45, opus-design-shell.ts:79-82)",
+   "status": "MISSING (on ~20 endpoints) / ENFORCED on some"
+  },
+  {
+   "action": "mutate_canon",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "api/site00/projects.ts uses canAccessFounderProjectAsOwner (admin-only); but expression-engine.ts:319+ judgments, master-skin.ts:141 approveSkinMigration, campaign-package.ts:102 delete_asset_permanent are unauthenticated",
+   "status": "PARTIAL"
+  },
+  {
+   "action": "propagate",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "api/site00/design-control-plane.ts requireAdmin",
+   "status": "ENFORCED"
+  },
+  {
+   "action": "capture_internal",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "workspace-self-capture.ts founder-only; implementation-snapshots.ts and page-mirror.ts have no auth",
+   "status": "PARTIAL"
+  },
+  {
+   "action": "apply_source_change",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "opus-design-shell.ts:82 FOUNDER_ONLY; opus-native.ts has no request auth (writeGrant from body :218)",
+   "status": "PARTIAL"
+  },
+  {
+   "action": "access_provider",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "admin/site00-evolve.ts requireAdmin; but provider-calling endpoints unauthenticated (see generate)",
+   "status": "PARTIAL"
+  },
+  {
+   "action": "access_admin",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "api/admin/* requireAdmin (server) + AdminGuard (client, bypassed on preview hosts)",
+   "status": "ENFORCED (server) / UI bypass on preview"
+  },
+  {
+   "action": "access_internal_production",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "Site00InternalProductionGuard (client only); backing APIs mixed",
+   "status": "UI_ONLY"
+  },
+  {
+   "action": "access_model_configuration",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "twin-v2-visual-concept.ts GET returns provider/model/falKeyConfigured without auth (:62-70); opus-native GET",
+   "status": "MISSING"
+  },
+  {
+   "action": "access_internal_costs",
+   "founder": true,
+   "internal_user": "n/a",
+   "client": false,
+   "enforced_where": "opus-native estimate (token rates) unauthenticated (opus-native.ts:213-240); stripInternalFields in client room (roomService.ts:207)",
+   "status": "PARTIAL"
+  }
+ ],
+ "flows": {
+  "founder_auth": {
+   "status": "PARTIAL",
+   "evidence": "Server: email allowlist via verified Supabase JWT (api/_lib/adminAuth.ts:37-62). Hardcoded defaults incl. personal gmail (:10-14) used when ADMIN_EMAILS unset. Client: localStorage-driven guards, preview bypass (AdminGuard.tsx:10).",
+   "gap": "No DB-backed founder/admin role; env fallback to hardcoded list; UI guard bypass on preview hosts; ~20 API endpoints do not call any auth helper."
+  },
+  "client_auth": {
+   "status": "PARTIAL",
+   "evidence": "Client room/reviews/production/app require bearer (client-project-room.ts:25, client-reviews.ts:38, client-production.ts:30) and ownership via client_email/client_user_id (clientStudio.ts:152-157).",
+   "gap": "Ownership keyed on email string match; single owner per project; role spoofable via body/query; no collaborator membership."
+  },
+  "invite": {
+   "status": "FAIL",
+   "evidence": "Only intake invites exist (site00_intake_invites, worldIntakeService.ts:50-134). Project 'invite' is a metadata flag (appService.ts:113-135 client_app_onboarding='INVITE', no email, no token). Email template MAGIC_LINK_REQUESTED wired:false (shared/site00-email/registry/events.ts:63).",
+   "gap": "No founder->client project invite (token, email, accept step, membership row). Access is implicit: whoever signs in with the matching client_email owns the project."
+  },
+  "account_creation": {
+   "status": "PARTIAL",
+   "evidence": "signUp with email confirmation enforcement (site00CreateAccountActions.ts:118-140; signOutIfSessionEmailUnconfirmed src/utils/supabase.ts:171).",
+   "gap": "Open self-registration (signUp + OTP shouldCreateUser:true); not tied to an invite; no account activation against a pending project invite."
+  },
+  "password": {
+   "status": "FAIL",
+   "evidence": "resetPasswordForEmail redirects to /account/settings (site00SignInActions.ts:206-207); Site00ResetPasswordPage.tsx:11 form does preventDefault and never calls supabase.auth.updateUser.",
+   "gap": "Recovery cannot complete; no PASSWORD_RECOVERY event handling."
+  },
+  "magic_link": {
+   "status": "PARTIAL",
+   "evidence": "signInWithOtp with emailRedirectTo /origin/sign-in?returnTo (site00SignInActions.ts:156-189).",
+   "gap": "shouldCreateUser:true lets anyone mint accounts; not bound to invite; custom email template not wired."
+  },
+  "provider_auth": {
+   "status": "MISSING",
+   "evidence": "No signInWithOAuth; JURNL adapter returns PROVIDER_NOT_CONFIGURED.",
+   "gap": "Not required for client-ready MVP but absent."
+  },
+  "device_security": {
+   "status": "MISSING",
+   "evidence": "IdntySignInSecurityPage.tsx: 2FA NOT AVAILABLE, TRUSTED DEVICES NOT AVAILABLE, sessions 'CURRENT SESSION ONLY'.",
+   "gap": "No MFA, device list, session revoke, sign-in audit."
+  },
+  "session_handling": {
+   "status": "PARTIAL",
+   "evidence": "Supabase session + HttpOnly SameSite=Lax refresh cookie (session-cookie.ts:17-22) + HMAC restore (session-restore.ts:27-35). Client guards trust localStorage 'isSignedIn'/'currentUser' and a backup cookie (adminAuth.ts:162-200,543-567).",
+   "gap": "Refresh token stored in long-lived cookie; CORS '*' on all API (server/index.ts:50); UI state can be forged in localStorage (UI-only impact if APIs enforce)."
+  }
+ },
+ "critical_findings": [
+  "~20 API handlers mounted in server/routes.ts perform paid provider calls / persistence with no authentication (e.g. api/site00/twin-v2-visual-concept.ts:79, design-asset-reconstruction.ts, opus-native.ts, campaign-package.ts:102 delete_asset_permanent, expression-engine.ts:319, master-skin.ts, brand-family-skin.ts, page-mirror.ts, implementation-snapshots.ts, sol-design-bench.ts, experience-engine.ts, experience-compiler-creative-director.ts, astral-world-assets.ts, astral-world-avatar-library.ts). (vision-replication.ts and hero-asset-materialize.ts are also unauthenticated but NOT mounted in server/routes.ts \u2014 reachable only via Vercel file routing or the Vite dev server.)",
+  "Client review role is taken from request (api/site00/client-reviews.ts:69-76,122-189 -> reviewService.ts:148,242,287,347,422,492): any project owner-or-collaborator can escalate to CLIENT_OWNER.",
+  "getSupabaseAdmin silently falls back to ANON key (api/_lib/supabase.ts:31) \u2014 server code assumes RLS bypass.",
+  "RLS policies with USING(true) and no TO role on site00_brand_creative_context and site00_page_concept_generation_runs (anon read/write via PostgREST).",
+  "AdminGuard preview bypass constant TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW=true (src/components/AdminGuard.tsx:10)."
+ ]
+}

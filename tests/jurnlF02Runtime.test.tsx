@@ -121,8 +121,9 @@ describe('F02 live routes', () => {
     expect(entry).toContain('data-jrn-screen="F01.13"');
     expect(entry).toContain('data-jrn-trigger="complete-continue"');
     const today = renderRuntime('today');
-    expect(today).toContain('data-jrn-screen="F03.BOUNDARY"');
-    expect(today).toContain('BACK TO SETUP');
+    expect(today).toContain('data-jrn-screen="F03.00"');
+    expect(today).toContain('aria-label="BACK TO SETUP"');
+    expect(today).toContain('data-jrn-family="F03"');
     expect(today).not.toContain('data-jrn-family="F02"');
   });
 

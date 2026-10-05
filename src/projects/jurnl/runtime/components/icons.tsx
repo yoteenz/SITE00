@@ -38,7 +38,10 @@ export type JurnlIconName =
   | 'gear'
   | 'plus'
   | 'download'
-  | 'clock';
+  | 'clock'
+  | 'search'
+  | 'filter'
+  | 'money';
 
 const STROKE = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
 
@@ -167,6 +170,12 @@ function paths(name: JurnlIconName, filled: boolean) {
       return <path {...STROKE} d="M12 4v11M7.5 10.5 12 15l4.5-4.5M4.5 19.5h15" />;
     case 'clock':
       return <path {...STROKE} d="M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 1 0 0-17zM12 7.5V12l3 2" />;
+    case 'search':
+      return <path {...STROKE} d="M10.5 5.5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM14.5 14.5 19 19" />;
+    case 'filter':
+      return <path {...STROKE} d="M4 6h16M7 12h10M10 18h4" />;
+    case 'money':
+      return <path {...STROKE} d="M5 7.5h14v9H5zM5 11h14M8 7.5V6M16 7.5V6" />;
     default:
       return null;
   }

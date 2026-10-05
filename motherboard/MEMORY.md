@@ -13493,6 +13493,33 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — One OpenArt project per family
+
+- **Context:** Founder confirmed F03 and F04 stay in their own projects, and asked that every future family be categorized the same way.
+- **Decisions / outcomes:** Paid dispatch must target the family's registered provider project. Missing project blocks as `FAMILY_PROJECT_REQUIRED`. A job aimed at another family's project blocks as `FAMILY_PROJECT_MISMATCH`. Credits stay 0. F01–F04 are registered. A new family is created in OpenArt and added to the registry before the first generation.
+- **Changes:** `shared/site00-production-guardrails/familyOutputProjects.ts`, precheck gate, `docs/production/reference-binding/FAMILY_OUTPUT_PROJECTS.json`, sprint template, `.cursor/rules/family-output-project.mdc`.
+- **Conventions:** Do not generate F05 (or any later family) inside F01, F02, F03, or F04. Create the project, register it, then dispatch.
+
+---
+
+## 2026-10-05 — F03 and F04 OpenArt projects and image ZIP
+
+- **Context:** Founder asked to put JURNL F03 and F04 outputs in their own OpenArt projects, the same way F01 and F02 already have separate projects, and to send a ZIP of those images. The screenshot was the OpenArt project switcher.
+- **Decisions / outcomes:** Created OpenArt projects `JURNL F03 Today Family Production` (`Aa0fKSPeX0SJ4DICt0aI`) and `JURNL F04 Activity Family Production` (`KUfyzoatdwpaYBkq2Mf8`). Filed the four canonical images into those projects as assets. The original generation history still sits in `JURNL F02 Setup Family Production` because the connected OpenArt tools cannot reassign an existing generation to another project. No new paid generations. Review ZIP is a GitHub release, not a site00.com deploy.
+- **Changes:** Review copies under `JURNL/F03_TODAY/` and `JURNL/F04_ACTIVITY/` (parent + plate). Ledger `openart_project_id` fields. Release `jurnl-f03-f04-images-2026-10-05`.
+- **Conventions:** Future F03 generations target project `Aa0fKSPeX0SJ4DICt0aI`. Future F04 generations target `KUfyzoatdwpaYBkq2Mf8`. To finish moving the original gallery history, use OpenArt Move to Project from the F02 project.
+
+---
+
+## 2026-10-05 — Reference binding cost guard (SITE 00 production methodology)
+
+- **Context:** Follow-up to F03/F04 Grok production where initial F03/F04 parents used OpenArt text2image while `REFERENCE_F01.00_WELCOME_APPROVED` existed. Founder corrected to image2image like F02. Sprint `P0.SITE00.PRODUCTION-METHODOLOGY.REFERENCE-BINDING-COST-GUARD1` formalizes pre-dispatch blocking across SITE 00 projects (not JURNL-only).
+- **Decisions / outcomes:** Reference exists → `REFERENCE_GUIDED` with image attached. No reference and true net-new → `TEXT_TO_IMAGE_NET_NEW`. Required reference missing or not attached → block before dispatch (`credits_spent = 0`). No prompt-from-memory. No silent fallback to text2image. Project firewall on reference resolution. Default policy `REQUIRED_WHEN_AVAILABLE`. F03/F04 ledgers v2.0.0 tag postmortem rows for superseded text2image parents. Zero new paid generations.
+- **Changes:** `shared/site00-production-guardrails/` (`validateGenerationReferenceBinding`, `precheckGenerationDispatch`, `runPrecheckedProviderDispatch`, resolver, sidekick rules, ledger metrics). Contracts under `docs/production/reference-binding/`. Incident `incidents/REFERENCE_BINDING_FAILURE_F02_F03.json`. Tests `tests/referenceBindingGuard.test.ts`.
+- **Conventions:** Paid jobs classify → resolve → validate → budget → dispatch. Sidekick plates/botanicals/lockups derive from screen authority reference. Historical ledger rows stay valid with nullable reference fields; only mark `INVALID_GENERATION_POSTMORTEM` when a reference was actually required.
+
+---
+
 ## 2026-10-05 — F02 SETUP live family
 
 - **Context:** This chat built the F02 SETUP visual package, a review ZIP, the botanical repair, the canonical mount, the repair binding, and then the live family. The family name is SETUP (`F02_SETUP`), not FINANCE. Sonnet is skipped. Grok owns the live pass. Opus gets one family-wide structural audit afterward.

@@ -1,0 +1,310 @@
+/* F03 TODAY and F04 ACTIVITY. Scoped to the JURNL stage. */
+
+.jrn .jrn-env--bone {
+  background: #f9f6ef;
+}
+
+.jrn .jrn-home,
+.jrn .jrn-act {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  flex: 1;
+}
+.jrn .jrn-home__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+}
+.jrn .jrn-home__mark {
+  font-family: var(--jrn-display);
+  letter-spacing: 0.18em;
+  font-size: 16px;
+}
+.jrn .jrn-home__h {
+  margin: 0;
+  max-width: 11rem;
+  font-family: var(--jrn-display);
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+}
+.jrn .jrn-home__h--act {
+  max-width: 12rem;
+}
+.jrn .jrn-home__sub,
+.jrn .jrn-home__hint,
+.jrn .jrn-home__quiet,
+.jrn .jrn-home__ask,
+.jrn .jrn-home__goal,
+.jrn .jrn-home__note,
+.jrn .jrn-home__wait {
+  margin: 0;
+  max-width: 16rem;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  line-height: 1.35;
+}
+.jrn .jrn-home__hint,
+.jrn .jrn-home__quiet,
+.jrn .jrn-home__goal {
+  color: var(--jrn-ink-3);
+}
+.jrn .jrn-home__note {
+  padding: 8px 10px;
+  background: rgba(249, 246, 239, 0.92);
+  border-radius: 8px;
+}
+.jrn .jrn-home__num {
+  margin: 0;
+  font-family: var(--jrn-display);
+  font-size: 48px;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+.jrn .jrn-home__label {
+  margin: 2px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+.jrn .jrn-home__signal .jrn-btn {
+  margin-top: 8px;
+  max-width: 148px;
+}
+.jrn .jrn-home__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 17.5rem;
+  padding: 10px 12px;
+  background: rgba(249, 246, 239, 0.92);
+  border: 1px solid rgba(203, 189, 171, 0.85);
+  border-radius: 12px;
+}
+.jrn .jrn-home__panel > b,
+.jrn .jrn-home__panel > p {
+  margin: 0;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  line-height: 1.35;
+}
+.jrn .jrn-home__sec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+}
+.jrn .jrn-home__sec .jrn-btn,
+.jrn .jrn-act__filters .jrn-btn,
+.jrn .jrn-act__tools .jrn-btn--quiet {
+  width: auto;
+  flex: none;
+  min-height: 32px;
+  padding: 0 10px;
+  background: transparent;
+  border: 1px solid rgba(203, 189, 171, 0.9);
+  border-radius: 8px;
+  color: var(--jrn-ink);
+}
+.jrn .jrn-home__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.jrn .jrn-tx {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  column-gap: 8px;
+  align-items: start;
+  width: 100%;
+  min-height: 40px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+.jrn button.jrn-tx {
+  border-radius: 8px;
+}
+.jrn .jrn-tx__mark {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(243, 237, 226, 0.95);
+  color: var(--jrn-emerald);
+}
+.jrn .jrn-tx__copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+.jrn .jrn-tx__name {
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+.jrn .jrn-tx__copy small {
+  color: var(--jrn-ink-3);
+  letter-spacing: 0.1em;
+  font-size: 10px;
+}
+.jrn .jrn-tx__amt {
+  letter-spacing: 0.06em;
+  font-size: 13px;
+}
+.jrn .jrn-tx__amt--in {
+  color: var(--jrn-emerald);
+}
+.jrn .jrn-nav {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  padding-top: 8px;
+}
+.jrn .jrn-nav__btn {
+  min-height: 44px;
+  padding: 4px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: rgba(249, 246, 239, 0.88);
+  color: var(--jrn-ink);
+  border: 1px solid rgba(203, 189, 171, 0.7);
+  border-radius: 8px;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+.jrn .jrn-nav__btn[data-active='true'] {
+  background: var(--jrn-emerald);
+  color: #f9f6ef;
+  border-color: var(--jrn-emerald);
+}
+.jrn .jrn-why {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.jrn .jrn-why li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 10px;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+.jrn .jrn-why small {
+  grid-column: 1 / -1;
+  color: var(--jrn-ink-3);
+  font-size: 10px;
+}
+.jrn .jrn-home__choices,
+.jrn .jrn-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border: 0;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.jrn .jrn-filter legend {
+  width: 100%;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+.jrn .jrn-act__tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+}
+.jrn .jrn-act__tools .jrn-btn {
+  min-height: 48px;
+}
+.jrn .jrn-act__filters {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  max-width: 18rem;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.jrn .jrn-act__list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.jrn .jrn-screen[data-jrn-family='F03'] .jrn-col {
+  width: min(248px, 64%);
+  max-width: 248px;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  padding-left: 18px;
+  padding-right: 8px;
+  overflow: hidden;
+}
+.jrn .jrn-screen[data-jrn-family='F04'] .jrn-col {
+  width: calc(100% - 28px);
+  max-width: none;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  overflow: hidden;
+}
+.jrn .jrn-screen[data-jrn-field='bone'] .jrn-col {
+  width: min(320px, 100%);
+  max-width: 320px;
+}
+
+@media (min-width: 600px) {
+  .jrn .jrn-screen[data-jrn-family='F03'] .jrn-col {
+    width: 280px;
+    max-width: 280px;
+    margin-left: 64px;
+    margin-right: auto;
+  }
+  .jrn .jrn-screen[data-jrn-family='F04'] .jrn-col {
+    width: 560px;
+    max-width: 560px;
+    margin-left: 64px;
+  }
+  .jrn .jrn-screen[data-jrn-field='bone'] .jrn-col {
+    margin-left: 64px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .jrn .jrn-screen[data-jrn-family='F03'] .jrn-col {
+    width: 280px;
+    max-width: 280px;
+    margin-left: 72px;
+  }
+  .jrn .jrn-screen[data-jrn-family='F04'] .jrn-col {
+    width: 640px;
+    max-width: 640px;
+    margin-left: 72px;
+  }
+  .jrn .jrn-screen[data-jrn-field='bone'] .jrn-col {
+    margin-left: 72px;
+  }
+}

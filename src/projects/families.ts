@@ -9,6 +9,12 @@ import { F01_OVERLAYS, JURNL_COMPONENT_RUNTIME } from './jurnl/data/f01/interact
 import { JURNL_F02_CONTRACT } from './jurnl/data/f02/contract';
 import { JURNL_F02_COVERAGE } from './jurnl/data/f02/coverage';
 import { F02_COMPONENT_RUNTIME, F02_OVERLAYS } from './jurnl/data/f02/interactionBindings';
+import { JURNL_F03_CONTRACT } from './jurnl/data/f03/contract';
+import { JURNL_F03_COVERAGE } from './jurnl/data/f03/coverage';
+import { F03_COMPONENT_RUNTIME, F03_OVERLAYS } from './jurnl/data/f03/interactionBindings';
+import { JURNL_F04_CONTRACT } from './jurnl/data/f04/contract';
+import { JURNL_F04_COVERAGE } from './jurnl/data/f04/coverage';
+import { F04_COMPONENT_RUNTIME, F04_OVERLAYS } from './jurnl/data/f04/interactionBindings';
 
 export type ProjectClaim = Pick<F01Claim, 'id' | 'text' | 'source' | 'status' | 'category' | 'reason'>;
 
@@ -36,6 +42,20 @@ const FAMILIES: Record<string, ProjectFamilyEntry[]> = {
       coverage: JURNL_F02_COVERAGE,
       componentRuntime: F02_COMPONENT_RUNTIME,
       overlays: F02_OVERLAYS,
+      claims: [],
+    },
+    {
+      contract: JURNL_F03_CONTRACT,
+      coverage: JURNL_F03_COVERAGE,
+      componentRuntime: F03_COMPONENT_RUNTIME,
+      overlays: F03_OVERLAYS,
+      claims: [],
+    },
+    {
+      contract: JURNL_F04_CONTRACT,
+      coverage: JURNL_F04_COVERAGE,
+      componentRuntime: F04_COMPONENT_RUNTIME,
+      overlays: F04_OVERLAYS,
       claims: [],
     },
   ],

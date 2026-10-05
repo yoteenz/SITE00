@@ -1,0 +1,285 @@
+{
+ "artifact": "SITE00_CLIENT_APP_PROPOSED_SCREEN_TREE",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "rule": "Only 11 URLs. Every review state is a state of one FAMILY REVIEW route \u2014 never a new page.",
+ "material_surfaces": [
+  "APP",
+  "HOME",
+  "PROJECT",
+  "REVIEWS",
+  "REVIEW",
+  "INBOX",
+  "THREAD",
+  "LIBRARY",
+  "FILE",
+  "NOTIFICATIONS drawer",
+  "MENU drawer",
+  "REVISION FEEDBACK sheet",
+  "FAMILY ADVANCE sheet",
+  "UPLOAD sheet",
+  "PRODUCTION CREDITS sheet",
+  "TREE",
+  "LIVE viewer"
+ ],
+ "review_screen_tree_required_mapping": {
+  "REVIEWS HOME": "REVIEWS (route)",
+  "FAMILY REVIEW": "REVIEW (route)",
+  "REVISION FEEDBACK": "REVIEW state + sheet",
+  "REVISION SUBMITTED": "REVIEW state",
+  "REVISION READY": "REVIEW state (+ notification)",
+  "APPROVAL SUCCESS": "REVIEW state (undo window)",
+  "APPROVAL HISTORY": "REVIEW state",
+  "SCOPE CHANGE STATE": "REVIEW state",
+  "FUNDING REQUIRED STATE": "REVIEW state + HOME NEEDS YOU item",
+  "NEXT FAMILY READY STATE": "REVIEW state + HOME FAMILY ADVANCE sheet"
+ },
+ "tree": [
+  {
+   "id": "APP",
+   "title": "APP ENTRY",
+   "route": "/app",
+   "type": "PARENT",
+   "states": [
+    "SPLASH",
+    "PICK PROJECT (\u22652)",
+    "NO ACCESS",
+    "INVITE ACCEPTED \u2192 FIRST VISIT"
+   ],
+   "interactions": [],
+   "drawers": [],
+   "sheets": [],
+   "modals": [],
+   "children": [
+    {
+     "id": "HOME",
+     "title": "HOME",
+     "route": "/app/:slug",
+     "type": "PARENT",
+     "states": [
+      "NEEDS_YOU",
+      "IN_PRODUCTION",
+      "WAITING_ON_FOUNDER",
+      "FUNDING_REQUIRED",
+      "COMPLETE",
+      "FIRST_VISIT"
+     ],
+     "interactions": [
+      "open NEEDS YOU item",
+      "open NEXT"
+     ],
+     "drawers": [
+      "NOTIFICATIONS",
+      "MENU"
+     ],
+     "sheets": [
+      "FAMILY ADVANCE (when next family ready)"
+     ],
+     "modals": [],
+     "children": []
+    },
+    {
+     "id": "PROJECT",
+     "title": "PROJECT",
+     "route": "/app/:slug/project",
+     "type": "CHILD",
+     "states": [
+      "JOURNEY",
+      "COST CENTER expanded"
+     ],
+     "interactions": [
+      "expand phase",
+      "open family"
+     ],
+     "drawers": [],
+     "sheets": [
+      "PHASE DETAIL",
+      "FAMILY DETAIL",
+      "COST DETAIL (family ledger)",
+      "PRODUCTION CREDITS / PROVIDER (client-funded only)"
+     ],
+     "modals": [],
+     "children": [
+      {
+       "id": "TREE",
+       "title": "WORKING TREE",
+       "route": "/app/:slug/project/tree",
+       "type": "GRANDCHILD",
+       "states": [
+        "FOCUSED FAMILY (mobile)",
+        "FULL PLAN (tablet/desktop)",
+        "NODE SELECTED",
+        "HISTORY"
+       ],
+       "interactions": [
+        "tap family",
+        "expand/collapse",
+        "select edge",
+        "VIEW LIVE"
+       ],
+       "drawers": [],
+       "sheets": [
+        "NODE DETAIL"
+       ],
+       "modals": [],
+       "children": []
+      }
+     ]
+    },
+    {
+     "id": "REVIEWS",
+     "title": "REVIEWS HOME",
+     "route": "/app/:slug/reviews",
+     "type": "CHILD",
+     "states": [
+      "NEEDS YOU",
+      "REVISION IN PROGRESS",
+      "APPROVED",
+      "EMPTY"
+     ],
+     "interactions": [],
+     "drawers": [],
+     "sheets": [],
+     "modals": [],
+     "children": [
+      {
+       "id": "REVIEW",
+       "title": "FAMILY REVIEW",
+       "route": "/app/:slug/reviews/:reviewId",
+       "type": "GRANDCHILD",
+       "states": [
+        "VIEWING (authority dominant)",
+        "KEY CHILDREN / RESPONSIVE VIEWS (carousel)",
+        "COMPARE (vs previous version)",
+        "REVISION FEEDBACK (expanded in place)",
+        "REVISION SUBMITTED",
+        "REVISION READY (new version, shows what changed)",
+        "APPROVAL SUCCESS (undo window)",
+        "APPROVAL HISTORY (V1 \u2192 V2 \u2026)",
+        "SCOPE CHANGE (request flagged)",
+        "FUNDING REQUIRED (next family)",
+        "NEXT FAMILY READY",
+        "SUPERSEDED (read-only)",
+        "DESIGN | LIVE toggle",
+        "FINAL REVIEW: SITE \u00b7 TREE \u00b7 SUMMARY"
+       ],
+       "interactions": [
+        "\u2665 APPROVE",
+        "ADD A NOTE (optional)",
+        "\u00d7 NEEDS REVISION",
+        "SEND REVISION REQUEST",
+        "UNDO APPROVAL (grace window)",
+        "COMMENT",
+        "VIEW DETAILS"
+       ],
+       "drawers": [],
+       "sheets": [
+        "REVISION FEEDBACK SHEET (mobile focused sheet if keyboard would cover)"
+       ],
+       "modals": [
+        "FINAL / CONTRACTUAL APPROVAL CONFIRM (only for FINAL gates)"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "id": "INBOX",
+     "title": "INBOX",
+     "route": "/app/:slug/inbox",
+     "type": "CHILD",
+     "states": [
+      "THREADS",
+      "REQUESTS",
+      "EMPTY"
+     ],
+     "interactions": [],
+     "drawers": [],
+     "sheets": [],
+     "modals": [],
+     "children": [
+      {
+       "id": "THREAD",
+       "title": "THREAD",
+       "route": "/app/:slug/inbox/:threadId",
+       "type": "GRANDCHILD",
+       "states": [
+        "READING",
+        "REPLYING",
+        "REQUEST (decision / upload)"
+       ],
+       "interactions": [
+        "reply",
+        "answer decision",
+        "upload requested file"
+       ],
+       "drawers": [],
+       "sheets": [],
+       "modals": [],
+       "children": []
+      }
+     ]
+    },
+    {
+     "id": "LIBRARY",
+     "title": "LIBRARY",
+     "route": "/app/:slug/library",
+     "type": "CHILD",
+     "states": [
+      "SECTION filter (IDENTITY / APPROVED / DELIVERABLES / REFERENCES / UPLOADS / FINAL)"
+     ],
+     "interactions": [
+      "upload reference"
+     ],
+     "drawers": [],
+     "sheets": [
+      "UPLOAD SHEET"
+     ],
+     "modals": [],
+     "children": [
+      {
+       "id": "FILE",
+       "title": "FILE",
+       "route": "/app/:slug/library/:section/:fileId",
+       "type": "GRANDCHILD",
+       "states": [
+        "PREVIEW",
+        "VERSION HISTORY"
+       ],
+       "interactions": [
+        "download"
+       ],
+       "drawers": [],
+       "sheets": [],
+       "modals": [],
+       "children": []
+      }
+     ]
+    },
+    {
+     "id": "LIVE",
+     "title": "LIVE VIEWER (client viewport)",
+     "route": "/app/:slug/live/:nodeId",
+     "type": "OVERLAY_ROUTE",
+     "states": [
+      "MOBILE",
+      "TABLET",
+      "DESKTOP",
+      "SCENARIO"
+     ],
+     "interactions": [
+      "RESTART FLOW",
+      "OPEN FULL PREVIEW",
+      "BACK TO REVIEW",
+      "VIEW IN TREE"
+     ],
+     "drawers": [],
+     "sheets": [],
+     "modals": [],
+     "children": []
+    }
+   ]
+  }
+ ]
+}

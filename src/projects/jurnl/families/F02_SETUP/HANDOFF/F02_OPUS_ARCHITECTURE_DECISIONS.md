@@ -173,6 +173,11 @@ The QA measures page scroll and column overflow on every route at every viewport
 
 ## 11. Interaction and accessibility repairs
 
+**Family boundaries:**
+
+- **F01 → F02:** F01.13 CONTINUE TO SETUP lands on F02.00 inside the same document and the same `.jrn` root. There is no reload, reset or shell break.
+- **F02 completion:** F02.08 OPEN TODAY needs a voice. It then routes to `/today`, which on `main` is now the live F03.00 TODAY, built by a separate F03/F04 sprint. This sprint implements no F03. It only checks the hand-off and that the F02 shell is gone.
+
 - **Resume:** CONTINUE SETUP used to overwrite the saved place with F02.01 before navigating. A second resume landed on F02.01. It now keeps the saved place.
 - **F02.05 priorities:** exposed as checkboxes in a labelled group. Pick-several was previously announced as radio.
 - **Labelled radiogroups:** account source (F02.02) and the ADD sheet cadence.

@@ -443,11 +443,12 @@ async function journey(browser, base) {
     await click('setup-continue');
     await at('F02.08');
   });
-  await step('Completion: OPEN TODAY needs a voice, then reaches the F03 boundary (no F03 screens)', async () => {
+  await step('Completion: OPEN TODAY needs a voice, then hands off to F03 at /today (F02 shell gone)', async () => {
     if (!(await page.isDisabled('[data-jrn-trigger="setup-continue"]'))) throw new Error('open today enabled with no voice');
     await click('setup-voice-QUIET');
     await click('setup-continue');
-    await at('F03.BOUNDARY');
+    // F03 TODAY is its own family (built outside this sprint); F02 only hands off to its route.
+    await at('F03.00');
     if (!page.url().endsWith('/today')) throw new Error(page.url());
     const f02 = await page.$('[data-jrn-family="F02"]');
     if (f02) throw new Error('F02 shell still on the boundary');
