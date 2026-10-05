@@ -16,7 +16,7 @@ import {
   resolveViewportTarget,
   viewportScale,
 } from '../src/site00/components/productionAuthority/viewportTargets';
-import { EXPERIENCE_CAPSULES } from '../src/site00/components/productionAuthority/ExperienceBody';
+import { EXPERIENCE_LEGACY, resolveRealmRoute } from '../src/site00/components/productionAuthority/realm/realmRoutes';
 import { DESIGN_CHAMBER } from '../src/site00/components/productionAuthority/designChamberConfig';
 import { AUTHORITY_ASSETS } from '../src/site00/components/productionAuthority/authorityAssets';
 import { DESIGN_PACK_FILES } from '../src/site00/components/productionAuthority/designPackAssets';
@@ -112,16 +112,17 @@ describe('VIEWPORT target geometry', () => {
 });
 
 describe('Experience children', () => {
-  it('capsules map onto real Experience sub-workspaces only', () => {
-    const subs = EXPERIENCE_CAPSULES.map((c) => c.sub);
-    expect(subs).toEqual(['world', 'zones', 'environments', 'modules', 'simulations', 'assets', 'review']);
+  // EXPERIENCE-LIBRARY.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1 replaced the capsule list with the 7-family / 46-route model.
+  it('legacy sub-workspace links resolve onto the canonical Experience families', () => {
+    expect(Object.keys(EXPERIENCE_LEGACY).sort()).toEqual(['assets', 'environments', 'modules', 'review', 'simulations']);
+    for (const legacy of ['world', 'zones', ...Object.keys(EXPERIENCE_LEGACY)]) expect(resolveRealmRoute('experience', legacy), legacy).not.toBeNull();
   });
 
-  it('child view uses the authority world plate and drops the dead build-a-wig legacy link', () => {
+  it('child views render through the family screen with the registry world plate and no dead legacy link', () => {
     const page = read('src/site00/pages/production/ExperienceProductionShellPage.tsx');
-    expect(page).toContain('EXPERIENCE_CAPSULES');
-    expect(page).toContain('AUTHORITY_ASSETS.experienceWorld');
-    expect(page).toContain('data-testid="experience-child-capsules"');
+    expect(page).toContain('resolveRealmRoute');
+    expect(page).toContain('<ExperienceScreen');
+    expect(read('src/site00/components/productionAuthority/realm/realmData.ts')).toContain("asset('experience.worldHero')");
     expect(page).not.toMatch(/build-a-wig/);
     expect(page).not.toMatch(/site00ProjectExperienceWorkspacePath/);
   });
@@ -187,7 +188,7 @@ describe('style contracts', () => {
 
 describe('Grok asset integration converged', () => {
   it('authority roots no longer read the retired production-mobile plates', () => {
-    for (const f of ['ExpressionBody.tsx', 'LibraryBody.tsx', 'ActivityBody.tsx']) {
+    for (const f of ['ExpressionBody.tsx', 'realm/LibraryScreen.tsx', 'ActivityBody.tsx']) {
       expect(read(`src/site00/components/productionAuthority/${f}`), f).not.toMatch(/PW_IMG/);
     }
   });
