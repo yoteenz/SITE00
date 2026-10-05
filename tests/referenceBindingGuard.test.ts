@@ -66,14 +66,14 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
   it('REFERENCE REQUIRED + FOUND BUT NOT ATTACHED → BLOCK', () => {
     const pre = precheckGenerationDispatch(
       {
-        visualId: 'F03.00',
+        visualId: 'F03.01',
         projectId: 'JURNL',
         familyId: 'F03',
         providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
-        generationClass: 'ENVIRONMENT_PLATE',
+        generationClass: 'SCREEN_CHILD',
         generationIntent: 'DERIVED',
         generationMode: 'REFERENCE_GUIDED',
-        referenceAuthorityIdHint: 'F03.00_TODAY_PARENT',
+        referenceAuthorityIdHint: 'F03.00_LIVE_STRUCTURE',
         referenceInputAttached: false,
         provider: 'OpenArt',
         model: 'gpt-image-2-5-sunburst',
