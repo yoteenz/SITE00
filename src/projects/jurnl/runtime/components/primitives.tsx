@@ -107,6 +107,7 @@ export function JurnlInput({
   forceFocused = false,
   onFocusChange,
   autoFocus,
+  prefix,
   ...rest
 }: {
   invalid?: boolean;
@@ -120,6 +121,8 @@ export function JurnlInput({
   trigger?: string;
   forceFocused?: boolean;
   onFocusChange?: (focused: boolean) => void;
+  /** Display-only mark. The stored value stays numeric when this is a currency symbol. */
+  prefix?: string;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'>) {
   const id = useId();
   const [focused, setFocused] = useState(false);
@@ -129,7 +132,7 @@ export function JurnlInput({
   const inputType = type === 'password' && revealed ? 'text' : type;
   return (
     <div
-      className={`jrn-field${icon ? '' : ' jrn-field--plain'}`}
+      className={`jrn-field${icon ? '' : ' jrn-field--plain'}${prefix ? ' jrn-field--prefix' : ''}`}
       data-focused={isFocused ? 'true' : 'false'}
       data-raised={raised ? 'true' : 'false'}
       data-invalid={error || invalid ? 'true' : 'false'}
@@ -145,6 +148,11 @@ export function JurnlInput({
           <label className="jrn-field__label" htmlFor={id}>
             {label}
           </label>
+          {prefix ? (
+            <span className="jrn-field__prefix" aria-hidden>
+              {prefix}
+            </span>
+          ) : null}
           <input
             id={id}
             className="jrn-field__input"
@@ -379,6 +387,7 @@ export function JurnlDrawer({
   footer,
   tone,
   testId,
+  keyboard = false,
 }: {
   size: 'short' | 'long';
   title: string;
@@ -389,9 +398,35 @@ export function JurnlDrawer({
   footer?: ReactNode;
   tone?: 'wine';
   testId: string;
+  /** Raises the sheet while a field is focused so the keyboard does not cover save. */
+  keyboard?: boolean;
 }) {
   const ref = useOverlayFocus(onClose);
   const titleId = useId();
+  useEffect(() => {
+    const root = ref.current?.closest('.jrn');
+    if (!(root instanceof HTMLElement)) return;
+    if (!keyboard) {
+      root.style.removeProperty('--jrn-vvh');
+      root.style.removeProperty('--jrn-vv-offset');
+      return;
+    }
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const sync = () => {
+      root.style.setProperty('--jrn-vvh', `${Math.round(vv.height)}px`);
+      root.style.setProperty('--jrn-vv-offset', `${Math.round(vv.offsetTop)}px`);
+    };
+    sync();
+    vv.addEventListener('resize', sync);
+    vv.addEventListener('scroll', sync);
+    return () => {
+      vv.removeEventListener('resize', sync);
+      vv.removeEventListener('scroll', sync);
+      root.style.removeProperty('--jrn-vvh');
+      root.style.removeProperty('--jrn-vv-offset');
+    };
+  }, [keyboard]);
   return (
     <OverlayLayer>
       <div className="jrn-overlay" data-jrn-overlay={testId} data-jrn-drawer={size}>
@@ -402,6 +437,7 @@ export function JurnlDrawer({
           aria-modal="true"
           aria-labelledby={titleId}
           className={`jrn-drawer jrn-drawer--${size}${tone ? ` jrn-drawer--${tone}` : ''}`}
+          data-keyboard={keyboard ? 'open' : 'closed'}
         >
           <span className="jrn-drawer__grab" aria-hidden />
           <div className="jrn-drawer__head">
