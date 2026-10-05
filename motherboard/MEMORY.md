@@ -13431,3 +13431,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Do not redesign F01, do not change plates, copy, routes, or flow. Condense spacing, row height, button height, and panel padding. Mobile 393×852 is compact. Tablet and desktop stay more open. No `transform: scale` on the screen and no root `overflow: hidden` to hide a too-tall stack. Error states on Create Account tighten only while an error panel is present. site00.com was not deployed. Paid generations this density pass: 0.
 - **Changes:** `jurnl-runtime.css`, `jurnl-screens.css`, privacy/security spacing in `SecurityScreens.tsx`. Fit report: `artifacts/jurnl-f01-mobile-fit/VIEWPORT_FIT_REPORT.json`. Before compression, Create Account overflowed by 38px and Privacy by 2px inside the 852 frame. After, all 14 primary screens, tablet, and 1440×900 desktop measure overflow 0 with host scroll 0. Privacy and Security keep both actions on screen.
 - **Conventions:** Fit F01 by density tokens and screen-specific overrides. A child plate stays the child’s own file. The design viewport (DESIGN → JURNL → VIEWPORT) is the review surface, and the direct runtime must use the same CSS.
+
+---
+
+## 2026-10-05 — F01 app canvas boundary
+
+- **Context:** This chat covered canonical plate injection, the founder’s rejection of flattening child screens onto the welcome atrium, a unique plate per F01 screen, the mobile density pass, and then this boundary lock. Plates and density were already working. The remaining defect was live text leaving the plate. Create Account’s “ALREADY HAVE AN ACCOUNT? SIGN IN.” sat past the bottom of the environment on a shorter visible canvas.
+- **Topics covered:** OpenArt plates (4k tier, 317 credits each, ceiling 60,000 unchanged). Child-plate correction. Density tokens. App-stage containment.
+- **Decisions / outcomes:** The runtime root is the app stage. The plate is pinned to that stage. The live column is positioned inside it and sized to `100dvh`, so content cannot anchor to the SITE 00 page. The form was tightened so the footer fits the plate. No negative-margin patches. No new plates. No paid generations. site00.com was not uploaded by the agent.
+- **Changes:** `jurnl-runtime.css`, `jurnl-screens.css`, `JurnlRuntimeRoot.tsx` (`data-jrn-app-stage="canvas"`), runtime containment test.
+- **Conventions:** `JURNL_APP_CANVAS_CONTAINMENT`. Fit the column, then let the stage stop accidental escape. Do not hide a too-tall footer with clipping alone. Do not position JURNL controls against the host page.
