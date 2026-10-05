@@ -1,9 +1,58 @@
 {
-  "generatedAt": "2026-10-05T19:07:18.491Z",
+  "generatedAt": "2026-10-05T19:30:00.000Z",
   "repoRoot": "/workspace",
-  "callSitesDiscovered": 207,
+  "callSitesDiscovered": 209,
   "paidGenerationCallSites": 15,
+  "jurnlPaidGenerationAudit": {
+    "classifiedAt": "2026-10-05T19:30:00.000Z",
+    "totalPaidSites": 15,
+    "JURNL_ACTIVE_REQUIRED": 1,
+    "JURNL_FUTURE_REQUIRED": 0,
+    "OTHER_PROJECT_ACTIVE": 14,
+    "LEGACY": 0,
+    "gatewayedPaths": [
+      "./shared/site00-jurnl-production/dispatchJurnlProductionRequest.ts",
+      "./api/admin/jurnl-production.ts"
+    ],
+    "note": "No in-repo JURNL OpenArt SDK; prior sprint had zero JURNL paid SDK paths. Active production is admin API + dispatchJurnlProductionRequest."
+  },
   "entries": [
+    {
+      "file": "./shared/site00-jurnl-production/dispatchJurnlProductionRequest.ts",
+      "function": "dispatchJurnlProductionRequest",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "project_scope": "JURNL",
+      "generation_type": "IMAGE",
+      "paid": true,
+      "current_guard": "runProductionProviderRequest",
+      "current_reference_handling": "precheckGenerationDispatch",
+      "current_spend_confirmation": "spendAuthorizationId",
+      "current_ledger": "JSONL + family gateway_receipts",
+      "current_result_persistence": "gateway_lineage",
+      "current_error_handling": "blockedReason + incidents",
+      "gateway_required": true,
+      "migration_status": "GATEWAYED",
+      "classification": "JURNL_ACTIVE_REQUIRED"
+    },
+    {
+      "file": "./api/admin/jurnl-production.ts",
+      "function": "handler",
+      "provider": "OpenArt",
+      "model": null,
+      "project_scope": "JURNL",
+      "generation_type": "IMAGE",
+      "paid": true,
+      "current_guard": "dispatchJurnlProductionRequest",
+      "current_reference_handling": "precheckGenerationDispatch",
+      "current_spend_confirmation": "spendAuthorizationId",
+      "current_ledger": "JSONL + family gateway_receipts",
+      "current_result_persistence": "manual registration",
+      "current_error_handling": "HTTP 4xx + precheck",
+      "gateway_required": true,
+      "migration_status": "GATEWAYED",
+      "classification": "JURNL_ACTIVE_REQUIRED"
+    },
     {
       "file": "./api/_lib/site00Assts/generation.ts",
       "function": null,

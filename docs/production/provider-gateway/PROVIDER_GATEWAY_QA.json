@@ -1,10 +1,11 @@
 {
   "schemaVersion": 1,
-  "sprint": "P0.SITE00.PRODUCTION-GATEWAY-MOTHERBOARD-CONTEXT-SYNC1",
+  "sprint": "P0.SITE00.PRODUCTION-GATEWAY.JURNL-LIVE-CALLSITE-MIGRATION1",
   "automatedTests": [
     "tests/providerGateway.test.ts",
     "tests/providerDirectBypassAudit.test.ts",
-    "tests/referenceBindingGuard.test.ts"
+    "tests/referenceBindingGuard.test.ts",
+    "tests/jurnlGatewayMigration.test.ts"
   ],
   "manualPaidGeneration": 0,
   "expectedCreditsSpent": 0,

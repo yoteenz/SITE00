@@ -13674,3 +13674,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Delivered:** `runProductionProviderRequest()` (spend auth → precheck → authority-first plate → dispatch → cost receipt); `validateAuthorityFirstPlatePolicy`; server spend authorization (rejects caller-only `founderConfirmedSpend`); FAL adapter `falImageViaProductionGateway.ts`; provider call inventory + bypass allowlist + CI audit test; docs under `docs/production/provider-gateway/`; CORE/CODEBASE updated; reference methodology points to gateway.
 - **Not claimed:** Full migration of all inventoried files (legacy allowlisted); unified DB cost ledger (JSONL adapter only); CI green; AIO client-ready.
 - **Conventions:** New paid generative paths MUST use `runProductionProviderRequest`; do not add unallowlisted `@fal-ai/client` imports; JURNL ENVIRONMENT_PLATE requires parent authority-first derivation; record sprint why in motherboard, not only what was implemented.
+
+---
+
+## 2026-10-05 — JURNL live callsite migration (P0 JURNL-LIVE-CALLSITE-MIGRATION1)
+
+- **Context:** Prior gateway sprint built `runProductionProviderRequest` but inventoried 15 paid call sites with 0 migrated; JURNL had no in-repo OpenArt SDK path yet active production could still bypass guards via legacy FAL elsewhere. Founder sprint required moving **active JURNL** paid generation through the shared gateway without paid generation in CI.
+- **Why this sprint:** A gateway unused by live JURNL production is not a governor; F03/F05–F16 resume depends on enforced reference, authority-first, expression brief, occupancy, spend, and lineage on the real dispatch path.
+- **Delivered:** `shared/site00-jurnl-production/` (`dispatchJurnlProductionRequest`, occupancy load, budget precheck, distinctness gate, idempotency, family ledger receipt/lineage writers, manual output registration); `api/admin/jurnl-production.ts` + Railway route; precheck reorder (authority-first before sidekick attachment for plates); tests `jurnlGatewayMigration.test.ts`; docs `JURNL_*` QA/readiness/dry-run JSON; inventory/migration report updates; readiness gate `READY_FOR_JURNL_F05_F16_PARENT_GENERATION: true` (dry-run evidence only).
+- **Not claimed:** Full 207-callsite migration; non-JURNL allowlisted FAL paths; DB cost ledger; child explosion (founder parent approval still required); F03/F05 actual OpenArt spend.
+- **Conventions:** JURNL agents use `dispatchJurnlProductionRequest` or admin API — not parallel JURNL gateway; JURNL `TEXT_TO_IMAGE_NET_NEW` remains blocked at binding layer; F05+ parent dry-run uses `REFERENCE_GUIDED` with resolved world/structure reference when registry requires attachment.
