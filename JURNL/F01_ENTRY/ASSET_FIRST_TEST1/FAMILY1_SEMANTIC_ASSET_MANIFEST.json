@@ -9,6 +9,9 @@
     "required": true,
     "asset_id": "ENTRY.ENVIRONMENT.PLATE.001",
     "runtime_path": "/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png",
+    "openart_resolution_tier": "4k",
+    "gallery_label": "3K",
+    "pixels": "2016x3584",
     "contains": [
       "room",
       "arch",

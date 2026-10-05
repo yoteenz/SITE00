@@ -13371,3 +13371,10 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Generation:** GPT Image 2.5 Sunburst image2image, project `TToQavm9coU1QGPRfEzU`, 9:16, quality high, `autoEnhancePrompt: false`. Parent reference uploaded. Credits: 172 (2k) + 317 (4k) = 489. Balance before spend: 52123.
 - **Results:** 2k history `X3tvgwAUtOyQ29Al5vBz` is 1296×2304 (same pixels as the parent). 4k history `omTTAjRt3LgV0RB2lC5I` is 2016×3584. Both plates keep the room and remove headline, tagline, buttons, and logo. Live assembly plate was not replaced.
 - **Files:** `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/RESOLUTION_COMPARE/`.
+
+---
+
+## 2026-10-05 — JURNL environment plates render at the 3K/4K setting
+
+- **Decision:** Environment plates and generated image assets use OpenArt `resolutionTier: 4k`. For 9:16 that delivers **2016×3584**, which the gallery labels **3K**.
+- **Render:** The existing 4k-tier plate (`omTTAjRt3LgV0RB2lC5I`) is now the mounted `ENTRY.ENVIRONMENT.PLATE.001` on `/jurnl/f01/parent-assembly`. The logo stays the reused mark. No new generation. Isolated leaves, stones, books, and textures stay unmounted.

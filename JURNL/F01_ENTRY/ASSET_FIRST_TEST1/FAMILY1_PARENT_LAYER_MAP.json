@@ -19,6 +19,9 @@
       "responsive_behavior": "cover the artboard; do not stretch type",
       "source_authority_region": "room, arch, coast, curtain, bust, table, books, bowl, textiles, foliage, sunlight",
       "runtime_path": "/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png",
+      "openart_resolution_tier": "4k",
+      "gallery_label": "3K",
+      "pixels": "2016x3584",
       "merged_from": ["plaster", "arch", "coast", "curtain", "bust", "travertine", "textile", "books", "bowl", "foliage", "sunlight"]
     },
     {

@@ -8,6 +8,9 @@ export type Family1AssetRecord = {
   component: string;
   classification: 'ENVIRONMENT_PLATE' | 'REUSABLE_BRAND_ASSET';
   transparent_background: boolean;
+  /** OpenArt resolutionTier. Gallery 3K is the 4k tier at 2016×3584. */
+  openart_resolution_tier?: '4k';
+  pixels?: string;
 };
 
 export const FAMILY1_PARENT_ROUTE = '/jurnl/f01/parent-assembly';
@@ -20,6 +23,8 @@ export const FAMILY1_PARENT_ASSETS: Family1AssetRecord[] = [
     component: 'EnvironmentPlate',
     classification: 'ENVIRONMENT_PLATE',
     transparent_background: false,
+    openart_resolution_tier: '4k',
+    pixels: '2016x3584',
   },
   {
     asset_id: 'ENTRY.LOGO.OFFICIAL.001',

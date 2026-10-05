@@ -32,3 +32,7 @@ Each region gets one role: live text, live control, structural UI, panel or surf
 Text and controls stay in HTML. A static room, including plants, books, stone, fabric, and sunlight, is one environment plate unless a piece must move, change state, be reused alone, or overlap live UI on its own layer.
 
 Do not generate a panel, a button, or a headline as an image.
+
+## Resolution
+
+Generated environment plates use OpenArt `resolutionTier: 4k` (GPT Image 2.5 Sunburst, 9:16, quality high). That setting delivers **2016×3584**. The OpenArt gallery labels this file **3K** because the long edge is 3584. Use this setting for environment plates and other generated image assets. Do not use the 2k tier for plates.
