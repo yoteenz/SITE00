@@ -35,11 +35,12 @@ function assertWorkLookPath(repoPath: string, residentId: string): void {
 }
 
 function assertBodyGeometryPath(repoPath: string, residentId: string): void {
-  if (!repoPath.includes('studio-world-residents/season1-v1/')) {
-    throw new Error(`[${residentId}] bodyGeometryAuthority must resolve under season1-v1, got: ${repoPath}`);
-  }
-  if (!repoPath.includes('01-natural-authority')) {
-    throw new Error(`[${residentId}] bodyGeometryAuthority must be season1 natural full-body, got: ${repoPath}`);
+  const uniformRegen = repoPath.includes('STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN');
+  const geometryComplete = repoPath.includes('STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE');
+  if (!uniformRegen && !geometryComplete) {
+    throw new Error(
+      `[${residentId}] bodyGeometryAuthority must resolve to approved uniform full-body pack, got: ${repoPath}`,
+    );
   }
 }
 

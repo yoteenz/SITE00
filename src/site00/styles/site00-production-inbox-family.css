@@ -379,7 +379,7 @@
   min-width: 0;
   font-size: var(--ibx-text);
   letter-spacing: 0.05em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .pxa .ibx-facts--tight {
   gap: 1px;
@@ -1665,12 +1665,12 @@
   padding: 0 6px;
 }
 .pxa .ibx-root .ibx-card b {
-  font-size: 8px;
+  font-size: 8.5px;
   font-weight: 500;
   overflow-wrap: anywhere;
 }
 .pxa .ibx-card__status {
-  font-size: 8px;
+  font-size: 8.5px;
   color: var(--ibx-red);
 }
 
@@ -1726,8 +1726,8 @@
   display: grid;
   place-items: center;
   padding: 0 8px;
-  font-size: 8px;
-  letter-spacing: 0.08em;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
   text-align: center;
   color: var(--ibx-mute);
 }
@@ -1867,5 +1867,84 @@
   .pxa .ibx-root .ibx-recent__rail .ibx-art,
   .pxa .ibx-slot {
     height: 48px;
+  }
+}
+
+/* FA.OPUS2: incoming decision objects fill their pane — the art takes the card height instead of a fixed
+   9vh band (207×54px at 1280×720 with ~80px of empty pane under the cards). */
+@media (min-width: 700px) {
+  .pxa .ibx-root > .ibx-incoming {
+    display: flex;
+    flex-direction: column;
+  }
+  .pxa .ibx-root .ibx-incoming__rail {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    grid-auto-rows: minmax(0, 1fr);
+  }
+  .pxa .ibx-root .ibx-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .pxa .ibx-root .ibx-card .ibx-art {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 56px;
+    max-height: 240px;
+  }
+}
+
+/* FA.OPUS2: decision + notice detail on tablet + desktop — related materials fill their column as media tiles (they were 70×48
+   thumbs above a 593–796px empty band on tall tablets); tiles cap at 160px so the node art is not upscaled further. */
+@media (min-width: 700px) {
+  .pxa .ibx-detail .ibx-attach {
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: stretch;
+    min-height: 0;
+  }
+  .pxa .ibx-detail .ibx-attach__rail {
+    grid-auto-rows: minmax(56px, 1fr);
+    align-content: start;
+  }
+  .pxa .ibx-detail .ibx-attach__rail > button {
+    grid-template-columns: minmax(70px, 0.9fr) minmax(0, 1fr);
+    align-items: stretch;
+    max-height: 160px;
+  }
+  .pxa .ibx-detail .ibx-attach__rail .ibx-art {
+    height: auto;
+    min-height: 48px;
+  }
+  .pxa .ibx-detail .ibx-attach__rail span {
+    align-content: center;
+  }
+}
+/* portrait tablets (FA.OPUS2): the decision / notice detail stacks — the hero card spans the width with a 4:5 art,
+   tabs and the materials / dependency column share the rest (the side-by-side tablet split left ~590px empty) */
+@media (min-width: 700px) and (max-width: 1119px) and (orientation: portrait) {
+  .pxa .ibx-dgrid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: 'card card' 'tabs attach';
+  }
+  .pxa .ibx-dgrid.ibx-dgrid--notice {
+    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas: 'card card' 'tabs chain' 'tabs attach';
+  }
+  .pxa .ibx-dcard {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 0.7fr);
+    align-items: start;
+  }
+  .pxa .ibx-notice .ibx-dcard {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  }
+  .pxa .ibx-dcard__art,
+  .pxa .ibx-notice .ibx-dcard__art {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    max-height: 40vh;
   }
 }

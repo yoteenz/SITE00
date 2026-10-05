@@ -1,9 +1,10 @@
 /**
- * Resident fabrication source authority — RECOVERY4 (white tee / red collar + season1 full-body).
+ * Resident fabrication source authority — white tee / red collar portrait + approved uniform full-body.
  * Separates runtime canonical portraits from fabrication geometry anchors.
  */
 import { castingThumbnailUrl } from '../resident-intelligence/season1-ensemble/castingThumbnailAuthority.js';
-import { getResidentVisualProjection } from '../resident-intelligence/season1-ensemble/visualAuthority.js';
+import { RESIDENT_OUTFIT_SYSTEM } from './residentGeometryCompletePack.js';
+import { STUDIO_WORLD_RESIDENT_FABRICATION_PROFILES } from './residentGeometryFrames.js';
 
 export type FabricationSourceQuality = 'LITE_ONLY' | 'HIGH_RES_ARCHIVE' | 'FOUNDER_APPROVED_PACKAGE';
 
@@ -19,7 +20,8 @@ export type CurrentFabricationSourceAuthority = {
   residentId: `SW-${string}`;
   sourceResidentId: string;
   portraitAuthority: { url: string; repoPath: string; role: 'FABRICATION_PORTRAIT_AND_WORK_LOOK' };
-  fullBodyAuthority: { url: string; repoPath: string; role: 'FABRICATION_FULL_BODY' };
+  fullBodyAuthority: { url: string | null; repoPath: string; role: 'FABRICATION_FULL_BODY_UNIFORM' };
+  outfitSystem: 'WOMEN_LEGGINGS' | 'MEN_COMPRESSION_SHORTS';
   closeupAuthority: { url: string | null; repoPath: string | null; role: 'IDENTITY_CLOSEUP_REFERENCE' };
   sourceQuality: FabricationSourceQuality;
   recovery: {
@@ -100,16 +102,23 @@ export const SUPERSEDED_FABRICATION_SOURCES: Record<`SW-${string}`, SupersededRe
 export const SUPERSEDED_WORK_UNIFORM_IVORY: string =
   'public/site00/production-authority-assets/shared/residents/studio-world-*-uniform.jpg (ivory SW suit — NOT white-tee/red-collar)';
 
+function approvedUniformFullBodyRepoPath(residentId: `SW-${string}`): string | null {
+  const profile = STUDIO_WORLD_RESIDENT_FABRICATION_PROFILES.find((p) => p.residentId === residentId);
+  if (!profile) return null;
+  return `artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/${profile.folderName}/01_FULL_BODY_UNIFORM_FRONT.png`;
+}
+
 export function buildCurrentFabricationSourceAuthority(residentId: `SW-${string}`): CurrentFabricationSourceAuthority | null {
   const sourceResidentId = SW_TO_RESIDENT[residentId];
   if (!sourceResidentId) return null;
   const thumb = castingThumbnailUrl(sourceResidentId);
-  const projection = getResidentVisualProjection(sourceResidentId);
-  if (!thumb || !projection) return null;
+  if (!thumb) return null;
   const portraitRepo = publicRepoPath(thumb);
-  const fullBodyUrl = projection.primaryNaturalImage;
-  const fullBodyRepo = publicRepoPath(fullBodyUrl);
-  const closeup = projection.closeupRefs[0] ?? null;
+  const fullBodyRepo = approvedUniformFullBodyRepoPath(residentId);
+  if (!fullBodyRepo) return null;
+  const outfitSystem = RESIDENT_OUTFIT_SYSTEM[residentId];
+  if (!outfitSystem) return null;
+  const closeup = null;
   return {
     kind: 'CURRENT_FABRICATION_SOURCE_AUTHORITY',
     residentId,
@@ -120,10 +129,11 @@ export function buildCurrentFabricationSourceAuthority(residentId: `SW-${string}
       role: 'FABRICATION_PORTRAIT_AND_WORK_LOOK',
     },
     fullBodyAuthority: {
-      url: fullBodyUrl,
+      url: null,
       repoPath: fullBodyRepo,
-      role: 'FABRICATION_FULL_BODY',
+      role: 'FABRICATION_FULL_BODY_UNIFORM',
     },
+    outfitSystem,
     closeupAuthority: {
       url: closeup,
       repoPath: closeup ? publicRepoPath(closeup) : null,
@@ -146,4 +156,4 @@ export function listFabricationSourceAuthorities(): CurrentFabricationSourceAuth
     .filter((x): x is CurrentFabricationSourceAuthority => x != null);
 }
 
-export const FABRICATION_BATCH_STATUS = 'SOURCE_AUTHORITY_SUPERSEDED_PENDING_RECOVERY' as const;
+export const FABRICATION_BATCH_STATUS = 'GEOMETRY_COMPLETE_IN_REVIEW' as const;

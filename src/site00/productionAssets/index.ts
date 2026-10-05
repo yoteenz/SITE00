@@ -4,6 +4,7 @@ export {
   getProductionAsset,
   productionAssetPublicPath,
   productionAssetPaths,
+  experienceHeroPlate,
 } from './productionAssetRegistry';
 export { PRODUCTION_ROUTE_ASSET_MANIFESTS } from './routeAssetManifests';
 export { STUDIO_WORLD_RESIDENTS } from './studioWorldResidents';

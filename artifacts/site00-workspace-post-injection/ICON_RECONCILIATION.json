@@ -1,0 +1,264 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.POST-INJECTION.LIVE-RECONCILIATION1",
+  "genericSubstitutionsBefore": 30,
+  "canonicalIconsRecoveredThisSprint": 0,
+  "genericSubstitutionsAfter": 30,
+  "newIconFiles": 0,
+  "founderNavAlreadyCanonical": [
+    {
+      "slot": "nav.hub",
+      "file": "src/site00/components/productionHub/bottom-nav/masters/01_HUB.png",
+      "class": "CANONICAL ICON EXISTS",
+      "note": "Already mounted. Recovered in the injection sprint from git 43611fd8. Not a remaining substitution."
+    },
+    {
+      "slot": "nav.inbox",
+      "file": "src/site00/components/productionHub/bottom-nav/masters/02_INBOX.png",
+      "class": "CANONICAL ICON EXISTS",
+      "note": "Founder master already mounted. Not a generic substitution."
+    },
+    {
+      "slot": "nav.design",
+      "file": "src/site00/components/productionHub/bottom-nav/masters/03_DESIGN.png",
+      "class": "CANONICAL ICON EXISTS",
+      "note": "Founder master already mounted."
+    },
+    {
+      "slot": "nav.experience",
+      "file": "src/site00/components/productionHub/bottom-nav/masters/04_EXPERIENCE.png",
+      "class": "CANONICAL ICON EXISTS",
+      "note": "Founder master already mounted."
+    },
+    {
+      "slot": "nav.expression",
+      "file": "src/site00/components/productionHub/bottom-nav/masters/05_EXPRESSION.png",
+      "class": "CANONICAL ICON EXISTS",
+      "note": "Founder master already mounted."
+    },
+    {
+      "slot": "nav.library",
+      "file": "src/site00/components/productionHub/bottom-nav/masters/06_LIBRARY.png",
+      "class": "CANONICAL ICON EXISTS",
+      "note": "Founder master already mounted."
+    },
+    {
+      "slot": "nav.activity",
+      "file": "src/site00/components/productionHub/bottom-nav/masters/07_ACTIVITY.png",
+      "class": "CANONICAL ICON EXISTS",
+      "note": "Founder master already mounted."
+    }
+  ],
+  "substitutions": [
+    {
+      "slot": "IcMenu",
+      "class": "CANONICAL ICON EXISTS",
+      "packFile": "public/site00/production-authority-assets/design-pack/icons/nav-menu.png",
+      "action": "NOT_REPLACED",
+      "note": "Pack crop is the 48px design-grid tile already shown in Design. Shell menu stays the approved live SVG."
+    },
+    {
+      "slot": "IcSearch",
+      "class": "CANONICAL ICON EXISTS",
+      "packFile": "public/site00/production-authority-assets/design-pack/icons/nav-search.png",
+      "action": "NOT_REPLACED",
+      "note": "Pack search tile is the design-grid canon. Control glyph stays SVG."
+    },
+    {
+      "slot": "IcUser",
+      "class": "CANONICAL ICON EXISTS",
+      "packFile": "public/site00/production-authority-assets/design-pack/icons/nav-user.png",
+      "action": "NOT_REPLACED",
+      "note": "Pack user tile is the design-grid canon. Control glyph stays SVG."
+    },
+    {
+      "slot": "IcChevD",
+      "class": "CANONICAL ICON EXISTS",
+      "packFile": "public/site00/production-authority-assets/design-pack/icons/nav-dropdown.png",
+      "action": "NOT_REPLACED",
+      "note": "Pack dropdown tile is not the shell chevron. Shell chevron stays SVG."
+    },
+    {
+      "slot": "IcChevR",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP. No founder chevron master."
+    },
+    {
+      "slot": "IcChevL",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcArrowR",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcClose",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcFilter",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcLock",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcCheck",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcWarn",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcExpand",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcCompare",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcCube",
+      "class": "CANONICAL ICON EXISTS",
+      "packFile": "public/site00/production-authority-assets/design-pack/icons/object-cube-system.png",
+      "action": "NOT_REPLACED",
+      "note": "Pack object tile is already the Design icon grid canon. Not swapped into 14px controls."
+    },
+    {
+      "slot": "IcPlus",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcSwap",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcClock",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP. Activity verb chips stay text."
+    },
+    {
+      "slot": "IcShirt",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcMove",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcPulse",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcTrash",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcPlay",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcPause",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcEye",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcRefresh",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcInfo",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcSliders",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcPaperclip",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    },
+    {
+      "slot": "IcSave",
+      "class": "CANONICAL ICON MISSING",
+      "packFile": null,
+      "action": "NOT_REPLACED",
+      "note": "SEMANTICALLY ACCEPTABLE TEMP."
+    }
+  ],
+  "rule": "Replaced nothing. The only founder masters that exist are the seven bottom-nav PNGs, and they are already mounted. Design-pack crops that share a name are 48px grid tiles, already used in the Design icon surfaces. They are not approved replacements for shell or fabrication control glyphs."
+}

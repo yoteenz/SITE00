@@ -1,0 +1,401 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2
+ * HUB root — one viewport at every size (D-PARENT-NOSCROLL: "HUB is the density benchmark; no Production parent/root
+ * page may scroll vertically").
+ *
+ * The reconstruction sizes everything from the authority artboard width (`--u`), so the body was as tall as the
+ * artboard: it scrolled on short screens (65px at 390×664, 50px at 1280×720, 16px at 1024×768) and left 45% of a
+ * portrait tablet empty under 6px type. Now the body is a column that fills the frame:
+ *   · the world panel flexes around its authority height (never below 88% of it) and carries the legacy chamber link;
+ *   · the status strip keeps its authority height;
+ *   · the cards stretch to the remaining rows; operations and activity scroll inside their own pane when a short
+ *     screen needs the room (nothing is removed);
+ *   · portrait tablets take the portrait (9:16) composition, scaled to the frame's height (`cqb`);
+ *   · phone type floor 8.5px (the 9:16 authority micro-type renders at ~6.5px on a 390px phone).
+ * Body only: host chrome is never selected here.
+ */
+
+.pxa[data-screen='hub'] .pxa-scroll:has(.hubx) {
+  overflow: hidden;
+}
+.pxa .pxa-scroll:has(.hubx) > .pxa-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding-bottom: 0;
+}
+.pxa .pxa-hub.hubx {
+  container-type: size;
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  --hero-min: 0.88;
+  --hero-max: 1.5;
+}
+
+/* ── world panel: flexes first, inside [88%, 150%] of its authority height ── */
+.pxa .hubx .hubx-hero {
+  flex: 8 1 calc(var(--u) * var(--hero-h));
+  height: auto;
+  min-height: calc(var(--u) * var(--hero-h) * var(--hero-min));
+  max-height: calc(var(--u) * var(--hero-h) * var(--hero-max));
+}
+.pxa .hubx .hubx-status {
+  flex: none;
+}
+.pxa .hubx .hubx-hero .pxa-hub__machine {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--u) * 16);
+  right: calc(var(--u) * var(--side-x));
+  margin: 0;
+  padding: 0;
+}
+.pxa .hubx .hubx-hero .pxa-hub__machine a {
+  padding: calc(var(--u) * 6) calc(var(--u) * 16);
+  font-size: max(8.5px, calc(var(--u) * var(--f-sub)));
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+/* ── cards fill the remaining rows ── */
+.pxa .hubx .hubx-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+  grid-template-rows: minmax(0, 1fr);
+}
+.pxa .hubx .hubx-col {
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+.pxa .hubx .hubx-col--right {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.pxa .hubx .hubx-overview {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.pxa .hubx .hubx-overview__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.pxa .hubx .hubx-ring,
+.pxa .hubx .hubx-legend {
+  align-self: center;
+}
+.pxa .hubx .hubx-feature {
+  grid-template-rows: minmax(calc(var(--u) * var(--feature-h)), 1fr) auto auto auto;
+  align-content: center;
+}
+.pxa .hubx .hubx-feature .pxa-thumb {
+  height: auto;
+  min-height: calc(var(--u) * var(--feature-h));
+  max-height: calc(var(--u) * var(--feature-h) * 1.6);
+}
+.pxa .hubx .hubx-pair {
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+}
+.pxa .hubx .hubx-ops,
+.pxa .hubx .hubx-feed {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.pxa .hubx .hubx-ops .hubx-head,
+.pxa .hubx .hubx-feed .hubx-head {
+  flex: none;
+}
+.pxa .hubx .hubx-ops__list,
+.pxa .hubx .hubx-feed__list {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.pxa .hubx .hubx-ops__list::-webkit-scrollbar,
+.pxa .hubx .hubx-feed__list::-webkit-scrollbar {
+  display: none;
+}
+/* seven live components share the authority's six-tile row: tracking goes so every label stays whole */
+.pxa .hubx .hubx-tiles a {
+  padding: 0 calc(var(--u) * 2);
+}
+.pxa .hubx .hubx-tiles b {
+  letter-spacing: 0;
+}
+.pxa .hubx .hubx-legend li {
+  letter-spacing: 0.04em;
+}
+/* the heading text box is taller than its 1.1 line box; clip sideways only so nothing is cut vertically */
+.pxa .hubx .hubx-head h2 {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* ── TABLET (both orientations): 8.5px floor on the micro-type, each at its own authority size above it ── */
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .pxa-hub.hubx {
+    --f-tile: 15.5;
+    --tile-gap: 7;
+  }
+  .pxa .hubx .hubx-status__cell em,
+  .pxa .hubx .hubx-status__cell a {
+    font-size: max(8.5px, calc(var(--u) * var(--f-sub)));
+  }
+  .pxa .hubx .hubx-viewall,
+  .pxa .hubx .hubx-ring small,
+  .pxa .hubx .hubx-feature small,
+  .pxa .hubx .hubx-feature em {
+    font-size: max(8.5px, calc(var(--u) * var(--f-viewall)));
+  }
+  .pxa .hubx .hubx-pair .hubx-viewall {
+    font-size: max(8.5px, calc(var(--u) * var(--f-viewall) * 0.85));
+  }
+  .pxa .hubx .hubx-entry small,
+  .pxa .hubx .hubx-entry__bar em {
+    font-size: max(8.5px, calc(var(--u) * var(--f-entry-s)));
+  }
+  .pxa .hubx .hubx-tiles small {
+    font-size: max(8.5px, calc(var(--u) * var(--f-tile-s)));
+  }
+  .pxa .hubx .hubx-ops__list small {
+    font-size: max(8.5px, calc(var(--u) * var(--f-op-s)));
+  }
+  .pxa .hubx .hubx-feed__list small,
+  .pxa .hubx .hubx-feed__list time {
+    font-size: max(8.5px, calc(var(--u) * var(--f-feed-s)));
+  }
+  .pxa .hubx .pxa-prio {
+    font-size: max(8.5px, calc(var(--u) * var(--f-chip)));
+  }
+  .pxa .hubx .hubx-ops__list b {
+    font-size: max(9px, calc(var(--u) * var(--f-op-t)));
+  }
+  .pxa .hubx .hubx-feed__list b {
+    font-size: max(9px, calc(var(--u) * var(--f-feed-t)));
+  }
+}
+
+/* ── PORTRAIT TABLET: the portrait (9:16) composition, scaled to fit the frame height ── */
+@media (min-width: 700px) and (max-width: 1119px) and (orientation: portrait) {
+  .pxa .pxa-hub.hubx {
+    --u: min(calc(100cqi / 1125), calc(100cqb / 1770));
+    --pad: 38;
+    --hero-h: 315;
+    --copy-x: 40;
+    --copy-y: 46;
+    --f-kicker: 20;
+    --f-title: 58;
+    --f-entry: 38;
+    --f-tag: 21;
+    --f-side: 19;
+    --side-x: 62;
+    --side-y: 74;
+    --status-h: 140;
+    --status-pad: 28;
+    --f-label: 19;
+    --f-main: 19;
+    --f-sub: 17;
+    --f-num: 34;
+    --gap: 15;
+    --row-gap: 15;
+    --card-pad: 17;
+    --f-sec: 24;
+    --f-viewall: 18;
+    --ring: 162;
+    --f-ring: 34;
+    --legend-pitch: 31;
+    --f-legend: 18;
+    --feature-h: 190;
+    --f-feature: 28;
+    --entry-h: 212;
+    --entry-img: 98;
+    --entry-gap: 10;
+    --f-entry-t: 17;
+    --f-entry-s: 15;
+    --tile-h: 155;
+    --tile-gap: 11;
+    --icon: 40;
+    --f-tile: 17;
+    --f-tile-s: 15;
+    --op-pitch: 70;
+    --f-op-num: 24;
+    --op-thumb: 58;
+    --f-op-t: 17;
+    --f-op-s: 14.5;
+    --f-chip: 15;
+    --feed-pitch: 60;
+    --feed-thumb: 56;
+    --f-feed-t: 15.5;
+    --f-feed-s: 14;
+    --pair-cols: 542fr 477fr;
+    --pair-gap: 30;
+    --hero-max: 1.35;
+  }
+  .pxa .hubx .hubx-status {
+    grid-template-columns: 232fr 218fr 212fr 225fr 162fr;
+    margin-top: 0;
+  }
+  .pxa .hubx .hubx-pair .hubx-head h2 {
+    font-size: calc(var(--u) * var(--f-sec) * 0.88);
+  }
+  .pxa .hubx .hubx-pair .hubx-viewall {
+    font-size: calc(var(--u) * var(--f-viewall));
+  }
+  .pxa .hubx .hubx-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+    gap: calc(var(--u) * var(--row-gap));
+  }
+  .pxa .hubx .hubx-col {
+    display: contents;
+  }
+  .pxa .hubx .hubx-overview {
+    order: 1;
+  }
+  .pxa .hubx .hubx-entries {
+    order: 2;
+  }
+  .pxa .hubx .hubx-components {
+    order: 3;
+  }
+  .pxa .hubx .hubx-pair {
+    order: 4;
+  }
+  .pxa .hubx .hubx-overview__body {
+    grid-template-columns: 290fr 300fr 430fr;
+  }
+}
+
+/* ── PHONE: one column (reconstruction order) + 8.5px type floor ── */
+@media (max-width: 699px) {
+  .pxa .hubx .hubx-grid {
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+  }
+  .pxa .hubx .hubx-hero__copy small,
+  .pxa .hubx .hubx-hero__copy p,
+  .pxa .hubx .hubx-hero__side,
+  .pxa .hubx .hubx-status__cell small,
+  .pxa .hubx .hubx-status__cell span,
+  .pxa .hubx .hubx-status__cell em,
+  .pxa .hubx .hubx-status__cell a,
+  .pxa .hubx .hubx-viewall,
+  .pxa .hubx .hubx-legend li,
+  .pxa .hubx .hubx-ring strong,
+  .pxa .hubx .hubx-ring small,
+  .pxa .hubx .hubx-feature small,
+  .pxa .hubx .hubx-feature em,
+  .pxa .hubx .hubx-entry small,
+  .pxa .hubx .hubx-entry__bar em,
+  .pxa .hubx .hubx-tiles small,
+  .pxa .hubx .hubx-ops__list small,
+  .pxa .hubx .hubx-feed__list small,
+  .pxa .hubx .hubx-feed__list time,
+  .pxa .hubx .pxa-prio {
+    font-size: max(8.5px, calc(var(--u) * var(--f-sub)));
+  }
+  .pxa .hubx .hubx-status__cell a span {
+    font-size: 1.1em;
+  }
+  .pxa .hubx .hubx-status__cell b,
+  .pxa .hubx .hubx-entry > b,
+  .pxa .hubx .hubx-tiles b,
+  .pxa .hubx .hubx-ops__list b,
+  .pxa .hubx .hubx-feed__list b {
+    font-size: max(9px, calc(var(--u) * var(--f-main)));
+  }
+  .pxa .hubx .hubx-head h2,
+  .pxa .hubx .hubx-pair .hubx-head h2 {
+    font-size: max(9.5px, calc(var(--u) * var(--f-sec)));
+  }
+  .pxa .hubx .hubx-ops__list em {
+    font-size: max(10px, calc(var(--u) * var(--f-op-num)));
+  }
+  /* the floor costs width: tighter tracking keeps every label whole in its cell */
+  .pxa .hubx .hubx-status__cell small,
+  .pxa .hubx .hubx-status__cell span,
+  .pxa .hubx .hubx-status__cell em,
+  .pxa .hubx .hubx-status__cell a,
+  .pxa .hubx .hubx-status__cell b,
+  .pxa .hubx .hubx-legend li,
+  .pxa .hubx .hubx-tiles small,
+  .pxa .hubx .hubx-tiles b,
+  .pxa .hubx .hubx-viewall {
+    letter-spacing: 0.02em;
+  }
+  .pxa .hubx .hubx-status__cell {
+    padding-left: calc(var(--u) * 18);
+  }
+  .pxa .hubx .hubx-hero .pxa-hub__machine a {
+    padding: 2px 8px;
+    letter-spacing: 0.06em;
+  }
+  /* overview: the legend column takes the width its whole department names need */
+  .pxa .hubx .hubx-overview__body {
+    grid-template-columns: 270fr 360fr 390fr;
+  }
+  .pxa .hubx .hubx-legend {
+    padding: 0 calc(var(--u) * 10) 0 calc(var(--u) * 18);
+  }
+  .pxa .hubx .hubx-legend li {
+    letter-spacing: 0;
+  }
+  .pxa .hubx .hubx-feature small {
+    letter-spacing: 0.02em;
+  }
+  .pxa .hubx .hubx-feature small i {
+    margin: 0 3px;
+  }
+  /* components: seven whole labels at the floor do not fit one 352px row — two rows (4 + 3) of compact tiles,
+     icon beside label + count, meter underneath (+16px, taken from the operations / activity panes) */
+  .pxa .hubx .hubx-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  /* content-sized tiles, at most four per row (21% floor), each row stretched to the card */
+  .pxa .hubx .hubx-tiles li {
+    flex: 1 1 auto;
+    min-width: 21%;
+  }
+  .pxa .hubx .hubx-tiles a {
+    grid-template-columns: 12px minmax(0, 1fr);
+    grid-template-areas: 'icon label' 'icon count' 'meter meter';
+    justify-items: start;
+    align-content: center;
+    column-gap: 4px;
+    row-gap: 0;
+    height: auto;
+    padding: 4px 4px 3px;
+    text-align: left;
+  }
+  .pxa .hubx .hubx-tiles .hubx-icon {
+    grid-area: icon;
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    align-self: center;
+  }
+  .pxa .hubx .hubx-tiles b {
+    grid-area: label;
+    line-height: 1.15;
+  }
+  .pxa .hubx .hubx-tiles small {
+    grid-area: count;
+    line-height: 1.15;
+  }
+  .pxa .hubx .hubx-tiles .hubx-meter {
+    grid-area: meter;
+    height: 2px;
+    margin: 3px 0 0;
+  }
+}

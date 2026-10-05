@@ -13474,3 +13474,131 @@ Sprint `P0.STUDIOOS.PRODUCTION.LIBRARY.CHARACTER-DETAIL.MEDIA-HIERARCHY-INSPECTO
 - **Root cause:** Generic Library layout stacked lifecycle + 10-family grid + subfilter pills above a short 16:9 hero banner on Character Detail.
 - **Fix:** `CharacterDetail` route with `lbf--char-focus` compact category/subfilter rails, large `lbf-char-media` (4:5-style), `LibraryCharacterImageInspector` overlay, `RelatedCharacterTile` split image inspect vs card nav; `lbf--char-browse` taller tiles on index/residents/project/talent. Draft PR only.
 
+---
+
+## 2026-10-05 — Resident geometry complete + production injection (OpenArt1, in progress)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-COMPLETE-PRODUCTION-INJECTION.OPENART1` on `cursor/studio-world-resident-geometry-complete-production-injection1` (from Library Character Detail lineage).
+
+- **Pipeline:** `residentGeometryCompletePack/Registry`, uniform-aware `geometryPrompts`, `fabricationSourceAuthority` now binds **casting-thumbnails-v1 portrait + uniform regen full-body** (not season1 natural for fabrication body anchor). `validationSourceBinding` accepts uniform regen paths.
+- **OpenArt:** `scripts/studio-world-resident-geometry-complete-openart.mjs` scaffold/queue/record/finalize; 112-job queue; refs in `geometry_complete_openart_refs.json` (portrait upload + uniform output resource ids). Anchors copied to `public/site00/studio-world-residents/geometry-complete-v1/` and `artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/`.
+- **Production injection:** `residentFabricationManifest` resolves 16 frames/resident via geometry-complete registry; `libraryCharacterMedia` surfaces geometry categories; batch status `GEOMETRY_COMPLETE_IN_REVIEW`. Tests `p0StudioWorldGeometryCompleteProductionInjection1.test.ts`.
+- **OpenArt batch:** 112 remaining geometry frames generating resident-by-resident (background agent); review ZIPs on finalize. Draft PR only — no merge/deploy.
+
+---
+
+## 2026-10-05 — Character Fabrication end-to-end resident wiring (Expression)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CHARACTER-FABRICATION.END-TO-END-RESIDENT-WIRING1` on `cursor/expression-character-fabrication-end-to-end-resident-wiring1`.
+
+- **Root cause (View Full Profile):** Actor Catalogue button dispatched `SET_SURFACE` → in-app `ACTOR_PROFILE` (reads as leaving catalogue / advancing), not Library Character Detail.
+- **Fix:** `fabricationLibraryNav` + navigate to `/production/libraries/characters/detail/SW-00N?returnTo=expression-character-fabrication`; session return context + `RESTORE_AFTER_LIBRARY`; Library Character Detail return link.
+- **Subject authority:** `fabricationSubject` on `CONFIRM_ACTOR`; `fabricationSubjectResolver` blocks SW-017/stock slot fallbacks for resident-backed actors; dynamic chamber/side cards via `subjectChamberUrl` + resident portrait/uniform public paths.
+- **Tests:** `p0CharacterFabricationEndToEndResidentWiring1.test.ts`. Merged to tunnel branch `cursor/studio-world-resident-geometry-complete-production-injection1` for preview. Draft PR only.
+
+---
+
+## 2026-10-05 — Expression media hierarchy one-viewport convergence
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.MEDIA-HIERARCHY.ONE-VIEWPORT-CONVERGENCE1` on `cursor/expression-media-hierarchy-one-viewport-convergence1` (from geometry-complete tunnel).
+
+- **Root cause:** One-viewport grid obeyed height budget by shrinking creative imagery into shallow strips/banners while metadata/status panels stayed large.
+- **Fix:** `MediaImg` + `ExpressionMediaInspector`; `exf-panel--media` / `--compact` / `--rail`; storyboard `exf-storyboard-stage` + `exf-frames--rail`; casting talent `exf-rail--talent`; compact `exf--media-focus` hero/status on media-heavy families. Layout updates in Casting, Look, Storyboard, Performance, Review families.
+- **Tests:** `productionExpressionMediaHierarchyOneViewportConvergence1.test.ts`. Merged to tunnel `cursor/studio-world-resident-geometry-complete-production-injection1`. Draft PR #1331 to `main` (not auto-merged).
+
+---
+
+## 2026-10-05 — Production full-authority forensic audit + pixel refinement (OPUS2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2` on `cursor/production-full-authority-forensic-pixel-refinement-opus2`. The base is the tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `09378e0a`.
+
+- **Forensics** (`artifacts/production-full-authority-forensics/`).
+  - Scope: 4,024 files inspected; 605 visual authorities (430 canonical, 53 superseded, 0 in review, 0 unknown); 165 duplicate groups; 13 conflicting.
+  - Route map: 200 routes.
+  - Unresolved: U-01 to U-13 are authority questions. U-14 to U-18 are refinement decisions:
+    - U-14: Design chamber micro-type.
+    - U-15: Character Fabrication tablet/desktop composition.
+    - U-16: Production Floor at the 1280×720 authority proportion.
+    - U-17: SW-017 subject identity.
+    - U-18: hero bands.
+- **QA.** The tunnel SHA (own dev server) and the branch were captured at 185 routes × 14 viewports with the same detector. Before → after:
+  - page scroll 24 → 10;
+  - media strips 146 → 4;
+  - type below 8.5px 389 → 89;
+  - horizontal overflow 0 → 0;
+  - undeclared panes 19 → 0;
+  - interaction authorities 51/51.
+  - Outputs: `visual-diff-report.json`, `before-after-sheets/` (21).
+- **HUB.** One viewport at every size. The world panel flexes and carries the chamber link. Portrait tablets use the 9:16 composition with `cqb`. Phone floor is 8.5px. File: `site00-production-hub-one-viewport.css`.
+- **EXPRESSION.**
+  - `expressionMedia.ts` resolver: Entry 002 board crops, resident media and CF receipts, all with provenance.
+  - `ExpressionMediaKit.tsx` holds the shared media components.
+  - Casting, Look, Storyboard, Performance and Review are media-first.
+  - Production Floor follows the T12 one-viewport composition: six floors in one row on phones, full-width travel and table rows elsewhere.
+  - Phone modules that the EXPR2 mobile boards show were restored.
+- **Assets.** 30 `entry002.*` crops registered PROJECT_CANON. Script: `scripts/production-authority/derive-entry002-media.py`.
+- **INBOX / ACTIVITY / LIBRARY / DESIGN.**
+  - Inbox: incoming cards fill their pane; detail views stack on portrait tablets.
+  - Inbox and Activity: 8.5px floors.
+  - Library: `.rk-scroll` panes only.
+  - Design: the chamber takes the slack.
+- **Detector notes.**
+  - Wide-but-short media are no longer skipped as icons.
+  - Edge clipping of a scroll pane is not counted as a strip.
+  - Overflow-hidden containers clip decorative layers; that is not counted as horizontal overflow.
+  - CF scroll is measured through `cf-scroll`.
+- **Tests.** `productionFullAuthorityForensicPixelRefinementOpus2.test.ts`. The stale Expression convergence assertions were fixed: attribute order and resident actor ids.
+  - The full suite carried 131 failures inherited from the tunnel, identical before and after.
+  - 91 remain; every one was already failing at the tunnel SHA.
+  - Two of them sit near Production: the hub-machine raster-import firewall and the API orchestration severity map. Neither is touched by this sprint.
+- Draft PR only. Not merged, not deployed.
+
+---
+
+## 2026-10-05 — Production workspace Grok canonical asset injection
+
+Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-CANONICAL-ASSET-INJECTION1` on `cursor/production-workspace-grok-canonical-asset-injection1-0daf`, merged onto the forensic tunnel.
+
+- **Handoff:** Environment groups, 8 new masters, U-07/U-08 frozen, U-17 out of scope.
+- **Generated:** 8 environment plates + NDX core + Design core via GPT Image 2.5 Sunburst 4k, auto-enhance off. 16:9 delivered 3584×2016. Ledger `artifacts/site00-workspace-asset-production/GENERATION_LEDGER.json` under `SITE00_WORKSPACE_ASSET_PRODUCTION`.
+- **Mounted:** Atrium master on Hub and Design; white production floor on Expression; viewport corridor; NDX experience child heroes only. Experience root and Library root plates unchanged.
+- **Icons:** Founder hub nav master restored (384×284).
+- **Not generated:** pipeline objects, portal, CF residual slots, materials. No site00.com deploy.
+
+---
+
+## 2026-10-05 — Production workspace post-injection live reconciliation
+
+Sprint `P0.SITE00.PRODUCTION-WORKSPACE.POST-INJECTION.LIVE-RECONCILIATION1` on `cursor/production-post-injection-live-reconciliation1`, branched from tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `ee50baaa`.
+
+- **Context:** Canonical asset injection had mounted plates, but the live post-mount workspace was not recaptured or remeasured.
+- **Topics:** Live capture of Hub, Inbox, Design, Experience, Expression, Library, and Activity (root, child, detail; mobile, tablet, desktop). Page scroll and horizontal overflow at 14 viewports. Pipeline stage size, portal gate, 30 generic icons, U-07, U-08, U-05, U-15, U-11, U-01, Activity inspector, host/project firewall.
+- **Decisions:** No new paid generations. Do not invent missing authorities. Do not swap the frozen Experience or Library roots. Do not enlarge the 76px pipeline crops: Design already has zero page slack, and a larger stage row would scroll or shrink the chamber. Portal gate has no isolated canonical file. Icon substitutions stay; founder nav masters are already mounted, and design-pack crops are grid tiles, not control glyphs.
+- **Changes:** Reports under `artifacts/site00-workspace-post-injection/` (`LIVE_TAB_AUDIT.json`, `NO_SCROLL_REPORT.json`, `VISUAL_GAP_REPORT.json`, `ICON_RECONCILIATION.json`, `ALL_TABS_POST_MOUNT_CONTACT_SHEET.jpg`, captures). Detector: `scripts/production-authority/post-injection-capture.mjs`. Page scroll violations 0. Horizontal overflow 0.
+- **Conventions:** Measure the live product after a mount. A good registry is not a pass. Missing tablet/desktop Character Fabrication boards and Inbox URL-only boards stay unresolved. Activity inspector stays text-only.
+
+---
+
+## 2026-10-05 — Production full-authority pixel refinement (OPUS3)
+
+Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-PIXEL-PERFECT-REFINEMENT.OPUS3` on `cursor/production-full-authority-pixel-refinement-opus3`, branched from tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `a298b59a`. Draft PR #1354. Tunnel fast-forwarded to the working commit.
+
+- **Context:** Reference = design authority. Keep function, refine look. Authority matrix over 185 routes before any styling.
+- **Decisions:**
+  - Expression family hero follows EXPR2:
+    - family/record title is the heading, crumb `EXPRESSION / FAMILY`;
+    - project lead subject monochrome on the floor's central suspended screen, ndxbook-scoped;
+    - status band after the tabs;
+    - phone media-focus hero 108px, short phones 64px.
+  - Design stage objects: T12 shows ~70–80px at 1440, so the 76px crops now render at native size on desktop. The chamber pays for the height. This reverses the post-injection "do not enlarge", re-verified at 14 viewports.
+  - Character Fabrication mobile slack (9:16 canvas on 19.5:9 phones) is documented, not recomposed.
+  - Library Character Detail is left as is: resident media already leads.
+- **Changes:** `ExpressionFamilyShell.tsx`, `expressionMedia.ts` (`expressionHeroSubject`), expression-family and design-pack CSS, and the evidence under `artifacts/production-full-authority-pixel-refinement-opus3/`:
+  - matrix, diff, no-scroll and gaps reports;
+  - seven family contact sheets;
+  - BEFORE/AFTER captures.
+- **Results:** Detector totals equal BEFORE (no regression). Horizontal overflow 0. Page-scroll rows 10 → 10, all of them Character Fabrication's own frame overflow, which predates this sprint.
+- **Conventions:**
+  - Capture BEFORE from a separate clean worktree and server. HMR on the working server contaminates a running baseline.
+  - The 8.5px type floor applies to hero copy too.
+  - `grayscale(` trips the "no scale(" CSS test; use `saturate(0)`.

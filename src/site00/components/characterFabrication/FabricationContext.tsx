@@ -19,6 +19,9 @@ import {
   type FabricationAction,
   type FabricationState,
   type StationId,
+  resolveFabricationSlotUrl,
+  chamberMediaUrl,
+  isResidentBackedActor,
 } from '../../../../shared/site00-character-fabrication/index.js';
 import { deviceLocalFabricationRepository } from '../../state/characterFabricationRepository';
 import { recordProductionActivity } from '../../state/productionActivityStore';
@@ -33,6 +36,7 @@ export type FabricationApi = {
   actors: ActorRecord[];
   character: CharacterRecord;
   url: (slotId: string | null) => string | null;
+  subjectChamberUrl: () => string | null;
   status: (s: StationId) => ReturnType<typeof stationStatus>;
   blockers: (s: StationId) => ReturnType<typeof stationBlockers>;
   steps: number;
@@ -104,13 +108,33 @@ export function FabricationProvider({ projectSlug, entryId, initialStation, chil
     const residentPortraits = Object.fromEntries(
       actors.filter((a) => a.portraitUrl).map((a) => [a.portraitSlotId, a.portraitUrl!]),
     ) as Record<string, string | null>;
-    return {
-      ...residentPortraits,
-      'actor.sw017.portrait.primary': dual,
-      'character.subject-woman.portrait.primary': dual,
-    };
-  }, [engine.b48, actors]);
-  const url = useCallback((slotId: string | null) => (slotId ? characterAssetUrl(slotId, runtimeUrls) : null), [runtimeUrls]);
+    const legacyStock =
+      isResidentBackedActor(actor) ?
+        {}
+      : {
+          'actor.sw017.portrait.primary': dual,
+          'character.subject-woman.portrait.primary': dual,
+        };
+    return { ...residentPortraits, ...legacyStock };
+  }, [engine.b48, actors, actor]);
+  const url = useCallback(
+    (slotId: string | null) =>
+      slotId ?
+        resolveFabricationSlotUrl(
+          slotId,
+          actor,
+          state.fabricationSubject,
+          state.activeStation,
+          runtimeUrls,
+          (id) => characterAssetUrl(id, runtimeUrls),
+        )
+      : null,
+    [actor, state.fabricationSubject, state.activeStation, runtimeUrls],
+  );
+  const subjectChamberUrl = useCallback(
+    () => chamberMediaUrl(state.fabricationSubject, state.activeStation) ?? url(actor.portraitSlotId),
+    [state.fabricationSubject, state.activeStation, url, actor.portraitSlotId],
+  );
 
   const api: FabricationApi = useMemo(
     () => ({
@@ -121,13 +145,14 @@ export function FabricationProvider({ projectSlug, entryId, initialStation, chil
       actors,
       character,
       url,
+      subjectChamberUrl,
       status: (s) => stationStatus(state, s),
       blockers: (s) => stationBlockers(state, s),
       steps: stepsRemaining(state),
       pending: pendingFounderDecisions(state),
       persistence: repo.kind,
     }),
-    [state, dispatch, now, actor, actors, character, url, repo.kind],
+    [state, dispatch, now, actor, actors, character, url, subjectChamberUrl, repo.kind],
   );
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;
 }

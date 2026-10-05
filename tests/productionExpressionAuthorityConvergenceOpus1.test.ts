@@ -128,7 +128,8 @@ describe('all 40 routes mount in the one Expression shell', () => {
   for (const r of EXPRESSION_ROUTES) {
     it(`${r.family}/${r.id}`, () => {
       const html = render(r);
-      expect(html).toContain(`data-testid="expression-family" data-family="${r.family}" data-route="${r.id}"`);
+      // the media-hierarchy sprint added data-media-focus between the test id and the family attributes
+      expect(html).toMatch(new RegExp(`data-testid="expression-family"[^>]*data-family="${r.family}" data-route="${r.id}"`));
       for (const id of ['expression-family-hero', 'expression-breadcrumb', 'authority-status-bar', 'expression-grid']) expect(has(html, id), id).toBe(true);
       expect(html).toContain(`data-authority="${r.authority}"`);
       expect(html).not.toContain('data-testid="expression-no-entry"');
@@ -168,7 +169,8 @@ describe('ROLE / ACTOR / CHARACTER stay distinct', () => {
     const actors = render(routeOf('casting', 'actors'));
     const chars = render(routeOf('casting', 'characters'));
     expect(hrefs(roles).some((h) => /\/casting\/roles\/cast-req-/.test(h))).toBe(true);
-    expect(hrefs(actors).some((h) => /\/casting\/actors\/sw-actor-/.test(h))).toBe(true);
+    // the production catalogue is the Studio World resident roster (sw-resident-*); the seed sw-actor-* ids remain valid records
+    expect(hrefs(actors).some((h) => /\/casting\/actors\/sw-(actor|resident)-/.test(h))).toBe(true);
     expect(hrefs(chars).some((h) => /\/casting\/characters\/char-/.test(h))).toBe(true);
     expect(hrefs(roles).some((h) => /\/casting\/(actors|characters)\//.test(h) && !/role/.test(h))).toBe(false);
     expect((roles.match(/data-testid="casting-role-row"/g) ?? []).length).toBeGreaterThan(0);

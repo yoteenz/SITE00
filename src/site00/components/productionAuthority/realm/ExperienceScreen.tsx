@@ -12,6 +12,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { IaIcon, type IaIconName } from '../iaKit';
 import { useRealmData, type RealmRecord, type Realm } from './realmData';
 import { Btn, Chain, Empty, Kv, Media, Panel, Row, Stat, Status, Tile, ViewAll, pad2 } from './RealmKit';
+import { experienceHeroPlate } from '../../../productionAssets/productionAssetRegistry';
 import { EXPERIENCE_FAMILIES, detailRouteOf, familyRoutes, realmHref, type ResolvedRealmRoute } from './realmRoutes';
 import '../../../styles/site00-production-realm.css';
 
@@ -43,7 +44,8 @@ export function ExperienceScreen({ slug, resolved }: { slug: string; resolved: R
   const { route, family } = resolved;
   const tabs = familyRoutes('experience', family.id).filter((x) => x.kind === 'child');
   const detailRec = route.kind === 'detail' ? recordFor(ctx) : null;
-  const plate = detailRec?.img ?? realm.worldPlate;
+  const injected = experienceHeroPlate(slug, family.id, route.id);
+  const plate = detailRec?.img ?? injected ?? realm.worldPlate;
   return (
     <div className="xpf" data-testid="experience-family" data-family={family.id} data-route={route.id} data-kind={route.kind} data-authority={route.authority}>
       <header className="xpf-hero" data-testid="experience-hero">

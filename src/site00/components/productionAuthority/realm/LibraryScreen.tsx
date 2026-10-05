@@ -11,6 +11,12 @@
  */
 import { useCallback, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import {
+  CF_LIBRARY_RETURN_TO,
+  characterFabricationReturnHref,
+  clearFabricationLibraryReturn,
+  readFabricationLibraryReturn,
+} from '../../../../../shared/site00-character-fabrication/fabricationLibraryNav.js';
 import { IaIcon, type IaIconName } from '../iaKit';
 import { byLifecycle, useRealmData, type Collection, type RealmRecord, type Realm } from './realmData';
 import { LibraryCharacterImageInspector } from './LibraryCharacterImageInspector.js';
@@ -290,6 +296,8 @@ function Inspector({ c, x, closable, close }: { c: Ctx; x: RealmRecord | null; c
 }
 
 function CharacterDetail(c: Ctx) {
+  const [params] = useSearchParams();
+  const cfReturn = params.get('returnTo') === CF_LIBRARY_RETURN_TO ? readFabricationLibraryReturn() : null;
   const [tab, setTab] = useState<'DETAILS' | 'RELATED' | 'LINEAGE'>('DETAILS');
   const [mediaIndex, setMediaIndex] = useState(0);
   const [inspect, setInspect] = useState<{ assets: ReturnType<typeof characterMediaAssets>; index: number; title: string } | null>(null);
@@ -351,7 +359,7 @@ function CharacterDetail(c: Ctx) {
           </div>
         ) : null}
       </article>
-      <div className="lbf-char-identity" data-testid="library-character-identity">
+      <div className="lbf-char-identity rk-scroll" data-testid="library-character-identity" data-scroll="internal">
         <div className="lbf-char-identity__title">
           <h2>{x.title}</h2>
           <small>{x.kicker}</small>
@@ -367,6 +375,16 @@ function CharacterDetail(c: Ctx) {
           ]}
         />
         <div className="lbf-char-identity__actions">
+          {cfReturn ? (
+            <Link
+              to={characterFabricationReturnHref(cfReturn.projectSlug, cfReturn.entryId)}
+              className="lbf-btn lbf-btn--primary"
+              data-testid="library-return-character-fabrication"
+              onClick={() => clearFabricationLibraryReturn()}
+            >
+              RETURN TO CHARACTER FABRICATION
+            </Link>
+          ) : null}
           <Btn to={x.open ?? undefined} variant="red" testId="library-open-source" title={x.open ? undefined : 'No working surface is linked to this record.'}>
             OPEN {ONE[c.r.family.id]} <IaIcon name="next" />
           </Btn>
@@ -427,7 +445,7 @@ function Detail(c: Ctx) {
           <small>{x.kicker}</small>
         </div>
       </article>
-      <div className="lbf-summary" data-testid="library-summary">
+      <div className="lbf-summary rk-scroll" data-testid="library-summary" data-scroll="internal">
         <span>
           <b>{x.title}</b>
           <Status r={x} />
