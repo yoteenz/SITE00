@@ -145,7 +145,7 @@
    "id": "U-15",
    "kind": "NO_RECOVERED_AUTHORITY",
    "family": "EXPRESSION",
-   "detail": "Character Fabrication tablet/desktop: there is no recovered authority (Phase 5 keeps the live presentation). The live 432px authority canvas is zoomed ×1.6 and scrolls 165–356px inside its own cf-scroll frame. Phones reproduce the 9:16 CF authority (IMG_5414/5415) with its 4.4–7px micro-type.",
+   "detail": "Character Fabrication has no recovered tablet/desktop authority, so Phase 5 keeps the live presentation. The 432px authority canvas is zoomed to the device width (max ×1.6) and scrolls inside its own cf-scroll frame: 52–84px on the short phones (390×664, 360×640) and 68–356px on tablet/desktop. Phones reproduce the 9:16 CF authority (IMG_5414/5415), including its 4.4–7px micro-type.",
    "effect": "Fixing this needs a tablet/desktop CF authority before the surface can become one-viewport and legible at the 8.5px floor. Only the actor strip was marked as a declared horizontal rail."
   },
   {

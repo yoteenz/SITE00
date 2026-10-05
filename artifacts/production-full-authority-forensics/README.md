@@ -168,7 +168,7 @@ Implementation started only after the record above existed. Refinement followed 
   - the Design viewport toggle;
   - the Hub chamber link.
 - **Remaining states map to the decisions recorded as U-14 to U-16:**
-  - page scroll: Character Fabrication on tablet and desktop;
+  - page scroll: Character Fabrication on tablet, desktop and the two short phones;
   - type: Design chamber miniatures and Character Fabrication;
   - media strips: three Design chamber panels on short frames, and the 1280×720 Production Floor tiles at the authority's own proportion.
 - **Empty bands** are partly content volume: lists with few live records.
