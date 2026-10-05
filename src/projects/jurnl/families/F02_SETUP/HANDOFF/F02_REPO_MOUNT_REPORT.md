@@ -40,7 +40,13 @@ Plate check at mount: no live UI, no text, no buttons, no form fields. Status re
 
 ## Header assets
 
-Thirteen emblems in `BOTANICALS/`. Two lockups in `BRAND_LOCKUPS/`. All are RGBA PNGs with transparency, copied without recompression.
+Binding sprint: `P0.JURNL.F02-GROK-CANONICAL-MOUNT-BOTANICAL-REPAIR-BINDING1`.
+
+Thirteen emblems in `BOTANICALS/`. Two lockups in `BRAND_LOCKUPS/`. None of these files are in `ENVIRONMENTS/`. All are RGBA PNGs with transparency, copied byte-for-byte from the post-repair package. The contact sheet `JURNL/F02_SETUP/SHEETS/J_BOTANICAL_LOCKUP_REPAIR.jpg` shows the 13 emblems apart from the 2 lockups.
+
+Fourteen screens resolve to a repair asset. `F02.04` reuses emblem 004. The three interaction sheets have no header mark.
+
+Repair ledger, unchanged: 15 paid generations, 2025 credits, observed rate 135 for this repair class only. Screen, environment, state, and interaction jobs stay at their own cost. Ledger: `JURNL/F02_SETUP/MANIFEST/GENERATION_LEDGER.json`.
 
 `F02.00` renders the JURNL lockup, not a second copy of emblem 001.
 

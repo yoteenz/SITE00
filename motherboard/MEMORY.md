@@ -13480,3 +13480,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Implementation source is `src/projects/jurnl/families/F02_SETUP/`. Seventeen authorities are reference only. Four plates, thirteen emblems, and two lockups are the runtime images, copied byte-for-byte. Twelve icons stay in `icons.tsx` and are not duplicated. Panels, buttons, controls, objects, and materials stay code or inside the plates. F02.07 winner is `vrLuWNd4riH8JNGuJLVP`. F02.08 winner is `TivHik6Gd0eSXloheqG7`. The circular-progress and stray-mark attempts are excluded. Visual status stays `IN_REVIEW`. Structural implementation may start. No F02 routes or components were created. No new generations.
 - **Changes:** Family source root, source map, icon map, component map with `CODE_ONLY` / `CODE_PLUS_ASSET`, readiness file, Sonnet README, start-here file, Opus follow-on note, mount report.
 - **Conventions:** Sonnet builds the live skeleton from the mounted folder. Opus refines structure and fit after that. Grok does a final visual pass only if the live screens drift. Do not use a screen authority as a background. Do not crop a screen into an asset.
+
+---
+
+## 2026-10-05 — F02 botanical repair bound into the Sonnet mount
+
+- **Context:** This chat built the F02 SETUP visual package, packaged a review ZIP, isolated the header florals, mounted the canonical sources for Sonnet, and then bound the completed botanical repair into that mount. Family name remains SETUP (`F02_SETUP`). F01 was not changed. site00.com was not deployed.
+- **Topics covered:** Screen authorities versus runtime plates. Code-only panels and buttons. Thirteen transparent emblems and two full lockups. Superseded F02.07 and F02.08 attempts left out. This follow-up checks that the mount uses the post-repair manifests.
+- **Decisions / outcomes:** The mounted files match the repair outputs byte-for-byte. Fourteen screens resolve to an emblem or a lockup. `F02.04` reuses emblem 004. Interaction sheets have no header mark. A lockup is the only header on `F02.00` and `F02.ST.VALIDATION`. Layer order is plate, botanical, lockup, live UI, interactions. Repair spend stays 15 generations and 2025 credits at 135 each. That rate is the repair class only. Visual status stays `IN_REVIEW`. No new generations.
+- **Changes:** Sonnet README, start-here file, implementation source map, component map, readiness file, mount report, and a ledger binding note. Canonical root remains `src/projects/jurnl/families/F02_SETUP/`.
+- **Conventions:** Header marks are mounted PNGs. Do not redraw them in CSS, type, emoji, or a generic icon, and do not bake them into the plate.

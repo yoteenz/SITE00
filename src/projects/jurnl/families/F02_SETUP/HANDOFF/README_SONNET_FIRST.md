@@ -123,12 +123,35 @@ Four environment plates. One plate per room. Several screens share a room.
 
 Each plate is clean of live UI, text, buttons, and form fields. Busts, books, trays, olives, and textiles stay inside the plate. Do not crop them out.
 
-Header florals float above the plate. They are not baked into it.
+F02 botanical / brand header marks are canonical mounted assets.
 
-- Screens with a live wordmark paint the listed emblem plus the word JURNL set in Instrument Serif.
-- `F02.00` paints `BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_001.png` only. Emblem 001 is the sprig inside that lockup. Do not stack it a second time.
-- `F02.ST.VALIDATION` paints `BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_SETUP_001.png` only. Emblem 012 is the rose inside that lockup. Do not stack it a second time.
-- `F02.04` reuses emblem 004. There is no fifth spray.
+They come from the completed repair `P0.JURNL.F02-BOTANICAL-BRAND-ASSET-REPAIR1`: 13 emblems in `BOTANICALS/`, 2 full lockups in `BRAND_LOCKUPS/`. Review contact sheet: `JURNL/F02_SETUP/SHEETS/J_BOTANICAL_LOCKUP_REPAIR.jpg`. Production manifest: `JURNL/F02_SETUP/MANIFEST/F02_VISUAL_ASSET_MANIFEST.json`. The mount used those post-repair files. Pre-repair copies are not the source.
+
+Sonnet must not:
+
+- Redraw them with CSS.
+- Substitute emoji.
+- Substitute generic icons.
+- Rebuild them from text or fonts.
+- Bake them into the environment plate.
+- Search OpenArt for alternates.
+
+Sonnet must use the mounted paths in `MANIFEST/F02_IMPLEMENTATION_SOURCE_MAP.json` and `MANIFEST/F02_COMPONENT_ASSET_MAP.json`.
+
+Layer the screen in this order:
+
+1. Environment plate.
+2. Decorative / botanical asset.
+3. Brand lockup, where the source map says `header_paint` is `LOCKUP`.
+4. Live UI.
+5. Interactions.
+
+A full lockup already contains its wordmark and its botanical signature. Do not add a second JURNL, a second SETUP, or a second copy of that flower.
+
+- Screens with `header_paint` `EMBLEM_PLUS_LIVE_WORDMARK` paint the listed emblem plus the word JURNL set in Instrument Serif.
+- `F02.00` paints `BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_001.png` only. Emblem 001 is the sprig inside that lockup.
+- `F02.ST.VALIDATION` paints `BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_SETUP_001.png` only. That file already contains JURNL, SETUP, and the burgundy rose. Emblem 012 stays registered and is not painted again.
+- `F02.04` reuses emblem 004. That is the one collapsed duplicate. There is no separate commitments spray.
 - `F02.IN.PERMISSION`, `F02.IN.ADD`, and `F02.IN.SKIP` have no header botanical.
 
 ## What stays code
