@@ -646,6 +646,29 @@ button.ph-top__sel {
   right: auto;
   width: 640px;
 }
+
+/*
+ * The phone DESIGN header is a CSS grid. A new panel becomes the next grid cell
+ * (the 48px menu column), so the PROJECTS list collapses and never reads as a dropdown.
+ * Span the whole header and hang the panel under it.
+ */
+.ph--hub .ph-top > .prod-chrome-pop.pxm,
+.pxh-top > .pxh-pop.pxm,
+.pxa .prod-chrome-strip.ph--hub .ph-top > .prod-chrome-pop.pxm {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  justify-self: start;
+  align-self: start;
+  width: min(640px, calc(100% - 36px));
+  max-height: min(70vh, 640px);
+  margin: 0;
+  border-right: 0;
+  top: calc(100% + 8px);
+  left: 18px;
+  right: auto;
+  z-index: 80;
+  overflow: auto;
+}
 .pxm .pxm__list .pxm__thumb {
   /* Out-specifies `.pxa .ph-img { position: absolute; inset: 0 }` when the menu opens inside a Design chamber. */
   position: relative;

@@ -13378,3 +13378,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 - **Decision:** Environment plates and generated image assets use OpenArt `resolutionTier: 4k`. For 9:16 that delivers **2016×3584**, which the gallery labels **3K**.
 - **Render:** The existing 4k-tier plate (`omTTAjRt3LgV0RB2lC5I`) is now the mounted `ENTRY.ENVIRONMENT.PLATE.001` on `/jurnl/f01/parent-assembly`. The logo stays the reused mark. No new generation. Isolated leaves, stones, books, and textures stay unmounted.
+
+---
+
+## 2026-10-05 — Project switcher dropdown on the phone DESIGN header
+
+- **Founder:** The PROJECT chip on the production DESIGN tab does not open a project list. They need a way to open the JURNL app.
+- **Cause:** On the phone header the PROJECTS panel was the next CSS grid cell, the 48px menu column, so the list collapsed.
+- **Fix:** The panel spans the full header and hangs underneath. Direct app routes stay `/production/jurnl/design?mode=viewport&family=F01` and `/production/jurnl/runtime/entry`.
