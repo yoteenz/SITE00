@@ -1,0 +1,32 @@
+/**
+ * P0.VR.4R1 — Projects Header Planet specific reconstruction prompt.
+ */
+
+export const PROJECTS_HEADER_PLANET_PROMPT_VERSION = 2;
+
+export function buildProjectsHeaderPlanetPrompt(): string {
+  return [
+    'RECREATE THIS PROJECTS HEADER PLANET BY ITSELF.',
+    '',
+    'THE PROVIDED REFERENCE CROP IS THE DESIGN AUTHORITY.',
+    '',
+    'PRESERVE THE EXACT VISUAL FORM, PROPORTIONS, ORBITAL STRUCTURE, GLASS / CHROME MATERIALS, RED GLOW, TRANSPARENCY, HIGHLIGHTS, LIGHTING, ORIENTATION, AND DETAIL.',
+    '',
+    'REMOVE ALL SURROUNDING PAGE UI.',
+    'REMOVE ALL TEXT.',
+    'DO NOT REDESIGN THE OBJECT.',
+    'DO NOT ADD NEW OBJECTS.',
+    'NO SCENE.',
+    'NO CARD.',
+    'NO BACKGROUND.',
+    '',
+    'OUTPUT ONLY THE PROJECTS HEADER PLANET ON A TRANSPARENT BACKGROUND.',
+    '',
+    'PRESERVE CINEMATIC MATERIALS, LIGHTING, DEPTH, AND 3D FORM.',
+    'PRESERVE TRANSPARENT GLASS, CHROME RINGS, RED REFRACTION, LIGHT BLOOM, GLOW, AND SEMI-TRANSPARENT ORBITAL ELEMENTS.',
+  ].join('\n');
+}
+
+export function isProjectsHeaderPlanetAsset(semanticName: string): boolean {
+  return semanticName.toUpperCase().includes('PROJECTS HEADER PLANET');
+}

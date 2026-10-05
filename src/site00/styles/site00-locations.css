@@ -116,9 +116,8 @@
 
   .site00-directory-spine__node {
     position: absolute;
-    top: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
   }
 
   .site00-locations-directory__cards {
@@ -307,6 +306,12 @@
   .site00-mobile-nav__svg {
     display: block;
     flex-shrink: 0;
+  }
+
+  .site00-mobile-nav__asset {
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
   }
 
   .site00-mobile-nav__top {

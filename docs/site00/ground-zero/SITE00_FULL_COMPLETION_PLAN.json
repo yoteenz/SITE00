@@ -1,0 +1,345 @@
+{
+ "artifact": "SITE00_FULL_COMPLETION_PLAN",
+ "status": "PROPOSED_BY_OPUS",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "definition": "SITE00_FULL_PRODUCT = CLIENT_READY_MVP + every family in the founder-approved canonical tree complete at 3 viewports with authority-faithful compositions, legacy/bench routes retired into LAB, and the client-funded production model live.",
+ "pipeline": [
+  "CURRENT PAGE-TREE FORENSICS (this sprint)",
+  "INTELLECTUAL TREE RECONSTRUCTION (this sprint)",
+  "FOUNDER + INDEPENDENT TREE REVIEW",
+  "CANONICAL TREE LOCK",
+  "EXISTING AUTHORITY FORENSICS (founder supplies originals)",
+  "DESIGN-LANGUAGE CANON (founder resolves C1\u2013C11)",
+  "FAMILYIZATION",
+  "INCOMPLETE-SURFACE MAP",
+  "NEW AUTHORITIES ONLY WHERE REQUIRED (5)",
+  "LINKED-ASSET SIDEKICK",
+  "LIVE IMPLEMENTATION",
+  "RESPONSIVE QA",
+  "FINAL STRUCTURAL AUDIT"
+ ],
+ "phases": [
+  {
+   "phase": "0. Lock",
+   "items": [
+    "tree review",
+    "founder decisions C1\u2013C11",
+    "registry types",
+    "AIO slug"
+   ]
+  },
+  {
+   "phase": "1. CLIENT_READY_MVP",
+   "items": [
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D15",
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07",
+    "A08",
+    "A09",
+    "A10",
+    "A11",
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "C01",
+    "C02",
+    "C03",
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04"
+   ]
+  },
+  {
+   "phase": "2. Public completion",
+   "items": [
+    "C04",
+    "P01",
+    "P02",
+    "P03",
+    "P04",
+    "P05",
+    "P06",
+    "P07",
+    "P18"
+   ]
+  },
+  {
+   "phase": "3. Workspace completion",
+   "items": [
+    "P08",
+    "P09",
+    "P10",
+    "P11",
+    "P12",
+    "P20"
+   ]
+  },
+  {
+   "phase": "4. Commercial",
+   "items": [
+    "P13",
+    "P14",
+    "P15",
+    "P19"
+   ]
+  },
+  {
+   "phase": "5. STUDIO WORLD",
+   "items": [
+    "P17"
+   ]
+  },
+  {
+   "phase": "6. Full responsive + structural audit",
+   "items": [
+    "P16"
+   ]
+  }
+ ],
+ "items": [
+  {
+   "id": "P01",
+   "track": "C",
+   "title": "ORIGIN STORY (absorbs ABOUT/BRAND)",
+   "effort_engineer_days": 3,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P02",
+   "track": "C",
+   "title": "WAITING ROOM merge (LOCATIONS \u2192 MAP state) + desktop directory",
+   "effort_engineer_days": 3,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P03",
+   "track": "C",
+   "title": "SERVICES product map; SYSTEM (+GUIDE); SOUND as setting",
+   "effort_engineer_days": 3,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P04",
+   "track": "C",
+   "title": "BLDR SYSTEMS/EXTENSIONS classes; collapse /bldr/start; templates",
+   "effort_engineer_days": 3,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P05",
+   "track": "C",
+   "title": "EVOLVE: merge existing-location; plans linked; checkout foundation",
+   "effort_engineer_days": 5,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P06",
+   "track": "C",
+   "title": "SITES showcase (built locations)",
+   "effort_engineer_days": 3,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P07",
+   "track": "C",
+   "title": "Public desktop compositions for ORIGIN/IDNTY/BLDR/EVOLVE (no desktop authority today)",
+   "effort_engineer_days": 6,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P08",
+   "track": "B",
+   "title": "DESIGN: per-project chamber content; replace bench children (fix 768 scaling)",
+   "effort_engineer_days": 8,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P09",
+   "track": "B",
+   "title": "EXPERIENCE: taxonomy decision + 7 children from OpenArt 92",
+   "effort_engineer_days": 10,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P10",
+   "track": "B",
+   "title": "LIBRARY descendants from OpenArt 150",
+   "effort_engineer_days": 6,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P11",
+   "track": "B",
+   "title": "Retire legacy founder workspace routes (merge into EXPRESSION or LAB)",
+   "effort_engineer_days": 5,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P12",
+   "track": "E",
+   "title": "LAB namespace + redirects for 53 routes",
+   "effort_engineer_days": 2,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P13",
+   "track": "A",
+   "title": "CTRL ROOM settings tabs (security, team, domains, billing)",
+   "effort_engineer_days": 4,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P14",
+   "track": "D",
+   "title": "Client-funded production: funding model, cost ledger, project provider connections (from client-room sprint)",
+   "effort_engineer_days": 8,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P15",
+   "track": "D",
+   "title": "MFA / trusted devices / passkey",
+   "effort_engineer_days": 4,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P16",
+   "track": "Q",
+   "title": "Full responsive QA across families (3 viewports)",
+   "effort_engineer_days": 5,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P17",
+   "track": "G",
+   "title": "STUDIO WORLD direction + first surface (founder-led)",
+   "effort_engineer_days": 10,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P18",
+   "track": "C",
+   "title": "JOURNAL content system",
+   "effort_engineer_days": 3,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P19",
+   "track": "D",
+   "title": "Payments rails for SITE00_INCLUDED / CLIENT_PREPAID modes",
+   "effort_engineer_days": 8,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "P20",
+   "track": "B",
+   "title": "Character Fabrication tablet/desktop authority + build",
+   "effort_engineer_days": 5,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "C04",
+   "track": "C",
+   "title": "Fix 8 blank /desktop aliases + add NOT FOUND page",
+   "effort_engineer_days": 1,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  }
+ ],
+ "effort": {
+  "total_engineer_days_including_mvp": 187.0
+ },
+ "timeline": {
+  "method": "MVP calendar (see SITE00_CLIENT_READY_MVP) + post-MVP effort spread over 4.5 parallel tracks (5 working days/week) with the same FAST \u00d71.0 / EXPECTED \u00d71.5 / RISK \u00d72.2 factors; authority production + approval cycles are inside the factor.",
+  "post_mvp_engineer_days": 105.0,
+  "FAST_PATH_weeks": 9,
+  "EXPECTED_weeks": 14,
+  "RISK_ADJUSTED_weeks": 21
+ }
+}

@@ -4,6 +4,7 @@
  * Preview-only admins (e.g. Kristin Watson) get access only on preview/local, not on Vercel production.
  */
 
+import { isSite00PreviewTunnelHost } from '../site00/components/loader/site00PreviewHost';
 import { stripPasswordFromUserRecord } from './authPasswordSanitize';
 
 const STORAGE_IS_SIGNED_IN = 'isSignedIn';
@@ -517,6 +518,7 @@ export function getPreviewAdminAllowedIp(): string | undefined {
 /** True when running on preview (localhost, LAN IP or Vercel preview), false on Vercel production deploy. */
 export function isPreviewEnvironment(): boolean {
   if (typeof window !== 'undefined') {
+    if (isSite00PreviewTunnelHost()) return true;
     const host = window.location.hostname;
     if (host === 'localhost' || host === '127.0.0.1') return true;
     if (/^10\./.test(host) || /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host) || /^192\.168\./.test(host)) {

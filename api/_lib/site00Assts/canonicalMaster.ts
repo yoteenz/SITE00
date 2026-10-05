@@ -1,6 +1,7 @@
 import { getSupabaseAdmin } from '../supabase.js';
 import { publicUrlForStoragePath } from './service.js';
 import type { Site00BatchManifest } from './types.js';
+import { SITE00_FAL_REFERENCE_EDIT_MODEL } from '../../../shared/site00-visual-generation/falImageModels.js';
 
 /** Locked user-supplied world source — NOT a FAL generation candidate. */
 export const CANONICAL_MASTER_ASSET_KEY = 's00_env_assts_canonical_master';
@@ -14,9 +15,9 @@ export const CANONICAL_MASTER_STORAGE_PATH =
   process.env.SITE00_ASSTS_CANONICAL_MASTER_PATH?.trim() ||
   'site00/8574773C-D4F6-49B3-A7BA-C4D4B2C1E6F7.png';
 
-export const CANONICAL_REFERENCE_MODEL = 'fal-ai/nano-banana-pro/edit';
+export const CANONICAL_REFERENCE_MODEL = SITE00_FAL_REFERENCE_EDIT_MODEL;
 
-/** Documented conditioning intent — nano-banana-pro/edit uses image_urls as primary anchor. */
+/** Documented conditioning intent — gpt-image-2/edit uses image_urls as primary anchor. */
 export const CANONICAL_REFERENCE_STRENGTH = 'high-preservation';
 
 export function manifestUsesCanonicalReference(manifest: Site00BatchManifest | null): boolean {

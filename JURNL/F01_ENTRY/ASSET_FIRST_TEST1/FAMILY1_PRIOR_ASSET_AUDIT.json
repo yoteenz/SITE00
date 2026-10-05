@@ -1,0 +1,22 @@
+{
+  "sprint": "P0.SITE00.FAMILY1.ASSET-FIRST.VISUAL-SEMANTIC-DECOMPOSITION.CORRECTION2",
+  "mountedNow": ["ENTRY.ENVIRONMENT.PLATE.001", "ENTRY.LOGO.OFFICIAL.001"],
+  "audit": [
+    {"asset_id": "ENTRY.ENVIRONMENT.PLATE.001", "verdict": "VALID", "role": "ENVIRONMENT_PLATE"},
+    {"asset_id": "ENTRY.LOGO.OFFICIAL.001", "verdict": "SHOULD_BE_REUSED", "role": "INDEPENDENT_VISUAL_ASSET"},
+    {"asset_id": "ENTRY.MATERIAL.PLASTER.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.ARCH.ARCHWAY.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.ARCH.COAST.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.MATERIAL.CURTAIN.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.MATERIAL.TRAVERTINE.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.MATERIAL.TEXTILE.ROSE.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.PAPER.001", "verdict": "UNNECESSARY_ISOLATION"},
+    {"asset_id": "ENTRY.OBJECT.BUST.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.OBJECT.BOWL.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.OBJECT.BOOKS.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.OBJECT.JURNLBOOK.001", "verdict": "SHOULD_BE_BAKED_INTO_PLATE"},
+    {"asset_id": "ENTRY.BOTANICAL.FOREGROUND.001", "verdict": "UNNECESSARY_ISOLATION"},
+    {"asset_id": "ENTRY.BOTANICAL.ACCENT.001", "verdict": "UNNECESSARY_ISOLATION"},
+    {"asset_id": "ENTRY.LIGHT.SUN.001", "verdict": "UNNECESSARY_ISOLATION"}
+  ]
+}

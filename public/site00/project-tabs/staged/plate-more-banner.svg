@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200" data-ptv-plate="plate-more-banner" data-ptv-status="STAGED" data-ptv-version="P0.VR.DESIGN.GROK-PROJECT-TAB-ASSETS1">
+  <rect width="320" height="200" fill="#0a0a0a"/>
+  <rect x="8" y="8" width="304" height="184" fill="none" stroke="#2a2a2a"/>
+  <text x="24" y="36" fill="#dbff00" font-size="9" letter-spacing="0.16em" font-family="ui-monospace, Menlo, monospace">UTILITIES</text>
+  <text x="24" y="88" fill="#f4f4f4" font-size="22" font-weight="700" letter-spacing="0.04em" font-family="ui-monospace, Menlo, monospace">DESIGN</text><text x="24" y="116" fill="#f4f4f4" font-size="22" font-weight="700" letter-spacing="0.04em" font-family="ui-monospace, Menlo, monospace">WORKSPACE</text>
+  <rect x="214" y="28" width="78" height="78" fill="#dbff00"/><text x="253" y="78" text-anchor="middle" fill="#0a0a0a" font-size="22" font-weight="700" font-family="ui-monospace, Menlo, monospace">NDX</text>
+  <text x="24" y="180" fill="#6a6a70" font-size="8" letter-spacing="0.14em" font-family="ui-monospace, Menlo, monospace">STAGED · P0.VR.DESIGN.GROK-PROJECT-TAB-ASSETS1</text>
+</svg>

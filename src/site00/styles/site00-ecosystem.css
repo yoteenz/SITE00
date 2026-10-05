@@ -18,20 +18,26 @@
   display: block;
 }
 
-@media (min-width: 1024px) {
-  .site00-ecosystem-shell__desktop {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-    background-image: var(--site00-ecosystem-bg);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-  }
+.site00-ecosystem-shell--desktop-active .site00-ecosystem-shell__desktop {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-image: var(--site00-ecosystem-bg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
 
-  .site00-ecosystem-shell__mobile {
-    display: none;
-  }
+.site00-ecosystem-shell--desktop-active .site00-ecosystem-shell__mobile {
+  display: none;
+}
+
+.site00-ecosystem-shell--mobile-active .site00-ecosystem-shell__desktop {
+  display: none;
+}
+
+.site00-ecosystem-shell--mobile-active .site00-ecosystem-shell__mobile {
+  display: block;
 }
 
 .site00-ecosystem-shell__main {
@@ -59,6 +65,15 @@
 
 .site00-ecosystem-mobile-shell__main {
   padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-ecosystem-mobile-shell--suppress-chrome .site00-mobile-header,
+.site00-ecosystem-mobile-shell--suppress-chrome .site00-mobile-nav {
+  display: none !important;
+}
+
+.site00-ecosystem-mobile-shell--suppress-chrome .site00-ecosystem-mobile-shell__main {
+  padding-bottom: 0;
 }
 
 @media (max-width: 767px) {

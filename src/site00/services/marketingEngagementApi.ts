@@ -61,6 +61,26 @@ export const marketingEngagementApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'sync', id }),
     }),
+  commercialProductionAction: (input: { id: string; kind: string; assetId?: string }) =>
+    marketingFetch<{
+      allowance: NonNullable<MarketingEngagementPayload['commercialAllowance']>;
+      blocked: boolean;
+      addOnRequired: boolean;
+      message: string;
+    }>('/api/site00/marketing-engagements', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'commercial-production-action', ...input }),
+    }),
+  commercialTestAddOn: (input: { id: string; addOnType: 'EXTRA_CHARACTER' | 'NEW_ACTOR'; resume?: boolean }) =>
+    marketingFetch<{ allowance: NonNullable<MarketingEngagementPayload['commercialAllowance']>; resumed: boolean }>(
+      '/api/site00/marketing-engagements',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'commercial-test-addon', ...input }),
+      },
+    ),
   reviewAction: (input: {
     id: string;
     reviewId: string;

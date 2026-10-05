@@ -1,0 +1,58 @@
+{
+  "schema_version": "2.0.0",
+  "ledger_record_required_fields": [
+    "generation_id",
+    "visual_id",
+    "project_id",
+    "family_id",
+    "generation_class",
+    "generation_intent",
+    "generation_mode",
+    "reference_required",
+    "reference_found",
+    "reference_input_attached",
+    "provider",
+    "model",
+    "dispatch_status"
+  ],
+  "optional_fields": [
+    "screen_id",
+    "asset_id",
+    "reference_path",
+    "reference_authority_id",
+    "reference_status",
+    "reference_lineage",
+    "configured_resolution",
+    "attempt",
+    "credits_spent",
+    "estimated_cost",
+    "actual_cost_if_available",
+    "qa_status",
+    "approval_status",
+    "blocked_reason"
+  ],
+  "legacy_compat": {
+    "status": "LEGACY_PARTIAL",
+    "nullable_reference_fields": true,
+    "do_not_label_all_historical_text2image_as_failure": true
+  },
+  "ledger_event_types": [
+    "REFERENCE_GUIDED",
+    "TEXT_TO_IMAGE_NET_NEW",
+    "REFERENCE_MISSING_BLOCKED",
+    "REFERENCE_BINDING_FAILURE_PREVENTED",
+    "INVALID_GENERATION_MODE_BLOCKED",
+    "INVALID_GENERATION_POSTMORTEM"
+  ],
+  "postmortem": {
+    "failure_class": "REFERENCE_BINDING_FAILURE",
+    "corrective_action": "REFERENCE_BINDING_REQUIRED"
+  },
+  "cost_metrics": [
+    "credits_avoided_by_block",
+    "invalid_generation_credits",
+    "reference_guided_credits",
+    "net_new_text_to_image_credits",
+    "recovery_credits"
+  ]
+}

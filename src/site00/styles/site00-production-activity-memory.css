@@ -1,0 +1,821 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1 — ACTIVITY as living project memory.
+ * DOMAIN (ALL · DESIGN · EXPERIENCE · EXPRESSION · LIBRARY · PEOPLE · SYSTEM) × TIME (TODAY · THIS WEEK ·
+ * THIS MONTH · FULL HISTORY) → timeline → inspector (lineage, AFFECTS, DOWNSTREAM, source).
+ *
+ * Height contract: the route owns exactly the space between the global host strip and the global bottom
+ * nav. The frame scroll pane is locked; the document never scrolls; only the timeline list and the
+ * inspector body scroll internally. dvh (with an inset fallback) keeps iOS Safari's dynamic toolbar honest;
+ * the nav strip already pads env(safe-area-inset-bottom).
+ *
+ * Compositions — desktop ≥1120: rail | timeline | inspector · tablet 700–1119: filter band over
+ * timeline (62%) | inspector (38%) · mobile <700: header + domain strip + time strip + timeline, inspector
+ * as a bottom drawer. Body only: no host chrome selectors, no zoom / transform scale.
+ */
+@supports (height: 100dvh) {
+  .pxa[data-screen='activity'] {
+    bottom: auto;
+    height: 100dvh;
+  }
+}
+.pxa[data-screen='activity'] .pxa-scroll {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+.pxa[data-screen='activity'] .pxa-body {
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+}
+
+.pxa .amx {
+  --amx-red: #e5231b;
+  --amx-ink: #121214;
+  --amx-ink-2: #3c3c42;
+  --amx-mute: #74747c;
+  --amx-line: #e2e2e6;
+  --amx-card: #ffffff;
+  --amx-node: 22px;
+  --amx-f-title: 24px;
+  --amx-f-tab: 11px;
+  --amx-f-subject: 13px;
+  --amx-f-meta: 10px;
+  --amx-f-chip: 9.5px;
+  --amx-gap: 12px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr) minmax(320px, 380px);
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-areas: 'rail timeline inspector';
+  gap: var(--amx-gap);
+  height: 100%;
+  min-height: 0;
+  padding: var(--amx-gap);
+  overflow: hidden;
+  background: #f4f4f6;
+}
+
+/* ── shared card ─────────────────────────────────────────────────────────────────────────────────── */
+.pxa .amx-rail,
+.pxa .amx-timeline,
+.pxa .amx-inspector {
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(252, 252, 253, 0.93));
+  box-shadow: 0 0 0 1px rgba(20, 20, 26, 0.05), 0 12px 26px -20px rgba(20, 20, 26, 0.35);
+}
+.pxa .amx-label {
+  display: block;
+  font-size: calc(var(--amx-f-meta) - 1px);
+  letter-spacing: 0.16em;
+  color: var(--amx-mute);
+}
+
+/* ── rail: header · counters · DOMAIN · TIME · CHANGE ─────────────────────────────────────────────── */
+.pxa .amx-rail {
+  grid-area: rail;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 14px;
+  overflow: hidden;
+}
+.pxa .amx-head h1 {
+  font-size: var(--amx-f-title);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+}
+.pxa .amx-head small {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--amx-f-meta);
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  color: var(--amx-mute);
+}
+.pxa .amx-counters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.pxa .amx-counters > div {
+  padding: 6px 8px;
+  border: 1px solid var(--amx-line);
+  border-radius: 6px;
+}
+.pxa .amx-counters dt {
+  font-size: calc(var(--amx-f-meta) - 1px);
+  letter-spacing: 0.14em;
+  color: var(--amx-mute);
+}
+.pxa .amx-counters dd {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+.pxa .amx-counters .is-alert dd {
+  color: var(--amx-red);
+}
+.pxa .amx-domains,
+.pxa .amx-ranges {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.pxa .amx-domains .amx-label,
+.pxa .amx-ranges .amx-label,
+.pxa .amx-change .amx-label {
+  margin-bottom: 4px;
+}
+.pxa .amx-domains a,
+.pxa .amx-ranges a {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: var(--amx-f-tab);
+  letter-spacing: 0.1em;
+  color: var(--amx-ink-2);
+  white-space: nowrap;
+}
+.pxa .amx-domains a em,
+.pxa .amx-ranges a em {
+  font-style: normal;
+  font-size: max(8.5px, calc(var(--amx-f-tab) - 1px));
+  color: var(--amx-mute);
+}
+.pxa .amx-domains a:hover,
+.pxa .amx-ranges a:hover {
+  color: var(--amx-ink);
+  background: rgba(20, 20, 26, 0.04);
+}
+.pxa .amx-domains a.is-active,
+.pxa .amx-ranges a.is-active {
+  color: var(--amx-red);
+  font-weight: 600;
+  background: rgba(229, 35, 27, 0.07);
+}
+.pxa .amx-domains a.is-active::before,
+.pxa .amx-ranges a.is-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 5px;
+  bottom: 5px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--amx-red);
+}
+.pxa .amx-domains a.is-active em,
+.pxa .amx-ranges a.is-active em {
+  color: var(--amx-red);
+}
+.pxa .amx-change {
+  display: block;
+}
+.pxa .amx-change select {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid var(--amx-line);
+  border-radius: 5px;
+  background: #fff;
+  font-size: var(--amx-f-tab);
+  color: var(--amx-ink);
+}
+.pxa .amx-chip {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border: 1px solid var(--amx-red);
+  border-radius: 999px;
+  font-size: var(--amx-f-meta);
+  letter-spacing: 0.1em;
+  color: var(--amx-red);
+}
+
+/* ── timeline ────────────────────────────────────────────────────────────────────────────────────── */
+.pxa .amx-timeline {
+  grid-area: timeline;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.pxa .amx-timeline__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex: none;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--amx-line);
+}
+.pxa .amx-timeline__head b {
+  font-size: var(--amx-f-tab);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+.pxa .amx-timeline__head small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--amx-f-meta);
+  letter-spacing: 0.1em;
+  color: var(--amx-mute);
+}
+.pxa .amx-events {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 4px 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.pxa .amx-events > li {
+  position: relative;
+}
+/* the node rail */
+.pxa .amx-events > li::before {
+  content: '';
+  position: absolute;
+  left: calc(16px + var(--amx-node) / 2 - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(229, 35, 27, 0.28);
+}
+.pxa .amx-events > li:first-child::before {
+  top: 18px;
+}
+.pxa .amx-events > li:last-child::before {
+  bottom: calc(100% - 18px);
+}
+.pxa .amx-row {
+  display: grid;
+  grid-template-columns: var(--amx-node) 64px 92px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 12px;
+  padding: 9px 16px;
+}
+.pxa .amx-events > li + li .amx-row {
+  border-top: 1px solid var(--amx-line);
+}
+.pxa .amx-row:hover {
+  background: rgba(20, 20, 26, 0.025);
+}
+.pxa .amx-events > li[data-selected='true'] .amx-row {
+  background: rgba(229, 35, 27, 0.05);
+}
+.pxa .amx-events > li[data-selected='true'] .amx-row__body b {
+  color: var(--amx-red);
+}
+.pxa .amx-node {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  width: 12px;
+  height: 12px;
+  margin-top: 3px;
+  border: 2px solid var(--amx-red);
+  border-radius: 50%;
+  background: #fff;
+}
+.pxa .amx-events > li[data-verb='BLOCKED'] .amx-node,
+.pxa .amx-events > li[data-selected='true'] .amx-node {
+  background: var(--amx-red);
+  box-shadow: 0 0 0 3px rgba(229, 35, 27, 0.16);
+}
+.pxa .amx-row time {
+  padding-top: 2px;
+  font-size: var(--amx-f-meta);
+  letter-spacing: 0.08em;
+  color: var(--amx-mute);
+  white-space: nowrap;
+}
+.pxa .amx-verb {
+  display: inline-grid;
+  place-items: center;
+  height: 19px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--amx-red);
+  color: #fff;
+  font-size: var(--amx-f-chip);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.pxa .amx-row .amx-verb {
+  justify-self: stretch;
+}
+.pxa .amx-verb--blocked {
+  background: var(--amx-ink);
+}
+.pxa .amx-verb--unlocked,
+.pxa .amx-verb--created,
+.pxa .amx-verb--generated {
+  background: transparent;
+  color: var(--amx-red);
+  box-shadow: inset 0 0 0 1px var(--amx-red);
+}
+.pxa .amx-row__body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.pxa .amx-row__body b {
+  font-size: var(--amx-f-subject);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.pxa .amx-row__body small {
+  font-size: var(--amx-f-meta);
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  color: var(--amx-ink-2);
+  overflow-wrap: anywhere;
+}
+.pxa .amx-row__body small.amx-impact {
+  white-space: pre-wrap;
+  color: var(--amx-mute);
+}
+
+/* ── inspector ───────────────────────────────────────────────────────────────────────────────────── */
+.pxa .amx-inspector {
+  grid-area: inspector;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.pxa .amx-insp {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .amx-insp__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'verb close' 'title title';
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--amx-line);
+}
+.pxa .amx-insp__head .amx-verb {
+  grid-area: verb;
+  justify-self: start;
+}
+.pxa .amx-insp__head h2 {
+  grid-area: title;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.pxa .amx-close {
+  grid-area: close;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--amx-line);
+  border-radius: 50%;
+  font-size: 16px;
+  line-height: 1;
+}
+.pxa .amx-insp__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 10px 16px 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.pxa .amx-facts > div {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--amx-line);
+}
+.pxa .amx-facts dt {
+  font-size: max(8.5px, calc(var(--amx-f-meta) - 1px));
+  letter-spacing: 0.14em;
+  color: var(--amx-mute);
+}
+.pxa .amx-facts dd {
+  font-size: var(--amx-f-meta);
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.pxa .amx-lineage {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 14px;
+  margin-top: 12px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--amx-red);
+  border-radius: 0 6px 6px 0;
+  background: rgba(229, 35, 27, 0.04);
+}
+.pxa .amx-lineage > div {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  min-width: 0;
+}
+.pxa .amx-lineage small {
+  font-size: max(8.5px, calc(var(--amx-f-meta) - 1px));
+  letter-spacing: 0.14em;
+  color: var(--amx-mute);
+}
+.pxa .amx-lineage a,
+.pxa .amx-lineage span {
+  font-size: var(--amx-f-meta);
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.pxa .amx-lineage a:hover {
+  color: var(--amx-red);
+}
+.pxa .amx-source {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: none;
+  margin: 0 16px 14px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  background: var(--amx-red);
+  color: #fff;
+  font-size: var(--amx-f-tab);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.pxa .amx-scrim {
+  display: none;
+}
+
+/* ── empty ───────────────────────────────────────────────────────────────────────────────────────── */
+.pxa .amx-empty {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 16px;
+  text-align: center;
+}
+.pxa .amx-empty b {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+.pxa .amx-empty span {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  font-size: var(--amx-f-meta);
+  letter-spacing: 0.1em;
+  color: var(--amx-mute);
+}
+.pxa .amx-empty a {
+  padding: 3px 10px;
+  border: 1px solid var(--amx-red);
+  border-radius: 999px;
+  color: var(--amx-red);
+}
+
+/* ── desktop: short heights tighten the rail ─────────────────────────────────────────────────────── */
+@media (min-width: 1120px) and (max-height: 780px) {
+  .pxa .amx-rail {
+    gap: 10px;
+    padding: 12px 12px;
+  }
+  .pxa .amx-domains a,
+  .pxa .amx-ranges a {
+    padding: 3px 8px;
+  }
+  .pxa .amx-counters dd {
+    font-size: 17px;
+  }
+}
+@media (min-width: 1600px) {
+  .pxa .amx {
+    --amx-gap: 16px;
+    --amx-f-title: 28px;
+    --amx-f-tab: 12px;
+    --amx-f-subject: 14px;
+    --amx-f-meta: 11px;
+    grid-template-columns: 260px minmax(0, 1fr) minmax(360px, 440px);
+  }
+}
+
+/* ── tablet 700–1119: filter band on top · timeline 62% | inspector 38% ──────────────────────────── */
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .amx {
+    --amx-gap: 10px;
+    --amx-f-title: 20px;
+    --amx-f-tab: 10px;
+    grid-template-columns: minmax(0, 62fr) minmax(0, 38fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: 'rail rail' 'timeline inspector';
+  }
+  .pxa .amx-rail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'head counters' 'domains domains' 'ranges change';
+    align-items: center;
+    gap: 8px 16px;
+    padding: 10px 12px;
+  }
+  .pxa .amx-head {
+    grid-area: head;
+  }
+  .pxa .amx-head h1,
+  .pxa .amx-head small {
+    display: inline;
+  }
+  .pxa .amx-head small {
+    margin-left: 10px;
+  }
+  .pxa .amx-counters {
+    grid-area: counters;
+    display: flex;
+  }
+  .pxa .amx-counters > div {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 3px 8px;
+  }
+  .pxa .amx-counters dd {
+    font-size: 15px;
+  }
+  .pxa .amx-domains,
+  .pxa .amx-ranges {
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+  }
+  .pxa .amx-domains {
+    grid-area: domains;
+    justify-content: space-between;
+  }
+  .pxa .amx-ranges {
+    grid-area: ranges;
+  }
+  .pxa .amx-domains .amx-label,
+  .pxa .amx-ranges .amx-label {
+    margin: 0 6px 0 0;
+  }
+  .pxa .amx-domains a,
+  .pxa .amx-ranges a {
+    padding: 4px 6px;
+  }
+  .pxa .amx-domains a.is-active::before,
+  .pxa .amx-ranges a.is-active::before {
+    left: 6px;
+    right: 6px;
+    top: auto;
+    bottom: 0;
+    width: auto;
+    height: 2px;
+  }
+  .pxa .amx-change {
+    grid-area: change;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pxa .amx-change .amx-label {
+    margin: 0;
+  }
+  .pxa .amx-change select {
+    width: auto;
+    padding: 3px 6px;
+  }
+  .pxa .amx-chip {
+    display: none;
+  }
+  .pxa .amx-row {
+    grid-template-columns: var(--amx-node) 54px minmax(0, 1fr);
+    grid-template-areas: 'node time verb' 'node body body';
+    row-gap: 4px;
+  }
+  .pxa .amx-row .amx-node {
+    grid-area: node;
+  }
+  .pxa .amx-row time {
+    grid-area: time;
+  }
+  .pxa .amx-row .amx-verb {
+    grid-area: verb;
+    justify-self: start;
+  }
+  .pxa .amx-row__body {
+    grid-area: body;
+  }
+  .pxa .amx-facts > div {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+  .pxa .amx-lineage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── mobile < 700: header · domain strip · time strip · timeline · drawer inspector ───────────────── */
+@media (max-width: 699px) {
+  .pxa .amx {
+    --amx-gap: 8px;
+    --amx-node: 16px;
+    --amx-f-title: 17px;
+    --amx-f-tab: 9px;
+    --amx-f-subject: 12.5px;
+    --amx-f-meta: 9px;
+    --amx-f-chip: 8.5px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: 'rail' 'timeline';
+  }
+  .pxa .amx-rail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'head counters' 'domains domains' 'ranges ranges';
+    align-items: center;
+    gap: 6px 10px;
+    padding: 8px 8px 6px;
+    border-radius: 6px;
+  }
+  .pxa .amx-head {
+    grid-area: head;
+  }
+  .pxa .amx-head small {
+    margin-top: 1px;
+    font-size: 8.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pxa .amx-counters {
+    grid-area: counters;
+    display: flex;
+    gap: 6px;
+  }
+  .pxa .amx-counters > div {
+    padding: 2px 6px;
+    text-align: center;
+  }
+  .pxa .amx-counters dt {
+    font-size: 8.5px;
+    letter-spacing: 0.02em;
+  }
+  .pxa .amx-counters dd {
+    font-size: 13px;
+  }
+  .pxa .amx-domains,
+  .pxa .amx-ranges {
+    display: grid;
+    gap: 2px;
+    border-top: 1px solid var(--amx-line);
+    padding-top: 5px;
+  }
+  .pxa .amx-domains {
+    grid-area: domains;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .pxa .amx-ranges {
+    grid-area: ranges;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .pxa .amx-domains .amx-label,
+  .pxa .amx-ranges .amx-label,
+  .pxa .amx-change,
+  .pxa .amx-chip {
+    display: none;
+  }
+  .pxa .amx-domains a,
+  .pxa .amx-ranges a {
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 2px;
+    letter-spacing: 0.05em;
+  }
+  .pxa .amx-domains a.is-active::before,
+  .pxa .amx-ranges a.is-active::before {
+    left: 4px;
+    right: 4px;
+    top: auto;
+    bottom: 0;
+    width: auto;
+    height: 2px;
+  }
+  .pxa .amx-timeline {
+    border-radius: 6px;
+  }
+  .pxa .amx-timeline__head {
+    padding: 8px 10px 6px;
+  }
+  .pxa .amx-events > li::before {
+    left: calc(10px + var(--amx-node) / 2 - 1px);
+  }
+  .pxa .amx-row {
+    grid-template-columns: var(--amx-node) minmax(0, 1fr) auto;
+    grid-template-areas: 'node verb time' 'node body body';
+    column-gap: 8px;
+    row-gap: 3px;
+    padding: 8px 10px;
+  }
+  .pxa .amx-row .amx-node {
+    grid-area: node;
+    width: 10px;
+    height: 10px;
+  }
+  .pxa .amx-row time {
+    grid-area: time;
+    padding-top: 1px;
+  }
+  .pxa .amx-row .amx-verb {
+    grid-area: verb;
+    justify-self: start;
+    height: 17px;
+  }
+  .pxa .amx-row__body {
+    grid-area: body;
+  }
+  /* inspector → bottom drawer, only when an event is open */
+  .pxa .amx-inspector {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    max-height: 74%;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -14px 30px -12px rgba(20, 20, 26, 0.35);
+    animation: amx-drawer 0.22s ease;
+  }
+  .pxa .amx:not([data-open]) .amx-inspector {
+    display: none;
+  }
+  .pxa .amx-inspector::before {
+    content: '';
+    flex: none;
+    align-self: center;
+    width: 36px;
+    height: 4px;
+    margin-top: 6px;
+    border-radius: 2px;
+    background: var(--amx-line);
+  }
+  .pxa .amx-scrim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: rgba(18, 18, 20, 0.28);
+  }
+  .pxa .amx-insp__head {
+    padding: 8px 12px 8px;
+  }
+  .pxa .amx-insp__head h2 {
+    font-size: 14px;
+  }
+  .pxa .amx-insp__scroll {
+    padding: 6px 12px 8px;
+  }
+  .pxa .amx-facts > div {
+    grid-template-columns: 74px minmax(0, 1fr);
+  }
+  .pxa .amx-source {
+    margin: 0 12px 10px;
+  }
+}
+@keyframes amx-drawer {
+  from {
+    transform: translateY(40%);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pxa .amx-inspector {
+    animation: none !important;
+  }
+}

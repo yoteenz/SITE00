@@ -369,6 +369,10 @@ export function idntyAssessmentCompletePath(stateSlug: string): string {
   return `${SITE00_ROUTES.idnty}/${stateSlug}/complete`;
 }
 
+export function idntyDiscoveryResultPath(stateSlug: string): string {
+  return `${SITE00_ROUTES.idnty}/${stateSlug}/discovery-result`;
+}
+
 export function getIdntyAssessmentState(slug: string): IdntyAssessmentStateConfig | undefined {
   return IDNTY_ASSESSMENT_STATE_LIST.find((s) => s.slug === slug);
 }

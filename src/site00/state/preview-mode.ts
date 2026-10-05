@@ -2,6 +2,11 @@
 
 export type Site00PreviewDeviceMode = 'mobile' | 'desktop';
 
+/** Top-left Mobile/Desktop debug toggle — off; use real viewport (e.g. Shadow PC). */
+export function isSite00LayoutPreviewSwitchEnabled(): boolean {
+  return false;
+}
+
 export const SITE00_PREVIEW_DEVICE_MODE_KEY = 'site00_preview_device_mode';
 
 export function readStoredPreviewDeviceMode(): Site00PreviewDeviceMode | null {

@@ -91,3 +91,29 @@ export const SITE00_BLDR_HUB_ACTIONS = [
   { id: 'components', title: 'COMPONENTS', description: 'EXPLORE REUSABLE SITE 00 COMPONENTS.', cta: 'EXPLORE →', href: '/bldr/state' },
   { id: 'deploy', title: 'DEPLOY', description: 'PUBLISH YOUR BUILD TO PRODUCTION.', cta: 'DEPLOY →', href: '/control/sites' },
 ] as const;
+
+export const SITE00_GUIDE_SECTIONS_SEED = [
+  { id: 'origin', title: 'ORIGIN', description: 'ENTER SITE 00 AND ORIENT WITHIN THE SPATIAL OPERATING ENVIRONMENT.', href: '/enter' },
+  { id: 'identity', title: 'IDENTITY', description: 'BEGIN IDNTY ASSESSMENT AND BRAND STATE DISCOVERY.', href: '/idnty/state' },
+  { id: 'builder', title: 'BUILDER', description: 'START A BUILD FROM YOUR CURRENT FOUNDATION CLASS.', href: '/bldr/state' },
+  { id: 'evolve', title: 'EVOLVE', description: 'EXTEND OR TRANSFORM EXISTING DIGITAL PROPERTIES.', href: '/evolve/state' },
+  { id: 'control', title: 'CONTROL ROOM', description: 'MANAGE SITES, DOMAINS, AND ACCOUNT SETTINGS.', href: '/control' },
+] as const;
+
+export const SITE00_SOUND_LAYERS_SEED = [
+  { id: 'ambient', title: 'AMBIENT LAYER', description: 'SPATIAL ENVIRONMENT AUDIO — PLACEHOLDER UNTIL CANONICAL SOUND DESIGN.' },
+  { id: 'interface', title: 'INTERFACE LAYER', description: 'UI FEEDBACK AND NAVIGATION CUES — NOT YET CONFIGURED.' },
+  { id: 'narrative', title: 'NARRATIVE LAYER', description: 'EXPERIENCE STORY BEATS — CONTENT REQUIRED.' },
+] as const;
+
+export const SITE00_FAQ_ITEMS_SEED = [
+  { id: 'what-is-site00', question: 'WHAT IS SITE 00?', answer: 'SITE 00 IS A SPATIAL OPERATING ENVIRONMENT FOR DESIGNING, BUILDING, AND LAUNCHING DIGITAL PLACES.' },
+  { id: 'how-to-start', question: 'HOW DO I START?', answer: 'BEGIN AT ORIGIN OR ENTER THE WAITING ROOM TO ORIENT WITHIN THE ENVIRONMENT.' },
+  { id: 'account-access', question: 'HOW DO I ACCESS MY ACCOUNT?', answer: 'SIGN IN AT /origin/sign-in OR CREATE AN ACCOUNT TO ACCESS CONTROL ROOM FEATURES.' },
+  { id: 'support', question: 'WHERE CAN I GET HELP?', answer: 'VISIT /support OR EMAIL support@site00.com.' },
+] as const;
+
+export const SITE00_CONTACT_CHANNELS_SEED = [
+  { id: 'general', label: 'GENERAL', email: 'hello@site00.com' },
+  { id: 'support', label: 'SUPPORT', email: 'support@site00.com' },
+] as const;

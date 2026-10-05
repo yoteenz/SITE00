@@ -1,0 +1,51 @@
+/**
+ * Generic Studio World — book-based cultural language foundation.
+ */
+
+export const BOOK_LANGUAGE_SYSTEM_V1 = 'BOOK_LANGUAGE_SYSTEM_V1' as const;
+
+export const GENERIC_BOOK_TERMS = [
+  'PAGE',
+  'TURN_THE_PAGE',
+  'BOOKMARK',
+  'BOOKMARKED',
+  'FLIP_BACK',
+  'DOG_EAR',
+  'DOG_EARED',
+  'MARGIN_NOTE',
+  'FOOTNOTE',
+  'ERRATA',
+  'CHAPTER',
+  'OPEN_CHAPTER',
+  'THE_INDEX',
+  'ADD_TO_BOOK',
+  'KEEP_READING',
+  'BOOKMARK_THIS',
+  'NEXT_PAGE',
+  'PAGE_STILL_OPEN',
+] as const;
+
+export const BOOK_LANGUAGE_CONTEXTS = [
+  'PUBLIC_EDITORIAL',
+  'PUBLIC_SOCIAL',
+  'PUBLIC_CTA',
+  'PUBLIC_COMMUNITY',
+  'INTERNAL_PRODUCTION',
+  'INTERNAL_RESEARCH',
+  'STUDIO_WORLD_GENERIC',
+  'ACCESSIBILITY',
+  'PLATFORM_NATIVE',
+  'HISTORICAL_IMMUTABLE',
+] as const;
+
+export const GENERIC_MEMORY_BEHAVIORS = [
+  'EDITORIAL_MEMORY',
+  'WATCH_QUEUE',
+  'CALLBACK',
+  'SELF_CORRECTION',
+  'HISTORICAL_EVIDENCE',
+  'RECURRING_SUBJECT',
+  'COMMUNITY_CONTRIBUTION',
+] as const;
+
+export const BOOK_LANGUAGE_SYSTEM_IMPLEMENTED = true as const;
