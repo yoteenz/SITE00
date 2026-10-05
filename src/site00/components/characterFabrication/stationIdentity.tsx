@@ -3,7 +3,17 @@
  * Geometry transcribed from the authorities on the 432px canvas.
  */
 import { useMemo, useRef } from 'react';
-import { actorAngleSlotId, STATION_LABEL, STATION_ORDER, stationNumber, type ActorRecord } from '../../../../shared/site00-character-fabrication/index.js';
+import { useNavigate } from 'react-router-dom';
+import {
+  actorAngleSlotId,
+  libraryCharacterDetailHref,
+  residentCatalogueIdFromActor,
+  saveFabricationLibraryReturn,
+  STATION_LABEL,
+  STATION_ORDER,
+  stationNumber,
+  type ActorRecord,
+} from '../../../../shared/site00-character-fabrication/index.js';
 import { IcArrowR, IcChevR, IcClose, IcCompare, IcExpand, IcFilter, IcMenu, IcSearch, IcUser } from '../productionHub/icons';
 import { CfImage } from './CfImage';
 import { useFabrication } from './FabricationContext';
@@ -16,17 +26,18 @@ export function ActorCard({ a, selected, onSelect, layout }: { a: ActorRecord; s
   const { url } = useFabrication();
   return (
     <button type="button" className={`cf-actor${selected ? ' is-selected' : ''} cf-actor--${layout.toLowerCase()}`} onClick={onSelect} data-testid={`cf-actor-${a.catalogueNumber}`} aria-pressed={selected}>
-      <CfImage slotId={a.portraitSlotId} url={url(a.portraitSlotId)} label={a.catalogueNumber} className="cf-actor__img" />
+      <CfImage slotId={a.portraitSlotId} url={url(a.portraitSlotId) ?? a.portraitUrl} label={a.stageName} className="cf-actor__img" />
       {selected ? <i className="cf-actor__tick">✓</i> : null}
-      <b>{a.catalogueNumber}</b>
-      <small>{a.entryLabel}</small>
-      <small>{a.projectLabel}</small>
+      <b>{a.stageName}</b>
+      <small>{a.catalogueNumber}{a.sourceResidentId ? ` · ${a.sourceResidentId}` : ''}</small>
+      <small>{a.studioWorldRole ?? a.availability}</small>
     </button>
   );
 }
 
-export function ActorCatalogue() {
+export function ActorCatalogue({ projectSlug }: { projectSlug: string }) {
   const { state, dispatch, actors, url, now } = useFabrication();
+  const navigate = useNavigate();
   const strip = useRef<HTMLDivElement | null>(null);
   const shown = useMemo(() => {
     const q = state.actorQuery.trim().toLowerCase();
@@ -66,7 +77,7 @@ export function ActorCatalogue() {
           <button type="button" className={state.actorLayout === 'LIST' ? 'is-on' : ''} onClick={() => dispatch({ type: 'ACTOR_LAYOUT', layout: 'LIST' })} aria-label="List" aria-pressed={state.actorLayout === 'LIST'} data-testid="cf-layout-list"><IcMenu width={7} height={7} /></button>
         </span>
       </div>
-      <div className={`cf-cat__strip cf-cat__strip--${state.actorLayout.toLowerCase()}`} ref={strip} data-testid="cf-actor-grid">
+      <div className={`cf-cat__strip cf-cat__strip--${state.actorLayout.toLowerCase()}`} ref={strip} data-testid="cf-actor-grid" data-scroll="internal-x">
         {shown.map((a) => (
           <ActorCard key={a.actorId} a={a} layout={state.actorLayout} selected={a.actorId === state.selectedActorCandidateId} onSelect={() => dispatch({ type: 'SELECT_ACTOR', actorId: a.actorId })} />
         ))}
@@ -82,7 +93,8 @@ export function ActorCatalogue() {
             <div><dt>AUTHORITY ID</dt><dd>{sel.authorityId.replace('id-auth-', 'ACT-')}</dd></div>
             <div><dt>AUTHORITY LEVEL</dt><dd>{sel.authorityLevel}</dd></div>
             <div><dt>LAST UPDATED</dt><dd>{sel.updatedAt.slice(0, 10)}</dd></div>
-            <div><dt>DATA SOURCE</dt><dd>STUDIO CATALOGUE</dd></div>
+            <div><dt>DATA SOURCE</dt><dd>{sel.dataSource.replace(/\//g, ' · ').toUpperCase()}</dd></div>
+            {sel.sourceResidentId ? <div><dt>RESIDENT ID</dt><dd>{sel.sourceResidentId}</dd></div> : null}
             <div><dt>AVAILABILITY</dt><dd>{sel.availability}</dd></div>
           </dl>
         </section>
@@ -96,7 +108,30 @@ export function ActorCatalogue() {
         </section>
         <section className="cf-box cf-cat__pv">
           <CfImage slotId={sel.portraitSlotId} url={url(sel.portraitSlotId)} label={`${sel.catalogueNumber} PROFILE`} className="cf-cat__pvimg" />
-          <button type="button" className="cf-cbtn cf-cbtn--c" onClick={() => dispatch({ type: 'SET_SURFACE', surface: 'ACTOR_PROFILE' })} data-testid="cf-view-full-profile">VIEW FULL PROFILE <IcArrowR width={7} height={7} /></button>
+          <button
+            type="button"
+            className="cf-cbtn cf-cbtn--c"
+            data-testid="cf-view-full-profile"
+            onClick={() => {
+              const residentId = residentCatalogueIdFromActor(sel);
+              if (!residentId) return;
+              const href = libraryCharacterDetailHref(projectSlug, residentId);
+              saveFabricationLibraryReturn({
+                returnTo: 'expression-character-fabrication',
+                projectSlug,
+                entryId: state.selectedEntryId,
+                href,
+                savedAt: now(),
+                selectedActorId: state.selectedActorId,
+                selectedActorCandidateId: state.selectedActorCandidateId,
+                activeStation: state.activeStation,
+                actorCatalogueOpen: state.actorCatalogueOpen,
+              });
+              navigate(href);
+            }}
+          >
+            VIEW FULL PROFILE <IcArrowR width={7} height={7} />
+          </button>
         </section>
       </div>
       <div className="cf-cat__act">
@@ -111,8 +146,8 @@ export function ActorCatalogue() {
   );
 }
 
-export function IdentityView() {
-  const { state, dispatch, actor, blockers } = useFabrication();
+export function IdentityView({ projectSlug }: { projectSlug: string }) {
+  const { state, dispatch, actor, blockers, character } = useFabrication();
   const open = state.actorCatalogueOpen;
   return (
     <>
@@ -127,13 +162,16 @@ export function IdentityView() {
         cardH={203}
       />
       {open ? (
-        <ActorCatalogue />
+        <ActorCatalogue projectSlug={projectSlug} />
       ) : (
         <section className="cf-cat cf-cat--confirmed" data-testid="cf-identity-confirmed">
           <header className="cf-cat__head">
             <small>01 - IDENTITY</small>
-            <h2>ACTOR {actor.catalogueNumber} CONFIRMED</h2>
-            <p>IDENTITY AUTHORITY {state.authority.identity === 'LOCKED' ? 'LOCKED' : 'PENDING'} · {actor.catalogueNumber} IS THE REUSABLE SOURCE ACTOR — SUBJECT WOMAN IS THE ENTRY 002 CHARACTER</p>
+            <h2>{actor.stageName} · {actor.catalogueNumber} CONFIRMED</h2>
+            <p>
+              IDENTITY AUTHORITY {state.authority.identity === 'LOCKED' ? 'LOCKED' : 'PENDING'} · RESIDENT ACTOR {actor.catalogueNumber}
+              {character.displayName !== 'SUBJECT WOMAN' ? ` · CHARACTER ${character.displayName}` : ' · ENTRY CHARACTER UNASSIGNED'}
+            </p>
           </header>
           <div className="cf-cat__act">
             <button type="button" className="cf-obtn" data-testid="cf-open-catalogue" onClick={() => dispatch({ type: 'CATALOGUE_OPEN', open: true })}>OPEN ACTOR CATALOGUE</button>

@@ -1,0 +1,660 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2
+ * EXPRESSION root (Production Floor) — one viewport (T12 / PARENT_3VIEW 09_EXPRESSION + D-PARENT-NOSCROLL).
+ * The root scrolled its frame (811px phone / 186px tablet / 32px desktop). Now the body is a fixed grid:
+ * hero · status · CURRENTLY MAKING + ACTIVE PRODUCTIONS · PRODUCTION FLOORS (media tiles fill their row) ·
+ * MAKE IT TRAVEL + ON YOUR TABLE (intrinsic lists scroll inside their own pane). Body only — no host chrome.
+ */
+.pxa[data-screen='expression'] .pxa-scroll {
+  overflow: hidden;
+}
+.pxa[data-screen='expression'] .pxa-body {
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+}
+.pxa .pxa-expression {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 0.92fr) minmax(0, 1.18fr) minmax(0, 0.7fr);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+.pxa .pxa-expression > .pxa-card,
+.pxa .pxa-expression__top,
+.pxa .pxa-expression__bottom {
+  min-height: 0;
+}
+.pxa .pxa-expression__top > .pxa-card,
+.pxa .pxa-expression__bottom > .pxa-card,
+.pxa .pxa-expression > .pxa-floors {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.pxa .pxa-expression .pxa-sec__head {
+  flex: none;
+}
+
+/* currently making: the entry image fills the card height */
+.pxa .pxa-expression .pxa-making__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.pxa .pxa-expression .pxa-making__img {
+  height: auto;
+  min-height: 0;
+}
+.pxa .pxa-expression .pxa-making__copy {
+  align-content: start;
+}
+.pxa .pxa-expression .pxa-entries {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .pxa-expression .pxa-entry {
+  min-height: 0;
+}
+
+/* production floors: six media tiles that take the whole row */
+.pxa .pxa-expression .pxa-floorgrid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-auto-rows: minmax(0, 1fr);
+}
+.pxa .pxa-expression .pxa-floorgrid > li {
+  min-height: 0;
+}
+.pxa .pxa-expression .pxa-floorgrid a {
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  height: 100%;
+  min-height: 0;
+}
+.pxa .pxa-expression .pxa-floorgrid .pxa-thumb {
+  height: auto;
+  min-height: 0;
+}
+.pxa .pxa-expression .pxa-subnav {
+  flex: none;
+}
+
+/* travel + table: intrinsic lists scroll in their own pane */
+.pxa .pxa-expression .pxa-travel__steps,
+.pxa .pxa-expression .pxa-table .pxa-ops {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .pxa-expression {
+    grid-template-rows: auto auto minmax(0, 0.95fr) minmax(0, 1fr) minmax(0, 0.72fr);
+  }
+  .pxa .pxa-expression__top,
+  .pxa .pxa-expression__bottom {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+  .pxa .pxa-expression .pxa-floorgrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .pxa .pxa-expression .pxa-travel__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .pxa .pxa-expression .pxa-authority {
+    grid-column: auto;
+  }
+  .pxa .pxa-expression .pxa-making__body {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) 100px;
+  }
+}
+
+@media (max-width: 699px) {
+  .pxa .pxa-expression {
+    grid-template-rows: auto auto minmax(0, 1.05fr) minmax(0, 1.2fr) minmax(0, 0.82fr);
+    padding-bottom: 6px;
+  }
+  .pxa .pxa-expression > .pxa-card,
+  .pxa .pxa-expression__top,
+  .pxa .pxa-expression__bottom {
+    margin: 6px 8px 0;
+  }
+  .pxa .pxa-expression .pxa-card {
+    padding: 6px 8px 8px;
+  }
+  .pxa .pxa-expression__top {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 6px;
+  }
+  .pxa .pxa-expression__bottom {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 6px;
+  }
+  .pxa .pxa-expression .pxa-making__body {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: 8px;
+  }
+  .pxa .pxa-expression .pxa-authority {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 8px;
+    padding: 3px 6px;
+  }
+  .pxa .pxa-expression .pxa-authority b {
+    font-size: 13px;
+  }
+  .pxa .pxa-expression .pxa-making__copy b {
+    font-size: 11px;
+  }
+  .pxa .pxa-expression .pxa-entries {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 4px;
+  }
+  .pxa .pxa-expression .pxa-entry--new {
+    min-height: 0;
+    padding: 3px 6px;
+  }
+  .pxa .pxa-expression .pxa-floorgrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+  .pxa .pxa-expression .pxa-floorgrid b {
+    font-size: 8.5px;
+    letter-spacing: 0.04em;
+  }
+  .pxa .pxa-expression .pxa-subnav {
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin-top: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .pxa .pxa-expression .pxa-travel__steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .pxa .pxa-expression .pxa-chips li {
+    padding: 2px 5px;
+  }
+  .pxa .pxa-expression .pxa-frames {
+    gap: 2px;
+  }
+}
+
+/* hero height per viewport (the shared opus heights — 186 / 214 / 172px — left no room for the floors) */
+.pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+  height: 150px;
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+    height: 118px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+    height: 100px;
+  }
+}
+
+/* row budget: definite heights for the fixed modules, the floors row takes the rest */
+.pxa[data-screen='expression'] .pxa-expression {
+  grid-template-rows: auto auto 172px minmax(0, 1fr) 126px;
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto 152px minmax(0, 1fr) 112px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto 218px minmax(0, 1fr) 134px;
+  }
+  .pxa .pxa-expression__top {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+  .pxa .pxa-expression .pxa-making__body {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+  .pxa .pxa-expression .pxa-active .pxa-sec__head {
+    margin-bottom: 2px;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entries {
+    display: flex;
+    gap: 6px;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entry {
+    display: grid;
+    flex: 1 1 0;
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 6px;
+    min-width: 0;
+    padding: 3px 6px;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entry .pxa-thumb {
+    grid-row: 1 / span 2;
+    height: 30px;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entry .pxa-bar {
+    display: none;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entry--new {
+    flex: 0 0 auto;
+    grid-template-columns: auto auto;
+  }
+}
+
+/* CURRENTLY MAKING copy fits its card (no clipping): tighter rhythm, compact button */
+.pxa .pxa-expression .pxa-making__copy {
+  gap: 3px;
+}
+.pxa .pxa-expression .pxa-making__copy .pxa-btn {
+  min-height: 24px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.pxa[data-screen='expression'] .pxa-expression {
+  grid-template-rows: auto auto 186px minmax(0, 1fr) 126px;
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto 168px minmax(0, 1fr) 112px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto 236px minmax(0, 1fr) 126px;
+  }
+  .pxa .pxa-expression .pxa-making__copy em {
+    display: none;
+  }
+  .pxa .pxa-expression .pxa-making__copy .pxa-btn {
+    min-height: 22px;
+  }
+}
+
+/* rows are fractions with floors so short viewports compress every module instead of collapsing one */
+.pxa[data-screen='expression'] .pxa-expression {
+  grid-template-rows: auto auto minmax(124px, 0.96fr) minmax(118px, 1.28fr) minmax(96px, 0.66fr);
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(124px, 0.92fr) minmax(112px, 1.1fr) minmax(92px, 0.62fr);
+  }
+}
+@media (max-width: 699px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(176px, 1.18fr) minmax(120px, 1.02fr) minmax(104px, 0.64fr);
+  }
+}
+/* short screens: the hero gives height back to the working modules */
+@media (max-height: 760px) and (min-width: 700px) {
+  .pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+    height: 104px;
+  }
+}
+@media (max-height: 700px) and (max-width: 699px) {
+  .pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+    height: 76px;
+  }
+  .pxa .pxa-expression .pxa-hero__copy p,
+  .pxa .pxa-expression .pxa-hero__side {
+    display: none;
+  }
+}
+/* active production entries flex with their pane: the thumb takes what is left */
+.pxa .pxa-expression .pxa-entries {
+  overflow: hidden;
+}
+.pxa .pxa-expression .pxa-entry {
+  grid-template-rows: minmax(0, 1fr) auto auto auto;
+  align-content: stretch;
+}
+.pxa .pxa-expression .pxa-entry .pxa-thumb {
+  height: auto;
+  min-height: 24px;
+}
+.pxa .pxa-expression .pxa-entry--new {
+  grid-template-rows: auto auto;
+  align-content: center;
+}
+.pxa .pxa-expression .pxa-making__body {
+  overflow: hidden;
+}
+.pxa .pxa-expression .pxa-making__copy {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+@media (max-width: 699px) {
+  /* entry image spans the card height; copy scrolls beside it; authority sits under the copy */
+  .pxa .pxa-expression .pxa-making__body {
+    grid-template-areas: 'img copy' 'img auth';
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    row-gap: 4px;
+  }
+  .pxa .pxa-expression .pxa-making__img {
+    grid-area: img;
+  }
+  .pxa .pxa-expression .pxa-making__copy {
+    grid-area: copy;
+  }
+  .pxa .pxa-expression .pxa-authority {
+    grid-area: auth;
+    grid-column: auto;
+  }
+}
+@media (max-height: 700px) and (max-width: 699px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(150px, 1.15fr) minmax(104px, 1fr) minmax(86px, 0.6fr);
+  }
+}
+/* the authority aside stays inside its card */
+.pxa .pxa-expression .pxa-authority {
+  align-content: start;
+  gap: 2px;
+  padding: 6px;
+}
+.pxa .pxa-expression .pxa-authority b {
+  font-size: 18px;
+  line-height: 1;
+}
+.pxa .pxa-expression .pxa-making__body {
+  grid-template-rows: minmax(0, 1fr);
+}
+@media (max-width: 699px) {
+  .pxa .pxa-expression .pxa-making__body {
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+}
+/* mobile type floor (8.5px) for the floor-specific small text */
+@media (max-width: 699px) {
+  .pxa .pxa-expression .pxa-sec__all,
+  .pxa .pxa-expression .pxa-hero__copy p,
+  .pxa .pxa-expression .pxa-hero__side {
+    font-size: 8.5px;
+  }
+}
+/* short phones: active productions collapse to a one-line pill row; hero tightens */
+@media (max-height: 700px) and (max-width: 699px) {
+  .pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+    height: 82px;
+  }
+  .pxa .pxa-expression .pxa-hero__copy h1 {
+    font-size: 18px;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entry .pxa-thumb,
+  .pxa .pxa-expression .pxa-active .pxa-entry small {
+    display: none;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entry {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 2px 6px;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entry--new span {
+    font-size: 14px;
+  }
+}
+@media (max-height: 700px) and (max-width: 699px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(170px, 1.3fr) minmax(104px, 1fr) minmax(72px, 0.45fr);
+  }
+  /* ACTIVE PRODUCTIONS: head and pills on one line */
+  .pxa .pxa-expression .pxa-expression__top > .pxa-active {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-sec__head {
+    margin: 0;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-sec__all {
+    display: none;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entries {
+    flex: 1 1 auto;
+  }
+}
+
+/* ── tablet + desktop bottom composition (FA.OPUS2; T12 / PAR3V 09 authority) ────────────────────────────────
+ * MAKE IT TRAVEL and ON YOUR TABLE are two full-width, single-line rows under the floors in the authority. They
+ * were side-by-side panels whose steps / ops were cut at the pane edge. Rows: making · floors · travel · table. */
+@media (min-width: 700px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(120px, 1fr) minmax(132px, 1.2fr) auto;
+  }
+  .pxa .pxa-expression__bottom {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+  }
+  .pxa .pxa-expression .pxa-travel__steps,
+  .pxa .pxa-expression .pxa-table .pxa-ops {
+    flex: none;
+    overflow: visible;
+  }
+  .pxa .pxa-expression .pxa-travel__steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .pxa .pxa-expression .pxa-travel__steps > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    min-width: 0;
+  }
+  .pxa .pxa-expression .pxa-travel__steps .pxa-chips {
+    flex-wrap: wrap;
+    margin: 0;
+  }
+  .pxa .pxa-expression .pxa-table .pxa-ops {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .pxa .pxa-expression .pxa-table .pxa-ops li {
+    min-width: 0;
+  }
+  /* authority rows are one line each (~65 / ~50px): compact card chrome, one-line steps and ops */
+  .pxa .pxa-expression .pxa-travel,
+  .pxa .pxa-expression .pxa-table {
+    padding: 6px 12px 7px;
+  }
+  .pxa .pxa-expression .pxa-travel .pxa-sec__head,
+  .pxa .pxa-expression .pxa-table .pxa-sec__head {
+    margin-bottom: 4px;
+  }
+  .pxa .pxa-expression .pxa-travel__steps > div {
+    flex-wrap: nowrap;
+  }
+  .pxa .pxa-expression .pxa-travel__steps b {
+    white-space: nowrap;
+  }
+  .pxa .pxa-expression .pxa-travel__steps .pxa-chips {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+  .pxa .pxa-expression .pxa-travel__steps .pxa-frames {
+    display: flex;
+    gap: 3px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .pxa .pxa-expression .pxa-travel__steps .pxa-frames > * {
+    flex: 0 1 46px;
+    min-width: 30px;
+    height: 28px;
+    aspect-ratio: auto;
+  }
+  .pxa .pxa-expression .pxa-travel__steps .pxa-btn {
+    min-height: 24px;
+    padding-top: 0;
+    padding-bottom: 0;
+    white-space: nowrap;
+  }
+  .pxa .pxa-expression .pxa-table .pxa-ops a {
+    grid-template-columns: 28px minmax(0, 1fr) auto auto;
+    min-height: 0;
+    padding: 2px 0;
+  }
+  .pxa .pxa-expression .pxa-table .pxa-ops .pxa-thumb {
+    height: 28px;
+  }
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(112px, 1fr) minmax(150px, 1.25fr) auto;
+  }
+}
+/* tablet: three steps share 700–1119px — each step stacks its title over its content */
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .pxa-expression .pxa-travel__steps > div {
+    flex-wrap: wrap;
+  }
+  .pxa .pxa-expression .pxa-travel__steps .pxa-chips {
+    flex-wrap: wrap;
+  }
+}
+/* short desktops / landscape tablets (≤760px tall): the side words and tagline ran out of the 104px hero (cut at the
+   top, hidden under the status strip) — the hero keeps kicker + title. */
+@media (max-height: 760px) and (min-width: 700px) {
+  .pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+    height: 92px;
+  }
+  .pxa .pxa-expression .pxa-hero__side,
+  .pxa .pxa-expression .pxa-hero__copy p {
+    display: none;
+  }
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(104px, 1fr) minmax(140px, 1.3fr) auto;
+  }
+}
+/* short frames (≤820px tall, tablet/desktop): kicker + title hero, one-line status cells — the floors keep real
+   image height instead of 40–53px bands (1280×720, 1440×810, 1024×768) */
+@media (min-width: 700px) and (max-height: 820px) {
+  .pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+    height: 84px;
+  }
+  .pxa .pxa-expression .pxa-hero__side,
+  .pxa .pxa-expression .pxa-hero__copy p {
+    display: none;
+  }
+  .pxa .pxa-expression > .pxa-status .pxa-status__cell {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  .pxa .pxa-expression > .pxa-status .pxa-status__cell > span {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+  }
+  .pxa .pxa-expression > .pxa-status .pxa-status__cell > span > * {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(100px, 1fr) minmax(150px, 1.45fr) auto;
+  }
+}
+/* phones (T12 mobile authority): the six floors sit in ONE row of near-square images with the label under each.
+   The 3 × 2 grid had cut every image to a 113×29px band (11px on 360×640). */
+@media (max-width: 699px) {
+  .pxa .pxa-expression .pxa-floorgrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .pxa .pxa-expression .pxa-floorgrid a {
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    padding: 0 0 3px;
+  }
+  .pxa .pxa-expression .pxa-floorgrid em {
+    font-size: 8.5px;
+  }
+  .pxa .pxa-expression .pxa-floorgrid b,
+  .pxa .pxa-expression .pxa-floorgrid small {
+    padding: 0 3px;
+    font-size: 8.5px;
+    letter-spacing: 0;
+    line-height: 1.1;
+    white-space: normal;
+    overflow-wrap: normal;
+  }
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(150px, 1.2fr) minmax(118px, 0.95fr) minmax(104px, 0.7fr);
+  }
+}
+@media (max-width: 699px) and (max-height: 700px) {
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(128px, 1fr) minmax(112px, 1fr) minmax(86px, 0.6fr);
+  }
+}
+/* tablet / desktop: the active entry keeps a real image (it had shrunk to a 104×24 band on short frames) */
+@media (min-width: 700px) {
+  .pxa .pxa-expression .pxa-active .pxa-entry .pxa-thumb {
+    min-height: 42px;
+  }
+  .pxa .pxa-expression .pxa-active .pxa-entry {
+    gap: 2px;
+  }
+}
+@media (min-width: 700px) and (max-height: 820px) {
+  /* one-line cells: the label stays whole, only the trailing sub-line gives way */
+  .pxa .pxa-expression > .pxa-status .pxa-status__cell > span > b {
+    flex: none;
+  }
+}
+@media (min-width: 700px) and (max-height: 740px) {
+  .pxa[data-screen='expression'] .pxa-expression > .pxa-hero {
+    height: 74px;
+  }
+  .pxa .pxa-expression > .pxa-hero .pxa-hero__copy h1 {
+    font-size: 30px;
+    line-height: 1;
+  }
+  .pxa[data-screen='expression'] .pxa-expression {
+    grid-template-rows: auto auto minmax(114px, 1fr) minmax(150px, 1.25fr) auto;
+  }
+  /* the authority aside keeps every line, set tighter */
+  .pxa .pxa-expression .pxa-authority {
+    gap: 1px;
+    padding: 3px 6px;
+  }
+  .pxa .pxa-expression .pxa-authority b {
+    font-size: 14px;
+  }
+  .pxa .pxa-expression .pxa-floorgrid .is-entryway small {
+    display: none;
+  }
+}
+@media (min-width: 700px) and (max-height: 820px) {
+  .pxa .pxa-expression .pxa-authority {
+    gap: 1px;
+    padding: 3px 6px;
+    line-height: 1.1;
+  }
+  .pxa .pxa-expression .pxa-authority b {
+    font-size: 14px;
+  }
+  .pxa .pxa-expression .pxa-authority small,
+  .pxa .pxa-expression .pxa-authority span {
+    font-size: 8.5px;
+    line-height: 1.1;
+  }
+}

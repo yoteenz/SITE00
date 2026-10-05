@@ -133,6 +133,39 @@ export function Tile({ r, to, selected, testId = 'realm-tile' }: { r: RealmRecor
   );
 }
 
+/** Related character — image inspect vs card navigation are separate gestures. */
+export function RelatedCharacterTile({
+  r,
+  to,
+  onInspectImage,
+  testId = 'library-related-tile',
+}: {
+  r: RealmRecord;
+  to: string;
+  onInspectImage: (r: RealmRecord) => void;
+  testId?: string;
+}) {
+  return (
+    <article className="rk-tile rk-tile--split" data-testid={testId} data-record={r.id}>
+      <button
+        type="button"
+        className="rk-tile__media-hit"
+        aria-label={`Inspect ${r.title}`}
+        data-testid="library-related-image-open"
+        onClick={() => onInspectImage(r)}
+        disabled={!r.img}
+      >
+        <Media r={r} className="rk-tile__media" />
+      </button>
+      <Link to={to} replace className="rk-tile__cap" data-testid="library-related-nav">
+        <b>{r.title}</b>
+        <small>{r.kicker}</small>
+        <Status r={r} />
+      </Link>
+    </article>
+  );
+}
+
 export function Btn({ to, children, variant = 'outline', testId, disabled, title }: { to?: string; children: ReactNode; variant?: 'red' | 'outline' | 'ghost'; testId?: string; disabled?: boolean; title?: string }) {
   if (!to || disabled)
     return (

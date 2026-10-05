@@ -1,0 +1,2374 @@
+{
+ "generated": "2026-10-05",
+ "rule": "EXACT = identical git blob id (uploads hashed with git hash-object). NEAR = 256-bit dHash Hamming <= 12 with aspect within 4%, never within one folder / one upload pack (sibling screens), never across different SW resident ids.",
+ "groups": [
+  {
+   "group_id": "DG-0001",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/01_BRAND.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design brand",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/01_BRAND.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/01_BRAND.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/01_BRAND.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0002",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/02_EXPERIENCE.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design experience",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/02_EXPERIENCE.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/02_EXPERIENCE.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/02_EXPERIENCE.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0003",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/03_SURFACES_WORKSPACE_OVERVIEW.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design surfaces",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/03_SURFACES_WORKSPACE_OVERVIEW.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/03_SURFACES_WORKSPACE_OVERVIEW.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/03_SURFACES_WORKSPACE_OVERVIEW.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0004",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/04_COMPILER.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design compiler",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/04_COMPILER.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/04_COMPILER.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/04_COMPILER.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0005",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/05_ASSETS.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design assets",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/05_ASSETS.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/05_ASSETS.jpg",
+    "UP:DWS:DWS_SONNET_LITE/01_DESKTOP_AUTHORITIES/05_ASSETS.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0006",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/0F4A7CE6-AEB3-46C9-8F5B-7670C9329356.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design assets",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/0F4A7CE6-AEB3-46C9-8F5B-7670C9329356.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/0F4A7CE6-AEB3-46C9-8F5B-7670C9329356.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/0F4A7CE6-AEB3-46C9-8F5B-7670C9329356.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0007",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/13B1DC3A-422C-4A70-BE36-DD8058B7D739.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design brand",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/13B1DC3A-422C-4A70-BE36-DD8058B7D739.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/13B1DC3A-422C-4A70-BE36-DD8058B7D739.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/13B1DC3A-422C-4A70-BE36-DD8058B7D739.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0008",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/874C3EE0-7B79-42DD-B3AC-F8A1C28D8C4B.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design brand",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/874C3EE0-7B79-42DD-B3AC-F8A1C28D8C4B.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/874C3EE0-7B79-42DD-B3AC-F8A1C28D8C4B.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/874C3EE0-7B79-42DD-B3AC-F8A1C28D8C4B.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0009",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/CC27801B-BDB3-44F2-A1DB-9FD168700400.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design surfaces",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/CC27801B-BDB3-44F2-A1DB-9FD168700400.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/CC27801B-BDB3-44F2-A1DB-9FD168700400.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/CC27801B-BDB3-44F2-A1DB-9FD168700400.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0010",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/DB9D830C-3410-4250-BB06-B1BCE6D9FF0B.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design experience",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/DB9D830C-3410-4250-BB06-B1BCE6D9FF0B.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/DB9D830C-3410-4250-BB06-B1BCE6D9FF0B.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/DB9D830C-3410-4250-BB06-B1BCE6D9FF0B.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0011",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/EC554178-4AAF-48E9-9C3C-0D89DF46241F.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design compiler",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/EC554178-4AAF-48E9-9C3C-0D89DF46241F.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/EC554178-4AAF-48E9-9C3C-0D89DF46241F.jpg",
+    "UP:DWS:DWS_SONNET_LITE/02_TABLET_AUTHORITIES/EC554178-4AAF-48E9-9C3C-0D89DF46241F.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0012",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/01_BRAND_REFERENCE.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design brand",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/01_BRAND_REFERENCE.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/01_BRAND_REFERENCE.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/01_BRAND_REFERENCE.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0013",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/02_MODE_AUTHORITY.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design surfaces",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/02_MODE_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/02_MODE_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/02_MODE_AUTHORITY.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0014",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/03_MODE_AUTHORITY.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design compiler",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/03_MODE_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/03_MODE_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/03_MODE_AUTHORITY.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0015",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/04_MODE_AUTHORITY.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design experience",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/04_MODE_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/04_MODE_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/04_MODE_AUTHORITY.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0016",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/05_MODE_AUTHORITY.jpg",
+   "representative_status": "SUPERSEDED",
+   "family": "DESIGN",
+   "route": "design assets",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/05_MODE_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/05_MODE_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/03_MOBILE_AUTHORITIES/05_MODE_AUTHORITY.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0017",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/01_BRAND__DRAWER_DETAIL_REVIEW_MODAL.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design brand",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/01_BRAND__DRAWER_DETAIL_REVIEW_MODAL.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/01_BRAND__DRAWER_DETAIL_REVIEW_MODAL.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/01_BRAND__DRAWER_DETAIL_REVIEW_MODAL.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0018",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/02_EXPERIENCE__MAP_INSPECTOR_REVIEW.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design experience",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/02_EXPERIENCE__MAP_INSPECTOR_REVIEW.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/02_EXPERIENCE__MAP_INSPECTOR_REVIEW.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/02_EXPERIENCE__MAP_INSPECTOR_REVIEW.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0019",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/03_SURFACES__LIBRARY_INSPECTOR_COMPARE.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design surfaces",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/03_SURFACES__LIBRARY_INSPECTOR_COMPARE.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/03_SURFACES__LIBRARY_INSPECTOR_COMPARE.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/03_SURFACES__LIBRARY_INSPECTOR_COMPARE.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0020",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/04_COMPILER__SYNTHESIS_INTELLIGENCE_REVIEW_MODAL.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design compiler",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/04_COMPILER__SYNTHESIS_INTELLIGENCE_REVIEW_MODAL.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/04_COMPILER__SYNTHESIS_INTELLIGENCE_REVIEW_MODAL.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/04_COMPILER__SYNTHESIS_INTELLIGENCE_REVIEW_MODAL.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0021",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/05_ASSETS__LIBRARY_DETAILS_METADATA_EXPORT.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design assets",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/05_ASSETS__LIBRARY_DETAILS_METADATA_EXPORT.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/05_ASSETS__LIBRARY_DETAILS_METADATA_EXPORT.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/05_ASSETS__LIBRARY_DETAILS_METADATA_EXPORT.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0022",
+   "kind": "EXACT",
+   "members": 4,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/05_SYSTEM_PACKS/01_ICON_PACK_AUTHORITY.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design system packs",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/05_SYSTEM_PACKS/01_ICON_PACK_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/05_SYSTEM_PACKS/01_ICON_PACK_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/05_SYSTEM_PACKS/01_ICON_PACK_AUTHORITY.jpg",
+    "GIT:docs/site00/design-pack/sources/01_ICON_PACK_AUTHORITY.jpg@61a4496355"
+   ]
+  },
+  {
+   "group_id": "DG-0023",
+   "kind": "EXACT",
+   "members": 4,
+   "unique_blobs": 1,
+   "representative": "UP:DWS:DWS_SONNET_LITE/05_SYSTEM_PACKS/02_ASSET_PACK_AUTHORITY.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design system packs",
+   "member_ids": [
+    "UP:DWS:DWS_SONNET_LITE/05_SYSTEM_PACKS/02_ASSET_PACK_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/05_SYSTEM_PACKS/02_ASSET_PACK_AUTHORITY.jpg",
+    "UP:DWS:DWS_SONNET_LITE/05_SYSTEM_PACKS/02_ASSET_PACK_AUTHORITY.jpg",
+    "GIT:docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg@ff23f54dd0"
+   ]
+  },
+  {
+   "group_id": "DG-0024",
+   "kind": "EXACT+NEAR",
+   "members": 3,
+   "unique_blobs": 2,
+   "representative": "UP:HUBREF:0af8bf87-image.png",
+   "representative_status": "CANONICAL",
+   "family": "HUB",
+   "route": "hub",
+   "member_ids": [
+    "UP:HUBREF:0af8bf87-image.png",
+    "UP:T12:Desktop/IMG_5981.jpg",
+    "UP:T12:Desktop/IMG_5981.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0025",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5414.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5414.jpeg",
+    "UP:CF:IMG_5414.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0026",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5415.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5415.jpeg",
+    "UP:CF:IMG_5415.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0027",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5416.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5416.jpeg",
+    "UP:CF:IMG_5416.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0028",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5417.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5417.jpeg",
+    "UP:CF:IMG_5417.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0029",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5418.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5418.jpeg",
+    "UP:CF:IMG_5418.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0030",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5419.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5419.jpeg",
+    "UP:CF:IMG_5419.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0031",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5420.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5420.jpeg",
+    "UP:CF:IMG_5420.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0032",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5421.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5421.jpeg",
+    "UP:CF:IMG_5421.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0033",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5422.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5422.jpeg",
+    "UP:CF:IMG_5422.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0034",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5423.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5423.jpeg",
+    "UP:CF:IMG_5423.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0035",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5424.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5424.jpeg",
+    "UP:CF:IMG_5424.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0036",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5425.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5425.jpeg",
+    "UP:CF:IMG_5425.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0037",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5426.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5426.jpeg",
+    "UP:CF:IMG_5426.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0038",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5427.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5427.jpeg",
+    "UP:CF:IMG_5427.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0039",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5428.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5428.jpeg",
+    "UP:CF:IMG_5428.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0040",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:CF:IMG_5429.jpeg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "character fabrication",
+   "member_ids": [
+    "UP:CF:IMG_5429.jpeg",
+    "UP:CF:IMG_5429.jpeg"
+   ]
+  },
+  {
+   "group_id": "DG-0041",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/00_inbox-root-needs-you.jpg",
+   "representative_status": "CANONICAL",
+   "family": "INBOX",
+   "route": "inbox inbox-root-needs-you",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/00_inbox-root-needs-you.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/00_inbox-root-needs-you.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0042",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/01_watching.jpg",
+   "representative_status": "CONFLICTING",
+   "family": "INBOX",
+   "route": "inbox watching",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/01_watching.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/01_watching.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0043",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/02_resolved.png",
+   "representative_status": "CONFLICTING",
+   "family": "INBOX",
+   "route": "inbox resolved",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/02_resolved.png",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/02_resolved.png"
+   ]
+  },
+  {
+   "group_id": "DG-0044",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/03_all-inbox.jpg",
+   "representative_status": "CONFLICTING",
+   "family": "INBOX",
+   "route": "inbox all-inbox",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/03_all-inbox.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/03_all-inbox.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0045",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/04_messages.jpg",
+   "representative_status": "CONFLICTING",
+   "family": "INBOX",
+   "route": "inbox messages",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/04_messages.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/04_messages.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0046",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/05_system.jpg",
+   "representative_status": "CONFLICTING",
+   "family": "INBOX",
+   "route": "inbox system",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/05_system.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/05_system.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0047",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/06_decision-detail.jpg",
+   "representative_status": "CANONICAL",
+   "family": "INBOX",
+   "route": "inbox decision-detail",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/06_decision-detail.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/06_decision-detail.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0048",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/07_message-thread.jpg",
+   "representative_status": "CANONICAL",
+   "family": "INBOX",
+   "route": "inbox message-thread",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/07_message-thread.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/07_message-thread.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0049",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/08_system-notice-detail.jpg",
+   "representative_status": "CANONICAL",
+   "family": "INBOX",
+   "route": "inbox system-notice-detail",
+   "member_ids": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/08_system-notice-detail.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/08_system-notice-detail.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0050",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5982.jpg",
+   "representative_status": "CANONICAL",
+   "family": "INBOX",
+   "route": "inbox",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5982.jpg",
+    "UP:T12:Desktop/IMG_5982.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0051",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5983.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-brand",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5983.jpg",
+    "UP:T12:Desktop/IMG_5983.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0052",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5984.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-surfaces",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5984.jpg",
+    "UP:T12:Desktop/IMG_5984.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0053",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5985.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-compiler",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5985.jpg",
+    "UP:T12:Desktop/IMG_5985.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0054",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5986.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-assets",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5986.jpg",
+    "UP:T12:Desktop/IMG_5986.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0055",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5987.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-viewport",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5987.jpg",
+    "UP:T12:Desktop/IMG_5987.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0056",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5988.jpg",
+   "representative_status": "CANONICAL",
+   "family": "EXPERIENCE",
+   "route": "experience",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5988.jpg",
+    "UP:T12:Desktop/IMG_5988.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0057",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5989.jpg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "expression",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5989.jpg",
+    "UP:T12:Desktop/IMG_5989.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0058",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5990.jpg",
+   "representative_status": "CANONICAL",
+   "family": "LIBRARY",
+   "route": "library",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5990.jpg",
+    "UP:T12:Desktop/IMG_5990.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0059",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5991.jpg",
+   "representative_status": "CANONICAL",
+   "family": "ACTIVITY",
+   "route": "activity",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5991.jpg",
+    "UP:T12:Desktop/IMG_5991.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0060",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Desktop/IMG_5992.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-experience",
+   "member_ids": [
+    "UP:T12:Desktop/IMG_5992.jpg",
+    "UP:T12:Desktop/IMG_5992.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0061",
+   "kind": "EXACT+NEAR",
+   "members": 3,
+   "unique_blobs": 2,
+   "representative": "UP:HUBREF:d89b8fd6-image.png",
+   "representative_status": "CANONICAL",
+   "family": "HUB",
+   "route": "hub",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5922.jpg",
+    "UP:T12:Mobile/IMG_5922.jpg",
+    "UP:HUBREF:d89b8fd6-image.png"
+   ]
+  },
+  {
+   "group_id": "DG-0062",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5924.jpg",
+   "representative_status": "CANONICAL",
+   "family": "INBOX",
+   "route": "inbox",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5924.jpg",
+    "UP:T12:Mobile/IMG_5924.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0063",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5925.jpg",
+   "representative_status": "CANONICAL",
+   "family": "EXPERIENCE",
+   "route": "experience",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5925.jpg",
+    "UP:T12:Mobile/IMG_5925.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0064",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5936.jpg",
+   "representative_status": "CANONICAL",
+   "family": "ACTIVITY",
+   "route": "activity",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5936.jpg",
+    "UP:T12:Mobile/IMG_5936.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0065",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5957.jpg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "expression",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5957.jpg",
+    "UP:T12:Mobile/IMG_5957.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0066",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5963.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-experience",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5963.jpg",
+    "UP:T12:Mobile/IMG_5963.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0067",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5968.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-brand",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5968.jpg",
+    "UP:T12:Mobile/IMG_5968.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0068",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5969.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-surfaces",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5969.jpg",
+    "UP:T12:Mobile/IMG_5969.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0069",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5970.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-compiler",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5970.jpg",
+    "UP:T12:Mobile/IMG_5970.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0070",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5974.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-assets",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5974.jpg",
+    "UP:T12:Mobile/IMG_5974.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0071",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5975.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-viewport",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5975.jpg",
+    "UP:T12:Mobile/IMG_5975.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0072",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Mobile/IMG_5979.jpg",
+   "representative_status": "CANONICAL",
+   "family": "LIBRARY",
+   "route": "library",
+   "member_ids": [
+    "UP:T12:Mobile/IMG_5979.jpg",
+    "UP:T12:Mobile/IMG_5979.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0073",
+   "kind": "EXACT+NEAR",
+   "members": 3,
+   "unique_blobs": 2,
+   "representative": "UP:HUBREF:c77b4b50-image.png",
+   "representative_status": "CANONICAL",
+   "family": "HUB",
+   "route": "hub",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6004.jpg",
+    "UP:T12:Tablet/IMG_6004.jpg",
+    "UP:HUBREF:c77b4b50-image.png"
+   ]
+  },
+  {
+   "group_id": "DG-0074",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6005.jpg",
+   "representative_status": "CANONICAL",
+   "family": "INBOX",
+   "route": "inbox",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6005.jpg",
+    "UP:T12:Tablet/IMG_6005.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0075",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6006.jpg",
+   "representative_status": "CANONICAL",
+   "family": "EXPERIENCE",
+   "route": "experience",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6006.jpg",
+    "UP:T12:Tablet/IMG_6006.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0076",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6007.jpg",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "expression",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6007.jpg",
+    "UP:T12:Tablet/IMG_6007.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0077",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6008.jpg",
+   "representative_status": "CANONICAL",
+   "family": "LIBRARY",
+   "route": "library",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6008.jpg",
+    "UP:T12:Tablet/IMG_6008.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0078",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6009.jpg",
+   "representative_status": "CANONICAL",
+   "family": "ACTIVITY",
+   "route": "activity",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6009.jpg",
+    "UP:T12:Tablet/IMG_6009.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0079",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6010.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-brand",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6010.jpg",
+    "UP:T12:Tablet/IMG_6010.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0080",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6011.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-surfaces",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6011.jpg",
+    "UP:T12:Tablet/IMG_6011.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0081",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6012.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-compiler",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6012.jpg",
+    "UP:T12:Tablet/IMG_6012.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0082",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6013.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-assets",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6013.jpg",
+    "UP:T12:Tablet/IMG_6013.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0083",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6014.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-viewport",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6014.jpg",
+    "UP:T12:Tablet/IMG_6014.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0084",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "UP:T12:Tablet/IMG_6019.jpg",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design-experience",
+   "member_ids": [
+    "UP:T12:Tablet/IMG_6019.jpg",
+    "UP:T12:Tablet/IMG_6019.jpg"
+   ]
+  },
+  {
+   "group_id": "DG-0085",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/assets/expression-engine/entry-002/final-cinematic-storyboard/ndx-entry-002-final-cinematic-storyboard-strip-004.jpg@1af9738a06",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "Entry 002 final cinematic storyboard frames (content)",
+   "member_ids": [
+    "GIT:public/assets/expression-engine/entry-002/final-cinematic-storyboard/ndx-entry-002-final-cinematic-storyboard-strip-004.jpg@1af9738a06",
+    "GIT:public/assets/expression-engine/entry-002/final-cinematic-storyboard/ndx-entry-002-final-cinematic-storyboard-strip-005.jpg@1af9738a06"
+   ]
+  },
+  {
+   "group_id": "DG-0086",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:assets/founder-storyboard/entry-002-storyboard-variant-a.jpg@5d74e6cbed",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "Entry 002 storyboard (content)",
+   "member_ids": [
+    "GIT:assets/founder-storyboard/entry-002-storyboard-variant-a.jpg@5d74e6cbed",
+    "GIT:public/assets/expression-engine/entry-002/final-cinematic-storyboard/ndx-entry-002-final-cinematic-storyboard-strip-006.jpg@5d74e6cbed",
+    "GIT:public/assets/expression-engine/entry-002/founder-storyboard/entry-002-storyboard-variant-a.jpg@5d74e6cbed"
+   ]
+  },
+  {
+   "group_id": "DG-0087",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:assets/founder-storyboard/entry-002-storyboard-variant-b.jpg@7710095435",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "Entry 002 storyboard (content)",
+   "member_ids": [
+    "GIT:assets/founder-storyboard/entry-002-storyboard-variant-b.jpg@7710095435",
+    "GIT:public/assets/expression-engine/entry-002/founder-storyboard/entry-002-storyboard-variant-b.jpg@7710095435"
+   ]
+  },
+  {
+   "group_id": "DG-0088",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/character-fabrication/actor/sw008/portrait/primary.webp@d0fde34b70",
+   "representative_status": "SUPERSEDED",
+   "family": "EXPRESSION",
+   "route": "character fabrication media",
+   "member_ids": [
+    "GIT:public/site00/character-fabrication/actor/sw008/portrait/primary.webp@d0fde34b70",
+    "GIT:public/site00/character-fabrication/actor/sw034/portrait/primary.webp@d0fde34b70"
+   ]
+  },
+  {
+   "group_id": "DG-0089",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/character-fabrication/actor/sw022/portrait/primary.webp@14a065b847",
+   "representative_status": "SUPERSEDED",
+   "family": "EXPRESSION",
+   "route": "character fabrication media",
+   "member_ids": [
+    "GIT:public/site00/character-fabrication/actor/sw022/portrait/primary.webp@14a065b847",
+    "GIT:public/site00/character-fabrication/actor/sw044/portrait/primary.webp@14a065b847"
+   ]
+  },
+  {
+   "group_id": "DG-0090",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/character-fabrication/actor/sw031/portrait/primary.webp@c199a42910",
+   "representative_status": "SUPERSEDED",
+   "family": "EXPRESSION",
+   "route": "character fabrication media",
+   "member_ids": [
+    "GIT:public/site00/character-fabrication/actor/sw031/portrait/primary.webp@c199a42910",
+    "GIT:public/site00/character-fabrication/actor/sw042/portrait/primary.webp@c199a42910"
+   ]
+  },
+  {
+   "group_id": "DG-0091",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/production-hub/production/ndxbook/entry-002/node/storyboard/primary.webp@f9caf4a3f5",
+   "representative_status": "CANONICAL",
+   "family": "HUB",
+   "route": "hub machine media",
+   "member_ids": [
+    "GIT:public/site00/character-fabrication/character/subject-woman/portrait/primary.webp@f9caf4a3f5",
+    "GIT:public/site00/production-hub/production/ndxbook/entry-002/node/storyboard/primary.webp@f9caf4a3f5",
+    "GIT:public/site00/production-hub/production/ndxbook/entry-002/storyboard/frame/03.webp@f9caf4a3f5"
+   ]
+  },
+  {
+   "group_id": "DG-0092",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-001__etta-vale/01-natural-authority/etta-vale__natural-full-body__sophisticated-fashionista.jpg@4e3eee1d8d",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-001__etta-vale/01-natural-authority/etta-vale__natural-full-body__sophisticated-fashionista.jpg@4e3eee1d8d",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-etta-vale-full-body.jpg@41e45197a3"
+   ]
+  },
+  {
+   "group_id": "DG-0093",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-001__etta-vale/02-closeups/etta-vale__closeup__sophisticated-fashionista.jpg@56d1a87246",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-001__etta-vale/02-closeups/etta-vale__closeup__sophisticated-fashionista.jpg@56d1a87246",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-etta-vale-closeup-variant.jpg@389a05ed5e"
+   ]
+  },
+  {
+   "group_id": "DG-0094",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-001__etta-vale/03-work-uniform-candidates/etta-vale__shared-uniform-candidate__v1.jpg@68301edc92",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-001__etta-vale/03-work-uniform-candidates/etta-vale__shared-uniform-candidate__v1.jpg@68301edc92",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-etta-vale-uniform.jpg@bf461da836"
+   ]
+  },
+  {
+   "group_id": "DG-0095",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-002__zuri-xu/01-natural-authority/zuri-xu__natural-full-body__architectural-fashion-strategist.jpg@5598330062",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-002__zuri-xu/01-natural-authority/zuri-xu__natural-full-body__architectural-fashion-strategist.jpg@5598330062",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-zuri-xu-full-body.jpg@a2954f48d8"
+   ]
+  },
+  {
+   "group_id": "DG-0096",
+   "kind": "EXACT+NEAR",
+   "members": 4,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-002__zuri-xu/02-closeups/zuri-xu__closeup__architectural-fashion-strategist.jpg@cc1521870f",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-002__zuri-xu/02-closeups/zuri-xu__closeup__architectural-fashion-strategist.jpg@cc1521870f",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-zuri-xu-portrait.jpg@781e1bbf63",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/01_IDENTITY_SOURCE/SW-002_IDENTITY_SOURCE.jpg@781e1bbf63",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-002_ZURI_XU/01_IDENTITY_SOURCE/SW-002_IDENTITY_SOURCE.jpg@781e1bbf63"
+   ]
+  },
+  {
+   "group_id": "DG-0097",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-002__zuri-xu/03-work-uniform-candidates/zuri-xu__shared-uniform-candidate__v1.jpg@3df320b235",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-002__zuri-xu/03-work-uniform-candidates/zuri-xu__shared-uniform-candidate__v1.jpg@3df320b235",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-zuri-xu-uniform.jpg@34a5ee12f9"
+   ]
+  },
+  {
+   "group_id": "DG-0098",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-003__jules-mercer/01-natural-authority/jules-mercer__natural-full-body__relaxed-romantic.jpg@91cda6c3c3",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-003__jules-mercer/01-natural-authority/jules-mercer__natural-full-body__relaxed-romantic.jpg@91cda6c3c3",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-jules-mercer-locs-full-body-candidate.jpg@8f647228e1"
+   ]
+  },
+  {
+   "group_id": "DG-0099",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-003__jules-mercer/02-closeups/jules-mercer__closeup__relaxed-romantic.jpg@6f605afed9",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-003__jules-mercer/02-closeups/jules-mercer__closeup__relaxed-romantic.jpg@6f605afed9",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-jules-mercer-locs-closeup-candidate.jpg@35bb51d204"
+   ]
+  },
+  {
+   "group_id": "DG-0100",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-003__jules-mercer/03-work-uniform-candidates/jules-mercer__shared-uniform-candidate__v1.jpg@b51b6d29a3",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-003__jules-mercer/03-work-uniform-candidates/jules-mercer__shared-uniform-candidate__v1.jpg@b51b6d29a3",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-jules-mercer-locs-uniform-candidate.jpg@12de7d04ec"
+   ]
+  },
+  {
+   "group_id": "DG-0101",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/01-natural-authority/noa-kline__natural-full-body__understated-systems-dad.jpg@eb2d6f9f74",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/01-natural-authority/noa-kline__natural-full-body__understated-systems-dad.jpg@eb2d6f9f74",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-noa-kline-full-body.jpg@bb2249ee30"
+   ]
+  },
+  {
+   "group_id": "DG-0102",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__01.jpg@21b2dc909e",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__01.jpg@21b2dc909e",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-noa-kline-closeup-alt.jpg@9b4216f93d"
+   ]
+  },
+  {
+   "group_id": "DG-0103",
+   "kind": "EXACT+NEAR",
+   "members": 4,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__02.jpg@923171a5e1",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__02.jpg@923171a5e1",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-noa-kline-portrait.jpg@2d71f8366b",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/01_IDENTITY_SOURCE/SW-004_IDENTITY_SOURCE.jpg@2d71f8366b",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-004_NOA_KLINE/01_IDENTITY_SOURCE/SW-004_IDENTITY_SOURCE.jpg@2d71f8366b"
+   ]
+  },
+  {
+   "group_id": "DG-0104",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__03.jpg@23e6911a4a",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__03.jpg@23e6911a4a",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-noa-kline-closeup-alt-2.jpg@84a00ae62d"
+   ]
+  },
+  {
+   "group_id": "DG-0105",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/03-work-uniform-candidates/noa-kline__shared-uniform-candidate__v1.jpg@1403aefabf",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/03-work-uniform-candidates/noa-kline__shared-uniform-candidate__v1.jpg@1403aefabf",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-noa-kline-uniform.jpg@7a2d425079"
+   ]
+  },
+  {
+   "group_id": "DG-0106",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-005__caspian-reed/01-natural-authority/caspian-reed__natural-full-body__decadent-bohemian-aristocrat.jpg@318fd36503",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-005__caspian-reed/01-natural-authority/caspian-reed__natural-full-body__decadent-bohemian-aristocrat.jpg@318fd36503",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-caspian-reed-full-body.jpg@d358fd19d5"
+   ]
+  },
+  {
+   "group_id": "DG-0107",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-005__caspian-reed/02-closeups/caspian-reed__closeup__decadent-bohemian-aristocrat.jpg@de8a325c0b",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-005__caspian-reed/02-closeups/caspian-reed__closeup__decadent-bohemian-aristocrat.jpg@de8a325c0b",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-caspian-reed-closeup-variant.jpg@2bf3b243f5"
+   ]
+  },
+  {
+   "group_id": "DG-0108",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-005__caspian-reed/03-work-uniform-candidates/caspian-reed__shared-uniform-candidate__v1.jpg@0aba30108b",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-005__caspian-reed/03-work-uniform-candidates/caspian-reed__shared-uniform-candidate__v1.jpg@0aba30108b",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-caspian-reed-uniform.jpg@3fdba495d8"
+   ]
+  },
+  {
+   "group_id": "DG-0109",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/01-natural-authority/iona-wells__natural-full-body__precision-utilitarian.jpg@bf827dfff3",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/01-natural-authority/iona-wells__natural-full-body__precision-utilitarian.jpg@bf827dfff3",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-iona-wells-full-body.jpg@ee72199153"
+   ]
+  },
+  {
+   "group_id": "DG-0110",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/02-closeups/iona-wells__closeup__precision-utilitarian.jpg@46f6a1c237",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/02-closeups/iona-wells__closeup__precision-utilitarian.jpg@46f6a1c237",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-iona-wells-closeup-variant.jpg@1ee81ac515"
+   ]
+  },
+  {
+   "group_id": "DG-0111",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/03-work-uniform-candidates/iona-wells__shared-uniform-candidate__v1.jpg@ebd57c134b",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/03-work-uniform-candidates/iona-wells__shared-uniform-candidate__v1.jpg@ebd57c134b",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-iona-wells-uniform.jpg@3316843ef8"
+   ]
+  },
+  {
+   "group_id": "DG-0112",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/04-alternate-modes/iona-wells__full-glam__alternate-mode.jpg@0e32cab295",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/04-alternate-modes/iona-wells__full-glam__alternate-mode.jpg@0e32cab295",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-iona-wells-glam-variant.jpg@0e28cc32bc"
+   ]
+  },
+  {
+   "group_id": "DG-0113",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-007__marlowe-saint/01-natural-authority/marlowe-saint__natural-full-body__off-duty-cultural-icon.jpg@5ac2b017bb",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-007__marlowe-saint/01-natural-authority/marlowe-saint__natural-full-body__off-duty-cultural-icon.jpg@5ac2b017bb",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-marlowe-saint-full-body.jpg@ae3651d6b5"
+   ]
+  },
+  {
+   "group_id": "DG-0114",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-007__marlowe-saint/03-work-uniform-candidates/marlowe-saint__shared-uniform-candidate__corrected-larger-body-v1.jpg@232247e7e4",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-007__marlowe-saint/03-work-uniform-candidates/marlowe-saint__shared-uniform-candidate__corrected-larger-body-v1.jpg@232247e7e4",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-marlowe-saint-uniform.jpg@ff7c375164"
+   ]
+  },
+  {
+   "group_id": "DG-0115",
+   "kind": "EXACT+NEAR",
+   "members": 4,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-007__marlowe-saint/04-alternate-modes/marlowe-saint__grand-cultural-icon__alternate-reference.jpg@aa2f27f924",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-007__marlowe-saint/04-alternate-modes/marlowe-saint__grand-cultural-icon__alternate-reference.jpg@aa2f27f924",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-marlowe-saint-portrait.jpg@e188dfcb83",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/01_IDENTITY_SOURCE/SW-007_IDENTITY_SOURCE.jpg@e188dfcb83",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-007_MARLOWE_SAINT/01_IDENTITY_SOURCE/SW-007_IDENTITY_SOURCE.jpg@e188dfcb83"
+   ]
+  },
+  {
+   "group_id": "DG-0116",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-008__elio-vahn/01-natural-authority/elio-vahn__natural-full-body__private-club-strategist.jpg@e5d518516a",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-008__elio-vahn/01-natural-authority/elio-vahn__natural-full-body__private-club-strategist.jpg@e5d518516a",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-elio-vahn-full-body.jpg@02304d8b63"
+   ]
+  },
+  {
+   "group_id": "DG-0117",
+   "kind": "EXACT+NEAR",
+   "members": 4,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-008__elio-vahn/02-closeups/elio-vahn__closeup__private-club-strategist.jpg@85e7937e1e",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-008__elio-vahn/02-closeups/elio-vahn__closeup__private-club-strategist.jpg@85e7937e1e",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-elio-vahn-portrait.jpg@3ceb3b40b7",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/01_IDENTITY_SOURCE/SW-008_IDENTITY_SOURCE.jpg@3ceb3b40b7",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-008_ELIO_VAHN/01_IDENTITY_SOURCE/SW-008_IDENTITY_SOURCE.jpg@3ceb3b40b7"
+   ]
+  },
+  {
+   "group_id": "DG-0118",
+   "kind": "NEAR",
+   "members": 2,
+   "unique_blobs": 2,
+   "representative": "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-008__elio-vahn/03-work-uniform-candidates/elio-vahn__shared-uniform-candidate__v1.jpg@085dc57bf1",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident season-1 natural identity",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/season1-v1/SW-RESIDENT-008__elio-vahn/03-work-uniform-candidates/elio-vahn__shared-uniform-candidate__v1.jpg@085dc57bf1",
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-elio-vahn-uniform.jpg@7c88bfa82a"
+   ]
+  },
+  {
+   "group_id": "DG-0119",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-001_ETTA_VALE.jpg@31140c35fd",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident portraits (work look)",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-001_ETTA_VALE.jpg@31140c35fd",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/00_APPROVED_PORTRAIT_FRONT.png@31140c35fd",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/00_APPROVED_PORTRAIT_FRONT.png@31140c35fd"
+   ]
+  },
+  {
+   "group_id": "DG-0120",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-002_ZURI_XU.jpg@43979d5378",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident portraits (work look)",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-002_ZURI_XU.jpg@43979d5378",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-002_ZURI_XU/00_APPROVED_PORTRAIT_FRONT.png@43979d5378",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-002_ZURI_XU/00_APPROVED_PORTRAIT_FRONT.png@43979d5378"
+   ]
+  },
+  {
+   "group_id": "DG-0121",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-003_JULES_MERCER.jpg@bc55d5befe",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident portraits (work look)",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-003_JULES_MERCER.jpg@bc55d5befe",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-003_JULES_MERCER/00_APPROVED_PORTRAIT_FRONT.png@bc55d5befe",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-003_JULES_MERCER/00_APPROVED_PORTRAIT_FRONT.png@bc55d5befe"
+   ]
+  },
+  {
+   "group_id": "DG-0122",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-004_NOA_KLINE.jpg@1102dda1fa",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident portraits (work look)",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-004_NOA_KLINE.jpg@1102dda1fa",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-004_NOA_KLINE/00_APPROVED_PORTRAIT_FRONT.png@1102dda1fa",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-004_NOA_KLINE/00_APPROVED_PORTRAIT_FRONT.png@1102dda1fa"
+   ]
+  },
+  {
+   "group_id": "DG-0123",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-005_CASPIAN_REED.jpg@e1ed03afb7",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident portraits (work look)",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-005_CASPIAN_REED.jpg@e1ed03afb7",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-005_CASPIAN_REED/00_APPROVED_PORTRAIT_FRONT.png@e1ed03afb7",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-005_CASPIAN_REED/00_APPROVED_PORTRAIT_FRONT.png@e1ed03afb7"
+   ]
+  },
+  {
+   "group_id": "DG-0124",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-006_IONA_WELLS.jpg@8e59447c97",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident portraits (work look)",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-006_IONA_WELLS.jpg@8e59447c97",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-006_IONA_WELLS/00_APPROVED_PORTRAIT_FRONT.png@8e59447c97",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-006_IONA_WELLS/00_APPROVED_PORTRAIT_FRONT.png@8e59447c97"
+   ]
+  },
+  {
+   "group_id": "DG-0125",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-007_MARLOWE_SAINT.jpg@47fedbf07c",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident portraits (work look)",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-007_MARLOWE_SAINT.jpg@47fedbf07c",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-007_MARLOWE_SAINT/00_APPROVED_PORTRAIT_FRONT.png@47fedbf07c",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-007_MARLOWE_SAINT/00_APPROVED_PORTRAIT_FRONT.png@47fedbf07c"
+   ]
+  },
+  {
+   "group_id": "DG-0126",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-008_ELIO_EV_VAHN.jpg@42d75d940f",
+   "representative_status": "CANONICAL",
+   "family": "EXPRESSION",
+   "route": "resident portraits (work look)",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-008_ELIO_EV_VAHN.jpg@42d75d940f",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-008_ELIO_VAHN/00_APPROVED_PORTRAIT_FRONT.png@42d75d940f",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-008_ELIO_VAHN/00_APPROVED_PORTRAIT_FRONT.png@42d75d940f"
+   ]
+  },
+  {
+   "group_id": "DG-0127",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/production-authority-assets/design-pack/icons/nav-hub.png@ff301041d0",
+   "representative_status": "CANONICAL",
+   "family": "DESIGN",
+   "route": "design system assets",
+   "member_ids": [
+    "GIT:public/site00/production-authority-assets/design-pack/icons/nav-hub.png@ff301041d0",
+    "GIT:src/site00/components/productionHub/bottom-nav/masters/01_HUB.png@ff301041d0"
+   ]
+  },
+  {
+   "group_id": "DG-0128",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/01_IDENTITY_SOURCE/SW-005_IDENTITY_SOURCE.jpg@0a46f94fc5",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-caspian-reed-portrait.jpg@0a46f94fc5",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/01_IDENTITY_SOURCE/SW-005_IDENTITY_SOURCE.jpg@0a46f94fc5",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-005_CASPIAN_REED/01_IDENTITY_SOURCE/SW-005_IDENTITY_SOURCE.jpg@0a46f94fc5"
+   ]
+  },
+  {
+   "group_id": "DG-0129",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/01_IDENTITY_SOURCE/SW-001_IDENTITY_SOURCE.jpg@7534cadc9a",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-etta-vale-portrait.jpg@7534cadc9a",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/01_IDENTITY_SOURCE/SW-001_IDENTITY_SOURCE.jpg@7534cadc9a",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-001_ETTA_VALE/01_IDENTITY_SOURCE/SW-001_IDENTITY_SOURCE.jpg@7534cadc9a"
+   ]
+  },
+  {
+   "group_id": "DG-0130",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/01_IDENTITY_SOURCE/SW-006_IDENTITY_SOURCE.jpg@371921257a",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-iona-wells-portrait.jpg@371921257a",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/01_IDENTITY_SOURCE/SW-006_IDENTITY_SOURCE.jpg@371921257a",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-006_IONA_WELLS/01_IDENTITY_SOURCE/SW-006_IDENTITY_SOURCE.jpg@371921257a"
+   ]
+  },
+  {
+   "group_id": "DG-0131",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/01_IDENTITY_SOURCE/SW-003_IDENTITY_SOURCE.jpg@3b3082e750",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:public/site00/production-authority-assets/shared/residents/studio-world-jules-mercer-portrait.jpg@3b3082e750",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/01_IDENTITY_SOURCE/SW-003_IDENTITY_SOURCE.jpg@3b3082e750",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-003_JULES_MERCER/01_IDENTITY_SOURCE/SW-003_IDENTITY_SOURCE.jpg@3b3082e750"
+   ]
+  },
+  {
+   "group_id": "DG-0132",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/05_METADATA/SW-001_CONTACT_SHEET.jpg@68d91a40d2",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/05_METADATA/SW-001_CONTACT_SHEET.jpg@68d91a40d2",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-001_ETTA_VALE/05_METADATA/SW-001_CONTACT_SHEET.jpg@68d91a40d2"
+   ]
+  },
+  {
+   "group_id": "DG-0133",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/05_METADATA/SW-002_CONTACT_SHEET.jpg@87d1da0caa",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/05_METADATA/SW-002_CONTACT_SHEET.jpg@87d1da0caa",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-002_ZURI_XU/05_METADATA/SW-002_CONTACT_SHEET.jpg@87d1da0caa"
+   ]
+  },
+  {
+   "group_id": "DG-0134",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/05_METADATA/SW-003_CONTACT_SHEET.jpg@c596f9cc29",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/05_METADATA/SW-003_CONTACT_SHEET.jpg@c596f9cc29",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-003_JULES_MERCER/05_METADATA/SW-003_CONTACT_SHEET.jpg@c596f9cc29"
+   ]
+  },
+  {
+   "group_id": "DG-0135",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/05_METADATA/SW-004_CONTACT_SHEET.jpg@eab0e779c7",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/05_METADATA/SW-004_CONTACT_SHEET.jpg@eab0e779c7",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-004_NOA_KLINE/05_METADATA/SW-004_CONTACT_SHEET.jpg@eab0e779c7"
+   ]
+  },
+  {
+   "group_id": "DG-0136",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/05_METADATA/SW-005_CONTACT_SHEET.jpg@be4a9b6676",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/05_METADATA/SW-005_CONTACT_SHEET.jpg@be4a9b6676",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-005_CASPIAN_REED/05_METADATA/SW-005_CONTACT_SHEET.jpg@be4a9b6676"
+   ]
+  },
+  {
+   "group_id": "DG-0137",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/05_METADATA/SW-006_CONTACT_SHEET.jpg@71ae64ba86",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-006_IONA_WELLS/05_METADATA/SW-006_CONTACT_SHEET.jpg@71ae64ba86",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-006_IONA_WELLS/05_METADATA/SW-006_CONTACT_SHEET.jpg@71ae64ba86"
+   ]
+  },
+  {
+   "group_id": "DG-0138",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/05_METADATA/SW-007_CONTACT_SHEET.jpg@324dbcafda",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-007_MARLOWE_SAINT/05_METADATA/SW-007_CONTACT_SHEET.jpg@324dbcafda",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-007_MARLOWE_SAINT/05_METADATA/SW-007_CONTACT_SHEET.jpg@324dbcafda"
+   ]
+  },
+  {
+   "group_id": "DG-0139",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/05_METADATA/SW-008_CONTACT_SHEET.jpg@062e48cee0",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-008_ELIO_VAHN/05_METADATA/SW-008_CONTACT_SHEET.jpg@062e48cee0",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-008_ELIO_VAHN/05_METADATA/SW-008_CONTACT_SHEET.jpg@062e48cee0"
+   ]
+  },
+  {
+   "group_id": "DG-0140",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/05_METADATA/SW-001_CONTACT_SHEET.jpg@1e14d066f1",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/05_METADATA/SW-001_CONTACT_SHEET.jpg@1e14d066f1",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/_lite_export/SW-001_ETTA_VALE/05_METADATA/SW-001_CONTACT_SHEET.jpg@1e14d066f1"
+   ]
+  },
+  {
+   "group_id": "DG-0141",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION_VALIDATION/SW-001_ETTA_SOURCE_BINDING_PROOF.jpg@b643b29509",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION_VALIDATION/SW-001_ETTA_SOURCE_BINDING_PROOF.jpg@b643b29509",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FABRICATION_VALIDATION/SW-001_SOURCE_BINDING_PROOF.jpg@b643b29509"
+   ]
+  },
+  {
+   "group_id": "DG-0142",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-001_ETTA_VALE/01_FULL_BODY_UNIFORM_FRONT.png@165097aa07",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-001_ETTA_VALE/01_FULL_BODY_UNIFORM_FRONT.png@165097aa07",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/00_APPROVED_FULL_BODY_FRONT.png@165097aa07",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/00_APPROVED_FULL_BODY_FRONT.png@165097aa07"
+   ]
+  },
+  {
+   "group_id": "DG-0143",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-002_ZURI_XU/01_FULL_BODY_UNIFORM_FRONT.png@abf0e29531",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-002_ZURI_XU/01_FULL_BODY_UNIFORM_FRONT.png@abf0e29531",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-002_ZURI_XU/00_APPROVED_FULL_BODY_FRONT.png@abf0e29531",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-002_ZURI_XU/00_APPROVED_FULL_BODY_FRONT.png@abf0e29531"
+   ]
+  },
+  {
+   "group_id": "DG-0144",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-003_JULES_MERCER/01_FULL_BODY_UNIFORM_FRONT.png@d6b4a54f14",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-003_JULES_MERCER/01_FULL_BODY_UNIFORM_FRONT.png@d6b4a54f14",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-003_JULES_MERCER/00_APPROVED_FULL_BODY_FRONT.png@d6b4a54f14",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-003_JULES_MERCER/00_APPROVED_FULL_BODY_FRONT.png@d6b4a54f14"
+   ]
+  },
+  {
+   "group_id": "DG-0145",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-004_NOA_KLINE/01_FULL_BODY_UNIFORM_FRONT.png@7a82a24f54",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-004_NOA_KLINE/01_FULL_BODY_UNIFORM_FRONT.png@7a82a24f54",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-004_NOA_KLINE/00_APPROVED_FULL_BODY_FRONT.png@7a82a24f54",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-004_NOA_KLINE/00_APPROVED_FULL_BODY_FRONT.png@7a82a24f54"
+   ]
+  },
+  {
+   "group_id": "DG-0146",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-005_CASPIAN_REED/01_FULL_BODY_UNIFORM_FRONT.png@d3e7862c97",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-005_CASPIAN_REED/01_FULL_BODY_UNIFORM_FRONT.png@d3e7862c97",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-005_CASPIAN_REED/00_APPROVED_FULL_BODY_FRONT.png@d3e7862c97",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-005_CASPIAN_REED/00_APPROVED_FULL_BODY_FRONT.png@d3e7862c97"
+   ]
+  },
+  {
+   "group_id": "DG-0147",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-006_IONA_WELLS/01_FULL_BODY_UNIFORM_FRONT.png@69d6fe35ea",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-006_IONA_WELLS/01_FULL_BODY_UNIFORM_FRONT.png@69d6fe35ea",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-006_IONA_WELLS/00_APPROVED_FULL_BODY_FRONT.png@69d6fe35ea",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-006_IONA_WELLS/00_APPROVED_FULL_BODY_FRONT.png@69d6fe35ea"
+   ]
+  },
+  {
+   "group_id": "DG-0148",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-007_MARLOWE_SAINT/01_FULL_BODY_UNIFORM_FRONT.png@67ca5ce291",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-007_MARLOWE_SAINT/01_FULL_BODY_UNIFORM_FRONT.png@67ca5ce291",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-007_MARLOWE_SAINT/00_APPROVED_FULL_BODY_FRONT.png@67ca5ce291",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-007_MARLOWE_SAINT/00_APPROVED_FULL_BODY_FRONT.png@67ca5ce291"
+   ]
+  },
+  {
+   "group_id": "DG-0149",
+   "kind": "EXACT",
+   "members": 3,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-008_ELIO_VAHN/01_FULL_BODY_UNIFORM_FRONT.png@bee178bd07",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN/SW-008_ELIO_VAHN/01_FULL_BODY_UNIFORM_FRONT.png@bee178bd07",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-008_ELIO_VAHN/00_APPROVED_FULL_BODY_FRONT.png@bee178bd07",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-008_ELIO_VAHN/00_APPROVED_FULL_BODY_FRONT.png@bee178bd07"
+   ]
+  },
+  {
+   "group_id": "DG-0150",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/01_PORTRAIT_LEFT_3Q.png@ae9a3326e5",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident geometry frames",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/01_PORTRAIT_LEFT_3Q.png@ae9a3326e5",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/01_PORTRAIT_LEFT_3Q.png@ae9a3326e5"
+   ]
+  },
+  {
+   "group_id": "DG-0151",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/02_PORTRAIT_RIGHT_3Q.png@cab9b78c05",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident geometry frames",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/02_PORTRAIT_RIGHT_3Q.png@cab9b78c05",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/02_PORTRAIT_RIGHT_3Q.png@cab9b78c05"
+   ]
+  },
+  {
+   "group_id": "DG-0152",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/03_PROFILE_LEFT.png@7cb8891ab3",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident geometry frames",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/03_PROFILE_LEFT.png@7cb8891ab3",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/03_PROFILE_LEFT.png@7cb8891ab3"
+   ]
+  },
+  {
+   "group_id": "DG-0153",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/04_PROFILE_RIGHT.png@5b2b294e0f",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident geometry frames",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/04_PROFILE_RIGHT.png@5b2b294e0f",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/04_PROFILE_RIGHT.png@5b2b294e0f"
+   ]
+  },
+  {
+   "group_id": "DG-0154",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/05_REAR_HEAD.png@594d35277b",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident geometry frames",
+   "member_ids": [
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/05_REAR_HEAD.png@594d35277b",
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/05_REAR_HEAD.png@594d35277b"
+   ]
+  },
+  {
+   "group_id": "DG-0155",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/06_FULL_BODY_LEFT_3Q.png@47691c9fd7",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/06_FULL_BODY_LEFT_3Q.png@47691c9fd7",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/06_FULL_BODY_LEFT_3Q.png@47691c9fd7"
+   ]
+  },
+  {
+   "group_id": "DG-0156",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/07_FULL_BODY_RIGHT_3Q.png@af88f17602",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/07_FULL_BODY_RIGHT_3Q.png@af88f17602",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/07_FULL_BODY_RIGHT_3Q.png@af88f17602"
+   ]
+  },
+  {
+   "group_id": "DG-0157",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/08_FULL_BODY_LEFT_PROFILE.png@0a65e7a7c7",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/08_FULL_BODY_LEFT_PROFILE.png@0a65e7a7c7",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/08_FULL_BODY_LEFT_PROFILE.png@0a65e7a7c7"
+   ]
+  },
+  {
+   "group_id": "DG-0158",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/09_FULL_BODY_RIGHT_PROFILE.png@357340bc79",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/09_FULL_BODY_RIGHT_PROFILE.png@357340bc79",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/09_FULL_BODY_RIGHT_PROFILE.png@357340bc79"
+   ]
+  },
+  {
+   "group_id": "DG-0159",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/10_FULL_BODY_BACK.png@3bea0fc7be",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/10_FULL_BODY_BACK.png@3bea0fc7be",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/10_FULL_BODY_BACK.png@3bea0fc7be"
+   ]
+  },
+  {
+   "group_id": "DG-0160",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/11_SEATED_NEUTRAL.png@fb473ac8ce",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/11_SEATED_NEUTRAL.png@fb473ac8ce",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/11_SEATED_NEUTRAL.png@fb473ac8ce"
+   ]
+  },
+  {
+   "group_id": "DG-0161",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/12_STANDING_CONVERSATIONAL.png@4d7ef173f8",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/12_STANDING_CONVERSATIONAL.png@4d7ef173f8",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/12_STANDING_CONVERSATIONAL.png@4d7ef173f8"
+   ]
+  },
+  {
+   "group_id": "DG-0162",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/13_NATURAL_WALK.png@46b3505cd8",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/13_NATURAL_WALK.png@46b3505cd8",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/13_NATURAL_WALK.png@46b3505cd8"
+   ]
+  },
+  {
+   "group_id": "DG-0163",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/14_DOCUMENTARY_CAMERA_AWARE.png@e513034f70",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-001_ETTA_VALE/14_DOCUMENTARY_CAMERA_AWARE.png@e513034f70",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-001_ETTA_VALE/14_DOCUMENTARY_CAMERA_AWARE.png@e513034f70"
+   ]
+  },
+  {
+   "group_id": "DG-0164",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-002_ZURI_XU/01_PORTRAIT_LEFT_3Q.png@2d42bb9be0",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-002_ZURI_XU/01_PORTRAIT_LEFT_3Q.png@2d42bb9be0",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-002_ZURI_XU/01_PORTRAIT_LEFT_3Q.png@2d42bb9be0"
+   ]
+  },
+  {
+   "group_id": "DG-0165",
+   "kind": "EXACT",
+   "members": 2,
+   "unique_blobs": 1,
+   "representative": "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-002_ZURI_XU/02_PORTRAIT_RIGHT_3Q.png@8a2db231fe",
+   "representative_status": "IN_REVIEW",
+   "family": "EXPRESSION",
+   "route": "resident fabrication outputs",
+   "member_ids": [
+    "GIT:artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/SW-002_ZURI_XU/02_PORTRAIT_RIGHT_3Q.png@8a2db231fe",
+    "GIT:public/site00/studio-world-residents/geometry-complete-v1/SW-002_ZURI_XU/02_PORTRAIT_RIGHT_3Q.png@8a2db231fe"
+   ]
+  }
+ ]
+}

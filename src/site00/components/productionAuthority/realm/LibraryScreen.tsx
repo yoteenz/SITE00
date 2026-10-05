@@ -9,11 +9,19 @@
  *   LINEAGE  lineage chain + derived rail + node inspector
  * LIBRARY / EXPRESSIONS is the canonical expression archive — it never mounts the Production / Expression floor.
  */
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import {
+  CF_LIBRARY_RETURN_TO,
+  characterFabricationReturnHref,
+  clearFabricationLibraryReturn,
+  readFabricationLibraryReturn,
+} from '../../../../../shared/site00-character-fabrication/fabricationLibraryNav.js';
 import { IaIcon, type IaIconName } from '../iaKit';
 import { byLifecycle, useRealmData, type Collection, type RealmRecord, type Realm } from './realmData';
-import { Btn, Chain, Empty, Kv, Media, Panel, Row, Status, Tile, ViewAll, pad2 } from './RealmKit';
+import { LibraryCharacterImageInspector } from './LibraryCharacterImageInspector.js';
+import { characterMediaAssets } from './libraryCharacterMedia.js';
+import { Btn, Chain, Empty, Kv, Media, Panel, RelatedCharacterTile, Row, Status, Tile, ViewAll, pad2 } from './RealmKit';
 import { LIBRARY_FAMILIES, LIFECYCLES, detailRouteOf, familyRoutes, realmHref, realmRoutes, type Lifecycle, type ResolvedRealmRoute } from './realmRoutes';
 import '../../../styles/site00-production-realm.css';
 
@@ -65,8 +73,19 @@ export function LibraryScreen({ slug, resolved }: { slug: string; resolved: Reso
     const s = p.toString();
     return `${realmHref('library', slug, family.id, route.lifecycle ? 'root' : route.id, resolved.param)}${s ? `?${s}` : ''}`;
   };
+  const charFamily = family.id === 'characters';
+  const charFocus = charFamily && (route.kind === 'detail' || route.kind === 'lineage');
+  const charBrowse = charFamily && (route.kind === 'root' || route.kind === 'child');
   return (
-    <div className="lbf" data-testid="library-family" data-family={family.id} data-route={route.id} data-kind={route.kind} data-authority={route.authority} data-life={life ?? 'ALL'}>
+    <div
+      className={`lbf${charFocus ? ' lbf--char-focus' : ''}${charBrowse ? ' lbf--char-browse' : ''}`}
+      data-testid="library-family"
+      data-family={family.id}
+      data-route={route.id}
+      data-kind={route.kind}
+      data-authority={route.authority}
+      data-life={life ?? 'ALL'}
+    >
       <nav className="lbf-life" aria-label="Lifecycle" data-testid="library-lifecycle">
         {LIFECYCLES.map((l) => (
           <Link key={l} to={life === l ? lifeHref(null) : lifeHref(l)} replace className={life === l ? 'is-active' : undefined} aria-pressed={life === l} data-testid={`library-life-${lifeKey(l)}`}>
@@ -80,23 +99,25 @@ export function LibraryScreen({ slug, resolved }: { slug: string; resolved: Reso
           <b>LIBRARY</b>
           <small>STUDIO WORLD · {realm.project}</small>
         </header>
-        {LIBRARY_FAMILIES.map((f) => (
-          <Link key={f.id} to={realmHref('library', slug, f.id)} className={f.id === family.id ? 'is-active' : undefined} aria-current={f.id === family.id ? 'true' : undefined} data-testid={`library-cat-${f.id}`}>
-            <IaIcon name={CAT_ICON[f.id]!} />
-            <span>{f.title}</span>
-          </Link>
-        ))}
+        <div className={`lbf-cats__list${charFocus ? ' lbf-cats__list--compact' : ''}`} data-scroll={charFocus ? 'internal-x' : undefined}>
+          {LIBRARY_FAMILIES.map((f) => (
+            <Link key={f.id} to={realmHref('library', slug, f.id)} className={f.id === family.id ? 'is-active' : undefined} aria-current={f.id === family.id ? 'true' : undefined} data-testid={`library-cat-${f.id}`}>
+              <IaIcon name={CAT_ICON[f.id]!} />
+              <span>{f.title}</span>
+            </Link>
+          ))}
+        </div>
       </nav>
       <section className="lbf-main" data-testid={`library-${route.kind}`} data-kind={route.kind}>
-        <header className="lbf-head">
+        <header className={`lbf-head${charFocus ? ' lbf-head--compact' : ''}`}>
           <div>
             <h1>{route.kind === 'root' ? family.title : route.label}</h1>
-            <p>{route.kind === 'root' ? family.tagline : `${family.title} · ${realm.project}`}</p>
+            <p>{charFocus ? `LIBRARY · ${family.title} · ${realm.project}` : route.kind === 'root' ? family.tagline : `${family.title} · ${realm.project}`}</p>
           </div>
           <small className="lbf-count" data-testid="library-count">
             {pad2(records.length)} {life ?? 'ALL'} · {family.title}
           </small>
-          <nav className="lbf-views" aria-label={`${family.title} views`} data-testid="library-views" data-scroll="internal-x">
+          <nav className={`lbf-views${charFamily ? ' lbf-views--rail' : ''}`} aria-label={`${family.title} views`} data-testid="library-views" data-scroll="internal-x">
             <Link to={ctx.href(family.id)} className={route.kind === 'root' ? 'is-active' : undefined}>
               ALL
             </Link>
@@ -114,7 +135,15 @@ export function LibraryScreen({ slug, resolved }: { slug: string; resolved: Reso
               ))}
           </nav>
         </header>
-        {route.kind === 'root' ? <Root {...ctx} /> : route.kind === 'child' ? <Child {...ctx} /> : route.kind === 'lineage' ? <Lineage {...ctx} /> : <Detail {...ctx} />}
+        {route.kind === 'root' ?
+          <Root {...ctx} />
+        : route.kind === 'child' ?
+          <Child {...ctx} />
+        : route.kind === 'lineage' ?
+          <Lineage {...ctx} />
+        : charFamily ?
+          <CharacterDetail {...ctx} />
+        : <Detail {...ctx} />}
       </section>
     </div>
   );
@@ -266,6 +295,140 @@ function Inspector({ c, x, closable, close }: { c: Ctx; x: RealmRecord | null; c
   );
 }
 
+function CharacterDetail(c: Ctx) {
+  const [params] = useSearchParams();
+  const cfReturn = params.get('returnTo') === CF_LIBRARY_RETURN_TO ? readFabricationLibraryReturn() : null;
+  const [tab, setTab] = useState<'DETAILS' | 'RELATED' | 'LINEAGE'>('DETAILS');
+  const [mediaIndex, setMediaIndex] = useState(0);
+  const [inspect, setInspect] = useState<{ assets: ReturnType<typeof characterMediaAssets>; index: number; title: string } | null>(null);
+  const all = c.coll.records;
+  const x = pick(all, c.r.param);
+  const assets = useMemo(() => (x ? characterMediaAssets(x) : []), [x]);
+  const related = x ? all.filter((y) => y.id !== x.id).slice(0, 12) : [];
+  const lin = lineageRoute(c);
+  const heroImg = assets[mediaIndex]?.url ?? x?.img ?? null;
+  const openInspect = useCallback(
+    (index = mediaIndex) => {
+      if (!x || !assets.length) return;
+      setMediaIndex(index);
+      setInspect({ assets, index, title: x.title });
+    },
+    [assets, mediaIndex, x],
+  );
+  const stepInspect = useCallback(
+    (delta: -1 | 1) => {
+      setInspect((cur) => {
+        if (!cur) return cur;
+        const next = Math.max(0, Math.min(cur.assets.length - 1, cur.index + delta));
+        setMediaIndex(next);
+        return { ...cur, index: next };
+      });
+    },
+    [],
+  );
+  const inspectRelated = useCallback((y: RealmRecord) => {
+    const relAssets = characterMediaAssets(y);
+    if (!relAssets.length) return;
+    setInspect({ assets: relAssets, index: 0, title: y.title });
+  }, []);
+  if (!x) return <Empty title={`NO ${c.r.family.title} RECORD`} body={c.coll.empty} />;
+
+  return (
+    <div className="lbf-body lbf-body--detail lbf-body--char-detail" data-tab={tab} data-record={x.id}>
+      <article className="lbf-char-media" data-testid="library-character-media">
+        <button type="button" className="lbf-char-media__hit" onClick={() => openInspect(0)} data-testid="library-character-media-open" aria-label={`Inspect ${x.title}`} disabled={!heroImg}>
+          <Media r={{ ...x, img: heroImg }} className="lbf-char-media__img" />
+          {heroImg ? <span className="lbf-char-media__hint">INSPECT IMAGE</span> : null}
+        </button>
+        {assets.length > 1 ? (
+          <div className="lbf-char-media__modes" data-scroll="internal-x" role="tablist" aria-label="Character media modes">
+            {assets.map((a, i) => (
+              <button
+                key={a.id}
+                type="button"
+                role="tab"
+                aria-selected={mediaIndex === i}
+                className={mediaIndex === i ? 'is-active' : undefined}
+                onClick={() => {
+                  setMediaIndex(i);
+                }}
+              >
+                {a.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </article>
+      <div className="lbf-char-identity rk-scroll" data-testid="library-character-identity" data-scroll="internal">
+        <div className="lbf-char-identity__title">
+          <h2>{x.title}</h2>
+          <small>{x.kicker}</small>
+          <Status r={x} />
+        </div>
+        <Kv
+          cols={2}
+          rows={[
+            ['SOURCE', x.source],
+            ['VERSION', x.version ?? '—'],
+            ['USED BY', x.usedBy.length ? `${x.usedBy.length} ROUTES` : '—'],
+            ...x.facts.slice(0, 2),
+          ]}
+        />
+        <div className="lbf-char-identity__actions">
+          {cfReturn ? (
+            <Link
+              to={characterFabricationReturnHref(cfReturn.projectSlug, cfReturn.entryId)}
+              className="lbf-btn lbf-btn--primary"
+              data-testid="library-return-character-fabrication"
+              onClick={() => clearFabricationLibraryReturn()}
+            >
+              RETURN TO CHARACTER FABRICATION
+            </Link>
+          ) : null}
+          <Btn to={x.open ?? undefined} variant="red" testId="library-open-source" title={x.open ? undefined : 'No working surface is linked to this record.'}>
+            OPEN {ONE[c.r.family.id]} <IaIcon name="next" />
+          </Btn>
+          <Btn to={lin ? c.href(c.r.family.id, lin.id, x.id) : undefined} testId="library-detail-lineage" title={lin ? undefined : 'This family records no lineage view.'}>
+            VIEW LINEAGE <IaIcon name="next" />
+          </Btn>
+        </div>
+      </div>
+      <nav className="lbf-dtabs" role="tablist" data-testid="library-detail-tabs">
+        {(['DETAILS', 'RELATED', 'LINEAGE'] as const).map((t) => (
+          <button key={t} type="button" role="tab" aria-selected={tab === t} className={tab === t ? 'is-active' : undefined} onClick={() => setTab(t)}>
+            {t}
+          </button>
+        ))}
+      </nav>
+      <Panel title={`${ONE[c.r.family.id]} DETAILS`} className="lbf-d-details" testId="library-details" scroll>
+        <Kv rows={x.facts} cols={4} />
+        {x.usedBy.length ?
+          <p className="rk-tags">
+            {x.usedBy.map((u) => (
+              <span key={u}>{u}</span>
+            ))}
+          </p>
+        : null}
+      </Panel>
+      <Panel title={`RELATED ${c.r.family.title}`} extra={<ViewAll to={c.href(c.r.family.id, 'index')} />} className="lbf-d-related" testId="library-related" scroll>
+        {related.length ?
+          <div className="rk-rail rk-rail--char">
+            {related.map((y) => (
+              <RelatedCharacterTile key={y.id} r={y} to={openDetail(c, y)} onInspectImage={() => inspectRelated(y)} />
+            ))}
+          </div>
+        : <Empty title="NO RELATED RECORDS" />}
+      </Panel>
+      <Panel title="LINEAGE" className="lbf-d-lineage" testId="library-detail-chain" scroll>
+        <Chain r={x} lookup={c.realm.lookup} href={(id) => openDetail(c, c.realm.lookup(id) ?? x)} />
+      </Panel>
+      {inspect ?
+        <LibraryCharacterImageInspector assets={inspect.assets} index={inspect.index} title={inspect.title} onClose={() => setInspect(null)} onStep={stepInspect} />
+      : null}
+    </div>
+  );
+}
+
 function Detail(c: Ctx) {
   const [tab, setTab] = useState<'DETAILS' | 'RELATED' | 'LINEAGE'>('DETAILS');
   const all = c.coll.records;
@@ -282,7 +445,7 @@ function Detail(c: Ctx) {
           <small>{x.kicker}</small>
         </div>
       </article>
-      <div className="lbf-summary" data-testid="library-summary">
+      <div className="lbf-summary rk-scroll" data-testid="library-summary" data-scroll="internal">
         <span>
           <b>{x.title}</b>
           <Status r={x} />
