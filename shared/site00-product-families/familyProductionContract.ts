@@ -10,6 +10,7 @@
 
 import type { AssetClass, AssetPolicy } from './assetFirstPolicy.js';
 import type { FamilyBudgetRecord, GenerationSettings } from './productionBudget.js';
+import type { FamilyMonetization } from '../site00-monetization/contract.js';
 
 export const FAMILY_PRODUCTION_CONTRACT_VERSION = 'SITE00.FAMILY_PRODUCTION_CONTRACT.V1' as const;
 
@@ -162,7 +163,15 @@ export type FamilyProductionContract = {
   journeys?: { id: string; label: string; path: string[] }[];
   /** Copy-claim substantiation summary (project keeps the full register). */
   claims?: { withheld: number; flagged: number; rule: string };
+  /**
+   * OPTIONAL monetization metadata (shared/site00-monetization). Non-monetized projects omit it; nothing in the gate
+   * or completeness contract depends on it.
+   */
+  monetization?: FamilyMonetization;
 };
+
+/** Family monetization metadata, or null when the project does not monetize this family. */
+export const familyMonetization = (c: FamilyProductionContract): FamilyMonetization | null => c.monetization ?? null;
 
 export const childrenOf = (c: FamilyProductionContract) => c.screens.filter((s) => s.role === 'CHILD');
 export const grandchildrenOf = (c: FamilyProductionContract) => c.screens.filter((s) => s.role === 'GRANDCHILD');

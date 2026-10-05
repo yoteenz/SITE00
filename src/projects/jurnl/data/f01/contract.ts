@@ -12,6 +12,7 @@ import { buildFamilyBudgetRecord, type ProjectBudgetBaseline } from '../../../..
 import { F01_CLAIMS } from './copy';
 import { F01_INTERACTION_MANIFEST } from './interactionBindings';
 import { F01_SCREENS, F01_STATES, F01_STATE_SHEETS } from './screens';
+import { JURNL_F01_MONETIZATION } from '../monetization/familyMonetization';
 
 export const JURNL_BUDGET_BASELINE: ProjectBudgetBaseline = {
   projectId: 'JURNL',
@@ -157,6 +158,7 @@ export const JURNL_F01_CONTRACT: FamilyProductionContract = {
       'P0.JURNL.SITE00-INGEST-F01-DESIGN-WORKSPACE-PROOF1',
     ],
   },
+  monetization: JURNL_F01_MONETIZATION,
   journeys: [
     { id: 'NEW', label: 'NEW ACCOUNT', path: ['F01.00', 'F01.01', 'F01.02', 'F01.09', 'F01.10', 'F01.11', 'F01.12', 'F01.13'] },
     { id: 'SIGN_IN', label: 'SIGN IN', path: ['F01.00', 'F01.03', 'F01.09', 'F01.10', 'F01.13'] },

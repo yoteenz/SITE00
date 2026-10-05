@@ -13343,3 +13343,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **SITE 00 repairs:** viewport FAMILY control (no longer hard-wired to first family) · controls follow live navigation (no reload) · review cards open the live runtime, not the inspector · direct-preview link · runtime overlays pinned to the device viewport (were anchoring to scrolled content) · inspection query switches honoured in design-preview only.
 - **Proof:** `npx tsx scripts/jurnl/viewport-delivery-qa.ts` → 163/163 (42/42 screen×preset, 17/17 interaction types, 74/74 manifest interactions triggered inside the viewport, same runtime module for viewport + direct preview) → `artifacts/jurnl-f01-live-viewport/`.
 - **Hosting:** canonical = GoDaddy via `site00-production-deploy.yml` (auto-promote ON) — blocked: `test` job red on every `main` run since ≥ #696 (pre-existing). Legacy `deploy-godaddy.yml` dispatch deploys `main` without the test gate (founder decision).
+
+---
+
+## 2026-10-05 — JURNL monetization foundation (structure only)
+
+- **Sprint:** P0.JURNL.MONETIZATION-FOUNDATION1 — plans FREE / PLUS / PRO / BUSINESS + ADD_ON class (all DRAFT), semantic capability registry mapped to the 16-family tree, entitlement resolver (fail closed to FREE + safety floors), server authorization boundary, honest unconfigured BillingProvider, central pricing (all TBD), disclosure + verdict-independence rules, data-use prohibitions (no sale, no ad targeting, no ads), analytics without financial data, 8 runtime primitives (not mounted in F01), optional `monetization` on the family contract.
+- **Paths:** `shared/site00-monetization/` · `src/projects/jurnl/data/monetization/` · `src/projects/jurnl/runtime/monetization/` · `src/projects/monetization.ts` · docs `docs/jurnl/monetization/` (incl. DRAFT 16-family map + DRAFT_SCHEMA.sql — not applied; JURNL DB unresolved).
+- **F01:** 42/42 captures pixel-identical to baseline; viewport QA 163/163. No checkout, no prices, no Stripe.
+- **Open:** billing rail (App Store / Google Play vs web), JURNL backend + DB, past-due grace, BUSINESS composition, household model, usage numbers, regulated referrals compliance.
