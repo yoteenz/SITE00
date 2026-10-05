@@ -1,5 +1,6 @@
 import { validateCrossFamilyPlateReuse } from './familyEnvironmentDistinctness.js';
 import { validateFamilyExpressionBrief } from './familyExpressionBrief.js';
+import { validateHierarchicalExpression } from './hierarchicalExpression.js';
 import { validateFamilyOutputProject } from './familyOutputProjects.js';
 import { validateSidekickDerivationReference } from './sidekickReferenceBinding.js';
 import {
@@ -12,12 +13,14 @@ import type { GenerationRequest, PrecheckResult } from './types.js';
 export function precheckGenerationDispatch(request: GenerationRequest, options: ValidateOptions): PrecheckResult {
   const classification = classifyGenerationRequest(request, options.resolverContext);
   const expression = validateFamilyExpressionBrief(classification, options.resolverContext.repoRoot);
-  if (expression.status === 'BLOCKED') {
+  const hierarchy =
+    expression.status === 'PASS' ? validateHierarchicalExpression(classification, options.resolverContext.repoRoot) : expression;
+  if (hierarchy.status === 'BLOCKED') {
     return {
       classification,
       status: 'BLOCKED',
       dispatchAllowed: false,
-      blockedReason: expression.blockedReason,
+      blockedReason: hierarchy.blockedReason,
       referenceRequired: classification.referenceRequired,
       referenceFound: false,
       referenceAttached: Boolean(classification.referenceInputAttached),

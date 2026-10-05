@@ -13557,3 +13557,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Entry owns the arch, curtain, bust, bowl, and books. Setup may keep that only as the continued doorway, then uses the travertine desk. Today's written brief is a brighter daily room, but the mounted plate still repeats the doorway and stays `SHOULD_REPLACE`. Activity is the reading wall and passes. A family with no brief cannot start paid generation. No new images were made.
 - **Changes:** `F##_FAMILY_EXPRESSION_BRIEF.json` and `.md` for F01–F04, `JURNL/MANIFEST/JURNL_FAMILY_EXPRESSION_MATRIX.json`, `familyExpressionBrief.ts`, and the family-environment rule.
 - **Conventions:** Do not picture a family before its brief and founder gate. Do not invent a new logo, type family, palette, or control shape for a family. Do not regenerate the Today plate until the founder asks.
+
+---
+
+## 2026-10-05 — Hierarchical expression cascade
+
+- **Context:** This chat locked reference binding, one OpenArt project per family, the F03/F04 parent repair, family-room distinctness, and family expression briefs. The founder then required expression to continue below the family: parent, child, grandchild, state, interaction, panel, and control.
+- **Topics covered:** Direct, modulated, and distinct child expression. Plate decisions that do not mean one plate per screen. Creative direction for states and interactions. Repeatable panel, button, and drawer roles. A generation gate and a live audit.
+- **Decisions / outcomes:** F01–F04 each have an expression tree. Today’s parent is a daily salon; see why is intimate analysis; upcoming is a sequence on the same room. Activity’s parent is a personal ledger; search veils that wall; detail is a receipt with no new plate; no matches is an empty archive. Grandchildren in setup are interaction-like and do not get new territory. The mounted Today plate still repeats the entry doorway and was not regenerated. No paid generation. Child production stays blocked. Parents are not approved.
+- **Changes:** `F##_EXPRESSION_TREE.json` for F01–F04, `JURNL_EXPRESSION_MATRIX.json`, `JURNL_EXPRESSION_LIVE_QA.json`, `hierarchicalExpression.ts`, drawer and panel roles in the live Today and Activity runtime, and the family-environment rule.
+- **Conventions:** Read the expression tree before building a child. Do not flatten a family into one generic sheet. Do not add a component variant for a single screen. Do not generate a plate unless the tree’s environment policy and repetition audit say the metaphor changed, and do not regenerate Today until the founder asks.

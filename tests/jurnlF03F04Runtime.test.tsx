@@ -88,6 +88,7 @@ describe('F03 and F04 live routes', () => {
     expect(renderRuntime('today', 'state=caught_up')).toContain('ALL CAUGHT UP');
     const why = renderRuntime('today', 'overlay=see-why');
     expect(why).toContain('data-jrn-overlay="see-why"');
+    expect(why).toContain('data-jrn-expression="analysis"');
     expect(why).toContain('CASH POSITION');
     expect(why).toContain('DERIVED');
     expect(visibleText(why).match(/[a-z]/g)).toBeNull();
@@ -111,6 +112,9 @@ describe('F03 and F04 live routes', () => {
     expect(renderRuntime('activity', 'state=error')).toContain('COULD NOT READ ACTIVITY');
     const filter = renderRuntime('activity', 'overlay=filter');
     expect(filter).toContain('data-jrn-overlay="activity-filter-sheet"');
+    expect(filter).toContain('data-jrn-expression="filter"');
+    expect(renderRuntime('activity')).toContain('data-jrn-panel="ledger"');
+    expect(renderRuntime('today', 'overlay=quick-add')).toContain('data-jrn-expression="form"');
     expect(filter).toContain('DIRECTION');
   });
 

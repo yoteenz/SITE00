@@ -22,6 +22,7 @@ import './jurnl-environment.css';
 import './jurnl-screens.css';
 import './jurnl-setup.css';
 import './jurnl-home.css';
+import './jurnl-expression.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {
