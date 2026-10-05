@@ -1,0 +1,18 @@
+{
+  "pack": "SITE00_BOTTOM_NAV_GROK_ICON_PACK",
+  "status": "FABRICATED_NOT_WIRED",
+  "canvas": { "width": 512, "height": 512, "background": "transparent" },
+  "ink": "#141414",
+  "redBakedIn": false,
+  "liveNavChanged": false,
+  "order": ["HUB", "INBOX", "DESIGN", "EXPERIENCE", "EXPRESSION", "LIBRARY", "ACTIVITY"],
+  "icons": [
+    { "id": "HUB", "file": "outputs/01_HUB.png", "master": "masters/01_HUB.svg", "semantic": "house", "authority": "HUB" },
+    { "id": "INBOX", "file": "outputs/02_INBOX.png", "master": "masters/02_INBOX.svg", "semantic": "envelope", "authority": "NEW_FAMILY_MEMBER" },
+    { "id": "DESIGN", "file": "outputs/03_DESIGN.png", "master": "masters/03_DESIGN.svg", "semantic": "leaf", "authority": "NEW_FAMILY_MEMBER", "not": "WORK stacked layers" },
+    { "id": "EXPERIENCE", "file": "outputs/04_EXPERIENCE.png", "master": "masters/04_EXPERIENCE.svg", "semantic": "triangle-with-stem", "authority": "NEW_FAMILY_MEMBER" },
+    { "id": "EXPRESSION", "file": "outputs/05_EXPRESSION.png", "master": "masters/05_EXPRESSION.svg", "semantic": "hexagon-ring", "authority": "NEW_FAMILY_MEMBER" },
+    { "id": "LIBRARY", "file": "outputs/06_LIBRARY.png", "master": "masters/06_LIBRARY.svg", "semantic": "isometric-cube", "authority": "LIBRARY" },
+    { "id": "ACTIVITY", "file": "outputs/07_ACTIVITY.png", "master": "masters/07_ACTIVITY.svg", "semantic": "pulse", "authority": "ACTIVITY", "replaces": "clock" }
+  ]
+}
