@@ -1,15 +1,8 @@
-import { EnvironmentShell } from '../components/environment/EnvironmentShell';
-import { Site00AppShell } from '../components/shell/Site00AppShell';
-import { DirectoryPanel, EnterStatusStrip } from '../components/enter00/DirectoryPanel';
-import { SITE00_ENTER_COPY } from '../config/directory';
+import { PresentationGate } from '../presentation';
+import { DesktopEnter } from './enter/DesktopEnter';
+import { MobileEnter } from './enter/MobileEnter';
 
+/** Canonical /enter route — dedicated mobile and desktop presentations. */
 export default function EnterPage() {
-  return (
-    <EnvironmentShell environmentId="ENTER_00_WAITING_ROOM" className="site00-enter-page">
-      <Site00AppShell locationLabel={SITE00_ENTER_COPY.locationLabel}>
-        <DirectoryPanel />
-        <EnterStatusStrip />
-      </Site00AppShell>
-    </EnvironmentShell>
-  );
+  return <PresentationGate mobile={<MobileEnter />} desktop={<DesktopEnter />} />;
 }

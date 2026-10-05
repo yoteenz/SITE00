@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { isSite00PublicDesktopPath, site00PublicMobilePath } from '../../config/site00-public-pages';
 
-import { writeStoredPreviewDeviceMode } from '../../state/preview-mode';
+import { writeStoredPresentationOverride } from '../../state/preview-mode';
 
 /**
  * Legacy `/desktop` suffix routes redirect to semantic base path.
@@ -15,7 +15,7 @@ export function Site00PublicDesktopLegacyRedirect() {
     return null;
   }
 
-  writeStoredPreviewDeviceMode('desktop');
+  writeStoredPresentationOverride('desktop');
 
   const mobilePath = site00PublicMobilePath(pathname);
   const nextSearch = search.startsWith('?') ? search : search ? `?${search}` : '';
