@@ -19,7 +19,7 @@
 | View mode control | `TwinOpusDirectViewModeControl.tsx` at 429 (text labels; icons re-applied post-restore) |
 
 **File count:** 69 files under `src/site00/components/designBench/` at `441ae433`.  
-**Post-429 diff (current):** exactly **7 paths** — see table below. All other DESIGN bench files are **byte-identical** to release #429.
+**Post-429 diff (current):** **50 paths** — inventory matches `POST429_DESIGN_ALLOWLIST` in `tests/p0vrDesignRelease429ExactRestore1.test.ts` (production workspace relocation, page-concept / experience review sprints, WORKSPACE_SELF More tab entry, dock/navigation fixes). All other DESIGN bench files are **byte-identical** to release #429.
 
 ## DESIGN files changed after 441ae433 (inventory)
 

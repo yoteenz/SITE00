@@ -147,7 +147,7 @@ function StepsDial({ n }: { n: number }) {
         <circle cx="11" cy="11" r="10" className="cf-dial__arc" strokeDasharray={`${done * 62.8} 62.8`} transform="rotate(-90 11 11)" />
         <line x1="11" y1="11" x2={11 + Math.cos(a) * 6} y2={11 + Math.sin(a) * 6} className="cf-dial__hand" />
       </svg>
-      <span>
+      <span className="ph-top__copy">
         <b>{String(n).padStart(2, '0')}</b>
         <small>STEPS REMAINING</small>
       </span>
@@ -162,18 +162,20 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
   return (
     <header className={`ph-top${state.surface === 'ACTOR_PROFILE' ? ' cf-top--profile' : ''}${state.activeStation === 'appearance' && state.surface === 'STATION' ? ' cf-top--actor' : ''}`} data-testid="cf-header">
       <div className="ph-top__brand ph-top__brand--long">
-        <b>CHARACTER FABRICATION</b>
-        <small>SITE 00 / STUDIO WORLD</small>
+        <span className="ph-top__copy">
+          <b>CHARACTER FABRICATION</b>
+          <small>SITE 00 / STUDIO WORLD</small>
+        </span>
       </div>
       <button type="button" className="ph-top__sel" onClick={() => toggle('project')} aria-expanded={pop === 'project'} data-testid="cf-project-select">
         <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="" className="ph-top__thumb" />
         {state.activeStation === 'appearance' && state.surface === 'STATION' ? (
-          <span>
+          <span className="ph-top__copy">
             <small>ACTOR</small>
             <b>{actor.catalogueNumber}</b>
           </span>
         ) : (
-          <span>
+          <span className="ph-top__copy">
             <small>PROJECT</small>
             <b>{state.selectedProjectId.toUpperCase()}</b>
           </span>
@@ -182,17 +184,17 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
       </button>
       <button type="button" className="ph-top__sel ph-top__sel--prod ph-top__sel--fit" onClick={() => toggle('character')} aria-expanded={pop === 'character'} data-testid="cf-character-select">
         {state.surface === 'ACTOR_PROFILE' ? (
-          <span>
+          <span className="ph-top__copy">
             <small>ENTRY</small>
             <b>{state.selectedEntryId}</b>
           </span>
         ) : state.activeStation === 'appearance' && state.surface === 'STATION' ? (
-          <span>
+          <span className="ph-top__copy">
             <small>PROJECT</small>
             <b>{state.selectedProjectId.toUpperCase()}</b>
           </span>
         ) : (
-          <span>
+          <span className="ph-top__copy">
             <small>CURRENT CHARACTER</small>
             <b>{character.displayName}</b>
           </span>

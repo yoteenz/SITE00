@@ -29,7 +29,7 @@ import { getViewportSpec } from '../shared/site00-visual-reference/viewportConfi
 
 describe('P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1', () => {
   it('resolves canonical DESIGN capture route from source context', () => {
-    expect(resolveWorkspaceSelfDesignRoute(DEFAULT_WORKSPACE_SELF_SOURCE)).toBe('/projects/design/ndxbook');
+    expect(resolveWorkspaceSelfDesignRoute(DEFAULT_WORKSPACE_SELF_SOURCE)).toBe('/production/ndxbook/design');
   });
 
   it('uses central viewport dimensions for MOBILE and DESIGN desktop capture', () => {
@@ -48,7 +48,7 @@ describe('P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1', () => {
       captureSetId: 'wscs-1',
       build: 'b1',
       createdBy: 'test',
-      route: '/projects/design/ndxbook',
+      route: '/production/ndxbook/design',
       mobile: { captureId: 'm1', artifactPath: 'local://a/m1' },
       desktop: { captureId: 'd1', artifactPath: 'local://a/d1' },
     });
@@ -67,7 +67,7 @@ describe('P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1', () => {
       captureSetId: set1,
       build: 'v1',
       createdBy: 'f',
-      route: '/projects/design/ndxbook',
+      route: '/production/ndxbook/design',
       mobile: { captureId: 'm-v1', artifactPath: 'local://x/m-v1' },
       desktop: { captureId: 'd-v1', artifactPath: 'local://x/d-v1' },
     });
@@ -78,7 +78,7 @@ describe('P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1', () => {
       captureSetId: set2,
       build: 'v2',
       createdBy: 'f',
-      route: '/projects/design/ndxbook',
+      route: '/production/ndxbook/design',
       mobile: { captureId: 'm-v2', artifactPath: 'local://x/m-v2' },
       desktop: { captureId: 'd-v2', artifactPath: 'local://x/d-v2' },
     });
@@ -97,7 +97,7 @@ describe('P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1', () => {
       captureSetId: set1,
       build: 'v1',
       createdBy: 'f',
-      route: '/projects/design/ndxbook',
+      route: '/production/ndxbook/design',
       mobile: { captureId: 'm-keep', artifactPath: 'local://x/m-keep' },
       desktop: { captureId: 'd-keep', artifactPath: 'local://x/d-keep' },
     });
@@ -117,7 +117,7 @@ describe('P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1', () => {
       build: 'vitest',
     });
     expect(result).toMatchObject({
-      route: '/projects/design/ndxbook',
+      route: '/production/ndxbook/design',
       mobile: { captureId: expect.stringMatching(/^wsc-m-/) },
       desktop: { captureId: expect.stringMatching(/^wsc-d-/) },
     });
@@ -128,7 +128,7 @@ describe('P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1', () => {
       captureSetId: 'wscs-x',
       build: 'b',
       createdBy: 't',
-      route: '/projects/design/ndxbook',
+      route: '/production/ndxbook/design',
       mobile: { captureId: 'm', artifactPath: 'local://m' },
       desktop: { captureId: 'd', artifactPath: 'local://d' },
     });
