@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "receiptType": "CostReceipt",
+  "writerAdapters": ["createMemoryCostReceiptWriter", "createJsonlCostReceiptWriter"],
+  "durablePath": "data/production-cost-receipts/gateway-receipts.jsonl",
+  "requiredFields": ["receiptId", "requestId", "projectId", "provider", "model", "generationClass", "status", "createdAt"],
+  "plateDerivationFields": ["environmentPlateOrigin", "plateAuthorityId"]
+}

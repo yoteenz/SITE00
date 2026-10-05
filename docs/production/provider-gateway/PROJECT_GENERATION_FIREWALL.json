@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "principle": "Projects must not share references, assets, or lineage across SITE00, JURNL, AIO, FRONTAL_SLAYER, ASTRAL_WORLD, NDXBOOK without explicit shared-global registry entries.",
+  "enforcement": "assertProjectFirewall in validateGenerationReferenceBinding",
+  "blockedReason": "CROSS_PROJECT_REFERENCE_DENIED",
+  "registry": "shared/site00-production-guardrails/projectReferenceRegistry.ts"
+}

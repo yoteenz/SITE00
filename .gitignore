@@ -11,6 +11,7 @@ dist/
 site00-production-dist-*.zip
 .cache/
 tmp/
+data/production-cost-receipts/
 public/studio-world/design/capture-orchestration-registry.json
 public/studio-world/design/capture-worker-test/
 public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/r7m-generated/

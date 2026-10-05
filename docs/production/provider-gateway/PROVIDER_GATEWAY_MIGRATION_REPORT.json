@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-10-05T19:07:34.311Z",
+  "callSitesDiscovered": 207,
+  "paidGenerationCallSites": 15,
+  "counts": {
+    "ALLOWLISTED_TEMPORARY": 168,
+    "TEST_OR_MOCK": 39
+  },
+  "migrated": 0,
+  "alreadyGatewayed": 0,
+  "allowlistedTemporary": 168,
+  "nonGenerative": 192,
+  "testOrMock": 39,
+  "note": "First wave: canonical gateway + FAL adapter; legacy allowlisted pending phased migration"
+}

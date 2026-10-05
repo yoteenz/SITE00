@@ -12814,6 +12814,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
 
 ---
+
 ## 2026-10-05 — Merge `origin/main` into `cursor/public-redesign-composer-asset-injection1-1b86`
 
 Fetched `origin/main` @ `3b414319` into public-redesign asset-injection branch. **2 conflicted files.**
@@ -13197,3 +13198,13 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Decisions / outcomes:** Stored amounts stay canonical USD. `formatMoney` multiplies that amount by a fetched rate and formats with `Intl.NumberFormat`. The provider is the open ExchangeRate-API USD endpoint. A missing rate is not replaced with 1. A fresh cache is used for 24 hours. A cache up to 7 days may be used if a new fetch fails. Older than that, the switch is refused. Returning to USD restores the original base value. The Ask sheet shows three rows and scrolls. JPY opens already inside that window. F05–F16 parent strings are composition labels and are not converted. A live check turned $6,500 into €5,777.79, £4,912.23, and ¥1,025,247, then back to $6,500.
 - **Changes:** `currency.ts`, the Ask sheet, quick-add provenance, `JURNL_CURRENCY_CONTRACT.json`, `JURNL_CURRENCY_CATALOG.json`, `JURNL_EXCHANGE_RATE_CONTRACT.json`, `JURNL_CURRENCY_SELECTOR_QA.json`.
 - **Conventions:** Do not swap a currency symbol onto an unconverted number. Do not hardcode a rate. Convert only from the canonical USD amount. Do not let the currency list grow the sheet.
+
+---
+
+## 2026-10-05 — Production provider gateway + motherboard context sync (P0 gateway sync1)
+
+- **Context:** Capability-genome / ground-zero forensics showed reference-binding precheck existed in tests and docs but was **not** the universal paid dispatch path — direct FAL/OpenAI/xAI calls remained. F03 plate-first failure confirmed the architectural gap. Sprint transferred ChatGPT project context into `motherboard/PROJECT_CONTEXT_2026-10-05.md` and implemented the first enforced **PROVIDER_GATEWAY** root engine.
+- **Why gateway exists:** Because “policy implemented” without runtime enforcement allowed text-to-image and plate-first generation despite locked canon; downstream agents followed the path of least resistance (direct SDK imports).
+- **Delivered:** `runProductionProviderRequest()` (spend auth → precheck → authority-first plate → dispatch → cost receipt); server spend authorization (rejects caller-only `founderConfirmedSpend`); FAL adapter `falImageViaProductionGateway.ts`; provider call inventory + bypass allowlist + CI audit test; docs under `docs/production/provider-gateway/`; CORE/CODEBASE updated; reference methodology points to gateway.
+- **Not claimed:** Full migration of all ~207 inventoried files (legacy allowlisted); unified DB cost ledger (JSONL adapter only); CI green; AIO client-ready.
+- **Conventions:** New paid generative paths MUST use `runProductionProviderRequest`; do not add unallowlisted `@fal-ai/client` imports; JURNL ENVIRONMENT_PLATE requires parent authority-first derivation; record sprint “why” in motherboard, not only “implemented X.”
