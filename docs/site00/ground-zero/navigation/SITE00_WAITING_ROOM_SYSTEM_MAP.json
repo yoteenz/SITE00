@@ -1,0 +1,242 @@
+{
+ "artifact": "SITE00_WAITING_ROOM_SYSTEM_MAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "runtime_verification": "RUNTIME_VERIFICATION_BLOCKED \u2014 npm registry is blocked in this environment, so no dev server; every finding is code evidence (file:line). Items tagged CONFIRM_LIVE in evidence/ need a live pass.",
+ "what_it_is_in_code": "WAITING ROOM == the /enter route (EnterPage) and its environment id ENTER_00_WAITING_ROOM. Its 'menu' is DirectoryPanel (enter00/DirectoryPanel.tsx) driven by SITE00_DIRECTORY_SECTIONS (directory.ts:30-117). It is NOT the LOCATIONS directory (/origin/locations), which is a separate mobile-only page with a different item set. The term is never shown to users (no rendered 'WAITING ROOM' string; only FAQ seed on a draft-gated page).",
+ "mentions": [
+  {
+   "file_line": "src/site00/config/environments.ts:92-102",
+   "quote": "ENTER_00_WAITING_ROOM ... routes: ['/enter'] ... 'Approved Enter 00 desktop \u2014 89319E70'"
+  },
+  {
+   "file_line": "src/site00/config/environments.ts:121",
+   "quote": "if (pathname === '/enter') return 'ENTER_00_WAITING_ROOM';"
+  },
+  {
+   "file_line": "src/site00/pages/EnterPage.tsx:8",
+   "quote": "<EnvironmentShell environmentId=\"ENTER_00_WAITING_ROOM\" className=\"site00-enter-page\">"
+  },
+  {
+   "file_line": "src/site00/components/environment/EnvironmentShell.tsx:61-66",
+   "quote": "Enter desktop bg always on /enter \u2014 not gated on Mobile/Desktop toggle"
+  },
+  {
+   "file_line": "src/site00/components/environment/detectSite00ViewportEnvironment.ts:5-6",
+   "quote": ".site00-enter-page -> 'ENTER_00_WAITING_ROOM'"
+  },
+  {
+   "file_line": "src/site00/components/enter00/Site00EnterArtboardViewportBackground.tsx:5",
+   "quote": "environmentId=\"ENTER_00_WAITING_ROOM\" (component unused)"
+  },
+  {
+   "file_line": "src/site00/config/assets.ts:80",
+   "quote": "alt: 'ENTER 00 waiting room lobby'"
+  },
+  {
+   "file_line": "src/site00/styles/site00.css:1081",
+   "quote": "/* \u2500\u2500\u2500 Enter 00 \u2014 waiting room (/enter) \u2500\u2500\u2500 */"
+  },
+  {
+   "file_line": "src/site00/config/seed/site00-page-seed.ts:111",
+   "quote": "BEGIN AT ORIGIN OR ENTER THE WAITING ROOM TO ORIENT WITHIN THE ENVIRONMENT. (FAQ seed; /faq is draft-gated)"
+  },
+  {
+   "file_line": "shared/site00-studio-world-production/visualReconstruction/p0vr3a/site00RouteForensics.ts:66-79",
+   "quote": "screenId 'waiting-room', displayName 'Waiting Room / Enter 00', routeFamily 'WAITING_ROOM'"
+  },
+  {
+   "file_line": "shared/.../p0vr3a/site00RouteForensics.ts:682-688",
+   "quote": "stateId 'waiting-room-menu-open', 'Waiting Room \u2014 Directory Open'"
+  },
+  {
+   "file_line": "shared/.../p0vr3a/site00RouteDependencyGraph.ts:18-22",
+   "quote": "homepage -> waiting-room 'enter 00'; waiting-room -> system/about/support"
+  },
+  {
+   "file_line": "shared/.../p0vr3b/site00DesignScreenNormalization.ts:38",
+   "quote": "if (normalizedPath === '/enter') return 'WAITING_ROOM';"
+  },
+  {
+   "file_line": "api/_lib/site00ExperienceEngine/routeReferenceStore.ts:240",
+   "quote": "environmentId: 'ENTER_00_WAITING_ROOM', focal: 'center 75%'"
+  },
+  {
+   "file_line": "docs/site00/ground-zero/SITE00_INDEPENDENT_TREE_REVIEW_PACKET.json:9726",
+   "quote": "WAITING ROOM (directory) and EXIT 00 (return to origin) are named navigation concepts"
+  },
+  {
+   "file_line": "docs/site00/ground-zero/SITE00_INDEPENDENT_TREE_REVIEW_PACKET.json:9786",
+   "quote": "U2: Merge LOCATIONS into WAITING ROOM (MAP state) or keep both places"
+  },
+  {
+   "file_line": "docs/site00/ground-zero/SITE00_INDEPENDENT_TREE_REVIEW_PACKET.json:1054",
+   "quote": "'WAITING ROOM' exists only as environment id/asset naming; no user-visible 'WAITING ROOM' label"
+  },
+  {
+   "file_line": "docs/site00/ground-zero/SITE00_OPUS_TREE_RECOMMENDATION.md:43",
+   "quote": "/enter (WAITING ROOM) + /origin/locations (LOCATIONS) -> WAITING ROOM with a MAP state"
+  },
+  {
+   "file_line": "docs/site00/ground-zero/SITE00_OPUS_PROPOSED_SCREEN_TREE.json:28-37",
+   "quote": "PUB.WAITING_ROOM 'WAITING ROOM (ENTER 00)' /enter states LIST, MAP, SIGNED_IN; EXIT 00 -> /"
+  },
+  {
+   "file_line": "docs/site00/ground-zero/SITE00_INCOMPLETE_SURFACE_MAP.json:106-110",
+   "quote": "INC.WAITING_ROOM ... current_status 'PARTIAL (two directories)'"
+  },
+  {
+   "file_line": "docs/site00/ground-zero/SITE00_GROUND_ZERO_MASTER_BRIEF.md:109",
+   "quote": "MERGE ... LOCATIONS -> WAITING ROOM"
+  },
+  {
+   "file_line": "docs/site00/ground-zero/evidence/navigation.json:128",
+   "quote": "ENTER 00 DIRECTORY (WAITING ROOM menu)"
+  },
+  {
+   "file_line": "motherboard/MEMORY.md:5431",
+   "quote": "5 interaction states (homepage expanded panels, waiting room menu)"
+  }
+ ],
+ "roles": {
+  "public": "Public route, no auth guard (Site00Routes.tsx:649-659).",
+  "entry": "Reached from ORIGIN via ENTER 00 header toggle (desktop/tablet) or ENTER SITE 00 link (mobile).",
+  "transition": "None animated; acts as an interstitial 'lobby' between Origin and destinations (copy 'TAKE A MOMENT. YOU'RE IN THE RIGHT PLACE.' directory.ts:135).",
+  "auth": "Auth-gated rows route signed-out users to /origin/sign-in?returnTo=... (directory.ts:119-128); no sign-in CTA of its own.",
+  "destination": "Hub to 9 destinations (5 EXPLORE + 4 YOUR SPACE)."
+ },
+ "relationships": {
+  "ENTER_00": "ENTER 00 is the portal action; WAITING ROOM is the place it opens.",
+  "EXIT_00": "On /enter the same toggle becomes EXIT 00 -> /origin (EntryToggle.tsx:14-25).",
+  "LOCATIONS": "Parallel directory on mobile (swipe-up target) with a different item set; docs propose merging (U2).",
+  "FAST_TRAVEL": "FAST TRAVEL (mobile header overlay) never links to /enter; it links to LOCATIONS and 00 ORIGIN (fast-travel.ts:81-82,252-253). /enter has no Fast Travel trigger (it uses Site00AppShell, not Site00MobileShell)."
+ },
+ "visual_authority": "Desktop environment plate 89319E70 approved (environments.ts:102; assets.ts:79-85). No foreground/menu authority record; no mobile authority.",
+ "implementation": "Implemented (desktop-tuned). See enter00.implementation_status.",
+ "routes_and_states": {
+  "routes": [
+   "/enter"
+  ],
+  "states": [
+   "default (menu always open \u2014 'waiting-room-menu-open' state in forensics has no distinct UI state in code)",
+   "signed-out locked rows",
+   "signed-in rows"
+  ]
+ },
+ "founder_decision_status": {
+  "stated_in_brief": "MENU = WAITING ROOM",
+  "found_in_repo": false,
+  "searched": [
+   "src",
+   "shared",
+   "docs",
+   "motherboard/MEMORY.md",
+   "git log"
+  ],
+  "action": "Record the decision in motherboard/CORE.md when the tree is locked."
+ },
+ "locations_relationship": {
+  "route": "/origin/locations -> Site00LocationsPage (Site00Routes.tsx:74,619-627) in Site00Layout, NO Site00OriginRouteShell.",
+  "page": "LocationsPage.tsx:22-48 \u2014 Site00MobileShell(headerVariant='directory') > LocationsDirectory.",
+  "desktop_redirect": "if viewport >=768 (matchMedia listener, re-evaluated on resize/rotation) -> <Navigate to='/origin' replace/> (LocationsPage.tsx:7-20,37-39). CSS also hides .site00-locations-page outside max-width:767 (site00-locations.css:6-12). So LOCATIONS is mobile-only; every desktop LOCATIONS link silently lands on Origin.",
+  "components": {
+   "LocationsDirectory": "src/site00/components/locations/LocationsDirectory.tsx:7-49 (sections PUBLIC WORLD / YOUR SPACE, role=list)",
+   "LocationsDirectoryHeader": "LocationsDirectoryHeader.tsx:1-8 'LOCATIONS / WHERE DO YOU NEED TO GO?'",
+   "DirectorySpine": "DirectorySpine.tsx (decorative spine per section)",
+   "DirectoryCard": "DirectoryCard.tsx:14-65 (Link with aria-label; lock + 'SIGN IN TO ENTER' when requiresAuth && !signedIn)",
+   "DirectoryExitButton": "DirectoryExitButton.tsx:5-15 (EXIT 00 in header)"
+  },
+  "destinations": [
+   {
+    "label": "01 BLDR",
+    "destination": "site00MobileBuildNavHref -> /bldr (or bldr state/assessment if already there)",
+    "file_line": "locations-directory.ts:31-38,143-145; routes.ts:956-967",
+    "auth": "public",
+    "status": "OK"
+   },
+   {
+    "label": "02 EVOLVE",
+    "destination": "site00MobileEvolveNavHref -> /evolve",
+    "file_line": "locations-directory.ts:39-46,146-148",
+    "auth": "public",
+    "status": "OK"
+   },
+   {
+    "label": "03 SITES",
+    "destination": "/sites",
+    "file_line": "locations-directory.ts:47-54",
+    "auth": "public",
+    "status": "OK"
+   },
+   {
+    "label": "04 SERVICES",
+    "destination": "/services",
+    "file_line": "locations-directory.ts:55-62",
+    "auth": "public",
+    "status": "OK"
+   },
+   {
+    "label": "05 SYSTEM",
+    "destination": "/system",
+    "file_line": "locations-directory.ts:63-70",
+    "auth": "public",
+    "status": "OK"
+   },
+   {
+    "label": "06 ABOUT",
+    "destination": "/about",
+    "file_line": "locations-directory.ts:71-78",
+    "auth": "public",
+    "status": "OK"
+   },
+   {
+    "label": "07 JOURNAL",
+    "destination": "/journal",
+    "file_line": "locations-directory.ts:79-86",
+    "auth": "public",
+    "status": "OK"
+   },
+   {
+    "label": "08 IDNTY",
+    "destination": "/idnty",
+    "file_line": "locations-directory.ts:90-97",
+    "auth": "public",
+    "status": "OK"
+   },
+   {
+    "label": "09 CTRL ROOM",
+    "destination": "/control",
+    "file_line": "locations-directory.ts:98-106",
+    "auth": "requiresAuth",
+    "status": "OK"
+   },
+   {
+    "label": "10 PROJECTS",
+    "destination": "/projects",
+    "file_line": "locations-directory.ts:107-115",
+    "auth": "requiresAuth",
+    "status": "OK"
+   },
+   {
+    "label": "11 MY SITES",
+    "destination": "/control/sites",
+    "file_line": "locations-directory.ts:116-124; Site00Routes.tsx:2918",
+    "auth": "requiresAuth",
+    "status": "OK"
+   }
+  ],
+  "entry_points": [
+   "swipe-up / SWIPE UP button on mobile Origin (useOriginLocationsTransition.ts:21)",
+   "mobile bottom nav center bay LOCATIONS (mobile-site-nav.ts:36-41)",
+   "FAST TRAVEL 'LOCATIONS' (fast-travel.ts:81,252)",
+   "AccessSystemFooter LOCATIONS link on /access desktop (AccessSystemFooter.tsx:31; CredentialAccessDesktop.tsx:106) -> redirects to /origin on desktop",
+   "Site00PublicSidebar rail (site00-public-rail-nav.ts:13) \u2014 component imported nowhere (dead)"
+  ],
+  "transitions": "fromSwipe state -> shell enter animation 780ms + staggered card enter 720ms (site00-locations.css:215-245,497-505); class removed after 900ms (LocationsPage.tsx:27-35); reduced-motion disables (site00-locations.css:618-627). enterClass initial state is the animating class even for non-swipe arrivals, removed in useEffect after first paint -> possible 1-frame animation start/flicker (LocationsPage.tsx:25-31; CONFIRM_LIVE).",
+  "visual_authority": "publicRedesignAuthorityManifest.ts:103 '01_LOCATIONS_MAIN' 941x1672, route /origin/locations, component 'PublicLocationsDirectory' (name does not exist in src; actual component LocationsDirectory), notes YOUR SPACE retained below supplied seven. Child pages /sites../journal are WAITING_FOR_AUTHORITY (:144-148). Background SITE00_LOCATIONS_BACKGROUND_PATH (locations-directory.ts:26); asset slots publicRedesignAssetSlots.ts:194-201.",
+  "relationship_to_enter00": "Separate place. Both are 'directories' with overlapping items; ENTER 00 is desktop-first, LOCATIONS mobile-only. Mobile Origin exposes both (ENTER SITE 00 link -> /enter; swipe -> /origin/locations). Mobile nav treats /enter as 'origin' bay, not 'locations' (mobile-site-nav.ts:74-80). Docs mark this as 'PARTIAL (two directories)' and propose merge (SITE00_INCOMPLETE_SURFACE_MAP.json:106-110)."
+ },
+ "evidence_based_reading": "There are currently two directory places: WAITING ROOM (/enter; desktop-first; reached via ENTER 00) and LOCATIONS (/origin/locations; mobile-only; reached via SWIPE-UP and the bottom-nav centre bay). They list overlapping but different destinations. If MENU = WAITING ROOM, then LOCATIONS is the mobile composition of the same WAITING ROOM system.",
+ "proposal_for_review": "One WAITING ROOM system with one destination registry and two viewport compositions (mobile = the canonical LOCATIONS authority, desktop/tablet = /enter). ENTER 00 and SWIPE-UP both open it; EXIT 00 leaves it. Replaces the prior Ground Zero proposal \"LOCATIONS \u2192 MAP state of /enter\"."
+}

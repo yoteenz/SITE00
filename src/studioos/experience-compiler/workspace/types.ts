@@ -13,13 +13,15 @@ export type { ProjectExperienceMode };
 
 export type WorkspaceSection =
   | 'project'
+  | 'creative'
   | 'concept'
   | 'experience'
   | 'families'
   | 'authority'
   | 'capabilities'
   | 'production'
-  | 'history';
+  | 'history'
+  | 'creative';
 
 export type SonnetBatchStatus =
   | 'NOT_READY'

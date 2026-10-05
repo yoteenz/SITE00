@@ -1,0 +1,267 @@
+{
+ "artifact": "SITE00_SITES_PROJECTS_RELATIONSHIP_MAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": {
+  "public_sites": "FAIL (route live, content empty, /sites/:id broken)",
+  "client_sites": "FAIL (seed data shown as real; no actions)",
+  "distinction_formalized": "PASS",
+  "post_launch_persistence_formalized": "PASS (model) \u2014 code persists rows but lists hide non-ACTIVE projects"
+ },
+ "commit": "2ac4059",
+ "locked_distinction": {
+  "SITE": "a digital location SITE 00 created / presents (an output, may be LIVE)",
+  "PROJECT": "the persistent working relationship / production container",
+  "rule": "LAUNCHED \u2260 DELETED; a project stays for maintenance, add-ons, extensions, EVOLVE, future phases, updates, repair, transformations."
+ },
+ "PUBLIC_SITES": {
+  "route": "/sites (Site00PublicPageRoutes, src/routes/Site00Routes.tsx:839)",
+  "file": "src/site00/pages/SitesPortfolioPage.tsx",
+  "status": "LIVE route, EMPTY content",
+  "content": "Portfolio grid from SITE00_PORTFOLIO_SEED which is [] (src/site00/config/seed/site00-page-seed.ts:15) -> always shows 'NO PUBLISHED PROJECTS YET'. Filters labelled ALL PROJECTS / COMPLETED / IN PROGRESS (conflates sites with projects). Card link /sites/:id has no route (latent broken link). CTA 'START A PROJECT' -> /bldr. Signed-in users are redirected to /control/sites.",
+  "authority": "No DB or API source; no 'public showcase approved' flag anywhere in site00_sites (metadata jsonb only)."
+ },
+ "CLIENT_SITES": {
+  "routes": [
+   "/control/sites",
+   "/control (ACTIVE SITES metric + CtrlRoomSitesPanel / mobile CtrlRoomPropertyNetwork)",
+   "OperatingWorldTopNav SITES and mobile nav SITES -> /control/sites"
+  ],
+  "files": [
+   "src/site00/pages/control/ControlSitesPage.tsx",
+   "src/site00/hooks/useEcosystemData.ts",
+   "src/site00/config/seed/site00-ecosystem-seed.ts:161-247",
+   "src/site00/components/ecosystem/SiteRow.tsx",
+   "src/site00/components/control/CtrlRoomSitesPanel.tsx",
+   "src/site00/components/ctrl-room/mobile/CtrlRoomPropertyNetwork.tsx",
+   "src/site00/hooks/useCtrlRoomData.ts",
+   "api/_lib/site00Production/service.ts:226-275"
+  ],
+  "data": "SPLIT: /control/sites list = hardcoded seed (jordancole.studio, northquarter.co, futurearchives.io..., fake team Jordan Cole/Taylor Morgan) shown identically to every user. /control overview sites panel + counts = REAL site00_sites rows where identity_id = site00_identities.id for the user's email (limit 8), status mapped LIVE/PUBLISHED->ACTIVE. The two screens can therefore disagree.",
+  "actions_available": [
+   "View site name/domain/status (seed on /control/sites; real on /control overview panel)",
+   "Search + filter PUBLISHED/DRAFT (seed only)",
+   "'+ NEW SITE' -> /bldr (starts a new BLDR intake/project, not a site)",
+   "Overview panel rows link back to /control/sites (not to a site or project)"
+  ],
+  "actions_missing": [
+   "Open live site (no live_url field; domain text not rendered as link)",
+   "Site info/detail page (MANAGE -> /control/sites/:id has no route -> App catch-all redirects to '/')",
+   "'\u22ef' more-actions menu (button without handler)",
+   "Return to originating project (site00_sites.project_id exists but not exposed to client)",
+   "Request maintenance / support ticket on a site",
+   "Request add-on / extension / new page",
+   "Start EVOLVE (marketing) for this site from the site",
+   "Start Existing Location service for this site (exists only as a separate public flow /existing-location with free-text site_url, optional project_id)",
+   "Domain / DNS / hosting management",
+   "Site health, deploy history, analytics"
+  ]
+ },
+ "ADMIN_SITES": {
+  "routes": [
+   "/admin/site00/sites (?filter=issues|live)",
+   "/admin/site00/sites/:id"
+  ],
+  "files": [
+   "src/site00/admin/pages/operations/SitesPage.tsx",
+   "src/site00/admin/pages/operations/SiteDetailPage.tsx",
+   "api/_lib/site00Production/adminOperations.ts:665-695 getSitesList/getSiteDetail"
+  ],
+  "data": "REAL Supabase site00_sites joined to site00_projects(id,name,slug,client_email) and site00_identities. Only writer in codebase is the demo seed (adminOperations.ts:218 inserts 'NORTHQUARTER REBUILD', status BUILD, environment PREVIEW). No production code path creates or updates a site when a project launches.",
+  "labeling": "Nav label SYSTEMS; page title 'SYSTEMS / INFRASTRUCTURE \u2014 WHAT IS CONNECTED? WHAT IS HEALTHY?' \u2014 sites treated as infra rather than client digital locations.",
+  "other_consumers": [
+   "controlCommand.ts:374-390 launch queue: site00_sites status in BUILD/PRELAUNCH/QA joined to project current_phase LAUNCH",
+   "adminOperations.ts:308-309,384,835 LIVE counts for dashboard/reports",
+   "adminOperations.ts:522 identity detail sites",
+   "adminOperations.ts:880 global search"
+  ]
+ },
+ "tables": [
+  {
+   "table": "site00_sites",
+   "columns": "id, project_id, identity_id, name, domain, status (default 'DRAFT'; values used: DRAFT, BUILD, PRELAUNCH, QA, LIVE, PUBLISHED \u2014 no CHECK), health (default 'OK'), owner_email, last_deploy_at, metadata jsonb, created_at, updated_at",
+   "fk_to_project": "YES \u2014 project_id uuid references site00_projects(id) ON DELETE SET NULL (nullable; site survives project deletion). identity_id -> site00_identities ON DELETE SET NULL. Migration supabase/migrations/20260818180000_site00_admin_operations.sql:98-114. RLS enabled, no client policies."
+  },
+  {
+   "table": "site00_projects",
+   "columns": "slug, name, client_user_id, client_email, build_class, build_type, identity_state, current_phase (default DISCOVERY), project_health (default ON_TRACK), payment_state, provisioning_state, readiness pcts, status (CHECK), metadata ...",
+   "fk_to_project": "n/a (project root). No site_id / live_url / domain column."
+  },
+  {
+   "table": "site00_existing_location_cases",
+   "columns": "platform, site_url (text), project_id -> site00_projects ON DELETE SET NULL, status, quote_id, entitlement, courtesy_redemption_id ...",
+   "fk_to_project": "YES optional; NOT linked to site00_sites (site_url free text)"
+  },
+  {
+   "table": "site00_launch_manifests / site00_manifest_requirements / site00_launch_overrides",
+   "columns": "launch readiness per organization",
+   "fk_to_project": "org-scoped (site00_organizations), not site00_projects/site00_sites"
+  },
+  {
+   "table": "site00_managed_projects / site00_repo_bindings",
+   "columns": "project_key, runtime_mode, design/marketing enabled; repo owner/name/branch",
+   "fk_to_project": "Separate project registry (design control plane) \u2014 no FK to site00_projects or site00_sites"
+  },
+  {
+   "table": "site00_marketing_profiles",
+   "columns": "organization_id, lifecycle_stage default 'POST_LAUNCH' ...",
+   "fk_to_project": "org-scoped (20260820200000_site00_evolve_marketing_os.sql:5-8)"
+  },
+  {
+   "table": "domains table",
+   "columns": "NONE \u2014 no site00_domains; domain is a text column on site00_sites",
+   "fk_to_project": "n/a"
+  }
+ ],
+ "PROJECTS": {
+  "project_lifecycle_in_code": [
+   {
+    "field/enum": "site00_projects.status CHECK site00_projects_status_lifecycle_check",
+    "values": "ACTIVE, PRE_INGESTION, ORIGIN_INGESTED, IDENTITY_IN_PROGRESS, IDENTITY_COMPLETE, INGESTION, PRODUCTION, ARCHIVED (no LAUNCHED/LIVE/MAINTENANCE/POST_LAUNCH/DELETED)",
+    "file_line": "supabase/migrations/20260825220000_site00_identity_phase.sql:5-19 (earlier 20260825180000_site00_project_core_isolation.sql:48-55, 20260825210000_site00_origin_ingestion.sql:5-8)"
+   },
+   {
+    "field/enum": "site00_projects.current_phase",
+    "values": "free text, default DISCOVERY",
+    "file_line": "supabase/migrations/20260818143000_site00_production_os.sql:14"
+   },
+   {
+    "field/enum": "PHASE_ORDER + normalizeProjectPhase",
+    "values": "DISCOVERY, DESIGN, BUILD, INTEGRATION, LAUNCH (aliases: DESIGN_DIRECTION/ART_DIRECTION->DESIGN, DEVELOPMENT/DEV->BUILD, PRODUCTION->LAUNCH; anything else -> DESIGN). LAUNCH is terminal; no post-launch phase.",
+    "file_line": "api/_lib/site00Production/serviceAccess.ts:4-22"
+   },
+   {
+    "field/enum": "site00_projects.project_health",
+    "values": "default ON_TRACK; reconciliation adds ATTENTION_REQUIRED default",
+    "file_line": "20260818143000_site00_production_os.sql:15; 20260820190000_site00_reconciliation_sprint02.sql:4"
+   },
+   {
+    "field/enum": "payment_state / provisioning_state",
+    "values": "PENDING / NOT_STARTED defaults",
+    "file_line": "20260818143000_site00_production_os.sql:16-17"
+   },
+   {
+    "field/enum": "ProjectIndexStatus (derived from current_phase text)",
+    "values": "ACTIVE, IN_PROGRESS, ON_HOLD, BLOCKED, NOT_STARTED, PRE_LAUNCH, LAUNCHED, ARCHIVED, CONFIGURATION, POST_LAUNCH; isArchived = status==='ARCHIVED'",
+    "file_line": "shared/site00-projects/projectIndexItem.ts:17-27, 113-128, 164"
+   },
+   {
+    "field/enum": "Project index filters",
+    "values": "ACTIVE tab includes POST_LAUNCH; LAUNCHED tab = LAUNCHED|POST_LAUNCH (not archived)",
+    "file_line": "src/site00/hooks/useProjectIndex.ts:48,52,198; shared/site00-projects/projectIndexMetrics.ts:28"
+   },
+   {
+    "field/enum": "ClientAppState",
+    "values": "PRE_PRODUCTION, IN_PRODUCTION, YOUR_TURN, REVISION_IN_PROGRESS, READY_TO_LAUNCH, LIVE, PAUSED, COMPLETE; isPostLaunch = LIVE|COMPLETE",
+    "file_line": "shared/site00-client-app/types.ts:5-13; manifestBuilder.ts:24-33,159-161"
+   },
+   {
+    "field/enum": "liveDays",
+    "values": "HARDCODED 47 when post-launch",
+    "file_line": "shared/site00-client-app/manifestBuilder.ts:161"
+   },
+   {
+    "field/enum": "Post-launch opportunities",
+    "values": "POST_LAUNCH_OPPORTUNITY at liveDays>=30 (SITE CARE) and >=60 (MARKETING); CTA only records interest (VIEWED) via client-app opportunity-interest",
+    "file_line": "shared/site00-client-app/opportunityEngine.ts:60-102; src/site00/components/clientApp/ClientAppViews.tsx:141-172; api/site00/client-app.ts:112-125"
+   },
+   {
+    "field/enum": "Client studio status",
+    "values": "COMPLETE|ARCHIVED -> 'complete'",
+    "file_line": "api/_lib/site00Production/clientStudio.ts:213-214"
+   },
+   {
+    "field/enum": "Client project list filter",
+    "values": ".neq('status','DELETED') \u2014 DELETED is not a legal status in CHECK; projects are never hard-deleted in code",
+    "file_line": "api/_lib/site00Production/clientStudio.ts:361-363"
+   },
+   {
+    "field/enum": "Ctrl room / admin project queries",
+    "values": ".eq('status','ACTIVE') \u2014 PRODUCTION/IDENTITY_* /ARCHIVED projects drop out of CTRL ROOM counts, signals and operator team load",
+    "file_line": "api/_lib/site00Production/service.ts:12,52,208; adminOperations.ts:792"
+   },
+   {
+    "field/enum": "Orchestration command category",
+    "values": "NEEDS_YOU, BLOCKED, RUNNING, UPCOMING, POST_LAUNCH",
+    "file_line": "src/site00/admin/components/orchestration/OrchestrationCommandQueue.tsx:5"
+   },
+   {
+    "field/enum": "Email lifecycle",
+    "values": "POST_LAUNCH_CHECKIN template event",
+    "file_line": "shared/site00-email/registry/templates.ts:844"
+   },
+   {
+    "field/enum": "Intake lifecycle",
+    "values": "canonical lifecycle columns on site00_idnty_submissions / site00_bldr_intakes",
+    "file_line": "supabase/migrations/20260821020947_site00_intake_persistence.sql:15,71"
+   }
+  ],
+  "post_launch_persistence_evidence": [
+   "No hard delete of site00_projects anywhere in api/ (only seedDemo deletes next_actions); client list excludes only 'DELETED' which the CHECK forbids -> projects persist indefinitely in DB.",
+   "ARCHIVED is the only terminal DB status; there is no LAUNCHED/LIVE/MAINTENANCE status, so a launched project must remain ACTIVE/PRODUCTION or be ARCHIVED.",
+   "Because CTRL ROOM and admin queries filter status='ACTIVE', a project moved to PRODUCTION or ARCHIVED disappears from client CTRL ROOM counts/signals \u2014 'launched' effectively behaves like 'gone' in that surface though data persists.",
+   "Client app (P0.APP.1) models LIVE/COMPLETE post-launch with 'LIVE FOR N DAYS' + WHAT'S NEXT opportunities, but N is hardcoded 47 and opportunities only log interest \u2014 demonstrates intended persistence, not real lifecycle.",
+   "Project index understands LAUNCHED/POST_LAUNCH via substring match of current_phase, but nothing writes those phase strings (PHASE_ORDER ends at LAUNCH).",
+   "EVOLVE marketing_profiles default lifecycle_stage POST_LAUNCH (org-scoped) \u2014 post-launch growth is modeled per organization, not per project/site.",
+   "site00_sites FK ON DELETE SET NULL means a site row is designed to outlive its project."
+  ]
+ },
+ "SITE_LIFECYCLE_in_code": {
+  "db": "site00_sites.status free text default DRAFT; health default OK; no CHECK constraint.",
+  "values_used": "DRAFT, BUILD, PRELAUNCH, QA, LIVE, PUBLISHED (useCtrlRoomData.ts mapSiteStatus: LIVE|PUBLISHED->ACTIVE); seed UI uses 'Published'/'Draft'.",
+  "transitions": "NONE \u2014 no code updates site00_sites.status; launch does not create/promote a site record.",
+  "retirement": "No RETIRED/OFFLINE/TRANSFERRED state; no deletion path."
+ },
+ "SITE_TO_PROJECT_LINKAGE_today": "site00_sites.project_id (nullable FK, ON DELETE SET NULL) + identity_id is the only site<->project link; surfaced only in admin SiteDetailPage (PROJECT + CLIENT panels) and the operator launch queue. Client surfaces never show it. Project has no back-reference (no site list on project; project mission control does not list sites). Existing-location cases use free-text site_url + optional project_id, not site_id. Design control plane uses its own site00_managed_projects registry unlinked to either. Public /sites uses an empty static seed. Net: sites and projects are only loosely joined in the DB and disjoint in the UI; nothing creates a SITE when a PROJECT launches.",
+ "gaps": [
+  "No canonical PROJECT lifecycle including post-launch states (LAUNCHED -> LIVE_MAINTENANCE/CARE -> EVOLVING -> DORMANT -> ARCHIVED); launched != deleted is not encoded.",
+  "No SITE entity lifecycle or creation at launch; site00_sites effectively demo-only.",
+  "/control/sites shows fake seed data to real clients; MANAGE links 404->home.",
+  "No client site detail: open live, info, project return, maintenance, add-on, extension, EVOLVE entry.",
+  "Public /sites empty with no showcase-approval authority; /sites/:id unrouted.",
+  "SITES placed under CONTROL ROOM namespace (/control/sites) and labelled SYSTEMS/INFRASTRUCTURE in admin \u2014 neither matches 'digital locations SITE 00 created'.",
+  "No domains table; no live_url; no deploy history table.",
+  "Existing Location service not tied to site00_sites; EVOLVE not tied to site/project.",
+  "status='ACTIVE' filters hide non-ACTIVE projects from CTRL ROOM and team load.",
+  "Three disjoint project registries touch sites (site00_projects, site00_managed_projects, static registries)."
+ ],
+ "PROJECT_ROOM": "Client app (/app/:slug) per Ground Zero proposal; reachable from a SITE via RETURN TO PROJECT.",
+ "proposed_model": {
+  "relationship": "PROJECT 1 \u2014< N SITE (runtime outputs). SITE.project_id NOT NULL for SITE 00-built sites; ON DELETE RESTRICT (today SET NULL).",
+  "project_lifecycle": [
+   "ACTIVE",
+   "IN_REVIEW",
+   "LAUNCHED",
+   "MAINTENANCE",
+   "EVOLVE",
+   "PAUSED",
+   "ARCHIVED"
+  ],
+  "project_lifecycle_note": "Extend site00_projects.status (today ends PRODUCTION/ARCHIVED) and phase order (ends LAUNCH); lists that filter status=ACTIVE must include post-launch states.",
+  "site_lifecycle": [
+   "PLANNED",
+   "IN_BUILD",
+   "LIVE",
+   "UPDATING",
+   "RETIRED"
+  ],
+  "site_links": [
+   "source project",
+   "project history",
+   "approvals",
+   "library",
+   "family / working tree",
+   "EVOLVE history",
+   "maintenance history"
+  ],
+  "client_site_actions": [
+   "OPEN LIVE SITE",
+   "SITE INFO",
+   "RETURN TO PROJECT",
+   "REQUEST MAINTENANCE",
+   "START ADD-ON",
+   "START EXTENSION",
+   "START EVOLVE WORK"
+  ],
+  "public_sites_surface": "Curated digital locations (completed + selected in-progress) with site detail and project/case context \u2014 not a portfolio grid; /sites/:id route needed; never exposes the client project room."
+ }
+}

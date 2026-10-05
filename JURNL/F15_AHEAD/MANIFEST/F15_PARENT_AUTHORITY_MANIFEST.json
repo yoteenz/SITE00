@@ -1,0 +1,13 @@
+{
+  "family_id": "F15",
+  "screen_id": "F15.00",
+  "approval_status": "READY_FOR_FOUNDER_REVIEW",
+  "founder_status": "UNREVIEWED",
+  "plate": "ENV.OVERLOOK",
+  "plate_origin": "REFERENCE_GUIDED_REFRAME",
+  "plate_ui_interference": "FAIL",
+  "child_explosion": "NO",
+  "sidekick": "NOT_GENERATED",
+  "route": "ahead",
+  "provider_project_id": "tXsxlD6FabwcTqapXhX4"
+}

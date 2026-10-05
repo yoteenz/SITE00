@@ -10,7 +10,8 @@ import { createPortal } from 'react-dom';
 import { useSearchParams } from 'react-router-dom';
 import { STATION_ORDER, type StationId } from '../../../../shared/site00-character-fabrication/index.js';
 import { ProductionChromeStrip, productionChromeScale } from '../productionHub/chrome';
-import { ProductionBottomNav } from '../productionHub/nav';
+import { ProductionBottomNav, ProductionHostNav } from '../productionHub/nav';
+import { useProductionViewportFamily } from '../../hooks/useProductionViewportFamily';
 import { useProductionRequests } from '../../state/productionRequestStore';
 import { deviceLocalFabricationRepository } from '../../state/characterFabricationRepository';
 import { FabricationProvider, useFabrication } from './FabricationContext';
@@ -26,6 +27,7 @@ import { AuthorityView } from './stationAuthority';
 import '../../styles/site00-production-hub.css';
 import '../../styles/site00-character-fabrication.css';
 import '../../styles/site00-character-fabrication-authority.css';
+import '../../styles/site00-production-fabrication-opus2.css';
 
 export const CANVAS_W = 432;
 
@@ -85,6 +87,7 @@ function Shell({ projectSlug }: { projectSlug: string }) {
   const requests = useProductionRequests();
   const inbox = requests.filter((r) => r.status === 'QUEUED').length;
   const zoom = useCanvasZoom();
+  const family = useProductionViewportFamily();
   const stageRef = useRef<HTMLDivElement>(null);
   const [stageH, setStageH] = useState(() => {
     if (typeof window === 'undefined') return 600;
@@ -104,7 +107,7 @@ function Shell({ projectSlug }: { projectSlug: string }) {
     return () => document.body.classList.remove('cf-open');
   }, []);
   const ui = (
-    <div className="cf-shell" data-testid="character-fabrication" data-persistence={persistence}>
+    <div className="cf-shell" data-family={family} data-testid="character-fabrication" data-persistence={persistence}>
       <ProductionChromeStrip>
         <FabricationHeader
           onReset={() => {
@@ -132,9 +135,15 @@ function Shell({ projectSlug }: { projectSlug: string }) {
           </div>
         </div>
       </div>
-      <ProductionChromeStrip>
-        <ProductionBottomNav active="expression" projectId={projectSlug} inboxCount={inbox} />
-      </ProductionChromeStrip>
+      {/* Tablet / desktop: the authority host nav (same 7 tabs) instead of the phone strip scaled across the host. */}
+      {family !== 'mobile' ?
+        <ProductionChromeStrip host>
+          <ProductionHostNav active="expression" projectId={projectSlug} inboxCount={inbox} />
+        </ProductionChromeStrip>
+      : <ProductionChromeStrip>
+          <ProductionBottomNav active="expression" projectId={projectSlug} inboxCount={inbox} />
+        </ProductionChromeStrip>
+      }
     </div>
   );
   return createPortal(ui, document.body);

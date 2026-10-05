@@ -53,6 +53,8 @@ export const SITE00_ROUTES = {
   signIn: '/origin/sign-in',
   createAccount: '/origin/create-account',
   loaderPreview: '/loader-preview',
+  /** P0.SITE00.FAMILY1.PARENT-ASSET-FIRST.PAGE-ASSEMBLY.TEST1 */
+  jurnlF01ParentAssembly: '/jurnl/f01/parent-assembly',
   accessDebug: '/access/debug',
   access: '/access',
   accessCredential: (code: string) => `/access/${code}`,
@@ -155,7 +157,11 @@ export const SITE00_ROUTES = {
   productionLibraries: '/production/libraries',
   /** Production queue — structured work received from projects and services. */
   productionQueue: '/production/queue',
+  /** Production → ACTIVITY (project history). */
+  productionActivity: '/production/activity',
   productionProject: '/production/:projectSlug',
+  /** P0.JURNL.SITE00-INGEST-F01 — ingested project runtime (project body, no host chrome). */
+  productionProjectRuntime: '/production/:projectSlug/runtime/*',
   productionDesign: '/production/:projectSlug/design',
   productionExperience: '/production/:projectSlug/experience',
   productionExpression: '/production/:projectSlug/expression',
@@ -226,6 +232,8 @@ export const SITE00_ROUTES = {
   studioMilestones: '/studio/:projectSlug/milestones',
   studioActivity: '/studio/:projectSlug/activity',
   studioExperienceCompiler: '/studio/:projectSlug/experience-compiler',
+  /** Cloud preview guest — minimal Studio parent (no protected API). */
+  studioPreviewGuest: '/studio/:projectSlug/preview-guest',
   /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
   accountIntakes: '/account/intakes',
   accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
@@ -739,6 +747,10 @@ export function site00StudioPath(projectSlug: string, section?: 'input' | 'opera
 export function site00ExperienceCompilerPath(projectSlug: string, tab?: string): string {
   const base = `/studio/${projectSlug}/experience-compiler`;
   return tab ? `${base}?tab=${encodeURIComponent(tab)}` : base;
+}
+
+export function site00StudioPreviewGuestPath(projectSlug: string): string {
+  return `/studio/${projectSlug}/preview-guest`;
 }
 
 export function site00ClientProjectRoomPath(

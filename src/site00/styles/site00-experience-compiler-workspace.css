@@ -1,9 +1,48 @@
 .ec-workspace {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 1.25rem 1rem 3rem;
-  color: #e8e8ea;
+  color: var(--site-text, #1a1a1a);
   font-family: system-ui, sans-serif;
+}
+
+/* Ecosystem mobile shell uses light #f4f4f2 — do not inherit dark-theme ghost text. */
+.site00-ecosystem-mobile-shell .ec-workspace {
+  color: var(--site-text, #1a1a1a);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-workspace__kicker,
+.site00-ecosystem-mobile-shell .ec-workspace .ec-metrics span,
+.site00-ecosystem-mobile-shell .ec-workspace .ec-note {
+  opacity: 1;
+  color: var(--site-text-muted, #4a4a48);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-workspace__title,
+.site00-ecosystem-mobile-shell .ec-workspace .ec-metrics strong,
+.site00-ecosystem-mobile-shell .ec-workspace .ec-panel h2 {
+  color: var(--site-text, #1a1a1a);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-panel {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-workspace__nav-btn {
+  color: var(--site-text, #1a1a1a);
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-workspace__nav-btn.is-active {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
+.ec-note--degraded {
+  border-left: 3px solid #f5c542;
+  padding-left: 0.65rem;
+  color: #5a4a12;
 }
 
 .ec-workspace__header {
@@ -36,7 +75,7 @@
 .ec-workspace__back {
   font-size: 0.7rem;
   letter-spacing: 0.08em;
-  color: #9cf;
+  color: #0066aa;
   text-decoration: none;
 }
 
@@ -225,4 +264,145 @@
   .ec-actions {
     grid-column: 1 / -1;
   }
+}
+
+.ec-panel--flush {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.ec-cd__grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 900px) {
+  .ec-cd__grid {
+    grid-template-columns: minmax(200px, 240px) 1fr minmax(200px, 260px);
+  }
+}
+
+.ec-cd__col {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  border-radius: 4px;
+}
+
+.ec-cd__col h3 {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.6rem;
+}
+
+.ec-cd__dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.6rem;
+  font-size: 0.72rem;
+  margin: 0 0 0.75rem;
+}
+
+.ec-cd__dl dt {
+  opacity: 0.65;
+}
+
+.ec-cd__messages {
+  max-height: 160px;
+  overflow: auto;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ec-cd__msg {
+  font-size: 0.7rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ec-cd__msg span {
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+
+.ec-cd__territories {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 700px) {
+  .ec-cd__territories {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.ec-cd__territory-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.5rem;
+  font-size: 0.68rem;
+}
+
+.ec-cd__territory-dl {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+}
+.ec-cd__territory-dl dt {
+  font-weight: 600;
+  margin-top: 0.35rem;
+}
+.ec-cd__territory-dl dd {
+  margin: 0.15rem 0 0;
+  opacity: 0.92;
+}
+.ec-cd__run-meta {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin: 0.25rem 0 0.75rem;
+}
+.ec-cd__territory-card h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+}
+
+.ec-cd__judgment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+}
+
+.ec-cd__manifest {
+  font-size: 0.62rem;
+  max-height: 120px;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0.4rem;
+}
+
+.ec-cd__rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.ec-cd__error {
+  color: #f9a;
+  font-size: 0.72rem;
+}
+
+.ec-cd__runtime,
+.ec-cd__thread-title {
+  font-size: 0.72rem;
+  opacity: 0.9;
 }

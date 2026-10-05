@@ -1,0 +1,49 @@
+{
+  "family_id": "F03",
+  "screen_id": "F03.00",
+  "screen_class": "ENVIRONMENT_DEPENDENT",
+  "ui_weight": "LEFT",
+  "environmental_weight": "RIGHT",
+  "scrim_fix_forbidden": true,
+  "primary_ui_vertical_zone": "UPPER-MIDDLE THROUGH MID-LOWER",
+  "bottom_nav_zone": "LOWER CENTER",
+  "mobile": {
+    "primary_ui_zone": "LEFT / CENTER-LEFT. Title, safe-to-spend figure, see why, and the journal sit here.",
+    "secondary_ui_zone": "The coming and moved journal, still on the left rail.",
+    "environment_focal_zone": "RIGHT / FAR-RIGHT. Daylight and one daily object.",
+    "protected_negative_space": "Behind TODAY, behind the safe-to-spend figure, and behind the coming and moved panels. Low noise, low contrast, low edge.",
+    "occlusion_allowed_zone": "See why and ask cover most of the room. Those sheets are not a new plate.",
+    "drawer_overlay_zone": "Lower sheet over the room. No plate of its own.",
+    "text_density_zone": "Left rail. One figure, two short groups."
+  },
+  "tablet": {
+    "primary_ui_zone": "LEFT / CENTER-LEFT. Same rail, more air above the title.",
+    "secondary_ui_zone": "The journal stays on the left rail.",
+    "environment_focal_zone": "RIGHT / FAR-RIGHT.",
+    "protected_negative_space": "Behind the title, the figure, and the journal.",
+    "occlusion_allowed_zone": "Sheets cover the lower room.",
+    "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+    "text_density_zone": "Left rail."
+  },
+  "desktop": {
+    "primary_ui_zone": "LEFT / CENTER-LEFT inside the app canvas.",
+    "secondary_ui_zone": "The journal on that same rail.",
+    "environment_focal_zone": "RIGHT / FAR-RIGHT of the plate.",
+    "protected_negative_space": "Behind the title, the figure, and the journal. The crop may show more of the right room.",
+    "occlusion_allowed_zone": "Sheets cover the lower room.",
+    "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+    "text_density_zone": "Left rail. Do not stretch the journal across the plate."
+  },
+  "plate_ui_interference": "PASS",
+  "qa": {
+    "ui_occupancy_fit": "PASS",
+    "negative_space_quality": "PASS",
+    "visual_noise_in_ui_zone": "LOW",
+    "edge_density_in_ui_zone": "LOW",
+    "salience_conflict": "PASS",
+    "panel_material_compatibility": "PASS",
+    "responsive_fit": "PASS",
+    "drawer_occlusion_exception": "NOT_USED",
+    "plate_ui_interference": "PASS"
+  }
+}

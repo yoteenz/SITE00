@@ -1,0 +1,13 @@
+{
+  "family_id": "F09",
+  "screen_id": "F09.00",
+  "approval_status": "READY_FOR_FOUNDER_REVIEW",
+  "founder_status": "UNREVIEWED",
+  "plate": "ENV.LOGGIA",
+  "plate_origin": "REFERENCE_GUIDED_REFRAME",
+  "plate_ui_interference": "FAIL",
+  "child_explosion": "NO",
+  "sidekick": "NOT_GENERATED",
+  "route": "safe",
+  "provider_project_id": "VdiPtgVqb21sYl003uox"
+}

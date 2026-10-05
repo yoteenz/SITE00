@@ -1,0 +1,55 @@
+{
+  "family_id": "F10",
+  "family_name": "PURCHASES",
+  "product_job": "Help the user think about a specific thing they want to buy.",
+  "user_question_answered": "Can I buy this, when, and what does it change?",
+  "primary_signal": "One object under consideration.",
+  "emotional_role": "Desire and decision.",
+  "spatial_metaphor": "A curated niche.",
+  "architectural_character": "A small plaster niche on the right with one folded champagne silk. Left wall is quiet.",
+  "lighting_character": "Soft daylight on plaster.",
+  "material_emphasis": "Plaster and champagne silk.",
+  "environmental_focal_point": "The folded silk.",
+  "object_language": "One cloth. No tag, no rack.",
+  "botanical_role": "None.",
+  "negative_space_strategy": "Left half is quiet plaster.",
+  "composition_bias": "Left question, object on the right.",
+  "information_density": "One object and two facts.",
+  "panel_behavior": "A detail preview, not a product card.",
+  "button_behavior": "The decision stays closed.",
+  "data_visualization_character": "One object mark.",
+  "interaction_character": "The consideration is the parent. The decision stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "The object leads. No price costume.",
+  "relationship_to_previous_family": "Safe to spend is the room. A purchase is one thing inside it.",
+  "relationship_to_next_family": "A trip is a life event, not an object.",
+  "relationship_to_other_families": "Not a shop and not the cabinet.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Niche",
+    "One silk",
+    "Consideration"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "A storefront",
+    "The object sitting in the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

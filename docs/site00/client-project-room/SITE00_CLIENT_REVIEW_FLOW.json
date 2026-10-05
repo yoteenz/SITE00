@@ -1,0 +1,102 @@
+{
+ "artifact": "SITE00_CLIENT_REVIEW_FLOW",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "review_unit": "FAMILY (parent \u00b7 key children \u00b7 important interactions \u00b7 key responsive views \u00b7 final family). Never every microstate.",
+ "flow": [
+  {
+   "step": 1,
+   "actor": "FOUNDER",
+   "action": "SEND TO CLIENT (family review package)",
+   "writes": "review object (status AWAITING_CLIENT) + version + event SENT_TO_CLIENT",
+   "client_effect": "HOME NEEDS YOU + notification REVIEW READY"
+  },
+  {
+   "step": 2,
+   "actor": "CLIENT",
+   "action": "opens FAMILY REVIEW",
+   "writes": "event VIEWED (internal only)",
+   "client_effect": "authority dominates screen"
+  },
+  {
+   "step": "3a",
+   "actor": "CLIENT",
+   "action": "\u2665 APPROVE (+ optional note)",
+   "writes": "receipt APPROVE + approval event (durable) + review status APPROVED",
+   "client_effect": "APPROVAL SUCCESS with undo window; HOME moves on"
+  },
+  {
+   "step": "3b",
+   "actor": "CLIENT",
+   "action": "\u00d7 NEEDS REVISION \u2192 feedback \u2192 SEND REVISION REQUEST",
+   "writes": "receipt REVISION + approval event + status REVISION_REQUESTED",
+   "client_effect": "REVISION SUBMITTED; HOME no longer waiting on client"
+  },
+  {
+   "step": 4,
+   "actor": "SYSTEM",
+   "action": "gate evaluation",
+   "writes": "family gate event (see gate model)",
+   "client_effect": "NEXT FAMILY READY or FUNDING REQUIRED state"
+  },
+  {
+   "step": 5,
+   "actor": "FOUNDER",
+   "action": "sees decision in PW.INBOX client lens + ACTIVITY",
+   "writes": "acknowledgement",
+   "client_effect": "none"
+  }
+ ],
+ "states": {
+  "client_facing": [
+   "AWAITING REVIEW",
+   "IN REVIEW",
+   "REVISION REQUESTED",
+   "APPROVED",
+   "SUPERSEDED"
+  ],
+  "workspace_facing": [
+   "NOT_SENT",
+   "READY_TO_SEND",
+   "SENT_TO_CLIENT",
+   "AWAITING_CLIENT",
+   "CLIENT_COMMENTED",
+   "REVISION_REQUESTED",
+   "CLIENT_APPROVED",
+   "SUPERSEDED"
+  ],
+  "rule": "Two projections of ONE state machine stored once (no duplicate status system)."
+ },
+ "approve_control": {
+  "glyph": "\u2665",
+  "label": "APPROVE",
+  "accessible_name": "Approve",
+  "meaning": "The client accepts this authority / family at the current approval gate.",
+  "comment_required": false,
+  "optional": "ADD A NOTE",
+  "confirmation": {
+   "STANDARD_GATE": "lightweight: inline confirmation state with UNDO for a short grace window (proposed 10 minutes or until founder acts, whichever first)",
+   "FINAL_OR_CONTRACTUAL_GATE": "stronger: explicit confirm modal listing what becomes final"
+  },
+  "reversal": "Within grace window: UNDO (event APPROVAL_UNDONE, history kept). After window or once downstream production begins: no silent rewrite \u2014 client asks via INBOX; founder issues a new version; approval stays a versioned historical event."
+ },
+ "revision_control": {
+  "glyph": "\u00d7",
+  "label": "NEEDS REVISION",
+  "accessible_name": "Needs revision",
+  "behaviour": "Never submits on tap; expands feedback in place (or focused sheet on mobile)."
+ },
+ "no_swipe": "Swipe gestures are never an approval method.",
+ "accessibility": [
+  "\u2665 and \u00d7 are decorative (aria-hidden); buttons carry text names",
+  "state never by colour/symbol alone \u2014 status words always shown",
+  "focus moves to feedback field on NEEDS REVISION; announced via aria-live"
+ ],
+ "history_shown_to_client": "V1 \u00b7 REVISION REQUESTED \u00b7 \"your words\" \u2192 V2 \u00b7 APPROVED \u2014 no internal noise.",
+ "existing_code_reuse": [
+  "ClientAppReviewDetailView (REPAIR)",
+  "reviewService submitClientApproval/submitClientRevision (extend + validate server-side)",
+  "site00_client_review_* tables (extend)"
+ ]
+}

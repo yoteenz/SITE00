@@ -1,0 +1,369 @@
+{
+  "pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v1",
+  "mobile_count": 40,
+  "desktop_tablet_count": 40,
+  "paired_count": 40,
+  "pairing_issues": [],
+  "routes": [
+    {
+      "route": "01_Narrative/00_narrative-root",
+      "mobile": "01_MOBILE/01_Narrative/00_narrative-root.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/01_Narrative/00_narrative-root.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "01_Narrative/01_story",
+      "mobile": "01_MOBILE/01_Narrative/01_story.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/01_Narrative/01_story.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "01_Narrative/02_structure",
+      "mobile": "01_MOBILE/01_Narrative/02_structure.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/01_Narrative/02_structure.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "01_Narrative/03_momentum",
+      "mobile": "01_MOBILE/01_Narrative/03_momentum.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/01_Narrative/03_momentum.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "01_Narrative/04_proof",
+      "mobile": "01_MOBILE/01_Narrative/04_proof.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/01_Narrative/04_proof.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "02_Casting/00_casting-root",
+      "mobile": "01_MOBILE/02_Casting/00_casting-root.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/02_Casting/00_casting-root.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "02_Casting/01_roles",
+      "mobile": "01_MOBILE/02_Casting/01_roles.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/02_Casting/01_roles.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "02_Casting/02_actors",
+      "mobile": "01_MOBILE/02_Casting/02_actors.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/02_Casting/02_actors.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "02_Casting/03_characters",
+      "mobile": "01_MOBILE/02_Casting/03_characters.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/02_Casting/03_characters.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "02_Casting/04_continuity",
+      "mobile": "01_MOBILE/02_Casting/04_continuity.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/02_Casting/04_continuity.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "02_Casting/05_role-detail",
+      "mobile": "01_MOBILE/02_Casting/05_role-detail.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/02_Casting/05_role-detail.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "02_Casting/06_actor-profile",
+      "mobile": "01_MOBILE/02_Casting/06_actor-profile.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/02_Casting/06_actor-profile.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "02_Casting/07_character-profile",
+      "mobile": "01_MOBILE/02_Casting/07_character-profile.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/02_Casting/07_character-profile.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "03_Look_Wardrobe/00_look-wardrobe-root",
+      "mobile": "01_MOBILE/03_Look_Wardrobe/00_look-wardrobe-root.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/03_Look_Wardrobe/00_look-wardrobe-root.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "03_Look_Wardrobe/01_looks",
+      "mobile": "01_MOBILE/03_Look_Wardrobe/01_looks.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/03_Look_Wardrobe/01_looks.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "03_Look_Wardrobe/02_outfits",
+      "mobile": "01_MOBILE/03_Look_Wardrobe/02_outfits.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/03_Look_Wardrobe/02_outfits.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "03_Look_Wardrobe/03_hair",
+      "mobile": "01_MOBILE/03_Look_Wardrobe/03_hair.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/03_Look_Wardrobe/03_hair.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "03_Look_Wardrobe/04_makeup",
+      "mobile": "01_MOBILE/03_Look_Wardrobe/04_makeup.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/03_Look_Wardrobe/04_makeup.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "03_Look_Wardrobe/05_accessories",
+      "mobile": "01_MOBILE/03_Look_Wardrobe/05_accessories.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/03_Look_Wardrobe/05_accessories.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "03_Look_Wardrobe/06_fittings",
+      "mobile": "01_MOBILE/03_Look_Wardrobe/06_fittings.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/03_Look_Wardrobe/06_fittings.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "03_Look_Wardrobe/07_continuity",
+      "mobile": "01_MOBILE/03_Look_Wardrobe/07_continuity.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/03_Look_Wardrobe/07_continuity.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "04_Cast_Performance/00_performance-root",
+      "mobile": "01_MOBILE/04_Cast_Performance/00_performance-root.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/04_Cast_Performance/00_performance-root.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "04_Cast_Performance/01_scenes",
+      "mobile": "01_MOBILE/04_Cast_Performance/01_scenes.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/04_Cast_Performance/01_scenes.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "04_Cast_Performance/02_beats",
+      "mobile": "01_MOBILE/04_Cast_Performance/02_beats.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/04_Cast_Performance/02_beats.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "04_Cast_Performance/03_takes",
+      "mobile": "01_MOBILE/04_Cast_Performance/03_takes.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/04_Cast_Performance/03_takes.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "05_Sets_Scenes/00_sets-scenes-root",
+      "mobile": "01_MOBILE/05_Sets_Scenes/00_sets-scenes-root.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/05_Sets_Scenes/00_sets-scenes-root.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "05_Sets_Scenes/01_environments",
+      "mobile": "01_MOBILE/05_Sets_Scenes/01_environments.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/05_Sets_Scenes/01_environments.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "05_Sets_Scenes/02_sets",
+      "mobile": "01_MOBILE/05_Sets_Scenes/02_sets.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/05_Sets_Scenes/02_sets.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "05_Sets_Scenes/03_zones",
+      "mobile": "01_MOBILE/05_Sets_Scenes/03_zones.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/05_Sets_Scenes/03_zones.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "05_Sets_Scenes/04_props",
+      "mobile": "01_MOBILE/05_Sets_Scenes/04_props.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/05_Sets_Scenes/04_props.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "05_Sets_Scenes/05_graphics",
+      "mobile": "01_MOBILE/05_Sets_Scenes/05_graphics.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/05_Sets_Scenes/05_graphics.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "05_Sets_Scenes/06_camera",
+      "mobile": "01_MOBILE/05_Sets_Scenes/06_camera.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/05_Sets_Scenes/06_camera.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "06_Storyboard/00_storyboard-root",
+      "mobile": "01_MOBILE/06_Storyboard/00_storyboard-root.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/06_Storyboard/00_storyboard-root.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "06_Storyboard/01_sequence-detail",
+      "mobile": "01_MOBILE/06_Storyboard/01_sequence-detail.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/06_Storyboard/01_sequence-detail.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "06_Storyboard/02_keyframes",
+      "mobile": "01_MOBILE/06_Storyboard/02_keyframes.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/06_Storyboard/02_keyframes.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "07_Review_Handoff/00_review-handoff-root",
+      "mobile": "01_MOBILE/07_Review_Handoff/00_review-handoff-root.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/07_Review_Handoff/00_review-handoff-root.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "07_Review_Handoff/01_approval-detail",
+      "mobile": "01_MOBILE/07_Review_Handoff/01_approval-detail.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/07_Review_Handoff/01_approval-detail.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "08_Format_Studio/00_format-studio",
+      "mobile": "01_MOBILE/08_Format_Studio/00_format-studio.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/08_Format_Studio/00_format-studio.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "09_Content_Package/00_content-package",
+      "mobile": "01_MOBILE/09_Content_Package/00_content-package.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/09_Content_Package/00_content-package.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    },
+    {
+      "route": "10_Campaign_Board/00_campaign-board",
+      "mobile": "01_MOBILE/10_Campaign_Board/00_campaign-board.jpg",
+      "desktop_tablet": "02_DESKTOP_TABLET/10_Campaign_Board/00_campaign-board.jpg",
+      "pairing_status": "PAIRED",
+      "authority": "REFERENCE_LOCKED",
+      "mobile_role": "route-specific mobile authority",
+      "desktop_tablet_role": "paired responsive authority board: desktop 16:9 left + tablet 4:3 right"
+    }
+  ]
+}

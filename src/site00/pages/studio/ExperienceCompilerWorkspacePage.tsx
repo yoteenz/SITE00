@@ -1,6 +1,9 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { site00StudioPath } from '../../config/routes';
+import { site00StudioPath, site00StudioPreviewGuestPath } from '../../config/routes';
+import { useSite00ShellAuth } from '../../auth/Site00ShellAuthContext';
+import { isSite00EcPreviewGuestFeatureActive } from '../../auth/site00ShellAuthState';
+import { isSignedIn } from '../../../utils/adminAuth';
 import { StudioShell } from '../../components/studio';
 import {
   addCustomExperienceFromWorkspace,
@@ -29,6 +32,7 @@ import {
   type WorkspaceSection,
 } from '../../../studioos/experience-compiler/workspace';
 import { persistWorkspace } from '../../../studioos/experience-compiler/workspace/persistence';
+import { ExperienceCompilerCreativeDirectorPanel } from '../../components/studio/ExperienceCompilerCreativeDirectorPanel';
 import '../../../site00/styles/site00-experience-compiler-workspace.css';
 
 const SECTIONS: { id: WorkspaceSection; label: string }[] = [
@@ -40,11 +44,18 @@ const SECTIONS: { id: WorkspaceSection; label: string }[] = [
   { id: 'capabilities', label: 'CAPABILITIES' },
   { id: 'production', label: 'PRODUCTION' },
   { id: 'history', label: 'HISTORY' },
+  { id: 'creative', label: 'CREATIVE' },
 ];
 
 export default function ExperienceCompilerWorkspacePage() {
   const { projectSlug = 'site00' } = useParams();
+  const { authMode } = useSite00ShellAuth();
   const [searchParams, setSearchParams] = useSearchParams();
+  const previewGuestNav =
+    authMode === 'PREVIEW_GUEST' || (!isSignedIn() && isSite00EcPreviewGuestFeatureActive());
+  const studioBackHref = previewGuestNav
+    ? site00StudioPreviewGuestPath(projectSlug)
+    : site00StudioPath(projectSlug);
   const tab = (searchParams.get('tab') as WorkspaceSection) || 'project';
   const [state, setState] = useState<ExperienceCompilerWorkspaceState>(() => loadOrBootstrapWorkspace(projectSlug));
   const [pushFeedback, setPushFeedback] = useState('');
@@ -175,7 +186,7 @@ export default function ExperienceCompilerWorkspacePage() {
 
   return (
     <StudioShell>
-      <div className="ec-workspace">
+      <div className={`ec-workspace ${authMode === 'PREVIEW_GUEST' ? 'ec-workspace--preview-guest' : ''}`.trim()}>
         <header className="ec-workspace__header">
           <div>
             <p className="ec-workspace__kicker">EXPERIENCE COMPILER</p>
@@ -184,7 +195,7 @@ export default function ExperienceCompilerWorkspacePage() {
               MODE {state.mode} · STAGE {stage} · NEXT: {nextAction}
             </p>
           </div>
-          <Link className="ec-workspace__back" to={site00StudioPath(projectSlug)}>
+          <Link className="ec-workspace__back" to={studioBackHref}>
             ← STUDIO
           </Link>
         </header>
@@ -201,6 +212,12 @@ export default function ExperienceCompilerWorkspacePage() {
             </button>
           ))}
         </nav>
+
+        {tab === 'creative' && (
+          <section className="ec-panel ec-panel--flush">
+            <ExperienceCompilerCreativeDirectorPanel state={state} />
+          </section>
+        )}
 
         {tab === 'project' && (
           <section className="ec-panel">

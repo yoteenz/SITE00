@@ -1,0 +1,104 @@
+{
+  "family_id": "F02_SETUP",
+  "new_f02_icons": 0,
+  "inherited_icons": 12,
+  "provider_marks": "Apple, Google, and bank marks stay the existing official assets. None were image-generated.",
+  "icons": [
+    {
+      "semantic": "back",
+      "canonical_icon_id": "F01.ICON.BACK",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "check",
+      "canonical_icon_id": "F01.ICON.CHECK",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "alert",
+      "canonical_icon_id": "F01.ICON.ALERT",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "close",
+      "canonical_icon_id": "F01.ICON.CLOSE",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "plus",
+      "canonical_icon_id": "F01.ICON.PLUS",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "chevron",
+      "canonical_icon_id": "F01.ICON.CHEVRON",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "link",
+      "canonical_icon_id": "F01.ICON.LINK",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "account",
+      "canonical_icon_id": "F01.ICON.ACCOUNT",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "shield",
+      "canonical_icon_id": "F01.ICON.SHIELD",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "privacy",
+      "canonical_icon_id": "F01.ICON.PRIVACY",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "info",
+      "canonical_icon_id": "F01.ICON.INFO",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    },
+    {
+      "semantic": "clock",
+      "canonical_icon_id": "F01.ICON.CLOCK",
+      "inherited_or_new": "INHERITED",
+      "source_authority": "src/projects/jurnl/runtime/components/icons.tsx",
+      "runtime_format": "SVG",
+      "screens_used": "Available to F02 implementation. Not redrawn on the authorities. Selection squares and progress segments are live code."
+    }
+  ]
+}

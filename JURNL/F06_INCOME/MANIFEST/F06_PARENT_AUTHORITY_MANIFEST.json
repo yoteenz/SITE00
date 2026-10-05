@@ -1,0 +1,13 @@
+{
+  "family_id": "F06",
+  "screen_id": "F06.00",
+  "approval_status": "READY_FOR_FOUNDER_REVIEW",
+  "founder_status": "UNREVIEWED",
+  "plate": "ENV.ARRIVAL",
+  "plate_origin": "KEPT_TEXT_IMAGE",
+  "plate_ui_interference": "PASS",
+  "child_explosion": "NO",
+  "sidekick": "NOT_GENERATED",
+  "route": "income",
+  "provider_project_id": "JFXLEG7wQ6DUgqE3MdUB"
+}

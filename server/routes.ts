@@ -36,6 +36,7 @@ import site00ImplementationSnapshotsHandler from '../api/site00/implementation-s
 import site00PageMirrorHandler from '../api/site00/page-mirror.js';
 import site00ExperienceEngineHandler from '../api/site00/experience-engine.js';
 import site00ExpressionEngineHandler from '../api/site00/expression-engine.js';
+import site00ExperienceCompilerCreativeDirectorHandler from '../api/site00/experience-compiler-creative-director.js';
 import site00CampaignPackageHandler from '../api/site00/campaign-package.js';
 import site00DesignControlPlaneHandler from '../api/site00/design-control-plane.js';
 import site00DesignAssetReconstructionHandler from '../api/site00/design-asset-reconstruction.js';
@@ -99,6 +100,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/page-mirror', handler: site00PageMirrorHandler },
   { path: '/api/site00/experience-engine', handler: site00ExperienceEngineHandler },
   { path: '/api/site00/expression-engine', handler: site00ExpressionEngineHandler },
+  { path: '/api/site00/experience-compiler-creative-director', handler: site00ExperienceCompilerCreativeDirectorHandler },
   { path: '/api/site00/campaign-package', handler: site00CampaignPackageHandler },
   { path: '/api/site00/design-control-plane', handler: site00DesignControlPlaneHandler },
   { path: '/api/site00/design-asset-reconstruction', handler: site00DesignAssetReconstructionHandler },

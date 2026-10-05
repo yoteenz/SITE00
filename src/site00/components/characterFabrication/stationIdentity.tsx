@@ -121,7 +121,7 @@ export function IdentityView() {
         railTop={252}
         cardTop={40}
         cyl={{ top: 15, plat: 232 }}
-        fig={{ x: 179, y: 24, w: 74, h: 216 }}
+        figureAnchor={{ centerX: 216, footY: 240, width: 92, height: 248, groundPlaneY: 232 }}
         actorRows={open ? ['AGE', 'HEIGHT', 'ETHNICITY', 'STATUS', 'ENTRY', 'PROJECT', 'VERSION'] : ['AGE', 'HEIGHT', 'ETHNICITY', 'STATUS']}
         actorActions={!open}
         cardH={203}

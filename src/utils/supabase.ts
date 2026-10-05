@@ -7,6 +7,7 @@
  */
 import { createClient, SupabaseClient, type Session, type User } from '@supabase/supabase-js';
 import { ensureAuthRestoredFromBackup, consumeManualSignOutFlag } from './adminAuth';
+import { fetchWithSupabaseTimeout } from './supabaseFetch';
 
 const SUPABASE_SESSION_COOKIE = 'baw_sb_session';
 const SUPABASE_USER_COOKIE = 'baw_sb_user';
@@ -131,12 +132,13 @@ export function getSupabase(): SupabaseClient | null {
   const key = (import.meta as unknown as { env?: { VITE_SUPABASE_ANON_KEY?: string } }).env?.VITE_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
   client = createClient(url, key, {
+    global: { fetch: fetchWithSupabaseTimeout },
     auth: {
       storage: createSupabaseStorage(),
       persistSession: true,
       autoRefreshToken: true,
-      detectSessionInUrl: true
-    }
+      detectSessionInUrl: true,
+    },
   });
   client.auth.onAuthStateChange((event) => {
     if (event === 'SIGNED_OUT') {
