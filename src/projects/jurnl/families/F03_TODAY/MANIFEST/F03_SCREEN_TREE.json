@@ -1,0 +1,95 @@
+{
+  "family_id": "F03_TODAY",
+  "family_name": "TODAY",
+  "canonical_name": "TODAY",
+  "status": "IN_REVIEW",
+  "brand_expression_level": "MEDIUM-HIGH",
+  "source": "Resolved before paid generation from the product tree (F03 TODAY, NOT_STARTED), CORE_TODAY_OVERVIEW, and sprint P0.JURNL.F03-F04-GROK-DUAL-FAMILY-AUTHORITY-SIDEKICK-LIVE-IMPLEMENTATION1. The repo had no F03 screen children. Depth for money, income, upcoming, goals, purchases, trips, credit, paydown, and ahead stays in F05–F16 and is not built here.",
+  "role": "Daily financial home. Summarizes and prioritizes. Does not duplicate downstream families.",
+  "answers": ["WHAT IS TRUE TODAY", "WHAT CAN I SPEND", "WHAT IS COMING", "WHAT CHANGED", "WHAT NEEDS ATTENTION", "WHAT IS MY MONEY DOING"],
+  "parent_count": 1,
+  "child_count": 0,
+  "grandchild_count": 0,
+  "child_count_reason": "No child route is required. Upcoming, activity, goals, and attention are modules on the parent. Depth belongs to later families.",
+  "primary_canvas": { "w": 393, "h": 852, "unit": "px" },
+  "information_hierarchy": {
+    "primary_signal": "SAFE TO SPEND — a computed signal, not an account, wallet, or pool of money. Detailed management belongs to F09.",
+    "secondary_signal": "UPCOMING OBLIGATIONS preview and recent money movement preview.",
+    "supporting": "Goals and priorities carried from the setup draft, plus a short attention line.",
+    "action": "SEE WHY, QUICK ADD, ASK JURNL, and the entry into ACTIVITY."
+  },
+  "data_contract": {
+    "id": "TODAY_HOME",
+    "real": "NONE. No live bank connection exists.",
+    "mock": "DEMO_PREVIEW transactions, upcoming obligations, and a labeled cash position. Marked MOCK.",
+    "derived": "safeToSpend = cash − upcoming obligations − protected amount from the F02 setup draft when present.",
+    "states": ["LOADING", "EMPTY", "PARTIAL", "CONNECTED", "ERROR", "CAUGHT_UP", "ATTENTION"]
+  },
+  "environment_groups": {
+    "ENV.DAY": {
+      "classification": "DISTINCT_PARENT_ENVIRONMENT",
+      "purpose": "The locked JURNL world from REFERENCE_F01.00_WELCOME_APPROVED, the same image2image reference F02 used. Left plaster is the readable field. The curtain divides the content from the arch, coast, and bust.",
+      "member_screens": ["F03.00"],
+      "reuse": "REFERENCE WORLD SHARED WITH F01 AND F02. THE PLATE ITSELF IS A NEW CLEAN EXTRACTION, NOT A COPY OF ENV.ARRIVAL."
+    }
+  },
+  "parent": [
+    {
+      "screen_id": "F03.00",
+      "name": "TODAY",
+      "route": "today",
+      "purpose": "Show the one number that matters, then what is coming and what just moved.",
+      "entry": "F02.08 OPEN TODAY, and the HOME mark in the primary nav.",
+      "exit": "F04 ACTIVITY from the recent-movement row. MONEY, PLAN, and CREDIT open family boundaries only.",
+      "replaces": "F03.BOUNDARY placeholder",
+      "parent": null,
+      "children": [],
+      "grandchildren": [],
+      "modules": ["SAFE_TO_SPEND", "UPCOMING_PREVIEW", "RECENT_MOVEMENT", "ATTENTION", "GOAL_LINE"],
+      "environment_group": "ENV.DAY",
+      "authority_file": "src/projects/jurnl/families/F03_TODAY/AUTHORITIES/F03.00_TODAY_PARENT.jpg",
+      "approval_status": "IN_REVIEW",
+      "composition": {
+        "content_safe_zone": "Left 58 percent, from the top safe area through the nav. Pale wall only.",
+        "environment_breathing_zone": "Right of the curtain: window, light, botanical. No primary type.",
+        "primary_alignment": "LEFT",
+        "headline_max_width": "11rem",
+        "body_max_width": "16rem",
+        "panel_max_width": "17.5rem",
+        "cta_width_policy": "SEE WHY stays inside the panel. The primary nav may span the stage bottom.",
+        "icon_row_policy": "GRID icon | label | trailing value. Wrapped text stays in the label column.",
+        "mobile_behavior": "393×852. Panel does not cross the curtain.",
+        "tablet_behavior": "834×1194. Same plate. Panel stays at its measure, left weighted, not stretched.",
+        "desktop_behavior": "1440×900. Contained stage. Panel at margin-left 72px, max 280px. Plate breathes."
+      }
+    }
+  ],
+  "children": [],
+  "grandchildren": [],
+  "states": [
+    { "id": "F03.ST.LOADING", "screen_id": "F03.00", "kind": "LIVE_COMPONENT", "paid_authority": false, "purpose": "Quiet loading of the home signal." },
+    { "id": "F03.ST.EMPTY", "screen_id": "F03.00", "kind": "LIVE_COMPONENT", "paid_authority": false, "purpose": "No connected accounts. Handoff back toward setup, not a new bank flow." },
+    { "id": "F03.ST.PARTIAL", "screen_id": "F03.00", "kind": "LIVE_COMPONENT", "paid_authority": false, "purpose": "Setup skipped accounts or income. Show what is known and name what is missing." },
+    { "id": "F03.ST.CONNECTED", "screen_id": "F03.00", "kind": "LIVE_COMPONENT", "paid_authority": false, "purpose": "Demo preview data. Labeled MOCK. Not a real user." },
+    { "id": "F03.ST.ATTENTION", "screen_id": "F03.00", "kind": "MODULE", "paid_authority": false, "purpose": "One attention line when an upcoming obligation is close." },
+    { "id": "F03.ST.ERROR", "screen_id": "F03.00", "kind": "LIVE_COMPONENT", "paid_authority": false, "purpose": "The home could not be read. Retry stays on today." },
+    { "id": "F03.ST.CAUGHT_UP", "screen_id": "F03.00", "kind": "LIVE_COMPONENT", "paid_authority": false, "purpose": "Nothing needs attention. The primary signal remains." }
+  ],
+  "interactions": [
+    { "id": "F03.IN.SEE_WHY", "kind": "SHEET", "paid_authority": false, "purpose": "Explain the safe-to-spend factors. Not model chain-of-thought." },
+    { "id": "F03.IN.QUICK_ADD", "kind": "GLOBAL_SHEET", "paid_authority": false, "purpose": "Shared + control. Not an F03-only duplicate." },
+    { "id": "F03.IN.ASK", "kind": "GLOBAL_SHEET", "paid_authority": false, "purpose": "Ask Jurnl basic explanation. No upgrade panel." },
+    { "id": "F03.IN.UPCOMING", "kind": "INLINE_EXPAND", "paid_authority": false, "purpose": "Expand the upcoming preview on the parent." },
+    { "id": "F03.IN.ACTIVITY", "kind": "ROUTE", "paid_authority": false, "purpose": "Open F04 from recent movement. Not a linear onboarding next button." }
+  ],
+  "shell_boundaries": [
+    { "id": "NAV.MONEY", "route": "money", "family": "F05", "rule": "Boundary only. Do not implement F05." },
+    { "id": "NAV.PLAN", "route": "plan", "family": "F08", "rule": "Boundary only. Do not implement F08." },
+    { "id": "NAV.CREDIT", "route": "credit", "family": "F12", "rule": "Boundary only. Do not implement F12." }
+  ],
+  "nav": ["HOME", "MONEY", "PLUS", "PLAN", "CREDIT"],
+  "paid_generation_plan": [
+    "SCREEN_PARENT F03.00",
+    "ENVIRONMENT_PLATE ENV.DAY from the parent, UI removed, no crop"
+  ]
+}

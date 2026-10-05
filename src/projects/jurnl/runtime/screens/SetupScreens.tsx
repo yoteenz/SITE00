@@ -630,24 +630,6 @@ function SkipSheet({ next, onSkip, close }: { next: string; onSkip: () => void; 
   );
 }
 
-export function TodayBoundaryScreen() {
-  const { go } = useJurnl();
-  return (
-    <JurnlScreen screenId="F03.BOUNDARY" scene="boundary" family>
-      <div className="jrn-col__head jrn-hero-copy--wide" data-runtime-bounds="copy">
-        <JurnlHeadline lines={['TODAY']} />
-        <i className="jrn-rule" aria-hidden />
-        <p className="jrn-body">SETUP IS COMPLETE. TODAY IS THE NEXT FAMILY.</p>
-      </div>
-      <div className="jrn-cta" data-runtime-bounds="cta">
-        <JurnlButton variant="secondary" trigger="today-back" onClick={() => go('F02.08')}>
-          BACK TO SETUP
-        </JurnlButton>
-      </div>
-    </JurnlScreen>
-  );
-}
-
 export const JURNL_F02_SCREEN_COMPONENTS = {
   'F02.00': SetupParentScreen,
   'F02.01': SetupHouseholdScreen,

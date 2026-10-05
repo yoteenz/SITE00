@@ -89,6 +89,8 @@ export const JURNL_PROJECT: IngestedProjectRecord = {
   families: [
     { familyId: 'F01', familyName: 'ENTRY', status: 'IMPLEMENTATION_PROOF', entryRoute: 'entry' },
     { familyId: 'F02', familyName: 'SETUP', status: 'IMPLEMENTATION_PROOF', entryRoute: 'setup' },
+    { familyId: 'F03', familyName: 'TODAY', status: 'IMPLEMENTATION_PROOF', entryRoute: 'today' },
+    { familyId: 'F04', familyName: 'ACTIVITY', status: 'IMPLEMENTATION_PROOF', entryRoute: 'activity' },
   ],
   runtime: {
     kind: 'PROJECT_RUNTIME',
