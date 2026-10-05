@@ -13,7 +13,7 @@ import { JURNL_F03_CONTRACT } from '../src/projects/jurnl/data/f03/contract';
 import { JURNL_F03_COVERAGE } from '../src/projects/jurnl/data/f03/coverage';
 import { JURNL_F04_CONTRACT } from '../src/projects/jurnl/data/f04/contract';
 import { JURNL_F04_COVERAGE } from '../src/projects/jurnl/data/f04/coverage';
-import { currencyByCode, formatAmountInput, formatMoney, resetCurrency } from '../src/projects/jurnl/data/home/currency';
+import { clearRateBook, currencyByCode, formatAmountInput, formatMoney, resetCurrency } from '../src/projects/jurnl/data/home/currency';
 import { safeToSpend } from '../src/projects/jurnl/data/home/money';
 import JurnlRuntimeRoot from '../src/projects/jurnl/runtime/JurnlRuntimeRoot';
 import { resolveJurnlRoute } from '../src/projects/jurnl/runtime/state/store';
@@ -36,13 +36,16 @@ const visibleText = (html: string) => html.replace(/<style[\s\S]*?<\/style>/g, '
 describe('F03 and F04 live routes', () => {
   it('formats money with the active currency symbol', () => {
     resetCurrency();
+    clearRateBook();
     expect(formatMoney(86)).toBe('$86');
     expect(formatMoney(1800)).toBe('$1,800');
     expect(formatMoney(6500)).toBe('$6,500');
     expect(formatMoney(3200, true)).toBe('+$3,200');
     expect(formatMoney(-86)).toBe('-$86');
-    expect(formatMoney(1800, false, currencyByCode('EUR'))).toBe('€1.800');
-    expect(formatMoney(86, false, currencyByCode('GBP'))).toBe('£86');
+    expect(formatMoney(0)).toBe('$0');
+    expect(formatMoney(1000000)).toBe('$1,000,000');
+    expect(formatMoney(1800, false, currencyByCode('EUR'))).toBe('$1,800');
+    expect(formatMoney(86, false, currencyByCode('GBP'))).toBe('$86');
     expect(formatAmountInput('58885')).toBe('58,885');
     expect(formatAmountInput('12.5')).toBe('12.5');
   });
@@ -143,12 +146,24 @@ describe('F03 and F04 live routes', () => {
     expect(html).toContain('disabled');
   });
 
-  it('offers display currency from the global ask sheet without exchange', () => {
+  it('offers a three-row display currency list that converts', () => {
     const html = renderRuntime('activity', 'overlay=ask');
     expect(html).toContain('DISPLAY CURRENCY');
-    expect(html).toContain('NO EXCHANGE');
+    expect(html).toContain('LATEST AVAILABLE EXCHANGE RATE');
+    expect(html).toContain('ORIGINAL VALUES STAY PRESERVED');
+    expect(html).not.toContain('NO EXCHANGE');
+    expect(html).toContain('data-visible-rows="3"');
     expect(html).toContain('data-jrn-trigger="currency-usd"');
     expect(html).toContain('data-jrn-trigger="currency-eur"');
+    expect(html).toContain('data-jrn-trigger="currency-jpy"');
+    expect(html).toContain('US DOLLAR');
+    expect(html).toContain('JAPANESE YEN');
+    const triggers = html.match(/data-jrn-trigger="currency-[a-z]{3}"/g) ?? [];
+    expect(triggers.length).toBeGreaterThan(3);
+    const css = readFileSync('src/projects/jurnl/runtime/jurnl-home.css', 'utf8');
+    expect(css).toContain('height: calc(var(--jrn-currency-row) * 3)');
+    expect(css).toContain('overflow-y: auto');
+    expect(css).toContain('overscroll-behavior: contain');
   });
 
   it('does not mount a screen authority from the live screens', () => {

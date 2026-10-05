@@ -362,8 +362,75 @@
   letter-spacing: 0.14em;
   font-size: 11px;
 }
-.jrn .jrn-currency__note {
+.jrn .jrn-currency__note,
+.jrn .jrn-currency__rate {
   color: var(--jrn-ink-3);
+}
+.jrn .jrn-currency__rate {
+  margin: 0;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+}
+.jrn .jrn-currency__list {
+  --jrn-currency-row: 52px;
+  box-sizing: content-box;
+  height: calc(var(--jrn-currency-row) * 3);
+  min-height: calc(var(--jrn-currency-row) * 3);
+  max-height: calc(var(--jrn-currency-row) * 3);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  scroll-snap-type: y mandatory;
+  border-radius: 8px;
+}
+.jrn .jrn-currency__row {
+  height: var(--jrn-currency-row);
+  min-height: var(--jrn-currency-row);
+  max-height: var(--jrn-currency-row);
+  flex: 0 0 var(--jrn-currency-row);
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 14px;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  border-radius: 0;
+}
+.jrn .jrn-currency__row:active:not(:disabled) {
+  transform: none;
+}
+.jrn .jrn-currency__code,
+.jrn .jrn-currency__name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.jrn .jrn-currency__code {
+  font-size: 13px;
+}
+.jrn .jrn-currency__name {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  opacity: 0.8;
+}
+.jrn .jrn-currency__list .jrn-btn[aria-pressed='true'] {
+  background: var(--jrn-emerald);
+  color: #f9f6ef;
+  border-color: var(--jrn-emerald);
+}
+.jrn .jrn-drawer[data-jrn-expression='confirmation'] .jrn-drawer__body {
+  overflow: hidden;
 }
 .jrn .jrn-field--prefix .jrn-field__prefix {
   position: absolute;
@@ -375,6 +442,17 @@
 }
 .jrn .jrn-field--prefix .jrn-field__input {
   padding-left: 14px;
+}
+.jrn .jrn-field--suffix .jrn-field__suffix {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--jrn-ink);
+}
+.jrn .jrn-field--suffix .jrn-field__input {
+  padding-right: 22px;
 }
 .jrn .jrn-overlay:has(.jrn-drawer[data-keyboard='open']) {
   top: var(--jrn-vv-offset, 0px);
