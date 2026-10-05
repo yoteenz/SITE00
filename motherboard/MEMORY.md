@@ -13553,3 +13553,28 @@ Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFIN
   - 91 remain; every one was already failing at the tunnel SHA.
   - Two of them sit near Production: the hub-machine raster-import firewall and the API orchestration severity map. Neither is touched by this sprint.
 - Draft PR only. Not merged, not deployed.
+
+---
+
+## 2026-10-05 — Production workspace Grok handoff audit + lite pack (LITEPACK1)
+
+Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus handoff between pipeline step 02 and step 03 (Grok asset / environment / icon pass). No generation, no OpenArt, no visual or functional change, no deploy.
+
+- **Outputs.**
+  - Audit: `docs/production-workspace/GROK_HANDOFF_AUDIT.md`.
+  - Manifests, NOTES and README_FIRST: `docs/production-workspace/grok-handoff/` (+ `PACK_INDEX.json`).
+  - ZIP: `artifacts/production-workspace-grok-handoff/SITE00_PRODUCTION_WORKSPACE_GROK_LITEPACK1.zip` (86 files, 7.03 MB).
+  - Builder: `scripts/production-workspace/grok-handoff/` (`runtime-model.tsx` reads the live route / icon / asset tables, `capture-runtime.mjs`, `build_handoff.py`).
+  - Guard test: `tests/productionWorkspaceGrokHandoffLitepack1.test.ts`.
+- **Map.** 235 surfaces (12 parents incl. six parent-level Design modes, 39 children, 137 grandchildren, 47 states / overlays); 52 distinct visual authorities; everything else inherits.
+- **Credit plan.** 11 environment groups, 8 new plates for the whole pass (atrium master, viewport corridor, production floor, five project-keyed NDXBOOK world plates). 95 surfaces take crops of those; 88 reuse CF chamber / canon vault as-is.
+- **Findings for Composer / Grok.**
+  - HUB nav glyph regression: `94831d12` (cherry-pick of `afb22c27`) replaced the founder pavilion master `masters/01_HUB.png` (git `43611fd8`, 384×284) with the 48 px design-pack house. No founder decision; pack restores the master; runtime untouched.
+  - `expression.stageHero` (dark faceted stage) contradicts every authority (white production floor).
+  - `hub.hero.*` are crops of the authority screenshot (core + screens baked in) → empty-pedestal atrium + separate project core.
+  - FIREWALL-01: host selector thumbnail hard-coded to `project.ndxbook.cover`.
+  - Design pack crops (stages 76 px, icons 48–64 px, swatches 41 px tall, plates 90–278 px) are unusable at size.
+  - `hub.crystal` is unused (Activity hero retired by D-ACTIVITY-FINAL).
+  - Inbox NEAR / MID / FAR is not canonical anywhere.
+- **Open founder decisions (explicit priority given in the manifests):** U-07 Experience tab root, U-08 Library tab root, U-17 Entry 002 subject identity.
+- Draft PR only. Not merged, not deployed.
