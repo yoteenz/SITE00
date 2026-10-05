@@ -13325,3 +13325,15 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMP
 - **Method:** cherry-pick `e989bcdcb58d9699afd47c64b3e7e3c911f54817` (Experience + Library realm screens, routes, CSS, tests, QA artifacts) — not a full merge of PR #1312 branch history.
 - **Result:** `ExperienceScreen` / `LibraryScreen` under `productionAuthority/realm/`; 46 + 75 routes; retired `ExperienceBody` / `LibraryBody`. Minimal exports added to `productionNavIcon` / `iaKit` for Library icon reads. `100dvh` frame contract scoped for realm one-viewport.
 - **Proof:** `tests/productionExperienceLibraryConvergenceOpus1.test.ts` (136) + inbox/activity regression suites on rebased branch.
+
+---
+
+## 2026-10-04 — Resident geometry fabrication batch (OpenArt) — infrastructure + partial gen
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
+
+- **Branch:** `cursor/studio-world-resident-fabrication-geometry-openart1` from PR #1310 / asset-forensics lineage.
+- **Canon:** 8 residents, 16-frame geometry spec (`shared/site00-studio-world/resident-fabrication/`), identity from mounted portraits; **SW Team(1).zip not in workspace** → `LITE_ONLY`; Jules locs + Iona glam excluded as identity authority.
+- **OpenArt:** project `Q7IHYCEK3RPn2c1ConEG`, `gpt-image-2-5-sunburst` image2image HIGH 2K; all 8 identity refs uploaded (`openart_identity_references.json`). Credit math ~152×128 ≈ 19.5k vs ~12.7k balance → full 128 frames needs top-up or phased runs.
+- **Repo:** `FABRICATION_IN_REVIEW` status, `residentFabricationManifest.ts` / registry, pack + runner scripts, manifest JSON (128 scaffold rows), audit + README under `artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/`; PNG masters gitignored; review ZIPs via `studio-world-resident-fabrication-pack.mjs finalize`.
+- **Gen progress at commit:** SW-001 frames 01–02 completed; background agent queued SW-001–005. No performance/wardrobe batches. Draft PR only — no merge/deploy.
