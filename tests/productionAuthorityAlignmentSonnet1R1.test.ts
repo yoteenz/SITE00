@@ -94,7 +94,9 @@ describe('host chrome canon', () => {
 
   it('renders the architectural nav glyphs and marks the active tab', () => {
     expect([...html.matchAll(/data-nav-glyph="/g)]).toHaveLength(7);
-    expect(html).toContain('data-nav-fidelity="reference-masters"');
+    expect(html).toContain('data-nav-concept="pavilion"');
+    expect(html).toContain('data-nav-concept="open-book"');
+    expect(html).toContain('data-nav-notify="inbox"');
     expect(html).toContain('aria-current="page"');
     expect(html.match(/is-active/g)).toHaveLength(1);
   });
@@ -133,10 +135,9 @@ describe('auth contract is untouched', () => {
       'src/site00/components/productionAuthority/HubBody.tsx',
       'src/site00/components/productionAuthority/InboxBody.tsx',
       'src/site00/components/productionAuthority/ActivityBody.tsx',
-      'src/site00/components/productionAuthority/realm/ExperienceScreen.tsx',
-      'src/site00/components/productionAuthority/realm/realmData.ts',
+      'src/site00/components/productionAuthority/ExperienceBody.tsx',
       'src/site00/components/productionAuthority/ExpressionBody.tsx',
-      'src/site00/components/productionAuthority/realm/LibraryScreen.tsx',
+      'src/site00/components/productionAuthority/LibraryBody.tsx',
       'src/site00/components/productionAuthority/DesignChamber.tsx',
       'src/site00/config/production-authority-registry.ts',
     ];

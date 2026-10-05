@@ -13358,3 +13358,48 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
 - **OpenArt:** project `Q7IHYCEK3RPn2c1ConEG`, `gpt-image-2-5-sunburst` image2image HIGH 2K; all 8 identity refs uploaded (`openart_identity_references.json`). Credit math ~152×128 ≈ 19.5k vs ~12.7k balance → full 128 frames needs top-up or phased runs.
 - **Repo:** `FABRICATION_IN_REVIEW` status, `residentFabricationManifest.ts` / registry, pack + runner scripts, manifest JSON (128 scaffold rows), audit + README under `artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/`; PNG masters gitignored; review ZIPs via `studio-world-resident-fabrication-pack.mjs finalize`.
 - **Gen progress at commit:** SW-001 frames 01–02 completed; background agent queued SW-001–005. No performance/wardrobe batches. Draft PR only — no merge/deploy.
+
+## 2026-10-03 — Studio World Season 1 resident ingest (INGEST1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.STUDIOWORLD-RESIDENT-INGEST1`. FSBW owns canon; SITE00 adds production dossier projection + Casting Actors tab swap (no full Expression redesign).
+
+- **Projection:** `shared/site00-studio-world/resident-intelligence/season1-ensemble/` — 8 residents (Etta, Zuri Xu, Jules, Noa, Caspian, Iona, Marlowe 54/larger-bodied, EV), relationships, camera behavior, anti-flattening, protected OPEN fields, cast-role override guard (`validateCastRoleOverridesForResident`).
+- **Catalogue:** Generic seed actors retired from Casting UI; `getProductionCastingResidentTalentCatalogue()` / `listStudioWorldResidentTalentActors()`. Entry 002 **SW-017 Maya** preserved as client-cast lookup, excluded from resident Actors gallery.
+- **UI:** Expression Casting → Actors shows **STUDIO WORLD RESIDENT** badge + role; Library Actor Catalogue count uses residents.
+- **Artifacts:** `artifacts/studio-world-resident-ingest/` including `MOCK_ACTOR_MIGRATION.md`.
+- **Tests:** `tests/studioWorldSeason1ResidentIngest1.test.ts`; updated catalogue diversity test; build OK.
+
+---
+## 2026-10-03 — Studio World resident visual ingest (INGEST2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESIDENT-VISUAL-INGEST2`. Wired FSBW Season 1 visual authority package (27 JPEGs) into `public/site00/studio-world-residents/season1-v1/` + `visualAuthority.ts`. Casting Actors tab uses `resolveCastingCardImage()` (no uniform/alternate defaults). Marlowe natural off-duty; Iona utilitarian not glam; Zuri Xu only. CF `findFabricationActor` resolves `sw-resident-*` with catalogue portraits. Tests: `tests/studioWorldResidentVisualIngest2.test.ts`.
+
+---
+## 2026-10-03 — Studio World CASTING_THUMBNAIL authority (CASTING-THUMBNAIL-AUTHORITY1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CASTING-THUMBNAIL-AUTHORITY1`. **CASTING_THUMBNAIL** for Casting → Actors (`casting-thumbnails-v1/`). Founder moved review branch to `cursor/production-hub-descendants-opus1` (merged INGEST1+2 + thumbnails; tunnel dev preview on this branch). Tests: `tests/studioWorldCastingThumbnailAuthority1.test.ts`. Prior PR #1303 targeted narrative branch — superseded by descendants branch push.
+
+---
+## 2026-10-03 — Production bottom nav matches the founder icon pack
+
+Founder rejected the keyed PNG masks (outline hub, flattened red). Production bottom nav now draws the pack in `bottomNavPack.tsx`: filled hub plate with two cut lines, envelope + red dot, three outline design plates, circled play, cube with front bookmark, three books, pulse + red dot. Active tab turns linework red; accent dots stay `#eb1c24`. Branch `cursor/production-hub-descendants-opus1`.
+
+---
+## 2026-10-03 — Production bottom-nav icon system (GROK1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1` on `cursor/production-hub-descendants-opus1`. Replaced the flat icon pack with the founder BOTTOM BAR ICON SYSTEM: pavilion hub, envelope tray, composition planes, portal, prism stage, open book, timeline. Glyphs live in `productionNavIcon.tsx`. Founder then sent the filled masters as images. The nav now uses those PNGs (`bottom-nav/masters/`), with the white field removed so they sit transparent on the bar. Inbox count and activity dot stay outside the image. Proof: `artifacts/production-bottom-nav-icons-grok1/`. Tests: `tests/productionBottomNavIconSystemGrok1.test.ts`.
+
+---
+## 2026-10-03 — Mobile bottom-nav labels outside the zoomed strip
+
+Founder asked for smaller bottom-nav type, then 12px on mobile only, then said the size was not changing because something was confining the text. Cause: mobile labels lived inside `.ph--hub`, which zooms the 864px canvas (~0.45 on a phone), so a stylesheet pixel is not a screen pixel. Fix on `cursor/production-hub-descendants-opus1`: `ProductionBottomChrome` keeps the icons in the zoomed strip and renders `ProductionNavLabelRow` as a sibling (`.prod-nav-labels`, 12px, no zoom ancestor). Tablet stays 10px and desktop stays 11.5px on `.pxh-nav`. No nested zoom. Draft review only — not merged, no GoDaddy ZIP.
+
+---
+## 2026-10-03 — Remove duplicate CURRENT WORKSPACE from production chrome
+
+Founder: the current-work panel at the top of production workspace nav repeated the bottom tabs — remove it. On `cursor/production-hub-descendants-opus1`, `ProductionWorkspaceHeader` drops the mobile `ph-top__sel--prod` (CURRENT WORKSPACE / tab name) and tablet/desktop `pxh-top__loc` (HUB, DESIGN, etc.). Project selector, attention count, menu, and bottom nav unchanged. Hub machine and Character Fabrication headers untouched. Draft review only.
+
+---
+## 2026-10-03 — Inbox-branch nav icons on descendants (labels unchanged)
+
+Founder asked to bring nav icons from `cursor/production-inbox-activity-threeviewport-opus1` onto the main checkout (`cursor/production-hub-descendants-opus1`) without the inbox bottom-panel text behavior. `ProductionNavIcon` now uses the keyed `bottom-nav/01–07.png` mask glyphs (same as the three-viewport branch); CSS mask rules restored on host + hub chrome. Kept unscaled `ProductionNavLabelRow`, `prod-nav-dock`, 12px label row, and header workspace panel removal. Master PNGs remain in `bottom-nav/masters/` but are not mounted. Draft review only.

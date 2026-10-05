@@ -422,8 +422,9 @@
 .pxa .prod-chrome-strip.ph--hub .ph-top__attn b {
   font-size: 36px;
 }
+/* Visible mobile words are not in this strip. See .prod-nav-labels. */
 .pxa .prod-chrome-strip.ph--hub .ph-nav__item {
-  font-size: 17px;
+  font-size: 12px;
 }
 
 /*
@@ -616,4 +617,82 @@
 }
 .pxh-top__menu[aria-expanded='true'] {
   color: #e5231b;
+}
+
+/*
+ * Mobile bottom-nav words. The icon strip is a zoomed 864px canvas (`.ph--hub`).
+ * These labels are a sibling of that strip, in their own row, so nothing scales them.
+ * 12px here is 12px on the phone.
+ */
+.prod-nav-dock {
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  min-width: 0;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  font-family: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+  color: #121214;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #f6f6f7, #f1f1f2);
+  border-top: 1px solid #d8d8dc;
+  box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.05);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.prod-chrome-fixed .prod-nav-dock {
+  pointer-events: auto;
+}
+.prod-nav-dock .ph--hub .ph-nav--icons {
+  height: auto;
+  background: transparent;
+  border-top: 0;
+  box-shadow: none;
+  padding: 0;
+}
+.prod-nav-dock .ph--hub .ph-nav--icons .ph-nav__item {
+  overflow: visible;
+  gap: 0;
+  padding: 14px 0 8px;
+}
+.prod-nav-dock .ph--hub .ph-nav--icons .ph-nav__item > .ph-nav__icon {
+  overflow: visible;
+  max-width: none;
+}
+.prod-nav-dock .ph--hub .ph-nav--icons .ph-nav__item.is-active::after {
+  content: none;
+}
+.prod-nav-labels {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  padding: 2px 0 7px;
+  box-sizing: border-box;
+}
+.prod-nav-labels__item {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  color: #4a4a50;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.11em;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: visible;
+}
+.prod-nav-labels__item.is-active {
+  position: relative;
+  color: #e5231b;
+}
+.prod-nav-labels__item.is-active::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -4px;
+  height: 2px;
+  background: #e5231b;
 }

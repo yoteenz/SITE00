@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation } from 'react-router-dom';
 import { useProductionViewportFamily } from '../../hooks/useProductionViewportFamily';
-import { ProductionChromeStrip, ProductionWorkspaceHeader, ProductionWorkspaceNav } from '../productionHub/chrome';
+import { ProductionBottomChrome, ProductionChromeStrip, ProductionWorkspaceHeader } from '../productionHub/chrome';
 import { ProductionAuthorityDataProvider, useProductionAuthorityData } from './ProductionAuthorityData';
 import '../../styles/site00-production-authority.css';
 import '../../styles/site00-production-authority-opus.css';
@@ -49,9 +49,7 @@ function FrameInner({
       <div className="pxa-scroll" data-testid="production-authority-scroll">
         <div className="pxa-body">{children}</div>
       </div>
-      <ProductionChromeStrip host>
-        <ProductionWorkspaceNav />
-      </ProductionChromeStrip>
+      <ProductionBottomChrome />
     </div>,
     document.body,
   );

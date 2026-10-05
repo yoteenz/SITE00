@@ -15,7 +15,7 @@ import { HubImage } from './HubImage';
 import { IcChevD, IcMenu, Reticle } from './icons';
 import { useProductionViewportFamily } from '../../hooks/useProductionViewportFamily';
 import { useProductionAuthorityData } from '../productionAuthority/ProductionAuthorityData';
-import { ProductionBottomNav, ProductionHostNav, type ProductionNavId } from './nav';
+import { ProductionBottomNav, ProductionHostNav, ProductionNavLabelRow, type ProductionNavId } from './nav';
 
 export const PRODUCTION_CHROME_WIDTH = 864;
 
@@ -256,11 +256,34 @@ function ProductionHostTop({ projectId, queued }: { projectId: string; queued: n
   );
 }
 
-export function ProductionWorkspaceNav() {
-  const { active, projectId, queued } = useProductionWorkspaceChrome();
+/**
+ * Host bottom bar. Tablet and desktop stay on the unscaled `.pxh-nav`.
+ * Mobile icons stay in the 864px zoomed strip. The words sit in a sibling row
+ * outside that strip so a CSS pixel is a screen pixel.
+ */
+export function ProductionBottomChrome() {
   const family = useProductionViewportFamily();
-  if (family !== 'mobile') return <ProductionHostNav active={active} projectId={projectId} inboxCount={queued} />;
-  return <ProductionBottomNav active={active} projectId={projectId} inboxCount={queued} />;
+  const { active, projectId, queued } = useProductionWorkspaceChrome();
+  const scale = useProductionChromeScale();
+  if (family !== 'mobile') {
+    return (
+      <div className="pxh-strip" data-family={family} data-testid="production-chrome-strip">
+        <ProductionHostNav active={active} projectId={projectId} inboxCount={queued} />
+      </div>
+    );
+  }
+  return (
+    <div className="prod-nav-dock" data-testid="production-nav-dock">
+      <div className="ph ph--hub prod-chrome-strip" style={{ ['--phz' as string]: scale }} data-testid="production-chrome-strip">
+        <ProductionBottomNav active={active} projectId={projectId} inboxCount={queued} showLabels={false} />
+      </div>
+      <ProductionNavLabelRow active={active} projectId={projectId} inboxCount={queued} />
+    </div>
+  );
+}
+
+export function ProductionWorkspaceNav() {
+  return <ProductionBottomChrome />;
 }
 
 /** Fixed bars for full-bleed surfaces (Design) that are not inside PwFrame. */
@@ -273,9 +296,7 @@ export function ProductionChromeOverlay() {
         </ProductionChromeStrip>
       </div>
       <div className="prod-chrome-fixed prod-chrome-fixed--bottom">
-        <ProductionChromeStrip host>
-          <ProductionWorkspaceNav />
-        </ProductionChromeStrip>
+        <ProductionBottomChrome />
       </div>
     </>
   );
