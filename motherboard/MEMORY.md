@@ -13674,3 +13674,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Delivered:** `runProductionProviderRequest()` (spend auth → precheck → authority-first plate → dispatch → cost receipt); `validateAuthorityFirstPlatePolicy`; server spend authorization (rejects caller-only `founderConfirmedSpend`); FAL adapter `falImageViaProductionGateway.ts`; provider call inventory + bypass allowlist + CI audit test; docs under `docs/production/provider-gateway/`; CORE/CODEBASE updated; reference methodology points to gateway.
 - **Not claimed:** Full migration of all inventoried files (legacy allowlisted); unified DB cost ledger (JSONL adapter only); CI green; AIO client-ready.
 - **Conventions:** New paid generative paths MUST use `runProductionProviderRequest`; do not add unallowlisted `@fal-ai/client` imports; JURNL ENVIRONMENT_PLATE requires parent authority-first derivation; record sprint why in motherboard, not only what was implemented.
+
+---
+
+## 2026-10-05 — Restore pre-wave surgical assets after the squash undo
+
+- **Context:** The accidental squash-merge wave was taken off `main`. That revert also deleted `docs/site00/public-redesign/GROK_ASSET_PACK` from PR #1275, which had already landed at `d9b6e4ca` before the wave. Those files are the pre-wave tree, not the outdated squashes the founder rejected.
+- **Topics covered:** Production post-injection reconciliation. Draft PRs marked ready. Unintentional squash-merge of the open set, including outdated branches and PR #1267. Undo of that wave on `main` and on the production branch stack.
+- **Decisions / outcomes:** `main` keeps currency conversion (#1371) and the provider gateway (#1372). The squash commits stay reverted. Feature branches whose tips were those squash commits are reset to the commit before the squash. site00.com was still `index.D8Jaygrd.js` from 2026-09-28. Do not upload a bundle built from the squash wave.
+- **Changes:** `docs/site00/public-redesign/GROK_ASSET_PACK` restored from `d9b6e4ca`.
+- **Conventions:** Do not squash-merge a stack of old PRs unless the founder names them. Do not treat #1275 as part of that wave.
