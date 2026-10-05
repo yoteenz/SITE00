@@ -64,7 +64,7 @@ function JurnlRoutes() {
         return <Route key={s.id} path={s.route} element={<Screen key={location.pathname} />} />;
       })}
       {F02_SCREENS.map((s) => {
-        const Screen = JURNL_F02_SCREEN_COMPONENTS[s.id];
+        const Screen = JURNL_F02_SCREEN_COMPONENTS[s.id as keyof typeof JURNL_F02_SCREEN_COMPONENTS];
         return <Route key={s.id} path={s.route} element={<Screen key={location.pathname} />} />;
       })}
       <Route path="today" element={<TodayBoundaryScreen />} />

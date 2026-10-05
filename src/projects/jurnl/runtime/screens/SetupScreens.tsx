@@ -30,7 +30,7 @@ import {
   isSetupAmount,
   type F02ScreenDef,
 } from '../../data/f02/screens';
-import { patchSetup, resetSetup, useSetup, type SetupDraft } from '../../data/f02/setupDraft';
+import { patchSetup, resetSetup, useSetup } from '../../data/f02/setupDraft';
 import { useJurnl } from '../state/store';
 import { JurnlScreen } from './JurnlScreen';
 
