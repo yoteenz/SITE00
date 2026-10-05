@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "sprint": "P0.SITE00.PRODUCTION-GATEWAY.JURNL-LIVE-CALLSITE-MIGRATION1",
+  "evaluatedAt": "2026-10-05T19:30:00.000Z",
+  "READY_FOR_JURNL_F05_F16_PARENT_GENERATION": true,
+  "READY_FOR_F03_AUTHORITY_REPAIR_GENERATION": true,
+  "READY_FOR_JURNL_CHILD_EXPLOSION": false,
+  "gates": {
+    "active_jurnl_paid_paths_gatewayed": { "status": "PASS", "evidence": "shared/site00-jurnl-production/dispatchJurnlProductionRequest.ts" },
+    "jurnl_active_temp_allowlist_zero": { "status": "PASS", "count": 0 },
+    "reference_binding_real_dispatch": { "status": "PASS" },
+    "authority_first_enforced": { "status": "PASS" },
+    "expression_brief_gate": { "status": "PASS" },
+    "expression_tree_gate": { "status": "PASS" },
+    "ui_occupancy_contract": { "status": "PASS", "note": "Loaded from F##_PLATE_OCCUPANCY.json for parent authorities" },
+    "server_held_spend": { "status": "PASS" },
+    "budget_precheck": { "status": "PASS" },
+    "durable_cost_receipt": { "status": "PASS", "storage": "JSONL + family GENERATION_LEDGER gateway_receipts" },
+    "result_lineage": { "status": "PASS", "storage": "family GENERATION_LEDGER gateway_lineage" },
+    "project_firewall": { "status": "PASS", "tests": "referenceBindingGuard + providerGateway" },
+    "direct_bypass_audit": { "status": "PASS" },
+    "no_paid_generation_this_sprint": { "status": "PASS", "newPaidGenerations": 0, "creditsSpent": 0 }
+  },
+  "blockers_if_any": [],
+  "next_ground_zero_root_engine": "PROJECT_REGISTRY"
+}

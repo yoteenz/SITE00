@@ -115,8 +115,11 @@ Universal API auth, RLS, membership/invites, and permission engine still gaps �
 
 - Reference exists → reference-guided; no describe-then-text-to-image; cross-project reference blocked.
 - **Enforcement path:** `runProductionProviderRequest()` — see `docs/production/provider-gateway/`.
-- Spend: server `spend_authorization_id`; legacy `founderConfirmedSpend` insufficient alone.
+- **Wave 1 (gateway sync1):** Gateway existed but active JURNL production did not use it (0 migrated call sites).
+- **Wave 2 (JURNL live callsite migration1):** `dispatchJurnlProductionRequest` + `/api/admin/jurnl-production` — JURNL paid path gatewayed; `READY_FOR_JURNL_F05_F16_PARENT_GENERATION` when readiness gate passes (dry-run only this sprint).
+- Spend: server `spend_authorization_id`; legacy `founderConfirmedSpend` insufficient alone on JURNL path.
 - Direct provider imports: allowlisted legacy inventory + CI audit prevents **new** bypasses.
+- Precheck order fix: authority-first runs before sidekick attachment gate so plate-without-parent returns `AUTHORITY_FIRST_REQUIRED`.
 
 ---
 

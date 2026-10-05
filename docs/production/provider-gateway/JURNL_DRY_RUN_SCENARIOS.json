@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "sprint": "P0.SITE00.PRODUCTION-GATEWAY.JURNL-LIVE-CALLSITE-MIGRATION1",
+  "scenarios": [
+    {
+      "id": "F03_FULL_PAGE_AUTHORITY_DRY_RUN",
+      "status": "PASS",
+      "role": "FULL_PAGE_AUTHORITY",
+      "familyId": "F03",
+      "expectations": ["reference resolved", "occupancy required", "spend validated", "DRY_RUN ticket", "no provider SDK"]
+    },
+    {
+      "id": "F03_TEXT_TO_IMAGE_INVALID_DRY_RUN",
+      "status": "BLOCKED",
+      "blockedReason": "INVALID_GENERATION_MODE"
+    },
+    {
+      "id": "F03_PLATE_WITHOUT_AUTHORITY",
+      "status": "BLOCKED",
+      "blockedReason": "AUTHORITY_FIRST_REQUIRED"
+    },
+    {
+      "id": "F03_PLATE_WITH_AUTHORITY",
+      "status": "PASS",
+      "role": "ENVIRONMENT_PLATE_DERIVATION",
+      "referenceAuthorityIdHint": "F03.00_TODAY_AUTHORITY_FIRST"
+    },
+    {
+      "id": "F05_PARENT_DRY_RUN",
+      "status": "PASS",
+      "role": "FULL_PAGE_AUTHORITY",
+      "familyId": "F05",
+      "generationMode": "REFERENCE_GUIDED",
+      "note": "Expression brief + tree + occupancy + family output project; no OpenArt dispatch in dry-run"
+    }
+  ],
+  "testFile": "tests/jurnlGatewayMigration.test.ts"
+}

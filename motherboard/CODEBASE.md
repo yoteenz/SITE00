@@ -81,8 +81,10 @@ SITE00/
 | `providerGateway/spendAuthorization.ts` | Server-held one-shot spend authorization records |
 | `providerGateway/costReceipt.ts` | Receipt writer (memory + JSONL adapter) |
 | `shared/site00-visual-generation/falImageViaProductionGateway.ts` | FAL reference image path wrapped by gateway (migration adapter) |
+| `shared/site00-jurnl-production/dispatchJurnlProductionRequest.ts` | **JURNL canonical live path** → gateway; dry-run + OpenArt manual ticket + lineage/receipt writers |
+| `api/admin/jurnl-production.ts` | Admin: issue spend auth, dispatch dry-run, register manual OpenArt output |
 
-Audit: `scripts/production/build-provider-call-inventory.mjs` · `tests/providerDirectBypassAudit.test.ts`
+Audit: `scripts/production/build-provider-call-inventory.mjs` · `tests/providerDirectBypassAudit.test.ts` · `tests/jurnlGatewayMigration.test.ts`
 
 ---
 
@@ -103,6 +105,7 @@ Audit: `scripts/production/build-provider-call-inventory.mjs` · `tests/provider
 | Route area | Purpose |
 |------------|---------|
 | `api/admin/site00-production.ts` | Production OS admin API |
+| `api/admin/jurnl-production.ts` | JURNL gateway (dry-run + manual output registration) |
 | `api/admin/site00-assts.ts` | ASSTS admin |
 | `api/_lib/site00Production/` | Seed, operations, readiness |
 | `api/_lib/site00Assts/` | Asset generation, post-process |

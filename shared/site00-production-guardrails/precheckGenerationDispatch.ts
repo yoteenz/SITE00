@@ -90,13 +90,6 @@ export function precheckGenerationDispatch(request: GenerationRequest, options: 
       };
     }
   }
-  const sidekick = validateSidekickDerivationReference(classification);
-  if (sidekick.status === 'BLOCKED') {
-    return {
-      classification,
-      ...sidekick,
-    };
-  }
   const authorityFirst = validateAuthorityFirstPlate(classification, options.resolverContext.repoRoot);
   if (authorityFirst.status === 'BLOCKED') {
     return {
@@ -113,6 +106,13 @@ export function precheckGenerationDispatch(request: GenerationRequest, options: 
       referenceAuthorityId: classification.referenceAuthorityIdHint ?? null,
       referenceStatus: null,
       creditsSpent: 0,
+    };
+  }
+  const sidekick = validateSidekickDerivationReference(classification);
+  if (sidekick.status === 'BLOCKED') {
+    return {
+      classification,
+      ...sidekick,
     };
   }
   const binding = validateGenerationReferenceBinding(classification, options);

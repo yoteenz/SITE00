@@ -4,6 +4,11 @@
   "validateFunction": "validateSpendAuthorization",
   "consumeFunction": "consumeSpendAuthorization",
   "requiredFields": ["authorizationId", "projectId", "actorId", "provider", "generationClass", "maxCredits", "issuedAt", "expiresAt", "consumed"],
+  "jurnlLivePath": {
+    "entry": "api/admin/jurnl-production.ts",
+    "requires": "spendAuthorizationId from issueSpendAuthorization",
+    "dryRun": "validates authorization in dispatchJurnlProductionRequest; gateway requireSpendAuthorization false when dryRun"
+  },
   "rules": [
     "Client request body founderConfirmedSpend alone MUST NOT authorize paid dispatch",
     "authorizationId is one-shot by default after successful dispatch",

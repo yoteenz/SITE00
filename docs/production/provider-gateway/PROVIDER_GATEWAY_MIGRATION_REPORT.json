@@ -1,15 +1,25 @@
 {
-  "generatedAt": "2026-10-05T19:07:34.311Z",
+  "generatedAt": "2026-10-05T19:30:00.000Z",
   "callSitesDiscovered": 207,
   "paidGenerationCallSites": 15,
   "counts": {
     "ALLOWLISTED_TEMPORARY": 168,
-    "TEST_OR_MOCK": 39
+    "TEST_OR_MOCK": 39,
+    "GATEWAYED": 2
   },
-  "migrated": 0,
-  "alreadyGatewayed": 0,
+  "migrated": 2,
+  "alreadyGatewayed": 1,
   "allowlistedTemporary": 168,
   "nonGenerative": 192,
   "testOrMock": 39,
-  "note": "First wave: canonical gateway + FAL adapter; legacy allowlisted pending phased migration"
+  "jurnlPaidGeneration": {
+    "JURNL_ACTIVE_REQUIRED": 1,
+    "JURNL_FUTURE_REQUIRED": 0,
+    "JURNL_ACTIVE_ALREADY_GATEWAYED": 1,
+    "JURNL_ACTIVE_MIGRATED": 1,
+    "JURNL_ACTIVE_TEMP_ALLOWLIST_REMAINING": 0,
+    "JURNL_ACTIVE_DIRECT_CALLS_REMAINING": 0,
+    "livePath": "api/admin/jurnl-production.ts → dispatchJurnlProductionRequest → runProductionProviderRequest"
+  },
+  "note": "Wave 2: JURNL canonical OpenArt-manual path gatewayed; legacy non-JURNL paid FAL paths remain allowlisted"
 }

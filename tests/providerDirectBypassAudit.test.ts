@@ -8,6 +8,7 @@ const ALLOWLIST_PATH = path.join(REPO, 'docs/production/provider-gateway/PROVIDE
 
 const APPROVED_PREFIXES = [
   'shared/site00-production-guardrails/providerGateway/',
+  'shared/site00-jurnl-production/',
   'shared/site00-visual-generation/falImageViaProductionGateway.ts',
   'tests/',
   'scripts/production/',

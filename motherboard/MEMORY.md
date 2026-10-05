@@ -13677,6 +13677,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+<<<<<<< HEAD
+## 2026-10-05 — JURNL live callsite migration (P0 JURNL-LIVE-CALLSITE-MIGRATION1)
+
+- **Context:** Prior gateway sprint built `runProductionProviderRequest` but inventoried 15 paid call sites with 0 migrated; JURNL had no in-repo OpenArt SDK path yet active production could still bypass guards via legacy FAL elsewhere. Founder sprint required moving **active JURNL** paid generation through the shared gateway without paid generation in CI.
+- **Why this sprint:** A gateway unused by live JURNL production is not a governor; F03/F05–F16 resume depends on enforced reference, authority-first, expression brief, occupancy, spend, and lineage on the real dispatch path.
+- **Delivered:** `shared/site00-jurnl-production/` (`dispatchJurnlProductionRequest`, occupancy load, budget precheck, distinctness gate, idempotency, family ledger receipt/lineage writers, manual output registration); `api/admin/jurnl-production.ts` + Railway route; precheck reorder (authority-first before sidekick attachment for plates); tests `jurnlGatewayMigration.test.ts`; docs `JURNL_*` QA/readiness/dry-run JSON; inventory/migration report updates; readiness gate `READY_FOR_JURNL_F05_F16_PARENT_GENERATION: true` (dry-run evidence only).
+- **Not claimed:** Full 207-callsite migration; non-JURNL allowlisted FAL paths; DB cost ledger; child explosion (founder parent approval still required); F03/F05 actual OpenArt spend.
+- **Conventions:** JURNL agents use `dispatchJurnlProductionRequest` or admin API — not parallel JURNL gateway; JURNL `TEXT_TO_IMAGE_NET_NEW` remains blocked at binding layer; F05+ parent dry-run uses `REFERENCE_GUIDED` with resolved world/structure reference when registry requires attachment.
+=======
 ## 2026-10-05 — Restore pre-wave surgical assets after the squash undo
 
 - **Context:** The accidental squash-merge wave was taken off `main`. That revert also deleted `docs/site00/public-redesign/GROK_ASSET_PACK` from PR #1275, which had already landed at `d9b6e4ca` before the wave. Those files are the pre-wave tree, not the outdated squashes the founder rejected.
@@ -13684,3 +13693,4 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** `main` keeps currency conversion (#1371) and the provider gateway (#1372). The squash commits stay reverted. Feature branches whose tips were those squash commits are reset to the commit before the squash. site00.com was still `index.D8Jaygrd.js` from 2026-09-28. Do not upload a bundle built from the squash wave.
 - **Changes:** `docs/site00/public-redesign/GROK_ASSET_PACK` restored from `d9b6e4ca`.
 - **Conventions:** Do not squash-merge a stack of old PRs unless the founder names them. Do not treat #1275 as part of that wave.
+>>>>>>> origin/main

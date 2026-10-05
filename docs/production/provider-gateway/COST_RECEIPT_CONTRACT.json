@@ -1,7 +1,11 @@
 {
   "schemaVersion": 1,
   "receiptType": "CostReceipt",
-  "writerAdapters": ["createMemoryCostReceiptWriter", "createJsonlCostReceiptWriter"],
+  "writerAdapters": [
+    "createMemoryCostReceiptWriter",
+    "createJsonlCostReceiptWriter",
+    "createJurnlFamilyLedgerCostReceiptWriter (family MANIFEST gateway_receipts)"
+  ],
   "durablePath": "data/production-cost-receipts/gateway-receipts.jsonl",
   "requiredFields": ["receiptId", "requestId", "projectId", "provider", "model", "generationClass", "status", "createdAt"],
   "plateDerivationFields": ["environmentPlateOrigin", "plateAuthorityId"]

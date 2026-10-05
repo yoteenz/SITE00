@@ -14983,12 +14983,14 @@
   {
    "capability_id": "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD",
    "name": "Reference-binding pre-dispatch guard (#1357/#1359/#1363/#1364)",
-   "description": "precheckGenerationDispatch(): expression brief required, cross-family plate reuse justification, one provider project per family, sidekick derivation, reference binding; blocks at 0 credits; runPrecheckedProviderDispatch wrapper.",
+   "description": "precheckGenerationDispatch(): expression brief required, cross-family plate reuse justification, one provider project per family, authority-first before sidekick attachment, reference binding; blocks at 0 credits; JURNL live path via dispatchJurnlProductionRequest → runProductionProviderRequest.",
    "mature_endpoint_role": "PRODUCT SYSTEM: cost + fidelity gate before any paid generation.",
    "mature_endpoint_stage": "PLATFORM_FOUNDATION",
-   "current_status": "EXISTS_DISCONNECTED",
-   "implementation_maturity": 3,
+   "current_status": "EXISTS_CONNECTED",
+   "implementation_maturity": 4,
    "current_locations": [
+    "shared/site00-jurnl-production/dispatchJurnlProductionRequest.ts",
+    "api/admin/jurnl-production.ts",
     "shared/site00-production-guardrails/precheckGenerationDispatch.ts:12",
     "shared/site00-production-guardrails/validateGenerationReferenceBinding.ts",
     "shared/site00-production-guardrails/familyOutputProjects.ts:16",
@@ -15010,7 +15012,9 @@
     ".cursor/rules/family-output-project.mdc"
    ],
    "tests": [
-    "tests/referenceBindingGuard.test.ts"
+    "tests/referenceBindingGuard.test.ts",
+    "tests/jurnlGatewayMigration.test.ts",
+    "tests/providerGateway.test.ts"
    ],
    "visual_surfaces": [],
    "current_owner": "JURNL pipeline (agent-invoked)",

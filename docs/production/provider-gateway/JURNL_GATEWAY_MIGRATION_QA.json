@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "sprint": "P0.SITE00.PRODUCTION-GATEWAY.JURNL-LIVE-CALLSITE-MIGRATION1",
+  "generatedAt": "2026-10-05T19:30:00.000Z",
+  "canonicalLivePath": [
+    "Admin API /api/admin/jurnl-production",
+    "dispatchJurnlProductionRequest",
+    "runProductionProviderRequest",
+    "OpenArt manual ticket or dry-run",
+    "registerJurnlManualProviderOutput"
+  ],
+  "automatedTests": [
+    "tests/jurnlGatewayMigration.test.ts",
+    "tests/providerGateway.test.ts",
+    "tests/referenceBindingGuard.test.ts",
+    "tests/providerDirectBypassAudit.test.ts"
+  ],
+  "manualPaidGeneration": 0,
+  "creditsSpent": 0,
+  "results": {
+    "jurnl_active_paths_gatewayed": true,
+    "jurnl_active_temp_allowlist": 0,
+    "authority_first_before_sidekick": true,
+    "reference_precheck_on_dispatch": true,
+    "server_spend_on_live_path": true,
+    "durable_cost_jsonl_plus_family_ledger": true,
+    "lineage_on_success": true
+  },
+  "notes": [
+    "JURNL production uses OpenArt manual workflow; no OpenArt SDK in repo.",
+    "F05 parent dry-run uses REFERENCE_GUIDED + world structure reference (JURNL text-to-image remains globally blocked).",
+    "Precheck order: authority-first before sidekick attachment gate for ENVIRONMENT_PLATE."
+  ]
+}
