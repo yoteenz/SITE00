@@ -2,7 +2,7 @@
  * P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1 — tablet + desktop HOST CHROME.
  *
  * Canon (overrides hallucinated shell in the tablet/desktop authority renders):
- *   TOP    [ LOCATION/WORKSPACE ] [ PROJECT NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
+ *   TOP    [ PROJECT NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
  *   BOTTOM [ ICON ] LABEL  x7  (HUB INBOX DESIGN EXPERIENCE EXPRESSION LIBRARY ACTIVITY)
  *
  * SCALE GUARD: this file never uses zoom, transform scale, viewport/container units, rem scaling or
@@ -30,64 +30,35 @@
   box-sizing: border-box;
 }
 
-/* ═══ TOP — shared host header (TOP-NAV.GLOBAL-CONVERGENCE.OPUS1) ═══
- * One header for every Production root and descendant. Geometry comes only from the tokens below.
- * Groups are content-sized and never shrink (title, project, attention, menu); dividers are fixed insets;
- * no group masks text (no overflow: hidden, no ellipsis, no max-height); every line-height clears the
- * uppercase ink box. Tablet defaults here, desktop re-tokens at >= 1120px.
- */
-.pxh-strip {
-  --pxh-top-h: 64px;
-  --pxh-top-pad: 20px;
-  --pxh-group-pad: 20px;
-  --pxh-divider-inset: 12px;
-  --pxh-pipe-gap: 14px;
-  --pxh-gap: 12px;
-  --pxh-stack-gap: 3px;
-  --pxh-title-size: 21px;
-  --pxh-title-lh: 1.15;
-  --pxh-sub-size: 10px;
-  --pxh-label-size: 9.5px;
-  --pxh-name-size: 16px;
-  --pxh-count-size: 23px;
-  --pxh-attn-label-size: 10px;
-  --pxh-text-lh: 1.2;
-  --pxh-thumb-w: 30px;
-  --pxh-thumb-h: 40px;
-  --pxh-reticle: 34px;
-  --pxh-chevron: 14px;
-  --pxh-icon: 22px;
-  --pxh-menu-w: 64px;
-}
+/* ═══ TOP ═══ */
 .pxh-top {
   position: relative;
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  height: var(--pxh-top-h);
-  padding: 0 0 0 var(--pxh-top-pad);
+  height: 58px;
+  padding: 0 0 0 20px;
   background: linear-gradient(180deg, #fbfbfc, #f2f2f4);
   border-bottom: 1px solid var(--pxh-line);
 }
 .pxh-top__cluster {
   display: flex;
-  flex: 0 0 auto;
   align-items: stretch;
   justify-content: flex-start;
+  min-width: 0;
 }
 .pxh-top__cluster > * {
   display: flex;
-  flex: 0 0 auto;
   align-items: center;
+  min-width: 0;
   border-right: 1px solid var(--pxh-line);
-  margin: var(--pxh-divider-inset) 0;
-  padding: 0 var(--pxh-group-pad);
+  margin: 9px 0;
+  padding: 0 24px;
   color: inherit;
   text-decoration: none;
-  white-space: nowrap;
 }
 .pxh-top__cluster > :first-child {
-  padding-left: var(--pxh-pipe-gap);
+  padding-left: 14px;
   position: relative;
 }
 .pxh-top__cluster > :first-child::before {
@@ -106,22 +77,24 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: var(--pxh-stack-gap);
 }
 .pxh-top__loc b {
-  font-size: var(--pxh-title-size);
+  font-size: 22px;
   font-weight: 500;
-  line-height: var(--pxh-title-lh);
+  line-height: 1.02;
   letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 .pxh-top__loc small {
-  font-size: var(--pxh-sub-size);
-  line-height: var(--pxh-text-lh);
+  margin-top: 3px;
+  font-size: 10.5px;
+  line-height: 1.1;
   letter-spacing: 0.14em;
   color: var(--pxh-mute);
+  white-space: nowrap;
 }
 .pxh-top__project {
-  gap: var(--pxh-gap);
+  gap: 12px;
 }
 .pxh-top__thumb,
 .pxa .pxh-top .pxh-top__thumb {
@@ -130,9 +103,9 @@
   inset: auto;
   display: block;
   overflow: hidden;
-  flex: 0 0 var(--pxh-thumb-w);
-  width: var(--pxh-thumb-w);
-  height: var(--pxh-thumb-h);
+  flex: 0 0 30px;
+  width: 30px;
+  height: 40px;
   border-radius: 1px;
   object-fit: cover;
 }
@@ -143,55 +116,48 @@
   height: 100%;
   object-fit: cover;
 }
-.pxh-top__project > span,
-.pxh-top__attn > span {
+.pxh-top__project > span {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: var(--pxh-stack-gap);
+  gap: 2px;
 }
 .pxh-top__project small,
 .pxh-top__attn small {
-  font-size: var(--pxh-label-size);
-  line-height: var(--pxh-text-lh);
+  font-size: 10px;
+  line-height: 1.1;
   letter-spacing: 0.12em;
   color: #3c3c42;
+  white-space: nowrap;
 }
 .pxh-top__project b {
-  font-size: var(--pxh-name-size);
+  font-size: 17px;
   font-weight: 600;
-  line-height: var(--pxh-text-lh);
+  line-height: 1.05;
   letter-spacing: 0.08em;
 }
-.pxh-top__project > svg {
-  flex: 0 0 var(--pxh-chevron);
-  width: var(--pxh-chevron);
-  height: var(--pxh-chevron);
-}
 .pxh-top__attn {
-  gap: var(--pxh-gap);
+  gap: 10px;
 }
-.pxh-top__attn > svg {
-  flex: 0 0 var(--pxh-reticle);
-  width: var(--pxh-reticle);
-  height: var(--pxh-reticle);
+.pxh-top__attn > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 .pxh-top__attn b {
-  font-size: var(--pxh-count-size);
+  font-size: 22px;
   font-weight: 400;
-  line-height: var(--pxh-title-lh);
+  line-height: 0.95;
   letter-spacing: 0.04em;
   color: var(--pxh-red);
 }
 .pxh-top__attn small {
-  font-size: var(--pxh-attn-label-size);
-  color: var(--pxh-ink);
+  color: var(--pxh-red);
 }
 .pxh-top__menu {
   display: grid;
   place-items: center;
-  flex: 0 0 var(--pxh-menu-w);
-  width: var(--pxh-menu-w);
+  flex: 0 0 auto;
+  width: 64px;
   margin: 0;
   padding: 0;
   border: 0;
@@ -199,10 +165,6 @@
   background: transparent;
   color: var(--pxh-ink);
   cursor: pointer;
-}
-.pxh-top__menu svg {
-  width: var(--pxh-icon);
-  height: var(--pxh-icon);
 }
 .pxh-top__menu:focus-visible,
 .pxh-nav__item:focus-visible,
@@ -279,13 +241,11 @@
   width: 22px;
   height: 22px;
 }
-.pxh-nav__glyph {
+.pxh-nav__icon .bnav-ico {
   display: block;
-  width: 22px;
-  height: 22px;
-  background: #141414;
-  -webkit-mask: var(--nav-icon) center / contain no-repeat;
-  mask: var(--nav-icon) center / contain no-repeat;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 .pxh-nav__dot {
   position: absolute;
@@ -306,8 +266,8 @@
   color: var(--pxh-red);
   font-weight: 500;
 }
-.pxh-nav__item.is-active .pxh-nav__glyph {
-  background: var(--pxh-red);
+.pxh-nav__item.is-active .pxh-nav__icon {
+  color: #141414;
 }
 .pxh-nav__item.is-active::after {
   content: '';
@@ -321,25 +281,24 @@
 
 /* ═══ DESKTOP (>= 1120px): explicit px, wider gutters ═══ */
 @media (min-width: 1120px) {
-  .pxh-strip {
-    --pxh-top-h: 72px;
-    --pxh-top-pad: 28px;
-    --pxh-group-pad: 32px;
-    --pxh-divider-inset: 13px;
-    --pxh-pipe-gap: 16px;
-    --pxh-gap: 14px;
-    --pxh-title-size: 26px;
-    --pxh-sub-size: 11px;
-    --pxh-label-size: 10.5px;
-    --pxh-name-size: 19px;
-    --pxh-count-size: 28px;
-    --pxh-attn-label-size: 11px;
-    --pxh-thumb-w: 34px;
-    --pxh-thumb-h: 46px;
-    --pxh-reticle: 40px;
-    --pxh-chevron: 15px;
-    --pxh-icon: 26px;
-    --pxh-menu-w: 80px;
+  .pxh-top {
+    height: 62px;
+    padding-left: 28px;
+  }
+  .pxh-top__cluster > * {
+    padding: 0 32px;
+  }
+  .pxh-top__loc b {
+    font-size: 24px;
+  }
+  .pxh-top__project b {
+    font-size: 18px;
+  }
+  .pxh-top__attn b {
+    font-size: 24px;
+  }
+  .pxh-top__menu {
+    width: 72px;
   }
   .pxh-nav {
     height: 58px;
@@ -349,7 +308,7 @@
     font-size: 11.5px;
   }
   .pxh-nav__icon,
-  .pxh-nav__glyph {
+  .pxh-nav__icon .bnav-ico {
     width: 24px;
     height: 24px;
   }
@@ -357,6 +316,18 @@
 
 /* ═══ TABLET (700–1119px): explicit px, tighter cluster ═══ */
 @media (max-width: 1119px) {
+  .pxh-top__cluster > * {
+    padding: 0 18px;
+  }
+  .pxh-top__loc b {
+    font-size: 19px;
+  }
+  .pxh-top__project b {
+    font-size: 15px;
+  }
+  .pxh-top__attn b {
+    font-size: 19px;
+  }
   .pxh-nav__item {
     gap: 7px;
     padding: 0 4px;
@@ -364,20 +335,64 @@
     letter-spacing: 0.08em;
   }
   .pxh-nav__icon,
-  .pxh-nav__glyph {
+  .pxh-nav__icon .bnav-ico {
     width: 20px;
     height: 20px;
   }
 }
 
+/* Mobile host top: the project mark sits inside its PROJECT selector (never the body-level absolute image fill). */
+.pxa .ph-top .ph-top__thumb {
+  position: relative;
+  inset: auto;
+  display: block;
+  flex: 0 0 auto;
+}
+.pxa .ph-top .ph-top__thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 /*
- * HUB.RECONSTRUCTION.OPUS1 — mobile NAV height convergence (authority frame only).
- * The phone strip is authored in the 864-wide hub space; the approved 9:16 authority gives the nav
- * ≈150 / 1125 of the width (≈112 hub units). The phone TOP moved to the shared `.ph-top--host` block below
- * (TOP-NAV.GLOBAL-CONVERGENCE.OPUS1) so every frame gets the same header.
+ * HUB.RECONSTRUCTION.OPUS1 — mobile host strip height convergence (authority frame only).
+ * The phone strip is authored in the 864-wide hub space; the approved 9:16 authority gives the top bar
+ * ≈165 / 1125 of the width (≈120 hub units) and the nav ≈150 / 1125 (≈112). Anatomy, links and the
+ * The duplicate workspace tab readout is gone (bottom nav owns the tab). Only height, mark sizes and vertical rhythm move.
+ * Scoped to `.pxa` so PwFrame descendants, Character Fabrication and the hub machine keep their offsets.
  * Static px only: no zoom, transform or viewport units are added here (the strip's existing zoom is untouched).
  */
+.pxa .prod-chrome-strip.ph--hub .ph-top {
+  height: 120px;
+  grid-template-columns: 278px 190px minmax(0, 1fr) 48px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > :nth-child(3) {
+  border-right: 1px solid #d0d0d4;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > :nth-child(4) {
+  border-right: 0;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > * {
+  margin: 22px 0;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand::before {
+  top: 2px;
+  height: 52px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top .ph-top__thumb {
+  width: 44px;
+  height: 62px;
+  flex-basis: 44px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__attn svg {
+  width: 62px;
+  height: 62px;
+}
+.pxa .prod-chrome-strip.ph--hub .prod-chrome-pop {
+  top: 121px;
+}
 .pxa .prod-chrome-strip.ph--hub .ph-nav {
   height: 112px;
 }
@@ -391,184 +406,24 @@
   width: 38px;
   height: 36px;
 }
-.pxa .prod-chrome-strip.ph--hub .ph-nav__glyph {
+.pxa .prod-chrome-strip.ph--hub .ph-nav__icon .bnav-ico {
   width: 34px;
   height: 34px;
 }
 .pxa .prod-chrome-strip.ph--hub .ph-nav__item.is-active::after {
   bottom: 14px;
 }
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand b {
+  font-size: 40px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__brand small {
+  font-size: 14px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top__attn b {
+  font-size: 36px;
+}
 .pxa .prod-chrome-strip.ph--hub .ph-nav__item {
   font-size: 17px;
-}
-
-/*
- * TOP-NAV.GLOBAL-CONVERGENCE.OPUS1 — phone host header (`ProductionWorkspaceHeader`, mobile family).
- * Lives in the approved 864-unit phone strip (the strip's existing zoom is untouched; nothing here scales).
- * Unscoped on purpose: the authority frame, PwFrame descendants and the Design overlay all mount this one
- * header, so they share one geometry. The legacy hub machine and Character Fabrication headers do not
- * carry `.ph-top--host` and are unaffected.
- * Root cause fixed: the base `.ph--hub .ph-top` is a fixed five-track grid with `overflow: hidden` on every
- * cell and line-heights under the glyph box, so long titles and ITEMS NEED YOU were cropped and the
- * authority-frame-only type bump overflowed its track. Here the four groups are content-sized flex items
- * that never shrink, no group masks text, and spare width is shared evenly between groups.
- * Sizes: approved phone authority (1206px @3x ≈ 402pt) mapped to 864 units.
- */
-.prod-chrome-strip.ph--hub .ph-top.ph-top--host {
-  --phh-top-h: 120px;
-  --phh-pipe-x: 30px;
-  --phh-brand-pad: 48px;
-  --phh-group-pad: 20px;
-  --phh-divider-inset: 22px;
-  --phh-gap: 13px;
-  --phh-stack-gap: 4px;
-  --phh-title-size: 32px;
-  --phh-title-lh: 1.15;
-  --phh-sub-size: 12px;
-  --phh-label-size: 11.5px;
-  --phh-name-size: 23px;
-  --phh-count-size: 36px;
-  --phh-attn-label-size: 12px;
-  --phh-text-lh: 1.2;
-  --phh-thumb-w: 44px;
-  --phh-thumb-h: 60px;
-  --phh-reticle: 58px;
-  --phh-chevron: 16px;
-  --phh-icon: 30px;
-  --phh-menu-w: 80px;
-  display: flex;
-  align-items: stretch;
-  height: var(--phh-top-h);
-  grid-template-columns: none;
-}
-.prod-chrome-strip.ph--hub .ph-top--host > :not(.prod-chrome-pop) {
-  display: flex;
-  flex: 1 0 auto;
-  align-items: center;
-  min-width: max-content;
-  overflow: visible;
-  margin: var(--phh-divider-inset) 0;
-  padding: 0 var(--phh-group-pad);
-  border-right: 1px solid #d0d0d4;
-  white-space: nowrap;
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: var(--phh-stack-gap);
-  min-width: max-content;
-  max-width: none;
-  overflow: visible;
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__copy > * {
-  display: block;
-  max-width: none;
-  margin: 0;
-  overflow: visible;
-  text-overflow: clip;
-  white-space: nowrap;
-  font-stretch: semi-condensed;
-}
-/* TAB TITLE */
-.prod-chrome-strip.ph--hub .ph-top--host > .ph-top__brand {
-  position: relative;
-  padding-left: var(--phh-brand-pad);
-}
-.prod-chrome-strip.ph--hub .ph-top--host > .ph-top__brand::before {
-  left: var(--phh-pipe-x);
-  top: 4px;
-  bottom: 4px;
-  height: auto;
-  width: 3px;
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__brand b {
-  font-size: var(--phh-title-size);
-  font-weight: 500;
-  line-height: var(--phh-title-lh);
-  letter-spacing: 0.06em;
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__brand small {
-  font-size: var(--phh-sub-size);
-  line-height: var(--phh-text-lh);
-  letter-spacing: 0.14em;
-  color: #707076;
-}
-/* PROJECT */
-.prod-chrome-strip.ph--hub .ph-top--host > .ph-top__sel {
-  gap: var(--phh-gap);
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__thumb {
-  position: relative;
-  inset: auto;
-  display: block;
-  overflow: hidden;
-  flex: 0 0 var(--phh-thumb-w);
-  width: var(--phh-thumb-w);
-  height: var(--phh-thumb-h);
-  border-radius: 1px;
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__thumb img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__sel small,
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__attn small {
-  font-size: var(--phh-label-size);
-  line-height: var(--phh-text-lh);
-  letter-spacing: 0.12em;
-  color: #3c3c42;
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__sel b {
-  font-size: var(--phh-name-size);
-  font-weight: 600;
-  line-height: var(--phh-text-lh);
-  letter-spacing: 0.07em;
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__sel > svg {
-  flex: 0 0 var(--phh-chevron);
-  width: var(--phh-chevron);
-  height: var(--phh-chevron);
-}
-/* ATTENTION */
-.prod-chrome-strip.ph--hub .ph-top--host > .ph-top__attn {
-  gap: var(--phh-gap);
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__attn > svg {
-  flex: 0 0 var(--phh-reticle);
-  width: var(--phh-reticle);
-  height: var(--phh-reticle);
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__attn b {
-  font-size: var(--phh-count-size);
-  font-weight: 400;
-  line-height: var(--phh-title-lh);
-  letter-spacing: 0.03em;
-  color: var(--ph-red, #e5231b);
-}
-.prod-chrome-strip.ph--hub .ph-top--host .ph-top__attn small {
-  font-size: var(--phh-attn-label-size);
-  color: var(--ph-ink, #121214);
-}
-/* MENU */
-.prod-chrome-strip.ph--hub .ph-top--host > .ph-top__menu {
-  flex: 0 0 var(--phh-menu-w);
-  justify-content: center;
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border-right: 0;
-}
-.prod-chrome-strip.ph--hub .ph-top--host > .ph-top__menu svg {
-  width: var(--phh-icon);
-  height: var(--phh-icon);
-}
-.prod-chrome-strip.ph--hub .ph-top--host > .prod-chrome-pop {
-  top: calc(var(--phh-top-h) + 1px);
 }
 
 /*

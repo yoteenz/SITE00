@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 
 import {
   resolveWorkspaceSelfCaptureUrl,
+  resolveWorkspaceSelfDesignRoute,
   type WorkspaceSelfSourceContext,
 } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/sourceContext.js';
 import { workspaceSelfViewportSpec } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/viewports.js';
@@ -25,7 +26,7 @@ export async function captureLiveDesignWorkspacePair(input: {
   build: string;
   engineeringBypass?: boolean;
 }): Promise<DesignWorkspaceCaptureResult | { error: string }> {
-  const route = `/projects/design/${input.source.projectSlug.toLowerCase()}`;
+  const route = resolveWorkspaceSelfDesignRoute(input.source);
   const captureUrl = resolveWorkspaceSelfCaptureUrl(
     input.source,
     input.baseUrl,

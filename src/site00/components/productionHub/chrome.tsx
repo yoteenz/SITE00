@@ -181,23 +181,19 @@ const MENU_HOST: MenuItem[] = [
   { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
 ];
 
-/**
- * The one Production host header (TOP-NAV.GLOBAL-CONVERGENCE.OPUS1). Every workspace root and descendant
- * (authority frame, PwFrame, Design overlay) mounts this. Same four groups in every family —
- * [ TAB / SITE 00 ] [ PROJECT ] [ ITEMS NEED YOU ] ........ [ MENU ] — with geometry from shared tokens
- * in `site00-production-host-chrome.css` (`--pxh-*` tablet / desktop, `--phh-*` phone strip).
- */
+/** Light authority header used by every production workspace that is not the hub or character fabrication. */
 export function ProductionWorkspaceHeader() {
-  const { brand, projectId, queued, sectionLabel, sectionValue } = useProductionWorkspaceChrome();
+  const { brand, projectId, queued } = useProductionWorkspaceChrome();
   const family = useProductionViewportFamily();
   const [menu, setMenu] = useState(false);
   const closeMenu = useCallback(() => setMenu(false), []);
   if (family !== 'mobile') {
-    return <ProductionHostTop brand={brand} projectId={projectId} queued={queued} sectionLabel={sectionLabel} sectionValue={sectionValue} />;
+    return <ProductionHostTop projectId={projectId} queued={queued} />;
   }
+  const long = brand.length > 12;
   return (
-    <header className="ph-top ph-top--host" data-testid="production-workspace-header" data-shell="phone-top">
-      <div className="ph-top__brand" data-testid="production-host-location" title={`${sectionLabel} ${sectionValue}`}>
+    <header className="ph-top" data-testid="production-workspace-header">
+      <div className={`ph-top__brand${long ? ' ph-top__brand--long' : ''}`}>
         <span className="ph-top__copy">
           <b>{brand}</b>
           <small>SITE 00 / STUDIO WORLD</small>
@@ -211,14 +207,14 @@ export function ProductionWorkspaceHeader() {
         </span>
         <IcChevD width={14} height={14} />
       </Link>
-      <Link to="/production/queue" className="ph-top__attn" aria-label={`${queued} items need you`} data-testid="production-host-attention">
+      <Link to="/production/queue" className="ph-top__attn" aria-label={`${queued} items need you`}>
         <Reticle size={46} />
         <span className="ph-top__copy">
           <b>{String(queued).padStart(2, '0')}</b>
           <small>ITEMS NEED YOU</small>
         </span>
       </Link>
-      <button type="button" className="ph-top__menu" aria-label="Menu" aria-expanded={menu} onClick={() => setMenu((v) => !v)} data-testid="production-host-menu">
+      <button type="button" className="ph-top__menu" aria-label="Menu" aria-expanded={menu} onClick={() => setMenu((v) => !v)}>
         <IcMenu width={22} height={22} />
       </button>
       {menu ? <ProductionMenuPanel items={MENU_PHONE} className="prod-chrome-pop" onClose={closeMenu} /> : null}
@@ -228,30 +224,14 @@ export function ProductionWorkspaceHeader() {
 
 /**
  * Tablet + desktop top host panel.
- * [ LOCATION / WORKSPACE ] [ PROJECT / NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
+ * [ PROJECT / NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
  */
-function ProductionHostTop({
-  brand,
-  projectId,
-  queued,
-  sectionLabel,
-  sectionValue,
-}: {
-  brand: string;
-  projectId: string;
-  queued: number;
-  sectionLabel: string;
-  sectionValue: string;
-}) {
+function ProductionHostTop({ projectId, queued }: { projectId: string; queued: number }) {
   const [menu, setMenu] = useState(false);
   const closeMenu = useCallback(() => setMenu(false), []);
   return (
     <header className="pxh-top" data-testid="production-workspace-header" data-shell="host-top">
       <div className="pxh-top__cluster" data-testid="production-host-cluster">
-        <div className="pxh-top__loc" data-testid="production-host-location" title={`${sectionLabel} ${sectionValue}`}>
-          <b>{brand}</b>
-          <small>SITE 00 / STUDIO WORLD</small>
-        </div>
         <Link to="/production" className="pxh-top__project" data-testid="production-chrome-project">
           <HubImage slotId="project.ndxbook.cover" url={hubAssetUrl('project.ndxbook.cover')} label="" className="pxh-top__thumb" />
           <span>

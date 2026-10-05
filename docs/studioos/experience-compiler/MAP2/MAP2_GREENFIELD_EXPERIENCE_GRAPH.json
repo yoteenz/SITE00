@@ -1,0 +1,174 @@
+{
+  "project_id": "lumina-atelier-greenfield",
+  "concept_id": "DIR_B_PRODUCT_LAB",
+  "nodes": [
+    {
+      "route_id": "r_0__",
+      "route": "/",
+      "parent": null,
+      "children": [],
+      "experience_unit": "ENTRY",
+      "family": "EDITORIAL_CONTENT",
+      "purpose": "Serve LAB ENTRY",
+      "primary_user": "Customer",
+      "business_role": "Conversion + retention",
+      "conversion_role": "Discovery",
+      "priority": "P0",
+      "launch_phase": "LAUNCH"
+    },
+    {
+      "route_id": "r_1__lab",
+      "route": "/lab",
+      "parent": "/",
+      "children": [],
+      "experience_unit": "INTERACTIVE_TOOL",
+      "family": "EDITORIAL_CONTENT",
+      "purpose": "Serve CONFIGURATOR",
+      "primary_user": "Customer",
+      "business_role": "Conversion + retention",
+      "conversion_role": "Discovery",
+      "priority": "P0",
+      "launch_phase": "LAUNCH"
+    },
+    {
+      "route_id": "r_2__build",
+      "route": "/build",
+      "parent": "/",
+      "children": [],
+      "experience_unit": "CONFIGURATOR",
+      "family": "EDITORIAL_CONTENT",
+      "purpose": "Serve VALIDATION",
+      "primary_user": "Customer",
+      "business_role": "Conversion + retention",
+      "conversion_role": "Discovery",
+      "priority": "P0",
+      "launch_phase": "LAUNCH"
+    },
+    {
+      "route_id": "r_3__build_step",
+      "route": "/build/:step",
+      "parent": "/",
+      "children": [],
+      "experience_unit": "CONFIGURATOR",
+      "family": "EDITORIAL_CONTENT",
+      "purpose": "Serve PROJECT SAVED",
+      "primary_user": "Customer",
+      "business_role": "Conversion + retention",
+      "conversion_role": "Discovery",
+      "priority": "P0",
+      "launch_phase": "LAUNCH"
+    },
+    {
+      "route_id": "r_4__review",
+      "route": "/review",
+      "parent": "/",
+      "children": [],
+      "experience_unit": "TRANSACTION_FLOW",
+      "family": "TRANSACTION_FLOW",
+      "purpose": "Serve EXPERT REVIEW",
+      "primary_user": "Customer",
+      "business_role": "Conversion + retention",
+      "conversion_role": "Checkout adjacency",
+      "priority": "P1",
+      "launch_phase": "LAUNCH"
+    },
+    {
+      "route_id": "r_5__projects",
+      "route": "/projects",
+      "parent": "/",
+      "children": [],
+      "experience_unit": "PORTAL",
+      "family": "EDITORIAL_CONTENT",
+      "purpose": "Serve LAB ENTRY",
+      "primary_user": "Customer",
+      "business_role": "Conversion + retention",
+      "conversion_role": "Discovery",
+      "priority": "P1",
+      "launch_phase": "PHASE_2"
+    }
+  ],
+  "custom_experiences": [
+    {
+      "custom_experience_id": "cx_0",
+      "name": "BUILD-A-WIG CONFIGURATOR",
+      "description": "Custom experience derived from concept DIR_B_PRODUCT_LAB",
+      "business_purpose": "Supports high-consideration custom orders",
+      "states": [
+        "INTRO",
+        "CONFIGURE",
+        "PREVIEW",
+        "REVIEW"
+      ],
+      "inherits_from": [
+        "MULTI_STEP_CONFIGURATION",
+        "PRODUCT_OPTION_SELECTOR"
+      ],
+      "new_family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "capability_candidate": true
+    },
+    {
+      "custom_experience_id": "cx_1",
+      "name": "LIVE ASSEMBLY PREVIEW",
+      "description": "Custom experience derived from concept DIR_B_PRODUCT_LAB",
+      "business_purpose": "Supports high-consideration custom orders",
+      "states": [
+        "INTRO",
+        "CONFIGURE",
+        "PREVIEW",
+        "REVIEW"
+      ],
+      "inherits_from": [
+        "IMMERSIVE_DESTINATION"
+      ],
+      "new_family_id": null,
+      "capability_candidate": true
+    }
+  ],
+  "integrations": [
+    {
+      "integration": "Shopify",
+      "reason": "Enables Configuration-driven SKU assembly + expert review upsell",
+      "experience_enabled": "Tool-first configuration with visible rules and live assembly preview.",
+      "routes_affected": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "required_or_optional": "REQUIRED",
+      "launch_or_future": "LAUNCH"
+    },
+    {
+      "integration": "Stripe",
+      "reason": "Enables Configuration-driven SKU assembly + expert review upsell",
+      "experience_enabled": "Tool-first configuration with visible rules and live assembly preview.",
+      "routes_affected": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "required_or_optional": "OPTIONAL",
+      "launch_or_future": "LAUNCH"
+    },
+    {
+      "integration": "CRM",
+      "reason": "Enables Configuration-driven SKU assembly + expert review upsell",
+      "experience_enabled": "Tool-first configuration with visible rules and live assembly preview.",
+      "routes_affected": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "required_or_optional": "OPTIONAL",
+      "launch_or_future": "LAUNCH"
+    }
+  ],
+  "expansion_proposals": [
+    {
+      "id": "exp_0",
+      "title": "B2B salon portal",
+      "classification": "HIGH_VALUE_LATER",
+      "description": "Optional expansion — not in launch scope until founder approves"
+    }
+  ],
+  "approved": true
+}

@@ -215,30 +215,6 @@
   width: 12px;
   height: 12px;
 }
-.pxa .ibx-title {
-  flex: none;
-}
-.pxa .ibx-title h1 {
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: 0.03em;
-}
-.pxa .ibx-title p {
-  margin-top: 2px;
-  font-size: 10.5px;
-  letter-spacing: 0.1em;
-  color: var(--ibx-mute);
-}
-.pxa .ibx-title--inline {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-.pxa .ibx-title--inline span {
-  font-size: 20px;
-  font-weight: 600;
-}
 
 /* materials */
 .pxa .ibx-art {
@@ -540,60 +516,6 @@
   color: var(--ibx-red);
 }
 
-/* ═══ ROOT · NEEDS YOU ═══ */
-.pxa .ibx-focus {
-  display: grid;
-  grid-template-columns: 128px minmax(0, 1fr);
-  grid-template-areas: 'art body' 'act act';
-  gap: 10px 12px;
-  flex: none;
-  padding: 10px;
-  border: 1.5px solid var(--ibx-red);
-  border-radius: var(--ibx-radius);
-  background: var(--ibx-card);
-  box-shadow: var(--ibx-shadow);
-}
-.pxa .ibx-focus__art {
-  grid-area: art;
-  width: 128px;
-  height: 128px;
-}
-.pxa .ibx-focus__body {
-  grid-area: body;
-  display: grid;
-  align-content: start;
-  gap: 6px;
-  min-width: 0;
-}
-.pxa .ibx-focus__type {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-areas: 'k chip' 'v chip';
-  align-items: center;
-  border-bottom: 1px solid var(--ibx-line-2);
-  padding-bottom: 5px;
-}
-.pxa .ibx-focus__type span {
-  grid-area: k;
-  font-size: var(--ibx-small);
-  color: var(--ibx-mute);
-}
-.pxa .ibx-focus__type b {
-  grid-area: v;
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 1.15;
-}
-.pxa .ibx-focus__type .ibx-chip {
-  grid-area: chip;
-}
-.pxa .ibx-focus__body .ibx-facts > div {
-  grid-template-columns: 58px minmax(0, 1fr);
-}
-.pxa .ibx-focus__actions {
-  grid-area: act;
-}
-
 .pxa .ibx-incoming,
 .pxa .ibx-attn,
 .pxa .ibx-recent {
@@ -602,24 +524,6 @@
   gap: 7px;
   flex: none;
   min-height: 0;
-}
-.pxa .ibx-seg {
-  display: flex;
-  gap: 10px;
-  margin-left: auto;
-}
-.pxa .ibx-seg button {
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
-  color: var(--ibx-mute);
-  cursor: pointer;
-}
-.pxa .ibx-seg button.is-active {
-  color: var(--ibx-red);
 }
 .pxa .ibx-incoming .ibx-viewall {
   margin-left: 0;
@@ -659,50 +563,8 @@
   font-weight: 500;
   line-height: 1.2;
 }
-.pxa .ibx-dot {
-  position: absolute;
-  top: 9px;
-  right: 9px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ibx-red);
-  box-shadow: 0 0 0 2px #fff;
-}
-.pxa .ibx-card:hover,
-.pxa .ibx-row:is(a):hover,
-.pxa .ibx-attn__grid a:hover {
+.pxa .ibx-card:hover {
   border-color: #c5c5cb;
-}
-.pxa .ibx-attn__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.pxa .ibx-attn__grid a {
-  display: grid;
-  grid-template-columns: 22px auto 1fr auto;
-  align-items: center;
-  gap: 10px;
-  height: 42px;
-  padding: 0 10px;
-  border: 1px solid var(--ibx-line);
-  border-radius: var(--ibx-radius);
-  background: var(--ibx-card);
-}
-.pxa .ibx-attn__grid a > .iax-ic:first-child {
-  width: 20px;
-  height: 20px;
-  color: var(--ibx-red);
-}
-.pxa .ibx-attn__grid b {
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 1.1;
-}
-.pxa .ibx-attn__grid span {
-  font-size: 10px;
-  letter-spacing: 0.08em;
 }
 .pxa .ibx-recent__rail {
   display: grid;
@@ -743,207 +605,9 @@
 }
 
 /* ═══ LIST CHILDREN (WATCHING · RESOLVED · ALL) ═══ */
-.pxa .ibx-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  flex: none;
-  padding: 8px 4px;
-  border: 1px solid var(--ibx-line);
-  border-radius: var(--ibx-radius);
-  background: var(--ibx-card);
-}
-.pxa .ibx-stats > div {
-  display: grid;
-  justify-items: center;
-  gap: 1px;
-  padding: 3px 2px;
-  border-radius: 4px;
-}
-.pxa .ibx-stats > div + div {
-  border-left: 1px solid var(--ibx-line-2);
-}
-.pxa .ibx-stats b {
-  font-size: 21px;
-  font-weight: 600;
-  line-height: 1.15;
-}
-.pxa .ibx-stats span {
-  font-size: 9px;
-  letter-spacing: 0.06em;
-  color: var(--ibx-mute);
-  text-align: center;
-}
-.pxa .ibx-stats .is-hot b {
-  color: var(--ibx-red);
-}
-.pxa .ibx-filters {
-  display: flex;
-  gap: 6px;
-  flex: none;
-  min-width: 0;
-}
-.pxa .ibx-filters--menus > .ibx-menu {
-  flex: 1 1 0;
-}
-.pxa .ibx-filters--menus .ibx-menu__btn {
-  justify-content: space-between;
-  width: 100%;
-}
-.pxa .ibx-dims {
-  display: flex;
-  gap: 5px;
-  flex: none;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.pxa .ibx-dims .ibx-menu__btn {
-  height: 30px;
-  font-size: 9.5px;
-}
-.pxa .ibx-dims .ibx-menu__list {
-  position: fixed;
-  top: auto;
-  left: auto;
-  margin-top: 4px;
-}
-.pxa .ibx-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  flex: 1 1 auto;
-  padding-bottom: 2px;
-}
-.pxa .ibx-row {
-  display: grid;
-  grid-template-columns: 76px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  flex: none;
-  padding: 7px;
-  border: 1px solid var(--ibx-line);
-  border-radius: var(--ibx-radius);
-  background: var(--ibx-card);
-}
-.pxa .ibx-row > .ibx-art {
-  width: 76px;
-  height: 58px;
-}
-.pxa .ibx-row__main {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-.pxa .ibx-row__main small {
-  font-size: 9px;
-  color: var(--ibx-mute);
-}
-.pxa .ibx-row__main b {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-.pxa .ibx-row__main em {
-  font-size: 9.5px;
-  font-style: normal;
-  color: var(--ibx-mute);
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  text-transform: none;
-}
-.pxa .ibx-row__main .ibx-facts > div {
-  grid-template-columns: 54px minmax(0, 1fr);
-}
-.pxa .ibx-row__side {
-  display: grid;
-  gap: 5px;
-  justify-items: stretch;
-  width: 112px;
-  padding-left: 9px;
-  border-left: 1px solid var(--ibx-line-2);
-}
-.pxa .ibx-row__side .ibx-btn {
-  min-height: 28px;
-  font-size: 10px;
-  padding: 0 6px;
-}
-.pxa .ibx-row__side--meta {
-  justify-items: start;
-  gap: 3px;
-  font-size: 10px;
-}
-.pxa .ibx-row__side--meta small {
-  color: var(--ibx-mute);
-  font-size: 9.5px;
-}
-.pxa .ibx-row:is(a) {
-  grid-template-columns: 76px minmax(0, 1fr) auto 12px;
-}
 /* ALL INBOX table rows (mobile shows type + state stacked; the table head appears on wider viewports) */
-.pxa .ibx-table__head {
-  display: none;
-}
-.pxa .ibx-row--all {
-  grid-template-columns: 64px minmax(0, 1fr) auto 12px !important;
-  grid-template-areas: 'art main type chev' 'art main state chev';
-  row-gap: 4px;
-}
-.pxa .ibx-row--all > .ibx-art {
-  grid-area: art;
-  width: 64px;
-  height: 52px;
-}
-.pxa .ibx-row--all .ibx-row__main {
-  grid-area: main;
-}
-.pxa .ibx-row--all .ibx-row__type {
-  grid-area: type;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-}
-.pxa .ibx-row--all .ibx-row__type .iax-ic {
-  width: 12px;
-  height: 12px;
-  color: var(--ibx-mute);
-}
-.pxa .ibx-row--all .ibx-row__state {
-  grid-area: state;
-}
-.pxa .ibx-row--all .ibx-row__urg,
-.pxa .ibx-row--all .ibx-row__area {
-  display: none;
-}
-.pxa .ibx-row--all .ibx-chev {
-  grid-area: chev;
-}
-.pxa .ibx-row--sys {
-  grid-template-columns: 64px minmax(0, 1fr) auto auto;
-}
-.pxa .ibx-row--sys > .ibx-art {
-  width: 64px;
-  height: 46px;
-}
-.pxa .ibx-row--sys .ibx-row__main b {
-  font-size: 12px;
-}
-.pxa .ibx-row--sys .ibx-btn {
-  min-height: 30px;
-  min-width: 70px;
-  font-size: 10px;
-}
 
 /* ═══ MESSAGES ═══ */
-.pxa .ibx-msgs__grid {
-  display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
-  grid-template-areas: 'convos' 'context' 'thread';
-  gap: 8px;
-  flex: 1 1 auto;
-  min-height: 0;
-}
 .pxa .ibx-convos {
   grid-area: convos;
   display: grid;
@@ -1030,49 +694,6 @@
 }
 
 /* ═══ SYSTEM ═══ */
-.pxa .ibx-metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  flex: none;
-  padding: 8px 4px;
-  border: 1px solid var(--ibx-line);
-  border-radius: var(--ibx-radius);
-  background: var(--ibx-card);
-}
-.pxa .ibx-metrics > div {
-  display: grid;
-  justify-items: center;
-  gap: 1px;
-}
-.pxa .ibx-metrics > div + div {
-  border-left: 1px solid var(--ibx-line-2);
-}
-.pxa .ibx-metrics span {
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  color: var(--ibx-mute);
-}
-.pxa .ibx-metrics b {
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 1.15;
-}
-.pxa .ibx-sys__grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ibx-gap);
-  flex: 1 1 auto;
-  min-height: 0;
-}
-.pxa .ibx-sys__side {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ibx-gap);
-  flex: none;
-}
-.pxa .ibx-sys .ibx-recent {
-  display: none;
-}
 
 /* ═══ GRANDCHILDREN (decision · notice · thread) ═══ */
 .pxa .ibx-crumb a {
@@ -1629,54 +1250,38 @@
   cursor: pointer;
 }
 
+/* narrow phones: the five detail tabs share the width instead of scrolling sideways */
+@media (max-width: 380px) {
+  .pxa .ibx-dtabs button {
+    flex: 1 1 auto;
+    padding: 9px 3px;
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+  }
+}
+
 /* short phones: keep the root on one screen by trimming secondary rails, never by growing the page */
 @media (max-width: 699px) and (max-height: 760px) {
-  .pxa .ibx-root .ibx-recent {
-    display: none;
-  }
-  .pxa .ibx-focus__art {
-    width: 108px;
-    height: 108px;
-  }
-  .pxa .ibx-focus {
-    grid-template-columns: 108px minmax(0, 1fr);
-  }
-  .pxa .ibx-msgs .ibx-context {
-    display: none;
-  }
   .pxa .ibx-notice .ibx-attach {
     display: none;
   }
 }
 @media (max-width: 699px) and (max-height: 680px) {
-  .pxa .ibx-sys__side {
+  /* related materials stay reachable (ATTACHMENT PREVIEW) as a text-only rail */
+  .pxa .ibx-detail:not(.ibx-notice) .ibx-attach .ibx-head h2 {
+    font-size: 12px;
+  }
+  .pxa .ibx-detail:not(.ibx-notice) .ibx-attach__rail .ibx-art {
     display: none;
   }
-  .pxa .ibx-detail:not(.ibx-notice) .ibx-attach {
-    display: none;
+  .pxa .ibx-detail:not(.ibx-notice) .ibx-attach__rail > button {
+    padding: 4px 8px;
   }
   .pxa .ibx-notice .ibx-chain {
     display: none;
   }
   .pxa .ibx-incoming__rail .ibx-art {
     height: 40px;
-  }
-  .pxa .ibx-focus {
-    grid-template-columns: 92px minmax(0, 1fr);
-    gap: 8px 10px;
-  }
-  .pxa .ibx-focus__art {
-    width: 92px;
-    height: 92px;
-  }
-  .pxa .ibx-focus__body .ibx-facts {
-    gap: 2px;
-  }
-  .pxa .ibx-attn__grid a {
-    height: 38px;
-  }
-  .pxa .ibx-root {
-    gap: 8px;
   }
 }
 
@@ -1702,56 +1307,9 @@
   .pxa .ibx-typerail {
     justify-content: flex-start;
   }
-
-  /* root: focus card across the top; incoming | attention; resolved rail */
-  .pxa .ibx-root {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    grid-template-areas: 'focus focus' 'incoming attn' 'recent recent';
-  }
-  .pxa .ibx-root > .ibx-focus,
-  .pxa .ibx-root > .ibx-empty:first-child {
-    grid-area: focus;
-  }
-  .pxa .ibx-root .ibx-incoming {
-    grid-area: incoming;
-  }
-  .pxa .ibx-root .ibx-attn {
-    grid-area: attn;
-  }
-  .pxa .ibx-root .ibx-recent {
-    grid-area: recent;
-  }
-  .pxa .ibx-focus {
-    grid-template-columns: 170px minmax(0, 1fr) 190px;
-    grid-template-areas: 'art body act';
-    align-items: stretch;
-    padding: 12px;
-  }
-  .pxa .ibx-focus__art {
-    width: 170px;
-    height: 170px;
-  }
-  .pxa .ibx-focus__actions {
-    flex-direction: column;
-    justify-content: center;
-  }
-  .pxa .ibx-focus__actions > .ibx-btn {
-    flex: none;
-    min-height: 40px;
-  }
-  .pxa .ibx-focus__type b {
-    font-size: 20px;
-  }
-  .pxa .ibx-focus__body .ibx-facts > div {
-    grid-template-columns: 76px minmax(0, 1fr);
-  }
+/* root: focus card across the top; incoming | attention; resolved rail */
   .pxa .ibx-card .ibx-art {
     height: 70px;
-  }
-  .pxa .ibx-attn__grid a {
-    height: 54px;
   }
   .pxa .ibx-recent__rail {
     grid-auto-columns: calc((100% - 35px) / 8);
@@ -1761,105 +1319,9 @@
   }
 
   /* lists */
-  .pxa .ibx-stats b {
-    font-size: 24px;
-  }
-  .pxa .ibx-stats span {
-    font-size: 10px;
-  }
-  .pxa .ibx-filters--menus {
-    max-width: 640px;
-  }
-  .pxa .ibx-rows--watch {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-content: start;
-  }
-  .pxa .ibx-row--watch {
-    grid-template-columns: 92px minmax(0, 1fr);
-    grid-template-areas: 'art main' 'side side';
-    align-items: start;
-  }
-  .pxa .ibx-row--watch > .ibx-art {
-    grid-area: art;
-    width: 92px;
-    height: 92px;
-  }
-  .pxa .ibx-row--watch .ibx-row__main {
-    grid-area: main;
-  }
-  .pxa .ibx-row--watch .ibx-row__side {
-    grid-area: side;
-    grid-template-columns: auto 1fr 1fr;
-    align-items: center;
-    width: auto;
-    padding: 7px 0 0;
-    border-left: 0;
-    border-top: 1px solid var(--ibx-line-2);
-  }
-  .pxa .ibx-row {
-    grid-template-columns: 96px minmax(0, 1fr) auto;
-  }
-  .pxa .ibx-row > .ibx-art {
-    width: 96px;
-    height: 64px;
-  }
-  .pxa .ibx-row:is(a) {
-    grid-template-columns: 96px minmax(0, 1fr) auto 12px;
-  }
-  .pxa .ibx-row--all > .ibx-art {
-    width: 64px;
-    height: 48px;
-  }
-  .pxa .ibx-row--sys {
-    grid-template-columns: 84px minmax(0, 1fr) auto 96px;
-  }
-  .pxa .ibx-row--sys > .ibx-art {
-    width: 84px;
-    height: 56px;
-  }
-  .pxa .ibx-row__side--meta {
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    width: 280px;
-    column-gap: 12px;
-  }
-  .pxa .ibx-row__side--meta .ibx-chip {
-    grid-row: span 2;
-  }
   /* ALL INBOX: true table on wider viewports */
-  .pxa .ibx-all .ibx-table__head,
-  .pxa .ibx-row--all {
-    display: grid;
-    grid-template-columns: 64px minmax(0, 1fr) 110px 120px 0 0 12px !important;
-    grid-template-areas: none;
-    align-items: center;
-    gap: 12px;
-  }
-  .pxa .ibx-table__head {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    padding: 4px 7px;
-    background: var(--ibx-bg);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    color: var(--ibx-mute);
-  }
-  .pxa .ibx-row--all > * {
-    grid-area: auto !important;
-  }
-  .pxa .ibx-table__head > :nth-child(5),
-  .pxa .ibx-table__head > :nth-child(6) {
-    display: none;
-  }
 
   /* messages: conversations | thread, context rail on top of the thread column */
-  .pxa .ibx-msgs__grid {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr);
-    grid-template-rows: auto minmax(0, 1fr);
-    grid-template-areas: 'convos context' 'convos thread';
-  }
   .pxa .ibx-convos {
     align-content: start;
   }
@@ -1868,26 +1330,6 @@
   }
 
   /* system: notices | attention */
-  .pxa .ibx-sys__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
-    align-items: start;
-  }
-  .pxa .ibx-sys__grid > .ibx-rows--sys {
-    max-height: 100%;
-  }
-  .pxa .ibx-sys .ibx-attn__grid {
-    grid-template-columns: 1fr;
-  }
-  .pxa .ibx-sys .ibx-recent {
-    display: flex;
-  }
-  .pxa .ibx-sys .ibx-recent__rail {
-    grid-auto-columns: calc((100% - 15px) / 4);
-  }
-  .pxa .ibx-metrics b {
-    font-size: 22px;
-  }
 
   /* decision detail: card + tabs | materials */
   .pxa .ibx-dtitle h1 {
@@ -2029,60 +1471,11 @@
   .pxa .ibx-tabs a {
     font-size: 13.5px;
   }
-  .pxa .ibx-root {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    grid-template-areas: 'focus incoming' 'focus attn' 'recent recent';
-  }
-  .pxa .ibx-root .ibx-attn {
-    align-self: end;
-  }
-  .pxa .ibx-root .ibx-attn__grid a {
-    height: 64px;
-  }
-  .pxa .ibx-root .ibx-card .ibx-art {
-    height: 128px;
-  }
-  .pxa .ibx-focus {
-    grid-template-columns: minmax(200px, 0.9fr) minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) auto;
-    grid-template-areas: 'art body' 'act act';
-    align-self: stretch;
-    padding: 14px;
-  }
-  .pxa .ibx-focus__art {
-    width: 100%;
-    height: 100%;
-    min-height: 200px;
-    aspect-ratio: auto;
-  }
-  .pxa .ibx-focus__actions {
-    flex-direction: row;
-  }
-  .pxa .ibx-focus__actions > .ibx-btn {
-    flex: 1 1 0;
-    min-height: 44px;
-  }
-  .pxa .ibx-focus__type b {
-    font-size: 24px;
-  }
-  .pxa .ibx-focus__body .ibx-facts {
-    gap: 6px;
-  }
-  .pxa .ibx-focus__body .ibx-facts dd {
-    font-size: 13px;
-  }
   .pxa .ibx-card .ibx-art {
     height: 84px;
   }
   .pxa .ibx-card b {
     font-size: 12px;
-  }
-  .pxa .ibx-attn__grid a {
-    height: 58px;
-  }
-  .pxa .ibx-attn__grid b {
-    font-size: 22px;
   }
   .pxa .ibx-recent__rail {
     grid-auto-columns: calc((100% - 45px) / 10);
@@ -2090,99 +1483,11 @@
   .pxa .ibx-recent__rail .ibx-art {
     height: 58px;
   }
-
-  .pxa .ibx-list-view {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1fr);
-    align-content: start;
-  }
-  .pxa .ibx-all {
-    grid-template-rows: auto auto auto auto minmax(0, 1fr);
-  }
-  .pxa .ibx-filters {
-    max-width: 920px;
-  }
-  .pxa .ibx-stats {
-    padding: 10px 6px;
-  }
-  .pxa .ibx-stats b {
-    font-size: 28px;
-  }
-  .pxa .ibx-row {
-    grid-template-columns: 120px minmax(0, 1fr) auto;
-  }
-  .pxa .ibx-row > .ibx-art {
-    width: 120px;
-    height: 72px;
-  }
-  .pxa .ibx-row:is(a) {
-    grid-template-columns: 120px minmax(0, 1fr) auto 12px;
-  }
-  .pxa .ibx-row--sys {
-    grid-template-columns: 120px minmax(0, 1fr) auto 110px;
-  }
-  .pxa .ibx-row--sys > .ibx-art {
-    width: 120px;
-    height: 64px;
-  }
-  .pxa .ibx-rows--watch {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .pxa .ibx-row--watch {
-    grid-template-columns: 120px minmax(0, 1fr) 150px;
-    grid-template-areas: 'art main side';
-    align-items: center;
-  }
-  .pxa .ibx-row--watch > .ibx-art {
-    width: 120px;
-    height: 104px;
-  }
-  .pxa .ibx-row--watch .ibx-row__side {
-    grid-template-columns: 1fr;
-    padding: 0 0 0 10px;
-    border-top: 0;
-    border-left: 1px solid var(--ibx-line-2);
-  }
-  .pxa .ibx-all .ibx-table__head,
-  .pxa .ibx-row--all {
-    grid-template-columns: 76px minmax(0, 1.6fr) 120px 130px 90px minmax(0, 0.8fr) 12px !important;
-  }
-  .pxa .ibx-row--all > .ibx-art {
-    width: 76px;
-    height: 50px;
-  }
-  .pxa .ibx-table__head > :nth-child(5),
-  .pxa .ibx-table__head > :nth-child(6),
-  .pxa .ibx-row--all .ibx-row__urg,
-  .pxa .ibx-row--all .ibx-row__area {
-    display: block;
-  }
-  .pxa .ibx-row--all .ibx-row__area {
-    font-size: 11px;
-  }
-  .pxa .ibx-row--all .ibx-row__urg small {
-    font-size: 10px;
-    color: var(--ibx-mute);
-  }
-
-  .pxa .ibx-msgs__grid {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.7fr) minmax(0, 0.85fr);
-    grid-template-rows: minmax(0, 1fr);
-    grid-template-areas: 'convos thread context';
-  }
   .pxa .ibx-context {
     align-content: start;
   }
   .pxa .ibx-context .ibx-facts {
     grid-template-columns: 1fr;
-  }
-
-  .pxa .ibx-sys__grid {
-    grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
-  }
-  .pxa .ibx-sys .ibx-attn__grid {
-    grid-template-columns: 1fr 1fr;
   }
 
   .pxa .ibx-dgrid {
@@ -2213,5 +1518,354 @@
   }
   .pxa .ibx-preview__art {
     height: 360px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════════════════════
+ * ROOT · NEEDS YOU — INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2 (authority: PARENT_3VIEW 01_INBOX).
+ * One centred column: selected decision surface → INCOMING DECISION OBJECTS | BLOCKERS & APPROVALS →
+ * RECENTLY RESOLVED strip. Mobile is the base; tablet and desktop are independent recompositions.
+ * ══════════════════════════════════════════════════════════════════════════════════════════════════ */
+.pxa .ibx-tabs:has(+ .ibx-work .ibx-root) {
+  justify-content: center;
+}
+.pxa .ibx-root {
+  display: grid;
+  grid-template-columns: minmax(0, 1.62fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'focus focus' 'incoming attn' 'recent recent';
+  align-content: start;
+  gap: 8px;
+}
+.pxa .ibx-root > .ibx-focus,
+.pxa .ibx-root > .ibx-empty:first-child {
+  grid-area: focus;
+}
+.pxa .ibx-root > .ibx-incoming {
+  grid-area: incoming;
+}
+.pxa .ibx-root > .ibx-ba {
+  grid-area: attn;
+}
+.pxa .ibx-root > .ibx-recent {
+  grid-area: recent;
+}
+.pxa .ibx-root > section {
+  min-height: 0;
+  padding: 8px;
+  border: 1px solid var(--ibx-line-2);
+  border-radius: var(--ibx-radius);
+  background: var(--ibx-card);
+  box-shadow: var(--ibx-shadow);
+}
+
+/* selected decision surface */
+.pxa .ibx-focus {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-areas: 'art body' 'act act' 'gate gate';
+  gap: 10px 12px;
+  padding: 10px;
+  border: 1.5px solid var(--ibx-red);
+  border-radius: var(--ibx-radius);
+  background: var(--ibx-card);
+  box-shadow: var(--ibx-shadow);
+}
+.pxa .ibx-focus__art {
+  grid-area: art;
+  width: 100%;
+  height: 200px;
+}
+.pxa .ibx-focus__body {
+  grid-area: body;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+}
+.pxa .ibx-focus__facts {
+  gap: 5px;
+  width: 100%;
+}
+.pxa .ibx-focus__facts > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 5px;
+}
+.pxa .ibx-focus__facts dt::after {
+  content: ':';
+}
+.pxa .ibx-focus__facts dt,
+.pxa .ibx-focus__facts dd {
+  font-size: 10px;
+  color: var(--ibx-ink);
+}
+.pxa .ibx-focus__actions {
+  grid-area: act;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.pxa .ibx-focus__actions > .ibx-btn {
+  min-height: 34px;
+  border: 1px solid var(--ibx-ink-2);
+  background: #fff;
+  color: var(--ibx-ink);
+  font-size: 10px;
+}
+.pxa .ibx-focus__actions > .ibx-btn--red {
+  border-color: var(--ibx-red);
+  background: var(--ibx-red);
+  color: #fff;
+}
+.pxa .ibx-focus__actions > .ibx-btn--red:disabled {
+  border-color: var(--ibx-red);
+  background: var(--ibx-red);
+  color: #fff;
+  opacity: 0.9;
+  cursor: not-allowed;
+}
+.pxa .ibx-focus__gate {
+  grid-area: gate;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--ibx-mute);
+}
+
+/* panel heads: one line, title left, link right */
+@media (max-width: 699px) {
+  .pxa .ibx-root > section .ibx-head h2 {
+    font-size: 9.5px;
+    white-space: normal;
+  }
+}
+.pxa .ibx-root .ibx-incoming .ibx-viewall {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* INCOMING DECISION OBJECTS */
+.pxa .ibx-root .ibx-incoming__rail {
+  grid-auto-columns: calc((100% - 12px) / 3);
+  gap: 6px;
+}
+.pxa .ibx-root .ibx-card {
+  align-content: start;
+  padding: 0 0 6px;
+  overflow: hidden;
+}
+.pxa .ibx-root .ibx-card .ibx-art {
+  height: 78px;
+  border-radius: var(--ibx-radius) var(--ibx-radius) 0 0;
+}
+.pxa .ibx-root .ibx-card b,
+.pxa .ibx-root .ibx-card small {
+  padding: 0 6px;
+}
+.pxa .ibx-root .ibx-card b {
+  font-size: 8px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.pxa .ibx-card__status {
+  font-size: 8px;
+  color: var(--ibx-red);
+}
+
+/* BLOCKERS & APPROVALS */
+.pxa .ibx-ba__list {
+  display: grid;
+  align-content: start;
+}
+.pxa .ibx-ba__list a {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 8px 2px;
+  border-bottom: 1px solid var(--ibx-line-2);
+}
+.pxa .ibx-ba__list a:last-child {
+  border-bottom: 0;
+}
+.pxa .ibx-ba__list b {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--ibx-red);
+  text-align: center;
+}
+.pxa .ibx-ba__list span {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+/* RECENTLY RESOLVED strip (empty = honest slots, never filler art) */
+.pxa .ibx-root .ibx-recent__rail {
+  grid-auto-columns: calc((100% - 25px) / 6);
+  overflow: hidden;
+}
+.pxa .ibx-root .ibx-recent__rail .ibx-art {
+  height: 60px;
+}
+.pxa .ibx-recent__rail--empty {
+  position: relative;
+}
+.pxa .ibx-slot {
+  display: block;
+  height: 60px;
+  border: 1px dashed #cfcfd5;
+  border-radius: 4px;
+  background: repeating-linear-gradient(135deg, rgba(18, 18, 20, 0.02) 0 6px, transparent 6px 12px);
+}
+.pxa .ibx-recent__rail--empty p {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 8px;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--ibx-mute);
+}
+
+@media (max-width: 699px) and (max-height: 700px) {
+  .pxa .ibx-focus__art {
+    height: 118px;
+  }
+  .pxa .ibx-focus__actions > .ibx-btn {
+    min-height: 28px;
+  }
+  .pxa .ibx-root .ibx-card .ibx-art {
+    height: 46px;
+  }
+  .pxa .ibx-root .ibx-recent__rail .ibx-art,
+  .pxa .ibx-slot {
+    height: 34px;
+  }
+}
+
+/* tablet: art · facts · stacked actions; incoming ≈ 62% | blockers & approvals */
+@media (min-width: 700px) {
+  .pxa .ibx-tabs:has(+ .ibx-work .ibx-root) {
+    grid-template-columns: repeat(3, minmax(0, 170px));
+  }
+  .pxa .ibx-root {
+    gap: 12px;
+    padding: 12px 24px 12px;
+  }
+  .pxa .ibx-root > section {
+    padding: 10px 12px;
+  }
+  .pxa .ibx-focus {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr) minmax(0, 0.8fr);
+    grid-template-areas: 'art body act' 'gate gate gate';
+    gap: 6px 18px;
+    padding: 10px;
+  }
+  .pxa .ibx-focus__art {
+    height: clamp(130px, 24vh, 190px);
+  }
+  .pxa .ibx-focus__facts dt,
+  .pxa .ibx-focus__facts dd {
+    font-size: 12px;
+  }
+  .pxa .ibx-focus__actions {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 10px;
+  }
+  .pxa .ibx-focus__actions > .ibx-btn {
+    min-height: 40px;
+    font-size: 12px;
+  }
+  .pxa .ibx-root .ibx-incoming__rail {
+    grid-auto-columns: calc((100% - 20px) / 3);
+    gap: 10px;
+  }
+  .pxa .ibx-root .ibx-card .ibx-art {
+    height: clamp(64px, 12vh, 96px);
+  }
+  .pxa .ibx-root .ibx-card b {
+    font-size: 10px;
+  }
+  .pxa .ibx-card__status {
+    font-size: 9px;
+  }
+  .pxa .ibx-ba__list a {
+    grid-template-columns: 64px minmax(0, 1fr);
+    padding: 12px 6px;
+  }
+  .pxa .ibx-ba__list b {
+    font-size: 32px;
+  }
+  .pxa .ibx-ba__list span {
+    font-size: 11px;
+  }
+  .pxa .ibx-root .ibx-recent__rail .ibx-art,
+  .pxa .ibx-slot {
+    height: clamp(44px, 8vh, 64px);
+  }
+  .pxa .ibx-recent__rail--empty p {
+    font-size: 10px;
+  }
+}
+
+/* desktop: the same column centred at the authority's proportion */
+@media (min-width: 1120px) {
+  .pxa .ibx-root {
+    width: min(100%, 1100px);
+    margin: 0 auto;
+    padding: 14px 0;
+    gap: 14px;
+  }
+  .pxa .ibx-focus {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 0.8fr) minmax(0, 0.82fr);
+    padding: 12px;
+  }
+  .pxa .ibx-focus__art {
+    height: clamp(140px, 23vh, 220px);
+  }
+  .pxa .ibx-focus__facts {
+    gap: 9px;
+  }
+  .pxa .ibx-focus__facts dt,
+  .pxa .ibx-focus__facts dd {
+    font-size: 14px;
+  }
+  .pxa .ibx-focus__actions > .ibx-btn {
+    min-height: 48px;
+    font-size: 14px;
+  }
+  .pxa .ibx-root .ibx-card .ibx-art {
+    height: clamp(56px, 9vh, 96px);
+  }
+  .pxa .ibx-root .ibx-card b {
+    font-size: 10.5px;
+  }
+  .pxa .ibx-ba__list b {
+    font-size: 36px;
+  }
+}
+@media (min-width: 1120px) and (max-height: 760px) {
+  .pxa .ibx-root {
+    padding: 10px 0;
+    gap: 10px;
+  }
+  .pxa .ibx-focus__art {
+    height: 136px;
+  }
+  .pxa .ibx-focus__actions > .ibx-btn {
+    min-height: 40px;
+  }
+  .pxa .ibx-root .ibx-card .ibx-art {
+    height: 54px;
+  }
+  .pxa .ibx-root .ibx-recent__rail .ibx-art,
+  .pxa .ibx-slot {
+    height: 48px;
   }
 }

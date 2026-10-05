@@ -12,6 +12,11 @@ else
 fi
 cd "$ROOT"
 
+PIN_FILE="/tmp/site00-cloud-preview-pinned-ref"
+if [[ -z "${SITE00_PREVIEW_PIN_REF:-}" && -f "$PIN_FILE" ]]; then
+  SITE00_PREVIEW_PIN_REF="$(tr -d '[:space:]' < "$PIN_FILE")"
+fi
+
 MODE="${SITE00_CLOUD_PREVIEW_MODE:-ci}"
 SYNC="${SITE00_PREVIEW_SYNC_MAIN:-1}"
 PORT="${SITE00_CLOUD_PREVIEW_PORT:-5174}"
@@ -21,6 +26,17 @@ LOG="/tmp/site00-cloud-preview-server.log"
 log() {
   echo "[$(date -u +%H:%M:%S)] $*" | tee -a "$LOG"
 }
+
+if [[ -n "${SITE00_PREVIEW_PIN_REF:-}" ]]; then
+  log "Preview pinned to $SITE00_PREVIEW_PIN_REF (local build, no main sync)"
+  git fetch origin 2>>"$LOG" || true
+  git checkout "$SITE00_PREVIEW_PIN_REF" 2>>"$LOG" || {
+    log "FATAL: could not checkout pin ref $SITE00_PREVIEW_PIN_REF"
+    exit 1
+  }
+  SYNC=0
+  MODE="${SITE00_CLOUD_PREVIEW_MODE:-local}"
+fi
 
 if [[ -n "${SITE00_CLOUD_PREVIEW_ROOT:-}" ]]; then
   log "SITE00_CLOUD_PREVIEW_ROOT=$ROOT (preview scripts from $SCRIPT_REPO)"
@@ -57,7 +73,7 @@ fi
 if [[ "$MODE" == "local" ]]; then
   if [[ ! -f "$ROOT/dist/index.html" ]] || [[ "$(node -e "try{const m=require('$ROOT/dist/release-manifest.json');process.stdout.write(m.commitSha||'')}catch{process.stdout.write('')}" 2>/dev/null)" != "$HEAD_SHA" ]]; then
     log "Local production build for HEAD $HEAD_SHA (GITHUB_SHA=$HEAD_SHA)…"
-    env GITHUB_SHA="$(git rev-parse HEAD)" npm run build >>"$LOG" 2>&1
+    env GITHUB_SHA="$(git rev-parse HEAD)" VITE_SITE00_EC_PREVIEW_GUEST=1 VITE_SITE00_CLIENT_APP_PREVIEW=1 SITE00_CLOUD_MOBILE_PREVIEW=1 npm run build >>"$LOG" 2>&1
   fi
   DIST_DIR="$ROOT/dist"
 elif [[ "$NEED_CI" == "1" ]]; then
@@ -66,7 +82,7 @@ elif [[ "$NEED_CI" == "1" ]]; then
     CI_SHA="$(node -e "const m=require('$DIST_DIR/release-manifest.json'); process.stdout.write(m.commitSha||'')" 2>/dev/null || true)"
     if [[ -n "$CI_SHA" && "$CI_SHA" != "$HEAD_SHA" ]]; then
       log "CI dist ($CI_SHA) behind HEAD $HEAD_SHA — building local preview dist"
-      env GITHUB_SHA="$(git rev-parse HEAD)" npm run build >>"$LOG" 2>&1
+      env GITHUB_SHA="$(git rev-parse HEAD)" VITE_SITE00_EC_PREVIEW_GUEST=1 VITE_SITE00_CLIENT_APP_PREVIEW=1 SITE00_CLOUD_MOBILE_PREVIEW=1 npm run build >>"$LOG" 2>&1
       DIST_DIR="$ROOT/dist"
     fi
   fi

@@ -1,0 +1,16 @@
+{
+  "requirements_count": 2,
+  "coverage": {
+    "complete": true,
+    "missing": [],
+    "counts": {
+      "total": 2,
+      "live_svg": 0,
+      "brand_icon": 2,
+      "micro_asset": 0,
+      "external": 0,
+      "existing": 0
+    }
+  },
+  "existing_brand_notes": "Classify only — no public redesign"
+}

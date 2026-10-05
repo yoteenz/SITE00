@@ -1,0 +1,1346 @@
+[
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "narrative-momentum",
+  "route": "/production/ndxbook/expression/narrative/momentum?entry=002",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "casting-role",
+  "route": "/production/ndxbook/expression/casting/roles/cast-req-entry002-subject-woman?entry=002",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "wardrobe-hair",
+  "route": "/production/ndxbook/expression/wardrobe/hair?entry=002",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "sets-root",
+  "route": "/production/ndxbook/expression/sets?entry=002",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "review-approval",
+  "route": "/production/ndxbook/expression/review/approval/storyboard?entry=002",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile",
+  "w": 360,
+  "id": "campaign-board",
+  "route": "/production/ndxbook/expression/campaign-board?entry=002",
+  "H": [
+   0,
+   0,
+   360,
+   50
+  ],
+  "menu": [
+   327,
+   360
+  ],
+  "vw": 360,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "narrative-momentum",
+  "route": "/production/ndxbook/expression/narrative/momentum?entry=002",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "casting-role",
+  "route": "/production/ndxbook/expression/casting/roles/cast-req-entry002-subject-woman?entry=002",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "wardrobe-hair",
+  "route": "/production/ndxbook/expression/wardrobe/hair?entry=002",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "sets-root",
+  "route": "/production/ndxbook/expression/sets?entry=002",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "review-approval",
+  "route": "/production/ndxbook/expression/review/approval/storyboard?entry=002",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "mobile-xl",
+  "w": 430,
+  "id": "campaign-board",
+  "route": "/production/ndxbook/expression/campaign-board?entry=002",
+  "H": [
+   0,
+   0,
+   430,
+   59.7
+  ],
+  "menu": [
+   390,
+   430
+  ],
+  "vw": 430,
+  "groups": [
+   "ph-top__brand",
+   "ph-top__sel",
+   "ph-top__attn",
+   "ph-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "narrative-momentum",
+  "route": "/production/ndxbook/expression/narrative/momentum?entry=002",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "casting-role",
+  "route": "/production/ndxbook/expression/casting/roles/cast-req-entry002-subject-woman?entry=002",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "wardrobe-hair",
+  "route": "/production/ndxbook/expression/wardrobe/hair?entry=002",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "sets-root",
+  "route": "/production/ndxbook/expression/sets?entry=002",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "review-approval",
+  "route": "/production/ndxbook/expression/review/approval/storyboard?entry=002",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet-min",
+  "w": 700,
+  "id": "campaign-board",
+  "route": "/production/ndxbook/expression/campaign-board?entry=002",
+  "H": [
+   0,
+   0,
+   700,
+   64
+  ],
+  "menu": [
+   636,
+   700
+  ],
+  "vw": 700,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "narrative-momentum",
+  "route": "/production/ndxbook/expression/narrative/momentum?entry=002",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "casting-role",
+  "route": "/production/ndxbook/expression/casting/roles/cast-req-entry002-subject-woman?entry=002",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "wardrobe-hair",
+  "route": "/production/ndxbook/expression/wardrobe/hair?entry=002",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "sets-root",
+  "route": "/production/ndxbook/expression/sets?entry=002",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "review-approval",
+  "route": "/production/ndxbook/expression/review/approval/storyboard?entry=002",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "tablet",
+  "w": 1024,
+  "id": "campaign-board",
+  "route": "/production/ndxbook/expression/campaign-board?entry=002",
+  "H": [
+   0,
+   0,
+   1024,
+   64
+  ],
+  "menu": [
+   960,
+   1024
+  ],
+  "vw": 1024,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "narrative-momentum",
+  "route": "/production/ndxbook/expression/narrative/momentum?entry=002",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "casting-role",
+  "route": "/production/ndxbook/expression/casting/roles/cast-req-entry002-subject-woman?entry=002",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "wardrobe-hair",
+  "route": "/production/ndxbook/expression/wardrobe/hair?entry=002",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "sets-root",
+  "route": "/production/ndxbook/expression/sets?entry=002",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "review-approval",
+  "route": "/production/ndxbook/expression/review/approval/storyboard?entry=002",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-min",
+  "w": 1120,
+  "id": "campaign-board",
+  "route": "/production/ndxbook/expression/campaign-board?entry=002",
+  "H": [
+   0,
+   0,
+   1120,
+   72
+  ],
+  "menu": [
+   1040,
+   1120
+  ],
+  "vw": 1120,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "narrative-momentum",
+  "route": "/production/ndxbook/expression/narrative/momentum?entry=002",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "casting-role",
+  "route": "/production/ndxbook/expression/casting/roles/cast-req-entry002-subject-woman?entry=002",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "wardrobe-hair",
+  "route": "/production/ndxbook/expression/wardrobe/hair?entry=002",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "sets-root",
+  "route": "/production/ndxbook/expression/sets?entry=002",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "review-approval",
+  "route": "/production/ndxbook/expression/review/approval/storyboard?entry=002",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop",
+  "w": 1440,
+  "id": "campaign-board",
+  "route": "/production/ndxbook/expression/campaign-board?entry=002",
+  "H": [
+   0,
+   0,
+   1440,
+   72
+  ],
+  "menu": [
+   1360,
+   1440
+  ],
+  "vw": 1440,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "narrative-momentum",
+  "route": "/production/ndxbook/expression/narrative/momentum?entry=002",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "casting-role",
+  "route": "/production/ndxbook/expression/casting/roles/cast-req-entry002-subject-woman?entry=002",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "wardrobe-hair",
+  "route": "/production/ndxbook/expression/wardrobe/hair?entry=002",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "sets-root",
+  "route": "/production/ndxbook/expression/sets?entry=002",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "review-approval",
+  "route": "/production/ndxbook/expression/review/approval/storyboard?entry=002",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ },
+ {
+  "fam": "desktop-xl",
+  "w": 1920,
+  "id": "campaign-board",
+  "route": "/production/ndxbook/expression/campaign-board?entry=002",
+  "H": [
+   0,
+   0,
+   1920,
+   72
+  ],
+  "menu": [
+   1840,
+   1920
+  ],
+  "vw": 1920,
+  "groups": [
+   "pxh-top__loc",
+   "pxh-top__project",
+   "pxh-top__attn",
+   "pxh-top__menu"
+  ],
+  "texts": [
+   "EXPRESSION",
+   "SITE 00 / STUDIO WORLD",
+   "PROJECT",
+   "NDXBOOK",
+   "02",
+   "ITEMS NEED YOU"
+  ],
+  "issues": []
+ }
+]

@@ -92,8 +92,9 @@ describe('host chrome canon', () => {
     }
   });
 
-  it('keeps the keyed PNG icons (mask via --nav-icon) and marks the active tab', () => {
-    expect([...html.matchAll(/--nav-icon:/g)]).toHaveLength(7);
+  it('renders the architectural nav glyphs and marks the active tab', () => {
+    expect([...html.matchAll(/data-nav-glyph="/g)]).toHaveLength(7);
+    expect(html).toContain('data-nav-fidelity="reference-masters"');
     expect(html).toContain('aria-current="page"');
     expect(html.match(/is-active/g)).toHaveLength(1);
   });
@@ -111,7 +112,7 @@ describe('host chrome canon', () => {
   it('isolates the hamburger at the far right of the top panel (menu is outside the left cluster)', () => {
     const chrome = read('src/site00/components/productionHub/chrome.tsx');
     const top = chrome.slice(chrome.indexOf('function ProductionHostTop'));
-    const order = ['production-host-cluster', 'pxh-top__loc', 'pxh-top__project', 'pxh-top__attn', 'pxh-top__menu'].map((h) => top.indexOf(h));
+    const order = ['production-host-cluster', 'pxh-top__project', 'pxh-top__attn', 'pxh-top__menu'].map((h) => top.indexOf(h));
     expect(order.every((i) => i > -1)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
   });
@@ -132,9 +133,10 @@ describe('auth contract is untouched', () => {
       'src/site00/components/productionAuthority/HubBody.tsx',
       'src/site00/components/productionAuthority/InboxBody.tsx',
       'src/site00/components/productionAuthority/ActivityBody.tsx',
-      'src/site00/components/productionAuthority/ExperienceBody.tsx',
+      'src/site00/components/productionAuthority/realm/ExperienceScreen.tsx',
+      'src/site00/components/productionAuthority/realm/realmData.ts',
       'src/site00/components/productionAuthority/ExpressionBody.tsx',
-      'src/site00/components/productionAuthority/LibraryBody.tsx',
+      'src/site00/components/productionAuthority/realm/LibraryScreen.tsx',
       'src/site00/components/productionAuthority/DesignChamber.tsx',
       'src/site00/config/production-authority-registry.ts',
     ];

@@ -6,6 +6,7 @@ import {
   site00PublicMobilePath,
 } from '../../config/site00-public-pages';
 import { useSite00 } from '../../state/Site00Context';
+import { isSite00LayoutPreviewSwitchEnabled } from '../../state/preview-mode';
 
 /** Mobile ↔ desktop preview toggle — updates shared preview mode (same semantic route). */
 export function Site00PublicLayoutSwitch() {
@@ -13,7 +14,10 @@ export function Site00PublicLayoutSwitch() {
   const { isPreviewDesktop, setPreviewDeviceMode } = useSite00();
 
   const basePath = site00PublicMobilePath(pathname);
-  if (!isSite00PublicPageBasePath(basePath) && !isSite00PublicDesktopPath(pathname)) {
+  if (
+    !isSite00LayoutPreviewSwitchEnabled() ||
+    (!isSite00PublicPageBasePath(basePath) && !isSite00PublicDesktopPath(pathname))
+  ) {
     return null;
   }
 

@@ -120,15 +120,19 @@ describe('canonical icon + asset pack', () => {
 
 describe('Production bottom nav icons', () => {
   const nav = read('src/site00/components/productionHub/nav.tsx');
+  const iconModule = read('src/site00/components/productionHub/productionNavIcon.tsx');
   const SOURCE = JSON.parse(read('public/site00/production-authority-assets/design-pack/SOURCE.json')) as { navMask: { file: string; name: string; section: string } };
   it('HUB uses the supplied home glyph (icon pack · 01 NAVIGATION ICONS · HUB), not the DESIGN stack', () => {
     expect(SOURCE.navMask).toMatchObject({ file: 'src/site00/components/productionHub/bottom-nav/01_HUB.png', name: 'hub', section: '01 NAVIGATION ICONS' });
-    const hub = readFileSync(path.join(root, 'src/site00/components/productionHub/bottom-nav/01_HUB.png'));
-    const design = readFileSync(path.join(root, 'src/site00/components/productionHub/bottom-nav/03_DESIGN.png'));
+    const hub = readFileSync(path.join(root, 'src/site00/components/productionHub/bottom-nav/masters/01_HUB.png'));
+    const design = readFileSync(path.join(root, 'src/site00/components/productionHub/bottom-nav/masters/03_DESIGN.png'));
     expect(createHash('md5').update(hub).digest('hex')).not.toBe(createHash('md5').update(design).digest('hex'));
   });
-  it('seven tabs, same order, one resolver; DESIGN glyph unchanged', () => {
-    const order = ['01_HUB', '02_INBOX', '03_DESIGN', '04_EXPERIENCE', '05_EXPRESSION', '06_LIBRARY', '07_ACTIVITY'].map((f) => nav.indexOf(`bottom-nav/${f}.png`));
+  it('seven tabs via ProductionNavIcon + founder master PNGs (same tab order)', () => {
+    expect(nav).toContain('ProductionNavIcon');
+    const order = ['01_HUB', '02_INBOX', '03_DESIGN', '04_EXPERIENCE', '05_EXPRESSION', '06_LIBRARY', '07_ACTIVITY'].map((f) =>
+      iconModule.indexOf(`masters/${f}.png`),
+    );
     expect(order.every((i) => i > -1)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
   });

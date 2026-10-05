@@ -18,6 +18,7 @@ import type { HubNode, HubNodeId } from '../../../../shared/site00-production-hu
 import { productionExpressionPath, productionWorkspacePath } from '../../../../shared/site00-production-workspace/routes.js';
 import { useProductionRequests } from '../../state/productionRequestStore';
 import '../../styles/site00-production-inbox-family.css';
+import '../../styles/site00-production-inbox-workspace.css';
 import { NODE_SUB } from './HubBody';
 import { IaIcon, type IaIconName } from './iaKit';
 import { buildInboxObjects, STATE_LABEL, STATUS_LABEL, type InboxObject, type InboxState, type InboxStatus, type InboxType } from './inboxModel';
@@ -225,9 +226,9 @@ export function InboxBody() {
   if (itemId) view = <DecisionDetail o={objects.find((o) => o.id === itemId) ?? null} data={data} url={url} actions={actions} />;
   else if (threadId) view = <MessageThread id={threadId} />;
   else if (noticeId) view = <NoticeDetail o={objects.find((o) => o.id === noticeId) ?? null} data={data} url={url} />;
-  else if (lens === 'watching') view = <Watching objects={objects} url={url} />;
-  else if (lens === 'resolved') view = <Resolved objects={objects} url={url} />;
-  else if (lens === 'all') view = <AllInbox objects={objects} url={url} />;
+  else if (lens === 'watching') view = <Watching objects={objects} data={data} url={url} />;
+  else if (lens === 'resolved') view = <Resolved objects={objects} data={data} url={url} />;
+  else if (lens === 'all') view = <AllInbox objects={objects} data={data} url={url} actions={actions} />;
   else if (lens === 'messages') view = <Messages objects={objects} data={data} />;
   else if (lens === 'system') view = <SystemView objects={objects} data={data} url={url} />;
   else view = <NeedsYou objects={objects} data={data} url={url} actions={actions} />;
@@ -337,30 +338,7 @@ function RevisionForm({ o, allowed, reason, deciding, onSend, onCancel }: { o: I
 }
 
 /* ── shared modules: ATTENTION + RECENTLY RESOLVED (root DNA reused by children) ─────────────────── */
-function Attention({ objects, data }: { objects: InboxObject[]; data: Data }) {
-  const tiles: { icon: IaIconName; n: number; label: string; to: string; id: string }[] = [
-    { id: 'blockers', icon: 'alert', n: data?.graph.blockers.length ?? 0, label: 'BLOCKERS', to: '/production/activity?view=blockers' },
-    { id: 'approvals', icon: 'layers', n: objects.filter((o) => o.type === 'DECISION' && o.state === 'NEEDS_YOU').length, label: 'APPROVALS', to: inboxHref('all', { type: 'DECISION', state: 'NEEDS_YOU' }) },
-    { id: 'messages', icon: 'chat', n: objects.filter((o) => o.type === 'MESSAGE' && o.state !== 'RESOLVED').length, label: 'MESSAGES', to: inboxHref('messages') },
-    { id: 'system', icon: 'system', n: objects.filter((o) => o.type === 'SYSTEM' && o.state !== 'RESOLVED').length, label: 'SYSTEM', to: inboxHref('system') },
-  ];
-  return (
-    <section className="ibx-attn" data-testid="inbox-attention">
-      <Head title="ATTENTION" />
-      <div className="ibx-attn__grid">
-        {tiles.map((t) => (
-          <Link key={t.id} to={t.to} data-testid={`inbox-attention-${t.id}`}>
-            <IaIcon name={t.icon} />
-            <b>{pad2(t.n)}</b>
-            <span>{t.label}</span>
-            <IaIcon name="next" className="ibx-chev" />
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-function RecentlyResolved({ objects, url }: { objects: InboxObject[]; url: Url }) {
+function RecentlyResolved({ objects, url, strip = false }: { objects: InboxObject[]; url: Url; strip?: boolean }) {
   const done = objects.filter((o) => o.state === 'RESOLVED').slice(0, 8);
   return (
     <section className="ibx-recent" data-testid="inbox-resolved-rail">
@@ -382,6 +360,13 @@ function RecentlyResolved({ objects, url }: { objects: InboxObject[]; url: Url }
               </i>
             </Link>
           ))}
+        </div>
+      : strip ?
+        <div className="ibx-recent__rail ibx-recent__rail--empty" data-testid="inbox-resolved-empty">
+          {Array.from({ length: 6 }, (_, i) => (
+            <span key={i} className="ibx-slot" aria-hidden />
+          ))}
+          <p>NOTHING RESOLVED YET · APPROVALS, REVISIONS AND COMPLETED STAGES LAND HERE</p>
         </div>
       : <Empty title="NOTHING RESOLVED YET" body="Approvals, revisions and completed stages land here." />}
     </section>
@@ -408,12 +393,14 @@ function Search({ value, onChange, placeholder, testId }: { value: string; onCha
 }
 const match = (q: string, o: InboxObject) => !q.trim() || `${o.entry} ${o.title} ${o.area} ${o.why} ${o.blocks.join(' ')}`.toLowerCase().includes(q.trim().toLowerCase());
 
-/* ── ROOT · NEEDS YOU ────────────────────────────────────────────────────────────────────────────── */
+/* ── ROOT · NEEDS YOU ────────────────────────────────────────────────────────────────────────────────
+ * INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2 composition (PARENT_3VIEW 01_INBOX): selected decision surface across
+ * the top (art · facts + urgency · REVIEW / APPROVE / REQUEST REVISION) → INCOMING DECISION OBJECTS beside
+ * BLOCKERS & APPROVALS → RECENTLY RESOLVED strip. Same objects, same gate, same handlers as OPUS2. */
 function NeedsYou({ objects, data, url, actions }: { objects: InboxObject[]; data: Data; url: Url; actions: Actions }) {
   const needs = objects.filter((o) => o.state === 'NEEDS_YOU');
   const focus = needs.find((o) => o.type === 'DECISION') ?? needs[0] ?? null;
-  const [filter, setFilter] = useState<'ALL' | InboxType>('ALL');
-  const incoming = needs.filter((o) => o !== focus && (filter === 'ALL' || o.type === filter));
+  const incoming = needs.filter((o) => o !== focus);
   return (
     <div className="ibx-view ibx-root" data-testid="inbox-needs-you">
       {focus ?
@@ -421,36 +408,50 @@ function NeedsYou({ objects, data, url, actions }: { objects: InboxObject[]; dat
       : <Empty title="NOTHING NEEDS YOU" body="Open decisions, messages and system notices that need your judgment appear here." testId="queue-empty" />}
       <section className="ibx-incoming" data-testid="inbox-incoming">
         <Head
-          title="INCOMING"
+          title="INCOMING DECISION OBJECTS"
           extra={
             <Link to={inboxHref('all')} className="ibx-viewall" data-testid="inbox-open-all">
               ALL INBOX <IaIcon name="next" />
             </Link>
           }
-        >
-          <div className="ibx-seg" role="tablist" aria-label="Incoming type">
-            {(['ALL', 'DECISION', 'MESSAGE', 'SYSTEM'] as const).map((t) => (
-              <button key={t} type="button" role="tab" aria-selected={filter === t} className={filter === t ? 'is-active' : undefined} onClick={() => setFilter(t)} data-testid={`inbox-incoming-${t.toLowerCase()}`}>
-                {t === 'ALL' ? 'ALL' : `${t}S`}
-              </button>
-            ))}
-          </div>
-        </Head>
+        />
         <div className="ibx-incoming__rail">
           {incoming.map((o) => (
             <Link key={o.id} to={detailHref(o) ?? inboxHref('all')} className="ibx-card" data-testid={o.source === 'REQUEST' ? 'queue-request' : 'inbox-item'} data-type={o.type}>
               <Art o={o} url={url} />
-              <i className="ibx-dot" aria-hidden />
-              <small>{o.type === 'SYSTEM' ? 'SYSTEM' : o.entry}</small>
-              <b>{o.title}</b>
+              <b>
+                {o.type === 'SYSTEM' ? 'SYSTEM' : o.entry} – {o.title}
+              </b>
+              <small className="ibx-card__status">{STATUS_LABEL[o.status]}</small>
             </Link>
           ))}
-          {incoming.length === 0 ? <Empty title={filter === 'ALL' ? 'NOTHING ELSE INCOMING' : `NO ${filter}S INCOMING`} /> : null}
+          {incoming.length === 0 ? <Empty title="NOTHING ELSE INCOMING" /> : null}
         </div>
       </section>
-      <Attention objects={objects} data={data} />
-      <RecentlyResolved objects={objects} url={url} />
+      <BlockersApprovals objects={objects} data={data} />
+      <RecentlyResolved objects={objects} url={url} strip />
     </div>
+  );
+}
+
+/** Root attention module: the two counts the authority surfaces (blockers · approvals waiting on you). */
+function BlockersApprovals({ objects, data }: { objects: InboxObject[]; data: Data }) {
+  const rows = [
+    { id: 'blockers', n: data?.graph.blockers.length ?? 0, label: 'BLOCKERS', to: '/production/activity?view=blockers' },
+    { id: 'approvals', n: objects.filter((o) => o.type === 'DECISION' && o.state === 'NEEDS_YOU').length, label: 'APPROVALS', to: inboxHref('all', { type: 'DECISION', state: 'NEEDS_YOU' }) },
+  ];
+  return (
+    <section className="ibx-attn ibx-ba" data-testid="inbox-attention">
+      <Head title="BLOCKERS & APPROVALS" />
+      <div className="ibx-ba__list">
+        {rows.map((r) => (
+          <Link key={r.id} to={r.to} data-testid={`inbox-attention-${r.id}`}>
+            <b>{pad2(r.n)}</b>
+            <span>{r.label}</span>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -460,20 +461,19 @@ function FocusCard({ o, url, actions }: { o: InboxObject; url: Url; actions: Act
     <article className="ibx-focus" data-testid="inbox-focus" data-type={o.type} data-state={o.state}>
       <Art o={o} url={url} className="ibx-focus__art" />
       <div className="ibx-focus__body">
-        <div className="ibx-focus__type">
-          <span>TYPE</span>
-          <b>{o.type}</b>
-          {o.urgency === 'HIGH' ? <Chip tone="red">HIGH</Chip> : <Chip tone="ink">NORMAL</Chip>}
-        </div>
         <Facts
+          className="ibx-focus__facts"
           rows={[
             ['SOURCE', o.entry],
             ['AREA', o.area],
             ['REQUEST', o.title],
-            ['BLOCKS', o.blocks.slice(0, 2).join(' + ')],
+            ['BLOCKS', o.blocks.slice(0, 2).join(' + ') || '—'],
             ['BY', o.by],
           ]}
         />
+        <Chip tone={o.urgency === 'HIGH' ? 'red' : 'ink'} testId="inbox-focus-urgency">
+          URGENCY: {o.urgency}
+        </Chip>
       </div>
       <div className="ibx-focus__actions ibx-actions">
         <Link to={inboxHref('needs', { item: o.id })} className="ibx-btn" data-testid="inbox-review">
@@ -482,171 +482,332 @@ function FocusCard({ o, url, actions }: { o: InboxObject; url: Url; actions: Act
         <button type="button" className="ibx-btn ibx-btn--red" disabled={!ok || actions.deciding} onClick={() => actions.approve(o)} title={ok ? undefined : actions.gateReason} data-testid="inbox-approve">
           APPROVE
         </button>
-        <button type="button" className="ibx-btn ibx-btn--soft" onClick={() => actions.requestRevision(o)} data-testid="inbox-revise">
+        <button type="button" className="ibx-btn" onClick={() => actions.requestRevision(o)} data-testid="inbox-revise">
           REQUEST REVISION
         </button>
       </div>
+      {!ok ? <p className="ibx-focus__gate" data-testid="inbox-focus-gate">{actions.gateReason}</p> : null}
     </article>
   );
 }
 
-/* ── CHILD · WATCHING ────────────────────────────────────────────────────────────────────────────── */
-function Watching({ objects, url }: { objects: InboxObject[]; url: Url }) {
-  const all = objects.filter((o) => o.state === 'WATCHING');
-  const [q, setQ] = useState('');
-  const [area, setArea] = useState('ALL');
-  const [status, setStatus] = useState<'ALL' | InboxStatus>('ALL');
-  const areas = [...new Set(all.map((o) => o.area))];
-  const shown = all.filter((o) => match(q, o) && (area === 'ALL' || o.area === area) && (status === 'ALL' || o.status === status));
-  const n = (s: InboxStatus) => all.filter((o) => o.status === s).length;
+/* ── CHILD WORKSPACE (P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1) ──────────────
+ * WATCHING · RESOLVED · ALL INBOX · SYSTEM share one contained workspace instead of stacked cards:
+ *   rail      — title + project context · compact summary · search + FILTER / SORT · type views
+ *   list      — compact object rows (type icon / thumb · title · type · area · one line · status · chevron)
+ *   inspector — the selected object (?sel=) with its actions (OPEN · STOP WATCHING · APPROVE · REVIEW …)
+ * Desktop: rail | list | inspector. Tablet: rail band over list | inspector. Mobile: band over list; the
+ * inspector is a slide-up drawer opened by selecting a row. Only the list and inspector body scroll. */
+type FilterDef = { id: string; label: string; value: string; options: { id: string; label: string }[]; set: (v: string) => void };
+type Summary = [number, string, boolean?][];
+
+function ListWorkspace({
+  testId,
+  title,
+  context,
+  summary,
+  summaryId,
+  search,
+  filters,
+  filterId,
+  dimsId,
+  views,
+  listId,
+  listLabel,
+  objects,
+  row,
+  empty,
+  inspect,
+}: {
+  testId: string;
+  title: string;
+  context: string;
+  summary: Summary;
+  summaryId: string;
+  search?: { value: string; set: (v: string) => void; placeholder: string; testId: string };
+  filters: FilterDef[];
+  filterId: string;
+  dimsId?: string;
+  views?: 'all' | 'messages' | 'system';
+  listId: string;
+  listLabel: string;
+  objects: InboxObject[];
+  row: (o: InboxObject, sel: boolean, to: string) => ReactNode;
+  empty: ReactNode;
+  inspect: (o: InboxObject) => ReactNode;
+}) {
+  const [params] = useSearchParams();
+  const [sheet, setSheet] = useState(false);
+  const selId = params.get('sel');
+  const selected = selId ? (objects.find((o) => o.id === selId) ?? null) : null;
+  const inspected = selected ?? objects[0] ?? null;
+  const here = (id: string | null) => {
+    const p = new URLSearchParams(params);
+    if (id) p.set('sel', id);
+    else p.delete('sel');
+    return `${INBOX}?${p.toString()}`;
+  };
+  const activeFilters = filters.filter((f) => f.value !== 'ALL').length;
   return (
-    <div className="ibx-view ibx-list-view" data-testid="inbox-watching">
-      <Stats
-        testId="inbox-watching-stats"
-        stats={[
-          [all.length, 'WATCHING'],
-          [n('AWAITING_RESPONSE'), 'AWAITING RESPONSE'],
-          [n('IN_PROGRESS'), 'IN PROGRESS'],
-          [n('AT_RISK'), 'AT RISK'],
-        ]}
-      />
-      <div className="ibx-filters">
-        <Search value={q} onChange={setQ} placeholder="Search watched items…" testId="inbox-watching-search" />
-        <Menu label="ALL AREAS" value={area} onChange={setArea} options={[{ id: 'ALL', label: 'ALL AREAS' }, ...areas.map((a) => ({ id: a, label: a }))]} testId="inbox-watching-area" />
-        <Menu
-          label="ALL STATUS"
-          value={status}
-          onChange={setStatus}
-          options={[{ id: 'ALL' as const, label: 'ALL STATUS' }, ...(['AWAITING_RESPONSE', 'IN_PROGRESS', 'AT_RISK'] as const).map((s) => ({ id: s, label: STATUS_LABEL[s] }))]}
-          testId="inbox-watching-status"
-        />
-      </div>
-      <div className="ibx-pane ibx-rows ibx-rows--watch" data-scroll="internal" data-testid="inbox-watching-list">
-        {shown.map((o) => (
-          <article key={o.id} className="ibx-row ibx-row--watch" data-testid="inbox-watch-row" data-type={o.type}>
-            <Art o={o} url={url} />
-            <div className="ibx-row__main">
-              <small>{o.entry}</small>
-              <b>{o.title}</b>
-              <Facts
-                className="ibx-facts--tight"
-                rows={[
-                  ['AREA', o.area],
-                  ['WATCHING', STATUS_LABEL[o.status]],
-                  ['NOTE', o.why],
-                ]}
-              />
+    <div className="ibx-view ibx-lw" data-testid={testId} data-open={selected ? 'item' : undefined}>
+      <aside className="ibx-lw__rail" data-testid="inbox-rail">
+        <header className="ibx-lw__title">
+          <h1>{title}</h1>
+          <small data-testid="inbox-context-line">{context}</small>
+        </header>
+        <dl className="ibx-sum" data-testid={summaryId}>
+          {summary.map(([v, l, hot]) => (
+            <div key={l} className={hot && v ? 'is-hot' : undefined}>
+              <dt>{l}</dt>
+              <dd>{pad2(v)}</dd>
             </div>
-            <div className="ibx-row__side">
-              <Chip tone={STATUS_TONE[o.status]}>{STATUS_LABEL[o.status]}</Chip>
-              <Link to={detailHref(o) ?? INBOX} className="ibx-btn ibx-btn--red" data-testid="inbox-watch-open">
-                OPEN
-              </Link>
-              <button type="button" className="ibx-btn" disabled title="Watch preferences are not connected to Production yet." data-testid="inbox-stop-watching">
-                STOP WATCHING
+          ))}
+        </dl>
+        <div className="ibx-lw__tools">
+          {search ?
+            <Search value={search.value} onChange={search.set} placeholder={search.placeholder} testId={search.testId} />
+          : null}
+          {filters.length ?
+            <button type="button" className={`ibx-iconbtn ibx-lw__filterbtn${activeFilters ? ' is-on' : ''}`} aria-label="Filter / sort" onClick={() => setSheet(true)} data-testid={filterId}>
+              <IaIcon name="filter" />
+              {activeFilters ? <em>{activeFilters}</em> : null}
+            </button>
+          : null}
+        </div>
+        {filters.length ?
+          <div className="ibx-lw__menus" data-testid={dimsId}>
+            {filters.map((f) => (
+              <Menu key={f.id} label={f.label} value={f.value} onChange={f.set} options={f.options} testId={f.id} />
+            ))}
+          </div>
+        : null}
+        {views ? <TypeRail active={views} /> : null}
+      </aside>
+
+      <section className="ibx-lw__list" aria-label={listLabel}>
+        <header className="ibx-lw__listhead">
+          <b>{listLabel}</b>
+          <small>
+            {pad2(objects.length)} {objects.length === 1 ? 'OBJECT' : 'OBJECTS'}
+          </small>
+        </header>
+        <div className="ibx-pane ibx-lw__rows" data-scroll="internal" data-testid={listId}>
+          {objects.map((o) => row(o, inspected?.id === o.id, here(o.id)))}
+          {objects.length === 0 ? empty : null}
+        </div>
+      </section>
+
+      {selected ?
+        <Link to={here(null)} replace className="ibx-lw__scrim" aria-label="Close" data-testid="inbox-inspector-scrim" />
+      : null}
+      <aside className="ibx-lw__insp" aria-label="Selected object" data-testid="inbox-inspector" data-state={selected ? 'selected' : inspected ? 'default' : 'empty'}>
+        {inspected ?
+          <>
+            <header className="ibx-insp__head">
+              <span className="ibx-insp__type">
+                <IaIcon name={TYPE_ICON[inspected.type]} />
+                {inspected.type}
+              </span>
+              <h2>{inspected.title}</h2>
+              {selected ?
+                <Link to={here(null)} replace className="ibx-insp__close" aria-label="Close" data-testid="inbox-inspector-close">
+                  ×
+                </Link>
+              : null}
+            </header>
+            {inspect(inspected)}
+          </>
+        : <Empty title="NOTHING SELECTED" body="Choose an object in the list." />}
+      </aside>
+
+      {sheet ?
+        <Sheet title="FILTER / SORT" onClose={() => setSheet(false)} testId="inbox-filter-sheet" wide>
+          <div className="ibx-filtersheet">
+            {filters.map((f) => (
+              <fieldset key={f.id}>
+                <legend>{f.label}</legend>
+                {f.options.map((o) => (
+                  <button key={o.id} type="button" className={f.value === o.id ? 'is-active' : undefined} onClick={() => f.set(o.id)}>
+                    {o.id === 'ALL' ? 'ALL' : o.label}
+                  </button>
+                ))}
+              </fieldset>
+            ))}
+            <div className="ibx-actions">
+              <button type="button" className="ibx-btn" onClick={() => filters.forEach((f) => f.set('ALL'))} data-testid="inbox-filter-clear">
+                CLEAR ALL
+              </button>
+              <button type="button" className="ibx-btn ibx-btn--red" onClick={() => setSheet(false)}>
+                SHOW {pad2(objects.length)} ITEMS
               </button>
             </div>
-          </article>
-        ))}
-        {shown.length === 0 ? <Empty title={all.length ? 'NO WATCHED ITEMS MATCH' : 'NOTHING IS BEING WATCHED'} /> : null}
-      </div>
+          </div>
+        </Sheet>
+      : null}
     </div>
   );
 }
 
-function Stats({ stats, testId }: { stats: [number, string, boolean?][]; testId: string }) {
+/** One compact object row: thumb · title · TYPE · AREA · one line · status · chevron. Selecting opens the inspector. */
+function ObjectRow({ o, url, to, sel, testId, line, status, extra }: { o: InboxObject; url: Url; to: string; sel: boolean; testId: string; line: string; status: ReactNode; extra?: ReactNode }) {
   return (
-    <div className="ibx-stats" data-testid={testId}>
-      {stats.map(([v, l, hot]) => (
-        <div key={l} className={hot ? 'is-hot' : undefined}>
-          <b>{pad2(v)}</b>
-          <span>{l}</span>
-        </div>
-      ))}
+    <Link key={o.id} to={to} replace className="ibx-orow" aria-current={sel ? 'true' : undefined} data-selected={sel ? 'true' : undefined} data-testid={testId} data-type={o.type} data-state={o.state}>
+      <Art o={o} url={url} className="ibx-orow__art" />
+      <span className="ibx-orow__main">
+        <b>{o.title}</b>
+        <small className="ibx-orow__meta">
+          <span className="ibx-row__type">
+            <IaIcon name={TYPE_ICON[o.type]} />
+            {o.type}
+          </span>
+          <span className="ibx-row__area">{o.area || o.entry}</span>
+          {extra}
+        </small>
+        <em>{line}</em>
+      </span>
+      <span className="ibx-orow__status">{status}</span>
+      <IaIcon name="next" className="ibx-chev" />
+    </Link>
+  );
+}
+
+function InspectorFacts({ o, rows }: { o: InboxObject; rows: [string, ReactNode][] }) {
+  return (
+    <div className="ibx-pane ibx-insp__scroll" data-scroll="internal" data-testid="inbox-inspector-body" data-object={o.id}>
+      <Facts rows={rows} />
     </div>
+  );
+}
+
+const ctxLine = (data: Data) => [data?.project.name?.toUpperCase() ?? 'PROJECT', data?.production?.label].filter(Boolean).join(' · ');
+const opt = (all: string, values: string[], label: (v: string) => string = (v) => v) => [{ id: 'ALL', label: all }, ...values.map((v) => ({ id: v, label: label(v) }))];
+
+/* ── CHILD · WATCHING ────────────────────────────────────────────────────────────────────────────── */
+function Watching({ objects, data, url }: { objects: InboxObject[]; data: Data; url: Url }) {
+  const all = objects.filter((o) => o.state === 'WATCHING');
+  const [q, setQ] = useState('');
+  const [area, setArea] = useState('ALL');
+  const [status, setStatus] = useState('ALL');
+  const areas = [...new Set(all.map((o) => o.area).filter(Boolean))];
+  const shown = all.filter((o) => match(q, o) && (area === 'ALL' || o.area === area) && (status === 'ALL' || o.status === status));
+  const n = (s: InboxStatus) => all.filter((o) => o.status === s).length;
+  return (
+    <ListWorkspace
+      testId="inbox-watching"
+      title="WATCHING"
+      context={ctxLine(data)}
+      summaryId="inbox-watching-stats"
+      summary={[
+        [all.length, 'WATCHING'],
+        [n('AWAITING_RESPONSE'), 'AWAITING RESPONSE'],
+        [n('IN_PROGRESS'), 'IN PROGRESS'],
+        [n('AT_RISK'), 'AT RISK', true],
+      ]}
+      search={{ value: q, set: setQ, placeholder: 'Search watched items…', testId: 'inbox-watching-search' }}
+      filterId="inbox-watching-filter"
+      filters={[
+        { id: 'inbox-watching-area', label: 'ALL AREAS', value: area, set: setArea, options: opt('ALL AREAS', areas) },
+        { id: 'inbox-watching-status', label: 'ALL STATUS', value: status, set: setStatus, options: opt('ALL STATUS', ['AWAITING_RESPONSE', 'IN_PROGRESS', 'AT_RISK'], (s) => STATUS_LABEL[s as InboxStatus]) },
+      ]}
+      listId="inbox-watching-list"
+      listLabel="WATCHED OBJECTS"
+      objects={shown}
+      row={(o, sel, to) => <ObjectRow key={o.id} o={o} url={url} to={to} sel={sel} testId="inbox-watch-row" line={o.why} status={<Chip tone={STATUS_TONE[o.status]}>{STATUS_LABEL[o.status]}</Chip>} />}
+      empty={<Empty title={all.length ? 'NO WATCHED ITEMS MATCH' : 'NOTHING IS BEING WATCHED'} />}
+      inspect={(o) => (
+        <>
+          <InspectorFacts
+            o={o}
+            rows={[
+              ['STATUS', <Chip tone={STATUS_TONE[o.status]}>{STATUS_LABEL[o.status]}</Chip>],
+              ['ENTRY', o.entry],
+              ['AREA', o.area],
+              ['WATCHING', o.why],
+              ['BLOCKS', o.blocks.join(' + ')],
+              ['SINCE', o.at ? agoLabel(o.at) : 'LIVE STATE'],
+            ]}
+          />
+          <footer className="ibx-insp__actions ibx-actions">
+            <Link to={detailHref(o) ?? INBOX} className="ibx-btn ibx-btn--red" data-testid="inbox-watch-open">
+              OPEN
+            </Link>
+            <button type="button" className="ibx-btn" disabled title="Watch preferences are not connected to Production yet." data-testid="inbox-stop-watching">
+              STOP WATCHING
+            </button>
+          </footer>
+        </>
+      )}
+    />
   );
 }
 
 /* ── CHILD · RESOLVED ────────────────────────────────────────────────────────────────────────────── */
-function Resolved({ objects, url }: { objects: InboxObject[]; url: Url }) {
+function Resolved({ objects, data, url }: { objects: InboxObject[]; data: Data; url: Url }) {
   const all = objects.filter((o) => o.state === 'RESOLVED');
   const [area, setArea] = useState('ALL');
-  const [outcome, setOutcome] = useState<'ALL' | InboxStatus>('ALL');
-  const [sort, setSort] = useState<'LATEST' | 'OLDEST'>('LATEST');
+  const [outcome, setOutcome] = useState('ALL');
+  const [sort, setSort] = useState('LATEST');
   const areas = [...new Set(all.map((o) => o.area).filter(Boolean))];
   const shown = all
     .filter((o) => (area === 'ALL' || o.area === area) && (outcome === 'ALL' || o.status === outcome))
-    .sort((a, b) => (sort === 'LATEST' ? 1 : -1) * (b.at ?? '').localeCompare(a.at ?? ''));
+    .sort((a, b) => (sort === 'OLDEST' ? -1 : 1) * (b.at ?? '').localeCompare(a.at ?? ''));
   const n = (s: InboxStatus) => all.filter((o) => o.status === s).length;
+  const by = (o: InboxObject) => o.by ?? (o.source === 'GRAPH' ? 'PRODUCTION GRAPH' : '—');
   return (
-    <div className="ibx-view ibx-list-view" data-testid="inbox-resolved">
-      <Stats
-        testId="inbox-resolved-stats"
-        stats={[
-          [all.length, 'RESOLVED', true],
-          [n('APPROVED'), 'APPROVED'],
-          [n('REVISED'), 'REVISED'],
-          [0, 'ARCHIVED'],
-        ]}
-      />
-      <div className="ibx-filters ibx-filters--menus">
-        <Menu label="ALL AREAS" value={area} onChange={setArea} options={[{ id: 'ALL', label: 'ALL AREAS' }, ...areas.map((a) => ({ id: a, label: a }))]} testId="inbox-resolved-area" />
-        <Menu
-          label="ALL OUTCOMES"
-          value={outcome}
-          onChange={setOutcome}
-          options={[{ id: 'ALL' as const, label: 'ALL OUTCOMES' }, ...(['APPROVED', 'REVISED', 'COMPLETE'] as const).map((s) => ({ id: s, label: STATUS_LABEL[s] }))]}
-          testId="inbox-resolved-outcome"
-        />
-        <Menu
-          label="LATEST"
-          value={sort}
-          onChange={setSort}
-          options={[
-            { id: 'LATEST', label: 'LATEST' },
-            { id: 'OLDEST', label: 'OLDEST' },
-          ]}
-          testId="inbox-resolved-sort"
-        />
-      </div>
-      <div className="ibx-pane ibx-rows" data-scroll="internal" data-testid="inbox-resolved-list">
-        {shown.map((o) => {
-          const to = detailHref(o);
-          const body = (
-            <>
-              <Art o={o} url={url} />
-              <div className="ibx-row__main">
-                <small>{o.entry}</small>
-                <b>{o.title}</b>
-                <Facts
-                  className="ibx-facts--tight"
-                  rows={[
-                    ['TYPE', o.type],
-                    ['AREA', o.area],
-                  ]}
-                />
-              </div>
-              <div className="ibx-row__side ibx-row__side--meta">
-                <Chip tone={STATUS_TONE[o.status]}>{STATUS_LABEL[o.status]}</Chip>
-                <span>
-                  BY <b>{o.by ?? (o.source === 'GRAPH' ? 'PRODUCTION GRAPH' : '—')}</b>
-                </span>
-                <small>{o.at ? agoLabel(o.at) : 'CURRENT STATE'}</small>
-              </div>
-              {to ? <IaIcon name="next" className="ibx-chev" /> : null}
-            </>
-          );
-          return to ?
-              <Link key={o.id} to={to} className="ibx-row" data-testid="inbox-resolved-row">
-                {body}
+    <ListWorkspace
+      testId="inbox-resolved"
+      title="RESOLVED"
+      context={ctxLine(data)}
+      summaryId="inbox-resolved-stats"
+      summary={[
+        [all.length, 'RESOLVED'],
+        [n('APPROVED'), 'APPROVED'],
+        [n('REVISED'), 'REVISED'],
+        [n('COMPLETE'), 'COMPLETE'],
+      ]}
+      filterId="inbox-resolved-filter"
+      filters={[
+        { id: 'inbox-resolved-area', label: 'ALL AREAS', value: area, set: setArea, options: opt('ALL AREAS', areas) },
+        { id: 'inbox-resolved-outcome', label: 'ALL OUTCOMES', value: outcome, set: setOutcome, options: opt('ALL OUTCOMES', ['APPROVED', 'REVISED', 'COMPLETE'], (s) => STATUS_LABEL[s as InboxStatus]) },
+        { id: 'inbox-resolved-sort', label: 'LATEST', value: sort, set: (v) => setSort(v === 'ALL' ? 'LATEST' : v), options: [{ id: 'LATEST', label: 'LATEST' }, { id: 'OLDEST', label: 'OLDEST' }] },
+      ]}
+      listId="inbox-resolved-list"
+      listLabel="RESOLVED OBJECTS"
+      objects={shown}
+      row={(o, sel, to) => (
+        <ObjectRow key={o.id} o={o} url={url} to={to} sel={sel} testId="inbox-resolved-row" line={`BY ${by(o)} · ${o.at ? agoLabel(o.at) : 'CURRENT STATE'}`} status={<Chip tone={STATUS_TONE[o.status]}>{STATUS_LABEL[o.status]}</Chip>} />
+      )}
+      empty={<Empty title={all.length ? 'NO RESOLVED ITEMS MATCH' : 'NOTHING RESOLVED YET'} body="Recorded approvals, revisions and completed stages appear here." />}
+      inspect={(o) => {
+        const to = detailHref(o);
+        return (
+          <>
+            <InspectorFacts
+              o={o}
+              rows={[
+                ['OUTCOME', <Chip tone={STATUS_TONE[o.status]}>{STATUS_LABEL[o.status]}</Chip>],
+                ['RESOLVED BY', by(o)],
+                ['WHEN', o.at ? agoLabel(o.at) : 'CURRENT STATE'],
+                ['TYPE', o.type],
+                ['ENTRY', o.entry],
+                ['AREA', o.area],
+                ['CHANGED', o.blocks.length ? `UNBLOCKS ${o.blocks.join(' + ')}` : o.why],
+              ]}
+            />
+            <footer className="ibx-insp__actions ibx-actions">
+              {to ?
+                <Link to={to} className="ibx-btn ibx-btn--red" data-testid="inbox-resolved-open">
+                  OPEN
+                </Link>
+              : null}
+              <Link to="/production/activity?range=all" className="ibx-btn" data-testid="inbox-resolved-history">
+                FULL HISTORY
               </Link>
-            : <article key={o.id} className="ibx-row" data-testid="inbox-resolved-row">
-                {body}
-              </article>;
-        })}
-        {shown.length === 0 ? <Empty title={all.length ? 'NO RESOLVED ITEMS MATCH' : 'NOTHING RESOLVED YET'} body="Recorded approvals, revisions and completed stages appear here." /> : null}
-      </div>
-    </div>
+            </footer>
+          </>
+        );
+      }}
+    />
   );
 }
 
@@ -664,7 +825,7 @@ const dimValue = (o: InboxObject, d: Dim): string =>
   : 'CURRENT';
 const dimLabel = (d: Dim, v: string) => (d === 'STATE' ? STATE_LABEL[v as InboxState] : v);
 
-function AllInbox({ objects, url }: { objects: InboxObject[]; url: Url }) {
+function AllInbox({ objects, data, url, actions }: { objects: InboxObject[]; data: Data; url: Url; actions: Actions }) {
   const [params] = useSearchParams();
   const [q, setQ] = useState('');
   const [f, setF] = useState<Partial<Record<Dim, string>>>(() => {
@@ -675,89 +836,96 @@ function AllInbox({ objects, url }: { objects: InboxObject[]; url: Url }) {
     if (s) init.STATE = s;
     return init;
   });
-  const [sheet, setSheet] = useState(false);
   const shown = objects.filter((o) => match(q, o) && DIMS.every((d) => !f[d] || dimValue(o, d) === f[d]));
-  const opts = (d: Dim) => [{ id: 'ALL', label: d }, ...[...new Set(objects.map((o) => dimValue(o, d)))].map((v) => ({ id: v, label: dimLabel(d, v) }))];
   const set = (d: Dim, v: string) => setF((p) => ({ ...p, [d]: v === 'ALL' ? undefined : v }));
-  const active = DIMS.filter((d) => f[d]).length;
+  const n = (s: InboxState) => objects.filter((o) => o.state === s).length;
   return (
-    <div className="ibx-view ibx-list-view ibx-all" data-testid="inbox-all">
-      <TypeRail active="all" />
-      <header className="ibx-title">
-        <h1>ALL INBOX</h1>
-        <p>
-          {f.TYPE ? `${f.TYPE}S` : 'ALL TYPES'} · {f.STATE ? STATE_LABEL[f.STATE as InboxState] : 'ALL STATES'} · {pad2(shown.length)} ITEMS
-        </p>
-      </header>
-      <div className="ibx-filters">
-        <Search value={q} onChange={setQ} placeholder="Search inbox…" testId="inbox-all-search" />
-        <button type="button" className={`ibx-iconbtn${active ? ' is-on' : ''}`} aria-label="Filters" onClick={() => setSheet(true)} data-testid="inbox-all-filter">
-          <IaIcon name="filter" />
-          {active ? <em>{active}</em> : null}
-        </button>
-      </div>
-      <div className="ibx-dims" data-testid="inbox-all-dims">
-        {DIMS.map((d) => (
-          <Menu key={d} label={d} value={f[d] ?? 'ALL'} onChange={(v) => set(d, v)} options={opts(d)} testId={`inbox-dim-${d.toLowerCase()}`} />
-        ))}
-      </div>
-      <div className="ibx-pane ibx-rows ibx-table" data-scroll="internal" data-testid="inbox-all-list">
-        <div className="ibx-table__head" aria-hidden>
-          <span />
-          <span>OBJECT</span>
-          <span>TYPE</span>
-          <span>STATE</span>
-          <span>URGENCY</span>
-          <span>AREA</span>
-          <span />
-        </div>
-        {shown.map((o) => (
-          <Link key={o.id} to={detailHref(o) ?? INBOX} className="ibx-row ibx-row--all" data-testid="inbox-all-row" data-type={o.type} data-state={o.state}>
-            <Art o={o} url={url} />
-            <div className="ibx-row__main">
-              <small>{o.type === 'SYSTEM' ? 'SYSTEM' : o.entry}</small>
-              <b>{o.title}</b>
-              <em>{[...o.blocks.slice(0, 1), o.area].filter(Boolean).join(' · ')}</em>
-            </div>
-            <span className="ibx-row__type">
-              <IaIcon name={TYPE_ICON[o.type]} />
-              {o.type}
-            </span>
+    <ListWorkspace
+      testId="inbox-all"
+      title="ALL INBOX"
+      context={`${ctxLine(data)} · ${f.TYPE ? `${f.TYPE}S` : 'ALL TYPES'} · ${f.STATE ? STATE_LABEL[f.STATE as InboxState] : 'ALL STATES'}`}
+      summaryId="inbox-all-stats"
+      summary={[
+        [objects.length, 'ALL'],
+        [n('NEEDS_YOU'), 'NEEDS YOU', true],
+        [n('WATCHING'), 'WATCHING'],
+        [n('RESOLVED'), 'RESOLVED'],
+      ]}
+      search={{ value: q, set: setQ, placeholder: 'Search inbox…', testId: 'inbox-all-search' }}
+      filterId="inbox-all-filter"
+      dimsId="inbox-all-dims"
+      filters={DIMS.map((d) => ({
+        id: `inbox-dim-${d.toLowerCase()}`,
+        label: d,
+        value: f[d] ?? 'ALL',
+        set: (v: string) => set(d, v),
+        options: opt(d, [...new Set(objects.map((o) => dimValue(o, d)))], (v) => dimLabel(d, v)),
+      }))}
+      views="all"
+      listId="inbox-all-list"
+      listLabel="INBOX OBJECTS"
+      objects={shown}
+      row={(o, sel, to) => (
+        <ObjectRow
+          key={o.id}
+          o={o}
+          url={url}
+          to={to}
+          sel={sel}
+          testId="inbox-all-row"
+          line={o.why}
+          extra={o.urgency === 'HIGH' ? <span className="ibx-row__urg">HIGH</span> : null}
+          status={
             <span className="ibx-row__state">
               <StateBadge s={o.state} />
             </span>
-            <span className="ibx-row__urg">{o.urgency === 'HIGH' ? <Chip tone="red">HIGH</Chip> : <small>NORMAL</small>}</span>
-            <span className="ibx-row__area">{o.area}</span>
-            <IaIcon name="next" className="ibx-chev" />
+          }
+        />
+      )}
+      empty={<Empty title="NO ITEMS MATCH" body="Clear a filter or search to see more." />}
+      inspect={(o) => <ObjectInspector o={o} actions={actions} />}
+    />
+  );
+}
+
+/** Inspector for a mixed object: facts + the action its type and state allow (decisions keep the gate). */
+function ObjectInspector({ o, actions }: { o: InboxObject; actions: Actions }) {
+  const to = detailHref(o);
+  const decide = o.type === 'DECISION' && o.state === 'NEEDS_YOU';
+  const ok = actions.canDecide(o);
+  return (
+    <>
+      <InspectorFacts
+        o={o}
+        rows={[
+          ['STATE', <StateBadge s={o.state} />],
+          ['STATUS', STATUS_LABEL[o.status]],
+          ['URGENCY', o.urgency],
+          ['ENTRY', o.entry],
+          ['AREA', o.area],
+          ['WHY', o.why],
+          ['BLOCKS', o.blocks.join(' + ')],
+          ['BY', o.by],
+        ]}
+      />
+      <footer className="ibx-insp__actions ibx-actions">
+        {to ?
+          <Link to={to} className={`ibx-btn${decide ? '' : ' ibx-btn--red'}`} data-testid="inbox-inspector-open">
+            OPEN
           </Link>
-        ))}
-        {shown.length === 0 ? <Empty title="NO ITEMS MATCH" body="Clear a filter or search to see more." /> : null}
-      </div>
-      {sheet ?
-        <Sheet title="FILTER / SORT" onClose={() => setSheet(false)} testId="inbox-filter-sheet" wide>
-          <div className="ibx-filtersheet">
-            {DIMS.map((d) => (
-              <fieldset key={d}>
-                <legend>{d}</legend>
-                {opts(d).map((o) => (
-                  <button key={o.id} type="button" className={(f[d] ?? 'ALL') === o.id ? 'is-active' : undefined} onClick={() => set(d, o.id)}>
-                    {o.id === 'ALL' ? 'ALL' : o.label}
-                  </button>
-                ))}
-              </fieldset>
-            ))}
-            <div className="ibx-actions">
-              <button type="button" className="ibx-btn" onClick={() => setF({})} data-testid="inbox-filter-clear">
-                CLEAR ALL
-              </button>
-              <button type="button" className="ibx-btn ibx-btn--red" onClick={() => setSheet(false)}>
-                SHOW {pad2(shown.length)} ITEMS
-              </button>
-            </div>
-          </div>
-        </Sheet>
-      : null}
-    </div>
+        : null}
+        {decide ?
+          <>
+            <button type="button" className="ibx-btn ibx-btn--red" disabled={!ok || actions.deciding} onClick={() => actions.approve(o)} title={ok ? undefined : actions.gateReason} data-testid="inbox-inspector-approve">
+              APPROVE
+            </button>
+            <button type="button" className="ibx-btn" onClick={() => actions.requestRevision(o)} data-testid="inbox-inspector-revise">
+              REQUEST REVISION
+            </button>
+          </>
+        : null}
+      </footer>
+    </>
   );
 }
 
@@ -793,7 +961,7 @@ function Composer({ testId }: { testId: string }) {
       <button type="button" className="ibx-iconbtn" disabled aria-label="Attach">
         <IaIcon name="link" />
       </button>
-      <input type="text" disabled placeholder="Messaging is not connected to Production yet." aria-label="Write a message" />
+      <input type="text" disabled placeholder="Messaging is not connected yet." aria-label="Write a message" />
       <button type="button" className="ibx-iconbtn ibx-iconbtn--red" disabled aria-label="Send">
         <IaIcon name="next" />
       </button>
@@ -803,27 +971,40 @@ function Composer({ testId }: { testId: string }) {
 function Messages({ objects, data }: { objects: InboxObject[]; data: Data }) {
   const msgs = objects.filter((o) => o.type === 'MESSAGE');
   return (
-    <div className="ibx-view ibx-msgs" data-testid="inbox-messages">
-      <TypeRail active="messages" />
-      <header className="ibx-title ibx-title--inline">
-        <h1>MESSAGES</h1>
-        <span className="ibx-red">/ {pad2(msgs.filter((m) => m.state === 'NEEDS_YOU').length)} NEED YOU</span>
-      </header>
-      <div className="ibx-msgs__grid">
-        <section className="ibx-convos" data-testid="inbox-conversations">
-          <Head title="CONVERSATIONS" />
-          <div className="ibx-pane" data-scroll="internal">
-            <Empty title="NO CONVERSATIONS" body="Project-linked conversations appear here once messaging is connected." unmounted testId="inbox-messages-unmounted" />
+    <div className="ibx-view ibx-lw ibx-lw--msgs" data-testid="inbox-messages">
+      <aside className="ibx-lw__rail" data-testid="inbox-rail">
+        <header className="ibx-lw__title">
+          <h1>MESSAGES</h1>
+          <small data-testid="inbox-context-line">{ctxLine(data)}</small>
+        </header>
+        <dl className="ibx-sum" data-testid="inbox-messages-stats">
+          <div>
+            <dt>THREADS</dt>
+            <dd>{pad2(msgs.length)}</dd>
           </div>
-        </section>
-        <section className="ibx-thread ibx-thread--empty" data-testid="inbox-active-thread">
-          <div className="ibx-pane ibx-thread__pane" data-scroll="internal" data-testid="inbox-thread-pane">
-            <Empty title="MESSAGING IS NOT CONNECTED" body="Threads tie people to entries, decisions and files. Production records decisions today — see NEEDS YOU." unmounted />
+          <div className={msgs.some((m) => m.state === 'NEEDS_YOU') ? 'is-hot' : undefined}>
+            <dt>NEED YOU</dt>
+            <dd>{pad2(msgs.filter((m) => m.state === 'NEEDS_YOU').length)}</dd>
           </div>
-          <Composer testId="inbox-composer" />
-        </section>
+        </dl>
+        <TypeRail active="messages" />
         <ProjectContext objects={objects} data={data} testId="inbox-message-context" />
-      </div>
+      </aside>
+      <section className="ibx-lw__list ibx-convos" aria-label="Conversations" data-testid="inbox-conversations">
+        <header className="ibx-lw__listhead">
+          <b>CONVERSATIONS</b>
+          <small>{pad2(msgs.length)} THREADS</small>
+        </header>
+        <div className="ibx-pane ibx-lw__rows" data-scroll="internal" data-testid="inbox-conversation-list">
+          <Empty title="NO CONVERSATIONS" body="Project-linked conversations appear here once messaging is connected." unmounted testId="inbox-messages-unmounted" />
+        </div>
+      </section>
+      <section className="ibx-lw__insp ibx-thread ibx-thread--empty" aria-label="Thread" data-testid="inbox-active-thread">
+        <div className="ibx-pane ibx-thread__pane" data-scroll="internal" data-testid="inbox-thread-pane">
+          <Empty title="MESSAGING IS NOT CONNECTED" body="Threads tie people to entries, decisions and files. Production records decisions today — see NEEDS YOU." unmounted />
+        </div>
+        <Composer testId="inbox-composer" />
+      </section>
     </div>
   );
 }
@@ -831,55 +1012,70 @@ function Messages({ objects, data }: { objects: InboxObject[]; data: Data }) {
 /* ── CHILD · SYSTEM ──────────────────────────────────────────────────────────────────────────────── */
 function SystemView({ objects, data, url }: { objects: InboxObject[]; data: Data; url: Url }) {
   const sys = objects.filter((o) => o.type === 'SYSTEM');
+  const [sev, setSev] = useState('ALL');
   const nodes = data?.graph.nodes ?? [];
   const complete = nodes.filter((n) => n.status === 'COMPLETE').length;
+  const sevOf = (o: InboxObject) => (o.state === 'NEEDS_YOU' ? 'NEEDS YOU' : o.state === 'RESOLVED' ? 'RESOLVED' : 'WATCHING');
+  const shown = sys.filter((o) => sev === 'ALL' || sevOf(o) === sev);
   return (
-    <div className="ibx-view ibx-sys" data-testid="inbox-system">
-      <TypeRail active="system" />
-      <div className="ibx-metrics" data-testid="inbox-system-metrics">
-        <div>
-          <span>PIPELINE</span>
-          <b>
-            {complete}/{nodes.length}
-          </b>
-        </div>
-        <div>
-          <span>FRAMES</span>
-          <b>{pad2(data?.frames.length ?? 0)}</b>
-        </div>
-        <div>
-          <span>BLOCKERS</span>
-          <b>{pad2(data?.graph.blockers.length ?? 0)}</b>
-        </div>
-        <div>
-          <span>NOTICES</span>
-          <b>{pad2(sys.filter((o) => o.state !== 'RESOLVED').length)}</b>
-        </div>
-      </div>
-      <div className="ibx-sys__grid">
-        <div className="ibx-pane ibx-rows ibx-rows--sys" data-scroll="internal" data-testid="inbox-system-notices">
-          {sys.map((o) => (
-            <article key={o.id} className="ibx-row ibx-row--sys" data-testid="inbox-system-row" data-state={o.state}>
-              <Art o={o} url={url} />
-              <div className="ibx-row__main">
-                <b>{o.title}</b>
-                <em>{o.why}</em>
-                <small>{o.at ? agoLabel(o.at) : 'LIVE STATE'}</small>
-              </div>
-              <Chip tone={o.state === 'NEEDS_YOU' ? 'red' : STATUS_TONE[o.status]}>{o.state === 'NEEDS_YOU' ? 'NEEDS YOU' : STATUS_LABEL[o.status]}</Chip>
-              <Link to={inboxHref('system', { notice: o.id })} className={`ibx-btn${o.state === 'NEEDS_YOU' ? ' ibx-btn--red' : ''}`} data-testid="inbox-system-inspect">
+    <ListWorkspace
+      testId="inbox-system"
+      title="SYSTEM"
+      context={ctxLine(data)}
+      summaryId="inbox-system-metrics"
+      summary={[
+        [sys.filter((o) => o.state !== 'RESOLVED').length, 'NOTICES'],
+        [data?.graph.blockers.length ?? 0, 'BLOCKERS', true],
+        [complete, `OF ${pad2(nodes.length)} COMPLETE`],
+        [data?.frames.length ?? 0, 'FRAMES'],
+      ]}
+      filterId="inbox-system-filter"
+      filters={[{ id: 'inbox-system-severity', label: 'ALL NOTICES', value: sev, set: setSev, options: opt('ALL NOTICES', ['NEEDS YOU', 'WATCHING', 'RESOLVED']) }]}
+      views="system"
+      listId="inbox-system-notices"
+      listLabel="STUDIO OS NOTICES"
+      objects={shown}
+      row={(o, sel, to) => (
+        <ObjectRow
+          key={o.id}
+          o={o}
+          url={url}
+          to={to}
+          sel={sel}
+          testId="inbox-system-row"
+          line={`${o.why} · ${o.at ? agoLabel(o.at) : 'LIVE STATE'}`}
+          status={<Chip tone={o.state === 'NEEDS_YOU' ? 'red' : STATUS_TONE[o.status]}>{o.state === 'NEEDS_YOU' ? 'NEEDS YOU' : STATUS_LABEL[o.status]}</Chip>}
+        />
+      )}
+      empty={<Empty title="NO SYSTEM NOTICES" testId="inbox-system-empty" />}
+      inspect={(o) => {
+        const node = o.nodeId ? data?.graph.byId[o.nodeId] : undefined;
+        return (
+          <>
+            <InspectorFacts
+              o={o}
+              rows={[
+                ['SEVERITY', <Chip tone={o.state === 'NEEDS_YOU' ? 'red' : STATUS_TONE[o.status]}>{sevOf(o)}</Chip>],
+                ['STATUS', node?.status.replace(/_/g, ' ') ?? STATUS_LABEL[o.status]],
+                ['TIME', o.at ? agoLabel(o.at) : 'LIVE STATE'],
+                ['TRIGGERED BY', 'PRODUCTION GRAPH'],
+                ['AREA', o.area],
+                ['REASON', o.why],
+                ['AFFECTS', node ? node.unlocks.map((u) => data?.graph.byId[u]?.label ?? u).join(' + ') : o.blocks.join(' + ')],
+              ]}
+            />
+            <footer className="ibx-insp__actions ibx-actions">
+              <Link to={inboxHref('system', { notice: o.id })} className="ibx-btn ibx-btn--red" data-testid="inbox-system-inspect">
                 {o.state === 'NEEDS_YOU' ? 'REVIEW' : 'INSPECT'}
               </Link>
-            </article>
-          ))}
-          {sys.length === 0 ? <Empty title="NO SYSTEM NOTICES" testId="inbox-system-empty" /> : null}
-        </div>
-        <div className="ibx-sys__side">
-          <Attention objects={objects} data={data} />
-          <RecentlyResolved objects={objects} url={url} />
-        </div>
-      </div>
-    </div>
+              <button type="button" className="ibx-btn" disabled title="System actions are not connected to Production yet." data-testid="inbox-system-acknowledge">
+                ACKNOWLEDGE
+              </button>
+            </footer>
+          </>
+        );
+      }}
+    />
   );
 }
 
@@ -908,7 +1104,7 @@ function Attachments({ nodes, url, onOpen, testId }: { nodes: HubNode[]; url: Ur
           </>
         }
       />
-      <div className="ibx-attach__rail">
+      <div className="ibx-attach__rail" data-scroll="internal-x">
         {nodes.map((n) => (
           <button key={n.id} type="button" onClick={() => onOpen(n)} data-testid={`${testId}-item`}>
             <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" />

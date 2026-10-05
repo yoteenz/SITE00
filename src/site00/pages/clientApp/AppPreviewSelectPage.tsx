@@ -1,12 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { clientAppPath } from '../../../../shared/site00-client-app/routes.js';
 import { CLIENT_APP_FIXTURE_SLUGS, getMultiProjectFixtureSummaries } from '../../../../shared/site00-client-app/fixtures.js';
 import { AppStatusDot } from '../../components/clientApp/Site00ClientAppShell';
+import { isSite00ClientAppPreviewFeatureActive } from '../../auth/clientAppPreviewState';
 
-/** Dev-only project select preview (screen 02) — no auth. */
+/** Fixture project select (screen 02) — dev + cloud preview; no auth. */
 export default function AppPreviewSelectPage() {
-  if (!import.meta.env.DEV) {
-    return null;
+  if (!isSite00ClientAppPreviewFeatureActive()) {
+    return <Navigate to={clientAppPath()} replace />;
   }
 
   const projects = getMultiProjectFixtureSummaries();

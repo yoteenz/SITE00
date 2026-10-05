@@ -13028,3 +13028,333 @@ Sprint `P0.STUDIOOS.PRODUCTION.DESIGN.ASSET-AUTHORITY-CONVERGENCE.OPUS3`. Base `
 ## 2026-10-04 — Cloud preview on design-asset-convergence branch
 
 Founder asked to point `site00.fsbw-dev.com` tunnel at `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. VM checkout switched; Vite dev on `:5174` with `SITE00_CLOUD_PREVIEW_MODE=dev`, `SITE00_PREVIEW_SYNC_MAIN=0`; tunnel restarted.
+
+## 2026-10-03 — Master PNG nav icons on INBOX/ACTIVITY branch (no label row)
+
+Founder wanted preview on `cursor/production-inbox-activity-threeviewport-opus1` with founder master PNG bottom-nav icons from the descendants work, but **not** the descendants unscaled label row below the bar (`ProductionNavLabelRow` / `prod-nav-dock`). Commit `43611fd8`: `ProductionNavIcon` + `bottom-nav/masters/*.png`; labels stay under each icon inside the zoomed `.ph-nav`. Preview tunnel serves this branch. PR #1305.
+
+Also ported descendants chrome fix: drop duplicate CURRENT WORKSPACE readout from production top header (mobile `ph-top__sel--prod`, host `pxh-top__loc`); 4-column mobile top grid in host CSS. Bottom nav owns tab identity.
+
+---
+## 2026-10-04 — Design asset OPUS3 cherry-picked onto INBOX/ACTIVITY branch
+
+Cherry-picked `afb22c27` (design pack extract, chamber stand-in removal, no-scroll Design parent) onto `cursor/production-inbox-activity-threeviewport-opus1` without switching the preview branch. **Kept:** `ProductionNavIcon` + `masters/*.png` (HUB master from pack `nav-hub.png`), header trim. **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
+
+---
+## 2026-10-04 — Inbox OPUS2 + Activity OPUS1 on tunnel branch
+
+Cherry-picked `37d19680` (Inbox authority family) onto `cursor/production-inbox-activity-threeviewport-opus1` for preview — not a branch switch. **Inbox:** `inboxModel.ts`, `InboxBody`, `site00-production-inbox-family.css`, no-scroll inbox contract; OPUS1 lens links still resolve. **Activity:** OPUS1 three-viewport `ActivityBody` + `iaKit` unchanged. **Still kept:** master PNG nav, header trim, design pack OPUS3. **Proof:** `artifacts/production-inbox-authority-opus2/`.
+
+**Inbox + Activity tab sources (founder confirmed):** **Inbox** = `cursor/production-inbox-authority-opus2` @ **`37d19680`** (PR **#1307**). **Activity** = `cursor/production-inbox-activity-threeviewport-opus1` @ **`7dcf37de`** (`ActivityBody.tsx` OPUS1 three-viewport — PR **#1305**). Preview tunnel branch **`cursor/production-inbox-activity-threeviewport-opus1`** cherry-picks both onto one line (plus nav, design pack, header trim). Descendants ACTIVITY LOG (`1ca88e20`) is not the target for Activity tab.
+
+---
+## 2026-10-04 — Expression responsive authority convergence (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. Branch `cursor/production-expression-authority-opus1`. No merge, no deploy.
+
+- **One family system.** There are 10 families and 40 routes.
+  - Families: Narrative, Casting, Look + Wardrobe, Cast + Performance, Sets + Scenes, Storyboard, Review + Handoff, Format Studio, Content Package, Campaign Board.
+  - All routes live under the existing `expression/*` wildcard, resolved by `productionAuthority/expression/expressionRoutes.ts`. The router is unchanged.
+  - Family segments reuse the old sub-workspace ids: `wardrobe` = LOOK + WARDROBE, `performance` = CAST + PERFORMANCE. New segments: `format-studio`, `content-package`, `campaign-board`.
+- **Shell.** Family routes mount in `ProductionAuthorityFrame screen="expression-<family>"` (shared host plus bottom nav with EXPRESSION active).
+  - `ExpressionFamilyShell` = hero (breadcrumb · EXPRESSION · FAMILY / ROUTE) → `LiveStatusBar` (new optional `context`) → routed family tabs → 12/6-column panel grid with fractional rows.
+  - Panels declare spans per viewport; every panel body is a bounded internal pane.
+  - Measured 200/200 (40 routes × 5 viewports) with no page or frame scroll and nothing clipped.
+- **Data.** `expressionData.ts` keeps ROLE (`CastingRequirement`), ACTOR (catalogue) and CHARACTER (`ProductionCharacter`) separate. Each has its own route: `casting/roles/:id`, `casting/actors/:id`, `casting/characters/:id`.
+- **Downstream.** Format adaptations become PLANNED deliverables. Nothing is assembled, so Finalize and Send are disabled and the Campaign Board holds 0 completed packages.
+- **Sets** is NOT STARTED: environment, set and zone are honest empties.
+- **Actions.** Existing actions only: narrative judgment and recompile; storyboard approve/revise via `decideStoryboard` (gated); lock and handoff (gated). The old `expression-sub-screen-*` ids and picker test ids are kept.
+- **Residual:** the Expression root (Production Floor) still overflows its frame. It was out of scope.
+- **Proof:** `artifacts/production-expression-authority-opus1/`.
+
+---
+## 2026-09-30 — Origin expanded panel forensics (IDNTY / BLDR / EVOLVE)
+
+Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero product code/CSS/React/copy changes. Full implementation receipt for creative director / ChatGPT redesign of expanded states.
+
+- **Context:** Document current Origin `/` and `/origin` three expandable panels (01 IDNTY, 02 BLDR, 03 EVOLVE): exact copy, DOM hierarchy, interaction (`Site00Context.homeMode`), CSS (mobile 390×844 + desktop artboard), Supabase environment PNG swap WITH_PANELS→CLEAN on expand, panel icon PNGs, framework assets, routes to `/idnty/state`, `/bldr/state`, `/evolve/state` (desktop `/…/desktop` when on origin desktop path).
+- **Topics covered:** Source tree `OriginPage`, `OriginCards`, `*ExpandedPanel`, `origin-panel-state.ts`, `origin-background-assets.ts`, `origin-home-composition.ts`, `site00.css` mobile origin block, `site00-desktop-artboard.css`. Playwright screenshots at 390×844 on local `:5174/origin?preview=mobile` → `/opt/cursor/artifacts/01–04_*_mobile.png`.
+- **Decisions / outcomes:** Forensic report delivered in chat (no visual authority redesign). Expanded mobile geometry: collapsed cards ~360×318 @ ~53% top; scaled teasers ~42×100 hit target; expanded column ~313px wide centered (scale 0.92) — tall glass panel overflows viewport (measured height >844px, BACK may sit below fold; swipe-up strip can intercept clicks). Collapsed teasers are transparent `<button.site00-origin-teaser>` over baked WITH_PANELS mobile BG; expanded uses CLEAN BG + `ArchitecturalPanel` glass shell.
+- **Changes:** `MEMORY.md` only (this entry). No merge/deploy.
+- **Conventions:** Expanded IDNTY title copy is `IDENTITY` (not card label `IDNTY`). EVOLVE collapsed copy differs mobile vs desktop (`evolve.ts`). EVOLVE expanded secondary CTA `HOW IT WORKS` → `/evolve` mobile only.
+
+---
+## 2026-09-29 — CI fix: production design route test drift (post #1255)
+
+Production Release workflow failed after #1255: tests still expected `/projects/design/:slug` and embedded `ProjectIndexDesignCard` on Projects index.
+
+- **Tests updated:** `p0vrDesignIntegration1`, `p0vrDesignProjectBinding1R1`, `p0vrDesignWorkspaceSelfCapture1`, founder sprint B59R2/R5/R6, release #429 allowlist manifest (`POST429_DESIGN_ALLOWLIST` 50 paths + `ProjectMoreSurface` tab exception).
+- **API:** `designWorkspaceCaptureService` returns `resolveWorkspaceSelfDesignRoute` (`/production/…/design`) in vitest + live capture metadata (was hardcoded legacy path).
+- **Ship:** PR merge to `main` — no new cPanel bundle required (test/API metadata only).
+
+---
+## 2026-10-01 — STUDIO OS Experience Compiler MAP1 (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP1)
+
+Forensic inventory + authority inheritance + batch planning for SITE 00 public redesign — no visual redesign, no route/UI production changes.
+
+- **Context:** Scale approved ORIGIN/IDNTY/BLDR/EVOLVE/LOCATIONS authorities into a reusable **Experience Compiler** (page graph → archetypes → inheritance → derivation → founder gates → Sonnet batches).
+- **Topics covered:** Full sprint MAP1 spec; prior IDNTY intake forensics; public redesign 37-authority manifest from Sonnet-structure branch ingested into `main` as code metadata (`src/site00/authority/publicRedesignAuthorityManifest.ts`).
+- **Decisions / outcomes:** Deterministic compiler under `src/studioos/experience-compiler/` with `runExperienceCompiler()` pipeline; artifacts under `docs/studioos/experience-compiler/`; `npx tsx scripts/run-site00-experience-compiler.ts` to regenerate; vitest `src/studioos/experience-compiler/__tests__/experienceCompiler.test.ts`. Product-family firewall tests (IDNTY evolution ≠ public EVOLVE; Build Ready ≠ BLDR intake). Checkout/auth/locations-child remain **CREATIVE_AUTHORITY_REQUIRED** — never invented.
+- **Changes:** New compiler modules, authority manifest + asset slots copy, JSON/MD docs, sonnet batch manifests for Sonnet-ready batches (ORIGIN_MOBILE, LOCATIONS_DIRECTORY, PUBLIC_EVOLVE_STATE, BLDR_ASSESSMENT_INTAKE at time of ship).
+- **Conventions:** Superseded authority IDs never inherit; WAITING_FOR_AUTHORITY routes from manifest drive gates; composite derivation = family environment + IDNTY working-panel grammar where explicit in compiler rules.
+
+---
+## 2026-10-01 — Existing Location service architecture (P0.SITE00.EXISTING-LOCATION.SERVICE-ARCHITECTURE1)
+
+Formalized **EXISTING LOCATION** — work on client’s existing Shopify/WordPress/etc. property without full rebuild.
+
+- **Context:** Sprint for diagnose/repair/enhance/install/custom experience; Shopify free-sample promotion as founding example (general diagnostic system, not one-off feature); courtesy comp codes for trusted clients; no primary passwords.
+- **Decisions:** Internal id `EXISTING_LOCATION`; public label EXISTING LOCATION; separate from BLDR and from full EVOLVE transform; intervention types under Existing Location; EVOLVE paths may align later but not forced (DIAGNOSE→REPAIR vs TRANSFORM).
+- **Shipped:** `shared/site00-existing-location/` types, Shopify adapter, courtesy hashing; API `/api/site00/existing-location` + admin; memory store (vitest) + Supabase migration `20261001150000_site00_existing_location_service.sql` (apply on Railway/Supabase); public routes `/existing-location` + case flow; docs under `docs/site00/existing-location/`; checkout UI marked WAITING_FOR_AUTHORITY; $0 comp creates entitlement + redemption records server-side.
+- **Gaps:** No live Shopify OAuth/API; diagnosis/findings UI founder-populated; paid checkout throws PAYMENT_REQUIRED until payment integration; Supabase persistence wired migration-only (runtime still memory in VITEST/production until supabase store adapter added).
+
+---
+## 2026-10-01 — STUDIO OS Experience Compiler MAP2 creative architecture (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-CREATIVE-ARCHITECTURE1)
+
+Extended MAP1 with greenfield creative pipeline, multi-surface families, authority planning foundation — no mass OpenArt, no public SITE 00 redesign.
+
+- **Context:** MAP2 sprint spec: three distinct conceptual directions, gates 0/A/B/C, experience units/families, surface expressions, authority reduction, OpenArt batch + pack planning, SITE 00 INGEST validation, LUMINA ATELIER greenfield fixture.
+- **Decisions:** Fundamental unit = Experience Unit; GREENFIELD / INGEST / HYBRID modes; graph expansion blocked until GATE_0; authority plan blocked until GATE_B; functional capability reuse firewall (visual isolated per client).
+- **Changes:** `src/studioos/experience-compiler/map2/*` (orchestrator, gates, concepts, graph, families, surfaces, authority planner/review, OpenArt batch, pack compiler); `export * as map2` from compiler index; vitest `map2CreativeArchitecture.test.ts` (17 tests); `scripts/run-map2-experience-compiler-fixtures.ts`; docs + JSON fixtures under `docs/studioos/experience-compiler/MAP2/`.
+- **Conventions:** SITE 00 validates as INGEST via `buildSite00IngestFixture()` wrapping `runExperienceCompiler()` — no replacement concept directions for product truth.
+
+---
+## 2026-10-01 — Experience Compiler MAP2 workspace UI (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-WORKSPACE-UI1)
+
+Founder-operable Experience Compiler workspace: gates, authority review, OpenArt emit/ingest, pack + Sonnet emit — no public redesign, no mass OpenArt jobs.
+
+- **Context:** MAP2 domain merged on main; sprint adds Studio OS workspace UI and operational pipeline (manifest emit/ingest, master/lite pack sizing, Sonnet batch copy).
+- **Shipped:** Route `/studio/:projectSlug/experience-compiler` (`ExperienceCompilerWorkspacePage`); tabs PROJECT/CONCEPT/EXPERIENCE/FAMILIES/AUTHORITY/CAPABILITIES/PRODUCTION/HISTORY; `src/studioos/experience-compiler/workspace/*` (browser bootstrap via JSON fixture, persistence localStorage); link from Studio dashboard; vitest `map2Workspace.test.ts` (10 tests); docs `docs/studioos/experience-compiler/MAP2-WORKSPACE/`.
+- **Conventions:** Browser bundle must not import MAP1 `pageDiscovery` fs — use `bootstrapBrowser.ts` + `MAP2_SITE00_INGEST_FIXTURE.json` for SITE 00 ingest UI; Node tests use `bootstrap.ts` + live compiler.
+
+---
+## 2026-10-01 — MAP2 icon + micro-asset expression (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-ICON-EXPRESSION1)
+
+Extended MAP2 pipeline with project-wide icon requirement compiler, icon family authority before page authorities, Grok/Sonnet handoff manifests — no mass Grok generation, no SITE 00 public redesign.
+
+- **Context:** Icons compiled after graph/families/surfaces; Gate B now requires `icon_expression_approved` before `compileAuthorityPlan`; OpenArt emits `ICON_FAMILY_AUTHORITY` batch before page batches; page prompts reference approved icon language.
+- **Shipped:** `src/studioos/experience-compiler/icons/*` (semantics, requirements, classifier, expression, family, surface variants, manifest, coverage, pipeline); MAP2 types + orchestrator integration; workspace Families tab icon approval + pack `icons/` paths; fixtures `MAP2_ICON_*`; vitest `map2IconExpression.test.ts` (11 tests); 45 total compiler tests.
+- **Conventions:** Global semantics reusable; per-project icon family visual isolation; LIVE_CODE_SVG for utility chevrons; SITE 00 ingest classifies only.
+
+---
+## 2026-10-01 — MAP2 visual asset surgery (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-VISUAL-ASSET-SURGERY1)
+
+Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry and Grok fabrication — manifests/specs only, no mass Grok generation, no public SITE 00 redesign.
+
+- **Context:** Sprint adds surgical image layer: layer ownership, image requirements (must include/exclude), continuity groups, multi-surface derivation, reference crops, safe zones, fabrication specs, Grok pack, QA; SITE 00 INGEST validates all authorities + asset slots.
+- **Shipped:** `src/studioos/experience-compiler/visual-surgery/*` + `runVisualAssetSurgeryPipeline()`; `Map2PipelineState.visual_surgery_pipeline`; SITE 00 ingest + workspace browser bootstrap attach surgery; authority pack export `images/` + `GROK_ASSET_PACK/` stubs; workspace Image system + Visual asset surgery panels; vitest `map2VisualAssetSurgery.test.ts` (14 tests, 59 compiler total); docs + `MAP2_*` fixtures via `scripts/run-map2-visual-surgery-fixtures.ts`.
+- **Conventions:** Bboxes are normalized heuristics until Opus live geometry probes land; reference crops/safe-zone overlays are metadata paths only in MAP2 sprints; Grok receives per-asset specs not full screenshots.
+
+---
+## 2026-10-02 — Sign-in authorization hang (Supabase unreachable)
+
+Founder: sign-in / authorization stuck on tunnel (Experience Compiler path).
+
+- **Cause:** Supabase `hyycomvcaqxxvyrfupes` **522/timeouts**; `signInWithPassword` / `getSession` unbounded → submitting state hung.
+- **Fix (PR #1279):** Supabase client global fetch timeout ~15s; sign-in/magic-link + bootstrap/getAccessToken capped; message **SIGN-IN SERVICE IS TEMPORARILY UNAVAILABLE** when down.
+- **Founder:** Restore Supabase project health in dashboard; redeploy cPanel/tunnel CI dist after merge for tunnel bundle.
+
+---
+## 2026-10-02 — Experience Compiler preview guest bypass (Supabase down)
+
+Founder: compiler route sent to sign-in / origin flow on tunnel while Supabase Auth unhealthy — needed MAP2 workspace view only, temporarily.
+
+- **Shipped (PR #1280 → `main` `e1e986ef`):** Tunnel/cloud-preview-only guest bypass on **`/studio/:projectSlug/experience-compiler`** via `allowExperienceCompilerPreviewGuest` + `isSite00ExperienceCompilerPreviewGuestBypass()` (`site00-cloud-preview` meta or `site00.fsbw-dev.com`). Yellow **PREVIEW GUEST** banner; other CTRL ROOM routes still require sign-in on tunnel.
+- **Not production:** `site00.com` without preview meta does not bypass.
+- **Cloud preview:** Rebuilt local dist `index.CWJzK2ZT.js` on tunnel; verified workspace loads without sign-in.
+- **Remove when healthy:** Drop bypass or gate behind explicit env when Supabase Auth is stable again.
+
+---
+## 2026-10-02 — PREVIEW_GUEST shell fix (P0.STUDIOOS.EXPERIENCE-COMPILER.PREVIEW-GUEST-SHELL-FIX1)
+
+Preview guest route worked but shell/nav/auth-state was inconsistent.
+
+- **Auth:** `Site00ShellAuthMode` + `Site00ShellAuthProvider` — `PREVIEW_GUEST` with derived `canUseExperienceCompiler`, `canNavigateStudioPreview`, no protected read/mutate.
+- **Gate:** `VITE_SITE00_EC_PREVIEW_GUEST=1` at build (cloud preview script) + tunnel/cloud-preview meta/host — not production CI default.
+- **Studio nav:** `/studio/:slug/preview-guest` landing; ← STUDIO + top nav STUDIO → preview landing (not `/admin/site00/studio` or sign-in).
+- **Contrast:** EC workspace dark text on light `site00-ecosystem-mobile-shell` (#f4f4f2) — was light-on-light ghost UI.
+- **Creative tab:** stub + persistence degraded copy in preview guest.
+- **PRs #1282, #1283** → `main`.
+
+---
+## 2026-10-02 — Founder creative workspace (CREATIVE-WORKSPACE-EXPERIENCE1)
+
+Branch `cursor/creative-workspace-experience1-87ed`: merged CGPT creative director backend + visual **ExperienceCompilerCreativeWorkspace** (`?tab=creative`). Territory boards, journey rail, founder director, conversation dock secondary, run details collapsed. Empty states when no live model output. Browser proof on tunnel (desktop/mobile/tablet screenshots). Live CONCEPT_TERRITORIES run still needs API deploy + OpenAI key.
+## 2026-10-01 — CGPT Creative Director loop (Experience Compiler MAP2)
+
+Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch `cursor/cgpt-creative-director-loop1-87ed`.
+
+- **Shipped:** `CreativeDirectorAgent` + `CreativeModelGateway` (server OpenAI JSON contracts), `CreativeContextPack` compiler, project-scoped creative threads, `FounderJudgment` persistence, structured validation for concept/graph/family/surface/authority modes, revision translator, Visual Authority Model / Sonnet / Opus handoff compilers, API `/api/site00/experience-compiler-creative-director`, workspace tab `?tab=creative` (3-column UI + journey rail).
+- **Runtime:** No fabricated territories; vitest + missing `OPENAI_API_KEY` → `MODEL_RUNTIME_BLOCKED`. Founder must set `founder_initiated: true` for runs.
+- **First thread:** SITE 00 → YOUR SPACE seed context in pack (not hard-coded engine logic).
+- **Not done:** No production deploy; no merge; live 3-territory proof requires configured server key.
+
+---
+## 2026-10-02 — CGPT live runtime + durable persistence (P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-LIVE-RUNTIME-PERSISTENCE1)
+
+Continuation on `cursor/cgpt-creative-director-loop1-87ed` (HEAD `c72efe6c`).
+
+- **Context:** Prove live OpenAI Creative Director + Supabase persistence for YOUR SPACE CONCEPT_TERRITORIES; fix model id (`gpt-5.6-sol` + separate reasoning); Responses API; founder judgment quarantine (`TEST_JUDGMENT_ONLY` cannot LOVE_IT).
+- **Shipped:** `modelConfig.ts`, Supabase persistence module + migration `20261001200000_site00_experience_compiler_creative_director.sql`, async agent/store/API, `runtime-status` with `OPENAI_API_KEY_PRESENT`, history adapter, expanded territory UI + run metadata, live-proof scripts, vitest persistence/model/quarantine tests (13 tests pass).
+- **Runtime proof:** Cloud VM + local API `OPENAI_API_KEY_PRESENT: NO`. Production `api.site00.com` still 404 on creative-director route (branch not deployed). Supabase MCP/REST timeout (522) — migration not applied from agent; use dashboard/CLI.
+- **Classification:** BLOCKED for full sprint PASS until Railway redeploy + migration apply + one live CONCEPT_TERRITORIES run.
+- **Next:** Merge/deploy API branch; apply migration; run `tsx scripts/studioos/run-creative-director-live-proof.ts` with key; set `SITE00_CREATIVE_DIRECTOR_STRICT_PERSISTENCE=1` in prod when tables verified.
+
+---
+## 2026-10-02 — Supabase apply-all-migrations (blocked from cloud VM)
+
+Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`.
+
+- **Blocker:** Project REST/auth health returns **Cloudflare 522** (~20s) from cloud agent; Supabase MCP `list_migrations` / `execute_sql` / `apply_migration` all **connection timeout**. Management API reports `ACTIVE_HEALTHY` but DB/API origin unreachable.
+- **Likely pending (verify in dashboard):** `20260921120000`, `20260929153000`, `20260929160000`, `20261001150000`, `20261001200000` — see `docs/supabase/PENDING_MIGRATIONS_CHECKLIST.md`.
+- **Founder apply:** When dashboard health is green, run `bash scripts/supabase/apply-pending-site00-migrations.sh` (Supabase CLI) or paste SQL from `supabase/migrations/` in order.
+
+---
+## 2026-10-02 — Remove Mobile/Desktop layout preview switcher (Shadow PC)
+
+Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile / Desktop** debug switcher.
+
+- **Shipped:** `isSite00LayoutPreviewSwitchEnabled()` → `false` in `preview-mode.ts`; `Site00OriginLayoutSwitch`, `Site00PublicLayoutSwitch`, `Site00EcosystemLayoutSwitch` render nothing; `Site00Context` ignores session-stored preview mode when switch off and uses `defaultPreviewDeviceModeForViewport()` (desktop on ≥768px).
+- **Branch:** `cursor/remove-layout-preview-switch-87ed`.
+
+---
+## 2026-10-02 — Cloud preview tunnel pinned to 6c85fbcb
+
+Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (`cursor/design-unified-workspace-sonnet-structure2` — unified design workspace).
+
+- **Ops:** VM checkout `6c85fbcb`, `SITE00_PREVIEW_SYNC_MAIN=0` + `SITE00_CLOUD_PREVIEW_MODE=local` rebuild; tunnel serves `release-manifest.json` with `commitSha` `6c85fbcba83d`, `bundleEntry` `index.B15a40Ht.js`.
+- **Persist pin:** `/tmp/site00-cloud-preview-pinned-ref` + `run-site00-cloud-preview-server.sh` reads `SITE00_PREVIEW_PIN_REF` / pin file (local build, no main ff-merge). Bootstrap skips CI sync when pin file present.
+- **Revert to main CI preview:** `rm /tmp/site00-cloud-preview-pinned-ref`, `git checkout main`, restart `site00-vite` terminal (or `restart-site00-cloud-preview-full.sh`).
+
+---
+## 2026-10-02 — Client app mobile QA audit (P0.SITE00.CLIENT-APP.COMPOSER-RUNTIME-AUDIT1)
+
+Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Expo/Capacitor; no `android/`/`ios/`). Mobile QA path = **BrowserStack Live** (mobile browser) + cloud preview tunnel; **not** App Live/APK.
+
+- **Shipped:** `VITE_SITE00_CLIENT_APP_PREVIEW=1` + `clientAppPreviewState.ts` enables `/app/preview/*` fixtures on cloud preview (was dev-only). `docs/mobile-qa.md`, `npm run client-app:qa:urls|capture`, cloud preview build sets flag alongside EC guest. Playwright proof: fixture route shows bottom nav + NDXBOOK header on 390×844.
+- **Auth:** Real `/app/projects/*` still requires Supabase sign-in; fixtures need no auth. Tunnel API → `https://api.site00.com`.
+- **Blocker for APK:** No native project — Capacitor wrapper deferred.
+
+---
+## 2026-10-02 — Production authority handoff v2: attachment review (pre-implementation)
+
+Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus three authority archives (Desktop 16:9 / Tablet 4:3 / Mobile 9:16, 12 images each = 36) and said "review all attachments before implementing." This entry records the review only; no product code was changed.
+
+- **Context:** Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1` — align the live Production workspace to 12 logical screens (6 global tabs HUB/INBOX/EXPERIENCE/EXPRESSION/LIBRARY/ACTIVITY + 6 DESIGN modes BRAND/EXPERIENCE/SURFACES/COMPILER/ASSETS/VIEWPORT) x 3 viewport families. Opus pixel pass follows (queue in file 06).
+- **Manifest (body authority; files arrive as `.jpg`, manifest says `.png`/`.PNG`):** Mobile 5922 HUB, 5924 INBOX, 5925 EXPERIENCE, 5957 EXPRESSION, 5979 LIBRARY, 5936 ACTIVITY, 5968 BRAND, 5963 D-EXPERIENCE, 5969 SURFACES, 5970 COMPILER, 5974 ASSETS, 5975 VIEWPORT. Desktop 5981/5982/5988/5989/5990/5991 (global, same order) and 5983 BRAND, 5992 D-EXPERIENCE, 5984 SURFACES, 5985 COMPILER, 5986 ASSETS, 5987 VIEWPORT. Tablet 6004/6005/6006/6007/6008/6009 (global) and 6010 BRAND, 6019 D-EXPERIENCE, 6011 SURFACES, 6012 COMPILER, 6013 ASSETS, 6014 VIEWPORT. Sizes: mobile 720x1280, desktop 1280x720, tablet 1200x900.
+- **Shell canon (overrides hallucinated desktop/tablet chrome):** tablet+desktop top = one full-width panel, LEFT cluster [LOCATION/WORKSPACE][PROJECT NDXBOOK][ITEMS NEED YOU], hamburger alone far right; bottom nav = horizontal icon-LEFT/label-RIGHT. Mobile keeps icon-above-text. Several desktop/tablet images show the project selector centered and attention near the right; those are NOT literal. No `zoom`, transform-scale, vw/rem/cqw scaling in top/bottom nav (explicit px per viewport).
+- **BASELINE FINDING (important):** On `main` @ `355c4adc`, `.ph--hub { zoom: var(--phz) }` is still present in `site00-production-hub-authority.css` and the Production hub is a mobile-only 864px authority canvas capped at 520 CSS px (`chrome.tsx` `productionChromeScale`). The handoff assumes the nav-typography fix (zoom removed from chrome), the unified Design workspace cutover and Viewport Lab — these exist only on unmerged `origin/cursor/nav-typography-fix-production-87ed` (HEAD `ff361d78`, 30 commits ahead of main, 0 behind, linear stack incl. `site00-production-system-chrome-typography.css` and `tests/productionNavTypographyFix1.test.ts`). Implementing on bare `main` would start from the wrong baseline; branch from that stack (or merge it first) and record start SHA.
+- **Existing Production code map:** `src/site00/components/productionHub/{chrome,nav,ProductionHub,panels,machine,overlays}.tsx`, `src/site00/components/production/PwFrame.tsx`, `src/site00/pages/production/*`, routes `/production`, `/production/queue` (INBOX), `/production/libraries` (LIBRARY), `/production?panel=activity` (ACTIVITY), `/production/:slug/{design,experience,expression}`; Design workspace `src/site00/components/designWorkspace/`. No tablet/desktop families, no LIBRARY full-width vault, no standalone ACTIVITY page on main.
+- **Review limits:** image review in this session was via textual descriptions only; pixel-level geometry claims need browser capture at 390x844 / 768x1024 (4:3) / 1440x810 and a PASS/FAIL 36-row proof matrix (file 05).
+- **Convention:** Authority images are QA inputs only (never shipped as runtime assets); build a typed registry (workspace, designMode, viewportFamily, authorityFile, route/state selector) in code/tests.
+
+---
+## 2026-10-04 — Merge `main` into inbox-activity tunnel branch (3 conflicts)
+
+Fetched `origin/main` and merged into `cursor/production-inbox-activity-threeviewport-opus1` (commit `9bfc7faa`).
+
+- **Conflicts (3 files):** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `Site00AccountRouteGuard.tsx`, `motherboard/MEMORY.md`. All **simple / compatible** — no opposing product intents.
+- **Preview script:** Combined `SITE00_PREVIEW_PIN_REF` checkout (main) with `SITE00_CLOUD_PREVIEW_ROOT` worktree logging (branch) as separate `if` blocks.
+- **Guard:** Kept branch `isSite00SignInPaused()` plus main `Site00ShellAuthProvider` / preview-guest allowlist; API-token skip effect includes both pause and `previewGuestRoute`.
+- **MEMORY:** Union timeline — branch production/inbox/activity/expression entries plus main-only EC/preview-guest/origin forensics entries (skipped duplicate design-pack bullets already in 2026-10-04 design cherry-pick entry).
+- **Tests:** inbox OPUS2 + activity OPUS1 + expression OPUS1 suites 116/116 pass post-merge.
+- **Convention:** When merging main into this tunnel branch, preserve both sign-in pause and EC preview-guest shell auth.
+
+---
+## 2026-10-04 — Inbox root convergence 2 on tunnel + all-tabs forensic
+
+- **INBOX root:** ported the Inbox part of `ffc7f7c0` (from `cursor/production-expression-authority-opus1`) onto this branch. The NEEDS YOU root now follows PARENT_3VIEW 01_INBOX. The OPUS2 model, routing and gate are unchanged. The BLOCKERS count links to `?view=blockers` on OPUS1 Activity. Live 45/45 with no scroll. Proof: `artifacts/production-inbox-root-convergence2/`.
+- **ACTIVITY:** stays OPUS1 (founder decision). The ACTIVITY LOG was not ported.
+- **All-tabs forensic truth table:** `artifacts/production-all-tabs-forensic1/README.md`.
+
+---
+## 2026-10-04 — Production OpenArt asset forensics mount (GROK)
+
+Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/production-openart-asset-forensics-mount1-0daf` (draft PR, no merge, no deploy, no new generations).
+
+- **Context:** Stop recreating Production visuals from flattened screens. Reference screen = composition; OpenArt/repo = source; registry = runtime.
+- **Decisions:** Reused mounted GROK1 plates + hub hero crops + design pack + nav masters. Recent OpenArt history on `Q7IHYCEK3RPn2c1ConEG` is LIBRARY composition boards, not discrete plates. Resident portraits and experience zone/portal files flagged missing/uncertain.
+- **Changes:** `src/site00/productionAssets/*`, `authorityAssets.ts` now re-exports registry paths, docs handoff, vitest `productionOpenartAssetForensicsMount1`.
+- **Conventions:** Do not generate replacements for `MISSING_SOURCE_ASSET`. Do not treat OpenArt authority boards as the underlying asset.
+
+---
+## 2026-10-04 — OpenArt asset recovery 2 (same draft PR #1310)
+
+- **History:** Design project `Q7IHYCEK3RPn2c1ConEG` list exhausted (`hasMore: false`), 462 unique histories. Resident portraits recovered from separate Studio World OpenArt projects, not from composition boards.
+- **Mounted:** approved portraits for Etta Vale, Jules Mercer, Caspian Reed, Iona Wells; Zuri Xu kept as candidate. Noa, Marlowe, Elio still missing (no project).
+- **Inbox:** project thumbnail slot reclassified `NO_SOURCE_ASSET_REQUIRED`. Nav PNGs stay canonical with `UNKNOWN_OPENART_PROVENANCE`.
+- **Build:** `npm run build` passed. No merge, no deploy, no new generations.
+
+---
+## 2026-10-04 — Resident recovery 3 from founder SW team pack (PR #1310)
+
+Same chat also shipped the 242-file production authority downloader on `cursor/production-openart-downloader-recovery2-0daf` (merged PR #1311). This entry is the resident ingest on draft PR #1310.
+
+- **Context:** Founder supplied `STUDIO_WORLD_TEAM_LITE_FORENSIC_REFERENCE.zip` (27 images). RECOVERY2 had marked Noa, Marlowe, and Elio `MISSING_SOURCE_ASSET` and Zuri as candidate only. No new OpenArt search. No generation.
+- **Clusters (visual, before names):** 8 people. Anchors locked to mounted portraits: Etta (06/20/23), Zuri candidate (04/15/18 exact), Caspian (16/17/22), Iona (02/07/24/27, 24 exact). Remaining: East Asian man (01/09/13/19/25) = Noa; older sun-earring man (03/05/12) = Marlowe; burgundy shorter-wave man (10/11/21) = Elio. Locs cluster (08/14/26) is only a probable Jules match (hair differs from the mounted portrait) and was not swapped in.
+- **Mounted:** `studio-world-noa-kline-portrait.jpg`, `studio-world-marlowe-saint-portrait.jpg`, `studio-world-elio-vahn-portrait.jpg`, `studio-world-zuri-xu-portrait.jpg` plus full-body variants. Status `IDENTITY_CONFIRMED`, source `USER_SUPPLIED`, `UNKNOWN_OPENART_PROVENANCE`. Original `SW Team(1).zip` was not in the workspace, so these are lite interim masters (`HIGH_RES_SOURCE_REQUIRED_FOR_FINAL_RUNTIME_MOUNT`).
+- **Changes:** registry, expression manifest (missing slot cleared), Opus handoff, forensics test. `tsc --noEmit` and `npm run build` passed. Draft PR #1310 stays draft. No merge, no deploy.
+## 2026-10-04 — Activity one-viewport convergence (canonical DOMAIN × TIME project memory)
+
+Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL. It supersedes the earlier "Activity stays OPUS1" decision for presentation only.
+
+- **Root cause:** `/production/activity` still mounted the OPUS1 tree (7dcf37de, restored by 319ae2ff).
+  - It used the iaKit hero, the ALL/APPROVALS/UPDATES/COMMENTS/BLOCKERS lens bar, the search strip, KPI stats and stacked FEED / MILESTONES / ATTENTION panels.
+  - There was no `.pxa[data-screen='activity'] .pxa-scroll` lock, so the frame pane scrolled 435–903px.
+  - The canonical model lived only on other branches, unmounted.
+- **Now:**
+  - `activityLog.ts` provides `buildActivityMemory`, built from the entry, narrative, cast, authority sheets, storyboard, graph blockers/unlocks and recorded hub activity.
+  - `ActivityBody.tsx` is the `.amx` workspace.
+    - Primary filters are DOMAIN (ALL…SYSTEM) and TIME (TODAY…FULL HISTORY).
+    - CHANGE (verbs) is a secondary select.
+    - The timeline feeds an inspector with WHEN / BY / PROJECT / ENTRY / AREA / VERSION / STATE / AFFECTS / DOWNSTREAM / CAUSE, BEFORE/AFTER lineage and an OPEN source link.
+  - `buildActivityRows` is kept for the Hub.
+- **Height contract:** in `site00-production-activity-memory.css`:
+  - an activity-scoped frame lock, plus `100dvh` under `@supports`;
+  - only `.amx-events` and `.amx-insp__scroll` scroll;
+  - compositions: desktop rail | timeline | inspector, tablet band plus 62/38, mobile band plus timeline plus a drawer (`display:none` when closed).
+- **Retired:** the iaKit components except `IaIcon` (Inbox only uses icons), and `site00-production-inbox-activity.css`.
+- **Links:** legacy `?view=blockers|approvals` maps to CHANGE BLOCKED/APPROVED on FULL HISTORY, so Inbox's blockers link still works.
+- **Proof:** `artifacts/production-activity-one-viewport-opus1/`, covering 14 viewports × 5 states = 70/70. Document and frame scroll are both 0 and nothing is clipped. Test: `tests/productionActivityOneViewportOpus1.test.ts`.
+
+---
+## 2026-10-04 — Inbox one-viewport family convergence (children → rail · rows · inspector)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL.
+
+- **Root cause:** the OPUS2 children (WATCHING / RESOLVED / ALL INBOX / SYSTEM / MESSAGES in `InboxBody.tsx`) kept the stale stacked mobile presentation from `SW_INBOX_AUTHORITY_LITE_v2`:
+  - a `.ibx-stats` block, then a search plus menus row, then `.ibx-row--watch` cards;
+  - each card had a 150px art column, a facts list and a permanent `.ibx-row__side` column (status pill + OPEN + STOP WATCHING, all `nowrap`);
+  - at 390px the side column's minimum width exceeded its track, and the list pane (`overflow-y:auto`, which forces `overflow-x:auto`) silently clipped the pill and the buttons;
+  - cards were about 260px tall, so on the iPhone they ran past the pane edge under the fixed nav.
+- **iOS:** the frame had no dvh contract.
+- **Now:** a shared `ListWorkspace`:
+  - rail: title + project/entry line, compact summary, search, FILTER / SORT sheet, menus on desktop, type views;
+  - compact `ObjectRow`s with no action column;
+  - an inspector at `?sel=` holding the actions (OPEN / STOP WATCHING / APPROVE behind the gate / REVIEW / ACKNOWLEDGE);
+  - compositions: desktop rail | list | inspector, tablet band + 60/40, mobile band + list + drawer.
+- **Styles:** in `site00-production-inbox-workspace.css`, with `100dvh` on the inbox frame under `@supports`.
+- **Unchanged:** NEEDS YOU keeps the parent-authority composition. Grandchildren (decision detail, thread, notice detail) and temporary sheets are unchanged apart from marking the attachment rail `data-scroll="internal-x"`.
+- **Cleanup:** 116 dead child rules were pruned from `site00-production-inbox-family.css` (postcss), and the unused `Attention` component was removed.
+- **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
+
+---
+## 2026-10-04 — Experience + Library convergence applied to live preview tunnel branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMPOSER1`.
+
+- **Tunnel:** Vite dev on `:5174` serves `/workspace` checkout. Branch `cursor/production-openart-asset-forensics-mount1-0daf`; rebased convergence onto remote merge `433a7622` (Inbox `ec6211f0` + Activity one-viewport retained).
+- **Method:** cherry-pick `e989bcdcb58d9699afd47c64b3e7e3c911f54817` (Experience + Library realm screens, routes, CSS, tests, QA artifacts) — not a full merge of PR #1312 branch history.
+- **Result:** `ExperienceScreen` / `LibraryScreen` under `productionAuthority/realm/`; 46 + 75 routes; retired `ExperienceBody` / `LibraryBody`. Minimal exports added to `productionNavIcon` / `iaKit` for Library icon reads. `100dvh` frame contract scoped for realm one-viewport.
+- **Proof:** `tests/productionExperienceLibraryConvergenceOpus1.test.ts` (136) + inbox/activity regression suites on rebased branch.
+
+---
+## 2026-10-04 — Resident geometry fabrication batch (OpenArt) — infrastructure + partial gen
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
+
+- **Branch:** `cursor/studio-world-resident-fabrication-geometry-openart1` from PR #1310 / asset-forensics lineage.
+- **Canon:** 8 residents, 16-frame geometry spec (`shared/site00-studio-world/resident-fabrication/`), identity from mounted portraits; **SW Team(1).zip not in workspace** → `LITE_ONLY`; Jules locs + Iona glam excluded as identity authority.
+- **OpenArt:** project `Q7IHYCEK3RPn2c1ConEG`, `gpt-image-2-5-sunburst` image2image HIGH 2K; all 8 identity refs uploaded (`openart_identity_references.json`). Credit math ~152×128 ≈ 19.5k vs ~12.7k balance → full 128 frames needs top-up or phased runs.
+- **Repo:** `FABRICATION_IN_REVIEW` status, `residentFabricationManifest.ts` / registry, pack + runner scripts, manifest JSON (128 scaffold rows), audit + README under `artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/`; PNG masters gitignored; review ZIPs via `studio-world-resident-fabrication-pack.mjs finalize`.
+- **Gen progress at commit:** SW-001 frames 01–02 completed; background agent queued SW-001–005. No performance/wardrobe batches. Draft PR only — no merge/deploy.

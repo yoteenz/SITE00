@@ -6,15 +6,8 @@ import { PW_IMG } from '../../components/production/productionImagery';
 import { CharacterFabrication } from '../../components/characterFabrication/CharacterFabrication';
 import { HubReturnBar } from '../../components/production/HubReturnBar';
 import { PwChip, PwRow, PwScreenHead } from '../../components/production/PwPrimitives';
-import {
-  CastingScreen,
-  NarrativeScreen,
-  PerformanceScreen,
-  ReviewScreen,
-  SetsScreen,
-  StoryboardScreen,
-  WardrobeScreen,
-} from '../../components/production/ExpressionSubScreens';
+import { ExpressionFamilyScreen } from '../../components/production/ExpressionSubScreens';
+import { resolveExpressionRoute } from '../../components/productionAuthority/expression/expressionRoutes';
 import { isEntry002Project, useEntry002Production } from '../../components/production/useEntry002Production';
 import { useProductionWorkspaceContext } from '../../context/ProductionWorkspaceContext';
 
@@ -84,9 +77,11 @@ function Landing({ slug, entry }: { slug: string; entry: string }) {
 
 /** Production → EXPRESSION — campaign / entry context shared across sub-workspaces. */
 export function ExpressionProductionShellPage() {
+  const { '*': rest } = useParams<{ '*': string }>();
+  // Family routes carry their own breadcrumb inside the authority frame; the Hub return bar stays on the others.
   return (
     <>
-      <HubReturnBar />
+      {resolveExpressionRoute(rest) ? null : <HubReturnBar />}
       <ExpressionRoutes />
     </>
   );
@@ -100,23 +95,24 @@ function ExpressionRoutes() {
   const sub = rest?.split('/')[0] ?? '';
   const entry = searchParams.get('entry') ?? context.entryId ?? '002';
 
+  // The 10 Expression families / 40 routes (narrative, casting, wardrobe, performance, sets, storyboard, review,
+  // format-studio, content-package, campaign-board + their children and details) resolve through one route model.
+  const resolved = resolveExpressionRoute(rest);
   switch (sub) {
-    case 'narrative':
-      return <NarrativeScreen slug={slug} entry={entry} />;
     case 'character-fabrication':
       return <CharacterFabrication projectSlug={slug} entryId={entry} />;
+    case 'narrative':
     case 'casting':
-      return <CastingScreen slug={slug} entry={entry} />;
     case 'wardrobe':
-      return <WardrobeScreen slug={slug} entry={entry} />;
     case 'performance':
-      return <PerformanceScreen slug={slug} entry={entry} />;
     case 'sets':
-      return <SetsScreen slug={slug} entry={entry} />;
     case 'storyboard':
-      return <StoryboardScreen slug={slug} entry={entry} />;
     case 'review':
-      return <ReviewScreen slug={slug} entry={entry} />;
+    case 'format-studio':
+    case 'content-package':
+    case 'campaign-board':
+      if (resolved) return <ExpressionFamilyScreen slug={slug} entry={entry} resolved={resolved} />;
+      return <Landing slug={slug} entry={entry} />;
     default:
       return <Landing slug={slug} entry={entry} />;
   }

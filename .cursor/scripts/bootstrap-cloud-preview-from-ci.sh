@@ -5,6 +5,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 LOG="/tmp/site00-cloud-preview-bootstrap.log"
 
+if [[ -f /tmp/site00-cloud-preview-pinned-ref ]]; then
+  echo "[$(date -u +%H:%M:%S)] bootstrap skipped — preview pinned to $(tr -d '[:space:]' < /tmp/site00-cloud-preview-pinned-ref)" >>"$LOG"
+  exit 0
+fi
+
 {
   echo "[$(date -u +%H:%M:%S)] bootstrap-cloud-preview-from-ci"
   cd "$ROOT"

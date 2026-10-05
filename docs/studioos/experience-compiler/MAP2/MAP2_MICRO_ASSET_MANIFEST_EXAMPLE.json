@@ -1,0 +1,25 @@
+{
+  "micro_asset_family_id": "MICRO_LUMINA_ATELIER_GREENFIELD",
+  "name": "Micro-asset family",
+  "requirements": [
+    {
+      "semantic_id": "SEM_MICRO_ASSEMBLY",
+      "name": "ASSEMBLY_PREVIEW",
+      "family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "expression": {
+        "materials": "Brand satin + machined metal",
+        "lighting": "Soft studio key + rim",
+        "perspective": "Three-quarter product hero",
+        "depth": "Moderate — readable at 48px",
+        "render_realism": "Stylized realism — not photoreal clutter",
+        "brand_accents": "Primary accent edge only"
+      }
+    }
+  ]
+}
