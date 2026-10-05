@@ -1,0 +1,297 @@
+{
+  "contract": "JURNL_HIERARCHICAL_EXPRESSION",
+  "cascade": [
+    "GLOBAL_JURNL_DNA",
+    "FAMILY",
+    "PARENT",
+    "CHILD",
+    "GRANDCHILD",
+    "STATE",
+    "INTERACTION",
+    "PANEL",
+    "CONTROL",
+    "LIVE_IMPLEMENTATION"
+  ],
+  "global_dna": [
+    "BRAND_VOICE",
+    "TYPOGRAPHY_SYSTEM",
+    "CORE_PALETTE",
+    "MEDITERRANEAN_COASTAL_LUXURY",
+    "EDITORIAL_RESTRAINT",
+    "NATURAL_LIGHT",
+    "MATERIAL_QUALITY",
+    "ICONOGRAPHY_FAMILY",
+    "CONTROL_GEOMETRY",
+    "ENVIRONMENT_BREATHING",
+    "NO_CIRCULAR_TAP_TARGETS",
+    "ACCESSIBILITY",
+    "RESPONSIVE_QUALITY"
+  ],
+  "expression_parent_rule": "parent_expression_inherited names the expression parent. That may be the family parent or a prior room in the same family.",
+  "plate_rule": "A distinct product job does not require a new plate. NEW_PLATE_WITHIN_FAMILY only when the job, emotional role, or spatial metaphor materially changes.",
+  "child_production": "BLOCKED_UNTIL_FOUNDER_PASSES_PARENT",
+  "paid_generation": "DO_NOT_GENERATE_FROM_THIS_TREE_UNTIL_THE_FOUNDER_ASKS",
+  "downstream_consumers": [
+    "GROK",
+    "OPUS",
+    "COMPOSER"
+  ],
+  "founder_review": {
+    "review": [
+      "FAMILY_EXPRESSION",
+      "PARENT_EXPRESSION",
+      "KEY_CHILD_SUB_EXPRESSIONS"
+    ],
+    "skip": [
+      "EVERY_MICROSTATE"
+    ],
+    "status": "NOT_APPROVED"
+  },
+  "repetition_audit": {
+    "status": "PASS",
+    "compared_against": [
+      "CURRENT_FAMILY",
+      "F01",
+      "F02",
+      "F03",
+      "JURNL_EXPRESSION_MATRIX"
+    ],
+    "reuse_reason": "CORRECT",
+    "notes": [
+      "The reading wall is not the daily salon and not the entry still life.",
+      "Search modulates the same plate. Detail is paper, not a new room.",
+      "No matches is an empty archive, not a generic empty component."
+    ]
+  },
+  "generation_gate": {
+    "product_tree_locked_enough": true,
+    "family_expression_defined": true,
+    "parent_expression_defined": true,
+    "material_child_expressions_defined": true,
+    "environment_policies_defined": true,
+    "panel_control_policies_defined": true,
+    "repetition_audit": "PASS"
+  },
+  "family_expression": {
+    "product_role": "Keep the record of what moved.",
+    "emotional_role": "Editorial ledger. Quiet, structured, archival.",
+    "spatial_metaphor": "A reading wall. The record is the subject.",
+    "architectural_character": "Broad plaster. A sliver of arch. No bust.",
+    "lighting_character": "Soft diagonal light on an empty wall.",
+    "material_emphasis": "Plaster and paper.",
+    "information_density": "Denser than today, still editorial.",
+    "panel_language": "Ivory strips inside one paper ledger.",
+    "interaction_character": "Search, filter, row, detail.",
+    "motion_character": "The list is still. The detail sheet rises.",
+    "typographic_emphasis": "Merchant stronger than meta. Amount inside the row.",
+    "data_visualization": "Ledger, history, chronology. No bars or donut."
+  },
+  "nodes": [
+    {
+      "node_id": "F04",
+      "node_type": "FAMILY",
+      "product_job": "Financial history.",
+      "expression_class": "FAMILY",
+      "expression_concept": "Editorial ledger. Quiet, structured, archival.",
+      "parent_expression_inherited": "GLOBAL_JURNL_DNA",
+      "expression_changes": [
+        "Paper ledger on a reading wall."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "DATA_LEDGER",
+      "button_policy": "utility filter, inline clear",
+      "typography_policy": "Display title, utilitarian rows",
+      "interaction_policy": "Search, filter, detail",
+      "motion_policy": "Still list.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.00",
+      "node_type": "PARENT",
+      "product_job": "A calm searchable ledger of money movement.",
+      "expression_class": "PARENT",
+      "expression_concept": "Personal ledger. Controlled transaction surfaces.",
+      "parent_expression_inherited": "F04 editorial ledger",
+      "expression_changes": [
+        "Not today with the figure removed. The wall is the room. The paper is the subject."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "DATA_LEDGER",
+      "button_policy": "utility filter",
+      "typography_policy": "Display family title. Merchant and amount in the row.",
+      "interaction_policy": "Search, filter, open a row",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.SEARCH",
+      "node_type": "CHILD",
+      "product_job": "Find a movement.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Investigative mode. Focused. Reduced environment. Query above results.",
+      "parent_expression_inherited": "F04.00 personal ledger",
+      "expression_changes": [
+        "Same wall, veiled. The query line leads. Not a new plate."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "FILTER",
+      "button_policy": "inline clear search",
+      "typography_policy": "Query line stronger than the room",
+      "interaction_policy": "Type, read, clear",
+      "motion_policy": "The veil settles. The list does not flash.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.DETAIL",
+      "node_type": "CHILD",
+      "product_job": "Read one movement closely.",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "Receipt and dossier. An intimate paper surface.",
+      "parent_expression_inherited": "F04.00 personal ledger",
+      "expression_changes": [
+        "The job changes from the list to one record. Paper sheet. No new plate."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "DETAIL",
+      "button_policy": "quiet close",
+      "typography_policy": "Merchant as title. Amount clear. Meta small.",
+      "interaction_policy": "Read and close",
+      "motion_policy": "Sheet rises.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.ST.LOADING",
+      "node_type": "STATE",
+      "product_job": "The ledger is being read.",
+      "expression_class": "STATE",
+      "expression_concept": "Reading the archive. A quiet line.",
+      "parent_expression_inherited": "F04.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "EMPTY_STATE",
+      "button_policy": "none",
+      "typography_policy": "One tracked line",
+      "interaction_policy": "Wait",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.ST.EMPTY",
+      "node_type": "STATE",
+      "product_job": "No history yet.",
+      "expression_class": "STATE",
+      "expression_concept": "An empty archive. The paper is blank on purpose.",
+      "parent_expression_inherited": "F04.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "EMPTY_STATE",
+      "button_policy": "none",
+      "typography_policy": "Display line, one sentence",
+      "interaction_policy": "None",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.ST.NO_RESULTS",
+      "node_type": "STATE",
+      "product_job": "Nothing in the ledger fits.",
+      "expression_class": "STATE",
+      "expression_concept": "Quiet empty archive. A deliberate empty composition, not a missing-results toast.",
+      "parent_expression_inherited": "F04.SEARCH",
+      "expression_changes": [],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "EMPTY_STATE",
+      "button_policy": "secondary clear",
+      "typography_policy": "Display NO MATCHES, then one sentence",
+      "interaction_policy": "Clear the query or the filter",
+      "motion_policy": "Still paper.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.ST.FILTERED",
+      "node_type": "STATE",
+      "product_job": "The ledger is narrowed.",
+      "expression_class": "STATE",
+      "expression_concept": "The archive, organized. The active narrowing stays visible.",
+      "parent_expression_inherited": "F04.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "FILTER",
+      "button_policy": "inline clear filters",
+      "typography_policy": "Small summary line",
+      "interaction_policy": "Clear",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.ST.ERROR",
+      "node_type": "STATE",
+      "product_job": "The ledger could not be read.",
+      "expression_class": "STATE",
+      "expression_concept": "The archive is still here. The reading failed.",
+      "parent_expression_inherited": "F04.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "ALERT",
+      "button_policy": "secondary retry",
+      "typography_policy": "Short title, one sentence",
+      "interaction_policy": "Retry",
+      "motion_policy": "No shake.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.IN.SEARCH",
+      "node_type": "INTERACTION",
+      "product_job": "Query the ledger.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Investigation. Same concept as the search child.",
+      "parent_expression_inherited": "F04.SEARCH",
+      "expression_changes": [
+        "Inline. Does not open a generic sheet."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "FILTER",
+      "button_policy": "inline clear",
+      "typography_policy": "LOOKING FOR leads the line",
+      "interaction_policy": "Debounced query",
+      "motion_policy": "Veil, no flash.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.IN.FILTER",
+      "node_type": "INTERACTION",
+      "product_job": "Organize the ledger.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Organizing the ledger. A structured sheet.",
+      "parent_expression_inherited": "F04.00",
+      "expression_changes": [
+        "JurnlDrawer filter variant. Not the quick-add form and not the receipt."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "FILTER",
+      "button_policy": "utility choices, secondary clear",
+      "typography_policy": "Legends, then choice rows",
+      "interaction_policy": "Account, direction, status, when",
+      "motion_policy": "Sheet rises. Choices press emerald.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F04.IN.DETAIL",
+      "node_type": "INTERACTION",
+      "product_job": "Open one movement.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "The receipt. Same concept as the detail child.",
+      "parent_expression_inherited": "F04.DETAIL",
+      "expression_changes": [
+        "JurnlDrawer detail variant."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "DETAIL",
+      "button_policy": "quiet close",
+      "typography_policy": "Merchant title, ruled rows",
+      "interaction_policy": "Read",
+      "motion_policy": "Sheet rises.",
+      "distinct_authority_required": false
+    }
+  ]
+}

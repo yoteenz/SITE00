@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { canAccessAdminPages, isSignedIn } from '../../../utils/adminAuth';
-import { isSite00PreviewAuthBypassActive } from '../../auth/site00ShellAuthState';
+import { isSite00SignInPaused } from '../../config/signInPaused';
 import { SITE00_ROUTES } from '../../config/routes';
 
 /**
@@ -9,10 +9,9 @@ import { SITE00_ROUTES } from '../../config/routes';
 export function Site00InternalProductionGuard({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
+  if (isSite00SignInPaused()) return <>{children}</>;
+
   if (!isSignedIn()) {
-    if (isSite00PreviewAuthBypassActive()) {
-      return <>{children}</>;
-    }
     const returnTo = encodeURIComponent(location.pathname + location.search);
     return <Navigate to={`${SITE00_ROUTES.signIn}?returnTo=${returnTo}`} replace />;
   }

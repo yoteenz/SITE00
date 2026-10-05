@@ -1,0 +1,150 @@
+{
+ "artifact": "SITE00_PUBLIC_SURFACE_RULES",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "language_rule": "Express DIGITAL LOCATION, not agency services. Do not rename locked systems (IDNTY, BLDR, EVOLVE, STUDIO OS, STUDIO WORLD, WAITING ROOM, EXIT 00, CTRL ROOM). Do not leak STUDIO OS naming (\"ENTER STUDIO\", \"BLDR STUDIO\") into client copy.",
+ "rules": {
+  "public_site_grammar": [
+   {
+    "rule": "Origin/IDNTY/BLDR/EVOLVE/LOCATIONS: mobile authority pack, full-bleed luminous environment plate (ENV.*), family machine illustration (orb, lattice, waves, star, tower), path cards, global uppercase Martian Mono; visual not inspected (pack not in repo).",
+    "evidence": [
+     "src/site00/authority/publicRedesignAuthorityManifest.ts",
+     "src/site00/authority/publicRedesignAssetSlots.ts"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Projects index: large Martian Mono headline with red kicker, red-glass orbital core, black/red FOUNDER VIEW plate vs ghost CLIENT VIEW, corner-bracket stat tiles, red ALL pill.",
+    "evidence": [
+     "public/visual-references/founder/site00/projects-index-approved-reference.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "spatial_composition": [
+   {
+    "rule": "Workspace roots are staged as an architectural chamber/world: a luminous white atrium or plaza with a single central core object, and UI floating over it.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "artifacts/production-all-tabs-forensic1/02-design-brand-authority-vs-tunnel.jpg",
+     "artifacts/production-all-tabs-forensic1/08-experience-authority-vs-tunnel.jpg",
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Center-axis symmetry: core object at horizontal center, frequently with a vertical red light line or ring descending onto it.",
+    "evidence": [
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "DESIGN modes: boards arranged around the core \u2014 left pair, flat centre overview, right stack of three \u2014 with perspective tilt (rotateY \u00b118\u201321\u00b0, perspective 520\u2013860px).",
+    "evidence": [
+     "src/site00/styles/site00-production-authority-opus.css",
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "EXPERIENCE: full-bleed world fills the body between host bars; capsules + status + ENTER WORLD/PREVIEW at foot of world.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/08-experience-authority-vs-tunnel.jpg",
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "white_surface_behavior": [
+   {
+    "rule": "Host chrome is off-white gradient (#fbfbfc -> #f2f2f4 top, #f8f8f9 -> #f0f0f2 nav) with 1px #d8d8dc rule; body bg #eeeef0\u2013#f5f5f7; cards pure white.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "src/site00/styles/site00-production-authority.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Environments are white marble/glass/chrome architecture with daylight and white light coves.",
+    "evidence": [
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg",
+     "public/site00/production-authority-assets/design-pack/swatches/"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Public asset slots fall back to \"NEUTRAL LUMINOUS WHITE GRADIENT (CSS)\".",
+    "evidence": [
+     "src/site00/authority/publicRedesignAssetSlots.ts"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "lighting": [
+   {
+    "rule": "Bright high-key daylight + white light coves; red emissive accents (rings, beams, edges); reflective floors.",
+    "evidence": [
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "materiality": [
+   {
+    "rule": "Material vocabulary: white acrylic, matte white, chrome, smoked glass, clear glass, red glow glass, graphite, neutral paper.",
+    "evidence": [
+     "public/site00/production-authority-assets/design-pack/swatches/",
+     "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "UI glass: backdrop-filter blur(6\u20138px) on chamber overlays; translucent white panels.",
+    "evidence": [
+     "src/site00/styles/site00-production-authority-opus.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "spatial_world_elements": [
+   {
+    "rule": "Recurring: circular light-ring ceiling, glass column pillars, mezzanine balconies with tiny human figures for scale, red floor ring, city/plaza world with red pyramid, device chamber with platform ring (VIEWPORT), white review corridor, film stage (EXPRESSION), fabrication chamber cylinder (CF).",
+    "evidence": [
+     "public/site00/production-authority-assets/",
+     "public/site00/character-fabrication/fabrication/machine/chamber.webp",
+     "artifacts/production-all-tabs-forensic1/cf-authority-vs-tunnel-vs-narrative-branch.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ]
+ },
+ "authority_sources": [
+  "public.redesign.origin/idnty/bldr/evolve/locations (src/site00/authority/publicRedesignAuthorityManifest.ts \u2014 mobile only, images not in repo)",
+  "dw.founder.projects_index (projects-index-approved-reference.jpg)"
+ ],
+ "surface_language_fit_today": {
+  "DIGITAL_LOCATION": 18,
+  "MIXED": 14,
+  "GENERIC": 9
+ },
+ "anti_patterns": [
+  "icon + paragraph + CTA service cards",
+  "generic about-page principle cards",
+  "placeholder metrics presented as live (status strip 047 ACTIVE SITES)",
+  "portfolio grids for PROJECTS/SITES"
+ ]
+}

@@ -1,0 +1,938 @@
+{
+ "artifact": "SITE00_TRUE_MISSING_CAPABILITIES",
+ "sprint": "P0.SITE00.GROUND-ZERO-MATURE-CAPABILITY-GENOME-RECONCILIATION1",
+ "status": "RECONCILIATION EVIDENCE + PROPOSAL (0 code changes, 0 database changes, 0 paid generations)",
+ "current_main_sha": "6f63aaaa439cc4c996a734e3cec5abbf586f2e61",
+ "rule": "MISSING means a direct search of current main found no implementation. The evidence field lists the greps that came back empty. Capabilities with partial, disconnected or competing code are NOT listed here; they are in SITE00_EXISTING_SYSTEM_PROMOTION_PLAN.json.",
+ "count": 44,
+ "by_priority": {
+  "POST_FIRST_CLIENT_HIGH_PRIORITY": 14,
+  "MATURE_PLATFORM": 14,
+  "GROUND_ZERO_FOUNDATION": 3,
+  "FUTURE_OPTIONAL": 6,
+  "CLIENT_READY_BLOCKER": 7
+ },
+ "by_stage": {
+  "PLATFORM_FOUNDATION": 8,
+  "MEASUREMENT": 3,
+  "BUSINESS_UNDERSTANDING": 2,
+  "OFFER": 6,
+  "MARKETING_SYSTEM": 8,
+  "LIVE_OPERATIONS": 6,
+  "IDEA": 1,
+  "MAINTENANCE": 4,
+  "DIGITAL_LOCATION_WORLD": 4,
+  "PRODUCT_SYSTEM": 2
+ },
+ "client_ready_blockers": [
+  "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+  "CAP.LAUNCH.CLIENT_SITE_HOSTING",
+  "CAP.OPS.DELIVERABLE_HANDOFF_LIBRARY",
+  "CAP.OPS.REVIEW_RETURN_LOOP",
+  "CAP.OPS.SEND_TO_CLIENT_REVIEW",
+  "CAP.PRIVACY.LEGAL_PAGES",
+  "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES"
+ ],
+ "capabilities": [
+  {
+   "capability_id": "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+   "name": "Runtime error monitoring / alerting",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "MAINTENANCE",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 1.0,
+   "confidence": "HIGH",
+   "gap": "Sentry (or equivalent) on SPA + API, uptime ping on api.site00.com. || From CAP.POSTLAUNCH.ERROR_TRACKING: Add Sentry (frontend + API) with release tagging from release-manifest.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rliE 'sentry|bugsnag|logrocket|datadog|opentelemetry' src api server package.json — 0",
+    "server/index.ts:152 — console.error('[site00-api]', err)",
+    "grep -rnoiE 'sentry|datadog|logrocket|bugsnag' src api server → only substring false positives",
+    "server/index.ts:128-152 — console.error error handler",
+    "grep -ci sentry motherboard/MEMORY.md → 0"
+   ]
+  },
+  {
+   "capability_id": "CAP.LAUNCH.CLIENT_SITE_HOSTING",
+   "name": "Client site build & hosting",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_SITES",
+   "mature_endpoint_stage": "DIGITAL_LOCATION_WORLD",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "Decide hosting model (per-client static deploy to Cloudflare Pages/Vercel or GoDaddy); deploy job per project from runtime registry; record last_deploy_at.",
+   "closest_existing": [
+    "CAP.RUNTIME.PROJECT_RUNTIME_REGISTRY",
+    "CAP.LAUNCH.DOMAIN_DNS"
+   ],
+   "search_evidence": [
+    "grep -rlnE 'api.vercel.com|netlify|api.cloudflare.com|pages.dev' api shared src scripts → 0",
+    "supabase/migrations/20260818180000_site00_admin_operations.sql:98-111 — site00_sites (domain, last_deploy_at)",
+    "api/_lib/site00Production/service.ts:236-249 — site00_sites read only for connectedDomains count",
+    "src/site00/projectRuntime/ProjectRuntimeRoute.tsx:25 — mode=\"design-preview\""
+   ]
+  },
+  {
+   "capability_id": "CAP.OPS.DELIVERABLE_HANDOFF_LIBRARY",
+   "name": "Deliverable handoff, library, and downloads",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "mature_endpoint_stage": "LIVE_OPERATIONS",
+   "root_engine": "ASSET_GRAPH",
+   "effort_days_estimate": 4,
+   "confidence": "HIGH",
+   "gap": "Add an endpoint listing approved review versions and deliverable exports, signed downloads from the ASSTS storage, and an upload_reference bucket.",
+   "closest_existing": [],
+   "search_evidence": [
+    "client_app lead §3 — LIBRARY PLACEHOLDER, DOWNLOADS MISSING, UPLOADS MISSING",
+    "shared/site00-client-project-room/manifestTemplates.ts:227-325 — library itemCount 0"
+   ]
+  },
+  {
+   "capability_id": "CAP.OPS.REVIEW_RETURN_LOOP",
+   "name": "Client decision return loop",
+   "current_status": "MISSING",
+   "implementation_maturity": 2,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "mature_endpoint_stage": "PRODUCT_SYSTEM",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 3.0,
+   "confidence": "HIGH",
+   "gap": "On a decision, update the linked deliverable and approval_request and emit a project activity event. Add a REVIEWS lens in the workspace. || From CAP.QUALITY.CLIENT_REVIEW_SCORING: Fix loop (owned by review domain), then emit approval metrics to event ledger.",
+   "closest_existing": [
+    "CAP.OPS.CLIENT_REVIEW_ENGINE",
+    "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER"
+   ],
+   "search_evidence": [
+    "shared/site00-projects/generalizedProjectOperatingState.ts:211 — reviewsState []",
+    "workspace lead §6 — no client status in /production",
+    "supabase/migrations/20260826160000_site00_client_reviews.sql:3-83 — 6 tables, no score column",
+    "brief known fact — review loop broken, 401"
+   ]
+  },
+  {
+   "capability_id": "CAP.OPS.SEND_TO_CLIENT_REVIEW",
+   "name": "Send to client review",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "mature_endpoint_stage": "PRODUCT_SYSTEM",
+   "root_engine": "ASSET_GRAPH",
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "Add an admin publish endpoint, a SEND TO CLIENT button in the workspace, and the migration columns.",
+   "closest_existing": [],
+   "search_evidence": [
+    "api/_lib/site00ClientReviews/reviewRepository.ts:629 — upsertPreviewReviewObject",
+    "previewFixtureSeed.ts:31 — only caller",
+    "grep 'sendToClient|SENT_TO_CLIENT|publishToClient|SEND FOR REVIEW' src api shared: none"
+   ]
+  },
+  {
+   "capability_id": "CAP.PRIVACY.LEGAL_PAGES",
+   "name": "Privacy policy & terms pages",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "PUBLIC_LOCATION",
+   "mature_endpoint_stage": "PLATFORM_FOUNDATION",
+   "root_engine": null,
+   "effort_days_estimate": 1.5,
+   "confidence": "HIGH",
+   "gap": "Write and route real Privacy Policy + Terms (+ client services agreement); fix auth shell link. || From CAP.JOURNEY.LEGAL_PAGES: Add static privacy and terms pages and fix the footer links.",
+   "closest_existing": [],
+   "search_evidence": [
+    "src/site00/components/shell/Site00PageFooter.tsx:9-10 — /brand/privacy, /brand/terms",
+    "src/site00/components/auth/Site00AuthShell.tsx:96-97 — PRIVACY → /brand/terms",
+    "grep -rniE 'privacy policy|terms of service' src docs → only src/projects/jurnl/data/f01/copy.ts",
+    "src/site00/config/seed/site00-page-seed.ts:83 — privacy → /control/settings#privacy",
+    "journeys lead §1.4 — footer PRIVACY/TERMS → /brand/privacy, /brand/terms with no route",
+    "grep 'brand/privacy' in src/routes/Site00Routes.tsx: no route definition"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+   "name": "Project membership + invite acceptance",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "PLATFORM_FOUNDATION",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 5.0,
+   "confidence": "HIGH",
+   "gap": "Add members + invites tables, authorizeProjectAction(user,project,action), accept endpoint, invite email. || From CAP.CRM.PROJECT_MEMBERSHIP: Add a members table plus invite and accept endpoints that reuse the world-intake token pattern. Replace client_email ownership checks.",
+   "closest_existing": [
+    "CAP.SECURITY.SUPABASE_AUTH_SESSION",
+    "CAP.INTEGRATION.EMAIL_PROVIDER",
+    "CAP.CRM.CONTACT_IDENTITY_RECORD"
+   ],
+   "search_evidence": [
+    "grep -rn 'project_members\\|project_invites' supabase/migrations → 0 hits (per auth_registry_notes §1)",
+    "supabase/migrations/20260818143000_site00_production_os.sql:9-10 — client_email/client_user_id only",
+    "shared/site00-email/registry/events.ts:63 — MAGIC_LINK_REQUESTED wired:false",
+    "api/_lib/site00Production/clientStudio.ts:152-157 — clientOwnsProject single-owner",
+    "grep 'project_members' supabase/migrations: none",
+    "api/site00/client-reviews.ts:76 — role enum CLIENT_OWNER|CLIENT_COLLABORATOR|CLIENT_VIEWER"
+   ]
+  },
+  {
+   "capability_id": "CAP.BIZ.UNIFIED_BUSINESS_PROFILE",
+   "name": "Unified per-client business profile / strategy record",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "BUSINESS_UNDERSTANDING",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 5,
+   "confidence": "MEDIUM",
+   "gap": "Add a profile view/table keyed on site00_projects.id fed by adapters from each store.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep 'business_profile|businessProfile' src api shared supabase → no canonical profile",
+    "supabase/migrations/20260820200000_site00_evolve_marketing_os.sql:5 — marketing_profiles keyed by organization_id (different key)",
+    "supabase/migrations/20260910180000_site00_brand_creative_context.sql — brand_id text key",
+    "shared/site00-intakes/types.ts:1 — intakes keep separate tables by design"
+   ]
+  },
+  {
+   "capability_id": "CAP.COST.UNIFIED_COST_LEDGER",
+   "name": "Unified provider cost ledger (DB)",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "LIVE_OPERATIONS",
+   "root_engine": "COST_LEDGER",
+   "effort_days_estimate": 4,
+   "confidence": "HIGH",
+   "gap": "Add site00_cost_ledger + adapters; backfill JURNL ledgers.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -iE 'cost|credit|spend|budget' supabase/migrations → only scattered columns, no ledger table",
+    "docs/production/reference-binding/GENERATION_LEDGER_SCHEMA.json — row shape",
+    "docs/site00/client-project-room/SITE00_CLIENT_COST_TRANSPARENCY_MODEL.json — ledger_row/ledger_storage"
+   ]
+  },
+  {
+   "capability_id": "CAP.SEO.ROBOTS_TXT",
+   "name": "robots.txt",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "PUBLIC_LOCATION",
+   "mature_endpoint_stage": "MARKETING_SYSTEM",
+   "root_engine": "ROUTE_META_REGISTRY",
+   "effort_days_estimate": 0.25,
+   "confidence": "HIGH",
+   "gap": "Add static robots.txt with disallows + Sitemap line.",
+   "closest_existing": [],
+   "search_evidence": [
+    "ls public/robots.txt → absent",
+    "frontendDeploymentManifest.ts:12 lists 'robots.txt'",
+    "public/.htaccess:23-26 — non-file requests → index.html",
+    "grep -rn noindex src index.html → none",
+    "src/…/ConceptDirectedTwinV2PreviewPage.tsx:18 — per-page noindex (verifier)",
+    ".htaccess:11-19 — SPA rewrite rules (verifier line correction)"
+   ]
+  },
+  {
+   "capability_id": "CAP.A11Y.AUTOMATED_A11Y_TESTS",
+   "name": "Automated accessibility test suite (axe)",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "PLATFORM_FOUNDATION",
+   "root_engine": null,
+   "effort_days_estimate": 1.5,
+   "confidence": "HIGH",
+   "gap": "Add Playwright+axe on /app, /client, public routes.",
+   "closest_existing": [],
+   "search_evidence": [
+    "package.json — no axe/jest-axe dependency",
+    "grep -rliE 'axe-core|jest-axe' tests → 0"
+   ]
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.PUBLIC_PAGE_ANALYTICS",
+   "name": "Public site / client site page analytics",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "MEASUREMENT",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 2,
+   "confidence": "HIGH",
+   "gap": "Choose provider (Plausible/GA4), install on public + client sites, consent, route into metric observations.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rniE 'gtag|plausible|posthog|mixpanel|segment' src index.html public — 0 tracking hits",
+    "api/_lib/site00Orchestration/repositoryInventory.ts:79 — 'analytics' workstream only for frontal-slayer, LOW confidence"
+   ]
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.PRICE_OVERRIDE",
+   "name": "PRICE_OVERRIDE control",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+   "mature_endpoint_stage": "OFFER",
+   "root_engine": "COST_LEDGER",
+   "effort_days_estimate": 1,
+   "confidence": "HIGH",
+   "gap": "Override field on quote/package selection with audit event.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rni 'PRICE_OVERRIDE|priceOverride|price_override' → 0",
+    "api/_lib/existingLocation/service.ts:156 — line items only manual pricing"
+   ]
+  },
+  {
+   "capability_id": "CAP.CRM.CONTACT_INQUIRY",
+   "name": "Contact form and inquiry intake",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "PUBLIC_LOCATION",
+   "mature_endpoint_stage": "IDEA",
+   "root_engine": null,
+   "effort_days_estimate": 1,
+   "confidence": "HIGH",
+   "gap": "Un-draft /contact, merged with /support, with a form that writes a lead plus admin activity and sends an email notice.",
+   "closest_existing": [
+    "CAP.CRM.LEAD_CAPTURE"
+   ],
+   "search_evidence": [
+    "src/site00/pages/SupportPage.tsx:32 — mailto:support@site00.com",
+    "src/site00/pages/AboutPage.tsx:52 — mailto:hello@site00.com",
+    "src/site00/pages/information/ContactPage.tsx:15 — mailto per channel",
+    "grep onSubmit in SupportPage/ContactPage: none"
+   ]
+  },
+  {
+   "capability_id": "CAP.LAUNCH.DOMAIN_DNS",
+   "name": "Domain & DNS management",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "CLIENT_SITES",
+   "mature_endpoint_stage": "DIGITAL_LOCATION_WORLD",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 5.0,
+   "confidence": "MEDIUM",
+   "gap": "Manual runbook + domain verification checklist for first client; automation later. || From CAP.SITES.DOMAINS_DEPLOYS: Defer. Record the domain and live_url on the site first.",
+   "closest_existing": [],
+   "search_evidence": [
+    "supabase/migrations/20260818180000_site00_admin_operations.sql:103 — domain text",
+    "grep -rn 'dns|CNAME' api shared (domain automation) → none found",
+    "grep -i 'domains' supabase/migrations create table: none",
+    "src/routes/Site00Routes.tsx:2930 — controlDomains → ControlSectionPage stub"
+   ]
+  },
+  {
+   "capability_id": "CAP.MAINTAIN.BACKUPS",
+   "name": "Database & asset backups",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "CONTROL_PLANE",
+   "mature_endpoint_stage": "MAINTENANCE",
+   "root_engine": null,
+   "effort_days_estimate": 1,
+   "confidence": "MEDIUM",
+   "gap": "Confirm Supabase plan PITR; scheduled storage export; restore drill.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rliE 'pg_dump|PITR|point.in.time' scripts docs supabase .github → 0",
+    "src/utils/adminAuth.ts:13 — 'backup' = auth backup key"
+   ]
+  },
+  {
+   "capability_id": "CAP.OFFER.CLIENT_AGREEMENTS",
+   "name": "Client agreements / contracts / e-signature",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "mature_endpoint_stage": "OFFER",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "Agreement record + acceptance receipt tied to quote.",
+   "closest_existing": [],
+   "search_evidence": [
+    "src/site00/components/evolve-assessment/EvolveStepFields.tsx:221 — 'AFTER AGREEMENT, DEPOSIT…' copy only",
+    "grep -i 'e-?sign|signature_status|terms of service' supabase/migrations → 0",
+    "grep 'statement of work' → 0"
+   ]
+  },
+  {
+   "capability_id": "CAP.PRIVACY.DATA_EXPORT_DELETION",
+   "name": "Account data export & deletion",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "CLIENT_CONTROL_ROOM",
+   "mature_endpoint_stage": "PLATFORM_FOUNDATION",
+   "root_engine": null,
+   "effort_days_estimate": 2,
+   "confidence": "HIGH",
+   "gap": "Admin-run deletion runbook first; self-serve later.",
+   "closest_existing": [],
+   "search_evidence": [
+    "api/profile.ts:200,239 — only GET and PATCH",
+    "grep -rn 'deleteUser|auth.admin.' api → comment only (api/_lib/supabase.ts:10)"
+   ]
+  },
+  {
+   "capability_id": "CAP.RELEASE.STAGING_ENVIRONMENT",
+   "name": "Staging / preview environments",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "CONTROL_PLANE",
+   "mature_endpoint_stage": "MAINTENANCE",
+   "root_engine": null,
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "Supabase branch or second project + Railway staging env.",
+   "closest_existing": [],
+   "search_evidence": [
+    "scripts/supabase/apply-pending-site00-migrations.sh:7 — single REF",
+    "grep -ci staging motherboard/MEMORY.md → 1 (unrelated)",
+    "AGENTS.md — preview serves production-dist against api.site00.com"
+   ]
+  },
+  {
+   "capability_id": "CAP.RUNTIME.PROJECT_ENV_SECRETS",
+   "name": "Per-project environments & secrets",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "PROJECT_RUNTIME_LAYER",
+   "mature_endpoint_stage": "DIGITAL_LOCATION_WORLD",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "Extend providerSecretStore to project scope with environment dimension.",
+   "closest_existing": [
+    "CAP.SECURITY.SECRETS_HANDLING"
+   ],
+   "search_evidence": [
+    "grep -rnE 'runtime_env|project_env|per.?project.?secret' supabase/migrations → 0",
+    "docs/site00/EXTERNAL_SYSTEM_REGISTRY.md — environment, secret_ref fields"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.HTTP_SECURITY_HEADERS",
+   "name": "HTTP security headers (CSP/HSTS/frame)",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "PLATFORM_FOUNDATION",
+   "root_engine": null,
+   "effort_days_estimate": 0.5,
+   "confidence": "HIGH",
+   "gap": "Add headers in .htaccess + helmet on API; sandbox/separate origin for project runtimes.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rn 'Content-Security-Policy|X-Frame-Options|Strict-Transport' public/.htaccess server api/_lib → 0 hits",
+    "public/.htaccess:31-36 — only Cache-Control headers"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.RATE_LIMITING",
+   "name": "API rate limiting / abuse protection",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "PLATFORM_FOUNDATION",
+   "root_engine": null,
+   "effort_days_estimate": 1,
+   "confidence": "HIGH",
+   "gap": "Add express-rate-limit (or Railway edge) for /api/site00-access, intake-access, generation routes; spend caps per day.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rlni 'rate.?limit' api server → only provider 429 handlers (api/_lib/site00GrokDesignBench/grokProviderRetry.ts, shared/.../pageConceptCgpt429.ts)",
+    "grep -n 'attempt|lockout' api/_lib/site00AccessCredentials/*.ts api/site00/intake-access.ts → 0 hits",
+    "server/index.ts:58 — express.json limit 25mb"
+   ]
+  },
+  {
+   "capability_id": "CAP.SEO.OG_SOCIAL_PREVIEW",
+   "name": "Open Graph / social share images",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "PUBLIC_LOCATION",
+   "mature_endpoint_stage": "MARKETING_SYSTEM",
+   "root_engine": null,
+   "effort_days_estimate": 0.5,
+   "confidence": "HIGH",
+   "gap": "Static default OG tags + image; per-route OG requires prerender (see CAP.SEO.SPA_PRERENDER).",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rn 'og:image|og:title' index.html src → only unrelated asset 'ogImage'-free; none in head",
+    "index.html:1-35"
+   ]
+  },
+  {
+   "capability_id": "CAP.SEO.SITEMAP",
+   "name": "sitemap.xml generation",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "PUBLIC_LOCATION",
+   "mature_endpoint_stage": "MARKETING_SYSTEM",
+   "root_engine": "ROUTE_META_REGISTRY",
+   "effort_days_estimate": 0.5,
+   "confidence": "HIGH",
+   "gap": "Build-time script emitting sitemap from SITE00_ROUTES public entries.",
+   "closest_existing": [],
+   "search_evidence": [
+    "ls public/sitemap* → none",
+    "grep -rln sitemap scripts → none",
+    "api/_lib/site00Production/seedDemo.ts:89 — sitemap is a deliverable status"
+   ]
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.CLIENT_FACING_REPORTS",
+   "name": "Client-facing performance reports",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "mature_endpoint_stage": "MEASUREMENT",
+   "root_engine": null,
+   "effort_days_estimate": 4,
+   "confidence": "HIGH",
+   "gap": "Everything; depends on real metrics.",
+   "closest_existing": [
+    "CAP.ANALYTICS.PUBLIC_PAGE_ANALYTICS",
+    "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER"
+   ],
+   "search_evidence": [
+    "grep -rliE 'report|metric|performance' src/site00/components/clientApp src/site00/components/clientProjectRoom — 0",
+    "shared/site00-client-app/nativeCapabilities.ts — only 'biometrics' match"
+   ]
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.CLIENT_SPECIFIC_PRICING",
+   "name": "Client-specific pricing",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+   "mature_endpoint_stage": "OFFER",
+   "root_engine": null,
+   "effort_days_estimate": 2,
+   "confidence": "HIGH",
+   "gap": "Client price-book layer over catalog.",
+   "closest_existing": [],
+   "search_evidence": [
+    "shared/site00-existing-location/courtesy.ts:33 — eligible_email/eligible_client_id restrictions",
+    "docs/site00/ground-zero/navigation/SITE00_CONTROL_ROOM_MAP.json:310 — price book editor / client-specific pricing (planned)"
+   ]
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.PROJECT_CREDIT",
+   "name": "PROJECT_CREDIT control",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+   "mature_endpoint_stage": "OFFER",
+   "root_engine": "COST_LEDGER",
+   "effort_days_estimate": 2,
+   "confidence": "HIGH",
+   "gap": "Credit ledger rows on the cost/commercial ledger.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rni 'PROJECT_CREDIT|project_credit' src api shared supabase → 0",
+    "docs/site00/ground-zero/navigation/SITE00_NAVIGATION_SPATIAL_SHELL_FOUNDER_REVIEW.md:125 — 'no project credits'"
+   ]
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.STACKING_RULES",
+   "name": "Discount stacking rules",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+   "mature_endpoint_stage": "OFFER",
+   "root_engine": null,
+   "effort_days_estimate": 1,
+   "confidence": "HIGH",
+   "gap": "Explicit non-stackable default + policy field.",
+   "closest_existing": [],
+   "search_evidence": [
+    "api/_lib/existingLocation/service.ts:205 — completeCheckout(caseId, rawCode) single code",
+    "grep -i 'stackable|stacking_rule' commercial modules → 0"
+   ]
+  },
+  {
+   "capability_id": "CAP.CONTENT.CMS",
+   "name": "CMS / editable content models",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "MARKETING_SYSTEM",
+   "root_engine": null,
+   "effort_days_estimate": 8,
+   "confidence": "HIGH",
+   "gap": "Decide: content tables + editor, or headless CMS.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep sanity|contentful|mdx|markdown package.json → none",
+    "migration 20260826123000 — site00_page_content_bindings in design control plane bridge"
+   ]
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.CLIENT_BILLING",
+   "name": "Client billing",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "CLIENT_CONTROL_ROOM",
+   "mature_endpoint_stage": "LIVE_OPERATIONS",
+   "root_engine": "COST_LEDGER",
+   "effort_days_estimate": 2,
+   "confidence": "HIGH",
+   "gap": "Show founder-issued invoices read-only first.",
+   "closest_existing": [
+    "CAP.COMMERCIAL.INVOICES"
+   ],
+   "search_evidence": [
+    "src/routes/Site00Routes.tsx:2942 — controlBilling stub"
+   ]
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.CLIENT_TEAM",
+   "name": "Client team management",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "CLIENT_CONTROL_ROOM",
+   "mature_endpoint_stage": "LIVE_OPERATIONS",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 2,
+   "confidence": "HIGH",
+   "gap": "Build after CAP.CRM.PROJECT_MEMBERSHIP.",
+   "closest_existing": [
+    "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES"
+   ],
+   "search_evidence": [
+    "src/routes/Site00Routes.tsx:2954 — controlTeam stub",
+    "grep project_members migrations: none"
+   ]
+  },
+  {
+   "capability_id": "CAP.MAINTAIN.DEPENDENCY_UPDATES",
+   "name": "Dependency & platform updates",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "CONTROL_PLANE",
+   "mature_endpoint_stage": "MAINTENANCE",
+   "root_engine": null,
+   "effort_days_estimate": 0.5,
+   "confidence": "HIGH",
+   "gap": "Add dependabot (npm + actions) with grouped weekly PRs.",
+   "closest_existing": [],
+   "search_evidence": [
+    "ls .github → workflows only",
+    "check-run annotations — Node.js 20 deprecated; ubuntu-latest → Ubuntu 26 on 2026-10-19",
+    "package.json — react ^19 with @types/react ^18.3"
+   ]
+  },
+  {
+   "capability_id": "CAP.MKT_INTEL.COMPETITOR_RESEARCH",
+   "name": "Competitor / reference research",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "mature_endpoint_stage": "BUSINESS_UNDERSTANDING",
+   "root_engine": null,
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "Add competitor references to the business profile (can reuse site00_references / reference_families).",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rli competitor src api shared supabase → 5 files, none a model",
+    "shared/site00-evolve-commercial/catalog.ts:50 — 'Competitor / reference intelligence where available' (copy only)",
+    "api/_lib/site00GrokDesignBench/grokVisionProvider.ts:158 — competitorAccessAllowed: false",
+    "grep 'market research|market intelligence' → 0"
+   ]
+  },
+  {
+   "capability_id": "CAP.SALES.CONVERSION_TRACKING",
+   "name": "Conversion analytics and attribution",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "OFFER",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "Add a first-party funnel event table and capture source/UTM on intake and lead.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -iE 'gtag|posthog|plausible|mixpanel|analytics.track|utm_' src api shared: no tracking implementation",
+    "api/_lib/site00Production/adminOperations.ts:816 — getReportsPipeline (table counts)"
+   ]
+  },
+  {
+   "capability_id": "CAP.SEO.SPA_PRERENDER",
+   "name": "SSR / prerender for crawlable SPA",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "MARKETING_SYSTEM",
+   "root_engine": null,
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "Build-time prerender of ~10 public routes (/, /about, /evolve, /services, /journal, /idnty, /bldr) with route meta.",
+   "closest_existing": [],
+   "search_evidence": [
+    "index.html:43-50 — root contains only 'Loading SITE 00…'",
+    "grep -n prerender vite.config.ts package.json → none",
+    "AGENTS.md — dist/ uploaded to GoDaddy cPanel static"
+   ]
+  },
+  {
+   "capability_id": "CAP.SEO.STRUCTURED_DATA",
+   "name": "Structured data (JSON-LD)",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "PUBLIC_LOCATION",
+   "mature_endpoint_stage": "MARKETING_SYSTEM",
+   "root_engine": null,
+   "effort_days_estimate": 0.25,
+   "confidence": "HIGH",
+   "gap": "Organization JSON-LD in index.html.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rn 'ld+json' index.html src public → none"
+   ]
+  },
+  {
+   "capability_id": "CAP.SUPPORT.TICKETING",
+   "name": "Support tickets",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "CLIENT_CONTROL_ROOM",
+   "mature_endpoint_stage": "LIVE_OPERATIONS",
+   "root_engine": "NOTIFICATION_BUS",
+   "effort_days_estimate": 3,
+   "confidence": "HIGH",
+   "gap": "After messaging lands, model a ticket as a typed thread rather than adding a separate system.",
+   "closest_existing": [
+    "CAP.CRM.CLIENT_MESSAGING"
+   ],
+   "search_evidence": [
+    "grep -ci ticket motherboard/MEMORY.md: 0",
+    "grep -i ticket supabase/migrations: none"
+   ]
+  },
+  {
+   "capability_id": "CAP.TREES.PROJECT_GRAPH",
+   "name": "Project graph / working tree across artifacts (unified)",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "DIGITAL_LOCATION_WORLD",
+   "root_engine": "ASSET_GRAPH",
+   "effort_days_estimate": 10,
+   "confidence": "HIGH",
+   "gap": "Define ASSET_GRAPH root engine (nodes+edges tables) and migrate the six models onto it.",
+   "closest_existing": [
+    "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+    "CAP.DEPGRAPH.DELIVERABLE_DEPENDENCIES",
+    "CAP.DEPGRAPH.INVALIDATION_GRAPH",
+    "CAP.DEPGRAPH.DESIGN_CHANGE_BLAST_RADIUS",
+    "CAP.TREES.JURNL_SCREEN_TREE",
+    "CAP.TREES.PAGE_FAMILY_WORKSPACE"
+   ],
+   "search_evidence": [
+    "grep -rlnE 'projectGraph|PROJECT_GRAPH|workingTree' src shared api scripts → no matches",
+    "six partial models listed in existing_duplicates"
+   ]
+  },
+  {
+   "capability_id": "CAP.CONTENT.I18N",
+   "name": "Internationalization",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "FUTURE_OPTIONAL",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "mature_endpoint_stage": "MARKETING_SYSTEM",
+   "root_engine": null,
+   "effort_days_estimate": 5,
+   "confidence": "HIGH",
+   "gap": "Not needed pre-scale.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rn 'i18next|react-intl|useTranslation|lingui' src package.json → none"
+   ]
+  },
+  {
+   "capability_id": "CAP.EXPERIMENT.AB_TESTING",
+   "name": "A/B testing of client-facing variants",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "FUTURE_OPTIONAL",
+   "correct_product_layer": "PRODUCTS_EVOLVE",
+   "mature_endpoint_stage": "MEASUREMENT",
+   "root_engine": null,
+   "effort_days_estimate": 5,
+   "confidence": "HIGH",
+   "gap": "All.",
+   "closest_existing": [
+    "CAP.ANALYTICS.PUBLIC_PAGE_ANALYTICS",
+    "CAP.EXPERIMENT.FEATURE_FLAGS"
+   ],
+   "search_evidence": [
+    "grep -rliE 'ab.?test|variant.?assign|split.?test' src api shared — 0"
+   ]
+  },
+  {
+   "capability_id": "CAP.MARKETING.AD_CREATIVE",
+   "name": "Paid ad creative + paid promotion",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "FUTURE_OPTIONAL",
+   "correct_product_layer": "PRODUCTS_EVOLVE",
+   "mature_endpoint_stage": "MARKETING_SYSTEM",
+   "root_engine": null,
+   "effort_days_estimate": 10,
+   "confidence": "HIGH",
+   "gap": "Everything.",
+   "closest_existing": [],
+   "search_evidence": [
+    "commandConnections.ts:220 — ['Autonomous publishing','Cross-platform distribution','Paid promotion',...] as excluded",
+    "grep -rni 'meta ads|google ads|adCreative' → none"
+   ]
+  },
+  {
+   "capability_id": "CAP.PRIVACY.COOKIE_CONSENT",
+   "name": "Cookie / tracking consent",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "FUTURE_OPTIONAL",
+   "correct_product_layer": "PUBLIC_LOCATION",
+   "mature_endpoint_stage": "PLATFORM_FOUNDATION",
+   "root_engine": null,
+   "effort_days_estimate": 1,
+   "confidence": "HIGH",
+   "gap": "Add when analytics/marketing pixels are introduced.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rniE 'cookie.?(banner|consent)' src → 0 hits",
+    "src/utils/adminAuth.ts:16-17 — auth cookies"
+   ]
+  },
+  {
+   "capability_id": "CAP.RISK.RISK_REGISTER",
+   "name": "Studio / project risk register",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "FUTURE_OPTIONAL",
+   "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+   "mature_endpoint_stage": "PLATFORM_FOUNDATION",
+   "root_engine": null,
+   "effort_days_estimate": 1,
+   "confidence": "MEDIUM",
+   "gap": "Fold into production blockers + launch manifest requirements.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -rliE 'risk.?register|RISK_REGISTER' docs shared api src — 0",
+    "shared/site00-brand-lore/contentOperations/contentRisk.ts:7 — evaluateContentRisk (content only)"
+   ]
+  },
+  {
+   "capability_id": "CAP.SUPPORT.SLA_TRACKING",
+   "name": "Response SLAs",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "FUTURE_OPTIONAL",
+   "correct_product_layer": "STUDIO_OS",
+   "mature_endpoint_stage": "LIVE_OPERATIONS",
+   "root_engine": null,
+   "effort_days_estimate": 2,
+   "confidence": "HIGH",
+   "gap": "Add due_at to review objects and tickets later, and surface overdue items in the founder attention center.",
+   "closest_existing": [],
+   "search_evidence": [
+    "grep -iE 'sla|due_at|response_time' supabase/migrations: no SLA columns",
+    "api/_lib/site00Production/adminOperations.ts:323 — invoices due_date only"
+   ]
+  }
+ ]
+}

@@ -53,6 +53,8 @@ export const SITE00_ROUTES = {
   signIn: '/origin/sign-in',
   createAccount: '/origin/create-account',
   loaderPreview: '/loader-preview',
+  /** P0.SITE00.FAMILY1.PARENT-ASSET-FIRST.PAGE-ASSEMBLY.TEST1 */
+  jurnlF01ParentAssembly: '/jurnl/f01/parent-assembly',
   accessDebug: '/access/debug',
   access: '/access',
   accessCredential: (code: string) => `/access/${code}`,
@@ -155,7 +157,11 @@ export const SITE00_ROUTES = {
   productionLibraries: '/production/libraries',
   /** Production queue — structured work received from projects and services. */
   productionQueue: '/production/queue',
+  /** Production → ACTIVITY (project history). */
+  productionActivity: '/production/activity',
   productionProject: '/production/:projectSlug',
+  /** P0.JURNL.SITE00-INGEST-F01 — ingested project runtime (project body, no host chrome). */
+  productionProjectRuntime: '/production/:projectSlug/runtime/*',
   productionDesign: '/production/:projectSlug/design',
   productionDesignWorkspace: '/production/:projectSlug/design-workspace',
   /** Live client app viewport QA (iframe); internal production tooling. */

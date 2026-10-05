@@ -1,0 +1,2201 @@
+{
+ "totals": {
+  "tabs": 7,
+  "surfaces": 235,
+  "by_tab": {
+   "HUB": 16,
+   "INBOX": 15,
+   "DESIGN": 16,
+   "EXPERIENCE": 48,
+   "EXPRESSION": 51,
+   "LIBRARY": 79,
+   "ACTIVITY": 7,
+   "GLOBAL_SHELL": 3
+  },
+  "by_level": {
+   "PARENT": 12,
+   "CHILD": 39,
+   "GRANDCHILD": 137,
+   "STATE": 19,
+   "DRAWER": 4,
+   "MODAL": 2,
+   "FULL_SCREEN": 2,
+   "OVERLAY": 17,
+   "INSPECTION": 2,
+   "PREVIEW": 1
+  },
+  "parent": 12,
+  "child": 39,
+  "grandchild": 137,
+  "interaction_overlay": 47,
+  "distinct_child": 26,
+  "distinct_grandchild": 6,
+  "distinct_interaction_overlay": 8,
+  "distinct_visual_authorities": 52,
+  "legacy_surfaces": 22,
+  "environment_groups": 11,
+  "new_plates": 8,
+  "surfaces_new_plate": 95,
+  "surfaces_reuse_environment": 88,
+  "isolated_asset_candidates": 51,
+  "isolated_asset_sets": 8,
+  "icon_records": 132,
+  "icon_semantics": 110,
+  "icon_authority_packs": 2,
+  "generic_icon_substitutions": 31,
+  "missing_icons": 4,
+  "responsive_authorities": 52,
+  "pack_authority_images": 59,
+  "zip_files": 86,
+  "zip_mb": 7.03
+ },
+ "zip": {
+  "files": 86,
+  "images": 76,
+  "mb": 7.03,
+  "mib": 6.7,
+  "tabs": [
+   "ACTIVITY",
+   "DESIGN",
+   "EXPERIENCE",
+   "EXPRESSION",
+   "GLOBAL_SHELL",
+   "HUB",
+   "INBOX",
+   "LIBRARY"
+  ],
+  "checks": [
+   "opens (testzip ok)",
+   "all images decode",
+   "required files present",
+   "manifest pack paths resolve",
+   "all 7 tabs",
+   "every P0/P1 distinct surface has a pack authority",
+   "no image > 600 KB",
+   "no duplicate images",
+   "icon authorities present"
+  ],
+  "listing": [
+   "AUTHORITIES/ACTIVITY/ACTIVITY__activity.inspector__MOBILE__RUNTIME_FINAL.jpg",
+   "AUTHORITIES/ACTIVITY/ACTIVITY__activity.root__DESKTOP__RUNTIME_FINAL.jpg",
+   "AUTHORITIES/ACTIVITY/ACTIVITY__activity.root__MOBILE__RUNTIME_FINAL.jpg",
+   "AUTHORITIES/DESIGN/DESIGN__design.assets__3VIEW__PAR3V.jpg",
+   "AUTHORITIES/DESIGN/DESIGN__design.brand__3VIEW__PAR3V.jpg",
+   "AUTHORITIES/DESIGN/DESIGN__design.brand__MOBILE__T12.jpg",
+   "AUTHORITIES/DESIGN/DESIGN__design.compiler__3VIEW__PAR3V.jpg",
+   "AUTHORITIES/DESIGN/DESIGN__design.experience__3VIEW__PAR3V.jpg",
+   "AUTHORITIES/DESIGN/DESIGN__design.surfaces__3VIEW__PAR3V.jpg",
+   "AUTHORITIES/DESIGN/DESIGN__design.viewport__3VIEW__PAR3V.jpg",
+   "AUTHORITIES/DESIGN/DESIGN__design.viewport__MOBILE__T12.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.access.conditional__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.access__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.inhabitants__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.interactions__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.paths__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.root__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.root__MOBILE__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.states__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.world.architecture__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.world.detail__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.zones__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.campaign__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.casting.actor-profile__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.casting__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.casting__MOBILE__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.character-fabrication.stations__MOBILE__CF_BOARD.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.character-fabrication__MOBILE__CF.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.floor__DESKTOP__T12.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.floor__MOBILE__T12.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.format__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.look__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.narrative__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.package__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.performance__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.review__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.sets__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/EXPRESSION/EXPRESSION__expression.storyboard__DESKTOP-TABLET__EXPR2.jpg",
+   "AUTHORITIES/HUB/HUB__hub.root__DESKTOP__HUBREF.jpg",
+   "AUTHORITIES/HUB/HUB__hub.root__MOBILE__HUBREF.jpg",
+   "AUTHORITIES/HUB/HUB__hub.root__TABLET__HUBREF.jpg",
+   "AUTHORITIES/INBOX/INBOX__inbox.all__DESKTOP__RUNTIME_FINAL.jpg",
+   "AUTHORITIES/INBOX/INBOX__inbox.all__MOBILE__RUNTIME_FINAL.jpg",
+   "AUTHORITIES/INBOX/INBOX__inbox.decision-detail__MOBILE__IBX2.jpg",
+   "AUTHORITIES/INBOX/INBOX__inbox.interaction-sheets__MOBILE__RUNTIME_BOARD.jpg",
+   "AUTHORITIES/INBOX/INBOX__inbox.root__DESKTOP__T12.jpg",
+   "AUTHORITIES/INBOX/INBOX__inbox.root__MOBILE__T12.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.archive__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.assets__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.authorities.lineage__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.characters__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.documents__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.environments__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.expressions__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.icons__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.materials__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.references__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.root__DESKTOP-TABLET__EL.jpg",
+   "AUTHORITIES/LIBRARY/LIBRARY__library.root__MOBILE__EL.jpg",
+   "ICONS/NAV_MASTERS/01_HUB__FOUNDER_MASTER.png",
+   "ICONS/NAV_MASTERS/02_INBOX__FOUNDER_MASTER.png",
+   "ICONS/NAV_MASTERS/03_DESIGN__FOUNDER_MASTER.png",
+   "ICONS/NAV_MASTERS/04_EXPERIENCE__FOUNDER_MASTER.png",
+   "ICONS/NAV_MASTERS/05_EXPRESSION__FOUNDER_MASTER.png",
+   "ICONS/NAV_MASTERS/06_LIBRARY__FOUNDER_MASTER.png",
+   "ICONS/NAV_MASTERS/07_ACTIVITY__FOUNDER_MASTER.png",
+   "ICONS/NAV__FOUNDER_MASTERS_AUTHORITY_SHEET.png",
+   "ICONS/NAV__SUPERSEDED_CONTRAST__DO_NOT_USE.jpg",
+   "ICONS/RUNTIME__DESIGN_PACK_EXTRACTED_CURRENT.jpg",
+   "ICONS/RUNTIME__LINE_ICONS_CURRENT.png",
+   "ICONS/WORKSPACE__DWS_ICON_PACK_AUTHORITY.jpg",
+   "MANIFEST/PRODUCTION_WORKSPACE_ENVIRONMENT_GROUPS.json",
+   "MANIFEST/PRODUCTION_WORKSPACE_GROK_HANDOFF.json",
+   "MANIFEST/PRODUCTION_WORKSPACE_ICON_INVENTORY.json",
+   "MANIFEST/PRODUCTION_WORKSPACE_RESPONSIVE_MAP.json",
+   "MANIFEST/PRODUCTION_WORKSPACE_RUNTIME_ROUTES.json",
+   "MANIFEST/PRODUCTION_WORKSPACE_SCREEN_TREE.json",
+   "NOTES/ASSET_PASS_SCOPE.txt",
+   "NOTES/GROK_EXECUTION_RULES.txt",
+   "NOTES/SUPERSESSION_NOTES.txt",
+   "README_FIRST.txt",
+   "REFERENCE/GLOBAL__DWS_ASSET_PACK_AUTHORITY.jpg",
+   "REFERENCE/GLOBAL__ENVIRONMENT_LANGUAGE_BOARD.jpg",
+   "REFERENCE/HOST__SHELL_AUTHORITY_BOARD.jpg",
+   "REFERENCE/RUNTIME__CURRENT_PLATES_CONTACT_SHEET.jpg",
+   "REFERENCE/RUNTIME__TABLET_PORTRAIT_834x1194_BOARD.jpg"
+  ]
+ },
+ "pack_files": [
+  {
+   "file": "AUTHORITIES/ACTIVITY/ACTIVITY__activity.inspector__MOBILE__RUNTIME_FINAL.jpg",
+   "role": "RUNTIME_AUTHORITY (founder FINAL directive)",
+   "source": {
+    "runtime_capture": "activity.inspector__mobile.jpg",
+    "sha": "7ec5501d",
+    "preset": "mobile"
+   },
+   "source_size": [
+    786,
+    1704
+   ],
+   "pack_size": [
+    590,
+    1280
+   ],
+   "bytes": 54884,
+   "surfaces": [
+    "activity.inspector"
+   ],
+   "viewport": "mobile 393×852",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "Slide-up drawer inside the workspace."
+  },
+  {
+   "file": "AUTHORITIES/ACTIVITY/ACTIVITY__activity.root__DESKTOP__RUNTIME_FINAL.jpg",
+   "role": "RUNTIME_AUTHORITY (founder FINAL directive)",
+   "source": {
+    "runtime_capture": "activity.inspector__desktop.jpg",
+    "sha": "7ec5501d",
+    "preset": "desktop"
+   },
+   "source_size": [
+    1440,
+    900
+   ],
+   "pack_size": [
+    1280,
+    800
+   ],
+   "bytes": 58871,
+   "surfaces": [
+    "activity.root",
+    "activity.inspector"
+   ],
+   "viewport": "desktop 1440×900",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/ACTIVITY/ACTIVITY__activity.root__MOBILE__RUNTIME_FINAL.jpg",
+   "role": "RUNTIME_AUTHORITY (founder FINAL directive)",
+   "source": {
+    "runtime_capture": "activity.root__mobile.jpg",
+    "sha": "7ec5501d",
+    "preset": "mobile"
+   },
+   "source_size": [
+    786,
+    1704
+   ],
+   "pack_size": [
+    590,
+    1280
+   ],
+   "bytes": 59397,
+   "surfaces": [
+    "activity.root"
+   ],
+   "viewport": "mobile 393×852",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "D-ACTIVITY-FINAL one-viewport composition — the previous mobile scroll defect is fixed (page never scrolls)."
+  },
+  {
+   "file": "AUTHORITIES/DESIGN/DESIGN__design.assets__3VIEW__PAR3V.jpg",
+   "role": "THREE_VIEW_AUTHORITY (desktop 16:9 · tablet 4:3 · mobile 9:19.5)",
+   "source": {
+    "upload_path": "b0a6f2f1-STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/06_DESIGN_ASSETS.jpg"
+   },
+   "source_size": [
+    2600,
+    900
+   ],
+   "pack_size": [
+    1600,
+    554
+   ],
+   "bytes": 122279,
+   "surfaces": [
+    "design.assets"
+   ],
+   "viewport": "desktop+tablet+mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "Founder compilation of T12 (PARENT_3VIEW v1)."
+  },
+  {
+   "file": "AUTHORITIES/DESIGN/DESIGN__design.brand__3VIEW__PAR3V.jpg",
+   "role": "THREE_VIEW_AUTHORITY (desktop 16:9 · tablet 4:3 · mobile 9:19.5)",
+   "source": {
+    "upload_path": "b0a6f2f1-STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/02_DESIGN_BRAND.jpg"
+   },
+   "source_size": [
+    2600,
+    900
+   ],
+   "pack_size": [
+    1600,
+    554
+   ],
+   "bytes": 120872,
+   "surfaces": [
+    "design.brand"
+   ],
+   "viewport": "desktop+tablet+mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "Founder compilation of T12 (PARENT_3VIEW v1)."
+  },
+  {
+   "file": "AUTHORITIES/DESIGN/DESIGN__design.brand__MOBILE__T12.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:T12:Mobile/IMG_5968.jpg",
+    "upload_pack": "Production_3_Viewports_12_Tabs_SONNET_LITE.zip",
+    "upload_path": "acaacd95-Production_3_Viewports_12_Tabs_SONNET_LITE/Mobile/IMG_5968.jpg",
+    "blob": "910e6b591535c0545f389ed25f68a4ced4231eda",
+    "status": "CANONICAL",
+    "date": "2026-10-02T18:43:27Z"
+   },
+   "source_size": [
+    720,
+    1280
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 119797,
+   "surfaces": [
+    "design.brand"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/DESIGN/DESIGN__design.compiler__3VIEW__PAR3V.jpg",
+   "role": "THREE_VIEW_AUTHORITY (desktop 16:9 · tablet 4:3 · mobile 9:19.5)",
+   "source": {
+    "upload_path": "b0a6f2f1-STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/05_DESIGN_COMPILER.jpg"
+   },
+   "source_size": [
+    2600,
+    900
+   ],
+   "pack_size": [
+    1600,
+    554
+   ],
+   "bytes": 123366,
+   "surfaces": [
+    "design.compiler"
+   ],
+   "viewport": "desktop+tablet+mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "Founder compilation of T12 (PARENT_3VIEW v1)."
+  },
+  {
+   "file": "AUTHORITIES/DESIGN/DESIGN__design.experience__3VIEW__PAR3V.jpg",
+   "role": "THREE_VIEW_AUTHORITY (desktop 16:9 · tablet 4:3 · mobile 9:19.5)",
+   "source": {
+    "upload_path": "b0a6f2f1-STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/03_DESIGN_EXPERIENCE.jpg"
+   },
+   "source_size": [
+    2600,
+    900
+   ],
+   "pack_size": [
+    1600,
+    554
+   ],
+   "bytes": 123987,
+   "surfaces": [
+    "design.experience"
+   ],
+   "viewport": "desktop+tablet+mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "Founder compilation of T12 (PARENT_3VIEW v1)."
+  },
+  {
+   "file": "AUTHORITIES/DESIGN/DESIGN__design.surfaces__3VIEW__PAR3V.jpg",
+   "role": "THREE_VIEW_AUTHORITY (desktop 16:9 · tablet 4:3 · mobile 9:19.5)",
+   "source": {
+    "upload_path": "b0a6f2f1-STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/04_DESIGN_SURFACES.jpg"
+   },
+   "source_size": [
+    2600,
+    900
+   ],
+   "pack_size": [
+    1600,
+    554
+   ],
+   "bytes": 118434,
+   "surfaces": [
+    "design.surfaces"
+   ],
+   "viewport": "desktop+tablet+mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "Founder compilation of T12 (PARENT_3VIEW v1)."
+  },
+  {
+   "file": "AUTHORITIES/DESIGN/DESIGN__design.viewport__3VIEW__PAR3V.jpg",
+   "role": "THREE_VIEW_AUTHORITY (desktop 16:9 · tablet 4:3 · mobile 9:19.5)",
+   "source": {
+    "upload_path": "b0a6f2f1-STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/07_DESIGN_VIEWPORT.jpg"
+   },
+   "source_size": [
+    2600,
+    900
+   ],
+   "pack_size": [
+    1600,
+    554
+   ],
+   "bytes": 92091,
+   "surfaces": [
+    "design.viewport"
+   ],
+   "viewport": "desktop+tablet+mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "Founder compilation of T12 (PARENT_3VIEW v1)."
+  },
+  {
+   "file": "AUTHORITIES/DESIGN/DESIGN__design.viewport__MOBILE__T12.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:T12:Mobile/IMG_5975.jpg",
+    "upload_pack": "Production_3_Viewports_12_Tabs_SONNET_LITE.zip",
+    "upload_path": "acaacd95-Production_3_Viewports_12_Tabs_SONNET_LITE/Mobile/IMG_5975.jpg",
+    "blob": "f4d6863abeda669e530772d6daee2f558e8cdc4a",
+    "status": "CANONICAL",
+    "date": "2026-10-02T18:43:27Z"
+   },
+   "source_size": [
+    720,
+    1280
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 93910,
+   "surfaces": [
+    "design.viewport",
+    "design.viewport.preview"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.access.conditional__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (distinct world view / object)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/05_CONDITIONAL_ACCESS.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/07_Access/05_CONDITIONAL_ACCESS.jpg",
+    "blob": "d07d65c64a69691601afc78f331d7d3bb64a5ac1",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 93692,
+   "surfaces": [
+    "experience.access.conditional"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.access__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/01_ACCESS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/07_Access/01_ACCESS_ROOT.jpg",
+    "blob": "23dac2cfd26304c4aa6624bedc652f524843da6e",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 81224,
+   "surfaces": [
+    "experience.access"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.inhabitants__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/01_INHABITANTS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/01_INHABITANTS_ROOT.jpg",
+    "blob": "98cfead3df26eb23cfb6749429fcc7ed6ca82554",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 73299,
+   "surfaces": [
+    "experience.inhabitants"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.interactions__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/01_INTERACTIONS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/01_INTERACTIONS_ROOT.jpg",
+    "blob": "f2488bc95c54272ad4773e81f90371bf8ab3dbc5",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 97082,
+   "surfaces": [
+    "experience.interactions"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.paths__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/01_PATHS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/03_Paths/01_PATHS_ROOT.jpg",
+    "blob": "2a991ecb5bbfb32faaca2a894954dc985b160632",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 91303,
+   "surfaces": [
+    "experience.paths"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.root__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/01_WORLD_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/01_World/01_WORLD_ROOT.jpg",
+    "blob": "13aee8673d5f38c4fb1cd8f76412db69ef3ecff6",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 83075,
+   "surfaces": [
+    "experience.root"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.root__MOBILE__EL.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:EL:02_EXPERIENCE_MOBILE/01_World/01_WORLD_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/02_EXPERIENCE_MOBILE/01_World/01_WORLD_ROOT.jpg",
+    "blob": "e9e5b4b79beb473a2e6bd85742ee8fa77e9cc356",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    787,
+    1400
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 105798,
+   "surfaces": [
+    "experience.root"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.states__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/01_STATES_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/06_States/01_STATES_ROOT.jpg",
+    "blob": "56dacc249f1f0ff89dd208fd7a5d19e3f3535581",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 89225,
+   "surfaces": [
+    "experience.states"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.world.architecture__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (distinct world view / object)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/03_ARCHITECTURE.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/01_World/03_ARCHITECTURE.jpg",
+    "blob": "a65f782fd87a2d81bac2888fddf6835b51b6bdef",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 94384,
+   "surfaces": [
+    "experience.world.architecture"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.world.detail__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (distinct world view / object)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/06_WORLD_DETAIL.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/01_World/06_WORLD_DETAIL.jpg",
+    "blob": "868ffd1954c424b09c99bdebe531bf54b6013a27",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 96342,
+   "surfaces": [
+    "experience.world.detail"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.zones__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/01_ZONES_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/01_EXPERIENCE_DESKTOP_TABLET/02_Zones/01_ZONES_ROOT.jpg",
+    "blob": "82a10f343a8cd0ab7cbdd2a64992de302b65de5a",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 83475,
+   "surfaces": [
+    "experience.zones"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.campaign__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/10_Campaign_Board/00_campaign-board.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/10_Campaign_Board/00_campaign-board.jpg",
+    "blob": "5240cc71ab9561d501cabb5374cd5abf48fd1894",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 98462,
+   "surfaces": [
+    "expression.campaign"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.casting.actor-profile__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (firewall example)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/06_actor-profile.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/06_actor-profile.jpg",
+    "blob": "9da66ffeff3115e39f9bf189dc0fc3e9b0ec1aa3",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 81881,
+   "surfaces": [
+    "expression.casting.actor-profile"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.casting__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/00_casting-root.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/00_casting-root.jpg",
+    "blob": "d802983aa48c2777e3b685a4bd3b9c8645cf2f4f",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 95589,
+   "surfaces": [
+    "expression.casting"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.casting__MOBILE__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (family mobile composition rule)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/00_casting-root.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/00_casting-root.jpg",
+    "blob": "817813447b76e5b1021b4a1a3ebbcad8c3d63d8e",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    1080,
+    1920
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 105652,
+   "surfaces": [
+    "expression.casting"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "All 10 Expression families share this mobile grammar: hero band, family tabs, media-first panels."
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.character-fabrication.stations__MOBILE__CF_BOARD.jpg",
+   "role": "SCREEN_AUTHORITY_BOARD",
+   "source": {
+    "authority_ids": [
+     "UP:CF:IMG_5416.jpeg",
+     "UP:CF:IMG_5419.jpeg",
+     "UP:CF:IMG_5422.jpeg",
+     "UP:CF:IMG_5428.jpeg"
+    ]
+   },
+   "source_size": [
+    1380,
+    699
+   ],
+   "pack_size": [
+    1280,
+    648
+   ],
+   "bytes": 115641,
+   "surfaces": [
+    "expression.character-fabrication"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.character-fabrication__MOBILE__CF.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:CF:IMG_5414.jpeg",
+    "upload_pack": "SITE00_Character_Fabrication_Authority_Expressions.zip",
+    "upload_path": "745ac662-SITE00_Character_Fabrication_Authority_Expressions/IMG_5414.jpeg",
+    "blob": "9267e3015b9a1eb9c6fb0141a1eeccbbb867f86f",
+    "status": "CANONICAL",
+    "date": "2026-09-29T23:36:00Z"
+   },
+   "source_size": [
+    864,
+    1536
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 110657,
+   "surfaces": [
+    "expression.character-fabrication"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.floor__DESKTOP__T12.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:T12:Desktop/IMG_5989.jpg",
+    "upload_pack": "Production_3_Viewports_12_Tabs_SONNET_LITE.zip",
+    "upload_path": "acaacd95-Production_3_Viewports_12_Tabs_SONNET_LITE/Desktop/IMG_5989.jpg",
+    "blob": "b8beb92d7a785d86d990fdbcaac20df1644488ec",
+    "status": "CANONICAL",
+    "date": "2026-10-02T18:43:27Z"
+   },
+   "source_size": [
+    1280,
+    720
+   ],
+   "pack_size": [
+    1280,
+    720
+   ],
+   "bytes": 113194,
+   "surfaces": [
+    "expression.floor"
+   ],
+   "viewport": "desktop",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.floor__MOBILE__T12.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:T12:Mobile/IMG_5957.jpg",
+    "upload_pack": "Production_3_Viewports_12_Tabs_SONNET_LITE.zip",
+    "upload_path": "acaacd95-Production_3_Viewports_12_Tabs_SONNET_LITE/Mobile/IMG_5957.jpg",
+    "blob": "911cb4658f878f04f4acb5ecfc4b0d873565f69e",
+    "status": "CANONICAL",
+    "date": "2026-10-02T18:43:27Z"
+   },
+   "source_size": [
+    720,
+    1280
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 113854,
+   "surfaces": [
+    "expression.floor"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.format__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/08_Format_Studio/00_format-studio.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/08_Format_Studio/00_format-studio.jpg",
+    "blob": "dcc68c63b879121948c8b672190dd7aed810608e",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 96801,
+   "surfaces": [
+    "expression.format"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.look__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/00_look-wardrobe-root.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/00_look-wardrobe-root.jpg",
+    "blob": "38c27a6cabf041d29b51de6b30691c396552f2d8",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 102877,
+   "surfaces": [
+    "expression.look"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.narrative__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/00_narrative-root.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/00_narrative-root.jpg",
+    "blob": "aece42518baa018117bdd509aebf99762b4b7083",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 99128,
+   "surfaces": [
+    "expression.narrative"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.package__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/09_Content_Package/00_content-package.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/09_Content_Package/00_content-package.jpg",
+    "blob": "243b527a096da4a32c81fee6d33823d61d4bc833",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 105333,
+   "surfaces": [
+    "expression.package"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.performance__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/00_performance-root.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/00_performance-root.jpg",
+    "blob": "4ea4f1de54dbc7f6bd9a8b78bf4b7b42128742bc",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 95373,
+   "surfaces": [
+    "expression.performance"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.review__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/07_Review_Handoff/00_review-handoff-root.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/07_Review_Handoff/00_review-handoff-root.jpg",
+    "blob": "85730fe11cb4f3d98c5271d545b8b17c8afd2457",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 104477,
+   "surfaces": [
+    "expression.review"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.sets__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/00_sets-scenes-root.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/00_sets-scenes-root.jpg",
+    "blob": "cbd9fe514da4708381d6707e88a233d95d40fcdc",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 102855,
+   "surfaces": [
+    "expression.sets"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/EXPRESSION/EXPRESSION__expression.storyboard__DESKTOP-TABLET__EXPR2.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/06_Storyboard/00_storyboard-root.jpg",
+    "upload_pack": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2.zip",
+    "upload_path": "f4f31b04-STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/06_Storyboard/00_storyboard-root.jpg",
+    "blob": "203546aac8739331e872de172892dd95fb2f53b7",
+    "status": "CANONICAL",
+    "date": "2026-10-04T01:31:41Z"
+   },
+   "source_size": [
+    2200,
+    942
+   ],
+   "pack_size": [
+    1280,
+    548
+   ],
+   "bytes": 98966,
+   "surfaces": [
+    "expression.storyboard"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/HUB/HUB__hub.root__DESKTOP__HUBREF.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:HUBREF:0af8bf87-image.png",
+    "upload_pack": "image.png (chat attachment)",
+    "upload_path": "0af8bf87-image.png",
+    "blob": "5e8278a7c8b94e64e3be61eeb4c4cd6d01aec180",
+    "status": "CANONICAL",
+    "date": "2026-10-03T17:12:52Z"
+   },
+   "source_size": [
+    2304,
+    1296
+   ],
+   "pack_size": [
+    1280,
+    720
+   ],
+   "bytes": 103770,
+   "surfaces": [
+    "hub.root"
+   ],
+   "viewport": "desktop",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/HUB/HUB__hub.root__MOBILE__HUBREF.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:HUBREF:d89b8fd6-image.png",
+    "upload_pack": "image.png (chat attachment)",
+    "upload_path": "d89b8fd6-image.png",
+    "blob": "179bd05d649b59930b31e65c847df54ccf58c30a",
+    "status": "CANONICAL",
+    "date": "2026-10-03T17:12:52Z"
+   },
+   "source_size": [
+    1296,
+    2304
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 107174,
+   "surfaces": [
+    "hub.root"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": "Founder HUB reference (chat image, 2026-10-03). Density benchmark + global atrium language."
+  },
+  {
+   "file": "AUTHORITIES/HUB/HUB__hub.root__TABLET__HUBREF.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:HUBREF:c77b4b50-image.png",
+    "upload_pack": "image.png (chat attachment)",
+    "upload_path": "c77b4b50-image.png",
+    "blob": "423fa0e0d170a85911d0c4cfe437a49c456e4b95",
+    "status": "CANONICAL",
+    "date": "2026-10-03T17:12:51Z"
+   },
+   "source_size": [
+    1792,
+    1344
+   ],
+   "pack_size": [
+    1280,
+    960
+   ],
+   "bytes": 136617,
+   "surfaces": [
+    "hub.root"
+   ],
+   "viewport": "tablet-landscape-4:3",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/INBOX/INBOX__inbox.all__DESKTOP__RUNTIME_FINAL.jpg",
+   "role": "RUNTIME_AUTHORITY (founder FINAL directive)",
+   "source": {
+    "runtime_capture": "inbox.inspector__desktop.jpg",
+    "sha": "7ec5501d",
+    "preset": "desktop"
+   },
+   "source_size": [
+    1440,
+    900
+   ],
+   "pack_size": [
+    1280,
+    800
+   ],
+   "bytes": 53099,
+   "surfaces": [
+    "inbox.all",
+    "inbox.inspector"
+   ],
+   "viewport": "desktop 1440×900",
+   "authority_status": "RUNTIME_ACTIVE",
+   "reference_only": true,
+   "note": "Inspector inline on desktop (?sel=)."
+  },
+  {
+   "file": "AUTHORITIES/INBOX/INBOX__inbox.all__MOBILE__RUNTIME_FINAL.jpg",
+   "role": "RUNTIME_AUTHORITY (founder FINAL directive)",
+   "source": {
+    "runtime_capture": "inbox.children__mobile.jpg",
+    "sha": "7ec5501d",
+    "preset": "mobile"
+   },
+   "source_size": [
+    786,
+    1704
+   ],
+   "pack_size": [
+    590,
+    1280
+   ],
+   "bytes": 58066,
+   "surfaces": [
+    "inbox.all"
+   ],
+   "viewport": "mobile 393×852",
+   "authority_status": "RUNTIME_ACTIVE",
+   "reference_only": true,
+   "note": "D-INBOX-FINAL: children = rail + rows + inspector."
+  },
+  {
+   "file": "AUTHORITIES/INBOX/INBOX__inbox.decision-detail__MOBILE__IBX2.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/06_decision-detail.jpg",
+    "upload_pack": "SW_INBOX_AUTHORITY_LITE_v2.zip",
+    "upload_path": "e926e70b-SW_INBOX_AUTHORITY_LITE_v2/STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/06_decision-detail.jpg",
+    "blob": "a9d34d801c8607781880702f55bb4241e897e806",
+    "status": "CANONICAL",
+    "date": "2026-10-03T23:21:51Z"
+   },
+   "source_size": [
+    864,
+    1536
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 79212,
+   "surfaces": [
+    "inbox.decision-detail"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/INBOX/INBOX__inbox.interaction-sheets__MOBILE__RUNTIME_BOARD.jpg",
+   "role": "RUNTIME_AUTHORITY_BOARD",
+   "source": {
+    "runtime_capture": "inbox.{inspector,revision-sheet,attachment-preview,filter-sheet}__mobile.jpg",
+    "sha": "7ec5501d"
+   },
+   "source_size": [
+    1260,
+    762
+   ],
+   "pack_size": [
+    1260,
+    762
+   ],
+   "bytes": 89059,
+   "surfaces": [
+    "inbox.inspector",
+    "inbox.revision-sheet",
+    "inbox.filter-sheet",
+    "inbox.attachment-preview"
+   ],
+   "viewport": "mobile 393×852",
+   "authority_status": "RUNTIME_ACTIVE",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/INBOX/INBOX__inbox.root__DESKTOP__T12.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:T12:Desktop/IMG_5982.jpg",
+    "upload_pack": "Production_3_Viewports_12_Tabs_SONNET_LITE.zip",
+    "upload_path": "acaacd95-Production_3_Viewports_12_Tabs_SONNET_LITE/Desktop/IMG_5982.jpg",
+    "blob": "9c6f63a2dfddfffe5e1ad450de415e97882d3779",
+    "status": "CANONICAL",
+    "date": "2026-10-02T18:43:27Z"
+   },
+   "source_size": [
+    1280,
+    720
+   ],
+   "pack_size": [
+    1280,
+    720
+   ],
+   "bytes": 68449,
+   "surfaces": [
+    "inbox.root"
+   ],
+   "viewport": "desktop",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/INBOX/INBOX__inbox.root__MOBILE__T12.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:T12:Mobile/IMG_5924.jpg",
+    "upload_pack": "Production_3_Viewports_12_Tabs_SONNET_LITE.zip",
+    "upload_path": "acaacd95-Production_3_Viewports_12_Tabs_SONNET_LITE/Mobile/IMG_5924.jpg",
+    "blob": "3f1c2632888b873d08e62f188d2820fc63b416c1",
+    "status": "CANONICAL",
+    "date": "2026-10-02T18:43:27Z"
+   },
+   "source_size": [
+    720,
+    1280
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 75305,
+   "surfaces": [
+    "inbox.root"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.archive__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/01_ARCHIVE_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/10_Archive/01_ARCHIVE_ROOT.jpg",
+    "blob": "54602131163e666235d78a08c023431de2c96f7a",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 71391,
+   "surfaces": [
+    "library.archive"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.assets__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/01_ASSETS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/02_Assets/01_ASSETS_ROOT.jpg",
+    "blob": "b76d032954c4583121dc148eb88415277a4f6164",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 79911,
+   "surfaces": [
+    "library.assets"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.authorities.lineage__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (lineage composition)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/06_LINEAGE.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/01_Authorities/06_LINEAGE.jpg",
+    "blob": "208dc57cf8ef5aa6065edd55a3f836db5b781841",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 74632,
+   "surfaces": [
+    "library.authorities.lineage"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.characters__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/01_CHARACTERS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/03_Characters/01_CHARACTERS_ROOT.jpg",
+    "blob": "5b1f2b7de6555a9125e353b62c145692b914aff9",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 85333,
+   "surfaces": [
+    "library.characters"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.documents__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/01_DOCUMENTS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/09_Documents/01_DOCUMENTS_ROOT.jpg",
+    "blob": "f098cdedfa036d502963789dbb2e2f08d5b00120",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 73433,
+   "surfaces": [
+    "library.documents"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.environments__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/01_ENVIRONMENTS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/04_Environments/01_ENVIRONMENTS_ROOT.jpg",
+    "blob": "2ae0ce58ebd0f5acc68ddb665193ab1845533216",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 93107,
+   "surfaces": [
+    "library.environments"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.expressions__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/01_EXPRESSIONS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/05_Expressions/01_EXPRESSIONS_ROOT.jpg",
+    "blob": "af686f3a65e1e72795fd72ef16ea6f308b398c48",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 87460,
+   "surfaces": [
+    "library.expressions"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.icons__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/01_ICONS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/07_Icons/01_ICONS_ROOT.jpg",
+    "blob": "925f23ccedbf6973b46fc492d5ffae09cf55ee0d",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 76457,
+   "surfaces": [
+    "library.icons"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.materials__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/01_MATERIALS_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/08_Materials/01_MATERIALS_ROOT.jpg",
+    "blob": "8920513e628576dc05df5b3342bcb4d38541940a",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 78877,
+   "surfaces": [
+    "library.materials"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.references__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/01_REFERENCES_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/06_References/01_REFERENCES_ROOT.jpg",
+    "blob": "0124d79ecb22e00fa5a4a5e4070d0e8ec57586a4",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 78998,
+   "surfaces": [
+    "library.references"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.root__DESKTOP-TABLET__EL.jpg",
+   "role": "SCREEN_AUTHORITY (desktop 16:9 + tablet 4:3)",
+   "source": {
+    "authority_id": "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/01_AUTHORITIES_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/03_LIBRARY_DESKTOP_TABLET/01_Authorities/01_AUTHORITIES_ROOT.jpg",
+    "blob": "db351435beae745f45fa3b12694dbc5482abbd84",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    1400,
+    600
+   ],
+   "pack_size": [
+    1280,
+    549
+   ],
+   "bytes": 81813,
+   "surfaces": [
+    "library.root"
+   ],
+   "viewport": "desktop+tablet",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "AUTHORITIES/LIBRARY/LIBRARY__library.root__MOBILE__EL.jpg",
+   "role": "SCREEN_AUTHORITY",
+   "source": {
+    "authority_id": "UP:EL:04_LIBRARY_MOBILE/01_Authorities/01_AUTHORITIES_ROOT.jpg",
+    "upload_pack": "STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE.zip",
+    "upload_path": "41316f53-STUDIOOS_EXPERIENCE_LIBRARY_AUTHORITY_LITE/04_LIBRARY_MOBILE/01_Authorities/01_AUTHORITIES_ROOT.jpg",
+    "blob": "fe10d8b8d5992253c8144d3d36af67e8a04d8b2a",
+    "status": "CANONICAL",
+    "date": "2026-10-04T15:37:14Z"
+   },
+   "source_size": [
+    787,
+    1400
+   ],
+   "pack_size": [
+    720,
+    1280
+   ],
+   "bytes": 87392,
+   "surfaces": [
+    "library.root"
+   ],
+   "viewport": "mobile",
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV_MASTERS/01_HUB__FOUNDER_MASTER.png",
+   "role": "INDIVIDUAL_ICON_AUTHORITY (bottom nav, founder master)",
+   "source": {
+    "source": "git 43611fd8:src/site00/components/productionHub/bottom-nav/masters/01_HUB.png (blob e2a248e17d) — founder pavilion master; runtime file is a 48 px substitute"
+   },
+   "source_size": [
+    384,
+    284
+   ],
+   "pack_size": [
+    384,
+    284
+   ],
+   "bytes": 10390,
+   "surfaces": [
+    "shell.bottom-nav"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV_MASTERS/02_INBOX__FOUNDER_MASTER.png",
+   "role": "INDIVIDUAL_ICON_AUTHORITY (bottom nav, founder master)",
+   "source": {
+    "source": "src/site00/components/productionHub/bottom-nav/masters/02_INBOX.png"
+   },
+   "source_size": [
+    384,
+    213
+   ],
+   "pack_size": [
+    384,
+    213
+   ],
+   "bytes": 5540,
+   "surfaces": [
+    "shell.bottom-nav"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV_MASTERS/03_DESIGN__FOUNDER_MASTER.png",
+   "role": "INDIVIDUAL_ICON_AUTHORITY (bottom nav, founder master)",
+   "source": {
+    "source": "src/site00/components/productionHub/bottom-nav/masters/03_DESIGN.png"
+   },
+   "source_size": [
+    384,
+    355
+   ],
+   "pack_size": [
+    384,
+    355
+   ],
+   "bytes": 10808,
+   "surfaces": [
+    "shell.bottom-nav"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV_MASTERS/04_EXPERIENCE__FOUNDER_MASTER.png",
+   "role": "INDIVIDUAL_ICON_AUTHORITY (bottom nav, founder master)",
+   "source": {
+    "source": "src/site00/components/productionHub/bottom-nav/masters/04_EXPERIENCE.png"
+   },
+   "source_size": [
+    384,
+    272
+   ],
+   "pack_size": [
+    384,
+    272
+   ],
+   "bytes": 6849,
+   "surfaces": [
+    "shell.bottom-nav"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV_MASTERS/05_EXPRESSION__FOUNDER_MASTER.png",
+   "role": "INDIVIDUAL_ICON_AUTHORITY (bottom nav, founder master)",
+   "source": {
+    "source": "src/site00/components/productionHub/bottom-nav/masters/05_EXPRESSION.png"
+   },
+   "source_size": [
+    354,
+    384
+   ],
+   "pack_size": [
+    354,
+    384
+   ],
+   "bytes": 10774,
+   "surfaces": [
+    "shell.bottom-nav"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV_MASTERS/06_LIBRARY__FOUNDER_MASTER.png",
+   "role": "INDIVIDUAL_ICON_AUTHORITY (bottom nav, founder master)",
+   "source": {
+    "source": "src/site00/components/productionHub/bottom-nav/masters/06_LIBRARY.png"
+   },
+   "source_size": [
+    384,
+    271
+   ],
+   "pack_size": [
+    384,
+    271
+   ],
+   "bytes": 9109,
+   "surfaces": [
+    "shell.bottom-nav"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV_MASTERS/07_ACTIVITY__FOUNDER_MASTER.png",
+   "role": "INDIVIDUAL_ICON_AUTHORITY (bottom nav, founder master)",
+   "source": {
+    "source": "src/site00/components/productionHub/bottom-nav/masters/07_ACTIVITY.png"
+   },
+   "source_size": [
+    384,
+    301
+   ],
+   "pack_size": [
+    384,
+    301
+   ],
+   "bytes": 8516,
+   "surfaces": [
+    "shell.bottom-nav"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV__FOUNDER_MASTERS_AUTHORITY_SHEET.png",
+   "role": "ICON_AUTHORITY_SHEET (bottom nav / workspace tab icons)",
+   "source": {
+    "derived_from": [
+     "bottom-nav/masters/02–07",
+     "43611fd8:src/site00/components/productionHub/bottom-nav/masters/01_HUB.png"
+    ]
+   },
+   "source_size": [
+    1490,
+    302
+   ],
+   "pack_size": [
+    1490,
+    302
+   ],
+   "bytes": 25563,
+   "surfaces": [
+    "shell.bottom-nav"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/NAV__SUPERSEDED_CONTRAST__DO_NOT_USE.jpg",
+   "role": "LINEAGE_CONTRAST (superseded)",
+   "source": {
+    "derived_from": [
+     "7c987d5c:docs/site00/bottom-nav/BOTTOM_NAV_ICON_FAMILY_V1/authority/BOTTOM_NAV_ICON_PACK_SHEET.jpg (blob b7f2a7d47e)",
+     "src/site00/components/productionHub/bottom-nav/masters/01_HUB.png"
+    ]
+   },
+   "source_size": [
+    1316,
+    314
+   ],
+   "pack_size": [
+    1316,
+    314
+   ],
+   "bytes": 27913,
+   "surfaces": [],
+   "viewport": null,
+   "authority_status": "SUPERSEDED",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/RUNTIME__DESIGN_PACK_EXTRACTED_CURRENT.jpg",
+   "role": "CURRENT_ICON_SOURCES_SHEET",
+   "source": {
+    "repo": "public/site00/production-authority-assets/design-pack/{icons,stages}"
+   },
+   "source_size": [
+    1470,
+    590
+   ],
+   "pack_size": [
+    1400,
+    562
+   ],
+   "bytes": 98538,
+   "surfaces": [],
+   "viewport": null,
+   "authority_status": "RUNTIME_ACTIVE",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/RUNTIME__LINE_ICONS_CURRENT.png",
+   "role": "CURRENT_ICON_SOURCES_SHEET",
+   "source": {
+    "rendered_from": [
+     "src/site00/components/productionAuthority/iaKit.tsx",
+     "src/site00/components/productionAuthority/HubBody.tsx (NodeIcon)",
+     "src/site00/components/productionHub/icons.tsx"
+    ]
+   },
+   "source_size": [
+    1500,
+    923
+   ],
+   "pack_size": [
+    1500,
+    923
+   ],
+   "bytes": 47655,
+   "surfaces": [],
+   "viewport": null,
+   "authority_status": "RUNTIME_ACTIVE",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "ICONS/WORKSPACE__DWS_ICON_PACK_AUTHORITY.jpg",
+   "role": "ICON_PACK_AUTHORITY (DWS 05 · 01 NAVIGATION, 02 MODE, 03 PIPELINE, 04 OBJECT, 05 ACTION, 06 STATUS, 07 REVIEW, 08 GEOMETRY)",
+   "source": {
+    "upload_path": "ac456193-DWS_SONNET_LITE/DWS_SONNET_LITE/05_SYSTEM_PACKS/01_ICON_PACK_AUTHORITY.jpg"
+   },
+   "source_size": [
+    1586,
+    992
+   ],
+   "pack_size": [
+    1586,
+    992
+   ],
+   "bytes": 263056,
+   "surfaces": [],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "REFERENCE/GLOBAL__DWS_ASSET_PACK_AUTHORITY.jpg",
+   "role": "SYSTEM_PACK_AUTHORITY (DWS 05 · panels, drawers, buttons, tabs, review cards, pipeline, devices, environment plates, materials, utility widgets)",
+   "source": {
+    "upload_path": "ac456193-DWS_SONNET_LITE/DWS_SONNET_LITE/05_SYSTEM_PACKS/02_ASSET_PACK_AUTHORITY.jpg"
+   },
+   "source_size": [
+    1586,
+    992
+   ],
+   "pack_size": [
+    1586,
+    992
+   ],
+   "bytes": 247354,
+   "surfaces": [],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "REFERENCE/GLOBAL__ENVIRONMENT_LANGUAGE_BOARD.jpg",
+   "role": "GLOBAL_VISUAL_AUTHORITY_BOARD",
+   "source": {
+    "derived_from": [
+     "UP:HUBREF:0af8bf87-image.png",
+     "UP:T12:Desktop/IMG_5983.jpg",
+     "UP:T12:Desktop/IMG_5987.jpg",
+     "UP:T12:Desktop/IMG_5989.jpg",
+     "UP:CF:IMG_5414.jpeg",
+     "UP:T12:Desktop/IMG_5988.jpg",
+     "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/01_ZONES_ROOT.jpg",
+     "UP:T12:Desktop/IMG_5990.jpg"
+    ]
+   },
+   "source_size": [
+    1596,
+    1567
+   ],
+   "pack_size": [
+    1596,
+    1567
+   ],
+   "bytes": 291519,
+   "surfaces": [],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "REFERENCE/HOST__SHELL_AUTHORITY_BOARD.jpg",
+   "role": "HOST_SHELL_AUTHORITY_BOARD",
+   "source": {
+    "derived_from": [
+     "UP:HOSTREF:0b60b970-image.jpg",
+     "hub.root__mobile.jpg",
+     "hub.root__tablet.jpg",
+     "hub.root__desktop.jpg",
+     "shell.menu-panel__mobile.jpg"
+    ]
+   },
+   "source_size": [
+    1224,
+    1861
+   ],
+   "pack_size": [
+    921,
+    1400
+   ],
+   "bytes": 81518,
+   "surfaces": [
+    "shell.host-top",
+    "shell.bottom-nav",
+    "shell.menu-panel"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "REFERENCE/RUNTIME__CURRENT_PLATES_CONTACT_SHEET.jpg",
+   "role": "CURRENT_ASSET_INVENTORY_SHEET",
+   "source": {
+    "repo": "public/site00/production-authority-assets/**"
+   },
+   "source_size": [
+    1580,
+    2284
+   ],
+   "pack_size": [
+    1107,
+    1600
+   ],
+   "bytes": 168062,
+   "surfaces": [],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  },
+  {
+   "file": "REFERENCE/RUNTIME__TABLET_PORTRAIT_834x1194_BOARD.jpg",
+   "role": "RUNTIME_RESPONSIVE_REFERENCE",
+   "source": {
+    "runtime_captures": [
+     "hub.root__tablet.jpg",
+     "inbox.root__tablet.jpg",
+     "design.brand__tablet.jpg",
+     "design.viewport__tablet.jpg",
+     "experience.root__tablet.jpg",
+     "expression.floor__tablet.jpg",
+     "library.root__tablet.jpg",
+     "activity.root__tablet.jpg",
+     "expression.character-fabrication__tablet.jpg"
+    ],
+    "sha": "7ec5501d"
+   },
+   "source_size": [
+    1572,
+    1022
+   ],
+   "pack_size": [
+    1572,
+    1022
+   ],
+   "bytes": 153419,
+   "surfaces": [
+    "hub.root",
+    "inbox.root",
+    "design.brand",
+    "design.viewport",
+    "experience.root",
+    "expression.floor",
+    "library.root",
+    "activity.root",
+    "expression.character-fabrication"
+   ],
+   "viewport": null,
+   "authority_status": "CANONICAL",
+   "reference_only": true,
+   "note": ""
+  }
+ ]
+}

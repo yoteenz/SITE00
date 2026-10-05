@@ -1,0 +1,725 @@
+{
+ "sprint": "P0.STUDIOOS.PRODUCTION.DESIGN.ASSET-AUTHORITY-CONVERGENCE.OPUS3",
+ "rule": "exact native-resolution crops of the supplied pack sheets; no redraw / trace / generation",
+ "sources": {
+  "01_ICON_PACK_AUTHORITY.jpg": {
+   "path": "docs/site00/design-pack/sources/01_ICON_PACK_AUTHORITY.jpg",
+   "sha256": "b782a6043dfd67aa6a24496ed0d7a15098ef2849b9b2aea48aa300483f6350d9",
+   "size": [
+    1586,
+    992
+   ]
+  },
+  "02_ASSET_PACK_AUTHORITY.jpg": {
+   "path": "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg",
+   "sha256": "7551a3cd3d13bf22ef09ad721b4160fa673d31283e24d689332bd62ab2d3e3e0",
+   "size": [
+    1586,
+    992
+   ]
+  }
+ },
+ "assets": [
+  {
+   "file": "design-pack/stages/01-intelligence.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "03 PIPELINE STAGE ICONS",
+   "name": "01-intelligence",
+   "box": [
+    1069,
+    318,
+    1145,
+    394
+   ],
+   "size": [
+    76,
+    76
+   ]
+  },
+  {
+   "file": "design-pack/stages/02-concept.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "03 PIPELINE STAGE ICONS",
+   "name": "02-concept",
+   "box": [
+    1179,
+    318,
+    1255,
+    394
+   ],
+   "size": [
+    76,
+    76
+   ]
+  },
+  {
+   "file": "design-pack/stages/03-experience.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "03 PIPELINE STAGE ICONS",
+   "name": "03-experience",
+   "box": [
+    1294,
+    315,
+    1370,
+    391
+   ],
+   "size": [
+    76,
+    76
+   ]
+  },
+  {
+   "file": "design-pack/stages/04-surfaces.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "03 PIPELINE STAGE ICONS",
+   "name": "04-surfaces",
+   "box": [
+    1409,
+    318,
+    1485,
+    394
+   ],
+   "size": [
+    76,
+    76
+   ]
+  },
+  {
+   "file": "design-pack/stages/05-assets.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "03 PIPELINE STAGE ICONS",
+   "name": "05-assets",
+   "box": [
+    1090,
+    428,
+    1166,
+    504
+   ],
+   "size": [
+    76,
+    76
+   ]
+  },
+  {
+   "file": "design-pack/stages/06-authority.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "03 PIPELINE STAGE ICONS",
+   "name": "06-authority",
+   "box": [
+    1236,
+    425,
+    1312,
+    501
+   ],
+   "size": [
+    76,
+    76
+   ]
+  },
+  {
+   "file": "design-pack/stages/07-production.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "03 PIPELINE STAGE ICONS",
+   "name": "07-production",
+   "box": [
+    1389,
+    425,
+    1465,
+    501
+   ],
+   "size": [
+    76,
+    76
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-hub.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "hub",
+   "box": [
+    88,
+    333,
+    136,
+    381
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-work.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "work",
+   "box": [
+    184,
+    333,
+    232,
+    381
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-library.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "library",
+   "box": [
+    282,
+    333,
+    330,
+    381
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-activity.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "activity",
+   "box": [
+    378,
+    333,
+    426,
+    381
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-exit.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "exit",
+   "box": [
+    476,
+    333,
+    524,
+    381
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-menu.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "menu",
+   "box": [
+    88,
+    433,
+    136,
+    481
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-dropdown.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "dropdown",
+   "box": [
+    184,
+    433,
+    232,
+    481
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-search.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "search",
+   "box": [
+    282,
+    433,
+    330,
+    481
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-settings.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "settings",
+   "box": [
+    378,
+    433,
+    426,
+    481
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/nav-user.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "01 NAVIGATION ICONS",
+   "name": "user",
+   "box": [
+    476,
+    433,
+    524,
+    481
+   ],
+   "size": [
+    48,
+    48
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-cube-system.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "cube-system",
+   "box": [
+    78,
+    595,
+    142,
+    659
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-orbital-sphere.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "orbital-sphere",
+   "box": [
+    175,
+    595,
+    239,
+    659
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-concentric-rings.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "concentric-rings",
+   "box": [
+    273,
+    595,
+    337,
+    659
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-geometric-lattice.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "geometric-lattice",
+   "box": [
+    368,
+    595,
+    432,
+    659
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-ui-frame.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "ui-frame",
+   "box": [
+    463,
+    595,
+    527,
+    659
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-route-map.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "route-map",
+   "box": [
+    78,
+    690,
+    142,
+    754
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-stack-layers.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "stack-layers",
+   "box": [
+    175,
+    690,
+    239,
+    754
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-database.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "database",
+   "box": [
+    273,
+    690,
+    337,
+    754
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-cloud.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "cloud",
+   "box": [
+    368,
+    690,
+    432,
+    754
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/icons/object-network.png",
+   "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+   "section": "04 OBJECT / SYSTEM ICONS",
+   "name": "network",
+   "box": [
+    463,
+    690,
+    527,
+    754
+   ],
+   "size": [
+    64,
+    64
+   ]
+  },
+  {
+   "file": "design-pack/devices/desktop.png",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "07 DEVICE FRAMES",
+   "name": "desktop",
+   "box": [
+    620,
+    705,
+    845,
+    875
+   ],
+   "size": [
+    225,
+    170
+   ]
+  },
+  {
+   "file": "design-pack/devices/tablet.png",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "07 DEVICE FRAMES",
+   "name": "tablet",
+   "box": [
+    852,
+    715,
+    975,
+    865
+   ],
+   "size": [
+    123,
+    150
+   ]
+  },
+  {
+   "file": "design-pack/devices/mobile.png",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "07 DEVICE FRAMES",
+   "name": "mobile",
+   "box": [
+    990,
+    715,
+    1057,
+    865
+   ],
+   "size": [
+    67,
+    150
+   ]
+  },
+  {
+   "file": "design-pack/plates/main-atrium.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "08 ENVIRONMENT PLATES",
+   "name": "main-atrium",
+   "box": [
+    1087,
+    692,
+    1365,
+    860
+   ],
+   "size": [
+    278,
+    168
+   ]
+  },
+  {
+   "file": "design-pack/plates/crop-01.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "08 ENVIRONMENT PLATES",
+   "name": "crop-01",
+   "box": [
+    1372,
+    692,
+    1462,
+    765
+   ],
+   "size": [
+    90,
+    73
+   ]
+  },
+  {
+   "file": "design-pack/plates/crop-02.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "08 ENVIRONMENT PLATES",
+   "name": "crop-02",
+   "box": [
+    1472,
+    692,
+    1562,
+    765
+   ],
+   "size": [
+    90,
+    73
+   ]
+  },
+  {
+   "file": "design-pack/plates/crop-03.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "08 ENVIRONMENT PLATES",
+   "name": "crop-03",
+   "box": [
+    1372,
+    785,
+    1462,
+    860
+   ],
+   "size": [
+    90,
+    75
+   ]
+  },
+  {
+   "file": "design-pack/plates/crop-04.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "08 ENVIRONMENT PLATES",
+   "name": "crop-04",
+   "box": [
+    1472,
+    785,
+    1562,
+    860
+   ],
+   "size": [
+    90,
+    75
+   ]
+  },
+  {
+   "file": "design-pack/swatches/white-acrylic.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "09 MATERIAL SWATCHES",
+   "name": "white-acrylic",
+   "box": [
+    25,
+    924,
+    102,
+    965
+   ],
+   "size": [
+    77,
+    41
+   ]
+  },
+  {
+   "file": "design-pack/swatches/matte-white.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "09 MATERIAL SWATCHES",
+   "name": "matte-white",
+   "box": [
+    111,
+    924,
+    187,
+    965
+   ],
+   "size": [
+    76,
+    41
+   ]
+  },
+  {
+   "file": "design-pack/swatches/chrome.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "09 MATERIAL SWATCHES",
+   "name": "chrome",
+   "box": [
+    196,
+    924,
+    260,
+    965
+   ],
+   "size": [
+    64,
+    41
+   ]
+  },
+  {
+   "file": "design-pack/swatches/smoked-glass.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "09 MATERIAL SWATCHES",
+   "name": "smoked-glass",
+   "box": [
+    271,
+    924,
+    354,
+    965
+   ],
+   "size": [
+    83,
+    41
+   ]
+  },
+  {
+   "file": "design-pack/swatches/clear-glass.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "09 MATERIAL SWATCHES",
+   "name": "clear-glass",
+   "box": [
+    361,
+    924,
+    434,
+    965
+   ],
+   "size": [
+    73,
+    41
+   ]
+  },
+  {
+   "file": "design-pack/swatches/red-glow-glass.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "09 MATERIAL SWATCHES",
+   "name": "red-glow-glass",
+   "box": [
+    441,
+    924,
+    520,
+    965
+   ],
+   "size": [
+    79,
+    41
+   ]
+  },
+  {
+   "file": "design-pack/swatches/graphite.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "09 MATERIAL SWATCHES",
+   "name": "graphite",
+   "box": [
+    529,
+    924,
+    619,
+    965
+   ],
+   "size": [
+    90,
+    41
+   ]
+  },
+  {
+   "file": "design-pack/swatches/neutral-paper.jpg",
+   "sheet": "02_ASSET_PACK_AUTHORITY.jpg",
+   "section": "09 MATERIAL SWATCHES",
+   "name": "neutral-paper",
+   "box": [
+    627,
+    924,
+    735,
+    965
+   ],
+   "size": [
+    108,
+    41
+   ]
+  }
+ ],
+ "navMask": {
+  "file": "src/site00/components/productionHub/bottom-nav/01_HUB.png",
+  "sheet": "01_ICON_PACK_AUTHORITY.jpg",
+  "section": "01 NAVIGATION ICONS",
+  "name": "hub",
+  "box": [
+   88,
+   333,
+   136,
+   381
+  ],
+  "transform": "ink keyed to alpha, charcoal #141414, longest ink side 320 on 512 canvas"
+ }
+}

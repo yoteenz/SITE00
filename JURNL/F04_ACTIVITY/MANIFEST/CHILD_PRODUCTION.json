@@ -1,0 +1,7 @@
+{
+  "family_id": "F04",
+  "child_production": "BLOCKED",
+  "reason": "Parent correction is in founder review. Do not generate F04 child authorities until the founder passes the parent, the search state, and quick add.",
+  "parent_status": "READY_FOR_FOUNDER_REVIEW",
+  "approved": false
+}

@@ -2,31 +2,42 @@
  * Canonical adapters: Studio World actor catalogue + Entry 002 cast state → Fabrication ACTOR / CHARACTER records.
  * ACTOR and CHARACTER stay separate: actor = reusable catalogue identity, character = project role instantiated from it.
  */
-import { getStudioWorldActorCatalogue } from '../site00-studio-world/acting-catalogue/seedCatalogue.js';
+import {
+  getProductionStudioWorldActorCatalogue,
+  PRODUCTION_ACTING_CATALOGUE_SOURCE,
+} from '../site00-studio-world/acting-catalogue/productionCastingCatalogue.js';
 import { buildEntry002ProductionCastState } from '../site00-studio-world/acting-catalogue/entry002RetroactiveMapping.js';
+import { findActorById as findLegacySeedActorById } from '../site00-studio-world/acting-catalogue/seedCatalogue.js';
 import type { StudioWorldActor } from '../site00-studio-world/acting-catalogue/types.js';
+import type { ResidentBackedStudioWorldActor } from '../site00-studio-world/resident-intelligence/season1-ensemble/projectToActor.js';
 import type { ActorRecord, CharacterRecord } from './types.js';
+
+const PRODUCTION_ACTORS = (): readonly ResidentBackedStudioWorldActor[] =>
+  getProductionStudioWorldActorCatalogue().actors as readonly ResidentBackedStudioWorldActor[];
 
 export const FABRICATION_DEFAULTS = {
   projectId: 'ndxbook',
   entryId: '002',
-  actorId: 'sw-actor-017',
+  actorId: 'sw-resident-001',
   characterId: 'char-entry002-subject-woman',
   characterDisplayName: 'SUBJECT WOMAN',
   version: 'V2.1',
 } as const;
 
-export const actorPortraitSlotId = (catalogueNumber: string): string => `actor.${catalogueNumber.toLowerCase().replace('-', '')}.portrait.primary`;
-export const actorAngleSlotId = (catalogueNumber: string, angle: 'front' | 'left' | 'right' | 'back'): string =>
-  `actor.${catalogueNumber.toLowerCase().replace('-', '')}.angle.${angle}`;
+export const actorPortraitSlotId = (catalogueNumber: string): string =>
+  `actor.${catalogueNumber.toLowerCase().replace(/[^a-z0-9]/g, '')}.portrait.primary`;
 
-function toRecord(a: StudioWorldActor): ActorRecord {
-  const inProduction = a.projectsUsed.length > 0;
+export const actorAngleSlotId = (catalogueNumber: string, angle: 'front' | 'left' | 'right' | 'back'): string =>
+  `actor.${catalogueNumber.toLowerCase().replace(/[^a-z0-9]/g, '')}.angle.${angle}`;
+
+function toRecord(a: StudioWorldActor & Partial<ResidentBackedStudioWorldActor>): ActorRecord {
+  const resident = 'sourceResidentId' in a && a.sourceResidentId ? a : null;
+  const inProduction = a.projectsUsed.length > 0 && a.campaignsUsed.length > 0;
   return {
     actorId: a.actorId,
     catalogueNumber: a.catalogueNumber,
     stageName: a.stageName,
-    ageRange: a.ageRange.replace('–', ' - '),
+    ageRange: a.ageRange,
     heightRange: a.heightRange,
     build: a.build,
     presentation: a.presentation,
@@ -36,26 +47,34 @@ function toRecord(a: StudioWorldActor): ActorRecord {
     availability: a.availabilityState.replace(/_/g, ' '),
     verified: a.status === 'ACTIVE',
     entryLabel: inProduction ? `ENTRY ${a.campaignsUsed[0]?.replace(/^entry-/, '') ?? '—'}` : 'UNASSIGNED',
-    projectLabel: inProduction ? a.projectsUsed[0]!.toUpperCase() : 'CATALOGUE',
+    projectLabel: inProduction ? a.projectsUsed[0]!.toUpperCase() : 'STUDIO WORLD',
     projectsUsed: a.projectsUsed,
     campaignsUsed: a.campaignsUsed,
     languages: a.languages,
     accents: a.accentCapabilities,
     continuityRisk: a.continuityRisk,
-    castingTags: a.nationalityOrCulturalCastingTags.map((t) => t.toUpperCase()),
+    castingTags: resident ? [] : a.nationalityOrCulturalCastingTags.map((t) => t.toUpperCase()),
     authorityId: a.identityAuthorityId,
     authorityLevel: a.status === 'ACTIVE' ? 'A1' : 'PENDING',
     updatedAt: a.updatedAt,
     portraitSlotId: actorPortraitSlotId(a.catalogueNumber),
+    portraitUrl: a.headshotPreviewUrl,
+    sourceResidentId: resident?.sourceResidentId ?? null,
+    studioWorldRole: resident?.studioWorldRole ?? null,
+    dataSource: resident ? PRODUCTION_ACTING_CATALOGUE_SOURCE : 'LEGACY_SEED',
   };
 }
 
+/** Live Character Fabrication + Production Expression actor catalogue (Season 1 residents). */
 export function listFabricationActors(): ActorRecord[] {
-  return getStudioWorldActorCatalogue().actors.map(toRecord);
+  return PRODUCTION_ACTORS().map(toRecord);
 }
 
 export function findFabricationActor(actorId: string): ActorRecord | null {
-  return listFabricationActors().find((a) => a.actorId === actorId) ?? null;
+  const fromProduction = listFabricationActors().find((a) => a.actorId === actorId);
+  if (fromProduction) return fromProduction;
+  const legacy = findLegacySeedActorById(actorId);
+  return legacy ? toRecord(legacy) : null;
 }
 
 /** The project-specific CHARACTER instantiated from the selected actor (never the same object as the actor). */

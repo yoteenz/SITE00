@@ -147,7 +147,7 @@ function StepsDial({ n }: { n: number }) {
         <circle cx="11" cy="11" r="10" className="cf-dial__arc" strokeDasharray={`${done * 62.8} 62.8`} transform="rotate(-90 11 11)" />
         <line x1="11" y1="11" x2={11 + Math.cos(a) * 6} y2={11 + Math.sin(a) * 6} className="cf-dial__hand" />
       </svg>
-      <span>
+      <span className="ph-top__copy">
         <b>{String(n).padStart(2, '0')}</b>
         <small>STEPS REMAINING</small>
       </span>
@@ -162,18 +162,20 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
   return (
     <header className={`ph-top${state.surface === 'ACTOR_PROFILE' ? ' cf-top--profile' : ''}${state.activeStation === 'appearance' && state.surface === 'STATION' ? ' cf-top--actor' : ''}`} data-testid="cf-header">
       <div className="ph-top__brand ph-top__brand--long">
-        <b>CHARACTER FABRICATION</b>
-        <small>SITE 00 / STUDIO WORLD</small>
+        <span className="ph-top__copy">
+          <b>CHARACTER FABRICATION</b>
+          <small>SITE 00 / STUDIO WORLD</small>
+        </span>
       </div>
       <button type="button" className="ph-top__sel" onClick={() => toggle('project')} aria-expanded={pop === 'project'} data-testid="cf-project-select">
         <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="" className="ph-top__thumb" />
         {state.activeStation === 'appearance' && state.surface === 'STATION' ? (
-          <span>
+          <span className="ph-top__copy">
             <small>ACTOR</small>
             <b>{actor.catalogueNumber}</b>
           </span>
         ) : (
-          <span>
+          <span className="ph-top__copy">
             <small>PROJECT</small>
             <b>{state.selectedProjectId.toUpperCase()}</b>
           </span>
@@ -182,17 +184,17 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
       </button>
       <button type="button" className="ph-top__sel ph-top__sel--prod ph-top__sel--fit" onClick={() => toggle('character')} aria-expanded={pop === 'character'} data-testid="cf-character-select">
         {state.surface === 'ACTOR_PROFILE' ? (
-          <span>
+          <span className="ph-top__copy">
             <small>ENTRY</small>
             <b>{state.selectedEntryId}</b>
           </span>
         ) : state.activeStation === 'appearance' && state.surface === 'STATION' ? (
-          <span>
+          <span className="ph-top__copy">
             <small>PROJECT</small>
             <b>{state.selectedProjectId.toUpperCase()}</b>
           </span>
         ) : (
-          <span>
+          <span className="ph-top__copy">
             <small>CURRENT CHARACTER</small>
             <b>{character.displayName}</b>
           </span>
@@ -207,7 +209,7 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
             <>
               <p className="cf-pop__h">PROJECT / PRODUCTION</p>
               <button type="button" className="cf-pop__row is-on" onClick={() => setPop(null)}>
-                <b>NDXBOOK</b><span>ENTRY 002 · SW-017 · IN FABRICATION</span>
+                <b>NDXBOOK</b><span>ENTRY {state.selectedEntryId} · {actor.catalogueNumber} · IN FABRICATION</span>
               </button>
               <p className="cf-pop__note">OTHER PROJECTS HAVE NO CHARACTER FABRICATION DATA YET.</p>
             </>
@@ -250,7 +252,7 @@ export function ActorAuthorityCard({
   className?: string;
   style?: React.CSSProperties;
 }) {
-  const { actor, url, state, character, dispatch, now } = useFabrication();
+  const { actor, url, state, character, dispatch, now, subjectChamberUrl } = useFabrication();
   const v: Record<ActorRow, ReactNode> = {
     AGE: actor.ageRange,
     HEIGHT: actor.heightRange,
@@ -263,8 +265,8 @@ export function ActorAuthorityCard({
   return (
     <aside className={`cf-acard ${className}`} style={style} data-testid="cf-actor-card">
       <i className="cf-acard__tick" aria-hidden />
-      <header><small>ACTOR</small><b>{actor.catalogueNumber}</b></header>
-      <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="ACTOR PORTRAIT" className="cf-acard__img" />
+      <header><small>ACTOR</small><b>{actor.stageName}</b><small>{actor.catalogueNumber}</small></header>
+      <CfImage slotId={actor.portraitSlotId} url={subjectChamberUrl() ?? url(actor.portraitSlotId) ?? actor.portraitUrl} label="ACTOR PORTRAIT" className="cf-acard__img" />
       <dl className="cf-rows">
         {rows.map((r) => <div key={r}><dt>{r}</dt><dd>{v[r]}</dd></div>)}
       </dl>
@@ -279,13 +281,15 @@ export function ActorAuthorityCard({
 }
 
 export function CharacterAuthorityCard({ className = '', style, mono = true }: { className?: string; style?: React.CSSProperties; mono?: boolean }) {
-  const { character, url, state, status, dispatch } = useFabrication();
+  const { character, url, state, status, dispatch, actor } = useFabrication();
+  const charImg = state.fabricationSubject?.portraitUrl ?? url(actor.portraitSlotId) ?? url(character.portraitSlotId);
+  const charSlot = state.fabricationSubject ? actor.portraitSlotId : character.portraitSlotId;
   const inFab = status('authority') !== 'LOCKED';
   return (
     <aside className={`cf-acard cf-acard--char ${className}`} style={style} data-testid="cf-character-card">
       <i className="cf-acard__tick" aria-hidden />
       <header><small>CHARACTER</small><b>{character.displayName}</b></header>
-      <CfImage slotId={character.portraitSlotId} url={url(character.portraitSlotId)} label="CHARACTER PORTRAIT" className={`cf-acard__img${mono ? ' is-mono' : ''}`} />
+      <CfImage slotId={charSlot} url={charImg} label="CHARACTER PORTRAIT" className={`cf-acard__img${mono ? ' is-mono' : ''}`} />
       <dl className="cf-rows">
         <div><dt>PROJECT</dt><dd>{state.selectedProjectId.toUpperCase()}</dd></div>
         <div><dt>ENTRY</dt><dd>{state.selectedEntryId}</dd></div>
