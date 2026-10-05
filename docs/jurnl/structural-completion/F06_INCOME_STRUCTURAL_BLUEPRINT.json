@@ -135,22 +135,22 @@
   "interactions": [
     {
       "id": "F06.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F06.SOURCE"
     },
     {
       "id": "F06.IN.ADD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F06.SH.ADD_SOURCE"
     },
     {
       "id": "F06.IN.EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F06.SH.EDIT_SOURCE"
     },
     {
       "id": "F06.IN.REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F06.MD.REMOVE_SOURCE"
     },
     {
@@ -267,12 +267,12 @@
     "ADVANCED_FORECASTING (ADVANCED)"
   ],
   "functional_status": {
-    "score": 13.7,
-    "strict": 10.5,
+    "score": 37.9,
+    "strict": 31.6,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 14,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 11,
+      "COMPLETE_FUNCTIONAL": 6,
       "LEGACY": 1,
       "PARTIAL_FUNCTIONAL": 1
     }

@@ -15,11 +15,11 @@
   ],
   "rule": "Per-family invocations of shared sheets (QUICK ADD, ASK) count WORKING when they open the sheet; the sheet’s own behaviour is scored once on the global system (GS.QA.SAVE, GS.ASK.EXPLAIN).",
   "counts": {
-    "WORKING": 105,
+    "WORKING": 118,
     "PARTIAL": 24,
-    "MISSING": 69,
-    "NO_OP": 12,
-    "LEGACY": 12
+    "MISSING": 59,
+    "LEGACY": 12,
+    "NO_OP": 9
   },
   "interactions": [
     {
@@ -1071,9 +1071,9 @@
       "family_id": "F05",
       "host": "F05.00",
       "name": "OPEN A PLACE",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F05.ACCOUNTS",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1081,9 +1081,9 @@
       "family_id": "F05",
       "host": "F05.ACCOUNTS",
       "name": "OPEN ONE PLACE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.ACCOUNT",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1091,9 +1091,9 @@
       "family_id": "F05",
       "host": "F05.00",
       "name": "ADD A PLACE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.SH.ADD_PLACE",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1101,9 +1101,9 @@
       "family_id": "F05",
       "host": "F05.00",
       "name": "EDIT A PLACE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.SH.EDIT_PLACE",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1111,9 +1111,9 @@
       "family_id": "F05",
       "host": "F05.00",
       "name": "REMOVE A PLACE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.MD.REMOVE_PLACE",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1191,9 +1191,9 @@
       "family_id": "F06",
       "host": "F06.00",
       "name": "READ A SOURCE",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F06.SOURCE",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1201,9 +1201,9 @@
       "family_id": "F06",
       "host": "F06.00",
       "name": "ADD A SOURCE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F06.SH.ADD_SOURCE",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1211,9 +1211,9 @@
       "family_id": "F06",
       "host": "F06.00",
       "name": "EDIT A SOURCE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F06.SH.EDIT_SOURCE",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1221,9 +1221,9 @@
       "family_id": "F06",
       "host": "F06.00",
       "name": "REMOVE A SOURCE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F06.MD.REMOVE_SOURCE",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1281,9 +1281,9 @@
       "family_id": "F07",
       "host": "F07.00",
       "name": "OPEN THE NEXT",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F07.ITEM",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1291,9 +1291,9 @@
       "family_id": "F07",
       "host": "F07.00",
       "name": "ADD WHAT REPEATS",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F07.SH.ADD_ITEM",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1301,9 +1301,9 @@
       "family_id": "F07",
       "host": "F07.00",
       "name": "EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F07.SH.EDIT_ITEM",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {
@@ -1311,9 +1311,9 @@
       "family_id": "F07",
       "host": "F07.00",
       "name": "END IT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F07.MD.REMOVE_ITEM",
-      "wave": 2,
+      "wave": null,
       "notes": []
     },
     {

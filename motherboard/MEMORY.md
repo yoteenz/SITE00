@@ -13803,6 +13803,21 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — JURNL Wave 2 F05/F06/F07 (P0.JURNL.WAVE2-MONEY-INCOME-UPCOMING)
+
+- **Context:** First family structural cluster after Wave 0/1 foundations. Zero generation; existing parent plates reused.
+- **Wave 2 landed:**
+  1. **Repository v3** — `incomeSources`, `obligations`; seed from setup via `wave2Seed.ts`
+  2. **F05 Money** — routes `money`, `money/places`, `money/places/:placeId`; manual add/edit/archive via account registry
+  3. **F06 Income** — routes `income`, `income/:sourceId`; receive marks RECEIVED + single ledger link
+  4. **F07 Upcoming** — derived `upcomingProjection.ts`; grouped timeline; obligation CRUD
+  5. **Quick Add** — INCOME type enabled (F06 owner)
+  6. **F09** — safe-to-spend upcoming reads repository obligations
+- **Artifacts:** `docs/jurnl/structural-completion/wave2/`; blueprint regenerated (~35.2% functional est.; interactions WORKING 118).
+- **Next:** Wave 3 F08/F09/F12/F14 — do not rework F05/F06/F07 ownership.
+
+---
+
 ## 2026-10-05 — JURNL Wave 1 shared global interactions (P0.JURNL.WAVE1-SHARED-GLOBAL-INTERACTIONS)
 
 - **Context:** After Wave 0 merge, Composer implemented the global interaction layer before F05–F16 child expansion. Zero generation; F01/F02 visuals frozen except honest F02 connect copy.

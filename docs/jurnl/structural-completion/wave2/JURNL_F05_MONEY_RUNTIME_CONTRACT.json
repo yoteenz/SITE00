@@ -1,0 +1,6 @@
+{
+  "family": "F05",
+  "routes": ["money", "money/places", "money/places/:placeId"],
+  "data_owner": "DD.ACCOUNTS",
+  "screens": ["MoneyHubScreen", "MoneyPlacesScreen", "MoneyPlaceDetailScreen"]
+}

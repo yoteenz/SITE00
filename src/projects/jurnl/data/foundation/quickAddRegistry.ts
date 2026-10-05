@@ -1,15 +1,15 @@
 /** Quick Add V2 type registry (W1.4). Only types with repository mutations are enabled. */
 
-export type QuickAddTypeId = 'TRANSACTION';
+export type QuickAddTypeId = 'TRANSACTION' | 'INCOME';
 
 export type QuickAddTypeDef = {
   type_id: QuickAddTypeId;
-  domain: 'TRANSACTION';
+  domain: 'TRANSACTION' | 'INCOME';
   label: string;
-  owner_family_id: 'F04';
+  owner_family_id: 'F04' | 'F06';
   enabled: boolean;
   required_fields: string[];
-  repository_action: 'appendTransaction';
+  repository_action: 'appendTransaction' | 'upsertIncomeSource';
   suggested_from_families: string[];
 };
 
@@ -22,7 +22,17 @@ export const JURNL_QUICK_ADD_TYPES: readonly QuickAddTypeDef[] = [
     enabled: true,
     required_fields: ['merchant', 'amount', 'direction', 'account'],
     repository_action: 'appendTransaction',
-    suggested_from_families: ['F03', 'F04', 'F05', 'F06', 'F07', 'F08', 'F09', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16'],
+    suggested_from_families: ['F03', 'F04', 'F05', 'F07', 'F08', 'F09', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16'],
+  },
+  {
+    type_id: 'INCOME',
+    domain: 'INCOME',
+    label: 'INCOME',
+    owner_family_id: 'F06',
+    enabled: true,
+    required_fields: ['source_name', 'amount', 'cadence'],
+    repository_action: 'upsertIncomeSource',
+    suggested_from_families: ['F06', 'F03', 'F07'],
   },
 ];
 

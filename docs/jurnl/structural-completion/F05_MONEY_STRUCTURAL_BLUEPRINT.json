@@ -143,27 +143,27 @@
   "interactions": [
     {
       "id": "F05.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F05.ACCOUNTS"
     },
     {
       "id": "F05.IN.OPEN_PLACE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.ACCOUNT"
     },
     {
       "id": "F05.IN.ADD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.SH.ADD_PLACE"
     },
     {
       "id": "F05.IN.EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.SH.EDIT_PLACE"
     },
     {
       "id": "F05.IN.REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.MD.REMOVE_PLACE"
     },
     {
@@ -300,12 +300,12 @@
     "FINANCIAL_SERVICE_REFERRALS (REFERRAL, DISABLED)"
   ],
   "functional_status": {
-    "score": 11.3,
-    "strict": 8.7,
+    "score": 33.1,
+    "strict": 30.4,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 18,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 14,
+      "COMPLETE_FUNCTIONAL": 7,
       "LEGACY": 1,
       "PARTIAL_FUNCTIONAL": 1
     }

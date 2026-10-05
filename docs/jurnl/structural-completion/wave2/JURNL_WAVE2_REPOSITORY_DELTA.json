@@ -1,0 +1,5 @@
+{
+  "schema_version": 3,
+  "added_fields": ["incomeSources", "obligations"],
+  "methods": ["upsertIncomeSource", "deleteIncomeSource", "markIncomeReceived", "upsertObligation", "deleteObligation"]
+}

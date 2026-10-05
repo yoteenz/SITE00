@@ -9,6 +9,9 @@ import { seedAccountsFromSetup } from '../foundation/accountSeed';
 import type { JurnlAccountRecord } from '../foundation/accounts';
 import { defaultConsentRecords, patchConsent as patchConsentList, type ConsentRecord } from '../foundation/consent';
 import { DEFAULT_JURNL_SETTINGS, type JurnlSettings } from '../foundation/settings';
+import type { JurnlIncomeSource } from '../foundation/income';
+import type { JurnlObligation } from '../foundation/obligations';
+import { seedIncomeFromSetup, seedObligationsFromSetup } from './wave2Seed';
 import {
   REPOSITORY_SCHEMA_VERSION,
   type JurnlRepository,
@@ -34,6 +37,10 @@ function legacyStorageKey(userId: string) {
   return `jurnl.repository.v1.${userId}`;
 }
 
+function legacyStorageKeyV2(userId: string) {
+  return `jurnl.repository.v2.${userId}`;
+}
+
 function browserLocal(): KV | null {
   if (typeof localStorage === 'undefined') return null;
   return {
@@ -53,17 +60,30 @@ function emptySnapshot(userId: string): RepositorySnapshot {
     transactions: [...MOCK_ENTRIES],
     settings: { ...DEFAULT_JURNL_SETTINGS },
     consent: defaultConsentRecords(),
+    incomeSources: [],
+    obligations: [],
     updatedAt: now,
   };
 }
 
-function migrateV1ToV2(parsed: RepositorySnapshot): RepositorySnapshot {
-  return {
+function finalizeSnapshot(parsed: RepositorySnapshot): RepositorySnapshot {
+  const base: RepositorySnapshot = {
     ...parsed,
     schemaVersion: REPOSITORY_SCHEMA_VERSION,
     settings: parsed.settings ?? { ...DEFAULT_JURNL_SETTINGS },
     consent: parsed.consent ?? defaultConsentRecords(),
+    incomeSources: parsed.incomeSources ?? [],
+    obligations: parsed.obligations ?? [],
   };
+  return {
+    ...base,
+    incomeSources: seedIncomeFromSetup(base.setup, base.incomeSources),
+    obligations: seedObligationsFromSetup(base.setup, base.obligations),
+  };
+}
+
+function migrateStored(parsed: RepositorySnapshot): RepositorySnapshot {
+  return finalizeSnapshot(parsed);
 }
 
 function readSnapshot(userId: string): RepositorySnapshot {
@@ -75,16 +95,19 @@ function readSnapshot(userId: string): RepositorySnapshot {
       const raw = kv.get(storageKey(userId));
       if (raw) {
         const parsed = JSON.parse(raw) as RepositorySnapshot;
-        if (parsed.schemaVersion === REPOSITORY_SCHEMA_VERSION && parsed.userId === userId) {
-          memoryByUser.set(userId, parsed);
-          return parsed;
+        if (parsed.userId === userId) {
+          const finalized = parsed.schemaVersion === REPOSITORY_SCHEMA_VERSION ? finalizeSnapshot(parsed) : migrateStored(parsed);
+          memoryByUser.set(userId, finalized);
+          if (parsed.schemaVersion !== REPOSITORY_SCHEMA_VERSION) persist(finalized);
+          return finalized;
         }
       }
-      const legacyRaw = kv.get(legacyStorageKey(userId));
-      if (legacyRaw) {
+      for (const keyFn of [legacyStorageKeyV2, legacyStorageKey]) {
+        const legacyRaw = kv.get(keyFn(userId));
+        if (!legacyRaw) continue;
         const legacy = JSON.parse(legacyRaw) as RepositorySnapshot;
         if (legacy.userId === userId) {
-          const migrated = migrateV1ToV2(legacy);
+          const migrated = migrateStored(legacy);
           memoryByUser.set(userId, migrated);
           persist(migrated);
           return migrated;
@@ -94,7 +117,7 @@ function readSnapshot(userId: string): RepositorySnapshot {
       /* corruption → fall through to default */
     }
   }
-  const snap = emptySnapshot(userId);
+  const snap = finalizeSnapshot(emptySnapshot(userId));
   memoryByUser.set(userId, snap);
   persist(snap);
   return snap;
@@ -239,6 +262,81 @@ class DeviceJurnlRepository implements JurnlRepository {
     return consent;
   }
 
+  listIncomeSources(): JurnlIncomeSource[] {
+    return readSnapshot(this.userId).incomeSources.filter((s) => s.status !== 'ARCHIVED');
+  }
+
+  upsertIncomeSource(source: JurnlIncomeSource): JurnlIncomeSource {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.incomeSources.findIndex((s) => s.income_id === source.income_id);
+    const incomeSources = [...snap.incomeSources];
+    const next = { ...source, updated_at: new Date().toISOString() };
+    if (idx >= 0) incomeSources[idx] = next;
+    else incomeSources.push(next);
+    persist({ ...snap, incomeSources, updatedAt: new Date().toISOString() });
+    emit(idx >= 0 ? 'INCOME_UPDATED' : 'INCOME_CREATED', source.income_id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return next;
+  }
+
+  deleteIncomeSource(id: string): boolean {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.incomeSources.findIndex((s) => s.income_id === id);
+    if (idx < 0) return false;
+    const incomeSources = [...snap.incomeSources];
+    incomeSources[idx] = { ...incomeSources[idx], status: 'ARCHIVED', archived_at: new Date().toISOString() };
+    persist({ ...snap, incomeSources, updatedAt: new Date().toISOString() });
+    emit('INCOME_DELETED', id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return true;
+  }
+
+  markIncomeReceived(id: string, transactionId: string): JurnlIncomeSource | null {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.incomeSources.findIndex((s) => s.income_id === id);
+    if (idx < 0) return null;
+    const incomeSources = [...snap.incomeSources];
+    incomeSources[idx] = {
+      ...incomeSources[idx],
+      status: 'RECEIVED',
+      linked_transaction_id: transactionId,
+      updated_at: new Date().toISOString(),
+    };
+    persist({ ...snap, incomeSources, updatedAt: new Date().toISOString() });
+    emit('INCOME_UPDATED', id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return incomeSources[idx];
+  }
+
+  listObligations(): JurnlObligation[] {
+    return readSnapshot(this.userId).obligations.filter((o) => o.status === 'ACTIVE');
+  }
+
+  upsertObligation(item: JurnlObligation): JurnlObligation {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.obligations.findIndex((o) => o.obligation_id === item.obligation_id);
+    const obligations = [...snap.obligations];
+    const next = { ...item, updated_at: new Date().toISOString() };
+    if (idx >= 0) obligations[idx] = next;
+    else obligations.push(next);
+    persist({ ...snap, obligations, updatedAt: new Date().toISOString() });
+    emit(idx >= 0 ? 'OBLIGATION_UPDATED' : 'OBLIGATION_CREATED', item.obligation_id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return next;
+  }
+
+  deleteObligation(id: string): boolean {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.obligations.findIndex((o) => o.obligation_id === id);
+    if (idx < 0) return false;
+    const obligations = [...snap.obligations];
+    obligations[idx] = { ...obligations[idx], status: 'ARCHIVED', archived_at: new Date().toISOString() };
+    persist({ ...snap, obligations, updatedAt: new Date().toISOString() });
+    emit('OBLIGATION_DELETED', id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return true;
+  }
+
   onEvent(cb: (event: RepositoryEvent) => void): () => void {
     eventSubs.add(cb);
     return () => eventSubs.delete(cb);
@@ -265,6 +363,7 @@ export function resetRepositoryForDev() {
   if (kv) {
     kv.set(storageKey(activeUserId), '');
     kv.set(legacyStorageKey(activeUserId), '');
+    kv.set(legacyStorageKeyV2(activeUserId), '');
   }
   repo = new DeviceJurnlRepository(activeUserId);
 }

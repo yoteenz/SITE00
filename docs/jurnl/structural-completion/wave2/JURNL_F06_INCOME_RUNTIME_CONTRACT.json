@@ -1,0 +1,6 @@
+{
+  "family": "F06",
+  "routes": ["income", "income/:sourceId"],
+  "data_owner": "DD.INCOME_SOURCES",
+  "receive_links_ledger": true
+}
