@@ -34,7 +34,7 @@ export function JurnlScreen({
   const f02 = plate ? F02_PLATES[plate] : null;
   const familyId = f02 ? 'F02' : familyPlate?.family;
   return (
-    <section className="jrn-screen" data-transition={family ? 'family' : 'push'} data-jrn-screen={screenId} data-jrn-family={familyId} data-jrn-field={field} data-jrn-review={review ? 'parent' : undefined}>
+    <section className="jrn-screen" data-transition={family ? 'family' : 'push'} data-jrn-screen={screenId} data-jrn-family={familyId} data-jrn-plate={f02 ? plate : undefined} data-jrn-field={field} data-jrn-review={review ? 'parent' : undefined}>
       {f02 ?
         <div className="jrn-env" data-scene={plate} data-asset-id={f02.assetId} aria-hidden data-testid="jurnl-environment">
           <img className="jrn-plate" src={f02.src} alt="" width={2016} height={3584} data-asset-id={f02.assetId} draggable={false} />

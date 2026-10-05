@@ -1,0 +1,522 @@
+{
+  "family_id": "F02_SETUP",
+  "sprint": "P0.JURNL.F02-OPUS-FINAL-FAMILY-STRUCTURAL-VISUAL-INTERACTION-RESPONSIVE-AUDIT1",
+  "result": "READY_FOR_FOUNDER_VISUAL_REVIEW",
+  "founder_approved": false,
+  "evidence": {
+    "route_checks_after": "63/63",
+    "route_checks_before": "19/63",
+    "journey_after": "18/18",
+    "icons_live": "12/12",
+    "qa_report": "artifacts/jurnl-f02-opus-audit/F02_FINAL_AUDIT_QA.json",
+    "before_qa_report": "artifacts/jurnl-f02-opus-audit/F02_BEFORE_AUDIT_QA.json",
+    "captures": "artifacts/jurnl-f02-opus-audit/captures/"
+  },
+  "drift_class_counts_found": {
+    "MATCH": 0,
+    "MINOR_DRIFT": 1,
+    "STRUCTURAL_DRIFT": 2,
+    "ASSET_DRIFT": 0,
+    "RESPONSIVE_DRIFT": 11,
+    "BEHAVIORAL_DRIFT": 6,
+    "TYPOGRAPHIC_DRIFT": 3,
+    "CONTRAST_DRIFT": 3,
+    "COMPOSITION_DRIFT": 12,
+    "ICON_ROW_DRIFT": 6
+  },
+  "drift_after_repair": {
+    "MATCH": 17
+  },
+  "entries": [
+    {
+      "id": "F02.00",
+      "live_captures": [
+        "F02.00"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "COMPOSITION_DRIFT",
+      "drift_classes_found": [
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT",
+        "STRUCTURAL_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Rail; foot moved into content; progress on the SETUP row; empty first row removed; read-only path list at typographic width; tablet left rail.",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.01",
+      "live_captures": [
+        "F02.01"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "COMPOSITION_DRIFT",
+      "drift_classes_found": [
+        "COMPOSITION_DRIFT",
+        "TYPOGRAPHIC_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Rail; helper orphan removed (tablet); tablet left rail.",
+      "remaining_issue": "Founder visual review pending. Radiogroup options are individual tab stops (no arrow-key roving); shared with F01 JurnlChoice, deferred."
+    },
+    {
+      "id": "F02.02",
+      "live_captures": [
+        "F02.02"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "ICON_ROW_DRIFT",
+      "drift_classes_found": [
+        "ICON_ROW_DRIFT",
+        "CONTRAST_DRIFT",
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "JurnlChoice icon grid; SKIP FOR NOW paper chip (1.23 \u2192 \u22658.4:1); labelled radiogroup; rail; tablet left rail.",
+      "remaining_issue": "Founder visual review pending. Radiogroup options are individual tab stops (no arrow-key roving); shared with F01 JurnlChoice, deferred."
+    },
+    {
+      "id": "F02.02.1",
+      "live_captures": [
+        "F02.02.1"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "COMPOSITION_DRIFT",
+      "drift_classes_found": [
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Rail; field error linked by aria-describedby; tablet left rail.",
+      "remaining_issue": "Founder visual review pending. Radiogroup options are individual tab stops (no arrow-key roving); shared with F01 JurnlChoice, deferred."
+    },
+    {
+      "id": "F02.03",
+      "live_captures": [
+        "F02.03"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "ICON_ROW_DRIFT",
+      "drift_classes_found": [
+        "ICON_ROW_DRIFT",
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Cadence icon grid; rail; aria-describedby; tablet left rail.",
+      "remaining_issue": "Founder visual review pending. Radiogroup options are individual tab stops (no arrow-key roving); shared with F01 JurnlChoice, deferred."
+    },
+    {
+      "id": "F02.04",
+      "live_captures": [
+        "F02.04"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "CONTRAST_DRIFT",
+      "drift_classes_found": [
+        "CONTRAST_DRIFT",
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "SKIP FOR NOW paper chip; rail; tablet left rail.",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.05",
+      "live_captures": [
+        "F02.05"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "BEHAVIORAL_DRIFT",
+      "drift_classes_found": [
+        "BEHAVIORAL_DRIFT",
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Pick-up-to-three exposed as checkboxes in a labelled group (was radio); rail; tablet left rail.",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.05.1",
+      "live_captures": [
+        "F02.05.1"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "COMPOSITION_DRIFT",
+      "drift_classes_found": [
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Rail; tablet left rail.",
+      "remaining_issue": "Founder visual review pending. Radiogroup options are individual tab stops (no arrow-key roving); shared with F01 JurnlChoice, deferred."
+    },
+    {
+      "id": "F02.06",
+      "live_captures": [
+        "F02.06"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "TYPOGRAPHIC_DRIFT",
+      "drift_classes_found": [
+        "TYPOGRAPHIC_DRIFT",
+        "CONTRAST_DRIFT",
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Helper orphan removed; SKIP FOR NOW paper chip; rail; tablet left rail.",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.07",
+      "live_captures": [
+        "F02.07"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "ICON_ROW_DRIFT",
+      "drift_classes_found": [
+        "ICON_ROW_DRIFT",
+        "TYPOGRAPHIC_DRIFT",
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Consent grid (icon on first line, balanced label / note, toggle centred); READ THE BOUNDARY aria-controls; rail; tablet left rail.",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.08",
+      "live_captures": [
+        "F02.08"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "ICON_ROW_DRIFT",
+      "drift_classes_found": [
+        "ICON_ROW_DRIFT",
+        "COMPOSITION_DRIFT",
+        "RESPONSIVE_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Voice rows no longer insert a check glyph on selection; recap list at typographic width; rail; tablet left rail.",
+      "remaining_issue": "Founder visual review pending. Radiogroup options are individual tab stops (no arrow-key roving); shared with F01 JurnlChoice, deferred."
+    },
+    {
+      "id": "F02.ST.RESUME",
+      "live_captures": [
+        "F02.00.RESUME"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "BEHAVIORAL_DRIFT",
+      "drift_classes_found": [
+        "BEHAVIORAL_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "CONTINUE SETUP keeps the saved place (it used to overwrite it with F02.01 first).",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.ST.CONNECTED",
+      "live_captures": [
+        "F02.02.CONNECTED"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "ICON_ROW_DRIFT",
+      "drift_classes_found": [
+        "ICON_ROW_DRIFT",
+        "COMPOSITION_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Success panel and rows inside the rail; icon grid.",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.ST.VALIDATION",
+      "live_captures": [
+        "F02.02.1.VALIDATION",
+        "F02.03.VALIDATION",
+        "F02.04.VALIDATION",
+        "F02.05.1.VALIDATION",
+        "F02.06.VALIDATION"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "STRUCTURAL_DRIFT",
+      "drift_classes_found": [
+        "STRUCTURAL_DRIFT",
+        "BEHAVIORAL_DRIFT",
+        "MINOR_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Duplicate SETUP label beside the JURNL. SETUP. lockup removed; lockup 42 \u2192 52 px (emblem 012 matches sibling emblems); F02.04 validation sheet can close and its error clears on input.",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.IN.PERMISSION",
+      "live_captures": [
+        "F02.02.PERMISSION"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "BEHAVIORAL_DRIFT",
+      "drift_classes_found": [
+        "BEHAVIORAL_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Focus / Tab containment / Escape attach when the sheet mounts after the overlay host (deep link).",
+      "remaining_issue": "Founder visual review pending."
+    },
+    {
+      "id": "F02.IN.ADD",
+      "live_captures": [
+        "F02.04.ADD"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "ICON_ROW_DRIFT",
+      "drift_classes_found": [
+        "ICON_ROW_DRIFT",
+        "BEHAVIORAL_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Cadence icon grid inside the sheet; labelled radiogroup; deep-link focus containment.",
+      "remaining_issue": "Founder visual review pending. Radiogroup options are individual tab stops (no arrow-key roving); shared with F01 JurnlChoice, deferred."
+    },
+    {
+      "id": "F02.IN.SKIP",
+      "live_captures": [
+        "F02.02.SKIP"
+      ],
+      "structural_status": "PASS",
+      "interaction_status": "PASS",
+      "state_status": "PASS",
+      "asset_status": "PASS",
+      "typography_status": "PASS",
+      "contrast_status": "PASS",
+      "composition_status": "PASS",
+      "icon_row_status": "PASS",
+      "mobile_status": "PASS",
+      "tablet_status": "PASS",
+      "desktop_status": "PASS",
+      "accessibility_status": "PASS",
+      "canvas_status": "PASS",
+      "navigation_status": "PASS",
+      "drift_class": "BEHAVIORAL_DRIFT",
+      "drift_classes_found": [
+        "BEHAVIORAL_DRIFT"
+      ],
+      "drift_after_repair": "MATCH",
+      "repair_applied": "Deep-link focus containment (shared JurnlDrawer fix).",
+      "remaining_issue": "Founder visual review pending."
+    }
+  ]
+}

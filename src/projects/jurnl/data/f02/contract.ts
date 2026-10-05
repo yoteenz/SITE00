@@ -195,7 +195,7 @@ export const JURNL_F02_CONTRACT: FamilyProductionContract = {
   approvalStatus: 'IN_REVIEW',
   implementationStatus: 'LIVE_QA_PASSED',
   qaStatus: 'LIVE_PASS',
-  founderApproval: { approved: false, approvedAt: null, note: 'VISUAL APPROVAL STAYS PENDING. THIS PASS IS THE LIVE IMPLEMENTATION.' },
+  founderApproval: { approved: false, approvedAt: null, note: 'VISUAL APPROVAL STAYS PENDING. OPUS FINAL AUDIT COMPLETE: READY FOR FOUNDER VISUAL REVIEW.' },
   lineage: {
     parentAuthority: `${AUTH_DIR}/F02.00_SETUP_PARENT.jpg`,
     sourceSprints: [

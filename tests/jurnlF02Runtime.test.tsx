@@ -12,6 +12,7 @@ import { evaluateFamilyGate } from '../shared/site00-product-families/familyGate
 import { JURNL_F02_CONTRACT } from '../src/projects/jurnl/data/f02/contract';
 import { JURNL_F02_COVERAGE } from '../src/projects/jurnl/data/f02/coverage';
 import { F02_SCREENS } from '../src/projects/jurnl/data/f02/screens';
+import { JurnlChoice } from '../src/projects/jurnl/runtime/components/primitives';
 import JurnlRuntimeRoot, { JURNL_F01_SCREEN_COMPONENTS } from '../src/projects/jurnl/runtime/JurnlRuntimeRoot';
 import { JURNL_F02_SCREEN_COMPONENTS } from '../src/projects/jurnl/runtime/screens/SetupScreens';
 import { resolveJurnlRoute } from '../src/projects/jurnl/runtime/state/store';
@@ -137,3 +138,72 @@ describe('F02 live routes', () => {
     expect(JURNL_F02_CONTRACT.generationBudget!.familyCredits).toBe(9471);
   });
 });
+
+/* P0.JURNL.F02-OPUS-FINAL-…-AUDIT1 — left rail, icon rows, lockup, semantics. */
+describe('F02 OPUS final audit repairs', () => {
+  const css = readFileSync(path.resolve('src/projects/jurnl/runtime/jurnl-setup.css'), 'utf8');
+
+  it('bounds content with a per-plate left rail mapped from the plate, not one global width', () => {
+    expect(css).toContain('container-type: size');
+    for (const plate of ['ENV.ARRIVAL', 'ENV.DESK', 'ENV.EDIT', 'ENV.QUIET']) expect(css).toMatch(new RegExp(`data-jrn-plate='${plate}'\\]\\s*\\{\\s*--f02-edge-f: 0\\.\\d+`));
+    expect(css).toMatch(/\.jrn-setup \{[^}]*max-width: var\(--f02-rail\)/);
+    // tablet keeps the rail on the left grid; no centring, scaling, masking or new overflow clipping
+    expect(css).not.toMatch(/\.jrn-col \{[^}]*margin-left: auto/);
+    expect(css).not.toMatch(/transform:\s*scale|mask|overflow:\s*hidden/);
+    for (const s of F02_SCREENS) expect(renderRuntime(s.route)).toContain(`data-jrn-plate="${s.plate}"`);
+    expect(renderRuntime('entry')).not.toContain('data-jrn-plate');
+  });
+
+  it('renders icon rows as [ICON][LABEL][MARK] with the icon outside the label column', () => {
+    const html = renderRuntime('setup/accounts');
+    for (const label of ['CONNECT AN ACCOUNT', 'NAME AN ACCOUNT']) {
+      expect(html).toMatch(new RegExp(`class="jrn-row jrn-choice jrn-choice--icon"[^>]*>\\s*<span class="jrn-choice__icon" aria-hidden="true"><svg[^>]*>.*?</svg></span><span class="jrn-row__copy">${label}</span>`));
+    }
+    expect(html).not.toMatch(/jrn-row__copy"><svg/);
+    expect(renderRuntime('setup/income')).not.toMatch(/jrn-row__copy"><svg/);
+    expect(renderRuntime('setup/commitments', 'overlay=add')).not.toMatch(/jrn-row__copy"><svg/);
+    // the voice rows no longer insert a glyph on selection
+    expect(renderRuntime('setup/ready')).not.toMatch(/setup-voice-[A-Z]+"[^>]*>(?:(?!<\/button>).)*data-jrn-icon/);
+  });
+
+  it('keeps the icon-less JurnlChoice markup that F01 uses unchanged', () => {
+    const html = renderToStaticMarkup(createElement(JurnlChoice, { selected: false, onSelect: () => {}, trigger: 'x' }, 'A'));
+    expect(html).toBe('<button type="button" role="radio" aria-checked="false" class="jrn-row jrn-choice" data-jrn-trigger="x"><span class="jrn-row__copy">A</span><span class="jrn-choice__mark" aria-hidden="true"></span></button>');
+  });
+
+  it('exposes pick-several as checkboxes and one-of-many as labelled radiogroups', () => {
+    const priorities = renderRuntime('setup/priorities');
+    expect(priorities).toContain('role="group" aria-label="PRIORITIES"');
+    expect(priorities).toMatch(/role="checkbox"[^>]*data-jrn-trigger="setup-priority-A GOAL"/);
+    expect(priorities).not.toMatch(/role="radio"[^>]*data-jrn-trigger="setup-priority-/);
+    expect(renderRuntime('setup/accounts')).toContain('role="radiogroup" aria-label="ACCOUNT SOURCE"');
+    expect(renderRuntime('setup/commitments', 'overlay=add')).toContain('role="radiogroup" aria-label="CADENCE"');
+    const income = renderRuntime('setup/income', 'state=validation');
+    expect(income).toMatch(/aria-describedby="([^"]+)-error"/);
+    expect(renderRuntime('setup/boundaries')).toMatch(/aria-controls="[^"]+"/);
+  });
+
+  it('keeps one header mark: no second SETUP label beside the SETUP lockup', () => {
+    for (const route of ['setup/income', 'setup/accounts/name', 'setup/priorities/goal', 'setup/protected']) {
+      const html = renderRuntime(route, 'state=validation');
+      expect(html).toContain('data-asset-id="F02.BRANDLOCKUP.JURNL_SETUP.001"');
+      expect(html).not.toContain('<span class="jrn-eyebrow">SETUP</span>');
+      expect(html).not.toContain('jrn-setup__word');
+    }
+    const parent = renderRuntime('setup');
+    expect(parent).toContain('data-asset-id="F02.BRANDLOCKUP.JURNL.001"');
+    expect(parent).toContain('<span class="jrn-eyebrow">SETUP</span>');
+    expect(parent).not.toContain('jrn-setup__emblem');
+  });
+
+  it('keeps progress, foot and secondary actions on the left grid', () => {
+    const parent = renderRuntime('setup');
+    expect(parent).toMatch(/<div class="jrn-setup__meta"><span class="jrn-eyebrow">SETUP<\/span><span class="jrn-setup__segs"/);
+    // the reassurance line sits with the content, before the CTA group
+    expect(parent.indexOf('A FEW QUIET MINUTES.')).toBeLessThan(parent.indexOf('class="jrn-cta"'));
+    expect(parent).not.toContain('jrn-setup__top');
+    expect(renderRuntime('setup/household')).toContain('<div class="jrn-setup__top">');
+    expect(css).toMatch(/\.jrn-btn--quiet \{[^}]*align-self: flex-start;[^}]*background: rgba\(249, 246, 239/);
+  });
+});
+

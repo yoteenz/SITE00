@@ -119,7 +119,10 @@ const auditPass = (a: Awaited<ReturnType<typeof liveAudit>>) =>
   a.text > 20 &&
   a.buttons >= 1 &&
   a.h1.length > 0 &&
-  a.imgs.every((i) => i.src.includes('/site00/projects/jurnl/brand/jurnl-logo-official.png') && i.share < 0.08) &&
+  // Only the official logo, plus the one canonical environment plate (mounted since the F01 asset injection, #1339):
+  // the plate is the environment layer under live controls, never an authority screenshot.
+  a.imgs.every((i) => (i.src.includes('/site00/projects/jurnl/brand/jurnl-logo-official.png') && i.share < 0.08) || /\/assets\/ENTRY\.ENVIRONMENT\.[A-Z_]+\.\d+\.png$/.test(i.src)) &&
+  a.imgs.filter((i) => i.share >= 0.08).length <= 1 &&
   a.bgs.every((b) => b.share < 0.08) &&
   a.authorityLoads.length === 0 &&
   a.lowercase === 0;
@@ -310,9 +313,10 @@ await page.selectOption(tid('design-viewport-route'), 'F01.13');
 await waitScreen(page, 'F01.13');
 f = await runtimeFrame(page);
 await f.click(trig('complete-continue'));
-const boundaryOn = await waitScreen(page, 'F02.BOUNDARY');
+// F02 SETUP is a live family since #1353: CONTINUE TO SETUP lands on F02.00, not the old boundary placeholder.
+const boundaryOn = await waitScreen(page, 'F02.00');
 await settle(page, 900);
-T('F01 → F02 FAMILY TRANSITION', boundaryOn && /F01 → F02/.test((await page.locator('[data-live="screen"] b').textContent()) ?? ''));
+T('F01 → F02 FAMILY TRANSITION', boundaryOn);
 check('SYNC', 'FAMILY control follows the transition to F02', (await page.inputValue(tid('design-viewport-family'))) === 'F02');
 await deviceShot(page, 'journey', 'family-transition-f02');
 
@@ -353,7 +357,7 @@ for (const b of bindings) {
       if (b.action || isPanel) detail = `panel action ${b.action ?? '(in panel)'}`;
     } else if (r.kind === 'boundary') {
       await t.click();
-      pass = await waitScreen(page, 'F02.BOUNDARY');
+      pass = await waitScreen(page, 'F02.00');
     } else if (r.kind === 'overlay') {
       const ov = fr.locator(`[data-jrn-overlay="${r.overlayId}"]`);
       const inside = (await ov.count()) > 0 && (await ov.locator(trig(b.trigger)).count()) > 0;
