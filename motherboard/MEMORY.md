@@ -13370,6 +13370,69 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1`
 
 ---
 
+## 2026-10-04 — Production authority downloader (RECOVERY2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.RECOVERY2` — forensic retrieval only (OpenArt project `Q7IHYCEK3RPn2c1ConEG`, zero generations).
+
+- **Delivered:** `download_production_authorities.ps1` at repo root with embedded **242** CDN URLs (Experience 46 mobile + 46 desktop/tablet hybrid, Library 75 + 75). Regenerator: `scripts/build-download-production-authorities.ps1.py`. Manifest: `artifacts/production-openart-recovery2/AUTHORITY_DOWNLOADER_MANIFEST.json`.
+- **Identification:** Broad prompt matching (IMAGE-TO-IMAGE library/experience mobile, `ROUTE:` hybrid boards); library hybrid duplicates resolved to newest `EXACTLY TWO` batch (75 routes × 2 histories).
+- **Run (Windows Shadow PC):** `powershell -ExecutionPolicy Bypass -File ".\download_production_authorities.ps1"` → `PRODUCTION_AUTHORITY_EXPORT/` + four ZIPs beside script.
+
+---
+
+## 2026-10-04 — JURNL F01 Entry full family production (OpenArt)
+
+Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent run.
+
+- **Context:** Founder sprint to expand **approved F01 Welcome parent** into complete JURNL Family 01 Entry visual authorities via **OpenArt GPT Image 2.5 Sunburst**, 2K, 9:16 flat mobile screens (no device frames)—plus harvest, manifests, state/interaction/icon sheets. Product **JURNL** is separate from SITE 00 SPA; assets live under repo `JURNL/F01_ENTRY/`.
+- **Delivered:** Parent recreation (`F01.00`), 13 child screens (`F01.01`–`F01.13`), 4 composite **state authority** sheets, interaction authority sheet (drawers/modals/social transition), F01 icon pack sheet, **17** forensic parent asset crops (`ENTRY.*`), Sheet A (canonical harvest from real crops), Sheet B (child lineage), manifests (screen tree, components, interactions, asset lineage, implementation mapping, OpenArt log). OpenArt project **`TToQavm9coU1QGPRfEzU`**. ~**20** generations (~**3,484** credits).
+- **Status:** All generated PNGs are **`GENERATED` / `IN REVIEW`** until founder marks **`APPROVED` / `CANONICAL`**. Harvest crops are from production parent PNG—not speculative replacements.
+- **Scripts:** `scripts/jurnl-f01-harvest-parent.py`, `jurnl-f01-build-asset-sheet-a.py`, `jurnl-f01-build-sheet-b.py`.
+- **Conventions:** JURNL UI copy **UPPERCASE**; **square-rounded** interactive controls only; logo **small/integrated**; child screens must **descend** from parent materials without duplicating full welcome hero.
+
+---
+
+## 2026-10-04 — Founder: direct ZIP as clickable link (always)
+
+- **Request:** After JURNL F01 review package, founder asked agents to **always** send the direct ZIP as a **clickable link** (mobile review), not only paths or bare URLs in prose.
+- **Rule:** `AGENTS.md` + `.cursor/rules/session-close.mdc` — Part 3 line 1: markdown link to `releases/download/…/*.zip` on its own line; review/asset ZIPs via GitHub Release + same link format.
+- **JURNL F01 review ZIP:** [JURNL-F01-ENTRY-REVIEW-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-entry-review-2026-10-04/JURNL-F01-ENTRY-REVIEW-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 asset harvest recovery (zero regen)
+
+- **Sprint:** P0.JURNL.F01-ASSET-HARVEST-RECOVERY1 — re-extract from existing `F01.00_WELCOME_GENERATED.png` only; **0** OpenArt credit spend.
+- **Done:** rembg isolation for objects/botanical; clean arch/material crops; light → `OVERLAYS/`; buttons + logo placement → `MANIFEST/COMPONENT_REFERENCES/` + `F01_COMPONENT_MANIFEST.json`; v1 crops → `ASSETS/_ARCHIVE_SCREENSHOT_CROPS_v1/`; Sheet A rebuilt; `scripts/jurnl-f01-recover-harvest.py`.
+- **Review ZIP:** [JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-asset-harvest-recovery-2026-10-04/JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 parent harvest proof1 (FAIL @ 50%)
+
+- **Sprint:** P0.JURNL.F01-PARENT-ASSET-HARVEST-PROOF1 — **1** new F01.00 parent (`z6y0GkA8kNuu8Egnk22P`), immediate harvest, **0** asset regen credits.
+- **Result:** **FAIL** — 7/14 assets usable (50%) &lt; 80% bar; hypothesis (fresh parent fixes extraction) **not supported**.
+- **Next method:** **ASSET-FIRST GENERATION PIPELINE** for future families; F01 repair without child regen **not** viable via extraction alone.
+- **Proof ZIP:** [JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-parent-harvest-proof1-2026-10-04/JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 interaction authority complete
+
+- **Sprint:** P0.JURNL.F01-INTERACTION-AUTHORITY-COMPLETE1 — **0** child screen regen; **10** interaction authority PNGs in `INTERACTIONS/`; **74** rows in `F01_INTERACTION_MANIFEST.json`; `interactionPrimitives` in component manifest; Family 02+ pipeline adds mandatory interaction audit step.
+- **ZIP:** [JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-interaction-authority-2026-10-04/JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 interaction authority uppercase regen
+
+- **Task:** Regenerate all **10** `JURNL/F01_ENTRY/INTERACTIONS/*.png` with **strict ALL-CAPS** user-facing text (founder requirement); same interaction content as INTERACTION-AUTHORITY-COMPLETE1.
+- **OpenArt:** `gpt-image-2-5-sunburst` image2image, project `TToQavm9coU1QGPRfEzU`, 2K 9:16 high, `autoEnhancePrompt: false`; every prompt prefixed with CRITICAL TYPOGRAPHY RULE (100% uppercase, zero lowercase on board).
+- **Log:** `openart_interaction_log.json` — `note: "uppercase-only regen 2026-10-04"`, new historyIds/urls; helper script `scripts/jurnl-f01-regen-interactions-uppercase.py` for prompt text + download workflow.
+- **Result:** **10/10** COMPLETED generations downloaded and overwritten in repo.
+
+---
+
 ## 2026-10-05 — Single-angle Etta source test (OpenArt)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` on `cursor/studio-world-resident-single-angle-source-test-openart1` (from #1316).
