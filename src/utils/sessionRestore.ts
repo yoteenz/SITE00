@@ -3,10 +3,15 @@
  * the server may still have an HttpOnly cookie. We call GET /api/session-restore with
  * credentials: 'include' to get a new session and rehydrate the client.
  */
+import { site00ClientApiUrl } from '../../shared/site00-studio-world-production/site00ClientApiBase.js';
 import { persistAuthBackup, onSignInSuccess } from './adminAuth';
 import { buildMinimalUserFromSupabaseSession, applyMinimalUserToStorage } from './syncFromApi';
 
 const SUPABASE_URL = (import.meta as unknown as { env?: { VITE_SUPABASE_URL?: string } }).env?.VITE_SUPABASE_URL ?? '';
+
+function apiUrl(path: string): string {
+  return site00ClientApiUrl(path);
+}
 
 function getSupabaseStorageKey(): string | null {
   if (!SUPABASE_URL) return null;
@@ -47,10 +52,10 @@ async function parseSessionRestoreJson(
 export async function tryServerSessionRestore(): Promise<boolean> {
   if (typeof window === 'undefined' || !window.localStorage) return false;
   // Use same-origin API route so Safari treats cookie as first-party (local + production).
-  const url = `/api/session-restore`;
+  const url = apiUrl('/api/session-restore');
   let res: Response;
   try {
-    res = await fetch(url, { method: 'GET', credentials: 'include' });
+    res = await fetch(url, { method: 'GET', credentials: 'include', signal: AbortSignal.timeout(8_000) });
   } catch {
     return false;
   }
@@ -108,9 +113,8 @@ export async function tryServerSessionRestore(): Promise<boolean> {
  */
 export async function clearServerSessionCookie(): Promise<void> {
   if (typeof window === 'undefined') return;
-  const url = `/api/session-cookie`;
   try {
-    await fetch(url, {
+    await fetch(apiUrl('/api/session-cookie'), {
       method: 'POST',
       credentials: 'include',
       keepalive: true,
@@ -128,12 +132,12 @@ export async function clearServerSessionCookie(): Promise<void> {
  */
 export async function registerServerSessionCookie(accessToken: string, refreshToken: string): Promise<void> {
   if (!accessToken || !refreshToken || typeof window === 'undefined') return;
-  const url = `/api/session-cookie`;
   try {
-    await fetch(url, {
+    await fetch(apiUrl('/api/session-cookie'), {
       method: 'POST',
       credentials: 'include',
       keepalive: true,
+      signal: AbortSignal.timeout(8_000),
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
       body: JSON.stringify({ refresh_token: refreshToken }),
     });

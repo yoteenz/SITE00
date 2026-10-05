@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { AdminTable } from '../../components/operations/AdminTable';
 import { AdminStatusBadge } from '../../components/operations/AdminStatusBadge';
@@ -46,29 +47,30 @@ export default function DiscoveryPage() {
 
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ DISCOVERY ]</h1>
-          <p className="site00-admin-page-subtitle">SCHEDULED DISCOVERY CALLS.</p>
-        </div>
-        <div className="site00-admin-period">
-          {STATUS_TABS.map((tab) => (
-            <button
-              key={tab.value}
-              type="button"
-              className={status === tab.value ? 'active' : undefined}
-              onClick={() => setSearchParams({ status: tab.value })}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="DISCOVERY / CALLS"
+        subtitle="SCHEDULED DISCOVERY CALLS"
+        actions={
+          <div className="site00-admin-period">
+            {STATUS_TABS.map((tab) => (
+              <button
+                key={tab.value}
+                type="button"
+                className={status === tab.value ? 'active' : undefined}
+                onClick={() => setSearchParams({ status: tab.value })}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        }
+      />
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading discovery" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING DISCOVERY" />
       ) : (
         <section className="site00-admin-panel">
           <AdminTable

@@ -1,0 +1,11 @@
+{
+  "incident_id": "REFERENCE_BINDING_FAILURE_F02_F03_2026",
+  "failure_class": "REFERENCE_BINDING_FAILURE",
+  "effect": "TEXT_TO_IMAGE_USED_WHERE_REFERENCE_EXISTED",
+  "cost_effect": "UNNECESSARY_CREDIT_SPEND",
+  "correction": "FOUNDER_STOPPED_AND_REBOUND_REFERENCE",
+  "status": "METHODOLOGY_RULE_CREATED",
+  "reference_that_should_have_been_used": "REFERENCE_F01.00_WELCOME_APPROVED",
+  "families_affected": ["F02_SETUP", "F03_TODAY", "F04_ACTIVITY"],
+  "notes": "F03/F04 initial parent jobs used text2image before founder correction; canonical outputs are image2image from welcome reference. Exact duplicate credit loss not recorded in repo."
+}

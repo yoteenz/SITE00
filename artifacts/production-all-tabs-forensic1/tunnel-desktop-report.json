@@ -1,0 +1,202 @@
+[
+ {
+  "key": "01-hub",
+  "path": "/production",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 35,
+  "docOverflow": 0,
+  "navActive": "nav-hub",
+  "clipped": [
+   "hub-overview:",
+   "hub-components:",
+   "hub-entries:",
+   "hub-operations:",
+   "hub-activity:"
+  ],
+  "errs": []
+ },
+ {
+  "key": "02-inbox",
+  "path": "/production/queue",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "03-design-brand",
+  "path": "/production/ndxbook/design?mode=brand",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-panel-04:pxa-panel",
+   "design-panel-05:pxa-panel"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-experience",
+  "path": "/production/ndxbook/design?mode=experience",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-overview:pxa-overview-panel__art",
+   "design-panel-05:pxa-vis"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-surfaces",
+  "path": "/production/ndxbook/design?mode=surfaces",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-panel-05:pxa-panel"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-compiler",
+  "path": "/production/ndxbook/design?mode=compiler",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-panel-05:pxa-panel"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-assets",
+  "path": "/production/ndxbook/design?mode=assets",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-panel-04:pxa-panel",
+   "design-panel-05:pxa-panel"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-viewport",
+  "path": "/production/ndxbook/design?mode=viewport",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber"
+  ],
+  "errs": []
+ },
+ {
+  "key": "04-experience",
+  "path": "/production/ndxbook/experience",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-experience",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "05-expression",
+  "path": "/production/ndxbook/expression",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 122,
+  "docOverflow": 0,
+  "navActive": "nav-expression",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "05-expression-cf",
+  "path": "/production/ndxbook/expression/character-fabrication",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": null,
+  "docOverflow": 0,
+  "navActive": "nav-expression",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "06-library",
+  "path": "/production/libraries",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 298,
+  "docOverflow": 0,
+  "navActive": "nav-library",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "07-activity",
+  "path": "/production/activity",
+  "fam": "desktop",
+  "w": 1440,
+  "h": 810,
+  "clamped": [],
+  "overflow": 435,
+  "docOverflow": 0,
+  "navActive": "nav-activity",
+  "clipped": [],
+  "errs": []
+ }
+]

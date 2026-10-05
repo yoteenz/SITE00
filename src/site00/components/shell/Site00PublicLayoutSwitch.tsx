@@ -5,42 +5,35 @@ import {
   isSite00PublicPageBasePath,
   site00PublicMobilePath,
 } from '../../config/site00-public-pages';
-import { usePresentationMode } from '../../presentation';
 import { useSite00 } from '../../state/Site00Context';
+import { isSite00LayoutPreviewSwitchEnabled } from '../../state/preview-mode';
 
-/** AUTO / Mobile / Desktop preview — updates shared presentation override (same canonical route). */
+/** Mobile ↔ desktop preview toggle — updates shared preview mode (same semantic route). */
 export function Site00PublicLayoutSwitch() {
   const { pathname } = useLocation();
-  const { setPresentationOverride } = useSite00();
-  const { mode, override } = usePresentationMode();
+  const { isPreviewDesktop, setPreviewDeviceMode } = useSite00();
 
   const basePath = site00PublicMobilePath(pathname);
-  if (!isSite00PublicPageBasePath(basePath) && !isSite00PublicDesktopPath(pathname)) {
+  if (
+    !isSite00LayoutPreviewSwitchEnabled() ||
+    (!isSite00PublicPageBasePath(basePath) && !isSite00PublicDesktopPath(pathname))
+  ) {
     return null;
   }
 
-  const overrideActive = override !== 'auto';
-
   const nav = (
-    <nav className="site00-origin-layout-switch" aria-label="Public page presentation preview">
+    <nav className="site00-origin-layout-switch" aria-label="PUBLIC PAGE LAYOUT PREVIEW">
       <button
         type="button"
-        aria-current={!overrideActive ? 'page' : undefined}
-        onClick={() => setPresentationOverride('auto')}
-      >
-        Auto
-      </button>
-      <button
-        type="button"
-        aria-current={mode === 'mobile' && overrideActive ? 'page' : undefined}
-        onClick={() => setPresentationOverride('mobile')}
+        aria-current={!isPreviewDesktop ? 'page' : undefined}
+        onClick={() => setPreviewDeviceMode('mobile')}
       >
         Mobile
       </button>
       <button
         type="button"
-        aria-current={mode === 'desktop' && overrideActive ? 'page' : undefined}
-        onClick={() => setPresentationOverride('desktop')}
+        aria-current={isPreviewDesktop ? 'page' : undefined}
+        onClick={() => setPreviewDeviceMode('desktop')}
       >
         Desktop
       </button>

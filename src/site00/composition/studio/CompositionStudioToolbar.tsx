@@ -98,7 +98,7 @@ export function CompositionStudioToolbar({
               Review
             </button>
             <button type="button" onClick={() => dispatch({ type: 'SET_MODE', mode: 'edit' })}>
-              Return to Editor
+              RETURN TO EDITOR
             </button>
             <button type="button" className="composition-studio__cta" onClick={onApprove}>
               Approve

@@ -22,7 +22,7 @@ export function EcosystemMap({ nodes, edges }: EcosystemMapProps) {
   const ordered = order.map((id) => nodes.find((n) => n.id === id)).filter(Boolean) as EcosystemNode[];
 
   return (
-    <div className="site00-admin-ecosystem" aria-label="Ecosystem funnel">
+    <div className="site00-admin-ecosystem" aria-label="ECOSYSTEM FUNNEL">
       <div className="site00-admin-ecosystem__diagram">
         {ordered.map((node, index) => (
           <div key={node.id} className="site00-admin-ecosystem__node-wrap">

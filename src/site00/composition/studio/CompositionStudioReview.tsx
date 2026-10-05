@@ -42,7 +42,7 @@ export function CompositionStudioReview({ controller, onApprove, onReturnToEdito
 
       <div className="composition-studio__review-actions">
         <button type="button" onClick={onReturnToEditor}>
-          Return to Editor
+          RETURN TO EDITOR
         </button>
         <button type="button" className="composition-studio__cta" disabled={blocking} onClick={onApprove}>
           Approve Composition

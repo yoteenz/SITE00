@@ -31,22 +31,25 @@ export function OriginMobileSwipeUp({ transition }: OriginMobileSwipeUpProps) {
     <>
       <section
         className="site00-origin-mobile-swipe"
-        aria-label="Swipe up to open SITE 00 locations directory"
+        aria-label="SWIPE UP TO OPEN SITE 00 LOCATIONS DIRECTORY"
         {...swipeHandlers}
       >
-        <p className="site00-label site00-origin-mobile-swipe__eyebrow">{copy.eyebrow}</p>
-        <p className="site00-label site00-origin-mobile-swipe__suffix">{copy.suffix}</p>
+        <Link to={SITE00_ROUTES.enter} className="site00-origin-mobile-swipe__enter">
+          {copy.enterLabel}
+        </Link>
+        <p className="site00-origin-mobile-swipe__coordinate">
+          {copy.eyebrow}{' '}
+          <span className="site00-origin-mobile-swipe__coordinate-value">{copy.coordinate}</span>{' '}
+          {copy.suffix}
+        </p>
+        <button type="button" className="site00-origin-mobile-swipe__swipe-btn" onClick={goToLocations}>
+          {copy.swipeLabel}
+        </button>
         <div className="site00-origin-mobile-swipe__connector" aria-hidden="true">
           <span className="site00-origin-mobile-swipe__connector-line" />
           <span className="site00-origin-mobile-swipe__connector-dot" />
           <span className="site00-origin-mobile-swipe__connector-line" />
         </div>
-        <Link to={SITE00_ROUTES.enter} className="site00-origin-mobile-swipe__enter">
-          {copy.enterLabel}
-        </Link>
-        <button type="button" className="site00-origin-mobile-swipe__swipe-btn" onClick={goToLocations}>
-          {copy.swipeLabel}
-        </button>
         <ArrowUpIcon />
       </section>
 

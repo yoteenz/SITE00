@@ -1,0 +1,198 @@
+{
+ "artifact": "SITE00_EXPERIENCE_TREE",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "definition": "HOW SITE 00 FUNCTIONS FOR HUMANS \u2014 layered, not peer families. Layers A\u2013J are different kinds of thing; only A, E and F (plus D surfaces) contain routed pages.",
+ "layers": {
+  "A_ROUTED_PRODUCT_SURFACES": {
+   "what": "Places with URLs where product jobs happen",
+   "members": {
+    "PUBLIC LOCATION": [
+     "ORIGIN",
+     "SYSTEM",
+     "SERVICES (product map)",
+     "SITES (public, curated)",
+     "JOURNAL",
+     "SUPPORT",
+     "LEGAL",
+     "ORIGIN STORY"
+    ],
+    "IDNTY": [
+     "hub",
+     "state",
+     "assessment"
+    ],
+    "BLDR": [
+     "hub",
+     "class (SITE/WORLD/SYSTEMS/EXTENSIONS)",
+     "intake"
+    ],
+    "EVOLVE": [
+     "hub",
+     "path",
+     "assessment (+ existing location)",
+     "plans",
+     "marketing"
+    ]
+   }
+  },
+  "B_GLOBAL_NAVIGATION_SYSTEMS": {
+   "what": "Persistent chrome that moves people between places",
+   "members": [
+    "public desktop header",
+    "public mobile header",
+    "mobile bottom nav (ORIGIN \u00b7 IDNTY \u00b7 LOCATIONS \u00b7 PROJECTS \u00b7 CTRL ROOM)",
+    "FAST TRAVEL (contextual overlay)",
+    "public footer",
+    "Operating World top nav",
+    "client app nav (locked)",
+    "production nav (locked)",
+    "operations console nav",
+    "project switchers (6 today)"
+   ]
+  },
+  "C_SPATIAL_ENTRY_EXIT_SYSTEMS": {
+   "what": "The digital-location metaphor: arriving, entering, orienting, leaving",
+   "members": [
+    "ORIGIN arrival (00.00)",
+    "SWIPE-UP",
+    "ENTER 00 (portal)",
+    "WAITING ROOM (directory place; mobile composition = LOCATIONS)",
+    "EXIT 00 (inverse portal)",
+    "world cold-start / transitions"
+   ],
+   "note": "First-class architecture outside the page tree."
+  },
+  "D_ACCOUNT_CONTROL_ROOMS": {
+   "what": "Who you are and how your account is set up",
+   "members": {
+    "CLIENT CONTROL ROOM": [
+     "profile",
+     "security",
+     "notifications",
+     "payment methods & receipts",
+     "connected providers",
+     "membership/access",
+     "personal settings"
+    ],
+    "FOUNDER CONTROL ROOM": [
+     "profile",
+     "security",
+     "notifications",
+     "defaults",
+     "commercial (pricing, discounts, credits, waivers)",
+     "payments & billing",
+     "provider connections",
+     "team & access"
+    ],
+    "ACCESS (entry to this layer)": [
+     "sign in",
+     "create account",
+     "recover",
+     "accept invite",
+     "guest intake token"
+    ]
+   }
+  },
+  "E_PROJECT_CLIENT_EXPERIENCES": {
+   "what": "A client's relationship with their work",
+   "members": {
+    "YOUR SPACE": [
+     "MY PROJECTS (list)",
+     "MY SITES (digital locations)",
+     "MY INTAKES"
+    ],
+    "PROJECT ROOM (client app)": [
+     "HOME",
+     "PROJECT (+ working tree)",
+     "REVIEWS (DESIGN | LIVE)",
+     "INBOX",
+     "LIBRARY"
+    ],
+    "SITE": [
+     "open live",
+     "info",
+     "return to project",
+     "maintenance / add-on / extension / evolve"
+    ]
+   }
+  },
+  "F_PRODUCTION_WORKSPACE": {
+   "what": "Founder making the work, per project",
+   "members": [
+    "PRODUCTION (all projects)",
+    "HUB (+ CLIENT RELATIONSHIP)",
+    "INBOX",
+    "DESIGN",
+    "EXPERIENCE",
+    "EXPRESSION",
+    "LIBRARY",
+    "ACTIVITY"
+   ],
+   "project_management_note": "Founder project management (registry UI, provisioning, cross-project reviews) belongs with production / operations, not a control room."
+  },
+  "F2_OPERATIONS_CONSOLE (re-evaluated 00/CONTROL)": {
+   "what": "Running the business across projects",
+   "members": [
+    "COMMAND",
+    "PROJECTS registry + provisioning",
+    "CLIENTS & INTAKES & LEADS",
+    "cross-project REVIEWS",
+    "EVOLVE OPS",
+    "ASSET VAULT",
+    "ACCESS & EMAIL"
+   ],
+   "note": "Commercial/settings parts move to FOUNDER CONTROL ROOM; see correction evidence."
+  },
+  "G_BACKGROUND_CONTROL_PLANE": {
+   "what": "Infrastructure, no pages",
+   "members": [
+    "auth",
+    "project registry",
+    "client registry",
+    "membership",
+    "permissions",
+    "project firewall",
+    "review engine",
+    "approval engine",
+    "project graph",
+    "cost engine",
+    "funding engine",
+    "commercial adjustments (discount/promotion) engine",
+    "provider connection engine",
+    "notification engine",
+    "project lifecycle",
+    "orchestration"
+   ]
+  },
+  "H_PROJECT_RUNTIMES": {
+   "what": "Platform container layer that mounts project products (SITE 00 itself, JURNL, AIO, FRONTAL SLAYER, future clients) in their own chrome",
+   "members": [
+    "runtime mount (/production/:slug/runtime/*)",
+    "world reader (/projects/:slug/reader/*)",
+    "client live-review viewport"
+   ],
+   "classification": "PLATFORM_CONTAINER_LAYER (not a page family)"
+  },
+  "I_STUDIO_OS": {
+   "what": "Internal machinery (locked ontology)",
+   "members": [
+    "agents & pipelines",
+    "LAB (benches, experiments, dev harnesses) \u2014 an internal surface of STUDIO OS"
+   ],
+   "classification": "STUDIO OS is the root; LAB is a child surface/mode. Prior \"STUDIO OS LAB\" family name should become STUDIO OS (machinery) \u203a LAB."
+  },
+  "J_STUDIO_WORLD": {
+   "what": "Reserved: digital office / spatial world / resident system",
+   "members": []
+  }
+ },
+ "cross_layer_rules": [
+  "C wraps A: you arrive at ORIGIN, ENTER 00 into the WAITING ROOM, and EXIT 00 back out",
+  "B is present inside A, D, E, F with context-specific content",
+  "G serves every layer and is never navigated to",
+  "H mounts project outputs inside E (live review) and F (runtime preview)",
+  "Project management lives in E/F/F2, never in D"
+ ]
+}

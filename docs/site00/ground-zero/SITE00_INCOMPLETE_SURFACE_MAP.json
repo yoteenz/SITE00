@@ -1,0 +1,382 @@
+{
+ "artifact": "SITE00_INCOMPLETE_SURFACE_MAP",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "counts": {
+  "incomplete_surfaces": 30,
+  "by_reuse": {
+   "DERIVED_REUSE": 10,
+   "DIRECT_REUSE": 8,
+   "PARTIAL_REUSE": 7,
+   "NEW_AUTHORITY_REQUIRED": 5
+  },
+  "by_launch": {
+   "POST_MVP": 12,
+   "MVP": 16,
+   "FUTURE": 2
+  }
+ },
+ "surfaces": [
+  {
+   "surface_id": "INC.ORIGIN_STORY",
+   "surface": "ORIGIN STORY (absorbs ABOUT/BRAND)",
+   "route": "/origin/story",
+   "current_status": "MISSING (ABOUT generic, BRAND draft)",
+   "inherit_from": "PUBLIC ORIGIN pack + IDNTY 00 framing",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "Same environment/plate grammar as ORIGIN; new copy structure GRAPHIC\u2192PAGE\u2192PRODUCT\u2192WORLD.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "public.redesign.origin"
+   ]
+  },
+  {
+   "surface_id": "INC.LEGAL",
+   "surface": "LEGAL (privacy, terms)",
+   "route": "/legal/:doc",
+   "current_status": "MISSING (links 404\u2192/)",
+   "inherit_from": "Public text shell",
+   "reuse_classification": "DIRECT_REUSE",
+   "reason": "Text page in existing public shell; no composition authority needed.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.SUPPORT",
+   "surface": "SUPPORT (help, contact, book discovery)",
+   "route": "/support",
+   "current_status": "PARTIAL (mailto only)",
+   "inherit_from": "Public shell + EVOLVE hub FAQ pattern + auth form inputs",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "Forms/inputs exist in auth shell; FAQ accordion exists on EVOLVE hub.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.SERVICES",
+   "surface": "SERVICES (product map)",
+   "route": "/services",
+   "current_status": "PARTIAL (agency menu)",
+   "inherit_from": "ORIGIN cards + expanded panels",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "Origin cards already present IDNTY/BLDR/EVOLVE in house language.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "public.redesign.origin"
+   ]
+  },
+  {
+   "surface_id": "INC.SYSTEM",
+   "surface": "SYSTEM (+ GUIDE)",
+   "route": "/system",
+   "current_status": "PARTIAL (dead end)",
+   "inherit_from": "ORIGIN plate + LOCATIONS directory grammar",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "Explains pipeline using existing machine illustrations (MACHINE.* slots).",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "public.redesign.origin",
+    "public.redesign.locations"
+   ]
+  },
+  {
+   "surface_id": "INC.SITES",
+   "surface": "SITES (built locations)",
+   "route": "/sites",
+   "current_status": "PLACEHOLDER",
+   "inherit_from": "Projects index reference (orbital core, location tiles)",
+   "reuse_classification": "PARTIAL_REUSE",
+   "reason": "Header grammar exists (desktop crop only); location tile composition and mobile are missing.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "dw.founder.projects_index"
+   ]
+  },
+  {
+   "surface_id": "INC.JOURNAL",
+   "surface": "JOURNAL",
+   "route": "/journal",
+   "current_status": "PLACEHOLDER",
+   "inherit_from": "Public shell editorial",
+   "reuse_classification": "DIRECT_REUSE",
+   "reason": "Plain editorial list; no content yet.",
+   "launch_priority": "FUTURE",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.WAITING_ROOM",
+   "surface": "WAITING ROOM with MAP state",
+   "route": "/enter",
+   "current_status": "PARTIAL (two directories)",
+   "inherit_from": "LOCATIONS authority + enter00 DirectoryPanel",
+   "reuse_classification": "DIRECT_REUSE",
+   "reason": "Both compositions exist; merge item sets.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "public.redesign.locations"
+   ]
+  },
+  {
+   "surface_id": "INC.BLDR_CLASSES",
+   "surface": "BLDR SYSTEMS + EXTENSIONS classes",
+   "route": "/bldr/state",
+   "current_status": "PARTIAL",
+   "inherit_from": "public.redesign.bldr (has systems|extensions paths)",
+   "reuse_classification": "DIRECT_REUSE",
+   "reason": "Authority already defines the paths.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "public.redesign.bldr"
+   ]
+  },
+  {
+   "surface_id": "INC.BLDR_HUB",
+   "surface": "BLDR hub / EVOLVE hub / assessment steps",
+   "route": "/bldr, /evolve, /:x/:y/*",
+   "current_status": "LIVE/PARTIAL (no authority)",
+   "inherit_from": "IDNTY assessment grammar",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "IDNTY flows have authority; BLDR/EVOLVE steps share the shell.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "public.redesign.idnty"
+   ]
+  },
+  {
+   "surface_id": "INC.AUTH",
+   "surface": "Sign-in / create / recover / invite accept",
+   "route": "/origin/*, /invite/:token",
+   "current_status": "PARTIAL (reset stub, invite missing)",
+   "inherit_from": "Existing Site00AuthShell",
+   "reuse_classification": "DIRECT_REUSE",
+   "reason": "Auth shell exists; invite accept is a variant state.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.CTRL",
+   "surface": "CTRL ROOM home + MY PROJECTS + settings",
+   "route": "/control/*",
+   "current_status": "PARTIAL / PLACEHOLDER",
+   "inherit_from": "Operating World shell + projects-index tile grammar",
+   "reuse_classification": "PARTIAL_REUSE",
+   "reason": "Shell exists; project list composition missing.",
+   "launch_priority": "MVP",
+   "authority_ids": [
+    "dw.founder.projects_index"
+   ]
+  },
+  {
+   "surface_id": "INC.APP_HOME",
+   "surface": "CLIENT APP HOME (current moment)",
+   "route": "/app/:slug",
+   "current_status": "PARTIAL (fixture copy)",
+   "inherit_from": "P0.APP.1 CSS + design-pack review cards + production HUB pulse grammar",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "No client-app image authority in repo; HOME composition is new. Descendant of host canon, not new territory. Skip if founder supplies P0.APP.1 board covering it.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.APP_PROJECT",
+   "surface": "CLIENT APP PROJECT (journey)",
+   "route": "/app/:slug/project",
+   "current_status": "DATA_ONLY",
+   "inherit_from": "Production pipeline tiles + HUB status rail",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "Journey/family roadmap composition does not exist anywhere.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.APP_REVIEW",
+   "surface": "CLIENT APP FAMILY REVIEW mode",
+   "route": "/app/:slug/reviews/:id",
+   "current_status": "PARTIAL",
+   "inherit_from": "Existing ClientAppReviewDetailView + design-pack review cards",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "Authority-dominant review with \u2665/\u00d7 and expanding feedback sheet is a new composition (wireframe spec delivered in client-room sprint).",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.APP_REVIEWS",
+   "surface": "CLIENT APP REVIEWS list",
+   "route": "/app/:slug/reviews",
+   "current_status": "PARTIAL",
+   "inherit_from": "Existing SelfDirectedReviewsView",
+   "reuse_classification": "PARTIAL_REUSE",
+   "reason": "List exists; grouping (needs you / in revision / approved) is new.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.APP_INBOX",
+   "surface": "CLIENT APP INBOX + THREAD",
+   "route": "/app/:slug/inbox",
+   "current_status": "VISUAL_ONLY",
+   "inherit_from": "Existing inbox views + production INBOX thread grammar",
+   "reuse_classification": "PARTIAL_REUSE",
+   "reason": "Visual shell exists; data is fake.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.APP_LIBRARY",
+   "surface": "CLIENT APP LIBRARY + FILE",
+   "route": "/app/:slug/library",
+   "current_status": "PLACEHOLDER",
+   "inherit_from": "Production LIBRARY grammar (light variant) + existing category list",
+   "reuse_classification": "PARTIAL_REUSE",
+   "reason": "Category list exists; file viewer is a placeholder.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.APP_NOTIF",
+   "surface": "CLIENT APP NOTIFICATIONS drawer",
+   "route": "(drawer)",
+   "current_status": "VISUAL_ONLY",
+   "inherit_from": "Design-pack drawer shell",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "Drawer shell exists in founder design pack.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.APP_MENU",
+   "surface": "CLIENT APP MENU drawer",
+   "route": "(drawer)",
+   "current_status": "PLACEHOLDER",
+   "inherit_from": "Design-pack drawer shell",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "-",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.PW_CLIENT",
+   "surface": "PRODUCTION CLIENT RELATIONSHIP",
+   "route": "/production/:slug/client",
+   "current_status": "MISSING",
+   "inherit_from": "HUB descendants (prod.hub.descendants.opus1)",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "HUB descendant grammar covers status panels and lists.",
+   "launch_priority": "MVP",
+   "authority_ids": [
+    "prod.hub.descendants.opus1",
+    "prod.parent3view.forensic1"
+   ]
+  },
+  {
+   "surface_id": "INC.PW_SEND",
+   "surface": "SEND TO CLIENT sheet",
+   "route": "(sheet)",
+   "current_status": "MISSING",
+   "inherit_from": "INBOX decision-detail overlay grammar",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "Overlay pattern exists in INBOX.",
+   "launch_priority": "MVP",
+   "authority_ids": [
+    "prod.inbox.root.convergence2"
+   ]
+  },
+  {
+   "surface_id": "INC.PW_CLIENT_LENS",
+   "surface": "INBOX CLIENT REVIEWS lens",
+   "route": "/production/:slug/inbox?view=client",
+   "current_status": "MISSING",
+   "inherit_from": "INBOX lenses",
+   "reuse_classification": "DIRECT_REUSE",
+   "reason": "Same list grammar as WATCHING.",
+   "launch_priority": "MVP",
+   "authority_ids": [
+    "prod.inbox.root.convergence2"
+   ]
+  },
+  {
+   "surface_id": "INC.PW_EXPERIENCE",
+   "surface": "EXPERIENCE children (7)",
+   "route": "/production/:slug/experience/:area",
+   "current_status": "PLACEHOLDER",
+   "inherit_from": "92 OpenArt boards (IN_REVIEW, remote)",
+   "reuse_classification": "PARTIAL_REUSE",
+   "reason": "Authority exists remotely; must be downloaded + reviewed.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "prod.openart.export.242"
+   ]
+  },
+  {
+   "surface_id": "INC.PW_LIBRARY",
+   "surface": "LIBRARY descendants",
+   "route": "/production/:slug/library",
+   "current_status": "VISUAL_ONLY",
+   "inherit_from": "150 OpenArt boards (IN_REVIEW, remote)",
+   "reuse_classification": "PARTIAL_REUSE",
+   "reason": "Authority exists remotely.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "prod.openart.export.242"
+   ]
+  },
+  {
+   "surface_id": "INC.PW_DESIGN_CHILDREN",
+   "surface": "DESIGN section children",
+   "route": "/production/:slug/design/:section",
+   "current_status": "PARTIAL (bench-scaled)",
+   "inherit_from": "Design pack + chamber",
+   "reuse_classification": "DERIVED_REUSE",
+   "reason": "Recompose bench children inside authority frame.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "prod.design.assetpack.opus3"
+   ]
+  },
+  {
+   "surface_id": "INC.CF_RESPONSIVE",
+   "surface": "Character Fabrication tablet/desktop",
+   "route": "/production/:slug/expression/character-fabrication",
+   "current_status": "MOBILE ONLY",
+   "inherit_from": "CF mobile authority",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "No tablet/desktop composition exists; independent recomposition required by responsive rule.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "prod.characterfab.media"
+   ]
+  },
+  {
+   "surface_id": "INC.NOT_FOUND",
+   "surface": "NOT FOUND",
+   "route": "*",
+   "current_status": "MISSING",
+   "inherit_from": "Public shell",
+   "reuse_classification": "DIRECT_REUSE",
+   "reason": "-",
+   "launch_priority": "POST_MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.LAB",
+   "surface": "LAB index",
+   "route": "/lab",
+   "current_status": "MISSING",
+   "inherit_from": "CONTROL shell",
+   "reuse_classification": "DIRECT_REUSE",
+   "reason": "Internal list page.",
+   "launch_priority": "MVP",
+   "authority_ids": []
+  },
+  {
+   "surface_id": "INC.STUDIO_WORLD",
+   "surface": "STUDIO WORLD",
+   "route": "(reserved)",
+   "current_status": "MISSING",
+   "inherit_from": "Production environments",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "Concept has no surface; requires founder direction.",
+   "launch_priority": "FUTURE",
+   "authority_ids": []
+  }
+ ]
+}

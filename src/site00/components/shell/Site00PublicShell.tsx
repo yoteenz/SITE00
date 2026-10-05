@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import type { Site00MobileNavId } from '../../config/locations-directory';
 import { useLocation } from 'react-router-dom';
 import { site00PublicPageMeta } from '../../config/site00-public-page-meta';
 import { Site00PageEnvironment } from './Site00PageEnvironment';
@@ -12,8 +11,6 @@ import { useSite00DesktopArtboardPreview } from './Site00DesktopArtboardContext'
 
 type Site00PublicShellProps = {
   children: ReactNode;
-  /** Mobile bottom nav active tab */
-  mobileActiveNav?: Site00MobileNavId;
   /** Override auto-detected location label for desktop header */
   locationLabel?: string;
   className?: string;
@@ -25,7 +22,6 @@ type Site00PublicShellProps = {
  */
 export function Site00PublicShell({
   children,
-  mobileActiveNav = 'origin',
   locationLabel,
   className = '',
 }: Site00PublicShellProps) {
@@ -53,7 +49,7 @@ export function Site00PublicShell({
         </div>
       ) : (
         <div className="site00-public-shell__mobile">
-          <Site00MobileShell activeNav={mobileActiveNav} showEnvironmentBackground={false} shellClassName="site00-public-mobile-shell">
+          <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-public-mobile-shell">
             <div className="site00-public-mobile">
               <main className="site00-public-mobile__main">{children}</main>
               <Site00PageFooter />

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { AdminTable } from '../../components/operations/AdminTable';
 import { AdminStatusBadge } from '../../components/operations/AdminStatusBadge';
@@ -39,17 +40,16 @@ export default function FinancePage() {
 
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ FINANCE ]</h1>
-          <p className="site00-admin-page-subtitle">REVENUE AND INVOICE TRACKING.</p>
-        </div>
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="BUSINESS / OPERATIONS"
+        subtitle="WHAT HAS BEEN AUTHORIZED? WHAT IS MOVING?"
+      />
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading finance" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING FINANCE" />
       ) : data ? (
         <>
           <section className="site00-admin-kpi-row">

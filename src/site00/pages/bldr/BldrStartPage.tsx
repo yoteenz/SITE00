@@ -5,7 +5,7 @@ import { BldrEntryPage } from '../../components/bldr/BldrEntryPage';
 export default function BldrStartPage() {
   return (
     <div className="site00-bldr-entry-page">
-      <Site00MobileShell activeNav="build" showEnvironmentBackground={false} shellClassName="site00-mobile-shell--bldr-entry">
+      <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-mobile-shell--bldr-entry">
         <BldrEntryPage />
       </Site00MobileShell>
     </div>

@@ -8,7 +8,7 @@ export default function SystemPage() {
       <div className="site00-page site00-page--system">
         <PageIntro title={<BracketHeading>SYSTEM</BracketHeading>} subtitle="THE FOUNDATION." />
         <div className="site00-system-foundation">
-          <section className="site00-system-foundation__layers" aria-label="SITE 00 system layers">
+          <section className="site00-system-foundation__layers" aria-label="SITE 00 SYSTEM LAYERS">
             <ol className="site00-system-layer-list">
               {SITE00_SYSTEM_LAYERS.map((layer) => (
                 <li key={layer.id} className="site00-system-layer-list__item">
@@ -21,7 +21,7 @@ export default function SystemPage() {
               ))}
             </ol>
           </section>
-          <aside className="site00-system-foundation__visual" aria-label="System layer stack visualization">
+          <aside className="site00-system-foundation__visual" aria-label="SYSTEM LAYER STACK VISUALIZATION">
             <div className="site00-system-stack-viz">
               {SITE00_SYSTEM_LAYERS.map((layer) => (
                 <div key={layer.id} className="site00-system-stack-viz__plate">

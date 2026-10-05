@@ -1,0 +1,194 @@
+{
+  "index_signal:page_001_indexed": {
+    "storagePath": "site00/creative-direction/ndxbook/index_signal/page_001_indexed.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "MONEY",
+    "role": "PAGE_001_PRIMARY",
+    "brief": "Subject: A single cropped fragment of a folded financial statement and a plain credit card laid at a slight diagonal on uncoated archival card stock, alongside a short length of red cross-reference thread pinned at one corner. Visual metaphor: The credit-score topic treated as a catalogued, indexable physical document — knowledge you can file, not a scary bill. Composition: Macro still life, one dominant diagonal formed by the statement edge, thread crossing it at a shallow angle, deliberate empty margin along the top third. Crop: Tight three-quarter portrait crop, object bleeding softly off the left and bottom edges. Camera perspective: Overhead macro, near-flat lay, slight tilt for dynamism. Lighting: Flat, even, cool archival reading-room light with a single soft shadow beneath the card. Material / texture language: Uncoated paper grain, matte plastic card edge, fine cotton thread, very light film grain. Territory visual language: Documentary macro still life. Real physical index artifacts photographed close, never staged as generic stock photography. High tonal contrast, near-monochrome with a single spot of accent red where a stamp or tab would sit. Negative space requirement: Reserve the top ~30% of the frame as clean, low-detail card stock for an index numeral and metadata line. Text-safe zone: Top third and a narrow strip along the left edge must stay low-contrast and uncluttered. Realism / stylization level: Photoreal macro photography, archival document texture, no illustration. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "government form aesthetics, spreadsheet/database UI, generic brutalist web design, sterile SaaS dashboard imagery, stock photography of people pointing at charts, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:13:33.741Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "index_signal.page_001_indexed",
+      "requestedBy": "agent-test@site00.com"
+    }
+  },
+  "index_signal:cross_reference_map": {
+    "storagePath": "site00/creative-direction/ndxbook/index_signal/cross_reference_map.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "MONEY",
+    "role": "TEXTURE_MATERIAL",
+    "brief": "Subject: Several archival index cards and a torn receipt edge fanned out on a light table, connected by taut red thread between three brass paper fasteners, viewed close. Visual metaphor: Cross-referencing as a literal, physical filing act — the thread is the \"link\" between page, chapter and volume. Composition: Wide horizontal macro spread, thread lines forming a loose triangular network across the frame, cards overlapping at controlled angles. Crop: Wide crop with generous negative space on the right third. Camera perspective: Low, near-eye-level macro across the surface of the light table. Lighting: Cool, even light-table glow from below plus soft top fill — no harsh shadows. Material / texture language: Uncoated card stock, brass fastener texture, cotton thread, faint paper dust. Territory visual language: Documentary macro still life. Real physical index artifacts photographed close, never staged as generic stock photography. High tonal contrast, near-monochrome with a single spot of accent red where a stamp or tab would sit. Negative space requirement: Right third of frame kept clear card-stock surface for an overlaid diagram. Text-safe zone: Right third and a thin strip along the bottom. Realism / stylization level: Photoreal macro still life. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "government form aesthetics, spreadsheet/database UI, generic brutalist web design, sterile SaaS dashboard imagery, stock photography of people pointing at charts, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:15:38.586Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "index_signal.cross_reference_map",
+      "requestedBy": "agent-ndxbook-visual-pass@site00.com"
+    }
+  },
+  "index_signal:social_knowledge_card_916": {
+    "storagePath": "site00/creative-direction/ndxbook/index_signal/social_knowledge_card_916.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "BODY",
+    "role": "VOLUME_PROOF",
+    "brief": "Subject: A folded anatomical reference chart fragment and a cloth measuring tape coiled beside it, resting on a plain index card, photographed close in vertical format. Visual metaphor: The BODY volume as a physical, indexable clinical reference artifact — precise, not alarming. Composition: Tall vertical macro composition, measuring tape coil forming a soft spiral in the lower half, chart fragment occupying the upper half at a slight angle. Crop: Full-bleed vertical 9:16 crop, tight on the two objects. Camera perspective: Overhead macro, near-flat lay. Lighting: Flat, cool, even archival light matching the Index Signal territory language. Material / texture language: Coated chart paper, woven cloth tape, matte card stock edge. Territory visual language: Documentary macro still life. Real physical index artifacts photographed close, never staged as generic stock photography. High tonal contrast, near-monochrome with a single spot of accent red where a stamp or tab would sit. Negative space requirement: Top fifth of the frame reserved as clean card stock for a rotated index numeral. Text-safe zone: Top fifth and bottom eighth of frame. Realism / stylization level: Photoreal macro photography. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "government form aesthetics, spreadsheet/database UI, generic brutalist web design, sterile SaaS dashboard imagery, stock photography of people pointing at charts, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:16:07.242Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "index_signal.social_knowledge_card_916",
+      "requestedBy": "agent-ndxbook-visual-pass@site00.com"
+    }
+  },
+  "index_signal:feed_index_tile": {
+    "storagePath": "site00/creative-direction/ndxbook/index_signal/feed_index_tile.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "MIND",
+    "role": "VOLUME_PROOF",
+    "brief": "Subject: A well-worn spiral notebook page corner with dense handwritten margin annotations and a single underline, photographed extremely close, one plain index tab visible at the edge. Visual metaphor: The MIND volume as an annotated, cross-referenced personal notebook — thinking made indexable. Composition: Square macro crop centered on the annotated corner, spiral binding visible along one edge for texture. Crop: Tight square crop, page corner filling most of the frame. Camera perspective: Near-overhead macro, slight angle to show page texture. Lighting: Flat, even, slightly warm reading-lamp light (still restrained, not golden-hour warm). Material / texture language: Uncoated notebook paper with visible fiber texture, ballpoint ink, metal spiral binding. Territory visual language: Documentary macro still life. Real physical index artifacts photographed close, never staged as generic stock photography. High tonal contrast, near-monochrome with a single spot of accent red where a stamp or tab would sit. Negative space requirement: Bottom-left quarter kept low-detail for a small stamp-style label. Text-safe zone: Bottom-left quarter of frame. Realism / stylization level: Photoreal macro photography. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "government form aesthetics, spreadsheet/database UI, generic brutalist web design, sterile SaaS dashboard imagery, stock photography of people pointing at charts, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:16:33.612Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "index_signal.feed_index_tile",
+      "requestedBy": "agent-ndxbook-visual-pass@site00.com"
+    }
+  },
+  "editorial_utility:page_001_editorial": {
+    "storagePath": "site00/creative-direction/ndxbook/editorial_utility/page_001_editorial.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "MONEY",
+    "role": "PAGE_001_PRIMARY",
+    "brief": "Subject: A worn leather wallet lying open beside a small stack of folded bills and a single credit card, styled with intent on a warm neutral surface, as if commissioned for a serious personal-finance feature. Visual metaphor: Credit score and debt payoff reframed as a calm, commissioned editorial subject rather than a scary warning graphic. Composition: Feature-opener still life, subject grouped in the lower two-thirds, generous clean surface in the upper third for a headline. Crop: Portrait crop with soft vignette at the edges, hero object sharply in focus. Camera perspective: Slightly elevated three-quarter angle, not flat overhead — gives the still life editorial depth. Lighting: Warm, directional studio light from the upper left with a soft, controlled shadow to the right. Material / texture language: Worn leather grain, linen surface texture, matte paper bills, soft studio shadow. Territory visual language: Art-directed conceptual still life, commissioned-magazine quality — one strong subject, considered styling, never a decorative stock photo. Moderate contrast, warm neutral palette, volume accent used only as a small color band, never as an overlay wash. Negative space requirement: Upper third of frame kept clean and low-contrast for a serif headline and deck line. Text-safe zone: Upper third of the frame. Realism / stylization level: Photoreal commissioned-editorial still life photography. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "generic wellness magazine gloss, Medium/Substack template look, corporate explainer graphics, lifestyle-blog softness with smiling stock models, childish educational clip-art, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:17:02.275Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "editorial_utility.page_001_editorial",
+      "requestedBy": "agent-ndxbook-visual-pass@site00.com"
+    }
+  },
+  "editorial_utility:feature_article_opener": {
+    "storagePath": "site00/creative-direction/ndxbook/editorial_utility/feature_article_opener.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "MONEY",
+    "role": "PAGE_001_SECONDARY",
+    "brief": "Subject: A close, warmly lit shot of a hand-written budgeting notebook open beside a calculator, styled as a considered editorial companion image to a credit-score feature. Visual metaphor: The practical, non-preachy tools of debt payoff — calm competence rather than anxiety. Composition: Wide feature-opener still life, notebook and calculator arranged along a soft diagonal, right third left clear for a pull quote. Crop: Landscape crop, subject occupying the left two-thirds. Camera perspective: Three-quarter angle, slightly elevated. Lighting: Warm, soft directional light, gentle falloff toward the right third. Material / texture language: Paper grain, brushed-metal calculator edge, linen tablecloth texture. Territory visual language: Art-directed conceptual still life, commissioned-magazine quality — one strong subject, considered styling, never a decorative stock photo. Moderate contrast, warm neutral palette, volume accent used only as a small color band, never as an overlay wash. Negative space requirement: Right third of the frame kept clean for a pull-quote panel. Text-safe zone: Right third of the frame. Realism / stylization level: Photoreal commissioned-editorial still life photography. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "generic wellness magazine gloss, Medium/Substack template look, corporate explainer graphics, lifestyle-blog softness with smiling stock models, childish educational clip-art, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:17:32.069Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "editorial_utility.feature_article_opener",
+      "requestedBy": "agent-ndxbook-visual-pass@site00.com"
+    }
+  },
+  "editorial_utility:social_carousel_cover": {
+    "storagePath": "site00/creative-direction/ndxbook/editorial_utility/social_carousel_cover.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "TECH",
+    "role": "VOLUME_PROOF",
+    "brief": "Subject: A smartphone resting face-down on a warm wooden desk beside a neatly coiled charging cable, soft window light, styled as an editorial companion image for a TECH-volume carousel. Visual metaphor: Technology treated as a calm, considered editorial subject rather than a generic \"hands on laptop\" stock cliché. Composition: Vertical carousel-cover still life, phone placed off-center along a soft diagonal, upper half left clean for a headline. Crop: Full-bleed vertical 9:16 crop. Camera perspective: Three-quarter elevated angle. Lighting: Soft natural window light from the side, warm and even. Material / texture language: Matte phone back, warm wood grain, woven cable texture. Territory visual language: Art-directed conceptual still life, commissioned-magazine quality — one strong subject, considered styling, never a decorative stock photo. Moderate contrast, warm neutral palette, volume accent used only as a small color band, never as an overlay wash. Negative space requirement: Upper half of frame kept clean for a headline. Text-safe zone: Upper half of the frame. Realism / stylization level: Photoreal commissioned-editorial still life photography. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "generic wellness magazine gloss, Medium/Substack template look, corporate explainer graphics, lifestyle-blog softness with smiling stock models, childish educational clip-art, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:18:00.154Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "editorial_utility.social_carousel_cover",
+      "requestedBy": "agent-ndxbook-visual-pass@site00.com"
+    }
+  },
+  "editorial_utility:instagram_feed_tile": {
+    "storagePath": "site00/creative-direction/ndxbook/editorial_utility/instagram_feed_tile.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "CONSUMER",
+    "role": "VOLUME_PROOF",
+    "brief": "Subject: A small, considered flat-lay of a shopping receipt curling at the edge beside two neutral price tags on a warm surface, styled for a CONSUMER-volume feed tile. Visual metaphor: Everyday consumer decisions treated with the same editorial care as a finance or health feature — practical, not preachy. Composition: Square flat-lay, receipt and tags arranged along a gentle diagonal with balanced negative space in one corner. Crop: Tight square crop. Camera perspective: Near-overhead flat lay. Lighting: Warm, soft, even flat-lay light. Material / texture language: Thermal receipt paper texture, matte cardstock tags, warm linen surface. Territory visual language: Art-directed conceptual still life, commissioned-magazine quality — one strong subject, considered styling, never a decorative stock photo. Moderate contrast, warm neutral palette, volume accent used only as a small color band, never as an overlay wash. Negative space requirement: One corner (roughly a quarter of the frame) kept clean for a small label. Text-safe zone: Bottom-left quarter of the frame. Realism / stylization level: Photoreal commissioned-editorial flat-lay photography. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "generic wellness magazine gloss, Medium/Substack template look, corporate explainer graphics, lifestyle-blog softness with smiling stock models, childish educational clip-art, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:18:28.119Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "editorial_utility.instagram_feed_tile",
+      "requestedBy": "agent-ndxbook-visual-pass@site00.com"
+    }
+  },
+  "kinetic_field:hook_frame_916": {
+    "storagePath": "site00/creative-direction/ndxbook/kinetic_field/hook_frame_916.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "MONEY",
+    "role": "PAGE_001_PRIMARY",
+    "brief": "Subject: One oversized, sculptural numeral \"7\" rendered as a solid dimensional object with a matte charcoal surface, lit from a single low warm-red side light on its left face and cooling to a calm blue-white on its right face, floating in a deep near-black field. A short stack of three backlit index-card tabs is wedged at its base, glowing faintly from within like paper held up to a light table. Visual metaphor: A credit score in the physical instant it resolves from alarm-red to settled-calm — rendered as one solid, indexable numeral object, not a screen effect. Composition: Vertical hook-frame composition, the numeral occupies the upper two-thirds at a slight confident tilt, its own cast shadow falling toward the lower-left, index-card tabs anchoring the base. Crop: Full-bleed vertical 9:16, the numeral cropped tight at the top edge to imply it continues off-frame. Camera perspective: Slightly low, dramatic hero angle on the solid numeral object, like a product shot of a physical sculpture, not an abstract camera-less composition. Lighting: Two-source controlled light: warm red key on one face, cool blue-white rim on the other, real falloff into the dark field — no flat neon wash, no glow halo around the whole object. Material / texture language: Matte charcoal solid surface with visible sculptural facets, thin uncoated card-stock tabs, fine film grain — no glass, no chrome, no glossy plastic. Territory visual language: None as photography for its own sake — imagery here is dimensional/abstract, built to imply motion in a static frame. High contrast dark field with one accent hue glow; light is used sparingly and with purpose, not as decoration. Negative space requirement: Lower third of frame kept dark and low-detail for a bold kinetic headline. Text-safe zone: Lower third of the frame. Realism / stylization level: Stylized dimensional object render, cinematic title-card quality, sculptural and physical rather than a light-particle effect. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "generic cyberpunk neon, gaming UI / HUD overlays, crypto aesthetic, random glowing blobs, noisy motion-graphics clutter, generic AI-startup abstract mesh, converging fiber-optic light rays to a single point, lens-flare starburst, digital rain / falling numerals matrix effect, particle-burst screensaver, generic SaaS keynote abstract background, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:45:18.216Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "kinetic_field.hook_frame_916",
+      "requestedBy": "agent@cursor.regen"
+    }
+  },
+  "kinetic_field:page_001_kinetic": {
+    "storagePath": "site00/creative-direction/ndxbook/kinetic_field/page_001_kinetic.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "MONEY",
+    "role": "PAGE_001_SECONDARY",
+    "brief": "Subject: A short stack of five backlit index-card tabs of increasing size, fanned upward in depth like a physical ledger, the topmost tab glowing brightest as if it just resolved into focus, set in a near-black field with a single cool accent glow from behind the stack. Visual metaphor: A confusing score resolving into one clear, filed, indexable card — clarity as a physical object coming into focus, not a light burst. Composition: Vertical composition with a clear z-axis: dark background field, the fanned card stack rising through the midground, the brightest resolved tab in the upper third. Crop: Full-bleed vertical 9:16, the card stack cropped at the lower edge to imply it continues off-frame. Camera perspective: Close three-quarter angle on the physical card stack, implied depth via the fan of overlapping tabs. Lighting: Single cool backlight glowing through the topmost card edge, soft falloff onto the cards beneath it, no ambient glow wash. Material / texture language: Uncoated card stock with visible fiber texture and thin backlit edges, fine grain — physical paper made luminous, not glass or plastic. Territory visual language: None as photography for its own sake — imagery here is dimensional/abstract, built to imply motion in a static frame. High contrast dark field with one accent hue glow; light is used sparingly and with purpose, not as decoration. Negative space requirement: Lower half of frame kept dark and clear for stacked numeral/typography. Text-safe zone: Lower half of the frame. Realism / stylization level: Stylized dimensional object render, cinematic title-card quality, physical card materiality rather than an abstract light effect. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "generic cyberpunk neon, gaming UI / HUD overlays, crypto aesthetic, random glowing blobs, noisy motion-graphics clutter, generic AI-startup abstract mesh, converging fiber-optic light rays to a single point, lens-flare starburst, digital rain / falling numerals matrix effect, particle-burst screensaver, generic SaaS keynote abstract background, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:45:48.221Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "kinetic_field.page_001_kinetic",
+      "requestedBy": "agent@cursor.regen"
+    }
+  },
+  "kinetic_field:signal_graphic": {
+    "storagePath": "site00/creative-direction/ndxbook/kinetic_field/signal_graphic.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "TECH",
+    "role": "VOLUME_PROOF",
+    "brief": "Subject: A row of eight thin backlit index tabs of varying height, like an equalizer built from physical ledger tabs, one tab on the right third standing taller and glowing distinctly brighter than the rest, set in a near-black field. Visual metaphor: The TECH volume as clean, resolving signal made from the same indexable-card language as the rest of the system — precision and control, not clutter, and never a generic light-mesh graphic. Composition: Wide horizontal composition, the row of tabs crossing the lower half of the frame left to right, the one standout tab positioned in the right third. Crop: Full-bleed 16:9, tabs cropped at the left edge to imply the row continues off-frame. Camera perspective: Low, near-eye-level on the row of physical tabs, implied depth via overlap and size variation. Lighting: Single cool backlight through the standout tab, soft even glow on the rest, controlled falloff, no lens flare. Material / texture language: Thin uncoated card stock with backlit edges, fine grain, no glass or chrome. Territory visual language: None as photography for its own sake — imagery here is dimensional/abstract, built to imply motion in a static frame. High contrast dark field with one accent hue glow; light is used sparingly and with purpose, not as decoration. Negative space requirement: Upper half of frame kept sparse and dark for overlaid typography. Text-safe zone: Upper half of the frame. Realism / stylization level: Stylized dimensional object render, sharp and controlled, physical card materiality rather than an abstract light-mesh effect. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "generic cyberpunk neon, gaming UI / HUD overlays, crypto aesthetic, random glowing blobs, noisy motion-graphics clutter, generic AI-startup abstract mesh, converging fiber-optic light rays to a single point, lens-flare starburst, digital rain / falling numerals matrix effect, particle-burst screensaver, generic SaaS keynote abstract background, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:46:18.947Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "kinetic_field.signal_graphic",
+      "requestedBy": "agent@cursor.regen"
+    }
+  },
+  "kinetic_field:dark_light_inversion": {
+    "storagePath": "site00/creative-direction/ndxbook/kinetic_field/dark_light_inversion.webp",
+    "model": "fal-ai/nano-banana-pro",
+    "volume": "BODY",
+    "role": "VOLUME_PROOF",
+    "brief": "Subject: A thin pulse/vital-signal line moving across a near-black field, starting irregular on the left and resolving into a steady, even rhythm on the right, with a single warm-cool accent glow at the resolution point. Visual metaphor: The BODY volume as a vital-signal line finding a steady rhythm — calm clarity, not clinical anxiety. Composition: Wide horizontal composition, pulse line as the dominant graphic element, irregular-to-steady left-to-right motion. Crop: Full-bleed 16:9, line cropped at both edges to imply continuation. Camera perspective: Abstract dimensional composition, implied depth via subtle layered glow. Lighting: Single accent glow at the point the rhythm steadies, soft falloff elsewhere. Material / texture language: Deep near-black field, thin luminous line work, fine grain. Territory visual language: None as photography for its own sake — imagery here is dimensional/abstract, built to imply motion in a static frame. High contrast dark field with one accent hue glow; light is used sparingly and with purpose, not as decoration. Negative space requirement: Top third of frame kept dark and clear for overlaid typography. Text-safe zone: Top third of the frame. Realism / stylization level: Stylized dimensional abstract graphic, cinematic and controlled, not photoreal. No rendered words, letters, numerals, logos, watermarks, or captions anywhere in the image unless they are illegible incidental texture on a physical prop. No visible real personal information, account numbers, or fake real-world credentials.",
+    "negativePrompt": "generic cyberpunk neon, gaming UI / HUD overlays, crypto aesthetic, random glowing blobs, noisy motion-graphics clutter, generic AI-startup abstract mesh, text overlays, watermark, logo, readable numbers or personal data, stock photo smiling models, low resolution, clip art",
+    "generatedAt": "2026-08-21T00:20:26.987Z",
+    "approvalState": "GENERATED",
+    "provenance": {
+      "source": "FAL",
+      "pipeline": "ndxbook_creative_direction_visual_pass",
+      "briefId": "kinetic_field.dark_light_inversion",
+      "requestedBy": "agent-ndxbook-visual-pass@site00.com"
+    }
+  }
+}

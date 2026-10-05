@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { ControlPageHeader } from '../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../components/shell/Site00AdminShell';
 import { SITE00_ADMIN_ROUTES } from '../config/routes';
 import { site00ProductionApi } from '../services/productionApi';
@@ -26,8 +27,11 @@ export default function Site00AdminApprovalsPage() {
 
   return (
     <Site00AdminShell approvalBadge={total || undefined}>
-      <h1 className="site00-admin-page-title">[ APPROVALS ]</h1>
-      <p className="site00-admin-page-subtitle">WHAT NEEDS YOUR DECISION. · {total} ITEMS WAITING</p>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="REVIEWS / GATE"
+        subtitle={`WHAT IS READY TO MOVE FORWARD? · ${total} ITEMS`}
+      />
 
       {error ? <p className="site00-admin-panel">{error.toUpperCase()}</p> : null}
 

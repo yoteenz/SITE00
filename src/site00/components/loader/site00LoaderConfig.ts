@@ -2,14 +2,16 @@
 
 import {
   site00LoaderBackgroundUrl,
-  site00LoaderGeometryApngUrl,
-  site00LoaderGeometrySourceUrl,
-  site00LoaderGeometryWebmUrl,
+  resolveSite00LoaderEnvironmentAnimationUrl,
+  SITE00_PUBLIC_PROJECT_REF,
 } from './site00LoaderMedia';
+import { resolveSite00LoaderRouteCopy } from './site00LoaderRouteCopy';
+import { assertLoaderSubtitle } from './site00LoaderSubtitleCopy';
 
 /** Resolve public live-preview asset at runtime (non-loader production assets). */
 export function resolveSite00PublicAsset(path: string): string {
-  const base = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
+  const envUrl = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.replace(/\/$/, '');
+  const base = envUrl && envUrl.length > 0 ? envUrl : `https://${SITE00_PUBLIC_PROJECT_REF}.supabase.co`;
   return `${base}/storage/v1/object/public/live-preview/site00/${path}`;
 }
 
@@ -25,7 +27,8 @@ export type Site00LoaderState =
 export type Site00LoaderStage = {
   id: string;
   state: Site00LoaderState;
-  label: string;
+  /** Gray subtitle — mock behind-the-scenes work copy for this stage. */
+  subtitle: string;
   /** Target progress 0–100 when this stage completes (monotonic). */
   progress: number;
 };
@@ -41,9 +44,8 @@ export type Site00ImmersiveLoaderConfig = {
   footerLabel: string;
   completionMessage: string;
   backgroundUrl: string;
-  geometryWebmUrl: string;
-  geometryApngUrl: string;
-  geometrySourceUrl: string;
+  environmentAnimationUrl: string;
+  desktopEnvironmentAnimationUrl: string;
   stages: Site00LoaderStage[];
 };
 
@@ -52,22 +54,21 @@ export const SITE00_WORLD_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig =
   id: 'site00',
   siteLabel: 'SITE 00',
   experienceTitle: 'ASSEMBLING SITE 00',
-  experienceSubtitle: 'PREPARING YOUR DESTINATION',
-  assemblingLabel: 'ASSEMBLING...',
-  tagline: 'EVERYTHING STARTS AT 00.',
+  experienceSubtitle: assertLoaderSubtitle('LOADING YOUR PAGE'),
+  assemblingLabel: 'ASSEMBLING',
+  tagline: 'EVERYTHING WE BUILD LIVES HERE.',
   footerMark: '00',
-  footerLabel: 'SITE 00',
+  footerLabel: 'SITE',
   completionMessage: 'SITE 00 READY',
   backgroundUrl: site00LoaderBackgroundUrl(),
-  geometryWebmUrl: site00LoaderGeometryWebmUrl(),
-  geometryApngUrl: site00LoaderGeometryApngUrl(),
-  geometrySourceUrl: site00LoaderGeometrySourceUrl(),
+  environmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('mobile'),
+  desktopEnvironmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('desktop'),
   stages: [
-    { id: 'bootstrap', state: 'BOOTSTRAP', label: 'INITIALIZING SITE 00', progress: 10 },
-    { id: 'preparing', state: 'PREPARING', label: 'ASSEMBLING SITE 00', progress: 35 },
-    { id: 'connect', state: 'CONNECTING', label: 'PREPARING YOUR DESTINATION', progress: 58 },
-    { id: 'assemble', state: 'ASSEMBLING', label: 'ASSEMBLING ENVIRONMENT', progress: 82 },
-    { id: 'ready', state: 'READY', label: 'SITE 00 READY', progress: 100 },
+    { id: 'bootstrap', state: 'BOOTSTRAP', subtitle: assertLoaderSubtitle('WAKING THE HALL'), progress: 10 },
+    { id: 'preparing', state: 'PREPARING', subtitle: assertLoaderSubtitle('LOADING YOUR PAGE'), progress: 35 },
+    { id: 'connect', state: 'CONNECTING', subtitle: assertLoaderSubtitle('OPENING THE HALL'), progress: 58 },
+    { id: 'assemble', state: 'ASSEMBLING', subtitle: assertLoaderSubtitle('BUILDING THE VIEW'), progress: 82 },
+    { id: 'ready', state: 'READY', subtitle: assertLoaderSubtitle('SITE IS READY'), progress: 100 },
   ],
 };
 
@@ -76,23 +77,22 @@ export const ASSTS_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig = {
   id: 'assts',
   siteLabel: 'SITE 00',
   experienceTitle: 'PREPARING THE ASSET VAULT',
-  experienceSubtitle: 'RESOLVING PRODUCTION ASSETS',
-  assemblingLabel: 'ASSEMBLING...',
+  experienceSubtitle: assertLoaderSubtitle('LOADING YOUR ASSETS'),
+  assemblingLabel: 'ASSEMBLING',
   tagline: 'EVERYTHING WE BUILD LIVES HERE.',
   footerMark: '00',
-  footerLabel: 'SITE 00',
+  footerLabel: 'SITE',
   completionMessage: 'ASSET VAULT READY',
   backgroundUrl: site00LoaderBackgroundUrl(),
-  geometryWebmUrl: site00LoaderGeometryWebmUrl(),
-  geometryApngUrl: site00LoaderGeometryApngUrl(),
-  geometrySourceUrl: site00LoaderGeometrySourceUrl(),
+  environmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('mobile'),
+  desktopEnvironmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('desktop'),
   stages: [
-    { id: 'bootstrap', state: 'BOOTSTRAP', label: 'INITIALIZING SITE 00', progress: 8 },
-    { id: 'preparing', state: 'PREPARING', label: 'PREPARING THE ASSET VAULT', progress: 22 },
-    { id: 'connect', state: 'CONNECTING', label: 'CONNECTING TO ASSET VAULT', progress: 38 },
-    { id: 'resolve', state: 'RESOLVING', label: 'RESOLVING PRODUCTION ASSETS', progress: 58 },
-    { id: 'assemble', state: 'ASSEMBLING', label: 'ASSEMBLING INTERFACE', progress: 82 },
-    { id: 'ready', state: 'READY', label: 'ASSET VAULT READY', progress: 100 },
+    { id: 'bootstrap', state: 'BOOTSTRAP', subtitle: assertLoaderSubtitle('WAKING THE VAULT'), progress: 8 },
+    { id: 'preparing', state: 'PREPARING', subtitle: assertLoaderSubtitle('LOADING YOUR ASSETS'), progress: 22 },
+    { id: 'connect', state: 'CONNECTING', subtitle: assertLoaderSubtitle('OPENING THE VAULT'), progress: 38 },
+    { id: 'resolve', state: 'RESOLVING', subtitle: assertLoaderSubtitle('SORTING ASSETS'), progress: 58 },
+    { id: 'assemble', state: 'ASSEMBLING', subtitle: assertLoaderSubtitle('BUILDING LIBRARY'), progress: 82 },
+    { id: 'ready', state: 'READY', subtitle: assertLoaderSubtitle('VAULT IS READY'), progress: 100 },
   ],
 };
 
@@ -103,7 +103,15 @@ const CONFIG_BY_ID: Record<string, Site00ImmersiveLoaderConfig> = {
 
 export function resolveSite00ImmersiveLoaderConfig(pathname: string): Site00ImmersiveLoaderConfig {
   if (pathname.startsWith('/assts')) return ASSTS_IMMERSIVE_LOADER_CONFIG;
-  return SITE00_WORLD_IMMERSIVE_LOADER_CONFIG;
+
+  const routeCopy = resolveSite00LoaderRouteCopy(pathname);
+  return {
+    ...SITE00_WORLD_IMMERSIVE_LOADER_CONFIG,
+    experienceTitle: routeCopy.experienceTitle,
+    experienceSubtitle: routeCopy.stages[0]?.subtitle ?? SITE00_WORLD_IMMERSIVE_LOADER_CONFIG.experienceSubtitle,
+    completionMessage: routeCopy.completionMessage ?? SITE00_WORLD_IMMERSIVE_LOADER_CONFIG.completionMessage,
+    stages: routeCopy.stages,
+  };
 }
 
 export function getSite00ImmersiveLoaderConfig(id: string): Site00ImmersiveLoaderConfig | null {

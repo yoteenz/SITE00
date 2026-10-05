@@ -9,6 +9,7 @@
 
   function isSite00ImmersivePath(path) {
     if (!path) return false;
+    if (path === '/') return true;
     for (var i = 0; i < PREFIXES.length; i++) {
       var prefix = PREFIXES[i];
       if (path === prefix || path.indexOf(prefix + '/') === 0) return true;
@@ -27,12 +28,39 @@
     }
   }
 
+  function isCloudPreviewBuild() {
+    if (typeof document === 'undefined') return false;
+    var meta = document.querySelector('meta[name="site00-cloud-preview"]');
+    return meta && meta.getAttribute('content') === '1';
+  }
+
+  function readPreviewHostnameMeta() {
+    if (typeof document === 'undefined') return '';
+    var meta = document.querySelector('meta[name="site00-preview-hostname"]');
+    return meta && meta.getAttribute('content') ? meta.getAttribute('content').trim().toLowerCase() : '';
+  }
+
+  function isPreviewTunnelHost() {
+    if (isCloudPreviewBuild()) return true;
+    var host = (typeof window !== 'undefined' && window.location) ? window.location.hostname : '';
+    if (!host) return false;
+    host = host.toLowerCase();
+    if (host === 'site00.fsbw-dev.com') return true;
+    if (host.length > 18 && host.slice(-18) === '.trycloudflare.com') return true;
+    var configured = readPreviewHostnameMeta();
+    if (configured && host === configured) return true;
+    return false;
+  }
+
   function shouldBootSite00ImmersiveLoader() {
+    if (isCloudPreviewBuild()) return false;
+    if (isPreviewTunnelHost()) return false;
     var path = (typeof window !== 'undefined' && window.location) ? window.location.pathname : '';
     if (path === '/origin/desktop' || path.indexOf('/origin/desktop/') === 0) return false;
     if (path === '/idnty/state/desktop' || path.indexOf('/idnty/state/desktop/') === 0) return false;
     if (path === '/bldr/state/desktop' || path.indexOf('/bldr/state/desktop/') === 0) return false;
     if (path === '/origin/sign-in' || path.indexOf('/origin/sign-in/') === 0) return false;
+    if (path === '/origin/create-account' || path.indexOf('/origin/create-account/') === 0) return false;
     try {
       var nav = performance.getEntriesByType('navigation')[0];
       if (nav && nav.type === 'reload') return true;

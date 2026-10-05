@@ -11,7 +11,7 @@ const DESKTOP_PREFIX = '/desktop';
 
 const DEFAULT_VIEWPORT_CONTENT = 'width=device-width, initial-scale=1.0';
 const OUTER_PREVIEW_VIEWPORT_CONTENT =
-  'width=device-width, initial-scale=1, viewport-fit=cover';
+  'width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes, viewport-fit=cover';
 
 let outerViewportLockInstalled = false;
 let mobileDesktopViewportInstalled = false;
@@ -155,16 +155,14 @@ export function installDesktopPreviewShellViewportLock(
 
   document.documentElement.style.height = '100%';
   document.body.style.height = '100%';
-  document.documentElement.style.overflow = 'hidden';
-  document.body.style.overflow = 'hidden';
   document.documentElement.style.overscrollBehaviorY = 'none';
   document.body.style.overscrollBehaviorY = 'none';
   document.body.style.margin = '0';
   document.body.style.background = background;
-  document.body.style.touchAction = 'auto';
+  document.body.style.touchAction = 'pan-x pan-y pinch-zoom';
   if (root) {
     root.style.height = '100%';
-    root.style.overflow = 'hidden';
+    root.style.overflow = 'visible';
     root.style.position = 'relative';
   }
 

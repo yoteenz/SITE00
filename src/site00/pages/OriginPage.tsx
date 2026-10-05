@@ -1,8 +1,209 @@
-import { PresentationGate } from '../presentation';
-import { DesktopOrigin } from './origin/DesktopOrigin';
-import { MobileOrigin } from './origin/MobileOrigin';
+import { useCallback } from 'react';
+import { EnvironmentShell } from '../components/environment/EnvironmentShell';
+import { Site00AppShell } from '../components/shell/Site00AppShell';
+import { StatusStrip } from '../components/homepage/StatusStrip';
+import { OriginCards } from '../components/homepage/OriginCards';
+import { OriginMobileSwipeUp } from '../components/homepage/OriginMobileSwipeUp';
+import { IdntyExpandedPanel } from '../components/homepage/IdntyExpandedPanel';
+import { BldrExpandedPanel } from '../components/homepage/BldrExpandedPanel';
+import { EvolveExpandedPanel } from '../components/homepage/EvolveExpandedPanel';
+import { SITE00_ORIGIN_COPY } from '../config/status';
+import {
+  SITE00_ORIGIN_DESKTOP_COMPOSITION,
+  SITE00_ORIGIN_MOBILE_COMPOSITION,
+} from '../config/origin-home-composition';
+import { useSite00DesktopArtboardPreview } from '../components/shell/Site00DesktopArtboardContext';
+import { useSite00 } from '../state/Site00Context';
+import { useOriginStatusStripLayout } from '../hooks/useOriginStatusStripLayout';
+import { useOriginLocationsTransition } from '../hooks/useOriginLocationsTransition';
+import { useOriginExpandedDismiss } from '../hooks/useOriginExpandedDismiss';
+import { useOriginBackgroundPreload } from '../hooks/useOriginBackgroundPreload';
+import { deriveOriginPanelState } from '../config/origin-panel-state';
+import { PublicOriginMobile } from '../components/public-redesign/PublicOrigin';
 
-/** Canonical /origin route — presentation resolver selects MobileOrigin or DesktopOrigin. */
 export default function OriginPage() {
-  return <PresentationGate mobile={<MobileOrigin />} desktop={<DesktopOrigin />} />;
+  const { state, setHomeMode } = useSite00();
+  const isDesktopArtboardLayout = useSite00DesktopArtboardPreview();
+  const statusStripLayout = useOriginStatusStripLayout(isDesktopArtboardLayout);
+  const locationsTransition = useOriginLocationsTransition();
+  const isMobileOrigin = !isDesktopArtboardLayout;
+  const collapseExpandedPanel = useCallback(() => setHomeMode('origin'), [setHomeMode]);
+  const originPanelState = deriveOriginPanelState(state.homeMode);
+  const mobileComposition = SITE00_ORIGIN_MOBILE_COMPOSITION;
+  const desktopComposition = SITE00_ORIGIN_DESKTOP_COMPOSITION;
+  const composition = isDesktopArtboardLayout ? desktopComposition : mobileComposition;
+
+  useOriginBackgroundPreload(state.homeMode, isDesktopArtboardLayout ? 'desktop' : 'mobile');
+
+  useOriginExpandedDismiss(state.homeMode, collapseExpandedPanel, !isMobileOrigin);
+
+  // Public redesign (SONNET-STRUCTURE1): mobile Origin is rebuilt from authority. The desktop-artboard
+  // branch below is preserved until approved desktop authority exists.
+  if (isMobileOrigin) {
+    return (
+      <PublicOriginMobile
+        homeMode={state.homeMode}
+        onExpand={(panel) => setHomeMode(`${panel}-expanded`)}
+        onCollapse={collapseExpandedPanel}
+        locationsTransition={locationsTransition}
+      />
+    );
+  }
+
+  return (
+    <EnvironmentShell environmentId="ORIGIN_ENVIRONMENT">
+      <div
+        className={`site00-origin-page ${isDesktopArtboardLayout ? 'site00-origin-page--desktop-artboard' : 'site00-origin-page--mobile-layout'}${state.homeMode !== 'origin' ? ' site00-origin-page--panel-expanded' : ''}`.trim()}
+        data-origin-expanded-panel={originPanelState.expandedPanel}
+        data-origin-background-variant={originPanelState.backgroundVariant}
+        style={
+          isDesktopArtboardLayout
+            ? {
+                ['--site00-origin-status-strip-min-height' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripMinHeightPx}px`,
+                ['--site00-origin-status-strip-cell-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripCellPaddingYPx}px`,
+                ['--site00-origin-status-strip-guidance-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripGuidancePaddingYPx}px`,
+              }
+            : {
+                ['--site00-origin-cards-top' as string]: `${mobileComposition.cardsTopPercent}%`,
+                ['--site00-origin-cards-offset-y' as string]: `${mobileComposition.cardsTopOffsetPx}px`,
+                ['--site00-origin-cards-max-w' as string]: `${mobileComposition.cardsMaxWidthPx}px`,
+                ['--site00-origin-cards-row-gap' as string]: `${mobileComposition.cardsRowGapPx}px`,
+                ['--site00-origin-card-scale' as string]: String(mobileComposition.cardScale),
+                ['--site00-origin-panel-icon-size-px' as string]: `${mobileComposition.panelIconSizePx}px`,
+                ['--site00-origin-panel-icon-offset-y' as string]: `${mobileComposition.panelIconOffsetYPx}px`,
+                ['--site00-origin-expanded-max-w' as string]: `${mobileComposition.expandedMaxWidthPx}px`,
+                ['--site00-origin-expanded-panel-scale' as string]: String(mobileComposition.expandedPanelScale),
+                ['--site00-origin-teaser-min-w' as string]: `${mobileComposition.teaserMinWidthPx}px`,
+                ['--site00-origin-teaser-min-h' as string]: `${mobileComposition.teaserMinHeightPx}px`,
+                ['--site00-origin-teaser-padding' as string]: `${mobileComposition.teaserPaddingPx}px`,
+              }
+        }
+      >
+        <Site00AppShell
+          locationLabel={SITE00_ORIGIN_COPY.locationLabel}
+          showStatusStrip
+          statusStrip={
+            <StatusStrip
+              layout={statusStripLayout}
+              swipeHandlers={isMobileOrigin ? locationsTransition.swipeHandlers : undefined}
+            />
+          }
+        >
+          {isMobileOrigin ? (
+            <div
+              className="site00-origin-swipe-surface"
+              aria-hidden="true"
+              {...locationsTransition.swipeHandlers}
+            />
+          ) : null}
+          <div
+            className="site00-home-stage"
+            style={{
+              ['--site00-origin-hero-left' as string]: `${desktopComposition.heroLeftPercent}%`,
+              ['--site00-origin-hero-top' as string]: `${desktopComposition.heroTopPx}px`,
+              ['--site00-origin-hero-max-w' as string]: `${desktopComposition.heroMaxWidthPx}px`,
+              ['--site00-origin-hero-offset-x' as string]: `${desktopComposition.heroOffsetXPx}px`,
+              ['--site00-origin-cards-top' as string]: `${composition.cardsTopPercent}%`,
+              ['--site00-origin-cards-offset-y' as string]: `${composition.cardsTopOffsetPx}px`,
+              ['--site00-origin-cards-max-w' as string]: `${composition.cardsMaxWidthPx}px`,
+              ['--site00-origin-cards-row-gap' as string]: `${composition.cardsRowGapPx}px`,
+              ['--site00-origin-card-scale' as string]: String(composition.cardScale),
+              ['--site00-origin-panel-icon-size-px' as string]: `${composition.panelIconSizePx}px`,
+              ['--site00-origin-panel-icon-offset-y' as string]: `${composition.panelIconOffsetYPx}px`,
+              ['--site00-origin-panel-icon-scale' as string]: String(
+                'panelIconScale' in composition ? composition.panelIconScale : desktopComposition.panelIconScale,
+              ),
+              ['--site00-origin-expanded-max-w' as string]: `${composition.expandedMaxWidthPx}px`,
+              ['--site00-origin-expanded-panel-scale' as string]: String(composition.expandedPanelScale),
+              ['--site00-origin-framework-icon-size' as string]: `${desktopComposition.frameworkIconSizePx}px`,
+              ['--site00-origin-hero-block-offset-y' as string]: `${desktopComposition.heroBlockOffsetYPx}px`,
+              ['--site00-origin-hero-eyebrow-offset-y' as string]: `${desktopComposition.heroEyebrowOffsetYPx}px`,
+              ['--site00-origin-hero-headline-offset-y' as string]: `${desktopComposition.heroHeadlineOffsetYPx}px`,
+              ['--site00-origin-hero-tagline-offset-y' as string]: `${desktopComposition.heroTaglineOffsetYPx}px`,
+              ['--site00-origin-hero-desc1-offset-y' as string]: `${desktopComposition.heroDescription1OffsetYPx}px`,
+              ['--site00-origin-hero-desc2-offset-y' as string]: `${desktopComposition.heroDescription2OffsetYPx}px`,
+              ['--site00-origin-hero-desc3-offset-y' as string]: `${desktopComposition.heroDescription3OffsetYPx}px`,
+              ['--site00-origin-hero-coordinate-offset-y' as string]: `${desktopComposition.heroCoordinateOffsetYPx}px`,
+            }}
+          >
+            <div className="site00-home-grid">
+              <aside
+                className="site00-home-hero"
+                style={{
+                  ['--site00-origin-hero-top' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroTopPx}px`,
+                }}
+                aria-label="ORIGIN MESSAGING"
+              >
+                <p className="site00-label site00-home-hero__eyebrow">{SITE00_ORIGIN_COPY.headlineLine1}</p>
+                <h1 className="site00-heading-xl site00-home-hero__headline">{SITE00_ORIGIN_COPY.headlineLine2}</h1>
+                <p className="site00-tagline site00-home-hero__tagline">{SITE00_ORIGIN_COPY.tagline}</p>
+                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc1">
+                  {SITE00_ORIGIN_COPY.description1}
+                </p>
+                {isDesktopArtboardLayout ? (
+                  <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2 site00-home-hero__line--desktop-flow">
+                    {SITE00_ORIGIN_COPY.description2} {SITE00_ORIGIN_COPY.description3}
+                  </p>
+                ) : (
+                  <>
+                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
+                      {SITE00_ORIGIN_COPY.description2}
+                    </p>
+                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
+                      {SITE00_ORIGIN_COPY.description3}
+                    </p>
+                  </>
+                )}
+                {isDesktopArtboardLayout ? (
+                  <p className="site00-coordinate site00-home-hero__coordinate">
+                    {SITE00_ORIGIN_COPY.originPointLine.prefix}{' '}
+                    <span className="site00-origin-hero__coordinate-value">{SITE00_ORIGIN_COPY.originPointLine.coordinate}</span>{' '}
+                    {SITE00_ORIGIN_COPY.originPointLine.suffix}
+                  </p>
+                ) : null}
+              </aside>
+
+              {state.homeMode === 'origin' ? (
+                <div className="site00-home-grid__spacer" aria-hidden="true" />
+              ) : null}
+            </div>
+
+            {state.homeMode !== 'origin' ? (
+              <button
+                type="button"
+                className="site00-home-expanded-backdrop"
+                aria-label="CLOSE PANEL"
+                onClick={collapseExpandedPanel}
+              />
+            ) : null}
+
+            {state.homeMode !== 'origin' ? (
+              <div className="site00-home-expanded-column" aria-label="EXPANDED PANEL">
+                {state.homeMode === 'idnty-expanded' ? (
+                  <IdntyExpandedPanel onCollapse={collapseExpandedPanel} />
+                ) : state.homeMode === 'bldr-expanded' ? (
+                  <BldrExpandedPanel onCollapse={collapseExpandedPanel} />
+                ) : (
+                  <EvolveExpandedPanel onCollapse={collapseExpandedPanel} isDesktopArtboard={isDesktopArtboardLayout} />
+                )}
+              </div>
+            ) : null}
+
+            {state.homeMode === 'origin' ? (
+              <section className="site00-home-cards" aria-label="ENTRY SELECTION">
+                <OriginCards
+                  onExpandIdnty={() => setHomeMode('idnty-expanded')}
+                  onExpandBldr={() => setHomeMode('bldr-expanded')}
+                  onExpandEvolve={() => setHomeMode('evolve-expanded')}
+                  isDesktopArtboard={isDesktopArtboardLayout}
+                />
+              </section>
+            ) : null}
+
+            {!isDesktopArtboardLayout ? <OriginMobileSwipeUp transition={locationsTransition} /> : null}
+          </div>
+      </Site00AppShell>
+      </div>
+    </EnvironmentShell>
+  );
 }

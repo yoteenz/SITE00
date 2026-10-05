@@ -1,12 +1,13 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CTRL_ROOM_NAV, isCtrlRoomNavActive } from '../../config/ctrl-room-nav';
 import { SITE00_ROUTES } from '../../config/routes';
-import { signOutAppAndSupabaseSession } from '../../../utils/adminAuth';
+import { canAccessAdminPages, signOutAppAndSupabaseSession } from '../../../utils/adminAuth';
 import { trackActivity } from '../../../utils/activity';
 
 export function CtrlRoomSidebar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const showAdminAccess = canAccessAdminPages();
 
   const onLogout = async () => {
     trackActivity('sign_out');
@@ -15,7 +16,7 @@ export function CtrlRoomSidebar() {
   };
 
   return (
-    <aside className="site00-ctrl-sidebar" aria-label="CTRL ROOM navigation">
+    <aside className="site00-ctrl-sidebar" aria-label="CTRL ROOM NAVIGATION">
       <Link to={SITE00_ROUTES.originAlias} className="site00-ctrl-sidebar__logo">
         SITE 00 <span aria-hidden="true">♦</span>
       </Link>
@@ -37,6 +38,18 @@ export function CtrlRoomSidebar() {
             );
           })}
         </ul>
+        {showAdminAccess ? (
+          <div className="site00-ctrl-sidebar__admin">
+            <Link
+              to={SITE00_ROUTES.adminDashboard}
+              className={`site00-ctrl-sidebar__link site00-ctrl-sidebar__link--admin ${
+                pathname.startsWith(SITE00_ROUTES.adminDashboard) ? 'site00-ctrl-sidebar__link--active' : ''
+              }`.trim()}
+            >
+              00 / CONTROL →
+            </Link>
+          </div>
+        ) : null}
       </nav>
       <button type="button" className="site00-ctrl-sidebar__logout" onClick={() => void onLogout()}>
         LOG OUT

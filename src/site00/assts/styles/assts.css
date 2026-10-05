@@ -122,7 +122,7 @@
 }
 
 .assts-hero__eyebrow {
-  margin: 0 0 4px;
+  margin: 0 0 var(--site00-stack-sm);
   font-size: 9px;
   letter-spacing: 0.14em;
 }
@@ -130,13 +130,13 @@
 .assts-hero__title {
   font-family: var(--site00-font-heading);
   font-size: clamp(1.35rem, 5vw, 1.65rem);
-  margin: 0;
+  margin: 0 0 var(--site00-stack-tight-lg);
   letter-spacing: 0.02em;
-  line-height: 1.05;
+  line-height: var(--site00-lh-display-tight);
 }
 
 .assts-hero__tagline {
-  margin: 8px 0 0;
+  margin: calc(var(--site00-stack-md) + 6px) 0 0;
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;

@@ -59,8 +59,8 @@ export function AdminSearchModal({ open, onClose }: AdminSearchModalProps) {
   };
 
   return (
-    <div className="site00-admin-search-modal" role="dialog" aria-modal="true" aria-label="Global admin search">
-      <button type="button" className="site00-admin-search-modal__backdrop" aria-label="Close search" onClick={onClose} />
+    <div className="site00-admin-search-modal" role="dialog" aria-modal="true" aria-label="GLOBAL ADMIN SEARCH">
+      <button type="button" className="site00-admin-search-modal__backdrop" aria-label="CLOSE SEARCH" onClick={onClose} />
       <div className="site00-admin-search-modal__panel">
         <div className="site00-admin-search-modal__head">
           <input
@@ -70,7 +70,7 @@ export function AdminSearchModal({ open, onClose }: AdminSearchModalProps) {
             placeholder="SEARCH IDENTITIES, PROJECTS, LEADS, SITES…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            aria-label="Search query"
+            aria-label="SEARCH QUERY"
           />
           <kbd className="site00-admin-search-modal__hint">ESC</kbd>
         </div>

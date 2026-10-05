@@ -48,8 +48,8 @@ export default function ControlSitesPage() {
         </div>
 
         <div className="site00-page-toolbar">
-          <SearchField value={query} onChange={setQuery} placeholder="Search sites…" id="sites-search" />
-          <div className="site00-eco-filters" role="group" aria-label="Filter by status">
+          <SearchField value={query} onChange={setQuery} placeholder="SEARCH SITES…" id="sites-search" />
+          <div className="site00-eco-filters" role="group" aria-label="FILTER BY STATUS">
             {STATUS_FILTERS.map((f) => (
               <button
                 key={f.id}
@@ -66,7 +66,7 @@ export default function ControlSitesPage() {
         {filtered.length === 0 ? (
           <EmptyState
             title="NO SITES YET"
-            body="Sites appear here when you create and publish digital properties from BLDR."
+            body="SITES APPEAR HERE WHEN YOU CREATE AND PUBLISH DIGITAL PROPERTIES FROM BLDR."
           />
         ) : (
           <ul className="site00-site-list">

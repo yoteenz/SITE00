@@ -5,6 +5,10 @@
 
 import { SITE00_CTRL_ROOM_PATH, site00SignInHrefWithReturnTo } from './mobile-directory-nav';
 import { SITE00_ROUTES, site00MobileBuildNavHref } from './routes';
+import { site00UppercaseCopy } from './site00-copy';
+
+/** List-item arrows — 10% smaller than locations directory (18px). */
+export const SITE00_FAST_TRAVEL_ARROW_SIZE = 18 * 0.9;
 
 export type FastTravelWorld = 'public' | 'operating' | 'onboarding';
 
@@ -44,8 +48,8 @@ type RouteProfile = {
 
 const d = (id: string, label: string, description: string, href: string | ((ctx: FastTravelContext) => string), requiresAuth?: boolean): FastTravelDestination => ({
   id,
-  label,
-  description,
+  label: site00UppercaseCopy(label),
+  description: site00UppercaseCopy(description),
   getHref: typeof href === 'function' ? href : () => href,
   requiresAuth,
 });
@@ -230,7 +234,7 @@ function bldrProfile(): RouteProfile {
         title: 'UP NEXT',
         destinations: [
           d('continue', 'CONTINUE BUILD', 'Resume your assessment.', (c) => c.pathname),
-          d('bldr-state', 'BUILD CLASS SELECTION', 'Choose SITE, WORLD, or ENTERPRISE.', SITE00_ROUTES.bldrState),
+          d('bldr-state', 'BUILD SELECTION', 'Choose build.', SITE00_ROUTES.bldrState),
         ],
       },
       {
@@ -265,7 +269,7 @@ function idntyProfile(): RouteProfile {
             title: 'UP NEXT',
             destinations: [
               d('sign-in', 'SIGN IN', 'Access your account.', signIn(ctx.pathname)),
-              d('create', 'CREATE IDENTITY', 'Start your SITE 00 identity.', SITE00_ROUTES.idntyState),
+              d('create', 'CREATE IDENTITY', 'Start your identity.', SITE00_ROUTES.idntyState),
             ],
           },
           {
@@ -284,7 +288,7 @@ function idntyProfile(): RouteProfile {
           id: 'up-next',
           title: 'UP NEXT',
           destinations: [
-            d('ctrl-room', 'CTRL ROOM', 'Your operating environment.', SITE00_CTRL_ROOM_PATH),
+            d('ctrl-room', 'CTRL ROOM', 'Operating environment.', SITE00_CTRL_ROOM_PATH),
             d('projects', 'PROJECTS', 'Active engagements.', SITE00_ROUTES.projects),
           ],
         },
@@ -416,9 +420,17 @@ export function resolveFastTravel(pathname: string, isSignedIn: boolean): {
 } {
   const ctx: FastTravelContext = { pathname, isSignedIn };
   const profile = ROUTE_PROFILES.find((p) => p.match(pathname)) ?? FALLBACK_PROFILE;
+  const location = profile.location;
   return {
-    location: profile.location,
-    sections: profile.sections(ctx),
+    location: {
+      ...location,
+      title: site00UppercaseCopy(location.title),
+      descriptor: site00UppercaseCopy(location.descriptor),
+    },
+    sections: profile.sections(ctx).map((section) => ({
+      ...section,
+      title: site00UppercaseCopy(section.title),
+    })),
   };
 }
 

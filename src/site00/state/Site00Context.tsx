@@ -1,18 +1,19 @@
-import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useReducer, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import { isSite00PublicDesktopPath } from '../config/site00-public-pages';
-import { isSite00OriginDesktopPath } from '../config/routes';
+import { isSite00PublicDesktopPath, site00PublicMobilePath } from '../config/site00-public-pages';
+import { isSite00OriginDesktopPath, SITE00_ROUTES } from '../config/routes';
 import {
-  readPresentationQueryOverride,
-} from '../presentation/presentation-query';
-import { site00ViewportPresentationFromWindow } from '../presentation/breakpoints';
-import {
-  readStoredPresentationOverride,
-  writeStoredPresentationOverride,
-  type Site00PresentationOverride,
+  defaultPreviewDeviceModeForViewport,
+  isSite00LayoutPreviewSwitchEnabled,
+  readStoredPreviewDeviceMode,
+  writeStoredPreviewDeviceMode,
+  type Site00PreviewDeviceMode,
 } from './preview-mode';
 import { INITIAL_SITE00_STATE, site00Reducer, type HomeMode, type Site00State } from './types';
-import { site00OriginMobileLayoutPreviewActive } from '../components/shell/site00OriginViewport';
+import {
+  site00OriginMobileLayoutPreviewActive,
+} from '../components/shell/site00OriginViewport';
+import { syncSite00PreviewDesktopDocument } from '../components/shell/syncSite00PreviewDesktopDocument';
 
 type Site00ContextValue = {
   state: Site00State;
@@ -21,73 +22,70 @@ type Site00ContextValue = {
   selectBuildClass: (classId: string) => void;
   selectEvolvePath: (pathId: string) => void;
   clearSelections: () => void;
-  setPresentationOverride: (mode: Site00PresentationOverride) => void;
-  /** @deprecated Use setPresentationOverride */
-  setPreviewDeviceMode: (mode: 'mobile' | 'desktop') => void;
-  /** True when resolved presentation is desktop (override or viewport) */
+  setPreviewDeviceMode: (mode: Site00PreviewDeviceMode) => void;
+  /** True when public/Origin routes should render desktop presentation. */
   isPreviewDesktop: boolean;
 };
 
 const Site00Context = createContext<Site00ContextValue | null>(null);
 
-function resolveInitialPresentationOverride(pathname: string, search: string): Site00PresentationOverride {
-  if (readPresentationQueryOverride(search)) {
-    return 'auto';
-  }
-  if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
+function resolveInitialPreviewMode(pathname: string): Site00PreviewDeviceMode {
+  if (
+    pathname === SITE00_ROUTES.enter ||
+    isSite00PublicDesktopPath(pathname) ||
+    isSite00OriginDesktopPath(pathname)
+  ) {
     return 'desktop';
   }
-  if (site00OriginMobileLayoutPreviewActive(search)) {
-    return 'mobile';
+  if (!isSite00LayoutPreviewSwitchEnabled()) {
+    return defaultPreviewDeviceModeForViewport();
   }
-  const stored = readStoredPresentationOverride();
+  const stored = readStoredPreviewDeviceMode();
   if (stored) return stored;
-  return 'auto';
-}
-
-function resolveIsPreviewDesktop(
-  override: Site00PresentationOverride,
-  pathname: string,
-  search: string,
-): boolean {
-  const query = readPresentationQueryOverride(search);
-  if (query === 'desktop') return true;
-  if (query === 'mobile') return false;
-  if (site00OriginMobileLayoutPreviewActive(search)) return false;
-  if (override === 'desktop') return true;
-  if (override === 'mobile') return false;
-  if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
-    return true;
-  }
-  return site00ViewportPresentationFromWindow() === 'desktop';
+  return defaultPreviewDeviceModeForViewport();
 }
 
 export function Site00Provider({ children }: { children: ReactNode }) {
   const { pathname, search } = useLocation();
-  const [state, dispatch] = useReducer(site00Reducer, INITIAL_SITE00_STATE, (base) => ({
-    ...base,
-    presentationOverride: resolveInitialPresentationOverride(pathname, search),
-  }));
+  const [state, dispatch] = useReducer(site00Reducer, INITIAL_SITE00_STATE, (base) => {
+    const previewDeviceMode = resolveInitialPreviewMode(pathname);
+    const isDesktop =
+      previewDeviceMode === 'desktop' && !site00OriginMobileLayoutPreviewActive(search);
+    syncSite00PreviewDesktopDocument(isDesktop);
+    return { ...base, previewDeviceMode };
+  });
 
   useEffect(() => {
-    if (readPresentationQueryOverride(search)) return;
     if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
-      dispatch({ type: 'SET_PRESENTATION_OVERRIDE', mode: 'desktop' });
+      dispatch({ type: 'SET_PREVIEW_DEVICE_MODE', mode: 'desktop' });
       return;
     }
     if (site00OriginMobileLayoutPreviewActive(search)) {
-      dispatch({ type: 'SET_PRESENTATION_OVERRIDE', mode: 'mobile' });
+      dispatch({ type: 'SET_PREVIEW_DEVICE_MODE', mode: 'mobile' });
     }
   }, [pathname, search]);
 
   useEffect(() => {
-    writeStoredPresentationOverride(state.presentationOverride);
-  }, [state.presentationOverride]);
+    if (!isSite00LayoutPreviewSwitchEnabled()) return;
+    writeStoredPreviewDeviceMode(state.previewDeviceMode);
+  }, [state.previewDeviceMode]);
 
-  const isPreviewDesktop = useMemo(
-    () => resolveIsPreviewDesktop(state.presentationOverride, pathname, search),
-    [state.presentationOverride, pathname, search],
-  );
+  /** Honor composer Mobile/Desktop selection on all viewports (artboard scales on phones). */
+  const isPreviewDesktop = useMemo(() => {
+    if (site00OriginMobileLayoutPreviewActive(search)) return false;
+    return state.previewDeviceMode === 'desktop';
+  }, [state.previewDeviceMode, search]);
+
+  useLayoutEffect(() => {
+    syncSite00PreviewDesktopDocument(isPreviewDesktop);
+  }, [isPreviewDesktop]);
+
+  const setPreviewDeviceMode = (mode: Site00PreviewDeviceMode) => {
+    const mobileLayoutForced = site00OriginMobileLayoutPreviewActive(search);
+    const nextIsDesktop = mode === 'desktop' && !mobileLayoutForced;
+    syncSite00PreviewDesktopDocument(nextIsDesktop);
+    dispatch({ type: 'SET_PREVIEW_DEVICE_MODE', mode });
+  };
 
   const value: Site00ContextValue = {
     state,
@@ -96,12 +94,13 @@ export function Site00Provider({ children }: { children: ReactNode }) {
     selectBuildClass: (classId) => dispatch({ type: 'SELECT_BUILD_CLASS', classId }),
     selectEvolvePath: (pathId) => dispatch({ type: 'SELECT_EVOLVE_PATH', pathId }),
     clearSelections: () => dispatch({ type: 'CLEAR_SELECTIONS' }),
-    setPresentationOverride: (mode) => dispatch({ type: 'SET_PRESENTATION_OVERRIDE', mode }),
-    setPreviewDeviceMode: (mode) => dispatch({ type: 'SET_PRESENTATION_OVERRIDE', mode }),
+    setPreviewDeviceMode,
     isPreviewDesktop,
   };
 
-  return <Site00Context.Provider value={value}>{children}</Site00Context.Provider>;
+  return (
+    <Site00Context.Provider value={value}>{children}</Site00Context.Provider>
+  );
 }
 
 export function useSite00(): Site00ContextValue {
@@ -117,7 +116,7 @@ export function useSite00Optional(): Site00ContextValue | null {
   return useContext(Site00Context);
 }
 
-/** Navigation href — canonical route; presentation is resolver-driven, not URL suffix. */
+/** Navigation href — same semantic route; preview mode is global state, not URL suffix. */
 export function site00PreviewNavHref(targetHref: string, _currentPathname?: string): string {
   const base = targetHref.replace(/\/$/, '').replace(/\/desktop$/, '');
   return base || '/';
@@ -129,4 +128,4 @@ export function site00PublicNavHrefFromPreview(targetHref: string, currentPathna
   return site00PreviewNavHref(targetHref);
 }
 
-export { site00PublicMobilePath } from '../config/site00-public-pages';
+export { site00PublicMobilePath };

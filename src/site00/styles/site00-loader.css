@@ -248,20 +248,42 @@
   min-height: 100dvh;
   min-height: 100lvh;
   --loader-scale: 1;
+  --loader-copy-size-bump: 4px;
+  isolation: isolate;
+}
+
+/** Layer 1 + 2 — static background then environment animation (above static, below UI). */
+.site00-immersive-loader__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.site00-immersive-loader__media .site00-loader-env--viewport {
+  z-index: 0;
+}
+
+.site00-immersive-loader__media .site00-loader-animation-layer {
+  z-index: 1;
 }
 
 .site00-loader-viewport,
 .site00-loader-stage-viewport {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: auto;
+  height: auto;
   background: transparent;
-  min-height: inherit;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  pointer-events: none;
   padding:
     env(safe-area-inset-top, 0px)
     env(safe-area-inset-right, 0px)
@@ -332,15 +354,96 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  /* Focal inline — bg + anim both center center (aligned handoff). */
   opacity: 1;
   background: transparent;
 }
 
-/* Desktop landscape master — wide 16:9 asset; center axis preserved on ultrawide */
+/* Desktop landscape master — BLDR 16:9 static environment */
 .site00-loader-env--cover-landscape .site00-loader-env__img {
   object-fit: cover;
-  object-position: center center;
+}
+
+.site00-immersive-loader--media-desktop .site00-loader-env--cover-landscape .site00-loader-env__img {
+  object-fit: cover;
+}
+
+/* Layer 1 removed from DOM once MP4 plays — static-stripped class is the post-handoff state. */
+.site00-immersive-loader__media--static-stripped .site00-loader-env,
+.site00-immersive-loader__media--static-stripped .site00-loader-env__img {
+  display: none;
+}
+
+/* Layer 2 — full-frame environment animation (matches static background geometry) */
+.site00-loader-animation-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  background: transparent;
+}
+
+.site00-loader-animation-layer--debug {
+  outline: 2px dashed rgba(0, 200, 255, 0.65);
+  outline-offset: -2px;
+}
+
+.site00-loader-animation {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  vertical-align: top;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.site00-loader-animation--environment {
+  object-fit: cover;
+  /* Focal set inline on video — mobile MP4 shifted to meet locked center still. */
+  mix-blend-mode: normal;
+  background: transparent;
+}
+
+/* Full-frame environment layer — must cover immersive loader, never a centered card */
+.site00-immersive-loader > .site00-loader-animation-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.site00-immersive-loader > .site00-loader-animation-layer .site00-loader-animation--environment {
+  object-fit: cover;
+  max-width: none;
+  max-height: none;
+}
+
+/* Portrait master — 1312×2816 aligns with 711×1536 static background (mobile only) */
+.site00-loader-animation--environment-mobile {
+  object-fit: cover;
+}
+
+/* Landscape master — 2560×1440 aligns with BLDR desktop static background */
+.site00-loader-animation--environment-desktop {
+  object-fit: cover;
+}
+
+.site00-immersive-loader--media-desktop .site00-loader-animation--environment-desktop {
+  object-fit: cover;
+}
+
+.site00-loader-animation--ready {
+  opacity: 1;
+}
+
+.site00-loader-animation--error {
+  opacity: 0;
 }
 
 /* Pedestal debug overlay region */
@@ -350,7 +453,7 @@
   background: rgba(232, 25, 44, 0.04);
 }
 
-/* Red geometry — transparent overlay above marble platform */
+/* Legacy geometry region — retained for debug/reference map tooling only */
 .site00-loader-geometry-region {
   z-index: 2;
   display: flex;
@@ -368,61 +471,15 @@
   background: transparent;
 }
 
-.site00-loader-animation {
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  object-position: center bottom;
-  background: transparent !important;
-  border: none;
-  outline: none;
-  vertical-align: top;
-  opacity: 0;
-  transition: opacity 0.45s ease;
-}
-
-.site00-loader-animation--ready {
-  opacity: 1;
-}
-
-.site00-loader-animation--screen {
-  mix-blend-mode: screen;
-  object-fit: contain;
-  object-position: center bottom;
-  filter: none;
-}
-
-.site00-loader-animation--alpha {
-  mix-blend-mode: screen;
-  object-fit: contain;
-  object-position: center bottom;
-}
-
-/* ?loaderMediaDebug=1 — outline wrapper + media */
-.site00-immersive-loader--media-debug .site00-loader-geometry-region {
+/* ?loaderMediaDebug=1 — outline animation layer */
+.site00-immersive-loader--media-debug .site00-loader-animation-layer {
   outline: 2px dashed rgba(255, 0, 128, 0.85);
   outline-offset: -1px;
 }
 
-.site00-immersive-loader--media-debug .site00-loader-animation {
+.site00-immersive-loader--media-debug .site00-loader-animation--environment {
   outline: 2px solid rgba(0, 200, 255, 0.9);
   outline-offset: -2px;
-}
-
-.site00-immersive-loader--media-debug .site00-loader-geometry-region::after {
-  content: attr(data-loader-region);
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-family: var(--site00-font-mono);
-  font-size: 8px;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.55);
-  padding: 2px 4px;
-  pointer-events: none;
 }
 
 .site00-loader-media-debug-label {
@@ -449,7 +506,23 @@
   pointer-events: auto;
 }
 
-/* Copy regions — center-aligned on x ≈ 356 axis */
+/* Copy hidden until environment animation begins playback. */
+.site00-immersive-loader:not(.site00-immersive-loader--copy-active) .site00-loader-copy-region {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.site00-immersive-loader--copy-active .site00-loader-copy-region {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.32s ease;
+}
+
+/* Copy regions — center-aligned on x ≈ 356 axis; nudge overlay down without moving media. */
+.site00-immersive-loader .site00-loader-copy-region {
+  transform: translateY(calc(60px / var(--loader-scale, 1)));
+}
+
 .site00-loader-copy-region {
   z-index: 3;
   display: flex;
@@ -471,51 +544,125 @@
 
 .site00-loader-copy-region--signature {
   flex-direction: column;
+  overflow: visible;
+  align-items: center;
+}
+
+.site00-loader-copy-region--eyebrow,
+.site00-loader-copy-region--title,
+.site00-loader-copy-region--subtitle {
+  overflow: visible;
+  align-items: flex-start;
+  justify-content: center;
+  background: transparent;
+}
+
+/* Top three copy rows — composition-anchored at screen top. */
+.site00-immersive-loader .site00-loader-copy-region--eyebrow,
+.site00-immersive-loader .site00-loader-copy-region--title {
+  transform: translateY(0);
+}
+
+.site00-immersive-loader .site00-loader-copy-region--subtitle {
+  transform: translateY(calc(-18px / var(--loader-scale, 1)));
+}
+
+/* Assembling status — 40px total overlay nudge (20px up from prior). */
+.site00-immersive-loader .site00-loader-copy-region--status {
+  transform: translateY(calc(40px / var(--loader-scale, 1)));
+  overflow: visible;
+}
+
+/* Progress bar — 38px total overlay nudge (20px up from prior). */
+.site00-immersive-loader .site00-loader-copy-region--progress-track,
+.site00-immersive-loader .site00-loader-copy-region--progress-pct {
+  transform: translateY(calc(38px / var(--loader-scale, 1)));
+}
+
+/* Tagline — 20px total overlay nudge (20px up from prior). */
+.site00-immersive-loader .site00-loader-copy-region--tagline {
+  transform: translateY(calc(20px / var(--loader-scale, 1)));
+  overflow: visible;
+}
+
+.site00-immersive-loader .site00-loader-copy__eyebrow {
+  margin: 0;
+  font-family: var(--site00-font-label);
+  font-size: calc(
+    var(--site00-size-label) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 4px
+  );
+  font-weight: var(--site00-weight-label);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-label);
+  line-height: var(--site00-lh-label);
+  text-transform: uppercase;
+  color: var(--site-red, #e8192c);
+  white-space: nowrap;
+}
+
+.site00-immersive-loader .site00-loader-copy__title {
+  margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
+  font-family: var(--site00-font-display);
+  font-size: calc(
+    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 20px
+  );
+  font-weight: 400;
+  font-stretch: var(--site00-font-stretch-display);
+  letter-spacing: var(--site00-tracking-display);
+  line-height: var(--site00-lh-display-tight);
+  text-transform: uppercase;
+  color: var(--site-text, #0a0a0a);
+  max-width: none;
+  white-space: nowrap;
+}
+
+.site00-immersive-loader .site00-loader-copy__subtitle {
+  margin: 0;
+  font-family: var(--site00-font-body);
+  font-size: calc(
+    var(--site00-size-body) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 4px
+  );
+  font-weight: var(--site00-weight-body);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-body);
+  line-height: var(--site00-lh-body);
+  text-transform: uppercase;
+  color: var(--site-text-muted, #6b6b6b);
+  white-space: nowrap;
+  animation: site00-loader-subtitle-in 0.32s ease;
+}
+
+@keyframes site00-loader-subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(3px / var(--loader-scale, 1)));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .site00-loader-copy__eyebrow {
   margin: 0;
-  font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-eyebrow-size, 10px);
-  font-weight: 600;
-  font-stretch: var(--site00-font-stretch-default);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--site-red, #e8192c);
-  line-height: var(--site00-lh-label);
   white-space: nowrap;
 }
 
 .site00-loader-copy__title {
-  margin: 0;
-  font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-title-size, 13px);
-  letter-spacing: 0.035em;
-  font-weight: 650;
-  font-stretch: var(--site00-font-stretch-default);
-  text-transform: uppercase;
-  color: var(--site-text, #0a0a0a);
-  line-height: var(--site00-lh-heading);
+  margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
+  max-width: none;
   white-space: nowrap;
-  max-width: 100%;
 }
 
 .site00-loader-copy__subtitle {
-  margin: 0;
-  font-family: var(--site00-font-body);
-  font-size: var(--loader-type-subtitle-size, 10px);
-  font-weight: 450;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--site-text-muted, #6b6b6b);
-  line-height: var(--site00-lh-body);
   white-space: nowrap;
 }
 
 .site00-loader-copy__status {
   margin: 0;
   font-family: var(--site00-font-body);
-  font-size: var(--loader-type-status-size, 9px);
+  font-size: calc(var(--loader-type-status-size, 9px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 450;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -524,6 +671,57 @@
   white-space: nowrap;
   width: 100%;
   text-align: center;
+}
+
+.site00-loader-copy__status--animating {
+  letter-spacing: normal;
+}
+
+.site00-loader-copy__status-label {
+  letter-spacing: 0.08em;
+}
+
+.site00-immersive-loader .site00-loader-copy__status-dots {
+  display: inline-block;
+  vertical-align: baseline;
+  overflow: hidden;
+  width: 3ch;
+  height: 1em;
+  letter-spacing: 0;
+  font-feature-settings: 'liga' 0;
+  text-transform: none;
+  animation: site00-assembling-dots-reveal 1.68s steps(1, end) infinite;
+}
+
+.site00-immersive-loader .site00-loader-copy__status-dots-track {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@keyframes site00-assembling-dots-reveal {
+  0%,
+  24.999% {
+    width: 1ch;
+  }
+  25%,
+  49.999% {
+    width: 2ch;
+  }
+  50%,
+  74.999% {
+    width: 3ch;
+  }
+  75%,
+  100% {
+    width: 0;
+  }
+}
+
+.site00-loader-copy__status-dots {
+  display: inline-block;
+  vertical-align: baseline;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .site00-loader-copy__track {
@@ -545,7 +743,7 @@
 
 .site00-loader-copy__pct {
   font-family: var(--site00-font-numeric);
-  font-size: var(--loader-type-pct-size, 9px);
+  font-size: calc(var(--loader-type-pct-size, 9px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 500;
   font-stretch: var(--site00-font-stretch-numeric);
   letter-spacing: 0.02em;
@@ -567,7 +765,7 @@
 .site00-loader-copy__tagline-plus {
   flex: 0 0 auto;
   font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-tagline-plus-size, 10px);
+  font-size: calc(var(--loader-type-tagline-plus-size, 10px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 500;
   color: var(--site-red, #e8192c);
   line-height: 1;
@@ -576,7 +774,7 @@
 .site00-loader-copy__tagline {
   margin: 0;
   font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-tagline-size, 8px);
+  font-size: calc(var(--loader-type-tagline-size, 8px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 450;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -585,7 +783,7 @@
   white-space: nowrap;
 }
 
-.site00-loader-copy__signature {
+.site00-immersive-loader .site00-loader-copy__signature {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -593,11 +791,35 @@
   gap: 4px;
   width: 100%;
   height: 100%;
+  /* 40px up — inner overlay nudge (negative = up), 00 asset + SITE label. */
+  transform: translateY(calc(-40px / var(--loader-scale, 1)));
+}
+
+.site00-immersive-loader .site00-loader-copy__mark-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 88px);
+  max-height: none;
+  object-fit: contain;
+  object-position: center center;
+  transform: scale(1.1);
+  transform-origin: center top;
+}
+
+.site00-loader-copy__mark-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 88px);
+  max-height: none;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .site00-loader-copy__mark {
   font-family: var(--site00-font-display);
-  font-size: var(--loader-type-mark-size, 26px);
+  font-size: calc(var(--loader-type-mark-size, 26px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 800;
   font-stretch: var(--site00-font-stretch-display);
   letter-spacing: var(--site00-tracking-display);
@@ -609,7 +831,7 @@
 
 .site00-loader-copy__signature-label {
   font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-signature-size, 9px);
+  font-size: calc(var(--loader-type-signature-size, 9px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -899,28 +1121,37 @@
 }
 
 .site00-immersive-loader--exiting {
-  opacity: 0;
   pointer-events: none;
 }
 
-.site00-immersive-loader--exiting .site00-loader-geometry-mount,
 .site00-immersive-loader--exiting .site00-loader-copy-region {
   opacity: 0;
   transition: opacity 0.52s ease;
+}
+
+/* Media (MP4) stays visible until portal unmount — copy fades first, page paints under. */
+.site00-immersive-loader--exiting .site00-immersive-loader__media,
+.site00-immersive-loader--exiting .site00-loader-animation-layer {
+  opacity: 1;
 }
 
 .site00-immersive-loader--complete .site00-loader-copy__fill {
   transition: width 0.35s ease;
 }
 
-@media (min-width: 768px) {
-  .site00-immersive-loader--desktop .site00-loader-copy__title {
-    font-size: var(--loader-type-title-size, 14px);
-  }
+/* ── Desktop loader media (≥768px animation) — text overlay mirrors mobile composition ── */
+
+.site00-immersive-loader--media-desktop .site00-loader-stage-viewport {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
 }
 
-/* ── Desktop Asset Vault loader (≥768px) — landscape composition ── */
+.site00-immersive-loader--media-desktop .site00-loader-artboard-scaler {
+  margin-inline: auto;
+}
 
+/* Legacy Asset Vault desktop ui rules — retained for ref-map debug tooling only. */
 .site00-immersive-loader--desktop .site00-loader-stage-viewport--desktop {
   width: min(96vw, 1400px);
   margin-inline: auto;
@@ -1099,6 +1330,11 @@
 
   .site00-immersive-loader--exiting {
     transition-duration: 0.2s;
+  }
+
+  .site00-immersive-loader .site00-loader-copy__status-dots {
+    animation: none !important;
+    width: 3ch;
   }
 
   .site00-loader-animation-wrap--ready {

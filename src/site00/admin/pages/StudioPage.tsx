@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { ControlPageHeader } from '../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../components/shell/Site00AdminShell';
 import { StudioPipelineBar } from '../components/StudioPipelineBar';
 import { ReadinessPanel } from '../components/ReadinessPanel';
@@ -26,8 +27,11 @@ export default function Site00AdminStudioPage() {
 
   return (
     <Site00AdminShell approvalBadge={undefined}>
-      <h1 className="site00-admin-page-title">[ STUDIO ]</h1>
-      <p className="site00-admin-page-subtitle">FROM BRIEF TO BUILD. · AI PRODUCTION DIRECTOR</p>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="PRODUCTION / LIVE"
+        subtitle="WHAT IS BEING BUILT RIGHT NOW?"
+      />
 
       {error ? <p className="site00-admin-panel">{error.toUpperCase()}</p> : null}
 

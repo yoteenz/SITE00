@@ -12,7 +12,7 @@ export function CompositionStudioProperties({ controller }: CompositionStudioPro
 
   if (!selected) {
     return (
-      <aside className="composition-studio__properties" aria-label="Properties">
+      <aside className="composition-studio__properties" aria-label="PROPERTIES">
         <h2 className="composition-studio__panel-title">Properties</h2>
         <p className="composition-studio__properties-empty">Select an object to inspect coordinates and role.</p>
         <div className="composition-studio__properties-meta">
@@ -38,7 +38,7 @@ export function CompositionStudioProperties({ controller }: CompositionStudioPro
   };
 
   return (
-    <aside className="composition-studio__properties" aria-label="Properties">
+    <aside className="composition-studio__properties" aria-label="PROPERTIES">
       <h2 className="composition-studio__panel-title">Properties</h2>
       <p className="composition-studio__properties-selected">{selected.label}</p>
 

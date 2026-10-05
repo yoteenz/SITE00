@@ -1,0 +1,55 @@
+{
+ "artifact": "SITE00_CLIENT_PROJECT_ROADMAP_MODEL",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "project_summary": [
+  "SCOPE",
+  "CURRENT PHASE",
+  "FAMILIES",
+  "APPROVALS",
+  "TIMELINE",
+  "PROJECT PRICE",
+  "PRODUCTION EXPENSES",
+  "PROGRESS"
+ ],
+ "phases": {
+  "states": [
+   "COMPLETED",
+   "CURRENT",
+   "NEXT",
+   "LATER"
+  ],
+  "source": "project phase template per service (static today) \u2192 persisted per project"
+ },
+ "family_row": [
+  "family name",
+  "purpose",
+  "status (client words)",
+  "approval status",
+  "estimated generation cost (range, ESTIMATED)",
+  "actual generation cost (when complete)",
+  "dependency"
+ ],
+ "family_status_client_words": {
+  "UPCOMING": "UPCOMING",
+  "READY_TO_BEGIN": "READY TO BEGIN",
+  "AWAITING_PRODUCTION_FUNDING": "NEEDS FUNDING",
+  "IN_PRODUCTION": "IN PRODUCTION",
+  "READY_FOR_YOU": "READY FOR YOU",
+  "REVISION_IN_PROGRESS": "REVISION IN PROGRESS",
+  "APPROVED": "APPROVED",
+  "COMPLETE": "COMPLETE",
+  "BLOCKED": "BLOCKED \u2014 {reason in plain words}"
+ },
+ "timeline": {
+  "shape": "COMPLETED \u00b7 CURRENT \u00b7 NEXT \u00b7 LATER with updated expectation windows (e.g. \"NEXT: FAMILY 02 \u00b7 EXPECTED WEEK OF NOV 9\")",
+  "not": "Gantt"
+ },
+ "hidden": [
+  "agent names",
+  "prompts",
+  "internal QA"
+ ],
+ "persistence": "EXTEND site00_design_families (repoint FK to site00_projects) or NEW site00_project_families: order, status, gate snapshot, approval status, budget estimate, client_visible; seeded from FamilyProductionContract (shared/site00-product-families)."
+}

@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import type { FastTravelContext, FastTravelDestination, FastTravelSection as FastTravelSectionModel } from '../../config/fast-travel';
-import { resolveFastTravelHref } from '../../config/fast-travel';
+import { hasFastTravelDestinationArt } from '../../config/fast-travel-assets';
+import { resolveFastTravelHref, SITE00_FAST_TRAVEL_ARROW_SIZE } from '../../config/fast-travel';
+import { Site00DirectoryArrowIcon } from '../mobile/Site00MobileIcons';
 import { AuthLockedDestination } from './AuthLockedDestination';
+import { FastTravelDestinationArt } from './FastTravelDestinationArt';
+import { FastTravelUpNextCardChrome } from './FastTravelUpNextCardChrome';
 
 type FastTravelSectionProps = {
   section: FastTravelSectionModel;
@@ -14,30 +18,54 @@ function FastTravelDestinationLink({
   ctx,
   onNavigate,
   variant,
+  upNextCardIndex,
 }: {
   dest: FastTravelDestination;
   ctx: FastTravelContext;
   onNavigate: () => void;
   variant: 'primary' | 'list';
+  upNextCardIndex?: number;
 }) {
   const href = resolveFastTravelHref(dest, ctx);
   const locked = dest.requiresAuth && !ctx.isSignedIn;
+  const isPrimary = variant === 'primary';
+  const isUpNext = upNextCardIndex !== undefined;
+  const showArt = isPrimary && hasFastTravelDestinationArt(dest.id);
+
+  const showArrow = variant === 'list';
 
   if (locked) {
     return (
-      <AuthLockedDestination href={href} label={dest.label} description={dest.description} onNavigate={onNavigate} />
+      <AuthLockedDestination
+        href={href}
+        label={dest.label}
+        description={dest.description}
+        onNavigate={onNavigate}
+        showArrow={showArrow}
+        destinationId={isPrimary ? dest.id : undefined}
+        upNextCardIndex={upNextCardIndex}
+      />
     );
   }
 
   return (
     <Link
       to={href}
-      className={`site00-fast-travel__dest site00-fast-travel__dest--${variant}`}
+      className={`site00-fast-travel__dest site00-fast-travel__dest--${variant}${isUpNext ? ' site00-fast-travel__dest--up-next' : ''}${showArt ? ' site00-fast-travel__dest--has-art site00-fast-travel__dest--has-mark' : ''}`.trim()}
       onClick={onNavigate}
       aria-label={dest.description ? `${dest.label} — ${dest.description}` : dest.label}
     >
-      <span className="site00-fast-travel__dest-label">{dest.label}</span>
-      {dest.description ? <span className="site00-fast-travel__dest-desc">{dest.description}</span> : null}
+      {isUpNext ? <FastTravelUpNextCardChrome cardIndex={upNextCardIndex} /> : null}
+      {showArt ? <FastTravelDestinationArt destinationId={dest.id} /> : null}
+      <span className="site00-fast-travel__dest-copy">
+        <span className="site00-fast-travel__dest-label">{dest.label}</span>
+        {dest.description ? <span className="site00-fast-travel__dest-desc">{dest.description}</span> : null}
+      </span>
+      {showArrow ? (
+        <span className="site00-fast-travel__dest-arrow" aria-hidden="true">
+          <Site00DirectoryArrowIcon size={SITE00_FAST_TRAVEL_ARROW_SIZE} className="site00-fast-travel__dest-arrow-svg" />
+        </span>
+      ) : null}
     </Link>
   );
 }
@@ -49,13 +77,14 @@ export function FastTravelSection({ section, ctx, onNavigate }: FastTravelSectio
     <section className="site00-fast-travel__section" aria-label={section.title}>
       <h3 className="site00-fast-travel__section-title">{section.title}</h3>
       <div className={`site00-fast-travel__section-body ${isUpNext ? 'site00-fast-travel__section-body--grid' : ''}`.trim()}>
-        {section.destinations.map((dest) => (
+        {section.destinations.map((dest, index) => (
           <FastTravelDestinationLink
             key={dest.id}
             dest={dest}
             ctx={ctx}
             onNavigate={onNavigate}
             variant={isUpNext ? 'primary' : 'list'}
+            upNextCardIndex={isUpNext ? index : undefined}
           />
         ))}
       </div>

@@ -1,0 +1,173 @@
+{
+ "generated": "2026-10-05",
+ "unresolved": [
+  {
+   "id": "U-01",
+   "kind": "AUTHORITY_URL_ONLY",
+   "family": "INBOX",
+   "items": [
+    {
+     "route": "01_watching-desktop-tablet",
+     "historyId": "NGoxyoZ9OX5wlsYUDpyy",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068895590_8113cfa5.png"
+    },
+    {
+     "route": "02_resolved-desktop-tablet",
+     "historyId": "hU5mHFjp073mcdlwQ7N2",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068916337_fcdf5865.png"
+    },
+    {
+     "route": "03_all-inbox-desktop-tablet",
+     "historyId": "XP490OkR8CQWHNrgtMiT",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068907663_f1ae716f.png"
+    },
+    {
+     "route": "04_messages-desktop-tablet",
+     "historyId": "GpNHUOVfWmCAD9IOUnxw",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068914649_cd5931a6.png"
+    },
+    {
+     "route": "05_system-desktop-tablet",
+     "historyId": "UYUeC1Hco9Cm2tb4HD2R",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068929240_cb2d5904.png"
+    },
+    {
+     "route": "06_decision-detail-desktop-tablet",
+     "historyId": "D1lb15Wt2jM30EyrQEQe",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068920369_ead6b825.png"
+    },
+    {
+     "route": "07_message-thread-desktop-tablet",
+     "historyId": "kKHJvxgIciNXy3DriHUo",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068925798_1de1bd83.png"
+    },
+    {
+     "route": "08_system-notice-detail-desktop-tablet",
+     "historyId": "eTTyKNXqsGeAS5MoN88W",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068941352_2d1e1b9f.png"
+    }
+   ],
+   "detail": "IBX2 desktop/tablet boards referenced only by OpenArt CDN URL. Retrieval from this container fails: cdn.openart.ai CONNECT denied (403) by the environment network policy.",
+   "effect": "Inbox desktop/tablet children + grandchildren are governed by D-INBOX-FINAL + parent authorities; no image comparison possible here."
+  },
+  {
+   "id": "U-02",
+   "kind": "MASTERS_NOT_PRESENT",
+   "family": "EXPERIENCE+LIBRARY",
+   "detail": "EL 00_README: the original EXPERIENCE/LIBRARY *_AUTHORITY.zip masters remain the masters; only the compressed LITE copies (242) are present. Masters are listed as 242 OpenArt CDN URLs in artifacts/production-openart-recovery2 (download_production_authorities.ps1) — CDN blocked here.",
+   "effect": "LITE copies used for all comparisons."
+  },
+  {
+   "id": "U-03",
+   "kind": "SUPERSEDED_PACK_NOT_PRESENT",
+   "family": "EXPRESSION",
+   "detail": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v1 (used by Expression OPUS1) is not in the upload store; recovered only as the authority halves of 120 committed compare sheets (artifacts/production-expression-authority-opus1/**/authority-vs-live.jpg). Sampled route (casting/roles) identical to v2.",
+   "effect": "v2 governs."
+  },
+  {
+   "id": "U-04",
+   "kind": "LOW_CONFIDENCE_MAPPING",
+   "family": "DESIGN",
+   "detail": "DWS 02_TABLET CC27801B…: active mode tab not legible; mapped to SURFACES by elimination.",
+   "effect": "Superseded anyway by T12."
+  },
+  {
+   "id": "U-05",
+   "kind": "RESPONSIVE_VARIANT_MISSING",
+   "family": "EXPRESSION",
+   "detail": "Character Fabrication has 16 mobile authorities and no tablet/desktop authority.",
+   "effect": "Phase 5: preserve live tablet/desktop presentation."
+  },
+  {
+   "id": "U-06",
+   "kind": "RESPONSIVE_VARIANT_MISSING",
+   "family": "HUB",
+   "detail": "Hub machine (LEGACY_LOCKED) has mobile authority only.",
+   "effect": "Not refined."
+  },
+  {
+   "id": "U-07",
+   "kind": "AUTHORITY_CONFLICT",
+   "family": "EXPERIENCE",
+   "detail": "/production/:slug/experience — T12/PAR3V 08 parent landing vs EL 01_World root.",
+   "effect": "EL governs (rules 3+5); founder decision required."
+  },
+  {
+   "id": "U-08",
+   "kind": "AUTHORITY_CONFLICT",
+   "family": "LIBRARY",
+   "detail": "/production/libraries — T12/PAR3V 10 canon-vault landing vs EL 01_Authorities root.",
+   "effect": "EL governs (rules 3+5); founder decision required."
+  },
+  {
+   "id": "U-09",
+   "kind": "AUTHORITY_CONFLICT",
+   "family": "SHELL",
+   "detail": "Tablet/desktop host chrome: images show centred selector/stacked nav; D-SHELL-CANON (text) says left cluster + icon-left nav. HUB reconstruction OPUS1 flagged \"needs a founder decision\".",
+   "effect": "D-SHELL-CANON governs (explicit canonical marker)."
+  },
+  {
+   "id": "U-10",
+   "kind": "UNMOUNTED_AUTHORITY_LINE",
+   "family": "DESIGN",
+   "detail": "DWS unified Design workspace implementation lives on cursor/design-unified-workspace-opus-convergence1 and is not on the tunnel lineage; /production/:slug/design/* children still mount the legacy bench.",
+   "effect": "Out of this sprint's refinement scope; recorded."
+  },
+  {
+   "id": "U-11",
+   "kind": "NO_RECOVERED_AUTHORITY",
+   "family": "INBOX",
+   "detail": "Temporary surfaces (revision / approval confirmation / filter-sort / attachment preview) have no image authority.",
+   "effect": "Preserve live; inherit parent shell."
+  },
+  {
+   "id": "U-12",
+   "kind": "CONTENT_IN_REVIEW",
+   "family": "SHELL",
+   "detail": "GROK1 production plates (public/site00/production-authority-assets/*.jpg|png root) in runtime use without a recorded founder approval.",
+   "effect": "Kept (no new authority generated)."
+  },
+  {
+   "id": "U-13",
+   "kind": "NOT_AUTHORITY_DESPITE_NAME",
+   "family": "ALL",
+   "detail": "artifacts/production-authority-opus/{desktop,mobile,tablet}/NN-*.jpg are OPUS1 live captures, not authority copies (dHash 68–111 vs T12).",
+   "effect": "Classified LIVE_CAPTURE."
+  },
+  {
+   "id": "U-14",
+   "kind": "REFINEMENT_DECISION_REQUIRED",
+   "family": "DESIGN",
+   "detail": "Design chamber boards (6 modes) reproduce the T12 / DWS authority's miniature spatial panels: panel list and caption text renders at 3.6–6.3px (phones 3.6px, desktop ~6px), which is the authority's own scale (≈4px at 390px in T12 Mobile IMG_5968).",
+   "effect": "Chamber geometry now fills the frame (the 74–85px empty bands are gone), but panel micro-type stays below the 8.5px floor. Raising it requires converting the spatial boards into legible cards or adding a panel inspector. Founder decision: keep the authority miniature boards, or trade them for legible cards."
+  },
+  {
+   "id": "U-15",
+   "kind": "NO_RECOVERED_AUTHORITY",
+   "family": "EXPRESSION",
+   "detail": "Character Fabrication has no recovered tablet/desktop authority, so Phase 5 keeps the live presentation. The 432px authority canvas is zoomed to the device width (max ×1.6) and scrolls inside its own cf-scroll frame: 52–84px on the short phones (390×664, 360×640) and 68–356px on tablet/desktop. Phones reproduce the 9:16 CF authority (IMG_5414/5415), including its 4.4–7px micro-type.",
+   "effect": "Fixing this needs a tablet/desktop CF authority before the surface can become one-viewport and legible at the 8.5px floor. Only the actor strip was marked as a declared horizontal rail."
+  },
+  {
+   "id": "U-16",
+   "kind": "AUTHORITY_PROPORTION_FLAGGED",
+   "family": "EXPRESSION",
+   "detail": "Production Floor at 1280×720, the T12 desktop artboard: the floor tiles are 195×58 (3.4:1). This matches the authority's own 185×55 tiles at that size, but the strip heuristic (w/h ≥ 3.2 and h < 20% of the body) still flags them.",
+   "effect": "Reported, not hidden. Larger tiles at 1280×720 would need slimmer host chrome (D-SHELL-CANON is out of scope) or a smaller CURRENTLY MAKING row than the authority's."
+  },
+  {
+   "id": "U-17",
+   "kind": "CONTENT_CONFLICT",
+   "family": "EXPRESSION",
+   "detail": "Entry 002 subject imagery conflicts. The pre-storyboard authority boards show a dark-haired subject. The seed actor SW-017 Character Fabrication receipt shows a blonde subject.",
+   "effect": "Characters use the authority-board crops and actors keep their own receipts. Each image carries its provenance in the inspector. Founder decision: which identity is canon for SW-017 / Subject Woman."
+  },
+  {
+   "id": "U-18",
+   "kind": "BANNER_BY_AUTHORITY",
+   "family": "EXPRESSION+HUB",
+   "detail": "Family and root heroes (Hub world panel, Production Floor, Expression family heroes) are wide atmospheric bands in every authority, e.g. 3.6:1 at 390px in EXPR2 mobile.",
+   "effect": "They are listed separately from media-strip failures (category BANNER) in visual-diff-report.json. They are never counted as primary media."
+  }
+ ]
+}

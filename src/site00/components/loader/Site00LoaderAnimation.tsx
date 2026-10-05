@@ -1,225 +1,271 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
-  site00LoaderGeometryApngUrl,
-  site00LoaderGeometrySourceRemoteUrl,
-  site00LoaderGeometrySourceUrl,
-  site00LoaderGeometryWebmUrl,
-  site00LoaderPrefersApngGeometry,
+  resolveSite00LoaderBackgroundFocal,
+  resolveSite00LoaderEnvironmentAnimationUrl,
 } from './site00LoaderMedia';
-import { loaderLifecycleLog } from './loaderLifecycleLog';
 import {
-  probeProductionAlphaAvailable,
-  resolveLoaderGeometryMode,
-  resolveLoaderGeometryModeFromQuery,
-  type LoaderGeometryMode,
-} from './site00LoaderGeometryMode';
+  SITE00_LOADER_OPENING_HOLD_FRACTION,
+  resolveSite00LoaderOpeningHoldTime,
+} from './site00LoaderAnimationPlayback';
+import { loaderLifecycleLog } from './loaderLifecycleLog';
 import { isLoaderMediaDebugEnabled } from './site00LoaderHeroStage';
+import {
+  bindSite00LoaderVideoSilentGuards,
+  enforceSite00LoaderVideoSilent,
+} from './site00LoaderVideoSilent';
+import type { LoaderPresentation } from './loader-composition-resolver';
 
 type Site00LoaderAnimationProps = {
+  /** Media presentation — selects mobile vs desktop animation asset only. */
+  mediaPresentation?: LoaderPresentation;
+  /** Cover focal — aligned with static background layer (no play-time crop shift). */
+  mediaFocal?: string;
   reducedMotion?: boolean;
+  /** Fires once the MP4 begins playback — copy/progress may activate. */
+  onPlaying?: () => void;
   onReady?: () => void;
+  /** Fires once paused on the opening frame — static layer may strip. */
+  onOpeningHold?: () => void;
   onError?: (detail: unknown) => void;
 };
 
 /**
- * Transparent geometry overlay — bounding box always visible; media fades in independently.
- * Parent loader never waits for this layer.
+ * Full-frame environment animation — Layer 2 above static background.
+ * Plays once from frame 0, pauses at the opening frame, and holds until loader exit.
  */
-export function Site00LoaderAnimation({ reducedMotion = false, onReady, onError }: Site00LoaderAnimationProps) {
+export function Site00LoaderAnimation({
+  mediaPresentation = 'mobile',
+  mediaFocal = 'center center',
+  reducedMotion = false,
+  onPlaying,
+  onReady,
+  onOpeningHold,
+  onError,
+}: Site00LoaderAnimationProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const mountRef = useRef<HTMLDivElement>(null);
+  const readyRef = useRef(false);
+  const playingRef = useRef(false);
+  const openingHoldRef = useRef(false);
   const [mediaReady, setMediaReady] = useState(false);
   const [mediaError, setMediaError] = useState(false);
-  const [mediaDebugSize, setMediaDebugSize] = useState('');
+  const [openingHold, setOpeningHold] = useState(false);
   const mediaDebug = isLoaderMediaDebugEnabled();
-  const forcedMode = resolveLoaderGeometryModeFromQuery();
-  const [mode, setMode] = useState<LoaderGeometryMode>(() => forcedMode ?? 'screen');
-  const [alphaUrl, setAlphaUrl] = useState<string | null>(() =>
-    (forcedMode ?? 'screen') === 'alpha'
-      ? site00LoaderPrefersApngGeometry()
-        ? site00LoaderGeometryApngUrl()
-        : site00LoaderGeometryWebmUrl()
-      : null,
-  );
-  const [sourceUrl, setSourceUrl] = useState(site00LoaderGeometrySourceUrl());
+  const sourceUrl = resolveSite00LoaderEnvironmentAnimationUrl(mediaPresentation);
+  const isLegacyLoaderAsset =
+    /geometry-v1|kling-v2|assts-loader-geometry/i.test(sourceUrl);
 
-  useEffect(() => {
-    loaderLifecycleLog('ANIMATION_SOURCE_RESOLVED', { mode, sourceUrl, alphaUrl });
-  }, [mode, sourceUrl, alphaUrl]);
+  const signalPlaying = useCallback(() => {
+    if (playingRef.current) return;
+    playingRef.current = true;
+    onPlaying?.();
+  }, [onPlaying]);
 
-  useEffect(() => {
-    const forced = resolveLoaderGeometryModeFromQuery();
-    if (forced) {
-      setMode(forced);
-      return;
-    }
-    void probeProductionAlphaAvailable().then((hasAlpha) => {
-      const nextMode = resolveLoaderGeometryMode(hasAlpha);
-      setMode(nextMode);
-      if (nextMode === 'alpha') {
-        setAlphaUrl(
-          site00LoaderPrefersApngGeometry() ? site00LoaderGeometryApngUrl() : site00LoaderGeometryWebmUrl(),
-        );
+  const signalReady = useCallback(() => {
+    if (readyRef.current) return;
+    readyRef.current = true;
+    setMediaReady(true);
+    loaderLifecycleLog('ANIMATION_PLAYING');
+    onReady?.();
+  }, [onReady]);
+
+  const holdOpeningFrame = useCallback(
+    (video: HTMLVideoElement) => {
+      if (openingHoldRef.current) return;
+      const holdTime = resolveSite00LoaderOpeningHoldTime(video.duration);
+      if (holdTime <= 0) return;
+
+      openingHoldRef.current = true;
+      setOpeningHold(true);
+      try {
+        if (video.currentTime < holdTime - 0.04) {
+          video.currentTime = holdTime;
+        }
+      } catch {
+        /* ignore seek errors */
       }
-    });
-  }, []);
+      video.pause();
+      enforceSite00LoaderVideoSilent(video);
+      loaderLifecycleLog('ANIMATION_OPENING_HOLD', {
+        holdTime,
+        duration: video.duration,
+        fraction: SITE00_LOADER_OPENING_HOLD_FRACTION,
+      });
+      onOpeningHold?.();
+    },
+    [onOpeningHold],
+  );
+
+  const tryHoldOpeningFromMetadata = useCallback(
+    (video: HTMLVideoElement) => {
+      if (openingHoldRef.current) return;
+      if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+      if (reducedMotion) {
+        holdOpeningFrame(video);
+        signalPlaying();
+        signalReady();
+      }
+    },
+    [holdOpeningFrame, reducedMotion, signalPlaying, signalReady],
+  );
+
+  const handleCanPlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    enforceSite00LoaderVideoSilent(video);
+    tryHoldOpeningFromMetadata(video);
+    if (reducedMotion) return;
+    void video.play().catch(() => undefined);
+  };
+
+  const handlePlaying = () => {
+    const video = videoRef.current;
+    if (video) enforceSite00LoaderVideoSilent(video);
+    signalPlaying();
+    signalReady();
+  };
+
+  const handleTimeUpdate = () => {
+    const video = videoRef.current;
+    if (!video || openingHoldRef.current || reducedMotion) return;
+    const holdTime = resolveSite00LoaderOpeningHoldTime(video.duration);
+    if (holdTime <= 0) return;
+    if (video.currentTime >= holdTime - 0.04) {
+      holdOpeningFrame(video);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    enforceSite00LoaderVideoSilent(video);
+    tryHoldOpeningFromMetadata(video);
+  };
 
   useEffect(() => {
-    if (mode !== 'screen') return;
-    fetch(site00LoaderGeometrySourceUrl(), { method: 'HEAD' })
-      .then((r) => {
-        if (!r.ok) setSourceUrl(site00LoaderGeometrySourceRemoteUrl());
-      })
-      .catch(() => setSourceUrl(site00LoaderGeometrySourceRemoteUrl()));
-  }, [mode]);
+    if (!isLegacyLoaderAsset) return;
+    loaderLifecycleLog('ANIMATION_ERROR', { blockedLegacyAsset: sourceUrl });
+    signalReady();
+    onOpeningHold?.();
+  }, [isLegacyLoaderAsset, onOpeningHold, signalReady, sourceUrl]);
+
+  useEffect(() => {
+    loaderLifecycleLog('ANIMATION_SOURCE_RESOLVED', { sourceUrl, mediaPresentation });
+  }, [sourceUrl, mediaPresentation]);
+
+  useEffect(() => {
+    if (sourceUrl) return;
+    signalReady();
+    onOpeningHold?.();
+  }, [onOpeningHold, signalReady, sourceUrl]);
+
+  useLayoutEffect(() => {
+    const video = videoRef.current;
+    if (video) enforceSite00LoaderVideoSilent(video);
+  }, [sourceUrl]);
+
+  useEffect(() => {
+    readyRef.current = false;
+    playingRef.current = false;
+    openingHoldRef.current = false;
+    setMediaReady(false);
+    setMediaError(false);
+    setOpeningHold(false);
+  }, [sourceUrl]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !sourceUrl) return;
 
-    const enforceSilent = () => {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
-    };
-
-    enforceSilent();
-    video.addEventListener('volumechange', enforceSilent);
-    video.addEventListener('play', enforceSilent);
+    const unbindSilent = bindSite00LoaderVideoSilentGuards(video);
 
     if (reducedMotion) {
       video.pause();
-      try {
-        video.currentTime = 0;
-      } catch {
-        /* ignore */
+      const applyReducedMotionHold = () => {
+        if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+        holdOpeningFrame(video);
+        signalPlaying();
+        signalReady();
+      };
+      if (video.readyState >= 1) {
+        applyReducedMotionHold();
+      } else {
+        video.addEventListener('loadedmetadata', applyReducedMotionHold, { once: true });
       }
     } else {
       void video.play().catch(() => undefined);
     }
 
-    return () => {
-      video.removeEventListener('volumechange', enforceSilent);
-      video.removeEventListener('play', enforceSilent);
-    };
-  }, [reducedMotion, mode, sourceUrl, alphaUrl]);
+    return unbindSilent;
+  }, [holdOpeningFrame, reducedMotion, signalPlaying, signalReady, sourceUrl]);
 
-  useEffect(() => {
-    if (!mediaDebug) return;
-    const mount = mountRef.current;
-    const media = mount?.querySelector('.site00-loader-animation');
-    if (!mount || !media) return;
-
-    const update = () => {
-      const mr = mount.getBoundingClientRect();
-      const vr = media.getBoundingClientRect();
-      setMediaDebugSize(
-        `wrap ${Math.round(mr.width)}×${Math.round(mr.height)} · media ${Math.round(vr.width)}×${Math.round(vr.height)}`,
-      );
-    };
-
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(mount);
-    ro.observe(media);
-    window.addEventListener('resize', update);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', update);
-    };
-  }, [mediaDebug, mode, sourceUrl, alphaUrl, mediaReady]);
-
-  const handleReady = () => {
-    if (mediaReady) return;
-    setMediaReady(true);
-    loaderLifecycleLog('ANIMATION_CANPLAY');
-    onReady?.();
-  };
-
-  const handleAlphaMediaError = (event: unknown) => {
-    loaderLifecycleLog('ANIMATION_ERROR', { mode: 'alpha', event });
-    onError?.(event);
-    setMode('screen');
-    setAlphaUrl(null);
-    setMediaError(true);
-  };
-
-  const handleScreenMediaError = (event: unknown) => {
-    loaderLifecycleLog('ANIMATION_ERROR', { mode: 'screen', event });
+  const handleError = (event: unknown) => {
+    loaderLifecycleLog('ANIMATION_ERROR', { event });
     onError?.(event);
     setMediaError(true);
-    handleReady();
+    signalReady();
+    onOpeningHold?.();
   };
 
-  const useAlphaMode = mode === 'alpha';
-  const useApng = useAlphaMode && site00LoaderPrefersApngGeometry();
-  const webmSrc = alphaUrl ?? site00LoaderGeometryWebmUrl();
-  const mediaClass = [
-    'site00-loader-animation',
-    useAlphaMode ? 'site00-loader-animation--alpha' : 'site00-loader-animation--screen',
-    reducedMotion ? 'site00-loader-animation--static' : '',
-    mediaReady ? 'site00-loader-animation--ready' : '',
-    mediaError ? 'site00-loader-animation--error' : '',
+  if (!sourceUrl || isLegacyLoaderAsset) return null;
+
+  const layerClass = [
+    'site00-loader-animation-layer',
+    mediaPresentation === 'desktop' ? 'site00-loader-animation-layer--desktop' : 'site00-loader-animation-layer--mobile',
+    mediaDebug ? 'site00-loader-animation-layer--debug' : '',
   ]
     .filter(Boolean)
     .join(' ');
 
+  const mediaClass = [
+    'site00-loader-animation',
+    'site00-loader-animation--environment',
+    mediaPresentation === 'desktop' ? 'site00-loader-animation--environment-desktop' : 'site00-loader-animation--environment-mobile',
+    reducedMotion ? 'site00-loader-animation--static' : '',
+    mediaReady ? 'site00-loader-animation--ready' : '',
+    mediaError ? 'site00-loader-animation--error' : '',
+    openingHold ? 'site00-loader-animation--opening-hold' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const debugFocalLabel =
+    mediaDebug && typeof window !== 'undefined'
+      ? `ANIM ${mediaFocal} · BG ${resolveSite00LoaderBackgroundFocal(mediaPresentation)}`
+      : null;
+
   return (
-    <div ref={mountRef} className="site00-loader-geometry-mount" data-media-ready={mediaReady ? '1' : '0'}>
-      {mediaDebug && mediaDebugSize ? (
-        <span className="site00-loader-media-debug-label" aria-hidden="true">
-          {mediaDebugSize}
-        </span>
+    <div
+      className={layerClass}
+      data-media-ready={mediaReady ? '1' : '0'}
+      data-loader-video-src={sourceUrl}
+      style={{ zIndex: 1 }}
+      aria-hidden="true"
+    >
+      {debugFocalLabel ? (
+        <span className="site00-loader-media-debug-label">{debugFocalLabel}</span>
       ) : null}
-      {useAlphaMode ? (
-        useApng ? (
-          <img
-            className={mediaClass}
-            src={site00LoaderGeometryApngUrl()}
-            alt=""
-            decoding="async"
-            draggable={false}
-            aria-hidden="true"
-            onLoad={handleReady}
-            onError={handleAlphaMediaError}
-          />
-        ) : (
-          <video
-            ref={videoRef}
-            className={mediaClass}
-            muted
-            playsInline
-            autoPlay={!reducedMotion}
-            loop={!reducedMotion}
-            preload="auto"
-            disablePictureInPicture
-            aria-hidden="true"
-            tabIndex={-1}
-            onLoadedData={handleReady}
-            onCanPlay={handleReady}
-            onError={handleAlphaMediaError}
-          >
-            <source src={webmSrc} type="video/webm" />
-          </video>
-        )
-      ) : (
-        <video
-          ref={videoRef}
-          className={mediaClass}
-          src={sourceUrl}
-          muted
-          playsInline
-          autoPlay={!reducedMotion}
-          loop={!reducedMotion}
-          preload="auto"
-          disablePictureInPicture
-          aria-hidden="true"
-          tabIndex={-1}
-          onLoadedData={handleReady}
-          onCanPlay={handleReady}
-          onError={handleScreenMediaError}
-        />
-      )}
+      <video
+        key={sourceUrl}
+        ref={videoRef}
+        className={mediaClass}
+        src={sourceUrl}
+        muted
+        playsInline
+        autoPlay={!reducedMotion}
+        loop={false}
+        preload="auto"
+        disablePictureInPicture
+        disableRemotePlayback
+        controls={false}
+        tabIndex={-1}
+        style={{ objectPosition: mediaFocal, objectFit: 'cover' }}
+        onLoadedMetadata={handleLoadedMetadata}
+        onLoadedData={handleCanPlay}
+        onCanPlay={handleCanPlay}
+        onPlaying={handlePlaying}
+        onTimeUpdate={handleTimeUpdate}
+        onError={handleError}
+      />
     </div>
   );
 }

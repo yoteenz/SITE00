@@ -1,0 +1,55 @@
+{
+  "family_id": "F06",
+  "family_name": "INCOME",
+  "product_job": "Show what is coming in, and from where.",
+  "user_question_answered": "Where is my money coming from, and what is the pattern?",
+  "primary_signal": "Sources arriving.",
+  "emotional_role": "Arrival and accumulation.",
+  "spatial_metaphor": "Light moving down a gallery toward the user.",
+  "architectural_character": "A one-point pale gallery. The opening is at the far end, right of the rail.",
+  "lighting_character": "Light arriving from the far opening.",
+  "material_emphasis": "Plaster and pale stone floor.",
+  "environmental_focal_point": "The far opening.",
+  "object_language": "One olive sprig on the floor, below the rail.",
+  "botanical_role": "A single sprig, low, not framing the type.",
+  "negative_space_strategy": "The left wall is quiet plaster.",
+  "composition_bias": "Left rail, arrival at the end of the hall.",
+  "information_density": "Three sources.",
+  "panel_behavior": "A flow list, not a chart.",
+  "button_behavior": "Closed source reading.",
+  "data_visualization_character": "Source and flow.",
+  "interaction_character": "The pattern is visible. A source dossier stays closed.",
+  "motion_character": "Still light. No crypto motion.",
+  "typographic_character": "Source names, small.",
+  "relationship_to_previous_family": "Money is the cabinet. Income is the light that fills it.",
+  "relationship_to_next_family": "Upcoming is the sequence of what that arrival must meet.",
+  "relationship_to_other_families": "Not an abstract flow graphic.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Gallery",
+    "Arriving light",
+    "Sources"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "Crypto abstraction",
+    "Copying the cabinet"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}
