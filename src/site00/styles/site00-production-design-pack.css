@@ -1,0 +1,180 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.DESIGN.ASSET-AUTHORITY-CONVERGENCE.OPUS3
+ *
+ * 1. NO-SCROLL PARENT CONTRACT (HUB density model). The six DESIGN parent modes fill the space between the shared
+ *    host top + Design mode bar and the bottom Production nav exactly. Pipeline and On Your Table keep their natural
+ *    height; the spatial chamber takes what is left (bounded by its authored height), so every family and every
+ *    viewport height shows all three regions at first glance without page scroll.
+ * 2. CANONICAL PACK ASSETS. Styles for the supplied DWS pack files (designPackAssets.ts): pipeline stage renders,
+ *    icon tiles, device frames and material swatches. Pack crops carry their light sheet tile, so they multiply onto
+ *    the light workspace instead of being keyed or redrawn.
+ * Body only: no host chrome selectors, no zoom / transform scale here.
+ */
+
+/* ── 1. frame contract ───────────────────────────────────────────────────────────────────────────── */
+.pxa[data-screen^='design-'] .pxa-scroll {
+  overflow: hidden;
+}
+.pxa[data-screen^='design-'] .pxa-body {
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+}
+.pxa .pxa-design {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.pxa .pxa-design > .pxa-chamber {
+  flex: 1 1 var(--ch-h);
+  height: auto;
+  min-height: 0;
+  max-height: var(--ch-max, var(--ch-h));
+}
+.pxa .pxa-design > .pxa-pipeline,
+.pxa .pxa-design > .pxa-table-sec {
+  flex: none;
+}
+/* the chamber may grow into spare height on tall viewports (command floor, not a banner) */
+@media (min-width: 1120px) {
+  .pxa .pxa-design > .pxa-chamber {
+    --ch-max: 360px;
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .pxa-design > .pxa-chamber {
+    --ch-max: 340px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa .pxa-design > .pxa-chamber {
+    --ch-max: 340px;
+  }
+}
+
+/* ── 2. canonical pack assets ────────────────────────────────────────────────────────────────────── */
+.pxa .pxa-stage {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  background: transparent;
+  box-shadow: none !important;
+  border-radius: 0;
+}
+.pxa .pxa-design .pxa-pipeline__steps .pxa-stage {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+}
+.pxa .pxa-design .pxa-pipeline__steps li.is-active .pxa-stage {
+  outline: 2px solid rgba(229, 35, 27, 0.55);
+  outline-offset: 2px;
+}
+
+.pxa .pxa-vis--icons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  width: 100%;
+}
+.pxa .pxa-vis--icons img,
+.pxa .pxa-vis--swatches img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 2px;
+  background: #f4f4f6;
+  mix-blend-mode: multiply;
+}
+.pxa .pxa-vis--swatches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  width: 100%;
+}
+.pxa .pxa-vis--swatches img {
+  aspect-ratio: 1.6;
+  object-fit: cover;
+}
+.pxa .pxa-vis--devices {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4%;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+.pxa .pxa-vis--devices img {
+  display: block;
+  min-width: 0;
+  max-height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.pxa .pxa-vis--devices img[data-device='desktop'] {
+  flex: 0 1 52%;
+}
+.pxa .pxa-vis--devices img[data-device='tablet'] {
+  flex: 0 1 26%;
+}
+.pxa .pxa-vis--devices img[data-device='mobile'] {
+  flex: 0 1 16%;
+}
+.pxa .pxa-vis--devices[data-count='1'] img {
+  flex: 0 1 auto;
+  width: auto;
+  height: 100%;
+}
+
+/* stage render sizes per family (explicit — older orb sizing rules are not relied on) */
+.pxa .pxa-design .pxa-pipeline__steps .pxa-stage {
+  width: 56px;
+  height: 56px;
+}
+.pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+  width: 44px;
+  height: 44px;
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage {
+    width: 50px;
+    height: 50px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage,
+  .pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ── 3. short viewports: compact pipeline + On Your Table instead of growing the page ─────────────── */
+@media (max-width: 699px) and (max-height: 760px) {
+  .pxa .pxa-design .pxa-pipeline__steps small {
+    display: none;
+  }
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage {
+    width: 26px;
+    height: 26px;
+  }
+  .pxa .pxa-design .pxa-tcard {
+    min-height: 0;
+  }
+  .pxa .pxa-design .pxa-tcard__img {
+    height: 54px;
+  }
+}
+@media (min-width: 1120px) and (max-height: 760px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage {
+    width: 46px;
+    height: 46px;
+  }
+}

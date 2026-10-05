@@ -6,7 +6,7 @@
  *
  * Host chrome (top + bottom) lives in site00-production-host-chrome.css and is never scaled here.
  * Interior hooks for the Opus pixel pass: .pxa-hero, .pxa-chamber, .pxa-panel, .pxa-overview-panel, .pxa-card,
- * .pxa-device, .pxa-orb, .pxa-vis*. Glass density, panel tilt and perspective are deliberately left plain.
+ * .pxa-device, .pxa-stage, .pxa-vis*. Glass density, panel tilt and perspective are deliberately left plain.
  */
 
 .pxa {
@@ -1529,20 +1529,6 @@
   stroke: var(--pxa-red);
   stroke-width: 1.6;
 }
-.pxa-vis--phones i,
-.pxa-vis--frames i {
-  flex: 1 1 0;
-  min-height: 24px;
-  max-width: 34px;
-  border: 1.5px solid var(--pxa-ink);
-  border-radius: 5px;
-  background: linear-gradient(180deg, #fff, #ececef);
-}
-.pxa-vis--frames i {
-  max-width: none;
-  border-radius: 2px;
-  border-color: var(--pxa-red);
-}
 .pxa-vis--list {
   flex-direction: column;
   gap: 2px;
@@ -1552,20 +1538,6 @@
 .pxa-vis--list li::before {
   content: '▪ ';
   color: var(--pxa-red);
-}
-.pxa-vis--grid {
-  flex-wrap: wrap;
-}
-.pxa-vis--grid i {
-  flex: 1 1 28%;
-  display: grid;
-  place-items: center;
-  min-height: 22px;
-  background: #1a1a1d;
-  color: #fff;
-  font-style: normal;
-  font-size: 8px;
-  letter-spacing: 0.1em;
 }
 .pxa-vis--globe {
   align-items: center;
@@ -1768,31 +1740,6 @@
 }
 .pxa-pipeline__steps small {
   font-size: 8px;
-}
-.pxa-orb {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 32% 28%, #fff, #b9b9c1 55%, #5b5b63);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-}
-.pxa-orb--1 {
-  border-radius: 8px;
-  background: linear-gradient(135deg, #2a2a2e, #0c0c0e);
-}
-.pxa-orb--2 {
-  background: radial-gradient(circle at 32% 28%, #ff8a82, var(--pxa-red) 60%, #7c0f0a);
-}
-.pxa-orb--3 {
-  border-radius: 6px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(200, 200, 208, 0.5));
-  border: 1px solid #fff;
-}
-.pxa-orb--4 {
-  background: conic-gradient(from 20deg, #121214, var(--pxa-red), #e8e8ec, #121214);
 }
 .pxa-tablecards {
   display: grid;
@@ -2146,7 +2093,7 @@
   .pxa-pipeline__steps small {
     display: none;
   }
-  .pxa-pipeline__steps .pxa-orb {
+  .pxa-pipeline__steps .pxa-stage {
     width: 30px;
     height: 30px;
   }
@@ -2156,7 +2103,7 @@
   .pxa-pipeline__steps[data-count='7'] {
     grid-template-columns: repeat(7, minmax(0, 1fr));
   }
-  .pxa-pipeline__steps[data-count='7'] .pxa-orb {
+  .pxa-pipeline__steps[data-count='7'] .pxa-stage {
     width: 24px;
     height: 24px;
   }

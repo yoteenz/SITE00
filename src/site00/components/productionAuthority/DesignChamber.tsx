@@ -17,7 +17,8 @@ import {
   type ViewportZoom,
 } from './viewportTargets';
 import { DESIGN_CHAMBER, type ChamberPanel, type DesignChamberConfig } from './designChamberConfig';
-import { Orb, Sec } from './primitives';
+import { Sec } from './primitives';
+import { DESIGN_DEVICES, DESIGN_SWATCHES, designIcon, designIconLabel, designStage } from './designPackAssets';
 
 export function useDesignMode(): ProductionDesignMode {
   const [params] = useSearchParams();
@@ -58,9 +59,25 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
       );
     case 'swatches':
       return (
-        <span className="pxa-vis pxa-vis--swatches">
-          {['#121214', '#e5231b', '#f5f5f7', '#9a9aa2', '#d8d8dc', '#3c3c42'].map((c) => (
-            <i key={c} style={{ background: c }} />
+        <span className="pxa-vis pxa-vis--swatches" data-pack="swatches">
+          {DESIGN_SWATCHES.slice(0, 6).map((m) => (
+            <img key={m.id} src={m.src} alt={m.label} title={m.label} loading="lazy" />
+          ))}
+        </span>
+      );
+    case 'icons':
+      return (
+        <span className="pxa-vis pxa-vis--icons" data-pack="icons">
+          {(panel.icons ?? []).map((id) => (
+            <img key={id} src={designIcon(id)} alt={designIconLabel(id)} title={designIconLabel(id)} loading="lazy" />
+          ))}
+        </span>
+      );
+    case 'devices':
+      return (
+        <span className="pxa-vis pxa-vis--devices" data-pack="devices" data-count={(panel.devices ?? []).length}>
+          {(panel.devices ?? []).map((d, i) => (
+            <img key={`${d}-${i}`} src={DESIGN_DEVICES[d]} alt={`${d.toUpperCase()} FRAME`} data-device={d} loading="lazy" />
           ))}
         </span>
       );
@@ -80,22 +97,6 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
           ))}
         </svg>
       );
-    case 'phones':
-      return (
-        <span className="pxa-vis pxa-vis--phones">
-          <i />
-          <i />
-          <i />
-        </span>
-      );
-    case 'frames':
-      return (
-        <span className="pxa-vis pxa-vis--frames">
-          <i />
-          <i />
-          <i />
-        </span>
-      );
     case 'globe':
       return (
         <span className="pxa-vis pxa-vis--globe">
@@ -112,13 +113,7 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
         </ul>
       );
     default:
-      return (
-        <span className="pxa-vis pxa-vis--grid">
-          {(panel.items ?? []).map((t) => (
-            <i key={t}>{t}</i>
-          ))}
-        </span>
-      );
+      return null;
   }
 }
 
@@ -367,7 +362,7 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
         <ol className="pxa-pipeline__steps" data-count={cfg.pipeline.length}>
           {cfg.pipeline.map((s, i) => (
             <li key={s.title} className={mode === 'viewport' && i === 5 ? 'is-active' : undefined}>
-              <Orb variant={i} />
+              <img className="pxa-stage" src={designStage(i).src} alt="" data-stage={designStage(i).id} loading="lazy" />
               <em>{String(i + 1).padStart(2, '0')}</em>
               <b>{s.title}</b>
               {s.sub ? <small>{s.sub}</small> : null}

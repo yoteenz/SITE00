@@ -1,8 +1,9 @@
 import type { ProductionDesignMode } from '../../config/production-authority-registry';
 import { PW_IMG } from '../production/productionImagery';
 import { AUTHORITY_ASSETS } from './authorityAssets';
+import { DESIGN_PLATES, DESIGN_SWATCHES, type DesignDevice, type DesignPackIcon } from './designPackAssets';
 
-export type ChamberVis = 'plates' | 'swatches' | 'type' | 'graph' | 'phones' | 'list' | 'grid' | 'frames' | 'globe';
+export type ChamberVis = 'plates' | 'swatches' | 'type' | 'graph' | 'list' | 'globe' | 'icons' | 'devices';
 
 export type ChamberPanel = {
   n: string;
@@ -15,6 +16,10 @@ export type ChamberPanel = {
   rows?: string[];
   /** Interior artwork for this mode. Live row copy stays in front of it. */
   art?: string;
+  /** Canonical pack icon tiles (vis 'icons'). */
+  icons?: DesignPackIcon[];
+  /** Canonical pack device frames (vis 'devices'). */
+  devices?: DesignDevice[];
 };
 
 export type DesignChamberConfig = {
@@ -48,7 +53,7 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     caption: 'CONSISTENT EXPERIENCES / PEOPLE TO IMPACT',
     panels: [
       { n: '01', title: 'BRAND ESSENCE', sub: 'PURPOSE & POSITIONING', vis: 'plates', plates: [D.work!, D.framework!, D.history!], rows: ['PURPOSE', 'VISION', 'AUDIENCE', 'DIFFERENTIATION', 'BRAND STORY'] },
-      { n: '02', title: 'VISUAL LANGUAGE', sub: 'KEY ELEMENTS & STYLE', vis: 'grid', items: ['ICONS', 'LOGOS', 'MOTION'], rows: ['LOGO SYSTEM', 'ICONOGRAPHY', 'GRAPHIC ELEMENTS', 'IMAGERY STYLE', 'MOTION LANGUAGE'] },
+      { n: '02', title: 'VISUAL LANGUAGE', sub: 'KEY ELEMENTS & STYLE', vis: 'icons', icons: ['object-cube-system', 'object-concentric-rings', 'object-geometric-lattice'], rows: ['LOGO SYSTEM', 'ICONOGRAPHY', 'GRAPHIC ELEMENTS', 'IMAGERY STYLE', 'MOTION LANGUAGE'] },
       { n: '03', title: 'TYPOGRAPHY SYSTEM', sub: 'TYPE RULES & HIERARCHY', vis: 'type', items: ['Aa', 'NDX GROTESK'], rows: ['PRIMARY', 'SECONDARY', 'NUMERALS', 'SPACING', 'USAGE'] },
       { n: '04', title: 'COLOR & MATERIAL', sub: 'PALETTE & SURFACES', vis: 'swatches', rows: ['PRIMARY PALETTE', 'SECONDARY PALETTE', 'MATERIAL LOGIC', 'LIGHT & SURFACE', 'DIGITAL APPLICATION'] },
       { n: '05', title: 'BRAND APPLICATIONS', sub: 'SYSTEM IN PRACTICE', vis: 'plates', plates: [D.family!, D.interactions!, D.assets!], rows: ['ENVIRONMENTS', 'DIGITAL PRODUCTS', 'PRINT & COLLATERAL', 'MERCHANDISE', 'BRAND EXPERIENCE'] },
@@ -78,7 +83,7 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     panels: [
       { n: '01', title: 'USER JOURNEYS', sub: 'PEOPLE TO POSSIBILITIES', vis: 'graph', rows: ['DISCOVER', 'EXPLORE', 'ENGAGE', 'CONVERT', 'RETAIN'] },
       { n: '02', title: 'ROUTE MAPS', sub: 'PATHS & TOUCHPOINTS', vis: 'graph', rows: ['AWARENESS', 'CONSIDERATION', 'EXPERIENCE', 'CONVERSIONS', 'LOYALTY'] },
-      { n: '03', title: 'EXPERIENCE STATES', sub: 'SCREENS & INTERACTIONS', vis: 'phones', rows: ['IDLE', 'FOCUS', 'ENGAGED', 'ACCESS', 'ERROR'] },
+      { n: '03', title: 'EXPERIENCE STATES', sub: 'SCREENS & INTERACTIONS', vis: 'devices', devices: ['mobile', 'tablet', 'desktop'], rows: ['IDLE', 'FOCUS', 'ENGAGED', 'ACCESS', 'ERROR'] },
       { n: '04', title: 'EXPERIENCE FLOWS', sub: 'SYSTEMS & LOGIC', vis: 'graph' },
       { n: '05', title: 'MOMENTS', sub: 'KEY SCENARIOS', vis: 'list', items: ['DISCOVERY', 'ONBOARDING', 'CORE FLOW', 'ADVOCACY'] },
     ],
@@ -105,11 +110,11 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     list: ['MOBILE', 'TABLET', 'DESKTOP', 'APPS', 'ENVIRONMENTS'],
     intro: ['SYSTEMS', 'UI FAMILIES', 'DEVICE EXPRESSIONS', 'PLATFORM OUTPUTS'],
     panels: [
-      { n: '01', title: 'MOBILE SURFACES', sub: 'APPS & MOBILE EXPERIENCES', vis: 'phones', rows: ['IOS', 'ANDROID', 'RESPONSIVE', 'COMPONENTS', 'UI KITS'] },
-      { n: '02', title: 'TABLET SURFACES', sub: 'IMMERSIVE & PRODUCTIVITY', vis: 'phones', rows: ['IPADOS', 'ANDROID TABLET', 'SPLIT VIEWS', 'PEN & TOUCH', 'CONTENT SYSTEMS'] },
-      { n: '03', title: 'DESKTOP SURFACES', sub: 'SUITES & WORKPLATFORMS', vis: 'grid', items: ['WINDOWS', 'MACOS', 'WEB'], rows: ['WINDOWS', 'MACOS', 'WEB APPS', 'PRODUCTIVITY', 'ENTERPRISE'] },
-      { n: '04', title: 'APP SURFACES', sub: 'PLATFORMS & EXPERIENCES', vis: 'grid', items: ['HYBRID', 'NATIVE'], rows: ['NATIVE APPS', 'HYBRID APPS', 'FEATURE SETS', 'UI COMPONENTS', 'STORE OUTPUTS'] },
-      { n: '05', title: 'ENVIRONMENT SURFACES', sub: 'SPACES & SPECIALIZED', vis: 'plates', plates: [X.environments!, X.zones!], rows: ['PHYSICAL SPACES', 'LARGE DISPLAYS', 'KIOSK SYSTEMS', 'VEHICLE UI', 'XR/AR SURFACES'] },
+      { n: '01', title: 'MOBILE SURFACES', sub: 'APPS & MOBILE EXPERIENCES', vis: 'devices', devices: ['mobile'], rows: ['IOS', 'ANDROID', 'RESPONSIVE', 'COMPONENTS', 'UI KITS'] },
+      { n: '02', title: 'TABLET SURFACES', sub: 'IMMERSIVE & PRODUCTIVITY', vis: 'devices', devices: ['tablet'], rows: ['IPADOS', 'ANDROID TABLET', 'SPLIT VIEWS', 'PEN & TOUCH', 'CONTENT SYSTEMS'] },
+      { n: '03', title: 'DESKTOP SURFACES', sub: 'SUITES & WORKPLATFORMS', vis: 'devices', devices: ['desktop'], rows: ['WINDOWS', 'MACOS', 'WEB APPS', 'PRODUCTIVITY', 'ENTERPRISE'] },
+      { n: '04', title: 'APP SURFACES', sub: 'PLATFORMS & EXPERIENCES', vis: 'icons', icons: ['object-ui-frame', 'object-stack-layers', 'object-cloud'], rows: ['NATIVE APPS', 'HYBRID APPS', 'FEATURE SETS', 'UI COMPONENTS', 'STORE OUTPUTS'] },
+      { n: '05', title: 'ENVIRONMENT SURFACES', sub: 'SPACES & SPECIALIZED', vis: 'plates', plates: [DESIGN_PLATES.crop03, DESIGN_PLATES.crop04], rows: ['PHYSICAL SPACES', 'LARGE DISPLAYS', 'KIOSK SYSTEMS', 'VEHICLE UI', 'XR/AR SURFACES'] },
     ],
     edgeLeft: 'FROM SYSTEMS TO EXPERIENCES',
     edgeRight: 'SURFACES ACROSS DEVICES / WORLDS IN MOTION',
@@ -123,7 +128,7 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     table: [
       { title: 'MOBILE EXPRESSION', sub: 'MOBILE SURFACES', cta: 'REVIEW', plate: D.family! },
       { title: 'TABLET AUTHORITY', sub: 'TABLET SURFACES', cta: 'CHOOSE', plate: D.interactions! },
-      { title: 'DESKTOP SURFACES', sub: 'DESKTOP SUITE', cta: 'APPROVE', plate: D.work! },
+      { title: 'DESKTOP SURFACES', sub: 'DESKTOP SUITE', cta: 'APPROVE', plate: DESIGN_PLATES.crop01 },
     ],
   },
   compiler: {
@@ -137,7 +142,7 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
       { n: '01', title: 'CONCEPT TERRITORIES', sub: 'WORLDS & DIRECTIONS', vis: 'plates', plates: [D.work!, D.history!, D.framework!, D.assets!], rows: ['01 CORE', '02 EXPAND', '03 ALTERNATE'] },
       { n: '02', title: 'EXPERIENCE GRAPH', sub: 'JOURNEYS & CONNECTIONS', vis: 'graph', rows: ['TOUCHPOINTS', 'USER FLOWS', 'SYSTEM LINKS', 'DATA LAYERS', 'EXPERIENCE NODES'] },
       { n: '03', title: 'PROJECT INTELLIGENCE', sub: 'DATA / INSIGHTS / SIGNALS', vis: 'globe', items: ['USAGE SIGNALS', 'RISK ANALYSIS'], rows: ['USAGE SIGNALS', 'BEHAVIOR TRENDS', 'OPPORTUNITIES', 'RISK ANALYSIS', 'RECOMMENDATIONS'] },
-      { n: '04', title: 'FAMILIES & EXPRESSIONS', sub: 'SYSTEMS & VARIATIONS', vis: 'frames', rows: ['CORE FAMILY', 'EXPRESSION SETS', 'VARIATIONS MAP', 'VISUAL LANGUAGE'] },
+      { n: '04', title: 'FAMILIES & EXPRESSIONS', sub: 'SYSTEMS & VARIATIONS', vis: 'devices', devices: ['desktop', 'tablet', 'mobile'], rows: ['CORE FAMILY', 'EXPRESSION SETS', 'VARIATIONS MAP', 'VISUAL LANGUAGE'] },
       { n: '05', title: 'AUTHORITY BRIEF', sub: 'GUIDELINES & DEPLOYMENT', vis: 'list', items: ['BRIEF', 'GUIDELINES', 'HANDOFF'], rows: ['STANDARDS', 'DEPLOYMENT', 'GOVERNANCE', 'APPROVAL FLOW', 'DISTRIBUTION'] },
     ],
     edgeLeft: 'FROM CONCEPT TO WORLDS',
@@ -164,10 +169,10 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     intro: ['A UNIFIED', 'ASSET LIBRARY', 'FROM', 'CONCEPTS', 'TO INTERFACES'],
     panels: [
       { n: '01', title: 'VISUAL AUTHORITIES', sub: 'STYLES & REFERENCES', vis: 'plates', plates: [D.work!, D.framework!, D.history!, D.assets!], rows: ['MOOD', 'STYLE', 'COLOR', 'LIGHTING', 'COMPOSITION'] },
-      { n: '02', title: 'ICON FAMILIES', sub: 'SYSTEMS & LIBRARIES', vis: 'grid', items: ['CORE', 'UI', 'SYSTEM'], rows: ['CORE', 'UI', 'SYSTEM', 'MEDIA', 'NAVIGATION'] },
-      { n: '03', title: 'ENVIRONMENT PLATES', sub: 'WORLDS & LOCATIONS', vis: 'plates', plates: [X.environments!, X.world!], rows: ['WORLDS', 'LOCATIONS', 'SKYBOXES', 'PLATES', 'VARIATIONS'] },
+      { n: '02', title: 'ICON FAMILIES', sub: 'SYSTEMS & LIBRARIES', vis: 'icons', icons: ['nav-hub', 'nav-work', 'nav-library', 'object-cube-system', 'object-network', 'object-route-map'], rows: ['CORE', 'UI', 'SYSTEM', 'MEDIA', 'NAVIGATION'] },
+      { n: '03', title: 'ENVIRONMENT PLATES', sub: 'WORLDS & LOCATIONS', vis: 'plates', plates: [DESIGN_PLATES.crop01, DESIGN_PLATES.crop02, DESIGN_PLATES.crop03, DESIGN_PLATES.crop04], rows: ['WORLDS', 'LOCATIONS', 'SKYBOXES', 'PLATES', 'VARIATIONS'] },
       { n: '04', title: 'MATERIALS & COMPONENTS', sub: 'SURFACES & BUILDING BLOCKS', vis: 'swatches', rows: ['MATERIALS', 'TEXTURES', 'COMPONENTS', 'MODULAR', 'PARAMETRIC'] },
-      { n: '05', title: 'TEMPLATES', sub: 'SYSTEMS & DELIVERABLES', vis: 'phones', rows: ['UI TEMPLATES', 'SCENES', 'PRESENTATIONS', 'EXPORTS', 'GUIDELINES'] },
+      { n: '05', title: 'TEMPLATES', sub: 'SYSTEMS & DELIVERABLES', vis: 'devices', devices: ['desktop', 'tablet', 'mobile'], rows: ['UI TEMPLATES', 'SCENES', 'PRESENTATIONS', 'EXPORTS', 'GUIDELINES'] },
     ],
     edgeLeft: 'FROM SOURCES TO LIBRARY',
     edgeRight: 'ASSETS ACROSS WORLDS',
@@ -180,8 +185,8 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     ],
     table: [
       { title: 'ICON FAMILY REVIEW', sub: 'ICON FAMILIES', cta: 'REVIEW', plate: D.assets! },
-      { title: 'ENVIRONMENT PLATES', sub: 'WORLDS & LOCATIONS', cta: 'CHOOSE', plate: X.environments! },
-      { title: 'COMPONENT ASSETS', sub: 'MATERIALS & COMPONENTS', cta: 'APPROVE', plate: D.framework! },
+      { title: 'ENVIRONMENT PLATES', sub: 'WORLDS & LOCATIONS', cta: 'CHOOSE', plate: DESIGN_PLATES.mainAtrium },
+      { title: 'COMPONENT ASSETS', sub: 'MATERIALS & COMPONENTS', cta: 'APPROVE', plate: DESIGN_SWATCHES[5]!.src },
     ],
   },
   viewport: {
@@ -211,11 +216,18 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
   },
 };
 
+/**
+ * Canonical pack assets always win (ASSET-AUTHORITY-CONVERGENCE.OPUS3). The loops below used to overwrite every
+ * panel plate and every table plate with generated board art after the config was declared, which is why supplied
+ * pack files never reached the screen. They now only replace legacy row imagery, and never a design-pack file.
+ */
+export const isDesignPackAsset = (u: string | undefined) => !!u && u.includes('/design-pack/');
+const PACK_VIS = new Set(['icons', 'devices', 'swatches']);
 for (const cfg of Object.values(DESIGN_CHAMBER)) {
   const art = AUTHORITY_ASSETS.boards[cfg.mode];
   for (const panel of cfg.panels) {
-    panel.art = art;
-    if (panel.plates?.length) panel.plates = panel.plates.map(() => art);
+    if (!PACK_VIS.has(panel.vis)) panel.art = art;
+    if (panel.plates?.length) panel.plates = panel.plates.map((u) => (isDesignPackAsset(u) ? u : art));
   }
 }
 
@@ -234,6 +246,6 @@ const TABLE_ART: Record<ProductionDesignMode, string[]> = {
 };
 for (const cfg of Object.values(DESIGN_CHAMBER)) {
   cfg.table.forEach((card, i) => {
-    card.plate = TABLE_ART[cfg.mode][i] ?? AUTHORITY_ASSETS.boards[cfg.mode];
+    if (!isDesignPackAsset(card.plate)) card.plate = TABLE_ART[cfg.mode][i] ?? AUTHORITY_ASSETS.boards[cfg.mode];
   });
 }
