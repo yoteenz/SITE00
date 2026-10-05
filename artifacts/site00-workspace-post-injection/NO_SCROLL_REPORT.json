@@ -1,0 +1,105 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.POST-INJECTION.LIVE-RECONCILIATION1",
+  "phase": "post-mount live measurement (no layout mutation in this sprint)",
+  "base": "http://127.0.0.1:5174",
+  "detector": "documentElement.scrollHeight - clientHeight and scrollWidth - clientWidth",
+  "tolerancePx": 2,
+  "roots": [
+    "/production"
+  ],
+  "tabs": [
+    "HUB",
+    "INBOX",
+    "DESIGN",
+    "EXPERIENCE",
+    "EXPRESSION",
+    "LIBRARY",
+    "ACTIVITY"
+  ],
+  "routes": {
+    "HUB": "/production",
+    "INBOX": "/production/queue",
+    "DESIGN": "/production/ndxbook/design",
+    "EXPERIENCE": "/production/ndxbook/experience",
+    "EXPRESSION": "/production/ndxbook/expression",
+    "LIBRARY": "/production/libraries",
+    "ACTIVITY": "/production/activity"
+  },
+  "viewports": [
+    {
+      "id": "m390",
+      "w": 390,
+      "h": 844
+    },
+    {
+      "id": "m393",
+      "w": 393,
+      "h": 852
+    },
+    {
+      "id": "m430",
+      "w": 430,
+      "h": 932
+    },
+    {
+      "id": "m390s",
+      "w": 390,
+      "h": 664
+    },
+    {
+      "id": "m360",
+      "w": 360,
+      "h": 640
+    },
+    {
+      "id": "t768",
+      "w": 768,
+      "h": 1024
+    },
+    {
+      "id": "t820",
+      "w": 820,
+      "h": 1180
+    },
+    {
+      "id": "t1024p",
+      "w": 1024,
+      "h": 1366
+    },
+    {
+      "id": "t1024l",
+      "w": 1024,
+      "h": 768
+    },
+    {
+      "id": "d1440",
+      "w": 1440,
+      "h": 900
+    },
+    {
+      "id": "d1680",
+      "w": 1680,
+      "h": 1050
+    },
+    {
+      "id": "d1920",
+      "w": 1920,
+      "h": 1080
+    },
+    {
+      "id": "d1440s",
+      "w": 1440,
+      "h": 810
+    },
+    {
+      "id": "d1280",
+      "w": 1280,
+      "h": 720
+    }
+  ],
+  "measurements": 98,
+  "pageScrollViolations": [],
+  "horizontalOverflowViolations": [],
+  "internalPaneOverflowOnRoots": [],
+  "result": "PASS"
+}

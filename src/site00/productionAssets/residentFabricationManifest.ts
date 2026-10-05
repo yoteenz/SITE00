@@ -1,6 +1,6 @@
 /**
  * Studio World resident geometry fabrication — manifest + panel stage pointers (IN_REVIEW only).
- * Full-resolution outputs live under artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/ (not committed as masters).
+ * Full-resolution outputs live under artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/.
  */
 import {
   RESIDENT_GEOMETRY_FRAMES,
@@ -8,6 +8,15 @@ import {
   type ResidentFabricationProfile,
   type StudioWorldResidentId,
 } from '../../../shared/site00-studio-world/resident-fabrication/residentGeometryFrames.js';
+import {
+  GEOMETRY_COMPLETE_SLOT_TO_FRAME_ID,
+  RESIDENT_GEOMETRY_COMPLETE_PACK_ROOT,
+} from '../../../shared/site00-studio-world/resident-fabrication/residentGeometryCompletePack.js';
+import {
+  buildMasterGeometryCompleteManifest,
+  geometryCompletePublicPath,
+  type ResidentGeometryAssetRecord,
+} from '../../../shared/site00-studio-world/resident-fabrication/residentGeometryCompleteRegistry.js';
 
 export type FabricationApprovalStatus =
   | 'IN_REVIEW'
@@ -64,7 +73,7 @@ export const RESIDENT_FABRICATION_OPENART_PROJECT_ID = 'Q7IHYCEK3RPn2c1ConEG';
 /** RECOVERY4: geometry batch halted until founder confirms recovered white-tee/red-collar authorities. */
 export { listFabricationSourceAuthorities, FABRICATION_BATCH_STATUS } from '../../../shared/site00-studio-world/resident-fabrication/fabricationSourceAuthority.js';
 
-export const RESIDENT_FABRICATION_PACK_ROOT = 'artifacts/STUDIO_WORLD_RESIDENT_FABRICATION';
+export const RESIDENT_FABRICATION_PACK_ROOT = RESIDENT_GEOMETRY_COMPLETE_PACK_ROOT;
 
 export function fabricationAssetId(residentId: StudioWorldResidentId, frameNumber: number): string {
   const slug = residentId.toLowerCase();
@@ -138,8 +147,61 @@ export function buildResidentStagePointers(
   };
 }
 
+function geometryAssetToFrameRecord(asset: ResidentGeometryAssetRecord): ResidentFabricationFrameRecord {
+  const frameId = GEOMETRY_COMPLETE_SLOT_TO_FRAME_ID[asset.slot as keyof typeof GEOMETRY_COMPLETE_SLOT_TO_FRAME_ID];
+  const frame = RESIDENT_GEOMETRY_FRAMES.find((f) => f.frameId === frameId);
+  const frameNumber = frame?.frameNumber ?? 0;
+  return {
+    resident_id: asset.resident_id,
+    resident_name: asset.resident_name,
+    frame_number: frameNumber,
+    frame_type: asset.frame_type,
+    camera_angle: asset.camera_angle,
+    body_angle: asset.body_angle,
+    pose: asset.pose,
+    expression: frame?.expression ?? 'neutral',
+    wardrobe_state: 'baseline_controlled',
+    identity_source: asset.portrait_source_id,
+    identity_source_quality: 'LITE_ONLY',
+    openart_generation_id: asset.openart_generation_id,
+    openart_output_url: asset.sha256 ? `/${asset.output_path.replace(/^public\//, '')}` : null,
+    generation_model: 'gpt-image-2-5-sunburst',
+    generation_settings: {
+      mode: 'image2image',
+      quality: 'high',
+      resolutionTier: '2k',
+      autoEnhancePrompt: false,
+      projectId: RESIDENT_FABRICATION_OPENART_PROJECT_ID,
+    },
+    approval_status: asset.approval_status === 'NOT_GENERATED' ? 'NOT_GENERATED' : asset.approval_status,
+    identity_confidence: asset.identity_confidence,
+    continuity_notes: `${asset.slot} uniform=${asset.uniform_status}`,
+    retry_count: asset.retry_count,
+    created_at: asset.created_at,
+    relative_path: asset.output_path,
+    fabrication_asset_id: asset.fabrication_asset_id,
+  };
+}
+
 export function buildInitialResidentFabricationManifest(): ResidentFabricationFrameRecord[] {
-  return STUDIO_WORLD_RESIDENT_FABRICATION_PROFILES.flatMap((p) => buildEmptyResidentFabricationManifest(p));
+  const master = buildMasterGeometryCompleteManifest();
+  const fromComplete = master.residents.flatMap((r) => r.assets.map(geometryAssetToFrameRecord));
+  const anchors = STUDIO_WORLD_RESIDENT_FABRICATION_PROFILES.flatMap((p) => {
+    const portrait = RESIDENT_GEOMETRY_FRAMES.find((f) => f.frameId === '01_FRONT_PORTRAIT')!;
+    const fullFront = RESIDENT_GEOMETRY_FRAMES.find((f) => f.frameId === '07_FULL_FRONT')!;
+    return [portrait, fullFront].map((f) => {
+      const base = buildEmptyResidentFabricationManifest(p).find((x) => x.frame_number === f.frameNumber)!;
+      return {
+        ...base,
+        approval_status: 'APPROVED' as FabricationApprovalStatus,
+        relative_path:
+          f.frameId === '01_FRONT_PORTRAIT'
+            ? geometryCompletePublicPath(p.folderName, '00_APPROVED_PORTRAIT_FRONT')
+            : geometryCompletePublicPath(p.folderName, '00_APPROVED_FULL_BODY_FRONT'),
+      };
+    });
+  });
+  return [...anchors, ...fromComplete];
 }
 
 export function buildCastingPanelResidentGeometryMap(): Record<

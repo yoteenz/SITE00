@@ -94,6 +94,16 @@
   inset: 0;
   background: var(--hero-desktop) center 42% / cover no-repeat;
 }
+.pxa .hubx-hero__core {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 6%;
+  width: min(22%, 180px);
+  height: auto;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
 .pxa .hubx-hero::after {
   /* soft floor fade into the status strip, as in the authority */
   content: '';

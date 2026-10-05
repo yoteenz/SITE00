@@ -47,6 +47,17 @@ export type FabricationSurface =
 
 /* ── Actor / Character (separate entities) ─────────────────────────────────── */
 
+export type FabricationSubjectSnapshot = {
+  residentId: string | null;
+  actorId: string;
+  catalogueNumber: string;
+  displayName: string;
+  portraitUrl: string | null;
+  fullBodyUrl: string | null;
+  portraitSlotId: string;
+  confirmedAt: string | null;
+};
+
 export type ActorRecord = {
   actorId: string;
   catalogueNumber: string;
@@ -284,6 +295,8 @@ export type FabricationState = {
   actorSort: 'RECENT' | 'NUMBER';
   actorLayout: 'GRID' | 'LIST';
   actorFilter: 'ALL' | 'AVAILABLE' | 'IN_PRODUCTION';
+  /** Confirmed resident/actor media authority (set on CONFIRM_ACTOR). */
+  fabricationSubject: FabricationSubjectSnapshot | null;
   // 02 body
   bodyVersions: readonly BodyVersion[];
   selectedBodyVersionId: string;

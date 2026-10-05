@@ -1,0 +1,228 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.POST-INJECTION.LIVE-RECONCILIATION1",
+  "tunnelBranchBefore": "cursor/studio-world-resident-geometry-complete-production-injection1",
+  "tunnelShaBefore": "ee50baaaef39479d12d168ab651f68fba2336297",
+  "workingBranch": "cursor/production-post-injection-live-reconciliation1",
+  "rootsCaptured": "7/7",
+  "childDetailCaptures": "mobile, tablet, and desktop for root plus one child, and a detail where the tab has one",
+  "tabs": [
+    {
+      "tab": "HUB",
+      "classification": "NEAR_MATCH",
+      "notes": "Atrium master and NDX core are mounted in the world panel. Component row stays the small authority glyphs. No page scroll.",
+      "captures": {
+        "mobile": {
+          "root": "captures/mobile/hub-root.png",
+          "child": "captures/mobile/hub-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "tablet": {
+          "root": "captures/tablet/hub-root.png",
+          "child": "captures/tablet/hub-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "desktop": {
+          "root": "captures/desktop/hub-root.png",
+          "child": "captures/desktop/hub-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        }
+      }
+    },
+    {
+      "tab": "INBOX",
+      "classification": "NEAR_MATCH",
+      "notes": "Needs You card is media-primary. Desktop/tablet grandchildren and temporary sheets have no recovered image authority.",
+      "captures": {
+        "mobile": {
+          "root": "captures/mobile/inbox-root.png",
+          "child": "captures/mobile/inbox-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "tablet": {
+          "root": "captures/tablet/inbox-root.png",
+          "child": "captures/tablet/inbox-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "desktop": {
+          "root": "captures/desktop/inbox-root.png",
+          "child": "captures/desktop/inbox-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        }
+      }
+    },
+    {
+      "tab": "DESIGN",
+      "classification": "MEDIA_TOO_SMALL",
+      "notes": "Chamber plate is primary. Five pipeline stage objects render at 56px desktop / 50px tablet / 36px phone / 26px short phone from 76px sources. Upsizing is blocked (zero page slack).",
+      "captures": {
+        "mobile": {
+          "root": "captures/mobile/design-root.png",
+          "child": "captures/mobile/design-child.png",
+          "detail": "captures/mobile/design-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "tablet": {
+          "root": "captures/tablet/design-root.png",
+          "child": "captures/tablet/design-child.png",
+          "detail": "captures/tablet/design-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "desktop": {
+          "root": "captures/desktop/design-root.png",
+          "child": "captures/desktop/design-child.png",
+          "detail": "captures/desktop/design-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        }
+      }
+    },
+    {
+      "tab": "EXPERIENCE",
+      "classification": "AUTHORITY_CONFLICT",
+      "notes": "Root keeps the frozen world hero (U-07). World overview child mounts the sphere plate. Destination rows without record images stay placeholder stripes.",
+      "captures": {
+        "mobile": {
+          "root": "captures/mobile/experience-root.png",
+          "child": "captures/mobile/experience-child.png",
+          "detail": "captures/mobile/experience-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "tablet": {
+          "root": "captures/tablet/experience-root.png",
+          "child": "captures/tablet/experience-child.png",
+          "detail": "captures/tablet/experience-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "desktop": {
+          "root": "captures/desktop/experience-root.png",
+          "child": "captures/desktop/experience-child.png",
+          "detail": "captures/desktop/experience-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        }
+      }
+    },
+    {
+      "tab": "EXPRESSION",
+      "classification": "NEAR_MATCH",
+      "notes": "Production floor master is mounted. Floor tiles carry media. Travel-row frames stay the authority strip proportion (U-16). Character Fabrication has mobile authority only.",
+      "captures": {
+        "mobile": {
+          "root": "captures/mobile/expression-root.png",
+          "child": "captures/mobile/expression-child.png",
+          "detail": "captures/mobile/expression-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "tablet": {
+          "root": "captures/tablet/expression-root.png",
+          "child": "captures/tablet/expression-child.png",
+          "detail": "captures/tablet/expression-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "desktop": {
+          "root": "captures/desktop/expression-root.png",
+          "child": "captures/desktop/expression-child.png",
+          "detail": "captures/desktop/expression-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        }
+      }
+    },
+    {
+      "tab": "LIBRARY",
+      "classification": "AUTHORITY_CONFLICT",
+      "notes": "Live root is the EL authorities composition (U-08 still conflicting). Featured record is the mounted atrium master, media-primary. T12 canon-vault landing is not applied.",
+      "captures": {
+        "mobile": {
+          "root": "captures/mobile/library-root.png",
+          "child": "captures/mobile/library-child.png",
+          "detail": "captures/mobile/library-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "tablet": {
+          "root": "captures/tablet/library-root.png",
+          "child": "captures/tablet/library-child.png",
+          "detail": "captures/tablet/library-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "desktop": {
+          "root": "captures/desktop/library-root.png",
+          "child": "captures/desktop/library-child.png",
+          "detail": "captures/desktop/library-detail.png",
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        }
+      }
+    },
+    {
+      "tab": "ACTIVITY",
+      "classification": "TEXT_ONLY_WHERE_MEDIA_EXPECTED",
+      "notes": "Timeline and event inspector are text. No approved inspector media authority was found. Left text-only.",
+      "captures": {
+        "mobile": {
+          "root": "captures/mobile/activity-root.png",
+          "child": "captures/mobile/activity-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "tablet": {
+          "root": "captures/tablet/activity-root.png",
+          "child": "captures/tablet/activity-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        },
+        "desktop": {
+          "root": "captures/desktop/activity-root.png",
+          "child": "captures/desktop/activity-child.png",
+          "detail": null,
+          "rootHasFrame": true,
+          "rootScrollY": 0,
+          "rootOverflowX": 0
+        }
+      }
+    }
+  ],
+  "fullMatrix": "/opt/cursor/artifacts/site00-workspace-post-injection/before/"
+}

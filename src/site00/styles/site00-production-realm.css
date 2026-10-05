@@ -1992,3 +1992,449 @@
     display: none;
   }
 }
+
+/* ═══ LIBRARY · CHARACTERS — media hierarchy (detail / browse) ═════════════════════════════════════ */
+.pxa .lbf-cats__list {
+  display: contents;
+}
+.pxa .lbf--char-focus .lbf-cats {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 4px;
+  max-height: 42px;
+  padding: 4px 6px;
+  overflow: hidden;
+}
+.pxa .lbf--char-focus .lbf-cats__head {
+  display: none;
+}
+.pxa .lbf--char-focus .lbf-cats__list {
+  display: flex;
+  flex: 1;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+.pxa .lbf--char-focus .lbf-cats__list::-webkit-scrollbar {
+  display: none;
+}
+.pxa .lbf--char-focus .lbf-cats a {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  font-size: calc(var(--rk-f-meta) - 1px);
+  letter-spacing: 0.06em;
+}
+.pxa .lbf--char-focus .lbf-cats a .iax-ic {
+  width: 14px;
+  height: 14px;
+}
+.pxa .lbf--char-focus .lbf-life a {
+  padding: 5px 2px;
+  font-size: calc(var(--rk-f-meta) - 0.5px);
+}
+.pxa .lbf-head--compact h1 {
+  font-size: 20px;
+}
+.pxa .lbf-head--compact p {
+  font-size: calc(var(--rk-f-meta) - 0.5px);
+  letter-spacing: 0.08em;
+}
+.pxa .lbf-views--rail {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.pxa .lbf-views--rail::-webkit-scrollbar {
+  display: none;
+}
+.pxa .lbf-views--rail a {
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  font-size: calc(var(--rk-f-meta) - 0.5px);
+}
+.pxa .lbf-body--char-detail {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  grid-template-rows: minmax(0, 1fr) auto minmax(0, 0.85fr);
+  grid-template-areas: 'media identity' 'tabs tabs' 'panel panel';
+}
+.pxa .lbf-char-media {
+  grid-area: media;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 6px;
+  min-height: 0;
+  overflow: hidden;
+}
+.pxa .lbf-char-media__hit {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111;
+  cursor: zoom-in;
+}
+.pxa .lbf-char-media__img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+.pxa .lbf-char-media__img img {
+  object-fit: cover;
+  object-position: center 22%;
+}
+.pxa .lbf-char-media__hint {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  font-size: calc(var(--rk-f-meta) - 1px);
+  letter-spacing: 0.12em;
+  color: #fff;
+  pointer-events: none;
+}
+.pxa .lbf-char-media__modes {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pxa .lbf-char-media__modes button {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border: 1px solid var(--rk-line);
+  border-radius: 999px;
+  background: var(--rk-card);
+  font: inherit;
+  font-size: calc(var(--rk-f-meta) - 0.5px);
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.pxa .lbf-char-media__modes button.is-active {
+  border-color: var(--rk-red);
+  color: var(--rk-red);
+}
+.pxa .lbf-char-identity {
+  grid-area: identity;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--rk-card);
+  box-shadow: 0 0 0 1px rgba(20, 20, 26, 0.05);
+  overflow: hidden;
+}
+.pxa .lbf-char-identity__title h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.pxa .lbf-char-identity__title small {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--rk-f-meta);
+  letter-spacing: 0.1em;
+  color: var(--rk-mute);
+}
+.pxa .lbf-char-identity__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.pxa .lbf-body--char-detail .lbf-dtabs {
+  grid-area: tabs;
+}
+.pxa .lbf-body--char-detail .lbf-d-details,
+.pxa .lbf-body--char-detail .lbf-d-related,
+.pxa .lbf-body--char-detail .lbf-d-lineage {
+  grid-area: panel;
+}
+.pxa .lbf-body--char-detail:not([data-tab='DETAILS']) .lbf-d-details,
+.pxa .lbf-body--char-detail:not([data-tab='RELATED']) .lbf-d-related,
+.pxa .lbf-body--char-detail:not([data-tab='LINEAGE']) .lbf-d-lineage {
+  display: none;
+}
+.pxa .lbf--char-browse .rk-tile__media,
+.pxa .lbf--char-browse .lbf-insp__media,
+.pxa .lbf--char-browse .lbf-feature__media {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  max-height: none;
+}
+.pxa .lbf--char-browse .lbf-insp__media {
+  max-height: none;
+}
+.pxa .rk-rail--char .rk-tile__media {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  min-height: 72px;
+}
+.pxa .rk-tile--split {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+  border: 1px solid var(--rk-line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--rk-card);
+}
+.pxa .rk-tile__media-hit {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.pxa .rk-tile--split .rk-tile__cap {
+  display: grid;
+  gap: 2px;
+  padding: 6px 8px;
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .lbf-char-inspect {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+.pxa .lbf-char-inspect__scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(8, 8, 12, 0.72);
+  cursor: pointer;
+}
+.pxa .lbf-char-inspect__panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(960px, 100%);
+  max-height: min(92vh, 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f0f12;
+  color: #fff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+.pxa .lbf-char-inspect__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pxa .lbf-char-inspect__head small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.65);
+}
+.pxa .lbf-char-inspect__head b {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+.pxa .lbf-char-inspect__x {
+  border: 0;
+  background: none;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pxa .lbf-char-inspect__figure {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  margin: 0;
+  padding: 8px;
+}
+.pxa .lbf-char-inspect__figure img {
+  max-width: 100%;
+  max-height: min(72vh, 820px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.pxa .lbf-char-inspect__figure figcaption {
+  margin: 6px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+}
+.pxa .lbf-char-inspect__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 12px 12px;
+}
+.pxa .lbf-char-inspect__foot button {
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.pxa .lbf-char-inspect__foot button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+@media (max-width: 699px) {
+  .pxa .lbf-body--char-detail {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1.65fr) auto auto minmax(0, 1fr);
+    grid-template-areas: 'media' 'identity' 'tabs' 'panel';
+  }
+  .pxa .lbf-char-media__hit {
+    min-height: 0;
+  }
+  .pxa .lbf-char-identity__actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pxa .lbf-body--char-detail .lbf-dtabs {
+    display: grid;
+  }
+}
+@media (min-width: 700px) {
+  .pxa .lbf-body--char-detail {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 0.72fr) minmax(0, 0.52fr);
+    grid-template-areas: 'media identity' 'details related' 'lineage lineage';
+  }
+  .pxa .lbf-body--char-detail .lbf-dtabs {
+    display: none;
+  }
+  .pxa .lbf-body--char-detail .lbf-d-details {
+    grid-area: details;
+    display: flex !important;
+  }
+  .pxa .lbf-body--char-detail .lbf-d-related {
+    grid-area: related;
+    display: flex !important;
+  }
+  .pxa .lbf-body--char-detail .lbf-d-lineage {
+    grid-area: lineage;
+    display: flex !important;
+  }
+  .pxa .lbf-body--char-detail:not([data-tab='DETAILS']) .lbf-d-details,
+  .pxa .lbf-body--char-detail:not([data-tab='RELATED']) .lbf-d-related,
+  .pxa .lbf-body--char-detail:not([data-tab='LINEAGE']) .lbf-d-lineage {
+    display: flex !important;
+  }
+}
+
+/* ═══ LIBRARY · CHARACTER DETAIL — portrait leads (OPUS2 forensic refinement) ═════════════════════
+ * The resident portrait (960×1200) was cropped into a 94px band on phones and a ~180px band on tablet because
+ * the identity block (auto height) and the panels took the rows first. Now the portrait owns a tall column and
+ * the identity sits beside it (scrolling inside its own pane when long); panels share what is left. */
+/* .lbf-char-identity scrolls as an .rk-scroll pane (LibraryScreen) — the only declared vertical scroller */
+@media (max-width: 699px) {
+  .pxa .lbf-body--char-detail {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 0.62fr);
+    grid-template-areas: 'media identity' 'tabs tabs' 'panel panel';
+  }
+  .pxa .lbf-char-identity {
+    gap: 6px;
+    padding: 8px;
+  }
+  .pxa .lbf-char-identity__title h2 {
+    font-size: 15px;
+  }
+  .pxa .lbf-char-identity .rk-kv--2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (min-width: 700px) {
+  .pxa .lbf-body--char-detail {
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 0.7fr) minmax(0, 0.92fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 0.62fr);
+    grid-template-areas: 'media identity related' 'media details lineage';
+  }
+}
+
+/* ═══ LIBRARY · detail hero + inspector media (OPUS2) — the hero / inspector image is the subject, not a band ═══
+ * Before: detail hero 1000×87 on tablet (row 0.8fr vs panels 1.8fr), 16:9 inspector image capped at 32%
+ * (419×120). Now the hero row leads and the inspector image takes up to ~half of its pane. */
+.pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+  grid-template-rows: minmax(150px, 1.25fr) auto minmax(0, 1fr) minmax(0, 0.62fr);
+}
+.pxa .lbf-insp__media {
+  max-height: 48%;
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-rows: minmax(150px, 1.3fr) auto minmax(0, 1fr) minmax(0, 0.6fr);
+  }
+}
+@media (max-width: 699px) {
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-rows: minmax(118px, 1fr) auto auto minmax(0, 1fr);
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-rows: minmax(140px, 1fr) auto minmax(0, 1.15fr) minmax(0, 0.5fr);
+  }
+}
+/* character browse: the 3:4 portrait keeps its lead but leaves the inspector / featured copy in view */
+.pxa .lbf--char-browse .lbf-insp__media {
+  max-height: 56%;
+}
+@media (min-width: 700px) {
+  /* featured portrait fills its column (cover, face kept by object-position) — no 3:4 overflow, no band */
+  .pxa .lbf--char-browse .lbf-feature__media {
+    aspect-ratio: auto;
+    height: 100%;
+    max-height: none;
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-rows: minmax(130px, 0.95fr) auto minmax(0, 1fr) minmax(104px, 0.55fr);
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  /* tablet: the hero sits beside the summary (image keeps real height instead of a full-width band) */
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1.2fr) minmax(0, 1fr) minmax(104px, 0.55fr);
+    grid-template-areas: 'hero summary' 'details related' 'lineage lineage';
+  }
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) .lbf-summary {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-content: start;
+    min-height: 0;
+  }
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) .lbf-summary > :first-child,
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) .lbf-summary__actions {
+    grid-column: 1 / -1;
+  }
+}

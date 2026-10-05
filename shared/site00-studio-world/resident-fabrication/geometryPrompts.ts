@@ -1,12 +1,42 @@
 import type { ResidentFabricationProfile } from './residentGeometryFrames.js';
 import type { ResidentGeometryFrameSpec } from './residentGeometryFrames.js';
+import type { ResidentOutfitSystem } from './residentGeometryCompletePack.js';
 
 const IDENTITY_LOCK = `
-REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.
-Only change: camera angle, body angle, pose, framing, and expression exactly as specified.
+REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial structure, age, skin tone, ethnicity, eye shape, nose, lips, jaw, hairline, hairstyle, hair color, body type, body proportions, resident identity.
+Only change: camera angle, head angle, body angle, pose, framing, and expression exactly as specified.
 Do not reinterpret. Do not beautify into a different person. Do not stylize identity away.
 Character fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.
 `.trim();
+
+export function uniformLockForOutfit(outfit: ResidentOutfitSystem): string {
+  const women =
+    'WOMEN UNIFORM LOCK: white fitted short-sleeve top with red collar trim; white leggings with red trim; white/red trim toe shoes (NOT sneakers, NOT solid red shoes).';
+  const men =
+    'MEN UNIFORM LOCK: white fitted short-sleeve top with red collar trim; white compression shorts with red trim; white/red trim toe shoes (NOT leggings, NOT sneakers).';
+  return outfit === 'WOMEN_LEGGINGS' ? women : men;
+}
+
+export function buildGeometryCompletePrompt(
+  profile: ResidentFabricationProfile,
+  frame: ResidentGeometryFrameSpec,
+  outfit: ResidentOutfitSystem,
+  sourceRole: 'PORTRAIT_ONLY' | 'PORTRAIT_AND_UNIFORM_BODY',
+): string {
+  const roleLine =
+    sourceRole === 'PORTRAIT_ONLY'
+      ? 'Use approved portrait authority for FACE, HAIR, and identity. Single reference controls identity.'
+      : 'Use approved portrait authority for FACE, HAIR, and identity. Use approved uniform full-body authority for BODY PROPORTIONS, SILHOUETTE, UNIFORM, and FOOTWEAR.';
+  return [
+    IDENTITY_LOCK,
+    uniformLockForOutfit(outfit),
+    roleLine,
+    `Subject: ${profile.displayName} (${profile.residentId}) — ${profile.roleTitle}.`,
+    'Environment: neutral Studio World fabrication bay, clean inspectable background, soft controlled lighting.',
+    framePromptBody(frame),
+    'Photorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.',
+  ].join('\n\n');
+}
 
 export function buildResidentGeometryPrompt(profile: ResidentFabricationProfile, frame: ResidentGeometryFrameSpec): string {
   const angleInstruction = framePromptBody(frame);
