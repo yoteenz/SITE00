@@ -13669,8 +13669,27 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ## 2026-10-05 — Production provider gateway + motherboard context sync (P0 gateway sync1)
 
+<<<<<<< HEAD
 - **Context:** Capability-genome / ground-zero forensics showed reference-binding precheck existed in tests and docs but was not the universal paid dispatch path — direct FAL/OpenAI/xAI calls remained. F03 plate-first failure confirmed the architectural gap. Sprint transferred ChatGPT project context into `motherboard/PROJECT_CONTEXT_2026-10-05.md` and implemented the first enforced PROVIDER_GATEWAY root engine.
 - **Why gateway exists:** Because policy implemented without runtime enforcement allowed text-to-image and plate-first generation despite locked canon; downstream agents followed the path of least resistance (direct SDK imports).
 - **Delivered:** `runProductionProviderRequest()` (spend auth → precheck → authority-first plate → dispatch → cost receipt); `validateAuthorityFirstPlatePolicy`; server spend authorization (rejects caller-only `founderConfirmedSpend`); FAL adapter `falImageViaProductionGateway.ts`; provider call inventory + bypass allowlist + CI audit test; docs under `docs/production/provider-gateway/`; CORE/CODEBASE updated; reference methodology points to gateway.
 - **Not claimed:** Full migration of all inventoried files (legacy allowlisted); unified DB cost ledger (JSONL adapter only); CI green; AIO client-ready.
 - **Conventions:** New paid generative paths MUST use `runProductionProviderRequest`; do not add unallowlisted `@fal-ai/client` imports; JURNL ENVIRONMENT_PLATE requires parent authority-first derivation; record sprint why in motherboard, not only what was implemented.
+=======
+A burst of old and draft pull requests was squash-merged onto `main` after `3b414319`, including the fixture public-redesign pack and a draft marked do not merge. Founder said those were unintentional and outdated.
+
+- **Kept:** the pre-wave `main` tree, the currency conversion from #1371, and the provider gateway files.
+- **Removed:** the squash wave (`#1275`, `#1267`, `#1277`, `#1289`, `#1290`, `#1291`, `#1331`, `#1341`, and the older public UI squashes `#4` through `#107`).
+- **Live site:** site00.com was still `index.D8Jaygrd.js` from 2026-09-28 when this revert was made. Do not upload the squash wave.
+
+---
+
+## 2026-10-05 — Restore pre-wave surgical assets after the squash undo
+
+- **Context:** The accidental squash-merge wave was taken off `main`. A follow-up restore put back `docs/site00` files from `d9b6e4ca` (PR #1275, merged before that wave). Those files were part of the pre-wave tree, not part of the squash the founder rejected.
+- **Topics covered:** Production post-injection reconciliation. Draft PRs marked ready. Unintentional squash-merge of the open set, including outdated branches and PR #1267. Undo of that wave on `main` and on the production branch stack.
+- **Decisions / outcomes:** `main` keeps currency conversion (#1371) and the provider gateway (#1372). The squash commits themselves stay reverted. Feature branches whose tips were those squash commits are reset to the commit before the squash. site00.com was still `index.D8Jaygrd.js` from 2026-09-28. Do not upload a bundle built from the squash wave.
+- **Changes:** `docs/site00` restored from `d9b6e4ca`. `.gitignore` drops the fabrication ignore lines that arrived with the squash wave and keeps `data/production-cost-receipts/`.
+- **Conventions:** Do not squash-merge a stack of old PRs unless the founder names them. Do not treat #1275 as part of that wave.
+
+>>>>>>> de4d26ca (Restore the pre-wave surgical asset pack on main.)
