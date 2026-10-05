@@ -108,6 +108,27 @@ export type FamilyAssetRequirement = {
   status: 'CANONICAL' | 'CODE_CONSTRUCTED' | 'REFERENCE_ONLY' | 'MISSING' | 'NOT_CANONICAL';
   source: string;
   notes?: string;
+  /** Mount record for a verified raster. Absent on code-constructed requirements. */
+  filePath?: string;
+  format?: string;
+  nativeWidth?: number;
+  nativeHeight?: number;
+  transparency?: boolean;
+  routes?: string[];
+  providerGenerationId?: string;
+  sourceAuthority?: string;
+  qaStatus?: string;
+  runtimeStatus?: string;
+  focal?: {
+    aspectRatio: string;
+    focalX: number;
+    focalY: number;
+    mobilePosition: string;
+    tabletPosition: string;
+    desktopPosition: string;
+    cropBehavior: string;
+    overlayBehavior: string;
+  };
 };
 
 export type FamilyIconRequirement = {

@@ -1,0 +1,92 @@
+{
+  "sprint": "P0.JURNL.F01-GROK-CANONICAL-ASSET-REGEN-INJECTION1",
+  "paidGenerationsThisSprint": 4,
+  "creditsBefore": 51630,
+  "creditsAfter": 50362,
+  "totalCreditsSpent": 1268,
+  "verified4kRateCredits": 317,
+  "rateNote": "GPT Image 2.5 Sunburst image2image, resolutionTier 4k, quality high, 9:16, autoEnhance off. Each job returned 2016x3584 and cost 317 credits. Gallery label for that file is 3K. The prior 2K baseline of 170 credits does not apply.",
+  "projectCeilingUnchanged": 60000,
+  "generations": [
+    {
+      "generation_id": "zrmnyPzh2o8hiSImFwT5",
+      "resource_id": "6SrQjAfH2rZVH7DtIaVV",
+      "family_id": "F01",
+      "asset_id": "ENTRY.ENVIRONMENT.VERIFY.001",
+      "generation_class": "ENVIRONMENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "configured_resolution_tier": "4k",
+      "gallery_label": "3K",
+      "delivered_width": 2016,
+      "delivered_height": 3584,
+      "credits_spent": 317,
+      "attempt_number": 1,
+      "result": "PASS",
+      "mounted": true,
+      "created_at": "2026-10-05"
+    },
+    {
+      "generation_id": "e8tkgJ5BhWrsKGq5XJjE",
+      "resource_id": "1KlTYE74p8MOgC1gf6pq",
+      "family_id": "F01",
+      "asset_id": "ENTRY.ENVIRONMENT.FORGOT.001",
+      "generation_class": "ENVIRONMENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "configured_resolution_tier": "4k",
+      "gallery_label": "3K",
+      "delivered_width": 2016,
+      "delivered_height": 3584,
+      "credits_spent": 317,
+      "attempt_number": 1,
+      "result": "PASS",
+      "mounted": true,
+      "created_at": "2026-10-05"
+    },
+    {
+      "generation_id": "7h17j8WkPY48zdMyjI5k",
+      "resource_id": "kf1Ic8u73iAInFxdxmzH",
+      "family_id": "F01",
+      "asset_id": "ENTRY.ENVIRONMENT.RESET_SENT.001",
+      "generation_class": "ENVIRONMENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "configured_resolution_tier": "4k",
+      "gallery_label": "3K",
+      "delivered_width": 2016,
+      "delivered_height": 3584,
+      "credits_spent": 317,
+      "attempt_number": 1,
+      "result": "PASS",
+      "mounted": true,
+      "created_at": "2026-10-05"
+    },
+    {
+      "generation_id": "mrYewK2YnNDwIXQy1iWH",
+      "resource_id": "2GAL0eVial0J8MTiSjrj",
+      "family_id": "F01",
+      "asset_id": "ENTRY.ENVIRONMENT.PRIVACY.001",
+      "generation_class": "ENVIRONMENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "configured_resolution_tier": "4k",
+      "gallery_label": "3K",
+      "delivered_width": 2016,
+      "delivered_height": 3584,
+      "credits_spent": 317,
+      "attempt_number": 1,
+      "result": "PASS",
+      "mounted": true,
+      "created_at": "2026-10-05"
+    }
+  ],
+  "reused": [
+    {
+      "asset_id": "ENTRY.ENVIRONMENT.PLATE.001",
+      "generation_id": "omTTAjRt3LgV0RB2lC5I",
+      "credits_spent_this_sprint": 0,
+      "result": "REUSED"
+    }
+  ]
+}
