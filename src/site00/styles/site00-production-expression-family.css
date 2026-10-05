@@ -307,6 +307,8 @@
   flex-shrink: 0;
 }
 .pxa .exf-panel__body > .exf-fill,
+.pxa .exf-panel__body > .exf-media-primary,
+.pxa .exf-panel__body > .exf-storyboard-stage,
 .pxa .exf-panel__body > .exf-empty,
 .pxa .exf-panel__body > .exf-curve,
 .pxa .exf-panel__body > .exf-bars,
@@ -1455,5 +1457,322 @@
   }
   .pxa .exf-tabs a {
     padding: 6px 4px 5px;
+  }
+}
+
+/* ── 7. media hierarchy (P0 EXPRESSION MEDIA ONE-VIEWPORT CONVERGENCE) ───────────────────────────── */
+.pxa .exf--media-focus .exf-hero {
+  height: 118px;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+  font-size: 24px;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy p,
+.pxa .exf--media-focus .exf-hero .pxa-hero__side {
+  display: none;
+}
+.pxa .exf--media-focus > .pxa-status--compact {
+  margin: 0 var(--exf-gut);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell {
+  padding: 4px 6px;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell b {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell small,
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell a {
+  display: none;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(3),
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(4) {
+  display: none;
+}
+@media (max-width: 699px) {
+  .pxa .exf--media-focus .exf-hero {
+    height: 86px;
+  }
+  .pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+    font-size: 16px;
+  }
+  .pxa .exf--media-focus .exf-hero__family {
+    font-size: 9px;
+  }
+  .pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(2) {
+    display: none;
+  }
+}
+
+.pxa .exf-panel--media .exf-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+}
+.pxa .exf-panel--media .exf-panel__body > .exf-media-primary,
+.pxa .exf-panel--media .exf-panel__body > .exf-fill {
+  flex: 1 1 auto;
+  min-height: 88px;
+}
+.pxa .exf-panel--media .exf-panel__body > .exf-kv,
+.pxa .exf-panel--media .exf-panel__body > .exf-tags,
+.pxa .exf-panel--media .exf-panel__body > .exf-picker,
+.pxa .exf-panel--compact .exf-panel__head {
+  flex: none;
+}
+.pxa .exf-panel--compact .exf-panel__head {
+  margin-bottom: 3px;
+}
+.pxa .exf-panel--compact .exf-panel__body {
+  gap: 3px;
+  font-size: var(--exf-fs-s);
+}
+.pxa .exf-panel--rail .exf-panel__body {
+  overflow: hidden;
+}
+
+.pxa .exf-media-primary {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: #e7e7ea;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.pxa .exf-media-primary:disabled {
+  cursor: default;
+}
+.pxa .exf-media-primary__img {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  border-radius: 6px;
+}
+.pxa .exf-media-primary--contain .exf-media-primary__img img {
+  object-fit: contain;
+  background: #0e0e12;
+}
+.pxa .exf-media-primary--cover .exf-media-primary__img img {
+  object-fit: cover;
+}
+.pxa .exf-media-primary__hint {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #fff;
+  background: rgba(8, 8, 12, 0.55);
+  pointer-events: none;
+}
+
+.pxa .exf-rail--talent {
+  grid-auto-columns: minmax(92px, 120px);
+  align-items: stretch;
+}
+.pxa .exf-rail--talent .exf-tile .exf-face,
+.pxa .exf-rail--talent .exf-tile .exf-mono {
+  aspect-ratio: 3 / 4;
+  max-height: none;
+  width: 100%;
+  height: auto;
+}
+.pxa .exf-face--portrait {
+  --exf-face: 52px;
+  width: var(--exf-face);
+  height: calc(var(--exf-face) * 1.25);
+  border-radius: 4px;
+}
+@media (max-width: 699px) {
+  .pxa .exf-face--portrait {
+    --exf-face: 40px;
+  }
+}
+.pxa .exf-record__media .exf-media-primary,
+.pxa .exf-record__media .exf-face,
+.pxa .exf-record__media .exf-mono {
+  width: 100%;
+  max-height: none;
+  min-height: 120px;
+  aspect-ratio: auto;
+  flex: 1 1 auto;
+}
+.pxa .exf-record__media {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 100px;
+  margin-bottom: 6px;
+}
+
+.pxa .exf-frames--rail {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+  scrollbar-width: thin;
+  padding-bottom: 2px;
+}
+.pxa .exf-frames--rail .exf-frame {
+  flex: 0 0 auto;
+  width: clamp(72px, 22vw, 120px);
+}
+.pxa .exf-frames--rail .exf-frame .exf-img {
+  aspect-ratio: 16 / 10;
+  height: auto;
+  min-height: 48px;
+}
+.pxa .exf-storyboard-stage {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+.pxa .exf-storyboard-stage__hero {
+  min-height: 0;
+}
+.pxa .exf-look-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  flex: none;
+}
+.pxa .exf-look-compare figure {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  min-height: 0;
+}
+.pxa .exf-look-compare figcaption {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #8a8a92;
+}
+
+.pxa .exf-inspect {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+.pxa .exf-inspect__scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(8, 8, 12, 0.72);
+  cursor: pointer;
+}
+.pxa .exf-inspect__panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(960px, 100%);
+  max-height: min(92vh, 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f0f12;
+  color: #fff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+.pxa .exf-inspect__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pxa .exf-inspect__head small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.65);
+}
+.pxa .exf-inspect__head b {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+.pxa .exf-inspect__x {
+  border: 0;
+  background: none;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pxa .exf-inspect__figure {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  margin: 0;
+  padding: 8px;
+}
+.pxa .exf-inspect__figure img {
+  max-width: 100%;
+  max-height: min(72vh, 820px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.pxa .exf-inspect__figure figcaption {
+  margin: 6px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+}
+.pxa .exf-inspect__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 12px 12px;
+}
+.pxa .exf-inspect__foot button {
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.pxa .exf-inspect__foot button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+@media (max-width: 699px) {
+  .pxa .exf-inspect {
+    padding: 0;
+  }
+  .pxa .exf-inspect__panel {
+    width: 100%;
+    max-height: 100%;
+    height: 100%;
+    border-radius: 0;
   }
 }

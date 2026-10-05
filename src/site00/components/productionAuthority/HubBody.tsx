@@ -88,7 +88,7 @@ export function AuthorityHero({
   );
 }
 
-export function LiveStatusBar({ expressionMode = false, context }: { expressionMode?: boolean; context?: { title: string; sub: string } }) {
+export function LiveStatusBar({ expressionMode = false, compact = false, context }: { expressionMode?: boolean; compact?: boolean; context?: { title: string; sub: string } }) {
   const data = useProductionAuthorityData();
   if (!data) return null;
   const { graph, attention, activity, production, scenes } = data;
@@ -96,7 +96,7 @@ export function LiveStatusBar({ expressionMode = false, context }: { expressionM
   const active = graph.activeNodeId ? graph.byId[graph.activeNodeId] : null;
   const blockers = graph.blockers.length;
   return (
-    <div className="pxa-status" data-testid="authority-status-bar">
+    <div className={`pxa-status${compact ? ' pxa-status--compact' : ''}`} data-testid="authority-status-bar" data-compact={compact ? 'true' : undefined}>
       <StatusCell tone="live">
         <Dot tone={expressionMode ? 'red' : 'green'} />
         <span>

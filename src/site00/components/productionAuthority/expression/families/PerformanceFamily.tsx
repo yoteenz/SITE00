@@ -7,7 +7,7 @@
 import { useState, type ReactNode } from 'react';
 import { pad2 } from '../../primitives';
 import { words } from '../expressionData';
-import { Actions, Btn, Chip, Empty, Grid, Img, Kv, Mono, Panel, Row } from '../ExpressionFamilyShell';
+import { Actions, Btn, Chip, Empty, Grid, Kv, MediaImg, Mono, Panel, Row } from '../ExpressionFamilyShell';
 import type { FamilyProps } from './types';
 
 const ENGINE_ROUTE = (slug: string) => `/projects/${slug}/content-operations/expression-engine`;
@@ -205,22 +205,19 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
       );
     default:
       return (
-        <Grid rows={{ d: '1fr 0.8fr', t: '1fr 1fr', m: '0.85fr 1.05fr 0.62fr' }}>
-          <Panel title="CURRENT PERFORMERS" meta={`${players.length} CHARACTERS`} to={go('casting', 'characters')} toLabel="CHARACTERS" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} testId="performance-performers">
-            {performers}
+        <Grid rows={{ d: '1.05fr 0.65fr', t: '1fr 0.75fr', m: '1.25fr 0.42fr' }}>
+          <Panel title="PERFORMANCE AUTHORITY" meta="HUB NODE" at={{ d: [5, 2], t: [6, 2], m: [6, 1] }} testId="performance-art" layout="media">
+            <MediaImg url={art} label="PERFORMANCE STILL" title="PERFORMANCE AUTHORITY" testId="performance-authority-media" />
+            {gate}
           </Panel>
-          <Panel title="PERFORMANCE BRIEF" meta={character?.characterName} at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} testId="performance-root-brief">
+          <Panel title="PERFORMANCE BRIEF" meta={character?.characterName} at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} testId="performance-root-brief" layout="compact">
             {brief}
           </Panel>
-          <Panel title="PERFORMANCE AUTHORITY" meta="HUB NODE" at={{ d: [3, 2], t: [6, 1], m: [3, 1] }} testId="performance-art" hide="m">
-            <Img url={art} label="PERFORMANCE STILL" className="exf-fill" />
-            {gate}
+          <Panel title="CURRENT PERFORMERS" meta={`${players.length} CHARACTERS`} to={go('casting', 'characters')} toLabel="CHARACTERS" at={{ d: [3, 1], t: [6, 1], m: [6, 1] }} testId="performance-performers" layout="compact">
+            {performers}
           </Panel>
-          <Panel title="SCENE LINEUP" meta={`${d.scenes.length} SCENES`} to={go('performance', 'scenes')} toLabel="SCENES" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} testId="performance-root-scenes">
+          <Panel title="SCENE LINEUP" meta={`${d.scenes.length} SCENES`} to={go('performance', 'scenes')} toLabel="SCENES" at={{ d: [3, 1], t: [6, 1], m: [6, 1] }} testId="performance-root-scenes" layout="compact">
             {sceneList}
-          </Panel>
-          <Panel title="PERFORMANCE GATE" at={{ d: [0, 0], t: [0, 0], m: [6, 1] }} hide="d t" testId="performance-gate">
-            {gate}
           </Panel>
         </Grid>
       );

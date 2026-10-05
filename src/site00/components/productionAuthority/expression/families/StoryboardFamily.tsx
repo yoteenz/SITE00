@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { frameSlotId } from '../../../../../../shared/site00-production-hub/index.js';
 import { pad2 } from '../../primitives';
 import { words } from '../expressionData';
-import { Actions, Btn, Chip, Empty, Grid, Img, Kv, Meter, Panel, Row, type Tone } from '../ExpressionFamilyShell';
+import { Actions, Btn, Chip, Empty, Grid, Img, Kv, MediaImg, Meter, Panel, Row, type Tone } from '../ExpressionFamilyShell';
 import type { FamilyProps } from './types';
 
 const ENGINE_ROUTE = (slug: string) => `/projects/${slug}/content-operations/expression-engine`;
@@ -53,9 +53,15 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
       OPEN STORYBOARD IN EXPRESSION ENGINE
     </Btn>
   );
-  const boards = (sel: number, onSel: (i: number) => void, testId = 'storyboard-boards') =>
+  const frameSlides = d.frames.map((f, i) => ({
+    url: url(i) ?? '',
+    label: `F${pad2(f.number)}`,
+    meta: url(i) ? 'RENDERED' : 'SLOT EMPTY',
+  }));
+
+  const boards = (sel: number, onSel: (i: number) => void, testId = 'storyboard-boards', rail = false) =>
     d.frames.length ?
-      <div className="exf-frames" data-testid={testId}>
+      <div className={rail ? 'exf-frames exf-frames--rail' : 'exf-frames'} data-testid={testId} data-layout={rail ? 'rail' : 'grid'}>
         {d.frames.map((f, i) => (
           <button key={f.frameId} type="button" className={`exf-frame${sel === i ? ' is-active' : ''}`} onClick={() => onSel(i)} aria-pressed={sel === i} data-testid="storyboard-frame">
             <Img url={url(i)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} />
@@ -64,6 +70,29 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
         ))}
       </div>
     : <Empty title="NO STORYBOARD FRAMES" body="FRAMES APPEAR WHEN THE STORYBOARD PIPELINE PRODUCES PANELS." />;
+
+  const boardStage = (sel: number, onSel: (i: number) => void) => {
+    const f = d.frames[sel];
+    return (
+      <div className="exf-storyboard-stage" data-testid="storyboard-stage">
+        <div className="exf-storyboard-stage__hero">
+          {f ?
+            <MediaImg
+              url={url(sel)}
+              slotId={frameSlotId(f)}
+              label={`F${pad2(f.number)} · STORYBOARD`}
+              title={`FRAME F${pad2(f.number)}`}
+              fit="contain"
+              gallery={frameSlides.filter((s) => s.url)}
+              galleryIndex={sel}
+              testId="storyboard-active-frame"
+            />
+          : <Empty title="NO FRAME SELECTED" />}
+        </div>
+        {boards(sel, onSel, 'storyboard-filmstrip', true)}
+      </div>
+    );
+  };
   const sequences = d.scenes.map((s) => (
     <Row
       key={s.sceneId}
@@ -146,25 +175,19 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
     default: {
       const f = d.frames[frame];
       return (
-        <Grid rows={{ d: '1fr 0.75fr', t: '1fr 0.8fr 0.7fr', m: '0.9fr 0.8fr 0.75fr 0.7fr' }}>
-          <Panel title="SEQUENCE NAVIGATION" meta={`${d.scenes.length} SCENES`} at={{ d: [3, 2], t: [4, 2], m: [3, 1] }} testId="storyboard-sequences">
+        <Grid rows={{ d: '1.05fr 0.55fr', t: '1.05fr 0.65fr 0.55fr', m: '0.4fr 1.5fr 0.38fr' }}>
+          <Panel title="BOARD INSPECTOR" meta={f ? `F${pad2(f.number)}` : undefined} at={{ d: [8, 2], t: [8, 2], m: [6, 1] }} testId="storyboard-inspector" layout="media">
+            {boardStage(frame, setFrame)}
+            {f ? <Kv rows={[['FRAME', `F${pad2(f.number)} OF ${d.frames.length}`], ['STATE', url(frame) ? 'RENDERED' : 'SLOT EMPTY']]} /> : null}
+          </Panel>
+          <Panel title="SEQUENCE NAVIGATION" meta={`${d.scenes.length} SCENES`} at={{ d: [4, 2], t: [4, 1], m: [6, 1] }} testId="storyboard-sequences" layout="compact">
             {sequences}
           </Panel>
-          <Panel title="STORYBOARD BOARDS" meta={`${d.frames.length} FRAMES`} to={go('storyboard', 'keyframes')} toLabel="KEYFRAMES" at={{ d: [6, 1], t: [8, 1], m: [6, 1] }} testId="storyboard-root-boards">
-            {boards(frame, setFrame)}
+          <Panel title="STORYBOARD BOARDS" meta={`${d.frames.length} FRAMES`} to={go('storyboard', 'keyframes')} toLabel="KEYFRAMES" at={{ d: [4, 1], t: [8, 1], m: [0, 0] }} hide="m" testId="storyboard-root-boards" layout="rail">
+            {boards(frame, setFrame, 'storyboard-root-boards-grid')}
           </Panel>
-          <Panel title="BOARD INSPECTOR" meta={f ? `F${pad2(f.number)}` : undefined} at={{ d: [3, 2], t: [4, 1], m: [3, 1] }} testId="storyboard-inspector">
-            {f ?
-              <>
-                <Img url={url(frame)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} className="exf-fill" />
-                <Kv rows={[['FRAME', `F${pad2(f.number)} OF ${d.frames.length}`], ['STATE', url(frame) ? 'RENDERED' : 'SLOT EMPTY']]} />
-              </>
-            : <Empty title="NO FRAME SELECTED" />}
-          </Panel>
-          <Panel title="STORYBOARD PROGRESS" at={{ d: [3, 1], t: [4, 1], m: [6, 1] }} testId="storyboard-root-progress">
+          <Panel title="PROGRESS · APPROVAL" meta={d.graph?.founderGate.open ? 'GATE OPEN' : 'NO GATE'} at={{ d: [4, 1], t: [12, 1], m: [6, 1] }} testId="storyboard-root-progress" layout="compact">
             {progress}
-          </Panel>
-          <Panel title="FOUNDER APPROVAL" meta={d.graph?.founderGate.open ? 'GATE OPEN' : 'NO GATE'} at={{ d: [3, 1], t: [12, 1], m: [6, 1] }} testId="storyboard-root-approval">
             <StoryboardDecision d={d} />
             {engine}
           </Panel>

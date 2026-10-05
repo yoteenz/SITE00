@@ -14,14 +14,19 @@ import {
 } from '../../../../../../shared/site00-studio-world/acting-catalogue/index.js';
 import { pad2 } from '../../primitives';
 import { upper, words } from '../expressionData';
-import { Actions, Btn, Chip, Donut, Empty, Grid, Img, Kv, Mono, Panel, Row, Stat, type Tone } from '../ExpressionFamilyShell';
+import { Actions, Btn, Chip, Donut, Empty, Grid, Img, Kv, MediaImg, Mono, Panel, Row, Stat, type Tone } from '../ExpressionFamilyShell';
 import type { FamilyProps } from './types';
 
 const IMPORTANCE: Record<string, string> = { HERO: 'LEAD', SUPPORTING: 'SUPPORTING', ENSEMBLE: 'ENSEMBLE', BACKGROUND: 'BACKGROUND' };
 const availTone = (s: string): Tone => (s === 'AVAILABLE' ? 'green' : s === 'IN_CURRENT_PRODUCTION' ? 'red' : 'amber');
 
-function ActorFace({ actor, label }: { actor: StudioWorldActor | null; label: string }) {
-  return actor?.headshotPreviewUrl ? <Img url={actor.headshotPreviewUrl} label={label} className="exf-face" /> : <Mono text={actor?.stageName ?? label} className="exf-face" />;
+function ActorFace({ actor, label, hero = false }: { actor: StudioWorldActor | null; label: string; hero?: boolean }) {
+  if (hero && actor?.headshotPreviewUrl) {
+    return <MediaImg url={actor.headshotPreviewUrl} label={label} title={actor.stageName} fit="cover" testId="casting-actor-hero-media" />;
+  }
+  return actor?.headshotPreviewUrl ?
+      <Img url={actor.headshotPreviewUrl} label={label} className="exf-face exf-face--portrait" />
+    : <Mono text={actor?.stageName ?? label} className="exf-face exf-face--portrait" />;
 }
 
 export function CastingFamily({ d, r, go }: FamilyProps) {
@@ -189,17 +194,12 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
       return <CharacterProfile d={d} id={r.param} go={go} />;
     default:
       return (
-        <Grid rows={{ d: '1.05fr 0.9fr', t: '1fr 0.8fr 0.75fr', m: '1.05fr 0.8fr 0.75fr 0.5fr' }}>
-          <Panel title="ROLE PREVIEWS" meta={`${roles.length} ROLES`} to={go('casting', 'roles')} at={{ d: [8, 1], t: [12, 1], m: [6, 1] }} testId="casting-role-previews">
-            <div className="exf-list">
-              {roles.map((q, i) => roleCard(q, i))}
-            </div>
+        <Grid rows={{ d: '1.05fr 0.55fr', t: '1fr 0.75fr 0.55fr', m: '0.42fr 1.2fr 0.38fr' }}>
+          <Panel title="LEAD AUTHORITY" meta="HUB CAST NODE" at={{ d: [5, 2], t: [5, 2], m: [6, 1] }} testId="casting-lead-authority" layout="media">
+            <MediaImg url={castArt} label="CAST AUTHORITY" title="CAST AUTHORITY" testId="casting-lead-authority-media" />
           </Panel>
-          <Panel title="CASTING OVERVIEW" at={{ d: [4, 1], t: [6, 1], m: [6, 1] }} testId="casting-root-overview">
-            {overview}
-          </Panel>
-          <Panel title="AVAILABLE TALENT" meta={`${available.length} AVAILABLE · ${d.actors.length} IN CATALOGUE`} to={go('casting', 'actors')} toLabel="CATALOGUE" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} testId="casting-available-talent">
-            <div className="exf-rail">
+          <Panel title="AVAILABLE TALENT" meta={`${available.length} AVAILABLE · ${d.actors.length} IN CATALOGUE`} to={go('casting', 'actors')} toLabel="CATALOGUE" at={{ d: [7, 1], t: [7, 1], m: [6, 1] }} testId="casting-available-talent" layout="rail">
+            <div className="exf-rail exf-rail--talent">
               {d.actors.map((a) => (
                 <Link key={a.actorId} to={go('casting', 'actor-profile', a.actorId)} className="exf-tile" data-testid="casting-talent-tile">
                   <ActorFace actor={a} label={a.stageName} />
@@ -209,7 +209,13 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
               ))}
             </div>
           </Panel>
-          <Panel title="CASTING ACTIONS" at={{ d: [3, 1], t: [6, 1], m: [3, 1] }} testId="casting-actions">
+          <Panel title="ROLE PREVIEWS" meta={`${roles.length} ROLES`} to={go('casting', 'roles')} at={{ d: [7, 1], t: [7, 1], m: [6, 1] }} testId="casting-role-previews" layout="compact">
+            <div className="exf-list">
+              {roles.map((q, i) => roleCard(q, i))}
+            </div>
+          </Panel>
+          <Panel title="CASTING OVERVIEW" at={{ d: [5, 1], t: [5, 1], m: [6, 1] }} testId="casting-root-overview" layout="compact">
+            {overview}
             <Actions>
               <Btn to={go('casting', 'actors')} testId="casting-open-catalogue">
                 OPEN ACTOR CATALOGUE
@@ -218,16 +224,6 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
                 REVIEW CASTING
               </Btn>
             </Actions>
-          </Panel>
-          <Panel title="LEAD AUTHORITY" meta="HUB CAST NODE" at={{ d: [4, 1], t: [6, 1], m: [3, 1] }} testId="casting-lead-authority">
-            <Img url={castArt} label="CAST AUTHORITY" className="exf-fill" />
-          </Panel>
-          <Panel title="CASTING STATUS" at={{ d: [0, 0], t: [0, 0], m: [6, 1] }} hide="d t" testId="casting-status-strip">
-            <div className="exf-stats">
-              <Stat value={pad2(unresolved)} label="UNRESOLVED ROLES" tone={unresolved ? 'red' : 'green'} />
-              <Stat value={pad2(inCast.size)} label="CAST ASSIGNED" />
-              <Stat value={pad2(available.length)} label="AVAILABLE TALENT" />
-            </div>
           </Panel>
         </Grid>
       );
@@ -349,9 +345,9 @@ function ActorProfile({ d, id, go }: { d: FamilyProps['d']; id: string | null; g
   const plays = d.charactersForActor(a.actorId);
   return (
     <Grid rows={{ d: '1fr 0.85fr', t: '0.9fr 0.8fr 0.75fr', m: '0.85fr 0.9fr 0.8fr 0.6fr' }}>
-      <Panel title="ACTOR" meta={`${a.catalogueNumber} · ${words(a.status)}`} at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} testId="casting-actor-profile" className="exf-record">
+      <Panel title="ACTOR" meta={`${a.catalogueNumber} · ${words(a.status)}`} at={{ d: [4, 2], t: [6, 2], m: [6, 1] }} testId="casting-actor-profile" className="exf-record" layout="media">
         <div className="exf-record__media">
-          <ActorFace actor={a} label={a.stageName} />
+          <ActorFace actor={a} label={a.stageName} hero />
         </div>
         <h4 className="exf-record__title">{a.stageName}</h4>
         <div className="exf-tags">

@@ -12,7 +12,7 @@ import type { PackageItem } from '../../../production/useEntry002Production';
 import { pad2 } from '../../primitives';
 import { done, words } from '../expressionData';
 import { EXPRESSION_FAMILIES, type ExpressionFamilyId } from '../expressionRoutes';
-import { Actions, Btn, Chip, Donut, Empty, Grid, Img, Kv, Panel, Row, type Tone } from '../ExpressionFamilyShell';
+import { Actions, Btn, Chip, Donut, Empty, Grid, Kv, MediaImg, Panel, Row, type Tone } from '../ExpressionFamilyShell';
 import { NarrativeApproval, usePlan } from './NarrativeFamily';
 import { StoryboardDecision } from './StoryboardFamily';
 import type { FamilyProps } from './types';
@@ -60,8 +60,8 @@ export function ReviewFamily({ d, r, go }: FamilyProps) {
     const gateHere = !!gate?.open && gate.nodeId === ITEM_NODE[item.id];
     return (
       <Grid rows={{ d: '1fr 0.8fr', t: '0.95fr 0.85fr 0.7fr', m: '0.85fr 0.8fr 0.75fr 0.65fr' }}>
-        <Panel title={`${item.label} · APPROVAL`} meta={gateHere ? 'FOUNDER GATE' : words(item.status)} at={{ d: [5, 2], t: [7, 1], m: [6, 1] }} testId="review-approval-detail" className="exf-record">
-          <Img url={d.nodeArt(ITEM_NODE[item.id])} label={`${item.label.toUpperCase()} AUTHORITY`} className="exf-fill" />
+        <Panel title={`${item.label} · APPROVAL`} meta={gateHere ? 'FOUNDER GATE' : words(item.status)} at={{ d: [7, 2], t: [7, 2], m: [6, 1] }} testId="review-approval-detail" className="exf-record" layout="media">
+          <MediaImg url={d.nodeArt(ITEM_NODE[item.id])} label={`${item.label.toUpperCase()} AUTHORITY`} title={`${item.label} · REVIEW`} testId="review-approval-media" />
           <Kv cols={2} rows={[['STATUS', <Chip tone={tone(item.status)}>{words(item.status)}</Chip>], ['DETAIL', item.detail], ['NODE', words(node?.status ?? '—')], ['WHY', node?.statusDetail ?? '—']]} />
         </Panel>
         <Panel title="REQUESTED DECISION" meta={gateHere ? 'HIGH' : undefined} at={{ d: [4, 1], t: [5, 1], m: [6, 1] }} testId="review-approval-decision">

@@ -7,7 +7,7 @@ import { useState, type ReactNode } from 'react';
 import type { CharacterCampaignLook } from '../../../../../../shared/site00-studio-world/acting-catalogue/index.js';
 import { pad2 } from '../../primitives';
 import { words } from '../expressionData';
-import { Actions, Btn, Chip, Empty, Grid, Img, Kv, Panel, Row } from '../ExpressionFamilyShell';
+import { Actions, Btn, Chip, Empty, Grid, Kv, MediaImg, Panel, Row } from '../ExpressionFamilyShell';
 import type { FamilyProps } from './types';
 
 const ENGINE_ROUTE = (slug: string) => `/projects/${slug}/content-operations/expression-engine`;
@@ -139,9 +139,9 @@ export function LookFamily({ d, r, go }: FamilyProps) {
     const a = ASPECTS[id]!;
     return (
       <Grid rows={{ d: '1fr 0.75fr', t: '1fr 0.8fr', m: '0.62fr 1fr 0.85fr' }}>
-        <Panel title="ACTIVE LOOK" meta={look?.label} at={{ d: [3, 2], t: [5, 2], m: [6, 1] }} testId="look-active">
+        <Panel title="ACTIVE LOOK" meta={look?.label} at={{ d: [3, 2], t: [5, 2], m: [6, 1] }} testId="look-active" layout="media">
           {picker}
-          <Img url={art} label={look ? `${look.label} · LOOK AUTHORITY` : 'LOOK AUTHORITY'} className="exf-fill" />
+          <MediaImg url={art} label={look ? `${look.label} · LOOK AUTHORITY` : 'LOOK AUTHORITY'} title={look?.label ?? 'LOOK AUTHORITY'} />
         </Panel>
         <Panel title={a.title} meta={look && a.meta ? a.meta(look) : undefined} at={{ d: [5, 2], t: [7, 1], m: [6, 1] }} testId={`look-${id}`}>
           {look ?
@@ -165,16 +165,40 @@ export function LookFamily({ d, r, go }: FamilyProps) {
   }
 
   switch (id) {
-    case 'looks':
+    case 'looks': {
+      const temporal = character ? d.temporal(character.characterId) : [];
+      const eraSlides =
+        temporal.length > 1 ?
+          temporal.map((t) => ({
+            url: art ?? '',
+            label: t.eraLabel,
+            meta: d.look(t.campaignLookId)?.label ?? t.campaignLookId,
+          }))
+        : look ?
+          [
+            { url: art ?? '', label: look.era, meta: look.label },
+            ...(temporal[0] && temporal[0].eraLabel !== look.era ? [{ url: art ?? '', label: temporal[0].eraLabel, meta: temporal[0].eraLabel }] : []),
+          ]
+        : [];
       return (
-        <Grid rows={{ d: '1fr 0.8fr', t: '1fr 0.8fr', m: '0.95fr 1fr 0.55fr' }}>
-          <Panel title="LOOKS" meta={`${d.cast.looks.length} CAMPAIGN LOOKS`} at={{ d: [4, 2], t: [5, 2], m: [6, 1] }} testId="look-looks">
-            {picker}
-            {d.cast.looks.map((l, i) => (
-              <Row key={l.lookId} active={l.lookId === look?.lookId} media={<em className="exf-num">L{pad2(i + 1)}</em>} title={l.label} sub={`${l.era} · ${d.character(l.characterId)?.characterName ?? ''}`} aside={<Chip>{words(l.wardrobeContinuityDefault)}</Chip>} />
-            ))}
+        <Grid rows={{ d: '1fr 0.55fr', t: '1.1fr 0.65fr', m: '0.38fr 1.45fr 0.42fr' }}>
+          <Panel title="LOOK AUTHORITY" meta={look ? `${look.approvedLookAuthorityIds.length} APPROVED` : undefined} at={{ d: [7, 2], t: [7, 2], m: [6, 1] }} testId="look-authority" layout="media">
+            <div className="exf-tags">{status}</div>
+            <MediaImg url={art} label="LOOK AUTHORITY" title={look?.label ?? 'LOOK AUTHORITY'} gallery={eraSlides.length ? eraSlides : undefined} galleryIndex={0} testId="look-authority-media" />
+            {eraSlides.length > 1 ?
+              <div className="exf-look-compare" data-testid="look-era-compare">
+                {eraSlides.slice(0, 2).map((s) => (
+                  <figure key={s.label}>
+                    <MediaImg url={s.url} label={s.label} title={look?.label ?? 'LOOK'} gallery={eraSlides} galleryIndex={eraSlides.indexOf(s)} testId={`look-era-${s.label}`} />
+                    <figcaption>{s.label}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            : null}
+            {engine}
           </Panel>
-          <Panel title="LOOK DETAILS" meta={look?.label} at={{ d: [5, 2], t: [7, 1], m: [6, 1] }} testId="look-details">
+          <Panel title="LOOK DETAILS" meta={look?.label} at={{ d: [5, 2], t: [5, 1], m: [6, 1] }} testId="look-details" layout="compact">
+            {picker}
             {look ?
               <Kv
                 rows={[
@@ -189,13 +213,14 @@ export function LookFamily({ d, r, go }: FamilyProps) {
               />
             : noLook}
           </Panel>
-          <Panel title="LOOK AUTHORITY" meta={look ? `${look.approvedLookAuthorityIds.length} APPROVED` : undefined} at={{ d: [3, 2], t: [7, 1], m: [6, 1] }} testId="look-authority">
-            <div className="exf-tags">{status}</div>
-            <Img url={art} label="LOOK AUTHORITY" className="exf-fill" />
-            {engine}
+          <Panel title="LOOKS" meta={`${d.cast.looks.length} CAMPAIGN LOOKS`} at={{ d: [4, 2], t: [5, 1], m: [6, 1] }} testId="look-looks" layout="compact">
+            {d.cast.looks.map((l, i) => (
+              <Row key={l.lookId} active={l.lookId === look?.lookId} media={<em className="exf-num">L{pad2(i + 1)}</em>} title={l.label} sub={`${l.era} · ${d.character(l.characterId)?.characterName ?? ''}`} aside={<Chip>{words(l.wardrobeContinuityDefault)}</Chip>} />
+            ))}
           </Panel>
         </Grid>
       );
+    }
     case 'fittings':
       return (
         <Grid rows={{ d: '1fr 0.7fr', t: '1fr 0.75fr', m: '1fr 0.8fr 0.42fr' }}>
@@ -260,12 +285,20 @@ export function LookFamily({ d, r, go }: FamilyProps) {
       );
     default:
       return (
-        <Grid rows={{ d: '1fr 0.85fr', t: '1fr 0.75fr 0.7fr', m: '1fr 0.8fr 0.62fr' }}>
-          <Panel title="ACTIVE LOOK" meta={look?.label} at={{ d: [4, 2], t: [6, 1], m: [3, 1] }} testId="look-root-active">
-            <Img url={art} label={look ? look.label : 'LOOK AUTHORITY'} className="exf-fill" />
+        <Grid rows={{ d: '1.1fr 0.65fr', t: '1.05fr 0.7fr', m: '1.35fr 0.45fr 0.42fr' }}>
+          <Panel title="ACTIVE LOOK" meta={look?.label} at={{ d: [5, 2], t: [7, 2], m: [6, 1] }} testId="look-root-active" layout="media">
             {picker}
+            <MediaImg url={art} label={look ? look.label : 'LOOK AUTHORITY'} title={look?.label ?? 'ACTIVE LOOK'} testId="look-root-active-media" />
           </Panel>
-          <Panel title="LOOK DETAILS" to={go('look', 'looks')} toLabel="LOOKS" at={{ d: [4, 1], t: [6, 1], m: [3, 1] }} testId="look-root-details">
+          <Panel title="LOOK AUTHORITY" meta={look ? `${look.approvedLookAuthorityIds.length} APPROVED` : undefined} to={go('look', 'continuity')} toLabel="CONTINUITY" at={{ d: [4, 2], t: [5, 1], m: [6, 1] }} testId="look-root-authority" layout="media">
+            <div className="exf-tags">
+              {status}
+              <Chip tone={d.continuity.every((c) => c.valid) ? 'green' : 'red'}>{d.continuity.every((c) => c.valid) ? 'CONTINUITY ON TRACK' : 'CONTINUITY DRIFT'}</Chip>
+            </div>
+            <MediaImg url={art} label="LOOK AUTHORITY PREVIEW" title={look?.label ?? 'LOOK AUTHORITY'} testId="look-root-authority-media" />
+            {engine}
+          </Panel>
+          <Panel title="LOOK DETAILS" to={go('look', 'looks')} toLabel="LOOKS" at={{ d: [3, 1], t: [5, 1], m: [6, 1] }} testId="look-root-details" layout="compact">
             {look ?
               <Kv
                 rows={[
@@ -277,14 +310,7 @@ export function LookFamily({ d, r, go }: FamilyProps) {
               />
             : noLook}
           </Panel>
-          <Panel title="LOOK AUTHORITY" meta={look ? `${look.approvedLookAuthorityIds.length} APPROVED` : undefined} to={go('look', 'continuity')} toLabel="CONTINUITY" at={{ d: [4, 1], t: [6, 1], m: [6, 1] }} testId="look-root-authority">
-            <div className="exf-tags">
-              {status}
-              <Chip tone={d.continuity.every((c) => c.valid) ? 'green' : 'red'}>{d.continuity.every((c) => c.valid) ? 'CONTINUITY ON TRACK' : 'CONTINUITY DRIFT'}</Chip>
-            </div>
-            {engine}
-          </Panel>
-          <Panel title="WARDROBE SET" meta={look ? `${look.garments.length} GARMENTS` : undefined} to={go('look', 'outfits')} toLabel="OUTFITS" at={{ d: [4, 1], t: [6, 1], m: [6, 1] }} testId="look-root-wardrobe">
+          <Panel title="WARDROBE SET" meta={look ? `${look.garments.length} GARMENTS` : undefined} to={go('look', 'outfits')} toLabel="OUTFITS" at={{ d: [3, 1], t: [5, 1], m: [6, 1] }} testId="look-root-wardrobe" layout="compact">
             {look ?
               <ul className="exf-bullets">
                 {look.garments.map((g) => (
