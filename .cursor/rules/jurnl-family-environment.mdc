@@ -24,3 +24,17 @@ No JURNL family starts paid generation without `F##_FAMILY_EXPRESSION_BRIEF.json
 `precheckGenerationDispatch()` blocks a missing or unready brief as `FAMILY_EXPRESSION_BRIEF_REQUIRED` or `FAMILY_EXPRESSION_GATE_FAILED`. Credits spent stay 0.
 
 Same world. Different room. Different moment. Different job. A family is a dialect of JURNL, not a new brand.
+
+## Expression cascade
+
+Expression continues below the family: parent, child, grandchild, state, interaction, panel, and control. The tree is `JURNL/<FAMILY>/MANIFEST/F##_EXPRESSION_TREE.json`. The cross-family record is `JURNL/MANIFEST/JURNL_EXPRESSION_MATRIX.json`.
+
+A child is direct inheritance, modulated inheritance, or a distinct sub-expression. That decision follows the product job. A distinct job does not require a new plate. Use a new plate only when the job, the emotional role, or the spatial metaphor materially changes.
+
+Grandchildren are usually a state or an interaction. Only a material sub-surface normally needs its own authority.
+
+States and interactions are directed. They are not generic messages, spinners, or one sheet with different copy. `JurnlPanel`, `JurnlButton`, and `JurnlDrawer` carry repeatable roles. Do not invent a variant for a single screen, and do not invent a new icon language.
+
+`precheckGenerationDispatch()` requires the expression tree after the family brief. A missing tree is `HIERARCHICAL_EXPRESSION_REQUIRED`. An incomplete tree or a failed repetition audit is `FAMILY_EXPRESSION_GATE_FAILED`. Credits spent stay 0.
+
+F03's mounted day plate still fails the daily-salon concept. Do not regenerate it until the founder asks. F03 and F04 child production stays blocked.

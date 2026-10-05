@@ -12,6 +12,7 @@ export * from './ledgerMetrics.js';
 export * from './familyOutputProjects.js';
 export * from './familyEnvironmentDistinctness.js';
 export * from './familyExpressionBrief.js';
+export * from './hierarchicalExpression.js';
 
 export const REFERENCE_BINDING_POLICY_PATH = 'docs/production/reference-binding/REFERENCE_BINDING_POLICY.json';
 export const GENERATION_PRECHECK_CONTRACT_PATH = 'docs/production/reference-binding/GENERATION_PRECHECK_CONTRACT.json';

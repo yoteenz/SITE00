@@ -1,0 +1,220 @@
+{
+  "contract": "JURNL_EXPRESSION_MATRIX",
+  "principle": "SAME BRAND. SAME WORLD. SAME FAMILY. NOT THE SAME SCREEN, ROOM, PANEL, BUTTON, OR FEEL.",
+  "cascade": [
+    "GLOBAL_JURNL_DNA",
+    "FAMILY",
+    "PARENT",
+    "CHILD",
+    "STATE",
+    "INTERACTION",
+    "COMPONENT",
+    "LIVE_IMPLEMENTATION"
+  ],
+  "global_dna": [
+    "BRAND_VOICE",
+    "TYPOGRAPHY_SYSTEM",
+    "CORE_PALETTE",
+    "MEDITERRANEAN_COASTAL_LUXURY",
+    "EDITORIAL_RESTRAINT",
+    "NATURAL_LIGHT",
+    "MATERIAL_QUALITY",
+    "ICONOGRAPHY_FAMILY",
+    "CONTROL_GEOMETRY",
+    "ENVIRONMENT_BREATHING",
+    "NO_CIRCULAR_TAP_TARGETS",
+    "ACCESSIBILITY",
+    "RESPONSIVE_QUALITY"
+  ],
+  "token_categories": [
+    "surface_material",
+    "panel_opacity",
+    "panel_texture",
+    "border_style",
+    "divider_style",
+    "shadow_depth",
+    "corner_geometry",
+    "internal_padding",
+    "headline_scale",
+    "label_scale",
+    "numeric_scale",
+    "button_variant",
+    "motion_variant"
+  ],
+  "corner_geometry": "SQUARE_ROUNDED. Never a circle.",
+  "component_variants": {
+    "JurnlPanel": [
+      "signal",
+      "ledger",
+      "editorial",
+      "selection",
+      "detail",
+      "form",
+      "empty"
+    ],
+    "JurnlButton": [
+      "primary",
+      "secondary",
+      "utility",
+      "approval",
+      "destructive",
+      "inline"
+    ],
+    "JurnlDrawer": [
+      "form",
+      "detail",
+      "analysis",
+      "filter",
+      "confirmation"
+    ]
+  },
+  "variant_rule": "A variant is a repeatable product role. Do not add one because a single screen is slightly different.",
+  "repetition_guard": "Before a new material authority, compare the current family, previous families, and this matrix. Reuse when it is correct. Redirect when it is only easy.",
+  "authority_generation_gate": [
+    "PRODUCT_TREE_LOCKED_ENOUGH",
+    "FAMILY_EXPRESSION_DEFINED",
+    "PARENT_EXPRESSION_DEFINED",
+    "MATERIAL_CHILD_EXPRESSIONS_DEFINED",
+    "ENVIRONMENT_POLICIES_DEFINED",
+    "PANEL_AND_CONTROL_POLICIES_DEFINED",
+    "REPETITION_AUDIT_PASS"
+  ],
+  "founder_review_gate": "High-expression families: review family, parent, and key child sub-expressions before bulk generation. Do not require every microstate.",
+  "opus_audit": "Final family audit checks structure, responsive behavior, interaction, accessibility, and whether the live family preserved this tree.",
+  "families": {
+    "F01": {
+      "family_name": "ENTRY",
+      "expression_tree": "JURNL/F01_ENTRY/MANIFEST/F01_EXPRESSION_TREE.json",
+      "parent_concept": "Atrium threshold",
+      "panel_language": "Sparse forms on plaster",
+      "plate": "ENTRY.ENVIRONMENT.PLATE.001 welcome. Later entry plates exist and are not to be extended.",
+      "interaction_treatment": "One step, editorial or confirmation drawers"
+    },
+    "F02": {
+      "family_name": "SETUP",
+      "expression_tree": "JURNL/F02_SETUP/MANIFEST/F02_EXPRESSION_TREE.json",
+      "parent_concept": "Life-shape doorway",
+      "panel_language": "Selection, form, and a short list",
+      "plate": "Arrival justified with entry. Desk, edit, and quiet are the setup rooms.",
+      "interaction_treatment": "Continue, skip confirmation, permission confirmation, add form"
+    },
+    "F03": {
+      "family_name": "TODAY",
+      "expression_tree": "JURNL/F03_TODAY/MANIFEST/F03_EXPRESSION_TREE.json",
+      "parent_concept": "Daily financial salon",
+      "panel_language": "Primary signal and one journal",
+      "plate": "Written plate is a daily room. Mounted ENV.DAY fails and is not regenerated until the founder asks.",
+      "interaction_treatment": "Analysis sheet, tactile quick-add form, confirmation ask, sequenced upcoming"
+    },
+    "F04": {
+      "family_name": "ACTIVITY",
+      "expression_tree": "JURNL/F04_ACTIVITY/MANIFEST/F04_EXPRESSION_TREE.json",
+      "parent_concept": "Personal ledger",
+      "panel_language": "Paper ledger, empty archive, receipt",
+      "plate": "Reading wall. Search veils it. Detail does not replace it.",
+      "interaction_treatment": "Inline search, structured filter sheet, receipt detail"
+    }
+  },
+  "occupied": {
+    "plates": [
+      {
+        "id": "ATRIUM_STILL_LIFE",
+        "owner": "F01",
+        "also": "F02 arrival as the doorway",
+        "failing": "F03 ENV.DAY"
+      },
+      {
+        "id": "TRAVERTINE_DESK",
+        "owner": "F02"
+      },
+      {
+        "id": "SELECTION_LEDGE",
+        "owner": "F02"
+      },
+      {
+        "id": "QUIET_PIER",
+        "owner": "F02"
+      },
+      {
+        "id": "DAILY_SALON",
+        "owner": "F03",
+        "status": "WRITTEN_NOT_MOUNTED"
+      },
+      {
+        "id": "READING_WALL",
+        "owner": "F04"
+      }
+    ],
+    "panels": [
+      {
+        "id": "PRIMARY_SIGNAL",
+        "owner": "F03"
+      },
+      {
+        "id": "PAPER_LEDGER",
+        "owner": "F04"
+      },
+      {
+        "id": "RECEIPT_DOSSIER",
+        "owner": "F04"
+      },
+      {
+        "id": "SPARSE_FORM",
+        "owner": "F01"
+      },
+      {
+        "id": "DESK_FORM",
+        "owner": "F02"
+      }
+    ],
+    "compositions": [
+      {
+        "id": "LEFT_FIELD_RIGHT_OPENING",
+        "owner": "F01"
+      },
+      {
+        "id": "FIGURE_THEN_JOURNAL",
+        "owner": "F03"
+      },
+      {
+        "id": "LEDGER_ON_A_QUIET_WALL",
+        "owner": "F04"
+      }
+    ],
+    "interactions": [
+      {
+        "id": "ANALYSIS_SHEET",
+        "owner": "F03",
+        "component": "JurnlDrawer analysis"
+      },
+      {
+        "id": "TACTILE_FORM_SHEET",
+        "owner": "GLOBAL",
+        "component": "JurnlDrawer form",
+        "note": "Quick add is shared"
+      },
+      {
+        "id": "FILTER_SHEET",
+        "owner": "F04",
+        "component": "JurnlDrawer filter"
+      },
+      {
+        "id": "RECEIPT_SHEET",
+        "owner": "F04",
+        "component": "JurnlDrawer detail"
+      },
+      {
+        "id": "CONFIRMATION_SHEET",
+        "owner": "GLOBAL",
+        "component": "JurnlDrawer confirmation"
+      }
+    ]
+  },
+  "data_visualization": {
+    "F03": "SIGNAL_PRIORITY_DAILY_SNAPSHOT",
+    "F04": "LEDGER_HISTORY_CHRONOLOGY",
+    "F05": "LANDSCAPE_COMPOSITION_DISTRIBUTION reserved",
+    "F06": "FLOW_SOURCE_ARRIVAL reserved",
+    "F07": "TIME_HORIZON_SEQUENCE reserved"
+  }
+}
