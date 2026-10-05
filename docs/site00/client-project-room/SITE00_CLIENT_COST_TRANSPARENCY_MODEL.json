@@ -1,0 +1,88 @@
+{
+ "artifact": "SITE00_CLIENT_COST_TRANSPARENCY_MODEL",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "principle": "The client should never need to ask how much has been spent, what the next step costs, or how much credit is needed.",
+ "policy_conflict_requires_founder_decision": {
+  "today": "Existing firewalls classify provider spend as founder-internal (CLIENT_CONTROL_ROOM_FIREWALL PROVIDER_SPEND; stripInternalFields providerCostCents, margin*). Ground Zero canon lists ACCESS_INTERNAL_COSTS as a client MAY-NOT.",
+  "proposal": "Split costs into CLIENT_VISIBLE_PRODUCTION_EXPENSE (pass-through third-party generation the client funds or is billed for \u2014 shown) and INTERNAL_COST (margin, labor cost, SITE 00 model/API spend, retries the founder absorbs \u2014 never shown). Visibility of each estimate is founder-approved per family."
+ },
+ "cost_center": [
+  "PROJECT SERVICE PRICE",
+  "PAID",
+  "REMAINING",
+  "THIRD-PARTY PRODUCTION SPEND",
+  "GENERATION CREDIT SPEND",
+  "ESTIMATED NEXT FAMILY",
+  "OPTIONAL / DEFERRED COSTS"
+ ],
+ "cost_center_rule": "Not an accounting system; not an invoice dashboard. Legal contracting/invoices are audited separately (site00_invoices is demo-seeded; no payments rails).",
+ "ledger_row": [
+  "family_id",
+  "generation_class",
+  "estimated_credits",
+  "actual_credits",
+  "estimated_cost",
+  "actual_cost",
+  "payer",
+  "provider",
+  "status",
+  "spend_kind (productive|retry|regeneration|repair)",
+  "created_at"
+ ],
+ "ledger_storage": "NEW site00_generation_cost_ledger (project_id, family_id, authority/asset id, generation_class, provider, model, settings, estimated/actual credits, credit_price_usd, estimated/actual usd, payer, provider_connection_id, status ESTIMATED|APPROVED|SPENT|FAILED|REFUNDED|UNALLOCATED, idempotency_key). Never stores secrets or raw provider requests.",
+ "backfill": "JURNL F01/F02 GENERATION_LEDGER rows (incl. UNALLOCATED 155 credits; 2,975-credit gap between ledgers recorded as UNATTRIBUTED, not invented).",
+ "estimate_language": {
+  "before": "ESTIMATED (never \"guaranteed\")",
+  "after_family_complete": "ACTUAL",
+  "confidence": "LOW \u00b7 EXPECTED \u00b7 HIGH or a range"
+ },
+ "dual_units": "Show dollars first; credits second (\"$18\u2013$25 \u00b7 ABOUT 6,000\u20138,000 CREDITS\"). Never require understanding credits, tokens or model pricing.",
+ "forecast_method": {
+  "unit_rates_from_repo": {
+   "openart_gpt_image_2_5_4k_9x16_i2i_credits": 317,
+   "openart_2k_credits": 170,
+   "openart_2k_repair_measured_credits": 135,
+   "credit_price_usd": 0.003,
+   "usd_per_4k_generation": 0.951
+  },
+  "class_quotes_F02_credits": {
+   "SCREEN_PARENT": 317,
+   "ENVIRONMENT_PLATE": 1268,
+   "SCREEN_CHILD": 2536,
+   "STATE": 951,
+   "RECOVERY": 634,
+   "SCREEN_GRANDCHILD": 634,
+   "INTERACTION": 951
+  },
+  "family_actuals": {
+   "JURNL_F02_credits": 9471,
+   "JURNL_F02_usd": 28.41
+  },
+  "learning": "Estimates per family = \u03a3(planned generations by class \u00d7 unit rate) \u00d7 observed retry factor from completed families of the SAME project when \u22651 exists (AIO uses AIO data as it accumulates), else cross-project prior (JURNL F01/F02).",
+  "example": "A family planned like JURNL F02 (\u224823 generations + repairs) \u2192 EXPECTED \u2248 9,500 credits \u2248 $28; range LOW\u2013HIGH \u2248 $22\u2013$40 (ESTIMATED)."
+ },
+ "client_may_see": [
+  "family cost",
+  "production cost",
+  "credits used",
+  "status",
+  "what was approved",
+  "what is being worked on",
+  "what comes next"
+ ],
+ "client_never_sees": [
+  "raw prompts",
+  "model internals",
+  "agent names",
+  "token usage",
+  "debug logs",
+  "internal QA noise",
+  "internal provider errors",
+  "internal development discussion",
+  "margin",
+  "labor cost"
+ ],
+ "existing_code_risk": "SelfDirectedOpsSignals invents credits (usedCredits = reviewCount*5) \u2014 must be removed before this model ships."
+}
