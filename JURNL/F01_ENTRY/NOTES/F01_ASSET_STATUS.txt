@@ -1,0 +1,20 @@
+F01 ASSET STATUS — NON-CANONICAL
+
+P0.JURNL.F01-PARENT-ASSET-HARVEST-PROOF1: FAIL
+
+NEW PARENT GENERATIONS: 1
+ASSETS ATTEMPTED: 14
+ASSETS CLEANLY ISOLATED: 7
+ASSETS FAILED: 7
+SUCCESS RATE: 50%
+SCREENSHOT-CROP CONTAMINATION: YES
+TRANSPARENT OBJECT EXTRACTION: FAILED
+MATERIAL EXTRACTION: FAILED
+ARCHITECTURAL EXTRACTION: PASSED
+
+DECISION:
+Do not use the current F01 extracted raster asset library as canonical implementation material.
+Do not regenerate F01 children solely to normalize provenance.
+Use screen + interaction authorities for F01 implementation.
+
+F02 onward adopts ASSET-FIRST generation.

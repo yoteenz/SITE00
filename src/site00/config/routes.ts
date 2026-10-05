@@ -158,6 +158,8 @@ export const SITE00_ROUTES = {
   /** Production → ACTIVITY (project history). */
   productionActivity: '/production/activity',
   productionProject: '/production/:projectSlug',
+  /** P0.JURNL.SITE00-INGEST-F01 — ingested project runtime (project body, no host chrome). */
+  productionProjectRuntime: '/production/:projectSlug/runtime/*',
   productionDesign: '/production/:projectSlug/design',
   productionExperience: '/production/:projectSlug/experience',
   productionExpression: '/production/:projectSlug/expression',

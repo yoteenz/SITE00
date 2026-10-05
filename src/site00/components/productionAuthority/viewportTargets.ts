@@ -56,3 +56,15 @@ export function viewportScale(target: Pick<ViewportTarget, 'w' | 'h'>, box: { w:
   if (!box.w || !box.h) return 0.25;
   return Math.min(1, box.w / target.w, box.h / target.h);
 }
+
+/**
+ * Project-declared device sizes (P0.JURNL.SITE00-INGEST-F01): an ingested project's authority viewport wins over
+ * the host default for that preset (e.g. JURNL MOBILE = 393 × 852). Orientation and desktop locking still apply.
+ */
+export function applyProjectViewportSize(target: ViewportTarget, size: { w: number; h: number } | null | undefined): ViewportTarget {
+  if (!size) return target;
+  if (target.kind === 'desktop') return { ...target, w: Math.max(size.w, size.h), h: Math.min(size.w, size.h) };
+  const long = Math.max(size.w, size.h);
+  const short = Math.min(size.w, size.h);
+  return target.orientation === 'LANDSCAPE' ? { ...target, w: long, h: short } : { ...target, w: short, h: long };
+}

@@ -230,6 +230,9 @@ const ProductionWorkspaceHubPage = lazy(() =>
     default: m.ProductionWorkspaceHubPage,
   })),
 );
+const ProjectRuntimeRoute = lazy(() =>
+  import('../site00/projectRuntime/ProjectRuntimeRoute').then((m) => ({ default: m.ProjectRuntimeRoute })),
+);
 const ProductionWorkspaceProjectLayout = lazy(() =>
   import('../site00/pages/production/ProductionWorkspaceProjectHubPage').then((m) => ({
     default: m.ProductionWorkspaceProjectLayout,
@@ -1490,6 +1493,17 @@ export function Site00Routes() {
               </Site00Suspense>
             </Site00InternalProductionGuard>
           </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.productionProjectRuntime}
+        element={
+          <Site00InternalProductionGuard>
+            {/* No SITE 00 loader here: the project body must not flash host visuals (host / project firewall). */}
+            <Suspense fallback={null}>
+              <ProjectRuntimeRoute />
+            </Suspense>
+          </Site00InternalProductionGuard>
         }
       />
       <Route
