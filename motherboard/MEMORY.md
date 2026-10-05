@@ -13496,3 +13496,13 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CHARACTER-FABRICATION.END-TO-END-RESID
 - **Subject authority:** `fabricationSubject` on `CONFIRM_ACTOR`; `fabricationSubjectResolver` blocks SW-017/stock slot fallbacks for resident-backed actors; dynamic chamber/side cards via `subjectChamberUrl` + resident portrait/uniform public paths.
 - **Tests:** `p0CharacterFabricationEndToEndResidentWiring1.test.ts`. Merged to tunnel branch `cursor/studio-world-resident-geometry-complete-production-injection1` for preview. Draft PR only.
 
+---
+
+## 2026-10-05 — Expression media hierarchy one-viewport convergence
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.MEDIA-HIERARCHY.ONE-VIEWPORT-CONVERGENCE1` on `cursor/expression-media-hierarchy-one-viewport-convergence1` (from geometry-complete tunnel).
+
+- **Root cause:** One-viewport grid obeyed height budget by shrinking creative imagery into shallow strips/banners while metadata/status panels stayed large.
+- **Fix:** `MediaImg` + `ExpressionMediaInspector`; `exf-panel--media` / `--compact` / `--rail`; storyboard `exf-storyboard-stage` + `exf-frames--rail`; casting talent `exf-rail--talent`; compact `exf--media-focus` hero/status on media-heavy families. Layout updates in Casting, Look, Storyboard, Performance, Review families.
+- **Tests:** `productionExpressionMediaHierarchyOneViewportConvergence1.test.ts`. Merged to tunnel `cursor/studio-world-resident-geometry-complete-production-injection1`. Draft PR #1331 to `main` (not auto-merged).
+
