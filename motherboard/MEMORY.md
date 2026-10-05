@@ -13485,3 +13485,14 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-COMPLETE-PRODUCTION-INJECTI
 - **Production injection:** `residentFabricationManifest` resolves 16 frames/resident via geometry-complete registry; `libraryCharacterMedia` surfaces geometry categories; batch status `GEOMETRY_COMPLETE_IN_REVIEW`. Tests `p0StudioWorldGeometryCompleteProductionInjection1.test.ts`.
 - **OpenArt batch:** 112 remaining geometry frames generating resident-by-resident (background agent); review ZIPs on finalize. Draft PR only — no merge/deploy.
 
+---
+
+## 2026-10-05 — Character Fabrication end-to-end resident wiring (Expression)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CHARACTER-FABRICATION.END-TO-END-RESIDENT-WIRING1` on `cursor/expression-character-fabrication-end-to-end-resident-wiring1`.
+
+- **Root cause (View Full Profile):** Actor Catalogue button dispatched `SET_SURFACE` → in-app `ACTOR_PROFILE` (reads as leaving catalogue / advancing), not Library Character Detail.
+- **Fix:** `fabricationLibraryNav` + navigate to `/production/libraries/characters/detail/SW-00N?returnTo=expression-character-fabrication`; session return context + `RESTORE_AFTER_LIBRARY`; Library Character Detail return link.
+- **Subject authority:** `fabricationSubject` on `CONFIRM_ACTOR`; `fabricationSubjectResolver` blocks SW-017/stock slot fallbacks for resident-backed actors; dynamic chamber/side cards via `subjectChamberUrl` + resident portrait/uniform public paths.
+- **Tests:** `p0CharacterFabricationEndToEndResidentWiring1.test.ts`. Merged to tunnel branch `cursor/studio-world-resident-geometry-complete-production-injection1` for preview. Draft PR only.
+
