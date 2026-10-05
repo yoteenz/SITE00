@@ -1,0 +1,724 @@
+{
+  "family_id": "F02_SETUP",
+  "sprint": "P0.JURNL.F02-OPUS-FINAL-FAMILY-STRUCTURAL-VISUAL-INTERACTION-RESPONSIVE-AUDIT1",
+  "contrast_method": "Text made transparent, page re-shot, every pixel behind each text run sampled; p10 = the ratio 90% of background pixels meet or beat. Gate 4.5:1 (small) / 3:1 (headline). JURNL logotype beside emblems reported, not gated (WCAG 1.4.3 logotype exemption). Overlay-open states are judged on the sheet, not the dimmed screen.",
+  "screens": [
+    {
+      "screen_id": "F02.00",
+      "headline_wrap": {
+        "mobile": "3 authored lines, 0 unintended wraps",
+        "tablet": "3 authored lines, 0 unintended wraps",
+        "desktop": "3 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 3 words",
+        "tablet": "1 line(s), last line 6 words",
+        "desktop": "1 line(s), last line 6 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 10.54,
+          "before_min_p10_ratio": 9.89,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.81,
+          "before_min_p10_ratio": 10.45,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.81,
+          "before_min_p10_ratio": 9.9,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "Foot moved from under the bottom CTA into the content, left grid, ink-2.",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.01",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 4 words",
+        "tablet": "1 line(s), last line 7 words",
+        "desktop": "1 line(s), last line 7 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 10.16,
+          "before_min_p10_ratio": 10.33,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 10.38,
+          "before_min_p10_ratio": 10.35,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.9,
+          "before_min_p10_ratio": 9.9,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "FAIL",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "One-word last line removed (balanced break).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.02",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 6 words",
+        "tablet": "1 line(s), last line 10 words",
+        "desktop": "1 line(s), last line 10 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.44,
+          "before_min_p10_ratio": 1.23,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.07,
+          "before_min_p10_ratio": 5.7,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.57,
+          "before_min_p10_ratio": 9.84,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.02.1",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 3 words",
+        "tablet": "1 line(s), last line 7 words",
+        "desktop": "1 line(s), last line 7 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.44,
+          "before_min_p10_ratio": 6.08,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.48,
+          "before_min_p10_ratio": 5.64,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.57,
+          "before_min_p10_ratio": 10.03,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.03",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 2 words",
+        "tablet": "1 line(s), last line 6 words",
+        "desktop": "1 line(s), last line 6 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.41,
+          "before_min_p10_ratio": 5.88,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.26,
+          "before_min_p10_ratio": 5.71,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.57,
+          "before_min_p10_ratio": 10.02,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.04",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 3 words",
+        "tablet": "1 line(s), last line 6 words",
+        "desktop": "1 line(s), last line 6 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.41,
+          "before_min_p10_ratio": 1.23,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.32,
+          "before_min_p10_ratio": 5.7,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.57,
+          "before_min_p10_ratio": 9.95,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.05",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "1 line(s), last line 7 words",
+        "tablet": "1 line(s), last line 7 words",
+        "desktop": "1 line(s), last line 7 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 8.79,
+          "before_min_p10_ratio": 8.38,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 8.65,
+          "before_min_p10_ratio": 8.69,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.19,
+          "before_min_p10_ratio": 9.21,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.05.1",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 3 words",
+        "tablet": "1 line(s), last line 6 words",
+        "desktop": "1 line(s), last line 6 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 8.79,
+          "before_min_p10_ratio": 6.24,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 8.63,
+          "before_min_p10_ratio": 8.13,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.2,
+          "before_min_p10_ratio": 9.19,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.06",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 4 words",
+        "tablet": "1 line(s), last line 7 words",
+        "desktop": "1 line(s), last line 7 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.43,
+          "before_min_p10_ratio": 1.24,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.24,
+          "before_min_p10_ratio": 5.66,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.57,
+          "before_min_p10_ratio": 10.02,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "FAIL",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "One-word last line removed (balanced break).",
+        "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.07",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "1 line(s), last line 4 words",
+        "tablet": "1 line(s), last line 4 words",
+        "desktop": "1 line(s), last line 4 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 8.97,
+          "before_min_p10_ratio": 9.05,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 8.43,
+          "before_min_p10_ratio": 9.46,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 10.33,
+          "before_min_p10_ratio": 10.47,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.08",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 2 words",
+        "tablet": "1 line(s), last line 6 words",
+        "desktop": "1 line(s), last line 6 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.99,
+          "before_min_p10_ratio": 10.74,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 10.28,
+          "before_min_p10_ratio": 10.74,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 10.48,
+          "before_min_p10_ratio": 9.9,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.00.RESUME",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 3 words",
+        "tablet": "1 line(s), last line 7 words",
+        "desktop": "1 line(s), last line 7 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 10.68,
+          "before_min_p10_ratio": 10.62,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 10.69,
+          "before_min_p10_ratio": 10.17,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.81,
+          "before_min_p10_ratio": 9.9,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.02.CONNECTED",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 6 words",
+        "tablet": "1 line(s), last line 10 words",
+        "desktop": "1 line(s), last line 10 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.44,
+          "before_min_p10_ratio": 1.23,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.07,
+          "before_min_p10_ratio": 5.7,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.57,
+          "before_min_p10_ratio": 10.02,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.02.1.VALIDATION",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 3 words",
+        "tablet": "1 line(s), last line 7 words",
+        "desktop": "1 line(s), last line 7 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.46,
+          "before_min_p10_ratio": 6.07,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.55,
+          "before_min_p10_ratio": 5.62,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 10.02,
+          "before_min_p10_ratio": 10.03,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.03.VALIDATION",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 2 words",
+        "tablet": "1 line(s), last line 6 words",
+        "desktop": "1 line(s), last line 6 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.42,
+          "before_min_p10_ratio": 5.9,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.36,
+          "before_min_p10_ratio": 5.69,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 10.03,
+          "before_min_p10_ratio": 10.02,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.04.VALIDATION",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 3 words",
+        "tablet": "1 line(s), last line 6 words",
+        "desktop": "1 line(s), last line 6 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": null,
+          "before_min_p10_ratio": null,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": null,
+          "before_min_p10_ratio": null,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": null,
+          "before_min_p10_ratio": null,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.05.1.VALIDATION",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 3 words",
+        "tablet": "1 line(s), last line 6 words",
+        "desktop": "1 line(s), last line 6 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 8.83,
+          "before_min_p10_ratio": 6.24,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 8.68,
+          "before_min_p10_ratio": 8.21,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 9.21,
+          "before_min_p10_ratio": 9.12,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "PASS",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    },
+    {
+      "screen_id": "F02.06.VALIDATION",
+      "headline_wrap": {
+        "mobile": "2 authored lines, 0 unintended wraps",
+        "tablet": "2 authored lines, 0 unintended wraps",
+        "desktop": "2 authored lines, 0 unintended wraps"
+      },
+      "headline_alignment": "LEFT_GRID (x = 34 mobile / 72 tablet / 72 desktop)",
+      "body_wrap": {
+        "mobile": "2 line(s), last line 4 words",
+        "tablet": "1 line(s), last line 7 words",
+        "desktop": "1 line(s), last line 7 words"
+      },
+      "body_alignment": "LEFT_GRID, ragged right, inside the rail",
+      "contrast_status": {
+        "mobile": {
+          "min_p10_ratio": 9.44,
+          "before_min_p10_ratio": 1.24,
+          "status": "PASS"
+        },
+        "tablet": {
+          "min_p10_ratio": 9.35,
+          "before_min_p10_ratio": 5.64,
+          "status": "PASS"
+        },
+        "desktop": {
+          "min_p10_ratio": 10.04,
+          "before_min_p10_ratio": 9.84,
+          "status": "PASS"
+        }
+      },
+      "orphan_status": "PASS",
+      "orphan_before": "FAIL",
+      "overflow_status": "PASS",
+      "repair_applied": [
+        "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
+        "One-word last line removed (balanced break).",
+        "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
+        "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
+        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
+      ]
+    }
+  ]
+}

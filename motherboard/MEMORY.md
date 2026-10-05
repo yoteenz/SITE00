@@ -13540,6 +13540,63 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — F02 SETUP OPUS final audit
+
+- **Context:** Final family-wide structural, visual-correction, interaction, responsive and accessibility audit of Grok's live F02 SETUP. Founder directives:
+  - dark text losing legibility on the photograph
+  - awkward wraps
+  - panels running into the curtain
+  - content kept left so the plate breathes
+  - icon labels dropping under the icon
+
+  The family was not rebuilt. Sonnet was not used. Asset spend was 0.
+- **Topics covered:**
+  - per-plate left rail mapped from the plate
+  - curtain edges
+  - mobile CTA exception
+  - icon-row grid
+  - SKIP FOR NOW legibility
+  - the JurnlDrawer decision
+  - lockups for emblems 001 and 012
+  - tablet reflow
+  - deep-link overlay focus
+  - resume bug
+  - multi-select semantics
+  - F01 regression
+- **Decisions / outcomes:**
+  - **Left rail:** `.jrn-screen[data-jrn-family='F02']` is a size container. Each plate sets `--f02-edge-f` (ARRIVAL .545, DESK .649, EDIT .666, QUIET .643). The rail is the plate edge mapped through cover plus object-position, minus a gap.
+  - **Rail widths:** mobile 170–228 px. Tablet starts at 72 px, is 351–400 px wide, and never centres. Desktop keeps the 420 px column.
+  - **CTA:** the mobile primary CTA stays bottom and near full width, as the founder allowed. On tablet it is rail width.
+  - **Secondary actions:** SKIP FOR NOW is a left-grid paper chip. It measured 1.23:1 before, and now at least 8.4:1.
+  - **Icon rows:** `JurnlChoice` has an `icon` prop that renders the grid `[ICON][LABEL][MARK]`. Its `multi` prop gives checkbox semantics.
+  - **Overlay focus:** `useOverlayFocus` now uses a callback ref, so deep-linked sheets get focus, Tab containment and Escape.
+  - **Resume:** CONTINUE SETUP keeps the saved place.
+  - **Validation lockup:** it no longer has a duplicate SETUP label, and is 52 px tall.
+  - **JurnlDrawer:** PRESERVE_SHARED. PERMISSION, ADD and SKIP are all LIVE_PAPER_SHEET.
+  - **Grok queue:** empty.
+  - **QA:** 63/63 route checks (19/63 before), 18/18 journey steps, 12/12 icons.
+  - **F01:** pixel parity 40/42, with the remaining 2 being noise that `main` reproduces. The F01 viewport QA was updated for the raster plates and live F02, and is now 163/163.
+  - **Status:** READY_FOR_FOUNDER_VISUAL_REVIEW. site00.com was not deployed.
+- **Changes:**
+  - `jurnl-setup.css`
+  - `SetupScreens.tsx`
+  - `JurnlScreen.tsx` (`data-jrn-plate`)
+  - `primitives.tsx`: `JurnlChoice`, `useOverlayFocus`, input `aria-describedby`
+  - `jurnl-runtime.css`
+  - `scripts/jurnl/capture-f02.mjs`
+  - `scripts/jurnl/f02-final-audit-qa.mjs`
+  - `scripts/jurnl/viewport-delivery-qa.ts`
+  - the 5 `F02_*` maps in MANIFEST
+  - `HANDOFF/F02_OPUS_ARCHITECTURE_DECISIONS.md`
+  - `artifacts/jurnl-f02-opus-audit/`
+- **Conventions:**
+  - Bound content per plate. Never use one global width.
+  - Fix contrast in this order: reposition, width or wrap, spacing, then the existing paper material. Never use a scrim or text-shadow.
+  - Pass icons to `JurnlChoice` through `icon`, never as children.
+  - Pick-several groups use `multi`.
+
+---
+
 ## 2026-10-05 — Family environment distinctness
 
 - **Context:** After the reference-binding guard, the one-project-per-family rule, and the F03/F04 parent composition repair, the founder required that JURNL families share a world without sharing rooms.
