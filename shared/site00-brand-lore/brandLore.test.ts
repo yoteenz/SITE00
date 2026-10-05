@@ -5,10 +5,18 @@ import {
   evaluateCreativeDirectionReadiness,
   canBeginCreativeDirection,
   missingDomainsToLoreSteps,
+  remainingCalibrationStepIds,
   REQUIRED_DOMAINS,
 } from './readiness.js';
 import { IDNTY_LORE_QUESTIONS } from './idnty-lore-questions.js';
-import { BUILDER_INHERITED_LORE_FIELDS, BLDR_EXPERIENCE_QUESTIONS, bldrExperienceFirstStep, bldrExperienceNextStep } from './bldr-experience-questions.js';
+import {
+  BUILDER_INHERITED_LORE_FIELDS,
+  BLDR_EXPERIENCE_QUESTIONS,
+  bldrExperienceFirstStep,
+  bldrExperienceNextStep,
+  formatInheritedAudienceRelationship,
+  parseBuilderInheritedLoreContext,
+} from './bldr-experience-questions.js';
 import { buildReadinessInspector } from './readiness.js';
 import { synthesizeBrandLoreProfile, mergeCalibrationIntoProfile } from './loreSynthesis.js';
 import type { BrandLoreProfile } from './types.js';
@@ -31,7 +39,7 @@ function minimalProfile(overrides: Partial<BrandLoreProfile> = {}): BrandLorePro
     sourceIntakeId: 'intake-1',
     sourceIntakeType: 'IDENTITY',
     brandWorld: emptyField('a quiet library'),
-    audienceRelationship: emptyField('guide'),
+    audienceRelationship: emptyField(['THE GUIDE SHOWING THE WAY']),
     brandBelief: emptyField('knowledge should be accessible'),
     culturalOpposition: emptyField(['boring']),
     coreObsessions: emptyField('how things work'),
@@ -145,6 +153,13 @@ describe('SITE 00 brand lore — shared module', () => {
     expect(steps).toEqual(['feeling', 'world']);
   });
 
+  it('13b. remaining calibration steps exclude answered lore ids in scope', () => {
+    const missing: typeof REQUIRED_DOMAINS = ['WORLDVIEW', 'EMOTIONAL_PROMISE', 'CULTURAL_TENSION'];
+    const answers = { feeling: ['curious'], world: 'living index' };
+    expect(remainingCalibrationStepIds(missing, answers)).toEqual(['enemy', 'contradiction']);
+    expect(remainingCalibrationStepIds(missing, { ...answers, enemy: ['gatekeeping'], contradiction: ['polished', 'messy'] })).toEqual([]);
+  });
+
   it('14. Builder inherited lore fields list excludes Identity-only domains', () => {
     expect(BUILDER_INHERITED_LORE_FIELDS).toContain('worldMetaphor');
     expect(BUILDER_INHERITED_LORE_FIELDS).toContain('creativeAntiPatterns');
@@ -175,6 +190,39 @@ describe('SITE 00 brand lore — shared module', () => {
     expect(visited).toHaveLength(11);
     expect(new Set(visited).size).toBe(11);
     expect(new Set(visited)).toEqual(new Set(BLDR_EXPERIENCE_QUESTIONS.map((q) => q.id)));
+  });
+
+  it('17b. parseBuilderInheritedLoreContext accepts scalar and multi-select audienceRelationship', () => {
+    expect(parseBuilderInheritedLoreContext(null)).toBeNull();
+    expect(parseBuilderInheritedLoreContext({ worldMetaphor: 'A living dossier.' })).toEqual({
+      worldMetaphor: 'A living dossier.',
+      audienceRelationship: null,
+    });
+    expect(
+      parseBuilderInheritedLoreContext({
+        worldMetaphor: 'A living dossier.',
+        audienceRelationship: 'guide',
+      }),
+    ).toEqual({
+      worldMetaphor: 'A living dossier.',
+      audienceRelationship: 'guide',
+    });
+    expect(
+      parseBuilderInheritedLoreContext({
+        audienceRelationship: ['friend', 'tastemaker', 'entertainer'],
+      }),
+    ).toEqual({
+      worldMetaphor: null,
+      audienceRelationship: ['friend', 'tastemaker', 'entertainer'],
+    });
+  });
+
+  it('17c. formatInheritedAudienceRelationship resolves compound role option ids', () => {
+    expect(formatInheritedAudienceRelationship('guide')).toBe('guide');
+    expect(formatInheritedAudienceRelationship(['friend', 'tastemaker'])).toBe(
+      'THE FRIEND WHO KNOWS EVERYTHING + THE TASTEMAKER',
+    );
+    expect(formatInheritedAudienceRelationship([])).toBeNull();
   });
 
   it('18. mergeCalibrationIntoProfile applies new calibration answers without losing unrelated existing content', () => {

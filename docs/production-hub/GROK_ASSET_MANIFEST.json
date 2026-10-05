@@ -1,0 +1,341 @@
+{
+  "sprint": "P0.PRODUCTION-HUB.AUTHORITY-RECONSTRUCTION-AND-HANDOFF1",
+  "generatedBy": "shared/site00-production-hub/manifest.ts (deterministic; from asset registry)",
+  "receiptContract": "Grok output → canonical asset id → HUB_ASSET_RECEIPTS (shared/site00-production-hub/assetReceipts.ts) → declared slot → HubImage component",
+  "visualAssetsGeneratedBySonnet": 0,
+  "totalSlots": 36,
+  "canonicalRuntimeSlots": 8,
+  "grokRequiredCount": 11,
+  "assets": [
+    {
+      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-familiar.reference.v1",
+      "slotId": "production.ndxbook.entry-002.scene.cultural_glitch-familiar.reference",
+      "project": "ndxbook",
+      "production": "entry-002",
+      "scene": "cultural_glitch-familiar",
+      "department": "NARRATIVE",
+      "assetType": "SCENE_REFERENCE",
+      "purpose": "Scene selector reference plate for scene 1 \"FAMILIAR SCENE\".",
+      "composition": "Scene Selector row and central artifact caption. Beat role: Shared present belief. Change in beat: Present belief stated",
+      "cameraAngle": "Cinematic 16:9 reference plate matching the scene beat.",
+      "continuity": "Beat 1/7, tension LOW. Same subject/world as Entry 002.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "16:9",
+      "minimumResolution": "1280x720",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/scene/cultural_glitch-familiar/reference.webp",
+      "dependentComponents": [
+        "SceneSelector",
+        "ArtifactStage"
+      ],
+      "promptBrief": "Scene reference plate: FAMILIAR SCENE — Present belief stated"
+    },
+    {
+      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-glitch.reference.v1",
+      "slotId": "production.ndxbook.entry-002.scene.cultural_glitch-glitch.reference",
+      "project": "ndxbook",
+      "production": "entry-002",
+      "scene": "cultural_glitch-glitch",
+      "department": "NARRATIVE",
+      "assetType": "SCENE_REFERENCE",
+      "purpose": "Scene selector reference plate for scene 2 \"GLITCH\".",
+      "composition": "Scene Selector row and central artifact caption. Beat role: Temporal/cultural rupture. Change in beat: Temporal rupture — past voice enters",
+      "cameraAngle": "Cinematic 16:9 reference plate matching the scene beat.",
+      "continuity": "Beat 2/7, tension RISING. Same subject/world as Entry 002.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "16:9",
+      "minimumResolution": "1280x720",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/scene/cultural_glitch-glitch/reference.webp",
+      "dependentComponents": [
+        "SceneSelector",
+        "ArtifactStage"
+      ],
+      "promptBrief": "Scene reference plate: GLITCH — Temporal rupture — past voice enters"
+    },
+    {
+      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-receipt.reference.v1",
+      "slotId": "production.ndxbook.entry-002.scene.cultural_glitch-receipt.reference",
+      "project": "ndxbook",
+      "production": "entry-002",
+      "scene": "cultural_glitch-receipt",
+      "department": "NARRATIVE",
+      "assetType": "SCENE_REFERENCE",
+      "purpose": "Scene selector reference plate for scene 3 \"RECEIPT\".",
+      "composition": "Scene Selector row and central artifact caption. Beat role: Archive proves past label. Change in beat: Evidence on record",
+      "cameraAngle": "Cinematic 16:9 reference plate matching the scene beat.",
+      "continuity": "Beat 3/7, tension INTERRUPTION. Same subject/world as Entry 002.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "16:9",
+      "minimumResolution": "1280x720",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/scene/cultural_glitch-receipt/reference.webp",
+      "dependentComponents": [
+        "SceneSelector",
+        "ArtifactStage"
+      ],
+      "promptBrief": "Scene reference plate: RECEIPT — Evidence on record"
+    },
+    {
+      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-contradiction.reference.v1",
+      "slotId": "production.ndxbook.entry-002.scene.cultural_glitch-contradiction.reference",
+      "project": "ndxbook",
+      "production": "entry-002",
+      "scene": "cultural_glitch-contradiction",
+      "department": "NARRATIVE",
+      "assetType": "SCENE_REFERENCE",
+      "purpose": "Scene selector reference plate for scene 4 \"CONTRADICTION\".",
+      "composition": "Scene Selector row and central artifact caption. Beat role: Same object, new story. Change in beat: THE VISUAL CODES DID NOT CHANGE. THE CULTURAL LABEL DID.",
+      "cameraAngle": "Cinematic 16:9 reference plate matching the scene beat.",
+      "continuity": "Beat 4/7, tension ESCALATION. Same subject/world as Entry 002.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "16:9",
+      "minimumResolution": "1280x720",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/scene/cultural_glitch-contradiction/reference.webp",
+      "dependentComponents": [
+        "SceneSelector",
+        "ArtifactStage"
+      ],
+      "promptBrief": "Scene reference plate: CONTRADICTION — THE VISUAL CODES DID NOT CHANGE. THE CULTURAL LABEL DID."
+    },
+    {
+      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-lens.reference.v1",
+      "slotId": "production.ndxbook.entry-002.scene.cultural_glitch-lens.reference",
+      "project": "ndxbook",
+      "production": "entry-002",
+      "scene": "cultural_glitch-lens",
+      "department": "NARRATIVE",
+      "assetType": "SCENE_REFERENCE",
+      "purpose": "Scene selector reference plate for scene 5 \"NDX LENS\".",
+      "composition": "Scene Selector row and central artifact caption. Beat role: Editorial reframe. Change in beat: NOSTALGIA / CULTURAL REVISION",
+      "cameraAngle": "Cinematic 16:9 reference plate matching the scene beat.",
+      "continuity": "Beat 5/7, tension PEAK. Same subject/world as Entry 002.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "16:9",
+      "minimumResolution": "1280x720",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/scene/cultural_glitch-lens/reference.webp",
+      "dependentComponents": [
+        "SceneSelector",
+        "ArtifactStage"
+      ],
+      "promptBrief": "Scene reference plate: NDX LENS — NOSTALGIA / CULTURAL REVISION"
+    },
+    {
+      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-recontext.reference.v1",
+      "slotId": "production.ndxbook.entry-002.scene.cultural_glitch-recontext.reference",
+      "project": "ndxbook",
+      "production": "entry-002",
+      "scene": "cultural_glitch-recontext",
+      "department": "NARRATIVE",
+      "assetType": "SCENE_REFERENCE",
+      "purpose": "Scene selector reference plate for scene 6 \"RECONTEXTUALIZATION\".",
+      "composition": "Scene Selector row and central artifact caption. Beat role: Memory edit named. Change in beat: TIME CAN TURN EMBARRASSMENT INTO NOSTALGIA BY EDITING THE MEMORY RATHER THAN CHANGING THE OBJECT.",
+      "cameraAngle": "Cinematic 16:9 reference plate matching the scene beat.",
+      "continuity": "Beat 6/7, tension RELEASE. Same subject/world as Entry 002.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "16:9",
+      "minimumResolution": "1280x720",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/scene/cultural_glitch-recontext/reference.webp",
+      "dependentComponents": [
+        "SceneSelector",
+        "ArtifactStage"
+      ],
+      "promptBrief": "Scene reference plate: RECONTEXTUALIZATION — TIME CAN TURN EMBARRASSMENT INTO NOSTALGIA BY EDITING THE MEMORY RATHER THAN CHANGING THE OBJECT."
+    },
+    {
+      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-open_loop.reference.v1",
+      "slotId": "production.ndxbook.entry-002.scene.cultural_glitch-open_loop.reference",
+      "project": "ndxbook",
+      "production": "entry-002",
+      "scene": "cultural_glitch-open_loop",
+      "department": "NARRATIVE",
+      "assetType": "SCENE_REFERENCE",
+      "purpose": "Scene selector reference plate for scene 7 \"OPEN LOOP\".",
+      "composition": "Scene Selector row and central artifact caption. Beat role: Cultural question remains. Change in beat: Residual curiosity — not clickbait",
+      "cameraAngle": "Cinematic 16:9 reference plate matching the scene beat.",
+      "continuity": "Beat 7/7, tension RESIDUAL. Same subject/world as Entry 002.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "16:9",
+      "minimumResolution": "1280x720",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/scene/cultural_glitch-open_loop/reference.webp",
+      "dependentComponents": [
+        "SceneSelector",
+        "ArtifactStage"
+      ],
+      "promptBrief": "Scene reference plate: OPEN LOOP — Residual curiosity — not clickbait"
+    },
+    {
+      "assetId": "grok.site00.production-hub.project.studio-world.cover.v1",
+      "slotId": "project.studio-world.cover",
+      "project": "studio-world",
+      "production": null,
+      "scene": null,
+      "department": "PROJECT",
+      "assetType": "PROJECT_COVER",
+      "purpose": "Square cover thumbnail for project \"studio-world\" in the header and the Project / Production selector.",
+      "composition": "Header project selector (40px) and Project / Production Selector rows (72px).",
+      "cameraAngle": "Centered emblematic composition, square crop-safe.",
+      "continuity": "Must represent the founder's personal project \"studio-world\" — use its existing brand/world; do not invent a different identity.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "512x512",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/project/studio-world/cover.webp",
+      "dependentComponents": [
+        "ProjectProductionSelector",
+        "HubHeader"
+      ],
+      "promptBrief": "Cover image for founder project studio-world."
+    },
+    {
+      "assetId": "grok.site00.production-hub.project.frontal-slayer.cover.v1",
+      "slotId": "project.frontal-slayer.cover",
+      "project": "frontal-slayer",
+      "production": null,
+      "scene": null,
+      "department": "PROJECT",
+      "assetType": "PROJECT_COVER",
+      "purpose": "Square cover thumbnail for project \"frontal-slayer\" in the header and the Project / Production selector.",
+      "composition": "Header project selector (40px) and Project / Production Selector rows (72px).",
+      "cameraAngle": "Centered emblematic composition, square crop-safe.",
+      "continuity": "Must represent the founder's personal project \"frontal-slayer\" — use its existing brand/world; do not invent a different identity.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "512x512",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/project/frontal-slayer/cover.webp",
+      "dependentComponents": [
+        "ProjectProductionSelector",
+        "HubHeader"
+      ],
+      "promptBrief": "Cover image for founder project frontal-slayer."
+    },
+    {
+      "assetId": "grok.site00.production-hub.project.astral-world.cover.v1",
+      "slotId": "project.astral-world.cover",
+      "project": "astral-world",
+      "production": null,
+      "scene": null,
+      "department": "PROJECT",
+      "assetType": "PROJECT_COVER",
+      "purpose": "Square cover thumbnail for project \"astral-world\" in the header and the Project / Production selector.",
+      "composition": "Header project selector (40px) and Project / Production Selector rows (72px).",
+      "cameraAngle": "Centered emblematic composition, square crop-safe.",
+      "continuity": "Must represent the founder's personal project \"astral-world\" — use its existing brand/world; do not invent a different identity.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "512x512",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/project/astral-world/cover.webp",
+      "dependentComponents": [
+        "ProjectProductionSelector",
+        "HubHeader"
+      ],
+      "promptBrief": "Cover image for founder project astral-world."
+    },
+    {
+      "assetId": "grok.site00.production-hub.project.all-in-one-enterprises.cover.v1",
+      "slotId": "project.all-in-one-enterprises.cover",
+      "project": "all-in-one-enterprises",
+      "production": null,
+      "scene": null,
+      "department": "PROJECT",
+      "assetType": "PROJECT_COVER",
+      "purpose": "Square cover thumbnail for project \"all-in-one-enterprises\" in the header and the Project / Production selector.",
+      "composition": "Header project selector (40px) and Project / Production Selector rows (72px).",
+      "cameraAngle": "Centered emblematic composition, square crop-safe.",
+      "continuity": "Must represent the founder's personal project \"all-in-one-enterprises\" — use its existing brand/world; do not invent a different identity.",
+      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "512x512",
+      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
+      "transparency": "none",
+      "doNotChange": [
+        "No text, captions, logos or UI chrome baked into the image.",
+        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
+        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
+        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
+      ],
+      "destinationPath": "public/site00/production-hub/project/all-in-one-enterprises/cover.webp",
+      "dependentComponents": [
+        "ProjectProductionSelector",
+        "HubHeader"
+      ],
+      "promptBrief": "Cover image for founder project all-in-one-enterprises."
+    }
+  ]
+}

@@ -1,0 +1,671 @@
+{
+  "batches": [
+    {
+      "batch_id": "ORIGIN_MOBILE",
+      "batch_name": "Origin mobile + expanded panels",
+      "product_family": "ORIGIN",
+      "routes": [
+        "/",
+        "/access",
+        "/enter",
+        "/origin",
+        "/origin/desktop",
+        "/origin/forgot-password",
+        "/origin/reset-password"
+      ],
+      "screen_nodes": [
+        "origin_panel_bldr-expanded",
+        "origin_panel_evolve-expanded",
+        "origin_panel_idnty-expanded",
+        "pattern__",
+        "route_origin",
+        "route_access",
+        "route_enter",
+        "route_originAlias",
+        "origin_desktop",
+        "route_originDesktop",
+        "route_forgotPassword",
+        "route_resetPassword"
+      ],
+      "archetypes": [
+        "ENTRY",
+        "ROUTE_SELECTOR",
+        "HUB",
+        "DESKTOP_BRANCH"
+      ],
+      "authority_lineage": [
+        "ORIGIN_*",
+        "SITE00_PUBLIC_GLOBAL"
+      ],
+      "classification": "COMPOSITE_DERIVABLE",
+      "founder_gate_required": false,
+      "founder_gate_ids": [],
+      "sonnet_ready": true,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [],
+      "estimated_reuse_ratio": 0.4166666666666667
+    },
+    {
+      "batch_id": "IDNTY_DIAGNOSTIC_AND_INTAKE",
+      "batch_name": "IDNTY diagnostic + intake flows",
+      "product_family": "IDNTY",
+      "routes": [
+        "/idnty",
+        "/idnty/:state/complete",
+        "/idnty/:state/discovery-result",
+        "/idnty/:stateSlug/*",
+        "/idnty/:stateSlug/desktop/*",
+        "/idnty/build-ready",
+        "/idnty/build-ready/authority-check",
+        "/idnty/build-ready/complete",
+        "/idnty/build-ready/discovery-result",
+        "/idnty/build-ready/evidence",
+        "/idnty/build-ready/review",
+        "/idnty/build-ready/scope",
+        "/idnty/build-ready/services",
+        "/idnty/build-ready/timeline",
+        "/idnty/build-ready/verification",
+        "/idnty/ready-for-evolution",
+        "/idnty/ready-for-evolution/complete",
+        "/idnty/ready-for-evolution/discovery-result",
+        "/idnty/ready-for-evolution/goals",
+        "/idnty/ready-for-evolution/pathways",
+        "/idnty/ready-for-evolution/review",
+        "/idnty/ready-for-evolution/timeline",
+        "/idnty/sign-in-security",
+        "/idnty/some-pieces-exist",
+        "/idnty/some-pieces-exist/assets",
+        "/idnty/some-pieces-exist/cohesion-diagnostic",
+        "/idnty/some-pieces-exist/complete",
+        "/idnty/some-pieces-exist/discovery-result",
+        "/idnty/some-pieces-exist/gaps",
+        "/idnty/some-pieces-exist/other-specify",
+        "/idnty/some-pieces-exist/review",
+        "/idnty/starting-at-zero",
+        "/idnty/starting-at-zero/audience",
+        "/idnty/starting-at-zero/budget",
+        "/idnty/starting-at-zero/complete",
+        "/idnty/starting-at-zero/discovery-result",
+        "/idnty/starting-at-zero/goal",
+        "/idnty/starting-at-zero/project",
+        "/idnty/starting-at-zero/review",
+        "/idnty/starting-at-zero/timeline",
+        "/idnty/state",
+        "/idnty/state/desktop"
+      ],
+      "screen_nodes": [
+        "route_idnty",
+        "waiting__idnty_state_complete",
+        "waiting__idnty_state_discovery_result",
+        "pattern__idnty_stateSlug_",
+        "pattern__idnty_stateSlug_desktop_",
+        "idnty_state_build-ready_landing",
+        "idnty_build-ready_authority-check",
+        "idnty_build-ready_complete",
+        "idnty_build-ready_discovery-result",
+        "idnty_build-ready_evidence",
+        "idnty_build-ready_review",
+        "idnty_build-ready_step_scope",
+        "idnty_build-ready_step_services",
+        "idnty_build-ready_step_timeline",
+        "idnty_build-ready_verification",
+        "idnty_state_ready-for-evolution_landing",
+        "idnty_ready-for-evolution_complete",
+        "idnty_ready-for-evolution_discovery-result",
+        "idnty_ready-for-evolution_step_goals",
+        "idnty_ready-for-evolution_step_pathways",
+        "idnty_ready-for-evolution_review",
+        "idnty_ready-for-evolution_step_timeline",
+        "route_idntySignInSecurity",
+        "idnty_state_some-pieces-exist_landing",
+        "idnty_some-pieces-exist_step_assets",
+        "idnty_some-pieces-exist_step_cohesion-diagnostic",
+        "idnty_some-pieces-exist_complete",
+        "idnty_some-pieces-exist_discovery-result",
+        "idnty_some-pieces-exist_step_gaps",
+        "idnty_some-pieces-exist_step_other-specify",
+        "idnty_some-pieces-exist_review",
+        "idnty_state_starting-at-zero_landing",
+        "idnty_starting-at-zero_step_audience",
+        "idnty_starting-at-zero_step_budget",
+        "idnty_starting-at-zero_complete",
+        "idnty_starting-at-zero_discovery-result",
+        "idnty_starting-at-zero_step_goal",
+        "idnty_starting-at-zero_step_project",
+        "idnty_starting-at-zero_review",
+        "idnty_starting-at-zero_step_timeline",
+        "route_idntyState",
+        "idnty_state_desktop",
+        "route_idntyStateDesktop"
+      ],
+      "archetypes": [
+        "HUB",
+        "STATE_SELECTOR",
+        "VERIFICATION",
+        "MULTI_STEP_INTAKE",
+        "RESULT",
+        "UPLOAD",
+        "REVIEW",
+        "SINGLE_SELECT",
+        "TEXT_INPUT",
+        "DESKTOP_BRANCH"
+      ],
+      "authority_lineage": [
+        "IDNTY_*",
+        "IDNTY_WORKING_PANEL"
+      ],
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "founder_gate_required": true,
+      "founder_gate_ids": [
+        "GATE_IDNTY_COMPLETION_RESULT",
+        "GATE_IDNTY_HUB"
+      ],
+      "sonnet_ready": false,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [
+        "Blocked until founder creative authority"
+      ],
+      "estimated_reuse_ratio": 0.5116279069767442
+    },
+    {
+      "batch_id": "BLDR_COMMAND_AND_PANELS",
+      "batch_name": "BLDR command center + path panels",
+      "product_family": "BLDR",
+      "routes": [
+        "/bldr",
+        "/bldr/:classSlug/*",
+        "/bldr/:classSlug/desktop/*",
+        "/bldr/:classSlug/index",
+        "/bldr/start",
+        "/bldr/state",
+        "/bldr/state/desktop",
+        "/bldr/templates"
+      ],
+      "screen_nodes": [
+        "route_bldr",
+        "waiting__bldr",
+        "pattern__bldr_classSlug_",
+        "pattern__bldr_classSlug_desktop_",
+        "waiting__bldr_classSlug_index",
+        "route_bldrStart",
+        "waiting__bldr_start",
+        "route_bldrState",
+        "bldr_state_desktop",
+        "route_bldrStateDesktop",
+        "route_bldrTemplates"
+      ],
+      "archetypes": [
+        "HUB",
+        "ROUTE_SELECTOR",
+        "STATE_SELECTOR",
+        "DESKTOP_BRANCH"
+      ],
+      "authority_lineage": [
+        "BLDR_*"
+      ],
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "founder_gate_required": true,
+      "founder_gate_ids": [
+        "GATE_BLDR_HUB"
+      ],
+      "sonnet_ready": false,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [
+        "Blocked until founder creative authority"
+      ],
+      "estimated_reuse_ratio": 0.09090909090909091
+    },
+    {
+      "batch_id": "BLDR_ASSESSMENT_INTAKE",
+      "batch_name": "BLDR class assessment steps",
+      "product_family": "BLDR",
+      "routes": [
+        "/bldr/enterprise",
+        "/bldr/enterprise/data",
+        "/bldr/enterprise/integrations",
+        "/bldr/enterprise/review",
+        "/bldr/enterprise/scale",
+        "/bldr/enterprise/security",
+        "/bldr/enterprise/timeline",
+        "/bldr/enterprise/workflows",
+        "/bldr/not-sure",
+        "/bldr/not-sure/q2",
+        "/bldr/not-sure/q3",
+        "/bldr/not-sure/q4",
+        "/bldr/not-sure/q5",
+        "/bldr/not-sure/review",
+        "/bldr/site",
+        "/bldr/site/budget",
+        "/bldr/site/content",
+        "/bldr/site/features",
+        "/bldr/site/review",
+        "/bldr/site/technical",
+        "/bldr/site/timeline",
+        "/bldr/world",
+        "/bldr/world/budget",
+        "/bldr/world/experience",
+        "/bldr/world/integrations",
+        "/bldr/world/review",
+        "/bldr/world/roles",
+        "/bldr/world/scale",
+        "/bldr/world/timeline"
+      ],
+      "screen_nodes": [
+        "bldr_enterprise_landing",
+        "bldr_enterprise_step_data",
+        "bldr_enterprise_step_integrations",
+        "bldr_enterprise_review",
+        "bldr_enterprise_step_scale",
+        "bldr_enterprise_step_security",
+        "bldr_enterprise_step_timeline",
+        "bldr_enterprise_step_workflows",
+        "bldr_not-sure_landing",
+        "bldr_not-sure_step_q2",
+        "bldr_not-sure_step_q3",
+        "bldr_not-sure_step_q4",
+        "bldr_not-sure_step_q5",
+        "bldr_not-sure_review",
+        "bldr_site_landing",
+        "bldr_site_step_budget",
+        "bldr_site_step_content",
+        "bldr_site_step_features",
+        "bldr_site_review",
+        "bldr_site_step_technical",
+        "bldr_site_step_timeline",
+        "bldr_world_landing",
+        "bldr_world_step_budget",
+        "bldr_world_step_experience",
+        "bldr_world_step_integrations",
+        "bldr_world_review",
+        "bldr_world_step_roles",
+        "bldr_world_step_scale",
+        "bldr_world_step_timeline"
+      ],
+      "archetypes": [
+        "HUB",
+        "MULTI_STEP_INTAKE",
+        "SINGLE_SELECT",
+        "REVIEW"
+      ],
+      "authority_lineage": [
+        "BLDR_SITE",
+        "IDNTY_WORKING_PANEL"
+      ],
+      "classification": "COMPOSITE_DERIVABLE",
+      "founder_gate_required": false,
+      "founder_gate_ids": [
+        "GATE_BLDR_HUB"
+      ],
+      "sonnet_ready": true,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [],
+      "estimated_reuse_ratio": 0
+    },
+    {
+      "batch_id": "PUBLIC_EVOLVE_STATE",
+      "batch_name": "Public EVOLVE intervention + path panels",
+      "product_family": "PUBLIC_EVOLVE",
+      "routes": [
+        "/evolve/state",
+        "/evolve/state/desktop"
+      ],
+      "screen_nodes": [
+        "route_evolveState",
+        "evolve_state_desktop",
+        "route_evolveStateDesktop"
+      ],
+      "archetypes": [
+        "ROUTE_SELECTOR",
+        "DESKTOP_BRANCH",
+        "HUB"
+      ],
+      "authority_lineage": [
+        "EVOLVE_*"
+      ],
+      "classification": "COMPOSITE_DERIVABLE",
+      "founder_gate_required": false,
+      "founder_gate_ids": [
+        "GATE_PUBLIC_EVOLVE_ASSESSMENT"
+      ],
+      "sonnet_ready": true,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [],
+      "estimated_reuse_ratio": 0.3333333333333333
+    },
+    {
+      "batch_id": "PUBLIC_EVOLVE_ASSESSMENT",
+      "batch_name": "Public EVOLVE property assessment",
+      "product_family": "PUBLIC_EVOLVE",
+      "routes": [
+        "/evolve/:pathSlug/*",
+        "/evolve/:pathSlug/desktop/*",
+        "/evolve/:pathSlug/index",
+        "/evolve/campaign-director",
+        "/evolve/campaign-flavor",
+        "/evolve/install/property",
+        "/evolve/install/review",
+        "/evolve/plans",
+        "/evolve/refine/property",
+        "/evolve/refine/review",
+        "/evolve/start",
+        "/evolve/transform/property",
+        "/evolve/transform/review"
+      ],
+      "screen_nodes": [
+        "pattern__evolve_pathSlug_",
+        "pattern__evolve_pathSlug_desktop_",
+        "waiting__evolve_pathSlug_index",
+        "pattern__evolve_campaign_director",
+        "pattern__evolve_campaign_flavor",
+        "evolve_install_property",
+        "evolve_install_review",
+        "route_evolvePlans",
+        "evolve_refine_property",
+        "evolve_refine_review",
+        "route_evolveStart",
+        "evolve_transform_property",
+        "evolve_transform_review"
+      ],
+      "archetypes": [
+        "HUB",
+        "SINGLE_SELECT",
+        "MULTI_STEP_INTAKE",
+        "REVIEW"
+      ],
+      "authority_lineage": [
+        "EVOLVE_*",
+        "IDNTY_WORKING_PANEL"
+      ],
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "founder_gate_required": true,
+      "founder_gate_ids": [
+        "GATE_PUBLIC_EVOLVE_ASSESSMENT"
+      ],
+      "sonnet_ready": false,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [
+        "Blocked until founder creative authority"
+      ],
+      "estimated_reuse_ratio": 0
+    },
+    {
+      "batch_id": "PUBLIC_EVOLVE_MARKETING",
+      "batch_name": "EVOLVE marketing services",
+      "product_family": "PUBLIC_EVOLVE_MARKETING",
+      "routes": [
+        "/evolve/marketing",
+        "/evolve/marketing/brief/:engagementId",
+        "/evolve/marketing/engagement/:engagementId",
+        "/evolve/marketing/index",
+        "/evolve/marketing/intake/:serviceId",
+        "/evolve/marketing/services"
+      ],
+      "screen_nodes": [
+        "route_evolveMarketing",
+        "route_evolveMarketingBrief",
+        "route_evolveMarketingEngagement",
+        "waiting__evolve_marketing_index",
+        "route_evolveMarketingIntake",
+        "route_evolveMarketingServices"
+      ],
+      "archetypes": [
+        "HUB"
+      ],
+      "authority_lineage": [
+        "EVOLVE_HUB",
+        "MISSING"
+      ],
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "founder_gate_required": true,
+      "founder_gate_ids": [
+        "GATE_PUBLIC_EVOLVE_ASSESSMENT"
+      ],
+      "sonnet_ready": false,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [
+        "Blocked until founder creative authority"
+      ],
+      "estimated_reuse_ratio": 0
+    },
+    {
+      "batch_id": "LOCATIONS_DIRECTORY",
+      "batch_name": "Locations directory",
+      "product_family": "LOCATIONS",
+      "routes": [
+        "/origin/locations"
+      ],
+      "screen_nodes": [
+        "route_locations"
+      ],
+      "archetypes": [
+        "LOCATIONS"
+      ],
+      "authority_lineage": [
+        "LOCATIONS_MAIN"
+      ],
+      "classification": "DIRECTLY_COVERED",
+      "founder_gate_required": false,
+      "founder_gate_ids": [],
+      "sonnet_ready": true,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [],
+      "estimated_reuse_ratio": 1
+    },
+    {
+      "batch_id": "LOCATIONS_CHILD_PAGES",
+      "batch_name": "Sites / services / system / about / journal",
+      "product_family": "LOCATIONS_CHILD",
+      "routes": [
+        "/about",
+        "/journal",
+        "/services",
+        "/sites",
+        "/system",
+        "/system/design/workspace-concepts"
+      ],
+      "screen_nodes": [
+        "route_about",
+        "waiting__about",
+        "route_journal",
+        "waiting__journal",
+        "route_services",
+        "waiting__services",
+        "route_sites",
+        "waiting__sites",
+        "route_system",
+        "waiting__system",
+        "route_systemDesignWorkspaceConcepts"
+      ],
+      "archetypes": [
+        "CONTENT"
+      ],
+      "authority_lineage": [
+        "LOCATIONS",
+        "CONTENT_REPRESENTATIVE"
+      ],
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "founder_gate_required": true,
+      "founder_gate_ids": [
+        "GATE_LOCATIONS_CONTENT_REPRESENTATIVE"
+      ],
+      "sonnet_ready": false,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [
+        "Blocked until founder creative authority"
+      ],
+      "estimated_reuse_ratio": 0
+    },
+    {
+      "batch_id": "CHECKOUT_COMMERCE",
+      "batch_name": "Checkout + payment",
+      "product_family": "CHECKOUT",
+      "routes": [
+        "/checkout",
+        "/checkout/cart",
+        "/checkout/confirmation",
+        "/checkout/payment",
+        "/checkout/review",
+        "/checkout/shipping"
+      ],
+      "screen_nodes": [
+        "waiting__checkout",
+        "waiting__checkout_cart",
+        "waiting__checkout_confirmation",
+        "waiting__checkout_payment",
+        "waiting__checkout_review",
+        "waiting__checkout_shipping"
+      ],
+      "archetypes": [
+        "CHECKOUT",
+        "PAYMENT"
+      ],
+      "authority_lineage": [
+        "MISSING"
+      ],
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "founder_gate_required": true,
+      "founder_gate_ids": [
+        "GATE_CHECKOUT_COMMERCE"
+      ],
+      "sonnet_ready": false,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [
+        "Payment provider"
+      ],
+      "risk_notes": [
+        "Blocked until founder creative authority"
+      ],
+      "estimated_reuse_ratio": 0
+    },
+    {
+      "batch_id": "AUTH_ACCOUNT",
+      "batch_name": "Sign-in + create account",
+      "product_family": "AUTH",
+      "routes": [
+        "/origin/create-account",
+        "/origin/sign-in"
+      ],
+      "screen_nodes": [
+        "route_createAccount",
+        "waiting__origin_create_account",
+        "route_signIn",
+        "waiting__origin_sign_in"
+      ],
+      "archetypes": [
+        "AUTH"
+      ],
+      "authority_lineage": [
+        "MISSING"
+      ],
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "founder_gate_required": true,
+      "founder_gate_ids": [
+        "GATE_AUTH_ACCOUNT"
+      ],
+      "sonnet_ready": false,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [],
+      "risk_notes": [
+        "Blocked until founder creative authority"
+      ],
+      "estimated_reuse_ratio": 0
+    }
+  ]
+}

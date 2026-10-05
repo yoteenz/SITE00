@@ -1,0 +1,11 @@
+{
+  "sprint": "P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1",
+  "openartProjectId": "TToQavm9coU1QGPRfEzU",
+  "model": "gpt-image-2-5-sunburst",
+  "modelDisplay": "GPT Image 2.5 Sunburst",
+  "resolutionTier": "2k",
+  "aspectRatio": "9:16",
+  "autoEnhancePrompt": false,
+  "quality": "high",
+  "queue": []
+}

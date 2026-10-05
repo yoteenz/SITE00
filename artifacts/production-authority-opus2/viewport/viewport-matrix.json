@@ -1,0 +1,482 @@
+[
+ {
+  "host": "mobile",
+  "target": "MOBILE",
+  "kind": "phone",
+  "tw": 390,
+  "th": 844,
+  "orient": "portrait",
+  "screen": [
+   119,
+   257
+  ],
+  "stage": [
+   343,
+   257
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "MOBILE · 390 × 844 · PORTRAIT · FIT 30%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 390,
+   "ih": 844,
+   "sidebar": true,
+   "text": 684
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/mobile-MOBILE.jpg"
+ },
+ {
+  "host": "mobile",
+  "target": "MOBILE XL",
+  "kind": "phone",
+  "tw": 430,
+  "th": 932,
+  "orient": "portrait",
+  "screen": [
+   119,
+   257
+  ],
+  "stage": [
+   343,
+   257
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "MOBILE XL · 430 × 932 · PORTRAIT · FIT 28%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 430,
+   "ih": 932,
+   "sidebar": true,
+   "text": 684
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/mobile-MOBILEXL.jpg"
+ },
+ {
+  "host": "mobile",
+  "target": "TABLET",
+  "kind": "tablet",
+  "tw": 834,
+  "th": 1194,
+  "orient": "portrait",
+  "screen": [
+   169,
+   242
+  ],
+  "stage": [
+   367,
+   242
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "TABLET · 834 × 1194 · PORTRAIT · FIT 20%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 834,
+   "ih": 1194,
+   "sidebar": true,
+   "text": 689
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/mobile-TABLET.jpg"
+ },
+ {
+  "host": "mobile",
+  "target": "DESKTOP",
+  "kind": "desktop",
+  "tw": 1440,
+  "th": 900,
+  "orient": "landscape",
+  "screen": [
+   358,
+   224
+  ],
+  "stage": [
+   367,
+   242
+  ],
+  "within": true,
+  "orientDisabled": true,
+  "label": "DESKTOP · 1440 × 900 · LANDSCAPE · FIT 25%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 1440,
+   "ih": 900,
+   "sidebar": true,
+   "text": 739
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/mobile-DESKTOP.jpg"
+ },
+ {
+  "host": "mobile",
+  "target": "DESKTOP @100%",
+  "scrollable": true,
+  "overflowY": "auto",
+  "pageOverflowX": false,
+  "ok": true
+ },
+ {
+  "host": "tablet",
+  "target": "MOBILE",
+  "kind": "phone",
+  "tw": 390,
+  "th": 844,
+  "orient": "portrait",
+  "screen": [
+   130,
+   280
+  ],
+  "stage": [
+   614,
+   280
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "MOBILE · 390 × 844 · PORTRAIT · FIT 33%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 390,
+   "ih": 844,
+   "sidebar": true,
+   "text": 684
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/tablet-MOBILE.jpg"
+ },
+ {
+  "host": "tablet",
+  "target": "MOBILE XL",
+  "kind": "phone",
+  "tw": 430,
+  "th": 932,
+  "orient": "portrait",
+  "screen": [
+   129,
+   280
+  ],
+  "stage": [
+   614,
+   280
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "MOBILE XL · 430 × 932 · PORTRAIT · FIT 30%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 430,
+   "ih": 932,
+   "sidebar": true,
+   "text": 684
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/tablet-MOBILEXL.jpg"
+ },
+ {
+  "host": "tablet",
+  "target": "TABLET",
+  "kind": "tablet",
+  "tw": 834,
+  "th": 1194,
+  "orient": "portrait",
+  "screen": [
+   196,
+   280
+  ],
+  "stage": [
+   737,
+   280
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "TABLET · 834 × 1194 · PORTRAIT · FIT 23%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 834,
+   "ih": 1194,
+   "sidebar": true,
+   "text": 689
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/tablet-TABLET.jpg"
+ },
+ {
+  "host": "tablet",
+  "target": "DESKTOP",
+  "kind": "desktop",
+  "tw": 1440,
+  "th": 900,
+  "orient": "landscape",
+  "screen": [
+   408,
+   255
+  ],
+  "stage": [
+   922,
+   285
+  ],
+  "within": true,
+  "orientDisabled": true,
+  "label": "DESKTOP · 1440 × 900 · LANDSCAPE · FIT 28%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 1440,
+   "ih": 900,
+   "sidebar": true,
+   "text": 739
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/tablet-DESKTOP.jpg"
+ },
+ {
+  "host": "tablet",
+  "target": "DESKTOP @100%",
+  "scrollable": true,
+  "overflowY": "auto",
+  "pageOverflowX": false,
+  "ok": true
+ },
+ {
+  "host": "laptop",
+  "target": "MOBILE",
+  "kind": "phone",
+  "tw": 390,
+  "th": 844,
+  "orient": "portrait",
+  "screen": [
+   119,
+   259
+  ],
+  "stage": [
+   768,
+   259
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "MOBILE · 390 × 844 · PORTRAIT · FIT 31%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 390,
+   "ih": 844,
+   "sidebar": true,
+   "text": 684
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/laptop-MOBILE.jpg"
+ },
+ {
+  "host": "laptop",
+  "target": "MOBILE XL",
+  "kind": "phone",
+  "tw": 430,
+  "th": 932,
+  "orient": "portrait",
+  "screen": [
+   119,
+   259
+  ],
+  "stage": [
+   768,
+   259
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "MOBILE XL · 430 × 932 · PORTRAIT · FIT 28%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 430,
+   "ih": 932,
+   "sidebar": true,
+   "text": 684
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/laptop-MOBILEXL.jpg"
+ },
+ {
+  "host": "laptop",
+  "target": "TABLET",
+  "kind": "tablet",
+  "tw": 834,
+  "th": 1194,
+  "orient": "portrait",
+  "screen": [
+   181,
+   259
+  ],
+  "stage": [
+   922,
+   259
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "TABLET · 834 × 1194 · PORTRAIT · FIT 22%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 834,
+   "ih": 1194,
+   "sidebar": true,
+   "text": 689
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/laptop-TABLET.jpg"
+ },
+ {
+  "host": "laptop",
+  "target": "DESKTOP",
+  "kind": "desktop",
+  "tw": 1440,
+  "th": 900,
+  "orient": "landscape",
+  "screen": [
+   372,
+   233
+  ],
+  "stage": [
+   1152,
+   263
+  ],
+  "within": true,
+  "orientDisabled": true,
+  "label": "DESKTOP · 1440 × 900 · LANDSCAPE · FIT 26%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 1440,
+   "ih": 900,
+   "sidebar": true,
+   "text": 739
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/laptop-DESKTOP.jpg"
+ },
+ {
+  "host": "laptop",
+  "target": "DESKTOP @100%",
+  "scrollable": true,
+  "overflowY": "auto",
+  "pageOverflowX": false,
+  "ok": true
+ },
+ {
+  "host": "desktop",
+  "target": "MOBILE",
+  "kind": "phone",
+  "tw": 390,
+  "th": 844,
+  "orient": "portrait",
+  "screen": [
+   169,
+   365
+  ],
+  "stage": [
+   864,
+   365
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "MOBILE · 390 × 844 · PORTRAIT · FIT 43%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 390,
+   "ih": 844,
+   "sidebar": true,
+   "text": 684
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/desktop-MOBILE.jpg"
+ },
+ {
+  "host": "desktop",
+  "target": "MOBILE XL",
+  "kind": "phone",
+  "tw": 430,
+  "th": 932,
+  "orient": "portrait",
+  "screen": [
+   168,
+   365
+  ],
+  "stage": [
+   864,
+   365
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "MOBILE XL · 430 × 932 · PORTRAIT · FIT 39%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 430,
+   "ih": 932,
+   "sidebar": true,
+   "text": 684
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/desktop-MOBILEXL.jpg"
+ },
+ {
+  "host": "desktop",
+  "target": "TABLET",
+  "kind": "tablet",
+  "tw": 834,
+  "th": 1194,
+  "orient": "portrait",
+  "screen": [
+   255,
+   365
+  ],
+  "stage": [
+   1037,
+   365
+  ],
+  "within": true,
+  "orientDisabled": false,
+  "label": "TABLET · 834 × 1194 · PORTRAIT · FIT 31%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 834,
+   "ih": 1194,
+   "sidebar": true,
+   "text": 689
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/desktop-TABLET.jpg"
+ },
+ {
+  "host": "desktop",
+  "target": "DESKTOP",
+  "kind": "desktop",
+  "tw": 1440,
+  "th": 900,
+  "orient": "landscape",
+  "screen": [
+   545,
+   341
+  ],
+  "stage": [
+   1296,
+   371
+  ],
+  "within": true,
+  "orientDisabled": true,
+  "label": "DESKTOP · 1440 × 900 · LANDSCAPE · FIT 38%",
+  "pageOverflowX": false,
+  "client": {
+   "iw": 1440,
+   "ih": 900,
+   "sidebar": true,
+   "text": 739
+  },
+  "ok": true,
+  "shot": "/home/user/site00-o2/artifacts/production-authority-opus2/viewport/desktop-DESKTOP.jpg"
+ },
+ {
+  "host": "desktop",
+  "target": "DESKTOP @100%",
+  "scrollable": true,
+  "overflowY": "auto",
+  "pageOverflowX": false,
+  "ok": true
+ }
+]

@@ -1,0 +1,27 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "findings": {
+    "critical": [
+      {"id": "UU-001", "finding": "No dependency invalidation graph means upstream strategy pivots leave downstream READY states lying", "trigger": "Client changes business model mid-project"},
+      {"id": "UU-002", "finding": "Multi-discipline projects (identity + site + app + content) have no orchestration coordinator — pipelines run in parallel silos", "trigger": "Single project requires 4 mediums"},
+      {"id": "UU-003", "finding": "Composer dispatch without page-family spec will scale badly at 100 clients × 20 pages", "trigger": "Scale beyond NDXBOOK pilot"}
+    ],
+    "high": [
+      {"id": "UU-004", "finding": "10,000 assets without asset-family staleness policy will make reuse dangerous", "trigger": "Long-running brand accounts"},
+      {"id": "UU-005", "finding": "Provider model changes (FAL/GPT Image) may invalidate prompt compilers silently", "trigger": "Model deprecation"},
+      {"id": "UU-006", "finding": "Two founders reviewing same asset — P0 added optimistic concurrency but UI retry flow untested", "trigger": "Multi-user review"},
+      {"id": "UU-007", "finding": "Founder rejects concept after downstream visual spend — no partial salvage policy across disciplines", "trigger": "Late concept rejection"},
+      {"id": "UU-008", "finding": "Scope expansion adds modules but never marks prior formation receipts SUPERSEDED", "trigger": "Experience class upgrade SITE→APPLICATION"}
+    ],
+    "medium": [
+      {"id": "UU-009", "finding": "No unified 'project production state' view across Experiment E/F, visual dev, lineage", "trigger": "Founder asks 'where are we?'"},
+      {"id": "UU-010", "finding": "Accessibility not wired into formation — retroactive fixes expensive in worlds/apps", "trigger": "Immersive/world projects"},
+      {"id": "UU-011", "finding": "SEO/content writing not in site pipeline — Composer may generate thin copy", "trigger": "Marketing site launch"},
+      {"id": "UU-012", "finding": "Analytics/learning loop has no ingestion architecture", "trigger": "Post-launch optimization"}
+    ],
+    "low": [
+      {"id": "UU-013", "finding": "Physical experience has no vendor handoff format", "trigger": "Future physical brand extensions"},
+      {"id": "UU-014", "finding": "Motion intent captured but never consumed by any compiler", "trigger": "Motion-heavy brand"}
+    ]
+  }
+}

@@ -1,0 +1,135 @@
+ASSET PASS SCOPE · P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1
+==============================================================================
+
+Credit plan: 8 new environment plates + 51 isolated objects / materials (8 sets) + icon cleanup.
+95 surfaces get a new plate (as crops of those 8 masters); 88 surfaces reuse an existing environment as-is.
+
+ENVIRONMENT GROUPS
+  ENV-ATRIUM · PRODUCTION ATRIUM — luminous white rotunda, red ring illumination, suspended boards, central pedestal
+    region SHARED_WORKSPACE · members 6 · new plate required: YES
+    current: hub.hero.mobile, hub.hero.tablet, hub.hero.desktop, design.atrium, design.pack.atrium, design-pack/plates/crop-01..04
+    assessment: hub.hero.* are crops of the authority SCREENSHOT (1296–2304 px wide bands, core + wall screens baked in); design.atrium is a GROK1 plate in review (U-12); design-pack plates are 90–278 px crops of the pack sheet.
+    NEW  PLATE-ATRIUM-MASTER: 16:9 master ≥ 4096×2304, EMPTY central pedestal (no core object), ring lights on, wall/suspended screens blank or neutral, no text, no UI, no people in the central third.
+    rule HUB hero band = horizontal crop through the pedestal: mobile ≈3.55:1 (authority band 1296×365), tablet ≈5:1 (1792×358), desktop ≈6.5:1 (2304×355). Pedestal stays at 50% x.
+    rule DESIGN chamber (BRAND / EXPERIENCE / SURFACES / COMPILER / ASSETS) = full master behind live suspended panels; mobile = 9:16 centre crop, tablet portrait = 3:4 centre crop.
+    rule Pack plate crops 01–04 (ASSETS / SURFACES tables) are cut from the master — not new generations.
+    rule Core object composited live (OBJ-NDX-CORE on HUB, OBJ-DESIGN-CORE in the Design chamber); suspended panels and pipeline are live code.
+
+  ENV-VIEWPORT-CORRIDOR · DESIGN · VIEWPORT corridor — white corridor, red light lines, circular floor pedestal for the live device
+    region SHARED_WORKSPACE · members 4 · new plate required: YES
+    current: design.viewportCorridor
+    assessment: GROK1 corridor (1600×900, in review) has no pedestal and weaker red saturation than T12.
+    NEW  PLATE-VIEWPORT-CORRIDOR: 16:9 ≥ 3200×1800, one-point corridor, red light lines, circular ring pedestal at centre floor, EMPTY (no device, no screen content).
+    rule The device is LIVE: CSS frame + iframe of the client app (/app/preview/fixture-app-ndxbook in dev, /app/projects/:slug in production). Never bake a phone or a screenshot.
+    rule Mobile = 9:16 centre crop keeping the pedestal; tablet portrait = 3:4 centre crop.
+
+  ENV-PRODUCTION-FLOOR · EXPRESSION PRODUCTION FLOOR — bright white studio, red ring lights, suspended blank screens
+    region SHARED_WORKSPACE · members 42 · new plate required: YES
+    current: expression.stageHero
+    assessment: MISMATCH — production-expression-stage-hero-v1.jpg is a DARK red faceted stage with cameras; every authority shows a luminous WHITE production floor.
+    NEW  PLATE-PRODUCTION-FLOOR: 21:9 master ≥ 4096×1756, white studio, red ring lights, 3–5 suspended screens left BLANK (live project media mounts into them), no people, no text.
+    rule Floor hero and all 10 family heroes are band crops of the same master (authority bands ≈3.6:1 on mobile, ≈5:1 tablet, ≈6:1 desktop).
+    rule Screen content (B&W subject media, cast, looks) is PROJECT_BODY media mounted live from the Expression media resolver — never baked.
+    rule Floor tiles (PRODUCTION FLOORS row) keep project media; no plate per tile.
+
+  ENV-CF-CHAMBER · CHARACTER FABRICATION chamber — white sci-fi chamber, glass pod, red rings, chrome machinery
+    region SHARED_WORKSPACE · members 9 · new plate required: NO
+    current: grok.site00.character-fabrication.fabrication.machine.chamber.v1, grok.site00.character-fabrication.fabrication.environments.simulation-volume.v1
+    assessment: Already a Grok family (received 2026-09-30) and refined to the 16 authority screens. 82 of 108 CF slots received.
+    rule Reuse both chamber plates. The subject in the pod is a resident/actor receipt (PROJECT_BODY), never part of the plate.
+
+  ENV-EXPERIENCE-WORLD · NDXBOOK WORLD — white-silver future city around a black-red pyramid core, red rings and paths (PROJECT world)
+    region PROJECT_BODY · members 48 · new plate required: YES
+    current: experience.worldHero
+    assessment: One GROK1 city plate stands in for every family view (registry: "zone crops are SOURCE_MATCH_UNCERTAIN"). Authorities show five distinct views of one world.
+    NEW  PLATE-WORLD-SPHERE: Floating island world / sphere seen from above-oblique, transparent or white ground, pyramid core at the centre (WORLD root, tab root).
+    NEW  PLATE-WORLD-ARCHIPELAGO-MAP: Isometric archipelago map of districts around the core, CLEAN — no pins, labels, route lines or rings baked (ZONES, PATHS, PRESENCE, OVERVIEW, DESTINATIONS overlays are live).
+    NEW  PLATE-WORLD-CENTRAL-PLAZA: Eye-level central plaza with the pyramid core inside red rings, day light (STATES, INTERACTIONS, ACCESS, INHABITANTS heroes, ZONE DETAIL, T12 tab-root hero).
+    NEW  PLATE-WORLD-SPIRE: Vertical floating spire world (WORLD · ARCHITECTURE).
+    NEW  PLATE-WORLD-AURORA-CITY: AURORA floating city with red spires (WORLD · DETAIL, ENVIRONMENTS feature).
+    rule Map plates are clean bases; pins, labels, route lines, rings, avatars and selection states stay live overlays.
+    rule STATES (lighting / time / atmosphere / live) reuse PLATE-WORLD-CENTRAL-PLAZA; time-of-day variants (dusk, night) are optional P3 grades of the same plate, not new worlds.
+    rule Inhabitant / character portraits are project cast media — no generation here.
+    rule Record thumbnails (zone, district, destination, environment rows) are data-driven project records — keep them; no generation in this pass.
+    rule Register every plate under the project (project.ndxbook.world.*), never in the global production registry (FIREWALL-02).
+
+  ENV-CANON-VAULT · LIBRARY CANON VAULT — dark obsidian landscape, red pyramid and beam (hero band); full-width white archive
+    region SHARED_WORKSPACE · members 79 · new plate required: NO
+    current: library.canon, library.geometry.01, library.geometry.02, library.geometry.03
+    assessment: library.canon matches the T12 canon-vault band; geometry plates match the dark red record language.
+    rule Reuse. Records show the real registry assets (live data) — do not replace them with generated thumbnails.
+    rule Archive chrome stays full-width white live code.
+
+  ENV-DESIGN-OBJECT-LIBRARY · DESIGN SYSTEM OBJECTS — pipeline stage objects, device frames, material swatches, mode boards (isolated, no environment)
+    region SHARED_WORKSPACE · members 0 · new plate required: NO
+    current: design-pack/stages/*.png (76×76), design-pack/devices/*.png (≤225 px), design-pack/swatches/*.jpg (≤83×41), design.board.* (768×768, GROK1 in review)
+    assessment: Exact crops of the pack sheet at 41–225 px: correct objects, unusable resolution.
+    rule Regenerate each object isolated on transparency at ≥1024 px, same silhouette and material as the pack cell.
+    rule Mode boards (design.board.*) are reused unless they clash with the regenerated atrium light (P3).
+
+  ENV-WORKSPACE-PAPER · WORKSPACE PAPER — white live panels, red accents, rails, chips, inspectors (no environment plate)
+    region SHARED_WORKSPACE · members 22 · new plate required: NO
+    current: —
+    assessment: Founder FINAL directives (D-INBOX-FINAL, D-ACTIVITY-FINAL) define these compositions; the runtime implements them.
+    rule LIVE_CODE only. Do not add hero plates (the Activity hero was retired by D-ACTIVITY-FINAL).
+
+  ENV-HOST-SHELL · SITE 00 HOST SHELL — top host strip, bottom / host nav, menu panel
+    region SITE00_HOST · members 3 · new plate required: NO
+    current: nav.hub … nav.activity (bottom-nav/masters/*.png)
+    assessment: Live code. HUB nav glyph is a 48 px generic substitute (see ICON nav.hub).
+    rule LIVE_CODE + icons. No project art in host chrome (FIREWALL-01).
+
+  ENV-HUB-MACHINE-LEGACY · HUB MACHINE (legacy chamber) — /production?view=machine
+    region SHARED_WORKSPACE · members 15 · new plate required: NO
+    current: —
+    assessment: LEGACY_LOCKED (D-HUB-LEGACY). Reachable from the HUB world panel link.
+    rule NO_ACTION. Do not restyle, do not remove the link.
+
+  ENV-DESIGN-RECONSTRUCTION-BENCH · DESIGN · WORKSPACE SECTIONS (legacy reconstruction bench) — design/workspace|references|assets|pages|skins|history|more
+    region SHARED_WORKSPACE · members 7 · new plate required: NO
+    current: —
+    assessment: Runtime mounts the legacy DesignWorkspaceCore bench (U-10). The DWS unified workspace successor lives on another branch and is not mounted.
+    rule NO_ACTION in this pass. Composer mounts the DWS successor first.
+
+ISOLATED ASSETS
+  P0 OBJ-NDX-CORE ×1 · GENERATE_ISOLATED_OBJECT · PROJECT_BODY
+     NDXBOOK black-red crystal pyramid core on transparency, ≥2048 px, lit for the white atrium (red inner glow, chrome edges). Keyed project.ndxbook.core.
+     authority: AUTHORITIES/HUB/*__HUBREF.jpg (centre of the world panel) · current: baked into hub.hero.* crops
+  P0 OBJ-DESIGN-CORE ×1 · GENERATE_ISOLATED_OBJECT · PROJECT_BODY
+     Red-black faceted crystal shard (project core of the Design chamber) on transparency, ≥2048 px tall.
+     authority: AUTHORITIES/DESIGN/*__3VIEW__PAR3V.jpg (chamber centre) · current: design.core — production-design-project-core-v1.png 324×720 (GROK1, in review)
+  P1 OBJ-PIPELINE-STAGES ×7 · GENERATE_ISOLATED_OBJECT · SHARED_WORKSPACE
+     INTELLIGENCE, CONCEPT, EXPERIENCE, SURFACES, ASSETS, AUTHORITY, PRODUCTION stage objects (chrome / glass / red), transparent, ≥1024 px, matching DWS icon pack §02/§03 cells.
+     authority: ICONS/WORKSPACE__DWS_ICON_PACK_AUTHORITY.jpg §02 §03 · current: design-pack/stages/0N-*.png at 76×76
+  P2 OBJ-DEVICE-FRAMES ×3 · GENERATE_ISOLATED_OBJECT · SHARED_WORKSPACE
+     DESKTOP 16:9 monitor, TABLET 4:3, MOBILE 9:19 frames with EMPTY transparent screens, ≥1600 px.
+     authority: REFERENCE/GLOBAL__DWS_ASSET_PACK_AUTHORITY.jpg §07 · current: design-pack/devices/*.png (67–225 px)
+  P2 MAT-SWATCH-SET ×8 · GENERATE_MATERIAL · SHARED_WORKSPACE
+     WHITE ACRYLIC, MATTE WHITE, CHROME, SMOKED GLASS, CLEAR GLASS, RED GLOW GLASS, GRAPHITE, NEUTRAL PAPER — square material spheres/swatches, ≥1024 px, studio white light.
+     authority: REFERENCE/GLOBAL__DWS_ASSET_PACK_AUTHORITY.jpg §09 · current: design-pack/swatches/*.jpg (≤83×41)
+  P2 OBJ-PORTAL-GATE ×1 · GENERATE_ISOLATED_OBJECT · PROJECT_BODY
+     NDXBOOK access/portal gate (cube arch with red glowing portal), transparent, ≥1600 px. Keyed project.ndxbook.world.portal-gate.
+     authority: AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.access.conditional__DESKTOP-TABLET__EL.jpg · current: none (registry missing slot PORTAL: MISSING_SOURCE_ASSET)
+  P3 OBJ-INTERACTION-OBJECT-SET ×6 · GENERATE_ISOLATED_OBJECT · PROJECT_BODY
+     Interactable world objects (kiosk, portal node, info totem, plinth, signal pole, planter) on transparency, ≥1024 px. Keyed project.ndxbook.world.objects.*.
+     authority: AUTHORITIES/EXPERIENCE/EXPERIENCE__experience.interactions__DESKTOP-TABLET__EL.jpg · current: none
+  P3 CF-RESIDUAL-SLOTS ×24 · GENERATE_ISOLATED_OBJECT · PROJECT_BODY
+     Character Fabrication slots still flagged grokRequired (garments, look-candidate layers, simulation previews) — exact slot ids, aspect ratios and destinations are in shared/site00-character-fabrication/assets.ts (buildCharacterAssetSlots).
+     authority: CF authority screens (AUTHORITIES/EXPRESSION/*CF*.jpg) · current: slot placeholders
+
+ICONS (see ICON_INVENTORY.json for every record)
+  P0  nav.hub — restore the founder pavilion master (git 43611fd8) in place of the 48 px substitute
+  P0  host.menu · host.dropdown · host.reticle — clean live SVG to DWS §01 / HOSTREF
+  P0  design.stage.* — 7 pipeline stage objects (also OBJ-PIPELINE-STAGES)
+  P1  ia.* functional line icons (Inbox / Experience / Library / Activity) — DWS §05–§07 vocabulary, SVG
+  P1  hub.node.* project-component glyphs — match HUBREF tiles, keep runtime node ids
+  P2  design.pack.* nav + object icons — clean ≥512 px from the pack cells
+  P2  cf.line.* Character Fabrication generic line set — DWS vocabulary, SVG
+  NO_ACTION  activity.verb.* (text chips by authority) · status chips (live CSS) · legacy machine icons · provider marks
+
+OUT OF SCOPE FOR THIS PASS
+  - layout, routes, IA, copy, components, viewport presets, project context
+  - people / identity media (residents, actors, characters, Entry 002 subject)
+  - LEGACY: hub.machine and its overlays; design.section.* legacy bench (until Composer mounts the DWS successor)
+  - Design interaction states that are canonical in DWS 04 but not mounted (drawer / inspector / review / compare / export)
+  - Library records (they render the real asset registry)

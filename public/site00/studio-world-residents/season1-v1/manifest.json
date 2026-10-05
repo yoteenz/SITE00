@@ -1,0 +1,195 @@
+{
+  "package": "STUDIO_WORLD_SEASON1_VISUALS",
+  "version": "organized-v1",
+  "records": [
+    {
+      "resident_id": "SW-RESIDENT-001",
+      "resident_name": "Etta Vale",
+      "source_filename": "D3BE948B-1E6B-480B-8253-337AA7BAB250.png",
+      "organized_path": "SW-RESIDENT-001__etta-vale/01-natural-authority/etta-vale__natural-full-body__sophisticated-fashionista.jpg",
+      "status": "FOUNDER_APPROVED"
+    },
+    {
+      "resident_id": "SW-RESIDENT-001",
+      "resident_name": "Etta Vale",
+      "source_filename": "2796CA93-AB24-43D1-90A3-1C3D7C81B016.png",
+      "organized_path": "SW-RESIDENT-001__etta-vale/02-closeups/etta-vale__closeup__sophisticated-fashionista.jpg",
+      "status": "FOUNDER_APPROVED_REFERENCE"
+    },
+    {
+      "resident_id": "SW-RESIDENT-001",
+      "resident_name": "Etta Vale",
+      "source_filename": "EBFEDC59-7936-4687-9A39-0CA88A848116.png",
+      "organized_path": "SW-RESIDENT-001__etta-vale/03-work-uniform-candidates/etta-vale__shared-uniform-candidate__v1.jpg",
+      "status": "CONCEPT_REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-002",
+      "resident_name": "Zuri Xu",
+      "source_filename": "9A349F3E-2D87-4AA9-A066-8884AC5F411F.png",
+      "organized_path": "SW-RESIDENT-002__zuri-xu/01-natural-authority/zuri-xu__natural-full-body__architectural-fashion-strategist.jpg",
+      "status": "FOUNDER_APPROVED"
+    },
+    {
+      "resident_id": "SW-RESIDENT-002",
+      "resident_name": "Zuri Xu",
+      "source_filename": "C541BDC8-F93F-4B0B-AAF7-FF4E0AEDB57B.png",
+      "organized_path": "SW-RESIDENT-002__zuri-xu/02-closeups/zuri-xu__closeup__architectural-fashion-strategist.jpg",
+      "status": "FOUNDER_APPROVED_REFERENCE"
+    },
+    {
+      "resident_id": "SW-RESIDENT-002",
+      "resident_name": "Zuri Xu",
+      "source_filename": "14182919-EC3B-4EC6-A192-0B55E6E25FE7.png",
+      "organized_path": "SW-RESIDENT-002__zuri-xu/03-work-uniform-candidates/zuri-xu__shared-uniform-candidate__v1.jpg",
+      "status": "CONCEPT_REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-003",
+      "resident_name": "Jules Mercer",
+      "source_filename": "IMG_6238.png",
+      "organized_path": "SW-RESIDENT-003__jules-mercer/01-natural-authority/jules-mercer__natural-full-body__relaxed-romantic.jpg",
+      "status": "FOUNDER_APPROVED"
+    },
+    {
+      "resident_id": "SW-RESIDENT-003",
+      "resident_name": "Jules Mercer",
+      "source_filename": "827885CF-0224-4B87-843B-9F4D3D4DC682.png",
+      "organized_path": "SW-RESIDENT-003__jules-mercer/02-closeups/jules-mercer__closeup__relaxed-romantic.jpg",
+      "status": "FOUNDER_APPROVED_REFERENCE"
+    },
+    {
+      "resident_id": "SW-RESIDENT-003",
+      "resident_name": "Jules Mercer",
+      "source_filename": "39279AB8-B958-4DB6-B89A-8D3248C2326C.png",
+      "organized_path": "SW-RESIDENT-003__jules-mercer/03-work-uniform-candidates/jules-mercer__shared-uniform-candidate__v1.jpg",
+      "status": "CONCEPT_REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-004",
+      "resident_name": "Noa Kline",
+      "source_filename": "8141BEAD-0ABA-401D-8F71-26D1BF1978A4.png",
+      "organized_path": "SW-RESIDENT-004__noa-kline/01-natural-authority/noa-kline__natural-full-body__understated-systems-dad.jpg",
+      "status": "FOUNDER_APPROVED"
+    },
+    {
+      "resident_id": "SW-RESIDENT-004",
+      "resident_name": "Noa Kline",
+      "source_filename": "41E61B95-7D10-4D20-BD4D-9C23322157A8.png",
+      "organized_path": "SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__01.jpg",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-004",
+      "resident_name": "Noa Kline",
+      "source_filename": "D1E1D42D-D145-4737-AE90-E386CAB8696F.png",
+      "organized_path": "SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__02.jpg",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-004",
+      "resident_name": "Noa Kline",
+      "source_filename": "FEBF8B3E-E978-49CF-BB5D-D92441188E2C.png",
+      "organized_path": "SW-RESIDENT-004__noa-kline/02-closeups/noa-kline__closeup-reference__03.jpg",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-004",
+      "resident_name": "Noa Kline",
+      "source_filename": "0202633E-1841-450A-891A-1FF48C69DFB8.png",
+      "organized_path": "SW-RESIDENT-004__noa-kline/03-work-uniform-candidates/noa-kline__shared-uniform-candidate__v1.jpg",
+      "status": "CONCEPT_REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-005",
+      "resident_name": "Caspian Reed",
+      "source_filename": "BBCAD99B-F64E-4101-8237-6A30E2A3DF43.png",
+      "organized_path": "SW-RESIDENT-005__caspian-reed/01-natural-authority/caspian-reed__natural-full-body__decadent-bohemian-aristocrat.jpg",
+      "status": "FOUNDER_APPROVED"
+    },
+    {
+      "resident_id": "SW-RESIDENT-005",
+      "resident_name": "Caspian Reed",
+      "source_filename": "E2D5E22F-6F71-4D17-A3E5-8FA28D8F93F5.png",
+      "organized_path": "SW-RESIDENT-005__caspian-reed/02-closeups/caspian-reed__closeup__decadent-bohemian-aristocrat.jpg",
+      "status": "FOUNDER_APPROVED_REFERENCE"
+    },
+    {
+      "resident_id": "SW-RESIDENT-005",
+      "resident_name": "Caspian Reed",
+      "source_filename": "9F733CC5-3B6D-4A84-9240-E849214B5920.png",
+      "organized_path": "SW-RESIDENT-005__caspian-reed/03-work-uniform-candidates/caspian-reed__shared-uniform-candidate__v1.jpg",
+      "status": "CONCEPT_REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-006",
+      "resident_name": "Iona Wells",
+      "source_filename": "IMG_6276.png",
+      "organized_path": "SW-RESIDENT-006__iona-wells/01-natural-authority/iona-wells__natural-full-body__precision-utilitarian.jpg",
+      "status": "FOUNDER_APPROVED"
+    },
+    {
+      "resident_id": "SW-RESIDENT-006",
+      "resident_name": "Iona Wells",
+      "source_filename": "F46A6DF3-48E7-4FD9-A0AB-22F7BAF3E4E8.png",
+      "organized_path": "SW-RESIDENT-006__iona-wells/02-closeups/iona-wells__closeup__precision-utilitarian.jpg",
+      "status": "FOUNDER_APPROVED_REFERENCE"
+    },
+    {
+      "resident_id": "SW-RESIDENT-006",
+      "resident_name": "Iona Wells",
+      "source_filename": "37BF712F-0553-4863-ACBA-DB7E13610995.png",
+      "organized_path": "SW-RESIDENT-006__iona-wells/03-work-uniform-candidates/iona-wells__shared-uniform-candidate__v1.jpg",
+      "status": "CONCEPT_REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-006",
+      "resident_name": "Iona Wells",
+      "source_filename": "07607EEC-49A1-44D6-A532-FD0D7AF41B52.png",
+      "organized_path": "SW-RESIDENT-006__iona-wells/04-alternate-modes/iona-wells__full-glam__alternate-mode.jpg",
+      "status": "ALTERNATE_MODE_REFERENCE"
+    },
+    {
+      "resident_id": "SW-RESIDENT-007",
+      "resident_name": "Marlowe Saint",
+      "source_filename": "653088E8-4A41-4618-B869-9C6E96BF6B9B.png",
+      "organized_path": "SW-RESIDENT-007__marlowe-saint/01-natural-authority/marlowe-saint__natural-full-body__off-duty-cultural-icon.jpg",
+      "status": "FOUNDER_APPROVED"
+    },
+    {
+      "resident_id": "SW-RESIDENT-007",
+      "resident_name": "Marlowe Saint",
+      "source_filename": "0D841DDD-094C-45C2-B4A1-E3A5FAF006F5.png",
+      "organized_path": "SW-RESIDENT-007__marlowe-saint/04-alternate-modes/marlowe-saint__grand-cultural-icon__alternate-reference.jpg",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-007",
+      "resident_name": "Marlowe Saint",
+      "source_filename": "1D701D29-55D5-4C14-9CC3-2011161E2623.png",
+      "organized_path": "SW-RESIDENT-007__marlowe-saint/03-work-uniform-candidates/marlowe-saint__shared-uniform-candidate__corrected-larger-body-v1.jpg",
+      "status": "CONCEPT_REFERENCE_ONLY"
+    },
+    {
+      "resident_id": "SW-RESIDENT-008",
+      "resident_name": "Elio Vahn",
+      "source_filename": "589F06FC-8AE7-432C-8663-47FFDB1B400D.png",
+      "organized_path": "SW-RESIDENT-008__elio-vahn/01-natural-authority/elio-vahn__natural-full-body__private-club-strategist.jpg",
+      "status": "FOUNDER_APPROVED"
+    },
+    {
+      "resident_id": "SW-RESIDENT-008",
+      "resident_name": "Elio Vahn",
+      "source_filename": "53E548C2-37F2-4A95-A150-24FBC3A80337.png",
+      "organized_path": "SW-RESIDENT-008__elio-vahn/02-closeups/elio-vahn__closeup__private-club-strategist.jpg",
+      "status": "FOUNDER_APPROVED_REFERENCE"
+    },
+    {
+      "resident_id": "SW-RESIDENT-008",
+      "resident_name": "Elio Vahn",
+      "source_filename": "DE6539F4-DAFA-4062-9F5E-E6DE2C453A80.png",
+      "organized_path": "SW-RESIDENT-008__elio-vahn/03-work-uniform-candidates/elio-vahn__shared-uniform-candidate__v1.jpg",
+      "status": "CONCEPT_REFERENCE_ONLY"
+    }
+  ]
+}

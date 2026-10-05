@@ -1,0 +1,447 @@
+/**
+ * P0.VR.REPLICATION.1 — Founder-first page upgrade flow (Reference → Replicate → Review → Refine → Promote).
+ */
+
+import type { ReactNode } from 'react';
+import { useState } from 'react';
+import type { PageCreativeUpgradeSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/types.js';
+import type { ReconstructionTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
+import {
+  EXPERIENCE_STEP_LABELS,
+  experienceStepIndex,
+  resolveReconstructionExperienceState,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1/reconstructionExperienceState.js';
+import { resolveReconstructionMode } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1/reconstructionModeResolver.js';
+import { formatReplicationScore } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1/visualReplicationDiff.js';
+import {
+  stageLabel,
+  type ReplicationExecutionReceipt,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1R1/replicationExecutionReceipt.js';
+import { buildReplicationReviewModel } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication2/replicationReviewModel.js';
+import { DriftTracePanel } from './DriftTracePanel.js';
+import { VisionTracePanel } from './VisionTracePanel.js';
+import { AssetResolutionPanel } from './AssetResolutionPanel.js';
+import { GeometryPanel } from './GeometryPanel.js';
+import { BoundaryTracePanel } from './BoundaryTracePanel.js';
+import { BlueprintTranslationPanel } from './BlueprintTranslationPanel.js';
+import { AuthorityTighteningPanel } from './AuthorityTighteningPanel.js';
+import { HeroSurgicalLockPanel } from './HeroSurgicalLockPanel.js';
+import '../../../styles/site00-page-upgrade-replication.css';
+import '../../../styles/site00-twin-v2-concept.css';
+
+type Props = {
+  session: PageCreativeUpgradeSession;
+  twinSession?: ReconstructionTwinSession | null;
+  buildingTwin?: boolean;
+  authorityScreenshot: string | null;
+  currentScreenshot: string | null;
+  reviewCompare: ReactNode;
+  onReplicate: () => void | Promise<void>;
+  replicateDisabled: boolean;
+  replicationReceipt?: ReplicationExecutionReceipt | null;
+  upgradeError?: string | null;
+  onApproveDirection: () => void;
+  onRefine: () => void;
+  onPreviewTwin?: () => void;
+  onInspectHero?: () => void;
+  onPromote?: () => void;
+  detailsOpen: boolean;
+  onToggleDetails: () => void;
+  detailsPanel: ReactNode;
+  twinV2Eligible?: boolean;
+  onOpenTwinV2?: () => void;
+};
+
+const REPLICATION_STEPS = [
+  'READING REFERENCE',
+  'SEGMENTING SHELL',
+  'REBUILDING SHELL',
+  'BINDING CONTENT',
+  'VERIFYING SHELL',
+] as const;
+
+function reviewSummaryLabel(score: number | null | undefined): 'PASS' | 'WARNING' | 'NEEDS REVIEW' {
+  if (score == null) return 'NEEDS REVIEW';
+  if (score >= 85) return 'PASS';
+  if (score >= 65) return 'WARNING';
+  return 'NEEDS REVIEW';
+}
+
+export function PageUpgradeReplicationExperience({
+  session,
+  twinSession,
+  buildingTwin,
+  authorityScreenshot,
+  currentScreenshot,
+  reviewCompare,
+  onReplicate,
+  replicateDisabled,
+  onApproveDirection,
+  onRefine,
+  onPreviewTwin,
+  onInspectHero,
+  onPromote,
+  detailsOpen,
+  onToggleDetails,
+  detailsPanel,
+  replicationReceipt,
+  upgradeError,
+  twinV2Eligible,
+  onOpenTwinV2,
+}: Props) {
+  const [driftTraceOpen, setDriftTraceOpen] = useState(false);
+  const [visionTraceOpen, setVisionTraceOpen] = useState(false);
+  const [assetResolutionOpen, setAssetResolutionOpen] = useState(false);
+  const [geometryOpen, setGeometryOpen] = useState(false);
+  const [boundaryOpen, setBoundaryOpen] = useState(false);
+  const [blueprintOpen, setBlueprintOpen] = useState(false);
+  const [tighteningOpen, setTighteningOpen] = useState(false);
+  const [heroLockOpen, setHeroLockOpen] = useState(false);
+  const experienceState = resolveReconstructionExperienceState({
+    session,
+    twinSession,
+    buildingTwin,
+  });
+  const activeStep = experienceStepIndex(experienceState);
+  const mode = resolveReconstructionMode({
+    pageId: session.pageId,
+    viewport: session.viewport,
+    pageArchetype: 'ndxbook-overview-mobile',
+    screenId: 'overview',
+  });
+
+  const diff = twinSession?.finalReplicationDiff;
+  const iterations = twinSession?.replicationIterations ?? [];
+  const reviewModel =
+    twinSession && (experienceState === 'REVIEW_READY' || experienceState === 'REFINING' || experienceState === 'PROMOTION_READY')
+      ? buildReplicationReviewModel({
+          session: twinSession,
+          authorityScreenshot,
+          shellMatch: twinSession.shellMatchResult ?? null,
+        })
+      : null;
+
+  const twinV2Entry =
+    twinV2Eligible && onOpenTwinV2 ? (
+      <div className="site00-pur__twin-v2-entry site00-pur__twin-v2-entry--persistent">
+        <div>
+          <strong>TWIN V2</strong>
+          <span className="site00-pur__chip">CONCEPT-DIRECTED</span>
+          <p className="site00-pur__replicate-hint">
+            Parallel experiment — creative direction before code. V1 REPLICATE PAGE unchanged.
+          </p>
+        </div>
+        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onOpenTwinV2}>
+          CREATE TWIN V2
+        </button>
+      </div>
+    ) : null;
+
+  return (
+    <div className="site00-pur" data-experience-state={experienceState}>
+      {twinV2Entry}
+      <nav className="site00-pur__rail" aria-label="Upgrade progress">
+        {EXPERIENCE_STEP_LABELS.map((label, i) => (
+          <span
+            key={label}
+            className={`site00-pur__rail-step${i === activeStep ? ' is-active' : ''}${i < activeStep ? ' is-done' : ''}`}
+          >
+            {label}
+          </span>
+        ))}
+      </nav>
+
+      {experienceState === 'REFERENCE_READY' ? (
+        <section className="site00-pur__screen">
+          <header className="site00-pur__screen-head">
+            <h2>REFERENCE</h2>
+            <p>Approved design authority — shell geometry is fixed before content is bound.</p>
+          </header>
+          <section className="site00-pur__authority-panel" aria-label="Design authority">
+            <h3 className="site00-pur__authority-title">DESIGN AUTHORITY</h3>
+            <p className="site00-pur__authority-meta">
+              {session.route ?? '—'} · {session.viewport.toUpperCase()} ·{' '}
+              {session.designAuthorityVersionId ? 'Reference approved' : 'Reference missing — update authority'}
+            </p>
+          </section>
+          <div className="site00-pur__status-row">
+            <span className="site00-pur__chip">{authorityScreenshot ? 'REFERENCE READY' : 'REFERENCE PENDING'}</span>
+            <span className="site00-pur__chip">{currentScreenshot ? 'LIVE READY' : 'LIVE PENDING'}</span>
+          </div>
+          <div className="site00-pur__previews">
+            <figure>
+              <figcaption>DESIGN AUTHORITY</figcaption>
+              {authorityScreenshot ? (
+                <img src={authorityScreenshot} alt="Design authority" />
+              ) : (
+                <div className="site00-pur__empty">PREVIEW UNAVAILABLE</div>
+              )}
+            </figure>
+            <figure>
+              <figcaption>LIVE PAGE</figcaption>
+              {currentScreenshot ? (
+                <img src={currentScreenshot} alt="Live page" />
+              ) : (
+                <div className="site00-pur__empty">PREVIEW UNAVAILABLE</div>
+              )}
+            </figure>
+          </div>
+          <p className="site00-pur__replicate-hint">
+            SITE 00 will rebuild the page shell from the approved reference, then bind live content into the same
+            structure. Live page unchanged.
+          </p>
+          <div className="site00-pur__cta-sticky">
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-pur__cta-primary"
+              disabled={replicateDisabled}
+              onClick={onReplicate}
+            >
+              REPLICATE PAGE
+            </button>
+          </div>
+        </section>
+      ) : null}
+
+      {experienceState === 'REPLICATING' ? (
+        <section className="site00-pur__screen">
+          <header className="site00-pur__screen-head">
+            <h2>REPLICATE</h2>
+            <p>Building shell from authority — content binding follows.</p>
+          </header>
+          <ol className="site00-pur__step-rail">
+            {REPLICATION_STEPS.map((label, i) => {
+              const twinStep = twinSession?.buildSteps[i];
+              const done = twinStep?.status === 'COMPLETE';
+              const running = twinStep?.status === 'RUNNING';
+              return (
+                <li key={label} className={done ? 'is-complete' : running ? 'is-running' : undefined}>
+                  <span>{i + 1}</span>
+                  <span>{label}</span>
+                </li>
+              );
+            })}
+          </ol>
+          {iterations.length ? (
+            <ul className="site00-pur__pass-list">
+              {iterations.map((it) => (
+                <li key={it.iterationId}>
+                  PASS {it.diff.iteration} · COMPOSITION {formatReplicationScore(it.diff.compositionScore)}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </section>
+      ) : null}
+
+      {experienceState === 'REVIEW_READY' || experienceState === 'REFINING' || experienceState === 'PROMOTION_READY' ? (
+        <section className="site00-pur__screen">
+          <header className="site00-pur__screen-head">
+            <h2>{experienceState === 'PROMOTION_READY' ? 'PROMOTE' : 'REVIEW'}</h2>
+            <p>Compare authority vs twin — shell fidelity first.</p>
+          </header>
+          {reviewModel ? (
+            <ul className="site00-pur__review-summary">
+              <li>{reviewModel.shellMatchLabel}</li>
+              <li>{reviewModel.macroFidelityLabel}</li>
+              <li>Function preserved ✓</li>
+              <li>{reviewModel.liveUnchangedNote}</li>
+            </ul>
+          ) : null}
+          {reviewCompare}
+          <dl className="site00-pur__summary">
+            <div>
+              <dt>SHELL</dt>
+              <dd>{reviewModel?.shellMatchPass ? 'PASS' : 'NEEDS REVIEW'}</dd>
+            </div>
+            <div>
+              <dt>COMPOSITION</dt>
+              <dd>{reviewSummaryLabel(diff?.compositionScore)}</dd>
+            </div>
+            <div>
+              <dt>GEOMETRY</dt>
+              <dd>{reviewSummaryLabel(diff?.geometryScore ?? twinSession?.convergenceAfter?.geometry)}</dd>
+            </div>
+            <div>
+              <dt>ASSETS</dt>
+              <dd>{reviewSummaryLabel(diff?.assetPlacementScore ?? twinSession?.convergenceAfter?.assets)}</dd>
+            </div>
+            <div>
+              <dt>TYPE</dt>
+              <dd>{reviewSummaryLabel(diff?.typographyScore ?? twinSession?.convergenceAfter?.typography)}</dd>
+            </div>
+            <div>
+              <dt>FUNCTION</dt>
+              <dd>PASS</dd>
+            </div>
+          </dl>
+          <div className="site00-pur__actions">
+            {experienceState === 'PROMOTION_READY' ? (
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onPromote}>
+                PROMOTE TO LIVE
+              </button>
+            ) : (
+              <>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onApproveDirection}>
+                  ACCEPT DIRECTION
+                </button>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onRefine}>
+                  REFINE
+                </button>
+                {onInspectHero ? (
+                  <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onInspectHero}>
+                    INSPECT HERO
+                  </button>
+                ) : null}
+                {onPreviewTwin ? (
+                  <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onPreviewTwin}>
+                    PREVIEW TWIN
+                  </button>
+                ) : null}
+              </>
+            )}
+          </div>
+        </section>
+      ) : null}
+
+      {experienceState === 'FAILED' ? (
+        <section className="site00-pur__screen site00-pur__screen--fail">
+          {twinSession?.replicationFailureClass === 'CLIENT_RUNTIME_ERROR' ||
+          replicationReceipt?.failureClass === 'CLIENT_RUNTIME_ERROR' ? (
+            <>
+              <h2>REPLICATION COULDN&apos;T START</h2>
+              <p>
+                A runtime configuration error interrupted replication before the visual build began. Live page unchanged.
+              </p>
+            </>
+          ) : (
+            <h2>WE COULDN&apos;T CREATE THE FIRST REPLICATION</h2>
+          )}
+          {replicationReceipt?.failedStage ? (
+            <p>
+              REPLICATION STOPPED AT: <strong>{stageLabel(replicationReceipt.failedStage)}</strong>
+            </p>
+          ) : null}
+          {replicationReceipt?.visionStages ? (
+            <p className="site00-pur__vision-stages">
+              Vision prep: {replicationReceipt.visionStages.visionRequestPreparation} · Vision request:{' '}
+              {replicationReceipt.visionStages.visionRequest}
+            </p>
+          ) : null}
+          {upgradeError ? <p>{upgradeError}</p> : null}
+          {twinSession?.replicationRuntimeErrorCode ? (
+            <p>
+              <strong>{twinSession.replicationRuntimeErrorCode}</strong>
+            </p>
+          ) : null}
+          <p>
+            AUTOMATED BLUEPRINT PATH: {replicationReceipt?.blueprintComposer ?? '—'} · DIRECT SOURCE FALLBACK:{' '}
+            {replicationReceipt?.directSourceFallback ?? '—'}
+          </p>
+          {replicationReceipt?.nextStrategy ? (
+            <p>NEXT STRATEGY: {replicationReceipt.nextStrategy}</p>
+          ) : null}
+          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={() => void onReplicate()}>
+            RETRY REPLICATION
+          </button>
+        </section>
+      ) : null}
+
+      <footer className="site00-pur__details">
+        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onToggleDetails}>
+          {detailsOpen ? 'HIDE DETAILS' : 'DETAILS'}
+        </button>
+        {detailsOpen ? (
+          <div className="site00-pur__details-body">
+            <p>
+              MODE: <strong>{mode.mode.replace(/_/g, ' ')}</strong> · {mode.reason}
+            </p>
+            {twinSession?.legacyTwinLabel ? (
+              <p className="site00-pur__legacy">LEGACY PATCH TWIN · FAILED VISUAL AUTHORITY (preserved for debug)</p>
+            ) : null}
+            {twinSession?.shellReconstructionReceipt ? (
+              <p>
+                SHELL RECEIPT: {twinSession.shellReconstructionReceipt.message} · blueprint{' '}
+                {twinSession.authorityShellBlueprintId ?? '—'}
+              </p>
+            ) : null}
+            {twinSession?.shellMatchResult?.blockingReasons.length ? (
+              <ul>
+                {twinSession.shellMatchResult.blockingReasons.map((r) => (
+                  <li key={r}>{r}</li>
+                ))}
+              </ul>
+            ) : null}
+            {detailsPanel}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setDriftTraceOpen((v) => !v)}
+            >
+              {driftTraceOpen ? 'HIDE DRIFT TRACE' : 'DRIFT TRACE'}
+            </button>
+            {driftTraceOpen ? <DriftTracePanel report={twinSession?.driftTriangulationReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setVisionTraceOpen((v) => !v)}
+            >
+              {visionTraceOpen ? 'HIDE VISION TRACE' : 'VISION TRACE'}
+            </button>
+            {visionTraceOpen ? <VisionTracePanel report={twinSession?.visionReplicationReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setAssetResolutionOpen((v) => !v)}
+            >
+              {assetResolutionOpen ? 'HIDE ASSET RESOLUTION' : 'ASSET RESOLUTION'}
+            </button>
+            {assetResolutionOpen ? <AssetResolutionPanel report={twinSession?.replication3cReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setGeometryOpen((v) => !v)}
+            >
+              {geometryOpen ? 'HIDE GEOMETRY' : 'GEOMETRY'}
+            </button>
+            {geometryOpen ? <GeometryPanel report={twinSession?.geometryLockReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setBoundaryOpen((v) => !v)}
+            >
+              {boundaryOpen ? 'HIDE BOUNDARY TRACE' : 'BOUNDARY TRACE'}
+            </button>
+            {boundaryOpen ? (
+              <BoundaryTracePanel report={twinSession?.replicationRenderBoundaryReport} />
+            ) : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setBlueprintOpen((v) => !v)}
+            >
+              {blueprintOpen ? 'HIDE BLUEPRINT TRANSLATION' : 'BLUEPRINT TRANSLATION'}
+            </button>
+            {blueprintOpen ? <BlueprintTranslationPanel report={twinSession?.forensicBlueprintReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setTighteningOpen((v) => !v)}
+            >
+              {tighteningOpen ? 'HIDE TIGHTENING DRIFT' : 'TIGHTENING DRIFT (4R1)'}
+            </button>
+            {tighteningOpen ? <AuthorityTighteningPanel report={twinSession?.authorityTighteningReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setHeroLockOpen((v) => !v)}
+            >
+              {heroLockOpen ? 'HIDE HERO LOCK (4R2)' : 'HERO SURGICAL LOCK (4R2)'}
+            </button>
+            {heroLockOpen ? <HeroSurgicalLockPanel report={twinSession?.heroSurgicalLockReport} /> : null}
+          </div>
+        ) : null}
+      </footer>
+    </div>
+  );
+}

@@ -1,0 +1,53 @@
+import { FORENSIC_BLUEPRINT_PROMPT_VERSION } from './constants.js';
+
+export function buildForensicUiBlueprintPrompt(input: {
+  sourceActualHash: string;
+  canonicalViewport: { widthPx: number; heightPx: number };
+}): string {
+  return [
+    'CREATE A FORENSIC UI IMPLEMENTATION BLUEPRINT OF THE PROVIDED APPROVED ACTUAL IMAGE.',
+    '',
+    'THE ACTUAL IMAGE IS THE DESIGN AUTHORITY.',
+    'PRIMARY VISUAL AUTHORITY: APPROVED ACTUAL.',
+    '',
+    'DO NOT REDESIGN IT.',
+    'DO NOT CREATE A NEW UI.',
+    'DO NOT SIMPLIFY IT.',
+    'DO NOT SUBSTITUTE GENERIC COMPONENTS.',
+    '',
+    'REPRODUCE THE EXACT PAGE COMPOSITION AS A TECHNICAL FORENSIC SPECIFICATION.',
+    '',
+    'THE BLUEPRINT MUST INCLUDE:',
+    '1. THE FULL ACTUAL PAGE COMPOSITION ON THE LEFT OR PRIMARY SIDE.',
+    '2. NUMBERED OBJECT CALLOUTS FOR EVERY VISIBLE UI OBJECT.',
+    '3. OBJECT INVENTORY TABLE.',
+    '4. PARENT SECTION FOR EACH OBJECT.',
+    '5. APPROXIMATE X / Y / WIDTH / HEIGHT.',
+    '6. TYPE / STYLE ROLE.',
+    '7. COLOR.',
+    '8. TYPOGRAPHY ROLE.',
+    '9. ALIGNMENT NOTES.',
+    '10. SPACING NOTES.',
+    '11. BORDER / DIVIDER SPECS.',
+    '12. ASSET NOTES.',
+    '13. SECTION BOUNDARIES.',
+    '14. VISUAL WEIGHT NOTES.',
+    '15. PAGE CONTEXT / COORDINATE ORIGIN.',
+    `16. CANONICAL VIEWPORT DIMENSIONS: ${input.canonicalViewport.widthPx}x${input.canonicalViewport.heightPx}.`,
+    '17. EXPLICIT IMPLEMENTATION NOTE: THIS IS A CODING TRANSLATION SPEC, NOT A REDESIGN.',
+    '',
+    'CRITICAL:',
+    'KEEP THE ACTUAL LAYOUT EXACTLY AS VISIBLE.',
+    'DO NOT REARRANGE SECTIONS.',
+    'DO NOT TURN HORIZONTAL GROUPS INTO STACKED GROUPS.',
+    'DO NOT ALTER VISUAL HIERARCHY.',
+    'DO NOT INVENT UI.',
+    'DO NOT USE A DIFFERENT VISUAL STYLE.',
+    '',
+    'STYLE: white/off-white technical background, numbered colored callouts, thin annotation lines,',
+    'right-side object inventory/spec table, lower color palette, typography key, divider specs.',
+    '',
+    `sourceActualHash: ${input.sourceActualHash}`,
+    `forensicPromptVersion: ${FORENSIC_BLUEPRINT_PROMPT_VERSION}`,
+  ].join('\n');
+}

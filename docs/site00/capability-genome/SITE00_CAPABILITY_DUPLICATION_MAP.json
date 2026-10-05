@@ -1,0 +1,1709 @@
+{
+ "artifact": "SITE00_CAPABILITY_DUPLICATION_MAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-MATURE-CAPABILITY-GENOME-RECONCILIATION1",
+ "status": "RECONCILIATION EVIDENCE + PROPOSAL (0 code changes, 0 database changes, 0 paid generations)",
+ "current_main_sha": "6f63aaaa439cc4c996a734e3cec5abbf586f2e61",
+ "counts": {
+  "duplicated_competing_capabilities": 35,
+  "code_duplication_themes": 54,
+  "cross_track_reconciliations": 58
+ },
+ "duplicated_competing_capabilities": [
+  {
+   "capability_id": "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER",
+   "name": "Project events ledger (site00_project_events)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "EVENT_LEDGER",
+   "competing_implementations": [
+    "site00_project_activity (production_os migration, 4 code refs)",
+    "site00_admin_activity",
+    "site00_orchestration_events",
+    "site00_client_review_events",
+    "site00_project_activity",
+    "site00_intake events",
+    "api/_lib/site00ClientApp/appService.ts:136",
+    "api/_lib/site00ClientProjectRoom/roomService.ts:79"
+   ],
+   "conflicts": [],
+   "resolution": "Create migration, define canonical event schema, route all writers (reviews, approvals, generation, deploy) through one emitter. || From CAP.DATA.PROJECT_EVENTS_TABLE: Add migration (or repoint to site00_project_activity) with project-scoped RLS. || From CAP.OPS.PROJECT_ACTIVITY_LEDGER: Standardize on site00_project_activity (or add the missing site00_project_events migration), use an allow-list translator, and remove the fabricated feed."
+  },
+  {
+   "capability_id": "CAP.ASSET.GENERATION_LEDGER",
+   "name": "Generation records / cost ledgers",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "COST_LEDGER",
+   "competing_implementations": [
+    "CAP.RISK.OPUS_NATIVE_COST_CEILING receipts",
+    "site00_page_concept_generation_runs",
+    "site00Assts cost_usd",
+    "src/projects/jurnl/families/F03_TODAY/MANIFEST/F03_GENERATION_LEDGER.json",
+    "src/projects/jurnl/families/F04_ACTIVITY/MANIFEST/F04_GENERATION_LEDGER.json",
+    "JURNL/F01_ENTRY/MANIFEST/openart_generation_log.json",
+    "shared/site00-production-guardrails/ledgerMetrics.ts",
+    "docs/production/reference-binding/GENERATION_LEDGER_SCHEMA.json",
+    "shared/site00-production-guardrails/ledgerMetrics.ts:47",
+    "shared/site00-product-families/productionBudget.ts",
+    "JURNL/F02_SETUP/MANIFEST/GENERATION_LEDGER.json"
+   ],
+   "conflicts": [],
+   "resolution": "One COST_LEDGER table fed by runPrecheckedProviderDispatch; import JURNL JSON ledgers. || From CAP.RISK.GENERATION_COST_LEDGER: cost_ledger table + writer from provider gateway; read into founder + client views."
+  },
+  {
+   "capability_id": "CAP.ASSET.JURNL_REPO_AUTHORITIES",
+   "name": "JURNL family authorities/environments/botanicals as repo files",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "CLIENT_SITES",
+   "root_engine": "ASSET_GRAPH",
+   "competing_implementations": [
+    "JURNL/F02_SETUP/PARENT/F02.00_SETUP_PARENT.jpg and src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.00_SETUP_PARENT.jpg",
+    "JURNL/F01_ENTRY/",
+    "JURNL/F02_SETUP/",
+    "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/AUTHORITY_INDEX.json",
+    "src/projects/jurnl/families/F02_SETUP/MANIFEST/SUPERSEDED_EXCLUDED.json",
+    "JURNL/F01_ENTRY/MANIFEST/F01_ASSET_LINEAGE_MANIFEST.json"
+   ],
+   "conflicts": [],
+   "resolution": "Register into ASSET_GRAPH with versions/approval state; one tree."
+  },
+  {
+   "capability_id": "CAP.ASSET.VISUAL_AUTHORITY_REGISTRY",
+   "name": "Visual authority registry (host + projects)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "CONTROL_PLANE",
+   "root_engine": "CANON_REGISTRY",
+   "competing_implementations": [
+    "shared/site00-production-guardrails/projectReferenceRegistry.ts (project refs)",
+    "site00_route_references",
+    "site00_visual_reference_records",
+    "src/site00/config/production-authority-registry.ts",
+    "src/site00/productionAssets/productionAssetRegistry.ts",
+    "src/site00/productionAssets/routeAssetManifests.ts",
+    "src/site00/authority/publicRedesignAuthorityManifest.ts",
+    "src/site00/authority/publicRedesignAssetSlots.ts"
+   ],
+   "conflicts": [],
+   "resolution": "Single CANON_REGISTRY table for authorities (host + projects) with status/supersedes."
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.ENTITLEMENT_STATE",
+   "name": "Commercial entitlement state per engagement/project",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PERMISSION_ENGINE",
+   "competing_implementations": [
+    "shared/site00-marketing-commercial",
+    "shared/site00-identity-commercial",
+    "shared/site00-evolve-commercial",
+    "shared/site00-monetization",
+    "api/_lib/marketingEngagements/commercialPipeline.ts:78",
+    "shared/site00-evolve-commercial/entitlements.ts:20",
+    "shared/site00-commercial-canon/paymentReadiness.ts:35"
+   ],
+   "conflicts": [],
+   "resolution": "One entitlement record per project keyed to catalog package."
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.SIMULATED_ACTIVATION_PATHS",
+   "name": "Simulated payment / commercial activation paths",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CONTROL_PLANE",
+   "root_engine": "PERMISSION_ENGINE",
+   "competing_implementations": [
+    "api/_lib/site00Production/clientStudio.ts:576",
+    "api/site00/client-production.ts:78",
+    "api/_lib/marketingEngagements/service.ts:218",
+    "api/site00/marketing-engagements.ts:74",
+    "api/site00/identity-commercial.ts:64",
+    "src/site00/pages/evolve/marketing/MarketingBriefPage.tsx:36"
+   ],
+   "conflicts": [
+    "shared/site00-commercial-audit/paymentAbstraction.ts CommercialActivationEvent never emitted"
+   ],
+   "resolution": "Replace with one founder-only activation (manual invoice/comp now, Stripe later) emitting CommercialActivationEvent. || From CAP.SALES.ACTIVATION_PAYMENT_GATE: Gate on a founder-issued activation token or a verified payment, or make it admin-only."
+  },
+  {
+   "capability_id": "CAP.CRM.CONTACT_IDENTITY_RECORD",
+   "name": "Contact / person record",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PERMISSION_ENGINE",
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Make site00_identities canonical, keyed to auth.users plus email. Upsert it on signup and on intake submit, and backfill."
+  },
+  {
+   "capability_id": "CAP.DATA.METHODOLOGY_RUNS_BLOB_STORE",
+   "name": "site00_methodology_validation_runs as generic JSON store",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "KEEP",
+   "priority": "FUTURE_OPTIONAL",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": null,
+   "competing_implementations": [
+    "api/_lib/site00SolDesignBench/proofReceiptStore.ts:18",
+    "api/_lib/site00Evolve/contentOperationsExperiment/contentOperationsSupabaseStore.ts:14",
+    "api/_lib/site00Evolve/creativeDirection/*/supabaseStore.ts"
+   ],
+   "conflicts": [],
+   "resolution": "Leave for experiments; do not build client features on it."
+  },
+  {
+   "capability_id": "CAP.DECISION.DOC_DECISION_LOGS",
+   "name": "Decision records in docs/motherboard (ADR-like)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 1,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "STUDIO_OS",
+   "root_engine": "CANON_REGISTRY",
+   "competing_implementations": [
+    "CAP.DECISION.COMMERCIAL_FOUNDER_DECISIONS",
+    "motherboard/CORE.md",
+    "motherboard/MEMORY.md",
+    "docs/design-workspace/07-INHERITANCE-AND-FOUNDER-DECISIONS.md",
+    "docs/site00/ground-zero/SITE00_PARALLEL_EXECUTION_PLAN.json",
+    "docs/site00/ground-zero/SITE00_TREE_REVIEW_QUESTIONS.md"
+   ],
+   "conflicts": [],
+   "resolution": "docs/decisions/ with ID, status, date, supersedes; link from CORE."
+  },
+  {
+   "capability_id": "CAP.DEVICE_QA.DEVICE_MATRIX",
+   "name": "Canonical device/viewport matrix",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": null,
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Single device matrix module consumed by design viewport + QA scripts."
+  },
+  {
+   "capability_id": "CAP.DEVICE_QA.VISUAL_REGRESSION",
+   "name": "Pixel-diff visual comparison",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": null,
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Pick one comparator; reuse for client site pre-launch visual QA."
+  },
+  {
+   "capability_id": "CAP.DISTRIBUTION.SCHEDULING_CADENCE",
+   "name": "Content scheduling / daily publishing cadence",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "PRODUCTS_EVOLVE",
+   "root_engine": null,
+   "competing_implementations": [
+    "site00_content_calendar_items (EVOLVE OS calendar)",
+    "dailyPublishingCadence memory runs",
+    "api/_lib/site00Evolve/dailyPublishingCadence/dailyPublishingCadenceStoreAdapter.ts:13-17",
+    "shared/site00-studio-world-production/dailyPublishingCadence",
+    "src/site00/pages/ProjectContentOperationsDailyPlanPage.tsx"
+   ],
+   "conflicts": [],
+   "resolution": "Single calendar backed by site00_content_calendar_items; persistence for cadence."
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.GITHUB",
+   "name": "GitHub repository access",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "CONTROL_PLANE",
+   "root_engine": null,
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Merge into one GitHub connector."
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.SERVICE_CONNECTIONS",
+   "name": "Per-project service connection records",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "CONTROL_PLANE",
+   "root_engine": "PROJECT_REGISTRY",
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Merge into one connection model keyed by project with secret vault."
+  },
+  {
+   "capability_id": "CAP.JOURNEY.CLIENT_PROJECT_ROOM_SURFACE",
+   "name": "Canonical client project room surface",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "root_engine": null,
+   "competing_implementations": [
+    "/client/projects/*",
+    "/app/*"
+   ],
+   "conflicts": [],
+   "resolution": "Choose /app as canonical. Redirect /client/projects/* into it. Link it from CTRL ROOM. Fix the nav to HOME/PROJECT/REVIEWS/INBOX/LIBRARY."
+  },
+  {
+   "capability_id": "CAP.JOURNEY.LIFECYCLE_STAGE_MODEL",
+   "name": "Unified client lifecycle stage model",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PROJECT_REGISTRY",
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Define one lifecycle contract in shared/. Map each existing status to it, and have surfaces read derived stage rather than substring matches."
+  },
+  {
+   "capability_id": "CAP.MARKETING.CAMPAIGN_PRODUCTION_DIRECTOR",
+   "name": "Campaign director / flavor / marketing campaign production",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": null,
+   "competing_implementations": [
+    "CAP.MARKETING.EVOLVE_MARKETING_OS (site00_marketing_campaigns)",
+    "CAP.CONTENT.EXPRESSION_ENGINE (campaignNarrative)",
+    "CAP.CONTENT.CAMPAIGN_PACKAGE_STORE",
+    "api/_lib/site00Evolve/marketingCampaignProduction/marketingCampaignProductionStoreAdapter.ts:15-26",
+    "src/site00/pages/ProjectCampaignDirectorPage.tsx",
+    "src/site00/pages/evolve/EvolveCampaignDirectorPage.tsx",
+    "src/site00/pages/ProjectBrandMarketingExpressionPage.tsx",
+    "src/site00/pages/ProjectExpressionEngineCampaignPage.tsx"
+   ],
+   "conflicts": [],
+   "resolution": "One campaign entity (site00_marketing_campaigns) with package + production attached."
+  },
+  {
+   "capability_id": "CAP.MKT_INTEL.AUDIENCE_PERSONA_CAPTURE",
+   "name": "Audience / persona capture",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PROJECT_REGISTRY",
+   "competing_implementations": [
+    "CAP.BIZ.WORLD_INTAKE_INVITE",
+    "CAP.BIZ.BRAND_CREATIVE_CONTEXT_PROFILE",
+    "shared/site00-world-intake/questions.ts:54",
+    "supabase/migrations/20260820200000_site00_evolve_marketing_os.sql:12",
+    "shared/site00-brand-lore/brandCreativeContext/types.ts:85"
+   ],
+   "conflicts": [],
+   "resolution": "No structured persona object; no single store."
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.LOCATIONS_DIRECTORY",
+   "name": "LOCATIONS directory (mobile)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "MOVEMENT_LAYER",
+   "root_engine": null,
+   "competing_implementations": [
+    "CAP.MOVEMENT.ENTER_00_WAITING_ROOM"
+   ],
+   "conflicts": [],
+   "resolution": "Merge with the WAITING ROOM into one directory config. Give desktop an equivalent instead of a redirect."
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.PROJECT_SWITCHER",
+   "name": "Project context switcher",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "MOVEMENT_LAYER",
+   "root_engine": "PROJECT_REGISTRY",
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "One URL-addressable project context provider fed by the canonical project registry."
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.SHELL_CHROME_SYSTEMS",
+   "name": "Global nav and shell chrome systems",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "MOVEMENT_LAYER",
+   "root_engine": "CANON_REGISTRY",
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Use one nav config per world from a shared destination registry, and delete the dead components."
+  },
+  {
+   "capability_id": "CAP.OFFER.BLDR_BUILD_CLASSES",
+   "name": "BLDR build classes & investment guide",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "PRODUCTS_BLDR",
+   "root_engine": null,
+   "competing_implementations": [
+    "src/site00/config/bldr-classification.ts:59",
+    "src/site00/config/bldr-classification.ts:180",
+    "src/site00/config/builder.ts:106",
+    "shared/site00-commercial-canon/founderDecisions.ts:27"
+   ],
+   "conflicts": [],
+   "resolution": "Collapse to catalog-sourced values; define scope/page limits."
+  },
+  {
+   "capability_id": "CAP.OFFER.EVOLVE_PLANS",
+   "name": "EVOLVE plans & project services",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "PRODUCTS_EVOLVE",
+   "root_engine": null,
+   "competing_implementations": [
+    "shared/site00-evolve-pricing/catalog.ts",
+    "shared/site00-evolve-commercial/catalog.ts",
+    "shared/site00-evolve-commercial/catalog.ts:32",
+    "shared/site00-evolve-pricing/catalog.ts:38",
+    "shared/site00-commercial-canon/dualPricingTrees.ts:31",
+    "src/routes/Site00Routes.tsx:2379",
+    "api/admin/site00-evolve.ts:667"
+   ],
+   "conflicts": [],
+   "resolution": "Public page shows prices that contradict the canonical catalog."
+  },
+  {
+   "capability_id": "CAP.OPS.PROJECT_HEALTH_READINESS",
+   "name": "Project health and readiness evaluation",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "STUDIO_OS",
+   "root_engine": "EVENT_LEDGER",
+   "competing_implementations": [
+    "src/site00/components/productionHub (production hub aggregation)",
+    "OverviewFounderWorkspaceBoard (NDXBOOK-specific)",
+    "api/_lib/site00Orchestration/dashboardAggregator.ts",
+    "api/_lib/site00Orchestration/projectHealth.ts:14",
+    "api/_lib/site00Orchestration/readinessCalculator.ts:14"
+   ],
+   "conflicts": [],
+   "resolution": "Choose one readiness core. || From CAP.POSTLAUNCH.PROJECT_HEALTH: Feed with uptime/error/analytics signals. || From CAP.ANALYTICS.FOUNDER_DASHBOARD_AGGREGATION: Bind to canonical project registry; feed from event ledger."
+  },
+  {
+   "capability_id": "CAP.OPS.PROJECT_REGISTRY",
+   "name": "Canonical project registry",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "STUDIO_OS",
+   "root_engine": "PROJECT_REGISTRY",
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Make site00_projects (plus project_type and ownership) canonical, generate static views from it, and alias the slugs."
+  },
+  {
+   "capability_id": "CAP.PRODUCT.ROUTE_SURFACE_SPRAWL",
+   "name": "Product route map (public products + founder project room + production workspace + studio + client)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "STUDIO_OS",
+   "root_engine": "PROJECT_REGISTRY",
+   "competing_implementations": [
+    "/studio/:projectSlug/* (client studio)",
+    "/production/:projectSlug/* (production workspace)",
+    "/projects/:projectSlug/* (founder project + experiments)",
+    "/client/projects/:projectSlug/* (client project room)",
+    "/app/projects/:projectSlug/* (client app)",
+    "src/site00/config/routes.ts:7-260",
+    "src/routes/Site00Routes.tsx (2995 lines)",
+    "src/routes/Site00AdminRoutes.tsx"
+   ],
+   "conflicts": [],
+   "resolution": "Collapse to canonical tree: PUBLIC → PRODUCTS → CLIENT_PROJECT_ROOM / FOUNDER_PRODUCTION_WORKSPACE; move experiments to /lab."
+  },
+  {
+   "capability_id": "CAP.PROJECT.ACTIVITY",
+   "name": "Workspace ACTIVITY",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": "EVENT_LEDGER",
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Read from the unified project activity ledger."
+  },
+  {
+   "capability_id": "CAP.PROJECT.INBOX",
+   "name": "Workspace INBOX (founder decisions)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": "EVENT_LEDGER",
+   "competing_implementations": [
+    "CAP.OPS.INTERNAL_APPROVAL_QUEUE"
+   ],
+   "conflicts": [],
+   "resolution": "Back it with Supabase as a single decision queue merged with approvals, and add a client-status (WATCHING) lens."
+  },
+  {
+   "capability_id": "CAP.PROJECT.LEGACY_FOUNDER_SURFACES",
+   "name": "Legacy founder project surfaces (STUDIO, /projects/:slug, admin project workspace)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": null,
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "Keep the admin project workspace as the operational fallback for client 1. Redirect the legacy groups into /production."
+  },
+  {
+   "capability_id": "CAP.PROJECT.LIBRARY",
+   "name": "Workspace LIBRARY",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": "ASSET_GRAPH",
+   "competing_implementations": [
+    "/assts library",
+    "client project room /client/projects/:slug/library",
+    "client app library/:categoryId",
+    "src/site00/components/productionAuthority/LibraryBody.tsx"
+   ],
+   "conflicts": [],
+   "resolution": "Make /assts the asset authority and turn LIBRARY into a project-scoped view of it. || From CAP.STUDIO.ASSET_LIBRARY_SURFACE: Back with ASSTS + canon records, project-scoped."
+  },
+  {
+   "capability_id": "CAP.QUALITY.LLM_CREATIVE_JUDGES",
+   "name": "LLM creative quality gates / judges",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "STUDIO_OS",
+   "root_engine": null,
+   "competing_implementations": [
+    "boardInspectorV2/V3/V4",
+    "markedUpCopyBoardPilotV2/V3/V4",
+    "copyQualityGate vs creativeJudgment vs conceptualEfficiency",
+    "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/copyQualityGate.ts:36",
+    "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/boardInspectorV2.ts",
+    "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/boardInspectorV3.ts",
+    "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/boardInspectorV4.ts",
+    "api/_lib/site00ExpressionEngine/creativeJudgmentIntelligence/expressionEngineMaturityScore.ts:16",
+    "shared/site00-expression-engine/campaign-genesis-orchestration/conceptualEfficiencyScoring.ts"
+   ],
+   "conflicts": [
+    "scoreBenchmarkRubric copies a single judgmentOverall into all 9 rubric dimensions — rubric is not multi-dimensional"
+   ],
+   "resolution": "Pick one judge contract, persist scores per asset, calibrate vs founder decisions."
+  },
+  {
+   "capability_id": "CAP.RELEASE.MANUAL_ZIP_DEPLOY",
+   "name": "Manual cPanel ZIP deploy (GitHub Releases)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "DEPRECATE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "CONTROL_PLANE",
+   "root_engine": null,
+   "competing_implementations": [],
+   "conflicts": [
+    "CAP.RELEASE.PRODUCTION_PIPELINE"
+   ],
+   "resolution": "Once CI green, retire per-session ZIP mandate; keep emergency only."
+  },
+  {
+   "capability_id": "CAP.ROUTER.PROVIDER_CALL_SITES",
+   "name": "Direct provider call sites (no gateway)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "GROUND_ZERO_FOUNDATION",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "COST_LEDGER",
+   "competing_implementations": [
+    "grokProviderRetry.ts",
+    "falBackgroundJob.ts",
+    "per-pipeline retry/poll",
+    "api/_lib/site00GrokDesignBench/grokVisionProvider.ts",
+    "api/_lib/studioBuilderGeneration.ts",
+    "api/_lib/site00Assts/generation.ts",
+    "api/_lib/site00ExpressionEngine/entry002*Dispatch.ts",
+    "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicCompletion.ts",
+    "api/_lib/site00OpusNative/provider.ts"
+   ],
+   "conflicts": [],
+   "resolution": "Provider gateway module; migrate call sites incrementally."
+  },
+  {
+   "capability_id": "CAP.SUPPORT.IN_APP_NOTIFICATIONS",
+   "name": "In-app notifications",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "NOTIFICATION_BUS",
+   "competing_implementations": [],
+   "conflicts": [],
+   "resolution": "One NOTIFICATION_BUS table and service, written on review sent, decision, message, and file delivery. Every bell reads from it."
+  },
+  {
+   "capability_id": "CAP.TREES.JURNL_SCREEN_TREE",
+   "name": "Family / screen tree manifests (JURNL)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "MATURE_PLATFORM",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": "CANON_REGISTRY",
+   "competing_implementations": [
+    "JURNL/ (root tree) vs src/projects/jurnl/families/ (bundled tree) — two copies of authorities/manifests",
+    "JSON screen tree vs TS screens.ts contract",
+    "JURNL/F01_ENTRY/MANIFEST/F01_SCREEN_TREE.json",
+    "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_SCREEN_TREE.json",
+    "src/projects/jurnl/families/F03_TODAY/MANIFEST/F03_SCREEN_TREE.json",
+    "src/projects/jurnl/families/F04_ACTIVITY/MANIFEST/F04_SCREEN_TREE.json",
+    "src/projects/jurnl/data/f0x/screens.ts"
+   ],
+   "conflicts": [],
+   "resolution": "Single tree source (generate TS from JSON or vice versa); one folder root."
+  }
+ ],
+ "code_duplication_themes": [
+  {
+   "theme": "EVOLVE pricing",
+   "implementations": [
+    "shared/site00-evolve-commercial/catalog.ts",
+    "shared/site00-evolve-pricing/catalog.ts"
+   ],
+   "canonical_choice": "shared/site00-evolve-commercial/catalog.ts",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Tree A has canonical cents and admin consumers; Tree B is display-only legacy shown publicly.",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "BLDR build-class prices",
+   "implementations": [
+    "src/site00/config/bldr-classification.ts (3 arrays)",
+    "src/site00/config/builder.ts (BLDR_INVESTMENT_TIERS + classes)"
+   ],
+   "canonical_choice": "Site00ServiceCatalog package (new BLDR entries)",
+   "action": "MERGE",
+   "reason": "Same $4K+/$10K+/$25K+ facts hand-copied ≥5 times.",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "Business/brand profile stores",
+   "implementations": [
+    "site00_idnty_submissions/site00_bldr_intakes",
+    "site00_guest_intake_sessions + site00_world_intelligence_snapshots",
+    "site00_brand_creative_context (+ hard-coded projectBootstrapCatalog)",
+    "site00_marketing_profiles",
+    "site00_identity_briefs",
+    "site00_client_truth_records",
+    "site00_project_intelligence vs site00_project_intelligence_manifests"
+   ],
+   "canonical_choice": "New unified business profile keyed on site00_projects.id with adapters",
+   "action": "MERGE",
+   "reason": "Audience/offers/positioning captured ≥3 times with incompatible keys (email, organization_id, brand_id text, project_id).",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "Intake engines",
+   "implementations": [
+    "shared intake persistence (IDNTY/BLDR)",
+    "useEvolveAssessment (localStorage)",
+    "useCreativeIntake (localStorage)",
+    "MarketingIntakePage (marketing engagements)",
+    "World intake guest sessions",
+    "Existing Location case intake (memory)"
+   ],
+   "canonical_choice": "api/_lib/site00Intakes (extend IntakeType)",
+   "action": "MERGE",
+   "reason": "Six intake mechanisms; only two share infrastructure.",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "Commercial activation / paid state",
+   "implementations": [
+    "api/_lib/site00Production/clientStudio.ts activateClientProject",
+    "api/_lib/marketingEngagements/service.ts confirmMarketingPayment",
+    "api/site00/identity-commercial.ts authorize/bootstrap",
+    "api/admin/site00-evolve.ts setEvolveCommercialPlan",
+    "api/_lib/existingLocation/service.ts completeCheckout"
+   ],
+   "canonical_choice": "Single founder-gated activation emitting CommercialActivationEvent (shared/site00-commercial-audit/paymentAbstraction.ts)",
+   "action": "MERGE",
+   "reason": "Five ways to become 'paid', three client-callable without payment.",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "Entitlement models",
+   "implementations": [
+    "shared/site00-marketing-commercial",
+    "shared/site00-identity-commercial",
+    "shared/site00-evolve-commercial/entitlements.ts",
+    "shared/site00-monetization/entitlements.ts",
+    "existing-location case.entitlement"
+   ],
+   "canonical_choice": "commercial-canon entitlementContract + per-project entitlement record",
+   "action": "MERGE",
+   "reason": "Parallel jsonb commercial_state blobs; EVOLVE limits never enforced.",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "Spend guards",
+   "implementations": [
+    "founderConfirmedSpend (endpoints)",
+    "p0vr4/spendGuard.ts",
+    "p0vr5/spendGuard.ts",
+    "p1/budgetGuard.ts",
+    "modular-production-engine/operational/costGuards.ts",
+    "storyboardGenerationCostGuard.ts",
+    "replicationBudgetPolicy.ts",
+    "site00OpusNative/costLedger.ts RunCostMeter"
+   ],
+   "canonical_choice": "COST_LEDGER-backed guard service",
+   "action": "MERGE",
+   "reason": "Inconsistent defaults (?? true) and no shared budget.",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "Cost capture",
+   "implementations": [
+    "repo JSON GENERATION_LEDGERs",
+    "post_process_jobs.cost_usd",
+    "cost_metadata jsonb (formations, astral)",
+    "studio_world_runs.cost_summary",
+    "marketing studio_production_requests estimated_cost/actual_cost",
+    "Opus receipts in /tmp"
+   ],
+   "canonical_choice": "site00_cost_ledger (new)",
+   "action": "MERGE",
+   "reason": "No single place to sum spend per project.",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "Commercial wiring matrix",
+   "implementations": [
+    "shared/site00-commercial-audit/wiringMatrix.ts",
+    "shared/site00-commercial-canon/wiringMatrixV2.ts"
+   ],
+   "canonical_choice": "wiringMatrixV2.ts",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "V2 supersedes the P0 audit matrix.",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "theme": "Client project surface",
+   "implementations": [
+    "/app/* (src/site00/pages/clientApp)",
+    "/client/projects/:slug/* (src/site00/pages/clientProjectRoom)",
+    "/projects/:slug/* client view mode"
+   ],
+   "canonical_choice": "/app/* client app",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Three surfaces over the same review API, none linked from CTRL ROOM.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Interior directory",
+   "implementations": [
+    "src/site00/config/directory.ts (/enter)",
+    "src/site00/config/locations-directory.ts (/origin/locations)",
+    "src/site00/config/fast-travel.ts"
+   ],
+   "canonical_choice": "single destination registry feeding WAITING ROOM (desktop+mobile) and FAST TRAVEL",
+   "action": "MERGE",
+   "reason": "Divergent item sets and labels, and a desktop redirect.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Project registry",
+   "implementations": [
+    "api/_lib/site00Projects/projectRegistry.ts",
+    "api/_lib/site00Projects/clientProjectResolver.ts",
+    "shared/.../p0vr3m/managedProjectRegistry.ts",
+    "shared/site00-project-ingestion/registry.ts",
+    "src/site00/projectRuntime/projectRuntimeRegistry.ts",
+    "shared/site00-projects/capabilities.ts",
+    "shared/site00-brand-lore/brandCreativeContext/constants.ts",
+    "site00_projects",
+    "site00_managed_projects"
+   ],
+   "canonical_choice": "site00_projects + project_type/ownership columns",
+   "action": "MERGE",
+   "reason": "7+ static lists with different slug spellings.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Activity / event log",
+   "implementations": [
+    "site00_project_activity",
+    "site00_project_events (no migration)",
+    "production ACTIVITY localStorage",
+    "site00_admin_activity",
+    "site00_client_review_events",
+    "site00_orchestration_events"
+   ],
+   "canonical_choice": "site00_project_activity with allow-list client translator",
+   "action": "MERGE",
+   "reason": "Writes go to different tables than reads, and one table has no migration.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Decision / approval queue",
+   "implementations": [
+    "/production/queue INBOX (localStorage)",
+    "/admin/site00/approvals (site00_approval_requests)",
+    "/admin/site00/ctrl-room attention center",
+    "orchestration NeedsYouPanel"
+   ],
+   "canonical_choice": "Supabase-backed unified decision queue surfaced as production INBOX",
+   "action": "MERGE",
+   "reason": "Four 'what needs me' lists for one founder.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Approval status models",
+   "implementations": [
+    "site00_approval_requests + deliverable statuses CLIENT_REVIEW/CLIENT_APPROVED",
+    "site00_client_review_objects client_status"
+   ],
+   "canonical_choice": "client review objects bound to deliverable/approval_request",
+   "action": "MERGE",
+   "reason": "Two parallel approval models, and neither is written on the client path.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Notifications",
+   "implementations": [
+    "client app bell (no handler)",
+    "shared/site00-client-app/notificationContract.ts",
+    "api/_lib/site00Projects/projectNotificationsService.ts (memory)",
+    "NDX notification center",
+    "ASSTS notifications page"
+   ],
+   "canonical_choice": "one NOTIFICATION_BUS table + service",
+   "action": "MERGE",
+   "reason": "No shared persistence.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Person / identity record",
+   "implementations": [
+    "site00_identities",
+    "profiles",
+    "site00_projects.client_email/client_user_id",
+    "lead/intake email fields"
+   ],
+   "canonical_choice": "site00_identities keyed to auth.users",
+   "action": "MERGE",
+   "reason": "CRM has no join key besides email.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "CTRL ROOM naming",
+   "implementations": [
+    "/control (client account)",
+    "/admin/site00/ctrl-room (operator attention)"
+   ],
+   "canonical_choice": "CTRL ROOM = client account; rename the admin page to ATTENTION/NEEDS YOU",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Name collision.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Readiness / health engines",
+   "implementations": [
+    "api/_lib/site00Production/readiness*",
+    "api/_lib/site00Orchestration/readinessCalculator.ts",
+    "api/_lib/site00Projects/projectHealth.ts",
+    "api/_lib/site00Orchestration/projectHealth.ts"
+   ],
+   "canonical_choice": "orchestration readiness (Supabase-canonical, tested) bound to site00_projects",
+   "action": "MERGE",
+   "reason": "Parallel readiness computations.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Asset library",
+   "implementations": [
+    "/production/libraries (fixtures)",
+    "/assts vault",
+    "/production/:slug/design/assets",
+    "client app library (fixtures)"
+   ],
+   "canonical_choice": "/assts as ASSET_GRAPH authority with project-scoped views",
+   "action": "MERGE",
+   "reason": "Fixture libraries duplicate a real vault.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "EXIT 00",
+   "implementations": [
+    "src/site00/components/shell/EntryToggle.tsx",
+    "src/site00/components/locations/DirectoryExitButton.tsx",
+    "Site00DesignWorkspaceShell EXIT 00"
+   ],
+   "canonical_choice": "one ExitToOrigin component",
+   "action": "MERGE",
+   "reason": "Three implementations with two meanings.",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "theme": "Campaign entity",
+   "implementations": [
+    "site00_marketing_campaigns (api/_lib/site00Evolve)",
+    "api/_lib/site00Evolve/marketingCampaignProduction (memory)",
+    "api/_lib/site00CampaignPackage (site00_campaign_packages)",
+    "api/_lib/site00ExpressionEngine/campaignNarrative",
+    "site00_marketing_engagements (client-facing)"
+   ],
+   "canonical_choice": "site00_marketing_campaigns with package + engagement FK",
+   "action": "MERGE",
+   "reason": "≥4 parallel campaign concepts, separate stores, one memory-only.",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "theme": "site00_campaign_deliverables table",
+   "implementations": [
+    "supabase/migrations/20260820210000_site00_evolve_marketing_os_completion.sql:25",
+    "supabase/migrations/20260908160000_site00_campaign_package_persistence.sql:53"
+   ],
+   "canonical_choice": "Keep EVOLVE OS table; rename package table to site00_campaign_package_deliverables",
+   "action": "MERGE",
+   "reason": "Same name, incompatible schemas; IF NOT EXISTS silently skips second.",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "theme": "Content calendar / cadence",
+   "implementations": [
+    "site00_content_calendar_items",
+    "api/_lib/site00Evolve/dailyPublishingCadence (memory)"
+   ],
+   "canonical_choice": "site00_content_calendar_items",
+   "action": "MERGE",
+   "reason": "Two schedulers, neither dispatches.",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "theme": "EVOLVE existing-property intake",
+   "implementations": [
+    "src/site00/hooks/useEvolveAssessment.ts (localStorage)",
+    "api/_lib/existingLocation (memory Maps)",
+    "site00_evolve_intakes (unused)"
+   ],
+   "canonical_choice": "existing-location case service persisted to Supabase",
+   "action": "MERGE",
+   "reason": "Three intake paths, none durable.",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "theme": "EVOLVE pricing / catalog",
+   "implementations": [
+    "shared/site00-evolve-pricing/catalog.ts",
+    "shared/site00-evolve-commercial/catalog.ts",
+    "shared/site00-marketing/serviceTaxonomy.ts",
+    "shared/site00-marketing-commercial/entitlementTemplates.ts"
+   ],
+   "canonical_choice": "shared/site00-evolve-commercial/catalog.ts (tested)",
+   "action": "MERGE",
+   "reason": "Multiple catalogs of the same offer.",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "theme": "Brand knowledge source",
+   "implementations": [
+    "site00_content_brain_entries / contentBrain.ts",
+    "site00_brand_lore_profiles",
+    "site00_brand_canon_traits",
+    "site00_canon_records"
+   ],
+   "canonical_choice": "site00_canon_records (CANON_REGISTRY)",
+   "action": "MERGE",
+   "reason": "Four stores of brand truth feeding copy.",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "theme": "Organization registry",
+   "implementations": [
+    "api/_lib/site00Evolve/orgRegistry.ts (hard-coded 5)",
+    "site00_organizations table"
+   ],
+   "canonical_choice": "site00_organizations",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Hard-coded registry blocks new client orgs.",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "theme": "Event/activity ledgers",
+   "implementations": [
+    "site00_project_events (no migration)",
+    "site00_project_activity",
+    "site00_admin_activity",
+    "site00_orchestration_events",
+    "site00_campaign_events",
+    "site00_connection_events",
+    "site00_client_review_events",
+    "site00_intake_events",
+    "site00_production_invalidation_events",
+    "audit_logs (no migration)",
+    "user_activity (no migration)"
+   ],
+   "canonical_choice": "site00_project_events (add migration, generic schema with actor/project/type/payload)",
+   "action": "MERGE",
+   "reason": "11 tables, 3 without migrations; no cross-project timeline possible.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Generation cost ledgers",
+   "implementations": [
+    "JURNL/F02_SETUP/MANIFEST/GENERATION_LEDGER.json",
+    "src/projects/jurnl/families/F03_TODAY/MANIFEST/F03_GENERATION_LEDGER.json",
+    "src/projects/jurnl/families/F04_ACTIVITY/MANIFEST/F04_GENERATION_LEDGER.json",
+    "JURNL/F01_ENTRY/ASSET_FIRST_TEST1/F01_GROK_GENERATION_LEDGER.json",
+    "JURNL/F01_ENTRY/MANIFEST/openart_generation_log.json",
+    "api/_lib/site00OpusNative/costLedger.ts (fs receipts)",
+    "shared/site00-product-families/productionBudget.ts",
+    "site00_page_concept_generation_runs"
+   ],
+   "canonical_choice": "New DB cost_ledger table following docs/production/reference-binding/GENERATION_LEDGER_SCHEMA.json",
+   "action": "MERGE",
+   "reason": "Spend is unrecoverable across formats.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Spend guards",
+   "implementations": [
+    "founderConfirmedSpend body flag (~88 files)",
+    "Opus-native CostCeilingError",
+    "precheckGenerationDispatch (0-credit block)",
+    "PRODUCTION_COST_GUARD_RULES.json"
+   ],
+   "canonical_choice": "Provider gateway running precheckGenerationDispatch + per-run ceiling + founder-auth spend token",
+   "action": "MERGE",
+   "reason": "Only Opus ceiling is enforced in code; others are honour-system.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Provider routing / clients",
+   "implementations": [
+    "api/_lib/site00ExpressionEngine/productionRouting.ts",
+    "42 FAL call files",
+    "26 Anthropic call files",
+    "grokProviderRetry.ts",
+    "falBackgroundJob.ts"
+   ],
+   "canonical_choice": "Expand productionRouting into a shared provider gateway",
+   "action": "MERGE",
+   "reason": "Routing table exists but most pipelines bypass it.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "LLM creative judges",
+   "implementations": [
+    "copyQualityGate.ts",
+    "boardInspectorV2/V3/V4",
+    "creativeJudgmentIntelligence",
+    "conceptualEfficiencyScoring.ts",
+    "expressionEngineMaturityScore.ts"
+   ],
+   "canonical_choice": "creativeJudgmentIntelligence with persisted per-dimension scores",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Versioned duplicates; maturity rubric fakes dimensions.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Design benches",
+   "implementations": [
+    "twin",
+    "twin-v4",
+    "twin-sol-direct",
+    "twin-testA/B",
+    "twin-grok-direct",
+    "opus-native",
+    "twin-fable-direct",
+    "twin-spark-direct",
+    "twin-spark-responsive",
+    "twin-opus-direct(+6)",
+    "reconstruction-lab"
+   ],
+   "canonical_choice": "Production DESIGN workspace + one /lab tree",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Unguarded paid benches in production bundle.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Decision records",
+   "implementations": [
+    "shared/site00-commercial-canon/founderDecisions.ts",
+    "motherboard/MEMORY.md",
+    "docs/design-workspace/07-INHERITANCE-AND-FOUNDER-DECISIONS.md",
+    "SITE00_PARALLEL_EXECUTION_PLAN.json requires_founder_data_decisions"
+   ],
+   "canonical_choice": "Decision register with status (extend founderDecisions schema, mirror to docs/decisions)",
+   "action": "MERGE",
+   "reason": "Open founder decisions are scattered.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Readiness/blocker gates",
+   "implementations": [
+    "Orchestration launch manifest + readinessCalculator",
+    "site00_production_blockers",
+    "site00_next_actions",
+    "familyGate.evaluateFamilyGate"
+   ],
+   "canonical_choice": "Launch manifest requirements fed by family gates",
+   "action": "MERGE",
+   "reason": "Three go/no-go models that do not talk.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Canon stores",
+   "implementations": [
+    "site00_canon_records/versions (orchestration, org-keyed)",
+    "brandCanonVersion in creativeLineage",
+    "site00_canon_field_records",
+    "ground-zero canon JSON",
+    "JURNL manifests"
+   ],
+   "canonical_choice": "site00_canon_* tables keyed to project registry",
+   "action": "MERGE",
+   "reason": "Org vs project keys diverge.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Metrics tables (EVOLVE)",
+   "implementations": [
+    "site00_marketing_metrics",
+    "site00_marketing_metric_observations",
+    "site00_marketing_performance_snapshots"
+   ],
+   "canonical_choice": "site00_marketing_metric_observations",
+   "action": "MERGE",
+   "reason": "Two migrations created overlapping metric tables.",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "theme": "Service/provider connection models",
+   "implementations": [
+    "supabase site00_service_connections (project-scoped)",
+    "site00_external_connections (org-scoped orchestration)",
+    "EVOLVE provider connections + site00_provider_secrets"
+   ],
+   "canonical_choice": "Project-scoped connection table + providerSecretStore vault",
+   "action": "MERGE",
+   "reason": "Three models for the same concept; only EVOLVE has real encrypted secrets.",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "theme": "GitHub API client",
+   "implementations": [
+    "api/_lib/site00Orchestration/githubClient.ts",
+    "api/_lib/site00Projects/githubProjectConnector.ts"
+   ],
+   "canonical_choice": "githubProjectConnector.ts (project-scoped)",
+   "action": "MERGE",
+   "reason": "Same token resolution and fetch wrapper duplicated.",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "theme": "Frontend deploy path",
+   "implementations": [
+    ".github/workflows/site00-production-deploy.yml",
+    ".github/workflows/deploy-godaddy.yml",
+    "scripts/package-cpanel-deploy.sh + gh release (AGENTS.md)"
+   ],
+   "canonical_choice": "site00-production-deploy.yml",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Pipeline has verification/receipts; ZIPs produce non-CI bundles.",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "theme": "Supabase admin client",
+   "implementations": [
+    "api/_lib/supabase.ts getSupabaseAdmin (anon fallback)",
+    "api/_lib/supabase.ts getSupabaseAdminServiceRole (strict)"
+   ],
+   "canonical_choice": "strict service-role client",
+   "action": "MERGE",
+   "reason": "Anon fallback masks misconfiguration.",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "theme": "Pixel diff / visual comparison",
+   "implementations": [
+    "shared/site00-studio-world-production/visualReconstruction/compare/RenderedReferenceComparison.ts",
+    "shared/.../p0vrTwinV42/runTwinV4GoldenPixelDiff.ts",
+    "api/_lib/site00ExperienceEngine/cropRegionComparison.ts"
+   ],
+   "canonical_choice": "RenderedReferenceComparison.ts",
+   "action": "MERGE",
+   "reason": "Same pixelmatch capability implemented 3×.",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "theme": "Event/audit stores",
+   "implementations": [
+    "audit_logs (no migration)",
+    "site00_orchestration_events",
+    "site00_connection_events",
+    "site00_project_events (no migration)"
+   ],
+   "canonical_choice": "single EVENT_LEDGER table",
+   "action": "MERGE",
+   "reason": "Fragmented audit trail; two targets have no table.",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "theme": "Project registries feeding runtime",
+   "implementations": [
+    "src/site00/projectRuntime/projectRuntimeRegistry.ts",
+    "shared/site00-production-guardrails/familyOutputProjects.ts",
+    "api/_lib/site00Projects/projectRegistry.ts FOUNDER_PROJECTS",
+    "shared/site00-project-ingestion/registry.ts"
+   ],
+   "canonical_choice": "DB-backed PROJECT_REGISTRY",
+   "action": "MERGE",
+   "reason": "Runtime/provider bindings should hang off one project record.",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "theme": "Dependency / graph models",
+   "implementations": [
+    "api/_lib/site00Orchestration/dependencyGraph.ts",
+    "api/_lib/site00Production/dependencyEngine.ts",
+    "shared/site00-studio-world-production/canonicalDependencyEdges.ts",
+    "shared/site00-design-control-plane/blastRadius.ts",
+    "shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.ts",
+    "src/studioos/experience-compiler/map2/creativeExperienceGraph.ts"
+   ],
+   "canonical_choice": "New ASSET_GRAPH (nodes/edges tables) seeded from site00Orchestration dependencyGraph (only tested+persisted one)",
+   "action": "MERGE",
+   "reason": "Six non-interoperable graphs, four in-memory.",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "theme": "Reference / authority registries",
+   "implementations": [
+    "shared/site00-production-guardrails/projectReferenceRegistry.ts",
+    "src/site00/config/production-authority-registry.ts",
+    "src/site00/productionAssets/productionAssetRegistry.ts",
+    "src/site00/authority/publicRedesignAuthorityManifest.ts",
+    "api/_lib/site00ExperienceEngine/routeReferenceStore.ts",
+    "api/_lib/site00VisualReference/supabaseStore.ts",
+    "docs/site00/ground-zero/SITE00_VISUAL_AUTHORITY_REGISTRY.json",
+    "site00_references tables (unused)"
+   ],
+   "canonical_choice": "CANON_REGISTRY table with authority status/supersedes; guardrails resolver reads it",
+   "action": "MERGE",
+   "reason": "No single answer to 'what is canonical for X'.",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "theme": "Asset stores",
+   "implementations": [
+    "api/_lib/site00Assts (logical_assets/versions)",
+    "api/_lib/site00Evolve/creativeLineage",
+    "shared/.../productAssetFactory (simulated)",
+    "api/_lib/site00AstralWorld/assetRecordStore.ts",
+    "JURNL repo-file authorities",
+    "site00_campaign_package_assets"
+   ],
+   "canonical_choice": "ASSTS logical_assets/asset_versions, project-scoped",
+   "action": "MERGE",
+   "reason": "ASSTS is the most wired, versioned and admin-guarded.",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "theme": "Generation ledgers / job records",
+   "implementations": [
+    "JURNL *_GENERATION_LEDGER.json + openart_generation_log.json",
+    "site00_generation_jobs",
+    "site00_page_concept_generation_runs",
+    "site00_creative_direction_production_jobs",
+    "site00_ec_creative_runs",
+    "site00_expression_generation_receipts (unused)"
+   ],
+   "canonical_choice": "Single COST_LEDGER table written by runPrecheckedProviderDispatch",
+   "action": "MERGE",
+   "reason": "Credits/cost not aggregatable per project.",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "theme": "Family / page tree definitions",
+   "implementations": [
+    "JURNL/F0x/MANIFEST/*_SCREEN_TREE.json",
+    "src/projects/jurnl/families/F0x/MANIFEST/*_SCREEN_TREE.json",
+    "src/projects/jurnl/data/f0x/screens.ts",
+    "shared/site00-studio-world-production/pageFamilyWorkspace",
+    "site00_design_pages/families (unused)",
+    "docs/site00/ground-zero/*TREE*.json"
+   ],
+   "canonical_choice": "JSON screen tree generating TS contracts; one JURNL root folder",
+   "action": "MERGE",
+   "reason": "Hand-synced parallel copies drift.",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "theme": "Family production pipelines",
+   "implementations": [
+    "JURNL_FAMILY_EXPRESSION_MATRIX pipeline (7 stages)",
+    "src/studioos/experience-compiler/map2/productionPipeline.ts MODEL_PIPELINE_STAGES",
+    "api/_lib/site00ExpressionEngine entry bootstraps"
+   ],
+   "canonical_choice": "JURNL family pipeline (repo truth #1357–#1364)",
+   "action": "MERGE",
+   "reason": "Three stage vocabularies for authority production.",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "theme": "Project registries",
+   "implementations": [
+    "src/projects/registry.ts + shared/site00-project-ingestion",
+    "src/site00/projectRuntime/projectRuntimeRegistry.ts",
+    "api/_lib/site00Projects/projectRegistry.ts",
+    "shared/.../p0vr3m/managedProjectRegistry.ts",
+    "site00_projects",
+    "site00_managed_projects",
+    "shared/site00-production-guardrails/familyOutputProjects.ts"
+   ],
+   "canonical_choice": "site00_projects as PROJECT_REGISTRY with ingestion record fields",
+   "action": "MERGE",
+   "reason": "Known ≥7 registries; slug aliases diverge.",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "theme": "Per-project workspaces",
+   "implementations": [
+    "/production/:projectSlug/*",
+    "/projects/:projectSlug/*",
+    "/studio/:projectSlug/*",
+    "/client/projects/:projectSlug/*",
+    "/app/projects/:projectSlug/*"
+   ],
+   "canonical_choice": "/production/:slug (founder) + /client/projects/:slug (client)",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Competing shells for same project.",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "theme": "Family output project mapping",
+   "implementations": [
+    "shared/site00-production-guardrails/familyOutputProjects.ts",
+    "docs/production/reference-binding/FAMILY_OUTPUT_PROJECTS.json",
+    "JURNL/F0x/MANIFEST/OPENART_PROJECT.json"
+   ],
+   "canonical_choice": "TS constant (enforced) until DB table",
+   "action": "DEPRECATE_OTHERS",
+   "reason": "Three copies of the same 4 rows.",
+   "audit_track": "product_expression_data"
+  }
+ ],
+ "cross_track_reconciliations": [
+  {
+   "secondary": "CAP.SALES.ACTIVATION_PAYMENT_GATE",
+   "merged_into": "CAP.COMMERCIAL.SIMULATED_ACTIVATION_PATHS",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.CRM.SERVER_ROLE_AUTHORITY",
+   "merged_into": "CAP.SECURITY.CLIENT_ROLE_ENFORCEMENT",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.JOURNEY.ACCOUNT_AUTH",
+   "merged_into": "CAP.SECURITY.SUPABASE_AUTH_SESSION",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.JOURNEY.LAUNCH_TRANSITION",
+   "merged_into": "CAP.LAUNCH.CLIENT_LAUNCH_FLOW",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.OPS.LAUNCH_HANDOFF",
+   "merged_into": "CAP.LAUNCH.CLIENT_LAUNCH_FLOW",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.QUALITY.CLIENT_REVIEW_SCORING",
+   "merged_into": "CAP.OPS.REVIEW_RETURN_LOOP",
+   "secondary_track": "measurement_governance",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.DATA.PROJECT_EVENTS_TABLE",
+   "merged_into": "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER",
+   "secondary_track": "product_expression_data",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.OPS.PROJECT_ACTIVITY_LEDGER",
+   "merged_into": "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.DATA.RLS_GAPS",
+   "merged_into": "CAP.SECURITY.RLS_POLICIES",
+   "secondary_track": "product_expression_data",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.MARKETING.EMAIL_TRANSACTIONAL",
+   "merged_into": "CAP.INTEGRATION.EMAIL_PROVIDER",
+   "secondary_track": "marketing_content_seo",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.SUPPORT.EMAIL_DELIVERY",
+   "merged_into": "CAP.INTEGRATION.EMAIL_PROVIDER",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.JOURNEY.LEGAL_PAGES",
+   "merged_into": "CAP.PRIVACY.LEGAL_PAGES",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.CRM.PROJECT_MEMBERSHIP",
+   "merged_into": "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.SALES.PAYMENT_CHECKOUT",
+   "merged_into": "CAP.COMMERCIAL.PAYMENT_CHECKOUT",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.INTEGRATION.PAYMENTS",
+   "merged_into": "CAP.COMMERCIAL.PAYMENT_CHECKOUT",
+   "secondary_track": "platform_security_release",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.SALES.INVOICING",
+   "merged_into": "CAP.COMMERCIAL.INVOICES",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.SALES.COMMERCIAL_ADJUSTMENTS",
+   "merged_into": "CAP.COMMERCIAL.COURTESY_CODE_ENGINE",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.SALES.PROPOSAL_QUOTE",
+   "merged_into": "CAP.OFFER.QUOTES_PROPOSALS",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.SALES.DISCOVERY_BOOKING",
+   "merged_into": "CAP.CRM.LEAD_CAPTURE",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.BIZ.LEAD_AND_DISCOVERY_BOOKING",
+   "merged_into": "CAP.CRM.LEAD_CAPTURE",
+   "secondary_track": "business_offer_commercial",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.CRM.INTAKE_PERSISTENCE",
+   "merged_into": "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.DATA.INTAKE_PERSISTENCE",
+   "merged_into": "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE",
+   "secondary_track": "product_expression_data",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.CRM.FOUNDER_INTAKE_INVITES",
+   "merged_into": "CAP.BIZ.WORLD_INTAKE_INVITE",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.OFFER.FOUNDER_DECISION_REGISTER",
+   "merged_into": "CAP.DECISION.COMMERCIAL_FOUNDER_DECISIONS",
+   "secondary_track": "business_offer_commercial",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.SECURITY.SPEND_GUARD",
+   "merged_into": "CAP.RISK.SPEND_CONFIRMATION_GUARDS",
+   "secondary_track": "platform_security_release",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.COST.SPEND_GUARDS",
+   "merged_into": "CAP.RISK.SPEND_CONFIRMATION_GUARDS",
+   "secondary_track": "business_offer_commercial",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.RISK.GENERATION_COST_LEDGER",
+   "merged_into": "CAP.ASSET.GENERATION_LEDGER",
+   "secondary_track": "measurement_governance",
+   "primary_track": "product_expression_data"
+  },
+  {
+   "secondary": "CAP.EXPRESSION.DISPATCH_PRECHECK",
+   "merged_into": "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD",
+   "secondary_track": "product_expression_data",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.RISK.LAUNCH_READINESS_MANIFEST",
+   "merged_into": "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+   "secondary_track": "measurement_governance",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.LAUNCH.LAUNCH_MANIFEST_READINESS",
+   "merged_into": "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+   "secondary_track": "platform_security_release",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.DEPGRAPH.LAUNCH_MANIFEST_GRAPH",
+   "merged_into": "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+   "secondary_track": "product_expression_data",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.RISK.PAYMENT_PROVIDER_GATE",
+   "merged_into": "CAP.COMMERCIAL.PAYMENT_READINESS_AUDIT",
+   "secondary_track": "measurement_governance",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.SECURITY.AUDIT_LOG",
+   "merged_into": "CAP.ANALYTICS.ADMIN_AUDIT_LOG",
+   "secondary_track": "platform_security_release",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.POSTLAUNCH.ERROR_TRACKING",
+   "merged_into": "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+   "secondary_track": "platform_security_release",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.POSTLAUNCH.PROJECT_HEALTH",
+   "merged_into": "CAP.OPS.PROJECT_HEALTH_READINESS",
+   "secondary_track": "platform_security_release",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.ANALYTICS.FOUNDER_DASHBOARD_AGGREGATION",
+   "merged_into": "CAP.OPS.PROJECT_HEALTH_READINESS",
+   "secondary_track": "measurement_governance",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.SITES.DOMAINS_DEPLOYS",
+   "merged_into": "CAP.LAUNCH.DOMAIN_DNS",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.CONTROL_ROOM.DESIGN_CONTROL_PLANE_BRIDGE",
+   "merged_into": "CAP.CONTROL_PLANE.DESIGN_CONTROL_PLANE",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.CONTROL_ROOM.ADMIN_ROLE_GATE",
+   "merged_into": "CAP.SECURITY.ADMIN_GATING",
+   "secondary_track": "journey_crm_ops",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.PRODUCT.STUDIO_OS_SHELL",
+   "merged_into": "CAP.PROJECT.WORKSPACE_SHELL",
+   "secondary_track": "product_expression_data",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.STUDIO.ASSET_LIBRARY_SURFACE",
+   "merged_into": "CAP.PROJECT.LIBRARY",
+   "secondary_track": "product_expression_data",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.EXPRESSION.DESIGN_WORKSPACE_SURFACE",
+   "merged_into": "CAP.PROJECT.DESIGN",
+   "secondary_track": "product_expression_data",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.EXPRESSION.EXPERIENCE_WORKSPACE_SURFACE",
+   "merged_into": "CAP.PROJECT.EXPERIENCE",
+   "secondary_track": "product_expression_data",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.EXPRESSION.NDXBOOK_EXPRESSION_ENGINE",
+   "merged_into": "CAP.CONTENT.EXPRESSION_ENGINE",
+   "secondary_track": "product_expression_data",
+   "primary_track": "marketing_content_seo"
+  },
+  {
+   "secondary": "CAP.CONTENT.JURNL_FAMILY_CONTENT",
+   "merged_into": "CAP.EXPRESSION.FAMILY_EXPRESSION_BRIEF_GATE",
+   "secondary_track": "marketing_content_seo",
+   "primary_track": "product_expression_data"
+  },
+  {
+   "secondary": "CAP.EVOLVE.REFINE_INSTALL_TRANSFORM_PATHS",
+   "merged_into": "CAP.PRODUCT.EVOLVE_PATHS",
+   "secondary_track": "marketing_content_seo",
+   "primary_track": "product_expression_data"
+  },
+  {
+   "secondary": "CAP.EVOLVE.EXISTING_LOCATION_CASES",
+   "merged_into": "CAP.JOURNEY.EXISTING_LOCATION_FLOW",
+   "secondary_track": "marketing_content_seo",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.BIZ.EXISTING_LOCATION_INTAKE",
+   "merged_into": "CAP.JOURNEY.EXISTING_LOCATION_FLOW",
+   "secondary_track": "business_offer_commercial",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.EXPERIMENT.BENCH_ROUTE_SPRAWL",
+   "merged_into": "CAP.PROJECT.BENCH_ROUTE_GUARDING",
+   "secondary_track": "measurement_governance",
+   "primary_track": "journey_crm_ops"
+  },
+  {
+   "secondary": "CAP.RUNTIME.PROVIDER_PROJECT_PER_FAMILY",
+   "merged_into": "CAP.EXPRESSION.FAMILY_OUTPUT_PROJECTS",
+   "secondary_track": "platform_security_release",
+   "primary_track": "product_expression_data"
+  },
+  {
+   "secondary": "CAP.CANON.COMMERCIAL_CANON",
+   "merged_into": "CAP.OFFER.SERVICE_CATALOG_CANON",
+   "secondary_track": "measurement_governance",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.PRODUCT.MONETIZATION_MODEL",
+   "merged_into": "CAP.OFFER.HOSTED_PRODUCT_MONETIZATION",
+   "secondary_track": "product_expression_data",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.ASSET.CANON_RECORDS",
+   "merged_into": "CAP.CANON.IDENTITY_CANON_PROMOTION",
+   "secondary_track": "product_expression_data",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.PRODUCT.INGESTED_PROJECT_RECORD",
+   "merged_into": "CAP.RUNTIME.PROJECT_RUNTIME_REGISTRY",
+   "secondary_track": "product_expression_data",
+   "primary_track": "platform_security_release"
+  },
+  {
+   "secondary": "CAP.INTEGRATION.ANALYTICS_PROVIDER",
+   "merged_into": "CAP.ANALYTICS.EVOLVE_PROVIDER_METRICS",
+   "secondary_track": "platform_security_release",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.MARKETING.ANALYTICS_BASELINE",
+   "merged_into": "CAP.ANALYTICS.EVOLVE_PROVIDER_METRICS",
+   "secondary_track": "marketing_content_seo",
+   "primary_track": "measurement_governance"
+  },
+  {
+   "secondary": "CAP.MARKETING.CULTURAL_INTELLIGENCE",
+   "merged_into": "CAP.MKT_INTEL.CULTURAL_TREND_INTELLIGENCE",
+   "secondary_track": "marketing_content_seo",
+   "primary_track": "business_offer_commercial"
+  },
+  {
+   "secondary": "CAP.BIZ.MARKETING_ENGAGEMENT_INTAKE",
+   "merged_into": "CAP.MARKETING.CLIENT_MARKETING_ENGAGEMENTS",
+   "secondary_track": "business_offer_commercial",
+   "primary_track": "marketing_content_seo"
+  }
+ ]
+}

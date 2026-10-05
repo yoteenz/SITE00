@@ -1,0 +1,74 @@
+[
+  {
+    "residentId": "SW-RESIDENT-001",
+    "name": "ETTA VALE",
+    "file": "SW-RESIDENT-001_ETTA_VALE.jpg",
+    "authorityType": "CASTING_THUMBNAIL",
+    "status": "FOUNDER_APPROVED_FOR_SITE00_CASTING_THUMBNAIL",
+    "usage": "Expression > Casting > Actors list thumbnail only",
+    "notes": "Clean white background, white T-shirt, SITE 00 red collar accent. Does not replace natural-habitat wardrobe authority."
+  },
+  {
+    "residentId": "SW-RESIDENT-002",
+    "name": "ZURI XU",
+    "file": "SW-RESIDENT-002_ZURI_XU.jpg",
+    "authorityType": "CASTING_THUMBNAIL",
+    "status": "FOUNDER_APPROVED_FOR_SITE00_CASTING_THUMBNAIL",
+    "usage": "Expression > Casting > Actors list thumbnail only",
+    "notes": "Clean white background, white T-shirt, SITE 00 red collar accent. Does not replace natural-habitat wardrobe authority."
+  },
+  {
+    "residentId": "SW-RESIDENT-003",
+    "name": "JULES MERCER",
+    "file": "SW-RESIDENT-003_JULES_MERCER.jpg",
+    "authorityType": "CASTING_THUMBNAIL",
+    "status": "FOUNDER_APPROVED_FOR_SITE00_CASTING_THUMBNAIL",
+    "usage": "Expression > Casting > Actors list thumbnail only",
+    "notes": "Clean white background, white T-shirt, SITE 00 red collar accent. Does not replace natural-habitat wardrobe authority."
+  },
+  {
+    "residentId": "SW-RESIDENT-004",
+    "name": "NOA KLINE",
+    "file": "SW-RESIDENT-004_NOA_KLINE.jpg",
+    "authorityType": "CASTING_THUMBNAIL",
+    "status": "FOUNDER_APPROVED_FOR_SITE00_CASTING_THUMBNAIL",
+    "usage": "Expression > Casting > Actors list thumbnail only",
+    "notes": "Clean white background, white T-shirt, SITE 00 red collar accent. Does not replace natural-habitat wardrobe authority."
+  },
+  {
+    "residentId": "SW-RESIDENT-005",
+    "name": "CASPIAN REED",
+    "file": "SW-RESIDENT-005_CASPIAN_REED.jpg",
+    "authorityType": "CASTING_THUMBNAIL",
+    "status": "FOUNDER_APPROVED_FOR_SITE00_CASTING_THUMBNAIL",
+    "usage": "Expression > Casting > Actors list thumbnail only",
+    "notes": "Clean white background, white T-shirt, SITE 00 red collar accent. Does not replace natural-habitat wardrobe authority."
+  },
+  {
+    "residentId": "SW-RESIDENT-006",
+    "name": "IONA WELLS",
+    "file": "SW-RESIDENT-006_IONA_WELLS.jpg",
+    "authorityType": "CASTING_THUMBNAIL",
+    "status": "FOUNDER_APPROVED_FOR_SITE00_CASTING_THUMBNAIL",
+    "usage": "Expression > Casting > Actors list thumbnail only",
+    "notes": "Clean white background, white T-shirt, SITE 00 red collar accent. Does not replace natural-habitat wardrobe authority."
+  },
+  {
+    "residentId": "SW-RESIDENT-007",
+    "name": "MARLOWE SAINT",
+    "file": "SW-RESIDENT-007_MARLOWE_SAINT.jpg",
+    "authorityType": "CASTING_THUMBNAIL",
+    "status": "FOUNDER_APPROVED_FOR_SITE00_CASTING_THUMBNAIL",
+    "usage": "Expression > Casting > Actors list thumbnail only",
+    "notes": "Clean white background, white T-shirt, SITE 00 red collar accent. Does not replace natural-habitat wardrobe authority."
+  },
+  {
+    "residentId": "SW-RESIDENT-008",
+    "name": "ELIO EV VAHN",
+    "file": "SW-RESIDENT-008_ELIO_EV_VAHN.jpg",
+    "authorityType": "CASTING_THUMBNAIL",
+    "status": "FOUNDER_APPROVED_FOR_SITE00_CASTING_THUMBNAIL",
+    "usage": "Expression > Casting > Actors list thumbnail only",
+    "notes": "Clean white background, white T-shirt, SITE 00 red collar accent. Does not replace natural-habitat wardrobe authority."
+  }
+]

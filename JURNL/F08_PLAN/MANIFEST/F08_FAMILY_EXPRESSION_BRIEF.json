@@ -1,0 +1,55 @@
+{
+  "family_id": "F08",
+  "family_name": "PLAN",
+  "product_job": "Help the user arrange money before it moves.",
+  "user_question_answered": "What do I want my money to do?",
+  "primary_signal": "Intentions laid out.",
+  "emotional_role": "Constructive and tactile.",
+  "spatial_metaphor": "An editorial worktable.",
+  "architectural_character": "Pale oak table and loose sheets on the right. Left plaster above the table.",
+  "lighting_character": "Soft day on oak.",
+  "material_emphasis": "Oak, cream paper, linen.",
+  "environmental_focal_point": "The sheets on the table.",
+  "object_language": "Loose sheets and a linen weight. No closed book.",
+  "botanical_role": "None in the rail.",
+  "negative_space_strategy": "The upper left is plaster. The table still crosses the lower rail.",
+  "composition_bias": "Left rail, table to the right, incompletely.",
+  "information_density": "Three intentions.",
+  "panel_behavior": "Selection rows, not a ledger.",
+  "button_behavior": "Moving a piece stays closed.",
+  "data_visualization_character": "Allocation as laid pieces.",
+  "interaction_character": "The arrangement is visible. Editing stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "Intention names. Short lines.",
+  "relationship_to_previous_family": "Upcoming is what approaches. Plan is what the user wants before it moves.",
+  "relationship_to_next_family": "Safe to spend is the air after the arrangement.",
+  "relationship_to_other_families": "Not the activity ledger and not the setup desk.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Oak table",
+    "Loose sheets",
+    "Arrangement"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "Copying the travertine desk",
+    "The table crossing the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

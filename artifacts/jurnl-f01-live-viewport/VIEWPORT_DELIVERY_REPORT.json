@@ -1,0 +1,959 @@
+{
+  "sprint": "P0.JURNL.SITE00-F01-LIVE-VIEWPORT-DELIVERY1",
+  "base": "http://127.0.0.1:5174",
+  "at": "2026-10-05T02:38:25.318Z",
+  "total": 163,
+  "pass": 163,
+  "fail": 0,
+  "pageErrors": [],
+  "summary": {
+    "screensInspectable": {
+      "MOBILE": 14,
+      "TABLET": 14,
+      "DESKTOP": 14
+    },
+    "requiredInteractionTypes": "17 / 17",
+    "boundTriggersFired": "62 / 62",
+    "globalPrimitivesRendered": "12 / 12",
+    "manifestInteractionsTriggerable": "74 / 74"
+  },
+  "checks": [
+    {
+      "group": "PATH",
+      "name": "SITE 00 → DESIGN → PROJECT SWITCHER → JURNL",
+      "pass": true,
+      "detail": "http://127.0.0.1:5174/production/jurnl/design?mode=brand"
+    },
+    {
+      "group": "PATH",
+      "name": "BRAND shows FAMILY RUNTIME · F01 ENTRY LIVE UI card",
+      "pass": true
+    },
+    {
+      "group": "PATH",
+      "name": "FAMILY RUNTIME card opens DESIGN → VIEWPORT with family F01",
+      "pass": true,
+      "detail": "http://127.0.0.1:5174/production/jurnl/design?mode=viewport&family=F01"
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "FAMILY control = F01 ENTRY",
+      "pass": true
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "iframe mounts the JURNL project runtime route",
+      "pass": true
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "F01.00 WELCOME renders live in the viewport",
+      "pass": true
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "default preset MOBILE 393 × 852",
+      "pass": true
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "FAMILY control lists F01 ENTRY + F02 SETUP boundary",
+      "pass": true,
+      "detail": "[\"F01 ENTRY\",\"F02 SETUP · NOT STARTED (BOUNDARY)\"]"
+    },
+    {
+      "group": "PRESET",
+      "name": "MOBILE device = 393 × 852",
+      "pass": true,
+      "detail": "393 × 852"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.00 WELCOME — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"A CALMER,RICHER,MOREINTENTIONALYOU.\",\"buttons\":2,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.01 CREATE ACCOUNT — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"CREATEYOUR ACCOUNT.\",\"buttons\":8,\"inputs\":4,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.02 EMAIL VERIFICATION — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"CHECKYOUR EMAIL.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.03 SIGN IN — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"WELCOMEBACK.\",\"buttons\":7,\"inputs\":2,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.04 RETURNING USER UNLOCK — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"GOOD TO SEEYOU AGAIN.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.05 FORGOT PASSWORD — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"RESETYOUR ACCESS.\",\"buttons\":2,\"inputs\":1,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.06 RESET EMAIL SENT — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"CHECKYOUR EMAIL.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.07 CREATE NEW PASSWORD — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"CREATE ANEW PASSWORD.\",\"buttons\":3,\"inputs\":2,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.08 PASSWORD RESET SUCCESS — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"YOU'REALL SET.\",\"buttons\":1,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.005}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.09 BIOMETRIC SETUP — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"A FASTER,SAFERSIGN IN.\",\"buttons\":2,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.10 DEVICE TRUST — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"TRUSTTHISDEVICE?\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.11 PRIVACY PRIMER — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"YOURPRIVACYMATTERS.\",\"buttons\":7,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.005}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.12 SECURITY PRIMER — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"BUILT FORPEACE OF MIND.\",\"buttons\":7,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "MOBILE F01.13 ENTRY COMPLETE — live components at 393×852",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[393,852],\"h1\":\"YOURJURNL ISREADY.\",\"buttons\":1,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.009}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "OVERLAY",
+      "name": "MOBILE SAFE AREA (project insets) + GRID 4 col + BOUNDS (3 runtime blocks)",
+      "pass": true,
+      "detail": "{\"insets\":1,\"cols\":\"4\",\"bounds\":3}"
+    },
+    {
+      "group": "PRESET",
+      "name": "TABLET device = 834 × 1194",
+      "pass": true,
+      "detail": "834 × 1194"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.00 WELCOME — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"A CALMER,RICHER,MOREINTENTIONALYOU.\",\"buttons\":2,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.01 CREATE ACCOUNT — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"CREATEYOUR ACCOUNT.\",\"buttons\":8,\"inputs\":4,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.02 EMAIL VERIFICATION — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"CHECKYOUR EMAIL.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.03 SIGN IN — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"WELCOMEBACK.\",\"buttons\":7,\"inputs\":2,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.04 RETURNING USER UNLOCK — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"GOOD TO SEEYOU AGAIN.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.05 FORGOT PASSWORD — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"RESETYOUR ACCESS.\",\"buttons\":2,\"inputs\":1,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.06 RESET EMAIL SENT — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"CHECKYOUR EMAIL.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.07 CREATE NEW PASSWORD — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"CREATE ANEW PASSWORD.\",\"buttons\":3,\"inputs\":2,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.08 PASSWORD RESET SUCCESS — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"YOU'REALL SET.\",\"buttons\":1,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.09 BIOMETRIC SETUP — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"A FASTER,SAFERSIGN IN.\",\"buttons\":2,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.10 DEVICE TRUST — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"TRUSTTHISDEVICE?\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.11 PRIVACY PRIMER — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"YOURPRIVACYMATTERS.\",\"buttons\":7,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.12 SECURITY PRIMER — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"BUILT FORPEACE OF MIND.\",\"buttons\":7,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "TABLET F01.13 ENTRY COMPLETE — live components at 834×1194",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[834,1194],\"h1\":\"YOURJURNL ISREADY.\",\"buttons\":1,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.006}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "OVERLAY",
+      "name": "TABLET SAFE AREA (project insets) + GRID 8 col + BOUNDS (3 runtime blocks)",
+      "pass": true,
+      "detail": "{\"insets\":1,\"cols\":\"8\",\"bounds\":3}"
+    },
+    {
+      "group": "PRESET",
+      "name": "DESKTOP device = 1440 × 900",
+      "pass": true,
+      "detail": "1440 × 900"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.00 WELCOME — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"A CALMER,RICHER,MOREINTENTIONALYOU.\",\"buttons\":2,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.01 CREATE ACCOUNT — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"CREATEYOUR ACCOUNT.\",\"buttons\":8,\"inputs\":4,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.02 EMAIL VERIFICATION — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"CHECKYOUR EMAIL.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.03 SIGN IN — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"WELCOMEBACK.\",\"buttons\":7,\"inputs\":2,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.04 RETURNING USER UNLOCK — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"GOOD TO SEEYOU AGAIN.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.05 FORGOT PASSWORD — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"RESETYOUR ACCESS.\",\"buttons\":2,\"inputs\":1,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.06 RESET EMAIL SENT — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"CHECKYOUR EMAIL.\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.07 CREATE NEW PASSWORD — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"CREATE ANEW PASSWORD.\",\"buttons\":3,\"inputs\":2,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.08 PASSWORD RESET SUCCESS — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"YOU'REALL SET.\",\"buttons\":1,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.09 BIOMETRIC SETUP — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"A FASTER,SAFERSIGN IN.\",\"buttons\":2,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.10 DEVICE TRUST — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"TRUSTTHISDEVICE?\",\"buttons\":3,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.11 PRIVACY PRIMER — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"YOURPRIVACYMATTERS.\",\"buttons\":7,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.004}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.12 SECURITY PRIMER — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"BUILT FORPEACE OF MIND.\",\"buttons\":7,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "SCREEN",
+      "name": "DESKTOP F01.13 ENTRY COMPLETE — live components at 1440×900",
+      "pass": true,
+      "detail": "{\"on\":true,\"vw\":[1440,900],\"h1\":\"YOURJURNL ISREADY.\",\"buttons\":1,\"inputs\":0,\"imgs\":[{\"src\":\"/site00/projects/jurnl/brand/jurnl-logo-official.png\",\"share\":0.003}],\"bgs\":[],\"auth\":[],\"lc\":0}"
+    },
+    {
+      "group": "OVERLAY",
+      "name": "DESKTOP SAFE AREA (project insets) + GRID 12 col + BOUNDS (3 runtime blocks)",
+      "pass": true,
+      "detail": "{\"insets\":1,\"cols\":\"12\",\"bounds\":3}"
+    },
+    {
+      "group": "SYNC",
+      "name": "clicking inside the runtime navigates without reloading it",
+      "pass": true
+    },
+    {
+      "group": "SYNC",
+      "name": "ROUTE control follows live navigation (F01.00 → F01.01)",
+      "pass": true
+    },
+    {
+      "group": "SYNC",
+      "name": "host LIVE readout = F01.01",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "FOCUSED INPUT",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "ERROR PANEL",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "PASSWORD REQUIREMENTS",
+      "pass": true,
+      "detail": "{\"met\":4}"
+    },
+    {
+      "group": "INTERACTION",
+      "name": "INLINE EXPANSION",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "SHOW / HIDE PASSWORD",
+      "pass": true,
+      "detail": "{\"typeBefore\":\"password\",\"typeAfter\":\"text\"}"
+    },
+    {
+      "group": "INTERACTION",
+      "name": "LONG / SCROLLABLE DRAWER",
+      "pass": true,
+      "detail": "{\"sh\":398,\"ch\":142,\"vw\":852,\"vh\":393,\"moved\":240}"
+    },
+    {
+      "group": "INTERACTION",
+      "name": "INLINE EXPANSION inside drawer (terms section)",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "SOCIAL AUTH TRANSITION BOUNDARY",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "LOADING BUTTON",
+      "pass": true
+    },
+    {
+      "group": "ROUTING",
+      "name": "create account → F01.02 EMAIL VERIFICATION",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "SUCCESS BANNER / TOAST",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "SHORT DRAWER",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "EMAIL APP HANDOFF BOUNDARY",
+      "pass": true,
+      "detail": "{\"handoffBefore\":\"NONE\",\"handoffAfter\":\"EXTERNAL APP: MAIL\"}"
+    },
+    {
+      "group": "INTERACTION",
+      "name": "BIOMETRIC HANDOFF BOUNDARY",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "FULL-SCREEN SHEET",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "SWITCH ACCOUNT",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "CONFIRMATION MODAL",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "SIGN-OUT CONFIRMATION",
+      "pass": true
+    },
+    {
+      "group": "ROUTING",
+      "name": "sign out → F01.00 (ROUTE control follows)",
+      "pass": true
+    },
+    {
+      "group": "INTERACTION",
+      "name": "F01 → F02 FAMILY TRANSITION",
+      "pass": true
+    },
+    {
+      "group": "SYNC",
+      "name": "FAMILY control follows the transition to F02",
+      "pass": true
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.00.ROUTE.GET_STARTED — welcome-get-started @ F01.00 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.00.ROUTE.SIGN_IN — welcome-sign-in @ F01.00 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.INPUT.FOCUS — create-first-name @ F01.01 → focus",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.PASSWORD.REQS — create-password @ F01.01 ?state=password_satisfied → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.DRAWER.TERMS — create-terms-link @ F01.01 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.DRAWER.PRIVACY — create-privacy-link @ F01.01 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.SOCIAL.APPLE — create-apple @ F01.01 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.SOCIAL.GOOGLE — create-google @ F01.01 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.SUBMIT.LOADING — create-submit @ F01.01 ?state=loading → loading",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.ERROR.EMAIL_IN_USE — create-error-email-in-use @ F01.01 ?state=email_in_use → route",
+      "pass": true,
+      "detail": "panel action (in panel)"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.01.ERROR.VALIDATION — create-error-validation @ F01.01 ?state=validation_error → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.02.HANDOFF.MAIL — verify-open-mail @ F01.02 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.02.RESEND.SUCCESS — verify-resend @ F01.02 → toast",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.02.CHANGE.EMAIL — verify-change-email @ F01.02 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.02.ERROR.EXPIRED — verify-error-expired @ F01.02 ?state=expired_link → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.02.SUCCESS.VERIFY — verify-success-continue @ F01.02 ?state=verification_success → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.INPUT.FOCUS — signin-email @ F01.03 → focus",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.PASSWORD.TOGGLE — signin-password-toggle @ F01.03 → inline",
+      "pass": true,
+      "detail": "{\"before\":\"password\",\"after\":\"text\"}"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.CHECKBOX.REMEMBER — signin-keep @ F01.03 → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.ROUTE.FORGOT — signin-forgot @ F01.03 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.SOCIAL.APPLE — signin-apple @ F01.03 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.SOCIAL.GOOGLE — signin-google @ F01.03 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.ERROR.PASSWORD — signin-error-incorrect @ F01.03 ?state=incorrect_password → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.ERROR.NOT_FOUND — signin-error-not-found @ F01.03 ?state=account_not_found → route",
+      "pass": true,
+      "detail": "panel action (in panel)"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.LOCKED.PANEL — locked-back @ F01.03 ?state=locked → overlay",
+      "pass": true,
+      "detail": "trigger inside overlay: overlay shown, trigger dismisses it"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.03.SUBMIT.LOADING — signin-submit @ F01.03 ?state=loading → loading",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.04.HANDOFF.FACEID — unlock-faceid @ F01.04 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.04.ERROR.FACEID — unlock-error-faceid @ F01.04 ?state=faceid_failed → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.04.SHEET.PASSWORD — unlock-use-password @ F01.04 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.04.SHEET.SWITCH — unlock-switch-account @ F01.04 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.04.MODAL.SIGNOUT — switch-sign-out @ F01.04 ?overlay=switch-account → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.05.INPUT.FOCUS — forgot-email @ F01.05 → focus",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.05.SUBMIT.LOADING — forgot-submit @ F01.05 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.05.ERROR.EMAIL — forgot-error-email @ F01.05 ?state=invalid_email → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.06.HANDOFF.MAIL — reset-sent-open-mail @ F01.06 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.06.RESEND.TOAST — reset-sent-resend @ F01.06 → toast",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.06.ERROR.EXPIRED — reset-sent-error-expired @ F01.06 ?state=expired_link → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.07.INPUT.FOCUS — newpw-password @ F01.07 → focus",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.07.PASSWORD.REQS — newpw-requirements @ F01.07 → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.07.ERROR.MISMATCH — newpw-error-mismatch @ F01.07 ?state=mismatch → inline",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.07.SUBMIT.LOADING — newpw-submit @ F01.07 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.08.ROUTE.SIGNIN — reset-success-sign-in @ F01.08 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.09.HANDOFF.ENABLE — bio-enable @ F01.09 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.09.SUCCESS.ENABLED — bio-enabled @ F01.09 ?state=biometric_enabled → route",
+      "pass": true,
+      "detail": "panel action bio-enabled-continue"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.09.DENIED.SHEET — bio-denied-continue @ F01.09 ?state=biometric_declined → overlay",
+      "pass": true,
+      "detail": "trigger inside overlay: overlay shown, trigger dismisses it"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.09.UNSUPPORTED.PANEL — bio-error-unavailable @ F01.09 ?state=biometric_unavailable → route",
+      "pass": true,
+      "detail": "panel action bio-unavailable-continue"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.09.SKIP.CONTINUE — bio-not-now @ F01.09 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.10.TRUST.CONFIRM — trust-confirm @ F01.10 → toast",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.10.DRAWER.LEARN — trust-learn @ F01.10 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.11.DRAWER.YOUR_DATA — privacy-row-your-data @ F01.11 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.11.DRAWER.CONNECTED_ACCOUNTS — privacy-row-connected-accounts @ F01.11 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.11.DRAWER.AI_ACCESS — privacy-row-ai-access @ F01.11 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.11.DRAWER.DATA_EXPORT — privacy-row-data-export @ F01.11 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.11.DRAWER.REMOVE_ACCESS — privacy-row-remove-access @ F01.11 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.11.ROUTE.CONTINUE — privacy-continue @ F01.11 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.12.SURFACE.BIOMETRIC_SIGN_IN — security-row-biometric @ F01.12 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.12.SURFACE.DEVICE_SECURITY — security-row-device @ F01.12 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.12.SURFACE.CONNECTED_ACCOUNT_CONTRO — security-row-connected @ F01.12 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.12.SURFACE.SECURE_DATA_HANDLING — security-row-data @ F01.12 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.12.SURFACE.SESSION_MANAGEMENT — security-row-sessions @ F01.12 → overlay",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.12.ROUTE.CONTINUE — security-continue @ F01.12 → route",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "BINDING",
+      "name": "F01.13.ROUTE.SETUP — complete-continue @ F01.13 → boundary",
+      "pass": true,
+      "detail": "null"
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.DRAWER.SHORT rendered live by the triggered interactions (short)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.DRAWER.LONG rendered live by the triggered interactions (long)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.SHEET.FULL rendered live by the triggered interactions (sheet)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.MODAL.CONFIRM rendered live by the triggered interactions (modal)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.INLINE.EXPAND rendered live by the triggered interactions (expand)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.ERROR.PANEL rendered live by the triggered interactions (error)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.BANNER.SUCCESS rendered live by the triggered interactions (toast)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.BUTTON.LOADING rendered live by the triggered interactions (busy)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.INPUT.FOCUS rendered live by the triggered interactions (focus)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.HANDOFF.EXTERNAL rendered live by the triggered interactions (external)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.HANDOFF.NATIVE rendered live by the triggered interactions (native)",
+      "pass": true
+    },
+    {
+      "group": "PRIMITIVE",
+      "name": "F01.GLOBAL.PRIM.ROUTE.TRANSITION rendered live by the triggered interactions (transition)",
+      "pass": true
+    },
+    {
+      "group": "DIRECT",
+      "name": "OPEN DIRECT PREVIEW link = viewport iframe route",
+      "pass": true,
+      "detail": "{\"frameSrc\":\"/production/jurnl/runtime/entry/sign-in\",\"directHref\":\"/production/jurnl/runtime/entry/sign-in\"}"
+    },
+    {
+      "group": "DIRECT",
+      "name": "direct preview opens the same route outside the workspace",
+      "pass": true,
+      "detail": "http://127.0.0.1:5174/production/jurnl/runtime/entry/sign-in"
+    },
+    {
+      "group": "DIRECT",
+      "name": "no DESIGN workspace / host chrome in the direct preview",
+      "pass": true
+    },
+    {
+      "group": "DIRECT",
+      "name": "same runtime root module loaded by the viewport iframe and the direct preview",
+      "pass": true,
+      "detail": "{\"iframe\":\"/src/projects/jurnl/runtime/JurnlRuntimeRoot.tsx\",\"direct\":\"/src/projects/jurnl/runtime/JurnlRuntimeRoot.tsx\",\"iframeModules\":13,\"directModules\":13}"
+    },
+    {
+      "group": "DIRECT",
+      "name": "direct preview is fully interactive (sign in → post-auth route)",
+      "pass": true
+    },
+    {
+      "group": "REACTIVE",
+      "name": "JURNL → ASTRAL WORLD: no JURNL runtime / family / route controls / direct preview remain",
+      "pass": true,
+      "detail": "{\"url\":\"http://127.0.0.1:5174/production/astral-world/design?mode=viewport\",\"astralFrame\":\"/app/preview/fixture-app-ndxbook\"}"
+    },
+    {
+      "group": "REACTIVE",
+      "name": "ASTRAL WORLD → NDXBOOK loads its own client app cleanly",
+      "pass": true,
+      "detail": "/app/preview/fixture-app-ndxbook"
+    },
+    {
+      "group": "REACTIVE",
+      "name": "NDXBOOK → JURNL: JURNL runtime remounts (F01.00 live)",
+      "pass": true
+    },
+    {
+      "group": "PHONE HOST",
+      "name": "DESIGN → VIEWPORT works on a phone-sized host (JURNL live inside)",
+      "pass": true
+    }
+  ]
+}
