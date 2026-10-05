@@ -13829,3 +13829,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Text-to-image was not used. The live structure file was attached. The full page is a daily room with quiet plaster on the left and daylight, a cup, and a cloth on the right. It does not repeat the arrival arch, curtain, bust, bowl, or books. The clean plate was derived from that page with the page attached. It is mounted under the existing Today UI at 393, 834, and 1440. Founder status stays UNREVIEWED. Child production stays off. Two paid generations, 644 credits.
 - **Changes:** `authorityFirstPlate.ts`, `JURNL_AUTHORITY_FIRST.json`, the F03 occupancy map, the full-page authority, the derived day plate, and `F03_AUTHORITY_FIRST_PLATE_DERIVATION_QA.json`.
 - **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
+
+---
+
+## 2026-10-05 — Merge `origin/main` into `cursor/public-redesign-composer-asset-injection1-1b86`
+
+Fetched `origin/main` @ `3b414319` into public-redesign asset-injection branch. **2 conflicted files.**
+
+- **`motherboard/MEMORY.md`:** Append-only fork — **simple**; kept branch public-redesign chronicle + main JURNL/F03/Experience Compiler entries.
+- **`publicRedesignAssetSlots.ts` (add/add):** **Conflicting intent** in hunks — `main` still had SONNET-STRUCTURE1 optional center-cropped IDNTY machine slots + inline empty `PUBLIC_REDESIGN_ASSET_URLS`; branch has OPUS-CONVERGENCE1 full-stage 1170×900 slots (`grokRequired: false`), live SVG quarantine, and `publicRedesignAssetUrls.ts` export (47 injected URLs). Resolution: **kept branch** so tests (`publicRedesignAuthority`, asset injection) stay green.
+- **Auto-merge note:** Large `main` delta (JURNL guardrails, F03 authority-first plate, production guardrails) merged cleanly elsewhere — re-smoke public redesign routes after merge.
+- **Verify:** `npm run build` OK; public redesign tests 19/19 pass.
