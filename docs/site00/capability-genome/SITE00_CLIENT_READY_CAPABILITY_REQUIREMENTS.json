@@ -1,0 +1,959 @@
+{
+ "artifact": "SITE00_CLIENT_READY_CAPABILITY_REQUIREMENTS",
+ "sprint": "P0.SITE00.GROUND-ZERO-MATURE-CAPABILITY-GENOME-RECONCILIATION1",
+ "status": "RECONCILIATION EVIDENCE + PROPOSAL (0 code changes, 0 database changes, 0 paid generations)",
+ "current_main_sha": "6f63aaaa439cc4c996a734e3cec5abbf586f2e61",
+ "client_ready_definition": "One real paying client can be invited into a project, review family work, approve or request revisions, see the decision reach the founder workspace, and get a launched site. No client can self-authorize payment or reach another project, and nothing fake is shown to them. Payments may be invoiced manually for client #1.",
+ "not_required_for_client_ready": [
+  "Stripe checkout (invoice client #1 manually; CAP.COMMERCIAL.PAYMENT_CHECKOUT is POST_FIRST)",
+  "Automated domain/DNS (founder runbook)",
+  "Messages thread (INBOX runs on decisions/notifications)",
+  "SEO, analytics, marketing OS, EVOLVE delivery",
+  "Courtesy code persistence and the advanced commercial controls",
+  "Unified cost ledger DB (the server-held spend confirmation is required; the ledger is GROUND_ZERO_FOUNDATION)",
+  "Capability registry in code"
+ ],
+ "blocker_count": 31,
+ "blockers": [
+  {
+   "capability_id": "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER",
+   "name": "Project events ledger (site00_project_events)",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 2,
+   "disposition": "MERGE",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 3.0,
+   "reconciliation_note": "",
+   "gap": "Create migration, define canonical event schema, route all writers (reviews, approvals, generation, deploy) through one emitter. || From CAP.DATA.PROJECT_EVENTS_TABLE: Add migration (or repoint to site00_project_activity) with project-scoped RLS. || From CAP.OPS.PROJECT_ACTIVITY_LEDGER: Standardize on site00_project_activity (or add the missing site00_project_events migration), use an allow-list translator, and remove the fabricated feed.",
+   "work_package": [
+    "WP06"
+   ]
+  },
+  {
+   "capability_id": "CAP.ASSET.STORAGE_BUCKETS",
+   "name": "Storage buckets",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "ASSET_GRAPH",
+   "effort_days_estimate": 2,
+   "reconciliation_note": "Verifier: all client assets sit in one public live-preview bucket, so this is upgraded to a blocker (already in WP10).",
+   "gap": "Private per-project bucket + signed URLs before client deliverables go into storage.",
+   "work_package": [
+    "WP10"
+   ]
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.SIMULATED_ACTIVATION_PATHS",
+   "name": "Simulated payment / commercial activation paths",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CONTROL_PLANE",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 2.0,
+   "reconciliation_note": "Verifier: marketing provision has no ownership check. Any signed-in user holding a paid engagement id can trigger provisioning.",
+   "gap": "Replace with one founder-only activation (manual invoice/comp now, Stripe later) emitting CommercialActivationEvent. || From CAP.SALES.ACTIVATION_PAYMENT_GATE: Gate on a founder-issued activation token or a verified payment, or make it admin-only.",
+   "work_package": [
+    "WP03"
+   ]
+  },
+  {
+   "capability_id": "CAP.CONTROL_PLANE.MIGRATION_MANAGEMENT",
+   "name": "Database migration management",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 2,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CONTROL_PLANE",
+   "root_engine": null,
+   "effort_days_estimate": 1,
+   "reconciliation_note": "",
+   "gap": "CI migration check (supabase migration list diff) + apply on release.",
+   "work_package": [
+    "WP01"
+   ]
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.CLIENT_OVERVIEW",
+   "name": "Client CTRL ROOM overview",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 2,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_CONTROL_ROOM",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 2,
+   "reconciliation_note": "",
+   "gap": "Read real projects and sites, link to the canonical client project room, and remove founder ops from it.",
+   "work_package": [
+    "WP11a"
+   ]
+  },
+  {
+   "capability_id": "CAP.CRM.INTAKE_TO_PROJECT_CONVERSION",
+   "name": "Intake → project conversion",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 0.5,
+   "reconciliation_note": "",
+   "gap": "Remove the seed call and the demo-email fallback. Bind client_user_id when known. Allow choosing a recipe. Trigger the onboarding invite.",
+   "work_package": [
+    "WP04"
+   ]
+  },
+  {
+   "capability_id": "CAP.DECISION.COMMERCIAL_FOUNDER_DECISIONS",
+   "name": "Commercial founder decision register",
+   "current_status": "EXISTS_CONNECTED",
+   "implementation_maturity": 3,
+   "disposition": "EXPAND",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+   "root_engine": "CANON_REGISTRY",
+   "effort_days_estimate": 2.0,
+   "reconciliation_note": "Verifier flagged this as possibly overstated. It stays a blocker because client #1 needs decided prices and scope to be invoiced, even manually. The blocker is the founder decisions, not a decision UI.",
+   "gap": "Add status+resolution, founder UI to answer, emit decision event. || From CAP.OFFER.FOUNDER_DECISION_REGISTER: Resolution UI / persisted decisions.",
+   "work_package": [
+    "WP16"
+   ]
+  },
+  {
+   "capability_id": "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+   "name": "Runtime error monitoring / alerting",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 1.0,
+   "reconciliation_note": "",
+   "gap": "Sentry (or equivalent) on SPA + API, uptime ping on api.site00.com. || From CAP.POSTLAUNCH.ERROR_TRACKING: Add Sentry (frontend + API) with release tagging from release-manifest.",
+   "work_package": [
+    "WP14"
+   ]
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.EMAIL_PROVIDER",
+   "name": "Transactional email delivery",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 2,
+   "disposition": "CONNECT",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "NOTIFICATION_BUS",
+   "effort_days_estimate": 2.0,
+   "reconciliation_note": "",
+   "gap": "Wire Resend (or Postmark) client, persist send log, add review-ready + invite templates. || From CAP.MARKETING.EMAIL_TRANSACTIONAL: Wire one provider (Resend) send call; persist send log. || From CAP.SUPPORT.EMAIL_DELIVERY: Add a real provider adapter (e.g. Resend) and a persisted send log, and wire review-ready and invite events.",
+   "work_package": [
+    "WP09"
+   ]
+  },
+  {
+   "capability_id": "CAP.JOURNEY.CLIENT_ONBOARDING",
+   "name": "Client project onboarding and activation",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 2,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 1.5,
+   "reconciliation_note": "",
+   "gap": "Minimum for client 1: a founder action that sets client_email on the project and produces a copyable deep link to /app/projects/:slug, with the activity write fixed to site00_project_activity. Later: token invites plus email.",
+   "work_package": [
+    "WP03"
+   ]
+  },
+  {
+   "capability_id": "CAP.JOURNEY.CLIENT_PROJECT_ROOM_SURFACE",
+   "name": "Canonical client project room surface",
+   "current_status": "DUPLICATED_COMPETING",
+   "implementation_maturity": 3,
+   "disposition": "MERGE",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "root_engine": null,
+   "effort_days_estimate": 3,
+   "reconciliation_note": "",
+   "gap": "Choose /app as canonical. Redirect /client/projects/* into it. Link it from CTRL ROOM. Fix the nav to HOME/PROJECT/REVIEWS/INBOX/LIBRARY.",
+   "work_package": [
+    "WP11a"
+   ]
+  },
+  {
+   "capability_id": "CAP.LAUNCH.CLIENT_LAUNCH_FLOW",
+   "name": "Client approval → launch flow",
+   "current_status": "CONCEPT_ONLY",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 3.0,
+   "reconciliation_note": "",
+   "gap": "Minimal state machine: APPROVED → LAUNCH_READY → LIVE (url) with email + event. || From CAP.JOURNEY.LAUNCH_TRANSITION: Add LAUNCHED/LIVE lifecycle states and a founder 'mark launched' action that records live_url, creates a site row, and shows LIVE in the client room. || From CAP.OPS.LAUNCH_HANDOFF: Minimum for client 1: a founder 'LAUNCH' action writing status LAUNCHED, live_url, and a site00_sites row, plus a client-room LIVE card.",
+   "work_package": [
+    "WP13b"
+   ]
+  },
+  {
+   "capability_id": "CAP.LAUNCH.CLIENT_SITE_HOSTING",
+   "name": "Client site build & hosting",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_SITES",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 3,
+   "reconciliation_note": "Stays a blocker, with a smaller MVP: one documented static build and deploy path for one client site, which writes site00_sites.last_deploy_at. Per-client automated hosting comes after the first client (full estimate is 6 days). Verifier: site00_sites is also read by the admin sites list/detail, identity detail, search and the CONTROL launch queue, not only by dashboard counts. The MISSING hosting verdict holds.",
+   "gap": "Decide hosting model (per-client static deploy to Cloudflare Pages/Vercel or GoDaddy); deploy job per project from runtime registry; record last_deploy_at.",
+   "work_package": [
+    "WP13a"
+   ]
+  },
+  {
+   "capability_id": "CAP.OPS.CLIENT_REVIEW_ENGINE",
+   "name": "Client review engine (comment, annotate, approve, revise)",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 1,
+   "reconciliation_note": "",
+   "gap": "Switch to apiFetch in useClientReviews, AppReviewsQueuePage, and useClientProjectRoom. Add status checks. Map statuses to canon.",
+   "work_package": [
+    "WP07"
+   ]
+  },
+  {
+   "capability_id": "CAP.OPS.DELIVERABLE_HANDOFF_LIBRARY",
+   "name": "Deliverable handoff, library, and downloads",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "root_engine": "ASSET_GRAPH",
+   "effort_days_estimate": 4,
+   "reconciliation_note": "Verifier: a paying client must be able to download approved work, so this is upgraded to a blocker (already in WP10).",
+   "gap": "Add an endpoint listing approved review versions and deliverable exports, signed downloads from the ASSTS storage, and an upload_reference bucket.",
+   "work_package": [
+    "WP10"
+   ]
+  },
+  {
+   "capability_id": "CAP.OPS.DEMO_SEED_ISOLATION",
+   "name": "Demo seed and fixture isolation from production",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 1,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 1.5,
+   "reconciliation_note": "",
+   "gap": "Gate all seeds behind an explicit env flag. Remove fixture fallbacks from production client paths. Show empty states instead.",
+   "work_package": [
+    "WP04"
+   ]
+  },
+  {
+   "capability_id": "CAP.OPS.REVIEW_RETURN_LOOP",
+   "name": "Client decision return loop",
+   "current_status": "MISSING",
+   "implementation_maturity": 2,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": "EVENT_LEDGER",
+   "effort_days_estimate": 3.0,
+   "reconciliation_note": "",
+   "gap": "On a decision, update the linked deliverable and approval_request and emit a project activity event. Add a REVIEWS lens in the workspace. || From CAP.QUALITY.CLIENT_REVIEW_SCORING: Fix loop (owned by review domain), then emit approval metrics to event ledger.",
+   "work_package": [
+    "WP08"
+   ]
+  },
+  {
+   "capability_id": "CAP.OPS.SEND_TO_CLIENT_REVIEW",
+   "name": "Send to client review",
+   "current_status": "MISSING",
+   "implementation_maturity": 0,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "root_engine": "ASSET_GRAPH",
+   "effort_days_estimate": 3,
+   "reconciliation_note": "",
+   "gap": "Add an admin publish endpoint, a SEND TO CLIENT button in the workspace, and the migration columns.",
+   "work_package": [
+    "WP07"
+   ]
+  },
+  {
+   "capability_id": "CAP.PRIVACY.CLIENT_DATA_FIREWALL",
+   "name": "Client data isolation (internal field stripping)",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 1.5,
+   "reconciliation_note": "Verifier: PARTLY. The EVOLVE OPERATIONS page is reachable by any signed-in account but renders demo fixtures, not real margin data. It is a misleading founder page shown to clients, not a confidentiality leak. Internal-field stripping gaps still stand.",
+   "gap": "Move founder ops out of /control; remove fabricated spend UI; close unauth endpoints.",
+   "work_package": [
+    "WP11a"
+   ]
+  },
+  {
+   "capability_id": "CAP.PRIVACY.LEGAL_PAGES",
+   "name": "Privacy policy & terms pages",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "PUBLIC_LOCATION",
+   "root_engine": null,
+   "effort_days_estimate": 1.5,
+   "reconciliation_note": "",
+   "gap": "Write and route real Privacy Policy + Terms (+ client services agreement); fix auth shell link. || From CAP.JOURNEY.LEGAL_PAGES: Add static privacy and terms pages and fix the footer links.",
+   "work_package": [
+    "WP14"
+   ]
+  },
+  {
+   "capability_id": "CAP.RELEASE.CI_HEALTH",
+   "name": "CI test health",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 2,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CONTROL_PLANE",
+   "root_engine": null,
+   "effort_days_estimate": 2,
+   "reconciliation_note": "",
+   "gap": "Fix/quarantine failing tests; tests must not depend on prod DB schema; require green checks before merge.",
+   "work_package": [
+    "WP01"
+   ]
+  },
+  {
+   "capability_id": "CAP.RISK.SPEND_CONFIRMATION_GUARDS",
+   "name": "founderConfirmedSpend spend guards",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REBUILD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "COST_LEDGER",
+   "effort_days_estimate": 3.0,
+   "reconciliation_note": "Verifier: the guardrails are also re-exported by shared/site00-product-families/index.ts, but no runtime code imports that index, so the guards remain disconnected.",
+   "gap": "Require founder auth + server-issued estimate token; log to cost ledger. || From CAP.SECURITY.SPEND_GUARD: Server-side spend authorization tied to founder auth + cost ledger; wire precheckGenerationDispatch into generation handlers. || From CAP.COST.SPEND_GUARDS: One guard API on the cost ledger with project budget caps; remove ?? true defaults.",
+   "work_package": [
+    "WP15"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.ADMIN_GATING",
+   "name": "Founder/admin gating via ADMIN_EMAILS",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 1.5,
+   "reconciliation_note": "Verifier: the anon-key fallback is in api/_lib/supabase.ts:31, not serverSupabase.ts.",
+   "gap": "Require ADMIN_EMAILS (no fallback) or DB role table; remove UI preview bypasses from production build; single requireFounder wrapper applied to every founder-only route. || From CAP.CONTROL_ROOM.ADMIN_ROLE_GATE: Remove the hard-coded admin fallback and the anon fallback, and audit unauthenticated endpoints.",
+   "work_package": [
+    "WP02"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.API_AUTH_MIDDLEWARE",
+   "name": "API route auth policy / middleware",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 2,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 3,
+   "reconciliation_note": "Verifier: the route-mount loop is at server/index.ts:123-131.",
+   "gap": "Shared withAuth({policy}) wrapper + route-table declaring PUBLIC|TOKEN|CLIENT|ADMIN|FOUNDER per entry, enforced in server/index.ts, with a test asserting every API_ROUTES entry declares a policy.",
+   "work_package": [
+    "WP02"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.CLIENT_ROLE_ENFORCEMENT",
+   "name": "Server-derived client role (review permissions)",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 2,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_PROJECT_ROOM",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 0.5,
+   "reconciliation_note": "",
+   "gap": "Drop body.role/roleOverride for non-admins; derive from membership table. || From CAP.CRM.SERVER_ROLE_AUTHORITY: Drop body.role and roleOverride. Enforce status and version checks in reviewService.",
+   "work_package": [
+    "WP02"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+   "name": "Project membership + invite acceptance",
+   "current_status": "MISSING",
+   "implementation_maturity": 1,
+   "disposition": "ADD",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 5.0,
+   "reconciliation_note": "",
+   "gap": "Add members + invites tables, authorizeProjectAction(user,project,action), accept endpoint, invite email. || From CAP.CRM.PROJECT_MEMBERSHIP: Add a members table plus invite and accept endpoints that reuse the world-intake token pattern. Replace client_email ownership checks.",
+   "work_package": [
+    "WP05"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.RLS_POLICIES",
+   "name": "Row Level Security coverage",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 2.0,
+   "reconciliation_note": "",
+   "gap": "Fix two open policies (TO service_role), enable RLS on 3 tables, private bucket(s) + signed URLs, later per-project RLS via members. || From CAP.DATA.RLS_GAPS: Enable RLS + scope policies TO service_role; add project-membership policies for client tables.",
+   "work_package": [
+    "WP02"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.SERVICE_ROLE_CLIENT",
+   "name": "Server Supabase admin client hardening",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 0.5,
+   "reconciliation_note": "",
+   "gap": "Make getSupabaseAdmin throw without service role; merge into one function.",
+   "work_package": [
+    "WP02"
+   ]
+  },
+  {
+   "capability_id": "CAP.SECURITY.SUPABASE_AUTH_SESSION",
+   "name": "Supabase auth + session restore",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 3,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+   "root_engine": "PERMISSION_ENGINE",
+   "effort_days_estimate": 4.0,
+   "reconciliation_note": "",
+   "gap": "Complete password reset; invite-bound sign-up (shouldCreateUser:false outside invite); stop trusting localStorage user.role; MFA + session revoke later. || From CAP.JOURNEY.ACCOUNT_AUTH: Add an /account/settings route, or point the reset redirect at a real reset page. Make sign-out call supabase.auth.signOut.",
+   "work_package": [
+    "WP05"
+   ]
+  },
+  {
+   "capability_id": "CAP.SITES.CLIENT_SITES_VIEW",
+   "name": "Client MY SITES view",
+   "current_status": "EXISTS_PARTIAL",
+   "implementation_maturity": 1,
+   "disposition": "REPAIR",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_SITES",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 1,
+   "reconciliation_note": "",
+   "gap": "Read site00_sites by owner. Show an empty state until launch. Remove the seed.",
+   "work_package": [
+    "WP11a"
+   ]
+  },
+  {
+   "capability_id": "CAP.SITES.SITE_ENTITY",
+   "name": "Site entity (digital location record)",
+   "current_status": "EXISTS_DISCONNECTED",
+   "implementation_maturity": 2,
+   "disposition": "CONNECT",
+   "priority": "CLIENT_READY_BLOCKER",
+   "correct_product_layer": "CLIENT_SITES",
+   "root_engine": "PROJECT_REGISTRY",
+   "effort_days_estimate": 1,
+   "reconciliation_note": "",
+   "gap": "Add live_url and launched_at, and write the row from the launch handoff.",
+   "work_package": [
+    "WP13a"
+   ]
+  }
+ ],
+ "work_packages": [
+  {
+   "id": "WP01",
+   "name": "CI green + production migration sync",
+   "engine": "RELEASE",
+   "effort": 3,
+   "deps": [],
+   "caps": [
+    "CAP.RELEASE.CI_HEALTH",
+    "CAP.RELEASE.PRODUCTION_PIPELINE",
+    "CAP.CONTROL_PLANE.MIGRATION_MANAGEMENT"
+   ],
+   "replaces": [],
+   "note": "NEW vs Ground Zero MVP. Apply the two missing production migrations, stop CI tests from hitting the live DB, and add a migration-diff check.",
+   "ground_zero_effort_replaced": 0,
+   "delta_vs_ground_zero": 3
+  },
+  {
+   "id": "WP02",
+   "name": "Permission engine core",
+   "engine": "PERMISSION_ENGINE",
+   "effort": 5.5,
+   "deps": [],
+   "caps": [
+    "CAP.SECURITY.API_AUTH_MIDDLEWARE",
+    "CAP.SECURITY.CLIENT_ROLE_ENFORCEMENT",
+    "CAP.SECURITY.SERVICE_ROLE_CLIENT",
+    "CAP.SECURITY.ADMIN_GATING",
+    "CAP.SECURITY.RLS_POLICIES"
+   ],
+   "replaces": [
+    "D01",
+    "D02",
+    "D03"
+   ],
+   "note": "+2.5d vs D01–D03: admin fallback list and preview bypass, CORS, plus RLS on astral_avatars / dependency_edges / invalidation_events found in this audit.",
+   "ground_zero_effort_replaced": 3.0,
+   "delta_vs_ground_zero": 2.5
+  },
+  {
+   "id": "WP03",
+   "name": "Close simulated payment/activation paths",
+   "engine": "PERMISSION_ENGINE",
+   "effort": 2,
+   "deps": [
+    "WP02"
+   ],
+   "caps": [
+    "CAP.COMMERCIAL.SIMULATED_ACTIVATION_PATHS",
+    "CAP.JOURNEY.CLIENT_ONBOARDING"
+   ],
+   "replaces": [],
+   "note": "NEW. activate-project (CONFIRMED payment), marketing confirm-payment/provision, and identity-commercial authorize all become founder-only.",
+   "ground_zero_effort_replaced": 0,
+   "delta_vs_ground_zero": 2
+  },
+  {
+   "id": "WP04",
+   "name": "Canonical project registry + demo seed isolation",
+   "engine": "PROJECT_REGISTRY",
+   "effort": 5.5,
+   "deps": [
+    "WP01"
+   ],
+   "caps": [
+    "CAP.OPS.PROJECT_REGISTRY",
+    "CAP.OPS.DEMO_SEED_ISOLATION",
+    "CAP.CRM.INTAKE_TO_PROJECT_CONVERSION",
+    "CAP.PROJECT.WORKSPACE_PROJECT_SCOPING"
+   ],
+   "replaces": [
+    "D04",
+    "A08"
+   ],
+   "note": "+0.5d vs D04+A08: about 10 read paths auto-seed demo data, and intake conversion falls back to client@northquarter.example.",
+   "ground_zero_effort_replaced": 5,
+   "delta_vs_ground_zero": 0.5
+  },
+  {
+   "id": "WP05",
+   "name": "Membership + invites (reuse intake-invite token pattern)",
+   "engine": "PERMISSION_ENGINE",
+   "effort": 6,
+   "deps": [
+    "WP02",
+    "WP04"
+   ],
+   "caps": [
+    "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+    "CAP.SECURITY.SUPABASE_AUTH_SESSION"
+   ],
+   "replaces": [
+    "D05",
+    "D06",
+    "D07"
+   ],
+   "note": "−2.5d vs D05–D07 by reusing the founder intake-invite token pattern (CAP.BIZ.WORLD_INTAKE_INVITE).",
+   "ground_zero_effort_replaced": 8.5,
+   "delta_vs_ground_zero": -2.5
+  },
+  {
+   "id": "WP06",
+   "name": "Event ledger (site00_project_events migration + projections) + persisted production requests",
+   "engine": "EVENT_LEDGER",
+   "effort": 4.5,
+   "deps": [
+    "WP01",
+    "WP04"
+   ],
+   "caps": [
+    "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER"
+   ],
+   "replaces": [
+    "D12",
+    "B05"
+   ],
+   "note": "One ledger; the 6 activity logs become read projections, not migrations of each.",
+   "ground_zero_effort_replaced": 4.5,
+   "delta_vs_ground_zero": 0.0
+  },
+  {
+   "id": "WP07",
+   "name": "Send to client review (connect existing review engine)",
+   "engine": "EVENT_LEDGER",
+   "effort": 4,
+   "deps": [
+    "WP05",
+    "WP06"
+   ],
+   "caps": [
+    "CAP.OPS.SEND_TO_CLIENT_REVIEW",
+    "CAP.OPS.CLIENT_REVIEW_ENGINE"
+   ],
+   "replaces": [
+    "D10",
+    "B02",
+    "A01"
+   ],
+   "note": "−2.5d vs D10+B02+A01: the review engine exists, so the work is publish + Bearer + canon fields.",
+   "ground_zero_effort_replaced": 6.5,
+   "delta_vs_ground_zero": -2.5
+  },
+  {
+   "id": "WP08",
+   "name": "Review return loop + approval bridge",
+   "engine": "EVENT_LEDGER",
+   "effort": 4,
+   "deps": [
+    "WP07"
+   ],
+   "caps": [
+    "CAP.OPS.REVIEW_RETURN_LOOP"
+   ],
+   "replaces": [
+    "D11",
+    "B03"
+   ],
+   "note": "−2d vs D11+B03: the dependency/readiness engine exists; decisions are written as ledger events.",
+   "ground_zero_effort_replaced": 6,
+   "delta_vs_ground_zero": -2
+  },
+  {
+   "id": "WP09",
+   "name": "Notification bus MVP (real email provider + needs-you projection)",
+   "engine": "NOTIFICATION_BUS",
+   "effort": 3,
+   "deps": [
+    "WP06"
+   ],
+   "caps": [
+    "CAP.INTEGRATION.EMAIL_PROVIDER"
+   ],
+   "replaces": [
+    "D14"
+   ],
+   "note": "+1d vs D14: email never actually sends today. The messages thread (D13) moves to after the first client, and INBOX shows decisions and notifications.",
+   "ground_zero_effort_replaced": 2,
+   "delta_vs_ground_zero": 1
+  },
+  {
+   "id": "WP10",
+   "name": "Project-scoped storage + files library",
+   "engine": "ASSET_GRAPH",
+   "effort": 4,
+   "deps": [
+    "WP02",
+    "WP04"
+   ],
+   "caps": [
+    "CAP.ASSET.STORAGE_BUCKETS",
+    "CAP.OPS.DELIVERABLE_HANDOFF_LIBRARY"
+   ],
+   "replaces": [
+    "D09",
+    "D15"
+   ],
+   "note": "−1d vs D09+D15, and includes closing the public live-preview bucket.",
+   "ground_zero_effort_replaced": 5,
+   "delta_vs_ground_zero": -1
+  },
+  {
+   "id": "WP11a",
+   "name": "Client room structure: canonical nav, merge 3 client surfaces, CTRL ROOM, MY SITES, data firewall",
+   "engine": "PROJECT_REGISTRY",
+   "effort": 7.5,
+   "deps": [
+    "WP04"
+   ],
+   "caps": [
+    "CAP.JOURNEY.CLIENT_PROJECT_ROOM_SURFACE",
+    "CAP.CONTROL_ROOM.CLIENT_OVERVIEW",
+    "CAP.SITES.CLIENT_SITES_VIEW",
+    "CAP.PRIVACY.CLIENT_DATA_FIREWALL"
+   ],
+   "replaces": [
+    "A02",
+    "A09",
+    "A11"
+   ],
+   "note": "+2.5d vs A02+A09+A11: the fake sites shown to every client and the internal-field stripping were found in this audit.",
+   "ground_zero_effort_replaced": 5.0,
+   "delta_vs_ground_zero": 2.5
+  },
+  {
+   "id": "WP11b",
+   "name": "Client HOME + PROJECT + curated activity from real state",
+   "engine": "EVENT_LEDGER",
+   "effort": 7,
+   "deps": [
+    "WP06",
+    "WP11a"
+   ],
+   "caps": [],
+   "replaces": [
+    "A03",
+    "A04",
+    "A10"
+   ],
+   "note": "Same as Ground Zero.",
+   "ground_zero_effort_replaced": 7,
+   "delta_vs_ground_zero": 0
+  },
+  {
+   "id": "WP11c",
+   "name": "Client REVIEWS + family review mode",
+   "engine": "EVENT_LEDGER",
+   "effort": 2,
+   "deps": [
+    "WP07",
+    "WP11a"
+   ],
+   "caps": [],
+   "replaces": [
+    "A05"
+   ],
+   "note": "Same as Ground Zero.",
+   "ground_zero_effort_replaced": 2,
+   "delta_vs_ground_zero": 0
+  },
+  {
+   "id": "WP11d",
+   "name": "Client INBOX (decisions/notifications) + LIBRARY",
+   "engine": "NOTIFICATION_BUS",
+   "effort": 5,
+   "deps": [
+    "WP09",
+    "WP10",
+    "WP11a"
+   ],
+   "caps": [],
+   "replaces": [
+    "A06",
+    "A07"
+   ],
+   "note": "−1d: INBOX runs on the notification projection, not a new messages system.",
+   "ground_zero_effort_replaced": 6,
+   "delta_vs_ground_zero": -1
+  },
+  {
+   "id": "WP12",
+   "name": "Founder workspace client lens (project scope, relationship, CONTROL PROJECTS)",
+   "engine": "PROJECT_REGISTRY",
+   "effort": 6,
+   "deps": [
+    "WP04",
+    "WP05"
+   ],
+   "caps": [],
+   "replaces": [
+    "B01",
+    "B04",
+    "B07"
+   ],
+   "note": "−0.5d by reusing provisioning.",
+   "ground_zero_effort_replaced": 6.5,
+   "delta_vs_ground_zero": -0.5
+  },
+  {
+   "id": "WP13a",
+   "name": "Site record + one client hosting path (manual MVP)",
+   "engine": "PROJECT_REGISTRY",
+   "effort": 4,
+   "deps": [
+    "WP04"
+   ],
+   "caps": [
+    "CAP.SITES.SITE_ENTITY",
+    "CAP.LAUNCH.CLIENT_SITE_HOSTING"
+   ],
+   "replaces": [],
+   "note": "NEW. There is no client hosting today. The MVP is one documented static build/deploy that writes site00_sites.",
+   "ground_zero_effort_replaced": 0,
+   "delta_vs_ground_zero": 4
+  },
+  {
+   "id": "WP13b",
+   "name": "Approval → LAUNCHED transition + launch handoff",
+   "engine": "EVENT_LEDGER",
+   "effort": 3,
+   "deps": [
+    "WP08",
+    "WP13a"
+   ],
+   "caps": [
+    "CAP.LAUNCH.CLIENT_LAUNCH_FLOW"
+   ],
+   "replaces": [],
+   "note": "NEW. There is no LAUNCHED state today.",
+   "ground_zero_effort_replaced": 0,
+   "delta_vs_ground_zero": 3
+  },
+  {
+   "id": "WP14",
+   "name": "Production hygiene: error monitoring, legal pages, bench guards",
+   "engine": "NONE",
+   "effort": 3.5,
+   "deps": [],
+   "caps": [
+    "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+    "CAP.PRIVACY.LEGAL_PAGES",
+    "CAP.PROJECT.BENCH_ROUTE_GUARDING"
+   ],
+   "replaces": [
+    "D08"
+   ],
+   "note": "+2.5d vs D08. The legal copy needs a founder decision.",
+   "ground_zero_effort_replaced": 1,
+   "delta_vs_ground_zero": 2.5
+  },
+  {
+   "id": "WP15",
+   "name": "Server-held spend confirmation",
+   "engine": "COST_LEDGER",
+   "effort": 2,
+   "deps": [
+    "WP02"
+   ],
+   "caps": [
+    "CAP.RISK.SPEND_CONFIRMATION_GUARDS"
+   ],
+   "replaces": [],
+   "note": "NEW. founderConfirmedSpend is a request-body boolean, often defaulted to true.",
+   "ground_zero_effort_replaced": 0,
+   "delta_vs_ground_zero": 2
+  },
+  {
+   "id": "WP16",
+   "name": "Commercial founder decisions closed for client #1 (status field + pricing/scope answers)",
+   "engine": "CANON_REGISTRY",
+   "effort": 2,
+   "deps": [],
+   "caps": [
+    "CAP.DECISION.COMMERCIAL_FOUNDER_DECISIONS"
+   ],
+   "replaces": [],
+   "note": "NEW. About 1.5 days is founder decision time, not engineering.",
+   "ground_zero_effort_replaced": 0,
+   "delta_vs_ground_zero": 2
+  },
+  {
+   "id": "WP17",
+   "name": "E2E loop test + security review",
+   "engine": "NONE",
+   "effort": 3.5,
+   "deps": [
+    "WP03",
+    "WP08",
+    "WP11c",
+    "WP11d",
+    "WP13b",
+    "WP15"
+   ],
+   "caps": [],
+   "replaces": [
+    "Q01",
+    "Q03"
+   ],
+   "note": "Same as Ground Zero.",
+   "ground_zero_effort_replaced": 3.5,
+   "delta_vs_ground_zero": 0.0
+  }
+ ],
+ "recalculated_timeline": {
+  "method": "Same method as the Ground Zero MVP. Calendar = max(critical path, total effort ÷ 4 parallel tracks). FAST ×1.0 + 2 review days; EXPECTED ×1.5 + 4; RISK ×2.2 + 6. Effort is per work package after connection/reuse credits, and each package note states its delta against the Ground Zero item it replaces.",
+  "total_engineer_days": 87.0,
+  "critical_path": [
+   "WP01",
+   "WP04",
+   "WP05",
+   "WP07",
+   "WP08",
+   "WP13b",
+   "WP17"
+  ],
+  "critical_path_days": 29.0,
+  "parallel_tracks": 4,
+  "FAST_PATH_working_days": 31,
+  "EXPECTED_working_days": 48,
+  "RISK_ADJUSTED_working_days": 70,
+  "ground_zero_mvp_for_comparison": {
+   "headline_total_engineer_days": 82.0,
+   "sum_of_34_listed_blockers_engineer_days": 73.5,
+   "critical_path_days": 21,
+   "FAST_PATH_working_days": 23,
+   "EXPECTED_working_days": 36,
+   "RISK_ADJUSTED_working_days": 52,
+   "blockers": 34
+  },
+  "delta_explained": [
+   "Effort: 87.0 engineer-days vs 73.5 for the 34 Ground Zero blockers (82 including its non-blocking MVP items). Arithmetic: 73.5 − 9.5 connection credits (reusing the review engine, dependency engine, intake-invite tokens and provisioning) − 2 deferred (D13 messages) + 9.0 scope growth inside replaced items + 16 for new work packages (CI/migrations, commercial bypass, client hosting + launch, spend confirmation, founder decisions) = 87.0.",
+   "Critical path: 29.0 vs 21 days. Ground Zero ended at client HOME. The genome path runs to a LAUNCHED site and starts with CI and migrations, because no fix can ship safely while main is red.",
+   "D13 (messages) is deferred to after the first client."
+  ],
+  "deferred_ground_zero_items": [
+   "D13"
+  ],
+  "why_blocker_estimates_sum_lower": "The 31 blocker records' own effort estimates sum to 65.0 days. The MVP total is higher because the work packages also include client room UX (WP11b–d), the founder workspace client lens (WP12) and end-to-end/security QA (WP17). Those are not single capabilities, so no blocker record carries their effort."
+ },
+ "shared_root_engines_first": [
+  "PERMISSION_ENGINE (WP02, WP03, WP05)",
+  "PROJECT_REGISTRY (WP04, WP11a, WP12, WP13a)",
+  "EVENT_LEDGER (WP06–WP08, WP11b–c, WP13b)",
+  "NOTIFICATION_BUS (WP09, WP11d)"
+ ]
+}
