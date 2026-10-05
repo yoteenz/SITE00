@@ -1,0 +1,138 @@
+{
+ "generated": "2026-10-05",
+ "unresolved": [
+  {
+   "id": "U-01",
+   "kind": "AUTHORITY_URL_ONLY",
+   "family": "INBOX",
+   "items": [
+    {
+     "route": "01_watching-desktop-tablet",
+     "historyId": "NGoxyoZ9OX5wlsYUDpyy",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068895590_8113cfa5.png"
+    },
+    {
+     "route": "02_resolved-desktop-tablet",
+     "historyId": "hU5mHFjp073mcdlwQ7N2",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068916337_fcdf5865.png"
+    },
+    {
+     "route": "03_all-inbox-desktop-tablet",
+     "historyId": "XP490OkR8CQWHNrgtMiT",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068907663_f1ae716f.png"
+    },
+    {
+     "route": "04_messages-desktop-tablet",
+     "historyId": "GpNHUOVfWmCAD9IOUnxw",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068914649_cd5931a6.png"
+    },
+    {
+     "route": "05_system-desktop-tablet",
+     "historyId": "UYUeC1Hco9Cm2tb4HD2R",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068929240_cb2d5904.png"
+    },
+    {
+     "route": "06_decision-detail-desktop-tablet",
+     "historyId": "D1lb15Wt2jM30EyrQEQe",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068920369_ead6b825.png"
+    },
+    {
+     "route": "07_message-thread-desktop-tablet",
+     "historyId": "kKHJvxgIciNXy3DriHUo",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068925798_1de1bd83.png"
+    },
+    {
+     "route": "08_system-notice-detail-desktop-tablet",
+     "historyId": "eTTyKNXqsGeAS5MoN88W",
+     "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791068941352_2d1e1b9f.png"
+    }
+   ],
+   "detail": "IBX2 desktop/tablet boards referenced only by OpenArt CDN URL. Retrieval from this container fails: cdn.openart.ai CONNECT denied (403) by the environment network policy.",
+   "effect": "Inbox desktop/tablet children + grandchildren are governed by D-INBOX-FINAL + parent authorities; no image comparison possible here."
+  },
+  {
+   "id": "U-02",
+   "kind": "MASTERS_NOT_PRESENT",
+   "family": "EXPERIENCE+LIBRARY",
+   "detail": "EL 00_README: the original EXPERIENCE/LIBRARY *_AUTHORITY.zip masters remain the masters; only the compressed LITE copies (242) are present. Masters are listed as 242 OpenArt CDN URLs in artifacts/production-openart-recovery2 (download_production_authorities.ps1) \u2014 CDN blocked here.",
+   "effect": "LITE copies used for all comparisons."
+  },
+  {
+   "id": "U-03",
+   "kind": "SUPERSEDED_PACK_NOT_PRESENT",
+   "family": "EXPRESSION",
+   "detail": "STUDIOOS_EXPRESSION_AUTHORITY_LITE_v1 (used by Expression OPUS1) is not in the upload store; recovered only as the authority halves of 120 committed compare sheets (artifacts/production-expression-authority-opus1/**/authority-vs-live.jpg). Sampled route (casting/roles) identical to v2.",
+   "effect": "v2 governs."
+  },
+  {
+   "id": "U-04",
+   "kind": "LOW_CONFIDENCE_MAPPING",
+   "family": "DESIGN",
+   "detail": "DWS 02_TABLET CC27801B\u2026: active mode tab not legible; mapped to SURFACES by elimination.",
+   "effect": "Superseded anyway by T12."
+  },
+  {
+   "id": "U-05",
+   "kind": "RESPONSIVE_VARIANT_MISSING",
+   "family": "EXPRESSION",
+   "detail": "Character Fabrication has 16 mobile authorities and no tablet/desktop authority.",
+   "effect": "Phase 5: preserve live tablet/desktop presentation."
+  },
+  {
+   "id": "U-06",
+   "kind": "RESPONSIVE_VARIANT_MISSING",
+   "family": "HUB",
+   "detail": "Hub machine (LEGACY_LOCKED) has mobile authority only.",
+   "effect": "Not refined."
+  },
+  {
+   "id": "U-07",
+   "kind": "AUTHORITY_CONFLICT",
+   "family": "EXPERIENCE",
+   "detail": "/production/:slug/experience \u2014 T12/PAR3V 08 parent landing vs EL 01_World root.",
+   "effect": "EL governs (rules 3+5); founder decision required."
+  },
+  {
+   "id": "U-08",
+   "kind": "AUTHORITY_CONFLICT",
+   "family": "LIBRARY",
+   "detail": "/production/libraries \u2014 T12/PAR3V 10 canon-vault landing vs EL 01_Authorities root.",
+   "effect": "EL governs (rules 3+5); founder decision required."
+  },
+  {
+   "id": "U-09",
+   "kind": "AUTHORITY_CONFLICT",
+   "family": "SHELL",
+   "detail": "Tablet/desktop host chrome: images show centred selector/stacked nav; D-SHELL-CANON (text) says left cluster + icon-left nav. HUB reconstruction OPUS1 flagged \"needs a founder decision\".",
+   "effect": "D-SHELL-CANON governs (explicit canonical marker)."
+  },
+  {
+   "id": "U-10",
+   "kind": "UNMOUNTED_AUTHORITY_LINE",
+   "family": "DESIGN",
+   "detail": "DWS unified Design workspace implementation lives on cursor/design-unified-workspace-opus-convergence1 and is not on the tunnel lineage; /production/:slug/design/* children still mount the legacy bench.",
+   "effect": "Out of this sprint's refinement scope; recorded."
+  },
+  {
+   "id": "U-11",
+   "kind": "NO_RECOVERED_AUTHORITY",
+   "family": "INBOX",
+   "detail": "Temporary surfaces (revision / approval confirmation / filter-sort / attachment preview) have no image authority.",
+   "effect": "Preserve live; inherit parent shell."
+  },
+  {
+   "id": "U-12",
+   "kind": "CONTENT_IN_REVIEW",
+   "family": "SHELL",
+   "detail": "GROK1 production plates (public/site00/production-authority-assets/*.jpg|png root) in runtime use without a recorded founder approval.",
+   "effect": "Kept (no new authority generated)."
+  },
+  {
+   "id": "U-13",
+   "kind": "NOT_AUTHORITY_DESPITE_NAME",
+   "family": "ALL",
+   "detail": "artifacts/production-authority-opus/{desktop,mobile,tablet}/NN-*.jpg are OPUS1 live captures, not authority copies (dHash 68\u2013111 vs T12).",
+   "effect": "Classified LIVE_CAPTURE."
+  }
+ ]
+}
