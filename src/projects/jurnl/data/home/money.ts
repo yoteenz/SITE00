@@ -7,6 +7,9 @@
 import { useSyncExternalStore } from 'react';
 import { getSetupDraft, type SetupDraft } from '../f02/setupDraft';
 
+export { formatAmountInput, formatMoney, useCurrency, setCurrency, getCurrency, parseAmountInput, CURRENCIES } from './currency';
+export type { CurrencyCode, CurrencyPreference } from './currency';
+
 export type MoneySource = 'MOCK' | 'ADDED' | 'SETUP' | 'DERIVED';
 export type Direction = 'INCOME' | 'EXPENSE';
 export type Clearance = 'PENDING' | 'CLEARED';
@@ -88,14 +91,6 @@ function subscribe(listener: () => void) {
 
 export function useAddedEntries(): LedgerEntry[] {
   return useSyncExternalStore(subscribe, addedEntries, addedEntries);
-}
-
-export function formatMoney(amount: number, signed = false): string {
-  const rounded = Math.round(amount);
-  const abs = Math.abs(rounded).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  if (rounded < 0) return `-${abs}`;
-  if (signed && rounded > 0) return `+${abs}`;
-  return abs;
 }
 
 export function protectedAmount(draft: SetupDraft = getSetupDraft()): number {
@@ -210,4 +205,16 @@ export function applyActivityFilter(entries: LedgerEntry[], filter: ActivityFilt
 
 export function filterIsActive(filter: ActivityFilter): boolean {
   return filter.account !== 'ALL' || filter.direction !== 'ALL' || filter.status !== 'ALL' || filter.when !== 'ALL';
+}
+
+/** Human reading of a narrowed ledger. Default filters stay quiet. */
+export function filterSummary(filter: ActivityFilter): string | null {
+  const parts: string[] = [];
+  if (filter.account !== 'ALL') parts.push(filter.account);
+  if (filter.direction === 'INCOME') parts.push('MONEY IN');
+  if (filter.direction === 'EXPENSE') parts.push('MONEY OUT');
+  if (filter.status === 'PENDING') parts.push('STILL MOVING');
+  if (filter.status === 'CLEARED') parts.push('SETTLED');
+  if (filter.when !== 'ALL') parts.push(filter.when);
+  return parts.length ? parts.join(' · ') : null;
 }

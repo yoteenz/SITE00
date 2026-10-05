@@ -13530,6 +13530,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — F03 and F04 parent composition repair
+
+- **Context:** This chat first locked the reference-binding cost guard, then moved F03 and F04 images into their own OpenArt projects, then required one provider project per family. The founder then stopped child production and asked for a parent correction of F03 TODAY and F04 ACTIVITY before any more child authorities.
+- **Topics covered:** Header breathing, content rail versus environment breathing, bottom-nav centering, an activity material ledger, search and no-matches hierarchy, a global money formatter, a change-currency preference with no foreign exchange, and a working Quick Add.
+- **Decisions / outcomes:** Parents stay `READY_FOR_FOUNDER_REVIEW` and are not approved. Child production stays blocked. No new paid generations and no credits spent. The existing plates were kept. The repair is live CSS, type, and interaction. F01 and F02 were audited only: entry titles sit high, F02 actions are not a centered dock, and the F02 amount field has no currency symbol. Those stay registered for a later surgical pass. Display currency is USD, EUR, or GBP. Changing it changes the symbol and grouping. Stored amounts stay numeric. Quick Add expense/income and checking/card are mutually exclusive, save is gated, and a saved row updates Today and Activity.
+- **Changes:** `src/projects/jurnl/data/home/currency.ts`, `money.ts`, `HomeScreens.tsx`, `jurnl-home.css`, primitives, product nav, transaction row, `tests/jurnlF03F04Runtime.test.tsx`. Contracts in `JURNL/MANIFEST/`. Child production files under `JURNL/F03_TODAY/MANIFEST/` and `JURNL/F04_ACTIVITY/MANIFEST/`.
+- **Conventions:** Future families inherit `JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json` and `JURNL_CURRENCY_CONTRACT.json`. Do not resume F03 or F04 child generation until the founder passes the parents. Do not invent an exchange rate.
+
+---
+
 ## 2026-10-05 — F02 SETUP OPUS final audit
 
 - **Context:** Final family-wide structural, visual-correction, interaction, responsive and accessibility audit of Grok's live F02 SETUP. Founder directives:

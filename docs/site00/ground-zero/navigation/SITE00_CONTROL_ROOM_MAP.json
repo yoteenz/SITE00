@@ -1,0 +1,365 @@
+{
+ "artifact": "SITE00_CONTROL_ROOM_MAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "semantic_rule": "CONTROL ROOM = user-facing account / profile / settings environment. CONTROL PLANE = background infrastructure. Project management is NOT inside a control room.",
+ "naming_usage_today": [
+  {
+   "term": "CTRL ROOM",
+   "where": "src/site00/config/ctrl-room-nav.ts:2",
+   "meaning": "Doc comment: 'customer-facing account environment for SITE 00' \u2014 the /control/* client area (OVERVIEW/SITES/DOMAINS/BILLING/TEAM/SETTINGS/SECURITY)."
+  },
+  {
+   "term": "CTRL ROOM",
+   "where": "src/site00/config/ecosystem-nav.ts:19",
+   "meaning": "First item of OPERATING_WORLD_TOP_NAV (client top nav) -> /control. Same nav also lists PROJECTS, INTAKES, SITES, STUDIO(/admin), APPROVALS(/admin), ACCESS(/control/security), BILLING(/control/billing) \u2014 mixes account, project-management and operator links in one bar."
+  },
+  {
+   "term": "CTRL ROOM",
+   "where": "src/site00/config/ctrl-room-mobile.ts:5",
+   "meaning": "'CTRL ROOM / COMMAND CENTER \u2014 WHAT NEEDS MY ATTENTION? MONITOR YOUR PROPERTIES, PROJECTS, ACCESS, AND ACCOUNT ACTIVITY.' \u2014 framed as a command center, not account settings."
+  },
+  {
+   "term": "CTRL ROOM",
+   "where": "src/site00/hooks/useCtrlRoomData.ts:69,77 + :108",
+   "meaning": "Activity 'system' label for sign_in/sign_out; hook doc 'CTRL ROOM command center data'."
+  },
+  {
+   "term": "CTRL ROOM",
+   "where": "src/site00/admin/config/nav.ts:24,38 + src/site00/admin/pages/operations/CtrlRoomPage.tsx (title '[ CTRL ROOM ]')",
+   "meaning": "SAME NAME reused for the operator 'ADMIN ATTENTION CENTER' at /admin/site00/ctrl-room (blockers/approvals/leads/discovery/overdue invoices). Name collision with client CTRL ROOM. (SITE00_ADMIN_NAV is legacy; current shell uses CONTROL_OPERATOR_NAV which does not list it, so it is reachable by URL only.)"
+  },
+  {
+   "term": "CTRL ROOM",
+   "where": "motherboard/CORE.md:127,134",
+   "meaning": "Canon: 'CTRL ROOM \u2014 Customer account-level command center' (/control); distinct from 00 / CONTROL and Studio."
+  },
+  {
+   "term": "CTRL ROOM",
+   "where": "src/site00/components/auth/Site00AuthIntro.tsx:13; shell/Site00PublicTopNav.tsx:53; shell/Site00PublicSidebar.tsx:55; evolve-assessment/EvolveAssessmentShell.tsx:135",
+   "meaning": "Public CTA: 'ACCESS YOUR CTRL ROOM' / 'ENTER CTRL ROOM' = sign-in destination."
+  },
+  {
+   "term": "CONTROL ROOM",
+   "where": "src/site00/pages/complex/AccountPage.tsx:16",
+   "meaning": "Hub card 'CONTROL ROOM \u2014 ACCOUNT SETTINGS AND TEAM MANAGEMENT' -> /control. Closest to founder's intended meaning."
+  },
+  {
+   "term": "CONTROL ROOM",
+   "where": "src/site00/config/seed/site00-page-seed.ts:100,112",
+   "meaning": "'MANAGE SITES, DOMAINS, AND ACCOUNT SETTINGS' -> /control."
+  },
+  {
+   "term": "CONTROL ROOM",
+   "where": "src/site00/pages/control/EvolveOperationsPage.tsx:35; components/control/evolveOperations/EvolveOperationsCard.tsx:5",
+   "meaning": "'Founder Control Room summary card' \u2014 founder operations intelligence embedded inside the client-facing /control overview (conflates founder ops with client account room)."
+  },
+  {
+   "term": "CONTROL ROOM / CONTROL_ROOM",
+   "where": "src/site00/components/designWorkspace/useDesignSkinsState.ts:48; brandFamilySkin/ExperienceSkinManagementPanel.tsx:57; shared/site00-brand-lore/projectSkin/brandFamily/screenSlotConfig.ts:62",
+   "meaning": "Design-skin screen slot '08 CONTROL ROOM' \u2014 a project skin screen type (per-project account screen), not the SITE 00 host room."
+  },
+  {
+   "term": "CONTROL ROOM",
+   "where": "shared/site00-marketing/creativeIntake/copySystem.ts:23",
+   "meaning": "Marketing copy environment label 'THE CONTROL ROOM'."
+  },
+  {
+   "term": "00 / CONTROL",
+   "where": "motherboard/CORE.md:125-140; src/site00/admin/components/shell/Site00AdminShell.tsx:121-149; admin/components/control/ControlPageHeader.tsx:10; ControlCommandHero.tsx:21",
+   "meaning": "Internal operator environment /admin/site00/* ('OPERATOR ENVIRONMENT', V2.0.0) \u2014 monitor/approve/intervene/launch. Effectively founder business operations + project management + infra."
+  },
+  {
+   "term": "00 / CONTROL",
+   "where": "src/site00/components/control/CtrlRoomSidebar.tsx:49; pages/control/ControlSectionPage.tsx:20-26",
+   "meaning": "Admin-only link from client CTRL ROOM into operator env; ControlSectionPage /control/settings shows '00 / CONTROL \u00b7 OPERATOR' block for admins."
+  },
+  {
+   "term": "CONTROL ENVIRONMENT",
+   "where": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:30",
+   "meaning": "Env label on the client operating-world top nav."
+  },
+  {
+   "term": "CONTROL (route ns)",
+   "where": "src/site00/config/routes.ts:61-68",
+   "meaning": "/control, /control/sites, /domains, /billing, /team, /settings, /security, /evolve-operations."
+  },
+  {
+   "term": "control plane",
+   "where": "supabase/migrations/20260826123000_site00_design_control_plane_bridge.sql:1-2",
+   "meaning": "'Cross-repo design control plane (SITE 00 <-> FSBW handoff). SITE 00 owns design intent; FSBW owns source code; Supabase is shared control plane.' Tables site00_managed_projects, site00_repo_bindings, etc."
+  },
+  {
+   "term": "control plane",
+   "where": "shared/site00-design-control-plane/{designControlPlane.ts:2,384, constants.ts:2, types.ts, client.ts}; api/site00/design-control-plane.ts (actions prepare_repo_change, approve_for_source_repo, publish_runtime_binding, record_receipt, check_source_divergence); server/routes.ts:41,105; src/site00/components/designWorkspace/DesignRepoChangePanel.tsx:86,119",
+   "meaning": "The ONLY 'control plane' in code = design/repo change bridge (Site00DesignControlPlane). Store mode defaults to 'memory' (designControlPlane.ts:48). It is infra in the founder's sense but narrowly scoped; no general 'SITE 00 control plane' module exists."
+  },
+  {
+   "term": "control plane",
+   "where": "motherboard/MEMORY.md:5523-5531; docs/design-workspace/DESIGN-PRODUCTION1R1-PERSISTENCE-AUDIT.md; docs/audits/SITE00_PROJECT_INGESTION_READINESS_AUDIT.md; studio-world visualReconstruction p0vr3m/p0vr8r2",
+   "meaning": "References to the P0.BRIDGE.1 design control plane only."
+  }
+ ],
+ "surfaces_classified": [
+  {
+   "route": "/control",
+   "file": "src/site00/pages/control/ControlOverviewPage.tsx (+ hooks/useCtrlRoomData.ts, components/ctrl-room/mobile/CtrlRoomMobileExperience)",
+   "shows": "Metrics ACTIVE SITES, DOMAINS, PLAN, NEXT BILLING; signals panel; EVOLVE OPERATIONS card; activity; sites panel. Mobile: 'WHAT NEEDS MY ATTENTION' command center.",
+   "data_real": "PARTIAL \u2014 counts/sites/signals from GET /api/site00/client-production?action=ctrl-room (api/_lib/site00Production/service.ts:226 getClientCtrlRoomPayload: site00_sites by identity_id, ACTIVE site00_projects by client_email, project signals rewritten to /studio routes). PLAN = localStorage user.membershipType. NEXT BILLING hardcoded empty '\u2014'. Activity = localStorage readLocalActivityForEmail. EVOLVE OPERATIONS card = FIXTURES (useEvolveOperationsPortfolio DEMO_FIXTURES, fake 'AUTO-RETRIED 12...' lines).",
+   "audience": "Any signed-in user (Site00AccountRouteGuard). Founder card shown to clients too \u2014 no canAccessAdminPages() check.",
+   "classification": "MIXED: CLIENT_CONTROL_ROOM (plan/billing/domains intent) + PROJECT_MANAGEMENT (project signals -> ENTER STUDIO) + OPERATIONS (founder EVOLVE ops fixtures leak)",
+   "status": "LIVE-PARTIAL; semantic violation (project mgmt + founder ops inside control room)"
+  },
+  {
+   "route": "/control/sites",
+   "file": "src/site00/pages/control/ControlSitesPage.tsx (+ hooks/useEcosystemData.ts, components/ecosystem/SiteRow.tsx)",
+   "shows": "ACTIVE/DRAFT/TOTAL/TEAM site metrics, search, PUBLISHED/DRAFT filter, site rows with MANAGE + '\u22ef', SITE ACTIVITY, YOUR TEAM, '+ NEW SITE' -> /bldr.",
+   "data_real": "NO \u2014 100% seed: ECOSYSTEM_SITES_SEED (jordancole.studio, northquarter.co, ...), SITE_ACTIVITY_SEED, SITE_TEAM_SEED (Jordan Cole etc.) from config/seed/site00-ecosystem-seed.ts:161-247. Every signed-in client sees same fake sites. MANAGE -> /control/sites/:id (no such route -> App.tsx:33 catch-all -> '/'). '\u22ef' button has no handler.",
+   "audience": "Any signed-in user; also public /sites redirects here when signed in",
+   "classification": "SITES (client) \u2014 belongs to client's site/property surface; currently placed under CONTROL ROOM namespace",
+   "status": "PLACEHOLDER (fake data presented as real)"
+  },
+  {
+   "route": "/control/domains, /control/billing, /control/team, /control/settings, /control/security",
+   "file": "src/site00/pages/control/ControlSectionPage.tsx",
+   "shows": "Title + 'MODULES WILL APPEAR HERE AS SITE 00 ACCOUNT SERVICES EXPAND.' On /control/settings, admins also see 00 / CONTROL operator links (email pack, dashboard, operator settings).",
+   "data_real": "NO \u2014 stub",
+   "audience": "Any signed-in user",
+   "classification": "CLIENT_CONTROL_ROOM (intended) \u2014 stub",
+   "status": "STUB"
+  },
+  {
+   "route": "/control/evolve-operations",
+   "file": "src/site00/pages/control/EvolveOperationsPage.tsx (+ hooks/useEvolveOperationsPortfolio.ts, shared/site00-evolve-operations)",
+   "shows": "'FOUNDER \u00b7 INTERNAL ONLY \u2014 EVOLVE OPERATIONS' tabs TODAY/AT_RISK/SPEND/FAILURES/CLIENT_WAITING/SYSTEM_WAITING, scale mode (1000 fixture projects).",
+   "data_real": "NO \u2014 deterministic fixtures + generated outage failures",
+   "audience": "Labeled founder-only but guarded only by Site00AccountRouteGuard (any signed-in client can open it)",
+   "classification": "OPERATIONS (founder business ops intelligence) \u2014 misplaced under client /control",
+   "status": "PROTOTYPE; access-scope defect"
+  },
+  {
+   "route": "/account",
+   "file": "src/site00/pages/complex/AccountPage.tsx",
+   "shows": "Hub cards CONTROL ROOM (/control), INTAKES (/account/intakes), SIGN IN & SECURITY (/idnty/sign-in-security). Footer 'DATA CONTRACT PLACEHOLDER'. reviewFlag FUNCTIONAL_REVIEW_REQUIRED; registered as composer draft route.",
+   "data_real": "NO \u2014 static links",
+   "audience": "Public composer-draft route (not guarded)",
+   "classification": "CLIENT_CONTROL_ROOM (entry hub)",
+   "status": "PLACEHOLDER"
+  },
+  {
+   "route": "/account/intakes, /account/intakes/:intakeType/:intakeId",
+   "file": "src/site00/pages/account/AccountIntakesPage.tsx, AccountIntakeDetailPage.tsx",
+   "shows": "Client's IDNTY/BLDR intake submissions; claimGuestIntakes.",
+   "data_real": "YES \u2014 src/site00/api/intakesApi listMyIntakes",
+   "audience": "Signed-in client",
+   "classification": "PROJECT_MANAGEMENT (pre-project intake records) living under /account",
+   "status": "LIVE"
+  },
+  {
+   "route": "/idnty/sign-in-security",
+   "file": "src/site00/pages/idnty/IdntySignInSecurityPage.tsx",
+   "shows": "PASSWORD \u2022\u2022\u2022\u2022, 2FA NOT AVAILABLE, sessions CURRENT ONLY, trusted devices NOT AVAILABLE, sign-in email, 'NO ACTIVITY LOG'.",
+   "data_real": "MINIMAL \u2014 only user.email real; no actions",
+   "audience": "Signed-in client",
+   "classification": "CLIENT_CONTROL_ROOM (security)",
+   "status": "READ-ONLY STUB"
+  },
+  {
+   "route": "(no route) profile edit",
+   "file": "api/profile.ts (GET/PATCH profiles), src/utils/api.ts:161-169 getProfile/patchProfile",
+   "shows": "Profile API exists (incl. stripe_* field preservation) but no SITE 00 profile-edit UI; patchProfile used only by Site00AccountRouteGuard and Astral reader pages.",
+   "data_real": "API real; UI absent",
+   "audience": "n/a",
+   "classification": "CLIENT_CONTROL_ROOM (missing UI)",
+   "status": "MISSING UI; password reset email links /account/settings which has no route (navigation.json broken_links)"
+  },
+  {
+   "route": "/admin/site00",
+   "file": "src/site00/admin/pages/DashboardPage.tsx (COMMAND; api/_lib/site00Production/controlCommand.ts getControlCommandPayload)",
+   "shows": "Operator command dashboard incl. launch queue from site00_sites status BUILD/PRELAUNCH/QA.",
+   "data_real": "YES (+ demo seeding via ensureAdminOpsSeeded/ensureDemoProjectSeeded)",
+   "audience": "Founder/admin (AdminGuard; preview bypass constant per auth_permissions.json)",
+   "classification": "OPERATIONS + PROJECT_MANAGEMENT",
+   "status": "LIVE"
+  },
+  {
+   "route": "/admin/site00/ctrl-room",
+   "file": "src/site00/admin/pages/operations/CtrlRoomPage.tsx (api getCtrlRoomAdmin adminOperations.ts:~698)",
+   "shows": "'[ CTRL ROOM ] ADMIN ATTENTION CENTER': BLOCKERS, APPROVALS, NEW LEADS, UPCOMING DISCOVERY, OVERDUE INVOICES.",
+   "data_real": "YES (Supabase; seeded demo rows if empty)",
+   "audience": "Founder/admin",
+   "classification": "OPERATIONS (business + project attention monitor) \u2014 misnamed 'CTRL ROOM'",
+   "status": "LIVE; orphan from current CONTROL_OPERATOR_NAV (only in legacy SITE00_ADMIN_NAV)"
+  },
+  {
+   "route": "/admin/site00/settings (+ /settings/studio/automation renders same SettingsPage)",
+   "file": "src/site00/admin/pages/operations/SettingsPage.tsx",
+   "shows": "'SETTINGS / OPERATOR \u2014 CONTROL THE SYSTEM': EMAIL SYSTEM (link), INTEGRATIONS ('configured via env \u2014 NOT IN THIS UI'), ROLES & ACCESS ('ADMIN_EMAILS... requires backend'), STUDIO AUTOMATION (link to itself), NOTIFICATIONS ('not yet exposed').",
+   "data_real": "NO \u2014 static descriptive cards",
+   "audience": "Founder/admin",
+   "classification": "FOUNDER_CONTROL_ROOM (intended: system/personal settings) \u2014 stub",
+   "status": "STUB; automation route is a self-loop"
+  },
+  {
+   "route": "/admin/site00/finance, /admin/site00/finance/invoices/:id",
+   "file": "src/site00/admin/pages/operations/FinancePage.tsx, InvoiceDetailPage.tsx",
+   "shows": "'BUSINESS / OPERATIONS \u2014 WHAT HAS BEEN AUTHORIZED? WHAT IS MOVING?' invoices list.",
+   "data_real": "DB-backed (site00_invoices) but rows are demo-seeded; no payment provider (Stripe absent)",
+   "audience": "Founder/admin",
+   "classification": "OPERATIONS (commercial admin; candidate FOUNDER_CONTROL_ROOM commercial section)",
+   "status": "LIVE-DEMO"
+  },
+  {
+   "route": "/admin/site00/team",
+   "file": "src/site00/admin/pages/operations/TeamPage.tsx (adminOperations.ts:783 getTeamOverview)",
+   "shows": "'OPERATORS / TEAM' members = ADMIN_EMAILS env (fallback hardcoded 3 emails incl. founder) + ACTIVE project load.",
+   "data_real": "PARTIAL (derived from env allowlist; no team table, no roles)",
+   "audience": "Founder/admin",
+   "classification": "FOUNDER_CONTROL_ROOM (team/access) / OPERATIONS",
+   "status": "LIVE-DERIVED"
+  },
+  {
+   "route": "/admin/site00/access-credentials, /:id",
+   "file": "src/site00/admin/pages/access/AccessCredentialsPage.tsx, AccessCredentialDetailPage.tsx",
+   "shows": "Issued access credentials + events.",
+   "data_real": "YES (site00_access_credentials, site00_access_credential_events)",
+   "audience": "Founder/admin",
+   "classification": "CONTROL_PLANE_INFRA management surface (identity/access) \u2014 operations",
+   "status": "LIVE"
+  },
+  {
+   "route": "/admin/site00/evolve/connections",
+   "file": "src/site00/admin/pages/evolve/EvolveConnectionsPortfolioPage.tsx",
+   "shows": "'EXTERNAL CONNECTIONS \u2014 provider connections grouped by organization'.",
+   "data_real": "YES via site00EvolveApi.connectionsPortfolio",
+   "audience": "Founder/admin",
+   "classification": "CONTROL_PLANE_INFRA management surface (provider connections)",
+   "status": "LIVE"
+  },
+  {
+   "route": "/admin/site00/orchestration/:orgSlug/evolve/connections",
+   "file": "src/site00/admin/pages/evolve/EvolveOrgConnectionsPage.tsx",
+   "shows": "Per-org provider connections: initiate/verify/sync/disconnect.",
+   "data_real": "YES (site00_external_connections + site00_provider_secrets AES-GCM)",
+   "audience": "Founder/admin",
+   "classification": "CONTROL_PLANE_INFRA management (per org/project) \u2014 arguably PROJECT_MANAGEMENT scope",
+   "status": "LIVE"
+  },
+  {
+   "route": "/projects/:projectSlug/connections",
+   "file": "routes.ts:209 projectConnections",
+   "shows": "Per-project connections page.",
+   "data_real": "see client_components.json",
+   "audience": "Signed-in",
+   "classification": "PROJECT_MANAGEMENT",
+   "status": "EXISTS"
+  },
+  {
+   "route": "/projects/:projectSlug/notifications",
+   "file": "routes.ts:206; api/_lib/site00Projects/projectNotificationsService.ts",
+   "shows": "Project notification center.",
+   "data_real": "MEMORY STORE ONLY (shared/site00-studio-world-production/projectNotifications/memoryStore.js)",
+   "audience": "Signed-in",
+   "classification": "PROJECT_MANAGEMENT (notifications per project)",
+   "status": "NON-PERSISTENT"
+  },
+  {
+   "route": "/admin/site00/sites, /admin/site00/sites/:id",
+   "file": "src/site00/admin/pages/operations/SitesPage.tsx, SiteDetailPage.tsx",
+   "shows": "'SYSTEMS / INFRASTRUCTURE \u2014 WHAT IS CONNECTED? WHAT IS HEALTHY?' site list (filters issues/live); detail OVERVIEW (domain/status/health/owner/last deploy), PROJECT link, CLIENT identity link.",
+   "data_real": "YES (site00_sites join site00_projects, site00_identities) \u2014 but only seeded demo row is ever inserted",
+   "audience": "Founder/admin",
+   "classification": "OPERATIONS / CONTROL_PLANE_INFRA (site registry)",
+   "status": "LIVE-DEMO"
+  },
+  {
+   "route": "OperatingWorldTopNav (all EcosystemShell pages)",
+   "file": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx + config/ecosystem-nav.ts:18-28",
+   "shows": "CTRL ROOM | PROJECTS | PRODUCTION(admin) | INTAKES | SITES | STUDIO(/admin) | APPROVALS(/admin) | ACCESS(/control/security) | BILLING(/control/billing); IDNTY profile link.",
+   "data_real": "n/a",
+   "audience": "Clients + founder; STUDIO/APPROVALS shown to clients but bounce via AdminGuard",
+   "classification": "NAV mixing CLIENT_CONTROL_ROOM + PROJECT_MANAGEMENT + OPERATIONS",
+   "status": "LIVE; semantically mixed"
+  },
+  {
+   "route": "/admin/site00/existing-location (constant only)",
+   "file": "src/site00/config/routes.ts:42; api/admin/site00-existing-location.ts",
+   "shows": "Founder queue/quote/courtesy-code API exists; NO admin page/route mounted for it.",
+   "data_real": "API real but in-memory store",
+   "audience": "Founder",
+   "classification": "OPERATIONS (commercial) \u2014 management UI missing",
+   "status": "API-ONLY"
+  }
+ ],
+ "FOUNDER_CONTROL_ROOM": {
+  "present": [
+   "/admin/site00/settings \u2014 static descriptive operator settings (no controls)",
+   "/admin/site00/team \u2014 derived operator list from ADMIN_EMAILS env",
+   "/admin/site00/finance \u2014 demo-seeded invoices (business ops)",
+   "/admin/site00/access-credentials \u2014 credential issuance log (real)",
+   "/admin/site00/evolve/connections + org connections \u2014 provider connection mgmt (real)",
+   "/control/settings operator block (links into 00 / CONTROL)",
+   "Founder identity = single hardcoded email in api/_lib/adminAuth.ts (auth_permissions.json)"
+  ],
+  "missing": [
+   "Founder personal profile/account page (name, avatar, contact, timezone) distinct from operator env",
+   "Founder security (password change, 2FA, sessions, device trust)",
+   "Founder notification preferences (SettingsPage says 'not yet exposed')",
+   "Studio/business defaults (default pricing, default delivery mode, default automation level, email sender identity)",
+   "Commercial admin: price book editor, discount/promotion/courtesy-code manager, client-specific pricing, credits/waivers ledger",
+   "Payments/billing account for SITE 00 itself (Stripe not wired; PAYMENT_PROVIDER_GATE BLOCKED)",
+   "Team/roles management with real role model (INTERNAL_USER not modeled; allowlist binary)",
+   "Provider account/BYOK + budget settings (no funding_mode, no spend caps per project)",
+   "Audit history viewer for founder actions (site00_admin_activity exists but no unified founder audit UI)"
+  ],
+  "proposed_sections": [
+   "PROFILE",
+   "SECURITY (password, 2FA, sessions)",
+   "NOTIFICATIONS",
+   "DEFAULTS (pricing, delivery, automation, sender identity)",
+   "COMMERCIAL (price book, discounts/promotions, client pricing, credits/waivers)",
+   "PAYMENTS & BILLING (SITE 00 account)",
+   "PROVIDER CONNECTIONS",
+   "TEAM & ACCESS",
+   "BUSINESS (finance, reports) \u2014 or keep in operations console"
+  ],
+  "status": "FAIL (barely exists: static settings, env-derived team, demo finance)"
+ },
+ "CLIENT_CONTROL_ROOM": {
+  "present": [
+   "/control overview (partially real counts; plan from localStorage; next billing empty)",
+   "/control/{domains,billing,team,settings,security} \u2014 stubs",
+   "/account hub \u2014 placeholder links",
+   "/idnty/sign-in-security \u2014 read-only stub (email only real)",
+   "api/profile.ts GET/PATCH (no UI)"
+  ],
+  "missing": [
+   "Profile edit (name, company, contact, avatar)",
+   "Password change / reset landing (/account/settings broken target), 2FA, sessions",
+   "Notification preferences (email registry exists, EMAIL_PROVIDER not configured)",
+   "Billing: payment methods, invoices for the client, receipts, plan management (no Stripe)",
+   "Payments history / courtesy redemptions visible to client",
+   "Team / collaborators invite (no membership table; client_role is single metadata value per project)",
+   "Domains management (no domains table; only site00_sites.domain text)",
+   "Connected accounts/provider connections at account level (only per-project connect-service with spoofable state)",
+   "Data export / account deletion"
+  ],
+  "proposed_sections": [
+   "PROFILE",
+   "SECURITY",
+   "NOTIFICATIONS",
+   "PAYMENT METHODS & RECEIPTS",
+   "CONNECTED PROVIDERS (account-level view of project-scoped connections)",
+   "MEMBERSHIP / ACCESS (which projects, which role)",
+   "PERSONAL SETTINGS"
+  ],
+  "not_inside": [
+   "project list/management (\u2192 client app / YOUR SPACE)",
+   "sites (\u2192 SITES)",
+   "founder operations (evolve-operations leak)"
+  ],
+  "status": "PARTIAL (route exists; mostly stubs; mixes project management + founder ops)"
+ },
+ "name_collision": "\"CTRL ROOM\" is used for both the client area (/control) and the operator attention page (/admin/site00/ctrl-room)."
+}

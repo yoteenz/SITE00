@@ -1,0 +1,1191 @@
+{
+ "artifact": "SITE00_FAST_TRAVEL_SYSTEM_MAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "runtime_verification": "RUNTIME_VERIFICATION_BLOCKED \u2014 npm registry is blocked in this environment, so no dev server; every finding is code evidence (file:line). Items tagged CONFIRM_LIVE in evidence/ need a live pass.",
+ "finding_in_one_line": "FAST TRAVEL is a contextual, mobile-only, role-blind shortcut overlay (global destination switcher) \u2014 not a teleport, project switcher or workspace switcher; it is absent from Origin, LOCATIONS, ENTER 00, production, client app and admin.",
+ "entry_points": [
+  {
+   "trigger": "FastTravelTrigger icon button (24.2px Site00FastTravelIcon) in Site00MobileHeader default variant",
+   "file_line": "src/site00/components/mobile/Site00MobileHeader.tsx:25-33; src/site00/components/fast-travel/FastTravelTrigger.tsx:10-25",
+   "host_shells": [
+    "Site00MobileShell (Site00MobileShell.tsx:54-59,63-69) \u2014 public mobile pages via Site00PublicShell (Site00PublicShell.tsx:52) + IDNTY/BLDR/EVOLVE state & assessment shells, BldrStartPage, LocationsPage(directory variant: NO panel), existing-location pages",
+    "Site00EcosystemMobileShell (Site00EcosystemMobileShell.tsx:43-57) \u2014 EcosystemShell mobile layout (CTRL ROOM, PROJECTS, IDNTY signed-in hub, account intakes, STUDIO shell, project module pages); suppressed for /projects/ndxbook*",
+    "Site00AuthShell mobile block (Site00AuthShell.tsx:107-121) \u2014 /origin/sign-in, /origin/create-account"
+   ],
+   "contexts": "all route profiles reachable from hosting shells",
+   "viewports": [
+    "mobile (<768px, preview mode 'mobile')"
+   ]
+  },
+  {
+   "trigger": "FastTravelTrigger in AccessMobileHeader (credential access)",
+   "file_line": "src/site00/components/access/AccessMobileHeader.tsx:23-38 (host CredentialAccessMobile.tsx:54)",
+   "contexts": [
+    "FALLBACK"
+   ],
+   "viewports": [
+    "mobile"
+   ]
+  },
+  {
+   "trigger": "ENTER 00 / EXIT 00 links reuse Site00FastTravelIcon but do NOT open Fast Travel (navigate to /enter or /origin)",
+   "file_line": "src/site00/components/shell/EntryToggle.tsx:10-36",
+   "contexts": [
+    "desktop public header"
+   ],
+   "viewports": [
+    "desktop"
+   ],
+   "note": "Iconographic link only \u2014 desktop's equivalent is ENTER 00 directory route, not the overlay."
+  }
+ ],
+ "panel": {
+  "component": "src/site00/components/fast-travel/FastTravelPanel.tsx:24-148",
+  "surface": "right-edge fixed dialog (role=dialog aria-modal) + backdrop button; width min(92vw,360px); z-index var(--site-z-overlay)=40 (tokens.css:93); site00-fast-travel.css:60-80",
+  "behaviour": [
+   "pushState({site00Overlay:'fast-travel'}) on open; popstate closes (FastTravelPanel.tsx:53-69)",
+   "close button/backdrop/Escape -> history.back() (33-40, 79-84)",
+   "link click -> replaceState(null,'') then router Link push (42-51)",
+   "focus trap + return focus to trigger (71-104)",
+   "body.site00-fast-travel-open overflow hidden (site00-fast-travel.css:18-22)"
+  ],
+  "card_rendering": "UP NEXT = primary art cards (FastTravelSection.tsx:73-93; FAST_TRAVEL_DESTINATION_ART 11 ids, fast-travel-assets.ts:21-33); other sections list rows with arrows; auth-locked -> AuthLockedDestination 'SIGN IN TO ENTER' (AuthLockedDestination.tsx:15-58); CurrentLocationCard header (CurrentLocationCard.tsx:7-20)"
+ },
+ "contexts": [
+  {
+   "context": "SITES (/sites, /sites/*)",
+   "how_detected": "src/site00/config/fast-travel.ts:89 (pathname match)",
+   "current_location": "02 SITES / world=public",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "START A BUILD",
+       "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:96"
+      },
+      {
+       "label": "FIND MY BUILD TYPE",
+       "destination": "/bldr/state",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:97"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "EXPLORE SERVICES",
+       "destination": "/services",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:104"
+      },
+      {
+       "label": "HOW SITE 00 WORKS",
+       "destination": "/system",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:105",
+       "note": "/system is a dead end (no CTA) per prior audit"
+      },
+      {
+       "label": "READ JOURNAL",
+       "destination": "/journal",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:106",
+       "note": "journal seed empty; dead end per prior audit"
+      }
+     ]
+    },
+    {
+     "title": "MY SPACE",
+     "items": [
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:70"
+      },
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+       "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:71"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "SERVICES (/services exact)",
+   "how_detected": "src/site00/config/fast-travel.ts:117 (pathname match)",
+   "current_location": "03 SERVICES",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "START A BUILD",
+       "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:124"
+      },
+      {
+       "label": "FIND MY BUILD TYPE",
+       "destination": "/bldr/state",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:125"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "VIEW SITES",
+       "destination": "/sites",
+       "auth": "PUBLIC",
+       "status": "REDIRECT_WHEN_SIGNED_IN",
+       "file_line": "src/site00/config/fast-travel.ts:132",
+       "note": "SitesPortfolioPage.tsx:25 Navigate->/control/sites when signed in"
+      },
+      {
+       "label": "HOW SITE 00 WORKS",
+       "destination": "/system",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:133",
+       "note": "/system is a dead end (no CTA) per prior audit"
+      },
+      {
+       "label": "READ JOURNAL",
+       "destination": "/journal",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:134",
+       "note": "journal seed empty; dead end per prior audit"
+      }
+     ]
+    },
+    {
+     "title": "MY SPACE",
+     "items": [
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:70"
+      },
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+       "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:71"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "SYSTEM (/system exact)",
+   "how_detected": "src/site00/config/fast-travel.ts:145 (pathname match)",
+   "current_location": "04 SYSTEM",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "FIND MY BUILD TYPE",
+       "destination": "/bldr/state",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:152"
+      },
+      {
+       "label": "START A BUILD",
+       "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:153"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "EXPLORE SERVICES",
+       "destination": "/services",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:160"
+      },
+      {
+       "label": "VIEW SITES",
+       "destination": "/sites",
+       "auth": "PUBLIC",
+       "status": "REDIRECT_WHEN_SIGNED_IN",
+       "file_line": "src/site00/config/fast-travel.ts:161",
+       "note": "SitesPortfolioPage.tsx:25 Navigate->/control/sites when signed in"
+      },
+      {
+       "label": "READ JOURNAL",
+       "destination": "/journal",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:162",
+       "note": "journal seed empty; dead end per prior audit"
+      }
+     ]
+    },
+    {
+     "title": "MY SPACE",
+     "items": [
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:70"
+      },
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+       "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:71"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "ABOUT (/about exact)",
+   "how_detected": "src/site00/config/fast-travel.ts:173 (pathname match)",
+   "current_location": "05 ABOUT",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "EXPLORE SERVICES",
+       "destination": "/services",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:180"
+      },
+      {
+       "label": "START A BUILD",
+       "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:181"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "VIEW SITES",
+       "destination": "/sites",
+       "auth": "PUBLIC",
+       "status": "REDIRECT_WHEN_SIGNED_IN",
+       "file_line": "src/site00/config/fast-travel.ts:188",
+       "note": "SitesPortfolioPage.tsx:25 Navigate->/control/sites when signed in"
+      },
+      {
+       "label": "READ JOURNAL",
+       "destination": "/journal",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:189",
+       "note": "journal seed empty; dead end per prior audit"
+      },
+      {
+       "label": "HOW SITE 00 WORKS",
+       "destination": "/system",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:190",
+       "note": "/system is a dead end (no CTA) per prior audit"
+      }
+     ]
+    },
+    {
+     "title": "MY SPACE",
+     "items": [
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:70"
+      },
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+       "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:71"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "JOURNAL (/journal, /journal/*)",
+   "how_detected": "src/site00/config/fast-travel.ts:201 (pathname match)",
+   "current_location": "06 JOURNAL",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "EXPLORE SERVICES",
+       "destination": "/services",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:208"
+      },
+      {
+       "label": "START A BUILD",
+       "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:209"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "VIEW SITES",
+       "destination": "/sites",
+       "auth": "PUBLIC",
+       "status": "REDIRECT_WHEN_SIGNED_IN",
+       "file_line": "src/site00/config/fast-travel.ts:216",
+       "note": "SitesPortfolioPage.tsx:25 Navigate->/control/sites when signed in"
+      },
+      {
+       "label": "HOW SITE 00 WORKS",
+       "destination": "/system",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:217",
+       "note": "/system is a dead end (no CTA) per prior audit"
+      },
+      {
+       "label": "ABOUT SITE 00",
+       "destination": "/about",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:218"
+      }
+     ]
+    },
+    {
+     "title": "MY SPACE",
+     "items": [
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:70"
+      },
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+       "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:71"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "BLDR (pathname.startsWith('/bldr') \u2014 hub, /bldr/state, /bldr/start, /bldr/templates, /bldr/:class/*)",
+   "how_detected": "src/site00/config/fast-travel.ts:229",
+   "current_location": "01 BLDR / world=onboarding",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "CONTINUE BUILD",
+       "destination": "ctx.pathname (self-link to current page)",
+       "auth": "PUBLIC",
+       "status": "SELF_LINK",
+       "file_line": "src/site00/config/fast-travel.ts:236",
+       "note": "No resume state is read; just links to the page you are on. On /bldr hub this equals BUILD INVESTMENT GUIDE (/bldr) -> duplicate."
+      },
+      {
+       "label": "BUILD SELECTION",
+       "destination": "/bldr/state",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:237"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "BUILD INVESTMENT GUIDE",
+       "destination": "/bldr",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:244",
+       "note": "Label says 'investment guide' but is the BLDR hub"
+      },
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:245"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:252"
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:253"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "IDNTY signed-out (startsWith('/idnty'))",
+   "how_detected": "src/site00/config/fast-travel.ts:262,265 (ctx.isSignedIn from localStorage 'isSignedIn' via useSignedInFromStorage, FastTravelPanel.tsx:26)",
+   "current_location": "07 IDNTY",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "SIGN IN",
+       "destination": "/origin/sign-in?returnTo=<current idnty path>",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:271"
+      },
+      {
+       "label": "CREATE IDENTITY",
+       "destination": "/idnty/state",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:272"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "START BUILD",
+       "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:279"
+      },
+      {
+       "label": "EXPLORE SERVICES",
+       "destination": "/services",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:280"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "IDNTY signed-in",
+   "how_detected": "src/site00/config/fast-travel.ts:286",
+   "current_location": "07 IDNTY (world still 'public' although page renders EcosystemShell operating chrome)",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control",
+       "auth": "AUTH (not flagged requiresAuth; relies on context)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:291"
+      },
+      {
+       "label": "PROJECTS",
+       "destination": "/projects",
+       "auth": "AUTH",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:292"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "MY SITES",
+       "destination": "/control/sites",
+       "auth": "AUTH",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:299"
+      },
+      {
+       "label": "START BUILD",
+       "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:300"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "CTRL ROOM signed-out (startsWith('/control'))",
+   "how_detected": "src/site00/config/fast-travel.ts:311,314",
+   "current_location": "08 CTRL ROOM / world=operating",
+   "reachability": "EFFECTIVELY_UNREACHABLE \u2014 /control/* is wrapped in Site00AccountRouteGuard which Navigates to sign-in before EcosystemShell (and its FT trigger) mounts (Site00AccountRouteGuard.tsx:280-315)",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "SIGN IN",
+       "destination": "/origin/sign-in?returnTo=%2Fcontrol",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:319"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "CTRL ROOM signed-in",
+   "how_detected": "src/site00/config/fast-travel.ts:324",
+   "current_location": "08 CTRL ROOM",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "PROJECTS",
+       "destination": "/projects",
+       "auth": "AUTH",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:329"
+      },
+      {
+       "label": "MY SITES",
+       "destination": "/control/sites",
+       "auth": "AUTH",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:330"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "BILLING",
+       "destination": "/control/billing",
+       "auth": "AUTH",
+       "status": "STUB",
+       "file_line": "src/site00/config/fast-travel.ts:337",
+       "note": "Route exists (Site00Routes.tsx:2942) but renders ControlSectionPage stub"
+      },
+      {
+       "label": "SETTINGS",
+       "destination": "/control/settings",
+       "auth": "AUTH",
+       "status": "STUB",
+       "file_line": "src/site00/config/fast-travel.ts:338",
+       "note": "Route exists (Site00Routes.tsx:2966) \u2014 ControlSectionPage stub"
+      },
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "AUTH-context",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:339"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "PROJECTS (/projects, /projects/*, /project/*)",
+   "how_detected": "src/site00/config/fast-travel.ts:350",
+   "current_location": "09 PROJECTS / world=operating",
+   "reachability": "PARTIAL \u2014 signed-out unreachable (route guard); /projects/ndxbook* suppresses site chrome (EcosystemShell.tsx:45,82; Site00EcosystemMobileShell.tsx:43-51); founder/admin on mobile /projects and personal-project overview get PwFrame portal (fixed inset 0, z-index 1200, site00-production-mobile.css:18-20) over the ecosystem header \u2014 ProjectIndexPage.tsx:61-64, ProjectOperatingModulePage.tsx:76-84. Reachable: non-admin signed-in client on mobile /projects and project module pages; /project/:slug/provisioning (Site00PublicShell).",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control (locked if signed-out)",
+       "auth": "AUTH",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:357"
+      },
+      {
+       "label": "MY SITES",
+       "destination": "/control/sites (locked if signed-out)",
+       "auth": "AUTH",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:358"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:364"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "ORIGIN ('/', '/origin')",
+   "how_detected": "src/site00/config/fast-travel.ts:373",
+   "current_location": "00 ORIGIN",
+   "reachability": "DEAD \u2014 Origin page renders Site00AppShell (OriginPage.tsx:68) whose header (logo/GlobalNav/EntryToggle) is display:none on mobile (site00.css:756-770); no FastTravelTrigger mounted; '/origin/locations' uses header variant 'directory' (EXIT 00) and Site00MobileShell skips the panel (Site00MobileShell.tsx:47-48,63-69). Profile can never be shown.",
+   "sections": [
+    {
+     "title": "UP NEXT",
+     "items": [
+      {
+       "label": "START A BUILD",
+       "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:380"
+      },
+      {
+       "label": "EXPLORE SITES",
+       "destination": "/sites",
+       "auth": "PUBLIC",
+       "status": "REDIRECT_WHEN_SIGNED_IN",
+       "file_line": "src/site00/config/fast-travel.ts:381"
+      }
+     ]
+    },
+    {
+     "title": "QUICK JUMP",
+     "items": [
+      {
+       "label": "EXPLORE SERVICES",
+       "destination": "/services",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:388"
+      },
+      {
+       "label": "HOW SITE 00 WORKS",
+       "destination": "/system",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:389"
+      }
+     ]
+    },
+    {
+     "title": "MY SPACE",
+     "items": [
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:70"
+      },
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+       "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:71"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "context": "FALLBACK 'SITE 00 / NAVIGATE THE ECOSYSTEM' (any other path hosting FT: /evolve/*, /support, /origin/sign-in, /origin/create-account, /access/:code, /account/intakes, /studio/:slug/*, /control-adjacent ecosystem pages not matched, /existing-location/*, /idnty-less public pages e.g. /evolve/marketing/*)",
+   "how_detected": "src/site00/config/fast-travel.ts:411-415 (ROUTE_PROFILES.find(...) ?? FALLBACK_PROFILE, line 422)",
+   "current_location": "SITE 00 (no index)",
+   "sections": [
+    {
+     "title": "MY SPACE",
+     "items": [
+      {
+       "label": "IDNTY",
+       "destination": "/idnty",
+       "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:70"
+      },
+      {
+       "label": "CTRL ROOM",
+       "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+       "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:71"
+      }
+     ]
+    },
+    {
+     "title": "RETURN",
+     "items": [
+      {
+       "label": "LOCATIONS",
+       "destination": "/origin/locations",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:81",
+       "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+      },
+      {
+       "label": "00 ORIGIN",
+       "destination": "/origin",
+       "auth": "PUBLIC",
+       "status": "OK",
+       "file_line": "src/site00/config/fast-travel.ts:82"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "context_computation": {
+  "pathname": "useLocation().pathname (FastTravelPanel.tsx:25)",
+  "auth": "useSignedInFromStorage() -> localStorage 'isSignedIn' === 'true' (hooks/useSignedInFromStorage.ts:7-37); NOT Supabase session; NOT admin/founder role",
+  "role": "No founder/admin/client distinction anywhere in fast-travel.ts \u2014 same items for founder and client",
+  "project": "No project context; projectsProfile ignores slug",
+  "first_match_order": "ctrl, projects, bldr, idnty, sites, services, system, about, journal, origin, fallback (fast-travel.ts:398-409)",
+  "unused_field": "FastTravelLocation.world ('public'|'operating'|'onboarding') is set but never read by any component (grep: no consumer)"
+ },
+ "destination_count_unique": {
+  "destination_ids": 20,
+  "ids": [
+   "idnty",
+   "ctrl-room",
+   "locations",
+   "origin",
+   "start-build",
+   "build-type",
+   "services",
+   "system",
+   "journal",
+   "sites",
+   "about",
+   "continue",
+   "bldr-state",
+   "investment",
+   "sign-in",
+   "create",
+   "projects",
+   "my-sites",
+   "billing",
+   "settings"
+  ],
+  "route_targets": 20,
+  "routes": [
+   "/idnty",
+   "/control",
+   "/origin/locations",
+   "/origin",
+   "/bldr",
+   "/bldr/state",
+   "/bldr/state/desktop (legacy redirect, via buildHref)",
+   "/bldr/:class/* assessment (via buildHref)",
+   "/services",
+   "/system",
+   "/journal",
+   "/sites",
+   "/about",
+   "/origin/sign-in?returnTo=",
+   "/idnty/state",
+   "/projects",
+   "/control/sites",
+   "/control/billing",
+   "/control/settings",
+   "<self pathname>"
+  ],
+  "context_profiles": 11,
+  "rendered_context_variants_incl_auth_split": 13,
+  "reachable_context_variants": 10
+ },
+ "responsive": {
+  "mobile": "<768px (defaultPreviewDeviceModeForViewport, preview-mode.ts:32-35; isSite00LayoutPreviewSwitchEnabled() returns false so no toggle, preview-mode.ts:6-8). Trigger in mobile header; panel slides in from right. All CSS inside @media (max-width:767px) (site00-fast-travel.css:18,24,570).",
+  "tablet": "NOT AVAILABLE. >=768px resolves to desktop preview mode; public pages render Site00AppShell/GlobalNav + ENTER 00; ecosystem renders OperatingWorldTopNav (EcosystemShell.tsx:60-76). No FT trigger mounted.",
+  "desktop": "NOT AVAILABLE. Desktop equivalent = ENTER 00 -> /enter DirectoryPanel (route, not overlay). Edge: ?site00MobileLayout=1 on wide viewport forces mobile layout in scaled artboard (site00OriginViewport.ts:11-17, Site00MobilePresentationShell.tsx:15-24) \u2014 FT trigger renders but its CSS is gated to max-width:767px so trigger/panel are unstyled (PLAUSIBLE visual break; QA-only)."
+ },
+ "appears_in": [
+  "Public mobile shell (Site00PublicShell -> Site00MobileShell): /sites /services /system /about /journal /support /idnty(signed-out) /bldr /bldr/state /bldr/templates /evolve /evolve/* marketing+pricing, /idnty/sign-in-security, /project/:slug/provisioning, intake guest access",
+  "Workflow mobile shells: IDNTY/BLDR/EVOLVE state + assessment (IdntyAssessmentShell, BldrAssessmentShell, EvolveAssessmentShell, BldrIntakeShell, BldrStartPage, Idnty/EvolveStatePage), existing-location entry/case",
+  "Auth shell mobile: /origin/sign-in, /origin/create-account",
+  "Credential access mobile: /access/:code",
+  "CTRL ROOM / account ecosystem mobile: /control/*, /account/intakes*, /idnty (signed-in), /projects (non-admin), /projects/:slug/* module pages (non-NDX), STUDIO shell /studio/:slug/*"
+ ],
+ "absent_from": [
+  "ORIGIN '/' and '/origin' (header hidden on mobile)",
+  "/origin/locations (EXIT 00 variant)",
+  "/enter (desktop-forced)",
+  "Production workspace /production/* (own chrome; ProductionAuthorityFrame portal + body lock)",
+  "Client app /app/* (Site00ClientAppShell)",
+  "Client project room /client/projects/* (ClientProjectRoomShell)",
+  "Admin /admin/site00/* (Site00AdminShell)",
+  "ASSTS /assts/*",
+  "Design workspace /studio-world/design (Site00DesignWorkspaceShell)",
+  "NDXBOOK founder workspace /projects/ndxbook* (suppressSiteChrome)",
+  "Founder mobile /projects + personal project overview (PwFrame covers)",
+  "JURNL runtime /production/:slug/runtime/*",
+  "All desktop/tablet surfaces"
+ ],
+ "relationships": {
+  "enter00": "Disjoint. ENTER 00 (/enter, DirectoryPanel, config/directory.ts) is the desktop full directory route; FT is the mobile contextual overlay. Both reuse Site00FastTravelIcon (EntryToggle.tsx:22,34). /enter is desktop-forced (Site00Context.tsx:32-38) so FT never appears there. ENTER 00 lists SUPPORT + 'BLDR STUDIO'; FT never lists SUPPORT.",
+  "waiting_room_locations": "FT RETURN section always links to LOCATIONS (/origin/locations, mobile full directory, locations-directory.ts:30-130) \u2014 FT is explicitly 'not a full directory' (fast-travel.ts:2-3); LOCATIONS is. On /origin/locations the header swaps the FT trigger for EXIT 00 and no panel mounts (Site00MobileShell.tsx:47-48,63-69). LOCATIONS includes EVOLVE; FT never offers EVOLVE.",
+  "production_workspace": "None. FT never links to /production; production chrome has no FT. Founder reaching /production must use OperatingWorldTopNav (desktop, admin-only) or PwFrame projects nav (mobile admin).",
+  "control_room": "FT exposes CTRL ROOM in MY SPACE (public pages), UP NEXT (idnty signed-in, projects) and a dedicated CTRL ROOM profile (PROJECTS, MY SITES, BILLING, SETTINGS, IDNTY). Overlaps MOBILE_SITE_NAV CTRL ROOM bay.",
+  "sites": "Two meanings: public /sites (portfolio; redirects to /control/sites when signed in) labelled VIEW/EXPLORE SITES, and /control/sites labelled MY SITES. No site switcher.",
+  "projects": "Links to /projects index only; no project selection, no active-project awareness; /project/* only matched for location label."
+ },
+ "classification": {
+  "value": "GLOBAL_DESTINATION_SWITCHER (contextual, mobile-only, route-curated shortcut overlay)",
+  "not": [
+   "spatial teleport (no spatial/world-state model; 'world' field unused)",
+   "project switcher (no project list/slug)",
+   "product switcher (IDNTY/BLDR/CTRL appear as destinations but no product state)",
+   "workspace switcher (never reaches production/admin/studio-world/client app)"
+  ],
+  "evidence": [
+   "fast-travel.ts:1-4 'contextual destination engine (mobile-only)... selective shortcuts... not a full directory'",
+   "resolveFastTravel picks one RouteProfile by pathname and returns fixed link lists (fast-travel.ts:417-435)",
+   "All destinations are react-router Links to top-level routes (FastTravelSection.tsx:51-70)"
+  ]
+ },
+ "dead_destinations": [
+  {
+   "item": "ORIGIN profile (all 8 items incl. EXPLORE SITES/START A BUILD)",
+   "reason": "Profile unreachable \u2014 no FT trigger on '/' or '/origin' mobile",
+   "file_line": "fast-travel.ts:371-396; site00.css:756-770"
+  },
+  {
+   "item": "CTRL ROOM signed-out profile (SIGN IN)",
+   "reason": "Unreachable \u2014 route guard redirects before shell mounts",
+   "file_line": "fast-travel.ts:314-322; Site00AccountRouteGuard.tsx:280-315"
+  },
+  {
+   "item": "PROJECTS profile signed-out locked cards",
+   "reason": "Unreachable \u2014 /projects and /project/:slug/provisioning are guarded",
+   "file_line": "fast-travel.ts:357-358; Site00Routes.tsx:887-897"
+  },
+  {
+   "item": "CONTINUE BUILD",
+   "reason": "Self-link to current pathname; no resume state",
+   "file_line": "fast-travel.ts:236"
+  },
+  {
+   "item": "BILLING, SETTINGS",
+   "reason": "Routes exist but render ControlSectionPage stubs (dead end)",
+   "file_line": "fast-travel.ts:337-338; Site00Routes.tsx:2942-2977"
+  },
+  {
+   "item": "VIEW SITES / EXPLORE SITES (signed-in)",
+   "reason": "Redirects to /control/sites \u2014 duplicates MY SITES",
+   "file_line": "SitesPortfolioPage.tsx:25"
+  },
+  {
+   "item": "LOCATIONS (desktop)",
+   "reason": "LocationsPage redirects to /origin above 767px (only matters for ?site00MobileLayout=1 QA)",
+   "file_line": "LocationsPage.tsx:8-13,37-38"
+  },
+  {
+   "note": "No FT destination targets a COMPOSER_DRAFT route (/guide /sound /faq /contact /blueprints /account /brand /origin/forgot-password /origin/reset-password) and none targets a MISSING route \u2014 every href resolves to a mounted Route."
+  }
+ ],
+ "visual_authority": {
+  "css": "src/site00/styles/site00-fast-travel.css (574 lines, all rules under @media max-width:767px)",
+  "art": "src/site00/config/fast-travel-assets.ts:21-33 \u2014 Supabase live-preview/site00/PACK/*.png, SITE00_FAST_TRAVEL_ART_VERSION='4'; one image per UP NEXT id",
+  "copy": "uppercase enforced via site00UppercaseCopy (fast-travel.ts:49-55,425-433) and site00-typography.css:67,98",
+  "history": "motherboard/MEMORY.md:822-844 (2026-08-19 SIGN IN TO ENTER one-line + descriptor red)",
+  "no_authority_doc": "No dedicated FT spec/PNG authority found in docs/ or motherboard/ beyond MEMORY.md changelog"
+ },
+ "implementation_status": {
+  "value": "RENDERED (mobile only), PARTIAL coverage",
+  "notes": [
+   "10 of 13 context variants reachable; ORIGIN profile dead",
+   "No role/project awareness (founder == client)",
+   "No EVOLVE profile; EVOLVE pages fall to FALLBACK (only MY SPACE + RETURN)",
+   "No tests reference resolveFastTravel / FastTravelPanel (grep of tests/ and src *.test.*)",
+   "Double Escape handlers: shell window listener (e.g. Site00MobileShell.tsx:38-45) + panel keydown (FastTravelPanel.tsx:79-84)",
+   "History: navigateAndClose replaceState(null,'') leaves a duplicate same-URL history entry and wipes React Router's state.idx for it (FastTravelPanel.tsx:42-51) \u2014 PLAUSIBLE back-button double-step"
+  ]
+ }
+}

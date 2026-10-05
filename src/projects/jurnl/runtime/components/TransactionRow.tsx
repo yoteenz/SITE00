@@ -1,7 +1,7 @@
 /** Canonical JURNL transaction row. Icon, label column, and amount stay on one horizontal grid. */
 
 import type { LedgerEntry } from '../../data/home/money';
-import { formatMoney } from '../../data/home/money';
+import { formatMoney, useCurrency } from '../../data/home/money';
 import { JurnlIcon, type JurnlIconName } from './icons';
 
 function markFor(entry: LedgerEntry): JurnlIconName {
@@ -13,6 +13,7 @@ function markFor(entry: LedgerEntry): JurnlIconName {
 }
 
 export function JurnlTransactionRow({ entry, onOpen }: { entry: LedgerEntry; onOpen?: (entry: LedgerEntry) => void }) {
+  useCurrency();
   const income = entry.direction === 'INCOME';
   const body = (
     <>

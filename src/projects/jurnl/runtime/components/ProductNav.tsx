@@ -12,7 +12,7 @@ const ITEMS = [
 
 export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY'; onGo: (target: string) => void; onAdd: () => void }) {
   return (
-    <nav className="jrn-nav" aria-label="PRIMARY">
+    <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav">
       {ITEMS.map((item) => {
         const active = item.id === current;
         const label = item.id === 'ADD' ? 'QUICK ADD' : item.id;

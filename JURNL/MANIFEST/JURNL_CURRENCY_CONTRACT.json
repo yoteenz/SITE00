@@ -1,0 +1,16 @@
+{
+  "contract": "JURNL_CURRENCY",
+  "default_currency": "USD",
+  "supported_preference_model": "USER_SELECTED_DISPLAY_CURRENCY",
+  "currencies": [
+    { "currency_code": "USD", "currency_symbol": "$", "locale": "en-US" },
+    { "currency_code": "EUR", "currency_symbol": "€", "locale": "de-DE" },
+    { "currency_code": "GBP", "currency_symbol": "£", "locale": "en-GB" }
+  ],
+  "formatter": "src/projects/jurnl/data/home/currency.ts#formatMoney",
+  "persistence": "localStorage key jurnl.currency",
+  "change_currency_action": "setCurrency",
+  "change_currency_entry_point": "Info control on Today and Activity opens ASK JURNL. DISPLAY CURRENCY lives in that global sheet.",
+  "fx_conversion_supported": false,
+  "behavior": "The symbol and grouping change. Stored amounts stay numeric. Historical values are not converted."
+}

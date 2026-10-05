@@ -1,0 +1,639 @@
+{
+ "artifact": "SITE00_NON_ROUTE_SURFACE_INVENTORY",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "rule": "No route \u2260 not a product surface.",
+ "runtime_verification": "RUNTIME_VERIFICATION_BLOCKED \u2014 npm registry is blocked in this environment, so no dev server; every finding is code evidence (file:line). Items tagged CONFIRM_LIVE in evidence/ need a live pass.",
+ "counts": {
+  "total": 43,
+  "material": 34,
+  "micro": 9,
+  "by_type": {
+   "FAST_TRAVEL": 1,
+   "TRANSITION": 3,
+   "GESTURE/TRANSITION": 1,
+   "OVERLAY": 3,
+   "CONTEXT_SWITCHER": 6,
+   "PROJECT_SWITCHER": 4,
+   "MENU": 3,
+   "MODAL": 2,
+   "SHEET": 3,
+   "PORTAL": 2,
+   "MENU/PORTAL": 1,
+   "PROJECT_SWITCHER(module)": 1,
+   "SHEET/GLOBAL_INTERACTION": 1,
+   "MODAL/DRAWER/PORTAL": 1,
+   "OVERLAY/DRAWER": 1,
+   "DRAWER/SHEET/MODAL/GLOBAL_INTERACTION": 1,
+   "GLOBAL_INTERACTION": 2,
+   "DRAWER/OVERLAY": 1,
+   "MENU (stub)": 1,
+   "DRAWER": 2,
+   "GLOBAL_INTERACTION/PORTAL": 2,
+   "GESTURE": 1
+  },
+  "createPortal_call_sites": 19
+ },
+ "surfaces": [
+  {
+   "id": "NRS-01",
+   "name": "Fast Travel panel",
+   "type": "FAST_TRAVEL",
+   "shell": "public mobile / auth mobile / ecosystem mobile / access",
+   "trigger": "FastTravelTrigger",
+   "file_line": "src/site00/components/fast-travel/FastTravelPanel.tsx:108-147",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Overlay pushes history entry; z 40."
+  },
+  {
+   "id": "NRS-02",
+   "name": "Site00WorldColdStartGate cinematic loader",
+   "type": "TRANSITION",
+   "shell": "all Site00Layout routes",
+   "trigger": "cold load / reload unless skipped (/control*, sign-in, public hubs, preview tunnel)",
+   "file_line": "src/site00/components/loader/Site00WorldColdStartGate.tsx:47-56,248; routes/Site00Routes.tsx:517",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "6s wall-clock failsafe (line 38). Portal."
+  },
+  {
+   "id": "NRS-03",
+   "name": "AsstsColdStartGate",
+   "type": "TRANSITION",
+   "shell": "ASSTS",
+   "trigger": "first load of /assts",
+   "file_line": "src/site00/assts/components/AsstsColdStartGate.tsx:69-283; routes/Site00Routes.tsx:764",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Portal overlay."
+  },
+  {
+   "id": "NRS-04",
+   "name": "Route loading fallback (Site00Suspense -> ReferenceShellSuspenseFallback)",
+   "type": "TRANSITION",
+   "shell": "all lazy routes",
+   "trigger": "React.lazy suspense",
+   "file_line": "src/site00/components/loader/Site00RouteLoadingFallback.tsx:8-10; routes/Site00Routes.tsx:427-429",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Production runtime uses fallback={null} (Site00Routes.tsx:1516)."
+  },
+  {
+   "id": "NRS-05",
+   "name": "Origin swipe-up -> LOCATIONS transition overlay",
+   "type": "GESTURE/TRANSITION",
+   "shell": "Origin mobile",
+   "trigger": "swipe up on strip/bottom",
+   "file_line": "src/site00/hooks/useOriginLocationsTransition.ts:9-37; pages/OriginPage.tsx:77-82,181",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-06",
+   "name": "Origin expanded panels (IDNTY/BLDR/EVOLVE) + backdrop",
+   "type": "OVERLAY",
+   "shell": "Origin",
+   "trigger": "OriginCards click",
+   "file_line": "src/site00/pages/OriginPage.tsx:149-177",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Not URL-encoded; back leaves Origin."
+  },
+  {
+   "id": "NRS-07",
+   "name": "Layout preview switches (Origin/Public/Ecosystem Mobile|Desktop)",
+   "type": "CONTEXT_SWITCHER",
+   "shell": "origin, public, ecosystem",
+   "trigger": "\u2014",
+   "file_line": "src/site00/components/shell/Site00OriginLayoutSwitch.tsx:21-119; Site00PublicLayoutSwitch.tsx:12-47; ecosystem/Site00EcosystemLayoutSwitch.tsx:18-53",
+   "materiality": "MATERIAL",
+   "status": "DEAD_CODE",
+   "notes": "isSite00LayoutPreviewSwitchEnabled() returns false (state/preview-mode.ts:6-8). Portals never render."
+  },
+  {
+   "id": "NRS-08",
+   "name": "Preview device mode (mobile/desktop) resolver",
+   "type": "CONTEXT_SWITCHER",
+   "shell": "global Site00Provider",
+   "trigger": "viewport >=768, /enter, */desktop legacy paths, ?site00MobileLayout=1",
+   "file_line": "src/site00/state/Site00Context.tsx:32-77; state/preview-mode.ts:32-35; components/shell/site00OriginViewport.ts:1-17",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Not live-resized: initial mode set at mount; resize across 768 does not flip preview mode (only presentation scaling via useSite00OriginWideViewport)."
+  },
+  {
+   "id": "NRS-09",
+   "name": "Desktop/Mobile artboard presentation shells",
+   "type": "CONTEXT_SWITCHER",
+   "shell": "public/origin/ecosystem",
+   "trigger": "preview mode \u00d7 viewport",
+   "file_line": "src/site00/components/shell/Site00DesktopPresentationShell.tsx:43-60; Site00MobilePresentationShell.tsx:15-24; site00DesktopPresentation.ts",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Phone+Desktop=>scaled 1440 artboard; laptop+Mobile=>390x844 phone frame."
+  },
+  {
+   "id": "NRS-10",
+   "name": "Signed-in vs public split of /idnty and /sites",
+   "type": "CONTEXT_SWITCHER",
+   "shell": "public\u2194ecosystem",
+   "trigger": "localStorage isSignedIn",
+   "file_line": "src/site00/pages/idnty/IdntyHubPage.tsx:22,53; pages/SitesPortfolioPage.tsx:25",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Same URL, different shell."
+  },
+  {
+   "id": "NRS-11",
+   "name": "Experience context bar (ADMIN CONTROL CENTER \u2194 CLIENT EXPERIENCE, CLIENT QA toggle)",
+   "type": "CONTEXT_SWITCHER",
+   "shell": "admin / client",
+   "trigger": "dual-context user",
+   "file_line": "src/site00/components/access/ExperienceContextBar.tsx:8-52; admin Site00AdminShell.tsx:143",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-12",
+   "name": "VIEW AS FOUNDER/CLIENT toggle + ClientSimulationSelector popover",
+   "type": "CONTEXT_SWITCHER",
+   "shell": "projects index / project operating shell",
+   "trigger": "toggle button (FOUNDER/ADMIN role)",
+   "file_line": "src/site00/components/projectOperatingSystem/ViewAsClientControls.tsx:23-45; components/projectIndex/ProjectIndexViewStrip.tsx:6-72; components/projectIndex/ClientSimulationSelector.tsx:11; context/ProjectViewModeContext.tsx:42-130",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "React state only \u2014 resets on route change/reload."
+  },
+  {
+   "id": "NRS-13",
+   "name": "Production project switcher (header PROJECT chip)",
+   "type": "PROJECT_SWITCHER",
+   "shell": "production authority",
+   "trigger": "chip click",
+   "file_line": "src/site00/components/productionHub/chrome.tsx:198-209,230-262,282-310; projectRuntime/projectHostProfile.ts:34-57",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Navigates to /production/<slug>/<same workspace>; from HUB/INBOX/LIBRARY/ACTIVITY lands on /design."
+  },
+  {
+   "id": "NRS-14",
+   "name": "Production MENU panel",
+   "type": "MENU",
+   "shell": "production authority",
+   "trigger": "menu button",
+   "file_line": "src/site00/components/productionHub/chrome.tsx:130-195",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "3 items: HUB, INBOX, CONTROL."
+  },
+  {
+   "id": "NRS-15",
+   "name": "Production Hub overlays (Scene selector, Lightbox, Decision, Project/Production selector, Attention, HubMenu)",
+   "type": "MODAL",
+   "shell": "production hub machine view",
+   "trigger": "reducer OPEN_OVERLAY",
+   "file_line": "src/site00/components/productionHub/overlays.tsx:29-490; ProductionHub.tsx:523-592",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-16",
+   "name": "Production Hub project/production selector",
+   "type": "PROJECT_SWITCHER",
+   "shell": "production hub machine view",
+   "trigger": "hub-project-trigger",
+   "file_line": "src/site00/components/productionHub/ProductionHub.tsx:261-270,567-577; overlays.tsx:336",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Changes reducer state only; URL stays /production?view=machine \u2014 not shareable; persisted via sessionStorage."
+  },
+  {
+   "id": "NRS-17",
+   "name": "INBOX sheets (revision, approve confirm, filter/sort, attachment preview)",
+   "type": "SHEET",
+   "shell": "production INBOX",
+   "trigger": "buttons",
+   "file_line": "src/site00/components/productionAuthority/InboxBody.tsx:156-170,259-298,760-781,951",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-18",
+   "name": "ProductionAuthorityFrame / PwFrame / ProductionChromeOverlay / CharacterFabrication portals",
+   "type": "PORTAL",
+   "shell": "production + founder mobile projects",
+   "trigger": "route mount",
+   "file_line": "src/site00/components/productionAuthority/ProductionAuthorityFrame.tsx:43; production/PwFrame.tsx:95,114; productionHub/chrome.tsx:323-338; characterFabrication/CharacterFabrication.tsx:149",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Each locks body scroll and replaces global chrome."
+  },
+  {
+   "id": "NRS-19",
+   "name": "Admin \u2318K search modal",
+   "type": "MODAL",
+   "shell": "admin",
+   "trigger": "Cmd/Ctrl+K or header search",
+   "file_line": "src/site00/admin/components/shell/Site00AdminHeader.tsx:9-55; admin/components/operations/AdminSearchModal.tsx:11-90",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-20",
+   "name": "Admin mobile <details> 00/CONTROL menu",
+   "type": "MENU",
+   "shell": "admin",
+   "trigger": "summary tap",
+   "file_line": "src/site00/admin/components/shell/Site00AdminShell.tsx:147-162",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-21",
+   "name": "Admin orchestration ProjectSwitcher (<select>)",
+   "type": "PROJECT_SWITCHER",
+   "shell": "admin orchestration/evolve/reconciliation/command",
+   "trigger": "select change",
+   "file_line": "src/site00/admin/components/orchestration/ProjectSwitcher.tsx:12-38",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Uses window.location.href -> full page reload (re-triggers cold-start gate logic)."
+  },
+  {
+   "id": "NRS-22",
+   "name": "Design workspace project selector popover",
+   "type": "PROJECT_SWITCHER",
+   "shell": "design workspace",
+   "trigger": "selector button",
+   "file_line": "src/site00/components/designWorkspace/DesignProjectSelector.tsx:28-70; founderWorkspace/StudioWorldDesignWorkspace.tsx:326-340",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "State-only rescope (designProjectContext.switchProject); URL unchanged."
+  },
+  {
+   "id": "NRS-23",
+   "name": "Design workspace notifications + overflow menus",
+   "type": "MENU",
+   "shell": "design workspace",
+   "trigger": "bell / overflow",
+   "file_line": "src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx:897-920; designWorkspace/DesignWorkspaceOverflowMenu.tsx:19",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-24",
+   "name": "NDX founder project menu + notification center (FounderWorkspacePopoverSurface portal)",
+   "type": "MENU/PORTAL",
+   "shell": "NDXBOOK founder workspace",
+   "trigger": "MORE",
+   "file_line": "src/site00/components/founderWorkspace/FounderWorkspaceProjectMenu.tsx:16-50; FounderWorkspacePopoverSurface.tsx:34-109; FounderWorkspaceShell.tsx:297-320",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-25",
+   "name": "Project module switcher dropdown",
+   "type": "PROJECT_SWITCHER(module)",
+   "shell": "project operating shell mobile",
+   "trigger": "button",
+   "file_line": "src/site00/components/projectOperatingSystem/ProjectModuleSwitcher.tsx:12-60",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Switches module within one project, not between projects."
+  },
+  {
+   "id": "NRS-26",
+   "name": "Project actions sheet + toast",
+   "type": "SHEET/GLOBAL_INTERACTION",
+   "shell": "PwFrame projects",
+   "trigger": "row action",
+   "file_line": "src/site00/components/projectIndex/ProjectActionsSheet.tsx:25-90",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Sends request into production; toast pw-toast line 84."
+  },
+  {
+   "id": "NRS-27",
+   "name": "Design workspace page-family dialogs/overlays (Replace authority, History, Forensic overlays, Creative upgrade panel, Details drawer, Skin sheet)",
+   "type": "MODAL/DRAWER/PORTAL",
+   "shell": "design workspace",
+   "trigger": "in-tool",
+   "file_line": "src/site00/components/designWorkspace/pageFamily/*.tsx; wizard/DesignDetailsDrawer.tsx:32; skins/SkinWorkspaceSheet.tsx",
+   "materiality": "MICRO",
+   "status": "RENDERED",
+   "notes": "Tool-level; not navigation."
+  },
+  {
+   "id": "NRS-28",
+   "name": "Astral world overlays/drawers (Who's Here, Take Me Somewhere, AstralDrawer)",
+   "type": "OVERLAY/DRAWER",
+   "shell": "astral world (/projects/:slug/experience,/reader,/debug/world)",
+   "trigger": "scene buttons",
+   "file_line": "src/site00/astral-world/components/scenes/overlays/*.tsx; immersive/AstralDrawer.tsx:13; AstralOverlay.tsx:11",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "TAKE ME SOMEWHERE is an in-world spatial teleport (distinct from SITE 00 Fast Travel)."
+  },
+  {
+   "id": "NRS-29",
+   "name": "JURNL runtime drawers/sheets/modals/handoffs + toast",
+   "type": "DRAWER/SHEET/MODAL/GLOBAL_INTERACTION",
+   "shell": "JURNL runtime",
+   "trigger": "screen actions",
+   "file_line": "src/projects/jurnl/runtime/components/primitives.tsx:14-22,323,372,426,445,494,501; JurnlRuntimeRoot.tsx:53-91",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "33 call sites across Entry/Home/Security/Setup screens."
+  },
+  {
+   "id": "NRS-30",
+   "name": "ASSTS sheets (reject, variant, lock, regenerate)",
+   "type": "SHEET",
+   "shell": "ASSTS inspection",
+   "trigger": "inspector actions",
+   "file_line": "src/site00/assts/components/AsstsSheets.tsx:31,81,132; AsstsRegenerateSheet.tsx:11",
+   "materiality": "MICRO",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-31",
+   "name": "Character Fabrication NoticeToast",
+   "type": "GLOBAL_INTERACTION",
+   "shell": "production expression",
+   "trigger": "fabrication events",
+   "file_line": "src/site00/components/characterFabrication/CharacterFabrication.tsx:134",
+   "materiality": "MICRO",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-32",
+   "name": "Self-directed profile edit sheet",
+   "type": "SHEET",
+   "shell": "client app self-directed",
+   "trigger": "profile edit",
+   "file_line": "src/site00/components/selfDirected/SelfDirectedProfileEditSheet.tsx:11",
+   "materiality": "MICRO",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-33",
+   "name": "Founder creative inspect drawer / page-concept drawer / project workspace drawer / Opus/Twin overlays",
+   "type": "DRAWER/OVERLAY",
+   "shell": "design bench / ingestion",
+   "trigger": "in-tool",
+   "file_line": "src/site00/components/founderCreativeIngestion/FounderCreativeInspectDrawer.tsx; designBench/**",
+   "materiality": "MICRO",
+   "status": "RENDERED",
+   "notes": "Internal tooling."
+  },
+  {
+   "id": "NRS-34",
+   "name": "Reconstruction debug overlays + LoaderReferenceOverlay + Site00TypeTestOverlay",
+   "type": "OVERLAY",
+   "shell": "debug",
+   "trigger": "query flags",
+   "file_line": "src/site00/components/reconstruction/*Overlay.tsx; loader/LoaderReferenceOverlay.tsx; Site00TypographyBootstrap.tsx:44",
+   "materiality": "MICRO",
+   "status": "RENDERED (flagged)",
+   "notes": ""
+  },
+  {
+   "id": "NRS-35",
+   "name": "Locations/BLDR composition debug overlays",
+   "type": "OVERLAY",
+   "shell": "Site00MobileShell",
+   "trigger": "?debug query",
+   "file_line": "src/site00/components/mobile/Site00MobileShell.tsx:35-36,70-71",
+   "materiality": "MICRO",
+   "status": "RENDERED (flagged)",
+   "notes": ""
+  },
+  {
+   "id": "NRS-36",
+   "name": "Client app / project room notification bell + more",
+   "type": "MENU (stub)",
+   "shell": "client app, client room",
+   "trigger": "button",
+   "file_line": "src/site00/components/clientApp/Site00ClientAppShell.tsx:79-85; clientProjectRoom/ClientProjectRoomShell.tsx:57-63",
+   "materiality": "MATERIAL",
+   "status": "PARTIAL",
+   "notes": "No handler \u2014 dead global interaction."
+  },
+  {
+   "id": "NRS-37",
+   "name": "Unused surfaces: InspectorDrawer, DesignVisualComparisonDrawer, Site00MobileMenuDrawer",
+   "type": "DRAWER",
+   "shell": "\u2014",
+   "trigger": "\u2014",
+   "file_line": "src/site00/components/founderWorkspace/InspectorDrawer.tsx; designWorkspace/DesignVisualComparisonDrawer.tsx; mobile/Site00MobileMenuDrawer.tsx:30",
+   "materiality": "MICRO",
+   "status": "DEAD_CODE",
+   "notes": "No JSX consumer found."
+  },
+  {
+   "id": "NRS-38",
+   "name": "Artboard bottom chrome portal (status strip host)",
+   "type": "PORTAL",
+   "shell": "origin desktop/mobile artboard",
+   "trigger": "\u2014",
+   "file_line": "src/site00/components/shell/Site00ArtboardBottomChromePortal.tsx:15; Site00AppShell.tsx:26-46",
+   "materiality": "MICRO",
+   "status": "RENDERED",
+   "notes": ""
+  },
+  {
+   "id": "NRS-X1",
+   "name": "ENTER 00 portal control (header toggle + Origin mobile link)",
+   "type": "GLOBAL_INTERACTION/PORTAL",
+   "shell": "public",
+   "trigger": "tap/click",
+   "file_line": "EntryToggle.tsx:27-36; OriginMobileSwipeUp.tsx:37-39",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Opens a ROUTE (/enter) \u2014 the portal itself is non-route; hidden on Origin mobile header via site00.css:764-766."
+  },
+  {
+   "id": "NRS-X2",
+   "name": "EXIT 00 control",
+   "type": "GLOBAL_INTERACTION/PORTAL",
+   "shell": "public + design workspace",
+   "trigger": "tap/click",
+   "file_line": "EntryToggle.tsx:14-25; DirectoryExitButton.tsx:5-15; Site00DesignWorkspaceShell.tsx:139-141",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Fixed-target spatial exit, not BACK."
+  },
+  {
+   "id": "NRS-X3",
+   "name": "Swipe-up gesture surface (Origin mobile)",
+   "type": "GESTURE",
+   "shell": "public",
+   "trigger": "swipe up",
+   "file_line": "OriginPage.tsx:74,78-84; site00.css:976-985",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "aria-hidden full-screen layer with touch-action:none; accessible alternative = SWIPE UP button."
+  },
+  {
+   "id": "NRS-X4",
+   "name": "Mobile bottom-nav centre bay (LOCATIONS)",
+   "type": "GLOBAL_INTERACTION",
+   "shell": "public mobile",
+   "trigger": "tap",
+   "file_line": "src/site00/config/mobile-site-nav.ts:23-56",
+   "materiality": "MATERIAL",
+   "status": "RENDERED",
+   "notes": "Second entry to LOCATIONS."
+  },
+  {
+   "id": "NRS-X5",
+   "name": "Client app MENU drawer (stub)",
+   "type": "DRAWER",
+   "shell": "client app",
+   "trigger": "menu button (no handler)",
+   "file_line": "Site00ClientAppShell.tsx",
+   "materiality": "MATERIAL",
+   "status": "PLACEHOLDER",
+   "notes": "Locked header item that does nothing."
+  }
+ ],
+ "project_switchers": [
+  {
+   "id": "PS-1",
+   "name": "Production header PROJECT chip",
+   "file_line": "src/site00/components/productionHub/chrome.tsx:198-209",
+   "mechanism": "route (projectSwitchPath)",
+   "source": "listHostProductionProjects() design-enabled managed projects minus site00",
+   "url_synced": true,
+   "issues": [
+    "From HUB/INBOX/LIBRARY/ACTIVITY always lands on /production/<slug>/design (projectHostProfile.ts:49-50)",
+    "Global routes /production/queue|libraries|activity hard-code project 'ndxbook' (chrome.tsx:58-64; ProductionAuthorityFrame.tsx:26-30) \u2014 switching on those pages is not remembered"
+   ]
+  },
+  {
+   "id": "PS-2",
+   "name": "Production Hub PROJECT/PRODUCTION selector",
+   "file_line": "src/site00/components/productionHub/ProductionHub.tsx:567-577",
+   "mechanism": "reducer + sessionStorage",
+   "url_synced": false,
+   "issues": [
+    "URL stays /production?view=machine; deep link/refresh relies on sessionStorage",
+    "initialHubState('ndxbook') default (ProductionHub.tsx:71)"
+   ]
+  },
+  {
+   "id": "PS-3",
+   "name": "Design workspace DesignProjectSelector",
+   "file_line": "src/site00/components/designWorkspace/DesignProjectSelector.tsx:28; StudioWorldDesignWorkspace.tsx:326-340",
+   "mechanism": "React state rescope",
+   "url_synced": false,
+   "issues": [
+    "Refresh returns to default project"
+   ]
+  },
+  {
+   "id": "PS-4",
+   "name": "Admin orchestration ProjectSwitcher",
+   "file_line": "src/site00/admin/components/orchestration/ProjectSwitcher.tsx:12-38",
+   "mechanism": "window.location.href (hard reload)",
+   "url_synced": true,
+   "issues": [
+    "Full reload instead of router navigate"
+   ]
+  },
+  {
+   "id": "PS-5",
+   "name": "ClientSimulationSelector (view-as client)",
+   "file_line": "src/site00/components/projectIndex/ClientSimulationSelector.tsx:11",
+   "mechanism": "React context",
+   "url_synced": false,
+   "issues": [
+    "Simulation lost on navigation between /projects and /projects/:slug (separate ProjectViewModeProvider instances: ProjectsPage.tsx:7, ProjectOperatingModulePage.tsx:105)"
+   ]
+  },
+  {
+   "id": "PS-6",
+   "name": "ProjectModuleSwitcher (intra-project)",
+   "file_line": "src/site00/components/projectOperatingSystem/ProjectModuleSwitcher.tsx:12",
+   "mechanism": "route",
+   "url_synced": true,
+   "issues": []
+  },
+  {
+   "id": "ABSENT",
+   "name": "No project switcher in: client app (/app), client project room, Fast Travel, Operating World top nav, MOBILE_SITE_NAV",
+   "file_line": "\u2014"
+  }
+ ],
+ "site_switchers": [
+  {
+   "finding": "NONE \u2014 no component switches between sites/properties. grep SiteSwitcher|SiteSelector|selectSite returns nothing. 'SITES' surfaces are links: public /sites portfolio and /control/sites list.",
+   "file_line": "src/site00/config/navigation.ts:13; config/ecosystem-nav.ts:23"
+  }
+ ],
+ "context_switchers": [
+  {
+   "id": "CS-1",
+   "name": "Public \u2194 signed-in (localStorage isSignedIn)",
+   "file_line": "src/hooks/useSignedInFromStorage.ts:7-37; utils/adminAuth.ts:241",
+   "effect": "FT items, Locations locks, /idnty shell, /sites redirect"
+  },
+  {
+   "id": "CS-2",
+   "name": "Mobile \u2194 desktop preview mode",
+   "file_line": "src/site00/state/Site00Context.tsx:32-77",
+   "effect": "Selects entire shell family; toggle UI disabled"
+  },
+  {
+   "id": "CS-3",
+   "name": "Layout preview toggles",
+   "file_line": "src/site00/state/preview-mode.ts:6-8",
+   "effect": "DEAD (always false)"
+  },
+  {
+   "id": "CS-4",
+   "name": "?site00MobileLayout=1 QA override",
+   "file_line": "src/site00/components/shell/site00OriginViewport.ts:4,11-17",
+   "effect": "Forces mobile layout on wide viewports"
+  },
+  {
+   "id": "CS-5",
+   "name": "?preview=1 composer draft gate",
+   "file_line": "src/site00/components/guards/Site00ComposerDraftRouteGuard.tsx:18",
+   "effect": "Draft routes -> '/' with state.draftBlocked"
+  },
+  {
+   "id": "CS-6",
+   "name": "Admin \u2194 client experience bar + CLIENT QA",
+   "file_line": "src/site00/components/access/ExperienceContextBar.tsx:8-52"
+  },
+  {
+   "id": "CS-7",
+   "name": "VIEW AS FOUNDER/CLIENT",
+   "file_line": "src/site00/components/projectOperatingSystem/ViewAsClientControls.tsx:23-45"
+  },
+  {
+   "id": "CS-8",
+   "name": "PREVIEW_GUEST auth mode (STUDIO only)",
+   "file_line": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:18-38"
+  },
+  {
+   "id": "CS-9",
+   "name": "Production viewport family mobile/tablet/desktop (700/1120)",
+   "file_line": "src/site00/config/production-authority-registry.ts:24-31"
+  }
+ ]
+}
