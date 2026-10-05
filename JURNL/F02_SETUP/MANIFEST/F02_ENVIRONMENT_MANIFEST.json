@@ -1,0 +1,110 @@
+{
+  "family_id": "F02_SETUP",
+  "environments": [
+    {
+      "environment_id": "ENV.ARRIVAL",
+      "source_screen": "F02.00",
+      "member_screens": [
+        "F02.00",
+        "F02.01",
+        "F02.08",
+        "F02.ST.RESUME"
+      ],
+      "plate_asset": "SETUP.ENVIRONMENT.ARRIVAL.001",
+      "file_path": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_ARRIVAL_PLATE.jpg",
+      "status": "IN_REVIEW",
+      "generation_id": "vXt3qXGkNz4UwerQKhGs",
+      "dimensions": {
+        "width": 2016,
+        "height": 3584
+      },
+      "configured_tier": "4k",
+      "gallery_label": "3K",
+      "credit_cost": 317,
+      "focal_point": "Arch and bust on the right. Open plaster on the left.",
+      "lineage": "F02.00 screen authority, UI removed, room kept.",
+      "mobile_crop": "Full 9:16 plate. The live column occupies the left measure. Focal objects stay on the right.",
+      "tablet_crop": "Same plate. Wider margins. No separate art file.",
+      "desktop_crop": "Same plate, centered column at the mobile measure. No separate art file."
+    },
+    {
+      "environment_id": "ENV.DESK",
+      "source_screen": "F02.02",
+      "member_screens": [
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.06",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP"
+      ],
+      "plate_asset": "SETUP.ENVIRONMENT.DESK.001",
+      "file_path": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_DESK_PLATE.jpg",
+      "status": "IN_REVIEW",
+      "generation_id": "hh67GjscTJvs74dBMWsX",
+      "dimensions": {
+        "width": 2016,
+        "height": 3584
+      },
+      "configured_tier": "4k",
+      "gallery_label": "3K",
+      "credit_cost": 317,
+      "focal_point": "Travertine desk, closed burgundy ledger, champagne tray, olive.",
+      "lineage": "F02.02 screen authority, UI removed, desk kept.",
+      "mobile_crop": "Full 9:16 plate. The live column occupies the left measure. Focal objects stay on the right.",
+      "tablet_crop": "Same plate. Wider margins. No separate art file.",
+      "desktop_crop": "Same plate, centered column at the mobile measure. No separate art file."
+    },
+    {
+      "environment_id": "ENV.EDIT",
+      "source_screen": "F02.05",
+      "member_screens": [
+        "F02.05",
+        "F02.05.1"
+      ],
+      "plate_asset": "SETUP.ENVIRONMENT.EDIT.001",
+      "file_path": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_EDIT_PLATE.jpg",
+      "status": "IN_REVIEW",
+      "generation_id": "V0617Ub1w3FNYEXcp91K",
+      "dimensions": {
+        "width": 2016,
+        "height": 3584
+      },
+      "configured_tier": "4k",
+      "gallery_label": "3K",
+      "credit_cost": 317,
+      "focal_point": "Stone ledge with ivory textile, pale stone, wine cloth.",
+      "lineage": "F02.05 screen authority, UI removed.",
+      "mobile_crop": "Full 9:16 plate. The live column occupies the left measure. Focal objects stay on the right.",
+      "tablet_crop": "Same plate. Wider margins. No separate art file.",
+      "desktop_crop": "Same plate, centered column at the mobile measure. No separate art file."
+    },
+    {
+      "environment_id": "ENV.QUIET",
+      "source_screen": "F02.07",
+      "member_screens": [
+        "F02.07",
+        "F02.IN.PERMISSION"
+      ],
+      "plate_asset": "SETUP.ENVIRONMENT.QUIET.001",
+      "file_path": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_QUIET_PLATE.jpg",
+      "status": "IN_REVIEW",
+      "generation_id": "bEj6Bfu7UmEjMFm0l1Lx",
+      "dimensions": {
+        "width": 2016,
+        "height": 3584
+      },
+      "configured_tier": "4k",
+      "gallery_label": "3K",
+      "credit_cost": 317,
+      "focal_point": "Quiet stone pier, closed book, linen, lower warm light.",
+      "lineage": "F02.07 screen authority, UI removed.",
+      "mobile_crop": "Full 9:16 plate. The live column occupies the left measure. Focal objects stay on the right.",
+      "tablet_crop": "Same plate. Wider margins. No separate art file.",
+      "desktop_crop": "Same plate, centered column at the mobile measure. No separate art file."
+    }
+  ]
+}
