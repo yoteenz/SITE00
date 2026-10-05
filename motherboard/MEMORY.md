@@ -13458,20 +13458,10 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.FULL-BODY-UNIFORM-REGEN.OPENART1` on
 
 ---
 
-## 2026-10-05 — RESUME16 OpenArt2 validation (16 frames, sha256 registry)
+## 2026-10-05 — Actor Catalogue resident authority convergence (Expression / Character Fabrication)
 
-Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2`.
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.ACTOR-CATALOGUE.RESIDENT-AUTHORITY-CONVERGENCE1` on `cursor/expression-actor-catalogue-resident-authority1` (from full-body-uniform-regen tunnel).
 
-- **Registry:** Re-uploaded SW-002..SW-008 workLook + bodyGeometry to OpenArt project `Q7IHYCEK3RPn2c1ConEG`; merged `source-binding-registry.json` with `supersededOpenArtUploadIds` from `openart_identity_references.json`. SW-001 unchanged.
-- **Generation:** 16/16 frames (WORK_PORTRAIT_FRONT + WORK_FULL_BODY_FRONT) via `studio-world-validation-openart-run-one.mjs` + MCP; recorded with binding sha256 + `openart_reference_upload_id`; **2432** credits (16×152); **0** retries.
-- **Artifacts:** Refreshed PNGs, `validation_manifest.json` (sprint RESUME16.OPENART2), contact sheets, `STUDIO_WORLD_RESIDENT_FABRICATION_VALIDATION_REVIEW.zip` + `_LITE.zip`, `failure_retry_report.json`. Helpers: `studio-world-validation-openart-build-record.mjs`, `studio-world-validation-openart-batch-run.mjs` (OPENART_MCP_BRIDGE).
-- **Status:** Automated lane PASS; all frames `classification: FOUNDER_REVIEW_REQUIRED`, `approval_status: IN_REVIEW` for founder sign-off.
+- **Root cause:** Character Fabrication `listFabricationActors()` read `seedCatalogue.ts` (stock SW-017/SW-044 mock roster) instead of Season 1 resident projections.
+- **Fix:** `productionCastingCatalogue.ts` + `projectAllResidentsToActors()` wired into fabrication + Production Expression casting; casting-thumbnails-v1 via `characterAssetUrl` / `portraitUrl`; legacy seed kept for Entry 002 fixtures only (`findFabricationActor` fallback). Actor cards show resident name + SW-001…SW-008 + provenance. Draft PR only — no merge/deploy.
 
----
-
-## 2026-10-05 — Full-body uniform regen SW-001..008 (OpenArt1)
-
-Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.FULL-BODY-UNIFORM-REGEN.OPENART1` on `cursor/studio-world-resident-full-body-uniform-regen-openart1`.
-
-- **Scope:** 8 full-body uniform fronts only (no portraits); women leggings / men compression shorts via `uniform-authority-v1` + source-binding registry refs; `gpt-image-2-5-sunburst` image2image 9:16 2k high.
-- **Result:** 8/8 first-pass **PASS**, **0** retries, **1216** credits (8×152). Script `scripts/studio-world-resident-full-body-uniform-regen.mjs`; artifacts `STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN` + review ZIPs; `approval_status: IN_REVIEW`.

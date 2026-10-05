@@ -101,8 +101,15 @@ export function FabricationProvider({ projectSlug, entryId, initialStation, chil
   const runtimeUrls = useMemo(() => {
     const boards = engine.b48?.preStoryboardAuthorityPack?.authorities ?? [];
     const dual = boards.find((b) => b.boardTitle === 'SUBJECT WOMAN DUAL-ERA AUTHORITY')?.previewUrl ?? null;
-    return { 'actor.sw017.portrait.primary': dual, 'character.subject-woman.portrait.primary': dual } as Record<string, string | null>;
-  }, [engine.b48]);
+    const residentPortraits = Object.fromEntries(
+      actors.filter((a) => a.portraitUrl).map((a) => [a.portraitSlotId, a.portraitUrl!]),
+    ) as Record<string, string | null>;
+    return {
+      ...residentPortraits,
+      'actor.sw017.portrait.primary': dual,
+      'character.subject-woman.portrait.primary': dual,
+    };
+  }, [engine.b48, actors]);
   const url = useCallback((slotId: string | null) => (slotId ? characterAssetUrl(slotId, runtimeUrls) : null), [runtimeUrls]);
 
   const api: FabricationApi = useMemo(

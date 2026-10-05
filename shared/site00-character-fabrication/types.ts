@@ -73,6 +73,12 @@ export type ActorRecord = {
   authorityLevel: string;
   updatedAt: string;
   portraitSlotId: string;
+  /** Resolved casting thumbnail / resident portrait authority (not a Grok slot). */
+  portraitUrl: string | null;
+  /** Internal resident id (SW-RESIDENT-00N) when catalogue entry is a resident projection. */
+  sourceResidentId: string | null;
+  studioWorldRole: string | null;
+  dataSource: string;
 };
 
 export type CharacterRecord = {

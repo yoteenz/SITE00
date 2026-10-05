@@ -7,7 +7,11 @@
  */
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { castingCreativeSearch, getStudioWorldActorCatalogue, type StudioWorldActor } from '../../../../../../shared/site00-studio-world/acting-catalogue/index.js';
+import {
+  castingCreativeSearch,
+  getProductionStudioWorldActorCatalogue,
+  type StudioWorldActor,
+} from '../../../../../../shared/site00-studio-world/acting-catalogue/index.js';
 import { pad2 } from '../../primitives';
 import { upper, words } from '../expressionData';
 import { Actions, Btn, Chip, Donut, Empty, Grid, Img, Kv, Mono, Panel, Row, Stat, type Tone } from '../ExpressionFamilyShell';
@@ -232,7 +236,7 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
 
 function Actors({ d, actorRow, inCast }: { d: FamilyProps['d']; actorRow: (a: StudioWorldActor) => React.ReactNode; inCast: Set<string | null> }) {
   const [query, setQuery] = useState('');
-  const catalogue = getStudioWorldActorCatalogue();
+  const catalogue = getProductionStudioWorldActorCatalogue();
   const list = useMemo(() => (query.trim() ? castingCreativeSearch(query, catalogue) : catalogue.actors), [catalogue, query]);
   const states = [...new Set(d.actors.map((a) => a.availabilityState))];
   return (

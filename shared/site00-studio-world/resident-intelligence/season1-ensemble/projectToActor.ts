@@ -6,7 +6,14 @@ import { resolveCastingCardImage } from './visualAuthority.js';
 const NOW = '2026-10-03T00:00:00.000Z';
 
 function actorIdFromResident(sourceResidentId: string): string {
-  return sourceResidentId.toLowerCase().replace(/^sw-/, 'sw-');
+  return sourceResidentId.toLowerCase();
+}
+
+/** Public roster id (SW-001 … SW-008) — distinct from internal sourceResidentId (SW-RESIDENT-00N). */
+export function publicResidentCatalogueId(sourceResidentId: string): string {
+  const m = /^SW-RESIDENT-(\d+)$/i.exec(sourceResidentId);
+  if (!m) return sourceResidentId;
+  return `SW-${m[1]!.padStart(3, '0')}`;
 }
 
 function mapEligibility(
@@ -56,13 +63,10 @@ export type ResidentBackedStudioWorldActor = StudioWorldActor & {
 };
 
 export function projectResidentToStudioWorldActor(d: StudioWorldResidentDossier): ResidentBackedStudioWorldActor {
-  const catalogueNumber = d.sourceResidentId;
+  const catalogueNumber = publicResidentCatalogueId(d.sourceResidentId);
   const actorId = actorIdFromResident(d.sourceResidentId);
-  const ageRange = d.agePresentation ?? 'Adult';
-  const build =
-    d.sourceResidentId === 'SW-RESIDENT-007' ?
-      'Larger-bodied — substantial, fuller face, broad chest and shoulders'
-    : 'Canon-locked — see identity constraints';
+  const ageRange = d.agePresentation ?? '—';
+  const build = '—';
   return {
     actorId,
     catalogueNumber,
@@ -71,11 +75,11 @@ export function projectResidentToStudioWorldActor(d: StudioWorldResidentDossier)
     identityAuthorityId: `id-auth-${d.sourceResidentId}`,
     presentation: d.presentation,
     ageRange,
-    heightRange: 'Canon-locked',
+    heightRange: '—',
     build,
-    skinToneDescription: d.visualIdentitySummary,
-    hairBaseline: d.naturalWardrobeSummary,
-    eyeDescription: 'See visual identity authority — asset pending if unset',
+    skinToneDescription: '—',
+    hairBaseline: '—',
+    eyeDescription: '—',
     facialFeatures: d.personalitySummary,
     distinguishingFeatures: d.identityConstraints.join('; '),
     nationalityOrCulturalCastingTags: d.culturalContext ?? ['Studio World resident'],

@@ -4,6 +4,7 @@
 
 export * from './types.js';
 export * from './seedCatalogue.js';
+export * from './productionCastingCatalogue.js';
 export * from './deriveCastingRequirements.js';
 export * from './castingIntelligence.js';
 export * from './castGate.js';

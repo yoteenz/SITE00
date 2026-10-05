@@ -16,11 +16,11 @@ export function ActorCard({ a, selected, onSelect, layout }: { a: ActorRecord; s
   const { url } = useFabrication();
   return (
     <button type="button" className={`cf-actor${selected ? ' is-selected' : ''} cf-actor--${layout.toLowerCase()}`} onClick={onSelect} data-testid={`cf-actor-${a.catalogueNumber}`} aria-pressed={selected}>
-      <CfImage slotId={a.portraitSlotId} url={url(a.portraitSlotId)} label={a.catalogueNumber} className="cf-actor__img" />
+      <CfImage slotId={a.portraitSlotId} url={url(a.portraitSlotId) ?? a.portraitUrl} label={a.stageName} className="cf-actor__img" />
       {selected ? <i className="cf-actor__tick">✓</i> : null}
-      <b>{a.catalogueNumber}</b>
-      <small>{a.entryLabel}</small>
-      <small>{a.projectLabel}</small>
+      <b>{a.stageName}</b>
+      <small>{a.catalogueNumber}{a.sourceResidentId ? ` · ${a.sourceResidentId}` : ''}</small>
+      <small>{a.studioWorldRole ?? a.availability}</small>
     </button>
   );
 }
@@ -82,7 +82,8 @@ export function ActorCatalogue() {
             <div><dt>AUTHORITY ID</dt><dd>{sel.authorityId.replace('id-auth-', 'ACT-')}</dd></div>
             <div><dt>AUTHORITY LEVEL</dt><dd>{sel.authorityLevel}</dd></div>
             <div><dt>LAST UPDATED</dt><dd>{sel.updatedAt.slice(0, 10)}</dd></div>
-            <div><dt>DATA SOURCE</dt><dd>STUDIO CATALOGUE</dd></div>
+            <div><dt>DATA SOURCE</dt><dd>{sel.dataSource.replace(/\//g, ' · ').toUpperCase()}</dd></div>
+            {sel.sourceResidentId ? <div><dt>RESIDENT ID</dt><dd>{sel.sourceResidentId}</dd></div> : null}
             <div><dt>AVAILABILITY</dt><dd>{sel.availability}</dd></div>
           </dl>
         </section>
