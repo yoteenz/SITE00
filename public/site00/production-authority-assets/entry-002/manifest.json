@@ -1,0 +1,460 @@
+{
+ "source": "public/assets/expression-engine/entry-002/pre-storyboard-authority",
+ "boards": {
+  "subject": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+  "fashion": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+  "ndx": "ndx-entry-002-pre-sba-ndx-presence-001.jpg"
+ },
+ "crops": [
+  {
+   "id": "subject-2016-full",
+   "board": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+   "box": [
+    0.022,
+    0.146,
+    0.292,
+    0.668
+   ],
+   "size": [
+    276,
+    802
+   ],
+   "label": "2016 \u00b7 SAME WOMAN \u00b7 EARLIER ERA"
+  },
+  {
+   "id": "subject-2016-portrait",
+   "board": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+   "box": [
+    0.302,
+    0.146,
+    0.488,
+    0.425
+   ],
+   "size": [
+    191,
+    429
+   ],
+   "label": "2016 \u00b7 RECOGNIZABLE \u00b7 SAME FACE"
+  },
+  {
+   "id": "subject-details",
+   "board": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+   "box": [
+    0.302,
+    0.434,
+    0.488,
+    0.662
+   ],
+   "size": [
+    191,
+    350
+   ],
+   "label": "SAME DETAILS \u00b7 CHOKER \u00b7 OVERLINED LIPS"
+  },
+  {
+   "id": "subject-2016-selfie",
+   "board": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+   "box": [
+    0.24,
+    0.672,
+    0.488,
+    0.925
+   ],
+   "size": [
+    254,
+    389
+   ],
+   "label": "2016 \u00b7 JUST A GIRL FIGURING IT OUT"
+  },
+  {
+   "id": "subject-2026-full",
+   "board": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+   "box": [
+    0.506,
+    0.146,
+    0.78,
+    0.925
+   ],
+   "size": [
+    281,
+    1197
+   ],
+   "label": "2026 \u00b7 SAME WOMAN \u00b7 LATER ERA"
+  },
+  {
+   "id": "subject-2026-portrait",
+   "board": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+   "box": [
+    0.788,
+    0.146,
+    0.978,
+    0.425
+   ],
+   "size": [
+    194,
+    429
+   ],
+   "label": "2026 \u00b7 OLDER \u00b7 WISER \u00b7 STILL HER"
+  },
+  {
+   "id": "subject-codes",
+   "board": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+   "box": [
+    0.788,
+    0.434,
+    0.978,
+    0.65
+   ],
+   "size": [
+    194,
+    331
+   ],
+   "label": "SAME CODES \u00b7 NEW CONTEXT"
+  },
+  {
+   "id": "subject-2026-audience",
+   "board": "ndx-entry-002-pre-sba-subject-dual-era-001.jpg",
+   "box": [
+    0.77,
+    0.66,
+    0.978,
+    0.925
+   ],
+   "size": [
+    213,
+    407
+   ],
+   "label": "2026 \u00b7 DIFFERENT AUDIENCE \u00b7 SAME WOMAN"
+  },
+  {
+   "id": "look-2016-full",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.022,
+    0.128,
+    0.285,
+    0.62
+   ],
+   "size": [
+    269,
+    755
+   ],
+   "label": "2016 LOOK \u00b7 SAME FASHION LANGUAGE"
+  },
+  {
+   "id": "look-2016-portrait",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.294,
+    0.128,
+    0.492,
+    0.343
+   ],
+   "size": [
+    203,
+    330
+   ],
+   "label": "2016 LOOK \u00b7 PORTRAIT"
+  },
+  {
+   "id": "look-2016-mirror",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.294,
+    0.35,
+    0.492,
+    0.62
+   ],
+   "size": [
+    203,
+    414
+   ],
+   "label": "2016 LOOK \u00b7 MIRROR"
+  },
+  {
+   "id": "look-2026-full",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.508,
+    0.128,
+    0.761,
+    0.62
+   ],
+   "size": [
+    259,
+    755
+   ],
+   "label": "2026 LOOK \u00b7 SAME FASHION LANGUAGE"
+  },
+  {
+   "id": "look-2026-portrait",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.771,
+    0.128,
+    0.978,
+    0.343
+   ],
+   "size": [
+    211,
+    330
+   ],
+   "label": "2026 LOOK \u00b7 PORTRAIT"
+  },
+  {
+   "id": "look-2026-street",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.771,
+    0.35,
+    0.978,
+    0.62
+   ],
+   "size": [
+    211,
+    414
+   ],
+   "label": "2026 LOOK \u00b7 HIGHER STANDARDS"
+  },
+  {
+   "id": "wardrobe-bodycon-dress",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.022,
+    0.662,
+    0.211,
+    0.755
+   ],
+   "size": [
+    193,
+    143
+   ],
+   "label": "BLACK BODYCON DRESS \u00b7 ALWAYS"
+  },
+  {
+   "id": "wardrobe-choker",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.218,
+    0.662,
+    0.4,
+    0.755
+   ],
+   "size": [
+    187,
+    143
+   ],
+   "label": "CHOKER \u00b7 ALWAYS"
+  },
+  {
+   "id": "wardrobe-bomber-jacket",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.407,
+    0.662,
+    0.592,
+    0.755
+   ],
+   "size": [
+    189,
+    143
+   ],
+   "label": "BOMBER JACKET \u00b7 ALWAYS"
+  },
+  {
+   "id": "wardrobe-thigh-high-boots",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.6,
+    0.662,
+    0.787,
+    0.755
+   ],
+   "size": [
+    192,
+    143
+   ],
+   "label": "THIGH HIGH BOOTS \u00b7 ALWAYS"
+  },
+  {
+   "id": "wardrobe-clear-heels",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.795,
+    0.662,
+    0.978,
+    0.755
+   ],
+   "size": [
+    187,
+    143
+   ],
+   "label": "NUDE / CLEAR HEELS \u00b7 ALWAYS"
+  },
+  {
+   "id": "beauty-overlined-lips",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.022,
+    0.781,
+    0.211,
+    0.869
+   ],
+   "size": [
+    193,
+    135
+   ],
+   "label": "OVERLINED LIPS \u00b7 ALWAYS"
+  },
+  {
+   "id": "beauty-french-nails",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.218,
+    0.781,
+    0.4,
+    0.869
+   ],
+   "size": [
+    187,
+    135
+   ],
+   "label": "FRENCH TIP NAILS \u00b7 ALWAYS"
+  },
+  {
+   "id": "beauty-french-toes",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.407,
+    0.781,
+    0.592,
+    0.869
+   ],
+   "size": [
+    189,
+    135
+   ],
+   "label": "FRENCH TIP TOES \u00b7 ALWAYS"
+  },
+  {
+   "id": "wardrobe-statement-bag",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.6,
+    0.781,
+    0.787,
+    0.869
+   ],
+   "size": [
+    192,
+    135
+   ],
+   "label": "STATEMENT BAG \u00b7 ALWAYS"
+  },
+  {
+   "id": "hair-sleek-straight",
+   "board": "ndx-entry-002-pre-sba-fashion-continuity-001.jpg",
+   "box": [
+    0.795,
+    0.781,
+    0.978,
+    0.869
+   ],
+   "size": [
+    187,
+    135
+   ],
+   "label": "SLEEK STRAIGHT HAIR \u00b7 ALWAYS"
+  },
+  {
+   "id": "ndx-over-shoulder",
+   "board": "ndx-entry-002-pre-sba-ndx-presence-001.jpg",
+   "box": [
+    0.022,
+    0.142,
+    0.566,
+    0.405
+   ],
+   "size": [
+    512,
+    440
+   ],
+   "label": "OVER-SHOULDER \u00b7 ALWAYS LOOKING"
+  },
+  {
+   "id": "ndx-shadow",
+   "board": "ndx-entry-002-pre-sba-ndx-presence-001.jpg",
+   "box": [
+    0.58,
+    0.142,
+    0.978,
+    0.405
+   ],
+   "size": [
+    374,
+    440
+   ],
+   "label": "SHADOW \u00b7 PRESENT BUT UNSEEN"
+  },
+  {
+   "id": "ndx-phone-interaction",
+   "board": "ndx-entry-002-pre-sba-ndx-presence-001.jpg",
+   "box": [
+    0.022,
+    0.416,
+    0.462,
+    0.622
+   ],
+   "size": [
+    414,
+    344
+   ],
+   "label": "PHONE INTERACTION \u00b7 SMALL DETAILS"
+  },
+  {
+   "id": "ndx-partial-profile",
+   "board": "ndx-entry-002-pre-sba-ndx-presence-001.jpg",
+   "box": [
+    0.472,
+    0.416,
+    0.978,
+    0.622
+   ],
+   "size": [
+    476,
+    344
+   ],
+   "label": "PARTIAL PROFILE \u00b7 A PRESENCE"
+  },
+  {
+   "id": "ndx-reflection",
+   "board": "ndx-entry-002-pre-sba-ndx-presence-001.jpg",
+   "box": [
+    0.022,
+    0.636,
+    0.51,
+    0.905
+   ],
+   "size": [
+    459,
+    450
+   ],
+   "label": "REFLECTION \u00b7 THE OBSERVER"
+  },
+  {
+   "id": "ndx-observer",
+   "board": "ndx-entry-002-pre-sba-ndx-presence-001.jpg",
+   "box": [
+    0.522,
+    0.636,
+    0.978,
+    0.905
+   ],
+   "size": [
+    429,
+    450
+   ],
+   "label": "OBSERVER \u00b7 DETACHED BY DESIGN"
+  }
+ ]
+}

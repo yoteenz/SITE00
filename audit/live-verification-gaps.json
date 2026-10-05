@@ -1,0 +1,20 @@
+{
+  "auditId": "SITE00-STUDIO-WORLD-MASTER-ASSURANCE-2026-08-23",
+  "liveVerificationRequired": [
+    {"id": "LV-001", "pipeline": "Reference-conditioned GPT Image 2 edit via FAL", "reason": "Code path exists; no production receipt on record", "blockerFor": "PRODUCTION_READY visual reference intelligence"},
+    {"id": "LV-002", "pipeline": "Playwright authenticated route capture on Railway", "reason": "Browser deps and base URL unverified in API runtime", "blockerFor": "Host Visual Memory automation"},
+    {"id": "LV-003", "pipeline": "Experiment F FORM SIX CONCEPTS (Anthropic live)", "reason": "Vitest mock path used when no API key", "blockerFor": "Concept Territory V2 research validity"},
+    {"id": "LV-004", "pipeline": "Design proof full compose generation", "reason": "FAL_KEY dependent; tests mock", "blockerFor": "Founder visual development review"},
+    {"id": "LV-005", "pipeline": "Composer ORCHESTRATE IMPLEMENTATION", "reason": "Stub only returns packageId", "blockerFor": "Implementation automation"},
+    {"id": "LV-006", "pipeline": "Post-implementation fidelity evaluation", "reason": "evaluateExperienceImplementation always NOT_EVALUATED without evidence", "blockerFor": "Surgical revision loop"},
+    {"id": "LV-007", "pipeline": "Durable experiment run resume after API restart", "reason": "Memory stores for E, visual dev, project intelligence", "blockerFor": "Operational trust"},
+    {"id": "LV-008", "pipeline": "Real payment → manifest → formation gate", "reason": "Pilot commercial shortcuts for ndxbook", "blockerFor": "Commercial product verification"}
+  ],
+  "falseReadiness": [
+    {"system": "Visual Reference Intelligence", "claimed": "INTEGRATED", "actual": "LIVE_PATH_UNVERIFIED"},
+    {"system": "Visual Development Before Implementation", "claimed": "IMPLEMENTED", "actual": "GENERATION_UNVERIFIED; ORCHESTRATION_STUB"},
+    {"system": "Project Intelligence Manifest", "claimed": "READY", "actual": "MEMORY_ONLY"},
+    {"system": "1508 test PASS", "claimed": "PRODUCTION_ASSURANCE", "actual": "PROVIDER_MOCK_HEAVY"},
+    {"system": "ORCHESTRATE IMPLEMENTATION button", "claimed": "ACTION", "actual": "NO_COMPOSER_DISPATCH"}
+  ]
+}

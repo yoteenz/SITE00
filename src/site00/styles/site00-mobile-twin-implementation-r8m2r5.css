@@ -1,0 +1,77 @@
+.site00-twin-fb {
+  --fb-black: #0a0a0a;
+  --fb-text: #f0f0f0;
+  --fb-lime: #c8ff00;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  background: var(--fb-black);
+  color: var(--fb-text);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.site00-twin-fb__section {
+  padding: 8px 10px;
+  border-bottom: 1px solid #222;
+  margin-bottom: var(--fb-section-gap, 8px);
+}
+
+.site00-twin-fb__section-title {
+  margin: 0 0 6px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.site00-twin-fb__hero-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--fb-hero-cols, 3), minmax(0, 1fr));
+  gap: 6px;
+}
+
+.site00-twin-fb__gallery-sheet {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--fb-gallery-gap, 6px);
+}
+
+.site00-twin-fb__structured-band {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.site00-twin-fb__bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.site00-twin-fb__readiness-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.site00-twin-fb__authority-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site00-twin-fb__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.site00-twin-fb__node {
+  min-width: 0;
+}
+
+.site00-twin-fb__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

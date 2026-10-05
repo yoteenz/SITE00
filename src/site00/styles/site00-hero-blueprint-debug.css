@@ -1,0 +1,96 @@
+.site00-fb__hero {
+  position: relative;
+}
+
+.site00-hero-debug {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+}
+
+.site00-hero-debug__label {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  margin: 0;
+  padding: 2px 4px;
+  font-size: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #b7f75f;
+  z-index: 101;
+}
+
+.site00-hero-debug__box {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px dashed rgba(0, 180, 255, 0.9);
+  background: rgba(0, 180, 255, 0.06);
+}
+
+.site00-hero-debug__box--authority {
+  border-color: rgba(183, 247, 95, 0.85);
+  background: rgba(183, 247, 95, 0.05);
+}
+
+.site00-hero-debug__box--rendered {
+  border-color: rgba(255, 180, 0, 0.9);
+  background: rgba(255, 180, 0, 0.06);
+}
+
+.site00-hero-debug__delta {
+  position: absolute;
+  font-size: 6px;
+  padding: 1px 2px;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.site00-hero-debug__delta--green {
+  color: #8f8;
+}
+
+.site00-hero-debug__delta--yellow {
+  color: #fd0;
+}
+
+.site00-hero-debug__delta--red {
+  color: #f88;
+}
+
+.site00-hero-debug__box span {
+  font-size: 7px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 0 2px;
+}
+
+.site00-hero-debug__collision {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 7px;
+  color: #ff6b6b;
+}
+
+.site00-hero-debug__missing {
+  position: absolute;
+  left: 4px;
+  bottom: 14px;
+  font-size: 7px;
+  color: #ff8888;
+  display: block;
+}
+
+.site00-hero-debug__crops {
+  position: absolute;
+  right: 2px;
+  top: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 6px;
+  color: #ccc;
+  max-width: 120px;
+  text-align: right;
+}

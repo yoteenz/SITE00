@@ -1,0 +1,4318 @@
+{
+ "artifact": "SITE00_PRODUCTION_WORKSPACE_GAP_MATRIX",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "nav_vs_canon": {
+  "order_match": true,
+  "labels_match": true,
+  "issues": [
+   "INBOX routes to /production/queue (segment 'queue' \u2260 label)",
+   "LIBRARY/ACTIVITY/INBOX/HUB are global (no :projectSlug); chrome resolves project to hardcoded 'ndxbook' on these routes",
+   "Duplicate 7-tab constant NAV_PRODUCTION in PwFrame.tsx with hardcoded /production/ndxbook/* hrefs (dead)",
+   "Hub machine (?view=machine) turns ACTIVITY into an in-place expansion button instead of a route",
+   "Registry PRODUCTION_TOP_LEVEL_WORKSPACES lists only DESIGN/EXPERIENCE/EXPRESSION; HUB/INBOX/LIBRARY/ACTIVITY not modelled",
+   "Shell menu CONTROL points to client CTRL ROOM /control instead of operator /admin/site00"
+  ]
+ },
+ "project_context": {
+  "mechanism": "URL path segment /production/:projectSlug/{design|experience|expression}; chrome projectIdFromPath() and ProductionAuthorityFrame.projectSlugFromPath() fall back to 'ndxbook' for /production, /queue, /libraries, /activity. ProductionWorkspaceContext persists projectSlug to storage but the chrome/data provider never read it. Switcher = listHostProductionProjects() (managed registry minus site00) \u2192 projectSwitchPath keeps workspace+design mode. Hub machine has a second independent reducer-based selector initialised to 'ndxbook'.",
+  "selectable_projects": [
+   "frontal-slayer",
+   "studio-world",
+   "ndxbook",
+   "all-in-one-enterprises (AIO)",
+   "astral-world",
+   "jurnl"
+  ],
+  "site00_selectable": false,
+  "filtered_tabs": [
+   "DESIGN (route slug; but static chamber content identical for all non-ingested projects)",
+   "EXPERIENCE (route slug; content placeholder)",
+   "EXPRESSION (route slug; data only for ndxbook Entry 002)"
+  ],
+  "unfiltered_tabs": [
+   "HUB (always ndxbook)",
+   "INBOX (graph=ndxbook; device requests = all projects mixed)",
+   "LIBRARY (cross-project fixtures + actor catalogue)",
+   "ACTIVITY (recorded activity has no project field; graph rows=ndxbook)"
+  ],
+  "real_data_projects": {
+   "ndxbook": "Entry 002 expression pipeline, hub graph, storyboard decision API",
+   "jurnl": "ingested project: ProjectFamilyChamber + runtime viewport",
+   "others": "empty/fixture"
+  }
+ },
+ "client_status_integration": {
+  "in_production_workspace": "NONE \u2014 no send-to-client action, no AWAITING_CLIENT/APPROVED-by-client status, no read of client review data anywhere under /production",
+  "client_review_system": "shared/site00-client-reviews/types.ts ClientReviewStatus READY_FOR_REVIEW|AWAITING_CLIENT|REVISION_IN_PROGRESS|APPROVED|DECLINED|SUPERSEDED|LOCKED; api/site00/client-reviews.ts GET queue/detail/appDetail/adminFeedback, POST comment/annotation/approve/revision/decline/revisit \u2014 client-side actions only; NO operator create/publish action. Only writer of site00_client_review_objects is api/_lib/site00ClientReviews/previewFixtureSeed.ts.",
+  "admin_side": "api/_lib/site00Production: DeliverableStatus has CLIENT_REVIEW/CLIENT_APPROVED and controlCommand/clientStudio read site00_approval_requests status CLIENT_REVIEW|READY_FOR_CLIENT, but nothing writes those statuses (decideApproval writes APPROVED_INTERNALLY|REVISION).",
+  "client_surfaces": [
+   "/app/projects/:slug/reviews/* (client app)",
+   "/client/projects/:slug/reviews/* (client project room)",
+   "/studio/:slug/reviews/:reviewId (studio)"
+  ],
+  "verdict": "send-to-client: MISSING; awaiting: MISSING (read model exists server-side, no writer); approved: client can approve fixture reviews only; result never flows back to production INBOX/ACTIVITY"
+ },
+ "counts": {
+  "total_surfaces": 199,
+  "by_classification": {
+   "CANONICAL_WORKSPACE": 92,
+   "LEGACY": 30,
+   "ADMIN_CONTROL": 8,
+   "STUDIO_CLIENT": 14,
+   "CTRL_ROOM": 8,
+   "EXPERIMENT_BENCH": 47
+  },
+  "by_status": {
+   "WORKING_END_TO_END": 16,
+   "PARTIAL": 147,
+   "PLACEHOLDER": 17,
+   "VISUAL_ONLY": 9,
+   "DATA_ONLY": 4,
+   "MISSING": 6
+  },
+  "production_routes_registered": 10,
+  "expression_family_routes": 40,
+  "design_bench_routes": 18,
+  "unguarded_bench_routes": 17,
+  "experiment_lab_routes": 31,
+  "legacy_founder_workspace_route_groups": 19,
+  "site00_pages_top_level_tsx": 102,
+  "orphan_pages": 2,
+  "production_test_files": 27,
+  "admin_site00_routes": 59,
+  "bench_plus_experiment_plus_debug_routes_total": 53,
+  "site00_pages_files_incl_subdirs": "122 entries in src/site00/pages (102 top-level .tsx + 20 subdirs)"
+ },
+ "tab_matrix": [
+  {
+   "tab": "HUB",
+   "status": "PARTIAL",
+   "project_filtered": false,
+   "gap": "hard-wired to ndxbook; no client relationship/status",
+   "mvp": true
+  },
+  {
+   "tab": "INBOX",
+   "status": "PARTIAL",
+   "project_filtered": false,
+   "gap": "localStorage requests; messages placeholder; no client lens; URL /production/queue",
+   "mvp": true
+  },
+  {
+   "tab": "DESIGN",
+   "status": "VISUAL_ONLY modes (VIEWPORT works); children PARTIAL",
+   "project_filtered": "slug yes, content no",
+   "gap": "NDX content bleeds into other projects; bench children 768-scaled",
+   "mvp": false
+  },
+  {
+   "tab": "EXPERIENCE",
+   "status": "VISUAL_ONLY root; 7 PLACEHOLDER children",
+   "project_filtered": "slug only",
+   "gap": "taxonomy conflict C5; world plate C4",
+   "mvp": false
+  },
+  {
+   "tab": "EXPRESSION",
+   "status": "PARTIAL (40 routes, ndxbook data)",
+   "project_filtered": "slug yes, data ndxbook",
+   "gap": "review+handoff links out; 3 placeholders",
+   "mvp": "SEND TO CLIENT only"
+  },
+  {
+   "tab": "LIBRARY",
+   "status": "VISUAL_ONLY",
+   "project_filtered": false,
+   "gap": "fixtures; OpenArt descendants not downloaded",
+   "mvp": false
+  },
+  {
+   "tab": "ACTIVITY",
+   "status": "PARTIAL",
+   "project_filtered": false,
+   "gap": "localStorage; no project on rows; no client events",
+   "mvp": true
+  }
+ ],
+ "missing_canon_subsurfaces": [
+  "REVIEWS (client)",
+  "project-scoped ASSETS",
+  "PRODUCTION HISTORY",
+  "CLIENT RELATIONSHIP",
+  "PROJECT STATUS",
+  "CLIENT STATUS"
+ ],
+ "surfaces": [
+  {
+   "id": "shell-frame",
+   "tab": "SHELL",
+   "route": "(all /production/*)",
+   "component": "ProductionAuthorityFrame",
+   "file": "src/site00/components/productionAuthority/ProductionAuthorityFrame.tsx",
+   "surface_type": "ROUTE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "n/a",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "frame-mobile ph-strip (864 zoom)",
+    "tablet": "pxh host chrome",
+    "desktop": "pxh host chrome"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "PwFrame production variant (src/site00/components/production/PwFrame.tsx)"
+   ],
+   "dead_end": false,
+   "notes": "Portal to body; one header + 7-tab nav. Families: mobile<700, tablet 700-1119, desktop>=1120 (production-authority-registry.ts). Mobile header/nav measured short vs authority (~34/37px vs ~57/52px)."
+  },
+  {
+   "id": "shell-nav",
+   "tab": "SHELL",
+   "route": "-",
+   "component": "ProductionBottomNav / ProductionHostNav",
+   "file": "src/site00/components/productionHub/nav.tsx",
+   "surface_type": "INLINE_EXPANSION",
+   "status": "WORKING_END_TO_END",
+   "data_real": "n/a",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "ph-nav",
+    "tablet": "pxh-nav horizontal",
+    "desktop": "pxh-nav horizontal"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "PwFrame.NAV_PRODUCTION (dead duplicate constant, hardcoded /production/ndxbook/*)"
+   ],
+   "dead_end": false,
+   "notes": "Order matches canon exactly. INBOX\u2192/production/queue, LIBRARY\u2192/production/libraries and ACTIVITY\u2192/production/activity ignore projectId; DESIGN/EXPERIENCE/EXPRESSION carry it."
+  },
+  {
+   "id": "shell-project-selector",
+   "tab": "SHELL",
+   "route": "-",
+   "component": "ProductionWorkspaceHeader project menu (useProjectSwitchItems)",
+   "file": "src/site00/components/productionHub/chrome.tsx",
+   "surface_type": "OVERLAY",
+   "status": "PARTIAL",
+   "data_real": "yes (managed registry)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "pop under strip",
+    "tablet": "pxh-pop",
+    "desktop": "pxh-pop"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "hub-machine PROJECT_SELECTOR overlay",
+    "DesignProjectSelector (designWorkspace bench)",
+    "DesignProjectsDesignHubPage (orphan)"
+   ],
+   "dead_end": false,
+   "notes": "Lists listDesignEnabledManagedProjects minus site00: FRONTAL SLAYER, STUDIO WORLD, NDXBOOK, ALL IN ONE ENTERPRISES (AIO), ASTRAL WORLD, JURNL. SITE 00 is NOT selectable. Switch always lands on /production/:slug/{design|experience|expression}; from HUB/INBOX/LIBRARY/ACTIVITY it jumps to DESIGN."
+  },
+  {
+   "id": "shell-host-menu",
+   "tab": "SHELL",
+   "route": "-",
+   "component": "ProductionMenuPanel (MENU_PHONE/MENU_HOST)",
+   "file": "src/site00/components/productionHub/chrome.tsx",
+   "surface_type": "OVERLAY",
+   "status": "WORKING_END_TO_END",
+   "data_real": "n/a",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Items: PRODUCTION HUB, INBOX, CONTROL\u2192/control (client CTRL ROOM, not operator /admin/site00)."
+  },
+  {
+   "id": "shell-attention-chip",
+   "tab": "SHELL",
+   "route": "-",
+   "component": "ITEMS NEED YOU link",
+   "file": "src/site00/components/productionHub/chrome.tsx",
+   "surface_type": "INLINE_EXPANSION",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes (hub attention, NDXBOOK graph)",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Count = hubData.attention for the path-derived project."
+  },
+  {
+   "id": "hub-root",
+   "tab": "HUB",
+   "route": "/production",
+   "component": "ProductionWorkspaceHubPage \u2192 HubBody",
+   "file": "src/site00/pages/production/ProductionWorkspaceHubPage.tsx; src/site00/components/productionAuthority/HubBody.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes for NDXBOOK Entry 002 (expression-engine API, projects index); empty otherwise",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "admin /admin/site00 COMMAND dashboard",
+    "/projects/:slug overview module"
+   ],
+   "dead_end": false,
+   "notes": "Project resolved by projectIdFromPath \u2192 always 'ndxbook' at /production. Cannot show another project's hub via URL."
+  },
+  {
+   "id": "hub-machine",
+   "tab": "HUB",
+   "route": "/production?view=machine|panel|node|scene",
+   "component": "ProductionHub",
+   "file": "src/site00/components/productionHub/ProductionHub.tsx",
+   "surface_type": "TEMP",
+   "status": "PARTIAL",
+   "data_real": "yes (same hook)",
+   "project_filtered": "yes (own reducer selector, init ndxbook)",
+   "responsive": {
+    "mobile": "864-space phone",
+    "tablet": "phone comp centred",
+    "desktop": "phone comp centred"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "hub-root",
+    "shell-project-selector"
+   ],
+   "dead_end": false,
+   "notes": "LEGACY_LOCKED per artifacts/production-authority-tree. Own overlays: ATTENTION, DECISION, LIGHTBOX, MENU, PROJECT_SELECTOR, SCENE_SELECTOR; ACTIVITY as in-place expansion (nav ACTIVITY becomes button)."
+  },
+  {
+   "id": "hub-machine-attention",
+   "tab": "HUB",
+   "route": "/production?view=machine",
+   "component": "ProductionHub overlay ATTENTION",
+   "file": "src/site00/components/productionHub/overlays.tsx",
+   "surface_type": "OVERLAY",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "864",
+    "tablet": "864",
+    "desktop": "864"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "hub-machine-decision",
+   "tab": "HUB",
+   "route": "/production?view=machine",
+   "component": "ProductionHub overlay DECISION",
+   "file": "src/site00/components/productionHub/overlays.tsx",
+   "surface_type": "OVERLAY",
+   "status": "PARTIAL",
+   "data_real": "yes",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "864",
+    "tablet": "864",
+    "desktop": "864"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "DECISION writes storyboard judgment via /api/site00/expression-engine (real) + localStorage request/activity."
+  },
+  {
+   "id": "hub-machine-lightbox",
+   "tab": "HUB",
+   "route": "/production?view=machine",
+   "component": "ProductionHub overlay LIGHTBOX",
+   "file": "src/site00/components/productionHub/overlays.tsx",
+   "surface_type": "OVERLAY",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "864",
+    "tablet": "864",
+    "desktop": "864"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "hub-machine-project_selector",
+   "tab": "HUB",
+   "route": "/production?view=machine",
+   "component": "ProductionHub overlay PROJECT_SELECTOR",
+   "file": "src/site00/components/productionHub/overlays.tsx",
+   "surface_type": "OVERLAY",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "864",
+    "tablet": "864",
+    "desktop": "864"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "hub-machine-scene_selector",
+   "tab": "HUB",
+   "route": "/production?view=machine",
+   "component": "ProductionHub overlay SCENE_SELECTOR",
+   "file": "src/site00/components/productionHub/overlays.tsx",
+   "surface_type": "OVERLAY",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "864",
+    "tablet": "864",
+    "desktop": "864"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "inbox-root",
+   "tab": "INBOX",
+   "route": "/production/queue",
+   "component": "ProductionQueuePage \u2192 InboxBody (lens needs)",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed: hub graph attention (real, NDXBOOK) + device-local localStorage requests (site00.production.requests.v1)",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "stacked",
+    "tablet": "2-col",
+    "desktop": "2-col"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "admin /admin/site00/approvals (Supabase site00_approval_requests)",
+    "admin /admin/site00/studio/queue",
+    "/projects/:slug/reviews module"
+   ],
+   "dead_end": false,
+   "notes": "Route segment is 'queue' while label is INBOX. Requests from all projects merged; graph items only for ndxbook."
+  },
+  {
+   "id": "inbox-watching",
+   "tab": "INBOX",
+   "route": "/production/queue?view=watching",
+   "component": "InboxBody lens watching",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "TAB",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "no client-status rows; would be natural home for AWAITING_CLIENT"
+  },
+  {
+   "id": "inbox-resolved",
+   "tab": "INBOX",
+   "route": "/production/queue?view=resolved",
+   "component": "InboxBody lens resolved",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "TAB",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "activity-derived"
+  },
+  {
+   "id": "inbox-all",
+   "tab": "INBOX",
+   "route": "/production/queue?view=all",
+   "component": "InboxBody lens all",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "TAB",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "inbox-messages",
+   "tab": "INBOX",
+   "route": "/production/queue?view=messages",
+   "component": "InboxBody lens messages",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "TAB",
+   "status": "PLACEHOLDER",
+   "data_real": "mixed",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "No messaging service \u2014 panes explicitly UNMOUNTED"
+  },
+  {
+   "id": "inbox-system",
+   "tab": "INBOX",
+   "route": "/production/queue?view=system",
+   "component": "InboxBody lens system",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "TAB",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "graph/system notices"
+  },
+  {
+   "id": "inbox-decision-detail",
+   "tab": "INBOX",
+   "route": "/production/queue?item=:id",
+   "component": "InboxBody decision-detail",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "storyboard decision real API; other items localStorage",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "hub-machine-decision",
+    "expression-review-approval-detail"
+   ],
+   "dead_end": false,
+   "notes": "Tabs DETAILS/DEPENDENCIES/HISTORY (STATE). APPROVE / REQUEST REVISION only reach the client? No \u2014 internal founder decision only."
+  },
+  {
+   "id": "inbox-message-thread",
+   "tab": "INBOX",
+   "route": "/production/queue?thread=:id",
+   "component": "InboxBody message-thread",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "none",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/client/projects/:slug/messages",
+    "/app/projects/:slug/inbox"
+   ],
+   "dead_end": true,
+   "notes": "No messaging backend; client app inbox is separate and not connected."
+  },
+  {
+   "id": "inbox-system-notice",
+   "tab": "INBOX",
+   "route": "/production/queue?notice=:id",
+   "component": "InboxBody system-notice-detail",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "graph-derived",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "inbox-temp",
+   "tab": "INBOX",
+   "route": "/production/queue",
+   "component": "REQUEST REVISION / APPROVAL CONFIRMATION / FILTER-SORT / ATTACHMENT PREVIEW",
+   "file": "src/site00/components/productionAuthority/InboxBody.tsx",
+   "surface_type": "OVERLAY",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "contained",
+    "tablet": "contained",
+    "desktop": "contained"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "design-root",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design[?mode=]",
+   "component": "ProductionWorkspaceProjectLayout \u2192 DesignChamber + DesignModeBar",
+   "file": "src/site00/pages/production/ProductionWorkspaceProjectHubPage.tsx; src/site00/components/productionAuthority/DesignChamber.tsx",
+   "surface_type": "ROUTE",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture: static DESIGN_CHAMBER config (NDX-authored copy/plates, 'NDX GROTESK') for every non-ingested project; JURNL gets ProjectFamilyChamber with its own data",
+   "project_filtered": "yes (slug in path)",
+   "responsive": {
+    "mobile": "chamber+mode bar",
+    "tablet": "boards side-by-side",
+    "desktop": "ON YOUR TABLE grid"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/design/twin-opus-direct",
+    "/projects/:slug/design/reconstruction-lab"
+   ],
+   "dead_end": false,
+   "notes": "FRONTAL SLAYER / AIO / ASTRAL / STUDIO WORLD all render NDXBOOK-flavoured static chamber. Pipeline + ON YOUR TABLE cards all link to /design/workspace (bench)."
+  },
+  {
+   "id": "design-mode-brand",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design?mode=brand",
+   "component": "DesignChamber mode brand",
+   "file": "src/site00/components/productionAuthority/designChamberConfig.ts",
+   "surface_type": "STATE",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture",
+   "project_filtered": "no (same config for all projects except JURNL)",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Static config; panels not interactive beyond links to bench."
+  },
+  {
+   "id": "design-mode-experience",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design?mode=experience",
+   "component": "DesignChamber mode experience",
+   "file": "src/site00/components/productionAuthority/designChamberConfig.ts",
+   "surface_type": "STATE",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture",
+   "project_filtered": "no (same config for all projects except JURNL)",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Static config; panels not interactive beyond links to bench."
+  },
+  {
+   "id": "design-mode-surfaces",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design?mode=surfaces",
+   "component": "DesignChamber mode surfaces",
+   "file": "src/site00/components/productionAuthority/designChamberConfig.ts",
+   "surface_type": "STATE",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture",
+   "project_filtered": "no (same config for all projects except JURNL)",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Static config; panels not interactive beyond links to bench."
+  },
+  {
+   "id": "design-mode-compiler",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design?mode=compiler",
+   "component": "DesignChamber mode compiler",
+   "file": "src/site00/components/productionAuthority/designChamberConfig.ts",
+   "surface_type": "STATE",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture",
+   "project_filtered": "no (same config for all projects except JURNL)",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Static config; panels not interactive beyond links to bench."
+  },
+  {
+   "id": "design-mode-assets",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design?mode=assets",
+   "component": "DesignChamber mode assets",
+   "file": "src/site00/components/productionAuthority/designChamberConfig.ts",
+   "surface_type": "STATE",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture",
+   "project_filtered": "no (same config for all projects except JURNL)",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Static config; panels not interactive beyond links to bench."
+  },
+  {
+   "id": "design-mode-viewport",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design?mode=viewport",
+   "component": "ViewportChamber",
+   "file": "src/site00/components/productionAuthority/DesignChamber.tsx",
+   "surface_type": "STATE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "live iframe of /app/projects/:slug (DEV: /app/preview/fixture-app-ndxbook) or project runtime /production/jurnl/runtime",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "device stage",
+    "tablet": "landscape frame",
+    "desktop": "zoom controls"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/app/preview/:slug (client app)",
+    "/production/:slug/runtime/*"
+   ],
+   "dead_end": false,
+   "notes": "Presets mobile/tablet/desktop, zoom, orientation, REFERENCE toggle, direct-preview link. This is the 'viewport / reference / live' canon sub-surface. Only JURNL has a registered runtime."
+  },
+  {
+   "id": "design-runtime",
+   "tab": "DESIGN",
+   "route": "/production/:slug/runtime/*",
+   "component": "ProjectRuntimeRoute",
+   "file": "src/site00/projectRuntime/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real for jurnl only",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "native",
+    "tablet": "native",
+    "desktop": "native"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Only jurnl registered in projectRuntimeRegistry."
+  },
+  {
+   "id": "design-child-workspace",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design/workspace",
+   "component": "DesignProductionWorkspaceLayout \u2192 DesignWorkspaceCore(TwinOpusDirectScreen) + DesignProductionSectionWorkspace",
+   "file": "src/site00/pages/DesignProductionWorkspacePage.tsx; src/site00/components/designBench/production/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real design bench data (managed project binding, captures, asset jobs)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "768 canvas scaled (RESPONSIVE FAILURE)",
+    "tablet": "overlay+bench",
+    "desktop": "overlay+bench"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "/projects/:slug/design/twin-opus-direct/"
+   ],
+   "dead_end": false,
+   "notes": "Promoted twin-opus-direct bench; identical component tree is still mounted at the bench URL. Chrome via ProductionChromeOverlay. Taxonomy mismatch: registry DESIGN subs (work/authorities/family/interactions/responsive/framework/assets/history) \u2260 modes \u2260 these children."
+  },
+  {
+   "id": "design-child-references",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design/references",
+   "component": "DesignProductionWorkspaceLayout \u2192 DesignWorkspaceCore(TwinOpusDirectScreen) + DesignProductionSectionReferences",
+   "file": "src/site00/pages/DesignProductionWorkspacePage.tsx; src/site00/components/designBench/production/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real design bench data (managed project binding, captures, asset jobs)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "768 canvas scaled (RESPONSIVE FAILURE)",
+    "tablet": "overlay+bench",
+    "desktop": "overlay+bench"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/design/twin-opus-direct/references"
+   ],
+   "dead_end": false,
+   "notes": "Promoted twin-opus-direct bench; identical component tree is still mounted at the bench URL. Chrome via ProductionChromeOverlay. Taxonomy mismatch: registry DESIGN subs (work/authorities/family/interactions/responsive/framework/assets/history) \u2260 modes \u2260 these children."
+  },
+  {
+   "id": "design-child-assets",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design/assets",
+   "component": "DesignProductionWorkspaceLayout \u2192 DesignWorkspaceCore(TwinOpusDirectScreen) + DesignProductionSectionAssets",
+   "file": "src/site00/pages/DesignProductionWorkspacePage.tsx; src/site00/components/designBench/production/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real design bench data (managed project binding, captures, asset jobs)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "768 canvas scaled (RESPONSIVE FAILURE)",
+    "tablet": "overlay+bench",
+    "desktop": "overlay+bench"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/design/twin-opus-direct/assets"
+   ],
+   "dead_end": false,
+   "notes": "Promoted twin-opus-direct bench; identical component tree is still mounted at the bench URL. Chrome via ProductionChromeOverlay. Taxonomy mismatch: registry DESIGN subs (work/authorities/family/interactions/responsive/framework/assets/history) \u2260 modes \u2260 these children."
+  },
+  {
+   "id": "design-child-pages",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design/pages",
+   "component": "DesignProductionWorkspaceLayout \u2192 DesignWorkspaceCore(TwinOpusDirectScreen) + DesignProductionSectionPages",
+   "file": "src/site00/pages/DesignProductionWorkspacePage.tsx; src/site00/components/designBench/production/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real design bench data (managed project binding, captures, asset jobs)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "768 canvas scaled (RESPONSIVE FAILURE)",
+    "tablet": "overlay+bench",
+    "desktop": "overlay+bench"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/design/twin-opus-direct/pages"
+   ],
+   "dead_end": false,
+   "notes": "Promoted twin-opus-direct bench; identical component tree is still mounted at the bench URL. Chrome via ProductionChromeOverlay. Taxonomy mismatch: registry DESIGN subs (work/authorities/family/interactions/responsive/framework/assets/history) \u2260 modes \u2260 these children."
+  },
+  {
+   "id": "design-child-skins",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design/skins",
+   "component": "DesignProductionWorkspaceLayout \u2192 DesignWorkspaceCore(TwinOpusDirectScreen) + DesignProductionSectionSkins",
+   "file": "src/site00/pages/DesignProductionWorkspacePage.tsx; src/site00/components/designBench/production/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real design bench data (managed project binding, captures, asset jobs)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "768 canvas scaled (RESPONSIVE FAILURE)",
+    "tablet": "overlay+bench",
+    "desktop": "overlay+bench"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/design/twin-opus-direct/skins"
+   ],
+   "dead_end": false,
+   "notes": "Promoted twin-opus-direct bench; identical component tree is still mounted at the bench URL. Chrome via ProductionChromeOverlay. Taxonomy mismatch: registry DESIGN subs (work/authorities/family/interactions/responsive/framework/assets/history) \u2260 modes \u2260 these children."
+  },
+  {
+   "id": "design-child-history",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design/history",
+   "component": "DesignProductionWorkspaceLayout \u2192 DesignWorkspaceCore(TwinOpusDirectScreen) + DesignProductionSectionHistory",
+   "file": "src/site00/pages/DesignProductionWorkspacePage.tsx; src/site00/components/designBench/production/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real design bench data (managed project binding, captures, asset jobs)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "768 canvas scaled (RESPONSIVE FAILURE)",
+    "tablet": "overlay+bench",
+    "desktop": "overlay+bench"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/design/twin-opus-direct/history"
+   ],
+   "dead_end": false,
+   "notes": "Promoted twin-opus-direct bench; identical component tree is still mounted at the bench URL. Chrome via ProductionChromeOverlay. Taxonomy mismatch: registry DESIGN subs (work/authorities/family/interactions/responsive/framework/assets/history) \u2260 modes \u2260 these children."
+  },
+  {
+   "id": "design-child-more",
+   "tab": "DESIGN",
+   "route": "/production/:slug/design/more",
+   "component": "DesignProductionWorkspaceLayout \u2192 DesignWorkspaceCore(TwinOpusDirectScreen) + DesignProductionSectionMore",
+   "file": "src/site00/pages/DesignProductionWorkspacePage.tsx; src/site00/components/designBench/production/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real design bench data (managed project binding, captures, asset jobs)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "768 canvas scaled (RESPONSIVE FAILURE)",
+    "tablet": "overlay+bench",
+    "desktop": "overlay+bench"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/design/twin-opus-direct/more"
+   ],
+   "dead_end": false,
+   "notes": "Promoted twin-opus-direct bench; identical component tree is still mounted at the bench URL. Chrome via ProductionChromeOverlay. Taxonomy mismatch: registry DESIGN subs (work/authorities/family/interactions/responsive/framework/assets/history) \u2260 modes \u2260 these children."
+  },
+  {
+   "id": "design-site00-host",
+   "tab": "DESIGN",
+   "route": "/production/site00/design",
+   "component": "Site00DesignHostRouteGate",
+   "file": "src/site00/pages/StudioWorldDesignPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "DATA_ONLY",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "redirect",
+    "tablet": "redirect",
+    "desktop": "redirect"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "/projects/site00/design/reconstruction-lab"
+   ],
+   "dead_end": true,
+   "notes": "Pure redirect: ?project=X \u2192 /production/X/design, no param \u2192 /production/ndxbook/design. SITE 00 as project cannot be opened in the workspace."
+  },
+  {
+   "id": "experience-root",
+   "tab": "EXPERIENCE",
+   "route": "/production/:slug/experience",
+   "component": "ExperienceBody",
+   "file": "src/site00/components/productionAuthority/ExperienceBody.tsx",
+   "surface_type": "ROUTE",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture plates; capsules only",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "capsules wrap",
+    "tablet": "hero+panel",
+    "desktop": "hero+panel"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/experience/* (Astral World module)",
+    "/studio/:slug/experience-compiler",
+    "DesignChamber mode=experience"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "experience-child-world",
+   "tab": "EXPERIENCE",
+   "route": "/production/:slug/experience/world",
+   "component": "ExperienceProductionShellPage (inside PwFrame)",
+   "file": "src/site00/pages/production/ExperienceProductionShellPage.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "none (art crop + 'NO WORKSPACE SURFACE MOUNTED')",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "PwFrame",
+    "tablet": "PwFrame band",
+    "desktop": "PwFrame band"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Canon capsule labels differ from registry ids (environments=PATHS, modules=INTERACTIONS, simulations=INHABITANTS, assets=STATES, review=ACCESS)."
+  },
+  {
+   "id": "experience-child-zones",
+   "tab": "EXPERIENCE",
+   "route": "/production/:slug/experience/zones",
+   "component": "ExperienceProductionShellPage (inside PwFrame)",
+   "file": "src/site00/pages/production/ExperienceProductionShellPage.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "none (art crop + 'NO WORKSPACE SURFACE MOUNTED')",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "PwFrame",
+    "tablet": "PwFrame band",
+    "desktop": "PwFrame band"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Canon capsule labels differ from registry ids (environments=PATHS, modules=INTERACTIONS, simulations=INHABITANTS, assets=STATES, review=ACCESS)."
+  },
+  {
+   "id": "experience-child-environments",
+   "tab": "EXPERIENCE",
+   "route": "/production/:slug/experience/environments",
+   "component": "ExperienceProductionShellPage (inside PwFrame)",
+   "file": "src/site00/pages/production/ExperienceProductionShellPage.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "none (art crop + 'NO WORKSPACE SURFACE MOUNTED')",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "PwFrame",
+    "tablet": "PwFrame band",
+    "desktop": "PwFrame band"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Canon capsule labels differ from registry ids (environments=PATHS, modules=INTERACTIONS, simulations=INHABITANTS, assets=STATES, review=ACCESS)."
+  },
+  {
+   "id": "experience-child-modules",
+   "tab": "EXPERIENCE",
+   "route": "/production/:slug/experience/modules",
+   "component": "ExperienceProductionShellPage (inside PwFrame)",
+   "file": "src/site00/pages/production/ExperienceProductionShellPage.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "none (art crop + 'NO WORKSPACE SURFACE MOUNTED')",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "PwFrame",
+    "tablet": "PwFrame band",
+    "desktop": "PwFrame band"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Canon capsule labels differ from registry ids (environments=PATHS, modules=INTERACTIONS, simulations=INHABITANTS, assets=STATES, review=ACCESS)."
+  },
+  {
+   "id": "experience-child-simulations",
+   "tab": "EXPERIENCE",
+   "route": "/production/:slug/experience/simulations",
+   "component": "ExperienceProductionShellPage (inside PwFrame)",
+   "file": "src/site00/pages/production/ExperienceProductionShellPage.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "none (art crop + 'NO WORKSPACE SURFACE MOUNTED')",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "PwFrame",
+    "tablet": "PwFrame band",
+    "desktop": "PwFrame band"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Canon capsule labels differ from registry ids (environments=PATHS, modules=INTERACTIONS, simulations=INHABITANTS, assets=STATES, review=ACCESS)."
+  },
+  {
+   "id": "experience-child-assets",
+   "tab": "EXPERIENCE",
+   "route": "/production/:slug/experience/assets",
+   "component": "ExperienceProductionShellPage (inside PwFrame)",
+   "file": "src/site00/pages/production/ExperienceProductionShellPage.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "none (art crop + 'NO WORKSPACE SURFACE MOUNTED')",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "PwFrame",
+    "tablet": "PwFrame band",
+    "desktop": "PwFrame band"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Canon capsule labels differ from registry ids (environments=PATHS, modules=INTERACTIONS, simulations=INHABITANTS, assets=STATES, review=ACCESS)."
+  },
+  {
+   "id": "experience-child-review",
+   "tab": "EXPERIENCE",
+   "route": "/production/:slug/experience/review",
+   "component": "ExperienceProductionShellPage (inside PwFrame)",
+   "file": "src/site00/pages/production/ExperienceProductionShellPage.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "none (art crop + 'NO WORKSPACE SURFACE MOUNTED')",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "PwFrame",
+    "tablet": "PwFrame band",
+    "desktop": "PwFrame band"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Canon capsule labels differ from registry ids (environments=PATHS, modules=INTERACTIONS, simulations=INHABITANTS, assets=STATES, review=ACCESS)."
+  },
+  {
+   "id": "expression-root",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression?entry=",
+   "component": "ExpressionBody",
+   "file": "src/site00/components/productionAuthority/ExpressionBody.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "real for NDXBOOK Entry 002 only (useEntry002Production / expression-engine API)",
+   "project_filtered": "partial (slug yes, entry hardcoded '002' default)",
+   "responsive": {
+    "mobile": "1-col floors",
+    "tablet": "multi-col",
+    "desktop": "multi-col"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/expression-engine",
+    "/projects/:slug/content-operations/campaign-board",
+    "/projects/:slug/marketing-expression"
+   ],
+   "dead_end": false,
+   "notes": "Other projects: 'No entry in production'."
+  },
+  {
+   "id": "expression-narrative",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/narrative",
+   "component": "ExpressionFamilyScreen \u2192 narrative family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-narrative-story",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/narrative/story",
+   "component": "narrative child story",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-narrative-structure",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/narrative/structure",
+   "component": "narrative child structure",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-narrative-momentum",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/narrative/momentum",
+   "component": "narrative child momentum",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-narrative-proof",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/narrative/proof",
+   "component": "narrative child proof",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-casting",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/casting",
+   "component": "ExpressionFamilyScreen \u2192 casting family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-casting-roles",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/casting/roles",
+   "component": "casting child roles",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-casting-actors",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/casting/actors",
+   "component": "casting child actors",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-casting-characters",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/casting/characters",
+   "component": "casting child characters",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-casting-continuity",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/casting/continuity",
+   "component": "casting child continuity",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-casting-roles-detail",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/casting/roles/:id",
+   "component": "casting detail",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-casting-actors-detail",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/casting/actors/:id",
+   "component": "casting detail",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-casting-characters-detail",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/casting/characters/:id",
+   "component": "casting detail",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-wardrobe",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/wardrobe",
+   "component": "ExpressionFamilyScreen \u2192 wardrobe family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-wardrobe-looks",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/wardrobe/looks",
+   "component": "wardrobe child looks",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-wardrobe-outfits",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/wardrobe/outfits",
+   "component": "wardrobe child outfits",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-wardrobe-hair",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/wardrobe/hair",
+   "component": "wardrobe child hair",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-wardrobe-makeup",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/wardrobe/makeup",
+   "component": "wardrobe child makeup",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-wardrobe-accessories",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/wardrobe/accessories",
+   "component": "wardrobe child accessories",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-wardrobe-fittings",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/wardrobe/fittings",
+   "component": "wardrobe child fittings",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-wardrobe-continuity",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/wardrobe/continuity",
+   "component": "wardrobe child continuity",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-performance",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/performance",
+   "component": "ExpressionFamilyScreen \u2192 performance family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-performance-scenes",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/performance/scenes",
+   "component": "performance child scenes",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-performance-beats",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/performance/beats",
+   "component": "performance child beats",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-performance-takes",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/performance/takes",
+   "component": "performance child takes",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-sets",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/sets",
+   "component": "ExpressionFamilyScreen \u2192 sets family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-sets-environments",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/sets/environments",
+   "component": "sets child environments",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-sets-sets",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/sets/sets",
+   "component": "sets child sets",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-sets-zones",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/sets/zones",
+   "component": "sets child zones",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-sets-props",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/sets/props",
+   "component": "sets child props",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-sets-graphics",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/sets/graphics",
+   "component": "sets child graphics",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-sets-camera",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/sets/camera",
+   "component": "sets child camera",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-storyboard",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/storyboard",
+   "component": "ExpressionFamilyScreen \u2192 storyboard family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-storyboard-keyframes",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/storyboard/keyframes",
+   "component": "storyboard child keyframes",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-storyboard-sequence-detail",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/storyboard/sequence/:id",
+   "component": "storyboard detail",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-review",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/review",
+   "component": "ExpressionFamilyScreen \u2192 review family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": "Review family: lock+handoff disabled until all items approved; comments UNMOUNTED; no send-to-client; links out to legacy ENGINE_ROUTE /projects/:slug/content-operations/expression-engine (leaves shell)."
+  },
+  {
+   "id": "expression-review-approval-detail",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/review/approval/:id",
+   "component": "review detail",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "Entry 002",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "inbox-decision-detail"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-format-studio",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/format-studio",
+   "component": "ExpressionFamilyScreen \u2192 format-studio family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-content-package",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/content-package",
+   "component": "ExpressionFamilyScreen \u2192 content-package family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-campaign-board",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/campaign-board",
+   "component": "ExpressionFamilyScreen \u2192 campaign-board family",
+   "file": "src/site00/components/productionAuthority/expression/families/",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "Entry 002 canonical sources; read-only except narrative/storyboard decisions",
+   "project_filtered": "partial",
+   "responsive": {
+    "mobile": "authority frame",
+    "tablet": "authority frame",
+    "desktop": "authority frame"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/content-operations/* (legacy)"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "expression-character-fabrication",
+   "tab": "EXPRESSION",
+   "route": "/production/:slug/expression/character-fabrication",
+   "component": "CharacterFabrication",
+   "file": "src/site00/components/characterFabrication/CharacterFabrication.tsx",
+   "surface_type": "CHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "acting catalogue + localStorage requests",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "432 canvas",
+    "tablet": "nav+scaled canvas",
+    "desktop": "nav+scaled canvas"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/projects/:slug/character/*",
+    "/projects/:slug/embodied-character",
+    "/projects/:slug/motion-character"
+   ],
+   "dead_end": false,
+   "notes": "Bypasses ProductionAuthorityDataProvider; own chrome."
+  },
+  {
+   "id": "library-root",
+   "tab": "LIBRARY",
+   "route": "/production/libraries",
+   "component": "ProductionLibrariesPage \u2192 LibraryBody",
+   "file": "src/site00/components/productionAuthority/LibraryBody.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mostly fixture plates; actor catalogue real (cross-project); storyboard version real for ndxbook",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "vault scroll",
+    "tablet": "2-col",
+    "desktop": "full vault"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "/assts (Asset Vault, admin ASSETS/VAULT)",
+    "/projects/:slug/library",
+    "/projects/:slug/content-library",
+    "/client/projects/:slug/library",
+    "/app/projects/:slug/library"
+   ],
+   "dead_end": false,
+   "notes": "Canon tabs canonical/in review/superseded/archive and categories are local STATE; collections INLINE_EXPANSION."
+  },
+  {
+   "id": "library-canon-tabs",
+   "tab": "LIBRARY",
+   "route": "/production/libraries",
+   "component": "LibraryBody canon tabs",
+   "file": "src/site00/components/productionAuthority/LibraryBody.tsx",
+   "surface_type": "TAB",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "library-collection-expand",
+   "tab": "LIBRARY",
+   "route": "/production/libraries",
+   "component": "LibraryBody collection panel",
+   "file": "src/site00/components/productionAuthority/LibraryBody.tsx",
+   "surface_type": "INLINE_EXPANSION",
+   "status": "VISUAL_ONLY",
+   "data_real": "fixture",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "activity-root",
+   "tab": "ACTIVITY",
+   "route": "/production/activity",
+   "component": "ProductionActivityPage \u2192 ActivityBody",
+   "file": "src/site00/components/productionAuthority/ActivityBody.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "localStorage recorded activity (no projectSlug field) + graph-derived SYSTEM rows (ndxbook)",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "filter wrap",
+    "tablet": "full width",
+    "desktop": "full width"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [
+    "admin /admin/site00/activity (Supabase)",
+    "/studio/:slug/activity",
+    "/client/projects/:slug/activity",
+    "hub-machine ACTIVITY expansion"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "activity-lenses",
+   "tab": "ACTIVITY",
+   "route": "/production/activity?view=",
+   "component": "ActivityBody lenses (approvals/blockers/review/comments\u2026)",
+   "file": "src/site00/components/productionAuthority/ActivityBody.tsx",
+   "surface_type": "TAB",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "activity-milestone",
+   "tab": "ACTIVITY",
+   "route": "/production/activity?milestone=:node",
+   "component": "ActivityBody milestone detail",
+   "file": "src/site00/components/productionAuthority/ActivityBody.tsx",
+   "surface_type": "GRANDCHILD_ROUTE",
+   "status": "PARTIAL",
+   "data_real": "graph",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "missing-reviews",
+   "tab": "MISSING",
+   "route": "-",
+   "component": "-",
+   "file": "-",
+   "surface_type": "ROUTE",
+   "status": "MISSING",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "No REVIEWS surface in production workspace; client reviews live only in /app, /client/projects, /studio; admin REVIEWS = /admin/site00/approvals"
+  },
+  {
+   "id": "missing-assets",
+   "tab": "MISSING",
+   "route": "-",
+   "component": "-",
+   "file": "-",
+   "surface_type": "ROUTE",
+   "status": "MISSING",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "No production-scoped ASSETS surface; split between design children /assets, LIBRARY, /assts vault"
+  },
+  {
+   "id": "missing-production-history",
+   "tab": "MISSING",
+   "route": "-",
+   "component": "-",
+   "file": "-",
+   "surface_type": "ROUTE",
+   "status": "MISSING",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Only DESIGN /history (bench) and ACTIVITY; no per-project production history"
+  },
+  {
+   "id": "missing-client-relationship",
+   "tab": "MISSING",
+   "route": "-",
+   "component": "-",
+   "file": "-",
+   "surface_type": "ROUTE",
+   "status": "MISSING",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "No client/contact/relationship panel; lives in admin CLIENTS (/admin/site00/identities)"
+  },
+  {
+   "id": "missing-project-status",
+   "tab": "MISSING",
+   "route": "-",
+   "component": "-",
+   "file": "-",
+   "surface_type": "ROUTE",
+   "status": "MISSING",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "No project status surface; admin /admin/site00/projects/:id has stage/pipeline (StudioPipelineBar)"
+  },
+  {
+   "id": "missing-client-status",
+   "tab": "MISSING",
+   "route": "-",
+   "component": "-",
+   "file": "-",
+   "surface_type": "ROUTE",
+   "status": "MISSING",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "CANONICAL_WORKSPACE",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "No send-to-client / awaiting / approved state anywhere in /production"
+  },
+  {
+   "id": "admin-command",
+   "tab": "00/CONTROL",
+   "route": "/admin/site00",
+   "component": "DashboardPage",
+   "file": "src/site00/admin/pages/DashboardPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes (Supabase via /api/admin/site00-production)",
+   "project_filtered": "yes (per project id) / n.a.",
+   "responsive": {
+    "mobile": "Site00AdminShell mobile",
+    "tablet": "shell",
+    "desktop": "shell"
+   },
+   "classification": "ADMIN_CONTROL",
+   "overlaps": [
+    "production HUB"
+   ],
+   "dead_end": false,
+   "notes": "COMMAND (controlCommand API: reviewsReady from site00_approval_requests CLIENT_REVIEW/READY_FOR_CLIENT)"
+  },
+  {
+   "id": "admin-projects",
+   "tab": "00/CONTROL",
+   "route": "/admin/site00/projects",
+   "component": "ProjectsPage",
+   "file": "src/site00/admin/pages/ProjectsPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes (Supabase via /api/admin/site00-production)",
+   "project_filtered": "yes (per project id) / n.a.",
+   "responsive": {
+    "mobile": "Site00AdminShell mobile",
+    "tablet": "shell",
+    "desktop": "shell"
+   },
+   "classification": "ADMIN_CONTROL",
+   "overlaps": [
+    "production HUB"
+   ],
+   "dead_end": false,
+   "notes": "Supabase projects"
+  },
+  {
+   "id": "admin-project-workspace",
+   "tab": "00/CONTROL",
+   "route": "/admin/site00/projects/:projectId/:section",
+   "component": "ProjectWorkspacePage",
+   "file": "src/site00/admin/pages/ProjectWorkspacePage.tsx",
+   "surface_type": "ROUTE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes (Supabase via /api/admin/site00-production)",
+   "project_filtered": "yes (per project id) / n.a.",
+   "responsive": {
+    "mobile": "Site00AdminShell mobile",
+    "tablet": "shell",
+    "desktop": "shell"
+   },
+   "classification": "ADMIN_CONTROL",
+   "overlaps": [
+    "production HUB"
+   ],
+   "dead_end": false,
+   "notes": "tabs overview/intelligence/studio/approvals/deliverables/access/activity; links to /studio/:slug"
+  },
+  {
+   "id": "admin-production",
+   "tab": "00/CONTROL",
+   "route": "/admin/site00/studio[/queue]",
+   "component": "StudioPage",
+   "file": "src/site00/admin/pages/StudioPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes (Supabase via /api/admin/site00-production)",
+   "project_filtered": "yes (per project id) / n.a.",
+   "responsive": {
+    "mobile": "Site00AdminShell mobile",
+    "tablet": "shell",
+    "desktop": "shell"
+   },
+   "classification": "ADMIN_CONTROL",
+   "overlaps": [
+    "production INBOX"
+   ],
+   "dead_end": false,
+   "notes": "deliverable queue (generateBrief etc.)"
+  },
+  {
+   "id": "admin-reviews",
+   "tab": "00/CONTROL",
+   "route": "/admin/site00/approvals",
+   "component": "ApprovalsPage",
+   "file": "src/site00/admin/pages/ApprovalsPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (Supabase via /api/admin/site00-production)",
+   "project_filtered": "yes (per project id) / n.a.",
+   "responsive": {
+    "mobile": "Site00AdminShell mobile",
+    "tablet": "shell",
+    "desktop": "shell"
+   },
+   "classification": "ADMIN_CONTROL",
+   "overlaps": [
+    "production INBOX"
+   ],
+   "dead_end": false,
+   "notes": "internal gate: decideApproval sets APPROVED_INTERNALLY/REVISION \u2014 never CLIENT_REVIEW"
+  },
+  {
+   "id": "admin-clients",
+   "tab": "00/CONTROL",
+   "route": "/admin/site00/identities",
+   "component": "IdentitiesPage",
+   "file": "src/site00/admin/pages/IdentitiesPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes (Supabase via /api/admin/site00-production)",
+   "project_filtered": "yes (per project id) / n.a.",
+   "responsive": {
+    "mobile": "Site00AdminShell mobile",
+    "tablet": "shell",
+    "desktop": "shell"
+   },
+   "classification": "ADMIN_CONTROL",
+   "overlaps": [
+    "production HUB"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "admin-ctrl-room",
+   "tab": "00/CONTROL",
+   "route": "/admin/site00/ctrl-room",
+   "component": "CtrlRoomPage",
+   "file": "src/site00/admin/pages/CtrlRoomPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (Supabase via /api/admin/site00-production)",
+   "project_filtered": "yes (per project id) / n.a.",
+   "responsive": {
+    "mobile": "Site00AdminShell mobile",
+    "tablet": "shell",
+    "desktop": "shell"
+   },
+   "classification": "ADMIN_CONTROL",
+   "overlaps": [
+    "production HUB"
+   ],
+   "dead_end": false,
+   "notes": "operator view of CTRL ROOM"
+  },
+  {
+   "id": "admin-activity",
+   "tab": "00/CONTROL",
+   "route": "/admin/site00/activity",
+   "component": "ActivityPage",
+   "file": "src/site00/admin/pages/ActivityPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "yes (Supabase via /api/admin/site00-production)",
+   "project_filtered": "yes (per project id) / n.a.",
+   "responsive": {
+    "mobile": "Site00AdminShell mobile",
+    "tablet": "shell",
+    "desktop": "shell"
+   },
+   "classification": "ADMIN_CONTROL",
+   "overlaps": [
+    "production ACTIVITY"
+   ],
+   "dead_end": false,
+   "notes": "Supabase activity"
+  },
+  {
+   "id": "studio-dashboard",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-input",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/input",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-operations",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/operations",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-blueprint",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/blueprint",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-assets",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/assets",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-reviews",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/reviews",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-reviews-detail",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/reviews/:reviewId",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-milestones",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/milestones",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-activity",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/activity",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-experience-compiler",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/experience-compiler",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "studio-preview-guest",
+   "tab": "STUDIO",
+   "route": "/studio/:projectSlug/preview-guest",
+   "component": "StudioWorkspaceRouterPage/StudioDashboardPage/\u2026",
+   "file": "src/site00/pages/studio/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (site00ClientProductionApi.studio \u2192 getClientStudioPayload)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "StudioShell",
+    "tablet": "StudioShell",
+    "desktop": "StudioShell"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/client/projects/:slug",
+    "/app/projects/:slug",
+    "admin project workspace"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "ctrl-overview",
+   "tab": "CTRL ROOM",
+   "route": "/control",
+   "component": "ControlOverviewPage/ControlSitesPage/ControlSectionPage",
+   "file": "src/site00/pages/control/",
+   "surface_type": "ROUTE",
+   "status": "WORKING_END_TO_END",
+   "data_real": "useCtrlRoomData",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "EcosystemShell",
+    "tablet": "EcosystemShell",
+    "desktop": "EcosystemShell"
+   },
+   "classification": "CTRL_ROOM",
+   "overlaps": [
+    "admin-ctrl-room"
+   ],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "ctrl-sites",
+   "tab": "CTRL ROOM",
+   "route": "/control/sites",
+   "component": "ControlOverviewPage/ControlSitesPage/ControlSectionPage",
+   "file": "src/site00/pages/control/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "EcosystemShell",
+    "tablet": "EcosystemShell",
+    "desktop": "EcosystemShell"
+   },
+   "classification": "CTRL_ROOM",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "ctrl-evolve-operations",
+   "tab": "CTRL ROOM",
+   "route": "/control/evolve-operations",
+   "component": "ControlOverviewPage/ControlSitesPage/ControlSectionPage",
+   "file": "src/site00/pages/control/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "EcosystemShell",
+    "tablet": "EcosystemShell",
+    "desktop": "EcosystemShell"
+   },
+   "classification": "CTRL_ROOM",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "ctrl-domains",
+   "tab": "CTRL ROOM",
+   "route": "/control/domains",
+   "component": "ControlOverviewPage/ControlSitesPage/ControlSectionPage",
+   "file": "src/site00/pages/control/",
+   "surface_type": "ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "n/a",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "EcosystemShell",
+    "tablet": "EcosystemShell",
+    "desktop": "EcosystemShell"
+   },
+   "classification": "CTRL_ROOM",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "ControlSectionPage = 'MODULES WILL APPEAR HERE' copy; settings shows operator links to /admin/site00 for admins."
+  },
+  {
+   "id": "ctrl-billing",
+   "tab": "CTRL ROOM",
+   "route": "/control/billing",
+   "component": "ControlOverviewPage/ControlSitesPage/ControlSectionPage",
+   "file": "src/site00/pages/control/",
+   "surface_type": "ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "n/a",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "EcosystemShell",
+    "tablet": "EcosystemShell",
+    "desktop": "EcosystemShell"
+   },
+   "classification": "CTRL_ROOM",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "ControlSectionPage = 'MODULES WILL APPEAR HERE' copy; settings shows operator links to /admin/site00 for admins."
+  },
+  {
+   "id": "ctrl-team",
+   "tab": "CTRL ROOM",
+   "route": "/control/team",
+   "component": "ControlOverviewPage/ControlSitesPage/ControlSectionPage",
+   "file": "src/site00/pages/control/",
+   "surface_type": "ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "n/a",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "EcosystemShell",
+    "tablet": "EcosystemShell",
+    "desktop": "EcosystemShell"
+   },
+   "classification": "CTRL_ROOM",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "ControlSectionPage = 'MODULES WILL APPEAR HERE' copy; settings shows operator links to /admin/site00 for admins."
+  },
+  {
+   "id": "ctrl-settings",
+   "tab": "CTRL ROOM",
+   "route": "/control/settings",
+   "component": "ControlOverviewPage/ControlSitesPage/ControlSectionPage",
+   "file": "src/site00/pages/control/",
+   "surface_type": "ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "n/a",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "EcosystemShell",
+    "tablet": "EcosystemShell",
+    "desktop": "EcosystemShell"
+   },
+   "classification": "CTRL_ROOM",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "ControlSectionPage = 'MODULES WILL APPEAR HERE' copy; settings shows operator links to /admin/site00 for admins."
+  },
+  {
+   "id": "ctrl-security",
+   "tab": "CTRL ROOM",
+   "route": "/control/security",
+   "component": "ControlOverviewPage/ControlSitesPage/ControlSectionPage",
+   "file": "src/site00/pages/control/",
+   "surface_type": "ROUTE",
+   "status": "PLACEHOLDER",
+   "data_real": "n/a",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "EcosystemShell",
+    "tablet": "EcosystemShell",
+    "desktop": "EcosystemShell"
+   },
+   "classification": "CTRL_ROOM",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "ControlSectionPage = 'MODULES WILL APPEAR HERE' copy; settings shows operator links to /admin/site00 for admins."
+  },
+  {
+   "id": "client-app-{compare,com",
+   "tab": "CLIENT",
+   "route": "/app/projects/:slug/reviews[/:reviewId/{compare,comments,annotations,approve,revision,history}]",
+   "component": "clientApp / clientProjectRoom pages",
+   "file": "src/site00/pages/clientApp, src/site00/pages/clientProjectRoom",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (api/site00/client-reviews.ts) but only fixture-seeded review objects (previewFixtureSeed)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/studio/:slug/reviews"
+   ],
+   "dead_end": false,
+   "notes": "Client app review queue/detail \u2014 real client-reviews API (approve/revision/decline/comment/annotate)"
+  },
+  {
+   "id": "client-client-reviewId",
+   "tab": "CLIENT",
+   "route": "/client/projects/:slug/reviews[/:reviewId]",
+   "component": "clientApp / clientProjectRoom pages",
+   "file": "src/site00/pages/clientApp, src/site00/pages/clientProjectRoom",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (api/site00/client-reviews.ts) but only fixture-seeded review objects (previewFixtureSeed)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/studio/:slug/reviews"
+   ],
+   "dead_end": false,
+   "notes": "Client Project Room reviews \u2014 same API, second UI"
+  },
+  {
+   "id": "client-app-threadId",
+   "tab": "CLIENT",
+   "route": "/app/projects/:slug/inbox[/:threadId]",
+   "component": "clientApp / clientProjectRoom pages",
+   "file": "src/site00/pages/clientApp, src/site00/pages/clientProjectRoom",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "yes (api/site00/client-reviews.ts) but only fixture-seeded review objects (previewFixtureSeed)",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "yes",
+    "tablet": "yes",
+    "desktop": "yes"
+   },
+   "classification": "STUDIO_CLIENT",
+   "overlaps": [
+    "/studio/:slug/reviews"
+   ],
+   "dead_end": false,
+   "notes": "Client inbox, not connected to production INBOX"
+  },
+  {
+   "id": "bench-design-twin",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin",
+   "component": "DesignTwinImplementationPage",
+   "file": "src/site00/pages/DesignTwinImplementationPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-v4",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-v4",
+   "component": "DesignTwinV4ProofPage",
+   "file": "src/site00/pages/DesignTwinV4ProofPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-sol-direct",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-sol-direct",
+   "component": "NdxbookSolDirectPage",
+   "file": "src/site00/pages/NdxbookSolDirectPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-testB",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-testB",
+   "component": "SolDesignBenchmarkPage",
+   "file": "src/site00/pages/SolDesignBenchmarkPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-testA",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-testA",
+   "component": "DesignTwinTestAPage",
+   "file": "src/site00/pages/DesignTwinTestAPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-grok-direct",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-grok-direct",
+   "component": "DesignTwinGrokDirectPage",
+   "file": "src/site00/pages/DesignTwinGrokDirectPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-opus-native",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/opus-native",
+   "component": "DesignOpusNativePage",
+   "file": "src/site00/pages/DesignOpusNativePage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-opus-direct",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-opus-direct (+6 children references/assets/pages/skins/history/more)",
+   "component": "DesignTwinOpusDirectRouteGate/DesignTwinWorkspaceLayout",
+   "file": "src/site00/pages/DesignTwinOpusDirectRouteGate.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [
+    "design-child-*"
+   ],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-fable-direct",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-fable-direct",
+   "component": "DesignTwinFableDirectPage",
+   "file": "src/site00/pages/DesignTwinFableDirectPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-spark-direct",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-spark-direct",
+   "component": "DesignTwinSparkDirectPage",
+   "file": "src/site00/pages/DesignTwinSparkDirectPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-twin-spark-responsive",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/twin-spark-responsive",
+   "component": "DesignTwinSparkResponsivePage",
+   "file": "src/site00/pages/DesignTwinSparkResponsivePage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "NO AUTH GUARD on route; one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-design-reconstruction-lab",
+   "tab": "BENCH",
+   "route": "/projects/:slug/design/reconstruction-lab",
+   "component": "DesignReconstructionLabPage",
+   "file": "src/site00/pages/DesignReconstructionLabPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes",
+   "responsive": {
+    "mobile": "varies",
+    "tablet": "varies",
+    "desktop": "varies"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "one-off design bench; not reachable from production nav."
+  },
+  {
+   "id": "bench-ReconstructionTwinPreviewPage",
+   "tab": "BENCH",
+   "route": "/projects/:slug/debug/reconstruction/:pageScope/:sessionId",
+   "component": "ReconstructionTwinPreviewPage",
+   "file": "src/site00/pages/ReconstructionTwinPreviewPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "debug twin routes have no auth guard"
+  },
+  {
+   "id": "bench-ConceptDirectedTwinV2PreviewPage",
+   "tab": "BENCH",
+   "route": "/projects/:slug/debug/twin-v2/:sessionId",
+   "component": "ConceptDirectedTwinV2PreviewPage",
+   "file": "src/site00/pages/ConceptDirectedTwinV2PreviewPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "debug twin routes have no auth guard"
+  },
+  {
+   "id": "bench-SystemDesignWorkspaceConceptsPage",
+   "tab": "BENCH",
+   "route": "/system/design/workspace-concepts",
+   "component": "SystemDesignWorkspaceConceptsPage",
+   "file": "src/site00/pages/SystemDesignWorkspaceConceptsPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "bench-MasterSkinExperiencePreviewPage",
+   "tab": "BENCH",
+   "route": "(masterSkinPreview)",
+   "component": "MasterSkinExperiencePreviewPage",
+   "file": "src/site00/pages/MasterSkinExperiencePreviewPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-experiment-d-concept-territory",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/experiment-d-concept-territory",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-experiment-f-six-concept-reformation",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/experiment-f-six-concept-reformation",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-experiment-g-brand-presentation-concepts",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/experiment-g-brand-presentation-concepts",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-experiment-g--directions",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/experiment-g-\u2026/directions",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-experiment-g--finalists",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/experiment-g-\u2026/finalists",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-brand-character-formation",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/brand-character-formation",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-brand-character-development",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/brand-character-development",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-experience-expression",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/experience-expression",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-experience-expression-visual-development",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/experience-expression/visual-development",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-marketing-expression-experiment-01",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/marketing-expression/experiment-01",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-experiments",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/experiments",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-lab",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/lab",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-realism-lab",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/realism-lab",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-realism-lab-brief",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/realism-lab/brief",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-realism-lab-providers",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/realism-lab/providers",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-realism-lab-runs",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/realism-lab/runs",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-realism-lab-review",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/realism-lab/review",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-realism-lab-continuity",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/realism-lab/continuity",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-realism-lab-decision",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/realism-lab/decision",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-personality-replay",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/personality-replay",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-personality-replay-consistency",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/personality-replay/consistency",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-personality-replay-:stepId",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/personality-replay/:stepId",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-canonical-creative-range",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/canonical-creative-range",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-canonical-carousel-expansion",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/canonical-carousel-expansion",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-calibrate",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/calibrate",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-creative-appetite",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/creative-appetite",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-brand-character-readiness",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/brand-character-readiness",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-brand-character-deepening",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/brand-character-deepening",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-brand-character-synthesis",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/brand-character-synthesis",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-brand-character-artifact-proofs",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/brand-character-artifact-proofs",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "exp-inspect-icons",
+   "tab": "EXPERIMENT",
+   "route": "/projects/:slug/inspect/icons",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed (mostly ndxbook)",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "EXPERIMENT_BENCH",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": ""
+  },
+  {
+   "id": "legacy-content-operations",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-operations",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "expression-root"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-content-operations-performance",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-operations/performance",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-content-operations-campaign-board",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-operations/campaign-board",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "expression-campaign-board"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-content-operations-campaign-board-entry-n",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-operations/campaign-board/entry/:n (+preview/format/deliverable/carousel/story = 6 routes)",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "expression-content-package"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-content-operations-expression-engine",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-operations/expression-engine",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "expression-root"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-content-operations-founder-creative-ingest",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-operations/founder-creative-ingest",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-content-operations-film-production",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-operations/film-production (+dailies, scene-deck)",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "expression-storyboard"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-content-operations-daily-plan",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-operations/daily-plan",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-cultural-intelligence",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/cultural-intelligence (+sources, weekly-forecast)",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-motion-character",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/motion-character",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "expression-character-fabrication"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-embodied-character",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/embodied-character",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "expression-character-fabrication"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-character-discovery|casting|continuity|continuity-review",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/character/discovery|casting|continuity|continuity/review",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "expression-casting"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-content-library",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/content-library",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "library-root"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-archive",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/archive",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-notifications",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/notifications",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "inbox-root"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-creative-direction",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/creative-direction / campaign-flavor / campaign-director (+/evolve aliases)",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy-product-assets",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/product-assets",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "design-child-assets"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy--projects-slug-{overview,production,reviews,library,more}",
+   "tab": "LEGACY",
+   "route": "/projects/:slug/{overview,production,reviews,library,more} (ProjectOperatingModulePage)",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "hub-root/inbox/library"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "legacy--projects-design,",
+   "tab": "LEGACY",
+   "route": "/projects/design, /projects/design/:slug/*, /projects/:slug/design/*",
+   "component": "Project*Page",
+   "file": "src/site00/pages/",
+   "surface_type": "ROUTE",
+   "status": "PARTIAL",
+   "data_real": "mixed",
+   "project_filtered": "yes (slug)",
+   "responsive": {
+    "mobile": "?",
+    "tablet": "?",
+    "desktop": "?"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "design-root (redirects)"
+   ],
+   "dead_end": false,
+   "notes": "Pre-production founder workspace; superseded or duplicated by /production tab."
+  },
+  {
+   "id": "orphan-DesignProjectsDesignHubPage",
+   "tab": "LEGACY",
+   "route": "(unrouted)",
+   "component": "DesignProjectsDesignHubPage",
+   "file": "src/site00/pages/DesignProjectsDesignHubPage.tsx",
+   "surface_type": "ROUTE",
+   "status": "DATA_ONLY",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "shell-project-selector"
+   ],
+   "dead_end": true,
+   "notes": "Not imported by any route."
+  },
+  {
+   "id": "orphan-ProjectAstralWorldExperiencePage",
+   "tab": "LEGACY",
+   "route": "(unrouted)",
+   "component": "ProjectAstralWorldExperiencePage",
+   "file": "src/site00/pages/ProjectAstralWorldExperiencePage.tsx",
+   "surface_type": "ROUTE",
+   "status": "DATA_ONLY",
+   "data_real": "n/a",
+   "project_filtered": "n/a",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "LEGACY",
+   "overlaps": [],
+   "dead_end": true,
+   "notes": "Not imported by any route."
+  },
+  {
+   "id": "dead-PwFrame-NAV_PRODUCTION",
+   "tab": "SHELL",
+   "route": "-",
+   "component": "NAV_PRODUCTION const",
+   "file": "src/site00/components/production/PwFrame.tsx",
+   "surface_type": "INLINE_EXPANSION",
+   "status": "DATA_ONLY",
+   "data_real": "n/a",
+   "project_filtered": "no",
+   "responsive": {
+    "mobile": "-",
+    "tablet": "-",
+    "desktop": "-"
+   },
+   "classification": "LEGACY",
+   "overlaps": [
+    "shell-nav"
+   ],
+   "dead_end": true,
+   "notes": "Production variant returns early with ProductionWorkspaceNav; constant never rendered."
+  }
+ ]
+}

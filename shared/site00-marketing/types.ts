@@ -1,5 +1,7 @@
 /** SITE 00 EVOLVE / Marketing & Content — shared domain types. */
 
+import type { ClientAllowanceSummary } from '../site00-marketing-commercial/types.js';
+
 export type MarketingServiceCategory =
   | 'social-content'
   | 'campaign'
@@ -47,6 +49,9 @@ export type MarketingAssetCategory =
   | 'other';
 
 export type MarketingIntakeRecord = {
+  /** true when agency produces for their end client */
+  campaignForEndClient?: boolean;
+  endClientBrandName?: string;
   businessName?: string;
   existingProjectId?: string;
   existingProjectSlug?: string;
@@ -152,4 +157,6 @@ export type MarketingEngagementPayload = MarketingEngagementRecord & {
   vaultLinks?: MarketingVaultLink[];
   campaignHistory: Array<{ code: string; name: string; status: MarketingEngagementStatus }>;
   reusedIdentity?: { name: string; source: string } | null;
+  commercialAllowance?: ClientAllowanceSummary | null;
+  commercialLinked?: boolean;
 };

@@ -3,17 +3,14 @@
  * the server may still have an HttpOnly cookie. We call GET /api/session-restore with
  * credentials: 'include' to get a new session and rehydrate the client.
  */
+import { site00ClientApiUrl } from '../../shared/site00-studio-world-production/site00ClientApiBase.js';
 import { persistAuthBackup, onSignInSuccess } from './adminAuth';
 import { buildMinimalUserFromSupabaseSession, applyMinimalUserToStorage } from './syncFromApi';
 
 const SUPABASE_URL = (import.meta as unknown as { env?: { VITE_SUPABASE_URL?: string } }).env?.VITE_SUPABASE_URL ?? '';
-const API_BASE =
-  (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? '';
 
 function apiUrl(path: string): string {
-  const base = API_BASE.replace(/\/$/, '');
-  const normalized = path.startsWith('/') ? path : `/${path}`;
-  return base ? `${base}${normalized}` : normalized;
+  return site00ClientApiUrl(path);
 }
 
 function getSupabaseStorageKey(): string | null {
@@ -58,7 +55,7 @@ export async function tryServerSessionRestore(): Promise<boolean> {
   const url = apiUrl('/api/session-restore');
   let res: Response;
   try {
-    res = await fetch(url, { method: 'GET', credentials: 'include' });
+    res = await fetch(url, { method: 'GET', credentials: 'include', signal: AbortSignal.timeout(8_000) });
   } catch {
     return false;
   }
@@ -140,6 +137,7 @@ export async function registerServerSessionCookie(accessToken: string, refreshTo
       method: 'POST',
       credentials: 'include',
       keepalive: true,
+      signal: AbortSignal.timeout(8_000),
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
       body: JSON.stringify({ refresh_token: refreshToken }),
     });

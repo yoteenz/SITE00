@@ -60,6 +60,28 @@ export default function MarketingEngagementPage() {
             ))}
           </nav>
 
+          {data.commercialAllowance ? (
+            <section className="site00-marketing-workspace__inventory" aria-label="Creative inventory allowances">
+              <p className="site00-label-red">{data.commercialAllowance.headline}</p>
+              <ul className="site00-marketing-inventory-list">
+                <li>
+                  {data.commercialAllowance.characters.label}: {data.commercialAllowance.characters.used} of{' '}
+                  {data.commercialAllowance.characters.included} used
+                </li>
+                <li>
+                  {data.commercialAllowance.characterReskins.label}: {data.commercialAllowance.characterReskins.remaining}{' '}
+                  remaining
+                </li>
+                <li>
+                  {data.commercialAllowance.customSets.label}: {data.commercialAllowance.customSets.remaining} remaining
+                </li>
+              </ul>
+              {data.commercialAllowance.extraCharacterAddOnAvailable ? (
+                <p className="site00-body">Extra Character — add-on available (FOUNDER_PRICING_REQUIRED)</p>
+              ) : null}
+            </section>
+          ) : null}
+
           <section className="site00-marketing-workspace__progress">
             <p className="site00-label-red">CURRENT PHASE</p>
             <p>{marketingPhaseLabel(data.clientPhase)}</p>

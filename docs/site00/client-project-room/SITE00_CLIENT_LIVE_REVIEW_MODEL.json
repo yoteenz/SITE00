@@ -1,0 +1,85 @@
+{
+ "artifact": "SITE00_CLIENT_LIVE_REVIEW_MODEL",
+ "follow_up": "P0.SITE00.CLIENT-PROJECT-ROOM-LIVE-VIEWPORT-WORKING-TREE-REVIEW1",
+ "applies_to": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "ia_integration": {
+  "sixth_tab": "NO. SITE and TREE live inside existing tabs.",
+  "PROJECT": "Journey + WORKING TREE. Tree has its own deep-linkable child route /app/:slug/project/tree (?node=<id>) because it is a full-screen place and the target of VIEW IN TREE.",
+  "REVIEWS": "Family review gains a DESIGN | LIVE segmented control. LIVE becomes the primary authority once the family reached live implementation.",
+  "LIVE VIEWER": "Full-screen client viewport overlay route /app/:slug/live/:nodeId (deep link from tree, review, notification). Not a tab.",
+  "FINAL REVIEW": "A review of kind FINAL at /app/:slug/reviews/:reviewId with segments SITE \u00b7 TREE \u00b7 SUMMARY; surfaced on HOME as NEEDS YOU when ready.",
+  "why": "Keeps the locked 5-tab nav; matches the starting hypothesis; tree is understanding (PROJECT), live is judging (REVIEWS).",
+  "routes_added": [
+   "/app/:slug/project/tree",
+   "/app/:slug/live/:nodeId"
+  ]
+ },
+ "two_review_modes": {
+  "SITE": "live working product review inside client viewports",
+  "TREE": "connected product architecture review",
+  "rule": "Same review object, same approval events \u2014 modes are views, not separate reviews."
+ },
+ "when_live_applies": "A family whose implementation_status \u2265 IMPLEMENTED on the review build. Before that, DESIGN (authority) is the only mode. Never substitute a screenshot/mockup for a live implementation that exists.",
+ "family_live_review_screen": [
+  "FAMILY NAME",
+  "FAMILY PURPOSE",
+  "APPROVAL STATUS",
+  "DESIGN | LIVE control",
+  "LIVE VIEWPORT (primary once live)",
+  "KEY REVIEW NOTES (founder-written: what to try)",
+  "\u2665 APPROVE",
+  "\u00d7 NEEDS REVISION",
+  "VIEW IN TREE"
+ ],
+ "design_vs_live": {
+  "DESIGN": "what was approved as the visual target (authority)",
+  "LIVE": "what was implemented",
+  "client_explanation": "One line: \"DESIGN SHOWS THE APPROVED TARGET. LIVE IS THE WORKING PRODUCT BUILT FROM IT.\"",
+  "hidden_by_default": [
+   "pixel diff",
+   "overlay/onion skin",
+   "golden-diff capture",
+   "QA scores",
+   "bounds measurement"
+  ]
+ },
+ "live_interaction_allowed": [
+  "click",
+  "tap",
+  "navigate",
+  "open drawers",
+  "open modals",
+  "complete approved demo flows",
+  "move between connected pages",
+  "switch viewport to verify responsive behaviour"
+ ],
+ "review_scenarios": "Optional founder-curated starting points per family (e.g. \"NEW USER\", \"RETURNING USER WITH DATA\"); each is a seeded demo dataset + entry route. RESTART FLOW resets the scenario.",
+ "data_safety": {
+  "allowed_data": [
+   "SAFE_PREVIEW (fixtures)",
+   "PROJECT_DEMO (seeded per project)",
+   "AUTHORIZED_PROJECT (only with founder + client consent)"
+  ],
+  "never": [
+   "other clients' data",
+   "internal test users",
+   "production secrets",
+   "admin data"
+  ],
+  "isolation": "Serve the reviewed project from a separate review origin or a sandboxed iframe WITHOUT allow-same-origin. Today project runtimes (JURNL) mount same-origin under /production/:slug/runtime/* and can read host localStorage (auth backup, Supabase session) \u2014 acceptable for founder preview, NOT for client live review.",
+  "writes": "Live review builds run against a demo backend or with writes disabled; no real emails, payments or provider calls."
+ },
+ "approval_binding": "Approval records which mode(s) the client opened (design_viewed, live_viewed, viewports_viewed) \u2014 evidence for the final review, never a requirement to approve.",
+ "reuse": [
+  "DesignChamber VIEWPORT live iframe (WORKING_END_TO_END today) \u2014 the only live-preview mechanism in the repo",
+  "src/site00/components/productionAuthority/viewportTargets.ts (preset sizes)",
+  "ProjectRuntimeRoute (/production/:slug/runtime/*) for mounting project runtimes"
+ ],
+ "founder_controls": [
+  "mark family LIVE-REVIEWABLE (choose review build + scenario)",
+  "write key review notes",
+  "choose which viewports are offered"
+ ]
+}

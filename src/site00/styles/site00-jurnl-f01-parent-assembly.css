@@ -1,0 +1,93 @@
+.jurnl-f01-stage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #1c1916;
+}
+
+.jurnl-f01-artboard {
+  position: relative;
+  width: min(100vw, 393px);
+  height: min(100vh, 852px);
+  overflow: hidden;
+  background: #efe6d8;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.jurnl-f01-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.jurnl-f01-logo {
+  position: absolute;
+  left: 8%;
+  top: 4%;
+  width: 16%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.jurnl-f01-copy {
+  position: absolute;
+  left: 8%;
+  top: 16%;
+  width: 54%;
+  color: #1a1612;
+  z-index: 2;
+}
+
+.jurnl-f01-copy h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 0.92;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.jurnl-f01-copy p {
+  margin: 16px 0 0;
+  font-family: "Arial Narrow", "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.jurnl-f01-actions {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 6%;
+  z-index: 3;
+  display: grid;
+  gap: 10px;
+}
+
+.jurnl-f01-btn {
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-family: "Arial Narrow", "Helvetica Neue", sans-serif;
+  letter-spacing: 0.16em;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.jurnl-f01-btn-primary {
+  background: #0f3d36;
+  color: #f7f3ea;
+}
+
+.jurnl-f01-btn-secondary {
+  background: #f4efe6;
+  color: #1a1612;
+  border-color: #d9d0c3;
+}

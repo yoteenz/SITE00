@@ -4,6 +4,7 @@ import { isSite00PublicDesktopPath, site00PublicMobilePath } from '../config/sit
 import { isSite00OriginDesktopPath, SITE00_ROUTES } from '../config/routes';
 import {
   defaultPreviewDeviceModeForViewport,
+  isSite00LayoutPreviewSwitchEnabled,
   readStoredPreviewDeviceMode,
   writeStoredPreviewDeviceMode,
   type Site00PreviewDeviceMode,
@@ -36,6 +37,9 @@ function resolveInitialPreviewMode(pathname: string): Site00PreviewDeviceMode {
   ) {
     return 'desktop';
   }
+  if (!isSite00LayoutPreviewSwitchEnabled()) {
+    return defaultPreviewDeviceModeForViewport();
+  }
   const stored = readStoredPreviewDeviceMode();
   if (stored) return stored;
   return defaultPreviewDeviceModeForViewport();
@@ -62,6 +66,7 @@ export function Site00Provider({ children }: { children: ReactNode }) {
   }, [pathname, search]);
 
   useEffect(() => {
+    if (!isSite00LayoutPreviewSwitchEnabled()) return;
     writeStoredPreviewDeviceMode(state.previewDeviceMode);
   }, [state.previewDeviceMode]);
 

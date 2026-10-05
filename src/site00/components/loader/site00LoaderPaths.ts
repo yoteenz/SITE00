@@ -29,6 +29,7 @@ const SITE00_PUBLIC_SKIP_LOADER_PATHS = [
   SITE00_ROUTES.bldr,
   SITE00_ROUTES.bldrTemplates,
   SITE00_ROUTES.bldrStart,
+  SITE00_ROUTES.evolve,
 ] as const;
 
 /** Designated desktop artboard routes — skip mobile loader; force desktop composition. */

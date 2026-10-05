@@ -117,6 +117,26 @@ export function BrandIntelligencePanel({ profile, rawLoreAnswers, onConfirmField
         <FieldRow label="MYTHOLOGY" field={profile.desiredMythology} onConfirm={() => onConfirmField?.('desiredMythology')} confirming={confirmingField === 'desiredMythology'} />
         <FieldRow label="ANTI-DIRECTION" field={profile.creativeAntiPatterns} onConfirm={() => onConfirmField?.('creativeAntiPatterns')} confirming={confirmingField === 'creativeAntiPatterns'} />
       </dl>
+      {profile.brandPersonality ? (
+        <>
+          <h3 className="site00-admin-brand-lore__section-title">PERSONALITY</h3>
+          <dl className="site00-admin-dl site00-admin-brand-lore__sections">
+            <FieldRow label="SOCIAL INSTINCT" field={profile.brandPersonality.socialInstinct} />
+            <FieldRow label="CONFIDENCE" field={profile.brandPersonality.confidenceBehavior} />
+            <FieldRow label="HUMOR / WIT" field={profile.brandPersonality.witBehavior} />
+            <FieldRow label="EDGE" field={profile.brandPersonality.edgeBehavior} />
+            <FieldRow label="HUMANITY" field={profile.brandPersonality.humanityBehavior} />
+            <FieldRow label="DISAGREEMENT" field={profile.brandPersonality.disagreementBehavior} />
+            <FieldRow label="OBSERVATION" field={profile.brandPersonality.observationalBehavior} />
+            <FieldRow label="MEMORABILITY" field={profile.brandPersonality.memorabilityBehavior} />
+            <FieldRow label="RESTRAINT" field={profile.brandPersonality.restraintBehavior} />
+            <FieldRow label="ANTI-PERSONALITY" field={profile.brandPersonality.antiPersonality} />
+          </dl>
+          <p className="site00-admin-brand-lore__readiness">
+            PERSONALITY READINESS: {profile.brandPersonality.personalityReadinessState.replace(/_/g, ' ')}
+          </p>
+        </>
+      ) : null}
       <ReferenceEvidenceSection profile={profile} />
       <p className="site00-admin-brand-lore__readiness">
         READINESS: {profile.readinessState.replace(/_/g, ' ')}

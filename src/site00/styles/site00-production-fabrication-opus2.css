@@ -1,0 +1,24 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2 — Character Fabrication on tablet / desktop hosts.
+ * The fabrication canvas is its own authority composition (432-wide, zoomed to fit), so on wide hosts the
+ * area beside it becomes the authority film stage instead of a flat grey field. Interior only: the host
+ * chrome strips are never selected or scaled here.
+ */
+@media (min-width: 700px) {
+  .cf-shell[data-family='tablet'],
+  .cf-shell[data-family='desktop'] {
+    background: #eef0f3;
+  }
+  .cf-shell[data-family='tablet'] .cf-stage,
+  .cf-shell[data-family='desktop'] .cf-stage {
+    background:
+      linear-gradient(90deg, rgba(244, 245, 247, 0.55), rgba(244, 245, 247, 0.9) 30%, rgba(244, 245, 247, 0.9) 70%, rgba(244, 245, 247, 0.55)),
+      url('/site00/production-authority-assets/production-expression-stage-hero-v1.jpg') center 40% / cover no-repeat;
+  }
+  .cf-shell[data-family='tablet'] .cf-stage > .ph.cf,
+  .cf-shell[data-family='desktop'] .cf-stage > .ph.cf {
+    box-shadow:
+      0 0 0 1px rgba(17, 17, 20, 0.06),
+      0 40px 90px -50px rgba(17, 17, 20, 0.55);
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "sprint": "P0.JURNL.F01-PARENT-ASSET-HARVEST-PROOF1",
+  "completedAt": "2026-10-04T23:15:51.966057+00:00",
+  "parentFile": "PARENT/F01.00_PARENT_TEST.png",
+  "openArtHistoryId": "z6y0GkA8kNuu8Egnk22P",
+  "openArtParentUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791155607252_1dd555c4.png",
+  "testVerdict": "FAIL",
+  "testVerdictNotes": "50% success (<80% threshold). Fresh parent immediate harvest does not fix material/object/botanical contamination vs exported parent pipeline.",
+  "newParentGenerations": 1,
+  "childGenerations": 0,
+  "stateGenerations": 0,
+  "assetGenerations": 0,
+  "totalPaidGenerations": 1,
+  "parentCreditCostEstimate": 170,
+  "assetsAttempted": 14,
+  "assetsCleanlyIsolated": 7,
+  "assetsFailed": 7,
+  "successRatePercent": 50.0,
+  "screenshotCropContaminationFound": true,
+  "transparentObjectExtractionSuccessful": false,
+  "materialExtractionSuccessful": false,
+  "architecturalExtractionSuccessful": true,
+  "methodPassesForFutureFamilies": false,
+  "recommendedNextMethodIfFail": "ASSET-FIRST GENERATION PIPELINE",
+  "family01RepairWithoutRegeneratingChildren": false,
+  "assets": [
+    {
+      "assetId": "ENTRY.ARCH.ARCHWAY.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "arch_scenic",
+      "transparent": "NO",
+      "contamination": "NO",
+      "usable": "YES",
+      "status": "EXTRACTION_OK",
+      "file": "ISOLATED/ENTRY.ARCH.ARCHWAY.001.png"
+    },
+    {
+      "assetId": "ENTRY.ARCH.COAST.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "arch_scenic",
+      "transparent": "NO",
+      "contamination": "NO",
+      "usable": "YES",
+      "status": "EXTRACTION_OK",
+      "file": "ISOLATED/ENTRY.ARCH.COAST.001.png"
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.PLASTER.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "material_texture",
+      "transparent": "NO",
+      "contamination": "YES",
+      "usable": "NO",
+      "status": "EXTRACTION_FAILED",
+      "file": null
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.TRAVERTINE.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "material_texture",
+      "transparent": "NO",
+      "contamination": "YES",
+      "usable": "NO",
+      "status": "EXTRACTION_FAILED",
+      "file": null
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.TEXTILE.ROSE.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "material_texture",
+      "transparent": "NO",
+      "contamination": "NO",
+      "usable": "YES",
+      "status": "EXTRACTION_OK",
+      "file": "ISOLATED/ENTRY.MATERIAL.TEXTILE.ROSE.001.png"
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.CURTAIN.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "material_texture",
+      "transparent": "NO",
+      "contamination": "NO",
+      "usable": "YES",
+      "status": "EXTRACTION_OK",
+      "file": "ISOLATED/ENTRY.MATERIAL.CURTAIN.001.png"
+    },
+    {
+      "assetId": "ENTRY.PAPER.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "material_texture",
+      "transparent": "NO",
+      "contamination": "YES",
+      "usable": "NO",
+      "status": "EXTRACTION_FAILED",
+      "file": null
+    },
+    {
+      "assetId": "ENTRY.OBJECT.BUST.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "object",
+      "transparent": "YES",
+      "contamination": "NO",
+      "usable": "YES",
+      "status": "EXTRACTION_OK",
+      "file": "ISOLATED/ENTRY.OBJECT.BUST.001.png"
+    },
+    {
+      "assetId": "ENTRY.OBJECT.BOWL.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "object",
+      "transparent": "YES",
+      "contamination": "NO",
+      "usable": "YES",
+      "status": "EXTRACTION_OK",
+      "file": "ISOLATED/ENTRY.OBJECT.BOWL.001.png"
+    },
+    {
+      "assetId": "ENTRY.OBJECT.BOOKS.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "object",
+      "transparent": "YES",
+      "contamination": "YES",
+      "usable": "NO",
+      "status": "EXTRACTION_FAILED",
+      "file": null
+    },
+    {
+      "assetId": "ENTRY.OBJECT.JURNLBOOK.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "object",
+      "transparent": "YES",
+      "contamination": "NO",
+      "usable": "NO",
+      "status": "EXTRACTION_FAILED",
+      "file": null
+    },
+    {
+      "assetId": "ENTRY.BOTANICAL.FOREGROUND.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "botanical",
+      "transparent": "YES",
+      "contamination": "YES",
+      "usable": "NO",
+      "status": "EXTRACTION_FAILED",
+      "file": null
+    },
+    {
+      "assetId": "ENTRY.BOTANICAL.ACCENT.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "botanical",
+      "transparent": "YES",
+      "contamination": "NO",
+      "usable": "YES",
+      "status": "EXTRACTION_OK",
+      "file": "ISOLATED/ENTRY.BOTANICAL.ACCENT.001.png"
+    },
+    {
+      "assetId": "ENTRY.LIGHT.SUN.001",
+      "source": "F01.00_PARENT_TEST.png (immediate OpenArt output)",
+      "outputType": "light_overlay",
+      "transparent": "YES",
+      "contamination": "YES",
+      "usable": "NO",
+      "status": "EXTRACTION_FAILED",
+      "file": null
+    }
+  ]
+}

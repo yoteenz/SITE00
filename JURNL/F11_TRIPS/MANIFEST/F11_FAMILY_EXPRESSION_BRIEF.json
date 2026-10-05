@@ -1,0 +1,55 @@
+{
+  "family_id": "F11",
+  "family_name": "TRIPS",
+  "product_job": "Model a life event with money attached.",
+  "user_question_answered": "Can I take this trip, how do I fund it, and what does it do to the rest of my life?",
+  "primary_signal": "An unnamed trip.",
+  "emotional_role": "Destination and anticipation.",
+  "spatial_metaphor": "A terrace turned toward the coast.",
+  "architectural_character": "A pale stone wall on the left. One linen chair and the coast on the right.",
+  "lighting_character": "Late coastal light.",
+  "material_emphasis": "Stone and linen.",
+  "environmental_focal_point": "The chair and the coast.",
+  "object_language": "One chair. No suitcase.",
+  "botanical_role": "None in the rail.",
+  "negative_space_strategy": "The left is a stone wall.",
+  "composition_bias": "Left question, destination on the right.",
+  "information_density": "Destination and funding, both unset.",
+  "panel_behavior": "An editorial pair, not a booking card.",
+  "button_behavior": "Funding stays closed.",
+  "data_visualization_character": "A destination pair.",
+  "interaction_character": "The event is the parent. Funding stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "The trip name leads, even when unnamed.",
+  "relationship_to_previous_family": "A purchase is an object. A trip is a life event.",
+  "relationship_to_next_family": "Credit is structure, not escape.",
+  "relationship_to_other_families": "Not a travel app.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Terrace",
+    "One chair",
+    "Coast"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "A booking desk",
+    "The view cutting the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

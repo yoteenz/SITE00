@@ -1,0 +1,23 @@
+{
+  "authority_id": "F03.00_TODAY_AUTHORITY_FIRST",
+  "authority_type": "FULL_PAGE",
+  "family_id": "F03",
+  "reference_id": "F03.00_LIVE_STRUCTURE",
+  "reference_attached": true,
+  "generation_mode": "REFERENCE_GUIDED",
+  "generation_id": "7JmBzC1obUKZpdQwo74U",
+  "environment_plate_id": "TODAY.ENVIRONMENT.DAY.001",
+  "environment_plate_origin": "DERIVED_FROM_AUTHORITY",
+  "plate_authority_id": "F03.00_TODAY_AUTHORITY_FIRST",
+  "plate_derivation_mode": "REFERENCE_GUIDED_UI_REMOVAL",
+  "plate_derivation_id": "hMZcwTLKAN0bU9xXlYmZ",
+  "plate_ui_interference_status": "PASS",
+  "occupancy_map_id": "JURNL/F03_TODAY/MANIFEST/F03_PLATE_OCCUPANCY.json",
+  "responsive_variants": {
+    "mobile_393x852": "CROP_LEFT",
+    "tablet_834x1194": "CROP_SAME_SOURCE",
+    "desktop_1440x900": "CROP_SAME_SOURCE"
+  },
+  "founder_status": "UNREVIEWED",
+  "child_production": "BLOCKED"
+}

@@ -2,6 +2,7 @@
 
 import { isAdminEmail, FOUNDER_PRIVILEGED_ADMIN_EMAIL } from '../adminAuth.js';
 import { isFounderProjectSlug } from '../site00Projects/projectRegistry.js';
+import { isClientRegisteredProjectSlug } from '../site00Projects/clientProjectResolver.js';
 import { clientOwnsProject } from '../site00Production/clientStudio.js';
 import type { Site00ExperienceContext, Site00PlatformRole } from '../../../shared/site00-access/types.js';
 
@@ -22,7 +23,7 @@ export function canAccessFounderProjectIndex(email: string | null | undefined): 
 
 /** Client-facing project owner access for founder org slugs */
 export function canAccessFounderProjectAsOwner(email: string | null | undefined, slug: string): boolean {
-  if (!isFounderProjectSlug(slug)) return false;
+  if (!isFounderProjectSlug(slug) && !isClientRegisteredProjectSlug(slug)) return false;
   return canAccessFounderProjectIndex(email);
 }
 
