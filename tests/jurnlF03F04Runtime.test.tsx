@@ -118,11 +118,20 @@ describe('F03 and F04 live routes', () => {
     expect(filter).toContain('DIRECTION');
   });
 
-  it('keeps money, plan, and credit as boundaries', () => {
-    expect(renderRuntime('money')).toContain('data-jrn-screen="F05.BOUNDARY"');
-    expect(renderRuntime('money')).toContain('NOT OPEN YET');
-    expect(renderRuntime('plan')).toContain('data-jrn-screen="F08.BOUNDARY"');
-    expect(renderRuntime('credit')).toContain('data-jrn-screen="F12.BOUNDARY"');
+  it('mounts money, plan, and credit as parent reviews', () => {
+    const money = renderRuntime('money');
+    expect(money).toContain('data-jrn-screen="F05.00"');
+    expect(money).toContain('data-asset-id="MONEY.ENVIRONMENT.CABINET.001"');
+    expect(money).toContain('NOT OPEN YET');
+    expect(money).toContain('data-future-target="F05.ACCOUNTS"');
+    expect(money).toContain('PREVIEW COMPOSITION');
+    expect(renderRuntime('plan')).toContain('data-jrn-screen="F08.00"');
+    expect(renderRuntime('credit')).toContain('data-jrn-screen="F12.00"');
+    const board = renderRuntime('parents');
+    expect(board).toContain('data-jrn-screen="F05_F16.BOARD"');
+    expect(board).toContain('data-founder-status="UNREVIEWED"');
+    expect(board).not.toContain('data-founder-status="LOVE_IT"');
+    expect(visibleText(money).match(/[a-z]/g)).toBeNull();
   });
 
   it('makes quick add selection real and shows the currency mark', () => {

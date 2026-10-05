@@ -83,6 +83,10 @@ export function validateGenerationReferenceBinding(
     return block({ ...base, blockedReason: 'SUPERSEDED_REFERENCE_WHEN_CANONICAL_EXISTS' });
   }
 
+  if (classified.projectId.toUpperCase() === 'JURNL' && classified.generationMode === 'TEXT_TO_IMAGE_NET_NEW') {
+    return block({ ...base, referenceRequired: true, blockedReason: 'INVALID_GENERATION_MODE' });
+  }
+
   if (referenceRequired && !resolved) {
     return block({ ...base, blockedReason: 'REFERENCE_MISSING' });
   }

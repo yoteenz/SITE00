@@ -107,8 +107,18 @@ export function resolveJurnlRoute(target: string): string {
   if (target === 'F03') return 'today';
   if (target === 'F04') return 'activity';
   if (target === 'F05') return 'money';
+  if (target === 'F06') return 'income';
+  if (target === 'F07') return 'upcoming';
   if (target === 'F08') return 'plan';
+  if (target === 'F09') return 'safe';
+  if (target === 'F10') return 'purchases';
+  if (target === 'F11') return 'trips';
   if (target === 'F12') return 'credit';
+  if (target === 'F13') return 'paydown';
+  if (target === 'F14') return 'goals';
+  if (target === 'F15') return 'ahead';
+  if (target === 'F16') return 'records';
+  if (target === 'parents') return 'parents';
   return F01_SCREENS.find((s) => s.id === target)?.route ?? F02_SCREENS.find((s) => s.id === target)?.route ?? target.replace(/^\/+/, '');
 }
 
@@ -211,8 +221,22 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   useEffect(() => {
     const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
     const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel) ?? f03ScreenForRoute(rel) ?? f04ScreenForRoute(rel);
-    const boundaryId = rel === 'money' ? 'F05.BOUNDARY' : rel === 'plan' ? 'F08.BOUNDARY' : rel === 'credit' ? 'F12.BOUNDARY' : null;
-    postToHost({ type: 'route', screenId: screen?.id ?? boundaryId, path: rel });
+    const parentId =
+      rel === 'parents' ? 'F05_F16.BOARD'
+      : rel === 'money' ? 'F05.00'
+      : rel === 'income' ? 'F06.00'
+      : rel === 'upcoming' ? 'F07.00'
+      : rel === 'plan' ? 'F08.00'
+      : rel === 'safe' ? 'F09.00'
+      : rel === 'purchases' ? 'F10.00'
+      : rel === 'trips' ? 'F11.00'
+      : rel === 'credit' ? 'F12.00'
+      : rel === 'paydown' ? 'F13.00'
+      : rel === 'goals' ? 'F14.00'
+      : rel === 'ahead' ? 'F15.00'
+      : rel === 'records' ? 'F16.00'
+      : null;
+    postToHost({ type: 'route', screenId: screen?.id ?? parentId, path: rel });
     if (rel === F01_FAMILY_BOUNDARY.route) postToHost({ type: 'family-boundary', from: F01_FAMILY_BOUNDARY.from, to: F01_FAMILY_BOUNDARY.to });
     if (rel === 'today' && prevRel.current === 'setup/ready') postToHost({ type: 'family-boundary', from: 'F02', to: 'F03' });
     prevRel.current = rel;

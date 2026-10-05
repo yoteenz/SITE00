@@ -10,7 +10,7 @@ const ITEMS = [
   { id: 'CREDIT', target: 'F12', icon: 'document' as const },
 ];
 
-export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY'; onGo: (target: string) => void; onAdd: () => void }) {
+export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY' | null; onGo: (target: string) => void; onAdd: () => void }) {
   return (
     <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav">
       {ITEMS.map((item) => {
