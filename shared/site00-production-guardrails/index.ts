@@ -6,6 +6,10 @@ export * from './projectReferenceRegistry.js';
 export * from './referenceResolver.js';
 export * from './validateGenerationReferenceBinding.js';
 export * from './precheckGenerationDispatch.js';
+export * from './authorityFirstPlate.js';
+export * from './providerGateway/runProductionProviderRequest.js';
+export * from './providerGateway/spendAuthorization.js';
+export * from './providerGateway/costReceipt.js';
 export * from './sidekickReferenceBinding.js';
 export * from './workspaceStatusLabels.js';
 export * from './ledgerMetrics.js';
@@ -14,7 +18,6 @@ export * from './familyEnvironmentDistinctness.js';
 export * from './familyExpressionBrief.js';
 export * from './hierarchicalExpression.js';
 export * from './plateOccupancy.js';
-export * from './authorityFirstPlate.js';
 
 export const REFERENCE_BINDING_POLICY_PATH = 'docs/production/reference-binding/REFERENCE_BINDING_POLICY.json';
 export const GENERATION_PRECHECK_CONTRACT_PATH = 'docs/production/reference-binding/GENERATION_PRECHECK_CONTRACT.json';

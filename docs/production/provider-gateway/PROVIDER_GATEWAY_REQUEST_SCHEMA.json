@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProductionProviderGatewayRequest",
+  "type": "object",
+  "required": [
+    "requestId",
+    "visualId",
+    "projectId",
+    "familyId",
+    "generationClass",
+    "generationIntent",
+    "generationMode",
+    "provider",
+    "model"
+  ],
+  "properties": {
+    "requestId": { "type": "string" },
+    "projectId": { "type": "string" },
+    "familyId": { "type": "string" },
+    "visualId": { "type": "string" },
+    "generationClass": { "type": "string" },
+    "generationIntent": { "type": "string" },
+    "generationMode": { "type": "string", "enum": ["REFERENCE_GUIDED", "TEXT_TO_IMAGE_NET_NEW"] },
+    "provider": { "type": "string" },
+    "model": { "type": "string" },
+    "providerProjectId": { "type": ["string", "null"] },
+    "referenceAuthorityIdHint": { "type": ["string", "null"] },
+    "referenceInputAttached": { "type": "boolean" },
+    "spendAuthorizationId": { "type": ["string", "null"] },
+    "founderConfirmedSpend": {
+      "type": "boolean",
+      "description": "Legacy UI flag — NOT sufficient alone; must pair with server spendAuthorizationId"
+    },
+    "estimatedCostCredits": { "type": ["number", "null"] },
+    "paidGeneration": { "type": "boolean", "default": true },
+    "uiOccupancy": {
+      "type": "object",
+      "properties": {
+        "primary_ui_zone": { "type": "string" },
+        "secondary_ui_zone": { "type": "string" },
+        "environment_focal_zone": { "type": "string" },
+        "protected_negative_space": { "type": "string" },
+        "occlusion_allowed_zone": { "type": "string" },
+        "drawer_overlay_zone": { "type": "string" },
+        "text_density_zone": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "lineageParent": { "type": ["string", "null"] },
+    "purpose": { "type": "string" },
+    "requestedBy": { "type": "string" }
+  },
+  "additionalProperties": true
+}

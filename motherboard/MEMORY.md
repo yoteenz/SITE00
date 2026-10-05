@@ -13915,3 +13915,13 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Decisions / outcomes:** Text-to-image was not used. The live structure file was attached. The full page is a daily room with quiet plaster on the left and daylight, a cup, and a cloth on the right. It does not repeat the arrival arch, curtain, bust, bowl, or books. The clean plate was derived from that page with the page attached. It is mounted under the existing Today UI at 393, 834, and 1440. Founder status stays UNREVIEWED. Child production stays off. Two paid generations, 644 credits.
 - **Changes:** `authorityFirstPlate.ts`, `JURNL_AUTHORITY_FIRST.json`, the F03 occupancy map, the full-page authority, the derived day plate, and `F03_AUTHORITY_FIRST_PLATE_DERIVATION_QA.json`.
 - **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
+
+---
+
+## 2026-10-05 — Production provider gateway + motherboard context sync (P0 gateway sync1)
+
+- **Context:** Capability-genome / ground-zero forensics showed reference-binding precheck existed in tests and docs but was **not** the universal paid dispatch path — direct FAL/OpenAI/xAI calls remained. F03 plate-first failure confirmed the architectural gap. Sprint transferred ChatGPT project context into `motherboard/PROJECT_CONTEXT_2026-10-05.md` and implemented the first enforced **PROVIDER_GATEWAY** root engine.
+- **Why gateway exists:** Because “policy implemented” without runtime enforcement allowed text-to-image and plate-first generation despite locked canon; downstream agents followed the path of least resistance (direct SDK imports).
+- **Delivered:** `runProductionProviderRequest()` (spend auth → precheck → authority-first plate → dispatch → cost receipt); `validateAuthorityFirstPlatePolicy`; server spend authorization (rejects caller-only `founderConfirmedSpend`); FAL adapter `falImageViaProductionGateway.ts`; provider call inventory + bypass allowlist + CI audit test; docs under `docs/production/provider-gateway/`; CORE/CODEBASE updated; reference methodology points to gateway.
+- **Not claimed:** Full migration of all ~207 inventoried files (legacy allowlisted); unified DB cost ledger (JSONL adapter only); CI green; AIO client-ready.
+- **Conventions:** New paid generative paths MUST use `runProductionProviderRequest`; do not add unallowlisted `@fal-ai/client` imports; JURNL ENVIRONMENT_PLATE requires parent authority-first derivation; record sprint “why” in motherboard, not only “implemented X.”
