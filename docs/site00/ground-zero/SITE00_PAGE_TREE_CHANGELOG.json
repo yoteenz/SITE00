@@ -1,0 +1,1353 @@
+{
+ "artifact": "SITE00_PAGE_TREE_CHANGELOG",
+ "status": "PROPOSED_BY_OPUS",
+ "applied": false,
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "counts": {
+  "changes": 51,
+  "by_operation": {
+   "MERGE": 11,
+   "RENAME": 4,
+   "ADD_MISSING_NODE": 11,
+   "COLLAPSE": 5,
+   "MOVE": 7,
+   "REDIRECT": 5,
+   "SPLIT": 1,
+   "EXPAND": 1,
+   "DEPRECATE": 2,
+   "ALIAS": 1,
+   "DEMOTE": 1,
+   "RECLASSIFY": 1,
+   "PROMOTE": 1
+  },
+  "reclassifications": {
+   "DRAWER": 2,
+   "STATE": 7,
+   "STATE (compare/comments/annotations/history) + INTERACTION (approve/revision)": 1,
+   "INTERACTION": 2,
+   "COMPONENT_STATE": 1
+  },
+  "launch_critical": 20,
+  "founder_decision_required": 11,
+  "by_confidence": {
+   "HIGH": 33,
+   "MEDIUM": 18
+  }
+ },
+ "changes": [
+  {
+   "change_id": "TC001",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/app/projects/:slug/*",
+    "/client/projects/:slug/*",
+    "/studio/:slug/* (client-facing views)"
+   ],
+   "proposed_node": "APP.HOME \u2026 APP.LIBRARY (/app/:slug/*)",
+   "reason": "Three parallel client project rooms over the same review API, each partially built (app: fixtures; web room: placeholders + unauthenticated fetch; studio: read-only, actions disabled). Canon defines ONE client app.",
+   "user_benefit": "One place to look; links from email/notifications always land in the same room.",
+   "product_benefit": "One client surface to finish instead of three; removes contradictory status.",
+   "technical_impact": "Desktop web room becomes the desktop composition of the app tree; studio client views retire. Shell (Site00ClientAppShell) kept.",
+   "navigation_impact": "All client entry points (CTRL ROOM, email, VIEW AS CLIENT) target /app/:slug.",
+   "data_impact": "None new \u2014 all read the same client-review + project APIs once auth is fixed.",
+   "auth_impact": "Client token must be sent on every call (bare fetch() today \u2192 401).",
+   "authority_impact": "No client authority in repo; INCOMPLETE either way.",
+   "risk": "Medium: CTRL ROOM/email links and tests (clientProjectRoomP0Client*) reference /client/projects.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "locked_ontology"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC002",
+   "operation": "RENAME",
+   "current_node_or_nodes": [
+    "/app/projects/:slug/*"
+   ],
+   "proposed_node": "/app/:slug/*",
+   "reason": "\"projects\" segment is redundant once project selection is a state of /app.",
+   "user_benefit": "Shorter shareable links.",
+   "product_benefit": "Cleaner IA.",
+   "technical_impact": "Router + link builders in shared/site00-client-app/routes.ts; keep redirect.",
+   "navigation_impact": "Redirect old links.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "inference"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC003",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/app/projects/:slug/projects (PROJECTS tab)",
+    "/app/projects/:slug/profile (PROFILE tab)"
+   ],
+   "proposed_node": "APP.MENU (drawer)",
+   "reason": "Current bottom nav is HOME/PROJECTS/REVIEWS/INBOX/PROFILE; locked canon is HOME/PROJECT/REVIEWS/INBOX/LIBRARY. Project switching and profile are low-frequency.",
+   "user_benefit": "LIBRARY becomes reachable (no nav entry today).",
+   "product_benefit": "Nav matches locked canon.",
+   "technical_impact": "Update nav config + tests/clientAppP0App1.test.ts:32 which locks the old nav.",
+   "navigation_impact": "Bottom nav changes; menu drawer gains PROJECTS + PROFILE.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology",
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": "DRAWER"
+  },
+  {
+   "change_id": "TC004",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [],
+   "proposed_node": "APP.PROJECT (/app/:slug/project)",
+   "reason": "Locked PROJECT tab does not exist as a journey surface; project/:section has 8 data-only sections.",
+   "user_benefit": "Answers \"where are we / what is next\".",
+   "product_benefit": "Core of the client trust layer.",
+   "technical_impact": "Reuse project/:section data (DATA_ONLY) as sections.",
+   "navigation_impact": "New bottom-nav target.",
+   "data_impact": "Needs phases/families/gates from project state (SYS.PULSE).",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Medium (data model).",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology",
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC005",
+   "operation": "COLLAPSE",
+   "current_node_or_nodes": [
+    "/app/projects/:slug/project/:section (8 sections)"
+   ],
+   "proposed_node": "APP.PROJECT sections + PHASE/FAMILY sheets",
+   "reason": "Eight sub-routes for one journey; each is thin.",
+   "user_benefit": "One scroll, no hunting.",
+   "product_benefit": "Fewer routes.",
+   "technical_impact": "Single page component with sections.",
+   "navigation_impact": "Deep links become #section.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "inference"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": "STATE"
+  },
+  {
+   "change_id": "TC006",
+   "operation": "COLLAPSE",
+   "current_node_or_nodes": [
+    "/app/\u2026/reviews/:id/compare",
+    "\u2026/comments",
+    "\u2026/annotations",
+    "\u2026/approve",
+    "\u2026/revision",
+    "\u2026/history"
+   ],
+   "proposed_node": "APP.REVIEW states + REVISION FEEDBACK sheet",
+   "reason": "Six routes render the same component (AppReviewDetailPage); they are modes of one review.",
+   "user_benefit": "Back button returns to the review, not through modes.",
+   "product_benefit": "Matches \"do not make every review state a page\".",
+   "technical_impact": "Route table shrinks by 12 (\u00d72 incl. preview tree).",
+   "navigation_impact": "Deep links to approve/revision become query state.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": "STATE (compare/comments/annotations/history) + INTERACTION (approve/revision)"
+  },
+  {
+   "change_id": "TC007",
+   "operation": "COLLAPSE",
+   "current_node_or_nodes": [
+    "/app/\u2026/library/:categoryId"
+   ],
+   "proposed_node": "APP.LIBRARY section state",
+   "reason": "Category is a filter of the library, not a place.",
+   "user_benefit": "Faster switching.",
+   "product_benefit": "-",
+   "technical_impact": "Minor.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "inference"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": "STATE"
+  },
+  {
+   "change_id": "TC008",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [
+    "(bell button without handler)"
+   ],
+   "proposed_node": "APP.NOTIFICATIONS (drawer)",
+   "reason": "Header canon includes notifications; button does nothing; no notifications table.",
+   "user_benefit": "Knows what needs them.",
+   "product_benefit": "Attention signal for MVP.",
+   "technical_impact": "Drawer + SYS.NOTIFY read model.",
+   "navigation_impact": "Header bell opens drawer.",
+   "data_impact": "New notifications projection from events.",
+   "auth_impact": "Project-scoped.",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "locked_ontology"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": "DRAWER"
+  },
+  {
+   "change_id": "TC009",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [],
+   "proposed_node": "ACCESS.INVITE (/invite/:token)",
+   "reason": "No invite flow exists; \"activation\" only sets a metadata flag. Required by AIO gate.",
+   "user_benefit": "A client can join their project from an email.",
+   "product_benefit": "Unblocks first real client.",
+   "technical_impact": "Invite tokens table + accept endpoint + membership binding.",
+   "navigation_impact": "Email \u2192 invite \u2192 app.",
+   "data_impact": "project_members + invites tables.",
+   "auth_impact": "Core of client auth; must bind to authenticated account.",
+   "authority_impact": "Reuse auth shell.",
+   "risk": "Medium (security-sensitive).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "user_journey"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC010",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [],
+   "proposed_node": "CTRL.PROJECTS (/control/projects)",
+   "reason": "Clients land on founder /projects (FOUNDER view hard-coded) or nowhere; CTRL ROOM links to none of the client rooms.",
+   "user_benefit": "Returning client finds their project.",
+   "product_benefit": "Closes the account\u2192project gap.",
+   "technical_impact": "List from project_members.",
+   "navigation_impact": "CTRL ROOM gains PROJECTS.",
+   "data_impact": "Reads membership.",
+   "auth_impact": "Scoped to member projects.",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "user_journey",
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC011",
+   "operation": "MOVE",
+   "current_node_or_nodes": [
+    "/account/intakes",
+    "/account/intakes/:type/:id"
+   ],
+   "proposed_node": "CTRL.INTAKES (/control/intakes)",
+   "reason": "Intakes live under a draft-gated /account and only appear in the desktop top nav.",
+   "user_benefit": "Intake \u2192 account \u2192 project continuity.",
+   "product_benefit": "One account home.",
+   "technical_impact": "Route move + redirect.",
+   "navigation_impact": "Adds INTAKES to CTRL ROOM (all viewports).",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "user_journey"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC012",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/account (draft-gated)"
+   ],
+   "proposed_node": "CTRL.HOME (/control)",
+   "reason": "All ACCOUNT nav already targets /control; /account is a draft placeholder.",
+   "user_benefit": "No dead end.",
+   "product_benefit": "One account surface.",
+   "technical_impact": "Redirect.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC013",
+   "operation": "COLLAPSE",
+   "current_node_or_nodes": [
+    "/control/domains",
+    "/control/billing",
+    "/control/team",
+    "/control/settings",
+    "/control/security"
+   ],
+   "proposed_node": "CTRL.SETTINGS (tabs)",
+   "reason": "Five placeholder routes share one ControlSectionPage.",
+   "user_benefit": "One settings place.",
+   "product_benefit": "Less placeholder sprawl.",
+   "technical_impact": "Single page with tabs.",
+   "navigation_impact": "Sidebar (never rendered) not needed.",
+   "data_impact": "none",
+   "auth_impact": "Security tab hosts password change (MVP).",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": "STATE"
+  },
+  {
+   "change_id": "TC014",
+   "operation": "MOVE",
+   "current_node_or_nodes": [
+    "/control/evolve-operations"
+   ],
+   "proposed_node": "CTL.EVOLVE_OPS",
+   "reason": "Founder-only (margin, demo data) card on a route any signed-in client can open.",
+   "user_benefit": "Clients never see internal economics.",
+   "product_benefit": "Firewall.",
+   "technical_impact": "Move route under AdminGuard.",
+   "navigation_impact": "Removed from client space.",
+   "data_impact": "none",
+   "auth_impact": "Fixes exposure.",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC015",
+   "operation": "REDIRECT",
+   "current_node_or_nodes": [
+    "/projects",
+    "/projects/:slug",
+    "/projects/:slug/{overview,builder,production,reviews,library,more,origin,identity,evolve*,notifications}"
+   ],
+   "proposed_node": "founder \u2192 PW.* ; client \u2192 APP.*",
+   "reason": "STUDIO OS module pages duplicate production tabs and the client room; mixed audience behind one URL (FOUNDER view hard-coded).",
+   "user_benefit": "Each person lands in the surface built for them.",
+   "product_benefit": "Retires a third project UI.",
+   "technical_impact": "Role-aware redirect component; module pages retire after parity.",
+   "navigation_impact": "Mobile bottom nav \"PROJECTS\" \u2192 CTRL.PROJECTS for clients, /production for founder.",
+   "data_impact": "none",
+   "auth_impact": "Role decides target.",
+   "authority_impact": "projects-index reference informs CTRL.PROJECTS/PW.ROOT visuals.",
+   "risk": "Medium: many internal links + CORE.md docs reference /projects/:slug/*.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "user_journey"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC016",
+   "operation": "SPLIT",
+   "current_node_or_nodes": [
+    "/production (HUB hard-wired to ndxbook)"
+   ],
+   "proposed_node": "PW.ROOT (/production, all projects) + PW.HUB (/production/:slug)",
+   "reason": "HUB mixes the cross-project landing with one project's hub; every non-NDXBOOK project shows NDXBOOK.",
+   "user_benefit": "Founder sees the right project; cross-project triage still exists.",
+   "product_benefit": "Required for multi-project isolation (SITE 00, JURNL, AIO, FRONTAL SLAYER).",
+   "technical_impact": "Chrome reads project from URL; ProductionWorkspaceContext already stores slug.",
+   "navigation_impact": "Project switcher keeps current tab.",
+   "data_impact": "Hub data must be keyed by project.",
+   "auth_impact": "none",
+   "authority_impact": "HUB authority unchanged.",
+   "risk": "Medium.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "locked_ontology"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC017",
+   "operation": "MOVE",
+   "current_node_or_nodes": [
+    "/production/queue",
+    "/production/libraries",
+    "/production/activity"
+   ],
+   "proposed_node": "PW.INBOX / PW.LIBRARY / PW.ACTIVITY under /production/:slug",
+   "reason": "Global tabs resolve to ndxbook; canon requires project filtering of every tab.",
+   "user_benefit": "Per-project truth.",
+   "product_benefit": "Firewall.",
+   "technical_impact": "Route + chrome change; data stores keyed by project.",
+   "navigation_impact": "Redirect old routes.",
+   "data_impact": "Activity rows gain project_id; requests move server-side.",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Medium.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "locked_ontology"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC018",
+   "operation": "RENAME",
+   "current_node_or_nodes": [
+    "/production/queue"
+   ],
+   "proposed_node": "/production/:slug/inbox",
+   "reason": "Label is INBOX in locked nav; URL says queue.",
+   "user_benefit": "Predictable URLs.",
+   "product_benefit": "Canon alignment.",
+   "technical_impact": "Trivial with redirect.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC019",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [],
+   "proposed_node": "PW.CLIENT (/production/:slug/client)",
+   "reason": "Canon requires CLIENT RELATIONSHIP / CLIENT STATUS / PROJECT STATUS in the workspace; none exist.",
+   "user_benefit": "Founder sees what the client sees and owes.",
+   "product_benefit": "The founder side of the review loop.",
+   "technical_impact": "New HUB child reading SYS.REVIEW / SYS.MEMBERSHIP / SYS.MESSAGES.",
+   "navigation_impact": "HUB \u2192 CLIENT.",
+   "data_impact": "Reads shared truth.",
+   "auth_impact": "Founder only.",
+   "authority_impact": "DERIVED from HUB descendants.",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology",
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC020",
+   "operation": "EXPAND",
+   "current_node_or_nodes": [
+    "/production/queue lenses (needs, watching, resolved, all, messages, system)"
+   ],
+   "proposed_node": "PW.INBOX + CLIENT_REVIEWS lens + SEND TO CLIENT sheet",
+   "reason": "Client actions never come back; there is no send action anywhere.",
+   "user_benefit": "Founder sees approvals/revisions arrive.",
+   "product_benefit": "Closes review loop.",
+   "technical_impact": "Lens over SYS.REVIEW; sheet calls publish API.",
+   "navigation_impact": "New lens.",
+   "data_impact": "Writes review objects.",
+   "auth_impact": "Admin only; server-enforced.",
+   "authority_impact": "Within INBOX authority.",
+   "risk": "Medium.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "locked_ontology"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": "INTERACTION"
+  },
+  {
+   "change_id": "TC021",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [],
+   "proposed_node": "SEND TO CLIENT (interaction in PW.DESIGN / PW.EXPRESSION / PW.INBOX)",
+   "reason": "Required loop step 1; absent.",
+   "user_benefit": "-",
+   "product_benefit": "Loop start.",
+   "technical_impact": "Publish endpoint + UI sheet.",
+   "navigation_impact": "-",
+   "data_impact": "site00_client_review_objects writer.",
+   "auth_impact": "Admin only.",
+   "authority_impact": "none",
+   "risk": "Medium.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": "INTERACTION"
+  },
+  {
+   "change_id": "TC022",
+   "operation": "MOVE",
+   "current_node_or_nodes": [
+    "/production/:slug/runtime/*"
+   ],
+   "proposed_node": "PW.EXPERIENCE state LIVE (route kept as RT.RUNTIME)",
+   "reason": "Runtime preview is the \"live\" view of the experience, not a sibling tab.",
+   "user_benefit": "Clear place for live preview.",
+   "product_benefit": "-",
+   "technical_impact": "Link from EXPERIENCE.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "inference"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": "STATE"
+  },
+  {
+   "change_id": "TC023",
+   "operation": "DEPRECATE",
+   "current_node_or_nodes": [
+    "/production/:slug/design/workspace (twin-opus-direct bench)"
+   ],
+   "proposed_node": "(LAB.BENCH)",
+   "reason": "Design child \"workspace\" mounts a 768px bench scaled onto phones; flagged stale (STALE_FALLBACK_MAP).",
+   "user_benefit": "No broken mobile view in production.",
+   "product_benefit": "Production tree free of benches.",
+   "technical_impact": "Children re-implemented in authority frame (L\u2013XL).",
+   "navigation_impact": "ON YOUR TABLE links retarget.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "Resolves C8 in favour of chamber \u2014 founder decision.",
+   "risk": "Medium.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "visual_authority"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC024",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/projects/:slug/content-operations/* (15 routes)",
+    "/projects/:slug/character/* (4)",
+    "/projects/:slug/cultural-intelligence* (3)",
+    "/projects/:slug/motion-character",
+    "/projects/:slug/embodied-character",
+    "/projects/:slug/creative-direction",
+    "/projects/:slug/campaign-*",
+    "/projects/:slug/content-library",
+    "/projects/:slug/product-assets",
+    "/projects/:slug/experience-expression*"
+   ],
+   "proposed_node": "PW.EXPRESSION families (or LAB)",
+   "reason": "Legacy founder-workspace modules duplicate EXPRESSION families (campaign board, character fabrication, content).",
+   "user_benefit": "One place for expression work.",
+   "product_benefit": "Retires ~31 parallel routes.",
+   "technical_impact": "Per-route: merge where an EXPRESSION family exists, else move to LAB.",
+   "navigation_impact": "Redirects.",
+   "data_impact": "Check each module's store before retiring.",
+   "auth_impact": "none",
+   "authority_impact": "EXPRESSION authority covers merged families.",
+   "risk": "Medium: some modules hold unique data.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC025",
+   "operation": "RENAME",
+   "current_node_or_nodes": [
+    "EXPERIENCE child ids world/environments/modules/simulations/zones/assets/review"
+   ],
+   "proposed_node": "Authority taxonomy WORLD/ZONES/PATHS/INTERACTIONS/INHABITANTS/STATES/ACCESS",
+   "reason": "Authority (and 92 OpenArt boards) use different names than routes (conflict C5).",
+   "user_benefit": "Labels match what founder approved.",
+   "product_benefit": "One taxonomy.",
+   "technical_impact": "Rename ids; keep aliases.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "Resolves C5.",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "visual_authority"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC026",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/admin/site00/projects",
+    "/project/:slug/provisioning",
+    "/projects/:slug/setup"
+   ],
+   "proposed_node": "CTL.PROJECTS (single project registry UI)",
+   "reason": "Project creation/provisioning is split across three places and \u22657 hard-coded registries.",
+   "user_benefit": "Founder creates a project + invites the client in one place.",
+   "product_benefit": "Single registry.",
+   "technical_impact": "DB-backed registry; provisioning becomes a state.",
+   "navigation_impact": "VIEW AS CLIENT \u2192 /app/:slug.",
+   "data_impact": "site00_projects extended with type + members.",
+   "auth_impact": "Admin only.",
+   "authority_impact": "none",
+   "risk": "Medium.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC027",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/admin/site00/approvals (REVIEWS)",
+    "production INBOX founder decisions"
+   ],
+   "proposed_node": "SYS.REVIEW viewed from CTL.REVIEWS (cross-project) and PW.INBOX (per project)",
+   "reason": "Two decision queues on two data planes (Supabase vs localStorage).",
+   "user_benefit": "No missed decisions.",
+   "product_benefit": "One truth.",
+   "technical_impact": "Both read one table.",
+   "navigation_impact": "CONTROL REVIEWS keeps cross-project view.",
+   "data_impact": "Unify site00_approval_requests \u2194 client review objects.",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Medium.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "inference"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC028",
+   "operation": "REDIRECT",
+   "current_node_or_nodes": [
+    "CONTROL nav PRODUCTION \u2192 /admin/site00/studio",
+    "production menu CONTROL \u2192 /control"
+   ],
+   "proposed_node": "CONTROL PRODUCTION \u2192 /production ; production menu CONTROL \u2192 /admin/site00",
+   "reason": "Cross-links point at the wrong surfaces (operator menu sends founder to the client CTRL ROOM).",
+   "user_benefit": "Founder moves between production and operations directly.",
+   "product_benefit": "-",
+   "technical_impact": "Two link fixes.",
+   "navigation_impact": "Fixes cross-family navigation.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC029",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [],
+   "proposed_node": "LAB.ROOT (/lab)",
+   "reason": "53 bench/experiment/debug routes sit inside the product namespace; 17 unguarded.",
+   "user_benefit": "Product tree is legible.",
+   "product_benefit": "Benches stay available without polluting product IA.",
+   "technical_impact": "New guarded namespace.",
+   "navigation_impact": "Not in any product nav.",
+   "data_impact": "none",
+   "auth_impact": "All LAB routes behind admin guard (and server checks on their APIs).",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC030",
+   "operation": "MOVE",
+   "current_node_or_nodes": [
+    "18 design bench routes (/projects/:slug/design/twin*, opus-native, reconstruction-lab, /projects/:slug/debug/*)"
+   ],
+   "proposed_node": "LAB.BENCH",
+   "reason": "Benches are QA harnesses, not product.",
+   "user_benefit": "-",
+   "product_benefit": "Clean tree; guarded.",
+   "technical_impact": "Route moves + redirects.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "Guards added.",
+   "authority_impact": "REFERENCE_ONLY authorities.",
+   "risk": "Low (docs reference URLs).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC031",
+   "operation": "MOVE",
+   "current_node_or_nodes": [
+    "31 experiment/lab routes (experiments D\u2013H, realism-lab, personality-replay, brand-character, canonical-*, calibrate, creative-appetite, marketing-expression, inspect/icons, archive, /validation/*)"
+   ],
+   "proposed_node": "LAB.EXPERIMENTS",
+   "reason": "One-off creative-intelligence experiments.",
+   "user_benefit": "-",
+   "product_benefit": "Clean tree.",
+   "technical_impact": "Route moves + redirects.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "Guarded.",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC032",
+   "operation": "MOVE",
+   "current_node_or_nodes": [
+    "/__dev/*",
+    "/loader-preview",
+    "/jurnl/f01/parent-assembly",
+    "/access/debug",
+    "/system/design/workspace-concepts",
+    "/debug/*",
+    "/control/debug/*"
+   ],
+   "proposed_node": "LAB.DEV",
+   "reason": "Dev/test surfaces are publicly routable.",
+   "user_benefit": "-",
+   "product_benefit": "Smaller public attack surface.",
+   "technical_impact": "Guard or build-exclude.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "Guarded.",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC033",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/enter (WAITING ROOM)",
+    "/origin/locations (LOCATIONS)"
+   ],
+   "proposed_node": "PUB.WAITING_ROOM (/enter) with MAP state",
+   "reason": "Two directories for one job with different item sets; /enter omits IDNTY/EVOLVE/LOCATIONS; LOCATIONS is desktop-unreachable.",
+   "user_benefit": "One way to get anywhere.",
+   "product_benefit": "One directory to maintain.",
+   "technical_impact": "LOCATIONS map becomes a state of /enter; /origin/locations redirects.",
+   "navigation_impact": "Mobile centre nav + EXIT 00 target one place.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "LOCATIONS authority (public.redesign.locations) becomes the MAP state authority.",
+   "risk": "Medium: founder may see LOCATIONS and WAITING ROOM as distinct places.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "user_journey",
+    "locked_ontology"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": "STATE"
+  },
+  {
+   "change_id": "TC034",
+   "operation": "ALIAS",
+   "current_node_or_nodes": [
+    "/origin"
+   ],
+   "proposed_node": "/ (ORIGIN)",
+   "reason": "Two URLs for one page.",
+   "user_benefit": "-",
+   "product_benefit": "-",
+   "technical_impact": "Redirect.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC035",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [
+    "/brand/privacy, /brand/terms (linked, no route)"
+   ],
+   "proposed_node": "PUB.LEGAL (/legal/:doc)",
+   "reason": "Footer PRIVACY/TERMS silently bounce to /; no legal pages exist.",
+   "user_benefit": "Trust; compliance.",
+   "product_benefit": "Required before real clients.",
+   "technical_impact": "Text pages.",
+   "navigation_impact": "Fix footer + auth footer links.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC036",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/contact (draft)",
+    "/faq (draft)",
+    "/support"
+   ],
+   "proposed_node": "PUB.SUPPORT (HELP / CONTACT / BOOK_DISCOVERY states)",
+   "reason": "Three thin pages for one job; BOOK DISCOVERY and CONSULT CTAs land on a mailto or a redirect to /.",
+   "user_benefit": "Every \"talk to us\" CTA works.",
+   "product_benefit": "Discovery funnel exists.",
+   "technical_impact": "One page with states; discovery booking action.",
+   "navigation_impact": "Retarget CTAs.",
+   "data_impact": "Contact/booking submissions stored.",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "user_journey",
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": "STATE"
+  },
+  {
+   "change_id": "TC037",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [
+    "/about",
+    "/brand"
+   ],
+   "proposed_node": "PUB.ORIGIN_STORY (/origin/story)",
+   "reason": "ORIGIN must express inception / starting at zero / GRAPHIC\u2192PAGE\u2192PRODUCT\u2192WORLD; ABOUT today is generic principle cards; BRAND is a draft.",
+   "user_benefit": "Visitor understands what SITE 00 is.",
+   "product_benefit": "Brand narrative without a generic about page.",
+   "technical_impact": "New page, DERIVED from ORIGIN authority.",
+   "navigation_impact": "/about, /brand redirect.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "New composition derived from public.redesign.origin.",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "locked_ontology",
+    "inference"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC038",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/guide (draft)"
+   ],
+   "proposed_node": "PUB.SYSTEM (GUIDE section)",
+   "reason": "GUIDE seed already lists the same destinations as the directory; thin.",
+   "user_benefit": "-",
+   "product_benefit": "Fewer thin pages.",
+   "technical_impact": "Section.",
+   "navigation_impact": "NEED GUIDANCE \u2192 SYSTEM#guide.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": "STATE"
+  },
+  {
+   "change_id": "TC039",
+   "operation": "DEMOTE",
+   "current_node_or_nodes": [
+    "/sound (draft page)"
+   ],
+   "proposed_node": "Global SOUND setting (component state in host chrome)",
+   "reason": "Sound is an environment toggle, not a place.",
+   "user_benefit": "Toggle anywhere.",
+   "product_benefit": "-",
+   "technical_impact": "Setting component.",
+   "navigation_impact": "Page removed.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "inference"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": "COMPONENT_STATE"
+  },
+  {
+   "change_id": "TC040",
+   "operation": "RECLASSIFY",
+   "current_node_or_nodes": [
+    "/services (agency service menu)"
+   ],
+   "proposed_node": "PUB.SERVICES (router over IDNTY/BLDR/EVOLVE)",
+   "reason": "Reads like an agency; locked ontology says the products ARE the services.",
+   "user_benefit": "Clear choice.",
+   "product_benefit": "Language rule (digital location).",
+   "technical_impact": "Redesign copy/composition.",
+   "navigation_impact": "Each block links to a hub.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "Derived from Origin cards.",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC041",
+   "operation": "COLLAPSE",
+   "current_node_or_nodes": [
+    "/bldr/start"
+   ],
+   "proposed_node": "BLDR.HUB",
+   "reason": "Self-described legacy hop between /bldr and /bldr/state.",
+   "user_benefit": "One fewer step.",
+   "product_benefit": "-",
+   "technical_impact": "Redirect.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC042",
+   "operation": "RENAME",
+   "current_node_or_nodes": [
+    "BLDR class ENTERPRISE"
+   ],
+   "proposed_node": "SYSTEMS",
+   "reason": "Locked ontology is SITE / WORLD / SYSTEMS / EXTENSIONS; authority manifest already uses systems.",
+   "user_benefit": "-",
+   "product_benefit": "Ontology alignment.",
+   "technical_impact": "Config + copy + intake enum migration.",
+   "navigation_impact": "-",
+   "data_impact": "site00_bldr_intakes class values may need mapping.",
+   "auth_impact": "none",
+   "authority_impact": "Matches public.redesign.bldr.",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology",
+    "visual_authority"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC043",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [],
+   "proposed_node": "BLDR class EXTENSIONS",
+   "reason": "Locked class with no route/config.",
+   "user_benefit": "-",
+   "product_benefit": "Ontology complete.",
+   "technical_impact": "Config + intake branch.",
+   "navigation_impact": "Class selector gains EXTENSIONS.",
+   "data_impact": "Intake enum.",
+   "auth_impact": "none",
+   "authority_impact": "Authority exists (path=extensions).",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology",
+    "visual_authority"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC044",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/existing-location",
+    "/existing-location/start",
+    "/existing-location/case/:caseId/*"
+   ],
+   "proposed_node": "EVOLVE.ASSESS",
+   "reason": "Orphan full case flow for an existing property \u2014 the EVOLVE job.",
+   "user_benefit": "Existing-property owners find it.",
+   "product_benefit": "One existing-property funnel.",
+   "technical_impact": "Fold steps into EVOLVE assessment or link it as the EVOLVE intake.",
+   "navigation_impact": "Linked from EVOLVE.",
+   "data_impact": "Case data model kept.",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Medium (overlap depth not fully audited).",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "user_journey"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC045",
+   "operation": "MERGE",
+   "current_node_or_nodes": [
+    "/blueprints (draft)"
+   ],
+   "proposed_node": "BLDR.TEMPLATES",
+   "reason": "Two empty template surfaces.",
+   "user_benefit": "-",
+   "product_benefit": "-",
+   "technical_impact": "Redirect.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC046",
+   "operation": "REDIRECT",
+   "current_node_or_nodes": [
+    "30 /*/desktop legacy aliases"
+   ],
+   "proposed_node": "canonical paths (fix 8 blank)",
+   "reason": "Desktop is now a native viewport, not an artboard route. 8 aliases render blank because their bases are missing from SITE00_PUBLIC_PAGE_BASES.",
+   "user_benefit": "No blank pages from old links.",
+   "product_benefit": "-",
+   "technical_impact": "Add bases or drop aliases.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC047",
+   "operation": "ADD_MISSING_NODE",
+   "current_node_or_nodes": [
+    "(no 404 \u2014 * \u2192 /)"
+   ],
+   "proposed_node": "NOT FOUND system surface",
+   "reason": "Unknown URLs silently redirect to /, hiding broken links.",
+   "user_benefit": "Visitor knows the link is wrong.",
+   "product_benefit": "Broken links become visible.",
+   "technical_impact": "Small page.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC048",
+   "operation": "REDIRECT",
+   "current_node_or_nodes": [
+    "IDNTY/BLDR/EVOLVE COMPLETE \u2192 /control or /support"
+   ],
+   "proposed_node": "COMPLETE \u2192 sign in/create \u2192 CTRL.INTAKES/:id \u2192 (project when provisioned)",
+   "reason": "Post-intake hand-off is missing (sign-in defaults to /control).",
+   "user_benefit": "No lost momentum after intake.",
+   "product_benefit": "Converts intakes into projects.",
+   "technical_impact": "returnTo wiring.",
+   "navigation_impact": "Fixes the main conversion seam.",
+   "data_impact": "Reads intake.",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "user_journey"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC049",
+   "operation": "REDIRECT",
+   "current_node_or_nodes": [
+    "password reset email \u2192 /account/settings (no route)"
+   ],
+   "proposed_node": "ACCESS.RECOVER reset state",
+   "reason": "Password reset cannot complete.",
+   "user_benefit": "Can recover access.",
+   "product_benefit": "-",
+   "technical_impact": "Fix redirect + implement updateUser.",
+   "navigation_impact": "-",
+   "data_impact": "none",
+   "auth_impact": "Auth flow fix.",
+   "authority_impact": "none",
+   "risk": "Low.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC050",
+   "operation": "DEPRECATE",
+   "current_node_or_nodes": [
+    "/studio/:slug/* (as a client surface)"
+   ],
+   "proposed_node": "(merged into APP.*; founder parts \u2192 PW.*)",
+   "reason": "STUDIO name collides with STUDIO OS/WORLD and is a fourth project UI.",
+   "user_benefit": "-",
+   "product_benefit": "Fewer names for the same thing.",
+   "technical_impact": "Retire after parity.",
+   "navigation_impact": "VIEW AS CLIENT retargets.",
+   "data_impact": "none",
+   "auth_impact": "none",
+   "authority_impact": "none",
+   "risk": "Medium.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "locked_ontology"
+   ],
+   "founder_decision_required": true,
+   "launch_critical": false,
+   "reclassified_as": null
+  },
+  {
+   "change_id": "TC051",
+   "operation": "PROMOTE",
+   "current_node_or_nodes": [
+    "Project Registry (\u22657 hard-coded lists + site00_projects)"
+   ],
+   "proposed_node": "SYS.REGISTRY (system capability) surfaced in CTL.PROJECTS",
+   "reason": "Registry is a system, not a page; currently fragmented with 4 type vocabularies and slug drift (aio vs all-in-one-enterprises).",
+   "user_benefit": "Same project everywhere.",
+   "product_benefit": "Firewall + client onboarding depend on it.",
+   "technical_impact": "One table + types; adapters for legacy lists.",
+   "navigation_impact": "-",
+   "data_impact": "Migration.",
+   "auth_impact": "Membership attaches here.",
+   "authority_impact": "none",
+   "risk": "Medium.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "founder_decision_required": false,
+   "launch_critical": true,
+   "reclassified_as": null
+  }
+ ],
+ "route_reclassification_ledger": {
+  "note": "Route-level counts used in the master brief. /control/settings stays the route that hosts the SETTINGS tabs, so 4 of the 5 CTRL sections become tab states. Live (/app/projects) and preview (/app/preview) trees are both counted.",
+  "routes_to_states": [
+   "/origin/locations",
+   "/guide",
+   "/faq",
+   "/contact",
+   "/production/:projectSlug/runtime/*",
+   "/app/projects/:projectSlug/project/:section",
+   "/app/projects/:projectSlug/reviews/:reviewId/compare",
+   "/app/projects/:projectSlug/reviews/:reviewId/comments",
+   "/app/projects/:projectSlug/reviews/:reviewId/annotations",
+   "/app/projects/:projectSlug/reviews/:reviewId/history",
+   "/app/projects/:projectSlug/library/:categoryId",
+   "/app/preview/:projectSlug/project/:section",
+   "/app/preview/:projectSlug/reviews/:reviewId/compare",
+   "/app/preview/:projectSlug/reviews/:reviewId/comments",
+   "/app/preview/:projectSlug/reviews/:reviewId/annotations",
+   "/app/preview/:projectSlug/reviews/:reviewId/history",
+   "/app/preview/:projectSlug/library/:categoryId",
+   "/control/domains",
+   "/control/billing",
+   "/control/team",
+   "/control/security"
+  ],
+  "routes_to_interactions": [
+   "/app/projects/:projectSlug/reviews/:reviewId/approve",
+   "/app/projects/:projectSlug/reviews/:reviewId/revision",
+   "/app/preview/:projectSlug/reviews/:reviewId/approve",
+   "/app/preview/:projectSlug/reviews/:reviewId/revision"
+  ],
+  "routes_to_component_state": [
+   "/sound"
+  ],
+  "counts": {
+   "routes_to_states": 21,
+   "routes_to_interactions": 4,
+   "routes_to_component_state": 1
+  }
+ }
+}

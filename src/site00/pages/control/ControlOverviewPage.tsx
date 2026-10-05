@@ -3,6 +3,7 @@ import { CtrlRoomMetricCard } from '../../components/control/CtrlRoomMetricCard'
 import { CtrlRoomActivityPanel } from '../../components/control/CtrlRoomActivityPanel';
 import { CtrlRoomSitesPanel } from '../../components/control/CtrlRoomSitesPanel';
 import { CtrlRoomSignalsPanel } from '../../components/control/CtrlRoomSignalsPanel';
+import { EvolveOperationsCard } from '../../components/control/evolveOperations/EvolveOperationsCard';
 import { CtrlRoomMobileExperience } from '../../components/ctrl-room/mobile/CtrlRoomMobileExperience';
 import { useCtrlRoomData, toLegacyActivityRows } from '../../hooks/useCtrlRoomData';
 import { SITE00_ROUTES } from '../../config/routes';
@@ -55,6 +56,7 @@ export default function ControlOverviewPage() {
           </div>
           <div className="site00-ctrl-overview__grid">
             <CtrlRoomSignalsPanel signals={data.signals} apiState={data.apiState} />
+            <EvolveOperationsCard />
             <CtrlRoomActivityPanel rows={legacyActivity} />
             <CtrlRoomSitesPanel rows={data.sites} />
           </div>

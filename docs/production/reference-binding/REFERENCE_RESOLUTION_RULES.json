@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "resolution_order": [
+    "screen_authority_manifest",
+    "visual_authority_registry",
+    "family_visual_asset_manifest",
+    "global_project_asset_registry",
+    "canonical_repo_paths",
+    "session_generated_outputs"
+  ],
+  "authority_selection": {
+    "prefer_status_order": ["CANONICAL", "APPROVED", "IN_REVIEW", "PROVISIONAL_DERIVED", "REFERENCE_ONLY"],
+    "reject_statuses": ["SUPERSEDED", "INVALID"],
+    "do_not_prefer_newest_file_over_lineage": true
+  },
+  "project_firewall": {
+    "reference_project_must_match_request": true,
+    "exception_requires_shared_global_flag": true
+  },
+  "sidekick_derivations": {
+    "require_screen_authority_reference": true,
+    "derived_classes": [
+      "ENVIRONMENT_PLATE",
+      "BOTANICAL",
+      "BRAND_LOCKUP",
+      "OBJECT",
+      "MATERIAL",
+      "DECORATIVE",
+      "ILLUSTRATION",
+      "SPECIAL_PANEL",
+      "SPECIAL_CONTROL"
+    ]
+  }
+}

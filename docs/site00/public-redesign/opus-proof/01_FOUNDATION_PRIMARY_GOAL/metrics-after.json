@@ -1,0 +1,33 @@
+{
+  "route": "/idnty/starting-at-zero/goal",
+  "finalUrl": "/idnty/starting-at-zero/goal",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 697,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "assetSlots": [
+    {
+      "id": "ENV.IDNTY.ATRIUM",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 697,
+      "radius": "0px",
+      "z": "0"
+    },
+    {
+      "id": "MACHINE.IDNTY.FOUNDATION.ORB",
+      "x": 0,
+      "y": 28,
+      "w": 390,
+      "h": 300,
+      "radius": "0px",
+      "z": "1"
+    }
+  ],
+  "errors": []
+}

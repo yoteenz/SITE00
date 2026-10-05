@@ -1,0 +1,61 @@
+{
+ "artifact": "SITE00_CLIENT_FUNDING_MODEL",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "name": "CLIENT-FUNDED PRODUCTION (internal shorthand: BYOP \u2014 Bring Your Own Provider)",
+ "project_funding_object": {
+  "storage": "NEW site00_project_funding (1:1 project)",
+  "fields": {
+   "funding_mode": "SITE00_INCLUDED | CLIENT_REIMBURSED | CLIENT_FUNDED_PROVIDER | CLIENT_PREPAID_PRODUCTION_WALLET | WAIVED_LABOR_CLIENT_FUNDS_EXPENSES | CUSTOM",
+   "labor_pricing": "{package_id, price_cents | WAIVED, note}",
+   "production_expense_owner": "SITE00 | CLIENT | SPLIT",
+   "provider_connection_id": "FK \u2192 project provider connection (nullable)",
+   "generation_budget": "{ceiling_credits, ceiling_usd, credit_price_usd, purchase_unit}",
+   "generation_spend": "derived from ledger (never hand-edited)",
+   "remaining_estimate": "derived",
+   "approved_estimate_visibility": "per-family founder flag"
+  }
+ },
+ "modes": {
+  "SITE00_INCLUDED": "Production expenses are inside the service price; client sees ledger as \"INCLUDED\".",
+  "CLIENT_REIMBURSED": "SITE 00 spends on its own provider account; client reimburses per family (invoice line). Requires founder-approved estimate before family starts.",
+  "CLIENT_FUNDED_PROVIDER": "Client owns the provider account/credits; SITE 00 uses it only for that project under explicit authorization.",
+  "CLIENT_PREPAID_PRODUCTION_WALLET": "Client prepays a production balance held by SITE 00; ledger draws it down. Requires payments rails (deferred).",
+  "WAIVED_LABOR_CLIENT_FUNDS_EXPENSES": "Labor waived (e.g. family relationship); client funds third-party expenses via one of the above mechanisms.",
+  "CUSTOM": "Founder-defined; documented in notes."
+ },
+ "build_now_vs_later": {
+  "now (with MVP)": [
+   "site00_project_funding table + types",
+   "ledger + backfill",
+   "manual-attested funding confirmation for CLIENT_FUNDED_PROVIDER / CLIENT_REIMBURSED"
+  ],
+  "later": [
+   "payments rails (Stripe gate currently BLOCKED)",
+   "prepaid wallet",
+   "API-verified balances"
+  ]
+ },
+ "payments_foundation_today": {
+  "exists": false,
+  "provider": "none (Stripe referenced only as types, catalog seed row, readiness blocker, profile field mapping)",
+  "status": "BLOCKED \u2014 PAYMENT_PROVIDER_GATE='BLOCKED' (shared/site00-commercial-canon/paymentReadiness.ts:69); commercialState stripeReady:false; no stripe package in package.json; payments simulated via client-production activate / marketing confirm-payment",
+  "evidence": [
+   "package.json (no stripe dep)",
+   "shared/site00-commercial-audit/paymentAbstraction.ts:1-60 ('types only; no provider SDK wiring')",
+   "api/_lib/site00Evolve/commercial/commercialState.ts:29-30",
+   "api/_lib/profileMapping.ts:19-26 (stripe_customer_id etc. mapped from profile rows if present)",
+   "supabase/migrations/20260818143000_site00_production_os.sql:401 (stripe in service catalog as CLIENT-owned connection)",
+   "supabase/migrations/20260818180000_site00_admin_operations.sql:116 (site00_invoices, demo-seeded)",
+   "motherboard/MEMORY.md:1537 ('Stripe webhook (use activate-project when payment lands)' deferred)",
+   "site00_projects.payment_state default PENDING"
+  ]
+ },
+ "aio_instance": {
+  "funding_mode": "WAIVED_LABOR_CLIENT_FUNDS_EXPENSES",
+  "expense_mechanism": "CLIENT_FUNDED_PROVIDER (OpenArt, client-owned credits)",
+  "not_hard_coded": "AIO is data, not a code branch."
+ },
+ "separation_rule": "Funding decisions appear only after approval, as the next step; never inside the approve control."
+}

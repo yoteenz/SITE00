@@ -1,0 +1,1285 @@
+{
+  "sprint": "P0.SITE00.PUBLIC-REDESIGN.SONNET-STRUCTURE1",
+  "pass": "IMPLEMENTATION PASS 1 — STRUCTURE + FUNCTION + RESPONSIVE GEOMETRY",
+  "modelSequence": [
+    "SONNET (this pass)",
+    "OPUS",
+    "GROK",
+    "COMPOSER"
+  ],
+  "authorityPack": {
+    "total": 40,
+    "active": 37,
+    "supersededExcluded": [
+      "01_OLD_REFINE_INTAKE_LAYOUT",
+      "02_OLD_REFINE_CONDITION_LAYOUT",
+      "03_OLD_REFINE_GAPS_LAYOUT"
+    ],
+    "note": "The upload-safe \"SONNET LITE\" pack ships the 37 active JPEGs only; the 3 superseded PNGs are omitted by design."
+  },
+  "phases": [
+    {
+      "phase": 0,
+      "name": "Authority ingestion + route map",
+      "status": "DONE"
+    },
+    {
+      "phase": 1,
+      "name": "Shared public shell / typography / tokens",
+      "status": "DONE"
+    },
+    {
+      "phase": 2,
+      "name": "Origin",
+      "status": "DONE"
+    },
+    {
+      "phase": 3,
+      "name": "IDNTY Diagnostic + state pages",
+      "status": "DONE"
+    },
+    {
+      "phase": 4,
+      "name": "Foundation",
+      "status": "DONE"
+    },
+    {
+      "phase": 5,
+      "name": "Refine",
+      "status": "DONE"
+    },
+    {
+      "phase": 6,
+      "name": "Ready for Evolution",
+      "status": "DONE"
+    },
+    {
+      "phase": 7,
+      "name": "Build Ready verification UI",
+      "status": "DONE (honest provisional model; no backend)"
+    },
+    {
+      "phase": 8,
+      "name": "BLDR covered pages",
+      "status": "DONE"
+    },
+    {
+      "phase": 9,
+      "name": "Public EVOLVE covered pages",
+      "status": "DONE"
+    },
+    {
+      "phase": 10,
+      "name": "Locations",
+      "status": "DONE"
+    },
+    {
+      "phase": 11,
+      "name": "Responsive QA",
+      "status": "DONE"
+    },
+    {
+      "phase": 12,
+      "name": "Browser proof + Opus handoff",
+      "status": "DONE"
+    }
+  ],
+  "records": [
+    {
+      "authorityId": "01_ORIGIN_MAIN",
+      "authorityPackPath": "01_ORIGIN/01_ORIGIN_MAIN.jpg",
+      "sequence": 1,
+      "family": "ORIGIN",
+      "pageFamily": "ORIGIN",
+      "state": "collapsed",
+      "intendedRoute": "/",
+      "currentRoute": "/",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.ORIGIN.COLLAPSED",
+        "CARD.ORIGIN.IDNTY",
+        "CARD.ORIGIN.BLDR",
+        "CARD.ORIGIN.EVOLVE"
+      ],
+      "replacedComponent": "OriginPage (mobile branch) · OriginCards · StatusStrip · OriginMobileSwipeUp",
+      "newComponent": "PublicOriginMobile",
+      "dataStateSource": "Site00Context.homeMode · origin-background-assets",
+      "interactionBehavior": "Tap card → expand panel (homeMode); swipe-up / button → /origin/locations transition",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "Also served at /origin. Nav links CHARACTERS / WORLDS / LIBRARY omitted: no such routes (canonical Origin = IDNTY / BLDR / EVOLVE)."
+    },
+    {
+      "authorityId": "02_ORIGIN_IDNTY_EXPANDED",
+      "authorityPackPath": "01_ORIGIN/02_ORIGIN_IDNTY_EXPANDED.jpg",
+      "sequence": 2,
+      "family": "ORIGIN",
+      "pageFamily": "ORIGIN",
+      "state": "idnty-expanded",
+      "intendedRoute": "/",
+      "currentRoute": "/",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.ORIGIN.EXPANDED",
+        "ILLUSTRATION.ORIGIN.IDENTITY"
+      ],
+      "replacedComponent": "IdntyExpandedPanel · BldrExpandedPanel · EvolveExpandedPanel",
+      "newComponent": "PublicOriginExpandedPanel",
+      "dataStateSource": "config/identity.ts · builder.ts · evolve.ts (IDNTY_HOMEPAGE_EXPANDED etc.)",
+      "interactionBehavior": "Close/back collapses; BEGIN → /idnty/state · /bldr/state · /evolve/state",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "Driven by Site00Context.homeMode = idnty-expanded."
+    },
+    {
+      "authorityId": "03_ORIGIN_BLDR_EXPANDED",
+      "authorityPackPath": "01_ORIGIN/03_ORIGIN_BLDR_EXPANDED.jpg",
+      "sequence": 3,
+      "family": "ORIGIN",
+      "pageFamily": "ORIGIN",
+      "state": "bldr-expanded",
+      "intendedRoute": "/",
+      "currentRoute": "/",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.ORIGIN.EXPANDED",
+        "ILLUSTRATION.ORIGIN.BLDR"
+      ],
+      "replacedComponent": "IdntyExpandedPanel · BldrExpandedPanel · EvolveExpandedPanel",
+      "newComponent": "PublicOriginExpandedPanel",
+      "dataStateSource": "config/identity.ts · builder.ts · evolve.ts (IDNTY_HOMEPAGE_EXPANDED etc.)",
+      "interactionBehavior": "Close/back collapses; BEGIN → /idnty/state · /bldr/state · /evolve/state",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "Panel title reads BUILDER per authority; routes to /bldr/state."
+    },
+    {
+      "authorityId": "04_ORIGIN_EVOLVE_EXPANDED",
+      "authorityPackPath": "01_ORIGIN/04_ORIGIN_EVOLVE_EXPANDED.jpg",
+      "sequence": 4,
+      "family": "ORIGIN",
+      "pageFamily": "ORIGIN",
+      "state": "evolve-expanded",
+      "intendedRoute": "/",
+      "currentRoute": "/",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.ORIGIN.EXPANDED",
+        "ILLUSTRATION.ORIGIN.EVOLVE",
+        "ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
+        "ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL",
+        "ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM"
+      ],
+      "replacedComponent": "IdntyExpandedPanel · BldrExpandedPanel · EvolveExpandedPanel",
+      "newComponent": "PublicOriginExpandedPanel",
+      "dataStateSource": "config/identity.ts · builder.ts · evolve.ts (IDNTY_HOMEPAGE_EXPANDED etc.)",
+      "interactionBehavior": "Close/back collapses; BEGIN → /idnty/state · /bldr/state · /evolve/state",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "Exactly three paths: REFINE / INSTALL / TRANSFORM."
+    },
+    {
+      "authorityId": "01_IDNTY_DIAGNOSTIC_OVERVIEW",
+      "authorityPackPath": "02_IDNTY/00_DIAGNOSTIC/01_IDNTY_DIAGNOSTIC_OVERVIEW.jpg",
+      "sequence": 5,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_DIAGNOSTIC",
+      "state": "overview",
+      "intendedRoute": "/idnty/state",
+      "currentRoute": "/idnty/state",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyStatePage (mobile) → IdntyMobileDiagnostic · IdntyStateGrid",
+      "newComponent": "IdentityDiagnosticOverview",
+      "dataStateSource": "Site00Context.selectedIdentityStateId · IDNTY_BRAND_STATES · IDNTY_INVESTMENT_TIERS",
+      "interactionBehavior": "Select state (highlight) → SELECT STATE navigates to /idnty/<slug>. BUILD READY previously routed straight to /bldr/start (corrected).",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "02_IDNTY_STATE_00_FOUNDATION",
+      "authorityPackPath": "02_IDNTY/00_DIAGNOSTIC/02_IDNTY_STATE_00_FOUNDATION.jpg",
+      "sequence": 6,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_DIAGNOSTIC",
+      "state": "starting-at-zero",
+      "intendedRoute": "/idnty/starting-at-zero",
+      "currentRoute": "/idnty/starting-at-zero",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM",
+        "MACHINE.IDNTY.FOUNDATION.ORB"
+      ],
+      "replacedComponent": "IdntyAssessmentLandingPage → IdentityStateLandingV2",
+      "newComponent": "IdentityDiagnosticFlow(mode=detail)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Begin → first unanswered question",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "03_IDNTY_STATE_01_REFINE",
+      "authorityPackPath": "02_IDNTY/00_DIAGNOSTIC/03_IDNTY_STATE_01_REFINE.jpg",
+      "sequence": 7,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_DIAGNOSTIC",
+      "state": "some-pieces-exist",
+      "intendedRoute": "/idnty/some-pieces-exist",
+      "currentRoute": "/idnty/some-pieces-exist",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM",
+        "MACHINE.IDNTY.PARTIAL.LATTICE"
+      ],
+      "replacedComponent": "IdntyAssessmentLandingPage → IdentityStateLandingV2",
+      "newComponent": "IdentityDiagnosticFlow(mode=detail)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Begin → first unanswered question",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 850,
+        "h": 1850
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "04_IDNTY_STATE_02_EVOLUTION",
+      "authorityPackPath": "02_IDNTY/00_DIAGNOSTIC/04_IDNTY_STATE_02_EVOLUTION.jpg",
+      "sequence": 8,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_DIAGNOSTIC",
+      "state": "ready-for-evolution",
+      "intendedRoute": "/idnty/ready-for-evolution",
+      "currentRoute": "/idnty/ready-for-evolution",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM",
+        "MACHINE.IDNTY.EVOLUTION.WAVES"
+      ],
+      "replacedComponent": "IdntyAssessmentLandingPage → IdentityStateLandingV2",
+      "newComponent": "IdentityDiagnosticFlow(mode=detail)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Begin → first unanswered question",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 850,
+        "h": 1850
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "05_IDNTY_STATE_03_BUILD_READY",
+      "authorityPackPath": "02_IDNTY/00_DIAGNOSTIC/05_IDNTY_STATE_03_BUILD_READY.jpg",
+      "sequence": 9,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_DIAGNOSTIC",
+      "state": "build-ready",
+      "intendedRoute": "/idnty/build-ready",
+      "currentRoute": "/idnty/build-ready",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM",
+        "MACHINE.IDNTY.AUTHORITY.STAR"
+      ],
+      "replacedComponent": "IdntyAssessmentLandingPage → IdentityStateLandingV2",
+      "newComponent": "IdentityDiagnosticFlow(mode=detail)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Begin → first unanswered question",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 850,
+        "h": 1850
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED_WITH_DEVIATION",
+      "visualStatus": "PARTIAL",
+      "notes": "DEVIATION: image says \"locked and verified\" / ENTER BLDR. No verification backend exists, so copy is honest (verification required) and CTA is BEGIN VERIFICATION."
+    },
+    {
+      "authorityId": "01_FOUNDATION_PRIMARY_GOAL",
+      "authorityPackPath": "02_IDNTY/01_FOUNDATION/01_FOUNDATION_PRIMARY_GOAL.jpg",
+      "sequence": 10,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_FOUNDATION",
+      "state": "starting-at-zero",
+      "intendedRoute": "/idnty/starting-at-zero/goal",
+      "currentRoute": "/idnty/starting-at-zero/goal",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM",
+        "MACHINE.IDNTY.FOUNDATION.ORB"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "02_FOUNDATION_AUDIENCE",
+      "authorityPackPath": "02_IDNTY/01_FOUNDATION/02_FOUNDATION_AUDIENCE.jpg",
+      "sequence": 11,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_FOUNDATION",
+      "state": "starting-at-zero",
+      "intendedRoute": "/idnty/starting-at-zero/audience",
+      "currentRoute": "/idnty/starting-at-zero/audience",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "03_FOUNDATION_TIMELINE",
+      "authorityPackPath": "02_IDNTY/01_FOUNDATION/03_FOUNDATION_TIMELINE.jpg",
+      "sequence": 12,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_FOUNDATION",
+      "state": "starting-at-zero",
+      "intendedRoute": "/idnty/starting-at-zero/timeline",
+      "currentRoute": "/idnty/starting-at-zero/timeline",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "04_FOUNDATION_BUDGET",
+      "authorityPackPath": "02_IDNTY/01_FOUNDATION/04_FOUNDATION_BUDGET.jpg",
+      "sequence": 13,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_FOUNDATION",
+      "state": "starting-at-zero",
+      "intendedRoute": "/idnty/starting-at-zero/budget",
+      "currentRoute": "/idnty/starting-at-zero/budget",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "05_FOUNDATION_REVIEW",
+      "authorityPackPath": "02_IDNTY/01_FOUNDATION/05_FOUNDATION_REVIEW.jpg",
+      "sequence": 14,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_FOUNDATION",
+      "state": "starting-at-zero",
+      "intendedRoute": "/idnty/starting-at-zero/review",
+      "currentRoute": "/idnty/starting-at-zero/review",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentReviewPage → IdentityCalibrationMobileReview",
+      "newComponent": "IdentityDiagnosticFlow(mode=review)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Legacy review navigated to discovery-result WITHOUT submitting. Now submits via useIdntyAssessment.submitAssessment (existing submit endpoint) and routes to /complete only on server success.",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "01_REFINE_EXISTING_ASSETS",
+      "authorityPackPath": "02_IDNTY/02_REFINE/01_REFINE_EXISTING_ASSETS.jpg",
+      "sequence": 15,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_REFINE",
+      "state": "some-pieces-exist",
+      "intendedRoute": "/idnty/some-pieces-exist/assets",
+      "currentRoute": "/idnty/some-pieces-exist/assets",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM",
+        "MACHINE.IDNTY.PARTIAL.LATTICE"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "OTHER is a conditional field inside the panel (no standalone screen)."
+    },
+    {
+      "authorityId": "02_REFINE_CONDITION",
+      "authorityPackPath": "02_IDNTY/02_REFINE/02_REFINE_CONDITION.jpg",
+      "sequence": 16,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_REFINE",
+      "state": "some-pieces-exist",
+      "intendedRoute": "/idnty/some-pieces-exist/cohesion-diagnostic",
+      "currentRoute": "/idnty/some-pieces-exist/cohesion-diagnostic",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "03_REFINE_GAPS",
+      "authorityPackPath": "02_IDNTY/02_REFINE/03_REFINE_GAPS.jpg",
+      "sequence": 17,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_REFINE",
+      "state": "some-pieces-exist",
+      "intendedRoute": "/idnty/some-pieces-exist/gaps",
+      "currentRoute": "/idnty/some-pieces-exist/gaps",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "Machine callout annotations for selected gaps deferred to Opus."
+    },
+    {
+      "authorityId": "04_REFINE_REVIEW",
+      "authorityPackPath": "02_IDNTY/02_REFINE/04_REFINE_REVIEW.jpg",
+      "sequence": 18,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_REFINE",
+      "state": "some-pieces-exist",
+      "intendedRoute": "/idnty/some-pieces-exist/review",
+      "currentRoute": "/idnty/some-pieces-exist/review",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentReviewPage → IdentityCalibrationMobileReview",
+      "newComponent": "IdentityDiagnosticFlow(mode=review)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Legacy review navigated to discovery-result WITHOUT submitting. Now submits via useIdntyAssessment.submitAssessment (existing submit endpoint) and routes to /complete only on server success.",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "01_EVOLUTION_AREAS",
+      "authorityPackPath": "02_IDNTY/03_READY_FOR_EVOLUTION/01_EVOLUTION_AREAS.jpg",
+      "sequence": 19,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_EVOLUTION",
+      "state": "ready-for-evolution",
+      "intendedRoute": "/idnty/ready-for-evolution/pathways",
+      "currentRoute": "/idnty/ready-for-evolution/pathways",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM",
+        "MACHINE.IDNTY.EVOLUTION.WAVES"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "IDNTY-owned identity domains only (strategy / visual / messaging)."
+    },
+    {
+      "authorityId": "02_EVOLUTION_GOALS",
+      "authorityPackPath": "02_IDNTY/03_READY_FOR_EVOLUTION/02_EVOLUTION_GOALS.jpg",
+      "sequence": 20,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_EVOLUTION",
+      "state": "ready-for-evolution",
+      "intendedRoute": "/idnty/ready-for-evolution/goals",
+      "currentRoute": "/idnty/ready-for-evolution/goals",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "03_EVOLUTION_TIMELINE",
+      "authorityPackPath": "02_IDNTY/03_READY_FOR_EVOLUTION/03_EVOLUTION_TIMELINE.jpg",
+      "sequence": 21,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_EVOLUTION",
+      "state": "ready-for-evolution",
+      "intendedRoute": "/idnty/ready-for-evolution/timeline",
+      "currentRoute": "/idnty/ready-for-evolution/timeline",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage → IdentityCalibrationMobileStep",
+      "newComponent": "IdentityDiagnosticFlow(mode=question)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Answer persists on change (local + debounced server autosave); CONTINUE validates required",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "04_EVOLUTION_REVIEW",
+      "authorityPackPath": "02_IDNTY/03_READY_FOR_EVOLUTION/04_EVOLUTION_REVIEW.jpg",
+      "sequence": 22,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_EVOLUTION",
+      "state": "ready-for-evolution",
+      "intendedRoute": "/idnty/ready-for-evolution/review",
+      "currentRoute": "/idnty/ready-for-evolution/review",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentReviewPage → IdentityCalibrationMobileReview",
+      "newComponent": "IdentityDiagnosticFlow(mode=review)",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Legacy review navigated to discovery-result WITHOUT submitting. Now submits via useIdntyAssessment.submitAssessment (existing submit endpoint) and routes to /complete only on server success.",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "01_BUILD_READY_VERIFICATION",
+      "authorityPackPath": "02_IDNTY/04_BUILD_READY/01_BUILD_READY_VERIFICATION.jpg",
+      "sequence": 23,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_BUILD_READY",
+      "state": "build-ready",
+      "intendedRoute": "/idnty/build-ready/verification",
+      "currentRoute": "/idnty/build-ready/verification",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM",
+        "MACHINE.IDNTY.AUTHORITY.STAR"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage (services / scope / timeline form)",
+      "newComponent": "IdentityDiagnosticFlow(mode=question) + BuildReadyVerificationList",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions) — evidence stored as answers under step `evidence` (no schema change)",
+      "interactionBehavior": "NEW verification UI. No verification backend: statuses are provisional descriptions of user input; submit reports unavailable.",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED_WITH_DEVIATION",
+      "visualStatus": "PARTIAL",
+      "notes": "Statuses are provisional client descriptions of user-supplied evidence. No verification backend."
+    },
+    {
+      "authorityId": "02_BUILD_READY_EVIDENCE",
+      "authorityPackPath": "02_IDNTY/04_BUILD_READY/02_BUILD_READY_EVIDENCE.jpg",
+      "sequence": 24,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_BUILD_READY",
+      "state": "build-ready",
+      "intendedRoute": "/idnty/build-ready/evidence",
+      "currentRoute": "/idnty/build-ready/evidence",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage (services / scope / timeline form)",
+      "newComponent": "IdentityDiagnosticFlow(mode=question) + BuildReadyEvidenceList",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions) — evidence stored as answers under step `evidence` (no schema change)",
+      "interactionBehavior": "NEW verification UI. No verification backend: statuses are provisional descriptions of user input; submit reports unavailable.",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED_WITH_DEVIATION",
+      "visualStatus": "PARTIAL",
+      "notes": "Evidence = source-material types the user confirms. File upload/storage has no backend."
+    },
+    {
+      "authorityId": "03_BUILD_READY_AUTHORITY_CHECK",
+      "authorityPackPath": "02_IDNTY/04_BUILD_READY/03_BUILD_READY_AUTHORITY_CHECK.jpg",
+      "sequence": 25,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_BUILD_READY",
+      "state": "build-ready",
+      "intendedRoute": "/idnty/build-ready/authority-check",
+      "currentRoute": "/idnty/build-ready/authority-check",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentStepPage (services / scope / timeline form)",
+      "newComponent": "IdentityDiagnosticFlow(mode=question) + BuildReadyAuthorityCheckList",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions) — evidence stored as answers under step `evidence` (no schema change)",
+      "interactionBehavior": "NEW verification UI. No verification backend: statuses are provisional descriptions of user input; submit reports unavailable.",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED_WITH_DEVIATION",
+      "visualStatus": "PARTIAL",
+      "notes": "DEVIATION: image shows AUTHORITY ESTABLISHED and \"SITE 00 HAS REVIEWED\". Nothing has been reviewed; shows PENDING REVIEW / GAP IDENTIFIED / REVIEW REQUIRED only."
+    },
+    {
+      "authorityId": "04_BUILD_READY_REVIEW_VERIFICATION",
+      "authorityPackPath": "02_IDNTY/04_BUILD_READY/04_BUILD_READY_REVIEW_VERIFICATION.jpg",
+      "sequence": 26,
+      "family": "IDNTY",
+      "pageFamily": "IDNTY_BUILD_READY",
+      "state": "build-ready",
+      "intendedRoute": "/idnty/build-ready/review",
+      "currentRoute": "/idnty/build-ready/review",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.IDNTY.ATRIUM"
+      ],
+      "replacedComponent": "IdntyAssessmentReviewPage → IdentityCalibrationMobileReview",
+      "newComponent": "IdentityDiagnosticFlow(mode=review) + BuildReadyReview",
+      "dataStateSource": "useIdntyAssessment → localStorage `site00_idnty_assessment_v1` + useIntakeSync → /api/site00/intakes (site00_idnty_submissions)",
+      "interactionBehavior": "Legacy review navigated to discovery-result WITHOUT submitting. Now submits via useIdntyAssessment.submitAssessment (existing submit endpoint) and routes to /complete only on server success.",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED_WITH_DEVIATION",
+      "visualStatus": "PARTIAL",
+      "notes": "SUBMIT FOR VERIFICATION reports the capability as unavailable; it never fakes a submission."
+    },
+    {
+      "authorityId": "01_BLDR_COMMAND_CENTER",
+      "authorityPackPath": "03_BLDR/01_BLDR_COMMAND_CENTER.jpg",
+      "sequence": 27,
+      "family": "BLDR",
+      "pageFamily": "BLDR_COMMAND_CENTER",
+      "state": "command-center",
+      "intendedRoute": "/bldr/state",
+      "currentRoute": "/bldr/state",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.BLDR.COMMAND_CENTER",
+        "MACHINE.BLDR.TOWER",
+        "CARD.BLDR.PATH.SITE",
+        "CARD.BLDR.PATH.WORLD",
+        "CARD.BLDR.PATH.SYSTEMS",
+        "CARD.BLDR.PATH.EXTENSIONS"
+      ],
+      "replacedComponent": "BldrStatePage (mobile) → BldrClassificationMobile",
+      "newComponent": "BuilderCommandCenter",
+      "dataStateSource": "Site00Context.selectBuildClass · useBldrAssessment · BLDR_BUILD_CLASSES",
+      "interactionBehavior": "Path card → ?path= panel → BEGIN → /bldr/<class>. MISMATCH: classes are SITE/WORLD/ENTERPRISE/NOT SURE.",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "STRUCTURAL MISMATCH: current product classes are SITE / WORLD / ENTERPRISE / NOT SURE. SYSTEMS → enterprise; EXTENSIONS has no class yet (routes to discovery)."
+    },
+    {
+      "authorityId": "02_BLDR_OVERVIEW",
+      "authorityPackPath": "03_BLDR/02_BLDR_OVERVIEW.jpg",
+      "sequence": 28,
+      "family": "BLDR",
+      "pageFamily": "BLDR_PATH_PANEL",
+      "state": "overview",
+      "intendedRoute": "/bldr/state?path=overview",
+      "currentRoute": "/bldr/state?path=overview",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.BLDR.PATH.OVERVIEW",
+        "ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW",
+        "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      ],
+      "replacedComponent": "none (nearest: BldrHubPage / BldrEntryPage)",
+      "newComponent": "BuilderPathPanel",
+      "dataStateSource": "config/public-redesign-content.ts (authority copy)",
+      "interactionBehavior": "In-place panel via ?path=; BEGIN <path> → existing assessment route",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "03_BLDR_SITE",
+      "authorityPackPath": "03_BLDR/03_BLDR_SITE.jpg",
+      "sequence": 29,
+      "family": "BLDR",
+      "pageFamily": "BLDR_PATH_PANEL",
+      "state": "site",
+      "intendedRoute": "/bldr/state?path=site",
+      "currentRoute": "/bldr/state?path=site",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.BLDR.PATH.SITE",
+        "ILLUSTRATION.BLDR.PATH.PANEL.SITE",
+        "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      ],
+      "replacedComponent": "none (nearest: BldrHubPage / BldrEntryPage)",
+      "newComponent": "BuilderPathPanel",
+      "dataStateSource": "config/public-redesign-content.ts (authority copy)",
+      "interactionBehavior": "In-place panel via ?path=; BEGIN <path> → existing assessment route",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "04_BLDR_WORLD",
+      "authorityPackPath": "03_BLDR/04_BLDR_WORLD.jpg",
+      "sequence": 30,
+      "family": "BLDR",
+      "pageFamily": "BLDR_PATH_PANEL",
+      "state": "world",
+      "intendedRoute": "/bldr/state?path=world",
+      "currentRoute": "/bldr/state?path=world",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.BLDR.PATH.WORLD",
+        "ILLUSTRATION.BLDR.PATH.PANEL.WORLD",
+        "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      ],
+      "replacedComponent": "none (nearest: BldrHubPage / BldrEntryPage)",
+      "newComponent": "BuilderPathPanel",
+      "dataStateSource": "config/public-redesign-content.ts (authority copy)",
+      "interactionBehavior": "In-place panel via ?path=; BEGIN <path> → existing assessment route",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "05_BLDR_SYSTEMS",
+      "authorityPackPath": "03_BLDR/05_BLDR_SYSTEMS.jpg",
+      "sequence": 31,
+      "family": "BLDR",
+      "pageFamily": "BLDR_PATH_PANEL",
+      "state": "systems",
+      "intendedRoute": "/bldr/state?path=systems",
+      "currentRoute": "/bldr/state?path=systems",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.BLDR.PATH.SYSTEMS",
+        "ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS",
+        "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      ],
+      "replacedComponent": "none (nearest: BldrHubPage / BldrEntryPage)",
+      "newComponent": "BuilderPathPanel",
+      "dataStateSource": "config/public-redesign-content.ts (authority copy)",
+      "interactionBehavior": "In-place panel via ?path=; BEGIN <path> → existing assessment route",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "BEGIN SYSTEMS → existing /bldr/enterprise assessment (nearest current function)."
+    },
+    {
+      "authorityId": "06_BLDR_EXTENSIONS",
+      "authorityPackPath": "03_BLDR/06_BLDR_EXTENSIONS.jpg",
+      "sequence": 32,
+      "family": "BLDR",
+      "pageFamily": "BLDR_PATH_PANEL",
+      "state": "extensions",
+      "intendedRoute": "/bldr/state?path=extensions",
+      "currentRoute": "/bldr/state?path=extensions",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.BLDR.PATH.EXTENSIONS",
+        "ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS",
+        "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      ],
+      "replacedComponent": "none (nearest: BldrHubPage / BldrEntryPage)",
+      "newComponent": "BuilderPathPanel",
+      "dataStateSource": "config/public-redesign-content.ts (authority copy)",
+      "interactionBehavior": "In-place panel via ?path=; BEGIN <path> → existing assessment route",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "No EXTENSIONS build class exists; BEGIN EXTENSIONS → /bldr/not-sure discovery. WAITING_FOR_ROUTE."
+    },
+    {
+      "authorityId": "01_EVOLVE_INTERVENTION_CENTER",
+      "authorityPackPath": "04_EVOLVE/01_EVOLVE_INTERVENTION_CENTER.jpg",
+      "sequence": 33,
+      "family": "EVOLVE",
+      "pageFamily": "EVOLVE_INTERVENTION_CENTER",
+      "state": "intervention-center",
+      "intendedRoute": "/evolve/state",
+      "currentRoute": "/evolve/state",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.EVOLVE.INTERVENTION_CENTER",
+        "MACHINE.EVOLVE.PROPERTY_TOWER",
+        "CARD.EVOLVE.PATH.REFINE",
+        "CARD.EVOLVE.PATH.INSTALL",
+        "CARD.EVOLVE.PATH.TRANSFORM"
+      ],
+      "replacedComponent": "EvolveStatePage (mobile) → EvolveMobileExperience",
+      "newComponent": "EvolveInterventionCenter",
+      "dataStateSource": "Site00Context.selectEvolvePath · useEvolveAssessment · EVOLVE_PATHS",
+      "interactionBehavior": "Path card → ?path= panel → CHOOSE → /evolve/<path>/property",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 1080,
+        "h": 1920
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "Image highlights the IDNTY nav bay on an EVOLVE page; implementation highlights the contextual EVOLVE bay."
+    },
+    {
+      "authorityId": "02_EVOLVE_REFINE",
+      "authorityPackPath": "04_EVOLVE/02_EVOLVE_REFINE.jpg",
+      "sequence": 34,
+      "family": "EVOLVE",
+      "pageFamily": "EVOLVE_PATH_PANEL",
+      "state": "refine",
+      "intendedRoute": "/evolve/state?path=refine",
+      "currentRoute": "/evolve/state?path=refine",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.EVOLVE.PATH.REFINE",
+        "ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE"
+      ],
+      "replacedComponent": "none (nearest: EvolveHubPathCard)",
+      "newComponent": "EvolvePathPanel",
+      "dataStateSource": "config/public-redesign-content.ts (authority copy; prices are authority copy, not a pricing source)",
+      "interactionBehavior": "In-place panel via ?path=",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "03_EVOLVE_INSTALL",
+      "authorityPackPath": "04_EVOLVE/03_EVOLVE_INSTALL.jpg",
+      "sequence": 35,
+      "family": "EVOLVE",
+      "pageFamily": "EVOLVE_PATH_PANEL",
+      "state": "install",
+      "intendedRoute": "/evolve/state?path=install",
+      "currentRoute": "/evolve/state?path=install",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.EVOLVE.PATH.INSTALL",
+        "ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL"
+      ],
+      "replacedComponent": "none (nearest: EvolveHubPathCard)",
+      "newComponent": "EvolvePathPanel",
+      "dataStateSource": "config/public-redesign-content.ts (authority copy; prices are authority copy, not a pricing source)",
+      "interactionBehavior": "In-place panel via ?path=",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "04_EVOLVE_TRANSFORM",
+      "authorityPackPath": "04_EVOLVE/04_EVOLVE_TRANSFORM.jpg",
+      "sequence": 36,
+      "family": "EVOLVE",
+      "pageFamily": "EVOLVE_PATH_PANEL",
+      "state": "transform",
+      "intendedRoute": "/evolve/state?path=transform",
+      "currentRoute": "/evolve/state?path=transform",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.EVOLVE.PATH.TRANSFORM",
+        "ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM"
+      ],
+      "replacedComponent": "none (nearest: EvolveHubPathCard)",
+      "newComponent": "EvolvePathPanel",
+      "dataStateSource": "config/public-redesign-content.ts (authority copy; prices are authority copy, not a pricing source)",
+      "interactionBehavior": "In-place panel via ?path=",
+      "newRouteSurface": true,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": null
+    },
+    {
+      "authorityId": "01_LOCATIONS_MAIN",
+      "authorityPackPath": "05_LOCATIONS/01_LOCATIONS_MAIN.jpg",
+      "sequence": 37,
+      "family": "LOCATIONS",
+      "pageFamily": "LOCATIONS",
+      "state": null,
+      "intendedRoute": "/origin/locations",
+      "currentRoute": "/origin/locations",
+      "routeStatus": "ACTIVE",
+      "coverage": "COVERED",
+      "requiresAssetSlots": true,
+      "assetSlots": [
+        "ENV.LOCATIONS.ARCH",
+        "CARD.LOCATIONS.BLDR",
+        "CARD.LOCATIONS.EVOLVE",
+        "CARD.LOCATIONS.SITES",
+        "CARD.LOCATIONS.SERVICES",
+        "CARD.LOCATIONS.SYSTEM",
+        "CARD.LOCATIONS.ABOUT",
+        "CARD.LOCATIONS.JOURNAL"
+      ],
+      "replacedComponent": "LocationsPage → Site00MobileShell · LocationsDirectory · DirectoryCard",
+      "newComponent": "PublicLocationsDirectory",
+      "dataStateSource": "config/locations-directory.ts · useSignedInFromStorage",
+      "interactionBehavior": "Rows link to existing destinations; auth-locked rows deep-link to sign-in; mobile-only (redirects to /origin ≥768px)",
+      "newRouteSurface": false,
+      "authorityViewport": {
+        "w": 941,
+        "h": 1672
+      },
+      "implementationStatus": "STRUCTURE_IMPLEMENTED",
+      "visualStatus": "PARTIAL",
+      "notes": "Image numbers SYSTEM and ABOUT both \"05\"; implementation uses config order 05 / 06 / 07. YOUR SPACE section (existing function) retained below the supplied seven."
+    }
+  ],
+  "uncovered": [
+    {
+      "route": "/bldr",
+      "reason": "BLDR hub / build-process page — not in this pack.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/bldr/start",
+      "reason": "BLDR direction entry — not in this pack.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/bldr/:classSlug/*",
+      "reason": "BLDR assessment / intake steps — additional Builder pages pending.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/evolve",
+      "reason": "EVOLVE hub (long marketing page) — not in this pack.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/evolve/:pathSlug/*",
+      "reason": "EVOLVE assessment steps — additional Evolve pages pending.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/evolve/marketing/*",
+      "reason": "EVOLVE marketing services — not in this pack.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/idnty/:state/complete",
+      "reason": "IDNTY completion — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/idnty/:state/discovery-result",
+      "reason": "IDNTY discovery result — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/origin/sign-in",
+      "reason": "Auth — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/origin/create-account",
+      "reason": "Auth — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/sites",
+      "reason": "Locations child page — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/services",
+      "reason": "Locations child page — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/system",
+      "reason": "Locations child page — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/about",
+      "reason": "Locations child page — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/journal",
+      "reason": "Locations child page — no authority supplied.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    },
+    {
+      "route": "/checkout/*",
+      "reason": "Checkout pages — authority arrives in a later pack; do not invent.",
+      "coverage": "UNCOVERED",
+      "status": "WAITING_FOR_AUTHORITY",
+      "visualChange": "NONE"
+    }
+  ]
+}

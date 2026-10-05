@@ -1,0 +1,33 @@
+{
+  "route": "/evolve/state?path=install",
+  "finalUrl": "/evolve/state?path=install",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 693,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": false,
+  "assetSlots": [
+    {
+      "id": "ENV.EVOLVE.PATH.INSTALL",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 319,
+      "radius": "0px",
+      "z": "0"
+    },
+    {
+      "id": "ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL",
+      "x": 250,
+      "y": 351,
+      "w": 108,
+      "h": 100,
+      "radius": "0px",
+      "z": "auto"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,11 @@
+# RESIDUALS / CONFLICTS
+
+1. **Generated reference content is not reproduced.** The mocks show casting candidates (ELLA MARSH and others), reviewers and comments, captions and hashtags, scheduled campaigns, dates, percentages and file sizes. None of these exist in canonical data. They render as honest EMPTY or UNMOUNTED states, or as real counts (for example PROOF PER BEAT instead of "beat strength", and EVIDENCE SOURCED instead of "retention").
+2. **Imagery is thinner than the authority.** There are no actor headshots in the catalogue (`headshotPreviewUrl` is null), so actors show initials. Scenes have no reference stills. Only the hub node art (7) and storyboard frames (8) are real images, and they are used where they genuinely apply.
+3. **Sets + Scenes is NOT STARTED** for Entry 002. Environment, set and zone are empty and kept distinct. Props come from looks, graphics needs from the proof architecture, and camera intent from beat shot functions; each is labelled with its source.
+4. **Downstream has no assembly records.** Format adaptations become PLANNED deliverables. FINALIZE, SEND TO CAMPAIGN BOARD and PREPARE FOR PUBLISH stay disabled with reasons. The Campaign Board shows 0 completed packages. No scheduling or publish data source exists, so none was invented.
+5. **Internal scroll panes.** Every panel body is a bounded pane. On tighter viewports some panes scroll internally (desktop 11, desktop-min 22, mobile 45, tablet 52, mobile-short 87 across 40 routes; listed in NO_SCROLL_MATRIX). The page and the frame never scroll, and nothing is clipped.
+6. **Expression root (Production Floor) is out of scope.** `/production/:slug/expression` is not one of the 40 routes and still overflows its frame (measured before: mobile 764px, tablet 192px, desktop 132px). It is untouched in this sprint and needs its own pass.
+7. **Mock host title "HUB".** The shared host keeps its workspace title (EXPRESSION). This is architecture over generated copy.
+8. **Remote reference fetches are blocked in this container** (Supabase, CDN). The engine plan is not served here, so captures show the canonical compile. Live founder status may differ once the API responds.
+9. **Keyframe approval has no Expression action.** It stays disabled with a reason; keyframes are approved in the Expression Engine.

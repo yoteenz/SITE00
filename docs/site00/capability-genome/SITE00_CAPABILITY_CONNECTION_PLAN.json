@@ -1,0 +1,805 @@
+{
+ "artifact": "SITE00_CAPABILITY_CONNECTION_PLAN",
+ "sprint": "P0.SITE00.GROUND-ZERO-MATURE-CAPABILITY-GENOME-RECONCILIATION1",
+ "status": "RECONCILIATION EVIDENCE + PROPOSAL (0 code changes, 0 database changes, 0 paid generations)",
+ "current_main_sha": "6f63aaaa439cc4c996a734e3cec5abbf586f2e61",
+ "definition": "Built code that is not connected to its consumer: tested guards nothing calls, tables nothing writes, adapters that return empty, email that never sends. Connecting these is cheaper than building, and it is where most client-ready effort goes.",
+ "count": 46,
+ "effort_days": 119.0,
+ "highlight_disconnections": [
+  "Reference-binding pre-dispatch guard (#1357–#1364): tested, but only tests and index files import precheckGenerationDispatch. About 57 non-test files call providers directly and bypass it.",
+  "sendEmailAsync renders templates and then only logs \"queued\" or \"not-configured\". No provider is ever called.",
+  "Leads, discovery bookings, invoices, sites, contacts and feedback tables: written only by the NORTHQUARTER demo seed.",
+  "site00_courtesy_* and existing_location_* tables: unused; the engines keep state in in-memory Maps.",
+  "EVOLVE analytics adapters (GA, Search Console, Meta) return [].",
+  "41 of about 216 tables are not referenced in code (grep, medium confidence).",
+  "site00_sites.last_deploy_at and domain columns are never written.",
+  "Release rollback code exists but nothing calls it."
+ ],
+ "by_engine": {
+  "ASSET_GRAPH": [
+   {
+    "capability_id": "CAP.DATA.UNUSED_TABLES",
+    "name": "Unused / orphan tables",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "GROUND_ZERO_FOUNDATION",
+    "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+    "effort_days_estimate": 5,
+    "connect_from": [],
+    "connect_to": [],
+    "what": "For each: CONNECT (existing_location_*, creative_entries, references, production_dependency_edges, design_pages/families) or DEPRECATE (production_templates/instances, methodology_stages, automation_rules, release_bindings)."
+   },
+   {
+    "capability_id": "CAP.DEPGRAPH.DESIGN_CHANGE_BLAST_RADIUS",
+    "name": "Design control plane change requests + blast radius + shell propagation",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "CONTROL_PLANE",
+    "effort_days_estimate": 5,
+    "connect_from": [
+     "shared/site00-design-control-plane/blastRadius.ts",
+     "shared/site00-design-control-plane/designControlPlane.ts:45-57",
+     "shared/site00-design-control-plane/memoryStore.ts",
+     "shared/site00-design-control-plane/constants.ts:62-71"
+    ],
+    "connect_to": [],
+    "what": "Supabase store; model page/family/shell tree in DB."
+   },
+   {
+    "capability_id": "CAP.DEPGRAPH.INVALIDATION_GRAPH",
+    "name": "Canonical dependency edges + invalidation resolver",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "GROUND_ZERO_FOUNDATION",
+    "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+    "effort_days_estimate": 3,
+    "connect_from": [
+     "shared/site00-studio-world-production/canonicalDependencyEdges.ts",
+     "shared/site00-studio-world-production/invalidationResolver.ts:97",
+     "shared/site00-studio-world-production/dependencyTypes.ts"
+    ],
+    "connect_to": [],
+    "what": "Persist edges; enable RLS; drive staleness in DESIGN/LIBRARY."
+   }
+  ],
+  "CANON_REGISTRY": [
+   {
+    "capability_id": "CAP.CANON.DESIGN_LANGUAGE_CANON",
+    "name": "SITE 00 design language canon + authority registries",
+    "current_status": "CONCEPT_ONLY",
+    "implementation_maturity": 1,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "STUDIO_OS",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "docs/site00/ground-zero/SITE00_DESIGN_LANGUAGE_CANON.json",
+     "docs/site00/ground-zero/SITE00_VISUAL_AUTHORITY_REGISTRY.json",
+     "docs/site00/ground-zero/SITE00_COMPONENT_VISUAL_RULES.json"
+    ],
+    "connect_to": [],
+    "what": "Lint/contract tests reading canon (e.g. no viewport units in host chrome CSS)."
+   },
+   {
+    "capability_id": "CAP.CANON.IDENTITY_CANON_PROMOTION",
+    "name": "Identity canon promotion + versioning",
+    "current_status": "EXISTS_CONNECTED",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PRODUCTS_IDNTY",
+    "effort_days_estimate": 3.0,
+    "connect_from": [
+     "api/_lib/site00Projects/identity/canonPromotionService.ts:60",
+     "shared/site00-identity/identityCanonGate.ts:13",
+     "shared/site00-brand-lore/creativeLineage/canonVersioning.ts",
+     "api/_lib/site00Projects/identity/canonPromotionService.ts",
+     "api/_lib/site00Projects/identity/identityJudgmentService.ts"
+    ],
+    "connect_to": [],
+    "what": "Client approval as a promotion input; single project key. || From CAP.ASSET.CANON_RECORDS: LIBRARY reads canon records; families/assets promote into it."
+   },
+   {
+    "capability_id": "CAP.CONTENT.CONTENT_BRAIN",
+    "name": "Content Brain (IDEA/CANON knowledge entries)",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "MERGE",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+    "effort_days_estimate": 1.5,
+    "connect_from": [
+     "api/_lib/site00Evolve/contentBrain.ts:3,17-29",
+     "api/_lib/site00Projects/projectResolver.ts:5"
+    ],
+    "connect_to": [],
+    "what": "Route through storeAdapter; merge with canon registry."
+   },
+   {
+    "capability_id": "CAP.EXPRESSION.FAMILY_EXPRESSION_BRIEF_GATE",
+    "name": "Family expression brief + founder gate (#1364)",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+    "effort_days_estimate": 3.0,
+    "connect_from": [
+     "shared/site00-production-guardrails/familyExpressionBrief.ts:6-95",
+     "JURNL/F01_ENTRY/MANIFEST/F01_FAMILY_EXPRESSION_BRIEF.json",
+     "JURNL/F02_SETUP/MANIFEST/F02_FAMILY_EXPRESSION_BRIEF.json",
+     "JURNL/F03_TODAY/MANIFEST/F03_FAMILY_EXPRESSION_BRIEF.json",
+     "JURNL/F04_ACTIVITY/MANIFEST/F04_FAMILY_EXPRESSION_BRIEF.json"
+    ],
+    "connect_to": [
+     "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD"
+    ],
+    "what": "DB-backed briefs editable in UI; founder gate as signed approval event; apply to non-JURNL projects. || From CAP.CONTENT.JURNL_FAMILY_CONTENT: Belongs to production/asset domain; content not modelled in DB."
+   },
+   {
+    "capability_id": "CAP.PRODUCT.IDNTY_DELIVERY_PHASE_ENGINE",
+    "name": "IDNTY delivery: identity phase, judgment, canon promotion, project bible",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+    "effort_days_estimate": 5,
+    "connect_from": [
+     "api/_lib/site00Projects/identity/identityPhaseService.ts",
+     "api/_lib/site00Projects/identity/identityJudgmentService.ts",
+     "api/_lib/site00Projects/identity/canonPromotionService.ts",
+     "api/_lib/site00Projects/identity/projectBibleCompiler.ts",
+     "api/_lib/site00Projects/identity/worldHierarchyService.ts"
+    ],
+    "connect_to": [
+     "CAP.PRODUCT.IDNTY_STATE_MODEL",
+     "CAP.CANON.IDENTITY_CANON_PROMOTION"
+    ],
+    "what": "Not surfaced in production workspace DESIGN; no client review/approval of identity canon; identity canon not consumed by JURNL-style family briefs."
+   },
+   {
+    "capability_id": "CAP.PRODUCT.IDNTY_STATE_MODEL",
+    "name": "IDNTY 00-03 brand-state product definition",
+    "current_status": "EXISTS_CONNECTED",
+    "implementation_maturity": 4,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PRODUCTS_IDNTY",
+    "effort_days_estimate": 3,
+    "connect_from": [
+     "src/site00/config/identity.ts:16-45",
+     "src/site00/config/idnty-assessment.ts",
+     "src/site00/config/idnty-diagnostic.ts",
+     "src/site00/config/idnty-calibration.ts",
+     "src/site00/config/identity-state-v2.ts"
+    ],
+    "connect_to": [
+     "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE"
+    ],
+    "what": "No single product-definition object binding state → offer → deliverables → price; IDNTY state not propagated into a project record type."
+   }
+  ],
+  "COST_LEDGER": [
+   {
+    "capability_id": "CAP.COST.MARGIN_INTELLIGENCE",
+    "name": "Margin intelligence",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "RECLASSIFY",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "shared/site00-evolve-operations/evolveOperationsIntelligence.ts:76",
+     "src/site00/hooks/useEvolveOperationsPortfolio.ts:14",
+     "shared/site00-evolve-operations/clientFirewall.ts:16"
+    ],
+    "connect_to": [],
+    "what": "Feed from real revenue (invoices) + cost ledger; move to founder control room."
+   },
+   {
+    "capability_id": "CAP.INTEGRATION.OPENART_MANUAL",
+    "name": "OpenArt (manual provider projects)",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "RECLASSIFY",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PROJECT_RUNTIME_LAYER",
+    "effort_days_estimate": 2,
+    "connect_from": [],
+    "connect_to": [],
+    "what": "Move provider project map into project runtime registry/DB; ledger into COST_LEDGER."
+   },
+   {
+    "capability_id": "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD",
+    "name": "Reference-binding pre-dispatch guard (#1357/#1359/#1363/#1364)",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "GROUND_ZERO_FOUNDATION",
+    "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+    "effort_days_estimate": 5.0,
+    "connect_from": [
+     "shared/site00-production-guardrails/precheckGenerationDispatch.ts:12",
+     "shared/site00-production-guardrails/validateGenerationReferenceBinding.ts",
+     "shared/site00-production-guardrails/familyOutputProjects.ts:16",
+     "shared/site00-production-guardrails/referenceResolver.ts",
+     "shared/site00-production-guardrails/precheckGenerationDispatch.ts:12-97"
+    ],
+    "connect_to": [
+     "CAP.ASSET.GENERATION_LEDGER"
+    ],
+    "what": "Wrap every paid provider call (FAL, OpenArt, GPT-Image, Grok) in runPrecheckedProviderDispatch via one provider gateway. || From CAP.EXPRESSION.DISPATCH_PRECHECK: Wrap every provider call site (fal, xAI, OpenAI, OpenArt if API added) through runPrecheckedProviderDispatch; persist precheck results to a generation ledger table."
+   }
+  ],
+  "EVENT_LEDGER": [
+   {
+    "capability_id": "CAP.ANALYTICS.USER_ACTIVITY_TRACKING",
+    "name": "User activity event tracking",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "MERGE",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "src/utils/activity.ts:68",
+     "api/activity.ts:24"
+    ],
+    "connect_to": [],
+    "what": "Migration, page-view capture, unify with event ledger, any reader."
+   },
+   {
+    "capability_id": "CAP.COMMERCIAL.INVOICES",
+    "name": "Invoices",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+    "effort_days_estimate": 2.5,
+    "connect_from": [
+     "api/_lib/site00Production/adminOperations.ts:233",
+     "api/_lib/site00Production/adminOperations.ts:746",
+     "supabase/migrations/20260818180000_site00_admin_operations.sql:116",
+     "src/site00/admin/pages/operations/FinancePage.tsx:65"
+    ],
+    "connect_to": [],
+    "what": "Founder create/send/mark-paid invoice (manual payment) + client view; drop demo seed. || From CAP.SALES.INVOICING: Add founder invoice create/mark-paid. Show invoices in client billing."
+   },
+   {
+    "capability_id": "CAP.CRM.LEAD_CAPTURE",
+    "name": "Public lead capture",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "STUDIO_OS",
+    "effort_days_estimate": 2.5,
+    "connect_from": [
+     "api/_lib/site00Production/adminOperations.ts:117",
+     "api/_lib/site00Production/adminOperations.ts:204",
+     "src/site00/pages/information/ContactPage.tsx:15",
+     "shared/site00-commercial-canon/dualPricingTrees.ts:45"
+    ],
+    "connect_to": [
+     "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE"
+    ],
+    "what": "Write a lead on intake submit, on contact form or booking request, and on opportunity interest, with de-duplication by email. || From CAP.SALES.DISCOVERY_BOOKING: Embed an external scheduler or a simple request form that writes a booking and a lead. || From CAP.BIZ.LEAD_AND_DISCOVERY_BOOKING: No public lead/contact form writes leads; no booking integration; demo seed contaminates admin data."
+   },
+   {
+    "capability_id": "CAP.EVOLVE.OPERATIONS_INTELLIGENCE",
+    "name": "EVOLVE operations intelligence (portfolio health, margin, nudges)",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+    "effort_days_estimate": 4,
+    "connect_from": [
+     "shared/site00-evolve-operations/index.ts:25",
+     "src/site00/hooks/useEvolveOperationsPortfolio.ts:7-35",
+     "src/site00/pages/control/EvolveOperationsPage.tsx"
+    ],
+    "connect_to": [],
+    "what": "Feed from real engagements + cost ledger."
+   },
+   {
+    "capability_id": "CAP.JOURNEY.EXISTING_LOCATION_FLOW",
+    "name": "Existing Location case flow",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 3,
+    "disposition": "RECLASSIFY",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PRODUCTS_EVOLVE",
+    "effort_days_estimate": 3.0,
+    "connect_from": [
+     "api/_lib/existingLocation/service.ts:19-99",
+     "api/_lib/existingLocation/memoryStore.ts:9-13",
+     "api/site00/existing-location.ts:29",
+     "shared/site00-existing-location/stateMachine.ts",
+     "shared/site00-existing-location/shopifyAdapter.ts"
+    ],
+    "connect_to": [],
+    "what": "Reclassify under EVOLVE. Persist to the existing tables. Link it from EVOLVE. || From CAP.EVOLVE.EXISTING_LOCATION_CASES: Supabase persistence; unify with EVOLVE path assessment. || From CAP.BIZ.EXISTING_LOCATION_INTAKE: Persist to the migrated tables; ownership check on get; founder UI (API-only today)."
+   }
+  ],
+  "NONE": [
+   {
+    "capability_id": "CAP.A11Y.A11Y_MVP_GATE",
+    "name": "Accessibility MVP approval gate",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "STUDIO_OS",
+    "effort_days_estimate": 2,
+    "connect_from": [],
+    "connect_to": [
+     "CAP.OPS.LAUNCH_READINESS_MANIFEST"
+    ],
+    "what": "Back with axe-core Playwright run and wire into launch manifest requirements."
+   },
+   {
+    "capability_id": "CAP.AGENT.PRODUCTION_ORCHESTRATION_QUEUE",
+    "name": "Production orchestration command queue / next actions",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "api/_lib/site00Orchestration/commandQueue.ts:29",
+     "api/_lib/site00Orchestration/repositoryInventory.ts",
+     "api/_lib/site00Orchestration/githubClient.ts"
+    ],
+    "connect_to": [],
+    "what": "Connect to project registry + agent sprint registry."
+   },
+   {
+    "capability_id": "CAP.ASSET.PRODUCT_ASSET_FACTORY",
+    "name": "Product asset factory (Frontal Slayer master heroes / variants)",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "REPAIR",
+    "priority": "FUTURE_OPTIONAL",
+    "correct_product_layer": "PRODUCTS_BLDR",
+    "effort_days_estimate": 3,
+    "connect_from": [
+     "shared/site00-studio-world-production/productAssetFactory/p0paf1/masterHeroRegistry.ts:61-71",
+     "api/_lib/site00ProductAssets/service.ts"
+    ],
+    "connect_to": [],
+    "what": "Real storage + table writes + route registration."
+   },
+   {
+    "capability_id": "CAP.BIZ.CREATIVE_INTAKE_ENGINE",
+    "name": "EVOLVE creative intake engine (per-service drafts)",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "MERGE",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PRODUCTS_EVOLVE",
+    "effort_days_estimate": 1.5,
+    "connect_from": [
+     "src/site00/hooks/useCreativeIntake.ts:37",
+     "src/site00/pages/evolve/marketing/MarketingIntakePage.tsx:34"
+    ],
+    "connect_to": [],
+    "what": "Duplicates marketing engagement intake; no persistence."
+   },
+   {
+    "capability_id": "CAP.BIZ.DISCOVERY_RECOMMENDATION",
+    "name": "Discovery recommendation compiler",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PUBLIC_LOCATION",
+    "effort_days_estimate": 1.5,
+    "connect_from": [
+     "shared/site00-project-discovery/recommendation.ts:50",
+     "src/site00/components/discovery/DiscoveryResultPanel.tsx:46",
+     "src/site00/pages/SupportPage.tsx:32"
+    ],
+    "connect_to": [
+     "CAP.CRM.LEAD_CAPTURE"
+    ],
+    "what": "Recommendation not persisted as a lead/opportunity; no booking; no price attached."
+   },
+   {
+    "capability_id": "CAP.BIZ.EVOLVE_ASSESSMENT_INTAKE",
+    "name": "EVOLVE assessment intake",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PRODUCTS_EVOLVE",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "src/site00/hooks/useEvolveAssessment.ts:52",
+     "shared/site00-intakes/types.ts:11",
+     "supabase/migrations/20260818190000_site00_evolve_service.sql:8"
+    ],
+    "connect_to": [],
+    "what": "Not persisted server-side; founder never sees EVOLVE assessments; no conversion to org/marketing profile."
+   },
+   {
+    "capability_id": "CAP.BIZ.ORIGIN_INGESTION_CLIENT_TRUTH",
+    "name": "Origin ingestion + client truth records",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "GROUND_ZERO_FOUNDATION",
+    "correct_product_layer": "PROJECT_RUNTIME_LAYER",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "api/_lib/site00Projects/originIngestionService.ts:289",
+     "api/_lib/site00Projects/clientTruthService.ts:26",
+     "api/_lib/site00Projects/originIngestionService.ts:409"
+    ],
+    "connect_to": [],
+    "what": "Not fed from intake records automatically; founder-triggered; no client-facing view."
+   },
+   {
+    "capability_id": "CAP.CONTROL_ROOM.CLIENT_PROFILE_SECURITY",
+    "name": "Client profile, settings, and security",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "CLIENT_CONTROL_ROOM",
+    "effort_days_estimate": 2,
+    "connect_from": [],
+    "connect_to": [
+     "CAP.SECURITY.SUPABASE_AUTH_SESSION"
+    ],
+    "what": "Wire /control/settings to api/profile.ts and add a password-change page that is also the reset landing."
+   },
+   {
+    "capability_id": "CAP.DEVICE_QA.CLIENT_APP_SCREEN_MATRIX",
+    "name": "Client app 25-screen QA capture",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "CLIENT_PROJECT_ROOM",
+    "effort_days_estimate": 1.5,
+    "connect_from": [],
+    "connect_to": [],
+    "what": "Run in CI against preview with real seeded project; store baselines."
+   },
+   {
+    "capability_id": "CAP.DISTRIBUTION.SOCIAL_PUBLISHING",
+    "name": "Social publishing / dispatch",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "EXPAND",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "PRODUCTS_EVOLVE",
+    "effort_days_estimate": 6,
+    "connect_from": [
+     "api/_lib/site00Evolve/providers/publishingFence.ts:5-40",
+     "api/_lib/site00Evolve/providers/providerAdapter.ts:30,71",
+     "api/_lib/site00Evolve/providers/firstPostCandidateService.ts:92",
+     "api/_lib/site00Evolve/providers/dryRunService.ts"
+    ],
+    "connect_to": [],
+    "what": "Implement IG Graph publish + scheduler worker after fences."
+   },
+   {
+    "capability_id": "CAP.EXPRESSION.BRAND_LORE_CREATIVE_CONTEXT",
+    "name": "Brand lore / brand creative context / brand family skins",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "GROUND_ZERO_FOUNDATION",
+    "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "api/_lib/site00BrandLore/",
+     "shared/site00-brand-lore/brandCreativeContext/constants.ts:28-58",
+     "shared/site00-brand-lore/projectSkin/brandFamily/"
+    ],
+    "connect_to": [],
+    "what": "Fix RLS; feed family briefs from brand context."
+   },
+   {
+    "capability_id": "CAP.EXPRESSION.ENVIRONMENT_DISTINCTNESS",
+    "name": "Family environment distinctness + cross-family plate reuse guard (#1363)",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "shared/site00-production-guardrails/familyEnvironmentDistinctness.ts:17-25",
+     "JURNL/MANIFEST/JURNL_ENVIRONMENT_BRIEFS.json",
+     "JURNL/MANIFEST/JURNL_FAMILY_ENVIRONMENT_DISTINCTNESS.json",
+     "JURNL/MANIFEST/JURNL_PLATE_REUSE_AUDIT.json",
+     "src/projects/jurnl/families/F03_TODAY/MANIFEST/F03_ENVIRONMENT_MANIFEST.json"
+    ],
+    "connect_to": [
+     "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD"
+    ],
+    "what": "Image-similarity check; wire into real dispatch."
+   },
+   {
+    "capability_id": "CAP.JOURNEY.POST_INTAKE_HANDOFF",
+    "name": "Post-intake handoff to account, intake, and project",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "CLIENT_CONTROL_ROOM",
+    "effort_days_estimate": 2,
+    "connect_from": [],
+    "connect_to": [
+     "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE",
+     "CAP.SECURITY.SUPABASE_AUTH_SESSION"
+    ],
+    "what": "Route completion to sign-in?returnTo=/account/intakes/:id. Expose INTAKES in CTRL ROOM and on mobile. Show the 'founder reviewing, next step' status."
+   },
+   {
+    "capability_id": "CAP.MAINTAIN.CLIENT_CHANGE_REQUESTS",
+    "name": "Client change requests post-launch",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "CLIENT_CONTROL_ROOM",
+    "effort_days_estimate": 3,
+    "connect_from": [],
+    "connect_to": [],
+    "what": "Reuse revision-request model for post-launch requests in client room."
+   },
+   {
+    "capability_id": "CAP.MARKETING.SITE00_SELF_MARKETING",
+    "name": "Marketing for SITE 00 itself",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 1,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PUBLIC_LOCATION",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "api/_lib/site00Evolve/orgRegistry.ts:16",
+     "api/_lib/site00Evolve/seedFixtures.ts:90",
+     "src/site00/config/seed/site00-page-seed.ts:53",
+     "src/site00/pages/JournalPage.tsx:5"
+    ],
+    "connect_to": [],
+    "what": "Publish journal content source; SEO basics."
+   },
+   {
+    "capability_id": "CAP.OPS.DELIVERABLES_TRACKING",
+    "name": "Project deliverables from recipes",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "GROUND_ZERO_FOUNDATION",
+    "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+    "effort_days_estimate": 3,
+    "connect_from": [],
+    "connect_to": [],
+    "what": "Bind client review objects to deliverables. Decide whether the expression/experience families map onto deliverables."
+   },
+   {
+    "capability_id": "CAP.OPS.REVISION_MANAGEMENT",
+    "name": "Revision handling",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+    "effort_days_estimate": 3,
+    "connect_from": [],
+    "connect_to": [
+     "CAP.OPS.REVIEW_RETURN_LOOP"
+    ],
+    "what": "Route client revisions into the founder workspace as tasks. Implement version supersede."
+   },
+   {
+    "capability_id": "CAP.PROJECT.EXPRESSION",
+    "name": "Workspace EXPRESSION",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+    "effort_days_estimate": 4,
+    "connect_from": [],
+    "connect_to": [
+     "CAP.OPS.SEND_TO_CLIENT_REVIEW"
+    ],
+    "what": "Enable REVIEW + HANDOFF as a send-to-client source."
+   },
+   {
+    "capability_id": "CAP.QUALITY.FOUNDER_JUDGMENT_CAPTURE",
+    "name": "Founder creative judgment & preference evidence",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "api/_lib/site00Projects/identity/identityJudgmentService.ts:111"
+    ],
+    "connect_to": [],
+    "what": "Close loop: feed preference evidence into LLM judges; unify with review decisions."
+   },
+   {
+    "capability_id": "CAP.RELEASE.ROLLBACK",
+    "name": "Release rollback",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 1,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "CONTROL_PLANE",
+    "effort_days_estimate": 1,
+    "connect_from": [],
+    "connect_to": [],
+    "what": "Add 'rollback' workflow action deploying a prior site00-production-dist artifact + Railway rollback runbook."
+   },
+   {
+    "capability_id": "CAP.SALES.PRICING_PLANS",
+    "name": "Public pricing and plans",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PRODUCTS_EVOLVE",
+    "effort_days_estimate": 1,
+    "connect_from": [],
+    "connect_to": [],
+    "what": "Link plans from the EVOLVE hub and fix CONSULT. Decide on BLDR/IDNTY price disclosure."
+   },
+   {
+    "capability_id": "CAP.SALES.UPSELL_OPPORTUNITIES",
+    "name": "In-app upsell / opportunity engine",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "CLIENT_PROJECT_ROOM",
+    "effort_days_estimate": 1,
+    "connect_from": [],
+    "connect_to": [
+     "CAP.CRM.LEAD_CAPTURE"
+    ],
+    "what": "Persist interest as a lead or activity and notify the founder."
+   },
+   {
+    "capability_id": "CAP.SITES.SITE_PROJECT_LINKAGE",
+    "name": "Site ↔ project ↔ managed-project linkage",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "PROJECT_RUNTIME_LAYER",
+    "effort_days_estimate": 2,
+    "connect_from": [],
+    "connect_to": [],
+    "what": "Link managed projects to site rows and EVOLVE engagements to sites."
+   },
+   {
+    "capability_id": "CAP.SUPPORT.NOTIFICATION_PREFERENCES",
+    "name": "Notification preferences",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 1,
+    "disposition": "CONNECT",
+    "priority": "MATURE_PLATFORM",
+    "correct_product_layer": "CLIENT_CONTROL_ROOM",
+    "effort_days_estimate": 1,
+    "connect_from": [],
+    "connect_to": [
+     "CAP.SUPPORT.IN_APP_NOTIFICATIONS"
+    ],
+    "what": "Persist the preferences on the profile and check them in the bus."
+   }
+  ],
+  "NOTIFICATION_BUS": [
+   {
+    "capability_id": "CAP.INTEGRATION.EMAIL_PROVIDER",
+    "name": "Transactional email delivery",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "CLIENT_READY_BLOCKER",
+    "correct_product_layer": "SHARED_PLATFORM_SERVICE",
+    "effort_days_estimate": 2.0,
+    "connect_from": [
+     "api/_lib/email/sendEmail.ts:50-110",
+     "shared/site00-email/render.ts",
+     "shared/site00-email/registry/events.ts",
+     "shared/site00-email/sendLog.ts",
+     "api/_lib/site00Intakes/intakeService.ts:387"
+    ],
+    "connect_to": [],
+    "what": "Wire Resend (or Postmark) client, persist send log, add review-ready + invite templates. || From CAP.MARKETING.EMAIL_TRANSACTIONAL: Wire one provider (Resend) send call; persist send log. || From CAP.SUPPORT.EMAIL_DELIVERY: Add a real provider adapter (e.g. Resend) and a persisted send log, and wire review-ready and invite events."
+   }
+  ],
+  "PROJECT_REGISTRY": [
+   {
+    "capability_id": "CAP.DISTRIBUTION.CHANNEL_STRATEGY",
+    "name": "Channel strategy / assessment / manifest",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PRODUCTS_EVOLVE",
+    "effort_days_estimate": 2,
+    "connect_from": [
+     "api/_lib/site00Evolve/assessment.ts:131",
+     "api/_lib/site00Evolve/manifest.ts:35",
+     "api/_lib/site00Evolve/nextBestAction.ts",
+     "api/_lib/site00Evolve/seedFixtures.ts:90-149"
+    ],
+    "connect_to": [],
+    "what": "Client-visible output; per-client data from intake."
+   },
+   {
+    "capability_id": "CAP.MARKETING.EVOLVE_MARKETING_OS",
+    "name": "EVOLVE Marketing OS (profiles/objectives/channels/campaigns/calendar/approvals/plans)",
+    "current_status": "EXISTS_PARTIAL",
+    "implementation_maturity": 3,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "PRODUCTS_EVOLVE",
+    "effort_days_estimate": 5,
+    "connect_from": [
+     "api/admin/site00-evolve.ts:132-330",
+     "api/_lib/site00Evolve/evolveService.ts",
+     "api/_lib/site00Evolve/storeAdapter.ts:36-70",
+     "api/_lib/site00Evolve/campaignLifecycle.ts:5",
+     "api/_lib/site00Evolve/orgRegistry.ts:15-21"
+    ],
+    "connect_to": [],
+    "what": "Org registry from DB (site00_organizations), client-facing read view, real generation/sending downstream."
+   },
+   {
+    "capability_id": "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+    "name": "Launch readiness manifests and overrides",
+    "current_status": "EXISTS_CONNECTED",
+    "implementation_maturity": 4,
+    "disposition": "CONNECT",
+    "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+    "correct_product_layer": "FOUNDER_CONTROL_ROOM",
+    "effort_days_estimate": 3.0,
+    "connect_from": [
+     "api/_lib/site00Orchestration/readinessCalculator.ts:14",
+     "api/_lib/site00Orchestration/dependencyGraph.ts",
+     "api/_lib/site00Orchestration/deferralEngine.ts",
+     "api/_lib/site00Orchestration/reconciliationService.ts",
+     "api/_lib/site00Orchestration/manifestBuilder.ts"
+    ],
+    "connect_to": [],
+    "what": "Bind it to site00_projects and use it as the launch gate before CAP.OPS.LAUNCH_HANDOFF. || From CAP.RISK.LAUNCH_READINESS_MANIFEST: Feed requirements from family gates + review approvals; link to project registry. || From CAP.LAUNCH.LAUNCH_MANIFEST_READINESS: Bind manifest to site00_projects and to client-site deploy step; client-safe readiness view. || From CAP.DEPGRAPH.LAUNCH_MANIFEST_GRAPH: Unify with deliverable + invalidation graphs into one ASSET/PROJECT graph."
+   },
+   {
+    "capability_id": "CAP.SITES.SITE_ENTITY",
+    "name": "Site entity (digital location record)",
+    "current_status": "EXISTS_DISCONNECTED",
+    "implementation_maturity": 2,
+    "disposition": "CONNECT",
+    "priority": "CLIENT_READY_BLOCKER",
+    "correct_product_layer": "CLIENT_SITES",
+    "effort_days_estimate": 1,
+    "connect_from": [],
+    "connect_to": [
+     "CAP.SITES.CLIENT_SITES_VIEW"
+    ],
+    "what": "Add live_url and launched_at, and write the row from the launch handoff."
+   }
+  ]
+ }
+}

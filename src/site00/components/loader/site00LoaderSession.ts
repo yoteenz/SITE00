@@ -1,10 +1,11 @@
-import { isSite00PreviewTunnelHost } from './site00PreviewHost';
+import { isSite00CloudPreviewBuild, isSite00PreviewTunnelHost } from './site00PreviewHost';
+import { purgeSite00ImmersiveLoaderDom } from './site00PurgeImmersiveLoaderDom';
 
 const SITE00_IMMERSIVE_SESSION_KEY = 'site00-immersive-complete';
 /** @deprecated Migrated to SITE00_IMMERSIVE_SESSION_KEY */
 const LEGACY_ASSTS_SESSION_KEY = 'site00-assts-immersive-complete';
 
-function isImmersiveSessionComplete(): boolean {
+export function isSite00ImmersiveSessionComplete(): boolean {
   try {
     return (
       sessionStorage.getItem(SITE00_IMMERSIVE_SESSION_KEY) === '1' ||
@@ -19,6 +20,7 @@ function isImmersiveSessionComplete(): boolean {
 export function shouldShowSite00ImmersiveLoader(): boolean {
   if (typeof window === 'undefined') return true;
   if (isSite00PreviewTunnelHost()) return false;
+  if (isSite00CloudPreviewBuild()) return false;
 
   try {
     const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
@@ -27,7 +29,7 @@ export function shouldShowSite00ImmersiveLoader(): boolean {
     /* ignore */
   }
 
-  return !isImmersiveSessionComplete();
+  return !isSite00ImmersiveSessionComplete();
 }
 
 /** @deprecated Use shouldShowSite00ImmersiveLoader */
@@ -41,6 +43,11 @@ export function markSite00ImmersiveComplete(): void {
   } catch {
     /* ignore */
   }
+}
+
+/** Strip loader DOM only after React has unmounted the portal (gate `revealed` commit). */
+export function purgeSite00ImmersiveLoaderDomAfterGateReveal(reason?: string): void {
+  purgeSite00ImmersiveLoaderDom(reason ?? 'immersive-session-complete');
 }
 
 /** @deprecated Use markSite00ImmersiveComplete */

@@ -1,0 +1,662 @@
+{
+ "artifact": "SITE00_FULL_PRODUCT_INVENTORY",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "repo": "github.com/yoteenz/SITE00 (main)",
+ "stack": {
+  "frontend": "React 19 + Vite 5 + React Router 6 (src/)",
+  "api": "Vercel-style handlers api/ served by Express server/ on Railway (api.site00.com)",
+  "db": "Supabase (57 migrations)",
+  "hosting": "GoDaddy cPanel static dist/ + Railway API"
+ },
+ "size": {
+  "tracked_files": 9644,
+  "src_files": 2088,
+  "shared_files": 3275,
+  "api_files": 884,
+  "tests_files": 598,
+  "tracked_images": 2111,
+  "site00_page_modules": "122 entries in src/site00/pages"
+ },
+ "routes": {
+  "route_elements_total": 367,
+  "route_elements_with_url": 364,
+  "layout_wrappers": 3,
+  "unique_url_patterns": 357,
+  "non_route_material_surfaces": 35,
+  "total_tree_nodes": 402,
+  "by_surface_type": {
+   "ROUTE": 38,
+   "REDIRECT": 22,
+   "SYSTEM_SURFACE": 10,
+   "CHILD_ROUTE": 114,
+   "LEGACY_ROUTE": 30,
+   "GRANDCHILD_ROUTE": 109,
+   "STATE": 57,
+   "INLINE_EXPANSION": 9,
+   "OVERLAY": 9,
+   "COMPONENT_STATE": 4
+  },
+  "by_current_family": {
+   "ADMIN_00_CONTROL": 61,
+   "DEV_DEBUG": 13,
+   "LEGACY_REDIRECT": 7,
+   "AUTH": 7,
+   "IDNTY": 6,
+   "PUBLIC_ORIGIN": 5,
+   "LEGACY_DESKTOP_ALIAS": 30,
+   "BLDR": 5,
+   "EVOLVE": 14,
+   "ASSET_VAULT": 10,
+   "LAYOUT": 3,
+   "PUBLIC_INFO": 12,
+   "DESIGN_BENCH": 25,
+   "ACCOUNT_INTAKE": 7,
+   "PROJECTS_STUDIO_OS": 16,
+   "PROJECT_RUNTIME_WORLD": 2,
+   "LEGACY_FOUNDER_WORKSPACE": 31,
+   "EXPERIMENT_LAB": 31,
+   "PRODUCTION_WORKSPACE": 18,
+   "STUDIO_CLIENT": 11,
+   "CLIENT_PROJECT_ROOM": 6,
+   "CLIENT_APP": 39,
+   "CTRL_ROOM": 8
+  },
+  "by_client_or_internal": {
+   "INTERNAL": 210,
+   "PUBLIC (redirect)": 37,
+   "PUBLIC": 49,
+   "CLIENT": 71
+  },
+  "redirect_or_legacy_routes": 52,
+  "material_route_surfaces": 261,
+  "flag_orphan": 23,
+  "flag_dead_end": 5,
+  "flag_unguarded_internal": 31,
+  "duplicate_url_registrations": {
+   "/admin": 2,
+   "/": 2,
+   "/assts": 2,
+   "/projects/:projectSlug/design/twin-opus-direct": 2,
+   "/production/:projectSlug/design/*": 2,
+   "/app/projects/:projectSlug/*": 2,
+   "/app/preview/:projectSlug/*": 2
+  }
+ },
+ "surface_audits": {
+  "public_site": {
+   "total": 41,
+   "by_status": {
+    "LIVE_COMPLETE": 11,
+    "PARTIAL": 20,
+    "PLACEHOLDER": 10
+   },
+   "by_family": {
+    "PUBLIC": 11,
+    "IDNTY": 3,
+    "ACCOUNT": 10,
+    "BLDR": 6,
+    "EVOLVE": 6,
+    "SYSTEM": 5
+   },
+   "by_language_fit": {
+    "DIGITAL_LOCATION": 18,
+    "MIXED": 14,
+    "GENERIC": 9
+   },
+   "orphans": 12,
+   "dead_ends": 8
+  },
+  "workspace": {
+   "total_surfaces": 199,
+   "by_classification": {
+    "CANONICAL_WORKSPACE": 92,
+    "LEGACY": 30,
+    "ADMIN_CONTROL": 8,
+    "STUDIO_CLIENT": 14,
+    "CTRL_ROOM": 8,
+    "EXPERIMENT_BENCH": 47
+   },
+   "by_status": {
+    "WORKING_END_TO_END": 16,
+    "PARTIAL": 147,
+    "PLACEHOLDER": 17,
+    "VISUAL_ONLY": 9,
+    "DATA_ONLY": 4,
+    "MISSING": 6
+   },
+   "production_routes_registered": 10,
+   "expression_family_routes": 40,
+   "design_bench_routes": 18,
+   "unguarded_bench_routes": 17,
+   "experiment_lab_routes": 31,
+   "legacy_founder_workspace_route_groups": 19,
+   "site00_pages_top_level_tsx": 102,
+   "orphan_pages": 2,
+   "production_test_files": 27,
+   "admin_site00_routes": 59,
+   "bench_plus_experiment_plus_debug_routes_total": 53,
+   "site00_pages_files_incl_subdirs": "122 entries in src/site00/pages (102 top-level .tsx + 20 subdirs)"
+  },
+  "client_components": {
+   "total": 40,
+   "by_recommendation": {
+    "KEEP": 10,
+    "CONNECT": 8,
+    "REPAIR": 8,
+    "REDESIGN": 6,
+    "REBUILD": 8
+   },
+   "by_status": {
+    "WORKING_END_TO_END": 6,
+    "PARTIAL": 18,
+    "VISUAL_ONLY": 5,
+    "DATA_ONLY": 4,
+    "PLACEHOLDER": 7
+   }
+  }
+ },
+ "navigation_systems": [
+  {
+   "name": "PUBLIC DESKTOP HEADER (Site00AppShell: GlobalNav + EntryToggle)",
+   "rendered": true,
+   "items": 8
+  },
+  {
+   "name": "PUBLIC TOP NAV (Site00PublicTopNav)",
+   "rendered": false,
+   "items": 8
+  },
+  {
+   "name": "PUBLIC LEFT RAIL (Site00PublicSidebar)",
+   "rendered": false,
+   "items": 9
+  },
+  {
+   "name": "ENTER 00 DIRECTORY (WAITING ROOM menu)",
+   "rendered": true,
+   "items": 9
+  },
+  {
+   "name": "EXIT 00",
+   "rendered": true,
+   "items": 1
+  },
+  {
+   "name": "MOBILE HEADER (Site00MobileHeader)",
+   "rendered": true,
+   "items": 3
+  },
+  {
+   "name": "MOBILE BOTTOM NAV (MobileSiteNavigation / MOBILE_SITE_NAV)",
+   "rendered": true,
+   "items": 5
+  },
+  {
+   "name": "FAST TRAVEL panel (context-aware)",
+   "rendered": true,
+   "items": 10
+  },
+  {
+   "name": "LOCATIONS DIRECTORY",
+   "rendered": true,
+   "items": 11
+  },
+  {
+   "name": "MOBILE MENU DRAWER (SITE00_MOBILE_DIRECTORY_PRIMARY)",
+   "rendered": false,
+   "items": 8
+  },
+  {
+   "name": "PUBLIC FOOTER (mobile public shell)",
+   "rendered": true,
+   "items": 3
+  },
+  {
+   "name": "AUTH FOOTER",
+   "rendered": true,
+   "items": 3
+  },
+  {
+   "name": "ORIGIN CARDS / EXPANDED PANELS",
+   "rendered": true,
+   "items": 5
+  },
+  {
+   "name": "ACCOUNT / OPERATING WORLD TOP NAV (desktop)",
+   "rendered": true,
+   "items": 11
+  },
+  {
+   "name": "CTRL ROOM SIDEBAR (CTRL_ROOM_NAV)",
+   "rendered": false,
+   "items": 7
+  },
+  {
+   "name": "ECOSYSTEM MOBILE NAV (ECOSYSTEM_MOBILE_NAV)",
+   "rendered": false,
+   "items": 4
+  },
+  {
+   "name": "ADMIN CONTROL NAV",
+   "rendered": true,
+   "items": 13
+  },
+  {
+   "name": "ASSET VAULT NAV",
+   "rendered": true,
+   "items": 5
+  },
+  {
+   "name": "CLIENT APP NAV",
+   "rendered": true,
+   "items": 5
+  },
+  {
+   "name": "CLIENT PROJECT ROOM NAV",
+   "rendered": true,
+   "items": 5
+  }
+ ],
+ "visual_authorities": {
+  "total_files": 2111,
+  "assigned_files": 2111,
+  "unclassified_files": 0,
+  "total_authority_sets": 41,
+  "by_status": {
+   "CANONICAL": 20,
+   "OLDER_CANONICAL": 1,
+   "LEGACY_VALID": 4,
+   "REFERENCE_ONLY": 5,
+   "CONFLICTING": 2,
+   "PARTIAL_EVOLUTION": 1,
+   "IN_REVIEW": 4,
+   "SUPERSEDED": 3,
+   "INCOMPLETE": 1
+  },
+  "by_family_files": {
+   "PRODUCTION WORKSPACE": 1094,
+   "DESIGN WORKSPACE (project design page)": 305,
+   "PUBLIC SITE / PROJECTS": 2,
+   "PROJECT EXPERIENCE (NDXBOOK client)": 188,
+   "PROJECT EXPERIENCE (ASTRAL WORLD client)": 23,
+   "PROJECT EXPERIENCE (JURNL client)": 398,
+   "INTERNAL SYSTEM (icons)": 97,
+   "EVOLVE": 4,
+   "PUBLIC SITE / ORIGIN": 0,
+   "IDNTY": 0,
+   "BLDR": 0,
+   "PUBLIC SITE / LOCATIONS": 0
+  },
+  "by_viewport_files": {
+   "unknown": 1013,
+   "desktop": 372,
+   "mobile": 435,
+   "tablet": 291
+  },
+  "status_vocabulary_note": "CANONICAL here == CURRENT_CANONICAL for its surface; OLDER_CANONICAL / PARTIAL_EVOLUTION used where a newer pack supersedes part of a set. prod.inbox_activity.3view.opus1 is split: INBOX half SUPERSEDED, ACTIVITY half CURRENT_CANONICAL (founder decision) \u2014 recorded as CONFLICTING to force explicit handling."
+ },
+ "asset_library": [
+  {
+   "category": "environment_plates (host, production)",
+   "paths": [
+    "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg",
+    "public/site00/production-authority-assets/production-experience-world-hero-v1.jpg",
+    "public/site00/production-authority-assets/production-expression-stage-hero-v1.jpg",
+    "public/site00/production-authority-assets/production-viewport-corridor-v1.jpg",
+    "public/site00/production-authority-assets/production-library-canon-hero-v1.jpg",
+    "public/site00/production-authority-assets/production-hub-crystal-core-v1.jpg"
+   ],
+   "count": 6,
+   "consumed_by": [
+    "src/site00/components/productionAuthority/ProductionAuthorityFrame.tsx",
+    "src/site00/components/productionAuthority/designPackAssets.ts",
+    "src/site00/productionAssets/productionAssetRegistry.ts",
+    "src/site00/productionAssets/routeAssetManifests.ts",
+    "src/site00/styles/site00-production-fabrication-opus2.css"
+   ],
+   "notes": "Grok1 GPT-Image-2 plates; atrium (white rotunda, red ring/axis), world plaza, film stage, review corridor, red canon pyramid, crystal chamber. EXPERIENCE plate mismatches authority world (conflict C4)."
+  },
+  {
+   "category": "hub hero plates (per viewport)",
+   "paths": [
+    "public/site00/production-authority-assets/production-hub-hero-mobile-v1.jpg",
+    "public/site00/production-authority-assets/production-hub-hero-tablet-v1.jpg",
+    "public/site00/production-authority-assets/production-hub-hero-desktop-v1.jpg"
+   ],
+   "count": 3,
+   "consumed_by": [
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "Cropped from founder-approved HUB authorities, baked copy inpainted out."
+  },
+  {
+   "category": "environment plate crops (design pack)",
+   "paths": [
+    "public/site00/production-authority-assets/design-pack/plates/"
+   ],
+   "count": 5,
+   "consumed_by": [
+    "src/site00/components/productionAuthority/designChamberConfig.ts",
+    "src/site00/components/productionAuthority/designPackAssets.ts",
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "Tiny native crops (90x73..278x168) of the ASSET PACK sheet; resolution-limited."
+  },
+  {
+   "category": "core objects",
+   "paths": [
+    "public/site00/production-authority-assets/production-design-project-core-v1.png",
+    "public/site00/production-authority-assets/production-library-red-geometry-01-v1.jpg",
+    "public/site00/production-authority-assets/production-library-red-geometry-02-v1.jpg",
+    "public/site00/production-authority-assets/production-library-red-geometry-03-v1.jpg",
+    "public/site00/production-authority-assets/design-pack/stages/"
+   ],
+   "count": 11,
+   "consumed_by": [
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "Transparent red-glass project core; red geometry plates; 7 rendered pipeline-stage objects (intelligence..production)."
+  },
+  {
+   "category": "materials / swatches",
+   "paths": [
+    "public/site00/production-authority-assets/design-pack/swatches/"
+   ],
+   "count": 8,
+   "consumed_by": [
+    "src/site00/components/productionAuthority/designChamberConfig.ts",
+    "src/site00/components/productionAuthority/designPackAssets.ts",
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "8 swatches: white acrylic, matte white, chrome, smoked glass, clear glass, red glow glass, graphite, neutral paper."
+  },
+  {
+   "category": "boards / frames",
+   "paths": [
+    "public/site00/production-authority-assets/production-design-board-brand-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-experience-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-surfaces-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-compiler-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-assets-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-viewport-v1.jpg",
+    "public/site00/production-authority-assets/design-pack/devices/"
+   ],
+   "count": 9,
+   "consumed_by": [
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "6 DESIGN mode board artworks (768x768) + 3 device frames (desktop/tablet/mobile)."
+  },
+  {
+   "category": "host chrome icons",
+   "paths": [
+    "public/site00/production-authority-assets/design-pack/icons/",
+    "src/site00/components/productionHub/bottom-nav/",
+    "src/site00/icons/"
+   ],
+   "count": 34,
+   "consumed_by": [
+    "src/site00/components/productionHub/productionNavIcon.tsx",
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "nav-* (hub, work, library, activity, search, settings, user, menu, dropdown, exit) + object-* glyphs; 7 bottom-nav masters + keyed copies; src/site00/icons mobile-nav/ndx svgs."
+  },
+  {
+   "category": "icon families (staged / generated)",
+   "paths": [
+    "public/site00/ai-consoles/",
+    "public/site00/project-tabs/",
+    "public/site00/page-concept-generator/",
+    "public/icons/",
+    "shared/site00-studio-world-ui/icons/",
+    "public/assets/evolve/"
+   ],
+   "count": 357,
+   "consumed_by": [
+    "shared/site00-projects/evolve/evolveSubshellTypes.ts",
+    "shared/site00-studio-world-ui/icons/p0ui3e/manifest.generated.json",
+    "shared/site00-studio-world-ui/icons/p0ui3e/v3AssetRegistry.generated.ts",
+    "src/site00/config/ndxBottomNavIconUrls.ts"
+   ],
+   "notes": "ai-consoles 136 (STAGED), project-tabs 121 (STAGED), page-concept-generator 57 (no runtime consumer), ndx v3, p0ui3a-e, evolve path icons."
+  },
+  {
+   "category": "founder system sheets",
+   "paths": [
+    "docs/site00/design-pack/sources/"
+   ],
+   "count": 2,
+   "consumed_by": [],
+   "notes": "ICON PACK + ASSET PACK authority sheets (1586x992) \u2014 the source of all design-pack crops."
+  },
+  {
+   "category": "residents / people",
+   "paths": [
+    "public/site00/production-authority-assets/shared/residents/"
+   ],
+   "count": 5,
+   "consumed_by": [
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "Studio World resident portraits (Caspian Reed, Etta Vale, Iona Wells, Jules Mercer, Zuri Xu candidate)."
+  },
+  {
+   "category": "character fabrication (project content)",
+   "paths": [
+    "public/site00/character-fabrication/"
+   ],
+   "count": 82,
+   "consumed_by": [
+    "shared/site00-character-fabrication/assets.ts",
+    "shared/studio-world-live-character-runtime/fabricationBridge.ts",
+    "src/site00/components/characterFabrication/CharacterFabrication.tsx",
+    "src/site00/components/characterFabrication/FabricationContext.tsx",
+    "src/site00/components/characterFabrication/chamber.tsx",
+    "src/site00/components/characterFabrication/primitives.tsx",
+    "src/site00/components/characterFabrication/stationAppearance.tsx",
+    "src/site00/components/characterFabrication/stationAuthority.tsx"
+   ],
+   "notes": "Actor SW-017 angles/movement/wardrobe/simulation evidence + fabrication chamber + simulation volume environment."
+  },
+  {
+   "category": "legacy production thumbnails (retired)",
+   "paths": [
+    "public/site00/production-mobile/"
+   ],
+   "count": 47,
+   "consumed_by": [
+    "src/site00/components/production/PwFrame.tsx",
+    "src/site00/components/production/productionImagery.ts",
+    "src/site00/components/productionAuthority/ExpressionBody.tsx",
+    "src/site00/components/productionAuthority/primitives.tsx",
+    "src/site00/pages/production/ProductionWorkspaceProjectHubPage.tsx"
+   ],
+   "notes": "Low-res pillar/library/expression thumbs; explicitly retired for authority roots."
+  },
+  {
+   "category": "legacy hub machine media",
+   "paths": [
+    "public/site00/production-hub/"
+   ],
+   "count": 17,
+   "consumed_by": [
+    "shared/site00-production-hub/assetReceipts.ts"
+   ],
+   "notes": "Entry-002 node + storyboard art, glass-cylinder chamber atmosphere."
+  },
+  {
+   "category": "logos / brand marks",
+   "paths": [
+    "public/site00/projects/jurnl/brand/",
+    "JURNL/F02_SETUP/ASSETS/LOCKUPS/",
+    "src/projects/jurnl/families/F02_SETUP/BRAND_LOCKUPS/"
+   ],
+   "count": 6,
+   "consumed_by": [
+    "src/projects/jurnl/data/f01/contract.ts",
+    "src/projects/jurnl/data/jurnlProject.ts",
+    "src/projects/jurnl/runtime/components/primitives.tsx"
+   ],
+   "notes": "Project logos only (JURNL). No raster SITE 00 host logo found: host mark (crosshair / SITE 00 wordmark) appears to be live code/SVG."
+  },
+  {
+   "category": "project-shell elements: skins & brand family art",
+   "paths": [
+    "public/site00/skins/"
+   ],
+   "count": 20,
+   "consumed_by": [
+    "shared/site00-studio-world-production/visualReconstruction/p0vr6/skinsCanonicalBindings.ts",
+    "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/canonicalAssetRebind.ts",
+    "shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/multiAssetReconstructionJob.ts"
+   ],
+   "notes": "Brand family crops (NDXBOOK, Frontal Slayer, AIO, Astral World, Studio World) + screen crops; manifest RECONSTRUCTION_PENDING, uiContaminationSuspected; 1 canonical reconstruction (ndxbook mobile)."
+  },
+  {
+   "category": "project environments (client)",
+   "paths": [
+    "public/jurnl/",
+    "JURNL/F01_ENTRY/ASSETS/",
+    "JURNL/F02_SETUP/ENVIRONMENTS/",
+    "JURNL/F02_SETUP/ASSETS/BOTANICALS/",
+    "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/",
+    "src/projects/jurnl/families/F02_SETUP/BOTANICALS/",
+    "public/astral-world/"
+   ],
+   "count": 92,
+   "consumed_by": [
+    "src/projects/jurnl/data/f01/environmentPlates.ts",
+    "src/site00/pages/jurnl/family1ParentAssetRegistry.ts"
+   ],
+   "notes": "JURNL F01/F02 plates + botanicals; Astral World world-entry backgrounds/masters. Project canon, not host."
+  },
+  {
+   "category": "project media (NDXBOOK)",
+   "paths": [
+    "public/assets/ndxbook/",
+    "public/assets/ndxbook-reconstruction/",
+    "public/assets/expression-engine/",
+    "public/site00/creative-direction/",
+    "assets/founder-storyboard/"
+   ],
+   "count": 51,
+   "consumed_by": [
+    "api/_lib/site00ExpressionEngine/entry002FounderSuppliedStoryboard.ts",
+    "api/_lib/site00ExpressionEngine/entry002PreStoryboardAuthorityAssets.ts",
+    "shared/site00-expression-engine/finalCinematicStoryboardIds.ts",
+    "shared/site00-production-hub/assets.ts"
+   ],
+   "notes": "Entry 001/002 artwork, storyboards, creative-direction crops."
+  },
+  {
+   "category": "design bench plates",
+   "paths": [
+    "public/site00/twin-opus-direct/",
+    "public/site00/twin-sol-direct/",
+    "public/site00/twin-grok-direct/",
+    "public/site00/twin-v3-design-page-authority/",
+    "src/site00/assets/twin-v3-design-page-authority/"
+   ],
+   "count": 34,
+   "consumed_by": [
+    "api/_lib/site00OpusDesignShell/runShellGeneration.ts",
+    "api/_lib/site00OpusNative/designSurfaceRegistry.ts",
+    "api/_lib/site00OpusNative/scriptedTranscripts.ts",
+    "api/_lib/site00WorkspaceSelfCapture/designWorkspaceCaptureService.ts",
+    "api/_lib/site00WorkspaceSelfConcept/runWorkspaceSelfGeneration.ts",
+    "shared/site00-design-workspace-production/childInheritanceContract.ts",
+    "shared/site00-design-workspace-production/designIntegrationLineage.ts",
+    "shared/site00-design-workspace-production/designProductionReceipt.ts"
+   ],
+   "notes": "Isolated bench/golden plates for twin reconstruction routes."
+  },
+  {
+   "category": "loader",
+   "paths": [
+    "public/site00/loader/"
+   ],
+   "count": 1,
+   "consumed_by": [
+    "api/_lib/site00Assts/postProcess/loaderGeometry.ts",
+    "api/_lib/site00Assts/postProcess/pipeline.ts",
+    "api/_lib/site00Assts/postProcess/types.ts"
+   ],
+   "notes": "ASSTS loader background."
+  },
+  {
+   "category": "fonts",
+   "paths": [
+    "src/site00/assets/fonts/",
+    "public/site00/projects/jurnl/fonts/"
+   ],
+   "count": 10,
+   "consumed_by": [],
+   "notes": "Not images; Saira Semi Condensed 300-700 woff2 (production host) + JURNL Barlow Semi Condensed/Instrument Serif. Martian Mono loaded from Google Fonts (not vendored)."
+  }
+ ],
+ "asset_gaps": [
+  "No high-resolution environment crop set for design-pack plates (only thumbnails)",
+  "No EXPERIENCE world plate matching authority (red-lit city plaza with ring cylinder)",
+  "No HUB/INBOX tablet-desktop pack boards in repo",
+  "No public-site ENV.*/MACHINE.*/CARD.* assets in repo (slots defined, Grok assets pending)",
+  "No SITE 00 host logo raster/svg file found in public/"
+ ],
+ "projects_in_repo": [
+  "site00",
+  "jurnl",
+  "all-in-one-enterprises (aio)",
+  "frontal-slayer",
+  "ndxbook",
+  "studio-world",
+  "astral-world"
+ ],
+ "verdicts": {
+  "auth": {
+   "auth": "FAIL",
+   "reason": "Identity (Supabase JWT) is real and admin APIs under api/admin/* are server-enforced, but there is no role/membership model, no project invite flow, password reset cannot complete, client roles are request-spoofable, and a large set of generation/mutation endpoints are unauthenticated. Not client-ready."
+  },
+  "registry": "FAIL",
+  "firewall": {
+   "client_project_firewall": "FAIL",
+   "reason": "Host/project UI separation is well built for JURNL (scoped CSS, lazy registry, tests). But the data firewall is not enforced: RLS is service_role-only (no per-project/member policies) and two tables are open to anon. ~20 API endpoints take a project id from the caller with no auth. Client roles are request-spoofable, and all projects share one public storage bucket. Project data and canon can be read or changed across projects by an unauthenticated caller."
+  },
+  "review_loop": {
+   "review_send": {
+    "verdict": "FAIL",
+    "reason": "No production code creates site00_client_review_objects or moves deliverables/approvals to CLIENT_REVIEW; only preview fixture seeding."
+   },
+   "client_approval": {
+    "verdict": "PARTIAL",
+    "reason": "Durable approve endpoint with receipts/idempotency exists, but client hooks send no Bearer token (401 in prod), role is client-tamperable, and there are no real review objects to approve."
+   },
+   "request_revision": {
+    "verdict": "PARTIAL",
+    "reason": "Revision receipt + status + event persist, same auth/role defects; nobody consumes the request."
+   },
+   "comment_return": {
+    "verdict": "FAIL",
+    "reason": "Comments persist but no founder UI reads them (adminFeedback endpoint unused and owner-gated) and no reply path."
+   },
+   "approval_return_loop": {
+    "verdict": "FAIL",
+    "reason": "Approval updates only client_status on the client table; no deliverable/project/gate update, no notification, no workspace read."
+   },
+   "client_inbox": {
+    "verdict": "FAIL",
+    "reason": "Three hardcoded fixture threads for every project; fake messages; SEND has no handler; no messages table."
+   },
+   "client_library": {
+    "verdict": "FAIL",
+    "reason": "Categories from template with 0 items; same two fake files for every category; null download URLs; viewer is placeholder text."
+   },
+   "client_invite": {
+    "verdict": "FAIL",
+    "reason": "Only self-activation by an already-owning client writes metadata flag; no founder invite, no token acceptance, no email (invitationSent:false), event table missing from migrations."
+   },
+   "client_project_room": {
+    "verdict": "PARTIAL",
+    "reason": "Real auth/ownership and project row power shell + phase list, but Home/Project content is template copy, nav diverges from canon, web room library/activity/messages are placeholders, and project-room hook omits auth header."
+   }
+  }
+ }
+}

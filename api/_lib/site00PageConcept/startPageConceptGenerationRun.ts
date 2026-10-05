@@ -1,0 +1,271 @@
+import type { PageConceptServerRun } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import { validateIncomingPageConceptCaptures } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/validateIncomingPageConceptCaptures.js';
+import { PAGE_CONCEPT_TARGET_TYPE } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/constants.js';
+import { executePageConceptGeneration } from './executePageConceptGenerationRun.js';
+import {
+  getPageConceptServerRun,
+  hydratePageConceptServerRun,
+  patchPageConceptServerRun,
+  patchPageConceptServerRunDurable,
+  putPageConceptServerRun,
+  resolvePageConceptServerRun,
+} from './pageConceptGenerationRunStore.js';
+import type { RunPageConceptGenerationInput } from './runPageConceptGeneration.js';
+import { clearPageConceptCgptStageLock } from './pageConceptCgptStageLock.js';
+import { cgptSubstepsForStatusApi } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptSubstepRun.js';
+import { pageConceptProgressEventsAfterSequence } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressEvents.js';
+import { upsertPageConceptServerRunDurable } from './pageConceptGenerationRunSupabaseStore.js';
+
+export type StartPageConceptGenerationRunInput = RunPageConceptGenerationInput & {
+  founderEmail: string;
+  dryRun?: boolean;
+  retryCgptOnly?: boolean;
+  resumeRunId?: string;
+};
+
+export function createPageConceptGenerationRunId(): string {
+  return `pcgr-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+export async function startPageConceptGenerationRun(input: StartPageConceptGenerationRunInput): Promise<{
+  runId: string;
+  status: 'QUEUED';
+}> {
+  if (!input.dryRun && !input.founderConfirmedSpend) {
+    throw new Error('SPEND_GUARD: founder confirmation required');
+  }
+  if (input.state.targetType !== PAGE_CONCEPT_TARGET_TYPE) throw new Error('PAGE_TARGET_REQUIRED');
+
+  const captureValidation = validateIncomingPageConceptCaptures({
+    projectId: input.state.projectId,
+    pageId: input.state.pageId,
+    mobileCapture: input.mobileCapture,
+    desktopCapture: input.desktopCapture,
+  });
+  if (!captureValidation.ok) {
+    throw new Error(captureValidation.code);
+  }
+
+  const resumeRunId = input.resumeRunId?.trim() || null;
+  const continueNbpAfterGpt2Review = input.continueNbpAfterGpt2Review === true;
+  const continueGpt2AfterCgptReview = input.continueGpt2AfterCgptReview === true;
+  const continueGpt2AfterFunctionalExpansionReview =
+    input.continueGpt2AfterFunctionalExpansionReview === true;
+  let existing =
+    resumeRunId &&
+    (input.retryCgptOnly ||
+      continueNbpAfterGpt2Review ||
+      continueGpt2AfterCgptReview ||
+      continueGpt2AfterFunctionalExpansionReview) ?
+      getPageConceptServerRun(resumeRunId)
+    : null;
+  if (
+    resumeRunId &&
+    (input.retryCgptOnly ||
+      continueNbpAfterGpt2Review ||
+      continueGpt2AfterCgptReview ||
+      continueGpt2AfterFunctionalExpansionReview) &&
+    !existing
+  ) {
+    existing = await hydratePageConceptServerRun(resumeRunId);
+  }
+  if (
+    resumeRunId &&
+    (input.retryCgptOnly ||
+      continueNbpAfterGpt2Review ||
+      continueGpt2AfterCgptReview ||
+      continueGpt2AfterFunctionalExpansionReview) &&
+    !existing
+  ) {
+    throw new Error('RUN_NOT_FOUND');
+  }
+  if (continueGpt2AfterFunctionalExpansionReview && existing?.pipelineSet) {
+    input = {
+      ...input,
+      state: {
+        ...input.state,
+        pipelineSet: existing.pipelineSet,
+        generationJobs: existing.jobs.length ? existing.jobs : input.state.generationJobs,
+        generationStatus: 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW',
+      },
+    };
+  }
+  if (continueGpt2AfterCgptReview && existing?.pipelineSet) {
+    input = {
+      ...input,
+      state: {
+        ...input.state,
+        pipelineSet: existing.pipelineSet,
+        generationJobs: existing.jobs.length ? existing.jobs : input.state.generationJobs,
+        generationStatus: 'CGPT_AWAITING_FOUNDER_REVIEW',
+      },
+    };
+  }
+  if (continueNbpAfterGpt2Review && existing?.pipelineSet) {
+    input = {
+      ...input,
+      state: {
+        ...input.state,
+        pipelineSet: existing.pipelineSet,
+        generationJobs: existing.jobs.length ? existing.jobs : input.state.generationJobs,
+        generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW',
+      },
+    };
+  }
+  const runId = existing?.runId ?? createPageConceptGenerationRunId();
+  const now = new Date().toISOString();
+  const run: PageConceptServerRun = {
+    runId,
+    projectId: input.state.projectId,
+    pageId: input.state.pageId,
+    founderEmail: input.founderEmail,
+    dryRun: input.dryRun === true,
+    status: 'QUEUED',
+    currentStage: 'QUEUED',
+    cgptStatus: existing && input.retryCgptOnly ? 'PENDING' : 'PENDING',
+    gpt2Status: existing?.gpt2Status ?? 'PENDING',
+    nbpStatus: existing?.nbpStatus ?? 'PENDING',
+    cgptMeta: input.retryCgptOnly ? null : (existing?.cgptMeta ?? null),
+    panelProgress: null,
+    cgptSubsteps: null,
+    createdAt: existing?.createdAt ?? now,
+    startedAt: null,
+    updatedAt: now,
+    completedAt: null,
+    error: null,
+    plan: null,
+    pipelineSet: null,
+    jobs: [],
+    generationStatus: input.dryRun ? 'CGPT_RUNNING' : 'CGPT_RUNNING',
+    inputState: input.retryCgptOnly && existing ? existing.inputState : input.state,
+    progressEvents: existing?.progressEvents ?? [],
+    latestProgressSequence: existing?.latestProgressSequence ?? 0,
+  };
+  putPageConceptServerRun(run);
+  await upsertPageConceptServerRunDurable(run);
+
+  if (input.retryCgptOnly) {
+    clearPageConceptCgptStageLock(runId);
+  }
+
+  void runPageConceptGenerationInBackground(runId, input, {
+    retryCgptOnly: input.retryCgptOnly === true,
+    continueNbpAfterGpt2Review,
+    continueGpt2AfterCgptReview,
+    continueGpt2AfterFunctionalExpansionReview,
+    retryGpt2Only: input.retryGpt2Only === true,
+    regenerateNbpOnly: input.regenerateNbpOnly === true,
+  });
+  return { runId, status: 'QUEUED' };
+}
+
+async function runPageConceptGenerationInBackground(
+  runId: string,
+  input: StartPageConceptGenerationRunInput,
+  flags: {
+    retryCgptOnly?: boolean;
+    continueNbpAfterGpt2Review?: boolean;
+    continueGpt2AfterCgptReview?: boolean;
+    continueGpt2AfterFunctionalExpansionReview?: boolean;
+    retryGpt2Only?: boolean;
+    regenerateNbpOnly?: boolean;
+  } = {},
+): Promise<void> {
+  const startedAt = new Date().toISOString();
+  await patchPageConceptServerRunDurable(runId, {
+    status: 'CGPT_RUNNING',
+    currentStage: 'CGPT_STARTING',
+    cgptStatus: 'RUNNING',
+    generationStatus: 'CGPT_RUNNING',
+    error: null,
+    updatedAt: startedAt,
+    completedAt: null,
+  });
+  const current = getPageConceptServerRun(runId);
+  if (current) {
+    putPageConceptServerRun({ ...current, startedAt });
+  }
+
+  try {
+    const result = await executePageConceptGeneration(input, {
+      runId,
+      dryRun: input.dryRun,
+      retryCgptOnly: flags.retryCgptOnly === true,
+      continueNbpAfterGpt2Review: flags.continueNbpAfterGpt2Review === true,
+      continueGpt2AfterCgptReview: flags.continueGpt2AfterCgptReview === true,
+      continueGpt2AfterFunctionalExpansionReview:
+        flags.continueGpt2AfterFunctionalExpansionReview === true,
+      retryGpt2Only: flags.retryGpt2Only === true,
+      regenerateNbpOnly: flags.regenerateNbpOnly === true,
+      onProgress: (patch) => {
+        void patchPageConceptServerRunDurable(runId, patch).catch((err) => {
+          console.warn('[page-concept-run] progress patch failed', err instanceof Error ? err.message : err);
+        });
+      },
+    });
+    await patchPageConceptServerRunDurable(runId, {
+      plan: result.plan,
+      pipelineSet: result.pipelineSet,
+      jobs: result.jobs,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'GENERATION_FAILED';
+    await patchPageConceptServerRunDurable(runId, {
+      status: 'FAILED',
+      currentStage: 'FAILED',
+      error: message,
+      generationStatus: 'FAILED',
+      completedAt: new Date().toISOString(),
+    });
+  }
+}
+
+export async function snapshotPageConceptServerRun(
+  runId: string,
+  afterSequence = 0,
+  scope?: { projectId?: string; pageId?: string },
+) {
+  const run =
+    getPageConceptServerRun(runId) ??
+    (await hydratePageConceptServerRun(runId)) ??
+    (scope?.projectId && scope?.pageId ?
+      await resolvePageConceptServerRun({
+        runId,
+        projectId: scope.projectId,
+        pageId: scope.pageId,
+      })
+    : null);
+  if (!run) return null;
+  const progressEventsAfterSequence = pageConceptProgressEventsAfterSequence(
+    run.progressEvents ?? [],
+    afterSequence,
+  );
+  return {
+    runId: run.runId,
+    projectId: run.projectId,
+    pageId: run.pageId,
+    status: run.status,
+    currentStage: run.currentStage,
+    cgptStatus: run.cgptStatus,
+    gpt2Status: run.gpt2Status,
+    nbpStatus: run.nbpStatus,
+    dryRun: run.dryRun,
+    error: run.error,
+    generationStatus: run.generationStatus,
+    plan: run.plan,
+    pipelineSet: run.pipelineSet,
+    jobs: run.jobs,
+    cgptMeta: run.cgptMeta,
+    panelProgress: run.panelProgress,
+    cgptSubsteps: run.cgptSubsteps,
+    cgptSubstepsStatus: cgptSubstepsForStatusApi(run.cgptSubsteps),
+    currentCgptSubstep: run.cgptSubsteps?.currentCgptSubstep ?? run.panelProgress?.currentSubstep ?? null,
+    updatedAt: run.updatedAt,
+    completedAt: run.completedAt,
+    createdAt: run.createdAt,
+    startedAt: run.startedAt,
+    latestProgressSequence: run.latestProgressSequence ?? 0,
+    progressEventsAfterSequence,
+  };
+}

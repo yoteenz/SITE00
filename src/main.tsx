@@ -4,6 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ensureAuthRestoredFromBackup, persistAuthBackup } from './utils/adminAuth';
 import { restoreSupabaseSessionFromCookie } from './utils/supabase';
+import {
+  dispatchSite00ForceRevealLoader,
+  teardownSite00BootShellAfterReactMount,
+} from './site00/components/loader/site00ForceRevealAfterMount';
 
 ensureAuthRestoredFromBackup();
 restoreSupabaseSessionFromCookie();
@@ -21,3 +25,17 @@ ReactDOM.createRoot(rootEl).render(
     </BrowserRouter>
   </React.StrictMode>,
 );
+
+rootEl.setAttribute('data-site00-app-mounted', '1');
+const bootHint = document.getElementById('site00-root-boot-hint');
+if (bootHint) bootHint.remove();
+
+queueMicrotask(() => {
+  teardownSite00BootShellAfterReactMount();
+});
+
+if (typeof window !== 'undefined') {
+  window.setTimeout(() => teardownSite00BootShellAfterReactMount(), 250);
+  window.setTimeout(() => dispatchSite00ForceRevealLoader('post-mount-2s'), 2000);
+  window.setTimeout(() => dispatchSite00ForceRevealLoader('post-mount-6s'), 6000);
+}

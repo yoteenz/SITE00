@@ -1,0 +1,33 @@
+{
+  "route": "/idnty/ready-for-evolution/pathways",
+  "finalUrl": "/idnty/ready-for-evolution/pathways",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 710,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "assetSlots": [
+    {
+      "id": "ENV.IDNTY.ATRIUM",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 710,
+      "radius": "0px",
+      "z": "0"
+    },
+    {
+      "id": "MACHINE.IDNTY.EVOLUTION.WAVES",
+      "x": 0,
+      "y": 28,
+      "w": 390,
+      "h": 300,
+      "radius": "0px",
+      "z": "1"
+    }
+  ],
+  "errors": []
+}

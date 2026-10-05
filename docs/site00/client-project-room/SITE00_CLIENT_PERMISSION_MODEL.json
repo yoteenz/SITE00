@@ -1,0 +1,62 @@
+{
+ "artifact": "SITE00_CLIENT_PERMISSION_MODEL",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "roles": {
+  "CLIENT_OWNER": [
+   "VIEW",
+   "COMMENT",
+   "REVIEW",
+   "APPROVE",
+   "REQUEST_REVISION",
+   "DOWNLOAD",
+   "UPLOAD_REFERENCE",
+   "SEND_MESSAGE",
+   "CONNECT_PROVIDER",
+   "CONFIRM_FUNDING"
+  ],
+  "CLIENT_COLLABORATOR": [
+   "VIEW",
+   "COMMENT",
+   "DOWNLOAD",
+   "UPLOAD_REFERENCE",
+   "SEND_MESSAGE"
+  ],
+  "CLIENT_VIEWER": [
+   "VIEW",
+   "DOWNLOAD"
+  ]
+ },
+ "never_for_clients": [
+  "GENERATE",
+  "RUN_AGENT",
+  "START_JOB",
+  "DEPLOY",
+  "MUTATE_CANON",
+  "PROPAGATE",
+  "CAPTURE_INTERNAL",
+  "APPLY_SOURCE_CHANGE",
+  "ACCESS_ADMIN",
+  "ACCESS_INTERNAL_PRODUCTION",
+  "ACCESS_MODEL_CONFIGURATION",
+  "ACCESS_INTERNAL_COSTS (margin/labor/SITE00 spend)",
+  "READ_PROVIDER_SECRET"
+ ],
+ "note_on_provider": "CONNECT_PROVIDER writes a secret server-side; nobody (client or founder UI) can read it back.",
+ "enforcement": [
+  "role from project_members on the server; never from request body/query (today: body.role / roleOverride trusted)",
+  "RLS by membership on every project-owned table",
+  "per-project storage prefixes + signed URLs",
+  "approve allowed only when review status is AWAITING/IN_REVIEW and gate open"
+ ],
+ "security_review": {
+  "provider_connections": "encrypted, project-scoped, never returned; audit log in site00_connection_events",
+  "project_costs": "client sees CLIENT_VISIBLE_PRODUCTION_EXPENSE only; internal fields stripped server-side",
+  "client_identity": "Supabase auth + membership; invite tokens hashed, single-use, expiring; magic link must not auto-create users on invite-only projects",
+  "project_access": "membership check on every API; no client-chosen role",
+  "files": "per-project bucket paths; signed download URLs; upload type/size limits; malware scanning later",
+  "messages": "project-scoped; no internal agent chat in client threads",
+  "approval_history": "append-only events; reversals are new events; no silent rewrite"
+ }
+}

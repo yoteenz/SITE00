@@ -1,0 +1,671 @@
+/**
+ * P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1 — visual shell for the GENERATE PAGE
+ * CONCEPTS pop-up.
+ *
+ * Shell only: this component renders the wizard, the three stage cards and the
+ * empty result slots. It does not call CGPT, GPT2 or NBP, does not estimate or
+ * confirm spend, and holds no run state. Every handler arrives as a prop and is
+ * passed straight through, so Composer can bind the real pipeline without
+ * touching the composition.
+ *
+ * Mobile and desktop are composed, not scaled. Phones keep the same three-stage
+ * workbench in one view; from 900px the cards gain desktop spacing and the
+ * progression rail uses a tighter two-line clamp.
+ */
+
+import type { ReactNode } from 'react';
+
+import {
+  PAGE_CONCEPT_DEFAULT_STAGE_STATE,
+  PAGE_CONCEPT_GENERATOR_FOOTER,
+  PAGE_CONCEPT_GENERATOR_STAGES,
+  PAGE_CONCEPT_GENERATOR_SUMMARY,
+  PAGE_CONCEPT_GENERATOR_TITLE,
+  PAGE_CONCEPT_STATE_ICON,
+  PAGE_CONCEPT_STATE_LABEL,
+  pageConceptGeneratorFootSpendShowsMicroSummary,
+  pageConceptGeneratorNoticeLines,
+  pageConceptGeneratorTargetLine,
+  type PageConceptRenditionGroup,
+  type PageConceptStageId,
+  type PageConceptStageShell,
+  type PageConceptStageState,
+} from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
+import type {
+  FounderFooterCtaHint,
+  FounderJourneyRailStep,
+  FounderSummaryMetric,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderReviewPresentation.js';
+import {
+  pageConceptStageBodyCollapsed,
+  resolveFocusedPageConceptStageId,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorStageAccordion.js';
+import {
+  pageConceptFounderNoticeDisplay,
+  sanitizePageConceptFounderNotice,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
+import type {
+  PageConceptCgptSubstepId,
+  PageConceptSubstepRunState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
+import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
+import '../../../styles/site00-page-concept-generator.css';
+
+export type PageConceptGeneratorResultSlots = {
+  /** Composer fills these; the shell only reserves and frames them. */
+  cgptBrief?: ReactNode;
+  authorityImage?: ReactNode;
+  renditions?: Partial<Record<string, ReactNode>>;
+  /** When set, replaces the static NBP groups (Composer carousel / live slots). */
+  nbpStageOverride?: ReactNode;
+};
+
+export type PageConceptSourceCapturePresentation = {
+  viewport: 'MOBILE' | 'DESKTOP';
+  label: string;
+  state: 'READY' | 'MISSING' | 'CHECKING';
+};
+
+export type PageConceptGeneratorPanelProps = {
+  projectLabel: string;
+  pageLabel: string;
+  sourceCaptureLines?: readonly PageConceptSourceCapturePresentation[];
+  /** Final render guard — when true, capture-related notices are suppressed. */
+  sourceCapturesReady?: boolean;
+  stageStates?: Partial<Record<PageConceptStageId, PageConceptStageState>>;
+  cgptSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
+  cgptSubstepDigests?: Partial<Record<PageConceptCgptSubstepId, string>>;
+  results?: PageConceptGeneratorResultSlots;
+  generateDisabled?: boolean;
+  generateDisabledReason?: string | null;
+  generateBusyLabel?: string | null;
+  /** Overrides default GENERATE label (e.g. RETRY GENERATION after failure). */
+  generateLabel?: string;
+  /** Surfaced verbatim in the footer; the shell never interprets it. */
+  notice?: string | null;
+  noticeTestId?: string;
+  reviewBanner?: string | null;
+  footSpendNote?: string | null;
+  secondaryAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  } | null;
+  tertiaryAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  } | null;
+  postRunPrimaryAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  } | null;
+  postRunSecondaryAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  } | null;
+  postRunMoreActions?: readonly {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  }[];
+  onGenerate?: () => void;
+  onCancel?: () => void;
+  onClose?: () => void;
+  /** Canonical founder journey summary strip (role / count / state). */
+  founderSummaryMetrics?: readonly FounderSummaryMetric[];
+  founderJourneyRail?: readonly FounderJourneyRailStep[];
+  founderFooterHint?: FounderFooterCtaHint | null;
+  useFounderJourneyRail?: boolean;
+  /** Mobile: collapse completed / pending stages — only focused stage expanded. */
+  mobileStageAccordion?: boolean;
+  /** When true, render only the focused stage card (no multi-stage wall). */
+  singleActiveStageOnly?: boolean;
+};
+
+function StatusChip({ state }: { state: PageConceptStageState }) {
+  return (
+    <span className="s00-pcg__chip" data-state={state}>
+      <span className="s00-pcg__chipGlyph" aria-hidden="true">
+        <AiConsoleIcon name={PAGE_CONCEPT_STATE_ICON[state]} size={9} />
+      </span>
+      {PAGE_CONCEPT_STATE_LABEL[state]}
+    </span>
+  );
+}
+
+function FounderJourneyRail({ steps }: { steps: readonly FounderJourneyRailStep[] }) {
+  return (
+    <ol className="s00-pcg__founderRail" aria-label="Founder review journey" data-testid="page-concept-founder-journey-rail">
+      {steps.map((step) => (
+        <li
+          key={step.id}
+          className="s00-pcg__founderRailItem"
+          data-journey-id={step.id}
+          data-stage-state={step.state}
+        >
+          <span className="s00-pcg__founderRailStep">{step.step}</span>
+          <span className="s00-pcg__founderRailTitle">{step.groupTitle}</span>
+          <span className="s00-pcg__founderRailNote">{step.groupNote}</span>
+          <StatusChip state={step.state} />
+          {step.blockedReason && step.state === 'PENDING' ?
+            <span className="s00-pcg__founderRailBlocked">{step.blockedReason}</span>
+          : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function ProgressionRail({
+  stages,
+  stageStates,
+}: {
+  stages: readonly PageConceptStageShell[];
+  stageStates: Record<PageConceptStageId, PageConceptStageState>;
+}) {
+  return (
+    <ol className="s00-pcg__rail" aria-label="Concept generation progression">
+      {stages.map((stage, index) => {
+        const state = stageStates[stage.id];
+        return (
+          <li
+            className="s00-pcg__railItem"
+            key={stage.id}
+            data-stage-id={stage.id}
+            data-stage-state={state}
+          >
+            <div className="s00-pcg__railTrack" aria-hidden="true">
+              <span className="s00-pcg__railLine s00-pcg__railLine--before" data-edge={index === 0 ? 'end' : 'mid'} />
+              <span className="s00-pcg__node">{stage.step}</span>
+              <span
+                className="s00-pcg__railLine s00-pcg__railLine--after"
+                data-edge={index === stages.length - 1 ? 'end' : 'mid'}
+              />
+            </div>
+            <span className="s00-pcg__railTitle">{stage.progressionTitle}</span>
+            <span className="s00-pcg__railNote">{stage.progressionNote}</span>
+            <StatusChip state={state} />
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+function ResultFrame({
+  slotId,
+  ratio,
+  children,
+  emptyLabel,
+}: {
+  slotId: string;
+  ratio: 'page' | 'thumb' | 'wide';
+  children?: ReactNode;
+  emptyLabel: string;
+}) {
+  return (
+    <div className="s00-pcg__frame" data-result-slot={slotId} data-ratio={ratio}>
+      {children ?? (
+        <span className="s00-pcg__frameEmpty">
+          <span className="s00-pcg__frameGlyph" aria-hidden="true">
+            <AiConsoleIcon name="empty-concept" size={18} />
+          </span>
+          {emptyLabel ? <span>{emptyLabel}</span> : null}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function RenditionGroup({
+  group,
+  slots,
+}: {
+  group: PageConceptRenditionGroup;
+  slots: Partial<Record<string, ReactNode>>;
+}) {
+  return (
+    <section className="s00-pcg__group" aria-label={group.label}>
+      <header className="s00-pcg__groupHead">
+        <span className="s00-pcg__groupGlyph" aria-hidden="true">
+          <AiConsoleIcon name={group.icon} size={11} />
+        </span>
+        {group.label}
+      </header>
+      <div className="s00-pcg__groupRail">
+        {group.slots.map((slot) => (
+          <figure className="s00-pcg__rendition" key={slot.id}>
+            {/* A desktop rendition is a landscape frame — showing it in a phone
+                aspect would misrepresent what the founder is approving. */}
+            {/* The caption already names the rendition — repeating it inside the
+                frame reads as content that isn't there yet. */}
+            <ResultFrame slotId={slot.id} ratio={group.id === 'MOBILE' ? 'thumb' : 'wide'} emptyLabel="">
+              {slots[slot.id]}
+            </ResultFrame>
+            <figcaption className="s00-pcg__renditionCap">{slot.label}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StageCard({
+  stage,
+  state,
+  results,
+  cgptSubstepStates,
+  cgptSubstepDigests,
+  bodyCollapsed,
+}: {
+  stage: PageConceptStageShell;
+  state: PageConceptStageState;
+  results: PageConceptGeneratorResultSlots;
+  cgptSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
+  cgptSubstepDigests?: Partial<Record<PageConceptCgptSubstepId, string>>;
+  bodyCollapsed?: boolean;
+}) {
+  return (
+    <article
+      className="s00-pcg__card"
+      data-stage-id={stage.id}
+      data-stage-state={state}
+      data-stage-collapsed={bodyCollapsed ? 'true' : undefined}
+    >
+      <header className="s00-pcg__cardHead">
+        <span className="s00-pcg__step">{stage.stepLabel}</span>
+        <span className="s00-pcg__tag">
+          <span className="s00-pcg__tagGlyph" aria-hidden="true">
+            <AiConsoleIcon name={stage.icon} size={10} />
+          </span>
+          {stage.tag}
+        </span>
+      </header>
+      <h3 className="s00-pcg__cardTitle">{stage.title}</h3>
+      <p className="s00-pcg__cardSub">{stage.subtitle}</p>
+
+      <div className="s00-pcg__cardBody" hidden={bodyCollapsed}>
+        {stage.resultKind === 'BRIEF' && stage.briefRows ?
+          <ul className="s00-pcg__brief" data-result-slot={stage.resultSlotId}>
+            {results.cgptBrief ??
+              stage.briefRows.map((row) => {
+                const substepState =
+                  cgptSubstepStates?.[row.id as PageConceptCgptSubstepId] ?? 'PENDING';
+                return (
+                  <li
+                    className="s00-pcg__briefRow"
+                    key={row.id}
+                    data-substep-state={substepState}
+                    data-lead={row.lead ? 'true' : undefined}
+                  >
+                    <span className="s00-pcg__briefGlyph" aria-hidden="true">
+                      <AiConsoleIcon name={row.icon} size={10} />
+                    </span>
+                    <span className="s00-pcg__briefRowCopy">
+                      {substepState === 'COMPLETE' ?
+                        <span className="s00-pcg__briefCompleteMark" aria-hidden="true">
+                          ✓{' '}
+                        </span>
+                      : null}
+                      {row.label}
+                      {cgptSubstepDigests?.[row.id as PageConceptCgptSubstepId] ?
+                        <span className="s00-pcg__briefDigest">
+                          {cgptSubstepDigests[row.id as PageConceptCgptSubstepId]}
+                        </span>
+                      : null}
+                    </span>
+                  </li>
+                );
+              })}
+          </ul>
+        : null}
+
+        {stage.resultKind === 'AUTHORITY_IMAGE' ?
+          <ResultFrame slotId={stage.resultSlotId} ratio="page" emptyLabel="AUTHORITY CONCEPT PENDING">
+            {results.authorityImage}
+          </ResultFrame>
+        : null}
+
+        {stage.resultKind === 'RENDITION_GROUPS' && stage.renditionGroups ?
+          results.nbpStageOverride ?? (
+            <div className="s00-pcg__groups" data-result-slot={stage.resultSlotId}>
+              {stage.renditionGroups.map((group) => (
+                <RenditionGroup key={group.id} group={group} slots={results.renditions ?? {}} />
+              ))}
+              <div className="s00-pcg__paging" aria-hidden="true">
+                <span className="s00-pcg__pageArrow" data-dir="prev">
+                  <AiConsoleIcon name="preview-prev" size={10} />
+                </span>
+                <span className="s00-pcg__dots">
+                  {Array.from({ length: stage.pagingDots ?? 3 }).map((_, index) => (
+                    <span className="s00-pcg__dot" key={index} data-active={index === 0 ? 'true' : undefined} />
+                  ))}
+                </span>
+                <span className="s00-pcg__pageArrow" data-dir="next">
+                  <AiConsoleIcon name="preview-next" size={10} />
+                </span>
+              </div>
+            </div>
+          )
+        : null}
+      </div>
+
+      <footer className="s00-pcg__cardFoot">
+        <span className="s00-pcg__outGlyph" aria-hidden="true">
+          <AiConsoleIcon name="grok-manifest" size={12} />
+        </span>
+        <span className="s00-pcg__outText">
+          <span className="s00-pcg__outLabel">{stage.outputLabel}</span>
+          <span className="s00-pcg__outNote">{stage.outputNote}</span>
+        </span>
+      </footer>
+    </article>
+  );
+}
+
+export function PageConceptGeneratorPanel({
+  projectLabel,
+  pageLabel,
+  sourceCaptureLines,
+  sourceCapturesReady = false,
+  stageStates,
+  cgptSubstepStates,
+  cgptSubstepDigests,
+  results = {},
+  generateDisabled,
+  generateDisabledReason,
+  generateBusyLabel,
+  generateLabel,
+  notice,
+  noticeTestId,
+  reviewBanner,
+  footSpendNote,
+  secondaryAction,
+  tertiaryAction,
+  postRunPrimaryAction,
+  postRunSecondaryAction,
+  postRunMoreActions,
+  onGenerate,
+  onCancel,
+  onClose,
+  founderSummaryMetrics,
+  founderJourneyRail,
+  founderFooterHint,
+  useFounderJourneyRail,
+  mobileStageAccordion = false,
+  singleActiveStageOnly = false,
+}: PageConceptGeneratorPanelProps) {
+  const states: Record<PageConceptStageId, PageConceptStageState> = {
+    ...PAGE_CONCEPT_DEFAULT_STAGE_STATE,
+    ...stageStates,
+  };
+  const focusedStageId = resolveFocusedPageConceptStageId(states);
+  const dismiss = onCancel ?? onClose;
+  const footSpendRaw = footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote;
+  const footSpendMicro = pageConceptGeneratorFootSpendShowsMicroSummary(footSpendNote);
+  const founderNotice = sanitizePageConceptFounderNotice({
+    notice,
+    sourceCapturesReady,
+  });
+
+  return (
+    <section
+      className="s00-pcg"
+      role="dialog"
+      aria-modal="true"
+      aria-label={PAGE_CONCEPT_GENERATOR_TITLE}
+      data-testid="page-concept-generator-shell"
+    >
+      <header className="s00-pcg__head">
+        <div className="s00-pcg__headRow">
+          <h2 className="s00-pcg__title">{PAGE_CONCEPT_GENERATOR_TITLE}</h2>
+          <button
+            type="button"
+            className="s00-pcg__dismiss"
+            data-interaction-id="page-concepts-dismiss"
+            onClick={() => (onClose ?? onCancel)?.()}
+          >
+            <AiConsoleIcon name="action-close" size={10} />
+            {PAGE_CONCEPT_GENERATOR_FOOTER.cancelLabel}
+          </button>
+        </div>
+        <p className="s00-pcg__target">{pageConceptGeneratorTargetLine(projectLabel, pageLabel)}</p>
+      </header>
+
+      {sourceCaptureLines && sourceCaptureLines.length > 0 ?
+        <div className="s00-pcg__source" aria-label="Implementation source captures" data-testid="page-concept-source-captures">
+          <span className="s00-pcg__sourceTitle">SOURCE</span>
+          {sourceCaptureLines.map((line) => (
+            <span
+              className="s00-pcg__sourceLine"
+              key={line.viewport}
+              data-viewport={line.viewport}
+              data-state={line.state}
+            >
+              {line.state === 'CHECKING' ? line.label : `${line.label} · ${line.state}`}
+            </span>
+          ))}
+        </div>
+      : null}
+
+      <div className="s00-pcg__summary" aria-label="Concept generation plan">
+        <span className="s00-pcg__summaryGlyph" aria-hidden="true">
+          <AiConsoleIcon name="grok-library" size={13} />
+        </span>
+        {founderSummaryMetrics ?
+          founderSummaryMetrics.map((metric) => (
+            <span className="s00-pcg__metric" key={metric.id} data-state={metric.state}>
+              <strong className="s00-pcg__metricRole">{metric.role}</strong>
+              <span className="s00-pcg__metricCount">{metric.count}</span>
+              <span className="s00-pcg__metricState">{metric.stateLabel}</span>
+            </span>
+          ))
+        : PAGE_CONCEPT_GENERATOR_SUMMARY.map((metric) => (
+            <span className="s00-pcg__metric" key={metric.id}>
+              <strong className="s00-pcg__metricCount">{metric.count}</strong>
+              <span className="s00-pcg__metricLabel">{metric.label}</span>
+              {'note' in metric && metric.note ?
+                <span className="s00-pcg__metricNote">{metric.note}</span>
+              : null}
+            </span>
+          ))
+        }
+      </div>
+
+      <div className="s00-pcg__scroll">
+        {useFounderJourneyRail && founderJourneyRail ?
+          <FounderJourneyRail steps={founderJourneyRail} />
+        : <ProgressionRail stages={PAGE_CONCEPT_GENERATOR_STAGES} stageStates={states} />}
+
+        <div className="s00-pcg__cards" data-single-stage={singleActiveStageOnly ? 'true' : undefined}>
+          {(singleActiveStageOnly ?
+            PAGE_CONCEPT_GENERATOR_STAGES.filter((stage) => stage.id === focusedStageId)
+          : PAGE_CONCEPT_GENERATOR_STAGES
+          ).map((stage) => (
+            <StageCard
+              key={stage.id}
+              stage={stage}
+              state={states[stage.id]}
+              results={results}
+              cgptSubstepStates={stage.id === 'CGPT' ? cgptSubstepStates : undefined}
+              cgptSubstepDigests={stage.id === 'CGPT' ? cgptSubstepDigests : undefined}
+              bodyCollapsed={pageConceptStageBodyCollapsed({
+                stageId: stage.id,
+                stageState: states[stage.id],
+                focusedStageId,
+                accordionEnabled: mobileStageAccordion,
+              })}
+            />
+          ))}
+        </div>
+      </div>
+
+      <footer className="s00-pcg__foot">
+        {reviewBanner ?
+          <p className="s00-pcg__reviewBanner" role="status" data-testid="page-concept-review-banner">
+            {reviewBanner}
+          </p>
+        : null}
+        {founderNotice ?
+          (() => {
+            const errorDisplay = pageConceptFounderNoticeDisplay(founderNotice);
+            const captureLines = pageConceptGeneratorNoticeLines(founderNotice);
+            const useFounderError =
+              Boolean(errorDisplay.technicalCode) &&
+              (founderNotice === errorDisplay.technicalCode || founderNotice.includes(errorDisplay.technicalCode!));
+            const headline = useFounderError ? errorDisplay.headline : captureLines.headline;
+            const hint = useFounderError ? errorDisplay.hint : captureLines.hint;
+            const technicalCode = useFounderError ? errorDisplay.technicalCode : null;
+            return (
+              <p
+                className="s00-pcg__notice"
+                role="status"
+                data-testid={noticeTestId}
+                data-compact={hint ? 'true' : undefined}
+              >
+                <span className="s00-pcg__noticeGlyph" aria-hidden="true">
+                  <AiConsoleIcon name="status-error" size={10} />
+                </span>
+                <span className="s00-pcg__noticeCopy">
+                  <span className="s00-pcg__noticeHead">{headline}</span>
+                  {hint ?
+                    <span className="s00-pcg__noticeHint">{hint}</span>
+                  : null}
+                  {technicalCode ?
+                    <span className="s00-pcg__noticeTechnical" data-testid="page-concept-error-technical-code">
+                      TECHNICAL CODE · {technicalCode}
+                    </span>
+                  : null}
+                </span>
+              </p>
+            );
+          })()
+        : null}
+        {founderFooterHint?.statusLine ?
+          <p className="s00-pcg__footerPhase" role="status" data-testid="page-concept-footer-phase-hint">
+            {founderFooterHint.statusLine}
+          </p>
+        : null}
+        <p className="s00-pcg__footNotes">
+          <span className="s00-pcg__footNote">
+            <span className="s00-pcg__footGlyph" aria-hidden="true">
+              <AiConsoleIcon name="status-pending" size={10} />
+            </span>
+            {PAGE_CONCEPT_GENERATOR_FOOTER.progressionNote}
+          </span>
+          <span className="s00-pcg__footSpend" data-testid="page-concept-foot-spend">
+            <span className="s00-pcg__footSpendFull">{footSpendRaw}</span>
+            <span className="s00-pcg__footSpendCompact">
+              <span className="s00-pcg__footSpendConfirm">{PAGE_CONCEPT_GENERATOR_FOOTER.spendNote}</span>
+              {footSpendMicro ?
+                <span className="s00-pcg__footSpendMicro">{PAGE_CONCEPT_GENERATOR_FOOTER.spendMicroSummary}</span>
+              : null}
+            </span>
+          </span>
+        </p>
+        <div className="s00-pcg__actions">
+          {postRunPrimaryAction ?
+            <>
+              {postRunSecondaryAction ?
+                <button
+                  type="button"
+                  className="s00-pcg__retry"
+                  data-interaction-id="page-concepts-new-generation"
+                  data-testid={postRunSecondaryAction.testId}
+                  disabled={postRunSecondaryAction.disabled}
+                  onClick={() => postRunSecondaryAction.onClick()}
+                >
+                  {postRunSecondaryAction.label}
+                </button>
+              : null}
+              {postRunMoreActions && postRunMoreActions.length > 0 ?
+                <details className="s00-pcg__moreActions" data-testid="page-concept-post-run-more">
+                  <summary className="s00-pcg__moreActionsSummary">MORE ▾</summary>
+                  <div className="s00-pcg__moreActionsMenu">
+                    {postRunMoreActions.map((action) => (
+                      <button
+                        key={action.testId}
+                        type="button"
+                        className="s00-pcg__moreActionBtn"
+                        data-testid={action.testId}
+                        disabled={action.disabled}
+                        onClick={() => action.onClick()}
+                      >
+                        {action.label}
+                      </button>
+                    ))}
+                  </div>
+                </details>
+              : null}
+              <button
+                type="button"
+                className="s00-pcg__generate"
+                data-interaction-id="page-concepts-view-renditions"
+                data-testid={postRunPrimaryAction.testId}
+                disabled={postRunPrimaryAction.disabled}
+                onClick={() => postRunPrimaryAction.onClick()}
+              >
+                {postRunPrimaryAction.label}
+              </button>
+            </>
+          : <>
+              {tertiaryAction ?
+                <button
+                  type="button"
+                  className="s00-pcg__retry"
+                  data-interaction-id="page-concepts-return-creative-direction"
+                  data-testid={tertiaryAction.testId}
+                  disabled={tertiaryAction.disabled}
+                  onClick={() => tertiaryAction.onClick()}
+                >
+                  {tertiaryAction.label}
+                </button>
+              : null}
+              {secondaryAction ?
+                <button
+                  type="button"
+                  className="s00-pcg__retry"
+                  data-interaction-id="page-concepts-retry-failed"
+                  data-testid={secondaryAction.testId}
+                  disabled={secondaryAction.disabled}
+                  onClick={() => secondaryAction.onClick()}
+                >
+                  {secondaryAction.label}
+                </button>
+              : null}
+              <button
+                type="button"
+                className="s00-pcg__generate"
+                data-interaction-id="page-concepts-generate"
+                disabled={generateDisabled}
+                title={generateDisabled ? generateDisabledReason ?? undefined : undefined}
+                onClick={() => onGenerate?.()}
+              >
+                <span className="s00-pcg__generateGlyph" aria-hidden="true">
+                  <AiConsoleIcon name="grok-generate" size={13} />
+                </span>
+                {generateBusyLabel || generateLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
+              </button>
+            </>
+          }
+          <button
+            type="button"
+            className="s00-pcg__cancel"
+            data-interaction-id="page-concepts-cancel"
+            onClick={() => dismiss?.()}
+          >
+            {PAGE_CONCEPT_GENERATOR_FOOTER.cancelLabel}
+          </button>
+        </div>
+      </footer>
+    </section>
+  );
+}

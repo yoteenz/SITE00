@@ -1,0 +1,156 @@
+/**
+ * Master Skin System — module expression layer (host shell unchanged).
+ */
+
+.site00-master-skin-onboarding {
+  padding: 16px;
+  border: 1px solid var(--site00-dw-line, #e8e4dc);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.site00-master-skin-onboarding__eyebrow {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--site00-dw-muted, #8a857c);
+}
+
+.site00-master-skin-onboarding__grid,
+.site00-master-skin-proof__grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.site00-master-skin-card {
+  border: 1px solid var(--site00-dw-line, #e8e4dc);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+}
+
+.site00-master-skin-card.is-selected {
+  border-color: var(--site00-skin-primary, var(--site00-dw-host-accent, #e8192c));
+  box-shadow: 0 0 0 1px var(--site00-skin-primary, var(--site00-dw-host-accent, #e8192c));
+}
+
+.site00-master-skin-card__preview {
+  min-height: 88px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+
+.site00-master-skin-card__preview--cultural-editorial {
+  background: linear-gradient(135deg, #111 0%, #faf8f5 42%, #111 100%);
+  color: #faf8f5;
+}
+
+.site00-master-skin-card__preview--clinical-editorial {
+  background: linear-gradient(180deg, #f7fbfc 0%, #eef5f7 100%);
+  color: #2a7f8f;
+  border: 1px solid #d7e7ea;
+}
+
+.site00-master-skin-card__preview--technical-operations {
+  background: repeating-linear-gradient(90deg, #f3f5f8 0 12px, #eceff4 12px 24px);
+  color: #1f4fd6;
+}
+
+.site00-master-skin-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0;
+}
+
+.site00-master-skin-card__tags span {
+  font-size: 7px;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border: 1px solid var(--site00-dw-line, #e8e4dc);
+  border-radius: 999px;
+}
+
+.site00-master-skin-proof__card {
+  border: 1px solid var(--site00-dw-line, #e8e4dc);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.site00-master-skin-proof__evolve-mock {
+  padding: 12px;
+}
+
+/* Module expression — applied to .site00-pos__main only (host firewall) */
+.site00-pos__main.site00-master-skin--cultural-editorial {
+  --site00-pos-accent: var(--site00-skin-primary, #b7d236);
+  background: #faf8f5;
+}
+
+.site00-pos__main.site00-master-skin--cultural-editorial .site00-pos-module-content {
+  letter-spacing: 0.02em;
+}
+
+.site00-pos__main.site00-master-skin--cultural-editorial .site00-fws-evolve-board__hero {
+  border-left: 3px solid var(--site00-skin-primary, #b7d236);
+  padding-left: 12px;
+}
+
+.site00-pos__main.site00-master-skin--clinical-editorial {
+  --site00-pos-accent: var(--site00-skin-primary, #2a7f8f);
+  background: #f7fbfc;
+}
+
+.site00-pos__main.site00-master-skin--clinical-editorial .site00-pos-module-content {
+  max-width: var(--site00-skin-content-max-width, 960px);
+  margin-inline: auto;
+}
+
+.site00-pos__main.site00-master-skin--clinical-editorial .site00-fws-evolve-board__hero {
+  border: 1px solid #d7e7ea;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+}
+
+.site00-pos__main.site00-master-skin--technical-operations {
+  --site00-pos-accent: var(--site00-skin-primary, #1f4fd6);
+  background: #f3f5f8;
+}
+
+.site00-pos__main.site00-master-skin--technical-operations .site00-pos-module-content {
+  display: grid;
+  gap: 8px;
+}
+
+.site00-pos__main.site00-master-skin--technical-operations .site00-fws-evolve-board__hero {
+  border: 1px solid #d0d7e2;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #eef2f7;
+}
+
+.site00-master-skin--cultural-editorial .site00-master-skin-proof__evolve-mock {
+  background: #111;
+  color: #faf8f5;
+}
+
+.site00-master-skin--clinical-editorial .site00-master-skin-proof__evolve-mock {
+  background: #fff;
+  border-top: 1px solid #d7e7ea;
+}
+
+.site00-master-skin--technical-operations .site00-master-skin-proof__evolve-mock {
+  background: #fff;
+  border-top: 1px solid #d0d7e2;
+}
+
+.site00-master-skin-proof__signals {
+  margin: 8px 0 0;
+  padding-left: 16px;
+  font-size: 11px;
+}

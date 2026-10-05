@@ -130,6 +130,10 @@
   color: var(--site-red);
 }
 
+.site00-desktop-artboard .site00-safe-ui .site00-logo-mark {
+  margin-top: 2px;
+}
+
 /** Hero copy — each line nudges independently via composition tokens (OriginPage CSS vars). */
 .site00-desktop-artboard .site00-home-hero__eyebrow,
 .site00-desktop-artboard .site00-home-hero__headline,
@@ -163,16 +167,9 @@
   top: var(--site00-origin-hero-desc3-offset-y, 0px);
 }
 
-/** Desktop — full “every site… starts here” sentence on one row. */
-.site00-desktop-artboard .site00-home-hero__line--desc-online {
-  top: var(--site00-origin-hero-desc2-offset-y, 0px);
-  white-space: nowrap;
-}
-
 .site00-desktop-artboard .site00-home-hero__coordinate {
   top: var(--site00-origin-hero-coordinate-offset-y, 0px);
-  margin-top: 20px;
-  color: var(--site-text-muted);
+  margin-top: 26px;
 }
 
 .site00-desktop-artboard .site00-home-cards,
@@ -313,6 +310,13 @@
   display: none;
 }
 
+.site00-desktop-artboard .site00-origin-cards__row button.site00-origin-teaser {
+  min-width: 160px;
+  max-width: 200px;
+  min-height: 260px;
+  padding: 24px 20px;
+}
+
 .site00-desktop-artboard .site00-home-cards {
   position: absolute;
   left: 50%;
@@ -350,10 +354,10 @@
   height: calc(var(--site00-origin-panel-icon-size-px, 80px) * 1.1);
 }
 
-/** Expanded panel header icon (top-right) — 3× lg base −40%; collapsed cards unchanged. */
-.site00-desktop-artboard .site00-home-expanded-column .site00-origin-card__icon--lg {
-  width: var(--site00-origin-expanded-header-icon-size-px, 158.4px);
-  height: var(--site00-origin-expanded-header-icon-size-px, 158.4px);
+/** EVOLVE expanded panel header icon — +10% on desktop artboard. */
+.site00-desktop-artboard .site00-origin-evolve-expanded-panel .site00-origin-card__icon--lg {
+  width: calc(88px * 1.1);
+  height: calc(88px * 1.1);
 }
 
 /** EVOLVE expanded — three paths centered (not left-aligned in 5-col grid). */
@@ -663,7 +667,7 @@
 .site00-desktop-artboard--native-viewport .site00-enter-page {
   height: 100dvh;
   max-height: 100dvh;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .site00-desktop-artboard--native-viewport .site00-enter-page .site00-env-layer {
@@ -682,4 +686,10 @@
   height: 100dvh;
   min-height: 100dvh;
   overflow: hidden;
+}
+
+/** Evolve state — subhead on one row (desktop artboard). */
+.site00-desktop-artboard .site00-state-page--evolve .site00-state-page__subhead {
+  max-width: none;
+  white-space: nowrap;
 }

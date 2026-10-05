@@ -1,0 +1,42 @@
+{
+ "desktop": {
+  "popOpen": true,
+  "hasCategory": true,
+  "popEscClosed": true,
+  "popOutsideClosed": true,
+  "search": [
+   7,
+   4
+  ],
+  "blockersUrl": "/production/activity?view=blockers",
+  "lens": "blockers",
+  "milestone": "cast",
+  "inboxUrl": "/production/queue?view=approvals",
+  "approveDisabled": true,
+  "prevDisabled": "true",
+  "nextUrl": "/production/queue?view=approvals&item=attn.cast",
+  "depsVisible": true,
+  "backUrl": "/production/queue?view=approvals",
+  "errors": []
+ },
+ "mobile": {
+  "popOpen": true,
+  "hasCategory": true,
+  "popEscClosed": true,
+  "popOutsideClosed": true,
+  "search": [
+   7,
+   4
+  ],
+  "blockersUrl": "/production/activity?view=blockers",
+  "lens": "blockers",
+  "milestone": "cast",
+  "inboxUrl": "/production/queue?view=approvals",
+  "approveDisabled": true,
+  "prevDisabled": "true",
+  "nextUrl": "/production/queue?view=approvals&item=attn.cast",
+  "depsVisible": true,
+  "backUrl": "/production/queue?view=approvals",
+  "errors": []
+ }
+}
