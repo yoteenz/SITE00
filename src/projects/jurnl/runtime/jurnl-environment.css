@@ -18,17 +18,9 @@
   height: 100%;
   max-width: none;
   object-fit: cover;
-  object-position: var(--jrn-plate-mobile, 50% 46%);
+  object-position: var(--jrn-plate-mobile, 50% 50%);
   pointer-events: none;
   user-select: none;
-}
-@media (max-width: 599px) {
-  .jrn .jrn-plate {
-    top: var(--jrn-plate-top, 0);
-    left: var(--jrn-plate-left, 0);
-    width: calc(100% * var(--jrn-plate-scale, 1));
-    height: calc(100% * var(--jrn-plate-scale, 1));
-  }
 }
 .jrn .jrn-p {
   position: absolute;

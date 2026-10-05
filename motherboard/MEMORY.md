@@ -13410,3 +13410,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not generated:** Isolated objects, botanicals, materials, and icons. Those stay inside the plates or in the existing SVG icon pack. Apple and Google stay brand marks.
 - **Runtime:** Live text, forms, and controls stay above the plate. No full-screen static UI. Ledger: `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/F01_GROK_GENERATION_LEDGER.json`.
 - **Gaps:** Biometric face-id stone, device-trust journal, and security padlock are table props on the shared atrium, not separate files. The create-account footer line still sits close to the table.
+
+---
+
+## 2026-10-05 — Each F01 child screen keeps its own plate
+
+- **Context:** Founder rejected the first injection. Create Account was a scaled crop of the welcome atrium (curtain and sofa) while the approved Create Account is a different room (travertine arch, vase, olive, books). The instruction: almost every child screen has a unique plate, so do not conflate or flatten them.
+- **Topics covered:** Canonical plate injection, then the child-plate correction. OpenArt image-to-image from each child authority. No site00.com deploy. Credit ceiling stays 60,000.
+- **Decisions / outcomes:** Welcome keeps `ENTRY.ENVIRONMENT.PLATE.001`. Verify, forgot, reset-sent, and privacy keep the plates already generated. Nine more clean plates were generated, one attempt each, no corrections. F02 boundary still uses the atrium plate because it has no separate authority. The mobile scale/offset crop is gone.
+- **Changes:** `environmentPlates.ts`, `Environment.tsx`, `jurnl-environment.css`, F01 contract note, runtime plate test, coverage report, generation ledger. New files under `public/jurnl/f01-asset-first/assets/`: CREATE_ACCOUNT, SIGN_IN, UNLOCK, NEW_PASSWORD, RESET_SUCCESS, BIOMETRIC, DEVICE_TRUST, SECURITY, COMPLETE.
+- **Credits:** Quote and charge were 317 each (4k, 9:16, high). Nine jobs = 2,853. Balance 50,362 → 47,509. Earlier sprint spend of 1,268 is unchanged.
+- **Conventions:** A child authority that is its own composition gets its own plate. Do not object-position or scale the welcome plate to imitate a child. Live UI stays code above the plate.

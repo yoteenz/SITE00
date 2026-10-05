@@ -13,9 +13,6 @@ export function JurnlEnvironment({ scene }: { scene: JurnlScene }) {
   const binding = F01_SCENE_ENVIRONMENT[scene];
   const plate = F01_ENVIRONMENT_PLATES[binding.plate];
   const focal = plate[binding.focal];
-  const scale = 'scale' in binding ? binding.scale : '1';
-  const top = 'top' in binding ? binding.top : '0';
-  const left = 'left' in binding ? binding.left : '0';
   return (
     <div
       className="jrn-env"
@@ -29,9 +26,6 @@ export function JurnlEnvironment({ scene }: { scene: JurnlScene }) {
           '--jrn-plate-mobile': focal.mobile,
           '--jrn-plate-tablet': focal.tablet,
           '--jrn-plate-desktop': focal.desktop,
-          '--jrn-plate-scale': scale,
-          '--jrn-plate-top': top,
-          '--jrn-plate-left': left,
         } as CSSProperties
       }
     >
