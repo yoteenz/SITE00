@@ -162,6 +162,14 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
     setSaveState('saving');
     try {
       const intake = await intakesApi.submitIntake({ intakeType, id, guestToken: guestTokenRef.current });
+      if (intakeType === 'IDENTITY' && intake?.id) {
+        try {
+          const { fetchIdentityCommercialStatus } = await import('../lib/identityCommercialApi');
+          await fetchIdentityCommercialStatus(intake.id);
+        } catch {
+          /* submit path already activates server-side; status fetch is best-effort */
+        }
+      }
       setServerIntake(intake);
       setSaveState('saved');
       setLastSavedAt(intake.submittedAt ?? intake.updatedAt);

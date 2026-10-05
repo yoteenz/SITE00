@@ -1,0 +1,294 @@
+import type { PageConceptServerRunSnapshot } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import type { PageConceptProgressEvent } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressEvents.js';
+import {
+  PAGE_CONCEPT_POLL_INTERVAL_MS,
+  PAGE_CONCEPT_POLL_TIMEOUT_MS,
+  PAGE_CONCEPT_START_TIMEOUT_MS,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptApiTimeouts.js';
+import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { getDesignBoundPage } from '../../../shared/site00-design-workspace-production/designProjectBinding/designPageRegistry.js';
+import { resolveDesignPageIdentityForGallery } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
+import { expandPageConceptDurableRunPageIdCandidates } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptDurableRunPageIds.js';
+import { pageConceptServerRunIsTerminal } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import { pageConceptServerRunHasReadyMobileGallery } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
+import { refreshAccessTokenForApi } from '../../utils/api.js';
+import { captureApiFetch } from './captureApiFetch.js';
+import { throwPageConceptApiFailure } from './pageConceptGenerationErrors.js';
+import type { PageConceptCapturePayload } from './pageConceptGenerationClient.js';
+
+const PATH = '/api/site00/page-concept-generation';
+
+const ACTIVE_RUN_KEY = 'site00:page-concept-server-run:v1';
+
+export function pageConceptActiveServerRunStorageKey(projectId: string, pageId: string): string {
+  return `${ACTIVE_RUN_KEY}:${projectId}:${pageId}`;
+}
+
+export function savePageConceptActiveServerRunId(projectId: string, pageId: string, runId: string): void {
+  if (typeof localStorage === 'undefined') return;
+  localStorage.setItem(pageConceptActiveServerRunStorageKey(projectId, pageId), runId);
+}
+
+export function loadPageConceptActiveServerRunId(projectId: string, pageId: string): string | null {
+  if (typeof localStorage === 'undefined') return null;
+  return localStorage.getItem(pageConceptActiveServerRunStorageKey(projectId, pageId));
+}
+
+export function clearPageConceptActiveServerRunId(projectId: string, pageId: string): void {
+  if (typeof localStorage === 'undefined') return;
+  localStorage.removeItem(pageConceptActiveServerRunStorageKey(projectId, pageId));
+}
+
+export type PageConceptGenerationRunPollUpdate = {
+  run: PageConceptServerRunSnapshot;
+  progressEvents: PageConceptProgressEvent[];
+  latestSequence: number;
+};
+
+async function pageConceptGetRun(
+  runId: string,
+  afterSequence: number,
+  scope?: { projectId?: string; pageId?: string },
+  attempt = 0,
+) {
+  const qs = new URLSearchParams({
+    runId,
+    afterSequence: String(Math.max(0, afterSequence)),
+  });
+  if (scope?.projectId) qs.set('projectId', scope.projectId);
+  if (scope?.pageId) qs.set('pageId', scope.pageId);
+  const result = await captureApiFetch<{
+    ok: boolean;
+    run?: PageConceptServerRunSnapshot;
+    progressEvents?: PageConceptProgressEvent[];
+    latestSequence?: number;
+    error?: string;
+  }>(`${PATH}?${qs.toString()}`, {
+    method: 'GET',
+    timeoutMs: PAGE_CONCEPT_POLL_TIMEOUT_MS,
+    authHeaderPresent: attempt > 0,
+  });
+  const apiError =
+    result.data && typeof result.data === 'object' && 'error' in result.data ?
+      String((result.data as { error?: string }).error ?? '').trim().toUpperCase()
+    : '';
+  if ((result.status === 401 || apiError === 'UNAUTHORIZED') && attempt === 0) {
+    const refreshed = await refreshAccessTokenForApi();
+    if (refreshed) return pageConceptGetRun(runId, afterSequence, scope, 1);
+  }
+  return result;
+}
+
+export async function startPageConceptGenerationRunApi(input: {
+  state: PageConceptGenerationState;
+  mobileCapture: PageConceptCapturePayload;
+  desktopCapture: PageConceptCapturePayload;
+  founderConfirmedSpend: boolean;
+  retryFailedOnly?: boolean;
+  retryCgptOnly?: boolean;
+  resumeRunId?: string;
+  continueNbpAfterGpt2Review?: boolean;
+  continueGpt2AfterCgptReview?: boolean;
+  retryGpt2Only?: boolean;
+  regenerateNbpOnly?: boolean;
+  dryRun?: boolean;
+}): Promise<{ runId: string; status: string; dryRun: boolean }> {
+  const result = await captureApiFetch<{
+    ok: boolean;
+    runId?: string;
+    status?: string;
+    dryRun?: boolean;
+    error?: string;
+  }>(PATH, {
+    method: 'POST',
+    timeoutMs: PAGE_CONCEPT_START_TIMEOUT_MS,
+    body: {
+      action: 'start',
+      state: input.state,
+      mobileCapture: input.mobileCapture,
+      desktopCapture: input.desktopCapture,
+      founderConfirmedSpend: input.founderConfirmedSpend,
+      retryFailedOnly: input.retryFailedOnly === true,
+      retryCgptOnly: input.retryCgptOnly === true,
+      resumeRunId: input.resumeRunId,
+      continueNbpAfterGpt2Review: input.continueNbpAfterGpt2Review === true,
+      continueGpt2AfterCgptReview: input.continueGpt2AfterCgptReview === true,
+      retryGpt2Only: input.retryGpt2Only === true,
+      regenerateNbpOnly: input.regenerateNbpOnly === true,
+      dryRun: input.dryRun === true,
+    },
+  });
+  if (result.status !== 202 || !result.ok || !result.data?.runId) {
+    throwPageConceptApiFailure(result, 'GENERATION_START_FAILED');
+  }
+  return {
+    runId: result.data.runId,
+    status: result.data.status ?? 'QUEUED',
+    dryRun: result.data.dryRun === true,
+  };
+}
+
+export async function fetchLatestPageConceptGenerationRunForPageApi(
+  projectId: string,
+  pageId: string,
+  scope?: { screenId?: string; route?: string | null },
+  attempt = 0,
+): Promise<PageConceptGenerationRunPollUpdate | null> {
+  const qs = new URLSearchParams({
+    latestForPage: '1',
+    projectId,
+    pageId,
+  });
+  if (scope?.screenId?.trim()) qs.set('screenId', scope.screenId.trim());
+  if (scope?.route?.trim()) qs.set('route', scope.route.trim());
+  const result = await captureApiFetch<{
+    ok: boolean;
+    run?: PageConceptServerRunSnapshot;
+    progressEvents?: PageConceptProgressEvent[];
+    latestSequence?: number;
+    error?: string;
+  }>(`${PATH}?${qs.toString()}`, {
+    method: 'GET',
+    timeoutMs: PAGE_CONCEPT_POLL_TIMEOUT_MS,
+    authHeaderPresent: attempt > 0,
+  });
+  const apiError =
+    result.data && typeof result.data === 'object' && 'error' in result.data ?
+      String((result.data as { error?: string }).error ?? '').trim().toUpperCase()
+    : '';
+  if ((result.status === 401 || apiError === 'UNAUTHORIZED') && attempt === 0) {
+    const refreshed = await refreshAccessTokenForApi();
+    if (refreshed) {
+      return fetchLatestPageConceptGenerationRunForPageApi(projectId, pageId, scope, 1);
+    }
+  }
+  if (result.status === 404) return null;
+  if (!result.ok || !result.data?.run) {
+    throwPageConceptApiFailure(result, 'GENERATION_LATEST_RUN_FAILED');
+  }
+  const run = result.data.run;
+  const progressEvents = result.data.progressEvents ?? run.progressEventsAfterSequence ?? [];
+  const latestSequence = result.data.latestSequence ?? run.latestProgressSequence ?? 0;
+  return { run, progressEvents, latestSequence };
+}
+
+/** Tries registry + canonical page ids so durable runs match design-page identity aliases. */
+export async function fetchLatestPageConceptGenerationRunForDesignPage(input: {
+  projectSlug: string;
+  pageId: string;
+  screenId?: string;
+  route?: string | null;
+}): Promise<PageConceptGenerationRunPollUpdate | null> {
+  const identity = resolveDesignPageIdentityForGallery(input);
+  const slug = identity.projectSlug.trim().toLowerCase();
+  const legacyScoped = `${slug}:${identity.registryPageId}`;
+  const legacyCanonicalScoped = `${slug}:${identity.canonicalPageId}`;
+  const boundPage =
+    getDesignBoundPage(slug, identity.registryPageId) ??
+    getDesignBoundPage(slug, identity.canonicalPageId);
+  const candidates = [
+    identity.registryPageId,
+    identity.canonicalPageId,
+    identity.screenId,
+    boundPage?.pageId,
+    legacyScoped,
+    legacyCanonicalScoped,
+    ...expandPageConceptDurableRunPageIdCandidates({
+      projectSlug: slug,
+      pageId: input.pageId,
+      screenId: input.screenId,
+      route: input.route ?? null,
+    }),
+  ].filter((id, index, all): id is string => Boolean(id) && all.indexOf(id) === index);
+  const scope = {
+    screenId: input.screenId,
+    route: input.route ?? null,
+  };
+
+  try {
+    const primary = await fetchLatestPageConceptGenerationRunForPageApi(
+      slug,
+      identity.registryPageId,
+      scope,
+    );
+    if (primary && pageConceptServerRunHasReadyMobileGallery(primary.run)) {
+      return primary;
+    }
+  } catch {
+    /* fall through to alias page ids */
+  }
+
+  let best: PageConceptGenerationRunPollUpdate | null = null;
+  let bestTs = 0;
+  for (const pageId of candidates) {
+    if (pageId === identity.registryPageId) continue;
+    try {
+      const update = await fetchLatestPageConceptGenerationRunForPageApi(slug, pageId, scope);
+      if (!update || !pageConceptServerRunHasReadyMobileGallery(update.run)) continue;
+      const ts = Math.max(
+        ...update.run.jobs
+          .filter((j) => j.provider === 'GPT2_MOBILE')
+          .map((j) => Date.parse(j.createdAt ?? '') || 0),
+        Date.parse(update.run.updatedAt || update.run.completedAt || '') || 0,
+      );
+      if (!best || ts > bestTs) {
+        best = update;
+        bestTs = ts;
+      }
+    } catch {
+      /* try next alias */
+    }
+  }
+  return best;
+}
+
+export async function fetchPageConceptGenerationRunApi(
+  runId: string,
+  afterSequence = 0,
+  scope?: { projectId?: string; pageId?: string },
+): Promise<PageConceptGenerationRunPollUpdate> {
+  const result = await pageConceptGetRun(runId, afterSequence, scope);
+  if (!result.ok || !result.data?.run) {
+    throwPageConceptApiFailure(result, 'GENERATION_RUN_STATUS_FAILED');
+  }
+  const run = result.data.run;
+  const progressEvents =
+    result.data.progressEvents ?? run.progressEventsAfterSequence ?? [];
+  const latestSequence =
+    result.data.latestSequence ?? run.latestProgressSequence ?? 0;
+  return { run, progressEvents, latestSequence };
+}
+
+export async function pollPageConceptGenerationRunUntilTerminal(input: {
+  runId: string;
+  projectId?: string;
+  pageId?: string;
+  afterSequence?: number;
+  onUpdate: (update: PageConceptGenerationRunPollUpdate) => void;
+  intervalMs?: number;
+  maxPolls?: number;
+}): Promise<PageConceptServerRunSnapshot> {
+  const intervalMs = input.intervalMs ?? PAGE_CONCEPT_POLL_INTERVAL_MS;
+  const maxPolls = input.maxPolls ?? 600;
+  let lastObservedSequence = input.afterSequence ?? 0;
+  let last: PageConceptServerRunSnapshot | null = null;
+  for (let i = 0; i < maxPolls; i += 1) {
+    const update = await fetchPageConceptGenerationRunApi(input.runId, lastObservedSequence, {
+      projectId: input.projectId,
+      pageId: input.pageId,
+    });
+    lastObservedSequence = Math.max(lastObservedSequence, update.latestSequence);
+    last = update.run;
+    input.onUpdate(update);
+    if (
+      pageConceptServerRunIsTerminal(last.status) ||
+      last.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
+      last.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
+      last.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION'
+    ) {
+      return last;
+    }
+    await new Promise((r) => setTimeout(r, intervalMs));
+  }
+  throw new Error('GENERATION_RUN_POLL_TIMEOUT');
+}

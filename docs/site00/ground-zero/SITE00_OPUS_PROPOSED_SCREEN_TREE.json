@@ -1,0 +1,1136 @@
+{
+ "artifact": "SITE00_OPUS_PROPOSED_SCREEN_TREE",
+ "status": "PROPOSED_BY_OPUS",
+ "founder_approved": false,
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "rule": "Only ROUTE/CHILD_ROUTE/GRANDCHILD_ROUTE are URLs. States, interactions, drawers, sheets, modals and overlays are NOT pages.",
+ "tree": {
+  "F01 PUBLIC LOCATION": [
+   {
+    "node_id": "PUB.ORIGIN",
+    "title": "ORIGIN",
+    "route": "/",
+    "type": "ROUTE",
+    "states": [
+     "ARRIVAL",
+     "CARD_EXPANDED(IDNTY|BLDR|EVOLVE)",
+     "SOUND_ON/OFF (global setting)"
+    ],
+    "interactions": [
+     "NEED GUIDANCE \u2192 GUIDE (currently dead)"
+    ],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "PUB.WAITING_ROOM",
+      "title": "WAITING ROOM (ENTER 00)",
+      "route": "/enter",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "LIST",
+       "MAP (absorbs /origin/locations)",
+       "SIGNED_IN (YOUR SPACE 08\u201311)"
+      ],
+      "interactions": [
+       "EXIT 00 \u2192 /"
+      ],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "PUB.ORIGIN_STORY",
+      "title": "ORIGIN STORY",
+      "route": "/origin/story",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "PUB.SYSTEM",
+      "title": "SYSTEM",
+      "route": "/system",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "GUIDE section (absorbs /guide)"
+      ],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "PUB.SITES",
+      "title": "SITES (built locations)",
+      "route": "/sites",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "PUB.JOURNAL",
+      "title": "JOURNAL",
+      "route": "/journal",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "PUB.SERVICES",
+      "title": "SERVICES (product map)",
+      "route": "/services",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "PUB.SUPPORT",
+      "title": "SUPPORT",
+      "route": "/support",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "HELP (FAQ)",
+       "CONTACT",
+       "BOOK_DISCOVERY"
+      ],
+      "interactions": [
+       "submit contact",
+       "book discovery call"
+      ],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "PUB.LEGAL",
+      "title": "LEGAL",
+      "route": "/legal/:doc",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     }
+    ]
+   }
+  ],
+  "F02 IDNTY": [
+   {
+    "node_id": "IDNTY.HUB",
+    "title": "IDNTY",
+    "route": "/idnty",
+    "type": "ROUTE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "IDNTY.STATE",
+      "title": "STATE SELECTOR",
+      "route": "/idnty/state",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": [
+       {
+        "node_id": "IDNTY.ASSESS",
+        "title": "IDNTY ASSESSMENT (per state)",
+        "route": "/idnty/:state/*",
+        "type": "CHILD_ROUTE",
+        "states": [
+         "STEP n",
+         "SAVE STATUS",
+         "GUEST ACCESS CAPTURE",
+         "COMPLETE"
+        ],
+        "interactions": [
+         "save & resume",
+         "sign in to save"
+        ],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": [
+         {
+          "node_id": "IDNTY.SECURITY",
+          "title": "SIGN-IN SECURITY (identity step)",
+          "route": "/idnty/sign-in-security",
+          "type": "STATE",
+          "states": [],
+          "interactions": [],
+          "drawers": [],
+          "sheets": [],
+          "modals": [],
+          "overlays": [],
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "F03 BLDR": [
+   {
+    "node_id": "BLDR.HUB",
+    "title": "BLDR",
+    "route": "/bldr",
+    "type": "ROUTE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "BLDR.STATE",
+      "title": "CLASS SELECTOR",
+      "route": "/bldr/state",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": [
+       {
+        "node_id": "BLDR.ASSESS",
+        "title": "BLDR INTAKE (per class)",
+        "route": "/bldr/:class/*",
+        "type": "CHILD_ROUTE",
+        "states": [
+         "STEP n",
+         "COMPLETE"
+        ],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": []
+       }
+      ]
+     },
+     {
+      "node_id": "BLDR.TEMPLATES",
+      "title": "TEMPLATES",
+      "route": "/bldr/templates",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     }
+    ]
+   }
+  ],
+  "F04 EVOLVE": [
+   {
+    "node_id": "EVOLVE.HUB",
+    "title": "EVOLVE",
+    "route": "/evolve",
+    "type": "ROUTE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "EVOLVE.STATE",
+      "title": "PATH SELECTOR",
+      "route": "/evolve/state",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": [
+       {
+        "node_id": "EVOLVE.ASSESS",
+        "title": "EVOLVE ASSESSMENT",
+        "route": "/evolve/:path/*",
+        "type": "CHILD_ROUTE",
+        "states": [
+         "STEP n",
+         "DIAGNOSIS",
+         "QUOTE",
+         "COMPLETE"
+        ],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": []
+       }
+      ]
+     },
+     {
+      "node_id": "EVOLVE.PLANS",
+      "title": "PLANS",
+      "route": "/evolve/plans",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "EVOLVE.MARKETING",
+      "title": "MARKETING",
+      "route": "/evolve/marketing",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "SERVICES",
+       "INTAKE",
+       "BRIEF",
+       "ENGAGEMENT"
+      ],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     }
+    ]
+   }
+  ],
+  "F05 ACCESS & CTRL ROOM": [
+   {
+    "node_id": "ACCESS.SIGNIN",
+    "title": "SIGN IN",
+    "route": "/origin/sign-in",
+    "type": "ROUTE",
+    "states": [
+     "PASSWORD",
+     "MAGIC_LINK",
+     "ERROR"
+    ],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   },
+   {
+    "node_id": "ACCESS.CREATE",
+    "title": "CREATE ACCOUNT",
+    "route": "/origin/create-account",
+    "type": "ROUTE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   },
+   {
+    "node_id": "ACCESS.RECOVER",
+    "title": "RECOVER PASSWORD",
+    "route": "/origin/forgot-password",
+    "type": "ROUTE",
+    "states": [
+     "REQUEST",
+     "RESET (from email)"
+    ],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   },
+   {
+    "node_id": "ACCESS.INVITE",
+    "title": "ACCEPT INVITE",
+    "route": "/invite/:token",
+    "type": "ROUTE",
+    "states": [
+     "VALID",
+     "EXPIRED",
+     "ALREADY_ACCEPTED",
+     "WRONG_ACCOUNT"
+    ],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   },
+   {
+    "node_id": "ACCESS.GUEST_TOKEN",
+    "title": "GUEST INTAKE ACCESS",
+    "route": "/intake/access/:token",
+    "type": "SYSTEM_SURFACE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   },
+   {
+    "node_id": "CTRL.HOME",
+    "title": "CTRL ROOM",
+    "route": "/control",
+    "type": "ROUTE",
+    "states": [
+     "NO_PROJECTS",
+     "ONE_PROJECT",
+     "MANY_PROJECTS"
+    ],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "CTRL.PROJECTS",
+      "title": "MY PROJECTS",
+      "route": "/control/projects",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTRL.INTAKES",
+      "title": "MY INTAKES",
+      "route": "/control/intakes",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTRL.SITES",
+      "title": "MY SITES",
+      "route": "/control/sites",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTRL.SETTINGS",
+      "title": "ACCOUNT SETTINGS",
+      "route": "/control/settings",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "PROFILE",
+       "SECURITY",
+       "TEAM",
+       "DOMAINS",
+       "BILLING"
+      ],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     }
+    ]
+   }
+  ],
+  "F06 CLIENT APP (PROJECT ROOM)": [
+   {
+    "node_id": "APP.ENTRY",
+    "title": "APP ENTRY",
+    "route": "/app",
+    "type": "ROUTE",
+    "states": [
+     "SPLASH",
+     "PROJECT_PICK (\u22652 projects)",
+     "NO_ACCESS"
+    ],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "APP.HOME",
+      "title": "HOME",
+      "route": "/app/:projectSlug",
+      "type": "ROUTE",
+      "states": [
+       "NEEDS_YOU",
+       "IN_PRODUCTION",
+       "WAITING_ON_FOUNDER",
+       "COMPLETE",
+       "EMPTY"
+      ],
+      "interactions": [],
+      "drawers": [
+       "NOTIFICATIONS",
+       "MENU"
+      ],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": [
+       {
+        "node_id": "APP.PROJECT",
+        "title": "PROJECT",
+        "route": "/app/:projectSlug/project",
+        "type": "CHILD_ROUTE",
+        "states": [
+         "JOURNEY",
+         "PHASE_DETAIL (sheet)",
+         "FAMILY_DETAIL (sheet)",
+         "ACTIVITY (curated section)"
+        ],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": []
+       },
+       {
+        "node_id": "APP.REVIEWS",
+        "title": "REVIEWS",
+        "route": "/app/:projectSlug/reviews",
+        "type": "CHILD_ROUTE",
+        "states": [
+         "NEEDS_YOU",
+         "REVISION_IN_PROGRESS",
+         "APPROVED",
+         "EMPTY"
+        ],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": [
+         {
+          "node_id": "APP.REVIEW",
+          "title": "REVIEW (family review mode)",
+          "route": "/app/:projectSlug/reviews/:reviewId",
+          "type": "GRANDCHILD_ROUTE",
+          "states": [
+           "VIEWING",
+           "COMPARE",
+           "HISTORY",
+           "APPROVED_CONFIRMATION",
+           "REVISION_SUBMITTED",
+           "SUPERSEDED"
+          ],
+          "interactions": [
+           "\u2665 APPROVE (optional note)",
+           "\u00d7 NEEDS REVISION (mandatory feedback)",
+           "COMMENT",
+           "ANNOTATE"
+          ],
+          "drawers": [],
+          "sheets": [
+           "REVISION FEEDBACK SHEET"
+          ],
+          "modals": [],
+          "overlays": [],
+          "children": []
+         }
+        ]
+       },
+       {
+        "node_id": "APP.INBOX",
+        "title": "INBOX",
+        "route": "/app/:projectSlug/inbox",
+        "type": "CHILD_ROUTE",
+        "states": [
+         "EMPTY",
+         "UNREAD"
+        ],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": [
+         {
+          "node_id": "APP.THREAD",
+          "title": "THREAD",
+          "route": "/app/:projectSlug/inbox/:threadId",
+          "type": "GRANDCHILD_ROUTE",
+          "states": [],
+          "interactions": [
+           "reply",
+           "answer decision",
+           "upload requested file"
+          ],
+          "drawers": [],
+          "sheets": [],
+          "modals": [],
+          "overlays": [],
+          "children": []
+         }
+        ]
+       },
+       {
+        "node_id": "APP.LIBRARY",
+        "title": "LIBRARY",
+        "route": "/app/:projectSlug/library",
+        "type": "CHILD_ROUTE",
+        "states": [
+         "SECTION(IDENTITY|APPROVED|DELIVERABLES|REFERENCES|UPLOADS|FINAL)"
+        ],
+        "interactions": [
+         "upload reference"
+        ],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": [
+         {
+          "node_id": "APP.FILE",
+          "title": "FILE",
+          "route": "/app/:projectSlug/library/:section/:fileId",
+          "type": "GRANDCHILD_ROUTE",
+          "states": [],
+          "interactions": [
+           "download"
+          ],
+          "drawers": [],
+          "sheets": [],
+          "modals": [],
+          "overlays": [],
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "node_id": "APP.PREVIEW",
+    "title": "APP PREVIEW (fixture mode)",
+    "route": "/app/preview/:projectSlug/*",
+    "type": "SYSTEM_SURFACE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   }
+  ],
+  "F07 PRODUCTION WORKSPACE": [
+   {
+    "node_id": "PW.ROOT",
+    "title": "PRODUCTION (all projects)",
+    "route": "/production",
+    "type": "ROUTE",
+    "states": [
+     "ALL_PROJECTS",
+     "PROJECT_PICKER"
+    ],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "PW.HUB",
+      "title": "HUB",
+      "route": "/production/:projectSlug",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "DEFAULT",
+       "MACHINE (legacy ?view=machine \u2014 founder decision C10)"
+      ],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [
+       "PROJECT SELECTOR"
+      ],
+      "children": [
+       {
+        "node_id": "PW.CLIENT",
+        "title": "CLIENT RELATIONSHIP",
+        "route": "/production/:projectSlug/client",
+        "type": "GRANDCHILD_ROUTE",
+        "states": [],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": []
+       }
+      ]
+     },
+     {
+      "node_id": "PW.INBOX",
+      "title": "INBOX",
+      "route": "/production/:projectSlug/inbox",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "NEEDS (lens)",
+       "WATCHING (lens; incl. AWAITING_CLIENT)",
+       "RESOLVED",
+       "ALL",
+       "MESSAGES",
+       "SYSTEM",
+       "CLIENT_REVIEWS (lens, new)"
+      ],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [
+       "SEND TO CLIENT sheet"
+      ],
+      "modals": [],
+      "overlays": [
+       "ITEM detail",
+       "THREAD detail",
+       "NOTICE detail"
+      ],
+      "children": []
+     },
+     {
+      "node_id": "PW.DESIGN",
+      "title": "DESIGN",
+      "route": "/production/:projectSlug/design",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "MODE(BRAND|EXPERIENCE|SURFACES|COMPILER|ASSETS|VIEWPORT)"
+      ],
+      "interactions": [
+       "SEND TO CLIENT"
+      ],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": [
+       {
+        "node_id": "PW.DESIGN.SECTIONS",
+        "title": "DESIGN sections",
+        "route": "/production/:projectSlug/design/:section",
+        "type": "GRANDCHILD_ROUTE",
+        "states": [],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": []
+       }
+      ]
+     },
+     {
+      "node_id": "PW.EXPERIENCE",
+      "title": "EXPERIENCE",
+      "route": "/production/:projectSlug/experience",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "LIVE (runtime preview; absorbs /runtime/*)"
+      ],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": [
+       {
+        "node_id": "PW.EXPERIENCE.CHILD",
+        "title": "EXPERIENCE children",
+        "route": "/production/:projectSlug/experience/:area",
+        "type": "GRANDCHILD_ROUTE",
+        "states": [],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": []
+       },
+       {
+        "node_id": "RT.RUNTIME",
+        "title": "PROJECT RUNTIME",
+        "route": "/production/:projectSlug/runtime/*",
+        "type": "SYSTEM_SURFACE",
+        "states": [],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": []
+       }
+      ]
+     },
+     {
+      "node_id": "PW.EXPRESSION",
+      "title": "EXPRESSION",
+      "route": "/production/:projectSlug/expression",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [
+       "SEND TO CLIENT (review + handoff step)"
+      ],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": [
+       {
+        "node_id": "PW.EXPRESSION.FAMILY",
+        "title": "EXPRESSION family",
+        "route": "/production/:projectSlug/expression/:family/*",
+        "type": "GRANDCHILD_ROUTE",
+        "states": [],
+        "interactions": [],
+        "drawers": [],
+        "sheets": [],
+        "modals": [],
+        "overlays": [],
+        "children": []
+       }
+      ]
+     },
+     {
+      "node_id": "PW.LIBRARY",
+      "title": "LIBRARY",
+      "route": "/production/:projectSlug/library",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "ASSETS",
+       "CANON",
+       "REFERENCES",
+       "ACTORS"
+      ],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "PW.ACTIVITY",
+      "title": "ACTIVITY",
+      "route": "/production/:projectSlug/activity",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "VIEW(...)",
+       "MILESTONE"
+      ],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     }
+    ]
+   }
+  ],
+  "F08 00 / CONTROL (OPERATIONS)": [
+   {
+    "node_id": "CTL.COMMAND",
+    "title": "COMMAND",
+    "route": "/admin/site00",
+    "type": "ROUTE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "CTL.PROJECTS",
+      "title": "PROJECTS (registry)",
+      "route": "/admin/site00/projects",
+      "type": "CHILD_ROUTE",
+      "states": [
+       "LIST",
+       "DETAIL",
+       "PROVISIONING"
+      ],
+      "interactions": [
+       "create project",
+       "invite client",
+       "VIEW AS CLIENT \u2192 /app/:slug",
+       "OPEN PRODUCTION \u2192 /production/:slug"
+      ],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTL.REVIEWS",
+      "title": "REVIEWS (all projects)",
+      "route": "/admin/site00/approvals",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTL.CLIENTS",
+      "title": "CLIENTS & INTAKES",
+      "route": "/admin/site00/identities",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTL.BUSINESS",
+      "title": "BUSINESS",
+      "route": "/admin/site00/finance",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTL.EVOLVE_OPS",
+      "title": "EVOLVE OPS",
+      "route": "/admin/site00/evolve",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTL.VAULT",
+      "title": "ASSET VAULT",
+      "route": "/assts",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTL.ACCESS",
+      "title": "ACCESS & EMAIL",
+      "route": "/admin/site00/access-credentials",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "CTL.SETTINGS",
+      "title": "SETTINGS",
+      "route": "/admin/site00/settings",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     }
+    ]
+   }
+  ],
+  "F09 PROJECT RUNTIMES": [
+   {
+    "node_id": "RT.RUNTIME",
+    "title": "PROJECT RUNTIME",
+    "route": "/production/:projectSlug/runtime/*",
+    "type": "SYSTEM_SURFACE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   },
+   {
+    "node_id": "RT.WORLD",
+    "title": "WORLD READER / EXPERIENCE",
+    "route": "/projects/:projectSlug/reader/*",
+    "type": "SYSTEM_SURFACE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   }
+  ],
+  "F10 STUDIO OS LAB": [
+   {
+    "node_id": "LAB.ROOT",
+    "title": "LAB",
+    "route": "/lab",
+    "type": "ROUTE",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": [
+     {
+      "node_id": "LAB.BENCH",
+      "title": "DESIGN BENCHES",
+      "route": "/lab/:projectSlug/bench/:bench",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "LAB.EXPERIMENTS",
+      "title": "EXPERIMENTS",
+      "route": "/lab/:projectSlug/:experiment",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     },
+     {
+      "node_id": "LAB.DEV",
+      "title": "DEV HARNESSES",
+      "route": "/lab/dev/:harness",
+      "type": "CHILD_ROUTE",
+      "states": [],
+      "interactions": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "children": []
+     }
+    ]
+   }
+  ],
+  "F11 STUDIO WORLD": [
+   {
+    "node_id": "SW.RESERVED",
+    "title": "STUDIO WORLD (reserved)",
+    "route": null,
+    "type": "RESERVED",
+    "states": [],
+    "interactions": [],
+    "drawers": [],
+    "sheets": [],
+    "modals": [],
+    "overlays": [],
+    "children": []
+   }
+  ]
+ }
+}

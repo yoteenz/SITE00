@@ -1,0 +1,49 @@
+{
+ "artifact": "SITE00_CLIENT_TREE_FILTER_RULES",
+ "follow_up": "P0.SITE00.CLIENT-PROJECT-ROOM-LIVE-VIEWPORT-WORKING-TREE-REVIEW1",
+ "applies_to": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "rule": "Client tree = filter(canonical project graph). The filter is code, not a second manual tree.",
+ "always_hidden": [
+  "node_type INTERNAL",
+  "admin",
+  "system utilities",
+  "internal QA",
+  "debug",
+  "agent workspaces",
+  "provider services",
+  "importance MICRO (focus, error variants, toasts, loading frames, micro-interactions)",
+  "BROKEN edges (shown to founder only)"
+ ],
+ "shown": [
+  "PROJECT",
+  "PHASE (where relevant)",
+  "FAMILY",
+  "PARENT_SCREEN",
+  "CHILD_SCREEN (MATERIAL)",
+  "GRANDCHILD_SCREEN (only if MATERIAL)",
+  "KEY_INTERACTION",
+  "SHARED_SYSTEM only when the client needs it to understand the product (e.g. \"YOUR ACCOUNT\", \"PAYMENTS\")",
+  "EXTERNAL_HANDOFF in human words"
+ ],
+ "labels": "Product language only. No routes, state machines, databases, React, APIs. Edge labels are user actions or outcomes.",
+ "status_vocabulary_client": {
+  "PLANNED": "UPCOMING",
+  "IN_PRODUCTION": "IN PRODUCTION",
+  "READY_FOR_REVIEW": "READY FOR YOU",
+  "REVISION_REQUESTED": "REVISION IN PROGRESS",
+  "APPROVED": "APPROVED",
+  "CONNECTED": "CONNECTED",
+  "COMPLETE": "COMPLETE",
+  "BLOCKED": "BLOCKED \u2014 reason"
+ },
+ "dependency_language_examples": [
+  "SETUP \u2192 TODAY (\"YOU FINISH SETUP, THEN TODAY OPENS\")",
+  "IDENTITY \u2192 FAMILY VISUAL PRODUCTION (\"YOUR APPROVED IDENTITY STYLES EVERY SCREEN\")",
+  "CLIENT APPROVAL \u2192 NEXT FAMILY (\"WHEN YOU APPROVE, WE START THE NEXT FAMILY\")"
+ ],
+ "cost_on_tree": "FAMILY nodes may show ESTIMATED / ACTUAL / FUNDING REQUIRED as one small line; detail lives in PROJECT cost center.",
+ "founder_override": "client_visible and label per node; cannot surface INTERNAL nodes.",
+ "founder_tree": "Same graph, no filter, plus BROKEN edges, MICRO nodes, route ids, QA status, graph-edit controls (internal only)."
+}

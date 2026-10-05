@@ -1,0 +1,31 @@
+{
+  "family": "01_ENTRY",
+  "product": "JURNL",
+  "sprint": "P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1",
+  "statusPolicy": "GENERATED — founder review required before APPROVED/CANONICAL",
+  "screens": [
+    {"id": "F01.00", "name": "WELCOME", "role": "LOCKED_PARENT", "asset": "PARENT/F01.00_WELCOME_GENERATED.png"},
+    {"id": "F01.01", "name": "CREATE_ACCOUNT", "asset": "CHILDREN/F01.01_CREATE_ACCOUNT.png"},
+    {"id": "F01.02", "name": "EMAIL_VERIFICATION", "asset": "CHILDREN/F01.02_EMAIL_VERIFICATION.png"},
+    {"id": "F01.03", "name": "SIGN_IN", "asset": "CHILDREN/F01.03_SIGN_IN.png"},
+    {"id": "F01.04", "name": "RETURNING_USER_UNLOCK", "asset": "CHILDREN/F01.04_RETURNING_USER_UNLOCK.png"},
+    {"id": "F01.05", "name": "FORGOT_PASSWORD", "asset": "CHILDREN/F01.05_FORGOT_PASSWORD.png"},
+    {"id": "F01.06", "name": "RESET_EMAIL_SENT", "asset": "CHILDREN/F01.06_RESET_EMAIL_SENT.png"},
+    {"id": "F01.07", "name": "CREATE_NEW_PASSWORD", "asset": "CHILDREN/F01.07_CREATE_NEW_PASSWORD.png"},
+    {"id": "F01.08", "name": "PASSWORD_RESET_SUCCESS", "asset": "CHILDREN/F01.08_PASSWORD_RESET_SUCCESS.png"},
+    {"id": "F01.09", "name": "BIOMETRIC_SETUP", "asset": "CHILDREN/F01.09_BIOMETRIC_SETUP.png"},
+    {"id": "F01.10", "name": "DEVICE_TRUST", "asset": "CHILDREN/F01.10_DEVICE_TRUST.png"},
+    {"id": "F01.11", "name": "PRIVACY_PRIMER", "asset": "CHILDREN/F01.11_PRIVACY_PRIMER.png"},
+    {"id": "F01.12", "name": "SECURITY_PRIMER", "asset": "CHILDREN/F01.12_SECURITY_PRIMER.png"},
+    {"id": "F01.13", "name": "ENTRY_COMPLETE", "asset": "CHILDREN/F01.13_ENTRY_COMPLETE.png", "bridgeTo": "FAMILY_02"}
+  ],
+  "stateAuthorities": [
+    {"id": "STATES.F01.01", "covers": ["default", "focused", "validation_error", "email_in_use", "password_satisfied", "loading"], "asset": "STATES/STATES.F01.01.png"},
+    {"id": "STATES.F01.03", "covers": ["default", "incorrect_password", "account_not_found", "locked", "loading"], "asset": "STATES/STATES.F01.03.png"},
+    {"id": "STATES.EMAIL_RECOVERY", "covers": ["verification_pending", "resent", "expired_link", "verification_success", "reset_email_sent", "invalid_reset_link", "reset_success"], "asset": "STATES/STATES.EMAIL_RECOVERY.png"},
+    {"id": "STATES.SECURITY_NETWORK", "covers": ["biometric_prompt", "biometric_enabled", "biometric_declined", "biometric_unavailable", "device_trusted", "device_verify_required", "offline", "session_expired", "reauthentication"], "asset": "STATES/STATES.SECURITY_NETWORK.png"}
+  ],
+  "interactionAuthorities": [
+    {"id": "SHEETS.INTERACTIONS", "covers": ["privacy_detail_drawer", "security_detail_drawer", "terms_drawer", "sign_out_modal", "switch_account_modal", "auth_error_panel", "social_auth_apple", "social_auth_google"], "asset": "SHEETS/SHEET_INTERACTION_AUTHORITY.png"}
+  ]
+}

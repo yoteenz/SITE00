@@ -1,0 +1,169 @@
+/** P0.FILM.1 — Film production constants */
+
+export const FILM_INPUT_MODES = [
+  'SCRIPT_ONLY',
+  'STORYBOARD_ONLY',
+  'SCRIPT_AND_STORYBOARD',
+  'CONCEPT_ONLY',
+  'FORMAT_AND_TOPIC',
+  'REFERENCE_VIDEO',
+  'REFERENCE_STILLS',
+] as const;
+
+export const FILM_AUTONOMY_MODES = ['FOUNDER_DIRECTED', 'ASSISTED_AUTONOMY', 'HIGH_AUTONOMY'] as const;
+
+export const FILM_PRODUCTION_STATES = [
+  'NEEDS_SCRIPT_APPROVAL',
+  'NEEDS_STORYBOARD_APPROVAL',
+  'PRODUCTION_PLAN_READY',
+  'AWAITING_PRODUCTION_APPROVAL',
+  'GENERATING',
+  'DAILIES_READY',
+  'ROUGH_CUT_READY',
+  'FOUNDER_REVIEW',
+  'LOCKED',
+] as const;
+
+export const FOUNDER_GATES = [
+  'APPROVE_SCRIPT',
+  'APPROVE_STORYBOARD',
+  'APPROVE_PRODUCTION_PLAN',
+  'APPROVE_DAILIES',
+  'APPROVE_ROUGH_CUT',
+  'APPROVE_FINAL',
+] as const;
+
+export const SHOT_RISK_LEVELS = ['LOW', 'MEDIUM', 'HIGH', 'STRESS_TEST'] as const;
+
+export const PRODUCTION_STACK_KINDS = [
+  'DIRECT_VIDEO',
+  'STILL_FIRST',
+  'REFERENCE_IMAGE',
+  'PROVIDER_RELAY',
+] as const;
+
+export const QA_STATUSES = ['QA_REJECTED', 'QA_RETRY_ELIGIBLE', 'FOUNDER_REVIEW_READY'] as const;
+
+export const DAILIES_ACTIONS = [
+  'APPROVE',
+  'ALT',
+  'REGENERATE',
+  'NOTE',
+  'LOVE_IT',
+  'TOO_AI',
+  'TOO_POLISHED',
+  'WRONG_ENERGY',
+  'WRONG_SHOT',
+  'WRONG_CAMERA',
+  'WRONG_WARDROBE',
+  'CONTINUITY_OFF',
+] as const;
+
+export const ROUGH_CUT_ACTIONS = [
+  'LOVE_IT',
+  'PACING_OFF',
+  'CHANGE_SHOT',
+  'CUT_THIS',
+  'NEEDS_MORE_NDX',
+  'TOO_POLISHED',
+  'TOO_SLOW',
+  'TOO_FAST',
+  'ALT_ENDING',
+  'EDIT_NOTE',
+] as const;
+
+export const SCENE_DECK_SHOT_STATES = [
+  'SHOT_EMPTY',
+  'SHOT_GENERATING',
+  'SHOT_REVIEW',
+  'SHOT_APPROVED',
+  'SHOT_ALT_AVAILABLE',
+  'SHOT_REGEN_REQUIRED',
+  'SHOT_LOCKED',
+] as const;
+
+export const SCENE_DECK_SCENE_STATES = [
+  'INCOMPLETE',
+  'READY_FOR_EDIT',
+  'ROUGH_CUT_READY',
+  'LOCKED',
+] as const;
+
+export const WARDROBE_MODES = [
+  'EVERYDAY_FITTED',
+  'RELAXED_OVERSHIRT',
+  'SOFT_UTILITY',
+  'OFF_DUTY',
+  'WORKING_DESK',
+  'CITY_DAY',
+  'TRAVEL',
+  'EVENING',
+  'EVENT',
+  'LOUNGE',
+] as const;
+
+export const NDX_ENVIRONMENTS = [
+  'CAFE',
+  'BOOKSTORE',
+  'CREATIVE_OFFICE',
+  'HOME_DESK',
+  'CITY_SIDEWALK',
+  'ELEVATOR',
+  'LUXURY_CAR',
+  'RESTAURANT',
+  'HOTEL',
+  'AIRPORT_LOUNGE',
+  'STUDIO_BOOK_ROOM',
+] as const;
+
+export const VIDEO_FORMAT_TEMPLATES = [
+  'MINI_VLOG_INTRO',
+  'RABBIT_HOLE_INVESTIGATION',
+  'CULTURAL_OBSERVATION',
+  'THINGS_I_SAVED',
+  'CAR_CONVERSATION',
+  'DAY_IN_MOTION',
+  'EDITORIAL_EXPLAINER',
+  'ERRATA_CORRECTION',
+  'BOOKMARK_CALLBACK',
+] as const;
+
+export const READINESS_CHECKS = [
+  'CharacterReady',
+  'WardrobeReady',
+  'EnvironmentReady',
+  'PropReady',
+  'VoiceReady',
+  'ProviderReady',
+  'ContinuityReady',
+  'StoryboardReady',
+  'CostApproved',
+] as const;
+
+export const QA_FAILURE_CODES = [
+  'FAIL_HAND_PROP',
+  'FAIL_IDENTITY',
+  'FAIL_CAMERA',
+  'FAIL_ENVIRONMENT',
+  'FAIL_MOTION',
+  'FAIL_WARDROBE_CONTINUITY',
+  'FAIL_LIP_SYNC',
+  'FAIL_CONTINUITY',
+  'FAIL_REALISM',
+] as const;
+
+export const DEFAULT_AUTONOMY_MODE = 'ASSISTED_AUTONOMY' as const;
+
+export const DEFAULT_CANDIDATE_COUNT = 1;
+export const BACKUP_CANDIDATE_COUNT = 1;
+export const MAX_RETRIES = 2;
+
+export const PROMPT_AUTHORITY_ORDER = [
+  'IDENTITY',
+  'CONTINUITY',
+  'ACTION',
+  'CAMERA',
+  'ENVIRONMENT',
+  'REALISM',
+  'STYLE',
+] as const;

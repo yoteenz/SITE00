@@ -1,0 +1,131 @@
+{
+  "family_id": "F02_SETUP",
+  "sprint": "P0.JURNL.F02-BOTANICAL-BRAND-ASSET-REPAIR1",
+  "rule": "Header florals sit above the plate. They are isolated assets. Progress squares stay live UI. Interaction sheets have no header mark. F02.04 reuses the F02.03 spray.",
+  "screens_audited": 17,
+  "screens": {
+    "F02.00": {
+      "emblem": "F02.BOTANICAL.EMBLEM.001",
+      "lockup": "F02.BRANDLOCKUP.JURNL.001",
+      "wordmark": "INSIDE_LOCKUP",
+      "progress": "LIVE_UI"
+    },
+    "F02.01": {
+      "emblem": "F02.BOTANICAL.EMBLEM.002",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.02": {
+      "emblem": "F02.BOTANICAL.EMBLEM.003",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.03": {
+      "emblem": "F02.BOTANICAL.EMBLEM.004",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.04": {
+      "emblem": "F02.BOTANICAL.EMBLEM.004",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI",
+      "reuses": "F02.03"
+    },
+    "F02.05": {
+      "emblem": "F02.BOTANICAL.EMBLEM.005",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.06": {
+      "emblem": "F02.BOTANICAL.EMBLEM.006",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.07": {
+      "emblem": "F02.BOTANICAL.EMBLEM.007",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.08": {
+      "emblem": "F02.BOTANICAL.EMBLEM.008",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.02.1": {
+      "emblem": "F02.BOTANICAL.EMBLEM.009",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.05.1": {
+      "emblem": "F02.BOTANICAL.EMBLEM.010",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.ST.RESUME": {
+      "emblem": "F02.BOTANICAL.EMBLEM.011",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.ST.VALIDATION": {
+      "emblem": "F02.BOTANICAL.EMBLEM.012",
+      "lockup": "F02.BRANDLOCKUP.JURNL_SETUP.001",
+      "wordmark": "INSIDE_LOCKUP",
+      "progress": "LIVE_UI"
+    },
+    "F02.ST.CONNECTED": {
+      "emblem": "F02.BOTANICAL.EMBLEM.013",
+      "lockup": null,
+      "wordmark": "LIVE_JURNL",
+      "progress": "LIVE_UI"
+    },
+    "F02.IN.PERMISSION": {
+      "emblem": null,
+      "lockup": null,
+      "wordmark": null,
+      "progress": null,
+      "note": "Sheet has no header botanical."
+    },
+    "F02.IN.ADD": {
+      "emblem": null,
+      "lockup": null,
+      "wordmark": null,
+      "progress": null,
+      "note": "Sheet has no header botanical."
+    },
+    "F02.IN.SKIP": {
+      "emblem": null,
+      "lockup": null,
+      "wordmark": null,
+      "progress": null,
+      "note": "Sheet has no header botanical."
+    }
+  },
+  "assets": {
+    "F02.BOTANICAL.EMBLEM.001": "Graphic dusty-rose sprig. Parent only.",
+    "F02.BOTANICAL.EMBLEM.002": "Small pale rose on a short stem.",
+    "F02.BOTANICAL.EMBLEM.003": "Blush rose stem with a bud.",
+    "F02.BOTANICAL.EMBLEM.004": "Fine white flower spray. Shared by income and commitments.",
+    "F02.BOTANICAL.EMBLEM.005": "Olive branch with white blossoms.",
+    "F02.BOTANICAL.EMBLEM.006": "Small pale rose on a thin stem.",
+    "F02.BOTANICAL.EMBLEM.007": "Large open cream rose.",
+    "F02.BOTANICAL.EMBLEM.008": "Coral rose and bud.",
+    "F02.BOTANICAL.EMBLEM.009": "Upright dark red rose buds.",
+    "F02.BOTANICAL.EMBLEM.010": "White flowers with broader leaves.",
+    "F02.BOTANICAL.EMBLEM.011": "Pale rose and bud.",
+    "F02.BOTANICAL.EMBLEM.012": "Burgundy rose and bud.",
+    "F02.BOTANICAL.EMBLEM.013": "Dusty rosebud on a long stem.",
+    "F02.BRANDLOCKUP.JURNL.001": "Rose sprig, vertical rule, and rose JURNL.",
+    "F02.BRANDLOCKUP.JURNL_SETUP.001": "Burgundy rose with JURNL. SETUP."
+  }
+}

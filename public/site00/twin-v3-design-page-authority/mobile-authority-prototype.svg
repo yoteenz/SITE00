@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 920" role="img" aria-label="SITE 00 design page mobile authority — NDXBOOK project open">
+  <rect width="430" height="920" fill="#faf9f7"/>
+  <rect x="0" y="0" width="430" height="56" fill="#ffffff" stroke="#e8e4dc"/>
+  <text x="20" y="34" font-family="system-ui,sans-serif" font-size="16" font-weight="700" fill="#111">SITE 00</text>
+  <rect x="88" y="18" width="3" height="20" fill="#e10600"/>
+  <text x="100" y="34" font-family="system-ui,sans-serif" font-size="11" fill="#666">Design · host shell</text>
+  <rect x="12" y="64" width="406" height="40" rx="8" fill="#fff" stroke="#e0dcd4"/>
+  <text x="20" y="88" font-family="system-ui,sans-serif" font-size="10" fill="#888">SITE 00 › PROJECT: NDXBOOK › PAGE: DESIGN</text>
+  <rect x="12" y="112" width="406" height="36" rx="6" fill="#fff5f5" stroke="#e10600" stroke-width="1"/>
+  <text x="20" y="134" font-family="system-ui,sans-serif" font-size="10" fill="#333">Client open · NDXBOOK · /projects/ndxbook · mobile · stage: REVIEW</text>
+  <rect x="12" y="156" width="406" height="48" rx="8" fill="#fff" stroke="#e10600" stroke-width="2"/>
+  <text x="20" y="178" font-family="system-ui,sans-serif" font-size="10" fill="#888">DECISION (SITE 00 workspace)</text>
+  <text x="20" y="196" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#111">Approve direction</text>
+  <rect x="250" y="168" width="156" height="32" rx="6" fill="#e10600"/>
+  <text x="268" y="188" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#fff">PRIMARY ACTION</text>
+  <rect x="12" y="212" width="406" height="300" rx="10" fill="#ffffff" stroke="#ccc"/>
+  <text x="20" y="236" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#111">PRIMARY WORK AREA</text>
+  <text x="20" y="254" font-family="system-ui,sans-serif" font-size="9" fill="#666">design upgrade review · not NDXBOOK app chrome</text>
+  <rect x="20" y="264" width="390" height="220" rx="6" fill="#f0ece6"/>
+  <text x="120" y="380" font-family="system-ui,sans-serif" font-size="13" fill="#555">authority / concept preview</text>
+  <rect x="12" y="520" width="406" height="80" rx="8" fill="#fff" stroke="#e0dcd4"/>
+  <text x="20" y="542" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#111">STRUCTURED ARTIFACTS</text>
+  <text x="20" y="562" font-family="system-ui,sans-serif" font-size="9" fill="#444">visual · blueprint · overlay · assets · functions</text>
+  <rect x="12" y="608" width="406" height="44" rx="8" fill="#fff" stroke="#e0dcd4"/>
+  <text x="20" y="636" font-family="system-ui,sans-serif" font-size="9" fill="#333">Readiness · compare · refine · regenerate</text>
+  <rect x="12" y="660" width="406" height="36" rx="18" fill="#111" opacity="0.06"/>
+  <text x="120" y="682" font-family="system-ui,sans-serif" font-size="10" fill="#555">Technical details · bottom sheet ?</text>
+  <text x="12" y="880" font-family="system-ui,sans-serif" font-size="9" fill="#999">R1 prototype · SITE 00 host · NDXBOOK open · representative</text>
+</svg>

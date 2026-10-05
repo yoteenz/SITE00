@@ -76,7 +76,7 @@ function EvolveDesktopStatePageBody({
         <p className="site00-label-red" style={{ marginBottom: 8 }}>
           {EVOLVE_STATE_COPY.headline}
         </p>
-        <p className="site00-body site00-state-page__subhead" style={{ maxWidth: 560, margin: '0 auto' }}>
+        <p className="site00-body site00-state-page__subhead" style={{ margin: '0 auto' }}>
           {EVOLVE_STATE_COPY.subhead}
         </p>
         <p className="site00-label" style={{ marginTop: 8 }}>
@@ -176,6 +176,76 @@ export default function EvolveStatePage() {
   return (
     <EnvironmentShell environmentId="WORKFLOW_ENVIRONMENT" className="site00-state-page site00-state-page--evolve">
       <Site00AppShell locationLabel={EVOLVE_STATE_COPY.locationLabel}>
+<<<<<<< HEAD
+        <div className="site00-state-page-layout">
+          <header style={{ textAlign: 'center', marginBottom: 32 }}>
+            <p className="site00-label-red" style={{ marginBottom: 8 }}>
+              {EVOLVE_STATE_COPY.headline}
+            </p>
+            <p className="site00-body site00-state-page__subhead" style={{ margin: '0 auto' }}>
+              {EVOLVE_STATE_COPY.subhead}
+            </p>
+            <p className="site00-label" style={{ marginTop: 8 }}>
+              {EVOLVE_STATE_COPY.helper}
+            </p>
+          </header>
+
+          {hasResume && resumeTarget ? (
+            <div className="site00-idnty-state-resume">
+              <p className="site00-idnty-state-resume__label">
+                RESUME EVOLVE — {record.evolvePath?.replace(/-/g, ' ').toUpperCase()}
+              </p>
+              <Link
+                to={isDesktop ? site00EvolveAssessmentDesktopPath(resumeTarget) : resumeTarget}
+                className="site00-idnty-state-resume__link"
+              >
+                CONTINUE →
+              </Link>
+            </div>
+          ) : null}
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: 16,
+              marginBottom: 40,
+            }}
+            role="list"
+            aria-label="EVOLVE PATHS"
+          >
+            {EVOLVE_PATHS.map((path) => (
+              <EvolvePathCard
+                key={path.id}
+                path={path}
+                selected={state.selectedEvolvePathId === path.id}
+                onSelect={() => handleSelectPath(path.id)}
+              />
+            ))}
+          </div>
+
+          <ArchitecturalPanel variant="workflow">
+            <div style={{ padding: '24px 20px' }}>
+              <p className="site00-label-red">{EVOLVE_STATE_COPY.processHeading}</p>
+              <p className="site00-label" style={{ marginBottom: 20 }}>
+                {EVOLVE_STATE_COPY.processSubhead}
+              </p>
+              <ol className="site00-bldr-step-list">
+                {EVOLVE_PROCESS_STEPS.map((step) => (
+                  <li key={step.num} className="site00-bldr-step-list__item">
+                    <span className="site00-bldr-step-list__num">{step.num}</span>
+                    <div>
+                      <h2 className="site00-bldr-step-list__title">{step.title}</h2>
+                      <p className="site00-bldr-step-list__body">{step.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </ArchitecturalPanel>
+        </div>
+
+=======
         <EvolveDesktopStatePageBody
           isDesktopArtboard={isDesktopArtboard}
           selectedEvolvePathId={state.selectedEvolvePathId}
@@ -184,6 +254,7 @@ export default function EvolveStatePage() {
           resumeTarget={resumeTarget}
           resumePathLabel={resumePathLabel}
         />
+>>>>>>> origin/main
         <WorkflowSummary text={EVOLVE_STATE_COPY.footer} />
       </Site00AppShell>
       <Site00OriginLayoutSwitch />

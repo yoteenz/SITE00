@@ -10,6 +10,11 @@ import type {
   MarketingServiceCategory,
 } from '../../../shared/site00-marketing/types.js';
 import { linkApprovedDeliverablesToVault, listVaultLinksForEngagement } from './vaultHandoff.js';
+import {
+  commercialAllowanceForEngagement,
+  ensureCommercialOnPayment,
+  ensureCommercialOnProvision,
+} from './commercialPipeline.js';
 
 type DbRow = {
   id: string;
@@ -220,7 +225,14 @@ export async function confirmMarketingPayment(engagementId: string, actorEmail: 
     .single();
   if (error || !data) throw new Error(error?.message ?? 'Payment confirm failed');
   await logEvent(engagementId, 'PAYMENT_CONFIRMED', actorEmail);
-  return mapRow(data as DbRow);
+  const record = mapRow(data as DbRow);
+  try {
+    await ensureCommercialOnPayment(record);
+    await logEvent(engagementId, 'COMMERCIAL_ENTITLEMENT_ACTIVATED', actorEmail);
+  } catch (commercialErr) {
+    console.warn('[marketing] commercial activation deferred', commercialErr);
+  }
+  return record;
 }
 
 export async function provisionMarketingEngagement(engagementId: string): Promise<MarketingEngagementRecord> {
@@ -279,7 +291,16 @@ export async function provisionMarketingEngagement(engagementId: string): Promis
     });
 
     await logEvent(engagementId, 'PROVISIONED', 'system', { campaignId: result.campaignId });
-    return mapRow(data as DbRow);
+    const provisioned = mapRow(data as DbRow);
+    try {
+      await ensureCommercialOnProvision(provisioned, result.campaignId);
+      await logEvent(engagementId, 'COMMERCIAL_STUDIO_WORLD_LINKED', 'system', {
+        campaignId: result.campaignId,
+      });
+    } catch (commercialErr) {
+      console.warn('[marketing] commercial handoff deferred', commercialErr);
+    }
+    return provisioned;
   } catch (err) {
     await supabase
       .from('site00_marketing_engagements')
@@ -389,6 +410,15 @@ export async function getMarketingEngagementPayload(engagementId: string, client
     .order('created_at', { ascending: false })
     .limit(6);
 
+  let commercialAllowance = null;
+  let commercialLinked = false;
+  try {
+    commercialAllowance = await commercialAllowanceForEngagement(engagementId);
+    commercialLinked = Boolean(commercialAllowance);
+  } catch {
+    commercialAllowance = null;
+  }
+
   return {
     ...record,
     reviews: [],
@@ -399,6 +429,8 @@ export async function getMarketingEngagementPayload(engagementId: string, client
       status: h.status as MarketingEngagementStatus,
     })),
     reusedIdentity: record.identityId ? { name: 'APPROVED IDENTITY', source: 'SITE 00 IDNTY' } : null,
+    commercialAllowance,
+    commercialLinked,
   };
 }
 

@@ -1,13 +1,23 @@
 import { Link, useLocation } from 'react-router-dom';
-import { OPERATING_WORLD_TOP_NAV, isOperatingWorldNavActive } from '../../config/ecosystem-nav';
+import {
+  OPERATING_WORLD_TOP_NAV,
+  isOperatingWorldNavActive,
+  resolveOperatingWorldNavHref,
+} from '../../config/ecosystem-nav';
+import { canAccessAdminPages } from '../../../utils/adminAuth';
 import { SITE00_ROUTES } from '../../config/routes';
 import { site00UserDisplayName, site00UserInitials, useSite00CurrentUser } from '../../hooks/useSite00CurrentUser';
 import { CtrlRoomSignOutButton } from '../control/CtrlRoomSignOutButton';
+import { useSite00ShellAuth } from '../../auth/Site00ShellAuthContext';
+import { useActiveProjectSlug } from '../../hooks/useProjectPresenceAccent';
 
 /** Authenticated workspace top navigation — Operating World board canon. */
 export function OperatingWorldTopNav() {
   const { pathname } = useLocation();
   const user = useSite00CurrentUser();
+  const { authMode } = useSite00ShellAuth();
+  const projectSlug = useActiveProjectSlug() ?? 'site00';
+  const previewGuest = authMode === 'PREVIEW_GUEST';
   const displayName = site00UserDisplayName(user);
   const initials = site00UserInitials(user);
 
@@ -21,11 +31,15 @@ export function OperatingWorldTopNav() {
       </div>
       <nav className="site00-operating-topnav__links" aria-label="WORKSPACE SECTIONS">
         <ul>
-          {OPERATING_WORLD_TOP_NAV.map((item) => {
+          {OPERATING_WORLD_TOP_NAV.filter((item) => {
+            if (previewGuest) return item.id === 'studio';
+            return !item.adminOnly || canAccessAdminPages();
+          }).map((item) => {
+            const href = resolveOperatingWorldNavHref(item, { previewGuest, projectSlug });
             const active = isOperatingWorldNavActive(pathname, item);
             return (
               <li key={item.id}>
-                <Link to={item.href} aria-current={active ? 'page' : undefined}>
+                <Link to={href} aria-current={active ? 'page' : undefined}>
                   {item.label}
                 </Link>
               </li>

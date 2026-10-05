@@ -1,0 +1,62 @@
+{
+  "asset_id": "ENV.EVOLVE.PATH.TRANSFORM",
+  "purpose": "EXISTING / TRANSFORMED PANELS AROUND AN EXPLODED GLASS ASSEMBLY.",
+  "family_id": "EVOLVE_ENVIRONMENT_FAMILY_V1",
+  "continuity_group_id": "EVOLVE_INTERVENTION_SYSTEM_V1",
+  "surface": "MOBILE_WEB",
+  "dimensions": {
+    "w": 1170,
+    "h": 1100
+  },
+  "aspect": "1170:1100",
+  "reference_crop": "reference-crops/ENV_EVOLVE_PATH_TRANSFORM_REFERENCE.jpg",
+  "scene_decomposition_sheet": "scene-decomposition/04_EVOLVE_TRANSFORM_DECOMPOSITION.md",
+  "safe_zone_map": "safe-zones/ENV_EVOLVE_PATH_TRANSFORM_SAFE_ZONES.png",
+  "must_include": [
+    "EXISTING / TRANSFORMED PANELS AROUND AN EXPLODED GLASS ASSEMBLY.",
+    "SITE 00 luminous white material language where applicable",
+    "architectural depth",
+    "polished floor or terrace when visible",
+    "red structural accents when BLDR/EVOLVE family"
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "bottom navigation bar",
+    "form fields and inputs",
+    "card titles and body copy",
+    "status badges and progress indicators",
+    "live technical red linework (SVG)",
+    "brand icons unless asset spec requires them",
+    "central machine tower",
+    "path card illustrations",
+    "floating UI panels"
+  ],
+  "camera": "eye-level hero environment camera",
+  "lighting": "soft daylight with red accent bounce where brand family requires",
+  "materials": "white ceramic, glass, polished floor, red structural inserts",
+  "perspective": "architectural one-point with subtle wide lens",
+  "negative_space": {
+    "left_clear_percent": 5,
+    "right_clear_percent": 5,
+    "top_clear_percent": 12,
+    "bottom_clear_percent": 35,
+    "central_clear_region": {
+      "x": 0.1,
+      "y": 0.55,
+      "w": 0.8,
+      "h": 0.35
+    },
+    "custom_polygon_clear_region": null
+  },
+  "crop_behavior": "cover",
+  "transparency": false,
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "mask_ownership": "IN_ASSET",
+  "asset_dependencies": [
+    "ENV.EVOLVE.PATH.INSTALL"
+  ],
+  "output_format": "webp",
+  "version": 1
+}

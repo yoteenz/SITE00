@@ -1,0 +1,112 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
+import { useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
+import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
+import { ExpressionEngineCampaignPanel } from '../components/founderWorkspace/ExpressionEngineCampaignPanel';
+import {
+  CampaignBoardInspectContent,
+  CampaignBoardProductionWall,
+} from '../components/founderWorkspace/CampaignBoardProductionWall';
+import { site00ProjectsApi } from '../services/site00ProjectsApi';
+import { resolveTodayCampaignDayShortId } from '../utils/campaignBoardWeekCalendar';
+import type { MarketingCampaignProductionRun } from '../../../shared/site00-studio-world-production/marketingCampaignProduction/types';
+import '../styles/site00-founder-workspace.css';
+
+/** Inspect layer preserves: CLIENT REVIEW MODE · Experiment 01 V2.3 campaign initialization semantics */
+
+export default function ProjectContentOperationsCampaignBoardPage() {
+  const { projectSlug = '' } = useParams<{ projectSlug: string }>();
+  const [run, setRun] = useState<MarketingCampaignProductionRun | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [clientMode, setClientMode] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(() => resolveTodayCampaignDayShortId());
+
+  const reload = useCallback(async () => {
+    if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) return;
+    try {
+      const result = await site00ProjectsApi.campaignProductionGet(projectSlug);
+      setRun((result.run as MarketingCampaignProductionRun | null) ?? null);
+    } catch {
+      setRun(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [projectSlug]);
+
+  useEffect(() => {
+    void reload();
+  }, [reload]);
+
+  const act = async (fn: () => Promise<{ run: Record<string, unknown> }>) => {
+    setBusy(true);
+    try {
+      const result = await fn();
+      setRun((result.run as MarketingCampaignProductionRun) ?? null);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) {
+    return (
+      <EcosystemShell hidePageHeader>
+        <p>Campaign board is NDXBOOK-only.</p>
+      </EcosystemShell>
+    );
+  }
+
+  const generatedCount =
+    run?.board?.assets.filter((a) => a.sequencePosition === 1 && a.generatedAssetUrl).length ?? 0;
+  const totalSlide01 = run?.board?.assets.filter((a) => a.sequencePosition === 1).length ?? 0;
+
+  return (
+    <EcosystemShell hidePageHeader>
+      <FounderWorkspaceShell
+        projectSlug={projectSlug}
+        title="CAMPAIGN BOARD"
+        subtitle={clientMode ? 'YOUR CONTENT PLAN' : run?.campaign?.name ?? undefined}
+        attentionBadge={generatedCount < totalSlide01 && totalSlide01 > 0 ? 'DEVELOPING' : totalSlide01 > 0 ? 'READY TO REVIEW' : undefined}
+        hideWorkspaceHeader
+        operate={
+          <CampaignBoardProductionWall
+            projectSlug={projectSlug}
+            run={run}
+            loading={loading}
+            busy={busy}
+            selectedDay={selectedDay}
+            onSelectDay={setSelectedDay}
+            onInitialize={() => void act(() => site00ProjectsApi.campaignProductionInitialize(projectSlug))}
+            onLockRound01={() => void act(() => site00ProjectsApi.campaignProductionLockRound01(projectSlug))}
+            onFormulateRound02={() => void act(() => site00ProjectsApi.campaignProductionFormulateRound02(projectSlug))}
+          />
+        }
+        understand={
+          <p style={{ margin: 0, fontSize: 11, color: '#999' }}>
+            Drag to reorder when persistence semantics allow · Tap artwork to review · Day navigation switches the working wall
+          </p>
+        }
+        inspect={
+          <>
+            <ExpressionEngineCampaignPanel projectSlug={projectSlug} compact />
+            {run?.board ? (
+              <CampaignBoardInspectContent
+                run={run}
+                clientMode={clientMode}
+                onToggleClientMode={() => setClientMode((v) => !v)}
+                busy={busy}
+                onSynthesizeCaptions={() => void act(() => site00ProjectsApi.campaignProductionSynthesizeCaptions(projectSlug))}
+                onCaptionJudgment={(contentPieceId, judgment) =>
+                  void act(() => site00ProjectsApi.campaignProductionCaptionJudgment(projectSlug, contentPieceId, judgment))
+                }
+              />
+            ) : (
+              <p>No campaign board loaded yet. Use Expression Engine above for ENTRY 002 blueprint review.</p>
+            )}
+          </>
+        }
+      />
+    </EcosystemShell>
+  );
+}

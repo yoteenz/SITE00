@@ -2,6 +2,11 @@
 
 export type Site00FounderProjectSlug = 'frontal-slayer' | 'studio-world' | 'ndxbook' | 'all-in-one-enterprises';
 
+/** Registered client projects beyond founder index (P0.B). */
+export type Site00ClientProjectSlug = 'astral-world';
+
+export type Site00KnownProjectSlug = Site00FounderProjectSlug | Site00ClientProjectSlug;
+
 export type Site00ProjectSurface = {
   id: string;
   label: string;
@@ -22,7 +27,7 @@ export type Site00ProjectCommandItem = {
 };
 
 export type Site00ProjectIndexEntry = {
-  slug: Site00FounderProjectSlug;
+  slug: Site00KnownProjectSlug | string;
   name: string;
   displayName: string;
   internalLabel?: string;
@@ -52,12 +57,23 @@ export type Site00ProjectsApiErrorBody = {
   message: string;
 };
 
+export type Site00ClientProjectIndexRef = {
+  id: string;
+  slug: string;
+  name: string;
+  studioRoute: string;
+  clientEmail?: string | null;
+  ownerFirstName?: string | null;
+  ownerLastName?: string | null;
+  ownerDisplayName?: string | null;
+};
+
 export type Site00ProjectsIndexPayload = {
   ok: true;
   projects: Site00ProjectIndexEntry[];
   source: 'site00_project_resolver';
   summary: Site00ProjectsIndexSummary;
-  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>;
+  clientProjects?: Site00ClientProjectIndexRef[];
 };
 
 export type Site00ProjectsIndexFailure = {
@@ -110,6 +126,20 @@ export type Site00ProjectChannelSummary = {
   locked: boolean;
 };
 
+/** EVOLVE commercial snapshot for a project — intentionally separate from operational/governance state. */
+export type Site00ProjectCommercialSummary = {
+  applicability: 'BILLABLE_CLIENT' | 'INTERNAL_NON_BILLING' | 'NOT_APPLICABLE';
+  applicabilityNote: string;
+  plan: { id: string; name: string; priceLabel: string; serviceModel: string } | null;
+  planStatus: 'ACTIVE' | 'NOT_SELECTED' | 'NOT_APPLICABLE';
+  foundation: { status: string; missing: string[]; explanation: string } | null;
+  entitlements: { channelLimit: number | null; assetCapacityLabel: string | null; customScopeRequired: boolean } | null;
+  paidMediaStatus: string;
+  usageMetering: string;
+  billingIntegrated: boolean;
+  route: string;
+};
+
 export type Site00ProjectDetail = Site00ProjectIndexEntry & {
   overview: {
     description: string;
@@ -128,6 +158,7 @@ export type Site00ProjectDetail = Site00ProjectIndexEntry & {
     needsApproval: number;
   };
   creativeDirection: Site00ProjectCreativeDirectionSummary | null;
+  commercial: Site00ProjectCommercialSummary;
   assets: {
     available: boolean;
     route: string;
