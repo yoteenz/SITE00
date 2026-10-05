@@ -38,7 +38,8 @@ export type ProjectChamberConfig = {
   caption: string;
   panels: ProjectChamberPanel[];
   pipeline: { title: string; sub: string; state: 'DONE' | 'ACTIVE' | 'NEXT' | 'EXCEPTION' }[];
-  table: { title: string; sub: string; cta: string; plate: string | null; inspect: ProjectInspectTab }[];
+  /** `to` opens the LIVE viewport (runtime review); otherwise the card opens the project inspector tab. */
+  table: { title: string; sub: string; cta: string; plate: string | null; inspect: ProjectInspectTab; to?: string }[];
   edgeLeft: string;
   edgeRight: string;
 };
@@ -63,6 +64,13 @@ export function buildProjectChamber(mode: ProductionDesignMode, project: Ingeste
   const parentArt = parent?.authorityFile ? AUTH(parent.authorityFile) : null;
   const childArt = (c?.screens ?? []).filter((s) => s.role === 'CHILD').map((s) => AUTH(s.authorityFile ?? ''));
   const fid = c ? `${c.familyId} ${c.familyName}` : 'NO FAMILY';
+  const sizeOf = (preset: 'MOBILE' | 'TABLET' | 'DESKTOP') => {
+    const z = project.viewport.presets[preset];
+    return z ? `${z.w} × ${z.h}` : preset;
+  };
+  /** Live review of this family in DESIGN → VIEWPORT (the real project runtime, not an authority image). */
+  const live = (preset?: 'MOBILE' | 'TABLET' | 'DESKTOP') =>
+    project.runtime && c ? `/production/${project.slug}/design?mode=viewport&family=${encodeURIComponent(c.familyId)}${preset ? `&preset=${preset}` : ''}` : undefined;
   const label = mode.toUpperCase();
   const base = {
     mode,
@@ -101,7 +109,7 @@ export function buildProjectChamber(mode: ProductionDesignMode, project: Ingeste
         table: [
           { title: 'TYPOGRAPHY CHOICE', sub: 'CONFIRM DISPLAY + SANS', cta: 'REVIEW', plate: parentArt, inspect: 'brand' },
           { title: 'CLAIMS REGISTER', sub: 'SECURITY + PRIVACY COPY', cta: 'REVIEW', plate: childArt[11] ?? null, inspect: 'claims' },
-          { title: 'FAMILY RUNTIME', sub: `${fid} LIVE UI`, cta: 'OPEN', plate: childArt[2] ?? null, inspect: 'screens' },
+          { title: 'FAMILY RUNTIME', sub: `${fid} LIVE UI`, cta: 'OPEN LIVE', plate: childArt[2] ?? null, inspect: 'screens', to: live() },
         ],
       };
     case 'experience':
@@ -125,7 +133,7 @@ export function buildProjectChamber(mode: ProductionDesignMode, project: Ingeste
           { title: 'HANDOFF', sub: bridge ? `${bridge} BOUNDARY` : '—', state: 'NEXT' },
         ],
         table: [
-          { title: 'JOURNEY REVIEW', sub: 'NEW USER PATH', cta: 'REVIEW', plate: parentArt, inspect: 'screens' },
+          { title: 'JOURNEY REVIEW', sub: 'NEW USER PATH', cta: 'OPEN LIVE', plate: parentArt, inspect: 'screens', to: live() },
           { title: 'INTERACTION AUDIT', sub: `${c?.interactions.length ?? 0} ROWS BOUND`, cta: 'INSPECT', plate: childArt[3] ?? null, inspect: 'interactions' },
           { title: bridge ? `${bridge} CONTRACT` : 'NEXT FAMILY', sub: 'ASSET-FIRST START', cta: 'PREPARE', plate: childArt[12] ?? null, inspect: 'assets' },
         ],
@@ -153,9 +161,9 @@ export function buildProjectChamber(mode: ProductionDesignMode, project: Ingeste
           { title: 'FOUNDER REVIEW', sub: 'RUNTIME', state: 'NEXT' },
         ],
         table: [
-          { title: 'MOBILE REVIEW', sub: '393 × 852', cta: 'OPEN', plate: parentArt, inspect: 'screens' },
-          { title: 'TABLET REVIEW', sub: '834 × 1194', cta: 'OPEN', plate: childArt[0] ?? null, inspect: 'screens' },
-          { title: 'DESKTOP REVIEW', sub: '1440 × 900', cta: 'OPEN', plate: childArt[2] ?? null, inspect: 'screens' },
+          { title: 'MOBILE REVIEW', sub: sizeOf('MOBILE'), cta: 'OPEN LIVE', plate: parentArt, inspect: 'screens', to: live('MOBILE') },
+          { title: 'TABLET REVIEW', sub: sizeOf('TABLET'), cta: 'OPEN LIVE', plate: childArt[0] ?? null, inspect: 'screens', to: live('TABLET') },
+          { title: 'DESKTOP REVIEW', sub: sizeOf('DESKTOP'), cta: 'OPEN LIVE', plate: childArt[2] ?? null, inspect: 'screens', to: live('DESKTOP') },
         ],
       };
     }
@@ -184,7 +192,7 @@ export function buildProjectChamber(mode: ProductionDesignMode, project: Ingeste
         table: [
           { title: 'FAMILY GATE', sub: gate?.implementationReady ? 'READY' : 'OPEN', cta: 'INSPECT', plate: parentArt, inspect: 'gate' },
           { title: 'COMPONENT MAP', sub: 'MANIFEST → RUNTIME', cta: 'INSPECT', plate: childArt[0] ?? null, inspect: 'components' },
-          { title: 'FOUNDER APPROVAL', sub: `${fid} RUNTIME`, cta: 'REVIEW', plate: childArt[12] ?? null, inspect: 'screens' },
+          { title: 'FOUNDER APPROVAL', sub: `${fid} RUNTIME`, cta: 'OPEN LIVE', plate: childArt[12] ?? null, inspect: 'screens', to: live() },
         ],
       };
     }

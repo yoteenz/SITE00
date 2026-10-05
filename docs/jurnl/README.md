@@ -6,9 +6,9 @@ Family 01 ENTRY (F01.00–F01.13) runs as live UI inside the DESIGN workspace.
 | Open | Where |
 |------|-------|
 | DESIGN workspace | `/production/jurnl/design?mode=brand` (or switch from any project via the host PROJECT chip) |
-| Live viewport | `/production/jurnl/design?mode=viewport` (ROUTE / STATE / SCENARIO selects; SAFE AREA / GRID / BOUNDS / REFERENCE) |
+| **Live viewport (primary)** | `/production/jurnl/design?mode=viewport&family=F01` (PRESET / FAMILY / ROUTE / STATE / SCENARIO; SAFE AREA / GRID / BOUNDS / REFERENCE) |
 | Family gate | `/production/jurnl/design?mode=compiler&inspect=gate` |
-| Runtime direct | `/production/jurnl/runtime/entry` |
+| Direct live preview (same runtime, no workspace chrome) | `/production/jurnl/runtime/entry` · or OPEN DIRECT PREVIEW ↗ in the viewport panel |
 
 | Doc | |
 |-----|--|
@@ -19,5 +19,6 @@ Family 01 ENTRY (F01.00–F01.13) runs as live UI inside the DESIGN workspace.
 | [ASSET_FIRST_POLICY.md](ASSET_FIRST_POLICY.md) | Asset-first methodology for F02+ |
 | [BUDGET_CONTRACT.md](BUDGET_CONTRACT.md) | Family budget data contract |
 | [F01_LIVE_QA.md](F01_LIVE_QA.md) | Live browser QA proof index |
+| [F01_LIVE_VIEWPORT_DELIVERY.md](F01_LIVE_VIEWPORT_DELIVERY.md) | Live viewport delivery: how to open, hosting audit, viewport QA (163/163) |
 
 Firewall rules for any project runtime: `src/projects/README.md`.

@@ -3,11 +3,12 @@
  * future JURNL app shell mounts in production. Owns its own routing, state, fonts and styles.
  */
 
+import { useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 // Type-only: the host's runtime mount contract (no host UI, styles or state cross into the project).
 import type { ProjectRuntimeProps } from '../../../site00/projectRuntime/projectRuntimeRegistry';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS } from '../data/f01/screens';
-import { JurnlSuccessBanner } from './components/primitives';
+import { JurnlOverlayHostContext, JurnlSuccessBanner } from './components/primitives';
 import { JurnlStoreProvider, useJurnl } from './state/store';
 import { CreateAccountScreen, ReturningUnlockScreen, SignInScreen, VerifyEmailScreen, WelcomeScreen } from './screens/EntryScreens';
 import { ForgotPasswordScreen, NewPasswordScreen, ResetSentScreen, ResetSuccessScreen } from './screens/RecoveryScreens';
@@ -65,12 +66,16 @@ function JurnlRoutes() {
 }
 
 export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps) {
+  const [overlayHost, setOverlayHost] = useState<HTMLElement | null>(null);
   return (
     <div className="jrn" data-project-runtime="jurnl" data-runtime-mode={mode} lang="en">
-      <JurnlStoreProvider basePath={basePath} mode={mode}>
-        <JurnlRoutes />
-        <Toast />
-      </JurnlStoreProvider>
+      <JurnlOverlayHostContext.Provider value={overlayHost}>
+        <JurnlStoreProvider basePath={basePath} mode={mode}>
+          <JurnlRoutes />
+          <Toast />
+        </JurnlStoreProvider>
+      </JurnlOverlayHostContext.Provider>
+      <div className="jrn-overlay-host" ref={setOverlayHost} data-jrn-overlay-host />
     </div>
   );
 }

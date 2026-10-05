@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { getIngestedProject } from '../../../projects/registry';
 import { projectFamilies } from '../../../projects/families';
@@ -181,26 +181,95 @@ type RuntimeRect = { x: number; y: number; w: number; h: number; label: string }
  * Project-runtime viewport state (P0.JURNL.SITE00-INGEST-F01): which project screen / state / scenario the isolated
  * iframe shows, what the runtime reports back, and the measured BOUNDS of its content blocks.
  */
+type RuntimeSelection = { screenId: string; variant: string; scenario: string; nonce: number };
+
+/**
+ * Project-runtime viewport state (P0.JURNL.SITE00-F01-LIVE-VIEWPORT-DELIVERY1).
+ * `sel` drives the iframe (changes only on an explicit host control / deep link); `shown` is what the controls display
+ * and FOLLOWS live navigation inside the runtime, so FAMILY / ROUTE / STATE always describe the screen on stage.
+ */
 function useProjectRuntimeViewport(projectSlug: string) {
   const [params] = useSearchParams();
   const project = getIngestedProject(projectSlug);
   const runtime = project && hasProjectRuntime(projectSlug) ? project : null;
-  const family = runtime ? (projectFamilies(projectSlug)[0] ?? null) : null;
-  const screens = family?.contract.screens ?? [];
+  const entries = useMemo(() => (runtime ? projectFamilies(projectSlug) : []), [runtime, projectSlug]);
   const boundaries = (runtime?.families ?? []).filter((f) => f.status === 'NOT_STARTED' && f.entryRoute);
-  const [screenId, setScreenId] = useState<string>(() => params.get('screen') ?? screens[0]?.id ?? '');
-  const [variant, setVariant] = useState<string>(() => (params.get('state') ? `state:${params.get('state')}` : params.get('overlay') ? `overlay:${params.get('overlay')}` : 'DEFAULT'));
-  const [scenario, setScenario] = useState<string>('NONE');
-  const [live, setLive] = useState<{ screen: string | null; handoff: string | null; boundary: string | null }>({ screen: null, handoff: null, boundary: null });
-  const screen = screens.find((s) => s.id === screenId) ?? null;
-  const boundary = boundaries.find((b) => b.familyId === screenId) ?? null;
-  const states = family?.contract.states.filter((s) => s.screenId === screenId) ?? [];
-  const overlays = family?.overlays[screenId] ?? [];
-  const sc = runtime?.runtime.scenarios.find((x) => x.id === scenario) ?? null;
-  const [kind, value] = variant === 'DEFAULT' ? ['', ''] : (variant.split(':') as [string, string]);
-  const route = sc?.route ?? boundary?.entryRoute ?? screen?.runtimeRoute ?? runtime?.runtime.defaultRoute ?? '';
-  const src = runtime ? projectRuntimeUrl(projectSlug, route, { ...(kind === 'state' ? { state: value } : {}), ...(kind === 'overlay' ? { overlay: value } : {}), ...(sc?.query ?? {}) }) : null;
-  return { runtime, family, screens, boundaries, screenId, setScreenId, variant, setVariant, scenario, setScenario, states, overlays, src, screen, live, setLive };
+  const entryFor = (id: string) => entries.find((e) => e.contract.familyId === id || e.contract.screens.some((s) => s.id === id)) ?? null;
+  const firstScreen = (familyId: string) => {
+    const c = entries.find((e) => e.contract.familyId === familyId)?.contract;
+    return c ? (c.screens.find((s) => s.id === c.parentScreen) ?? c.screens[0])?.id ?? '' : familyId;
+  };
+  const [sel, setSel] = useState<RuntimeSelection>(() => {
+    const fam = params.get('family');
+    const screenId = params.get('screen') ?? (fam ? firstScreen(fam) : (entries[0] ? firstScreen(entries[0].contract.familyId) : ''));
+    const variant = params.get('state') ? `state:${params.get('state')}` : params.get('overlay') ? `overlay:${params.get('overlay')}` : 'DEFAULT';
+    return { screenId, variant, scenario: 'NONE', nonce: 0 };
+  });
+  const [shown, setShown] = useState<{ screenId: string; variant: string }>(() => ({ screenId: sel.screenId, variant: sel.variant }));
+  const [live, setLive] = useState<{ screen: string | null; path: string | null; handoff: string | null; boundary: string | null }>({ screen: null, path: null, handoff: null, boundary: null });
+
+  const familyEntry = entryFor(shown.screenId);
+  const family = familyEntry ?? entries[0] ?? null;
+  const shownBoundary = boundaries.find((b) => b.familyId === shown.screenId) ?? null;
+  const familyId = shownBoundary?.familyId ?? familyEntry?.contract.familyId ?? '';
+  const screens = familyEntry?.contract.screens ?? [];
+  const screen = familyEntry?.contract.screens.find((s) => s.id === shown.screenId) ?? null;
+  const states = familyEntry?.contract.states.filter((s) => s.screenId === shown.screenId) ?? [];
+  const overlays = familyEntry?.overlays[shown.screenId] ?? [];
+  const families = (runtime?.families ?? []).map((f) => ({
+    value: f.familyId,
+    label: entries.some((e) => e.contract.familyId === f.familyId) ? `${f.familyId} ${f.familyName}` : `${f.familyId} ${f.familyName} · ${f.status.replace(/_/g, ' ')} (BOUNDARY)`,
+  }));
+
+  // iframe source — from the explicit selection only.
+  const selEntry = entryFor(sel.screenId);
+  const selBoundary = boundaries.find((b) => b.familyId === sel.screenId) ?? null;
+  const sc = runtime?.runtime.scenarios.find((x) => x.id === sel.scenario) ?? null;
+  const [kind, value] = sel.variant === 'DEFAULT' ? ['', ''] : (sel.variant.split(':') as [string, string]);
+  const selRoute = sc?.route ?? selBoundary?.entryRoute ?? selEntry?.contract.screens.find((s) => s.id === sel.screenId)?.runtimeRoute ?? runtime?.runtime.defaultRoute ?? '';
+  const src = runtime ? projectRuntimeUrl(projectSlug, selRoute, { ...(kind === 'state' ? { state: value } : {}), ...(kind === 'overlay' ? { overlay: value } : {}), ...(sc?.query ?? {}) }) : null;
+  // Direct preview = the SAME runtime route outside the workspace; follows live navigation.
+  const directHref = runtime ? (live.path && live.path !== selRoute ? projectRuntimeUrl(projectSlug, live.path) : src) : null;
+
+  const navigate = (screenId: string, variant = 'DEFAULT', scenario = 'NONE') => {
+    setSel((p) => ({ screenId, variant, scenario, nonce: p.nonce + 1 }));
+    setShown({ screenId, variant });
+  };
+  const selectFamily = (id: string) => navigate(firstScreen(id));
+  const setVariant = (variant: string) => navigate(shown.screenId, variant, sel.scenario);
+  const setScenario = (scenario: string) => navigate(shown.screenId, 'DEFAULT', scenario);
+  /** Runtime → host: the controls follow what the founder clicked to, without reloading the runtime. */
+  const boundariesRef = useRef(boundaries);
+  boundariesRef.current = boundaries;
+  const followLive = useCallback((screenId: string | null, path: string) => {
+    const target = screenId ?? boundariesRef.current.find((b) => b.entryRoute === path)?.familyId ?? null;
+    if (target) setShown((cur) => (cur.screenId === target ? cur : { screenId: target, variant: 'DEFAULT' }));
+  }, []);
+
+  return {
+    runtime,
+    family,
+    familyId,
+    families,
+    screens,
+    boundaries,
+    screenId: shown.screenId,
+    variant: shown.variant,
+    scenario: sel.scenario,
+    nonce: sel.nonce,
+    navigate,
+    selectFamily,
+    setVariant,
+    setScenario,
+    followLive,
+    states,
+    overlays,
+    src,
+    directHref,
+    screen,
+    live,
+    setLive,
+  };
 }
 
 function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
@@ -236,19 +305,22 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
   const layout = projectViewport?.grid[target.kind] ?? null;
 
   // Runtime → host messages (same-origin iframe): live screen, handoff boundaries, family boundary.
-  const { setLive } = pr;
+  const { setLive, followLive } = pr;
   useEffect(() => {
     if (!pr.runtime) return;
     const onMessage = (e: MessageEvent) => {
       if (e.source !== frameRef.current?.contentWindow || !isProjectRuntimeMessage(e.data)) return;
       const m = e.data;
-      if (m.type === 'route') setLive((l) => ({ ...l, screen: m.screenId ?? m.path, boundary: null }));
+      if (m.type === 'route') {
+        setLive((l) => ({ ...l, screen: m.screenId ?? m.path, path: m.path, boundary: null }));
+        followLive(m.screenId, m.path);
+      }
       if (m.type === 'handoff') setLive((l) => ({ ...l, handoff: `${m.boundary.replace(/_/g, ' ')}: ${m.target.replace(/_/g, ' ')}` }));
       if (m.type === 'family-boundary') setLive((l) => ({ ...l, boundary: `${m.from} → ${m.to}` }));
     };
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
-  }, [pr.runtime, setLive]);
+  }, [pr.runtime, setLive, followLive]);
 
   // BOUNDS: measure the runtime's marked content blocks inside the isolated document.
   useEffect(() => {
@@ -312,6 +384,7 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
       <span className="pxa-device__screen" style={{ width: screenW, height: screenH }}>
         <span className="pxa-device__scaler" style={{ width: target.w, height: target.h, transform: `scale(${scale})` }}>
           <iframe
+            key={pr.runtime ? `${src}#${pr.nonce}` : undefined}
             ref={frameRef}
             title={pr.runtime ? `${pr.runtime.displayName} PROJECT RUNTIME` : 'LIVE CLIENT APP'}
             src={src}
@@ -375,15 +448,12 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
       <div className="pxa-vpanel" data-testid="design-viewport-controls">
         <div className="pxa-vpanel__fields">
           {select('VIEWPORT PRESET', preset, (v) => isViewportPreset(v) && setPreset(v), VIEWPORT_PRESET_ORDER, 'preset')}
+          {pr.runtime ? select('FAMILY', pr.familyId, pr.selectFamily, pr.families, 'family') : null}
           {pr.runtime ?
             select(
               'ROUTE',
               pr.screenId,
-              (v) => {
-                pr.setScreenId(v);
-                pr.setVariant('DEFAULT');
-                pr.setScenario('NONE');
-              },
+              (v) => pr.navigate(v),
               [...pr.screens.map((s) => ({ value: s.id, label: `${s.id} ${s.name}` })), ...pr.boundaries.map((b) => ({ value: b.familyId, label: `${b.familyId} ${b.familyName} BOUNDARY` }))],
               'route',
             )
@@ -427,6 +497,13 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
             <span>AUTH {pr.runtime.runtime.authAdapter.replace(/_/g, ' ')}</span>
             {pr.runtime.runtime.previewNote ? <span>{pr.runtime.runtime.previewNote}</span> : null}
           </p>
+        : null}
+        {pr.runtime && pr.directHref ?
+          <a className="pxa-btn pxa-btn--wide pxa-vpanel__direct" href={pr.directHref} target="_blank" rel="noopener noreferrer" data-testid="design-viewport-direct-preview">
+            <span>OPEN DIRECT PREVIEW</span>
+            <small className="pxa-vpanel__target">SAME {pr.runtime.displayName} RUNTIME · NO WORKSPACE CHROME</small>
+            <span aria-hidden>↗</span>
+          </a>
         : null}
         <Link
           to={pr.runtime ? `/production/${projectSlug}/design?mode=compiler&inspect=gate` : `/production/${projectSlug}/design/workspace`}

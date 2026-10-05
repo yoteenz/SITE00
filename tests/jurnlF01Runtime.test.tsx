@@ -52,12 +52,12 @@ function splitSelectors(list: string): string[] {
   return out;
 }
 
-function renderRuntime(route: string, query = '') {
+function renderRuntime(route: string, query = '', mode: 'design-preview' | 'production' = 'design-preview') {
   return renderToStaticMarkup(
     createElement(
       MemoryRouter,
       { initialEntries: [`${BASE}/${route}${query ? `?${query}` : ''}`] },
-      createElement(Routes, null, createElement(Route, { path: '/production/:projectSlug/runtime/*', element: createElement(JurnlRuntimeRoot, { basePath: BASE, mode: 'design-preview' }) })),
+      createElement(Routes, null, createElement(Route, { path: '/production/:projectSlug/runtime/*', element: createElement(JurnlRuntimeRoot, { basePath: BASE, mode }) })),
     ),
   );
 }
@@ -171,7 +171,9 @@ describe('interaction manifest is connected to the runtime (74 / 74)', () => {
   });
   for (const b of bindings.filter((x) => x.trigger)) {
     it(`${b.interactionId} → trigger "${b.trigger}" is live on ${b.surface!.screenId}${b.surface!.query ? `?${b.surface!.query}` : ''}`, () => {
-      expect(renderRuntime(screenRoute(b.surface!.screenId), b.surface!.query ?? '')).toContain(`data-jrn-trigger="${b.trigger}"`);
+      const html = renderRuntime(screenRoute(b.surface!.screenId), b.surface!.query ?? '');
+      expect(html).toContain(`data-jrn-trigger="${b.trigger}"`);
+      if (b.action) expect(html).toContain(`data-jrn-trigger="${b.action}"`);
     });
   }
   it('route results point at real screens / the F02 boundary', () => {
@@ -420,5 +422,33 @@ describe('privacy / security claims', () => {
     expect(text).not.toMatch(/BANK-LEVEL|ENCRYPT|FRAUD|AUDIT|NEVER SELL/);
     expect(renderRuntime('entry/biometric')).toContain('data-claim="C08"');
     expect(renderRuntime('entry/device-trust')).toContain('data-claim="C09"');
+  });
+});
+
+describe('overlays are pinned to the runtime viewport (P0.JURNL.SITE00-F01-LIVE-VIEWPORT-DELIVERY1)', () => {
+  it('drawer / sheet / modal / native handoff portal into the root overlay host, never into scrolled screen content', () => {
+    const prim = read('src/projects/jurnl/runtime/components/primitives.tsx');
+    for (const marker of ['data-jrn-drawer={size}', 'data-jrn-sheet="full"', 'data-jrn-modal="confirm"', 'data-jrn-handoff="native"']) {
+      const at = prim.indexOf(marker);
+      expect(prim.lastIndexOf('<OverlayLayer>', at), marker).toBeGreaterThan(prim.lastIndexOf('export function', at));
+    }
+    expect(prim).toContain('createPortal(children, host)');
+    const root = read('src/projects/jurnl/runtime/JurnlRuntimeRoot.tsx');
+    expect(root).toContain('<JurnlOverlayHostContext.Provider value={overlayHost}>');
+    expect(root).toContain('data-jrn-overlay-host');
+    expect(read('src/projects/jurnl/runtime/jurnl-runtime.css')).toMatch(/\.jrn \.jrn-overlay-host \{[^}]*position: absolute;[^}]*inset: 0;/);
+  });
+});
+
+describe('no debug surface in the user-facing app', () => {
+  it('inspection switches (?state / ?overlay / ?scenario / ?link) work in the design workspace only; a production shell ignores them', () => {
+    expect(renderRuntime('entry/sign-in', 'state=locked')).toContain('data-jrn-overlay="locked"');
+    expect(renderRuntime('entry/sign-in', 'state=locked', 'production')).not.toContain('data-jrn-overlay="locked"');
+    expect(renderRuntime('entry/privacy', 'overlay=delete-account', 'production')).not.toContain('data-jrn-overlay="delete-account"');
+    expect(renderRuntime('entry/verify-email', 'state=expired_link', 'production')).not.toContain('verify-error-expired');
+    expect(renderRuntime('entry/verify-email', 'link=valid', 'production')).not.toContain('verify-success');
+    const prod = renderRuntime('entry/sign-in', '', 'production');
+    expect(prod).toContain('data-jrn-screen="F01.03"');
+    expect(prod).not.toMatch(/PREVIEW|DEBUG|STATE:|SCENARIO/);
   });
 });

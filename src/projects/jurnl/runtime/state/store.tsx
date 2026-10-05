@@ -108,8 +108,12 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   const navigate = useNavigate();
   const location = useLocation();
   const [params] = useSearchParams();
-  const scenarioKey = `${params.get('scenario') ?? ''}|${params.get('os') ?? ''}`;
-  const scenario = useMemo(() => readScenario(params), [scenarioKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Inspection switches (?state / ?overlay / ?scenario / ?os) exist for the SITE 00 design workspace only. A production
+  // shell never honours them — the user-facing app has no debug surface.
+  const inspect = mode === 'design-preview';
+  const q = (k: string) => (inspect ? params.get(k) : null);
+  const scenarioKey = `${q('scenario') ?? ''}|${q('os') ?? ''}`;
+  const scenario = useMemo(() => readScenario(inspect ? params : new URLSearchParams()), [scenarioKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const local = useMemo(() => browserKV('local'), []);
   const tab = useMemo(() => browserKV('session'), []);
   // `?reset=1` (design-preview "fresh device"): the runtime clears ONLY its own keys before reading them.
@@ -126,8 +130,8 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
     readJson(tab.get(SESSION_KEY) ?? local.get(SESSION_KEY), DEFAULT_SESSION),
   );
   const relPath = location.pathname.slice(basePath.length).replace(/^\/+/, '');
-  const stateOverlay = F01_STATE_OVERLAYS[`${f01ScreenForRoute(relPath)?.id ?? ''}:${params.get('state') ?? ''}`] ?? null;
-  const [overlay, setOverlay] = useState<string | null>(() => params.get('overlay') ?? stateOverlay);
+  const stateOverlay = F01_STATE_OVERLAYS[`${f01ScreenForRoute(relPath)?.id ?? ''}:${q('state') ?? ''}`] ?? null;
+  const [overlay, setOverlay] = useState<string | null>(() => q('overlay') ?? stateOverlay);
   const [toast, setToast] = useState<Toast | null>(null);
   const toastSeq = useRef(0);
 
@@ -185,13 +189,13 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
       const qs = new URLSearchParams(query ?? {});
       // Scenario switches are host-owned; keep them across in-app navigation.
       for (const k of ['scenario', 'os']) {
-        const v = params.get(k);
+        const v = inspect ? params.get(k) : null;
         if (v && !qs.has(k)) qs.set(k, v);
       }
       const s = qs.toString();
       navigate(`${basePath}/${resolveJurnlRoute(target)}${s ? `?${s}` : ''}`);
     },
-    [basePath, navigate, params],
+    [basePath, navigate, params, inspect],
   );
 
   // Route → host (screen tree highlight) + family boundary.
@@ -203,7 +207,7 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   }, [location.pathname, basePath, postToHost]);
 
   // `?overlay=` deep links and overlay states (design-workspace inspection) re-open on param change.
-  const overlayParam = params.get('overlay') ?? stateOverlay;
+  const overlayParam = q('overlay') ?? stateOverlay;
   useEffect(() => {
     if (overlayParam) setOverlay(overlayParam);
   }, [overlayParam, location.pathname]);
@@ -227,7 +231,7 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
       showToast,
       dismissToast,
       go,
-      forcedState: params.get('state'),
+      forcedState: q('state'),
       postToHost,
     }),
     [basePath, mode, scenario, auth, bridge, device, session, setDevice, setSession, signOut, overlay, toast, showToast, dismissToast, go, params, postToHost],
