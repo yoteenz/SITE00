@@ -12977,6 +12977,58 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX-ACTIVITY.THREE-VIEWPORT-RECONSTRUCTION.OPUS
 
 ---
 
+## 2026-10-03 — Production top nav global convergence (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.TOP-NAV.GLOBAL-CONVERGENCE.OPUS1`. Base `cursor/production-inbox-activity-threeviewport-opus1` @ `7dcf37de`. Branch `cursor/production-top-nav-opus1`. No merge, no deploy.
+
+- **One header:** `ProductionWorkspaceHeader` (`chrome.tsx`) is the only workspace header. The authority frame, PwFrame and the Design overlay all mount it.
+  - The phone variant now has the same four groups as tablet/desktop (TAB, PROJECT, ATTENTION, MENU). The CURRENT WORKSPACE selector and the long-title ellipsis are gone.
+- **Root cause:** the phone `.ph--hub .ph-top` is a fixed five-track grid with `overflow: hidden` on every cell, and a `.pxa`-only type bump overflowed its tracks.
+  - ITEMS NEED YOU was cropped on every phone width.
+  - PwFrame descendants showed a second, 75-unit header.
+- **Tokens:**
+  - tablet/desktop: `--pxh-*` (heights 64 / 72)
+  - phone strip: `--phh-*` (120 units)
+  - Nothing in the header masks or ellipsizes text, and line-heights are at least 1.15.
+- **Proof:** `artifacts/production-top-nav-opus1/`. An ink-level clip detector went from 64/84 to 84/84 clean.
+- **Kept on purpose:** Character Fabrication and the legacy hub machine keep their own headers.
+
+---
+
+## 2026-10-04 — Inbox authority family convergence (OPUS2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX.AUTHORITY-FAMILY-CONVERGENCE.OPUS2`. Base `cursor/production-top-nav-opus1` @ `72b2ad5a`. Branch `cursor/production-inbox-authority-opus2`. No merge, no deploy.
+
+- **Model.** Inbox = lifecycle STATE (NEEDS YOU / WATCHING / RESOLVED) × object TYPE (DECISION / MESSAGE / SYSTEM). `inboxModel.ts` builds objects from attention, requests, recorded activity and the graph. No message source exists, so Messages and Thread are UNMOUNTED.
+- **Routes.** Still `/production/queue`:
+  - children: `?view=watching|resolved|all|messages|system`
+  - grandchildren: `?item=`, `?thread=`, `?notice=sys.<node>`
+  - the OPUS1 `priority`, `approvals` and `direct` links still resolve
+  - temporary surfaces (revision, approval confirmation, filter/sort, attachment preview) are contained overlays
+- **Viewport contract.** `.pxa[data-screen='inbox']` locks the body and only `[data-scroll=internal]` panes scroll. Measured 45/45 with no page scroll across 390×844, 360×640, 1024×768, 1440×810 and 1280×720.
+- **Desktop/tablet boards.** The `cdn.openart.ai` OpenArt boards are blocked by the network policy (CONNECT 403), so those layouts are MOBILE_AUTHORITY_TRANSLATED. A compare pass against the real boards is still owed.
+- **Proof:** `artifacts/production-inbox-authority-opus2/`.
+
+---
+
+## 2026-10-04 — Design asset authority convergence (OPUS3)
+
+Sprint `P0.STUDIOOS.PRODUCTION.DESIGN.ASSET-AUTHORITY-CONVERGENCE.OPUS3`. Base `cursor/production-inbox-authority-opus2` @ `37d19680`. Branch `cursor/production-design-asset-convergence-opus3`. No merge, no deploy.
+
+- **The DWS pack had never been extracted.** It ships only as two composite sheets. `scripts/site00-design-pack-extract.py` now makes exact crops into `public/site00/production-authority-assets/design-pack/` (hash-locked `SOURCE.json`). The only resolver is `designPackAssets.ts`.
+- **Root cause of the pack never showing:** stand-ins hard-coded in the renderer (`Orb`, hex swatches, empty phone and frame boxes, text tiles), plus the `designChamberConfig.ts` override loop that painted generated board art over any plate in config.
+  - The stand-ins are removed.
+  - The loop now skips `/design-pack/` files (`isDesignPackAsset`).
+- **HUB nav glyph:** now the pack's home glyph (it was the DESIGN stack). LIBRARY stays three volumes, because no open-book asset exists anywhere.
+- **No-scroll:** `.pxa[data-screen^='design-']` body fills the frame and the chamber flexes, with a ceiling of 360 (desktop) / 340 (tablet and mobile). 30/30 mode × viewport cases fit.
+- **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
+
+---
+
+## 2026-10-04 — Cloud preview on design-asset-convergence branch
+
+Founder asked to point `site00.fsbw-dev.com` tunnel at `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. VM checkout switched; Vite dev on `:5174` with `SITE00_CLOUD_PREVIEW_MODE=dev`, `SITE00_PREVIEW_SYNC_MAIN=0`; tunnel restarted.
+
 ## 2026-10-03 — Master PNG nav icons on INBOX/ACTIVITY branch (no label row)
 
 Founder wanted preview on `cursor/production-inbox-activity-threeviewport-opus1` with founder master PNG bottom-nav icons from the descendants work, but **not** the descendants unscaled label row below the bar (`ProductionNavLabelRow` / `prod-nav-dock`). Commit `43611fd8`: `ProductionNavIcon` + `bottom-nav/masters/*.png`; labels stay under each icon inside the zoomed `.ph-nav`. Preview tunnel serves this branch. PR #1305.
@@ -12984,13 +13036,11 @@ Founder wanted preview on `cursor/production-inbox-activity-threeviewport-opus1`
 Also ported descendants chrome fix: drop duplicate CURRENT WORKSPACE readout from production top header (mobile `ph-top__sel--prod`, host `pxh-top__loc`); 4-column mobile top grid in host CSS. Bottom nav owns tab identity.
 
 ---
-
 ## 2026-10-04 — Design asset OPUS3 cherry-picked onto INBOX/ACTIVITY branch
 
 Cherry-picked `afb22c27` (design pack extract, chamber stand-in removal, no-scroll Design parent) onto `cursor/production-inbox-activity-threeviewport-opus1` without switching the preview branch. **Kept:** `ProductionNavIcon` + `masters/*.png` (HUB master from pack `nav-hub.png`), header trim. **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
 
 ---
-
 ## 2026-10-04 — Inbox OPUS2 + Activity OPUS1 on tunnel branch
 
 Cherry-picked `37d19680` (Inbox authority family) onto `cursor/production-inbox-activity-threeviewport-opus1` for preview — not a branch switch. **Inbox:** `inboxModel.ts`, `InboxBody`, `site00-production-inbox-family.css`, no-scroll inbox contract; OPUS1 lens links still resolve. **Activity:** OPUS1 three-viewport `ActivityBody` + `iaKit` unchanged. **Still kept:** master PNG nav, header trim, design pack OPUS3. **Proof:** `artifacts/production-inbox-authority-opus2/`.
@@ -12998,7 +13048,6 @@ Cherry-picked `37d19680` (Inbox authority family) onto `cursor/production-inbox-
 **Inbox + Activity tab sources (founder confirmed):** **Inbox** = `cursor/production-inbox-authority-opus2` @ **`37d19680`** (PR **#1307**). **Activity** = `cursor/production-inbox-activity-threeviewport-opus1` @ **`7dcf37de`** (`ActivityBody.tsx` OPUS1 three-viewport — PR **#1305**). Preview tunnel branch **`cursor/production-inbox-activity-threeviewport-opus1`** cherry-picks both onto one line (plus nav, design pack, header trim). Descendants ACTIVITY LOG (`1ca88e20`) is not the target for Activity tab.
 
 ---
-
 ## 2026-10-04 — Expression responsive authority convergence (OPUS1)
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. Branch `cursor/production-expression-authority-opus1`. No merge, no deploy.
@@ -13019,7 +13068,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1
 - **Proof:** `artifacts/production-expression-authority-opus1/`.
 
 ---
-
 ## 2026-09-30 — Origin expanded panel forensics (IDNTY / BLDR / EVOLVE)
 
 Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero product code/CSS/React/copy changes. Full implementation receipt for creative director / ChatGPT redesign of expanded states.
@@ -13031,7 +13079,6 @@ Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero pro
 - **Conventions:** Expanded IDNTY title copy is `IDENTITY` (not card label `IDNTY`). EVOLVE collapsed copy differs mobile vs desktop (`evolve.ts`). EVOLVE expanded secondary CTA `HOW IT WORKS` → `/evolve` mobile only.
 
 ---
-
 ## 2026-09-29 — CI fix: production design route test drift (post #1255)
 
 Production Release workflow failed after #1255: tests still expected `/projects/design/:slug` and embedded `ProjectIndexDesignCard` on Projects index.
@@ -13041,7 +13088,6 @@ Production Release workflow failed after #1255: tests still expected `/projects/
 - **Ship:** PR merge to `main` — no new cPanel bundle required (test/API metadata only).
 
 ---
-
 ## 2026-10-01 — STUDIO OS Experience Compiler MAP1 (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP1)
 
 Forensic inventory + authority inheritance + batch planning for SITE 00 public redesign — no visual redesign, no route/UI production changes.
@@ -13053,7 +13099,6 @@ Forensic inventory + authority inheritance + batch planning for SITE 00 public r
 - **Conventions:** Superseded authority IDs never inherit; WAITING_FOR_AUTHORITY routes from manifest drive gates; composite derivation = family environment + IDNTY working-panel grammar where explicit in compiler rules.
 
 ---
-
 ## 2026-10-01 — Existing Location service architecture (P0.SITE00.EXISTING-LOCATION.SERVICE-ARCHITECTURE1)
 
 Formalized **EXISTING LOCATION** — work on client’s existing Shopify/WordPress/etc. property without full rebuild.
@@ -13064,7 +13109,6 @@ Formalized **EXISTING LOCATION** — work on client’s existing Shopify/WordPre
 - **Gaps:** No live Shopify OAuth/API; diagnosis/findings UI founder-populated; paid checkout throws PAYMENT_REQUIRED until payment integration; Supabase persistence wired migration-only (runtime still memory in VITEST/production until supabase store adapter added).
 
 ---
-
 ## 2026-10-01 — STUDIO OS Experience Compiler MAP2 creative architecture (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-CREATIVE-ARCHITECTURE1)
 
 Extended MAP1 with greenfield creative pipeline, multi-surface families, authority planning foundation — no mass OpenArt, no public SITE 00 redesign.
@@ -13075,7 +13119,6 @@ Extended MAP1 with greenfield creative pipeline, multi-surface families, authori
 - **Conventions:** SITE 00 validates as INGEST via `buildSite00IngestFixture()` wrapping `runExperienceCompiler()` — no replacement concept directions for product truth.
 
 ---
-
 ## 2026-10-01 — Experience Compiler MAP2 workspace UI (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-WORKSPACE-UI1)
 
 Founder-operable Experience Compiler workspace: gates, authority review, OpenArt emit/ingest, pack + Sonnet emit — no public redesign, no mass OpenArt jobs.
@@ -13085,7 +13128,6 @@ Founder-operable Experience Compiler workspace: gates, authority review, OpenArt
 - **Conventions:** Browser bundle must not import MAP1 `pageDiscovery` fs — use `bootstrapBrowser.ts` + `MAP2_SITE00_INGEST_FIXTURE.json` for SITE 00 ingest UI; Node tests use `bootstrap.ts` + live compiler.
 
 ---
-
 ## 2026-10-01 — MAP2 icon + micro-asset expression (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-ICON-EXPRESSION1)
 
 Extended MAP2 pipeline with project-wide icon requirement compiler, icon family authority before page authorities, Grok/Sonnet handoff manifests — no mass Grok generation, no SITE 00 public redesign.
@@ -13095,7 +13137,6 @@ Extended MAP2 pipeline with project-wide icon requirement compiler, icon family 
 - **Conventions:** Global semantics reusable; per-project icon family visual isolation; LIVE_CODE_SVG for utility chevrons; SITE 00 ingest classifies only.
 
 ---
-
 ## 2026-10-01 — MAP2 visual asset surgery (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-VISUAL-ASSET-SURGERY1)
 
 Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry and Grok fabrication — manifests/specs only, no mass Grok generation, no public SITE 00 redesign.
@@ -13105,7 +13146,6 @@ Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry a
 - **Conventions:** Bboxes are normalized heuristics until Opus live geometry probes land; reference crops/safe-zone overlays are metadata paths only in MAP2 sprints; Grok receives per-asset specs not full screenshots.
 
 ---
-
 ## 2026-10-02 — Sign-in authorization hang (Supabase unreachable)
 
 Founder: sign-in / authorization stuck on tunnel (Experience Compiler path).
@@ -13115,7 +13155,6 @@ Founder: sign-in / authorization stuck on tunnel (Experience Compiler path).
 - **Founder:** Restore Supabase project health in dashboard; redeploy cPanel/tunnel CI dist after merge for tunnel bundle.
 
 ---
-
 ## 2026-10-02 — Experience Compiler preview guest bypass (Supabase down)
 
 Founder: compiler route sent to sign-in / origin flow on tunnel while Supabase Auth unhealthy — needed MAP2 workspace view only, temporarily.
@@ -13126,7 +13165,6 @@ Founder: compiler route sent to sign-in / origin flow on tunnel while Supabase A
 - **Remove when healthy:** Drop bypass or gate behind explicit env when Supabase Auth is stable again.
 
 ---
-
 ## 2026-10-02 — PREVIEW_GUEST shell fix (P0.STUDIOOS.EXPERIENCE-COMPILER.PREVIEW-GUEST-SHELL-FIX1)
 
 Preview guest route worked but shell/nav/auth-state was inconsistent.
@@ -13139,11 +13177,9 @@ Preview guest route worked but shell/nav/auth-state was inconsistent.
 - **PRs #1282, #1283** → `main`.
 
 ---
-
 ## 2026-10-02 — Founder creative workspace (CREATIVE-WORKSPACE-EXPERIENCE1)
 
 Branch `cursor/creative-workspace-experience1-87ed`: merged CGPT creative director backend + visual **ExperienceCompilerCreativeWorkspace** (`?tab=creative`). Territory boards, journey rail, founder director, conversation dock secondary, run details collapsed. Empty states when no live model output. Browser proof on tunnel (desktop/mobile/tablet screenshots). Live CONCEPT_TERRITORIES run still needs API deploy + OpenAI key.
-
 ## 2026-10-01 — CGPT Creative Director loop (Experience Compiler MAP2)
 
 Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch `cursor/cgpt-creative-director-loop1-87ed`.
@@ -13154,7 +13190,6 @@ Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch 
 - **Not done:** No production deploy; no merge; live 3-territory proof requires configured server key.
 
 ---
-
 ## 2026-10-02 — CGPT live runtime + durable persistence (P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-LIVE-RUNTIME-PERSISTENCE1)
 
 Continuation on `cursor/cgpt-creative-director-loop1-87ed` (HEAD `c72efe6c`).
@@ -13166,7 +13201,6 @@ Continuation on `cursor/cgpt-creative-director-loop1-87ed` (HEAD `c72efe6c`).
 - **Next:** Merge/deploy API branch; apply migration; run `tsx scripts/studioos/run-creative-director-live-proof.ts` with key; set `SITE00_CREATIVE_DIRECTOR_STRICT_PERSISTENCE=1` in prod when tables verified.
 
 ---
-
 ## 2026-10-02 — Supabase apply-all-migrations (blocked from cloud VM)
 
 Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`.
@@ -13176,7 +13210,6 @@ Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`
 - **Founder apply:** When dashboard health is green, run `bash scripts/supabase/apply-pending-site00-migrations.sh` (Supabase CLI) or paste SQL from `supabase/migrations/` in order.
 
 ---
-
 ## 2026-10-02 — Remove Mobile/Desktop layout preview switcher (Shadow PC)
 
 Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile / Desktop** debug switcher.
@@ -13185,7 +13218,6 @@ Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile 
 - **Branch:** `cursor/remove-layout-preview-switch-87ed`.
 
 ---
-
 ## 2026-10-02 — Cloud preview tunnel pinned to 6c85fbcb
 
 Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (`cursor/design-unified-workspace-sonnet-structure2` — unified design workspace).
@@ -13195,7 +13227,6 @@ Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (
 - **Revert to main CI preview:** `rm /tmp/site00-cloud-preview-pinned-ref`, `git checkout main`, restart `site00-vite` terminal (or `restart-site00-cloud-preview-full.sh`).
 
 ---
-
 ## 2026-10-02 — Client app mobile QA audit (P0.SITE00.CLIENT-APP.COMPOSER-RUNTIME-AUDIT1)
 
 Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Expo/Capacitor; no `android/`/`ios/`). Mobile QA path = **BrowserStack Live** (mobile browser) + cloud preview tunnel; **not** App Live/APK.
@@ -13205,7 +13236,6 @@ Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Ex
 - **Blocker for APK:** No native project — Capacitor wrapper deferred.
 
 ---
-
 ## 2026-10-02 — Production authority handoff v2: attachment review (pre-implementation)
 
 Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus three authority archives (Desktop 16:9 / Tablet 4:3 / Mobile 9:16, 12 images each = 36) and said "review all attachments before implementing." This entry records the review only; no product code was changed.
@@ -13219,7 +13249,6 @@ Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus thr
 - **Convention:** Authority images are QA inputs only (never shipped as runtime assets); build a typed registry (workspace, designMode, viewportFamily, authorityFile, route/state selector) in code/tests.
 
 ---
-
 ## 2026-10-04 — Merge `main` into inbox-activity tunnel branch (3 conflicts)
 
 Fetched `origin/main` and merged into `cursor/production-inbox-activity-threeviewport-opus1` (commit `9bfc7faa`).
@@ -13232,7 +13261,6 @@ Fetched `origin/main` and merged into `cursor/production-inbox-activity-threevie
 - **Convention:** When merging main into this tunnel branch, preserve both sign-in pause and EC preview-guest shell auth.
 
 ---
-
 ## 2026-10-04 — Inbox root convergence 2 on tunnel + all-tabs forensic
 
 - **INBOX root:** ported the Inbox part of `ffc7f7c0` (from `cursor/production-expression-authority-opus1`) onto this branch. The NEEDS YOU root now follows PARENT_3VIEW 01_INBOX. The OPUS2 model, routing and gate are unchanged. The BLOCKERS count links to `?view=blockers` on OPUS1 Activity. Live 45/45 with no scroll. Proof: `artifacts/production-inbox-root-convergence2/`.
@@ -13240,7 +13268,6 @@ Fetched `origin/main` and merged into `cursor/production-inbox-activity-threevie
 - **All-tabs forensic truth table:** `artifacts/production-all-tabs-forensic1/README.md`.
 
 ---
-
 ## 2026-10-04 — Production OpenArt asset forensics mount (GROK)
 
 Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/production-openart-asset-forensics-mount1-0daf` (draft PR, no merge, no deploy, no new generations).
@@ -13251,7 +13278,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/produc
 - **Conventions:** Do not generate replacements for `MISSING_SOURCE_ASSET`. Do not treat OpenArt authority boards as the underlying asset.
 
 ---
-
 ## 2026-10-04 — OpenArt asset recovery 2 (same draft PR #1310)
 
 - **History:** Design project `Q7IHYCEK3RPn2c1ConEG` list exhausted (`hasMore: false`), 462 unique histories. Resident portraits recovered from separate Studio World OpenArt projects, not from composition boards.
@@ -13260,7 +13286,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/produc
 - **Build:** `npm run build` passed. No merge, no deploy, no new generations.
 
 ---
-
 ## 2026-10-04 — Resident recovery 3 from founder SW team pack (PR #1310)
 
 Same chat also shipped the 242-file production authority downloader on `cursor/production-openart-downloader-recovery2-0daf` (merged PR #1311). This entry is the resident ingest on draft PR #1310.
@@ -13269,7 +13294,6 @@ Same chat also shipped the 242-file production authority downloader on `cursor/p
 - **Clusters (visual, before names):** 8 people. Anchors locked to mounted portraits: Etta (06/20/23), Zuri candidate (04/15/18 exact), Caspian (16/17/22), Iona (02/07/24/27, 24 exact). Remaining: East Asian man (01/09/13/19/25) = Noa; older sun-earring man (03/05/12) = Marlowe; burgundy shorter-wave man (10/11/21) = Elio. Locs cluster (08/14/26) is only a probable Jules match (hair differs from the mounted portrait) and was not swapped in.
 - **Mounted:** `studio-world-noa-kline-portrait.jpg`, `studio-world-marlowe-saint-portrait.jpg`, `studio-world-elio-vahn-portrait.jpg`, `studio-world-zuri-xu-portrait.jpg` plus full-body variants. Status `IDENTITY_CONFIRMED`, source `USER_SUPPLIED`, `UNKNOWN_OPENART_PROVENANCE`. Original `SW Team(1).zip` was not in the workspace, so these are lite interim masters (`HIGH_RES_SOURCE_REQUIRED_FOR_FINAL_RUNTIME_MOUNT`).
 - **Changes:** registry, expression manifest (missing slot cleared), Opus handoff, forensics test. `tsc --noEmit` and `npm run build` passed. Draft PR #1310 stays draft. No merge, no deploy.
-
 ## 2026-10-04 — Activity one-viewport convergence (canonical DOMAIN × TIME project memory)
 
 Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL. It supersedes the earlier "Activity stays OPUS1" decision for presentation only.
@@ -13294,7 +13318,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked 
 - **Proof:** `artifacts/production-activity-one-viewport-opus1/`, covering 14 viewports × 5 states = 70/70. Document and frame scroll are both 0 and nothing is clipped. Test: `tests/productionActivityOneViewportOpus1.test.ts`.
 
 ---
-
 ## 2026-10-04 — Inbox one-viewport family convergence (children → rail · rows · inspector)
 
 Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL.
@@ -13316,7 +13339,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, mar
 - **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
 
 ---
-
 ## 2026-10-04 — Experience + Library convergence applied to live preview tunnel branch
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMPOSER1`.
@@ -13327,7 +13349,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMP
 - **Proof:** `tests/productionExperienceLibraryConvergenceOpus1.test.ts` (136) + inbox/activity regression suites on rebased branch.
 
 ---
-
 ## 2026-10-04 — Resident geometry fabrication batch (OpenArt) — infrastructure + partial gen
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
