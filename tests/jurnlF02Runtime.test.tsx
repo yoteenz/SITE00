@@ -145,7 +145,11 @@ describe('F02 OPUS final audit repairs', () => {
 
   it('bounds content with a per-plate left rail mapped from the plate, not one global width', () => {
     expect(css).toContain('container-type: size');
-    for (const plate of ['ENV.ARRIVAL', 'ENV.DESK', 'ENV.EDIT', 'ENV.QUIET']) expect(css).toMatch(new RegExp(`data-jrn-plate='${plate}'\\]\\s*\\{\\s*--f02-edge-f: 0\\.\\d+`));
+    for (const plate of ['ENV.ARRIVAL', 'ENV.DESK', 'ENV.EDIT', 'ENV.QUIET']) {
+      const block = css.match(new RegExp(`data-jrn-plate='${plate}'\\]\\s*\\{([^}]*)\\}`))?.[1] ?? '';
+      expect(block, plate).toMatch(/--f02-head-f: 0\.\d+/);
+      expect(block, plate).toMatch(/--f02-body-f: 0\.\d+/);
+    }
     expect(css).toMatch(/\.jrn-setup \{[^}]*max-width: var\(--f02-rail\)/);
     // tablet keeps the rail on the left grid; no centring, scaling, masking or new overflow clipping
     expect(css).not.toMatch(/\.jrn-col \{[^}]*margin-left: auto/);
@@ -204,6 +208,46 @@ describe('F02 OPUS final audit repairs', () => {
     expect(parent).not.toContain('jrn-setup__top');
     expect(renderRuntime('setup/household')).toContain('<div class="jrn-setup__top">');
     expect(css).toMatch(/\.jrn-btn--quiet \{[^}]*align-self: flex-start;[^}]*background: rgba\(249, 246, 239/);
+  });
+});
+
+/* Follow-up: no text near the white curtain; global JURNL interactive-text containment. */
+describe('F02 curtain clearance and JURNL interactive-text containment', () => {
+  const setupCss = readFileSync(path.resolve('src/projects/jurnl/runtime/jurnl-setup.css'), 'utf8');
+  const runtimeCss = readFileSync(path.resolve('src/projects/jurnl/runtime/jurnl-runtime.css'), 'utf8');
+  const homeCss = readFileSync(path.resolve('src/projects/jurnl/runtime/jurnl-home.css'), 'utf8');
+
+  it('keeps the head of every F02 screen on a head rail that clears the curtain where it leans furthest left', () => {
+    expect(setupCss).toMatch(/--f02-head-rail: clamp\(/);
+    expect(setupCss).toMatch(/--f02-head-gap: 32px/);
+    expect(setupCss).toMatch(/--f02-head-gap: 48px/);
+    for (const sel of ['.jrn-setup__meta', '.jrn-h1', '.jrn-kicker']) expect(setupCss).toContain(`.jrn .jrn-setup > ${sel}`);
+    expect(setupCss).toMatch(/\.jrn-setup > \.jrn-kicker \{\s*max-width: var\(--f02-head-rail\)/);
+    // ARRIVAL opens its phone crop on the plaster wall; headline steps 34 → 32 px and never wraps
+    expect(setupCss).toMatch(/data-jrn-plate='ENV.ARRIVAL'\]\s*\{[^}]*--jrn-plate-mobile: 0% 50%/);
+    expect(setupCss).toMatch(/\.jrn-h1 \{\s*font-size: 32px;/);
+    expect(setupCss).toMatch(/\.jrn-h1 > span \{\s*white-space: nowrap;/);
+  });
+
+  it('sizes link rules to the words and gives inline links a real hit area', () => {
+    const underline = runtimeCss.match(/\.jrn \.jrn-link--underline span \{([^}]*)\}/)?.[1] ?? '';
+    expect(underline).toContain('text-decoration-line: underline');
+    expect(underline).not.toContain('border-bottom');
+    expect(runtimeCss).toMatch(/\.jrn-link--inline::before \{[^}]*position: absolute;[^}]*inset: -7px -2px;/);
+    // compact navigation stays readable
+    expect(homeCss).toMatch(/\.jrn-nav__btn \{[^}]*font-size: 10px;/);
+  });
+
+  it('routes every clickable-label primitive through compact fit without changing server markup', () => {
+    const src = readFileSync(path.resolve('src/projects/jurnl/runtime/components/primitives.tsx'), 'utf8');
+    expect(src).toContain('export function useCompactFit');
+    for (const fn of ['JurnlButton', 'JurnlTextLink', 'JurnlChoice', 'JurnlRow']) {
+      const body = src.slice(src.indexOf(`export function ${fn}(`));
+      expect(body.slice(0, 600), fn).toContain('useCompactFit<HTMLSpanElement>()');
+    }
+    const html = renderRuntime('entry/device-trust');
+    expect(html).toContain('class="jrn-link jrn-link--underline" data-jrn-trigger="trust-learn"><span>LEARN WHAT THIS MEANS</span></button>');
+    expect(html).not.toContain('data-jrn-fit');
   });
 });
 

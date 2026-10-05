@@ -1,0 +1,229 @@
+{
+  "contract": "GLOBAL JURNL TYPOGRAPHIC CONTAINMENT RULE",
+  "sprint": "P0.JURNL.F02-CURTAIN-CLEARANCE + GLOBAL-INTERACTIVE-TEXT-CONTAINMENT",
+  "source": "artifacts/jurnl-interactive-text/INTERACTIVE_TEXT_QA.json (scripts/jurnl/interactive-text-qa.mjs)",
+  "viewports": [
+    "393x852",
+    "834x1194",
+    "1440x900"
+  ],
+  "labels_audited": 1134,
+  "labels_pass": 1134,
+  "INTERACTIVE_TEXT_CONTAINMENT_DRIFT": 0,
+  "drift_found_before_repair": {
+    "labels": 233,
+    "by_issue": {
+      "TOO_SMALL (8 px nav labels)": 225,
+      "TAP_TARGET (inline links)": 6,
+      "WRAP": 2,
+      "RULE_WIDER_THAN_TEXT": 1,
+      "RULE_MISALIGNED": 1
+    },
+    "plus_curtain_probe": {
+      "FORGOT PASSWORD? (F01.03 phone)": "NEAR_WHITE_CURTAIN 99%",
+      "FILTER (F04 phone)": "NEAR_WHITE_CURTAIN 23%"
+    }
+  },
+  "chrome_reported_not_gated": {
+    "note": "Top-corner controls in the global top safe zone over bright sky or white plaster (verified by eye: not the white curtain).",
+    "items": [
+      {
+        "viewport": "tablet",
+        "view": "PARENT.PURCHASES",
+        "trigger": "purchases-today",
+        "text": "TODAY",
+        "share": 0.259
+      },
+      {
+        "viewport": "tablet",
+        "view": "PARENT.CREDIT",
+        "trigger": "credit-today",
+        "text": "TODAY",
+        "share": 0.868
+      },
+      {
+        "viewport": "tablet",
+        "view": "PARENT.AHEAD",
+        "trigger": "ahead-today",
+        "text": "TODAY",
+        "share": 0.442
+      },
+      {
+        "viewport": "desktop",
+        "view": "PARENT.MONEY",
+        "trigger": "money-board",
+        "text": "BOARD",
+        "share": 0.383
+      }
+    ]
+  },
+  "environment_method": "F02: hand-traced plate edges per height. Every family: the UI is hidden, the bare plate is shot, and the strip one clearance wide right of each bare label is probed for sheer white pixels. Labels on painted surfaces (buttons, rows, panels, dock) are separated from the plate by that surface.",
+  "families": {
+    "F01": {
+      "views_audited": 30,
+      "labels_audited": 267,
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 267,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL",
+        "tracking"
+      ],
+      "interactive_rule_width_status": "FIT_CONTENT",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 32,
+      "compact_fits": [
+        {
+          "viewport": "mobile",
+          "view": "F01.10",
+          "label": "LEARN WHAT THIS MEANS",
+          "fit": "tracking",
+          "font_px": 11,
+          "tracking_em": 0.16
+        },
+        {
+          "viewport": "mobile",
+          "view": "F01.12",
+          "label": "CONNECTED ACCOUNT CONTROL",
+          "fit": "tracking",
+          "font_px": 9.5,
+          "tracking_em": 0.08
+        }
+      ],
+      "drift": 0
+    },
+    "F02": {
+      "views_audited": 21,
+      "labels_audited": 219,
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 219,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 36,
+      "compact_fits": [],
+      "drift": 0
+    },
+    "F03": {
+      "views_audited": 3,
+      "labels_audited": 102,
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 102,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "FIT_CONTENT",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 44,
+      "compact_fits": [],
+      "drift": 0
+    },
+    "F04": {
+      "views_audited": 3,
+      "labels_audited": 114,
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 114,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 44,
+      "compact_fits": [],
+      "drift": 0
+    },
+    "F05_F16_PARENTS": {
+      "views_audited": 13,
+      "labels_audited": 432,
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 432,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 44,
+      "compact_fits": [],
+      "drift": 0
+    }
+  },
+  "repairs": [
+    {
+      "family": "F01",
+      "view": "F01.10",
+      "label": "LEARN WHAT THIS MEANS",
+      "before": "Two lines (LEARN WHAT THIS / MEANS) under a 148 px container-wide rule on a phone.",
+      "after": "One line at 11 px / 0.16 em (compact fit: size, then tracking); rule is text-decoration on the words.",
+      "class": "INTERACTIVE_TEXT_CONTAINMENT_DRIFT"
+    },
+    {
+      "family": "F01",
+      "view": "F01.12",
+      "label": "CONNECTED ACCOUNT CONTROL",
+      "before": "Two lines in its security row on a phone.",
+      "after": "One line at 9.5 px / 0.08 em, row gap 10 → 8 px on phones only.",
+      "class": "INTERACTIVE_TEXT_CONTAINMENT_DRIFT"
+    },
+    {
+      "family": "F01",
+      "view": "F01.03",
+      "label": "FORGOT PASSWORD?",
+      "before": "Centred; its right half sat on the white curtain on a phone.",
+      "after": "Phone: on the form's left grid line, on the plaster (compact fit step 5, local alignment).",
+      "class": "INTERACTIVE_TEXT_CONTAINMENT_DRIFT"
+    },
+    {
+      "family": "F01",
+      "view": "F01.01",
+      "label": "TERMS OF SERVICE / PRIVACY POLICY",
+      "before": "Inline links with an 18 px tall hit area.",
+      "after": "Hit area 32 px tall via ::before (inset -7px -2px); type unchanged.",
+      "class": "INTERACTIVE_TEXT_CONTAINMENT_DRIFT"
+    },
+    {
+      "family": "F01",
+      "view": "all underlined links",
+      "label": "JurnlTextLink underline",
+      "before": "border-bottom on a flex-item span: a wrapped label drew a full-box rule.",
+      "after": "text-decoration underline (offset matched, ≤ 2 px pixel change on unchanged links): the rule always follows the words.",
+      "class": "INTERACTIVE_TEXT_CONTAINMENT_DRIFT"
+    },
+    {
+      "family": "F03 / F04 / F05–F16",
+      "view": "bottom nav",
+      "label": "HOME / MONEY / + / PLAN / CREDIT",
+      "before": "8 px labels, below the readable floor.",
+      "after": "10 px, tracking 0.06 em, one line in every slot.",
+      "class": "INTERACTIVE_TEXT_CONTAINMENT_DRIFT"
+    },
+    {
+      "family": "F04",
+      "view": "F04.00",
+      "label": "FILTER",
+      "before": "Icon glued to the label as a child; the chip ended against the white curtain on a phone.",
+      "after": "Icon in the button icon slot; phone stage 78% → 72%, so the chip ends well clear of the curtain.",
+      "class": "INTERACTIVE_TEXT_CONTAINMENT_DRIFT"
+    }
+  ]
+}

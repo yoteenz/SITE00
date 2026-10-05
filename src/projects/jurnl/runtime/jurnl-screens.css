@@ -33,6 +33,14 @@
 .jrn .jrn-form .jrn-btn--primary {
   margin-top: 4px;
 }
+/* Phone: a standalone link in a form sits on the form's left grid line. Centred, its right half reached the white
+   curtain on the entry plates (FORGOT PASSWORD?); left-aligned it stays on the plaster (compact fit, step 5). */
+@media (max-width: 599px) {
+  .jrn .jrn-form > .jrn-link {
+    align-self: flex-start;
+    padding-left: 0;
+  }
+}
 .jrn .jrn-foot-note {
   display: flex;
   align-items: center;
@@ -163,7 +171,7 @@
 }
 .jrn .jrn-security-rows .jrn-row {
   min-height: 44px;
-  gap: 10px;
+  gap: 8px; /* phone: the gap gives CONNECTED ACCOUNT CONTROL its one line (compact fit, step 3) */
   padding: 6px 8px;
   font-size: 9.5px;
   letter-spacing: 0.15em;
@@ -228,6 +236,7 @@
   }
   .jrn .jrn-security-rows .jrn-row {
     min-height: 52px;
+    gap: 10px;
   }
   .jrn .jrn-security-rows .jrn-tile {
     width: 34px;

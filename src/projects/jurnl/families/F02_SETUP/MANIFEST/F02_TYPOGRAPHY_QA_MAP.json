@@ -40,8 +40,50 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Foot moved from under the bottom CTA into the content, left grid, ink-2.",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%)."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 3,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 44,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 50,
+          "box": 28,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 140,
+          "box": 74,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 366,
+          "box": 232,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.01",
@@ -80,8 +122,50 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "One-word last line removed (balanced break).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%)."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 9,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 61,
+          "box": 33,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 151,
+          "box": 47,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 322,
+          "box": 208,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.02",
@@ -120,8 +204,48 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 24,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 38,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 73,
+          "box": 28,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 230,
+          "box": 49,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 457,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.02.1",
@@ -160,8 +284,48 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 12,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 101,
+          "box": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 205,
+          "box": 47,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 607,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.03",
@@ -199,8 +363,48 @@
       "overflow_status": "PASS",
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 15,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 76,
+          "box": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 143,
+          "box": 47,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 545,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.04",
@@ -239,8 +443,48 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 24,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 38,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 68,
+          "box": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 160,
+          "box": 48,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 562,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.05",
@@ -278,8 +522,48 @@
       "overflow_status": "PASS",
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 21,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 33,
+          "box": 42,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 207,
+          "box": 114,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 752,
+          "box": 581,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.05.1",
@@ -317,8 +601,48 @@
       "overflow_status": "PASS",
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 12,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 98,
+          "box": 42,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 236,
+          "box": 114,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 733,
+          "box": 581,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.06",
@@ -358,8 +682,48 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "One-word last line removed (balanced break).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 6,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 38,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 50,
+          "box": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 135,
+          "box": 47,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 537,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.07",
@@ -397,8 +761,48 @@
       "overflow_status": "PASS",
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 6,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 36,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 73,
+          "box": 20,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 227,
+          "box": 66,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 608,
+          "box": 437,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.08",
@@ -436,8 +840,50 @@
       "overflow_status": "PASS",
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%)."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 9,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 69,
+          "box": 31,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 92,
+          "box": 59,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 404,
+          "box": 226,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.00.RESUME",
@@ -475,8 +921,50 @@
       "overflow_status": "PASS",
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%)."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 6,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 44,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 55,
+          "box": 25,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 137,
+          "box": 65,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 356,
+          "box": 222,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.02.CONNECTED",
@@ -515,8 +1003,48 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 12,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 38,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 69,
+          "box": 28,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 107,
+          "box": 49,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 457,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.02.1.VALIDATION",
@@ -555,8 +1083,48 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 12,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 102,
+          "box": 27,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 206,
+          "box": 48,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 607,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.03.VALIDATION",
@@ -595,8 +1163,48 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 15,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 76,
+          "box": 27,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 144,
+          "box": 48,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 545,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.04.VALIDATION",
@@ -635,8 +1243,48 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 15,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 68,
+          "box": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 160,
+          "box": 48,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 562,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.05.1.VALIDATION",
@@ -675,8 +1323,48 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 12,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 42,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 124,
+          "box": 44,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 238,
+          "box": 116,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 733,
+          "box": 581,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     },
     {
       "screen_id": "F02.06.VALIDATION",
@@ -717,8 +1405,54 @@
         "One-word last line removed (balanced break).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
-        "SETUP label ink-3 \u2192 ink-2 (was 4.0\u20134.4:1 on the shadowed plaster)."
-      ]
+        "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
+      ],
+      "interactive_text_status": "PASS",
+      "interactive_text_labels": 6,
+      "interactive_text_line_count": {
+        "max": 1,
+        "multi_line_labels": []
+      },
+      "interactive_text_fit_strategy": [
+        "NATURAL"
+      ],
+      "interactive_rule_width_status": "NO_RULE",
+      "environment_overlap": "NONE",
+      "min_tap_target_px": 38,
+      "environment_clearance_px": {
+        "mobile": {
+          "text": 51,
+          "box": 27,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "text": 136,
+          "box": 48,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "text": 537,
+          "box": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
+        }
+      }
     }
-  ]
+  ],
+  "sprint_followup": "P0.JURNL.F02-CURTAIN-CLEARANCE + GLOBAL-INTERACTIVE-TEXT-CONTAINMENT",
+  "headline_size_px": {
+    "mobile": 32,
+    "tablet": 40,
+    "desktop": 40
+  }
 }

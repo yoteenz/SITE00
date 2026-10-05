@@ -3,12 +3,65 @@
  * One structural grammar, JURNL expression only (no SITE 00 styling reaches these). Square-rounded geometry only.
  */
 
-import { createContext, useContext, useEffect, useId, useState, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, useLayoutEffect, useRef, useState, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { F01_COPY } from '../../data/f01/copy';
 import { JurnlIcon, type JurnlIconName } from './icons';
 
 const C = F01_COPY.common;
+
+/* GLOBAL JURNL INTERACTIVE-TEXT CONTAINMENT. A clickable label that reads as one action stays on one line. When it
+   would wrap, it is compacted in this order before any wrap is allowed: a modest size step (at most 1 px), then
+   tracking (down to 0.08 em), then size down to the 10 px floor. Only a label that still cannot fit wraps, at its own
+   size, balanced: a controlled two-line label, never an accidental browser wrap. The control never widens into the
+   environment to avoid a wrap. Labels that already fit are left untouched. */
+const FIT_FLOOR_PX = 10;
+const FIT_TRACKING_FLOOR_EM = 0.08;
+function lineCount(el: HTMLElement, range: Range) {
+  range.selectNodeContents(el);
+  const tops: number[] = [];
+  for (const r of Array.from(range.getClientRects())) {
+    if (r.width > 0.5 && !tops.some((t) => Math.abs(t - r.top) < r.height * 0.5)) tops.push(r.top);
+  }
+  return tops.length;
+}
+export function useCompactFit<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  useLayoutEffect(() => {
+    const label = ref.current;
+    if (!label) return;
+    const range = document.createRange();
+    const fit = () => {
+      for (const k of ['font-size', 'letter-spacing', 'text-wrap']) label.style.removeProperty(k);
+      label.removeAttribute('data-jrn-fit');
+      if (lineCount(label, range) <= 1) return;
+      const cs = getComputedStyle(label);
+      const base = parseFloat(cs.fontSize);
+      const track = cs.letterSpacing === 'normal' ? 0 : parseFloat(cs.letterSpacing) / base;
+      const set = (px: number, em: number) => {
+        label.style.fontSize = `${px}px`;
+        label.style.letterSpacing = `${em.toFixed(3)}em`;
+        return lineCount(label, range) <= 1;
+      };
+      const minor = Math.max(FIT_FLOOR_PX, base - 1);
+      for (let px = base - 0.5; px >= minor - 0.01; px -= 0.5) if (set(px, track)) return label.setAttribute('data-jrn-fit', 'size');
+      for (let em = track - 0.01; em >= FIT_TRACKING_FLOOR_EM - 0.001; em -= 0.01) if (set(Math.min(base, minor), em)) return label.setAttribute('data-jrn-fit', 'tracking');
+      for (let px = minor - 0.5; px >= FIT_FLOOR_PX - 0.01; px -= 0.5) if (set(px, Math.min(track, FIT_TRACKING_FLOOR_EM))) return label.setAttribute('data-jrn-fit', 'size-floor');
+      for (const k of ['font-size', 'letter-spacing']) label.style.removeProperty(k);
+      label.style.setProperty('text-wrap', 'balance');
+      label.setAttribute('data-jrn-fit', 'controlled-wrap');
+    };
+    fit();
+    let live = true;
+    void document.fonts?.ready.then(() => live && fit());
+    window.addEventListener('resize', fit);
+    return () => {
+      live = false;
+      window.removeEventListener('resize', fit);
+    };
+  });
+  return ref;
+}
 
 /**
  * Overlay layer pinned to the runtime viewport (the `.jrn` root). Drawers, sheets, modals and handoffs portal here so
@@ -39,6 +92,7 @@ export function JurnlButton({
   trigger?: string;
   children: ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement>) {
+  const label = useCompactFit<HTMLSpanElement>();
   return (
     <button
       type="button"
@@ -65,7 +119,7 @@ export function JurnlButton({
               {variant === 'social' ? <i className="jrn-btn__divider" aria-hidden /> : null}
             </>
           : null}
-          <span>{children}</span>
+          <span ref={label}>{children}</span>
         </>
       }
     </button>
@@ -101,6 +155,7 @@ export function JurnlInlineAction({ trigger, children, onClick, expanded }: { tr
 }
 
 export function JurnlTextLink({ trigger, children, strong, underline, onClick, inline }: { trigger?: string; children: ReactNode; strong?: boolean; underline?: boolean; inline?: boolean; onClick?: () => void }) {
+  const label = useCompactFit<HTMLSpanElement>();
   return (
     <button
       type="button"
@@ -108,7 +163,8 @@ export function JurnlTextLink({ trigger, children, strong, underline, onClick, i
       data-jrn-trigger={trigger}
       onClick={onClick}
     >
-      <span>{children}</span>
+      {/* an inline link flows with its sentence; a standalone link is one compact interactive unit */}
+      <span ref={inline ? undefined : label}>{children}</span>
     </button>
   );
 }
@@ -257,6 +313,7 @@ export function JurnlToggle({ checked, onChange, label, trigger }: { checked: bo
 /* `icon` puts the glyph in its own leading column: [ ICON ] [ LABEL ] [ MARK ]. A wrapped label never starts under it.
    `multi` is for pick-several groups (checkbox semantics); the default is one-of-many (radio). */
 export function JurnlChoice({ selected, onSelect, children, trigger, icon, multi }: { selected: boolean; onSelect: () => void; children: ReactNode; trigger?: string; icon?: JurnlIconName; multi?: boolean }) {
+  const label = useCompactFit<HTMLSpanElement>();
   return (
     <button type="button" role={multi ? 'checkbox' : 'radio'} aria-checked={selected} className={`jrn-row jrn-choice${icon ? ' jrn-choice--icon' : ''}`} onClick={onSelect} data-jrn-trigger={trigger}>
       {icon ?
@@ -264,7 +321,9 @@ export function JurnlChoice({ selected, onSelect, children, trigger, icon, multi
           <JurnlIcon name={icon} size={15} />
         </span>
       : null}
-      <span className="jrn-row__copy">{children}</span>
+      <span className="jrn-row__copy" ref={label}>
+        {children}
+      </span>
       <span className="jrn-choice__mark" aria-hidden />
     </button>
   );
@@ -279,11 +338,12 @@ export function JurnlTile({ icon, tone, size = 18, large }: { icon: JurnlIconNam
 }
 
 export function JurnlRow({ icon, leading, title, sub, onClick, trigger, end }: { icon?: JurnlIconName; leading?: ReactNode; title: string; sub?: string; onClick?: () => void; trigger?: string; end?: ReactNode }) {
+  const label = useCompactFit<HTMLSpanElement>();
   const body = (
     <>
       {leading ?? (icon ? <JurnlTile icon={icon} /> : null)}
       <span className="jrn-row__copy">
-        <span>{title}</span>
+        <span ref={onClick ? label : undefined}>{title}</span>
         {sub ? <small>{sub}</small> : null}
       </span>
       <span className="jrn-row__end">{end ?? (onClick ? <JurnlIcon name="chevron" size={16} /> : null)}</span>

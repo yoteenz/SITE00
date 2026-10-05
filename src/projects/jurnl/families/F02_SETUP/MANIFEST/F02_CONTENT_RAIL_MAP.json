@@ -1,1245 +1,1993 @@
 {
   "family_id": "F02_SETUP",
-  "sprint": "P0.JURNL.F02-OPUS-FINAL-FAMILY-STRUCTURAL-VISUAL-INTERACTION-RESPONSIVE-AUDIT1",
-  "method": "Environment edge measured on gridded plate crops as a fraction of plate width at the content band, mapped through object-fit: cover + object-position (50% mobile, 56% tablet, 62% desktop). CSS: src/projects/jurnl/runtime/jurnl-setup.css (--f02-edge-f per data-jrn-plate). Pixel values below are measured live in the runtime by scripts/jurnl/f02-final-audit-qa.mjs.",
-  "formula": "edge_x = px*100cqw + (f - px)*max(100cqw, 56.25cqh); rail = clamp(160px, edge_x - gap - left, max); gap 14 mobile / 32 tablet+desktop; max 400 tablet / 420 desktop",
-  "viewports": {
-    "mobile": "393x852",
-    "tablet": "834x1194",
-    "desktop": "1440x900"
+  "sprint": "P0.JURNL.F02-CURTAIN-CLEARANCE + GLOBAL-INTERACTIVE-TEXT-CONTAINMENT",
+  "supersedes": "Single-rail map of P0.JURNL.F02-OPUS-FINAL-…-AUDIT1. The ARRIVAL edge was taken at the panel band; the sheer leans left toward the top, so headline and helper reached its fringe (clearance −1 to −2 px on a phone, 10 px on tablet).",
+  "method": "Plate edges traced by hand on fraction-gridded crops (scripts/jurnl/f02-plate-edges.mjs). Two rails per plate, mapped through object-fit: cover + object-position with container units (jurnl-setup.css). Clearances measured live per text line and per paper card at its own height (scripts/jurnl/f02-final-audit-qa.mjs).",
+  "formula": "edge_x(f) = px*100cqw + (f - px)*max(100cqw, 56.25cqh); head_rail = clamp(120px, edge_x(head_f) - head_gap - left, max); body_rail = clamp(160px, edge_x(body_f) - body_gap - left, max)",
+  "required_clearance_px": {
+    "type": {
+      "mobile": 28,
+      "tablet": 44,
+      "desktop": 60
+    },
+    "paper": {
+      "mobile": 16,
+      "tablet": 32,
+      "desktop": 48
+    }
+  },
+  "headline": {
+    "mobile_px": 32,
+    "tablet_px": 40,
+    "desktop_px": 40,
+    "change": "Phone headline 34 → 32 px across the family. Lines never wrap; a narrower phone steps the headline down (never below 24 px)."
   },
   "screens": [
     {
       "screen_id": "F02.00",
       "environment_id": "ENV.ARRIVAL",
       "curtain_boundary": {
-        "plate_fraction": 0.545,
-        "edge": "Sheer curtain, left edge at the panel band (it leans right as it falls).",
-        "mobile_px": 218,
-        "tablet_px": 455,
-        "desktop_px": 720
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.43
+          ],
+          [
+            0.1,
+            0.435
+          ],
+          [
+            0.2,
+            0.455
+          ],
+          [
+            0.3,
+            0.48
+          ],
+          [
+            0.4,
+            0.51
+          ],
+          [
+            0.5,
+            0.55
+          ],
+          [
+            0.6,
+            0.58
+          ],
+          [
+            0.66,
+            0.6
+          ]
+        ],
+        "head_band_fraction": 0.4325,
+        "body_band_fraction": 0.455,
+        "mobile_crop": "0% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 204
+          "head_rail": [
+            34,
+            175
+          ],
+          "body_rail": [
+            34,
+            198
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 423
+          "head_rail": [
+            72,
+            313
+          ],
+          "body_rail": [
+            72,
+            343
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 204,
-          "x_to": 393,
-          "share_of_width": 0.48
+          "from_x": 198,
+          "to_x": 393,
+          "edge_at_head_band_x": 207,
+          "edge_at_body_band_x": 218
         },
         "tablet": {
-          "x_from": 423,
-          "x_to": 834,
-          "share_of_width": 0.49
+          "from_x": 343,
+          "to_x": 834,
+          "edge_at_head_band_x": 361,
+          "edge_at_body_band_x": 379
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 623,
+          "edge_at_body_band_x": 655
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 50,
+          "paper_min": 28,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 140,
+          "paper_min": 74,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 366,
+          "paper_min": 232,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 141,
+        "tablet": 241,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 141,
+        "tablet": 241,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 164,
+        "tablet": 271,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 5
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 5
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.01",
       "environment_id": "ENV.ARRIVAL",
       "curtain_boundary": {
-        "plate_fraction": 0.545,
-        "edge": "Sheer curtain, left edge at the panel band (it leans right as it falls).",
-        "mobile_px": 218,
-        "tablet_px": 455,
-        "desktop_px": 720
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.43
+          ],
+          [
+            0.1,
+            0.435
+          ],
+          [
+            0.2,
+            0.455
+          ],
+          [
+            0.3,
+            0.48
+          ],
+          [
+            0.4,
+            0.51
+          ],
+          [
+            0.5,
+            0.55
+          ],
+          [
+            0.6,
+            0.58
+          ],
+          [
+            0.66,
+            0.6
+          ]
+        ],
+        "head_band_fraction": 0.4325,
+        "body_band_fraction": 0.455,
+        "mobile_crop": "0% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 204
+          "head_rail": [
+            34,
+            175
+          ],
+          "body_rail": [
+            34,
+            198
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 423
+          "head_rail": [
+            72,
+            313
+          ],
+          "body_rail": [
+            72,
+            343
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 204,
-          "x_to": 393,
-          "share_of_width": 0.48
+          "from_x": 198,
+          "to_x": 393,
+          "edge_at_head_band_x": 207,
+          "edge_at_body_band_x": 218
         },
         "tablet": {
-          "x_from": 423,
-          "x_to": 834,
-          "share_of_width": 0.49
+          "from_x": 343,
+          "to_x": 834,
+          "edge_at_head_band_x": 361,
+          "edge_at_body_band_x": 379
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 623,
+          "edge_at_body_band_x": 655
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 61,
+          "paper_min": 33,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 151,
+          "paper_min": 47,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 322,
+          "paper_min": 208,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 141,
+        "tablet": 241,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 141,
+        "tablet": 241,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 164,
+        "tablet": 271,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 5
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 6
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.02",
       "environment_id": "ENV.DESK",
       "curtain_boundary": {
-        "plate_fraction": 0.649,
-        "edge": "Sheer curtain in front of the wall corner.",
-        "mobile_px": 266,
-        "tablet_px": 540,
-        "desktop_px": 900
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.595
+          ],
+          [
+            0.1,
+            0.6
+          ],
+          [
+            0.2,
+            0.615
+          ],
+          [
+            0.3,
+            0.635
+          ],
+          [
+            0.4,
+            0.655
+          ],
+          [
+            0.5,
+            0.675
+          ],
+          [
+            0.6,
+            0.69
+          ],
+          [
+            0.66,
+            0.7
+          ]
+        ],
+        "head_band_fraction": 0.5975,
+        "body_band_fraction": 0.62,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 254
+          "head_rail": [
+            34,
+            211
+          ],
+          "body_rail": [
+            34,
+            234
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            450
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 254,
-          "x_to": 393,
-          "share_of_width": 0.35
+          "from_x": 234,
+          "to_x": 393,
+          "edge_at_head_band_x": 243,
+          "edge_at_body_band_x": 254
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 498,
+          "edge_at_body_band_x": 517
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 860,
+          "edge_at_body_band_x": 893
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 73,
+          "paper_min": 28,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 230,
+          "paper_min": 49,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 457,
+          "paper_min": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 220,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 5
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 7
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.02.1",
       "environment_id": "ENV.DESK",
       "curtain_boundary": {
-        "plate_fraction": 0.649,
-        "edge": "Sheer curtain in front of the wall corner.",
-        "mobile_px": 266,
-        "tablet_px": 540,
-        "desktop_px": 900
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.595
+          ],
+          [
+            0.1,
+            0.6
+          ],
+          [
+            0.2,
+            0.615
+          ],
+          [
+            0.3,
+            0.635
+          ],
+          [
+            0.4,
+            0.655
+          ],
+          [
+            0.5,
+            0.675
+          ],
+          [
+            0.6,
+            0.69
+          ],
+          [
+            0.66,
+            0.7
+          ]
+        ],
+        "head_band_fraction": 0.5975,
+        "body_band_fraction": 0.62,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 254
+          "head_rail": [
+            34,
+            211
+          ],
+          "body_rail": [
+            34,
+            234
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            450
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 254,
-          "x_to": 393,
-          "share_of_width": 0.35
+          "from_x": 234,
+          "to_x": 393,
+          "edge_at_head_band_x": 243,
+          "edge_at_body_band_x": 254
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 498,
+          "edge_at_body_band_x": 517
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 860,
+          "edge_at_body_band_x": 893
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 101,
+          "paper_min": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 205,
+          "paper_min": 47,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 607,
+          "paper_min": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 220,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 6
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 7
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.03",
       "environment_id": "ENV.DESK",
       "curtain_boundary": {
-        "plate_fraction": 0.649,
-        "edge": "Sheer curtain in front of the wall corner.",
-        "mobile_px": 266,
-        "tablet_px": 540,
-        "desktop_px": 900
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.595
+          ],
+          [
+            0.1,
+            0.6
+          ],
+          [
+            0.2,
+            0.615
+          ],
+          [
+            0.3,
+            0.635
+          ],
+          [
+            0.4,
+            0.655
+          ],
+          [
+            0.5,
+            0.675
+          ],
+          [
+            0.6,
+            0.69
+          ],
+          [
+            0.66,
+            0.7
+          ]
+        ],
+        "head_band_fraction": 0.5975,
+        "body_band_fraction": 0.62,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 254
+          "head_rail": [
+            34,
+            211
+          ],
+          "body_rail": [
+            34,
+            234
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            450
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 254,
-          "x_to": 393,
-          "share_of_width": 0.35
+          "from_x": 234,
+          "to_x": 393,
+          "edge_at_head_band_x": 243,
+          "edge_at_body_band_x": 254
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 498,
+          "edge_at_body_band_x": 517
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 860,
+          "edge_at_body_band_x": 893
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 76,
+          "paper_min": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 143,
+          "paper_min": 47,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 545,
+          "paper_min": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 220,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 6
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 7
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.04",
       "environment_id": "ENV.DESK",
       "curtain_boundary": {
-        "plate_fraction": 0.649,
-        "edge": "Sheer curtain in front of the wall corner.",
-        "mobile_px": 266,
-        "tablet_px": 540,
-        "desktop_px": 900
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.595
+          ],
+          [
+            0.1,
+            0.6
+          ],
+          [
+            0.2,
+            0.615
+          ],
+          [
+            0.3,
+            0.635
+          ],
+          [
+            0.4,
+            0.655
+          ],
+          [
+            0.5,
+            0.675
+          ],
+          [
+            0.6,
+            0.69
+          ],
+          [
+            0.66,
+            0.7
+          ]
+        ],
+        "head_band_fraction": 0.5975,
+        "body_band_fraction": 0.62,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 254
+          "head_rail": [
+            34,
+            211
+          ],
+          "body_rail": [
+            34,
+            234
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            450
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 254,
-          "x_to": 393,
-          "share_of_width": 0.35
+          "from_x": 234,
+          "to_x": 393,
+          "edge_at_head_band_x": 243,
+          "edge_at_body_band_x": 254
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 498,
+          "edge_at_body_band_x": 517
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 860,
+          "edge_at_body_band_x": 893
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 68,
+          "paper_min": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 160,
+          "paper_min": 48,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 562,
+          "paper_min": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 220,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 6
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 8
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.05",
       "environment_id": "ENV.EDIT",
       "curtain_boundary": {
-        "plate_fraction": 0.666,
-        "edge": "Olive leaves top right; stone pilaster below.",
-        "mobile_px": 300,
-        "tablet_px": 619,
-        "desktop_px": 900
+        "kind": "LEAVES_THEN_PILASTER",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.65
+          ],
+          [
+            0.1,
+            0.6
+          ],
+          [
+            0.17,
+            0.6
+          ],
+          [
+            0.22,
+            0.69
+          ],
+          [
+            0.3,
+            0.745
+          ],
+          [
+            0.66,
+            0.745
+          ]
+        ],
+        "head_band_fraction": 0.6,
+        "body_band_fraction": 0.69,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 262
+          "head_rail": [
+            34,
+            212
+          ],
+          "body_rail": [
+            34,
+            268
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            452
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 262,
-          "x_to": 393,
-          "share_of_width": 0.33
+          "from_x": 268,
+          "to_x": 393,
+          "edge_at_head_band_x": 244,
+          "edge_at_body_band_x": 288
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 500,
+          "edge_at_body_band_x": 575
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 864,
+          "edge_at_body_band_x": 994
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 33,
+          "paper_min": 42,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 207,
+          "paper_min": 114,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 752,
+          "paper_min": 581,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 228,
-        "tablet": 400,
+        "mobile": 178,
+        "tablet": 380,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 228,
-        "tablet": 400,
+        "mobile": 178,
+        "tablet": 380,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 228,
+        "mobile": 234,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 5
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.05.1",
       "environment_id": "ENV.EDIT",
       "curtain_boundary": {
-        "plate_fraction": 0.666,
-        "edge": "Olive leaves top right; stone pilaster below.",
-        "mobile_px": 300,
-        "tablet_px": 619,
-        "desktop_px": 900
+        "kind": "LEAVES_THEN_PILASTER",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.65
+          ],
+          [
+            0.1,
+            0.6
+          ],
+          [
+            0.17,
+            0.6
+          ],
+          [
+            0.22,
+            0.69
+          ],
+          [
+            0.3,
+            0.745
+          ],
+          [
+            0.66,
+            0.745
+          ]
+        ],
+        "head_band_fraction": 0.6,
+        "body_band_fraction": 0.69,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 262
+          "head_rail": [
+            34,
+            212
+          ],
+          "body_rail": [
+            34,
+            268
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            452
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 262,
-          "x_to": 393,
-          "share_of_width": 0.33
+          "from_x": 268,
+          "to_x": 393,
+          "edge_at_head_band_x": 244,
+          "edge_at_body_band_x": 288
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 500,
+          "edge_at_body_band_x": 575
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 864,
+          "edge_at_body_band_x": 994
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 98,
+          "paper_min": 42,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 236,
+          "paper_min": 114,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 733,
+          "paper_min": 581,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 228,
-        "tablet": 400,
+        "mobile": 178,
+        "tablet": 380,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 228,
-        "tablet": 400,
+        "mobile": 178,
+        "tablet": 380,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 228,
+        "mobile": 234,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 6
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.06",
       "environment_id": "ENV.DESK",
       "curtain_boundary": {
-        "plate_fraction": 0.649,
-        "edge": "Sheer curtain in front of the wall corner.",
-        "mobile_px": 266,
-        "tablet_px": 540,
-        "desktop_px": 900
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.595
+          ],
+          [
+            0.1,
+            0.6
+          ],
+          [
+            0.2,
+            0.615
+          ],
+          [
+            0.3,
+            0.635
+          ],
+          [
+            0.4,
+            0.655
+          ],
+          [
+            0.5,
+            0.675
+          ],
+          [
+            0.6,
+            0.69
+          ],
+          [
+            0.66,
+            0.7
+          ]
+        ],
+        "head_band_fraction": 0.5975,
+        "body_band_fraction": 0.62,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 254
+          "head_rail": [
+            34,
+            211
+          ],
+          "body_rail": [
+            34,
+            234
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            450
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 254,
-          "x_to": 393,
-          "share_of_width": 0.35
+          "from_x": 234,
+          "to_x": 393,
+          "edge_at_head_band_x": 243,
+          "edge_at_body_band_x": 254
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 498,
+          "edge_at_body_band_x": 517
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 860,
+          "edge_at_body_band_x": 893
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 50,
+          "paper_min": 26,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 135,
+          "paper_min": 47,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 537,
+          "paper_min": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 220,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 5
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 7
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.07",
       "environment_id": "ENV.QUIET",
       "curtain_boundary": {
-        "plate_fraction": 0.643,
-        "edge": "Lit stone column.",
-        "mobile_px": 265,
-        "tablet_px": 531,
-        "desktop_px": 900
+        "kind": "STONE_COLUMN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.645
+          ],
+          [
+            0.66,
+            0.645
+          ]
+        ],
+        "head_band_fraction": 0.645,
+        "body_band_fraction": 0.645,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 251
+          "head_rail": [
+            34,
+            234
+          ],
+          "body_rail": [
+            34,
+            246
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            472
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 251,
-          "x_to": 393,
-          "share_of_width": 0.36
+          "from_x": 246,
+          "to_x": 393,
+          "edge_at_head_band_x": 266,
+          "edge_at_body_band_x": 266
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 538,
+          "edge_at_body_band_x": 538
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 929,
+          "edge_at_body_band_x": 929
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 73,
+          "paper_min": 20,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 227,
+          "paper_min": 66,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 608,
+          "paper_min": 437,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 217,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 217,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 217,
+        "mobile": 212,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 6
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 7
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
       "screen_id": "F02.08",
       "environment_id": "ENV.ARRIVAL",
       "curtain_boundary": {
-        "plate_fraction": 0.545,
-        "edge": "Sheer curtain, left edge at the panel band (it leans right as it falls).",
-        "mobile_px": 218,
-        "tablet_px": 455,
-        "desktop_px": 720
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.43
+          ],
+          [
+            0.1,
+            0.435
+          ],
+          [
+            0.2,
+            0.455
+          ],
+          [
+            0.3,
+            0.48
+          ],
+          [
+            0.4,
+            0.51
+          ],
+          [
+            0.5,
+            0.55
+          ],
+          [
+            0.6,
+            0.58
+          ],
+          [
+            0.66,
+            0.6
+          ]
+        ],
+        "head_band_fraction": 0.4325,
+        "body_band_fraction": 0.455,
+        "mobile_crop": "0% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 204
+          "head_rail": [
+            34,
+            175
+          ],
+          "body_rail": [
+            34,
+            198
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 423
+          "head_rail": [
+            72,
+            313
+          ],
+          "body_rail": [
+            72,
+            343
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 204,
-          "x_to": 393,
-          "share_of_width": 0.48
+          "from_x": 198,
+          "to_x": 393,
+          "edge_at_head_band_x": 207,
+          "edge_at_body_band_x": 218
         },
         "tablet": {
-          "x_from": 423,
-          "x_to": 834,
-          "share_of_width": 0.49
+          "from_x": 343,
+          "to_x": 834,
+          "edge_at_head_band_x": 361,
+          "edge_at_body_band_x": 379
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 623,
+          "edge_at_body_band_x": 655
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 69,
+          "paper_min": 31,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 92,
+          "paper_min": 59,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 404,
+          "paper_min": 226,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 141,
+        "tablet": 241,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 141,
+        "tablet": 241,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 164,
+        "tablet": 271,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 6
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 7
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
-      "screen_id": "F02.00 (F02.ST.RESUME)",
+      "screen_id": "F02.00.RESUME",
       "environment_id": "ENV.ARRIVAL",
       "curtain_boundary": {
-        "plate_fraction": 0.545,
-        "edge": "Sheer curtain, left edge at the panel band (it leans right as it falls).",
-        "mobile_px": 218,
-        "tablet_px": 455,
-        "desktop_px": 720
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.43
+          ],
+          [
+            0.1,
+            0.435
+          ],
+          [
+            0.2,
+            0.455
+          ],
+          [
+            0.3,
+            0.48
+          ],
+          [
+            0.4,
+            0.51
+          ],
+          [
+            0.5,
+            0.55
+          ],
+          [
+            0.6,
+            0.58
+          ],
+          [
+            0.66,
+            0.6
+          ]
+        ],
+        "head_band_fraction": 0.4325,
+        "body_band_fraction": 0.455,
+        "mobile_crop": "0% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 204
+          "head_rail": [
+            34,
+            175
+          ],
+          "body_rail": [
+            34,
+            198
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 423
+          "head_rail": [
+            72,
+            313
+          ],
+          "body_rail": [
+            72,
+            343
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 204,
-          "x_to": 393,
-          "share_of_width": 0.48
+          "from_x": 198,
+          "to_x": 393,
+          "edge_at_head_band_x": 207,
+          "edge_at_body_band_x": 218
         },
         "tablet": {
-          "x_from": 423,
-          "x_to": 834,
-          "share_of_width": 0.49
+          "from_x": 343,
+          "to_x": 834,
+          "edge_at_head_band_x": 361,
+          "edge_at_body_band_x": 379
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 623,
+          "edge_at_body_band_x": 655
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 55,
+          "paper_min": 25,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 137,
+          "paper_min": 65,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 356,
+          "paper_min": 222,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 141,
+        "tablet": 241,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 141,
+        "tablet": 241,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 170,
-        "tablet": 351,
+        "mobile": 164,
+        "tablet": 271,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 5
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 7
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
-      "screen_id": "F02.02 (F02.ST.CONNECTED)",
+      "screen_id": "F02.02.CONNECTED",
       "environment_id": "ENV.DESK",
       "curtain_boundary": {
-        "plate_fraction": 0.649,
-        "edge": "Sheer curtain in front of the wall corner.",
-        "mobile_px": 266,
-        "tablet_px": 540,
-        "desktop_px": 900
+        "kind": "WHITE_CURTAIN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.595
+          ],
+          [
+            0.1,
+            0.6
+          ],
+          [
+            0.2,
+            0.615
+          ],
+          [
+            0.3,
+            0.635
+          ],
+          [
+            0.4,
+            0.655
+          ],
+          [
+            0.5,
+            0.675
+          ],
+          [
+            0.6,
+            0.69
+          ],
+          [
+            0.66,
+            0.7
+          ]
+        ],
+        "head_band_fraction": 0.5975,
+        "body_band_fraction": 0.62,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 254
+          "head_rail": [
+            34,
+            211
+          ],
+          "body_rail": [
+            34,
+            234
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            450
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 254,
-          "x_to": 393,
-          "share_of_width": 0.35
+          "from_x": 234,
+          "to_x": 393,
+          "edge_at_head_band_x": 243,
+          "edge_at_body_band_x": 254
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 498,
+          "edge_at_body_band_x": 517
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 860,
+          "edge_at_body_band_x": 893
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 69,
+          "paper_min": 28,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 107,
+          "paper_min": 49,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 457,
+          "paper_min": 429,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 220,
-        "tablet": 400,
+        "mobile": 177,
+        "tablet": 378,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 220,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 6
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 8
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     },
     {
-      "screen_id": "F02.02 (F02.IN.PERMISSION plate)",
+      "screen_id": "F02.02.PERMISSION",
       "environment_id": "ENV.QUIET",
       "curtain_boundary": {
-        "plate_fraction": 0.643,
-        "edge": "Lit stone column.",
-        "mobile_px": 265,
-        "tablet_px": 531,
-        "desktop_px": 900
+        "kind": "STONE_COLUMN",
+        "traced_profile_plate_y_x": [
+          [
+            0,
+            0.645
+          ],
+          [
+            0.66,
+            0.645
+          ]
+        ],
+        "head_band_fraction": 0.645,
+        "body_band_fraction": 0.645,
+        "mobile_crop": "50% 50%"
       },
       "content_safe_zone": {
         "mobile": {
-          "x_from": 34,
-          "x_to": 251
+          "head_rail": [
+            34,
+            234
+          ],
+          "body_rail": [
+            34,
+            246
+          ]
         },
         "tablet": {
-          "x_from": 72,
-          "x_to": 472
+          "head_rail": [
+            72,
+            472
+          ],
+          "body_rail": [
+            72,
+            472
+          ]
         },
         "desktop": {
-          "x_from": 72,
-          "x_to": 492
+          "head_rail": [
+            72,
+            492
+          ],
+          "body_rail": [
+            72,
+            492
+          ]
         }
       },
       "environment_breathing_zone": {
         "mobile": {
-          "x_from": 251,
-          "x_to": 393,
-          "share_of_width": 0.36
+          "from_x": 246,
+          "to_x": 393,
+          "edge_at_head_band_x": 266,
+          "edge_at_body_band_x": 266
         },
         "tablet": {
-          "x_from": 472,
-          "x_to": 834,
-          "share_of_width": 0.43
+          "from_x": 472,
+          "to_x": 834,
+          "edge_at_head_band_x": 538,
+          "edge_at_body_band_x": 538
         },
         "desktop": {
-          "x_from": 492,
-          "x_to": 1440,
-          "share_of_width": 0.66
+          "from_x": 492,
+          "to_x": 1440,
+          "edge_at_head_band_x": 929,
+          "edge_at_body_band_x": 929
+        }
+      },
+      "measured_clearance_px": {
+        "mobile": {
+          "type_min": 45,
+          "paper_min": 20,
+          "required": {
+            "text": 28,
+            "box": 16
+          }
+        },
+        "tablet": {
+          "type_min": 77,
+          "paper_min": 66,
+          "required": {
+            "text": 44,
+            "box": 32
+          }
+        },
+        "desktop": {
+          "type_min": 468,
+          "paper_min": 437,
+          "required": {
+            "text": 60,
+            "box": 48
+          }
         }
       },
       "headline_max_width": {
-        "mobile": 217,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
       "body_max_width": {
-        "mobile": 217,
+        "mobile": 200,
         "tablet": 400,
         "desktop": 420
       },
       "panel_max_width": {
-        "mobile": 217,
+        "mobile": 212,
         "tablet": 400,
         "desktop": 420
       },
-      "panel_width_rule": "Rows, consents, fields, errors fill the rail (trailing controls share one column). Read-only path / recap lists take max-content (min 200, max rail).",
       "cta_width_policy": {
-        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception: rests on the stone ledge / cushion band, covers no focal object; F01 contract + thumb reach)",
-        "tablet": "RAIL_WIDTH_AFTER_CONTENT",
-        "desktop": "COLUMN_WIDTH_AFTER_CONTENT (420 at x=72)"
+        "mobile": "BOTTOM_ANCHORED_NEAR_FULL_WIDTH (founder exception; sits below the curtain, on the ledge band)",
+        "tablet": "BODY_RAIL_WIDTH_AFTER_CONTENT",
+        "desktop": "COLUMN_WIDTH_AFTER_CONTENT"
       },
-      "mobile_behavior": "Rail from the 34 px grid line to the plate edge minus 14 px. Headline, helper, panels, rows, fields, errors, foot inside. Primary CTA bottom-anchored near full width; SKIP FOR NOW a left-grid paper chip.",
-      "tablet_behavior": "Left rail from 72 px (never centred), width = plate edge \u2212 32 px gap, max 400. CTA follows content at rail width.",
-      "desktop_behavior": "420 px column at 72 px, left of every environment edge (\u2265 720 px). CTA follows content at column width.",
-      "before": {
-        "mobile": {
-          "items_crossing_environment_edge": 5
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 7
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      },
-      "after": {
-        "mobile": {
-          "items_crossing_environment_edge": 0
-        },
-        "tablet": {
-          "items_crossing_environment_edge": 0
-        },
-        "desktop": {
-          "items_crossing_environment_edge": 0
-        }
-      }
+      "mobile_behavior": "Head rail (mark, SETUP row, headline 32 px, helper) clears the edge by 32 px at the top of the content; body rail (panels, rows, fields) by 20 px. ARRIVAL opens its phone crop on the plaster wall (0% 50%).",
+      "tablet_behavior": "Left rail from 72 px. Head gap 48 px, body gap 36 px, max 400. Headline 40 px.",
+      "desktop_behavior": "420 px column at 72 px, hundreds of px clear of every edge."
     }
   ]
 }

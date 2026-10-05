@@ -13723,3 +13723,56 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** The icon sheet is `JURNL/F01_ENTRY/ICONS/F01_ICON_PACK_SHEET.png`, implemented in `icons.tsx`. Back and info already match it. Home, money, plan, credit, and the rent, groceries, atelier, and market marks have no matching sheet glyph, so they stay reported as missing rather than redrawn. The double plus was a drawn plus plus a text plus in `JurnlProductNav`. The text plus is gone. MORE and ACTIVITY are `JurnlInlineAction` header utilities with the canonical chevron. SEE WHY stays the filled primary. More still expands Coming. Activity still opens F04. Quick add still opens from the single plus. No new image was generated. F03 stays ready for founder review, not approved, and child production stays off.
 - **Changes:** `ProductNav.tsx`, `JurnlInlineAction`, F03 home CSS, the F03 contract and coverage, `JURNL_EXPRESSION_MATRIX.json`, `JURNL/MANIFEST/F03_PARENT_REFINEMENT_QA.json`.
 - **Conventions:** Secondary panel-header actions that navigate or expand should read as lightweight editorial utilities, not default buttons. Do not apply that treatment to every control. Do not place a text glyph on top of an icon. If the icon sheet has no asset, record `ICON_AUTHORITY_MISSING`.
+
+---
+
+## 2026-10-05 — F02 curtain clearance + global JURNL interactive-text containment
+
+- **Context:** The founder said text on some F02 child screens came too close to the white curtain: it may not touch, brush or crowd it, and a header-size reduction is acceptable. They also issued the GLOBAL JURNL TYPOGRAPHIC CONTAINMENT RULE for all clickable text: compact fit before wrap, rule fits the text, no environment invasion, readable floor, and tap targets separate from type size.
+- **Topics covered:**
+  - curtains traced per plate height
+  - head and body rails
+  - ARRIVAL phone crop
+  - headline 34 → 32 px
+  - a fitted-headline safeguard
+  - `useCompactFit` on every clickable-label primitive
+  - `text-decoration` underlines
+  - hit area for inline links
+  - nav label floor
+  - F04 FILTER and F01 FORGOT PASSWORD? kept off the curtain
+  - a JURNL-wide audit, including a white-curtain pixel probe
+- **Decisions / outcomes:**
+  - **Curtain profiles:** traced in `scripts/jurnl/f02-plate-edges.mjs`.
+  - **F02 rails:**
+    - Head rail (mark, SETUP row, headline, helper) keeps type 32 px clear on phones and 48 px on tablet.
+    - Body rail keeps paper 20 px / 36 px clear.
+    - ARRIVAL's phone crop is `0% 50%`.
+  - **F02 clearance:** minimum type clearance on phones is ≥ 50 px at the curtains and 33 px at the leaves. Before, it was −1 / −2 px.
+  - **`useCompactFit`:** runs size step ≤ 1 px → tracking to 0.08 em → 10 px floor → balanced wrap. It is used on `JurnlButton`, standalone `JurnlTextLink`, `JurnlChoice` and clickable `JurnlRow`.
+  - **Labels fixed:**
+    - LEARN WHAT THIS MEANS is one line at 11 px / 0.16 em.
+    - CONNECTED ACCOUNT CONTROL is one line at 9.5 px / 0.08 em, with an 8 px phone gap.
+    - Nav labels went from 8 px to 10 px.
+    - Inline links have a 32 px hit area.
+  - **Audit:** 1,134 / 1,134 labels across 79 views × 3 viewports pass, with drift 0.
+  - **F01 pixels:** unchanged except the two intended phone fixes. Every other underlined link is within 2 px.
+- **Changes:**
+  - `jurnl-setup.css`
+  - `SetupScreens.tsx` (`useFittedHeadline`)
+  - `primitives.tsx` (`useCompactFit`)
+  - `jurnl-runtime.css`
+  - `jurnl-screens.css`
+  - `jurnl-home.css`
+  - `HomeScreens.tsx`
+  - `scripts/jurnl/interactive-text-qa.mjs`
+  - `scripts/jurnl/f02-plate-edges.mjs`
+  - `f02-final-audit-qa.mjs`
+  - `JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json` (`typographic_containment` as a full contract)
+  - `JURNL/MANIFEST/JURNL_INTERACTIVE_TEXT_QA.json`
+  - the F02 rail and typography maps
+  - `docs/jurnl/INTERACTIVE_TEXT_CONTAINMENT.md`
+- **Conventions:**
+  - Never pass an icon as a `JurnlButton` child; use the `icon` prop.
+  - Underlines are `text-decoration`.
+  - Test clearance at each element's own height; curtains lean.
+  - Top-corner chrome over bright sky or wall is reported, not gated.

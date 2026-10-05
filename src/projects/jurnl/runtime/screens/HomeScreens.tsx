@@ -370,8 +370,8 @@ export function ActivityScreen() {
         <div className="jrn-act__stage" data-jrn-zone="content-rail">
         <div className="jrn-act__tools">
           <JurnlInput label="SEARCH" value={query} onValue={setQuery} icon="search" trigger="activity-search" />
-          <JurnlButton variant="utility" trigger="activity-filter" onClick={() => openOverlay('filter')}>
-            <JurnlIcon name="filter" size={14} /> FILTER
+          <JurnlButton variant="utility" icon={<JurnlIcon name="filter" size={14} />} trigger="activity-filter" onClick={() => openOverlay('filter')}>
+            FILTER
           </JurnlButton>
         </div>
         {query ? (
