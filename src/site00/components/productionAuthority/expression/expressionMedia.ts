@@ -57,6 +57,14 @@ const CHARACTER_MEDIA: Record<string, readonly MediaItem[]> = {
   ],
 };
 
+/**
+ * Hero "suspended screen" subject (EXPR2 family heroes show the project's lead subject, monochrome, on the central
+ * screen of the production floor). Project-scoped: only the project whose authority boards the crop comes from.
+ */
+export function expressionHeroSubject(slug: string): MediaItem | null {
+  return slug === 'ndxbook' ? CHARACTER_MEDIA['char-entry002-subject-woman'][0] : null;
+}
+
 /** Era → look board crops. */
 const LOOK_MEDIA: Record<string, readonly MediaItem[]> = {
   '2016': [

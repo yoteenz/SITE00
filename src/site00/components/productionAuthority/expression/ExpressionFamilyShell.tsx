@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { HubImage } from '../../productionHub/HubImage';
 import { ExpressionMediaInspector, type ExpressionMediaSlide } from './ExpressionMediaInspector';
 import { AUTHORITY_ASSETS } from '../authorityAssets';
+import { expressionHeroSubject } from './expressionMedia';
 import { LiveStatusBar } from '../HubBody';
 import { useProductionAuthorityData } from '../ProductionAuthorityData';
 import { EXPRESSION_FAMILIES, expressionHref, familyTabs, type ExpressionFamilyId, type ResolvedExpressionRoute } from './expressionRoutes';
@@ -48,6 +49,7 @@ export function ExpressionFamilyShell({
   const parentTab = route.kind === 'detail' && route.parent && route.parent !== 'root' ? tabs.find((t) => t.id === route.parent) : null;
   const mediaHeavyFamily = new Set<ExpressionFamilyId>(['casting', 'look', 'performance', 'sets', 'storyboard', 'review', 'format', 'package', 'campaign']);
   const mediaFocus = route.kind !== 'root' || mediaHeavyFamily.has(family.id);
+  const heroSubject = expressionHeroSubject(slug);
 
   return (
     <div
@@ -84,13 +86,19 @@ export function ExpressionFamilyShell({
               </>
             : null}
           </nav>
-          <h1>EXPRESSION</h1>
-          <h2 className="exf-hero__family">
-            {family.title}
-            {route.kind === 'detail' && detailName ? ` / ${detailName}` : routeLabel ? ` / ${routeLabel}` : ''}
-          </h2>
+          <h1>{route.kind === 'detail' && detailName ? detailName : family.title}</h1>
+          {routeLabel ?
+            <h2 className="exf-hero__family">
+              {family.title} / {routeLabel}
+            </h2>
+          : null}
           <p>{family.tagline}</p>
         </div>
+        {heroSubject ?
+          <figure className="exf-hero__screen" data-testid="expression-hero-subject" title={`${heroSubject.label} · ${heroSubject.source}`}>
+            <img src={heroSubject.url} alt="" loading="eager" decoding="async" />
+          </figure>
+        : null}
         <ul className="pxa-hero__side" aria-hidden>
           <li>
             <b>{project}</b>
@@ -100,7 +108,6 @@ export function ExpressionFamilyShell({
           ))}
         </ul>
       </header>
-      <LiveStatusBar expressionMode compact={mediaFocus} context={{ title: 'EXPRESSION', sub: `${family.title}${routeLabel ? ` / ${routeLabel}` : ''}` }} />
       {family.downstream ?
         <nav className="exf-tabs exf-tabs--flow" aria-label="Downstream flow" data-testid="expression-family-tabs" data-flow="format-package-campaign" data-scroll="internal-x">
           {EXPRESSION_FAMILIES.filter((f) => f.downstream).map((f, i) => (
@@ -119,6 +126,8 @@ export function ExpressionFamilyShell({
           ))}
         </nav>
       : null}
+      {/* authority order: hero → family tabs → status band (EXPR2 boards) */}
+      <LiveStatusBar expressionMode compact={mediaFocus} context={{ title: 'EXPRESSION', sub: `${family.title}${routeLabel ? ` / ${routeLabel}` : ''}` }} />
       <div className="exf-stage" data-testid={legacyTestId}>
         {children}
       </div>

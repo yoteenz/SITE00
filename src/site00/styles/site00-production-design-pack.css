@@ -220,3 +220,58 @@
     min-height: 96px;
   }
 }
+
+/* ── 4. OPUS3 pixel refinement: pipeline stage objects at their authority size ──────────────────────────────────
+ * T12 desktop authority (1440 basis) shows the stage objects at ~70–80px; the canonical crops are 76px. The chamber
+ * takes the remaining height, so the larger row is paid for by the chamber, not by page scroll (verified at the
+ * 14 QA viewports). Never upscaled past the 76px source. */
+.pxa .pxa-design .pxa-pipeline__steps .pxa-stage {
+  width: 76px;
+  height: 76px;
+}
+.pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+  width: 60px;
+  height: 60px;
+}
+@media (min-width: 1120px) and (max-height: 860px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage,
+  .pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+    width: 62px;
+    height: 62px;
+  }
+}
+@media (min-width: 1120px) and (max-height: 760px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage,
+  .pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+    width: 46px;
+    height: 46px;
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage,
+  .pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+    width: 64px;
+    height: 64px;
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) and (max-height: 800px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage,
+  .pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+    width: 52px;
+    height: 52px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage,
+  .pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+    width: 46px;
+    height: 46px;
+  }
+}
+@media (max-width: 699px) and (max-height: 760px) {
+  .pxa .pxa-design .pxa-pipeline__steps .pxa-stage,
+  .pxa .pxa-design .pxa-pipeline__steps[data-count='7'] .pxa-stage {
+    width: 32px;
+    height: 32px;
+  }
+}

@@ -1,0 +1,140 @@
+{
+ "sprint": "P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-PIXEL-PERFECT-REFINEMENT.OPUS3",
+ "rule": "Not auto-resolved. No founder approval synthesized. Each item carries forward unchanged unless stated.",
+ "items": [
+  {
+   "id": "U-07",
+   "surface": "Experience root",
+   "status": "STILL_CONFLICTING",
+   "carried": {
+    "status": "STILL_CONFLICTING",
+    "candidates": [
+     "EL 01_World__01_WORLD_ROOT (CANONICAL, later route-specific). Live body follows this.",
+     "T12/PAR3V 08_EXPERIENCE and IMG_5925/6006/5988 (CONFLICTING parent landing)."
+    ],
+    "applied": "Preserved. experienceHeroPlate returns null for world+root. Root plate stays experience.worldHero."
+   },
+   "this_sprint": "Untouched."
+  },
+  {
+   "id": "U-08",
+   "surface": "Library root",
+   "status": "STILL_CONFLICTING",
+   "carried": {
+    "status": "STILL_CONFLICTING",
+    "candidates": [
+     "EL 01_Authorities__01_AUTHORITIES_ROOT (CANONICAL). Live library root follows this.",
+     "T12/PAR3V 10_LIBRARY and IMG_5979/6008/5990 (CONFLICTING canon-vault landing)."
+    ],
+    "applied": "Preserved. library.canon path unchanged. Featured record image is the catalogue selection (atrium master), not a root-plate swap."
+   },
+   "this_sprint": "Untouched."
+  },
+  {
+   "id": "U-05",
+   "surface": "Character Fabrication tablet",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "carried": {
+    "status": "NO_RECOVERED_AUTHORITY",
+    "evidence": "Authority inventory: 16 CANONICAL Character Fabrication screens, all viewport=mobile. No tablet file in docs, artifacts, or OpenArt-mounted paths."
+   },
+   "this_sprint": "Untouched."
+  },
+  {
+   "id": "U-15",
+   "surface": "Character Fabrication desktop",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "carried": {
+    "status": "NO_RECOVERED_AUTHORITY",
+    "evidence": "Same inventory. U-15 in unresolved-authorities.json is a refinement note about the live 9:16 frame, not a recovered desktop board. Live fabrication left unchanged."
+   },
+   "this_sprint": "Untouched."
+  },
+  {
+   "id": "U-11",
+   "surface": "Inbox temporary sheets (revision, approval confirmation, filter-sort, attachment preview)",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "carried": {
+    "status": "NO_RECOVERED_AUTHORITY",
+    "evidence": "unresolved-authorities.json U-11: revision, approval confirmation, filter-sort, and attachment preview have no image authority."
+   },
+   "this_sprint": "Untouched; interaction QA still opens/closes them (51/51 interaction checks pass)."
+  },
+  {
+   "id": "U-01",
+   "surface": "Inbox desktop/tablet grandchildren",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "carried": {
+    "status": "NO_RECOVERED_AUTHORITY",
+    "evidence": "Eight IBX2 desktop/tablet boards exist only as OpenArt CDN URLs (history ids in unresolved-authorities.json U-01). Bytes are not in the repo. CDN retrieval is denied. Not mapped onto the live Inbox."
+   },
+   "this_sprint": "Untouched."
+  },
+  {
+   "id": "PORTAL-GATE",
+   "surface": "Experience portal gate object",
+   "status": "MISSING_CANONICAL_SOURCE",
+   "carried": {
+    "status": "MISSING_CANONICAL_SOURCE",
+    "searched": [
+     "production asset registry",
+     "public/site00/production-authority-assets",
+     "routeAssetManifests PORTAL slot",
+     "realm zones.portals collection",
+     "OpenArt-ingested files in repo",
+     "authority inventory 05_PORTALS screen boards"
+    ],
+    "found": "Screen boards 05_PORTALS.jpg exist as Experience zone composition authorities. They are not an isolated portal-gate object. routeAssetManifests already marks PORTAL as MISSING_SOURCE_ASSET and forbids cropping the board.",
+    "action": "Not invented. zones.portals stays an honest empty collection."
+   },
+   "this_sprint": "Untouched."
+  },
+  {
+   "id": "ICONS",
+   "surface": "Generic icon substitutions",
+   "status": "OPEN",
+   "remaining": 30,
+   "carried": {
+    "rule": "Replaced nothing. The only founder masters that exist are the seven bottom-nav PNGs, and they are already mounted. Design-pack crops that share a name are 48px grid tiles, already used in the Design icon surfaces. They are not approved replacements for shell or fabrication control glyphs."
+   },
+   "this_sprint": "No new icons; no approved authority exists for the 30 substitutions."
+  },
+  {
+   "id": "CF-MOBILE-SLACK",
+   "surface": "Character Fabrication mobile (tall phones)",
+   "status": "OPEN \u00b7 SPACING_DRIFT",
+   "evidence": "Authority is a 432x768 (9:16) canvas; live zooms it to device width, so on 19.5:9 phones ~100px of slack sits under the actor catalogue (393x852: col 675px of 781px stage).",
+   "this_sprint": "Not recomposed: the fixed-px fidelity system carries the stepper / catalogue / resident wiring; a height-driven recomposition needs a founder decision on how the extra height is spent (taller chamber plate vs larger catalogue)."
+  },
+  {
+   "id": "EXPERIENCE-DEST-ROWS",
+   "surface": "Experience world overview destination rows",
+   "status": "MISSING_ASSET",
+   "carried": [
+    {
+     "route": "/production/ndxbook/experience/world/overview",
+     "class": "MISSING_ASSET",
+     "action": "DOCUMENTED",
+     "detail": "Hero sphere plate is mounted. Destination rows have no record image, so they render placeholder stripes. No approved per-row asset to mount."
+    }
+   ],
+   "this_sprint": "Untouched; no approved per-row asset."
+  },
+  {
+   "id": "ACTIVITY-INSPECTOR",
+   "surface": "Activity event inspector",
+   "status": "TEXT-ONLY AUTHORITY CONFIRMED",
+   "carried": {
+    "status": "TEXT-ONLY AUTHORITY CONFIRMED",
+    "evidence": "Activity canonical screens are the timeline roots (IMG_5936/6009/5991). Inspector body is facts, lineage, and source link. No media slot was found to mount."
+   },
+   "this_sprint": "Left text-only per authority."
+  },
+  {
+   "id": "EXPRESSION-HERO-NON-NDX",
+   "surface": "Expression family hero subject for projects other than ndxbook",
+   "status": "NO_PROJECT_MEDIA",
+   "evidence": "The suspended-screen subject is an Entry 002 board crop; it is scoped to ndxbook so no project borrows another project's subject. Other projects show the empty floor plate screens."
+  }
+ ]
+}

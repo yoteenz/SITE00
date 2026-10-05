@@ -1507,6 +1507,23 @@
   .pxa .exf--media-focus .exf-hero {
     height: 64px;
   }
+  .pxa .exf > .exf-tabs + .pxa-status,
+  .pxa .exf--media-focus > .exf-tabs + .pxa-status--compact {
+    margin-top: 2px;
+  }
+  /* the crumb already names the route; the short hero keeps crumb + title only, the screen moves to the free right
+     edge (side list is hidden here) */
+  .pxa .exf .exf-hero .exf-hero__family {
+    display: none;
+  }
+  .pxa .exf .exf-hero .pxa-hero__copy {
+    max-width: 66%;
+  }
+  .pxa .exf .exf-hero .exf-hero__screen {
+    left: auto;
+    right: 12px;
+    transform: none;
+  }
   .pxa .exf[data-family='storyboard'][data-route='root'] .exf-grid {
     grid-template-rows: minmax(0, 1.7fr) minmax(0, 0.34fr) minmax(0, 0.4fr);
   }
@@ -2319,5 +2336,141 @@
   .pxa [data-testid='casting-gate'] .exf-stats {
     grid-template-columns: minmax(0, 1fr);
     gap: 2px;
+  }
+}
+
+/* ── 8. authority family hero (FULL-AUTHORITY PIXEL REFINEMENT OPUS3) ─────────────────────────────────
+   EXPR2 boards: crumb EXPRESSION / FAMILY small, the family (or record) title as the large heading, tagline + side
+   list kept, and the project's lead subject monochrome on the central suspended screen of the production floor.
+   Status band follows the family tabs. */
+.pxa .exf-hero .exf-hero__screen {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 9%;
+  bottom: 13%;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  transform: translateX(-28%);
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  border-radius: 2px;
+  background: #1b1b1f;
+  box-shadow:
+    0 0 0 1px rgba(20, 20, 24, 0.18),
+    0 10px 22px rgba(20, 20, 24, 0.28);
+  pointer-events: none;
+}
+.pxa .exf-hero .exf-hero__screen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  filter: saturate(0) contrast(1.06);
+}
+.pxa .exf-hero .pxa-hero__copy,
+.pxa .exf-hero .pxa-hero__side {
+  z-index: 2;
+}
+.pxa .exf > .exf-tabs + .pxa-status,
+.pxa .exf--media-focus > .exf-tabs + .pxa-status--compact {
+  margin-top: 6px;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+  font-size: 28px;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy p,
+.pxa .exf--media-focus .exf-hero .pxa-hero__side {
+  display: flex;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy p {
+  display: block;
+  max-width: 40ch;
+}
+/* authority side list: project + the first five sections (the full set stays in the family tabs below) */
+.pxa .exf-hero .pxa-hero__side li:nth-child(n + 7) {
+  display: none;
+}
+@media (max-width: 699px) {
+  .pxa .exf-hero .pxa-hero__copy h1,
+  .pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+    font-size: 21px;
+    letter-spacing: 0.02em;
+  }
+  .pxa .exf--media-focus .exf-hero {
+    height: 108px;
+  }
+  .pxa .exf-hero .pxa-hero__copy p,
+  .pxa .exf--media-focus .exf-hero .pxa-hero__copy p {
+    max-width: 22ch;
+    font-size: 8.5px;
+    line-height: 1.3;
+    letter-spacing: 0.06em;
+  }
+  .pxa .exf-hero .pxa-hero__side,
+  .pxa .exf--media-focus .exf-hero .pxa-hero__side {
+    font-size: 8.5px;
+    line-height: 1.25;
+    letter-spacing: 0.06em;
+  }
+  /* long family / record titles wrap (authority: LOOK + / WARDROBE) instead of running under the screen */
+  .pxa .exf-hero .pxa-hero__copy {
+    max-width: 44%;
+  }
+  .pxa .exf-hero .pxa-hero__copy h1 {
+    line-height: 0.98;
+    overflow-wrap: anywhere;
+  }
+  /* child / detail routes: the FAMILY / ROUTE line replaces the tagline; the tagline never exceeds two lines */
+  .pxa .exf .exf-hero .pxa-hero__copy p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .pxa .exf .exf-hero .pxa-hero__copy .exf-hero__family ~ p {
+    display: none;
+  }
+  .pxa .exf-hero .exf-hero__screen {
+    top: 7%;
+    bottom: 9%;
+    transform: translateX(-16%);
+  }
+}
+@media (max-width: 699px) and (max-height: 700px) {
+  .pxa .exf--media-focus .exf-hero {
+    height: 64px;
+  }
+  .pxa .exf > .exf-tabs + .pxa-status,
+  .pxa .exf--media-focus > .exf-tabs + .pxa-status--compact {
+    margin-top: 2px;
+  }
+  /* the crumb already names the route; the short hero keeps crumb + title only, the screen moves to the free right
+     edge (side list is hidden here) */
+  .pxa .exf .exf-hero .exf-hero__family {
+    display: none;
+  }
+  .pxa .exf .exf-hero .pxa-hero__copy {
+    max-width: 66%;
+  }
+  .pxa .exf .exf-hero .exf-hero__screen {
+    left: auto;
+    right: 12px;
+    transform: none;
+  }
+  .pxa .exf-hero .pxa-hero__copy h1,
+  .pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+    font-size: 16px;
+  }
+  .pxa .exf-hero .pxa-hero__copy p,
+  .pxa .exf--media-focus .exf-hero .pxa-hero__copy p,
+  .pxa .exf--media-focus .exf-hero .pxa-hero__side {
+    display: none;
+  }
+}
+@media (min-width: 700px) and (max-height: 760px) {
+  .pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+    font-size: 24px;
   }
 }
