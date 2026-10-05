@@ -13386,3 +13386,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Founder:** The PROJECT chip on the production DESIGN tab does not open a project list. They need a way to open the JURNL app.
 - **Cause:** On the phone header the PROJECTS panel was the next CSS grid cell, the 48px menu column, so the list collapsed.
 - **Fix:** The panel spans the full header and hangs underneath. Direct app routes stay `/production/jurnl/design?mode=viewport&family=F01` and `/production/jurnl/runtime/entry`.
+
+---
+
+## 2026-10-05 — Cloud preview tunnel was still on yesterday’s dist
+
+- **Founder:** The tunnel was showing an outdated production DESIGN workspace. Asked whether the tunnel branch had been switched.
+- **Answer:** The hostname stays `site00.fsbw-dev.com` → port 5174. It had not been restarted, so it was still serving `c0cc47d` / `index.BiG_RmhR.js` (2026-10-04).
+- **Now:** Preview restarted onto `origin/main` `4d340947` / `index.4cz58TFm.js`, which includes the phone PROJECTS dropdown. Hard refresh the tunnel.
