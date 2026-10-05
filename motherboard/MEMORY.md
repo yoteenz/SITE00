@@ -13367,3 +13367,12 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1`
 - **Root cause:** Geometry OpenArt runner (`studio-world-resident-fabrication-openart-runner.mjs` `plan()`) binds `visualReference` from `openart_identity_references.json` → `production-authority-assets/shared/residents/*-portrait.jpg` (black-tee mounts). Validation had a parallel unverified cache (`openart_visual_references.json`) with no sha256 gate — ambiguous vs geometry identity uploads.
 - **Fix:** `validationSourceBinding.ts` (explicit identityFace / workLook / bodyGeometry roles, throws on superseded paths); `source-binding-registry.json` sha256 ↔ OpenArt upload IDs; `studio-world-validation-openart-run-one.mjs` refuses stale refs; proof script + 8 `SW-00X_SOURCE_BINDING_PROOF.jpg` sheets. Prior 16 validation PNGs marked `SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING`.
 - **Canary:** 1× Etta work portrait (`VBxhMWHBMtT6R63sRCnW`) using new upload `fujq0PYW5H3SwY15Oq35` (sha256 matches casting thumbnail); superseded geometry id `h5j5eTZfam3mnxVql57l`. Branch `cursor/studio-world-resident-fabrication-validation-source-binding-recovery1`. Tests: `residentFabricationValidationSourceBinding.test.ts`.
+
+---
+
+## 2026-10-05 — Single-angle Etta source test (OpenArt)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` on `cursor/studio-world-resident-single-angle-source-test-openart1` (from #1316).
+
+- **One image:** Etta left three-quarter work portrait (`ODqcr3zgDJwpZfFwElmQ`); ref upload `fujq0PYW5H3SwY15Oq35`; inputImages URL verified = casting white-tee/red-collar sha256.
+- **Artifacts:** `SW-001_ETTA_SINGLE_TEST_SOURCE_PROOF.jpg`, `SW-001_ETTA_SINGLE_TEST_REVIEW.jpg`, `SW-001_ETTA_SINGLE_TEST_README.txt`, `artifacts/studio-world-resident-fabrication-validation/single-angle-source-test.json`. Classification **PASS**. No validation/geometry batch resume.
