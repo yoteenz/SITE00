@@ -22,9 +22,9 @@ One fenced code block for founder mobile copy-paste.
 - **Do NOT put deploy URLs inside this box.**
 
 ### 3. Deploy links (each on its own line)
-Immediately after the code box — bare URLs or markdown links, **one per line** (founder copies one at a time on mobile):
+Immediately after the code box — **one per line** (founder copies one at a time on mobile):
 
-1. Direct ZIP download URL
+1. **Direct ZIP — must be a clickable markdown link** on its own line, e.g. `[Download SITE 00 production ZIP](https://github.com/.../....zip)`. Do not bury the ZIP only in prose or inside the conclusion code box. Bare URL is acceptable only if markdown link rendering fails; prefer markdown links always for ZIPs.
 2. GitHub Release page URL
 3. SITE00-DEPLOY-README.txt download URL (if release exists)
 4. One-line verify reminder (e.g. must NOT reference `index.BT7zuSxb.js`)
