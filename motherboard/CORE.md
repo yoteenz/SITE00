@@ -175,6 +175,18 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 
 Multi-project orchestration foundation at `api/_lib/site00Orchestration/`. Debug: `/admin/site00/debug/orchestration`. API: `/api/admin/site00-orchestration`. Docs: `docs/site00/`. Launch readiness calculated against **approved active manifest only** — not universal checklist. Studio World = `PRODUCTION_INFRASTRUCTURE`, not client brand. Evidence ≠ completion.
 
+## Production Provider Gateway (P0 gateway sync — 2026-10-05)
+
+**Why:** Reference-binding guardrails lived in `precheckGenerationDispatch()` but most paid provider paths still called FAL/OpenAI/xAI directly — including plate-first JURNL failures despite “locked” policy in docs/tests.
+
+**Canonical runtime entry:** `runProductionProviderRequest()` → `shared/site00-production-guardrails/providerGateway/runProductionProviderRequest.ts`
+
+**Enforces (fail-closed):** server-issued spend authorization (not `founderConfirmedSpend` body alone) · project firewall · reference binding · expression / occupancy gates · **JURNL authority-first plate derivation** · cost receipt adapter · incident hooks.
+
+**Docs:** `docs/production/provider-gateway/PROVIDER_GATEWAY_ARCHITECTURE.md` · static bypass audit `tests/providerDirectBypassAudit.test.ts` (legacy paths explicitly allowlisted in `PROVIDER_BYPASS_ALLOWLIST.json` until migrated).
+
+**Strategy:** Reconciliation / connection before invention (capability genome). Prefer root engines (`PROVIDER_GATEWAY`, `PROJECT_REGISTRY`, `EVENT_LEDGER`, `COST_LEDGER`) over feature patches.
+
 ## Parent–Child Experience Inheritance (P0.PCI.1 + P0.PCI.2)
 
 Reusable engine at `shared/site00-studio-world-production/parentChildExperienceInheritance/`. **Parent landing = experience authority; child = function authority.** PCI.1: route graph → grammar extraction → convergence plan → branch QA. **PCI.2:** navigation linkage audit — parent actions wired to child/grandchild surfaces, return paths, orphan/dead/miswire detection, `ChildExperienceReadiness` (CURRENT = visual + wiring). UI: Design → MORE → Child Experience Matrix. Complements P0.VR.7 page completion (`PAGE_CHILD_LINK_MISSING`). Docs: `docs/architecture/SITE00_PARENT_CHILD_EXPERIENCE_P0PCI1.md`, `P0PCI2.md`.

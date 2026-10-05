@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "generationClasses": [
+    "FULL_PAGE_AUTHORITY",
+    "ENVIRONMENT_PLATE_DERIVATION",
+    "SIDEKICK_ASSET",
+    "SCREEN_CHILD_AUTHORITY",
+    "SCREEN_GRANDCHILD_AUTHORITY",
+    "STATE_AUTHORITY",
+    "INTERACTION_AUTHORITY",
+    "PRODUCT_ASSET",
+    "CAMPAIGN_ASSET",
+    "VIDEO",
+    "AUDIO",
+    "WORLD_ASSET",
+    "OTHER"
+  ],
+  "repoEnumMapping": {
+    "FULL_PAGE_AUTHORITY": "SCREEN_PARENT",
+    "ENVIRONMENT_PLATE_DERIVATION": "ENVIRONMENT_PLATE"
+  },
+  "referenceBinding": "docs/production/reference-binding/REFERENCE_BINDING_POLICY.json"
+}

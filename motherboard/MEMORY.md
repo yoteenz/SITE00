@@ -13199,3 +13199,13 @@ Founder flagged the agent merge of `origin/main` into `cursor/public-redesign-co
 - **Branch restored:** `cursor/public-redesign-composer-asset-injection1-1b86` force-reset to **`a05cfb39`** (Origin dual-env + framework icons; **before** main merge `5637a7f3` / follow-up `921c7fc0`).
 - **Main:** Removed the erroneous MEMORY entry documenting that merge. PR #1277 squash on `main` (`7841d316`) had only touched `MEMORY.md`; product code on `main` for public redesign primarily arrived via **#1267** / **#1275** — not reverted here unless founder requests.
 - **Conventions:** Do not merge `main` into the public-redesign injection branch or mark #1277-style PRs ready without explicit founder approval.
+
+---
+
+## 2026-10-05 — Production provider gateway + motherboard context sync (P0 gateway sync1)
+
+- **Context:** Capability-genome / ground-zero forensics showed reference-binding precheck existed in tests and docs but was **not** the universal paid dispatch path — direct FAL/OpenAI/xAI calls remained. F03 plate-first failure confirmed the architectural gap. Sprint transferred ChatGPT project context into `motherboard/PROJECT_CONTEXT_2026-10-05.md` and implemented the first enforced **PROVIDER_GATEWAY** root engine.
+- **Why gateway exists:** Because “policy implemented” without runtime enforcement allowed text-to-image and plate-first generation despite locked canon; downstream agents followed the path of least resistance (direct SDK imports).
+- **Delivered:** `runProductionProviderRequest()` (spend auth → precheck → authority-first plate → dispatch → cost receipt); server spend authorization (rejects caller-only `founderConfirmedSpend`); FAL adapter `falImageViaProductionGateway.ts`; provider call inventory + bypass allowlist + CI audit test; docs under `docs/production/provider-gateway/`; CORE/CODEBASE updated; reference methodology points to gateway.
+- **Not claimed:** Full migration of all ~207 inventoried files (legacy allowlisted); unified DB cost ledger (JSONL adapter only); CI green; AIO client-ready.
+- **Conventions:** New paid generative paths MUST use `runProductionProviderRequest`; do not add unallowlisted `@fal-ai/client` imports; JURNL ENVIRONMENT_PLATE requires parent authority-first derivation; record sprint “why” in motherboard, not only “implemented X.”

@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-05T19:10:17.115Z",
+  "entries": [
+    {
+      "file": "./api/_lib/site00Assts/generation.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Assts/postProcess/pipeline.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00AstralWorld/generationService.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/characterVisualCasting/castingFalDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/assetGeneration.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterSynthesisService.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/brandPresentationVisualFormulationExperiment/visualFormulationService.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/creativeIntelligence/boardAssetProduction.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/creativeIntelligence/boardAssetProductionV2.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/creativeIntelligence/comparisonProofProduction.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/creativeIntelligence/gptImage2VisualProviderAdapter.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBrandNativeVisualPilot.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyIdentityNativeHeroPilot.test.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyIdentityNativeHeroPilot.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/founderCharacterDiscovery/neuralVoiceGenerationService.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00Evolve/founderCreativeIngestion/founderCreativeFalDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/entry002AnchorDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/entry002CinematicSequenceDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardPanelPipeline.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardSingleArtifact.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/entry002ReelKeyframeDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/entry002ReelStoryboardDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/entry002ReelStoryboardSingleArtifact.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/preStoryboardAuthorityDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00ExpressionEngine/storyboardAuthorityDispatch.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00PageConcept/executePageConceptExperienceExpressionFal.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00PageConcept/renderPageGpt2MobileConceptJob.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00PageConcept/renderPageNbpJob.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/site00WorkspaceSelfConcept/renderWorkspaceNbpJob.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/_lib/studioBuilderGeneration.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/site00/design-asset-reconstruction.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./api/site00/twin-v2-visual-concept.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./scripts/ndxbook-creative-direction-assets/generate.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./shared/site00-brand-lore/experienceExpression/experienceAssetFalProvider.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./shared/site00-studio-world-production/visualReconstruction/p0vr4r1/liveFalProvider.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./shared/site00-studio-world-production/visualReconstruction/p0vrTwinV28/dispatchFalParallelTwinGeneration.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./shared/site00-visual-generation/falEnsureReferenceUrls.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./shared/site00-visual-generation/falParallelImageSubscribe.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./shared/site00-visual-generation/falReferenceImageJob.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./shared/site00-visual-generation/twinProviderBenchmarkAdapter.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./tests/p0vrTwinV21.test.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    },
+    {
+      "file": "./tests/providerDirectBypassAudit.test.ts",
+      "reason": "Legacy direct FAL — migrate to runProductionProviderRequest",
+      "owner": "production-infra",
+      "migrationPlan": "Provider gateway migration waves",
+      "risk": "paid_generation_bypass"
+    }
+  ]
+}

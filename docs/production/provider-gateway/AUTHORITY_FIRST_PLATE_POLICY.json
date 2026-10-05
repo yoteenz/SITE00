@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "appliesTo": { "projectId": "JURNL", "generationClass": "ENVIRONMENT_PLATE" },
+  "rule": "Parent family environment plates MUST derive from an approved full-page parent authority — not standalone plate-first text-to-image.",
+  "blockedReason": "AUTHORITY_FIRST_REQUIRED",
+  "parentAuthorityIdPatterns": ["_PARENT", "PARENT", "_AUTHORITY_FIRST"],
+  "explorationException": {
+    "flag": "allowPreAuthorityExploration",
+    "generationIntent": "NEW_ASSET_REQUIRED",
+    "mayNotBecomeRuntimeCanonAutomatically": true
+  },
+  "implementation": "shared/site00-production-guardrails/authorityFirstPlate.ts"
+}

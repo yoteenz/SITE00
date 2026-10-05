@@ -35,9 +35,13 @@ Environment plates, botanicals, lockups, objects, materials, and other visually 
 
 ## Pre-dispatch pipeline
 
+**Runtime enforcement path (2026-10-05):** paid / generative provider calls MUST go through `runProductionProviderRequest()` (`shared/site00-production-guardrails/providerGateway/`). That gateway wraps the steps below and rejects client-only `founderConfirmedSpend` flags.
+
 ```
-classify → family output project → resolve reference → file health → validateGenerationReferenceBinding → budget gate → dispatch
+spend authorization (server) → classify → family output project → expression / occupancy gates → resolve reference → file health → validateGenerationReferenceBinding → authority-first plate (JURNL) → budget gate → dispatch → cost receipt
 ```
+
+See `docs/production/provider-gateway/PROVIDER_GATEWAY_ARCHITECTURE.md`.
 
 ## Implementation entry points
 
