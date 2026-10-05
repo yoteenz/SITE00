@@ -814,6 +814,14 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
+
+## 2026-08-19 — Origin mobile tagline +4px
+
+- **Request:** Move red “WHERE DIGITAL PLACES BEGIN.” down on Origin mobile (follow-up: 4px total, not 2px).
+- **Fix:** `.site00-origin-page--mobile-layout .site00-home-hero__tagline` `translateY(8px)` (+4px from base 4px).
+- **Branch:** `cursor/origin-mobile-tagline-nudge-2-796f`.
+
+---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
 
 - **Request:** Remove blue outline around mobile Fast Travel icon button.
@@ -894,14 +902,6 @@ Summary of the **whole conversation so far** in this cloud agent run.
 
 ---
 
-
-## 2026-08-20 — Locations subtitle weight restored to 800
-
-- **Request:** Restore “WHERE DO YOU NEED TO GO?” to font weight 800 (`--site00-weight-display`).
-- **Fix:** `.site00-locations-directory-header__subtitle` in `site00-fast-travel.css` — `font-weight: var(--site00-weight-display)`.
-- **Branch:** `cursor/locations-subtitle-weight-796f`.
-
----
 ## 2026-08-20 — Fast Travel list arrows (Quick Jump + Return)
 
 - **Request:** Add red arrows from locations directory to right side of Fast Travel QUICK JUMP and RETURN panels.
@@ -2417,6 +2417,13 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
 
+## 2026-08-20 — Locations subtitle weight restored to 800
+
+- **Request:** Restore “WHERE DO YOU NEED TO GO?” to font weight 800 (`--site00-weight-display`).
+- **Fix:** `.site00-locations-directory-header__subtitle` in `site00-fast-travel.css` — `font-weight: var(--site00-weight-display)`.
+- **Branch:** `cursor/locations-subtitle-weight-796f`.
+
+---
 ## 2026-08-19 — Locations directory spine through journal + my sites dots
 
 - **Request:** Gray spine line should reach middle of JOURNAL card with red dot; MY SITES missing red dot in YOUR SPACE section.
