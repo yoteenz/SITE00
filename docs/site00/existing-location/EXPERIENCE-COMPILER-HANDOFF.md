@@ -1,0 +1,13 @@
+# Experience Compiler Handoff
+
+Register under STUDIO OS experience units:
+
+- EXISTING_LOCATION (service family)
+- DIAGNOSTIC_CASE
+- INTERVENTION
+- CUSTOM_EXPERIENCE
+- CAPABILITY_INSTALLATION
+
+Archetypes in `service-archetypes.json`: SERVICE_ENTRY, ISSUE_INTAKE, PLATFORM_SELECTION, ACCESS_SETUP, DIAGNOSIS_STATUS, DIAGNOSIS_RESULT, QUOTE, APPROVAL, CHECKOUT (WAITING_FOR_AUTHORITY), INTERVENTION_STATUS, QA_RESULT, COMPLETION.
+
+Classification expectation: most screens CREATIVE_AUTHORITY_REQUIRED or COMPOSITE until founder approves EXISTING_LOCATION entry + diagnosis result + access/trust surfaces.

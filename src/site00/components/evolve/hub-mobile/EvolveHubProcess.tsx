@@ -1,6 +1,6 @@
-import { EVOLVE_PROCESS_STEPS } from '../../../config/evolve';
+import { EVOLVE_SERVICE_PROCESS_STEPS } from '../../../../../shared/site00-evolve-service/serviceConfig.js';
 import { EVOLVE_HUB_PROCESS_COPY } from '../../../config/evolve-hub-mobile';
-import { EvolveProcessStepArt } from '../mobile/EvolveProcessStepArt';
+import { EvolveServiceIcon } from '../service/EvolveServiceIcon';
 
 export function EvolveHubProcess() {
   return (
@@ -13,13 +13,13 @@ export function EvolveHubProcess() {
       </header>
       <div className="site00-evolve-hub-process__scroll">
         <ol className="site00-evolve-hub-process__track">
-          {EVOLVE_PROCESS_STEPS.map((step, index) => (
+          {EVOLVE_SERVICE_PROCESS_STEPS.map((step, index) => (
             <li key={step.num} className="site00-evolve-hub-process__step">
               <span className="site00-evolve-hub-process__num">{step.num}</span>
-              <EvolveProcessStepArt step={step.title} />
+              <EvolveServiceIcon id={step.iconId} title={step.title} size={40} />
               <h3 className="site00-evolve-hub-process__name">{step.title}</h3>
               <p className="site00-evolve-hub-process__body">{step.body}</p>
-              {index < EVOLVE_PROCESS_STEPS.length - 1 ? (
+              {index < EVOLVE_SERVICE_PROCESS_STEPS.length - 1 ? (
                 <span className="site00-evolve-hub-process__connector" aria-hidden="true" />
               ) : null}
             </li>

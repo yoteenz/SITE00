@@ -1,0 +1,46 @@
+{
+  "family_id": "F01",
+  "family_name": "ENTRY",
+  "note": "Fourteen unique plate files. Welcome reuses the atrium inside F01. Live F02 does not mount the atrium file.",
+  "environments": [
+    {
+      "environment_group_id": "ENV.ATRIUM",
+      "family_id": "F01",
+      "family_role": "Welcome threshold.",
+      "plate_id": "ENTRY.ENVIRONMENT.PLATE.001",
+      "origin_family": "F01",
+      "reuse_scope": "WITHIN_FAMILY",
+      "within_family_reuse": ["F01.00"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "PASS"
+    },
+    {
+      "environment_group_id": "ENV.ENTRY_CHILD",
+      "family_id": "F01",
+      "family_role": "One clean plate per remaining entry screen.",
+      "plate_id": "ENTRY.ENVIRONMENT.*.001",
+      "origin_family": "F01",
+      "reuse_scope": "SCREEN",
+      "within_family_reuse": ["F01.01 through F01.13, each its own file"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "PASS",
+      "plate_ids": [
+        "ENTRY.ENVIRONMENT.CREATE_ACCOUNT.001",
+        "ENTRY.ENVIRONMENT.VERIFY.001",
+        "ENTRY.ENVIRONMENT.SIGN_IN.001",
+        "ENTRY.ENVIRONMENT.UNLOCK.001",
+        "ENTRY.ENVIRONMENT.FORGOT.001",
+        "ENTRY.ENVIRONMENT.RESET_SENT.001",
+        "ENTRY.ENVIRONMENT.NEW_PASSWORD.001",
+        "ENTRY.ENVIRONMENT.RESET_SUCCESS.001",
+        "ENTRY.ENVIRONMENT.BIOMETRIC.001",
+        "ENTRY.ENVIRONMENT.DEVICE_TRUST.001",
+        "ENTRY.ENVIRONMENT.PRIVACY.001",
+        "ENTRY.ENVIRONMENT.SECURITY.001",
+        "ENTRY.ENVIRONMENT.COMPLETE.001"
+      ]
+    }
+  ]
+}

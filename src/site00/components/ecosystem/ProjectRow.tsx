@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { NDXIcon } from '../../icons/ndx';
+import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import { StatusBadge } from '../pages/Site00PagePrimitives';
 import type { EcosystemProject, ProjectStatus } from '../../config/seed/site00-ecosystem-seed';
 import { formatEcosystemDate } from '../../config/seed/site00-ecosystem-seed';
@@ -42,7 +44,7 @@ export function ProjectRow({ project, compact }: ProjectRowProps) {
           </div>
         </div>
         <span className="site00-project-row__menu" aria-hidden="true">
-          ⋯
+          <NDXIcon name="ellipsis" size={NDX_ICON_CONTEXT_SIZE.header} state="inactive" decorative />
         </span>
       </Link>
     </li>

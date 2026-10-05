@@ -28,45 +28,20 @@ export function CollapsedCard({
   return (
     <button
       type="button"
-      className={`site00-glass-panel ${className}`.trim()}
+      className={`site00-origin-teaser ${className}`.trim()}
       onClick={onExpand}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '24px 20px',
-        minWidth: 160,
-        maxWidth: 200,
-        minHeight: 260,
-        flex: '1 1 160px',
-        cursor: 'pointer',
-        border: '1px solid rgba(255,255,255,0.8)',
-        background: 'var(--site-surface-glass)',
-        overflow: 'visible',
-      }}
       aria-label={`Expand ${title}`}
     >
-      <span
-        className="site00-label-red site00-origin-card__number"
-        style={{ color: 'var(--site00-origin-card-number-color, var(--site-text))' }}
-      >
-        {number}
-      </span>
-      <span className="site00-panel-title" style={{ marginTop: 8 }}>
-        {title}
-      </span>
-      <span className="site00-label" style={{ marginTop: 4, textAlign: 'center' }}>
-        {subtitle}
-      </span>
+      <span className="site00-label-red site00-origin-card__number">{number}</span>
+      <span className="site00-panel-title site00-origin-teaser__title">{title}</span>
+      <span className="site00-label site00-origin-teaser__subtitle">{subtitle}</span>
       {body ? (
-        <span className="site00-body" style={{ marginTop: 8, fontSize: 10, textAlign: 'center', lineHeight: 1.4 }}>
-          {body}
-        </span>
+        <span className="site00-body site00-origin-teaser__body">{body}</span>
       ) : null}
       <div className="site00-origin-card__icon-wrap">
         <OriginPanelIcon panel={panel} />
       </div>
-      <span className="site00-action-link" style={{ marginTop: 'auto' }}>
+      <span className="site00-action-link site00-origin-teaser__cta">
         {cta}
         {!hideCtaArrow ? <ArrowIconSmall /> : null}
       </span>

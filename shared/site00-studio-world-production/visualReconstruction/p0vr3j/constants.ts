@@ -1,0 +1,24 @@
+/**
+ * P0.VR.3J — Composer draft screenshot backfill + NDXBOOK reconciliation constants.
+ */
+
+export const P0_VR_3J_LINEAGE = 'P0.VR.3J-SITE00' as const;
+
+export const SITE00_COMPOSER_DRAFT_PAGE_COUNT = 9 as const;
+
+export const SITE00_COMPOSER_DRAFT_VIEWPORTS = ['mobile', 'tablet', 'desktop'] as const;
+
+export const SITE00_COMPOSER_DRAFT_EXPECTED_CAPTURE_TARGETS =
+  SITE00_COMPOSER_DRAFT_PAGE_COUNT * SITE00_COMPOSER_DRAFT_VIEWPORTS.length;
+
+export const COMPOSER_DRAFT_REVIEW_BADGES = [
+  'INFORMATION FAMILY',
+  'AUTH FAMILY',
+  'COMPOSER DRAFT',
+  'READY FOR REVIEW',
+  'HAS PLACEHOLDERS',
+  'FUNCTIONAL CHECK REQUIRED',
+  'NEEDS CREATIVE DIRECTION',
+  'NEEDS FUNCTIONAL REVIEW',
+  'SCREENSHOT REVIEW BLOCKED',
+] as const;

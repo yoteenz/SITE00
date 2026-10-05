@@ -1,0 +1,55 @@
+{
+  "family_id": "F12",
+  "family_name": "CREDIT",
+  "product_job": "Help the user understand credit health, accounts, utilization, and actions.",
+  "user_question_answered": "What is happening with my credit, and what matters?",
+  "primary_signal": "A quiet measure.",
+  "emotional_role": "Precision and credibility.",
+  "spatial_metaphor": "A measured stone grid.",
+  "architectural_character": "A precise grid of pale blocks on the right. The left is one unbroken stone field.",
+  "lighting_character": "Even north light.",
+  "material_emphasis": "Pale limestone.",
+  "environmental_focal_point": "The grid.",
+  "object_language": "None. No plastic card.",
+  "botanical_role": "A small sprig low, outside the rail.",
+  "negative_space_strategy": "The left field has no joints.",
+  "composition_bias": "Left measure, grid on the right.",
+  "information_density": "Used and open.",
+  "panel_behavior": "A measured detail, not a score dial.",
+  "button_behavior": "An account stays closed.",
+  "data_visualization_character": "Two proportions. No alarm red.",
+  "interaction_character": "The structure is the parent. An account stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "Small labels. A quiet word, not a giant score.",
+  "relationship_to_previous_family": "Trips are emotional. Credit is measured.",
+  "relationship_to_next_family": "Paydown is the path that lightens the measure.",
+  "relationship_to_other_families": "Not a blue bank screen and not Credit Karma.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Stone grid",
+    "Even light",
+    "Utilization as proportion"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "Alarm red",
+    "Joints through the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

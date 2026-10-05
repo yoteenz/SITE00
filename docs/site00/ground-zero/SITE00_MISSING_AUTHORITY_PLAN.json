@@ -1,0 +1,123 @@
+{
+ "artifact": "SITE00_MISSING_AUTHORITY_PLAN",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "status": "PLAN ONLY \u2014 0 generations in this sprint",
+ "rule": "New authorities are DESCENDANTS of the existing SITE 00 canon (SITE00_DESIGN_LANGUAGE_CANON.json), never new visual territories. Before generating: ask founder for the untracked P0.APP.1 client-app reference.",
+ "pipeline_per_authority": [
+  "SCREEN AUTHORITY (wireframe spec \u2192 founder composition)",
+  "DECOMPOSE",
+  "CHECK EXISTING ASSET LIBRARY (SITE00 asset_library)",
+  "REUSE FIRST",
+  "GENERATE ONLY REQUIRED RUNTIME ASSETS",
+  "QA",
+  "REGISTER LINEAGE",
+  "IMPLEMENT"
+ ],
+ "no_screenshot_crop_rule": "Screen authorities are QA references, never runtime assets.",
+ "new_authorities": [
+  {
+   "surface_id": "INC.APP_HOME",
+   "surface": "CLIENT APP HOME (current moment)",
+   "route": "/app/:slug",
+   "current_status": "PARTIAL (fixture copy)",
+   "inherit_from": "P0.APP.1 CSS + design-pack review cards + production HUB pulse grammar",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "No client-app image authority in repo; HOME composition is new. Descendant of host canon, not new territory. Skip if founder supplies P0.APP.1 board covering it.",
+   "launch_priority": "MVP",
+   "authority_ids": [],
+   "viewports": [
+    "mobile 393\u00d7852 (primary)",
+    "tablet 834\u00d71194",
+    "desktop 1440\u00d7900"
+   ],
+   "parent_canon": [
+    "SITE00_CLIENT_APP_SURFACE_RULES.json",
+    "SITE00_COMPONENT_VISUAL_RULES.json"
+   ],
+   "blocked_until": "Founder tree lock + (client app) client-room UX approval"
+  },
+  {
+   "surface_id": "INC.APP_PROJECT",
+   "surface": "CLIENT APP PROJECT (journey)",
+   "route": "/app/:slug/project",
+   "current_status": "DATA_ONLY",
+   "inherit_from": "Production pipeline tiles + HUB status rail",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "Journey/family roadmap composition does not exist anywhere.",
+   "launch_priority": "MVP",
+   "authority_ids": [],
+   "viewports": [
+    "mobile 393\u00d7852 (primary)",
+    "tablet 834\u00d71194",
+    "desktop 1440\u00d7900"
+   ],
+   "parent_canon": [
+    "SITE00_CLIENT_APP_SURFACE_RULES.json",
+    "SITE00_COMPONENT_VISUAL_RULES.json"
+   ],
+   "blocked_until": "Founder tree lock + (client app) client-room UX approval"
+  },
+  {
+   "surface_id": "INC.APP_REVIEW",
+   "surface": "CLIENT APP FAMILY REVIEW mode",
+   "route": "/app/:slug/reviews/:id",
+   "current_status": "PARTIAL",
+   "inherit_from": "Existing ClientAppReviewDetailView + design-pack review cards",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "Authority-dominant review with \u2665/\u00d7 and expanding feedback sheet is a new composition (wireframe spec delivered in client-room sprint).",
+   "launch_priority": "MVP",
+   "authority_ids": [],
+   "viewports": [
+    "mobile 393\u00d7852 (primary)",
+    "tablet 834\u00d71194",
+    "desktop 1440\u00d7900"
+   ],
+   "parent_canon": [
+    "SITE00_CLIENT_APP_SURFACE_RULES.json",
+    "SITE00_COMPONENT_VISUAL_RULES.json"
+   ],
+   "blocked_until": "Founder tree lock + (client app) client-room UX approval"
+  },
+  {
+   "surface_id": "INC.CF_RESPONSIVE",
+   "surface": "Character Fabrication tablet/desktop",
+   "route": "/production/:slug/expression/character-fabrication",
+   "current_status": "MOBILE ONLY",
+   "inherit_from": "CF mobile authority",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "No tablet/desktop composition exists; independent recomposition required by responsive rule.",
+   "launch_priority": "POST_MVP",
+   "authority_ids": [
+    "prod.characterfab.media"
+   ],
+   "viewports": [
+    "tablet 834\u00d71194",
+    "desktop 1440\u00d7900"
+   ],
+   "parent_canon": [
+    "SITE00_WORKSPACE_SURFACE_RULES.json"
+   ],
+   "blocked_until": "Founder tree lock + (client app) client-room UX approval"
+  },
+  {
+   "surface_id": "INC.STUDIO_WORLD",
+   "surface": "STUDIO WORLD",
+   "route": "(reserved)",
+   "current_status": "MISSING",
+   "inherit_from": "Production environments",
+   "reuse_classification": "NEW_AUTHORITY_REQUIRED",
+   "reason": "Concept has no surface; requires founder direction.",
+   "launch_priority": "FUTURE",
+   "authority_ids": [],
+   "viewports": [
+    "tablet 834\u00d71194",
+    "desktop 1440\u00d7900"
+   ],
+   "parent_canon": [
+    "SITE00_WORKSPACE_SURFACE_RULES.json"
+   ],
+   "blocked_until": "Founder tree lock + (client app) client-room UX approval"
+  }
+ ],
+ "count": 5
+}

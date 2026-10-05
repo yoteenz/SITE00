@@ -1,0 +1,40 @@
+{
+ "artifact": "SITE00_EXIT00_SYSTEM_MAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "runtime_verification": "RUNTIME_VERIFICATION_BLOCKED \u2014 npm registry is blocked in this environment, so no dev server; every finding is code evidence (file:line). Items tagged CONFIRM_LIVE in evidence/ need a live pass.",
+ "renders": [
+  {
+   "file_line": "src/site00/components/shell/EntryToggle.tsx:14-25",
+   "context": "/enter only (pathname === '/enter'), header right slot of Site00AppShell; aria-label 'EXIT SITE 00 INTERIOR'; same FastTravel icon as ENTER 00",
+   "destination": "/origin (Link push)"
+  },
+  {
+   "file_line": "src/site00/components/locations/DirectoryExitButton.tsx:5-15 via Site00MobileHeader.tsx:25-26",
+   "context": "Site00MobileShell when headerVariant='directory' or pathname startsWith /origin/locations (Site00MobileShell.tsx:47-48) => LOCATIONS page; replaces the FAST TRAVEL trigger and FastTravelPanel is not mounted (:63-69); aria-label 'EXIT DIRECTORY AND RETURN TO ORIGIN'; mobile gray color (MEMORY.md:736-739)",
+   "destination": "/origin (Link push)"
+  },
+  {
+   "file_line": "src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx:139-141",
+   "context": "Internal DESIGN RECONSTRUCTION workspace sidebar footer (StudioWorldDesignWorkspace -> /production/site00/design behind Site00InternalProductionGuard, Site00Routes.tsx:1230-1240); desktop sidebar only, not in mobile top bar",
+   "destination": "'/' (Link push) \u2014 Origin only when VITE_SITE00_ROOT=1 (Site00Routes.tsx:540-560); otherwise '/' is not SITE 00"
+  }
+ ],
+ "exits_what": "Public contexts: exits the interior directory (WAITING ROOM or LOCATIONS) back to ORIGIN. Design workspace: exits the internal production tool to the public site root. Same label, two different semantics (leave a place vs leave an application).",
+ "vs_back": "No history-based BACK anywhere: grep navigate(-1)/history.back finds only FastTravelPanel close (FastTravelPanel.tsx:33-40). 'BACK' controls are in-flow step-back (e.g. IdentityCalibrationNavigation.tsx:33, CreativeIntakeEngine.tsx:74) or explicit Links ('\u2190 BACK TO SITE 00' -> /origin, desktop sign-in only, Site00SignInForm.tsx:136-139; '\u2190 BACK TO PROJECT', '\u2190 BACK TO REVIEWS'). EXIT 00 always pushes /origin regardless of where the user came from, so it is a fixed-target spatial exit, not BACK; it also grows history (Origin->Locations->Origin; browser back returns into the directory).",
+ "vs_logout": "LOG OUT ends session: CtrlRoomSidebar.tsx:12-16,54-56 and EcosystemSidebar.tsx:14-18,50-52 (signOut + navigate('/origin',{replace:true})); CtrlRoomSignOutButton.tsx:12-18 (OperatingWorldTopNav, EcosystemShell). Site00PublicSidebar.tsx:57-64 and Site00MobileMenuDrawer.tsx:143-147 also have LOG OUT but both components are imported nowhere (dead). SelfDirectedViews.tsx:450-452 and 509-511 'SIGN OUT' is a plain Link to /origin/sign-in that does NOT sign out. EXIT 00 never touches session.",
+ "vs_close": "CLOSE dismisses an overlay without route change: FAST TRAVEL \u00d7 button, backdrop button (both aria 'CLOSE FAST TRAVEL') and Esc call closePanel -> history.back() of a pushed overlay entry (FastTravelPanel.tsx:33-40,54-70,79-83,109,123-125). Other CLOSE: dialogs (ReplaceDesignAuthorityDialog.tsx:247), Origin expanded panels collapse buttons (BldrExpandedPanel.tsx:104 etc.). EXIT 00 is a route change, not CLOSE \u2014 though the LOCATIONS doc comment says EXIT 00 'closes the directory' (DirectoryExitButton.tsx:4).",
+ "vs_home": "No 'HOME' in public chrome; ORIGIN plays home: bottom nav ORIGIN bay (mobile-site-nav.ts:24-29), FAST TRAVEL '00 ORIGIN \u2014 Return to the homepage.' (fast-travel.ts:82), logo. HOME exists as the client-app tab (shared/site00-client-app/routes.ts:41; shared/site00-self-directed/nav.ts:4) and 'WORKSPACE HOME' in ProjectWorkspaceDrawer.tsx:85-90. EXIT 00 and 00 ORIGIN resolve to the same URL (/origin).",
+ "vs_exit_project": "EXIT PROJECT (ProjectWorkspaceDrawer.tsx:268-270) -> /projects: leaves the current project inside the production workspace, stays signed in and inside the app. EXIT 00 leaves the spatial interior for ORIGIN.",
+ "classification": "SPATIAL_PORTAL (inverse of ENTER 00): leaves an interior place and returns to ORIGIN. A product metaphor \u2014 preserve it as distinct from BACK, LOG OUT, CLOSE, HOME and EXIT PROJECT.",
+ "semantic_conflict": "In the internal design workspace EXIT 00 means \"leave the application\" and targets \"/\" \u2014 a different meaning from the public \"leave the interior\". Proposal: keep EXIT 00 only for public spatial exits; internal shells use EXIT PRODUCTION / BACK TO SITE 00.",
+ "distinctions_proposed": {
+  "EXIT 00": "leave an interior place (WAITING ROOM, LOCATIONS) \u2192 ORIGIN",
+  "BACK": "step back within a flow (history or in-flow step)",
+  "CLOSE": "dismiss an overlay without changing place",
+  "HOME": "the current app's home (client app HOME, production HUB)",
+  "EXIT PROJECT": "leave a project room \u2192 project list / YOUR SPACE",
+  "LOG OUT": "end the session (today client SIGN OUT is a plain link that does not sign out \u2014 SelfDirectedViews.tsx:509-511)"
+ }
+}

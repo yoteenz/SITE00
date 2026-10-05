@@ -1,0 +1,134 @@
+{
+  "contract": "JURNL_ENVIRONMENT_REUSE_MATRIX",
+  "families": {
+    "F01": {
+      "plate": "WELCOME",
+      "unique": true,
+      "within_family_reuse": "Later entry plates are not extended",
+      "cross_family_reuse": "F02 arrival is a justified doorway",
+      "justification": "Threshold continuation",
+      "should_replace": false
+    },
+    "F02": {
+      "plate": "ARRIVAL_DESK_EDIT_QUIET",
+      "unique": true,
+      "within_family_reuse": "Rooms inside setup",
+      "cross_family_reuse": "Arrival continues F01",
+      "justification": "Same threshold",
+      "should_replace": false
+    },
+    "F03": {
+      "plate": "ENV.DAY",
+      "unique": true,
+      "within_family_reuse": "Children reuse the day plate when built",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": false,
+      "origin": "DERIVED_FROM_AUTHORITY"
+    },
+    "F04": {
+      "plate": "ENV.LEDGER",
+      "unique": true,
+      "within_family_reuse": "Search and detail do not replace it",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": false
+    },
+    "F05": {
+      "plate": "ENV.CABINET",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": false
+    },
+    "F06": {
+      "plate": "ENV.ARRIVAL",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": false
+    },
+    "F07": {
+      "plate": "ENV.HORIZON",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": false
+    },
+    "F08": {
+      "plate": "ENV.LAYOUT",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": true
+    },
+    "F09": {
+      "plate": "ENV.LOGGIA",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": true
+    },
+    "F10": {
+      "plate": "ENV.NICHE",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": true
+    },
+    "F11": {
+      "plate": "ENV.TERRACE",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": true
+    },
+    "F12": {
+      "plate": "ENV.GRID",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": false
+    },
+    "F13": {
+      "plate": "ENV.STEPS",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": true
+    },
+    "F14": {
+      "plate": "ENV.COURSE",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": true
+    },
+    "F15": {
+      "plate": "ENV.OVERLOOK",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": true
+    },
+    "F16": {
+      "plate": "ENV.ARCHIVE",
+      "unique": true,
+      "within_family_reuse": "Future children reuse or modulate this parent. Not generated.",
+      "cross_family_reuse": "NONE",
+      "justification": "NONE",
+      "should_replace": true
+    }
+  }
+}

@@ -4,6 +4,7 @@ import AdminGuard from './components/AdminGuard';
 import { Site00Routes } from './routes/Site00Routes';
 import { Site00AdminRoutes } from './routes/Site00AdminRoutes';
 import { EmailPackRedirect } from './routes/EmailPackRedirect';
+import { CaptureAuthRedirect } from './routes/CaptureAuthRedirect';
 import { ensureAuthRestoredFromBackup, isSignedIn, persistAuthBackup } from './utils/adminAuth';
 
 export default function App() {
@@ -27,6 +28,8 @@ export default function App() {
       <Route path="/debug/email-pack/:templateId" element={<EmailPackRedirect />} />
       <Route path="/control/debug/email-pack" element={<EmailPackRedirect />} />
       <Route path="/control/debug/email-pack/:templateId" element={<EmailPackRedirect />} />
+      <Route path="/control/debug/capture-auth" element={<CaptureAuthRedirect />} />
+      <Route path="/debug/capture-auth" element={<CaptureAuthRedirect />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

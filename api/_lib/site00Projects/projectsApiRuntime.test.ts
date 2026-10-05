@@ -6,6 +6,7 @@ import { evaluateProjectsApiResponse } from '../../../src/site00/services/site00
 const VITE_LOCAL_API = readFileSync(join(process.cwd(), 'scripts/vite-site00-local-api.mjs'), 'utf8');
 const SERVER_ROUTES = readFileSync(join(process.cwd(), 'server/routes.ts'), 'utf8');
 const PROJECTS_PAGE = readFileSync(join(process.cwd(), 'src/site00/pages/ProjectsPage.tsx'), 'utf8');
+const PROJECTS_API = readFileSync(join(process.cwd(), 'src/site00/services/site00ProjectsApi.ts'), 'utf8');
 
 describe('site00ProjectsApi response handling', () => {
   it('registers /api/site00/projects in vite local API plugin', () => {
@@ -18,10 +19,16 @@ describe('site00ProjectsApi response handling', () => {
     expect(SERVER_ROUTES).toContain('site00ProjectsHandler');
   });
 
-  it('ProjectsPage does not hardcode LIVE metrics during error state', () => {
-    expect(PROJECTS_PAGE).toContain("showMetrics = state === 'ready' || state === 'partial'");
-    expect(PROJECTS_PAGE).toContain('sourceLabel');
-    expect(PROJECTS_PAGE).not.toMatch(/value="LIVE"/);
+  it('retries project index once after refreshing API access token on 401', () => {
+    expect(PROJECTS_API).toContain('refreshAccessTokenForApi');
+    expect(PROJECTS_API).toContain('attempt === 0');
+  });
+
+  it('ProjectsPage uses B5.9R2 project index presentation', () => {
+    expect(PROJECTS_PAGE).toContain('ProjectIndexPage');
+    expect(PROJECTS_PAGE).toContain('ProjectViewModeProvider');
+    expect(PROJECTS_PAGE).not.toContain('ACTIVE PRODUCTION FLOOR');
+    expect(PROJECTS_PAGE).not.toContain('Site00ProjectWorkspace');
   });
 
   it('classifies valid JSON success body', () => {

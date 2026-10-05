@@ -1,0 +1,493 @@
+{
+  "representatives": [
+    {
+      "family_id": "ORIGIN",
+      "representative_type": "ENTRY",
+      "authority_status": "APPROVED",
+      "authority_id": "01_ORIGIN_MAIN",
+      "routes_covered": [
+        "/",
+        "/origin"
+      ],
+      "screen_count": 6,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "LOCATIONS_CHILD",
+      "representative_type": "CONTENT",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/about",
+        "/journal",
+        "/services",
+        "/sites",
+        "/system",
+        "/system/design/workspace-concepts"
+      ],
+      "screen_count": 11,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "ORIGIN",
+      "representative_type": "HUB",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/access",
+        "/enter",
+        "/origin/desktop",
+        "/origin/forgot-password",
+        "/origin/reset-password"
+      ],
+      "screen_count": 5,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "PUBLIC_MISC",
+      "representative_type": "HUB",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/assets",
+        "/batches",
+        "/batches/:batchId",
+        "/blueprints",
+        "/bluprint/*",
+        "/brand",
+        "/build/*",
+        "/composition-studio",
+        "/contact",
+        "/control",
+        "/create-account",
+        "/design/*",
+        "/experience/*",
+        "/expression/*",
+        "/faq",
+        "/guide",
+        "/history",
+        "/identity",
+        "/identity/*",
+        "/inbox"
+      ],
+      "screen_count": 50,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "BLDR",
+      "representative_type": "HUB",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/bldr",
+        "/bldr/:classSlug/*",
+        "/bldr/:classSlug/desktop/*",
+        "/bldr/:classSlug/index",
+        "/bldr/enterprise",
+        "/bldr/not-sure",
+        "/bldr/site",
+        "/bldr/start",
+        "/bldr/state/desktop",
+        "/bldr/templates",
+        "/bldr/world"
+      ],
+      "screen_count": 13,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "BLDR",
+      "representative_type": "SINGLE_SELECT",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/bldr/enterprise/data",
+        "/bldr/enterprise/integrations",
+        "/bldr/enterprise/scale",
+        "/bldr/enterprise/security",
+        "/bldr/enterprise/timeline",
+        "/bldr/enterprise/workflows",
+        "/bldr/not-sure/q2",
+        "/bldr/not-sure/q3",
+        "/bldr/not-sure/q4",
+        "/bldr/not-sure/q5",
+        "/bldr/site/budget",
+        "/bldr/site/content",
+        "/bldr/site/features",
+        "/bldr/site/technical",
+        "/bldr/site/timeline",
+        "/bldr/world/budget",
+        "/bldr/world/experience",
+        "/bldr/world/integrations",
+        "/bldr/world/roles",
+        "/bldr/world/scale"
+      ],
+      "screen_count": 21,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "BLDR",
+      "representative_type": "REVIEW",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/bldr/enterprise/review",
+        "/bldr/not-sure/review",
+        "/bldr/site/review",
+        "/bldr/world/review"
+      ],
+      "screen_count": 4,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "BLDR",
+      "representative_type": "ROUTE_SELECTOR",
+      "authority_status": "APPROVED",
+      "authority_id": "01_BLDR_COMMAND_CENTER",
+      "routes_covered": [
+        "/bldr/state"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "BLDR",
+      "representative_type": "DESKTOP_BRANCH",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/bldr/state/desktop"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "CHECKOUT",
+      "representative_type": "CHECKOUT",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/checkout",
+        "/checkout/cart",
+        "/checkout/confirmation",
+        "/checkout/review",
+        "/checkout/shipping"
+      ],
+      "screen_count": 5,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "CHECKOUT",
+      "representative_type": "PAYMENT",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/checkout/payment"
+      ],
+      "screen_count": 1,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "PUBLIC_EVOLVE",
+      "representative_type": "HUB",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/evolve",
+        "/evolve/:pathSlug/*",
+        "/evolve/:pathSlug/desktop/*",
+        "/evolve/:pathSlug/index",
+        "/evolve/campaign-director",
+        "/evolve/campaign-flavor",
+        "/evolve/plans",
+        "/evolve/start",
+        "/evolve/state/desktop"
+      ],
+      "screen_count": 10,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "PUBLIC_EVOLVE",
+      "representative_type": "SINGLE_SELECT",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/evolve/install/property",
+        "/evolve/refine/property",
+        "/evolve/transform/property"
+      ],
+      "screen_count": 3,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "PUBLIC_EVOLVE",
+      "representative_type": "REVIEW",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/evolve/install/review",
+        "/evolve/refine/review",
+        "/evolve/transform/review"
+      ],
+      "screen_count": 3,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "PUBLIC_EVOLVE_MARKETING",
+      "representative_type": "HUB",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/evolve/marketing",
+        "/evolve/marketing/brief/:engagementId",
+        "/evolve/marketing/engagement/:engagementId",
+        "/evolve/marketing/index",
+        "/evolve/marketing/intake/:serviceId",
+        "/evolve/marketing/services"
+      ],
+      "screen_count": 6,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "PUBLIC_EVOLVE",
+      "representative_type": "ROUTE_SELECTOR",
+      "authority_status": "APPROVED",
+      "authority_id": "01_EVOLVE_INTERVENTION_CENTER",
+      "routes_covered": [
+        "/evolve/state"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "PUBLIC_EVOLVE",
+      "representative_type": "DESKTOP_BRANCH",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/evolve/state/desktop"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "HUB",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/idnty",
+        "/idnty/:state/complete",
+        "/idnty/:state/discovery-result",
+        "/idnty/:stateSlug/*",
+        "/idnty/:stateSlug/desktop/*",
+        "/idnty/sign-in-security",
+        "/idnty/state/desktop"
+      ],
+      "screen_count": 7,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "STATE_SELECTOR",
+      "authority_status": "APPROVED",
+      "authority_id": "05_IDNTY_STATE_03_BUILD_READY",
+      "routes_covered": [
+        "/idnty/build-ready",
+        "/idnty/ready-for-evolution",
+        "/idnty/some-pieces-exist",
+        "/idnty/starting-at-zero",
+        "/idnty/state"
+      ],
+      "screen_count": 5,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "VERIFICATION",
+      "authority_status": "APPROVED",
+      "authority_id": "03_BUILD_READY_AUTHORITY_CHECK",
+      "routes_covered": [
+        "/idnty/build-ready/authority-check",
+        "/idnty/build-ready/verification"
+      ],
+      "screen_count": 2,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "RESULT",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/idnty/build-ready/complete",
+        "/idnty/build-ready/discovery-result",
+        "/idnty/ready-for-evolution/complete",
+        "/idnty/ready-for-evolution/discovery-result",
+        "/idnty/some-pieces-exist/complete",
+        "/idnty/some-pieces-exist/discovery-result",
+        "/idnty/starting-at-zero/complete",
+        "/idnty/starting-at-zero/discovery-result"
+      ],
+      "screen_count": 8,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "UPLOAD",
+      "authority_status": "APPROVED",
+      "authority_id": "02_BUILD_READY_EVIDENCE",
+      "routes_covered": [
+        "/idnty/build-ready/evidence"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "REVIEW",
+      "authority_status": "APPROVED",
+      "authority_id": "04_BUILD_READY_REVIEW_VERIFICATION",
+      "routes_covered": [
+        "/idnty/build-ready/review",
+        "/idnty/ready-for-evolution/review",
+        "/idnty/some-pieces-exist/review",
+        "/idnty/starting-at-zero/review"
+      ],
+      "screen_count": 4,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "SINGLE_SELECT",
+      "authority_status": "APPROVED",
+      "authority_id": "01_EVOLUTION_AREAS",
+      "routes_covered": [
+        "/idnty/build-ready/scope",
+        "/idnty/build-ready/services",
+        "/idnty/build-ready/timeline",
+        "/idnty/ready-for-evolution/pathways",
+        "/idnty/ready-for-evolution/timeline",
+        "/idnty/some-pieces-exist/assets",
+        "/idnty/some-pieces-exist/cohesion-diagnostic",
+        "/idnty/some-pieces-exist/gaps",
+        "/idnty/starting-at-zero/budget",
+        "/idnty/starting-at-zero/goal",
+        "/idnty/starting-at-zero/project",
+        "/idnty/starting-at-zero/timeline"
+      ],
+      "screen_count": 12,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "TEXT_INPUT",
+      "authority_status": "APPROVED",
+      "authority_id": "02_EVOLUTION_GOALS",
+      "routes_covered": [
+        "/idnty/ready-for-evolution/goals",
+        "/idnty/some-pieces-exist/other-specify",
+        "/idnty/starting-at-zero/audience"
+      ],
+      "screen_count": 3,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "IDNTY",
+      "representative_type": "DESKTOP_BRANCH",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/idnty/state/desktop"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "AUTH",
+      "representative_type": "AUTH",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/origin/create-account",
+        "/origin/sign-in"
+      ],
+      "screen_count": 4,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "ORIGIN",
+      "representative_type": "DESKTOP_BRANCH",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/origin/desktop"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "LOCATIONS",
+      "representative_type": "LOCATIONS",
+      "authority_status": "APPROVED",
+      "authority_id": "01_LOCATIONS_MAIN",
+      "routes_covered": [
+        "/origin/locations"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Representative covered by approved authority route."
+    },
+    {
+      "family_id": "PROJECT",
+      "representative_type": "HUB",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/projects"
+      ],
+      "screen_count": 1,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "PUBLIC_MISC",
+      "representative_type": "REVIEW",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/validation/ndxbook/replay/:replayId/personality/review"
+      ],
+      "screen_count": 1,
+      "new_authority_required": false,
+      "reason": "Composite derivation possible once representative approved."
+    }
+  ]
+}

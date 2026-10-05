@@ -1,0 +1,34 @@
+{
+  "test": "P0.SITE00.FAMILY1.ENVIRONMENT-PLATE.2K-VS-4K",
+  "source": "JURNL/F01_ENTRY/PARENT/F01.00_WELCOME_GENERATED.png",
+  "sourcePixels": "1296x2304",
+  "model": "gpt-image-2-5-sunburst",
+  "mode": "image2image",
+  "projectId": "TToQavm9coU1QGPRfEzU",
+  "quality": "high",
+  "aspectRatio": "9:16",
+  "autoEnhancePrompt": false,
+  "role": "ENVIRONMENT_PLATE",
+  "removed": ["headline", "tagline", "GET STARTED", "SIGN IN", "logo"],
+  "keptInPlate": ["room", "arch", "coast", "curtain", "bust", "table", "books", "bowl", "textiles", "foliage", "sunlight"],
+  "credits": { "2k": 172, "4k": 317, "total": 489 },
+  "results": [
+    {
+      "tier": "2k",
+      "historyId": "X3tvgwAUtOyQ29Al5vBz",
+      "file": "ENTRY.ENVIRONMENT.PLATE.2K.png",
+      "pixels": "1296x2304",
+      "bytes": 4466533,
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791174257167_2207acdd.png"
+    },
+    {
+      "tier": "4k",
+      "historyId": "omTTAjRt3LgV0RB2lC5I",
+      "file": "ENTRY.ENVIRONMENT.PLATE.4K.png",
+      "pixels": "2016x3584",
+      "bytes": 10285097,
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791174267956_1b40cbbb.png"
+    }
+  ],
+  "note": "OpenArt resolutionTier 2k returned the same pixel size as the parent. resolutionTier 4k returned 2016x3584. Neither file is a 3840-wide frame. The live assembly plate was not replaced."
+}
