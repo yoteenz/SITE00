@@ -12814,15 +12814,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
 
 ---
-
-## 2026-10-05 — Merge `origin/main` into `cursor/public-redesign-composer-asset-injection1-1b86`
-
-Fetched `origin/main` @ `3b414319` into public-redesign asset-injection branch. **2 conflicted files.**
-
-- **`motherboard/MEMORY.md`:** Append-only fork — **simple**; kept branch public-redesign chronicle + main JURNL/F03/Experience Compiler entries.
-- **`publicRedesignAssetSlots.ts` (add/add):** **Conflicting intent** in hunks — `main` still had SONNET-STRUCTURE1 optional center-cropped IDNTY machine slots + inline empty `PUBLIC_REDESIGN_ASSET_URLS`; branch has OPUS-CONVERGENCE1 full-stage 1170×900 slots (`grokRequired: false`), live SVG quarantine, and `publicRedesignAssetUrls.ts` export (47 injected URLs). Resolution: **kept branch** so tests (`publicRedesignAuthority`, asset injection) stay green.
-- **Auto-merge note:** Large `main` delta (JURNL guardrails, F03 authority-first plate, production guardrails) merged cleanly elsewhere — re-smoke public redesign routes after merge.
-- **Verify:** `npm run build` OK; public redesign tests 19/19 pass.
 ## 2026-10-02 — Preview tunnel integrated branch (origins + production + compiler)
 
 Branch **`cursor/preview-tunnel-integrated-87ed`**: merges `public-redesign-composer-asset-injection1` (Origin env crossfade + framework icons + Grok asset URLs) with `design-unified-workspace-sonnet-structure2` (unified `/production/:slug/design-workspace` + Experience Compiler creative tab). Cloud preview pin file should reference this branch ref.
@@ -13198,6 +13189,16 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Decisions / outcomes:** Stored amounts stay canonical USD. `formatMoney` multiplies that amount by a fetched rate and formats with `Intl.NumberFormat`. The provider is the open ExchangeRate-API USD endpoint. A missing rate is not replaced with 1. A fresh cache is used for 24 hours. A cache up to 7 days may be used if a new fetch fails. Older than that, the switch is refused. Returning to USD restores the original base value. The Ask sheet shows three rows and scrolls. JPY opens already inside that window. F05–F16 parent strings are composition labels and are not converted. A live check turned $6,500 into €5,777.79, £4,912.23, and ¥1,025,247, then back to $6,500.
 - **Changes:** `currency.ts`, the Ask sheet, quick-add provenance, `JURNL_CURRENCY_CONTRACT.json`, `JURNL_CURRENCY_CATALOG.json`, `JURNL_EXCHANGE_RATE_CONTRACT.json`, `JURNL_CURRENCY_SELECTOR_QA.json`.
 - **Conventions:** Do not swap a currency symbol onto an unconverted number. Do not hardcode a rate. Convert only from the canonical USD amount. Do not let the currency list grow the sheet.
+
+---
+
+## 2026-10-05 — Undo unintentional public-redesign merge (PR #1277 aftermath)
+
+Founder flagged the agent merge of `origin/main` into `cursor/public-redesign-composer-asset-injection1-1b86` and the squash-merge of PR #1277 as **unintentional / outdated**.
+
+- **Branch restored:** `cursor/public-redesign-composer-asset-injection1-1b86` force-reset to **`a05cfb39`** (Origin dual-env + framework icons; **before** main merge `5637a7f3` / follow-up `921c7fc0`).
+- **Main:** Removed the erroneous MEMORY entry documenting that merge. PR #1277 squash on `main` (`7841d316`) had only touched `MEMORY.md`; product code on `main` for public redesign primarily arrived via **#1267** / **#1275** — not reverted here unless founder requests.
+- **Conventions:** Do not merge `main` into the public-redesign injection branch or mark #1277-style PRs ready without explicit founder approval.
 
 ---
 
