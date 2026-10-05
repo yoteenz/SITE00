@@ -1,0 +1,12 @@
+{
+  "sprint": "P0.STUDIOWORLD.RESIDENT-AUTHORITY.RECOVERY4-WHITE-TEE-RED-COLLAR",
+  "whiteTeeRedCollarFound": true,
+  "sourceRoot": "public/site00/studio-world-residents/casting-thumbnails-v1/",
+  "sourceCommit": "4cdac10c6885de7482d82c4b39ee601eb3f604c8",
+  "sourcePr": 1303,
+  "season1Root": "public/site00/studio-world-residents/season1-v1/",
+  "season1Commit": "a59131ef (PR #1302)",
+  "bundleBranch": "cursor/production-hub-descendants-opus1",
+  "imagesGeneratedThisSprint": 0,
+  "openartCreditsSpent": 0
+}

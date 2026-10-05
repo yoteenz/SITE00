@@ -194,10 +194,10 @@
   .pxa .exf {
     --exf-gut: 8px;
     --exf-gap: 6px;
-    --exf-fs: 9px;
-    --exf-fs-s: 7.5px;
-    --exf-fs-xs: 6.5px;
-    --exf-fs-h: 9.5px;
+    --exf-fs: 10px;
+    --exf-fs-s: 9px;
+    --exf-fs-xs: 8.5px;
+    --exf-fs-h: 10.5px;
     --exf-btn-h: 22px;
     --exf-face: 24px;
   }
@@ -228,19 +228,25 @@
   }
   .pxa .exf-hero .pxa-hero__copy p,
   .pxa .exf-hero .pxa-hero__side {
-    font-size: 7px;
+    font-size: 8.5px;
   }
   .pxa .exf-crumbs {
-    font-size: 6.5px;
+    font-size: 8.5px;
     letter-spacing: 0.12em;
   }
   .pxa .exf-tabs {
     margin-top: 6px;
   }
+  .pxa .exf-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
   .pxa .exf-tabs a {
-    padding: 6px 2px 5px;
-    font-size: 7px;
-    letter-spacing: 0.08em;
+    flex: 1 0 auto;
+    padding: 6px 5px 5px;
+    font-size: 8.5px;
+    letter-spacing: 0.03em;
   }
 }
 
@@ -307,6 +313,8 @@
   flex-shrink: 0;
 }
 .pxa .exf-panel__body > .exf-fill,
+.pxa .exf-panel__body > .exf-media-primary,
+.pxa .exf-panel__body > .exf-storyboard-stage,
 .pxa .exf-panel__body > .exf-empty,
 .pxa .exf-panel__body > .exf-curve,
 .pxa .exf-panel__body > .exf-bars,
@@ -838,7 +846,7 @@
   font-weight: 500;
 }
 .pxa .exf-donut small {
-  font-size: 8px;
+  font-size: 8.5px;
   letter-spacing: 0.12em;
   color: #8a8a92;
 }
@@ -1383,7 +1391,7 @@
     font-size: 11px;
   }
   .pxa .exf-donut small {
-    font-size: 5.5px;
+    font-size: 8.5px;
   }
   .pxa .exf-overview {
     gap: 8px;
@@ -1394,7 +1402,7 @@
   .pxa .exf-check {
     width: 12px;
     height: 12px;
-    font-size: 7px;
+    font-size: 8.5px;
   }
   .pxa .exf-frames {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1455,5 +1463,861 @@
   }
   .pxa .exf-tabs a {
     padding: 6px 4px 5px;
+  }
+}
+
+/* ── 7. media hierarchy (P0 EXPRESSION MEDIA ONE-VIEWPORT CONVERGENCE) ───────────────────────────── */
+.pxa .exf--media-focus .exf-hero {
+  height: 118px;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+  font-size: 24px;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy p,
+.pxa .exf--media-focus .exf-hero .pxa-hero__side {
+  display: none;
+}
+.pxa .exf--media-focus > .pxa-status--compact {
+  margin: 0 var(--exf-gut);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell {
+  padding: 4px 6px;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell b {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell small,
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell a {
+  display: none;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(3),
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(4) {
+  display: none;
+}
+@media (max-width: 699px) {
+  .pxa .exf--media-focus .exf-hero {
+    height: 86px;
+  }
+}
+/* short phones (≤700px tall): the family hero band yields its height to the primary media (FA.OPUS2) */
+@media (max-width: 699px) and (max-height: 700px) {
+  .pxa .exf--media-focus .exf-hero {
+    height: 64px;
+  }
+  .pxa .exf[data-family='storyboard'][data-route='root'] .exf-grid {
+    grid-template-rows: minmax(0, 1.7fr) minmax(0, 0.34fr) minmax(0, 0.4fr);
+  }
+}
+@media (max-width: 699px) {
+  .pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+    font-size: 16px;
+  }
+  .pxa .exf--media-focus .exf-hero__family {
+    font-size: 9px;
+  }
+  .pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(2) {
+    display: none;
+  }
+}
+
+.pxa .exf-panel--media .exf-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+}
+.pxa .exf-panel--media .exf-panel__body > .exf-media-primary,
+.pxa .exf-panel--media .exf-panel__body > .exf-fill {
+  flex: 1 1 auto;
+  min-height: 88px;
+}
+.pxa .exf-panel--media .exf-panel__body > .exf-kv,
+.pxa .exf-panel--media .exf-panel__body > .exf-tags,
+.pxa .exf-panel--media .exf-panel__body > .exf-picker,
+.pxa .exf-panel--compact .exf-panel__head {
+  flex: none;
+}
+.pxa .exf-panel--compact .exf-panel__head {
+  margin-bottom: 3px;
+}
+.pxa .exf-panel--compact .exf-panel__body {
+  gap: 3px;
+  font-size: var(--exf-fs-s);
+}
+.pxa .exf-panel--rail .exf-panel__body {
+  overflow: hidden;
+}
+
+.pxa .exf-media-primary {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: #e7e7ea;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.pxa .exf-media-primary:disabled {
+  cursor: default;
+}
+.pxa .exf-media-primary__img {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  border-radius: 6px;
+}
+.pxa .exf-media-primary--contain .exf-media-primary__img img {
+  object-fit: contain;
+  background: #0e0e12;
+}
+.pxa .exf-media-primary--cover .exf-media-primary__img img {
+  object-fit: cover;
+}
+.pxa .exf-media-primary__hint {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #fff;
+  background: rgba(8, 8, 12, 0.55);
+  pointer-events: none;
+}
+
+.pxa .exf-rail--talent {
+  grid-auto-columns: minmax(92px, 120px);
+  align-items: stretch;
+}
+.pxa .exf-rail--talent .exf-tile .exf-face,
+.pxa .exf-rail--talent .exf-tile .exf-mono {
+  aspect-ratio: 3 / 4;
+  max-height: none;
+  width: 100%;
+  height: auto;
+}
+.pxa .exf-face--portrait {
+  --exf-face: 52px;
+  width: var(--exf-face);
+  height: calc(var(--exf-face) * 1.25);
+  border-radius: 4px;
+}
+@media (max-width: 699px) {
+  .pxa .exf-face--portrait {
+    --exf-face: 40px;
+  }
+}
+.pxa .exf-record__media .exf-media-primary,
+.pxa .exf-record__media .exf-face,
+.pxa .exf-record__media .exf-mono {
+  width: 100%;
+  max-height: none;
+  min-height: 120px;
+  aspect-ratio: auto;
+  flex: 1 1 auto;
+}
+.pxa .exf-record__media {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 100px;
+  margin-bottom: 6px;
+}
+
+.pxa .exf-frames--rail {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+  scrollbar-width: thin;
+  padding-bottom: 2px;
+}
+.pxa .exf-frames--rail .exf-frame {
+  flex: 0 0 auto;
+  width: clamp(72px, 22vw, 120px);
+}
+.pxa .exf-frames--rail .exf-frame .exf-img {
+  aspect-ratio: 16 / 10;
+  height: auto;
+  min-height: 48px;
+}
+.pxa .exf-storyboard-stage {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+.pxa .exf-storyboard-stage__hero {
+  min-height: 0;
+}
+.pxa .exf-look-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  flex: none;
+}
+.pxa .exf-look-compare figure {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  min-height: 0;
+}
+.pxa .exf-look-compare figcaption {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #8a8a92;
+}
+
+.pxa .exf-inspect {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+.pxa .exf-inspect__scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(8, 8, 12, 0.72);
+  cursor: pointer;
+}
+.pxa .exf-inspect__panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(960px, 100%);
+  max-height: min(92vh, 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f0f12;
+  color: #fff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+.pxa .exf-inspect__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pxa .exf-inspect__head small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.65);
+}
+.pxa .exf-inspect__head b {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+.pxa .exf-inspect__x {
+  border: 0;
+  background: none;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pxa .exf-inspect__figure {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  margin: 0;
+  padding: 8px;
+}
+.pxa .exf-inspect__figure img {
+  max-width: 100%;
+  max-height: min(72vh, 820px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.pxa .exf-inspect__figure figcaption {
+  margin: 6px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+}
+.pxa .exf-inspect__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 12px 12px;
+}
+.pxa .exf-inspect__foot button {
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.pxa .exf-inspect__foot button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+@media (max-width: 699px) {
+  .pxa .exf-inspect {
+    padding: 0;
+  }
+  .pxa .exf-inspect__panel {
+    width: 100%;
+    max-height: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+}
+
+/* ── 8. media-first kit (P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2) ──
+ * The creative asset is the flexible part: cards, galleries and heroes give their images whatever the grid row
+ * provides (flex: 1, min-height floors, never a fixed strip); copy is a compact fixed block under / beside it.
+ * Internal rails scroll sideways ([data-scroll='internal-x']); the page never scrolls. */
+.pxa .exm-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #e7e7ea;
+  font: inherit;
+  cursor: zoom-in;
+}
+.pxa span.exm-frame {
+  cursor: default;
+}
+.pxa .exm-frame > .ph-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.pxa .exm-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--exm-focus, 50% 22%);
+}
+.pxa .exm-frame--contain img {
+  object-fit: contain;
+  background: #0e0e12;
+}
+.pxa .exm-frame:focus-visible {
+  outline: 2px solid var(--pxa-red);
+  outline-offset: 2px;
+}
+.pxa .exm-frame__badge {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: var(--exf-fs-s);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--pxa-red);
+}
+
+.pxa .exm-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--exm-cd), minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 8px;
+  height: 100%;
+  min-height: 0;
+}
+.pxa .exm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px;
+  border: 1px solid rgba(20, 20, 26, 0.07);
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 8px 18px -14px rgba(20, 20, 26, 0.4);
+}
+.pxa .exm-card.is-active {
+  border-color: var(--pxa-red);
+  box-shadow: 0 0 0 1px var(--pxa-red), 0 8px 18px -14px rgba(20, 20, 26, 0.4);
+}
+.pxa .exm-card__media {
+  flex: 1 1 auto;
+  min-height: 56px;
+}
+.pxa .exm-card__copy {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pxa .exm-card--h {
+  flex-direction: row;
+}
+.pxa .exm-card--h .exm-card__media {
+  flex: 0 0 44%;
+  min-height: 0;
+}
+.pxa .exm-card--h .exm-card__copy {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+.pxa .exm-card__kicker {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.14em;
+  color: var(--pxa-ink-2);
+}
+.pxa .exm-card__title {
+  overflow: hidden;
+  font-size: var(--exf-fs-h);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  color: var(--pxa-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pxa a.exm-card__title:hover {
+  color: var(--pxa-red);
+}
+.pxa .exm-card__sub {
+  overflow: hidden;
+  font-size: var(--exf-fs-s);
+  letter-spacing: 0.06em;
+  color: var(--pxa-ink-2);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pxa .exm-card__chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  overflow: hidden;
+}
+.pxa .exm-card__open {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border: 1px dashed rgba(20, 20, 26, 0.22);
+  border-radius: 6px;
+  background: repeating-linear-gradient(135deg, #f6f6f8 0 8px, #efeff2 8px 16px);
+  text-align: center;
+}
+
+.pxa .exm-gallery {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 6px;
+  height: 100%;
+  min-height: 0;
+}
+.pxa .exm-gallery__primary {
+  position: relative;
+  min-height: 0;
+}
+.pxa .exm-gallery__cap {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  max-width: calc(100% - 12px);
+  padding: 2px 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: rgba(8, 8, 12, 0.62);
+  pointer-events: none;
+}
+.pxa .exm-gallery__thumbs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.pxa .exm-gallery__thumbs button {
+  position: relative;
+  flex: 0 0 auto;
+  width: 52px;
+  height: 62px;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background: #e7e7ea;
+  cursor: pointer;
+}
+.pxa .exm-gallery__thumbs button.is-active {
+  border-color: var(--pxa-red);
+}
+.pxa .exm-gallery__thumbs .ph-img,
+.pxa .exm-gallery__thumbs img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+}
+
+.pxa .exm-hero {
+  display: grid;
+  grid-template-areas: 'copy media';
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
+}
+.pxa .exm-hero__media {
+  grid-area: media;
+  min-height: 0;
+}
+.pxa .exm-hero__copy {
+  grid-area: copy;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+}
+.pxa .exm-hero__kicker {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.16em;
+  color: var(--pxa-red);
+}
+.pxa .exm-hero__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.02;
+  color: var(--pxa-ink);
+}
+.pxa .exm-hero__sub {
+  font-size: var(--exf-fs);
+  letter-spacing: 0.08em;
+  color: var(--pxa-ink-2);
+}
+.pxa .exm-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pxa .exm-hero__facts {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .exm-hero__actions {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pxa .exm-faces {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  height: 100%;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.pxa .exm-face {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 3px;
+  width: clamp(66px, 8.4vw, 112px);
+  min-height: 0;
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .exm-face .exm-frame {
+  flex: 1 1 auto;
+  min-height: 40px;
+}
+.pxa .exm-face b,
+.pxa .exm-face small {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pxa .exm-face b {
+  font-size: var(--exf-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.pxa .exm-face small {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.06em;
+  color: var(--pxa-ink-2);
+}
+.pxa a.exm-face:hover b {
+  color: var(--pxa-red);
+}
+
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .exm-grid {
+    grid-template-columns: repeat(var(--exm-ct), minmax(0, 1fr));
+  }
+  .pxa .exm-hero__title {
+    font-size: 21px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa .exm-grid {
+    grid-template-columns: repeat(var(--exm-cm), minmax(0, 1fr));
+    gap: 6px;
+  }
+  .pxa .exm-card {
+    gap: 4px;
+    padding: 4px;
+  }
+  .pxa .exm-card__media {
+    min-height: 48px;
+  }
+  .pxa .exm-hero {
+    gap: 8px;
+  }
+  .pxa .exm-hero__title {
+    font-size: 17px;
+  }
+  .pxa .exm-gallery__thumbs button {
+    width: 42px;
+    height: 50px;
+  }
+  .pxa .exm-face {
+    width: 62px;
+  }
+}
+
+/* media panes: the media container takes the panel body's full height (grid rows divide it, never a strip) */
+.pxa .exc-pane .exf-panel__body > .exm-grid,
+.pxa .exc-pane .exf-panel__body > .exm-gallery,
+.pxa .exc-pane .exf-panel__body > .exm-faces,
+.pxa .exc-pane .exf-panel__body > .exm-hero,
+.pxa .exc-pane .exf-panel__body > .exm-card {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .exc-pane .exf-panel__body > .exc-filter {
+  flex: none;
+}
+.pxa .exc-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+.pxa .exc-filter .exf-search {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+.pxa .exc-find {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+  color: var(--pxa-ink-2);
+  text-decoration: none;
+}
+.pxa .exc-find span {
+  font-size: 26px;
+  line-height: 1;
+  color: var(--pxa-ink);
+}
+.pxa .exc-find b {
+  font-size: var(--exf-fs-s);
+  letter-spacing: 0.14em;
+  color: var(--pxa-ink);
+}
+.pxa .exc-find small {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+}
+.pxa .exc-find:hover b {
+  color: var(--pxa-red);
+}
+.pxa .exm-hero__actions .exf-row {
+  flex: 1 1 140px;
+  min-width: 0;
+}
+.pxa .exl-pick {
+  padding: 2px 8px;
+  border: 1px solid var(--pxa-line);
+  border-radius: 999px;
+  background: #fff;
+  font: inherit;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: var(--pxa-ink-2);
+  cursor: pointer;
+}
+.pxa .exl-pick[aria-pressed='true'] {
+  border-color: var(--pxa-red);
+  color: var(--pxa-red);
+}
+
+/* the shared .pxa .ph-img is absolutely positioned: every media host must be a positioning context */
+.pxa .exm-card__media,
+.pxa .exm-gallery__primary,
+.pxa .exm-hero__media {
+  position: relative;
+}
+@media (max-width: 699px) {
+  .pxa .exm-gallery__thumbs button {
+    width: 34px;
+    height: 40px;
+  }
+  .pxa .exc-pane .exf-picker {
+    flex-wrap: nowrap;
+  }
+}
+
+/* storyboard: the stage grows to fill its media pane (it collapsed to the filmstrip before) */
+.pxa .exf-panel--media .exf-panel__body > .exf-storyboard-stage {
+  flex: 1 1 auto;
+  min-height: 140px;
+}
+.pxa .exf-storyboard-stage__hero {
+  display: flex;
+  min-height: 0;
+}
+.pxa .exf-storyboard-stage__hero > .exf-media-primary {
+  flex: 1 1 auto;
+}
+.pxa .exs-boards .exm-card__media {
+  min-height: 40px;
+}
+.pxa .exs-pick {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: inherit;
+  cursor: pointer;
+}
+.pxa .exs-pick[aria-pressed='true'] {
+  color: var(--pxa-red);
+}
+
+/* cover framing keeps faces / upper bodies in view (portrait and full-length media in wider boxes) */
+.pxa .exf-media-primary--cover .exf-media-primary__img img {
+  object-position: 50% 18%;
+}
+.pxa .exp-take__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pxa .exp-take__head .exf-face--portrait {
+  position: relative;
+}
+.pxa .exm-hero__facts > .exf-picker,
+.pxa .exm-hero__facts > .exf-seg {
+  margin-bottom: 4px;
+}
+.pxa .exf-record.exc-pane .exf-panel__body > .exf-kv {
+  flex: none;
+}
+
+/* ── 9. residual strips (FA.OPUS2 full-route QA) ─────────────────────────────────────────────────── */
+/* a button never runs past its pane: long labels wrap to a second line instead of overflowing the viewport */
+.pxa .exf-actions__row .exf-btn {
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: var(--exf-btn-h);
+  white-space: normal;
+  text-align: center;
+  line-height: 1.15;
+}
+/* phones: where a record hero already leads with the image, the secondary gallery becomes a full-height
+   rail of portrait thumbs (each opens the inspector) instead of a duplicate primary squeezed into a strip */
+@media (max-width: 699px) {
+  .pxa .exm-gallery--rail-m {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .pxa .exm-gallery--rail-m .exm-gallery__primary {
+    display: none;
+  }
+  .pxa .exm-gallery--rail-m .exm-gallery__thumbs {
+    height: 100%;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .pxa .exm-gallery--rail-m .exm-gallery__thumbs button {
+    width: auto;
+    height: 100%;
+    max-height: 160px;
+    aspect-ratio: 3 / 4;
+  }
+}
+/* short phones (≤700px tall): primary media rows take the height the compact hero gave back */
+@media (max-width: 699px) and (max-height: 700px) {
+  .pxa .exf[data-family='storyboard'][data-route='sequence-detail'] .exf-grid {
+    grid-template-rows: minmax(0, 1.6fr) minmax(0, 0.42fr) minmax(0, 0.34fr);
+  }
+  .pxa .exf[data-family='storyboard'][data-route='keyframes'] .exf-grid {
+    grid-template-rows: minmax(0, 0.56fr) minmax(0, 1.3fr) minmax(0, 0.3fr);
+  }
+  .pxa .exf[data-family='look'][data-route='outfits'] .exf-grid,
+  .pxa .exf[data-family='look'][data-route='hair'] .exf-grid,
+  .pxa .exf[data-family='look'][data-route='makeup'] .exf-grid,
+  .pxa .exf[data-family='look'][data-route='accessories'] .exf-grid {
+    grid-template-rows: minmax(0, 0.5fr) minmax(0, 1.35fr) minmax(0, 0.32fr);
+  }
+}
+/* phones: the cast gate rides beside the role pool as the mobile authority's TOTAL / CAST / OPEN summary */
+@media (max-width: 699px) {
+  .pxa [data-testid='casting-gate'] .exf-kv,
+  .pxa [data-testid='casting-gate'] .exf-actions {
+    display: none;
+  }
+  .pxa [data-testid='casting-gate'] .exf-stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
   }
 }

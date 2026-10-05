@@ -3,6 +3,7 @@
  * Sonnet generates NO imagery. Slots are empty/replaceable; runtime canonical images may fill a slot only via
  * `characterAssetUrl` (receipts, then canonical runtime resolvers). This becomes the Grok fabrication boundary.
  */
+import { getProductionStudioWorldActorCatalogue } from '../site00-studio-world/acting-catalogue/productionCastingCatalogue.js';
 import { actorAngleSlotId, actorPortraitSlotId, listFabricationActors } from './actors.js';
 import { APPEARANCE_LAYERS, HAIR_REFS, LOOK_CANDIDATES, MAKEUP_REFS, MOTION_LIBRARY, MOVEMENT_REFERENCES, WARDROBE_LIBRARY } from './library.js';
 import { SEEDED_DEFECTS } from './simulation.js';
@@ -542,8 +543,29 @@ export function buildCharacterAssetSlots(): CharacterAssetSlot[] {
   );
   out.push(slot('actor.sw017.chamber.figure', 'BODY', 'Full-length chamber figure for SW-017, cropped from the look-station authority with no UI.', '9:16', '1080x1920', ['FabricationMachine']));
   for (const a of listFabricationActors()) {
-    out.push(slot(actorPortraitSlotId(a.catalogueNumber), 'ACTOR', `Primary approved portrait of actor ${a.catalogueNumber}.`, '4:5', '1024x1280', ['ActorCard', 'ActorAuthorityCard', 'ActorProfile'], a.catalogueNumber === 'SW-017' ? AUTH : null));
+    out.push(
+      slot(
+        actorPortraitSlotId(a.catalogueNumber),
+        'ACTOR',
+        `Primary approved portrait of actor ${a.catalogueNumber}.`,
+        '4:5',
+        '1024x1280',
+        ['ActorCard', 'ActorAuthorityCard', 'ActorProfile'],
+        a.portraitUrl,
+      ),
+    );
   }
+  out.push(
+    slot(
+      'actor.sw017.portrait.primary',
+      'ACTOR',
+      'Entry 002 subject woman dual-era authority portrait (character-linked legacy slot).',
+      '4:5',
+      '1024x1280',
+      ['ActorCard', 'ActorAuthorityCard', 'ActorProfile', 'BodyInspector'],
+      AUTH,
+    ),
+  );
   for (const ang of ['front', 'left', 'right', 'back'] as const) out.push(slot(actorAngleSlotId('SW-017', ang), 'ACTOR', `Approved ${ang} angle of SW-017.`, '4:5', '1024x1280', ['ActorProfile']));
   for (const v of ['front', 'side', 'back'] as const) out.push(slot(`actor.sw017.body.neutral.${v}`, 'BODY', `Neutral full-body ${v} authority for SW-017.`, '9:16', '1080x1920', ['ContinuityInspector', 'BodyGate']));
   out.push(slot('actor.sw017.continuity.eye', 'ACTOR', 'Continuity reference: eye detail.', '1:1', '512x512', ['ActorProfile']));
@@ -572,8 +594,26 @@ export function buildCharacterAssetSlots(): CharacterAssetSlot[] {
 
 export const characterGrokSlots = (slots = buildCharacterAssetSlots()): CharacterAssetSlot[] => slots.filter((s) => s.grokRequired && !CHARACTER_ASSET_RECEIPTS.some((r) => r.slotId === s.slotId));
 
+let residentCastingPortraitBySlot: Readonly<Record<string, string>> | null = null;
+
+function residentCastingPortraitUrl(slotId: string): string | null {
+  if (!residentCastingPortraitBySlot) {
+    residentCastingPortraitBySlot = Object.fromEntries(
+      getProductionStudioWorldActorCatalogue().actors
+        .filter((a) => a.headshotPreviewUrl)
+        .map((a) => [actorPortraitSlotId(a.catalogueNumber), a.headshotPreviewUrl!]),
+    );
+  }
+  return residentCastingPortraitBySlot[slotId] ?? null;
+}
+
 export function characterAssetUrl(slotId: string, runtimeUrls: Readonly<Record<string, string | null | undefined>> = {}): string | null {
-  return CHARACTER_ASSET_RECEIPTS.find((r) => r.slotId === slotId)?.url ?? runtimeUrls[slotId] ?? null;
+  return (
+    runtimeUrls[slotId] ??
+    residentCastingPortraitUrl(slotId) ??
+    CHARACTER_ASSET_RECEIPTS.find((r) => r.slotId === slotId)?.url ??
+    null
+  );
 }
 
 export function buildCharacterAssetManifest() {

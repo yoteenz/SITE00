@@ -2,7 +2,6 @@ import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { PRODUCTION_TOP_LEVEL_WORKSPACES } from '../../../../shared/site00-production-workspace/registry.js';
 import { PwFrame } from '../../components/production/PwFrame';
 import { DesignChamber, DesignModeBar, useDesignMode } from '../../components/productionAuthority/DesignChamber';
-import { ExperienceBody } from '../../components/productionAuthority/ExperienceBody';
 import { ExpressionBody } from '../../components/productionAuthority/ExpressionBody';
 import { expressionFrameScreen } from '../../components/productionAuthority/expression/expressionRoutes';
 import { AUTHORITY_ASSETS } from '../../components/productionAuthority/authorityAssets';
@@ -39,17 +38,18 @@ function ProjectLayoutInner() {
   const slug = projectSlug.toLowerCase();
   const isDesign = /^\/production\/[^/]+\/design(\/|$)/.test(pathname);
   const isDesignRoot = /^\/production\/[^/]+\/design\/?$/.test(pathname);
-  const isExperienceRoot = /^\/production\/[^/]+\/experience\/?$/.test(pathname);
+  const isExperience = /^\/production\/[^/]+\/experience(\/|$)/.test(pathname);
   const isExpressionRoot = /^\/production\/[^/]+\/expression\/?$/.test(pathname);
   const isFabrication = /\/character-fabrication(\/|$)/.test(pathname);
   const expressionScreen = expressionFrameScreen(pathname);
 
   let body;
   if (isDesignRoot) body = <DesignRoot />;
-  else if (isExperienceRoot)
+  else if (isExperience)
+    // Experience families (46 routes) share the one authority frame: host header, bottom nav, no page scroll.
     body = (
       <ProductionAuthorityFrame screen="experience">
-        <ExperienceBody />
+        <Outlet />
       </ProductionAuthorityFrame>
     );
   else if (isExpressionRoot) body = <ExpressionRoot slug={slug} />;

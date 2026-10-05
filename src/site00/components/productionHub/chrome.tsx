@@ -101,7 +101,13 @@ export function useProductionWorkspaceChrome(): {
     active = 'library';
     sectionLabel = 'SHARED LIBRARY';
     sectionValue = 'ASSETS';
-  } else if (/^\/production\/[^/]+\/design(\/|$)/.test(pathname)) {
+  } else if (
+    (/^\/production\/[^/]+\/design(\/|$)/.test(pathname) &&
+      !pathname.includes('/design-workspace') &&
+      !pathname.includes('/design-legacy')) ||
+    /^\/production\/[^/]+\/design-workspace(\/|$)/.test(pathname) ||
+    /^\/production\/[^/]+\/design-legacy(\/|$)/.test(pathname)
+  ) {
     brand = 'DESIGN';
     active = 'design';
     sectionLabel = 'CURRENT WORKSPACE';

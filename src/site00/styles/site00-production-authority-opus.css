@@ -1385,7 +1385,7 @@
     min-width: 0;
   }
   .pxa .pxa-status__cell b {
-    font-size: 7px;
+    font-size: 8.5px;
     font-weight: 500;
     letter-spacing: 0.04em;
     white-space: nowrap;
@@ -1397,8 +1397,8 @@
   }
   .pxa .pxa-status__cell small,
   .pxa .pxa-status__cell a {
-    font-size: 5.5px;
-    letter-spacing: 0.06em;
+    font-size: 8.5px;
+    letter-spacing: 0.02em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1420,125 +1420,13 @@
 }
 
 /* EXPERIENCE: the living world fills the body between the host panels; control console floats at its foot */
-.pxa .pxa-scroll:has(.pxa-experience) > .pxa-body {
-  height: 100%;
-  padding-bottom: 0;
-}
-.pxa .pxa-experience {
-  height: 100%;
-}
-.pxa .pxa-experience .pxa-hero {
-  height: 100%;
-  min-height: 360px;
-}
-.pxa .pxa-experience .pxa-hero__bg::before {
-  /* world plane: red-lit grid floor receding to the core (pure CSS, no substitute art) */
-  content: '';
-  position: absolute;
-  left: -20%;
-  right: -20%;
-  bottom: 0;
-  height: 44%;
-  z-index: 1;
-  background:
-    repeating-linear-gradient(90deg, rgba(229, 35, 27, 0.32) 0 1px, rgba(229, 35, 27, 0) 1px 70px),
-    repeating-linear-gradient(0deg, rgba(229, 35, 27, 0.26) 0 1px, rgba(229, 35, 27, 0) 1px 34px),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 240, 238, 0.85));
-  transform: perspective(420px) rotateX(58deg);
-  transform-origin: 50% 100%;
-}
-.pxa .pxa-experience .pxa-hero__copy {
-  top: 22px;
-  bottom: auto;
-  justify-content: flex-start;
-}
-.pxa .pxa-experience .pxa-hero__copy > i {
-  top: 0;
-  bottom: auto;
-  height: 100%;
-}
-.pxa .pxa-experience .pxa-hero__side {
-  top: 22px;
-  bottom: auto;
-  justify-content: flex-start;
-}
-.pxa .pxa-xpanel {
-  z-index: 3;
-  bottom: 18px;
-  width: 760px;
-  gap: 10px;
-  padding: 0;
-  border: 0;
-  background: none;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-.pxa .pxa-capsules {
-  flex-wrap: nowrap;
-  gap: 10px;
-}
-.pxa .pxa-capsules a {
-  padding: 6px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.96);
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 6px 14px -10px rgba(0, 0, 0, 0.4);
-  font-size: 10px;
-}
-.pxa .pxa-xstatus {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(6px);
-}
-.pxa .pxa-xstatus b {
-  font-size: 10.5px;
-  font-weight: 500;
-}
-.pxa .pxa-xstatus small {
-  font-size: 8.5px;
-  text-transform: uppercase;
-}
-.pxa .pxa-xactions {
-  justify-self: center;
-  width: 380px;
-  gap: 18px;
-}
-.pxa .pxa-xactions .pxa-btn {
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.92);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-}
-@media (max-width: 699px) {
-  .pxa .pxa-xpanel {
-    width: calc(100% - 20px);
-  }
-  .pxa .pxa-capsules {
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-  .pxa .pxa-capsules a {
-    padding: 4px 8px;
-    font-size: 7.5px;
-  }
-  .pxa .pxa-xstatus {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
-  .pxa .pxa-xactions {
-    width: 100%;
-  }
-}
 
 /* ════════════════════════════════════════════════════════════ per-screen density + type (tablet / desktop) */
 
 @media (min-width: 700px) {
   /* body-level tab rows (inbox NEEDS YOU / library CANONICAL …): centred, airy, red underline */
   .pxa .pxa-scroll > .pxa-body > div > .pxa-tabs,
-  .pxa .pxa-inbox > .pxa-tabs,
-  .pxa .pxa-library > .pxa-tabs {
+.pxa .pxa-inbox > .pxa-tabs {
     justify-content: center;
     gap: 40px;
     background: transparent;
@@ -1648,38 +1536,6 @@
   }
 
   /* LIBRARY: full-width vault, categories as icon-left chips in rows */
-  .pxa .pxa-library > .pxa-catgrid,
-  .pxa .pxa-library > .pxa-vault,
-  .pxa .pxa-library > .pxa-library__strips,
-  .pxa .pxa-library > .pxa-card {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-  .pxa .pxa-catgrid {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: 8px;
-  }
-  .pxa .pxa-catgrid button {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
-    padding: 9px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.96);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 0 1px rgba(20, 20, 26, 0.04);
-    font-size: 10px;
-  }
-  .pxa .pxa-catgrid button.is-active {
-    box-shadow: 0 0 0 1px var(--pxa-red);
-  }
-  .pxa .pxa-vault {
-    border: 0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(20, 20, 26, 0.05), 0 14px 30px -20px rgba(20, 20, 26, 0.4);
-  }
 }
 @media (min-width: 1120px) {
   .pxa .pxa-expression .pxa-hero,

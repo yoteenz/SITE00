@@ -7,7 +7,9 @@
 import { useState, type ReactNode } from 'react';
 import { pad2 } from '../../primitives';
 import { words } from '../expressionData';
-import { Actions, Btn, Chip, Empty, Grid, Img, Kv, Mono, Panel, Row } from '../ExpressionFamilyShell';
+import { characterMedia, first } from '../expressionMedia';
+import { Btn, Chip, Empty, Grid, Img, Kv, Panel, Row } from '../ExpressionFamilyShell';
+import { MediaCard, MediaGrid, RecordHero, useMediaInspector } from '../ExpressionMediaKit';
 import type { FamilyProps } from './types';
 
 const ENGINE_ROUTE = (slug: string) => `/projects/${slug}/content-operations/expression-engine`;
@@ -39,6 +41,7 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
   const { players, character, actor, select } = usePlayer(d);
   const [lens, setLens] = useState<Lens>('behavior');
   const [scene, setScene] = useState(0);
+  const insp = useMediaInspector();
   if (!d.ok) return <Empty title="NO CAMPAIGN ENTRY IN PRODUCTION" testId="expression-no-entry" />;
   const item = d.itemFor('performance');
   const art = d.nodeArt('performance');
@@ -78,20 +81,50 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
       {character ? <Kv rows={rows[lens]} testId="performance-brief" /> : <Empty title="NO PERFORMER" />}
     </>
   );
-  const performers = players.map((c) => {
-    const a = d.actor(c.actorId);
-    return (
-      <Row
-        key={c.characterId}
-        to={go('casting', 'character-profile', c.characterId)}
-        testId="performance-performer-row"
-        media={<Mono text={c.characterName} className="exf-face exf-face--char" />}
-        title={c.characterName}
-        sub={`${a ? a.stageName : 'NO ACTOR'} · ${c.performanceDirection}`}
-        aside={<Chip tone={c.performanceDirection.trim() ? 'green' : 'amber'}>{c.performanceDirection.trim() ? 'DIRECTED' : 'NO DIRECTION'}</Chip>}
-      />
-    );
-  });
+  /** Performers lead with their character media (the authority's CURRENT PERFORMERS portrait row). */
+  const performers = (
+    <MediaGrid cols={{ d: Math.max(2, players.length), t: Math.max(2, players.length), m: Math.max(2, players.length) }} testId="performance-performers-grid">
+      {players.map((c) => {
+        const a = d.actor(c.actorId);
+        const m = characterMedia(d, c);
+        return (
+          <MediaCard
+            key={c.characterId}
+            media={first(m)}
+            kicker={a ? `${a.stageName.toUpperCase()} · ${a.catalogueNumber}` : 'NO ACTOR'}
+            title={c.characterName}
+            to={go('casting', 'character-profile', c.characterId)}
+            sub={c.performanceDirection}
+            active={c.characterId === character?.characterId}
+            chips={<Chip tone={c.performanceDirection.trim() ? 'green' : 'amber'}>{c.performanceDirection.trim() ? 'DIRECTED' : 'NO DIRECTION'}</Chip>}
+            onInspect={m.length ? () => insp.open(m, 0, c.characterName) : undefined}
+            emptyLabel="NO CANONICAL IMAGE"
+            testId="performance-performer-row"
+          />
+        );
+      })}
+    </MediaGrid>
+  );
+  const heroMedia = characterMedia(d, character);
+  const performerHero = (
+    <RecordHero
+      media={first(heroMedia)}
+      kicker={`PERFORMER · ${actor ? `${actor.stageName.toUpperCase()} · ${actor.catalogueNumber}` : 'NO ACTOR'}`}
+      title={character?.characterName ?? 'NO PERFORMER'}
+      sub={character?.performanceDirection}
+      facts={brief}
+      actions={
+        <>
+          <Chip tone={item.status === 'LOCKED' || item.status === 'APPROVED' ? 'green' : 'amber'}>{words(item.status)}</Chip>
+          <Btn variant="ghost" to={ENGINE_ROUTE(d.slug)} testId="performance-open-engine">
+            OPEN IN EXPRESSION ENGINE
+          </Btn>
+        </>
+      }
+      onInspect={heroMedia.length ? () => insp.open(heroMedia, 0, character?.characterName ?? 'PERFORMER') : undefined}
+      testId="performance-performer-hero"
+    />
+  );
   const sceneList = d.scenes.map((s, i) => (
     <Row
       key={s.sceneId}
@@ -104,24 +137,33 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
       aside={s.tensionStage ? <Chip tone={s.tensionStage === 'PEAK' ? 'red' : 'gray'}>{s.tensionStage}</Chip> : undefined}
     />
   ));
-  const gate = (
-    <Actions note={`PERFORMANCE · ${item.detail}`}>
-      <Chip tone={item.status === 'LOCKED' || item.status === 'APPROVED' ? 'green' : 'amber'}>{words(item.status)}</Chip>
-      <Btn variant="ghost" to={ENGINE_ROUTE(d.slug)} testId="performance-open-engine">
-        OPEN IN EXPRESSION ENGINE
-      </Btn>
-    </Actions>
-  );
 
+  const sceneCast = (s: (typeof d.scenes)[number] | undefined) => {
+    const ids = [...new Set(d.shotCast.map((x) => x.characterId))];
+    const cast = ids.map((id) => d.character(id)).filter((c): c is NonNullable<typeof c> => !!c);
+    return cast.length ? cast : s ? players : [];
+  };
+  let body: ReactNode;
   switch (r.route.id) {
     case 'scenes': {
       const s = d.scenes[scene];
-      return (
-        <Grid rows={{ d: '1fr 0.7fr', t: '1fr 0.75fr', m: '1.1fr 0.85fr 0.6fr' }}>
+      const cast = sceneCast(s);
+      body = (
+        <Grid rows={{ d: '1fr 0.62fr', t: '1fr 0.64fr', m: '0.62fr 0.8fr 0.5fr' }}>
           <Panel title="SCENE LINEUP" meta={`${d.scenes.length} SCENES`} at={{ d: [4, 2], t: [5, 2], m: [6, 1] }} testId="performance-scenes">
             {sceneList}
           </Panel>
-          <Panel title={s ? `SCENE ${pad2(s.order)} · ${s.label}` : 'SCENE'} meta={s?.durationRange ?? 'DURATION NOT SET'} at={{ d: [8, 1], t: [7, 1], m: [6, 1] }} testId="performance-scene-detail">
+          <Panel title="KEY CAST · PERFORMERS" meta={s ? `SCENE ${pad2(s.order)}` : undefined} at={{ d: [8, 1], t: [7, 1], m: [6, 1] }} testId="performance-scene-cast-media" className="exc-pane">
+            {cast.length ?
+              <MediaGrid cols={{ d: Math.max(3, cast.length), t: Math.max(2, cast.length), m: Math.max(2, cast.length) }}>
+                {cast.map((c) => {
+                  const m = characterMedia(d, c);
+                  return <MediaCard key={c.characterId} media={first(m)} title={c.characterName} to={go('casting', 'character-profile', c.characterId)} sub={c.performanceDirection} onInspect={m.length ? () => insp.open(m, 0, c.characterName) : undefined} emptyLabel="NO CANONICAL IMAGE" />;
+                })}
+              </MediaGrid>
+            : <Empty title="NO SCENE CAST" />}
+          </Panel>
+          <Panel title={s ? `SCENE ${pad2(s.order)} · ${s.label}` : 'SCENE'} meta={s?.durationRange ?? 'DURATION NOT SET'} at={{ d: [4, 1], t: [7, 1], m: [6, 1] }} testId="performance-scene-detail">
             {s ?
               <Kv
                 rows={[
@@ -134,19 +176,22 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
               />
             : <Empty title="NO SCENES" />}
           </Panel>
-          <Panel title="SCENE CAST" meta="SHOT PLACEMENTS" at={{ d: [8, 1], t: [7, 1], m: [6, 1] }} testId="performance-scene-cast">
+          <Panel title="SCENE CAST" meta="SHOT PLACEMENTS" at={{ d: [4, 1], t: [0, 0], m: [0, 0] }} hide="t m" testId="performance-scene-cast">
             {d.shotCast.length ?
               d.shotCast.map((x) => <Row key={`${x.shotId}-${x.characterId}`} title={`${d.character(x.characterId)?.characterName ?? x.characterId} · ${x.position}`} sub={`${x.shotId} · ${x.action}`} aside={<Chip>{x.expression}</Chip>} />)
             : <Empty title="NO SHOT CAST RECORDED" />}
           </Panel>
         </Grid>
       );
+      break;
     }
     case 'beats':
-      return (
-        <Grid rows={{ d: '1fr 0.75fr', t: '1fr 0.8fr', m: '0.95fr 1fr 0.7fr' }}>
-          <Panel title="PERFORMANCE BEATS" meta={character ? `${character.appearsInBeats.length} BEATS` : undefined} at={{ d: [5, 2], t: [6, 2], m: [6, 1] }} testId="performance-beats">
-            <div className="exf-picker">{select}</div>
+      body = (
+        <Grid rows={{ d: '1fr 0.62fr', t: '1fr 0.64fr', m: '1fr 0.58fr 0.5fr' }}>
+          <Panel title="PERFORMANCE BRIEF" meta={character?.characterName} at={{ d: [7, 1], t: [7, 1], m: [6, 1] }} testId="performance-beats-brief" className="exc-pane">
+            {performerHero}
+          </Panel>
+          <Panel title="PERFORMANCE BEATS" meta={character ? `${character.appearsInBeats.length} BEATS` : undefined} at={{ d: [5, 2], t: [5, 2], m: [6, 1] }} testId="performance-beats">
             {character?.appearsInBeats.length ?
               <ol className="exf-steps">
                 {character.appearsInBeats.map((b, i) => (
@@ -158,10 +203,7 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
               </ol>
             : <Empty title="NO BEATS ASSIGNED" />}
           </Panel>
-          <Panel title="PERFORMANCE BRIEF" meta={character?.characterName} at={{ d: [7, 1], t: [6, 1], m: [6, 1] }} testId="performance-beats-brief">
-            {brief}
-          </Panel>
-          <Panel title="NARRATIVE BEATS" meta={`${d.plan.beats.length} IN PLAN`} to={go('narrative', 'structure')} toLabel="STRUCTURE" at={{ d: [7, 1], t: [6, 1], m: [6, 1] }} testId="performance-narrative-beats">
+          <Panel title="NARRATIVE BEATS" meta={`${d.plan.beats.length} IN PLAN`} to={go('narrative', 'structure')} toLabel="STRUCTURE" at={{ d: [7, 1], t: [7, 1], m: [6, 1] }} testId="performance-narrative-beats">
             <ol className="exf-arc">
               {d.plan.beats.map((b) => (
                 <li key={b.beatId} data-stage={b.tensionStage}>
@@ -173,56 +215,67 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
           </Panel>
         </Grid>
       );
+      break;
     case 'takes':
-      return (
-        <Grid rows={{ d: '1fr 0.75fr', t: '1fr 0.8fr', m: '0.9fr 0.95fr 0.7fr' }}>
-          <Panel title="TAKES" meta="RENDERED PERFORMANCE" at={{ d: [7, 1], t: [12, 1], m: [6, 1] }} testId="performance-takes">
-            <Empty title="NO TAKES RENDERED" body="PERFORMANCE TAKES APPEAR WHEN THE KEYFRAME / MOTION STAGE PRODUCES THEM." state="UNMOUNTED" testId="performance-takes-unmounted" />
+      // No takes exist yet: the honest empty state stays compact and the performers' media leads the route
+      // (an empty TAKES pane had taken 60% of the frame and squeezed the portraits into strips).
+      body = (
+        <Grid rows={{ d: '1fr 0.42fr', t: '1fr 0.42fr', m: '1fr 0.62fr 0.36fr' }}>
+          <Panel title="DIRECTOR NOTES · PERFORMERS" meta="PERFORMANCE DIRECTION" at={{ d: [7, 1], t: [7, 1], m: [6, 1] }} testId="performance-direction" className="exc-pane">
+            {performers}
           </Panel>
-          <Panel title="BLOCKING" meta={`${d.shotCast.length} PLACEMENTS`} at={{ d: [5, 2], t: [6, 1], m: [6, 1] }} testId="performance-blocking">
+          <Panel title="BLOCKING" meta={`${d.shotCast.length} PLACEMENTS`} at={{ d: [5, 2], t: [5, 1], m: [6, 1] }} testId="performance-blocking">
             {d.shotCast.length ?
-              d.shotCast.map((x) => (
-                <div key={`${x.shotId}-${x.characterId}`} className="exf-take" data-testid="performance-take">
-                  <b>{x.shotId.replace(/^shot-entry\d+-/, '').toUpperCase()}</b>
-                  <Kv
-                    rows={[
-                      ['CHARACTER', d.character(x.characterId)?.characterName ?? x.characterId],
-                      ['ACTION', x.action],
-                      ['EXPRESSION', x.expression],
-                      ['POSITION', x.position],
-                      ['LOOK', d.look(x.lookId)?.label ?? x.lookId],
-                      ['PRIORITY', x.screenPriority],
-                    ]}
-                  />
-                </div>
-              ))
+              d.shotCast.map((x) => {
+                const c = d.character(x.characterId);
+                const m = first(characterMedia(d, c));
+                return (
+                  <div key={`${x.shotId}-${x.characterId}`} className="exf-take" data-testid="performance-take">
+                    <header className="exp-take__head">
+                      {m ? <Img url={m.url} label={c?.characterName ?? x.characterId} className="exf-face exf-face--portrait" /> : null}
+                      <b>{x.shotId.replace(/^shot-entry\d+-/, '').toUpperCase()}</b>
+                    </header>
+                    <Kv
+                      rows={[
+                        ['CHARACTER', c?.characterName ?? x.characterId],
+                        ['ACTION', x.action],
+                        ['EXPRESSION', x.expression],
+                        ['POSITION', x.position],
+                        ['LOOK', d.look(x.lookId)?.label ?? x.lookId],
+                        ['PRIORITY', x.screenPriority],
+                      ]}
+                    />
+                  </div>
+                );
+              })
             : <Empty title="NO BLOCKING RECORDED" />}
           </Panel>
-          <Panel title="DIRECTOR NOTES" meta="PERFORMANCE DIRECTION" at={{ d: [7, 1], t: [6, 1], m: [6, 1] }} testId="performance-direction">
-            {performers}
+          <Panel title="TAKES" meta="RENDERED PERFORMANCE" at={{ d: [7, 1], t: [12, 1], m: [6, 1] }} testId="performance-takes" layout="compact">
+            <Empty title="NO TAKES RENDERED" body="PERFORMANCE TAKES APPEAR WHEN THE KEYFRAME / MOTION STAGE PRODUCES THEM." state="UNMOUNTED" testId="performance-takes-unmounted" />
           </Panel>
         </Grid>
       );
+      break;
     default:
-      return (
-        <Grid rows={{ d: '1fr 0.8fr', t: '1fr 1fr', m: '0.85fr 1.05fr 0.62fr' }}>
-          <Panel title="CURRENT PERFORMERS" meta={`${players.length} CHARACTERS`} to={go('casting', 'characters')} toLabel="CHARACTERS" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} testId="performance-performers">
+      body = (
+        <Grid rows={{ d: '1fr 0.62fr', t: '1fr 0.64fr', m: '1.05fr 0.9fr 0.4fr' }}>
+          <Panel title="CURRENT PERFORMERS" meta={`${players.length} CHARACTERS`} to={go('casting', 'characters')} toLabel="CHARACTERS" at={{ d: [5, 1], t: [5, 1], m: [6, 1] }} testId="performance-performers" className="exc-pane">
             {performers}
           </Panel>
-          <Panel title="PERFORMANCE BRIEF" meta={character?.characterName} at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} testId="performance-root-brief">
-            {brief}
+          <Panel title="ACTIVE PERFORMANCE BRIEF" meta={character?.characterName} at={{ d: [7, 2], t: [7, 2], m: [6, 1] }} testId="performance-root-brief" className="exc-pane">
+            {performerHero}
           </Panel>
-          <Panel title="PERFORMANCE AUTHORITY" meta="HUB NODE" at={{ d: [3, 2], t: [6, 1], m: [3, 1] }} testId="performance-art" hide="m">
-            <Img url={art} label="PERFORMANCE STILL" className="exf-fill" />
-            {gate}
-          </Panel>
-          <Panel title="SCENE LINEUP" meta={`${d.scenes.length} SCENES`} to={go('performance', 'scenes')} toLabel="SCENES" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} testId="performance-root-scenes">
+          <Panel title="SCENE LINEUP" meta={`${d.scenes.length} SCENES`} to={go('performance', 'scenes')} toLabel="SCENES" at={{ d: [5, 1], t: [5, 1], m: [6, 1] }} testId="performance-root-scenes" layout="compact">
+            <Row media={<Img url={art} label="PERFORMANCE NODE" className="exf-face" />} title="PERFORMANCE AUTHORITY · HUB NODE" sub={`${words(item.status)} · ${item.detail}`} testId="performance-authority-media" />
             {sceneList}
-          </Panel>
-          <Panel title="PERFORMANCE GATE" at={{ d: [0, 0], t: [0, 0], m: [6, 1] }} hide="d t" testId="performance-gate">
-            {gate}
           </Panel>
         </Grid>
       );
   }
+  return (
+    <>
+      {body}
+      {insp.overlay}
+    </>
+  );
 }

@@ -191,6 +191,13 @@ const DesignLegacyProjectDesignRedirect = lazy(() =>
     default: m.DesignLegacyProjectDesignRedirect,
   })),
 );
+const ProductionCanonicalDesignRoute = lazy(() => import('../site00/pages/production/ProductionCanonicalDesignRoute'));
+const ProductionDesignWorkspaceAliasRedirect = lazy(() =>
+  import('../site00/pages/production/ProductionDesignWorkspaceAliasRedirect').then((m) => ({
+    default: m.ProductionDesignWorkspaceAliasRedirect,
+  })),
+);
+const ViewportLabPage = lazy(() => import('../site00/pages/production/ViewportLabPage'));
 const DesignProductionRouteGate = lazy(() =>
   import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
     default: m.DesignProductionRouteGate,
@@ -1488,6 +1495,18 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={`${SITE00_ROUTES.productionLibraries}/*`}
+        element={
+          <Site00Layout>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionLibrariesPage />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.productionActivity}
         element={
           <Site00Layout>
@@ -1534,8 +1553,10 @@ export function Site00Routes() {
           </Site00Layout>
         }
       >
+        <Route path="design-workspace" element={<Site00Suspense><ProductionDesignWorkspaceAliasRedirect /></Site00Suspense>} />
+        <Route path="design/*" element={<Site00Suspense><ProductionCanonicalDesignRoute /></Site00Suspense>} />
         <Route
-          path="design/*"
+          path="design-legacy/*"
           element={
             <Site00Suspense>
               <DesignProductionRouteGate />
@@ -1559,6 +1580,7 @@ export function Site00Routes() {
             <Route path="more" element={<Site00Suspense><DesignProductionSectionMore /></Site00Suspense>} />
           </Route>
         </Route>
+        <Route path="viewport-lab" element={<Site00Suspense><ViewportLabPage /></Site00Suspense>} />
         <Route path="experience/*" element={<Site00Suspense><ExperienceProductionShellPage /></Site00Suspense>} />
         <Route path="expression/*" element={<Site00Suspense><ExpressionProductionShellPage /></Site00Suspense>} />
       </Route>

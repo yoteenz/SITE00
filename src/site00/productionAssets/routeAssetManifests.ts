@@ -73,18 +73,16 @@ export const PRODUCTION_ROUTE_ASSET_MANIFESTS: readonly RouteAssetManifest[] = [
     requiredAssetIds: ['expression.stageHero', 'nav.expression'],
     optionalAssetIds: [
       'resident.sw001.etta.portrait',
+      'resident.sw002.zuri.portrait',
+      'resident.sw002.zuri.candidate',
       'resident.sw003.jules.portrait',
+      'resident.sw004.noa.portrait',
       'resident.sw005.caspian.portrait',
       'resident.sw006.iona.portrait',
-      'resident.sw002.zuri.candidate',
+      'resident.sw007.marlowe.portrait',
+      'resident.sw008.elio.portrait',
     ],
-    missingSlots: [
-      {
-        role: 'RESIDENT_PORTRAIT',
-        classification: 'MISSING_SOURCE_ASSET',
-        note: 'SW-004 Noa Kline, SW-007 Marlowe Saint, SW-008 Elio Vahn: no OpenArt project and no labeled approved-portrait upload in the workspace project list.',
-      },
-    ],
+    missingSlots: [],
   },
   {
     manifestId: 'library.root',

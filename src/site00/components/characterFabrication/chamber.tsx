@@ -104,12 +104,13 @@ function Proxy() {
 
 /** Figure + figure asset slot. Box is given in hero coordinates. */
 export function SubjectFigure({ x, y, w, h }: { x: number; y: number; w: number; h: number }) {
-  const { url } = useFabrication();
-  const src = url(SUBJECT_SLOT);
+  const { url, subjectChamberUrl, actor } = useFabrication();
+  const src = subjectChamberUrl() ?? url(SUBJECT_SLOT);
+  const slot = actor.portraitSlotId || SUBJECT_SLOT;
   return (
-    <div className="cf-fig" style={{ left: x, top: y, width: w, height: h }} data-asset-slot={SUBJECT_SLOT} data-asset-state={src ? 'filled' : 'missing'}>
+    <div className="cf-fig" style={{ left: x, top: y, width: w, height: h }} data-asset-slot={slot} data-asset-state={src ? 'filled' : 'missing'}>
       {src ? (
-        <CfImage slotId={SUBJECT_SLOT} url={src} label="" className="cf-fig__img" />
+        <CfImage slotId={slot} url={src} label="" className="cf-fig__img" />
       ) : (
         <svg viewBox="147 60 96 280" preserveAspectRatio="xMidYMax meet" className="cf-fig__svg" aria-hidden>
           <Proxy />

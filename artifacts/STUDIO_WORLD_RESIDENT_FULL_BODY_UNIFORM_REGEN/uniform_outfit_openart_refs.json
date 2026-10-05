@@ -1,0 +1,14 @@
+{
+  "women": {
+    "type": "image",
+    "id": "PiymrgV1KSYEc21gn7tk",
+    "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/WOMENS_FULL_BODY_UNIFORM_AUTHORITY_1791161414832_506d1a6a.jpg",
+    "label": "Women full-body uniform authority v1"
+  },
+  "men": {
+    "type": "image",
+    "id": "3ncWIvIqfLKMdbFbLtMC",
+    "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/MENS_FULL_BODY_UNIFORM_AUTHORITY_1791161415316_7b92dc1a.jpg",
+    "label": "Men full-body uniform authority v1"
+  }
+}
