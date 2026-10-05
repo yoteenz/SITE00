@@ -815,11 +815,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 ---
 
 
-## 2026-08-19 — Origin mobile tagline +4px
+## 2026-08-19 — Mobile nav PNG icons (Supabase NAV assets)
 
-- **Request:** Move red “WHERE DIGITAL PLACES BEGIN.” down on Origin mobile (follow-up: 4px total, not 2px).
-- **Fix:** `.site00-origin-page--mobile-layout .site00-home-hero__tagline` `translateY(8px)` (+4px from base 4px).
-- **Branch:** `cursor/origin-mobile-tagline-nudge-2-796f`.
+- **Request:** Update mobile bottom-nav icons to approved Supabase PNGs for ORIGIN, IDNTY, LOCATIONS, PROJECTS, CTRL ROOM.
+- **Fix:** `mobile-nav-icons.ts` + `Site00MobileNavAssetIcon`; `MobileSiteNavigation` renders PNGs via `resolveSite00PublicAsset` (`live-preview/site00/NAV/*.png`). Legacy SVG components retained but unused in nav.
+- **Branch:** `cursor/mobile-nav-png-icons-796f`.
 
 ---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
@@ -2417,6 +2417,25 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
 
+---
+
+## 2026-08-22 — Calibration step counter reset (frozen session steps)
+
+- **Symptom:** Near end of calibration, progress jumped (e.g. 06/08 → 01/01) as if a different questionnaire; tunnel refresh landed on step 1 with total count 1.
+
+- **Root cause:** `steps` was recomputed from **current** `missingDomains` on every load. Each saved answer satisfied domains, shrinking the step list on refresh. Counter used `steps.length` so total dropped mid-session.
+
+- **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
+
+- **Branch:** `cursor/calibration-frozen-steps-4f59`.
+
+## 2026-08-19 — Origin mobile tagline +4px
+
+- **Request:** Move red “WHERE DIGITAL PLACES BEGIN.” down on Origin mobile (follow-up: 4px total, not 2px).
+- **Fix:** `.site00-origin-page--mobile-layout .site00-home-hero__tagline` `translateY(8px)` (+4px from base 4px).
+- **Branch:** `cursor/origin-mobile-tagline-nudge-2-796f`.
+
+---
 ## 2026-08-20 — Locations subtitle weight restored to 800
 
 - **Request:** Restore “WHERE DO YOU NEED TO GO?” to font weight 800 (`--site00-weight-display`).
@@ -2599,17 +2618,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Cherry-picked `cursor/brand-lore-semantic-multi-select-1983` (commit `e66c65e`) into `cursor/ndxbook-cd-reference-locked-production-4f59`. `role` is now `MULTI_SELECT` with `selectionGuidance: 'MORE THAN ONE CAN BE TRUE.'`; synthesis preserves compound selections in `audienceRelationship: string[]`; UI shows guidance + SELECTED markers; `ProjectLoreCalibrationFlow` uses `loreInteractionMode()` for default values.
 
 - **Key files:** `loreAnswerTypes.ts`, `idnty-lore-questions.ts`, `loreSynthesis.ts`, `IdentityLoreStepForm.tsx`, `IdentityCalibrationOptionRows.tsx`, `ProjectLoreCalibrationFlow.tsx`.
-
----
-## 2026-08-22 — Calibration step counter reset (frozen session steps)
-
-- **Symptom:** Near end of calibration, progress jumped (e.g. 06/08 → 01/01) as if a different questionnaire; tunnel refresh landed on step 1 with total count 1.
-
-- **Root cause:** `steps` was recomputed from **current** `missingDomains` on every load. Each saved answer satisfied domains, shrinking the step list on refresh. Counter used `steps.length` so total dropped mid-session.
-
-- **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
-
-- **Branch:** `cursor/calibration-frozen-steps-4f59`.
 
 ---
 ## 2026-08-22 — Merge origin/main into brand-lore semantic multi-select branch
