@@ -13465,3 +13465,12 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.ACTOR-CATALOGUE.RESIDENT-AUTHORITY-CON
 - **Root cause:** Character Fabrication `listFabricationActors()` read `seedCatalogue.ts` (stock SW-017/SW-044 mock roster) instead of Season 1 resident projections.
 - **Fix:** `productionCastingCatalogue.ts` + `projectAllResidentsToActors()` wired into fabrication + Production Expression casting; casting-thumbnails-v1 via `characterAssetUrl` / `portraitUrl`; legacy seed kept for Entry 002 fixtures only (`findFabricationActor` fallback). Actor cards show resident name + SW-001…SW-008 + provenance. Draft PR only — no merge/deploy.
 
+---
+
+## 2026-10-05 — Library Character Detail media hierarchy + image inspector
+
+Sprint `P0.STUDIOOS.PRODUCTION.LIBRARY.CHARACTER-DETAIL.MEDIA-HIERARCHY-INSPECTOR1` on `cursor/library-character-detail-media-hierarchy-inspector1`.
+
+- **Root cause:** Generic Library layout stacked lifecycle + 10-family grid + subfilter pills above a short 16:9 hero banner on Character Detail.
+- **Fix:** `CharacterDetail` route with `lbf--char-focus` compact category/subfilter rails, large `lbf-char-media` (4:5-style), `LibraryCharacterImageInspector` overlay, `RelatedCharacterTile` split image inspect vs card nav; `lbf--char-browse` taller tiles on index/residents/project/talent. Draft PR only.
+
