@@ -1,0 +1,59 @@
+{
+  "audited_sets": 8,
+  "audited_objects": 51,
+  "items": [
+    {
+      "id": "OBJ-NDX-CORE",
+      "count": 1,
+      "class": "REQUIRED_INDEPENDENT_RUNTIME_ASSET",
+      "generated": true
+    },
+    {
+      "id": "OBJ-DESIGN-CORE",
+      "count": 1,
+      "class": "REQUIRED_INDEPENDENT_RUNTIME_ASSET",
+      "generated": true
+    },
+    {
+      "id": "OBJ-PIPELINE-STAGES",
+      "count": 7,
+      "class": "REQUIRED_INDEPENDENT_RUNTIME_ASSET",
+      "generated": false,
+      "note": "Existing 76px pack cells kept. Deferred after P0 worlds to avoid extra credit."
+    },
+    {
+      "id": "OBJ-DEVICE-FRAMES",
+      "count": 3,
+      "class": "LIVE_CODE",
+      "generated": false,
+      "note": "Viewport device is the live iframe. Pack frames not regenerated."
+    },
+    {
+      "id": "MAT-SWATCH-SET",
+      "count": 8,
+      "class": "BAKED_INTO_ENVIRONMENT",
+      "generated": false
+    },
+    {
+      "id": "OBJ-PORTAL-GATE",
+      "count": 1,
+      "class": "REQUIRED_INDEPENDENT_RUNTIME_ASSET",
+      "generated": false,
+      "note": "Flagged missing. Not generated this pass."
+    },
+    {
+      "id": "OBJ-INTERACTION-OBJECT-SET",
+      "count": 6,
+      "class": "NOT_NEEDED",
+      "generated": false,
+      "note": "P3. Live overlays."
+    },
+    {
+      "id": "CF-RESIDUAL-SLOTS",
+      "count": 24,
+      "class": "NOT_NEEDED",
+      "generated": false,
+      "note": "Not blindly generated. U-05 and U-15 tablet/desktop authorities missing. Identity media out of scope (U-17)."
+    }
+  ]
+}

@@ -49,7 +49,10 @@ const navRecords: ProductionAssetRecord[] = NAV.map(([assetId, file, tab]) => ({
   usedByRoutes: ['/production', '/production/queue', '/production/activity', '/production/libraries'],
   variantOf: null,
   confidence: 'high',
-  notes: 'Founder master PNG remains runtime canon. UNKNOWN_OPENART_PROVENANCE — design-project history pages inspected did not yield a standalone nav-icon generation id.',
+  notes:
+    assetId === 'nav.hub'
+      ? 'Founder pavilion master restored from git 43611fd8 (384×284). Replaces the 48×48 design-pack house substitute.'
+      : 'Founder master PNG remains runtime canon.',
 }));
 
 const founderVariantRecords: ProductionAssetRecord[] = [
@@ -90,7 +93,15 @@ const founderVariantRecords: ProductionAssetRecord[] = [
 
 
 export const PRODUCTION_ASSETS: readonly ProductionAssetRecord[] = [
-  plate('design.atrium', 'production-design-atrium-authority-v1.jpg', 'design', 'HERO_ENVIRONMENT', ['/production/:slug/design'], 'GROK1 OpenArt history VGvorDOJjL2Unqkf1q5R (verified retrieval).'),
+  plate(
+    'grok.site00.production.plate-atrium-master.v1',
+    'production-atrium-master-v1.jpg',
+    'design',
+    'HERO_ENVIRONMENT',
+    ['/production', '/production/:slug/design'],
+    'SITE00_WORKSPACE_ASSET_PRODUCTION. OpenArt history rEs5fx0WwEZwjzqVljaD. configured_resolution_tier=4k provider_gallery_label=unspecified delivered=3584x2016. Empty pedestal, blank screens. Lineage: ENV-ATRIUM / PLATE-ATRIUM-MASTER. Does not replace screen authorities.',
+  ),
+  plate('design.atrium', 'production-design-atrium-authority-v1.jpg', 'design', 'HERO_ENVIRONMENT', ['/production/:slug/design'], 'GROK1 OpenArt history VGvorDOJjL2Unqkf1q5R. Prior atrium; hub/design chamber now use plate-atrium-master.v1.'),
   plate('design.core', 'production-design-project-core-v1.png', 'design', 'SPATIAL_OBJECT', ['/production/:slug/design'], 'GROK1 history 3Juv9SpIPAx0dNceMk6C. Transparent PNG.'),
   plate('design.board.brand', 'production-design-board-brand-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=brand'], 'GROK1 history 4uoqCynZnuazdU1wq6Ue.'),
   plate('design.board.experience', 'production-design-board-experience-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=experience'], 'GROK1 history EfIyk1qqUtl58pDfSAl0.'),
@@ -98,7 +109,79 @@ export const PRODUCTION_ASSETS: readonly ProductionAssetRecord[] = [
   plate('design.board.compiler', 'production-design-board-compiler-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=compiler'], 'GROK1 history 37djxeQ20vw1suAd3fGO.'),
   plate('design.board.assets', 'production-design-board-assets-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=assets'], 'GROK1 history j9brwPN3byXxomKTeL2l.'),
   plate('design.board.viewport', 'production-design-board-viewport-v1.jpg', 'design', 'REFERENCE_PLATE', ['/production/:slug/design?mode=viewport'], 'GROK1 history aEMVa12mDJRHWvrd8T1S.'),
-  plate('design.viewportCorridor', 'production-viewport-corridor-v1.jpg', 'design', 'WORLD_PLATE', ['/production/:slug/design?mode=viewport'], 'GROK1 history 6o0XaLWTe4vfNdjDKvXj.'),
+  plate('design.viewportCorridor', 'production-viewport-corridor-v1.jpg', 'design', 'WORLD_PLATE', ['/production/:slug/design?mode=viewport'], 'GROK1 history 6o0XaLWTe4vfNdjDKvXj. Superseded at runtime by plate-viewport-corridor.v1.'),
+  plate(
+    'grok.site00.production.plate-viewport-corridor.v1',
+    'production-viewport-corridor-master-v1.jpg',
+    'design',
+    'WORLD_PLATE',
+    ['/production/:slug/design?mode=viewport'],
+    'SITE00_WORKSPACE_ASSET_PRODUCTION. OpenArt E6D8zdQ0qVUQwFaqP3t4. configured_resolution_tier=4k delivered=3584x2016. Empty ring pedestal. ENV-VIEWPORT-CORRIDOR.',
+  ),
+  plate(
+    'grok.site00.production.plate-production-floor.v1',
+    'production-floor-master-v1.jpg',
+    'expression',
+    'HERO_ENVIRONMENT',
+    ['/production/:slug/expression'],
+    'SITE00_WORKSPACE_ASSET_PRODUCTION. OpenArt 3ASsAtAata01uuThehYO. configured_resolution_tier=4k delivered=3808x1632. White floor, blank screens. ENV-PRODUCTION-FLOOR. Replaces dark stage at runtime.',
+  ),
+  plate(
+    'grok.site00.production.obj-design-core.v1',
+    'production-design-core-master-v1.png',
+    'design',
+    'SPATIAL_OBJECT',
+    ['/production/:slug/design'],
+    'SITE00_WORKSPACE_ASSET_PRODUCTION. OpenArt vv94bpIeROnKvmbRGrhb. configured_resolution_tier=4k delivered=2048x3072. White knocked to alpha. OBJ-DESIGN-CORE.',
+  ),
+  plate(
+    'project.ndxbook.world.sphere',
+    'projects/ndxbook/project-ndxbook-world-sphere-v1.jpg',
+    'experience',
+    'WORLD_PLATE',
+    ['/production/ndxbook/experience/world/overview'],
+    'PROJECT_BODY only. OpenArt HVGBGtfOeSCmZuaHvfZA. delivered=3584x2016. Not mounted on experience root (U-07 frozen).',
+  ),
+  plate(
+    'project.ndxbook.world.archipelago',
+    'projects/ndxbook/project-ndxbook-world-archipelago-v1.jpg',
+    'experience',
+    'WORLD_PLATE',
+    ['/production/ndxbook/experience/zones', '/production/ndxbook/experience/paths'],
+    'PROJECT_BODY. OpenArt ncBNpQYvp1teckKikbFU. delivered=3584x2016. PLATE-WORLD-ARCHIPELAGO-MAP.',
+  ),
+  plate(
+    'project.ndxbook.world.plaza',
+    'projects/ndxbook/project-ndxbook-world-plaza-v1.jpg',
+    'experience',
+    'WORLD_PLATE',
+    ['/production/ndxbook/experience/states', '/production/ndxbook/experience/interactions', '/production/ndxbook/experience/access', '/production/ndxbook/experience/inhabitants'],
+    'PROJECT_BODY. OpenArt u5pexZuLZT8iMdWaxDDB. delivered=3584x2016. PLATE-WORLD-CENTRAL-PLAZA. Experience root unchanged.',
+  ),
+  plate(
+    'project.ndxbook.world.spire',
+    'projects/ndxbook/project-ndxbook-world-spire-v1.jpg',
+    'experience',
+    'WORLD_PLATE',
+    ['/production/ndxbook/experience/world/architecture'],
+    'PROJECT_BODY. OpenArt gaOddmPDV9LrYMhbbchy. configured_resolution_tier=4k delivered=2016x3584 provider_gallery_label=unspecified. PLATE-WORLD-SPIRE.',
+  ),
+  plate(
+    'project.ndxbook.world.aurora',
+    'projects/ndxbook/project-ndxbook-world-aurora-v1.jpg',
+    'experience',
+    'WORLD_PLATE',
+    ['/production/ndxbook/experience/world/detail'],
+    'PROJECT_BODY. OpenArt vqrZ8189D94dbcBR3jRN. delivered=3584x2016. PLATE-WORLD-AURORA-CITY.',
+  ),
+  plate(
+    'project.ndxbook.core',
+    'projects/ndxbook/project-ndxbook-core-v1.png',
+    'hub',
+    'SPATIAL_OBJECT',
+    ['/production/ndxbook'],
+    'PROJECT_BODY. OpenArt iUkvqbpvrjp7hnjLpoS6. delivered=2048x2048. White knocked to alpha. OBJ-NDX-CORE. Not a host asset.',
+  ),
   plate('hub.crystal', 'production-hub-crystal-core-v1.jpg', 'hub', 'SPATIAL_OBJECT', ['/production', '/production/activity'], 'GROK1 history A0ClpAeWEb1IBmfSSIXZ. Activity hero still uses this plate.'),
   plate('hub.hero.mobile', 'production-hub-hero-mobile-v1.jpg', 'hub', 'HERO_ENVIRONMENT', ['/production'], 'Crop of approved HUB authority; not a new OpenArt generation.'),
   plate('hub.hero.tablet', 'production-hub-hero-tablet-v1.jpg', 'hub', 'HERO_ENVIRONMENT', ['/production'], 'Crop of approved HUB authority.'),
@@ -321,22 +404,24 @@ export function productionAssetPublicPath(assetId: string): string | null {
 
 /** Paths consumed by existing Production components. Prefer these over new CDN strings. */
 export const productionAssetPaths = {
-  designAtrium: productionAssetPublicPath('design.atrium')!,
-  designCore: productionAssetPublicPath('design.core')!,
+  atriumMaster: productionAssetPublicPath('grok.site00.production.plate-atrium-master.v1')!,
+  designAtrium: productionAssetPublicPath('grok.site00.production.plate-atrium-master.v1')!,
+  designCore: productionAssetPublicPath('grok.site00.production.obj-design-core.v1')!,
   hubCrystal: productionAssetPublicPath('hub.crystal')!,
   experienceWorld: productionAssetPublicPath('experience.worldHero')!,
-  expressionStage: productionAssetPublicPath('expression.stageHero')!,
+  expressionStage: productionAssetPublicPath('grok.site00.production.plate-production-floor.v1')!,
   libraryCanon: productionAssetPublicPath('library.canon')!,
   libraryPlates: [
     productionAssetPublicPath('library.geometry.01')!,
     productionAssetPublicPath('library.geometry.02')!,
     productionAssetPublicPath('library.geometry.03')!,
   ],
-  viewportCorridor: productionAssetPublicPath('design.viewportCorridor')!,
+  viewportCorridor: productionAssetPublicPath('grok.site00.production.plate-viewport-corridor.v1')!,
+  ndxCore: productionAssetPublicPath('project.ndxbook.core')!,
   hubHero: {
-    mobile: productionAssetPublicPath('hub.hero.mobile')!,
-    tablet: productionAssetPublicPath('hub.hero.tablet')!,
-    desktop: productionAssetPublicPath('hub.hero.desktop')!,
+    mobile: productionAssetPublicPath('grok.site00.production.plate-atrium-master.v1')!,
+    tablet: productionAssetPublicPath('grok.site00.production.plate-atrium-master.v1')!,
+    desktop: productionAssetPublicPath('grok.site00.production.plate-atrium-master.v1')!,
   },
   boards: {
     brand: productionAssetPublicPath('design.board.brand')!,
@@ -347,3 +432,17 @@ export const productionAssetPaths = {
     viewport: productionAssetPublicPath('design.board.viewport')!,
   },
 } as const;
+
+/** Project-body world plates. Experience root (U-07) and Library root (U-08) stay on their current plates. */
+export function experienceHeroPlate(projectSlug: string, family: string, routeId: string): string | null {
+  if (projectSlug.toLowerCase() !== 'ndxbook') return null;
+  if (family === 'world' && routeId === 'root') return null;
+  const path = (id: string) => productionAssetPublicPath(id);
+  if (family === 'world' && routeId === 'overview') return path('project.ndxbook.world.sphere');
+  if (family === 'world' && routeId === 'architecture') return path('project.ndxbook.world.spire');
+  if (family === 'world' && routeId === 'detail') return path('project.ndxbook.world.aurora');
+  if (family === 'world') return path('project.ndxbook.world.archipelago');
+  if (family === 'zones' || family === 'paths') return path('project.ndxbook.world.archipelago');
+  if (family === 'interactions' || family === 'inhabitants' || family === 'states' || family === 'access') return path('project.ndxbook.world.plaza');
+  return null;
+}

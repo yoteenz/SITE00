@@ -13506,3 +13506,15 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.MEDIA-HIERARCHY.ONE-VIEWPORT-CONVERGEN
 - **Fix:** `MediaImg` + `ExpressionMediaInspector`; `exf-panel--media` / `--compact` / `--rail`; storyboard `exf-storyboard-stage` + `exf-frames--rail`; casting talent `exf-rail--talent`; compact `exf--media-focus` hero/status on media-heavy families. Layout updates in Casting, Look, Storyboard, Performance, Review families.
 - **Tests:** `productionExpressionMediaHierarchyOneViewportConvergence1.test.ts`. Merged to tunnel `cursor/studio-world-resident-geometry-complete-production-injection1`. Draft PR #1331 to `main` (not auto-merged).
 
+---
+
+## 2026-10-05 — Production workspace Grok canonical asset injection
+
+Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-CANONICAL-ASSET-INJECTION1` on `cursor/production-workspace-grok-canonical-asset-injection1-0daf` from the geometry-complete tunnel.
+
+- **Handoff:** Ultrasonic lite pack ingested (environment groups, 8 new masters, U-07/U-08 frozen, U-17 out of scope).
+- **Generated:** 8 environment plates + NDX core + Design core via GPT Image 2.5 Sunburst 4k, auto-enhance off. Actual pixels recorded (16:9 delivered 3584×2016, not invented from the tier label). Ledger `artifacts/site00-workspace-asset-production/GENERATION_LEDGER.json` under budget `SITE00_WORKSPACE_ASSET_PRODUCTION` (not the Jurnl budget).
+- **Mounted:** Atrium master on Hub (focal crop) and Design chamber; white production floor replaces the dark Expression stage; viewport corridor; NDX experience child heroes only. Experience root and Library root plates unchanged.
+- **Icons:** Founder hub nav master restored (384×284) over the 48px substitute.
+- **Not generated:** 7 pipeline objects, portal, CF residual slots, materials. No site00.com deploy.
+

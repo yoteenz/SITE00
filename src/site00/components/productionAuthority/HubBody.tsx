@@ -261,12 +261,13 @@ export function HubBody() {
         className="hubx-hero"
         data-testid="authority-hero"
         style={{
-          ['--hero-mobile' as string]: `url(${AUTHORITY_ASSETS.hubHero.mobile})`,
-          ['--hero-tablet' as string]: `url(${AUTHORITY_ASSETS.hubHero.tablet})`,
-          ['--hero-desktop' as string]: `url(${AUTHORITY_ASSETS.hubHero.desktop})`,
+          ['--hero-mobile' as string]: `url(${AUTHORITY_ASSETS.atriumMaster})`,
+          ['--hero-tablet' as string]: `url(${AUTHORITY_ASSETS.atriumMaster})`,
+          ['--hero-desktop' as string]: `url(${AUTHORITY_ASSETS.atriumMaster})`,
         }}
       >
         <span className="hubx-hero__plate" aria-hidden />
+        {slug === 'ndxbook' ? <img className="hubx-hero__core" alt="" src={AUTHORITY_ASSETS.ndxCore} data-testid="hub-project-core" /> : null}
         <div className="hubx-hero__copy">
           <i aria-hidden />
           <small>PROJECT</small>
