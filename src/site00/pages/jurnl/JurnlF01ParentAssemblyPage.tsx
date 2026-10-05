@@ -19,6 +19,7 @@ function AssetImg({
       data-asset-id={asset.asset_id}
       data-component={asset.component}
       data-runtime-path={asset.runtime_path}
+      data-pixels={asset.pixels ?? ''}
     />
   );
 }

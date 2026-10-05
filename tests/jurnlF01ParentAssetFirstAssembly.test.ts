@@ -15,7 +15,15 @@ const layerMap = JSON.parse(
     ),
     'utf8',
   ),
-) as { regions: { region_id: string; semantic_role: string; needs_generation: boolean }[] };
+) as {
+  regions: {
+    region_id: string;
+    semantic_role: string;
+    needs_generation: boolean;
+    pixels?: string;
+    openart_resolution_tier?: string;
+  }[];
+};
 
 describe('Family 1 semantic isolation assembly', () => {
   it('mounts the environment plate and logo only', () => {
@@ -38,9 +46,22 @@ describe('Family 1 semantic isolation assembly', () => {
     expect(byId.cta_get_started.semantic_role).toBe('LIVE_CONTROL');
     expect(byId.cta_sign_in.semantic_role).toBe('LIVE_CONTROL');
     expect(byId.brand_mark.semantic_role).toBe('INDEPENDENT_VISUAL_ASSET');
+    expect(byId.hero_scene.pixels).toBe('2016x3584');
+    expect(byId.hero_scene.openart_resolution_tier).toBe('4k');
     expect(layerMap.regions.every((row) => row.needs_generation === false)).toBe(true);
     expect(layerMap.regions.some((row) => row.semantic_role === 'LAYERED_DECORATIVE_ASSET')).toBe(
       false,
     );
+  });
+
+  it('mounts the 4k-tier plate at 2016x3584', () => {
+    const plate = FAMILY1_PARENT_ASSETS.find((row) => row.asset_id === 'ENTRY.ENVIRONMENT.PLATE.001');
+    expect(plate?.openart_resolution_tier).toBe('4k');
+    expect(plate?.pixels).toBe('2016x3584');
+    const bytes = readFileSync(
+      new URL('../public/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png', import.meta.url),
+    );
+    expect(bytes.readUInt32BE(16)).toBe(2016);
+    expect(bytes.readUInt32BE(20)).toBe(3584);
   });
 });
