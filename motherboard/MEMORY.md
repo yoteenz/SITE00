@@ -814,26 +814,13 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
+
 ## 2026-08-19 — Enter menu: remove trailing row dividers (desktop)
 
 - **Request:** Remove extra gray lines below JOURNAL and SUPPORT on Enter menu desktop page only.
 - **Root cause:** Each `.site00-enter-row` has `border-bottom`; last row in EXPLORE (Journal) and YOUR SPACE (Support) showed redundant rules above the diamond section divider / panel bottom.
 - **Fix:** Desktop-scoped CSS — trailing row dividers removed; section headings +4px below; welcome block positioning + overflow fix; body copy `white-space: nowrap`; menu panel `transform: translate(202px, -48px)`; EXPLORE row numbers red (`--site-red`).
 - **Branch:** `cursor/enter-menu-row-dividers-796f`.
-
----
-
-## 2026-08-19 — ENTER 00 desktop hero wall perspective plane (reverted)
-
-- **Request:** Align desktop ENTER hero copy to architectural wall angle via single perspective plane.
-- **Outcome:** User rejected result ("looks weird") — **reverted** on `cursor/enter-wall-perspective-796f`. Removed `.site00-enter-welcome__plane`, `EnterWallPerspectiveCalibrator`, `enter-wall-perspective.ts`, and all perspective/skew CSS. Hero copy restored to flat `translate(-240px, -120px)` desktop layout.
-- **Branch:** `cursor/enter-wall-perspective-796f` (PR #91 updated to revert).
-
-## 2026-08-19 — Evolve state subhead single line (desktop)
-
-- **Request:** Keep “REFINE WHAT EXISTS, INSTALL NEW CAPABILITIES, OR TRANSFORM THE FOUNDATION.” on one row on Evolve state page (no wrap).
-- **Fix:** Removed inline `maxWidth: 560` on EvolveStatePage subhead; `@media (min-width: 768px)` + desktop artboard CSS apply `white-space: nowrap` and `max-width: none` for `.site00-state-page--evolve .site00-state-page__subhead`.
-- **Branch:** `cursor/evolve-state-subhead-nowrap-796f`.
 
 ---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
@@ -843,6 +830,7 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Branch:** `cursor/fast-travel-remove-outline-796f`.
 
 ---
+
 ## 2026-08-19 — Sign-in page icon update (Supabase NAV PNG)
 
 - **Request:** Replace sign-in page icon with Supabase asset `NAV/7D83E4A6-BB5B-4092-A002-EB9DAA1E79A2.png`.
@@ -850,6 +838,7 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Branch:** `cursor/signin-icon-update-2c3b`.
 
 ---
+
 ## 2026-08-19 — Sign-in icon not visible on fsbw-dev preview (cache + sizing)
 
 - **Issue:** Founder on `site00.fsbw-dev.com/origin/sign-in` still saw old red wireframe SVG; PNG not requested in network tab.
@@ -858,6 +847,7 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **User action:** Hard refresh sign-in page (mobile Safari: pull-to-refresh or clear site data) after preview reconnects.
 
 ---
+
 ## 2026-08-19 — Founder Access Credential system (physical-to-digital)
 
 - **Request:** Full sprint — serialized Founder Access Cards with QR → `/access/:credentialId` → ACCESS RECOGNIZED → ENTER SITE 00; admin CRUD; scan tracking; account association; RLS.
@@ -869,12 +859,14 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Branch:** `cursor/founder-access-credentials-2c3b`.
 
 ---
+
 ## 2026-08-20 — Sign-in icon cache bust + magic link red on iOS
 
 - **Issue:** Sign-in page still showed old wireframe SVG on fsbw-dev preview; magic link button text/icon blue on iOS Safari.
 - **Fix:** `SITE00_SIGNIN_ICON_VERSION=2` cache bust on resolved NAV PNG; magic link `-webkit-appearance: none` + explicit red on button, icon, label spans. Branch `cursor/signin-icon-magic-link-fix-2c3b`.
 
 ---
+
 ## 2026-08-20 — Founder Card access landing moodboard (reticle PNG + desktop/mobile compositions)
 
 Summary of the **whole conversation so far** in this cloud agent run.
@@ -900,6 +892,7 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Conventions:** Access page icon = PNG asset only; sign-in icon (`7D83E4A6`) is separate. Preview may need Vite `--force` + hard refresh on mobile Safari.
 
 ---
+
 ## 2026-08-20 — Access landing debug route (`/access/debug`)
 
 - **Request:** Debug route to audit Founder Card access page design and function without live API/credential.
@@ -909,6 +902,7 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Branch:** `cursor/access-debug-route-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel list arrows (Quick Jump + Return)
 
 - **Request:** Add red arrows from locations directory to right side of Fast Travel QUICK JUMP and RETURN panels.
@@ -916,6 +910,7 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Branch:** `cursor/fast-travel-arrows-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel close button + current location colors
 
 - **Request:** Remove blue square on X close; shrink close 5%; swap CURRENT LOCATION (gray→red) and descriptor NAVIGATE THE ECOSYSTEM (red→gray).
@@ -923,6 +918,7 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Branch:** `cursor/fast-travel-close-colors-2c3b`.
 
 ---
+
 ## 2026-08-20 — Sign-in CREATE ACCOUNT line wrap
 
 - **Request:** Wrap "CREATE ACCOUNT" to next line below "NEW TO SITE 00?" on mobile sign-in footer.
@@ -930,6 +926,7 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Branch:** `cursor/signin-create-account-wrap-2c3b`.
 
 ---
+
 ## 2026-08-20 — Cloud preview cache bust (mobile Safari stale modules)
 
 - **Issue:** Founder not seeing Fast Travel arrows, close-button fix, or color swaps on tunnel — server had latest code; phone cached old JS modules (also showed gray CURRENT LOCATION + blue X = pre-PR-115 bundle).
@@ -937,6 +934,7 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Branch:** `cursor/preview-cache-bust-arrows-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel arrow size −10%
 
 - **Request:** Decrease red arrows on Fast Travel list panels by 10%.
@@ -944,6 +942,7 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Branch:** `cursor/fast-travel-arrow-size-2c3b`.
 
 ---
+
 ## 2026-08-20 — Mobile ecosystem hub panel icons (IDNTY / BLDR / EVOLVE)
 
 Summary of the **whole conversation so far** in this cloud agent run (cumulative).
@@ -967,6 +966,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/mobile-ecosystem-panel-icons-2c3b`.
 
 ---
+
 ## 2026-08-20 — Mobile horizontal scroll removed (vertical only)
 
 - **Request:** Remove horizontal page scroll on mobile — vertical scroll only.
@@ -974,6 +974,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/mobile-no-horizontal-scroll-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel Sign In panel icon
 
 - **Request:** Put the geometric sign-in page icon on the Fast Travel UP NEXT Sign In card, above the text.
@@ -981,6 +982,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-signin-icon-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel Create Identity panel icon
 
 - **Request:** Put the Origin desktop expanded IDNTY panel geometric icon on the Fast Travel UP NEXT Create Identity card, above the text.
@@ -988,6 +990,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-idnty-icon-2c3b`.
 
 ---
+
 ## 2026-08-20 — IDNTY gateway Sign In panel icon
 
 - **Request:** Replace generic user icon on IDNTY mobile Sign In hub card with the geometric sign-in page icon.
@@ -995,12 +998,14 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/idnty-signin-panel-icon-2c3b`.
 
 ---
+
 ## 2026-08-20 — Cloudflare preview tunnel restart
 
 - **Request:** Restart the preview tunnel.
 - **Action:** Killed `site00-preview-tunnel` tmux session; relaunched `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. Vite on 5174 left running. Four tunnel connections registered; preview URL refreshed in `/tmp/site00-cloud-preview-url.txt`.
 
 ---
+
 ## 2026-08-20 — Fast Travel Current Location IDNTY icon
 
 - **Request:** Add the identity panel geometric icon to the Fast Travel Current Location panel.
@@ -1008,6 +1013,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-current-location-icon-2c3b`.
 
 ---
+
 ## 2026-08-20 — IDNTY gateway hub card icons (approved NAV PNGs)
 
 - **Request:** Replace Sign In and Create IDNTY panel icons on `/idnty` gateway with specific Supabase NAV PNGs; do not change header hero icon.
@@ -1016,6 +1022,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/idnty-gateway-panel-icons-2c3b`.
 
 ---
+
 ## 2026-08-20 — Ecosystem hub header icon on title row
 
 - **Request:** Header panel icons should sit on the same row as the header text, not vertically centered in the hero block.
@@ -1023,6 +1030,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/ecosystem-hero-icon-row-2c3b`.
 
 ---
+
 ## 2026-08-20 — IDNTY investment section icons removed
 
 - **Request:** Remove icons from IDNTY / INVESTMENT grid only; keep brand state card icons above.
@@ -1030,6 +1038,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/idnty-investment-no-icons-2c3b`.
 
 ---
+
 ## 2026-08-20 — Mobile IDNTY pages bottom navigation
 
 - **Request:** Mobile identity pages missing bottom navigation panel.
@@ -1037,6 +1046,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/idnty-mobile-bottom-nav-2c3b`.
 
 ---
+
 ## 2026-08-20 — Projects page EVOLVE button relocation
 
 - **Request:** Remove `+ EVOLVE` and `+ NEW BUILD` from Projects header; add `+ EVOLVE` below bottom `+ NEW PROJECT` CTA.
@@ -1044,6 +1054,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/projects-evolve-button-relocate-2c3b`.
 
 ---
+
 ## 2026-08-20 — Projects panel text colors
 
 - **Request:** Right-aligned meta in PROJECT ACTIVITY / MY ROLES (e.g. `2H AGO`, `4 projects`) → red; panel section titles → gray.
@@ -1051,6 +1062,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/projects-panel-text-colors-2c3b`.
 
 ---
+
 ## 2026-08-20 — Post sign-in Vite auditLog import error
 
 - **Issue:** After sign-in, Vite overlay: failed to resolve `./_lib/auditLog.js` from `api/profile.ts` — dev server was treating `/api/profile` as a frontend module.
@@ -1058,6 +1070,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fix-profile-auditlog-import-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel CTRL ROOM subtitle copy
 
 - **Request:** IDNTY UP NEXT CTRL ROOM card — remove "your"; subtitle should read "OPERATING ENVIRONMENT."
@@ -1065,6 +1078,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-ctrl-room-copy-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel current location icon removed
 
 - **Request:** Remove IDNTY geometric icon from Fast Travel CURRENT LOCATION panel.
@@ -1072,6 +1086,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-no-current-location-icon-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel UP NEXT artwork integration (9 PACK assets)
 
 - **Request:** Integrate 9 approved Supabase PACK illustrations into UP NEXT cards by destination id; preserve sign-in + create existing marks.
@@ -1079,6 +1094,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-up-next-artwork-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel UP NEXT card index + registration mark
 
 - **Request:** Add faded positional index (0/1) top-left and red upper-right registration SVG to UP NEXT card shell; not baked into PACK PNGs.
@@ -1086,6 +1102,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-up-next-card-chrome-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel UP NEXT z-index fix
 
 - **Issue:** PACK artwork painted over faded index + red registration mark (art z-index 2 > index z-index 1).
@@ -1093,6 +1110,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-up-next-zindex-fix-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel artwork audit (sign-in / create)
 
 - **Issue:** IDNTY signed-out UP NEXT showed tiny corner marks instead of full card artwork; sign-in/create bypassed `FastTravelDestinationArt`.
@@ -1100,6 +1118,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-artwork-audit-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel registration mark 3-bracket fix
 
 - **Issue:** UP NEXT registration SVG hid bottom-right bracket (`opacity="0"`); spec requires exactly 3 visible brackets (TL, TR, BR) — no bottom-left.
@@ -1107,6 +1126,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-registration-mark-3bracket-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel BLDR build selection copy
 
 - **Request:** BLDR UP NEXT card — "BUILD CLASS SELECTION" → "BUILD SELECTION"; subtitle → "CHOOSE BUILD."
@@ -1114,6 +1134,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-build-selection-copy-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel sign-in/create gateway icons + copy
 
 - **Request:** CREATE IDENTITY subtitle → "START YOUR IDENTITY."; sign-in/create UP NEXT still showing old orbital/origin panel icons.
@@ -1121,6 +1142,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-idnty-icons-copy-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel sign-in/create PACK folder icons
 
 - **Request:** Sign-in + create UP NEXT icons from `PACK/94368368…` and `PACK/EAC75AD6…` (not NAV folder).
@@ -1128,6 +1150,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-signin-create-pack-icons-2c3b`.
 
 ---
+
 ## 2026-08-20 — Fast Travel sign-in/create icon nudge
 
 - **Request:** Move sign-in + create identity UP NEXT artwork down 4px only.
@@ -1135,6 +1158,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/fast-travel-idnty-icon-offset-2c3b`.
 
 ---
+
 ## 2026-08-20 — Loader gray subtitle stuck on “IS READY”
 
 - **Issue:** Gray subtitle showed “BUILDER IS READY” etc. while bar still loading (e.g. 87%) — `resolveActiveStageSubtitle` treated final milestone as active whenever p < 100.
@@ -1142,6 +1166,7 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Branch:** `cursor/loader-subtitle-stage-fix-2c3b`.
 
 ---
+
 ## 2026-08-20 — BLDR mobile BUILD SYSTEM visual rebuild
 
 Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile preview sprint).
@@ -1167,6 +1192,7 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 - **Conventions:** BLDR hub mobile rebuild is component-driven under `components/bldr/mobile/`; do not restyle desktop `.site00-bldr-split` for this experience.
 
 ---
+
 ## 2026-08-20 — IDNTY mobile IDENTITY DIAGNOSTIC visual upgrade
 
 Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
@@ -1193,6 +1219,7 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 - **Conventions:** IDNTY mobile diagnostic lives under `components/idnty/mobile/`; do not alter desktop `.site00-state-page-layout` presentation.
 
 ---
+
 ## 2026-08-20 — EVOLVE mobile Property Evolution redesign
 
 Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
@@ -1219,6 +1246,7 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 - **Conventions:** EVOLVE mobile experience under `components/evolve/mobile/`; desktop Evolve state page unchanged.
 
 ---
+
 ## 2026-08-20 — Identity State System V2 (assessment intake)
 
 Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
@@ -1247,6 +1275,7 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 - **Conventions:** Assessment V2 mobile under `components/idnty/state-v2/`; IDNTY landing (`IdntyMobileDiagnostic`) untouched. Three-corner mark via shared `Site00ThreeCornerMark` (TL/TR/BR only).
 
 ---
+
 ## 2026-08-20 — BLDR immersive selection route enhancement (mobile /bldr/state)
 
 Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
@@ -1272,6 +1301,7 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 - **Conventions:** Immersive BLDR classification lives under `components/bldr/classification/`; reference image drives composition; repository assets + routes win over mockup hallucinations. Enterprise portal renders asset-slot fallback until env PNG is approved.
 
 ---
+
 ## 2026-08-20 — EVOLVE mobile hub experience V2 (reference-locked)
 
 Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
@@ -1299,6 +1329,7 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 - **Conventions:** Evolve hub mobile under `components/evolve/hub-mobile/`; path cards use horizontal scroll-snap on phone widths; LOCATIONS bottom-nav active state unchanged for `/evolve*`.
 
 ---
+
 ## 2026-08-20 — EVOLVE mobile path selection visual system V2
 
 Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
@@ -1324,6 +1355,7 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 - **Conventions:** Evolve selection = configuration environment; hub = control center. One shared visual system renders three intervention protocols via config-driven components.
 
 ---
+
 ## 2026-08-20 — Signed-in IDNTY Control Center enhancement
 
 Summary of this cloud agent run (SITE 00 mobile sprint).
@@ -1346,6 +1378,7 @@ Summary of this cloud agent run (SITE 00 mobile sprint).
 - **Conventions:** Signed-in IDNTY = operational control center; config-driven row groups; technical icon frames reuse existing `Site00HubIcons`.
 
 ---
+
 ## 2026-08-20 — CTRL ROOM mobile command center enhancement
 
 Summary of this cloud agent run (SITE 00 mobile sprint).
@@ -1368,6 +1401,7 @@ Summary of this cloud agent run (SITE 00 mobile sprint).
 - **Conventions:** CTRL ROOM = cross-system operating view; mobile/desktop split via CSS; API errors show STATUS TEMPORARILY UNAVAILABLE, never raw parse errors.
 
 ---
+
 ## 2026-08-20 — Mobile viewport centering audit (all mobile pages)
 
 Summary of this cloud agent run (SITE 00 mobile layout fix).
@@ -1391,6 +1425,7 @@ Summary of this cloud agent run (SITE 00 mobile layout fix).
 - **Conventions:** Mobile shell horizontal gutter is owned by `.site00-mobile-shell__main`; page inner wrappers should not add duplicate horizontal padding. All mobile grids need `minmax(0, 1fr)` + `min-width: 0` on children.
 
 ---
+
 ## 2026-08-20 — BLDR Enterprise panel background artwork
 
 Summary of this cloud agent run (SITE 00 asset update).
@@ -1404,6 +1439,7 @@ Summary of this cloud agent run (SITE 00 asset update).
 - **Conventions:** BLDR entry/classification portal images live in `bldr-entry.ts`; PACK assets use `PACK/{uuid}.png` path prefix.
 
 ---
+
 ## 2026-08-20 — Identity Calibration mobile onboarding system
 
 Summary of this cloud agent run (SITE 00 Identity selection sprint).
@@ -1425,6 +1461,7 @@ Summary of this cloud agent run (SITE 00 Identity selection sprint).
 - **Conventions:** Identity mobile questionnaire steps use `mobileLayout="calibration"`; landing intake remains V2 white shell; process strip component kept for desktop only.
 
 ---
+
 ## 2026-08-20 — Post-payment Studio Production OS (client operating environment)
 
 Summary of this cloud agent run (SITE 00 Composer implementation sprint).
@@ -1449,6 +1486,7 @@ Summary of this cloud agent run (SITE 00 Composer implementation sprint).
 - **Conventions:** Studio entered via active project (not 6th global nav item). Studio = project-level production command; CTRL ROOM = account-level. Empty states use honest copy, never hard-coded Frontal Slayer or fake timestamps.
 
 ---
+
 ## 2026-08-20 — 00 / CONTROL admin operating environment (full sprint)
 
 Summary of this cloud agent run (SITE 00 Composer implementation sprint — internal operator OS).
@@ -1478,6 +1516,7 @@ Summary of this cloud agent run (SITE 00 Composer implementation sprint — inte
 - **Conventions:** 00 / CONTROL = `/admin/site00/*`. Reference mock names (NIA, Frontal Slayer, etc.) never in production UI. System health reports UNKNOWN when not measurable. Mobile admin prioritizes intervention (priority queue, production spine) over desktop matrix tables.
 
 ---
+
 ## 2026-08-20 — SITE 00 Email System + debug template gallery
 
 Summary of this cloud agent run (Email System + Debug Template Gallery sprint).
@@ -1503,6 +1542,7 @@ Summary of this cloud agent run (Email System + Debug Template Gallery sprint).
 - **Conventions:** Preview fixtures in `fixtures/previewData.ts` only. Debug gallery never sends. Transactional vs marketing classifications separate. Auth provider emails may differ from gallery templates.
 
 ---
+
 ## 2026-08-20 — Email pack visual fidelity correction sprint (reference-locked rebuild)
 
 Summary of the **whole conversation so far** in this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1525,6 +1565,7 @@ Summary of the **whole conversation so far** in this cloud agent run (repo: `yot
 - **Conventions:** Reference sheet = visual source of truth. Debug at `/admin/site00/debug/email-pack`. Short URLs redirect to admin route.
 
 ---
+
 ## 2026-08-20 — EVOLVE / Marketing & Content (full sprint)
 
 Summary of the **whole conversation so far** in this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1550,6 +1591,7 @@ Summary of the **whole conversation so far** in this cloud agent run (repo: `yot
 - **Conventions:** Do not import Studio World code or duplicate production logic. Phase-based client progress (not fake percentages). Mock adapter must not run silently in production — env explicit.
 
 ---
+
 ## 2026-08-20 — Email pack visual fidelity + art-direction system
 
 Summary of the **whole conversation so far** in this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1577,6 +1619,7 @@ Summary of the **whole conversation so far** in this cloud agent run (repo: `yot
 - **Conventions:** Primitives ≠ universal EmailShell layout. Each family has composition grammar. Reference sheet controls visual hierarchy — textual REF metadata is supplementary only.
 
 ---
+
 ## 2026-08-20 — Studio World live bridge sprint (FINAL BRIDGE)
 
 Summary of the **whole conversation so far** in this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1601,6 +1644,7 @@ Summary of the **whole conversation so far** in this cloud agent run (repo: `yot
 - **Conventions:** Never silently fall back to mock in production. Mock explicit via env. All Studio World credentials server-side only.
 
 ---
+
 ## 2026-08-20 — Email pack mobile preview alignment fix
 
 Summary of this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1618,6 +1662,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Visual QA:** Auth blocked live browser test; static analysis + scale unit tests pass.
 
 ---
+
 ## 2026-08-20 — Sprint 01: Production orchestration foundation
 
 Summary of this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1641,6 +1686,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Conventions:** Admin approval required for manifest activation, deferrals, overrides, reconciliation acceptance. Evidence never auto-completes requirements. Studio World ≠ client brand. Same physical repo can host multiple logical systems.
 
 ---
+
 ## 2026-08-20 — Sprint 02: Existing project reconciliation + real launch baselines
 
 Summary of this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1668,6 +1714,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Conventions:** Provisional manifests labeled until admin approval. Unknown stays unknown. Studio World = infrastructure, not client brand. External repos read-only from SITE 00.
 
 ---
+
 ## 2026-08-20 — Sprint 03: Admin Control Center × Live Orchestration
 
 Summary of this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1687,6 +1734,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Conventions:** Debug route remains engineering-only; operator UI lives on approved COMMAND dashboard and orchestration routes.
 
 ---
+
 ## 2026-08-20 — Nine-family email system sprint (canonical reference boards 01–09)
 
 Summary of this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1724,6 +1772,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Conventions:** Reference boards outrank legacy implementation. Do not collapse families into one template. Do not wire production sends from debug. Family 02 ↔ 09 bookend (location created / location still yours) is canonical.
 
 ---
+
 ## 2026-08-20 — EVOLVE Marketing OS sprint (post-launch growth orchestration)
 
 Summary of this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1745,6 +1794,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Deferred:** Supabase store adapter (memory store used); live analytics/email provider adapters; full calendar/email/social CRUD UI; migration apply to remote Supabase.
 
 ---
+
 ## 2026-08-20 — EVOLVE Sprint 02 operator UI (marketing workspace pages)
 
 Summary of this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1764,6 +1814,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Deferred:** Supabase persistence adapter; live email provider connection; production send wiring.
 
 ---
+
 ## 2026-08-20 — EVOLVE Sprint 02 continuation (Supabase persistence + operator workspace completion)
 
 Summary of this cloud agent run (repo: `yoteenz/SITE00`).
@@ -1785,6 +1836,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Deferred:** External email/analytics/social provider connections; live Studio World dispatch; deploy.
 
 ---
+
 ## 2026-08-20 — Email Pack mobile preview centering fix
 
 - **Context:** On the Email Pack review/debug interface, the IMPLEMENTATION preview on mobile was shifted/clipped to the right — full email width not visible. Founder needed fit-to-view width scaling with horizontal centering, without redesigning email templates.
@@ -1794,6 +1846,8 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Fix:** Changed `transform-origin` to `top left`; added `overflow: hidden` on `.site00-email-debug-preview-slot`; improved initial scale measurement using `window.innerWidth` in `EmailPreviewCanvas`. Files: `EmailPreviewCanvas.tsx`, `site00-email-debug.css`. Scale math unchanged in `emailPreviewScale.ts`.
 
 - **Verified:** MOBILE 375 + DESKTOP 640, LIGHT + DARK, IMPLEMENTATION mode, Access/Security + Welcome/Onboarding templates; all 9 families share same `EmailPreviewCanvas`. Build + unit tests PASS. No email design changes. No deploy.
+
+
 ## 2026-08-20 — Temporary preview admin bypass (email pack review)
 
 - **Context:** Founder could not load email pack debug on `site00.fsbw-dev.com` due to auth redirect + session-restore 503 on preview dev server.
@@ -1801,6 +1855,7 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Flag:** `TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW` in `AdminGuard.tsx` — set `false` or remove after email pack review complete.
 
 ---
+
 ## 2026-08-20 — EVOLVE Marketing OS Sprint 03: External Intelligence + Provider Connection Architecture
 
 Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
@@ -1824,6 +1879,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Ready for controlled publishing sprint:** Architecture yes; publishing/automation remain disabled until owner authorization.
 
 ---
+
 ## 2026-08-20 — Email Family System visual architecture correction sprint
 
 - **Problem:** Lifecycle templates (Access Credential, Identity Path/Input/Calibration/Review/Foundation) all rendered identical Welcome/Location Key composition because `family-map` collapsed them to `WELCOME_ONBOARDING` and `composeWelcomeOnboarding` hardcoded "YOUR LOCATION EXISTS NOW." copy.
@@ -1835,6 +1891,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 156 tests PASS. Build PASS. No deploy. No emails sent.
 
 ---
+
 ## 2026-08-20 — EVOLVE Sprint 04: NDXbook pilot readiness + live connection configuration
 
 - **Objective:** Prepare NDXbook for controlled publishing pilot without publishing, enabling fences, or inventing credentials.
@@ -1858,6 +1915,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Status:** PARTIAL — architecture complete; live provider authorization blocked pending owner env configuration (META_* + EVOLVE_PROVIDER_SECRET_KEY).
 
 ---
+
 ## 2026-08-20 — EVOLVE Sprint 05A: NDXbook pilot activation + owner configuration
 
 - **Objective:** Complete all prerequisites for `READY_FOR_FENCE_ENABLEMENT` without publishing, enabling fences, automation, or deploy.
@@ -1887,6 +1945,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Production truth:** Live Meta OAuth + account confirmation still require owner env vars on API host; code path complete in memory/test mode.
 
 ---
+
 ## 2026-08-20 — ACCESS / SECURITY reference-fidelity pass (Family 01)
 
 - **Problem:** ACCESS templates had correct dark credential routing but simplified layout vs approved Family 01 board (duplicate glyph, white ID card, tiny security labels, generic footer).
@@ -1896,6 +1955,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 205 tests PASS (6 new access-security fidelity). Build PASS. No deploy. No emails sent.
 
 ---
+
 ## 2026-08-20 — Family 01 ACCESS / SECURITY mobile responsive fidelity
 
 - **Problem:** At 375px, generic `.stack` reflow from global emailDoc broke Family 01 composition — hero/credential/footer stacked into long newsletter column, oversized pass/headline, separated QR from metadata.
@@ -1905,6 +1965,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 211 tests PASS (6 new mobile fidelity). Build PASS. Desktop 640 unchanged structurally. No deploy.
 
 ---
+
 ## 2026-08-20 — Family 01 ACCESS / SECURITY final responsive proportion + density pass
 
 - **Scope:** Final founder-QA refinement at 375px only — no redesign, no structural changes, 640px desktop locked.
@@ -1922,6 +1983,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 214 tests PASS (3 new density assertions). Build PASS. No deploy. No other email families modified.
 
 ---
+
 ## 2026-08-20 — Family 01 ACCESS / SECURITY Sonnet 5 visual fidelity pass (640px desktop)
 
 - **Scope:** Close remaining visual gap vs approved reference board at canonical 640px only. Mobile 375px preserved/untouched in intent — one compatibility adjustment made where a desktop change would otherwise leak into mobile.
@@ -1943,6 +2005,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Files:** `shared/site00-email/art-direction/access-security.ts`, `shared/site00-email/art-direction/access-security.test.ts`. No other families, no deploy, no emails sent.
 
 ---
+
 ## 2026-08-20 — EVOLVE NDXbook legacy intelligence import + founder canonization
 
 - **Context:** Import recovered Studio World NDXbook intelligence from fsbw handoff into existing SITE 00 EVOLVE org (`ndxbook` / `7681ab75-bddc-43e5-b594-79fcf8168205`). Intelligence migration only — not publishing, not provider reconnection, not new org bootstrap.
@@ -1956,6 +2019,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 255 tests PASS. Build PASS. PR merged to main. No deploy. No content published.
 
 ---
+
 ## 2026-08-20 — Admin dashboard preview tunnel link + CTRL ROOM admin route
 
 - **Request:** Surface SITE 00 cloud preview tunnel URL on admin dashboard (`/admin/site00`); add permanent route from client CTRL ROOM (`/control`) to admin dash for founder/admin operators.
@@ -1965,6 +2029,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 258 tests PASS (3 preview tunnel resolver tests). Build PASS.
 
 ---
+
 ## 2026-08-20 — EVOLVE NDXbook Creative Direction (first real client specimen)
 
 - **Context:** Post legacy intelligence import sprint. NDXbook needs founder-approved visual DNA via shared EVOLVE Creative Direction architecture — not NDXbook-only hack. No publishing, no Page 001 production, no provider bypass.
@@ -1978,6 +2043,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 283 tests PASS (25 new Creative Direction tests). Build PASS. PR merged to main. No deploy.
 
 ---
+
 ## 2026-08-20 — EVOLVE Marketing 7-discipline creative intake visual fidelity sprint
 
 - **Context:** Founder supplied seven visual reference images for EVOLVE → Marketing & Content intake experiences (Social Content, Campaign, Product Campaign, Brand Film, UGC-Style, Launch Campaign, Content System). Prior sprint fixed architectural sameness but failed founder visual review — generic forms, serif leakage, missing SITE 00 shell, undifferentiated disciplines. User explicitly required **all text uppercase**.
@@ -1989,6 +2055,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 291 tests PASS. Build PASS. PR merged to main. No deploy.
 
 ---
+
 ## 2026-08-20 — SITE 00 Projects real data injection + project command surface
 
 - **Context:** Founder-facing PROJECTS still showed mock/demo data via `ECOSYSTEM_PROJECTS_SEED` / `useEcosystemData` fallbacks while real Frontal Slayer, Studio World, and ndxbook intelligence existed in EVOLVE. Sprint replaces mock founder view with truthful project index + command surface.
@@ -2000,6 +2067,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 310 tests PASS (19 new project index tests). Build PASS. PR merged to main. No deploy.
 
 ---
+
 ## 2026-08-20 — Founder dual-context access + canonical client experience sprint
 
 - **Context:** Founder/admin must operate in two legitimate contexts: **CLIENT / PROJECT OWNER** (canonical product) and **SITE 00 ADMIN** (operator layer). Admin status must NOT bypass client experience or auto-approve governance gates. Extends Real Project Index sprint — does not rebuild Projects.
@@ -2015,6 +2083,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 340 tests PASS (30 new dual-context tests). Build PASS. PR merged to main.
 
 ---
+
 ## 2026-08-20 — Real Project Index runtime repair (INVALID JSON on /projects)
 
 - **Root cause:** `GET /api/site00/projects?action=index` was implemented in `api/site00/projects.ts` but **not registered** in `scripts/vite-site00-local-api.mjs` or `server/routes.ts`. fsbw-dev Vite preview returned SPA HTML for the API path → frontend `Invalid JSON response`.
@@ -2026,6 +2095,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 353 tests PASS (13 new runtime/contract tests). Build PASS. PR merged to main. No deploy.
 
 ---
+
 ## 2026-08-20 — NDXBOOK Creative Direction structural differentiation + territory rebuild
 
 - **Context:** Founder QA FAILED creative differentiation — three territories were palette/copy swaps on one shared specimen system. Sprint rebuilds INDEX SIGNAL, EDITORIAL UTILITY, and KINETIC FIELD as structurally distinct creative systems while preserving PR #184 governance architecture.
@@ -2043,6 +2113,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 ---
 
 ---
+
 ## 2026-08-21 — NDXBOOK Creative Direction: art-directed visual worlds + FAL asset production pass
 
 - **Context:** Founder approved the three structurally-distinct territories (INDEX SIGNAL, EDITORIAL UTILITY, KINETIC FIELD) from the prior sprint but they were still wireframe-quality — SVG-only specimens with placeholder boxes, no real imagery, not yet "founder-reviewable creative worlds." Task: elevate each territory to real, NDXBOOK-specific, art-directed presentations using the existing FAL pipeline, while preserving locked structural differentiation and founder decision gates (never auto-approve).
@@ -2062,6 +2133,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Not merged:** PR #192 (`cursor/ndxbook-cd-fal-visual-assets-1983` → `main`) pushed and marked ready for review, but **not auto-merged** — cloud-agent system instructions for this run explicitly prohibit merging PRs without explicit user instruction (overrides the shipping.mdc default-merge convention). Founder should merge from GitHub when ready.
 
 ---
+
 ## 2026-08-21 — Identity + Builder intake persistence, guest access & retrieval (infrastructure sprint)
 
 - **Context:** Founder-specified infrastructure sprint (not a visual redesign). Identity and Builder intakes only ever persisted to `localStorage` — no server draft, no resume-by-email, no client/admin retrieval, no submission receipt, no lineage to downstream engagement/project. Explicitly out of scope: email art direction (placeholders only), deploy, real email sends, and any change to Frontal Slayer/Studio World/AIO/NDXBOOK/EVOLVE/Email Family 01.
@@ -2089,6 +2161,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests/build:** 453 tests PASS (43 new intake tests across shared types, tokens, authorization, intake service, and all three API handlers). `tsc --noEmit` PASS. `npm run build` PASS. PR #194 opened (not merged — left for founder review per this task's explicit no-auto-merge framing; branch `cursor/identity-builder-intake-persistence-1983`). No deploy, no real emails sent, no changes to Frontal Slayer/Studio World/AIO/NDXBOOK/EVOLVE/Email Family 01.
 
 ---
+
 ## 2026-08-21 — Intake Access email family: FAL-native visual production pilot (Builder + Identity)
 
 - **Context:** Founder-approved concept board (Builder Intake Access + Identity Intake Access, desktop+mobile) as sole visual authority. Explicit new production doctrine: reference artwork ≠ code — every visual element classified `CODE_NATIVE` / `GENERATED_ASSET` / `EXISTING_ASSET` / `HYBRID_COMPOSITION` before any generation; produced artwork (architecture drawings, photography, paper, fingerprints, seals, collage) must never be approximated with CSS/SVG/gradients/emoji/placeholders. Pilot of a reusable methodology intended for later Studio World adoption — Studio World runtime explicitly untouched.
@@ -2108,6 +2181,7 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Shipping:** Branch `cursor/intake-access-fal-visual-pilot-1983`, PR #195 opened against `main` and merged in the same session per the default shipping workflow (no merge conflicts — clean fast-forward ahead of `main`). No deploy, no real emails sent, no changes to Frontal Slayer/Studio World runtime/AIO/NDXBOOK/Family 01.
 
 ---
+
 ## 2026-08-21 — AIO Projects index integration + Intake Access rendering-medium/compositing fidelity pass
 
 This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRISES to the canonical founder Projects index, and (2) a stricter forensic fidelity/audit pass on the Intake Access email family's already-implemented FAL production pilot (above), re-auditing it against the founder-approved reference under a much more explicit rendering-medium/asset-treatment doctrine.
@@ -2127,6 +2201,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Shipping:** Branch `cursor/intake-access-fal-visual-pilot-1983` (same branch as the original pilot — its first PR #195 had already merged) got new commits, merged forward with `origin/main` (clean, no conflicts), and PR #200 opened + marked ready for review. Not merged to `main` by the agent — this cloud sandbox's `ManagePullRequest` tool has no merge action and its `gh` CLI access is read-only, so merging is left for the founder via the GitHub app, consistent with the tool-level "never merge without explicit instruction" constraint. No deploy, no real emails sent, no changes to Frontal Slayer/Studio World runtime/AIO/NDXBOOK/Family 01.
 
 ---
+
 ## 2026-08-21 — Sign-in password input width alignment
 
 - **Context:** Founder reported the password input on the sign-in page was still wider than the email input and extended beyond it; both fields should be the exact same width.
@@ -2140,6 +2215,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Conventions:** When adding padded full-width inputs inside SITE 00 auth/forms, ensure the parent shell or the inputs themselves use `box-sizing: border-box` so padding does not inflate width past sibling fields.
 
 ---
+
 ## 2026-08-21 — Sign-in magic link button feedback + OTP redirect
 
 - **Context:** Founder reported the "Sign in with magic link" button appeared to do nothing.
@@ -2151,6 +2227,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Changes:** `Site00SignInForm.tsx`, `site00SignInActions.ts`, `site00-auth.css`. Build PASS.
 
 ---
+
 ## 2026-08-21 — AIO project index integration (founder Projects)
 
 - **Context:** Follow-up sprint after Real Project Index + Command Surface, Founder Dual-Context Access, and Runtime Repair. Founder Projects index had three canonical projects (Frontal Slayer, Studio World, ndxbook) but omitted **ALL IN ONE ENTERPRISES** despite AIO already existing in EVOLVE + orchestration registries.
@@ -2164,6 +2241,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Conventions:** Do not create duplicate AIO org/UUID/EVOLVE profile. Social marketing deferral is owner decision — never a launch blocker. Missing GitHub repo evidence must not remove AIO from founder index; show partial/truthful enrichment instead.
 
 ---
+
 ## 2026-08-21 — AIO project restoration verification + Projects subtitle copy
 
 - **Context:** Founder sprint to restore **All In One Enterprises Inc (AIO)** to the SITE 00 Projects page via canonical project architecture (not frontend mock). Forensic audit required before changes; no EVOLVE enrollment, intake fabrication, or unrelated project regressions.
@@ -2181,6 +2259,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 ---
 
 ---
+
 ## 2026-08-21 — Identity + Builder Brand Lore Intelligence Expansion
 
 - **Context:** Large sprint to expand Identity and Builder intake upstream of Creative Direction — collect structured brand-world intelligence (worldview, emotional promise, cultural tension, references, anti-direction, digital experience behavior) without turning intake into a corporate branding worksheet. Explicit: no deploy, no emails, **do not merge without founder instruction**.
@@ -2202,6 +2281,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Conventions:** Raw founder answers stay in intake `loreAnswers`; synthesized profile is separate with per-field provenance (`RAW_FOUNDER_INPUT`, `FOUNDER_CONFIRMED`). Never auto-confirm AI synthesis. NDXBOOK canon unchanged. Builder must not re-ask Identity lore fields listed in `BUILDER_INHERITED_LORE_FIELDS`.
 
 ---
+
 ## 2026-08-21 — Cloud Agent auto-start preview + GoDaddy deploy bundle
 
 - **Context:** Founder asked how to extend preview tunnel uptime; requested `.cursor/environment.json` for auto-start (close to always-on) and a direct cPanel deploy download link.
@@ -2215,6 +2295,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/cloud-env-always-on-4f59` → merged to `main`.
 
 ---
+
 ## 2026-08-21 — CTRL ROOM sign out + production Projects/API diagnosis
 
 - **Context:** Founder deploy gap follow-ups — backgrounds fixed by Aug 21 ZIP; Projects still failing on site00.com; requested SIGN OUT on CTRL ROOM.
@@ -2226,6 +2307,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/ctrl-room-sign-out-4f59`.
 
 ---
+
 ## 2026-08-21 — Railway API deploy crash fix (Projects blocker)
 
 - **Context:** Founder on mobile setting up Railway **production** service; generated `*.up.railway.app` domain showed **“Not Found — The train has not arrived at the station”** and deployments kept failing — same root cause as broken `api.site00.com` / Projects page on site00.com.
@@ -2242,6 +2324,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/railway-api-deploy-fix-4f59`.
 
 ---
+
 ## 2026-08-21 — cPanel deploy bundle v2 (Railway API live)
 
 - **Context:** Founder confirmed Railway health check passing (`{"ok":true,"service":"site00-api"}` on `site00-production.up.railway.app`); requested latest production ZIP for GoDaddy cPanel.
@@ -2253,6 +2336,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Still required for Projects:** GoDaddy DNS CNAME `api` → Railway hostname (remove `api` A record to GoDaddy IP if present).
 
 ---
+
 ## 2026-08-21 — Cloudflare preview tunnel restart (fresh VM)
 
 - **Request:** Restart the preview tunnel.
@@ -2261,6 +2345,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Convention reinforced:** On a brand-new VM, don't assume `site00-vite`/`site00-preview-tunnel` tmux sessions or `/tmp/cloudflared` exist — check `tmux ls` and `ls /tmp/cloudflared` first and bootstrap both if absent, same steps as a warm restart.
 
 ---
+
 ## 2026-08-21 — Cloudflare preview tunnel restart (warm, second request same session)
 
 - **Request:** Restart the tunnel again (follow-up in the same chat, ~20 min after the first restart).
@@ -2268,6 +2353,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Gotcha:** `kill-session` immediately followed by `new-session` + `send-keys` for the *same session name* in one chained command sometimes raced and left no session at all (`tmux ls` showed it missing right after). Fix: create the new session and confirm with `tmux ls` **before** sending the `cloudflared` command into it, rather than chaining kill+create+send-keys in a single shot.
 
 ---
+
 ## 2026-08-21 — Mobile Brand Lore calibration + Create Account closure sprint
 
 - **Context:** Founder sprint to fix two blocking SITE 00 client-experience gaps on the brand-lore stack: (1) `/projects/:projectSlug/calibrate` not usable on mobile, (2) no production-ready CREATE ACCOUNT onboarding surface. Preserve Brand Lore readiness, intake persistence, dual-context, project authorization; do **not** merge/deploy/send emails/modify NDX BOOK Creative Direction without explicit founder instruction.
@@ -2287,6 +2373,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/mobile-lore-calibration-account-4f59` (from `cursor/brand-lore-productionization-4f59`). PR opened, **not merged** (founder instruction).
 
 ---
+
 ## 2026-08-22 — Create account route homepage redirect fix
 
 - **Symptom:** Sign-in **CREATE ACCOUNT** sent users to SITE 00 homepage instead of registration form on production.
@@ -2296,6 +2383,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Moved auth routes (`/origin/sign-in`, `/origin/create-account`, aliases) **before** `/origin` in `Site00Routes`; added `site00CreateAccountLinkTarget()` for React Router `Link` targets; sign-in footer uses object `to` with preserved `returnTo`. Requires redeploy of frontend from `main`.
 
 ---
+
 ## 2026-08-22 — Create account still routes to homepage (live deploy gap)
 
 - **Symptom:** Founder reports CREATE ACCOUNT still lands on homepage after code fixes merged (#210, #212).
@@ -2307,6 +2395,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Founder deploy (mobile):** Download [site00-production-dist-2026-08-22.zip](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-22/site00-production-dist-2026-08-22.zip) → cPanel File Manager → public_html → upload → extract in place → hard refresh. Verify `/origin/create-account` shows form and page source no longer references `index.BT7zuSxb.js`.
 
 ---
+
 ## 2026-08-22 — Create account still redirects (confirmed undeployed Aug 22 bundle)
 
 - **Symptom:** Founder reports CREATE ACCOUNT still lands on Origin homepage after code fixes.
@@ -2318,6 +2407,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Not a code regression** — Aug 22 release ZIP was never uploaded to GoDaddy. Added: `.htaccess` no-cache for index.html, boot-gate skip for `/origin/create-account`, `scripts/package-cpanel-deploy.sh`, deploy readme v5 with delete-old-files-first mobile steps.
 
 ---
+
 ## 2026-08-22 — Project lore calibration resume on refresh
 
 - **Symptom:** Founder on cloud preview tunnel — refreshing `/projects/ndxbook/calibrate` restarted at step 1 despite saved progress.
@@ -2327,13 +2417,9 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** `resolveProjectLoreCalibrationStepIndex()` in `adaptivity.ts` resumes at first step without a server answer; `projectLoreCalibrationResume.ts` persists step + draft to `localStorage` on every change and merges on reload; clears on completion. Flow waits for resume hydration before rendering steps.
 
 - **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
-## 2026-08-19 — Assessment complete secondary links row layout
-
-- **Request:** On IDNTY (and BLDR) assessment complete panels, put “SIGN IN TO SAVE” on the same row as “RETURN TO IDNTY”, opposite side — not stacked below.
-- **Fix:** Wrapped secondary links in `.site00-idnty-complete-actions__secondary-row` with `display: flex; justify-content: space-between` in `IdntyAssessmentCompletePage.tsx`, `BldrAssessmentCompletePage.tsx`, `site00-idnty-assessment.css`.
-- **Branch:** `cursor/idnty-complete-secondary-row-796f`.
 
 ---
+
 ## 2026-08-22 — Calibration step counter reset (frozen session steps)
 
 - **Symptom:** Near end of calibration, progress jumped (e.g. 06/08 → 01/01) as if a different questionnaire; tunnel refresh landed on step 1 with total count 1.
@@ -2343,6 +2429,26 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
+
+## 2026-08-19 — ENTER 00 desktop hero wall perspective plane (reverted)
+
+- **Request:** Align desktop ENTER hero copy to architectural wall angle via single perspective plane.
+- **Outcome:** User rejected result ("looks weird") — **reverted** on `cursor/enter-wall-perspective-796f`. Removed `.site00-enter-welcome__plane`, `EnterWallPerspectiveCalibrator`, `enter-wall-perspective.ts`, and all perspective/skew CSS. Hero copy restored to flat `translate(-240px, -120px)` desktop layout.
+- **Branch:** `cursor/enter-wall-perspective-796f` (PR #91 updated to revert).
+## 2026-08-19 — Evolve state subhead single line (desktop)
+
+- **Request:** Keep “REFINE WHAT EXISTS, INSTALL NEW CAPABILITIES, OR TRANSFORM THE FOUNDATION.” on one row on Evolve state page (no wrap).
+- **Fix:** Removed inline `maxWidth: 560` on EvolveStatePage subhead; `@media (min-width: 768px)` + desktop artboard CSS apply `white-space: nowrap` and `max-width: none` for `.site00-state-page--evolve .site00-state-page__subhead`.
+- **Branch:** `cursor/evolve-state-subhead-nowrap-796f`.
+
+---
+## 2026-08-19 — Assessment complete secondary links row layout
+
+- **Request:** On IDNTY (and BLDR) assessment complete panels, put “SIGN IN TO SAVE” on the same row as “RETURN TO IDNTY”, opposite side — not stacked below.
+- **Fix:** Wrapped secondary links in `.site00-idnty-complete-actions__secondary-row` with `display: flex; justify-content: space-between` in `IdntyAssessmentCompletePage.tsx`, `BldrAssessmentCompletePage.tsx`, `site00-idnty-assessment.css`.
+- **Branch:** `cursor/idnty-complete-secondary-row-796f`.
+
+---
 ## 2026-08-19 — Sign-in password input width match
 
 - **Request:** Password field on sign-in page was too wide vs email field above it.
