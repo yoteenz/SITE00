@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "allowed_inference": [
+    {
+      "id": "INF_BEHAVIORAL_AXIS_CONSISTENCY",
+      "description": "Repeated behavioral contrast answers may infer axis defaults at low risk.",
+      "max_confidence": 0.7,
+      "dimensions": ["IDNTY_04_PERSONALITY", "IDNTY_08_PALETTE", "IDNTY_10_VISUAL_GRAMMAR"]
+    },
+    {
+      "id": "INF_EXPRESSION_CONTEXT_DEFAULTS",
+      "description": "Unselected expression contexts may inherit parent premium/trust levels with explicit lower confidence.",
+      "max_confidence": 0.5,
+      "dimensions": ["IDNTY_11_EXPRESSION"]
+    },
+    {
+      "id": "INF_LANGUAGE_ANTI_CLICHE",
+      "description": "Industry cliché lists may infer prohibited_language candidates — requires founder review before lock.",
+      "max_confidence": 0.6,
+      "dimensions": ["IDNTY_05_LANGUAGE"]
+    }
+  ],
+  "forbidden_silent_inference": [
+    "final_creative_authority",
+    "existing_locked_elements",
+    "non_changeable_elements",
+    "existing_color_equity",
+    "existing_symbol_equity",
+    "symbolic_meaning without evidence",
+    "master_tagline",
+    "positioning_line",
+    "legal ownership of marks",
+    "approval_threshold",
+    "any LOCKED field without review_status APPROVED"
+  ],
+  "requires_founder_decision": [
+    "IDNTY_06_VERBAL_SYSTEM.master_tagline",
+    "IDNTY_06_VERBAL_SYSTEM.positioning_line",
+    "IDNTY_06_VERBAL_SYSTEM.product_promise",
+    "IDNTY_07_MARK.symbolic_meaning",
+    "IDNTY_12_AUTHORITY.final_creative_authority"
+  ]
+}

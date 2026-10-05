@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "conflict_record": {
+    "conflict_id": "string",
+    "fields_affected": ["dimension_id.field_id"],
+    "answer_a": { "question_id": "string", "value": "any" },
+    "answer_b": { "question_id": "string", "value": "any" },
+    "interpretation": "string — may describe intentional brand tension",
+    "resolution_needed": "FOUNDER | CLIENT | BOTH | NONE_IF_TENSION",
+    "status": "OPEN | RESOLVED | ACCEPTED_TENSION"
+  },
+  "examples": [
+    {
+      "label": "minimal_vs_cinematic",
+      "answer_a": "minimal quiet UI",
+      "answer_b": "rich layered cinematic environments",
+      "interpretation": "May be valid: UI minimal, marketing cinematic — not a flat error."
+    }
+  ],
+  "rules": [
+    "Do not auto-resolve conflicts by averaging.",
+    "Record conflicts on the IDNTY profile dimension block.",
+    "Creative brief inputs must cite conflicts when relevant."
+  ]
+}

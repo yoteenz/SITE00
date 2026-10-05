@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "contract": "IDNTY_PROFILE",
+  "description": "Canonical structured brand intelligence output of IDNTY intake + interpretation. Downstream systems read this — they do not re-infer the brand from scratch.",
+  "profile_root": {
+    "profile_id": "string",
+    "project_id": "string",
+    "entry_state": "IDNTY_00 | IDNTY_01 | IDNTY_02 | IDNTY_03",
+    "engagement_id": "string",
+    "created_at": "ISO-8601",
+    "updated_at": "ISO-8601"
+  },
+  "dimensions": {
+    "IDNTY_01_TRUTH": { "type": "dimension_block" },
+    "IDNTY_02_POSITION": { "type": "dimension_block" },
+    "IDNTY_03_PROMISE": { "type": "dimension_block" },
+    "IDNTY_04_PERSONALITY": { "type": "dimension_block" },
+    "IDNTY_05_LANGUAGE": { "type": "dimension_block" },
+    "IDNTY_06_VERBAL_SYSTEM": { "type": "dimension_block" },
+    "IDNTY_07_MARK": { "type": "dimension_block" },
+    "IDNTY_08_PALETTE": { "type": "dimension_block" },
+    "IDNTY_09_TYPE": { "type": "dimension_block" },
+    "IDNTY_10_VISUAL_GRAMMAR": { "type": "dimension_block" },
+    "IDNTY_11_EXPRESSION": { "type": "dimension_block" },
+    "IDNTY_12_AUTHORITY": { "type": "dimension_block" }
+  },
+  "dimension_block_shape": {
+    "status": "see IDNTY_DIMENSION_STATUS_MODEL.json",
+    "confidence": "0.0-1.0",
+    "source_answers": ["question_id"],
+    "source_evidence": ["evidence_id"],
+    "interpreted_fields": { "field_id": "value | object" },
+    "unresolved_fields": ["field_id"],
+    "conflicts": ["conflict_id"],
+    "founder_decisions": ["decision_id"],
+    "client_decisions": ["decision_id"],
+    "locked_fields": ["field_id"],
+    "review_status": "UNREVIEWED | FOUNDER_REVIEW | CLIENT_REVIEW | APPROVED",
+    "updated_at": "ISO-8601"
+  },
+  "interpretation_layer": {
+    "raw_brand_signals": "ClientAnswerRecord",
+    "interpreted_brand_signals": "Synthesis output — SITE 00 owned",
+    "creative_brief_inputs": "Derived brief fragments per dimension",
+    "review_queue": "Items requiring founder or client gate"
+  }
+}

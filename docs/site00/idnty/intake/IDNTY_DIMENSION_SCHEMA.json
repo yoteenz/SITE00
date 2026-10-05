@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "sprint": "P0.SITE00.IDNTY.INTAKE-METHODOLOGY-FORMALIZATION1",
+  "canonical_dimensions": [
+    "IDNTY_01_TRUTH",
+    "IDNTY_02_POSITION",
+    "IDNTY_03_PROMISE",
+    "IDNTY_04_PERSONALITY",
+    "IDNTY_05_LANGUAGE",
+    "IDNTY_06_VERBAL_SYSTEM",
+    "IDNTY_07_MARK",
+    "IDNTY_08_PALETTE",
+    "IDNTY_09_TYPE",
+    "IDNTY_10_VISUAL_GRAMMAR",
+    "IDNTY_11_EXPRESSION",
+    "IDNTY_12_AUTHORITY"
+  ],
+  "dimensions": {
+    "IDNTY_01_TRUTH": {
+      "label": "Truth",
+      "fields": [
+        { "field_id": "business_definition", "required": true },
+        { "field_id": "customer_need", "required": true },
+        { "field_id": "primary_job_to_be_done", "required": true },
+        { "field_id": "founder_conviction", "required": true },
+        { "field_id": "business_purpose", "required": true },
+        { "field_id": "core_value_created", "required": true },
+        { "field_id": "critical_business_boundary", "required": true },
+        { "field_id": "non_negotiables", "required": true },
+        { "field_id": "anti_identity", "required": true },
+        { "field_id": "misunderstandings", "required": false },
+        { "field_id": "business_future", "required": false },
+        { "field_id": "business_model_context", "required": true },
+        { "field_id": "product_service_scope", "required": true }
+      ]
+    },
+    "IDNTY_02_POSITION": {
+      "label": "Position",
+      "fields": [
+        { "field_id": "category", "required": true },
+        { "field_id": "category_tension", "required": false },
+        { "field_id": "alternatives", "required": true },
+        { "field_id": "competitors", "required": false },
+        { "field_id": "customer_comparison_set", "required": true },
+        { "field_id": "desired_role", "required": true },
+        { "field_id": "differentiation", "required": true },
+        { "field_id": "market_gap", "required": false },
+        { "field_id": "premium_position", "required": false },
+        { "field_id": "accessibility_position", "required": false },
+        { "field_id": "trust_position", "required": true },
+        { "field_id": "industry_relationship", "required": true }
+      ]
+    },
+    "IDNTY_03_PROMISE": {
+      "label": "Promise",
+      "fields": [
+        { "field_id": "before_state", "required": true },
+        { "field_id": "after_state", "required": true },
+        { "field_id": "functional_promise", "required": true },
+        { "field_id": "emotional_promise", "required": true },
+        { "field_id": "customer_transformation", "required": true },
+        { "field_id": "what_becomes_easier", "required": true },
+        { "field_id": "what_worry_disappears", "required": true },
+        { "field_id": "next_capability_unlocked", "required": false },
+        { "field_id": "short_term_value", "required": true },
+        { "field_id": "long_term_value", "required": false }
+      ]
+    },
+    "IDNTY_04_PERSONALITY": {
+      "label": "Personality",
+      "fields": [
+        { "field_id": "primary_personality", "required": true },
+        { "field_id": "relationship_energy", "required": true },
+        { "field_id": "distinctive_character", "required": true },
+        { "field_id": "behavioral_axes", "required": true },
+        { "field_id": "tone_boundaries", "required": true },
+        { "field_id": "stress_behavior", "required": false },
+        { "field_id": "success_behavior", "required": false },
+        { "field_id": "authority_behavior", "required": true },
+        { "field_id": "social_behavior", "required": false },
+        { "field_id": "formality", "required": true },
+        { "field_id": "warmth", "required": true },
+        { "field_id": "energy", "required": true },
+        { "field_id": "expressiveness", "required": true },
+        { "field_id": "premium_level", "required": true },
+        { "field_id": "industry_fluency", "required": true },
+        {
+          "field_id": "voice_genome",
+          "required": true,
+          "subfields": [
+            "primary_archetype",
+            "relationship_archetype",
+            "distinctive_character_archetype",
+            "optional_weights",
+            "contextual_modulation",
+            "boundaries"
+          ]
+        }
+      ]
+    },
+    "IDNTY_05_LANGUAGE": {
+      "label": "Language",
+      "fields": [
+        { "field_id": "founder_lexicon", "required": true },
+        { "field_id": "customer_lexicon", "required": true },
+        { "field_id": "industry_lexicon", "required": true },
+        { "field_id": "owned_language", "required": false },
+        { "field_id": "prohibited_language", "required": true },
+        { "field_id": "overused_industry_language", "required": true },
+        { "field_id": "technical_language_tolerance", "required": true },
+        { "field_id": "pricing_language", "required": false },
+        { "field_id": "customer_naming", "required": false },
+        { "field_id": "product_naming", "required": false },
+        { "field_id": "status_language", "required": false },
+        { "field_id": "support_language", "required": false }
+      ]
+    },
+    "IDNTY_06_VERBAL_SYSTEM": {
+      "label": "Verbal system",
+      "fields": [
+        { "field_id": "master_message", "required": true },
+        { "field_id": "master_tagline", "required": false },
+        { "field_id": "positioning_line", "required": false },
+        { "field_id": "product_promise", "required": true },
+        { "field_id": "secondary_brand_lines", "required": false },
+        { "field_id": "headline_behavior", "required": true },
+        { "field_id": "subhead_behavior", "required": true },
+        { "field_id": "CTA_behavior", "required": true },
+        { "field_id": "status_behavior", "required": true },
+        { "field_id": "error_behavior", "required": true },
+        { "field_id": "success_behavior", "required": true },
+        { "field_id": "campaign_language", "required": false },
+        { "field_id": "naming_rules", "required": true },
+        { "field_id": "voice_examples", "required": false },
+        { "field_id": "voice_anti_examples", "required": true }
+      ]
+    },
+    "IDNTY_07_MARK": {
+      "label": "Mark",
+      "fields": [
+        { "field_id": "name_equity", "required": true },
+        { "field_id": "symbolic_requirements", "required": true },
+        { "field_id": "symbolic_meaning", "required": false },
+        { "field_id": "mark_independence_requirement", "required": true },
+        { "field_id": "small_scale_requirement", "required": true },
+        { "field_id": "institutional_vs_personal", "required": true },
+        { "field_id": "editorial_vs_technical", "required": true },
+        { "field_id": "architectural_vs_organic", "required": false },
+        { "field_id": "luxury_vs_utility", "required": true },
+        { "field_id": "existing_symbol_equity", "required": false },
+        { "field_id": "prohibited_symbols", "required": true },
+        { "field_id": "cliche_risk", "required": true },
+        { "field_id": "application_contexts", "required": true }
+      ]
+    },
+    "IDNTY_08_PALETTE": {
+      "label": "Palette",
+      "fields": [
+        { "field_id": "existing_color_equity", "required": false },
+        { "field_id": "non_negotiable_colors", "required": false },
+        { "field_id": "emotional_temperature", "required": true },
+        { "field_id": "warm_cool_axis", "required": true },
+        { "field_id": "light_dark_axis", "required": true },
+        { "field_id": "earth_digital_axis", "required": false },
+        { "field_id": "quiet_high_contrast_axis", "required": true },
+        { "field_id": "soft_structured_axis", "required": true },
+        { "field_id": "familiar_unexpected_axis", "required": false },
+        { "field_id": "industry_color_cliches", "required": true },
+        { "field_id": "material_associations", "required": false },
+        { "field_id": "environment_associations", "required": false },
+        { "field_id": "accessibility_requirements", "required": true }
+      ]
+    },
+    "IDNTY_09_TYPE": {
+      "label": "Type",
+      "fields": [
+        { "field_id": "reading_density", "required": true },
+        { "field_id": "display_need", "required": true },
+        { "field_id": "numeric_data_need", "required": true },
+        { "field_id": "editorial_need", "required": true },
+        { "field_id": "technical_need", "required": true },
+        { "field_id": "humanity_need", "required": true },
+        { "field_id": "timeless_vs_contemporary", "required": true },
+        { "field_id": "voice_scale", "required": true },
+        { "field_id": "signage_behavior", "required": false },
+        { "field_id": "document_behavior", "required": true },
+        { "field_id": "UI_behavior", "required": true },
+        { "field_id": "body_readability_priority", "required": true }
+      ]
+    },
+    "IDNTY_10_VISUAL_GRAMMAR": {
+      "label": "Visual grammar",
+      "fields": [
+        { "field_id": "brand_world", "required": true },
+        { "field_id": "physical_place_metaphor", "required": false },
+        { "field_id": "lighting", "required": true },
+        { "field_id": "materiality", "required": true },
+        { "field_id": "imagery_subjects", "required": true },
+        { "field_id": "people_presence", "required": true },
+        { "field_id": "product_presence", "required": true },
+        { "field_id": "documentary_vs_commercial", "required": true },
+        { "field_id": "editorial_vs_systemic", "required": true },
+        { "field_id": "cinematic_vs_functional", "required": true },
+        { "field_id": "spatiality", "required": true },
+        { "field_id": "polish_level", "required": true },
+        { "field_id": "real_vs_abstract", "required": true },
+        { "field_id": "composition", "required": true },
+        { "field_id": "texture", "required": false },
+        { "field_id": "motion_character", "required": false },
+        { "field_id": "prohibited_visual_cliches", "required": true }
+      ]
+    },
+    "IDNTY_11_EXPRESSION": {
+      "label": "Expression",
+      "fields": [
+        {
+          "field_id": "expression_contexts",
+          "required": true,
+          "context_catalog": [
+            "PUBLIC_SITE",
+            "CLIENT_PORTAL",
+            "PRODUCT_UI",
+            "SOCIAL",
+            "EMAIL",
+            "DOCUMENTS",
+            "INVOICES",
+            "PACKAGING",
+            "APP",
+            "INTERNAL_OFFICE",
+            "PHYSICAL_SIGNAGE",
+            "ADS",
+            "VIDEO",
+            "UNIFORMS",
+            "VEHICLES",
+            "OTHER"
+          ],
+          "per_context_attributes": [
+            "premium_level",
+            "functional_level",
+            "energy_level",
+            "trust_level",
+            "expression_variation",
+            "sub_expression_need",
+            "audience_specificity"
+          ]
+        }
+      ]
+    },
+    "IDNTY_12_AUTHORITY": {
+      "label": "Authority",
+      "fields": [
+        { "field_id": "final_creative_authority", "required": true },
+        { "field_id": "consulted_roles", "required": true },
+        { "field_id": "existing_locked_elements", "required": false },
+        { "field_id": "challengeable_elements", "required": true },
+        { "field_id": "non_changeable_elements", "required": true },
+        { "field_id": "approval_threshold", "required": true },
+        { "field_id": "anti_approval_signal", "required": true },
+        { "field_id": "positive_authority_signal", "required": true },
+        { "field_id": "required_final_kit", "required": true },
+        { "field_id": "review_process", "required": true },
+        { "field_id": "decision_conflict_resolution", "required": true }
+      ]
+    }
+  }
+}

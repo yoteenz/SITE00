@@ -1,0 +1,3527 @@
+{
+  "schemaVersion": 1,
+  "mappings": [
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_definition",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_definition"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_definition_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_definition"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_definition_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_definition"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_definition_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_definition"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_customer_need",
+      "field_targets": [
+        "IDNTY_01_TRUTH.customer_need"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_customer_need_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.customer_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_customer_need_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.customer_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_primary_job_to_be_done",
+      "field_targets": [
+        "IDNTY_01_TRUTH.primary_job_to_be_done"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_primary_job_to_be_done_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.primary_job_to_be_done"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_founder_conviction",
+      "field_targets": [
+        "IDNTY_01_TRUTH.founder_conviction"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_founder_conviction_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.founder_conviction"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_purpose",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_purpose"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_core_value_created",
+      "field_targets": [
+        "IDNTY_01_TRUTH.core_value_created"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_core_value_created_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.core_value_created"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_core_value_created_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.core_value_created"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_critical_business_boundary",
+      "field_targets": [
+        "IDNTY_01_TRUTH.critical_business_boundary"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_critical_business_boundary_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.critical_business_boundary"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_critical_business_boundary_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.critical_business_boundary"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_critical_business_boundary_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_01_TRUTH.critical_business_boundary"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_non_negotiables",
+      "field_targets": [
+        "IDNTY_01_TRUTH.non_negotiables"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_non_negotiables_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.non_negotiables"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_non_negotiables_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.non_negotiables"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_non_negotiables_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_01_TRUTH.non_negotiables"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_anti_identity",
+      "field_targets": [
+        "IDNTY_01_TRUTH.anti_identity"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_anti_identity_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.anti_identity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_anti_identity_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.anti_identity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_misunderstandings",
+      "field_targets": [
+        "IDNTY_01_TRUTH.misunderstandings"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_misunderstandings_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.misunderstandings"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_misunderstandings_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.misunderstandings"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_misunderstandings_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_01_TRUTH.misunderstandings"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_future",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_future"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_future_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_future"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_future_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_future"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_model_context",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_model_context"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_model_context_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_model_context"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_model_context_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_model_context"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_business_model_context_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_01_TRUTH.business_model_context"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_product_service_scope",
+      "field_targets": [
+        "IDNTY_01_TRUTH.product_service_scope"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_product_service_scope_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_01_TRUTH.product_service_scope"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_product_service_scope_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_01_TRUTH.product_service_scope"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_01_TRUTH_product_service_scope_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_01_TRUTH.product_service_scope"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_category",
+      "field_targets": [
+        "IDNTY_02_POSITION.category"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_category_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.category"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_category_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.category"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_category_tension",
+      "field_targets": [
+        "IDNTY_02_POSITION.category_tension"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_category_tension_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.category_tension"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_category_tension_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.category_tension"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_alternatives",
+      "field_targets": [
+        "IDNTY_02_POSITION.alternatives"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_alternatives_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.alternatives"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_alternatives_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.alternatives"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_competitors",
+      "field_targets": [
+        "IDNTY_02_POSITION.competitors"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_competitors_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.competitors"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_competitors_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.competitors"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_customer_comparison_set",
+      "field_targets": [
+        "IDNTY_02_POSITION.customer_comparison_set"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_customer_comparison_set_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.customer_comparison_set"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_customer_comparison_set_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.customer_comparison_set"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_customer_comparison_set_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_02_POSITION.customer_comparison_set"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_desired_role",
+      "field_targets": [
+        "IDNTY_02_POSITION.desired_role"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_desired_role_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.desired_role"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_desired_role_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.desired_role"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_differentiation",
+      "field_targets": [
+        "IDNTY_02_POSITION.differentiation"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_differentiation_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.differentiation"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_differentiation_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.differentiation"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_market_gap",
+      "field_targets": [
+        "IDNTY_02_POSITION.market_gap"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_market_gap_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.market_gap"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_premium_position",
+      "field_targets": [
+        "IDNTY_02_POSITION.premium_position"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_premium_position_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.premium_position"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_premium_position_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.premium_position"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_accessibility_position",
+      "field_targets": [
+        "IDNTY_02_POSITION.accessibility_position"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_accessibility_position_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.accessibility_position"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_trust_position",
+      "field_targets": [
+        "IDNTY_02_POSITION.trust_position"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_trust_position_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.trust_position"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_trust_position_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.trust_position"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_trust_position_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_02_POSITION.trust_position"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_industry_relationship",
+      "field_targets": [
+        "IDNTY_02_POSITION.industry_relationship"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_industry_relationship_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_02_POSITION.industry_relationship"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_02_POSITION_industry_relationship_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_02_POSITION.industry_relationship"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_before_state",
+      "field_targets": [
+        "IDNTY_03_PROMISE.before_state"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_before_state_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_03_PROMISE.before_state"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_before_state_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.before_state"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_after_state",
+      "field_targets": [
+        "IDNTY_03_PROMISE.after_state"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_after_state_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_03_PROMISE.after_state"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_after_state_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.after_state"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_functional_promise",
+      "field_targets": [
+        "IDNTY_03_PROMISE.functional_promise"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_functional_promise_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_03_PROMISE.functional_promise"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_functional_promise_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.functional_promise"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_functional_promise_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_03_PROMISE.functional_promise"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_emotional_promise",
+      "field_targets": [
+        "IDNTY_03_PROMISE.emotional_promise"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_emotional_promise_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_03_PROMISE.emotional_promise"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_emotional_promise_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.emotional_promise"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_customer_transformation",
+      "field_targets": [
+        "IDNTY_03_PROMISE.customer_transformation"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_customer_transformation_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.customer_transformation"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_what_becomes_easier",
+      "field_targets": [
+        "IDNTY_03_PROMISE.what_becomes_easier"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_what_becomes_easier_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_03_PROMISE.what_becomes_easier"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_what_becomes_easier_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.what_becomes_easier"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_what_worry_disappears",
+      "field_targets": [
+        "IDNTY_03_PROMISE.what_worry_disappears"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_what_worry_disappears_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_03_PROMISE.what_worry_disappears"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_what_worry_disappears_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.what_worry_disappears"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_next_capability_unlocked",
+      "field_targets": [
+        "IDNTY_03_PROMISE.next_capability_unlocked"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_next_capability_unlocked_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.next_capability_unlocked"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_short_term_value",
+      "field_targets": [
+        "IDNTY_03_PROMISE.short_term_value"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_short_term_value_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_03_PROMISE.short_term_value"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_short_term_value_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.short_term_value"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_short_term_value_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_03_PROMISE.short_term_value"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_long_term_value",
+      "field_targets": [
+        "IDNTY_03_PROMISE.long_term_value"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_long_term_value_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_03_PROMISE.long_term_value"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_03_PROMISE_long_term_value_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_03_PROMISE.long_term_value"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_primary_personality",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.primary_personality"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_primary_personality_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.primary_personality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_primary_personality_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.primary_personality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_relationship_energy",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.relationship_energy"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_relationship_energy_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.relationship_energy"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_relationship_energy_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.relationship_energy"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_distinctive_character",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.distinctive_character"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_distinctive_character_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.distinctive_character"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_behavioral_axes",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.behavioral_axes"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_behavioral_axes_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.behavioral_axes"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_behavioral_axes_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.behavioral_axes"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_behavioral_axes_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.behavioral_axes"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_tone_boundaries",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.tone_boundaries"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_tone_boundaries_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.tone_boundaries"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_tone_boundaries_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.tone_boundaries"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_tone_boundaries_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.tone_boundaries"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_stress_behavior",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.stress_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_stress_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.stress_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_stress_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.stress_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_stress_behavior_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.stress_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_success_behavior",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.success_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_success_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.success_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_success_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.success_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_authority_behavior",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.authority_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_authority_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.authority_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_authority_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.authority_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_authority_behavior_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.authority_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_social_behavior",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.social_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_social_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.social_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_social_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.social_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_formality",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.formality"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_formality_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.formality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_formality_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.formality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_formality_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.formality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_warmth",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.warmth"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_warmth_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.warmth"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_warmth_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.warmth"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_warmth_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.warmth"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_energy",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.energy"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_energy_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.energy"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_energy_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.energy"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_energy_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.energy"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_expressiveness",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.expressiveness"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_expressiveness_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.expressiveness"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_expressiveness_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.expressiveness"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_premium_level",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.premium_level"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_premium_level_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.premium_level"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_premium_level_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.premium_level"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_industry_fluency",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.industry_fluency"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_industry_fluency_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.industry_fluency"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_industry_fluency_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.industry_fluency"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_industry_fluency_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.industry_fluency"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_voice_genome",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.voice_genome"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_voice_genome_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.voice_genome"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_04_PERSONALITY_voice_genome_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_04_PERSONALITY.voice_genome"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_founder_lexicon",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.founder_lexicon"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_founder_lexicon_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.founder_lexicon"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_founder_lexicon_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.founder_lexicon"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_customer_lexicon",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.customer_lexicon"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_customer_lexicon_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.customer_lexicon"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_customer_lexicon_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.customer_lexicon"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_industry_lexicon",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.industry_lexicon"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_industry_lexicon_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.industry_lexicon"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_industry_lexicon_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.industry_lexicon"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_industry_lexicon_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.industry_lexicon"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_owned_language",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.owned_language"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_owned_language_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.owned_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_owned_language_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.owned_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_owned_language_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.owned_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_prohibited_language",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.prohibited_language"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_prohibited_language_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.prohibited_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_prohibited_language_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.prohibited_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_prohibited_language_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.prohibited_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_overused_industry_language",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.overused_industry_language"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_overused_industry_language_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.overused_industry_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_overused_industry_language_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.overused_industry_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_technical_language_tolerance",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.technical_language_tolerance"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_technical_language_tolerance_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.technical_language_tolerance"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_technical_language_tolerance_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.technical_language_tolerance"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_technical_language_tolerance_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.technical_language_tolerance"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_pricing_language",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.pricing_language"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_pricing_language_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.pricing_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_pricing_language_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.pricing_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_pricing_language_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.pricing_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_customer_naming",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.customer_naming"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_customer_naming_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.customer_naming"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_customer_naming_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.customer_naming"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_customer_naming_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.customer_naming"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_product_naming",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.product_naming"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_product_naming_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.product_naming"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_product_naming_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.product_naming"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_status_language",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.status_language"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_status_language_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.status_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_status_language_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.status_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_status_language_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.status_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_support_language",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.support_language"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_support_language_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.support_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_support_language_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.support_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_05_LANGUAGE_support_language_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_05_LANGUAGE.support_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_master_message",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.master_message"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_master_message_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.master_message"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_master_message_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.master_message"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_master_tagline",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.master_tagline"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_master_tagline_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.master_tagline"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_master_tagline_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.master_tagline"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_master_tagline_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.master_tagline"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_positioning_line",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.positioning_line"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_positioning_line_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.positioning_line"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_positioning_line_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.positioning_line"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_positioning_line_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.positioning_line"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_product_promise",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.product_promise"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_product_promise_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.product_promise"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_product_promise_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.product_promise"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_secondary_brand_lines",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.secondary_brand_lines"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_secondary_brand_lines_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.secondary_brand_lines"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_secondary_brand_lines_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.secondary_brand_lines"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_secondary_brand_lines_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.secondary_brand_lines"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_headline_behavior",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.headline_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_headline_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.headline_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_headline_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.headline_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_subhead_behavior",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.subhead_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_subhead_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.subhead_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_subhead_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.subhead_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_CTA_behavior",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.CTA_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_CTA_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.CTA_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_CTA_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.CTA_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_CTA_behavior_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.CTA_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_status_behavior",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.status_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_status_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.status_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_status_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.status_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_status_behavior_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.status_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_error_behavior",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.error_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_error_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.error_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_error_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.error_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_error_behavior_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.error_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_success_behavior",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.success_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_success_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.success_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_success_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.success_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_success_behavior_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.success_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_campaign_language",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.campaign_language"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_campaign_language_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.campaign_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_campaign_language_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.campaign_language"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_naming_rules",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.naming_rules"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_naming_rules_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.naming_rules"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_naming_rules_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.naming_rules"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_naming_rules_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.naming_rules"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_voice_examples",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.voice_examples"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_voice_examples_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.voice_examples"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_voice_examples_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.voice_examples"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_voice_anti_examples",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.voice_anti_examples"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_voice_anti_examples_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.voice_anti_examples"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_voice_anti_examples_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.voice_anti_examples"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_06_VERBAL_SYSTEM_voice_anti_examples_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_06_VERBAL_SYSTEM.voice_anti_examples"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_name_equity",
+      "field_targets": [
+        "IDNTY_07_MARK.name_equity"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_name_equity_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.name_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_name_equity_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.name_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_name_equity_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_07_MARK.name_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_symbolic_requirements",
+      "field_targets": [
+        "IDNTY_07_MARK.symbolic_requirements"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_symbolic_requirements_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.symbolic_requirements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_symbolic_requirements_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.symbolic_requirements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_symbolic_meaning",
+      "field_targets": [
+        "IDNTY_07_MARK.symbolic_meaning"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_symbolic_meaning_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.symbolic_meaning"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_symbolic_meaning_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.symbolic_meaning"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_mark_independence_requirement",
+      "field_targets": [
+        "IDNTY_07_MARK.mark_independence_requirement"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_mark_independence_requirement_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.mark_independence_requirement"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_mark_independence_requirement_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.mark_independence_requirement"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_mark_independence_requirement_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_07_MARK.mark_independence_requirement"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_small_scale_requirement",
+      "field_targets": [
+        "IDNTY_07_MARK.small_scale_requirement"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_small_scale_requirement_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.small_scale_requirement"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_small_scale_requirement_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.small_scale_requirement"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_small_scale_requirement_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_07_MARK.small_scale_requirement"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_institutional_vs_personal",
+      "field_targets": [
+        "IDNTY_07_MARK.institutional_vs_personal"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_institutional_vs_personal_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.institutional_vs_personal"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_institutional_vs_personal_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.institutional_vs_personal"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_editorial_vs_technical",
+      "field_targets": [
+        "IDNTY_07_MARK.editorial_vs_technical"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_editorial_vs_technical_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.editorial_vs_technical"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_editorial_vs_technical_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.editorial_vs_technical"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_architectural_vs_organic",
+      "field_targets": [
+        "IDNTY_07_MARK.architectural_vs_organic"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_architectural_vs_organic_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.architectural_vs_organic"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_luxury_vs_utility",
+      "field_targets": [
+        "IDNTY_07_MARK.luxury_vs_utility"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_luxury_vs_utility_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.luxury_vs_utility"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_luxury_vs_utility_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.luxury_vs_utility"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_existing_symbol_equity",
+      "field_targets": [
+        "IDNTY_07_MARK.existing_symbol_equity"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_existing_symbol_equity_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.existing_symbol_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_existing_symbol_equity_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.existing_symbol_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_existing_symbol_equity_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_07_MARK.existing_symbol_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_prohibited_symbols",
+      "field_targets": [
+        "IDNTY_07_MARK.prohibited_symbols"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_prohibited_symbols_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.prohibited_symbols"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_prohibited_symbols_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.prohibited_symbols"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_prohibited_symbols_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_07_MARK.prohibited_symbols"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_cliche_risk",
+      "field_targets": [
+        "IDNTY_07_MARK.cliche_risk"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_cliche_risk_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.cliche_risk"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_cliche_risk_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.cliche_risk"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_application_contexts",
+      "field_targets": [
+        "IDNTY_07_MARK.application_contexts"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_application_contexts_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_07_MARK.application_contexts"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_application_contexts_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_07_MARK.application_contexts"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_07_MARK_application_contexts_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_07_MARK.application_contexts"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_existing_color_equity",
+      "field_targets": [
+        "IDNTY_08_PALETTE.existing_color_equity"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_existing_color_equity_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.existing_color_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_existing_color_equity_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.existing_color_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_existing_color_equity_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_08_PALETTE.existing_color_equity"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_non_negotiable_colors",
+      "field_targets": [
+        "IDNTY_08_PALETTE.non_negotiable_colors"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_non_negotiable_colors_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.non_negotiable_colors"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_non_negotiable_colors_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.non_negotiable_colors"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_non_negotiable_colors_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_08_PALETTE.non_negotiable_colors"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_emotional_temperature",
+      "field_targets": [
+        "IDNTY_08_PALETTE.emotional_temperature"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_emotional_temperature_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.emotional_temperature"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_emotional_temperature_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.emotional_temperature"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_warm_cool_axis",
+      "field_targets": [
+        "IDNTY_08_PALETTE.warm_cool_axis"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_warm_cool_axis_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.warm_cool_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_warm_cool_axis_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.warm_cool_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_light_dark_axis",
+      "field_targets": [
+        "IDNTY_08_PALETTE.light_dark_axis"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_light_dark_axis_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.light_dark_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_light_dark_axis_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.light_dark_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_earth_digital_axis",
+      "field_targets": [
+        "IDNTY_08_PALETTE.earth_digital_axis"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_earth_digital_axis_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.earth_digital_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_quiet_high_contrast_axis",
+      "field_targets": [
+        "IDNTY_08_PALETTE.quiet_high_contrast_axis"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_quiet_high_contrast_axis_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.quiet_high_contrast_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_quiet_high_contrast_axis_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.quiet_high_contrast_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_quiet_high_contrast_axis_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_08_PALETTE.quiet_high_contrast_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_soft_structured_axis",
+      "field_targets": [
+        "IDNTY_08_PALETTE.soft_structured_axis"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_soft_structured_axis_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.soft_structured_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_soft_structured_axis_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.soft_structured_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_familiar_unexpected_axis",
+      "field_targets": [
+        "IDNTY_08_PALETTE.familiar_unexpected_axis"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_familiar_unexpected_axis_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.familiar_unexpected_axis"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_industry_color_cliches",
+      "field_targets": [
+        "IDNTY_08_PALETTE.industry_color_cliches"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_industry_color_cliches_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.industry_color_cliches"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_industry_color_cliches_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.industry_color_cliches"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_material_associations",
+      "field_targets": [
+        "IDNTY_08_PALETTE.material_associations"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_material_associations_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.material_associations"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_material_associations_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.material_associations"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_environment_associations",
+      "field_targets": [
+        "IDNTY_08_PALETTE.environment_associations"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_environment_associations_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.environment_associations"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_environment_associations_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.environment_associations"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_accessibility_requirements",
+      "field_targets": [
+        "IDNTY_08_PALETTE.accessibility_requirements"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_accessibility_requirements_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_08_PALETTE.accessibility_requirements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_accessibility_requirements_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_08_PALETTE.accessibility_requirements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_08_PALETTE_accessibility_requirements_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_08_PALETTE.accessibility_requirements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_reading_density",
+      "field_targets": [
+        "IDNTY_09_TYPE.reading_density"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_reading_density_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.reading_density"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_reading_density_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.reading_density"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_reading_density_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_09_TYPE.reading_density"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_display_need",
+      "field_targets": [
+        "IDNTY_09_TYPE.display_need"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_display_need_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.display_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_display_need_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.display_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_display_need_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_09_TYPE.display_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_numeric_data_need",
+      "field_targets": [
+        "IDNTY_09_TYPE.numeric_data_need"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_numeric_data_need_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.numeric_data_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_numeric_data_need_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.numeric_data_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_numeric_data_need_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_09_TYPE.numeric_data_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_editorial_need",
+      "field_targets": [
+        "IDNTY_09_TYPE.editorial_need"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_editorial_need_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.editorial_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_editorial_need_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.editorial_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_technical_need",
+      "field_targets": [
+        "IDNTY_09_TYPE.technical_need"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_technical_need_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.technical_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_technical_need_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.technical_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_technical_need_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_09_TYPE.technical_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_humanity_need",
+      "field_targets": [
+        "IDNTY_09_TYPE.humanity_need"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_humanity_need_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.humanity_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_humanity_need_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.humanity_need"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_timeless_vs_contemporary",
+      "field_targets": [
+        "IDNTY_09_TYPE.timeless_vs_contemporary"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_timeless_vs_contemporary_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.timeless_vs_contemporary"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_timeless_vs_contemporary_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.timeless_vs_contemporary"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_voice_scale",
+      "field_targets": [
+        "IDNTY_09_TYPE.voice_scale"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_voice_scale_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.voice_scale"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_voice_scale_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.voice_scale"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_signage_behavior",
+      "field_targets": [
+        "IDNTY_09_TYPE.signage_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_signage_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.signage_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_signage_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.signage_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_document_behavior",
+      "field_targets": [
+        "IDNTY_09_TYPE.document_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_document_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.document_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_document_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.document_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_document_behavior_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_09_TYPE.document_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_UI_behavior",
+      "field_targets": [
+        "IDNTY_09_TYPE.UI_behavior"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_UI_behavior_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.UI_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_UI_behavior_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.UI_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_UI_behavior_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_09_TYPE.UI_behavior"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_body_readability_priority",
+      "field_targets": [
+        "IDNTY_09_TYPE.body_readability_priority"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_body_readability_priority_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_09_TYPE.body_readability_priority"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_body_readability_priority_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_09_TYPE.body_readability_priority"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_09_TYPE_body_readability_priority_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_09_TYPE.body_readability_priority"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_brand_world",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.brand_world"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_brand_world_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.brand_world"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_brand_world_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.brand_world"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_physical_place_metaphor",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.physical_place_metaphor"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_physical_place_metaphor_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.physical_place_metaphor"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_physical_place_metaphor_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.physical_place_metaphor"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_lighting",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.lighting"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_lighting_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.lighting"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_lighting_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.lighting"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_materiality",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.materiality"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_materiality_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.materiality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_materiality_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.materiality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_imagery_subjects",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.imagery_subjects"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_imagery_subjects_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.imagery_subjects"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_imagery_subjects_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.imagery_subjects"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_imagery_subjects_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.imagery_subjects"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_people_presence",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.people_presence"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_people_presence_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.people_presence"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_people_presence_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.people_presence"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_product_presence",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.product_presence"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_product_presence_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.product_presence"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_product_presence_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.product_presence"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_product_presence_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.product_presence"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_documentary_vs_commercial",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.documentary_vs_commercial"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_documentary_vs_commercial_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.documentary_vs_commercial"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_documentary_vs_commercial_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.documentary_vs_commercial"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_editorial_vs_systemic",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.editorial_vs_systemic"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_editorial_vs_systemic_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.editorial_vs_systemic"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_editorial_vs_systemic_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.editorial_vs_systemic"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_cinematic_vs_functional",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.cinematic_vs_functional"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_cinematic_vs_functional_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.cinematic_vs_functional"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_cinematic_vs_functional_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.cinematic_vs_functional"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_spatiality",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.spatiality"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_spatiality_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.spatiality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_spatiality_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.spatiality"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_polish_level",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.polish_level"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_polish_level_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.polish_level"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_polish_level_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.polish_level"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_polish_level_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.polish_level"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_real_vs_abstract",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.real_vs_abstract"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_real_vs_abstract_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.real_vs_abstract"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_real_vs_abstract_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.real_vs_abstract"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_composition",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.composition"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_composition_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.composition"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_composition_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.composition"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_texture",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.texture"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_texture_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.texture"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_texture_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.texture"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_motion_character",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.motion_character"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_motion_character_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.motion_character"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_motion_character_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.motion_character"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_motion_character_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.motion_character"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_prohibited_visual_cliches",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.prohibited_visual_cliches"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_prohibited_visual_cliches_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.prohibited_visual_cliches"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_prohibited_visual_cliches_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.prohibited_visual_cliches"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_10_VISUAL_GRAMMAR_prohibited_visual_cliches_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_10_VISUAL_GRAMMAR.prohibited_visual_cliches"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_expression_contexts",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_final_creative_authority",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.final_creative_authority"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_final_creative_authority_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.final_creative_authority"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_final_creative_authority_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.final_creative_authority"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_final_creative_authority_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.final_creative_authority"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_consulted_roles",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.consulted_roles"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_consulted_roles_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.consulted_roles"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_consulted_roles_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.consulted_roles"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_consulted_roles_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.consulted_roles"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_existing_locked_elements",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.existing_locked_elements"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_existing_locked_elements_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.existing_locked_elements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_existing_locked_elements_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.existing_locked_elements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_existing_locked_elements_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.existing_locked_elements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_challengeable_elements",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.challengeable_elements"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_challengeable_elements_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.challengeable_elements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_challengeable_elements_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.challengeable_elements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_non_changeable_elements",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.non_changeable_elements"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_non_changeable_elements_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.non_changeable_elements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_non_changeable_elements_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.non_changeable_elements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_non_changeable_elements_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.non_changeable_elements"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_approval_threshold",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.approval_threshold"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_approval_threshold_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.approval_threshold"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_approval_threshold_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.approval_threshold"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_approval_threshold_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.approval_threshold"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_anti_approval_signal",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.anti_approval_signal"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_anti_approval_signal_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.anti_approval_signal"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_anti_approval_signal_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.anti_approval_signal"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_anti_approval_signal_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.anti_approval_signal"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_positive_authority_signal",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.positive_authority_signal"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_positive_authority_signal_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.positive_authority_signal"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_positive_authority_signal_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.positive_authority_signal"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_positive_authority_signal_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.positive_authority_signal"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_required_final_kit",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.required_final_kit"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_required_final_kit_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.required_final_kit"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_required_final_kit_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.required_final_kit"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_review_process",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.review_process"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_review_process_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.review_process"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_review_process_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.review_process"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_review_process_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.review_process"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_decision_conflict_resolution",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.decision_conflict_resolution"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_decision_conflict_resolution_EVIDENCE_IDNTY_01",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.decision_conflict_resolution"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_decision_conflict_resolution_EVIDENCE_IDNTY_02",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.decision_conflict_resolution"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_12_AUTHORITY_decision_conflict_resolution_EVIDENCE_IDNTY_03",
+      "field_targets": [
+        "IDNTY_12_AUTHORITY.decision_conflict_resolution"
+      ],
+      "resolution": "evidence"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_PUBLIC_SITE_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.PUBLIC_SITE"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_CLIENT_PORTAL_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.CLIENT_PORTAL"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_PRODUCT_UI_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.PRODUCT_UI"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_SOCIAL_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.SOCIAL"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_EMAIL_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.EMAIL"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_DOCUMENTS_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.DOCUMENTS"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_INVOICES_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.INVOICES"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_PACKAGING_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.PACKAGING"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_APP_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.APP"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_INTERNAL_OFFICE_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.INTERNAL_OFFICE"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_PHYSICAL_SIGNAGE_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.PHYSICAL_SIGNAGE"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_ADS_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.ADS"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_VIDEO_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.VIDEO"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_UNIFORMS_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.UNIFORMS"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_VEHICLES_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.VEHICLES"
+      ],
+      "resolution": "question"
+    },
+    {
+      "question_id": "Q_IDNTY_11_EXPRESSION_OTHER_PROFILE",
+      "field_targets": [
+        "IDNTY_11_EXPRESSION.expression_contexts.OTHER"
+      ],
+      "resolution": "question"
+    }
+  ],
+  "total_mappings": 503
+}
