@@ -815,11 +815,12 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 ---
 
 
-## 2026-08-19 — Origin desktop coordinate line +4px
+## 2026-08-19 — Sign-in password input width match
 
-- **Request:** Move “YOU ARE AT 00.00 ORIGIN POINT” down 4px on Origin desktop only.
-- **Fix:** `heroCoordinateOffsetYPx: 4` in `origin-home-composition.ts` (desktop artboard token via `--site00-origin-hero-coordinate-offset-y`).
-- **Branch:** `cursor/origin-coordinate-nudge-down-4-796f`.
+- **Request:** Password field on sign-in page was too wide vs email field above it.
+- **Cause:** Auth shell lacked `box-sizing: border-box`; password `width: 100%` + extra `padding-right` for SHOW overflowed the form column.
+- **Fix:** Added border-box on `.site00-auth-shell *`; constrained `.site00-signin-form__password-wrap` and `--password` input to `width/max-width: 100%`.
+- **Branch:** `cursor/signin-password-width-match-796f`.
 
 ---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
@@ -2417,6 +2418,13 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
 
+## 2026-08-19 — Origin desktop coordinate line +4px
+
+- **Request:** Move “YOU ARE AT 00.00 ORIGIN POINT” down 4px on Origin desktop only.
+- **Fix:** `heroCoordinateOffsetYPx: 4` in `origin-home-composition.ts` (desktop artboard token via `--site00-origin-hero-coordinate-offset-y`).
+- **Branch:** `cursor/origin-coordinate-nudge-down-4-796f`.
+
+---
 ## 2026-08-19 — IDNTY state subhead line break before WE'LL
 
 - **Request:** On IDNTY state page, wrap subhead so “WE'LL DETERMINE…” starts on line 2 instead of “WE'LL” hanging at end of line 1.
