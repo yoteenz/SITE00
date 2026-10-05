@@ -214,6 +214,9 @@ describe('host chrome stays SITE 00: PROJECT chip is a real switcher', () => {
   it('switcher panel lists projects and lands on the same workspace + mode', () => {
     const src = read('src/site00/components/productionHub/chrome.tsx');
     expect(src).toContain('title="PROJECTS" testId="production-project-menu"');
+    const css = read('src/site00/styles/site00-production-host-chrome.css');
+    expect(css).toContain('.ph--hub .ph-top > .prod-chrome-pop.pxm');
+    expect(css).toContain('grid-column: 1 / -1');
     expect(src).toContain('projectSwitchPath(pathname, search, p.slug)');
     expect(src).not.toContain("slotId=\"project.ndxbook.cover\"");
   });
