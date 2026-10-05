@@ -1,0 +1,24 @@
+{
+  "family_id": "F03",
+  "family_name": "TODAY",
+  "environments": [
+    {
+      "environment_group_id": "ENV.DAY",
+      "family_id": "F03",
+      "family_role": "Daily home. Meant to be brighter and more lived-in than setup.",
+      "plate_id": "TODAY.ENVIRONMENT.DAY.001",
+      "origin_family": "F03",
+      "file": "src/projects/jurnl/families/F03_TODAY/ENVIRONMENTS/F03_ENVIRONMENT_DAY.jpg",
+      "reuse_scope": "WITHIN_FAMILY",
+      "within_family_reuse": ["F03.00 and its states"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "PASS",
+      "classification": "DERIVED_FROM_AUTHORITY",
+      "environment_plate_origin": "DERIVED_FROM_AUTHORITY",
+      "plate_authority_id": "F03.00_TODAY_AUTHORITY_FIRST",
+      "plate_derivation_mode": "REFERENCE_GUIDED_UI_REMOVAL",
+      "note": "Derived from the full-page authority. Quiet left plaster. Not the arrival room. Founder has not approved it. Child production stays blocked."
+    }
+  ]
+}

@@ -1,0 +1,681 @@
+{
+  "family_id": "F02_SETUP",
+  "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-SONNET-HANDOFF1",
+  "verified_against": "JURNL/F02_SETUP/MANIFEST/F02_COMPONENT_ASSET_MAP.json",
+  "rule": "CODE_ONLY means draw it in the app. CODE_PLUS_ASSET means draw the component and mount the listed file. Do not invent skins.",
+  "botanical_repair_binding": {
+    "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-BOTANICAL-REPAIR-BINDING1",
+    "repair_status": "COMPLETE",
+    "pre_repair_manifests_used": false,
+    "layering": [
+      "ENVIRONMENT",
+      "BOTANICAL",
+      "BRAND_LOCKUP",
+      "LIVE_UI",
+      "INTERACTIONS"
+    ],
+    "lockup_rule": "A full lockup is the header. Do not also paint its emblem or a second wordmark.",
+    "emblem_rule": "Emblem-only screens paint the PNG plus live uppercase JURNL. Do not redraw the flower."
+  },
+  "components": [
+    {
+      "component_id": "LIVE_ENVIRONMENT",
+      "component_type": "ENVIRONMENT",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.08",
+        "F02.ST.RESUME"
+      ],
+      "asset_id": "SETUP.ENVIRONMENT.ARRIVAL.001",
+      "asset_role": "PLATE",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_ENVIRONMENT",
+      "component_type": "ENVIRONMENT",
+      "screen_ids": [
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.06",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP"
+      ],
+      "asset_id": "SETUP.ENVIRONMENT.DESK.001",
+      "asset_role": "PLATE",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_ENVIRONMENT",
+      "component_type": "ENVIRONMENT",
+      "screen_ids": [
+        "F02.05",
+        "F02.05.1"
+      ],
+      "asset_id": "SETUP.ENVIRONMENT.EDIT.001",
+      "asset_role": "PLATE",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_EDIT.jpg",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_ENVIRONMENT",
+      "component_type": "ENVIRONMENT",
+      "screen_ids": [
+        "F02.07",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": "SETUP.ENVIRONMENT.QUIET.001",
+      "asset_role": "PLATE",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_QUIET.jpg",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_PAPER_CARD",
+      "component_type": "PANEL",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_ONLY",
+      "mounted_file": null,
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_PAPER_SHEET",
+      "component_type": "SHEET",
+      "screen_ids": [
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_ONLY",
+      "mounted_file": null,
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_BUTTON_PRIMARY",
+      "component_type": "BUTTON",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_ONLY",
+      "mounted_file": null,
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_SELECTION_ROW",
+      "component_type": "CONTROL",
+      "screen_ids": [
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.05",
+        "F02.05.1",
+        "F02.07",
+        "F02.08"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_ONLY",
+      "mounted_file": null,
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_FIELD",
+      "component_type": "FIELD",
+      "screen_ids": [
+        "F02.03",
+        "F02.06",
+        "F02.02.1",
+        "F02.05.1",
+        "F02.ST.VALIDATION",
+        "F02.IN.ADD"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_ONLY",
+      "mounted_file": null,
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_PROGRESS",
+      "component_type": "PROGRESS",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_ONLY",
+      "mounted_file": null,
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_WORDMARK",
+      "component_type": "LOGO",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "EXISTING_OFFICIAL_LOGO",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art.",
+      "implementation_mode": "CODE_ONLY",
+      "mounted_file": null,
+      "renders_as_its_own_layer": true,
+      "render_note": "Live uppercase JURNL set in Instrument Serif. On F02.00 and F02.ST.VALIDATION the lockup replaces this wordmark."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.00"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.001",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_001.png",
+      "renders_as_its_own_layer": false,
+      "render_note": "Registered source. The parent header paints F02.BRANDLOCKUP.JURNL.001, which already contains this sprig."
+    },
+    {
+      "component_id": "LIVE_HEADER_LOCKUP",
+      "component_type": "BRAND_LOCKUP",
+      "screen_ids": [
+        "F02.00"
+      ],
+      "asset_id": "F02.BRANDLOCKUP.JURNL.001",
+      "asset_role": "FLOATING_HEADER_SIGNATURE",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Replaces the separate emblem plus live wordmark on this screen.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_001.png",
+      "renders_as_its_own_layer": true,
+      "render_note": "This is the header signature. Do not also paint the emblem or a second wordmark."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.01"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.002",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_002.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.02"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.003",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_003.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.03"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.004",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_004.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.04"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.004",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_004.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.05"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.005",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_005.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.06"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.006",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_006.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.07"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.007",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_007.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.08"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.008",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_008.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.02.1"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.009",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_009.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.05.1"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.010",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_010.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.ST.RESUME"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.011",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_011.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.ST.VALIDATION"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.012",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_012.png",
+      "renders_as_its_own_layer": false,
+      "render_note": "Registered source. The validation header paints F02.BRANDLOCKUP.JURNL_SETUP.001, which already contains this rose."
+    },
+    {
+      "component_id": "LIVE_HEADER_LOCKUP",
+      "component_type": "BRAND_LOCKUP",
+      "screen_ids": [
+        "F02.ST.VALIDATION"
+      ],
+      "asset_id": "F02.BRANDLOCKUP.JURNL_SETUP.001",
+      "asset_role": "FLOATING_HEADER_SIGNATURE",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Replaces the separate emblem plus live wordmark on this screen.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_SETUP_001.png",
+      "renders_as_its_own_layer": true,
+      "render_note": "This is the header signature. Do not also paint the emblem or a second wordmark."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.ST.CONNECTED"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.013",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate.",
+      "implementation_mode": "CODE_PLUS_ASSET",
+      "mounted_file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_013.png",
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    },
+    {
+      "component_id": "LIVE_PROGRESS_SEGMENTS",
+      "component_type": "PROGRESS",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.02.1",
+        "F02.05.1",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "PARTIAL",
+        "COMPLETE"
+      ],
+      "responsive_behavior": "Square-rounded segments drawn in code. Not an image asset.",
+      "implementation_mode": "CODE_ONLY",
+      "mounted_file": null,
+      "renders_as_its_own_layer": true,
+      "render_note": null
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+ "artifact": "SITE00_CLIENT_VIEWPORT_MODEL",
+ "follow_up": "P0.SITE00.CLIENT-PROJECT-ROOM-LIVE-VIEWPORT-WORKING-TREE-REVIEW1",
+ "applies_to": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": {
+  "mobile": "PASS (defined)",
+  "tablet": "PASS (defined)",
+  "desktop": "PASS (defined)",
+  "internal_qa_hidden": "YES"
+ },
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "client_presets": [
+  {
+   "id": "MOBILE",
+   "size": "393\u00d7852",
+   "note": "sprint canon; repo host preset is 390\u00d7844 \u2014 design decision C11"
+  },
+  {
+   "id": "TABLET",
+   "size": "834\u00d71194"
+  },
+  {
+   "id": "DESKTOP",
+   "size": "1440\u00d7900"
+  }
+ ],
+ "internal_only_presets": [
+  "MOBILE XL 430\u00d7932"
+ ],
+ "client_controls": [
+  "MOBILE",
+  "TABLET",
+  "DESKTOP",
+  "RESTART FLOW",
+  "REVIEW SCENARIO (optional)",
+  "OPEN FULL PREVIEW",
+  "BACK TO REVIEW",
+  "VIEW IN TREE"
+ ],
+ "hidden_from_clients": [
+  "grid",
+  "bounds",
+  "safe-area debug",
+  "internal reference tools",
+  "zoom debugging (FIT/50/75/100)",
+  "dev state selectors (?state=)",
+  "orientation lock debug",
+  "golden diff capture",
+  "measured BOUNDS readout",
+  "any other QA control"
+ ],
+ "behaviour": {
+  "layout": "Project laid out at the preset's true logical pixels (its own breakpoints apply), then scaled to fit the client's screen \u2014 same mechanism as DESIGN/VIEWPORT.",
+  "on_phone": "Default MOBILE fills the screen (no frame chrome); TABLET/DESKTOP shown scaled with a \"SCALED PREVIEW\" label and OPEN FULL PREVIEW.",
+  "on_desktop": "Device frame centred on a quiet off-white stage; controls in a single top strip.",
+  "orientation": "Portrait only for client review (landscape internal)."
+ },
+ "reuse": "Wrap viewportTargets.ts + DesignChamber VIEWPORT stage in a ClientViewport component that exposes only client controls (host stays in charge of the frame)."
+}

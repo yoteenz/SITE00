@@ -5,6 +5,7 @@ import {
   bldrExperienceNextStep,
   bldrExperiencePath,
   contextualizeExperienceTitle,
+  parseBuilderInheritedLoreContext,
 } from '../../../../../shared/site00-brand-lore/bldr-experience-questions';
 import { LORE_SKIP_VALUE } from '../../../../../shared/site00-brand-lore/adaptivity';
 import type { BldrAssessmentStateId } from '../../../config/bldr-assessment';
@@ -24,10 +25,13 @@ type BldrExperienceMobileStepProps = {
 };
 
 function toLoreStep(step: NonNullable<ReturnType<typeof getExperienceQuestion>>, title: string): LoreQuestionStep {
+  const responseMode =
+    step.type === 'textarea' ? 'FREE_TEXT' : step.type === 'multi' ? 'MULTI_SELECT' : 'SINGLE_SELECT';
   return {
     id: step.id,
     title,
     subtitle: step.subtitle,
+    responseMode,
     type: step.type === 'textarea' ? 'textarea' : step.type,
     options: step.options,
     maxLength: step.maxLength,
@@ -54,14 +58,7 @@ export function BldrExperienceMobileStep({ classSlug, stepId }: BldrExperienceMo
   const existingValue = record.experienceAnswers[stepId] ?? (step?.type === 'multi' ? [] : '');
   const form = useStepForm(existingValue);
 
-  const inheritedLore = useMemo(() => {
-    const snap = inheritedLoreSnapshot as { worldMetaphor?: string; audienceRelationship?: string } | null;
-    if (!snap) return null;
-    return {
-      worldMetaphor: typeof snap.worldMetaphor === 'string' ? snap.worldMetaphor : null,
-      audienceRelationship: typeof snap.audienceRelationship === 'string' ? snap.audienceRelationship : null,
-    };
-  }, [inheritedLoreSnapshot]);
+  const inheritedLore = useMemo(() => parseBuilderInheritedLoreContext(inheritedLoreSnapshot), [inheritedLoreSnapshot]);
 
   useEffect(() => {
     form.setValue(existingValue);

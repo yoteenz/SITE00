@@ -1,0 +1,70 @@
+{
+  "auditId": "SITE00-STUDIO-WORLD-MASTER-ASSURANCE-2026-08-23",
+  "priorities": {
+    "P0": {
+      "label": "MUST FIX BEFORE CONTINUING CURRENT WORK",
+      "issues": ["MA-001 Ephemeral memory stores for critical runs", "MA-004 MEMORY.md merge conflict", "MA-006 False readiness from mock-heavy tests", "MA-016 Experiment F silent memory fallback"],
+      "sprints": [
+        {
+          "name": "Durable Run Persistence Sprint",
+          "objective": "Persist Experiment E, visual development, project intelligence, visual reference memory to Supabase with storeAdapter parity",
+          "dependencies": [],
+          "scope": "LARGE",
+          "blocksCurrentWork": true
+        },
+        {
+          "name": "Repository Hygiene + Live Verification Registry",
+          "objective": "Fix MEMORY conflict; add live-verification checklist to experiment API responses; surface storeMode",
+          "scope": "SMALL"
+        }
+      ]
+    },
+    "P1": {
+      "label": "MUST FIX BEFORE EXPERIENCE IMPLEMENTATION",
+      "issues": ["MA-002 Composer stub", "MA-003 Fidelity evaluator scaffold", "MA-007 Reference-conditioned live proof", "MA-008 Playwright on Railway", "MA-010 Concept orthogonality auditor"],
+      "sprints": [
+        {"name": "Visual Pipeline Live Verification", "objective": "Founder-triggered smoke: capture → reference package → FAL edit → stored receipt", "scope": "MEDIUM"},
+        {"name": "Composer Dispatch Adapter", "objective": "Wire ORCHESTRATE to real handoff with receipt", "scope": "FOUNDATIONAL"},
+        {"name": "Implementation Fidelity MVP", "objective": "Post-deploy capture + NOT_EVALUATED → PARTIAL evaluation path", "scope": "LARGE"}
+      ]
+    },
+    "P2": {
+      "label": "MUST FIX BEFORE PRODUCT EXPRESSION",
+      "issues": ["MA-009 Unified telemetry", "MA-011 CODEBASE snapshot", "MA-012 Product Expression methodology", "MA-017 Commercial state simulation", "MA-020 Vision generic QA"],
+      "sprints": [
+        {"name": "Product Expression Architecture Definition", "objective": "Formal PRODUCT_EXPRESSION contracts only — no implementation", "scope": "MEDIUM"},
+        {"name": "StudioWorld Run Ledger", "objective": "Unify generation receipts and observability", "scope": "LARGE"}
+      ]
+    },
+    "P3": {
+      "label": "MUST FIX BEFORE WORLD FORMATION",
+      "issues": ["MA-013 World Formation blocker domains", "Experience→World boundary enforcement"],
+      "sprints": [
+        {"name": "World Formation Readiness Blockers Doc + Contracts", "objective": "Presence, economy, moderation, sync domains", "scope": "MEDIUM"}
+      ]
+    },
+    "P4": {
+      "label": "MUST FIX BEFORE MULTI-CLIENT SCALE",
+      "issues": ["MA-005 NDXBOOK hardcoding", "MA-014 Concurrency", "MA-015 Payload minimization", "MA-018 Multi-brand proofs", "MA-019 Generation ledger"],
+      "sprints": [
+        {"name": "Multi-Tenant Project Experiments", "objective": "Remove ndxbook-only gates; per-org isolation tests", "scope": "LARGE"}
+      ]
+    },
+    "P5": {
+      "label": "LONG-TERM OPTIMIZATION",
+      "issues": ["Context compression/retrieval", "Accessibility audit automation", "Performance/CDN for 10k assets"],
+      "sprints": []
+    }
+  },
+  "continuePauseMatrix": {
+    "NDXBOOK_SIX_CONCEPT_REFORMATION": {"status": "CONTINUE_WITH_CAUTION", "reason": "Architecture sound; persist runs (P0) before treating formation as research-grade"},
+    "PROJECTS_UX_VISUAL_REFERENCE": {"status": "CONTINUE_WITH_CAUTION", "reason": "Do not claim production-ready until LV-001/002 complete"},
+    "PUBLIC_DISCOVERY": {"status": "SAFE_TO_CONTINUE", "reason": "Gates tested; commercial shortcuts isolated to pilots"},
+    "POST_PURCHASE_INTELLIGENCE": {"status": "CONTINUE_WITH_CAUTION", "reason": "Persist manifest before multi-session client onboarding"},
+    "EXPERIENCE_EXPRESSION": {"status": "CONTINUE_WITH_CAUTION", "reason": "Memory-only runs; formation OK for research not ops"},
+    "EXPERIENCE_ASSET_DIRECTION": {"status": "CONTINUE_WITH_CAUTION", "reason": "Same as visual dev pipeline"},
+    "IMPLEMENTATION_ORCHESTRATION": {"status": "PAUSE_PENDING_FIX", "reason": "Composer stub — manual implementation only until P1"},
+    "PRODUCT_EXPRESSION": {"status": "BLOCKED", "reason": "Methodology not defined; Experience pipeline not trustworthy"},
+    "WORLD_FORMATION": {"status": "BLOCKED", "reason": "Correctly unimplemented; prerequisites missing"}
+  }
+}

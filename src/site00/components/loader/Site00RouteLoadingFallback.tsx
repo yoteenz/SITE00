@@ -1,6 +1,10 @@
-import { Site00ImmersiveColdStartFallback } from './Site00ImmersiveColdStartFallback';
+import { ReferenceShellSuspenseFallback } from './ReferenceShellSuspenseFallback';
 
-/** SITE 00 route suspense — immersive geometry loader, never Frontal Slayer LoadingScreen. */
+/**
+ * SITE 00 route suspense — reference shell for NDX routes only.
+ * Never portal the full-screen immersive loader here: it has no exit lifecycle and leaves
+ * the marble pedestal stage stuck over the app (Safari mobile).
+ */
 export function Site00RouteLoadingFallback() {
-  return <Site00ImmersiveColdStartFallback />;
+  return <ReferenceShellSuspenseFallback />;
 }

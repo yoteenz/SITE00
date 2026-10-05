@@ -30,7 +30,6 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
   const navigate = useNavigate();
   const isDesktop = useSite00DesktopArtboardPreview();
   const state = getBldrAssessmentState(classSlug)!;
-  const step = state.steps.find((s) => s.id === stepId);
 
   const {
     startClass,
@@ -41,7 +40,10 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
     serverLastSavedAt,
     serverSaveError,
   } = useBldrAssessment();
+
   const existingAnswers = getAnswersForClass(classSlug);
+  const allSteps = bldrAssessmentAllSteps(state, existingAnswers);
+  const step = allSteps.find((s) => s.id === stepId);
   const existingValue = existingAnswers[stepId] ?? (step?.type === 'multi' ? [] : '');
 
   const form = useStepForm(existingValue);
@@ -59,7 +61,6 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
     return null;
   }
 
-  const allSteps = bldrAssessmentAllSteps(state);
   const stepIndex = allSteps.findIndex((s) => s.id === stepId);
   const stepProgress = `STEP ${stepIndex + 1} OF ${allSteps.length}`;
 
@@ -72,7 +73,7 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
     setStepAnswers(classSlug, stepId, { [stepId]: form.value });
     markStepComplete(classSlug, stepId);
 
-    const next = bldrAssessmentNextStep(state, stepId);
+    const next = bldrAssessmentNextStep(state, stepId, existingAnswers);
     if (next) {
       navigateTo(bldrAssessmentPath(classSlug, next.id));
     } else if (classSlug === 'not-sure') {

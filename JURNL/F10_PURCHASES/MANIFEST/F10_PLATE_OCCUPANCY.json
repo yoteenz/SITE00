@@ -1,0 +1,47 @@
+{
+  "family_id": "F10",
+  "screen_id": "F10.00",
+  "screen_class": "ENVIRONMENT_DEPENDENT",
+  "ui_weight": "LEFT",
+  "environmental_weight": "RIGHT",
+  "scrim_fix_forbidden": true,
+  "mobile": {
+    "primary_ui_zone": "Left rail, below the top chrome and above the nav.",
+    "secondary_ui_zone": "Left rail, under the signal.",
+    "environment_focal_zone": "The folded silk.",
+    "protected_negative_space": "Left half. Quiet plaster or stone. Low edge.",
+    "occlusion_allowed_zone": "Future sheets cover the lower half. Not built.",
+    "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+    "text_density_zone": "Left rail. Short lines."
+  },
+  "tablet": {
+    "primary_ui_zone": "Left rail, below the top chrome and above the nav.",
+    "secondary_ui_zone": "Left rail, under the signal.",
+    "environment_focal_zone": "The folded silk.",
+    "protected_negative_space": "Left half. Quiet plaster or stone. Low edge.",
+    "occlusion_allowed_zone": "Future sheets cover the lower half. Not built.",
+    "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+    "text_density_zone": "Left rail. Short lines."
+  },
+  "desktop": {
+    "primary_ui_zone": "Left rail, below the top chrome and above the nav.",
+    "secondary_ui_zone": "Left rail, under the signal.",
+    "environment_focal_zone": "The folded silk.",
+    "protected_negative_space": "Left half. Quiet plaster or stone. Low edge.",
+    "occlusion_allowed_zone": "Future sheets cover the lower half. Not built.",
+    "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+    "text_density_zone": "Left rail. Short lines."
+  },
+  "plate_ui_interference": "FAIL",
+  "qa": {
+    "ui_occupancy_fit": "FAIL",
+    "negative_space_quality": "FAIL",
+    "visual_noise_in_ui_zone": "HIGH",
+    "edge_density_in_ui_zone": "HIGH",
+    "salience_conflict": "FAIL",
+    "panel_material_compatibility": "PASS",
+    "responsive_fit": "PASS",
+    "drawer_occlusion_exception": "NOT_USED",
+    "plate_ui_interference": "FAIL"
+  }
+}

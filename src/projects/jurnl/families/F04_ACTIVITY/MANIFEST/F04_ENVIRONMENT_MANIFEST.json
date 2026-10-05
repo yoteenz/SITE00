@@ -1,0 +1,20 @@
+{
+  "family_id": "F04",
+  "family_name": "ACTIVITY",
+  "environments": [
+    {
+      "environment_group_id": "ENV.LEDGER",
+      "family_id": "F04",
+      "family_role": "Quiet reading wall for the ledger.",
+      "plate_id": "ACTIVITY.ENVIRONMENT.LEDGER.001",
+      "origin_family": "F04",
+      "file": "src/projects/jurnl/families/F04_ACTIVITY/ENVIRONMENTS/F04_ENVIRONMENT_LEDGER.jpg",
+      "reuse_scope": "WITHIN_FAMILY",
+      "within_family_reuse": ["F04.00", "search", "filter", "detail"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "PASS",
+      "note": "Not the Today plate. No bust, no bowl, arch reduced, plaster dominant. Same coastal house."
+    }
+  ]
+}

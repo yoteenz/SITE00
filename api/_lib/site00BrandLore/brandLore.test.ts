@@ -14,7 +14,7 @@ import { canBeginCreativeDirection } from '../../../shared/site00-brand-lore/rea
 
 const FULL_LORE_ANSWERS: Record<string, string | string[]> = {
   feeling: ['curious', 'inspired'],
-  role: 'guide',
+  role: ['friend', 'tastemaker', 'entertainer'],
   belief: 'Knowledge should be accessible to everyone.',
   enemy: ['gatekeeping', 'boring'],
   obsession: 'How everyday systems actually work.',
@@ -47,7 +47,12 @@ describe('SITE 00 brand lore — synthesis + service', () => {
       orgSlug: null,
     });
     expect(profile.brandBelief.value).toBe(FULL_LORE_ANSWERS.belief);
-    expect(profile.emotionalPromise.value).toEqual(FULL_LORE_ANSWERS.feeling);
+    expect(profile.emotionalPromise.value).toEqual(['CURIOUS', 'INSPIRED']);
+    expect(profile.audienceRelationship.value).toEqual([
+      'THE FRIEND WHO KNOWS EVERYTHING',
+      'THE TASTEMAKER',
+      'THE ENTERTAINER WITH A POINT OF VIEW',
+    ]);
     expect(profile.worldMetaphor.value).toBe(FULL_LORE_ANSWERS.world);
     expect(profile.authenticLanguageSamples.value).toHaveLength(3);
   });
@@ -112,7 +117,11 @@ describe('SITE 00 brand lore — synthesis + service', () => {
     });
     const inherited = await resolveInheritedLoreForBuilder({ identityIntakeId: 'intake-idnty' });
     expect(inherited?.worldMetaphor?.value).toBe(FULL_LORE_ANSWERS.world);
-    expect(inherited?.audienceRelationship?.value).toBe('guide');
+    expect(inherited?.audienceRelationship?.value).toEqual([
+      'THE FRIEND WHO KNOWS EVERYTHING',
+      'THE TASTEMAKER',
+      'THE ENTERTAINER WITH A POINT OF VIEW',
+    ]);
   });
 
   it('24. Builder experience profile persists digital metaphor', () => {
@@ -249,7 +258,7 @@ describe('SITE 00 brand lore — synthesis + service', () => {
       answers: { world: 'the index for everything you almost knew', role: 'guide' },
     });
     expect(updated.worldMetaphor.value).toBe('the index for everything you almost knew');
-    expect(updated.audienceRelationship.value).toBe('guide');
+    expect(updated.audienceRelationship.value).toEqual(['THE GUIDE SHOWING THE WAY']);
     // Reconciled Content Brain fields survive an unrelated-domain calibration submission.
     expect(updated.coreObsessions.sourceType).toBe('CONTENT_BRAIN');
     expect(updated.sourceIntakeType).toBe('CONTENT_BRAIN');
@@ -314,5 +323,98 @@ describe('SITE 00 brand lore — synthesis + service', () => {
     const resolved = await getOrReconcileBrandLoreForOrg('org-ndxbook-real', 'ndxbook');
     expect(resolved?.sourceIntakeType).toBe('IDENTITY');
     expect(resolved?.sourceIntakeId).toBe('real-ndxbook-intake');
+  });
+
+  it('38. Creative Direction payload refreshes stale engagement readiness after lore calibration', async () => {
+    vi.stubEnv('VITEST', 'true');
+    vi.stubEnv('EVOLVE_USE_MEMORY', '1');
+    const { orgIdFromSlug } = await import('../site00Evolve/orgRegistry.js');
+    const { resetBrandLoreMemoryStore } = await import('./memoryStore.js');
+    const { submitOrgLoreCalibration } = await import('./loreService.js');
+    const { resetCreativeDirectionMemory, getCreativeDirectionPayload } = await import(
+      '../site00Evolve/creativeDirection/engagementService.js',
+    );
+    resetBrandLoreMemoryStore();
+    resetCreativeDirectionMemory();
+    const orgId = orgIdFromSlug('ndxbook')!;
+    let payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.brandLoreReadiness?.blocked).toBe(true);
+
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: {
+        role: ['guide'],
+        world: 'a living index of everything worth knowing',
+        feeling: ['curious'],
+        enemy: ['gatekeeping'],
+        lineage: 'archival ephemera',
+        now: 'editorial accounts',
+        objects: ['paper'],
+        contradiction: ['polished', 'messy'],
+      },
+    });
+
+    payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.brandLoreReadiness?.state).toBe('CORE_DIRECTION_READY');
+    expect(payload.engagement.brandLoreReadiness?.blocked).toBe(false);
+  });
+
+  it('39. readiness self-heals when a synthesized field drifts out of sync with its own raw answer (truthful readiness — Section III)', async () => {
+    // Reproduces the exact live-NDXBOOK forensic finding: rawLoreAnswers.role holds a valid,
+    // complete answer but the computed audienceRelationship field was persisted as null by an
+    // earlier synthesis pass (e.g. a since-fixed bug, or a race). getOrReconcileBrandLoreForOrg
+    // must recompute and durably correct this — readiness must never stay falsely blocked once
+    // the underlying answers actually satisfy a domain.
+    const { getOrReconcileBrandLoreForOrg } = await import('./loreService.js');
+    const { saveBrandLoreProfile } = await import('./storeAdapter.js');
+    const good = synthesizeBrandLoreProfile({
+      loreAnswers: FULL_LORE_ANSWERS,
+      sourceIntakeId: 'drift-intake',
+      organizationId: 'org-drift',
+      orgSlug: null,
+    });
+    expect(good.audienceRelationship.value).not.toBeNull();
+
+    // Simulate the historical corruption: rawLoreAnswers keeps the real answer, but the computed
+    // field was somehow persisted empty.
+    const corrupted = {
+      ...good,
+      audienceRelationship: { ...good.audienceRelationship, value: null, confidence: 'NONE' as const },
+      readinessState: 'CONTEXT_PARTIAL' as const,
+      readinessMissingDomains: ['AUDIENCE_RELATIONSHIP'],
+    };
+    await saveBrandLoreProfile(corrupted);
+
+    const resolved = await getOrReconcileBrandLoreForOrg('org-drift', 'some-other-org');
+    expect(resolved?.audienceRelationship.value).toEqual(good.audienceRelationship.value);
+    expect(resolved?.readinessState).toBe('CORE_DIRECTION_READY');
+    expect(resolved?.readinessMissingDomains).toEqual([]);
+
+    // Second read is a no-op — no further version churn from re-running the same resync.
+    const second = await getOrReconcileBrandLoreForOrg('org-drift', 'some-other-org');
+    expect(second?.profileVersion).toBe(resolved?.profileVersion);
+  });
+
+  it('40. self-heal resync never regresses an already-derived context classification', async () => {
+    const { getOrReconcileBrandLoreForOrg } = await import('./loreService.js');
+    const { saveBrandLoreProfile } = await import('./storeAdapter.js');
+    const profile = synthesizeBrandLoreProfile({
+      loreAnswers: { ...FULL_LORE_ANSWERS, ritual: [] },
+      sourceIntakeId: 'context-intake',
+      organizationId: 'org-context',
+      orgSlug: null,
+      operationalAnswers: { projectTypes: ['ecommerce'] },
+    });
+    expect(profile.contextClassification).toBe('ECOMMERCE_FIRST');
+    // Corrupt an unrelated field so a resync write is actually triggered.
+    await saveBrandLoreProfile({
+      ...profile,
+      brandBelief: { ...profile.brandBelief, value: null, confidence: 'NONE' as const },
+    });
+
+    const resolved = await getOrReconcileBrandLoreForOrg('org-context', 'some-other-org');
+    expect(resolved?.contextClassification).toBe('ECOMMERCE_FIRST');
+    expect(resolved?.brandBelief.value).toBe(profile.brandBelief.value);
   });
 });

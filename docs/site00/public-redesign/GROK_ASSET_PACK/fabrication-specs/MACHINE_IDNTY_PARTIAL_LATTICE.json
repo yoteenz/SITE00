@@ -1,0 +1,54 @@
+{
+  "asset_id": "MACHINE.IDNTY.PARTIAL.LATTICE",
+  "purpose": "TRANSLUCENT RED HEX LATTICE VOLUME (OPTIONAL MATERIAL UPGRADE OVER THE SVG).",
+  "family_id": "IDNTY_TRANSPARENT_OBJECT_FAMILY_V1",
+  "continuity_group_id": "IDNTY_ATRIUM_CONTINUITY_V1",
+  "surface": "MOBILE_WEB",
+  "dimensions": {
+    "w": 520,
+    "h": 640
+  },
+  "aspect": "520:640",
+  "reference_crop": "reference-crops/MACHINE_IDNTY_PARTIAL_LATTICE_REFERENCE.jpg",
+  "scene_decomposition_sheet": "scene-decomposition/03_IDNTY_STATE_01_REFINE_DECOMPOSITION.md",
+  "safe_zone_map": "safe-zones/MACHINE_IDNTY_PARTIAL_LATTICE_SAFE_ZONES.png",
+  "must_include": [
+    "TRANSLUCENT RED HEX LATTICE VOLUME (OPTIONAL MATERIAL UPGRADE OVER THE SVG).",
+    "SITE 00 luminous white material language where applicable",
+    "clean alpha edges",
+    "object isolation without environment bake-in"
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "bottom navigation bar",
+    "form fields and inputs",
+    "card titles and body copy",
+    "status badges and progress indicators",
+    "live technical red linework (SVG)",
+    "brand icons unless asset spec requires them",
+    "full environment plate",
+    "navigation",
+    "header"
+  ],
+  "camera": "eye-level hero environment camera",
+  "lighting": "soft daylight with red accent bounce where brand family requires",
+  "materials": "white ceramic, glass, polished floor, red structural inserts",
+  "perspective": "architectural one-point with subtle wide lens",
+  "negative_space": {
+    "left_clear_percent": 0,
+    "right_clear_percent": 0,
+    "top_clear_percent": 0,
+    "bottom_clear_percent": 0,
+    "central_clear_region": null,
+    "custom_polygon_clear_region": null
+  },
+  "crop_behavior": "contain",
+  "transparency": true,
+  "shadow_ownership": "SHADOW_SEPARATE_ASSET",
+  "reflection_ownership": "CSS",
+  "mask_ownership": "IN_ASSET",
+  "asset_dependencies": [],
+  "output_format": "png",
+  "version": 1
+}

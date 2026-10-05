@@ -1,0 +1,35 @@
+{
+  "_DEPRECATED": "Do not use for OpenArt generation. Replaced by source-binding-registry.json (sha256-verified uploads).",
+  "SW-001": {
+    "casting": {"type":"image","id":"J1pti9PD9lpTn3GPewtA","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-001_ETTA_VALE_1791139734878_8af9c0a6.jpg","label":"SW-001 casting authority"},
+    "fullBody": {"type":"image","id":"Y70YIh8OysXmzmthqjgr","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/etta-vale__natural-full-body__sophisticated-fashionista_1791139751711_df1f4401.jpg","label":"SW-001 full body geometry"}
+  },
+  "SW-002": {
+    "casting": {"type":"image","id":"qIXhaBbli5YLu3wogicS","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-002_ZURI_XU_1791139735490_1740cd6b.jpg","label":"SW-002 casting authority"},
+    "fullBody": {"type":"image","id":"mIYtUg6zPUUvnOq18uC3","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/zuri-xu__natural-full-body__architectural-fashion-strategist_1791139752271_97a01ae4.jpg","label":"SW-002 full body geometry"}
+  },
+  "SW-003": {
+    "casting": {"type":"image","id":"LXn7TPIBVDNs5FM6rWSo","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-003_JULES_MERCER_1791139735983_b2603813.jpg","label":"SW-003 casting authority"},
+    "fullBody": {"type":"image","id":"7JBi7ANwW9dyQQP73Jn6","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/jules-mercer__natural-full-body__relaxed-romantic_1791139752778_da1ddbae.jpg","label":"SW-003 full body geometry"}
+  },
+  "SW-004": {
+    "casting": {"type":"image","id":"ZbvSoG7GmaNuk24H3vmZ","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-004_NOA_KLINE_1791139736567_356bbd6b.jpg","label":"SW-004 casting authority"},
+    "fullBody": {"type":"image","id":"WFp0ATyrDvecg6oh5w9N","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/noa-kline__natural-full-body__understated-systems-dad_1791139753195_6ae8417d.jpg","label":"SW-004 full body geometry"}
+  },
+  "SW-005": {
+    "casting": {"type":"image","id":"yfomuNEj9uM2iWc5ZBXP","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-005_CASPIAN_REED_1791139744266_dc317887.jpg","label":"SW-005 casting authority"},
+    "fullBody": {"type":"image","id":"zuWru3Ns2wyOzZatDKQa","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/caspian-reed__natural-full-body__decadent-bohemian-aristocrat_1791139760261_dd924e70.jpg","label":"SW-005 full body geometry"}
+  },
+  "SW-006": {
+    "casting": {"type":"image","id":"o89dgIsCIqJnoOqAW08S","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-006_IONA_WELLS_1791139745155_b2449d53.jpg","label":"SW-006 casting authority"},
+    "fullBody": {"type":"image","id":"WkMbaffkIB2fUHDvAokV","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/iona-wells__natural-full-body__precision-utilitarian_1791139761415_9a378e85.jpg","label":"SW-006 full body geometry"}
+  },
+  "SW-007": {
+    "casting": {"type":"image","id":"wtAYHokNBEesCFody60f","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-007_MARLOWE_SAINT_1791139745695_b0b42e51.jpg","label":"SW-007 casting authority"},
+    "fullBody": {"type":"image","id":"9OKZLeEjgyMgNcx1P4bi","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/marlowe-saint__natural-full-body__off-duty-cultural-icon_1791139761934_e533947a.jpg","label":"SW-007 full body geometry"}
+  },
+  "SW-008": {
+    "casting": {"type":"image","id":"pyB2RG4qDYsJ90LsiU0n","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-008_ELIO_EV_VAHN_1791139746174_5deff4bf.jpg","label":"SW-008 casting authority"},
+    "fullBody": {"type":"image","id":"NUC6JHq131nLk9ZwXChq","url":"https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/elio-vahn__natural-full-body__private-club-strategist_1791139762390_1d4823c1.jpg","label":"SW-008 full body geometry"}
+  }
+}

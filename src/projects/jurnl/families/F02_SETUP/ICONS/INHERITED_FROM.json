@@ -1,0 +1,21 @@
+{
+  "family_id": "F02_SETUP",
+  "decision": "INHERIT_F01_SVG",
+  "duplicated": false,
+  "source_module": "src/projects/jurnl/runtime/components/icons.tsx",
+  "new_f02_icon_files": 0,
+  "inherited_semantics": [
+    "back",
+    "check",
+    "alert",
+    "close",
+    "plus",
+    "chevron",
+    "link",
+    "account",
+    "shield",
+    "privacy",
+    "info",
+    "clock"
+  ]
+}

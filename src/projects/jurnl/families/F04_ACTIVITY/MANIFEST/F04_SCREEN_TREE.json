@@ -1,0 +1,80 @@
+{
+  "family_id": "F04_ACTIVITY",
+  "family_name": "ACTIVITY",
+  "canonical_name": "ACTIVITY",
+  "status": "IN_REVIEW",
+  "brand_expression_level": "LOW",
+  "source": "Resolved before paid generation from the product tree (F04 ACTIVITY, NOT_STARTED), CORE_TRANSACTION_TRACKING, and sprint P0.JURNL.F03-F04-GROK-DUAL-FAMILY-AUTHORITY-SIDEKICK-LIVE-IMPLEMENTATION1. The repo had no F04 screen children. Dispute and support are not in the product contract and are not invented.",
+  "role": "Financial history and money-movement record. Function leads. Brand supports through type, material, spacing, and color.",
+  "answers": ["WHAT HAPPENED", "WHEN", "HOW MUCH", "WHERE DID IT COME FROM OR GO", "WHAT CATEGORY OR CONTEXT", "CAN I FIND IT AGAIN"],
+  "distinctions": {
+    "transaction": "Actual money movement. This ledger.",
+    "bill": "Expected obligation. Shown only as related context, not collapsed into a transaction.",
+    "subscription": "Recurring obligation. Shown only as related context."
+  },
+  "parent_count": 1,
+  "child_count": 0,
+  "grandchild_count": 0,
+  "child_count_reason": "Search, filter, and transaction detail are an inline control and sheets. They are not pages.",
+  "primary_canvas": { "w": 393, "h": 852, "unit": "px" },
+  "environment_groups": {
+    "ENV.LEDGER": {
+      "classification": "DISTINCT_PARENT_ENVIRONMENT",
+      "purpose": "A quieter reading wall in the same house. Broad plaster, a sliver of arch, no bust. Less busy than Today.",
+      "member_screens": ["F04.00"],
+      "reuse": "UNIQUE FILE. NOT A MOUNT OF ENV.DAY. WITHIN-FAMILY REUSE FOR SEARCH AND DETAIL.",
+      "distinctness_status": "PASS",
+      "cross_family_reuse": "NO"
+    }
+  },
+  "parent": [
+    {
+      "screen_id": "F04.00",
+      "name": "ACTIVITY",
+      "route": "activity",
+      "purpose": "A calm searchable ledger of money movement.",
+      "entry": "F03 recent-movement row, and any later money context that points here.",
+      "exit": "Back to today. Detail stays a sheet.",
+      "parent": null,
+      "children": [],
+      "grandchildren": [],
+      "modules": ["SEARCH", "FILTER_SUMMARY", "TRANSACTION_LIST"],
+      "environment_group": "ENV.LEDGER",
+      "authority_file": "src/projects/jurnl/families/F04_ACTIVITY/AUTHORITIES/F04.00_ACTIVITY_PARENT.jpg",
+      "approval_status": "IN_REVIEW",
+      "composition": {
+        "content_safe_zone": "Nearly the full stage. A 28px light edge on the right is the only breathing field.",
+        "environment_breathing_zone": "The right paper edge and a thin wash of morning light. No architecture competing with amounts.",
+        "primary_alignment": "LEFT",
+        "headline_max_width": "12rem",
+        "body_max_width": "18rem",
+        "panel_max_width": "100% of the content column, which itself stops before the light edge.",
+        "cta_width_policy": "No broad lifestyle CTA. Search and filter are inline square controls.",
+        "icon_row_policy": "GRID icon | merchant label | amount. Date and category sit in the label column.",
+        "mobile_behavior": "393×852. The list scrolls inside the app. The page does not.",
+        "tablet_behavior": "834×1194. Ledger measure caps near 560px, left weighted.",
+        "desktop_behavior": "1440×900. Ledger column at margin-left 72px, max 640px. Quiet field remains."
+      }
+    }
+  ],
+  "children": [],
+  "grandchildren": [],
+  "states": [
+    { "id": "F04.ST.LOADING", "screen_id": "F04.00", "kind": "LIVE_COMPONENT", "paid_authority": false },
+    { "id": "F04.ST.EMPTY", "screen_id": "F04.00", "kind": "LIVE_COMPONENT", "paid_authority": false, "purpose": "No history yet." },
+    { "id": "F04.ST.NO_RESULTS", "screen_id": "F04.00", "kind": "LIVE_COMPONENT", "paid_authority": false },
+    { "id": "F04.ST.FILTERED", "screen_id": "F04.00", "kind": "LIVE_COMPONENT", "paid_authority": false, "purpose": "Active filters stay visible and clearable." },
+    { "id": "F04.ST.ERROR", "screen_id": "F04.00", "kind": "LIVE_COMPONENT", "paid_authority": false }
+  ],
+  "interactions": [
+    { "id": "F04.IN.SEARCH", "kind": "INLINE", "paid_authority": false, "purpose": "Debounced search. Does not block the ledger." },
+    { "id": "F04.IN.FILTER", "kind": "SHEET", "paid_authority": false, "purpose": "Account, direction, pending or cleared, date range. Clearable." },
+    { "id": "F04.IN.DETAIL", "kind": "SHEET", "paid_authority": false, "purpose": "Transaction depth without a second page." }
+  ],
+  "transaction_row": ["MERCHANT", "AMOUNT", "DATE", "ACCOUNT", "CATEGORY", "PENDING", "DIRECTION", "RECURRING_CONTEXT", "MARK"],
+  "not_invented": ["DISPUTE", "SUPPORT_HANDOFF", "BANK_STATEMENT_PDF"],
+  "paid_generation_plan": [
+    "SCREEN_PARENT F04.00",
+    "ENVIRONMENT_PLATE ENV.LEDGER from the parent, UI removed, no crop"
+  ]
+}

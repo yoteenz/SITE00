@@ -1,0 +1,3385 @@
+{
+ "artifact": "SITE00_CAPABILITY_MATURITY_HEATMAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-MATURE-CAPABILITY-GENOME-RECONCILIATION1",
+ "status": "RECONCILIATION EVIDENCE + PROPOSAL (0 code changes, 0 database changes, 0 paid generations)",
+ "current_main_sha": "6f63aaaa439cc4c996a734e3cec5abbf586f2e61",
+ "scale": "0 none · 1 concept/doc only · 2 stub/prototype code · 3 works but partial or unwired · 4 works and is wired, with gaps · 5 production-grade, tested, monitored",
+ "rating_rule": "Domain rating = mean implementation_maturity of its canonical capabilities, rounded to the nearest whole number. mean_maturity, max_maturity and missing_or_concept are shown alongside so the rounding can be checked.",
+ "required_domain_ratings": {
+  "CRM": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.12,
+   "max_maturity": 3,
+   "capabilities": 8,
+   "missing_or_concept": 2,
+   "blockers": 1
+  },
+  "ANALYTICS": {
+   "rating_0_5": 2,
+   "mean_maturity": 1.62,
+   "max_maturity": 3,
+   "capabilities": 8,
+   "missing_or_concept": 2,
+   "blockers": 1
+  },
+  "MARKETING": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.33,
+   "max_maturity": 4,
+   "capabilities": 12,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "SEO": {
+   "rating_0_5": 1,
+   "mean_maturity": 0.62,
+   "max_maturity": 2,
+   "capabilities": 8,
+   "missing_or_concept": 6,
+   "blockers": 0
+  },
+  "CONTENT": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.12,
+   "max_maturity": 3,
+   "capabilities": 8,
+   "missing_or_concept": 2,
+   "blockers": 0
+  },
+  "OPERATIONS": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.36,
+   "max_maturity": 4,
+   "capabilities": 25,
+   "missing_or_concept": 3,
+   "blockers": 5
+  },
+  "SECURITY": {
+   "rating_0_5": 2,
+   "mean_maturity": 1.81,
+   "max_maturity": 3,
+   "capabilities": 16,
+   "missing_or_concept": 6,
+   "blockers": 9
+  },
+  "ACCESSIBILITY": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.2,
+   "max_maturity": 3,
+   "capabilities": 5,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "PERFORMANCE": {
+   "rating_0_5": 3,
+   "mean_maturity": 3.0,
+   "max_maturity": 4,
+   "capabilities": 4,
+   "missing_or_concept": 0,
+   "blockers": 0
+  },
+  "RELEASE_ENGINEERING": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.5,
+   "max_maturity": 4,
+   "capabilities": 6,
+   "missing_or_concept": 1,
+   "blockers": 1
+  },
+  "POST_LAUNCH": {
+   "rating_0_5": 2,
+   "mean_maturity": 1.5,
+   "max_maturity": 3,
+   "capabilities": 4,
+   "missing_or_concept": 3,
+   "blockers": 2
+  },
+  "MAINTENANCE_EVOLVE": {
+   "rating_0_5": 2,
+   "mean_maturity": 1.5,
+   "max_maturity": 3,
+   "capabilities": 6,
+   "missing_or_concept": 3,
+   "blockers": 0
+  },
+  "CANON_GOVERNANCE": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.38,
+   "max_maturity": 4,
+   "capabilities": 8,
+   "missing_or_concept": 2,
+   "blockers": 1
+  },
+  "COST": {
+   "rating_0_5": 2,
+   "mean_maturity": 1.89,
+   "max_maturity": 3,
+   "capabilities": 9,
+   "missing_or_concept": 3,
+   "blockers": 0
+  },
+  "INCIDENT_LEARNING": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.0,
+   "max_maturity": 3,
+   "capabilities": 4,
+   "missing_or_concept": 1,
+   "blockers": 1
+  },
+  "DEPENDENCY_GRAPH": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.29,
+   "max_maturity": 3,
+   "capabilities": 7,
+   "missing_or_concept": 2,
+   "blockers": 0
+  },
+  "RISK_ENGINE": {
+   "rating_0_5": 3,
+   "mean_maturity": 3.0,
+   "max_maturity": 4,
+   "capabilities": 5,
+   "missing_or_concept": 1,
+   "blockers": 1
+  },
+  "PIPELINE_ROUTER": {
+   "rating_0_5": 3,
+   "mean_maturity": 2.57,
+   "max_maturity": 3,
+   "capabilities": 7,
+   "missing_or_concept": 1,
+   "blockers": 0
+  }
+ },
+ "additional_domain_ratings": {
+  "BUSINESS_INTELLIGENCE": {
+   "rating_0_5": 3,
+   "mean_maturity": 2.82,
+   "max_maturity": 4,
+   "capabilities": 11,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "MARKET_INTELLIGENCE": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.2,
+   "max_maturity": 3,
+   "capabilities": 5,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "OFFER_ARCHITECTURE": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.22,
+   "max_maturity": 3,
+   "capabilities": 9,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "COMMERCIAL_CONTROLS": {
+   "rating_0_5": 2,
+   "mean_maturity": 1.94,
+   "max_maturity": 3,
+   "capabilities": 17,
+   "missing_or_concept": 6,
+   "blockers": 1
+  },
+  "SALES_CONVERSION": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.0,
+   "max_maturity": 3,
+   "capabilities": 4,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "CUSTOMER_JOURNEY": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.5,
+   "max_maturity": 4,
+   "capabilities": 8,
+   "missing_or_concept": 1,
+   "blockers": 2
+  },
+  "SUPPORT": {
+   "rating_0_5": 2,
+   "mean_maturity": 1.5,
+   "max_maturity": 4,
+   "capabilities": 6,
+   "missing_or_concept": 2,
+   "blockers": 0
+  },
+  "MOVEMENT_LAYER": {
+   "rating_0_5": 3,
+   "mean_maturity": 2.8,
+   "max_maturity": 4,
+   "capabilities": 10,
+   "missing_or_concept": 0,
+   "blockers": 0
+  },
+  "SITES": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.17,
+   "max_maturity": 4,
+   "capabilities": 6,
+   "missing_or_concept": 0,
+   "blockers": 2
+  },
+  "CONTROL_ROOM": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.11,
+   "max_maturity": 4,
+   "capabilities": 9,
+   "missing_or_concept": 3,
+   "blockers": 1
+  },
+  "CONTROL_PLANE": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.0,
+   "max_maturity": 3,
+   "capabilities": 3,
+   "missing_or_concept": 1,
+   "blockers": 1
+  },
+  "PROJECT_RUNTIME": {
+   "rating_0_5": 2,
+   "mean_maturity": 2.33,
+   "max_maturity": 4,
+   "capabilities": 3,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "PRODUCT_ARCHITECTURE": {
+   "rating_0_5": 3,
+   "mean_maturity": 3.11,
+   "max_maturity": 4,
+   "capabilities": 9,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "EXPRESSION_ARCHITECTURE": {
+   "rating_0_5": 3,
+   "mean_maturity": 3.12,
+   "max_maturity": 4,
+   "capabilities": 8,
+   "missing_or_concept": 0,
+   "blockers": 0
+  },
+  "ASSET_PROVENANCE": {
+   "rating_0_5": 3,
+   "mean_maturity": 2.88,
+   "max_maturity": 4,
+   "capabilities": 8,
+   "missing_or_concept": 0,
+   "blockers": 1
+  },
+  "DATA_MODEL": {
+   "rating_0_5": 3,
+   "mean_maturity": 2.67,
+   "max_maturity": 3,
+   "capabilities": 3,
+   "missing_or_concept": 0,
+   "blockers": 0
+  },
+  "INTEGRATIONS": {
+   "rating_0_5": 3,
+   "mean_maturity": 2.88,
+   "max_maturity": 4,
+   "capabilities": 8,
+   "missing_or_concept": 0,
+   "blockers": 1
+  },
+  "DEVICE_QA": {
+   "rating_0_5": 3,
+   "mean_maturity": 3.0,
+   "max_maturity": 4,
+   "capabilities": 5,
+   "missing_or_concept": 0,
+   "blockers": 0
+  },
+  "EXPERIMENTATION": {
+   "rating_0_5": 2,
+   "mean_maturity": 1.67,
+   "max_maturity": 3,
+   "capabilities": 3,
+   "missing_or_concept": 1,
+   "blockers": 0
+  },
+  "QUALITY_SCORING": {
+   "rating_0_5": 3,
+   "mean_maturity": 3.2,
+   "max_maturity": 4,
+   "capabilities": 5,
+   "missing_or_concept": 0,
+   "blockers": 0
+  }
+ },
+ "domain_membership": {
+  "CRM": [
+   "CAP.CRM.CLIENT_ACCOUNT_ORG",
+   "CAP.CRM.CLIENT_MESSAGING",
+   "CAP.CRM.CONTACT_IDENTITY_RECORD",
+   "CAP.CRM.CONTACT_INQUIRY",
+   "CAP.CRM.INTAKE_TO_PROJECT_CONVERSION",
+   "CAP.CRM.LEAD_CAPTURE",
+   "CAP.CRM.LEAD_PIPELINE_ADMIN",
+   "CAP.CRM.NOTES_HISTORY"
+  ],
+  "ANALYTICS": [
+   "CAP.ANALYTICS.ADMIN_AUDIT_LOG",
+   "CAP.ANALYTICS.CLIENT_FACING_REPORTS",
+   "CAP.ANALYTICS.CONTENT_PERFORMANCE_MANUAL",
+   "CAP.ANALYTICS.EVOLVE_PROVIDER_METRICS",
+   "CAP.ANALYTICS.FOUNDER_PIPELINE_REPORTS",
+   "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER",
+   "CAP.ANALYTICS.PUBLIC_PAGE_ANALYTICS",
+   "CAP.ANALYTICS.USER_ACTIVITY_TRACKING"
+  ],
+  "MARKETING": [
+   "CAP.DISTRIBUTION.CHANNEL_STRATEGY",
+   "CAP.DISTRIBUTION.PROVIDER_CONNECTIONS_OAUTH",
+   "CAP.DISTRIBUTION.SCHEDULING_CADENCE",
+   "CAP.DISTRIBUTION.SOCIAL_PUBLISHING",
+   "CAP.MARKETING.AD_CREATIVE",
+   "CAP.MARKETING.CAMPAIGN_PRODUCTION_DIRECTOR",
+   "CAP.MARKETING.CLIENT_MARKETING_ENGAGEMENTS",
+   "CAP.MARKETING.EMAIL_MARKETING",
+   "CAP.MARKETING.EVOLVE_MARKETING_OS",
+   "CAP.MARKETING.EVOLVE_PUBLIC_OFFER_PAGES",
+   "CAP.MARKETING.MARKETING_COMMERCIAL_PIPELINE",
+   "CAP.MARKETING.SITE00_SELF_MARKETING"
+  ],
+  "SEO": [
+   "CAP.SEO.CLIENT_SITE_SEO",
+   "CAP.SEO.HEAD_META_BASELINE",
+   "CAP.SEO.OG_SOCIAL_PREVIEW",
+   "CAP.SEO.PER_ROUTE_TITLE",
+   "CAP.SEO.ROBOTS_TXT",
+   "CAP.SEO.SITEMAP",
+   "CAP.SEO.SPA_PRERENDER",
+   "CAP.SEO.STRUCTURED_DATA"
+  ],
+  "CONTENT": [
+   "CAP.CONTENT.CAMPAIGN_PACKAGE_STORE",
+   "CAP.CONTENT.CMS",
+   "CAP.CONTENT.CONTENT_BRAIN",
+   "CAP.CONTENT.CONTENT_OPERATIONS_LIBRARY",
+   "CAP.CONTENT.COPYWRITING_BRAND_VOICE",
+   "CAP.CONTENT.EXPRESSION_ENGINE",
+   "CAP.CONTENT.I18N",
+   "CAP.CONTENT.PAGE_COPY_SOURCES"
+  ],
+  "OPERATIONS": [
+   "CAP.OPS.CLIENT_REVIEW_ENGINE",
+   "CAP.OPS.DELIVERABLES_TRACKING",
+   "CAP.OPS.DELIVERABLE_HANDOFF_LIBRARY",
+   "CAP.OPS.DEMO_SEED_ISOLATION",
+   "CAP.OPS.INTERNAL_APPROVAL_QUEUE",
+   "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+   "CAP.OPS.PROJECT_HEALTH_READINESS",
+   "CAP.OPS.PROJECT_LIFECYCLE_STATUS",
+   "CAP.OPS.PROJECT_REGISTRY",
+   "CAP.OPS.PROVISIONING",
+   "CAP.OPS.REVIEW_RETURN_LOOP",
+   "CAP.OPS.REVISION_MANAGEMENT",
+   "CAP.OPS.SEND_TO_CLIENT_REVIEW",
+   "CAP.OPS.TASKS_NEXT_ACTIONS",
+   "CAP.PROJECT.ACTIVITY",
+   "CAP.PROJECT.BENCH_ROUTE_GUARDING",
+   "CAP.PROJECT.DESIGN",
+   "CAP.PROJECT.EXPERIENCE",
+   "CAP.PROJECT.EXPRESSION",
+   "CAP.PROJECT.HUB",
+   "CAP.PROJECT.INBOX",
+   "CAP.PROJECT.LEGACY_FOUNDER_SURFACES",
+   "CAP.PROJECT.LIBRARY",
+   "CAP.PROJECT.WORKSPACE_PROJECT_SCOPING",
+   "CAP.PROJECT.WORKSPACE_SHELL"
+  ],
+  "SECURITY": [
+   "CAP.PRIVACY.CLIENT_DATA_FIREWALL",
+   "CAP.PRIVACY.COOKIE_CONSENT",
+   "CAP.PRIVACY.DATA_EXPORT_DELETION",
+   "CAP.PRIVACY.LEGAL_PAGES",
+   "CAP.SECURITY.ADMIN_GATING",
+   "CAP.SECURITY.API_AUTH_MIDDLEWARE",
+   "CAP.SECURITY.CLIENT_ROLE_ENFORCEMENT",
+   "CAP.SECURITY.CORS_POLICY",
+   "CAP.SECURITY.HTTP_SECURITY_HEADERS",
+   "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+   "CAP.SECURITY.RATE_LIMITING",
+   "CAP.SECURITY.RLS_POLICIES",
+   "CAP.SECURITY.SECRETS_HANDLING",
+   "CAP.SECURITY.SERVICE_ROLE_CLIENT",
+   "CAP.SECURITY.SUPABASE_AUTH_SESSION",
+   "CAP.SECURITY.WEBHOOK_SIGNATURES"
+  ],
+  "ACCESSIBILITY": [
+   "CAP.A11Y.A11Y_MVP_GATE",
+   "CAP.A11Y.ARIA_SEMANTICS",
+   "CAP.A11Y.AUTOMATED_A11Y_TESTS",
+   "CAP.A11Y.CONTRAST_CHECKS",
+   "CAP.A11Y.REDUCED_MOTION"
+  ],
+  "PERFORMANCE": [
+   "CAP.PERF.BUNDLE_BUDGET",
+   "CAP.PERF.CACHING",
+   "CAP.PERF.IMAGE_OPTIMIZATION",
+   "CAP.PERF.ROUTE_CODE_SPLITTING"
+  ],
+  "RELEASE_ENGINEERING": [
+   "CAP.RELEASE.CI_HEALTH",
+   "CAP.RELEASE.MANUAL_ZIP_DEPLOY",
+   "CAP.RELEASE.PRODUCTION_PIPELINE",
+   "CAP.RELEASE.RELEASE_MANIFEST",
+   "CAP.RELEASE.ROLLBACK",
+   "CAP.RELEASE.STAGING_ENVIRONMENT"
+  ],
+  "POST_LAUNCH": [
+   "CAP.LAUNCH.CLIENT_LAUNCH_FLOW",
+   "CAP.LAUNCH.CLIENT_SITE_HOSTING",
+   "CAP.LAUNCH.DOMAIN_DNS",
+   "CAP.POSTLAUNCH.HEALTH_ENDPOINTS"
+  ],
+  "MAINTENANCE_EVOLVE": [
+   "CAP.EVOLUTION.EXTERNAL_RECONCILIATION",
+   "CAP.EVOLVE.OPERATIONS_INTELLIGENCE",
+   "CAP.MAINTAIN.BACKUPS",
+   "CAP.MAINTAIN.CLIENT_CHANGE_REQUESTS",
+   "CAP.MAINTAIN.DEPENDENCY_UPDATES",
+   "CAP.MAINTAIN.RETAINERS"
+  ],
+  "CANON_GOVERNANCE": [
+   "CAP.CANON.DESIGN_LANGUAGE_CANON",
+   "CAP.CANON.IDENTITY_CANON_PROMOTION",
+   "CAP.CANON.JURNL_FAMILY_CONTRACTS",
+   "CAP.CANON.LOCKED_ONTOLOGY_ENFORCEMENT",
+   "CAP.CANON.MOTHERBOARD_CONTEXT",
+   "CAP.DECISION.COMMERCIAL_FOUNDER_DECISIONS",
+   "CAP.DECISION.DOC_DECISION_LOGS",
+   "CAP.DECISION.FOUNDER_GATES_IN_PIPELINE"
+  ],
+  "COST": [
+   "CAP.COST.ANTHROPIC_COST_METER",
+   "CAP.COST.CLIENT_COST_TRANSPARENCY",
+   "CAP.COST.CLIENT_CREDITS_ALLOWANCE",
+   "CAP.COST.CLIENT_FUNDED_PRODUCTION",
+   "CAP.COST.FAL_COST_TRACKING",
+   "CAP.COST.MARGIN_INTELLIGENCE",
+   "CAP.COST.OPENART_MANUAL_LEDGER",
+   "CAP.COST.PER_PROJECT_COST_ROLLUP",
+   "CAP.COST.UNIFIED_COST_LEDGER"
+  ],
+  "INCIDENT_LEARNING": [
+   "CAP.INCIDENT.MEMORY_LOG_INCIDENTS",
+   "CAP.INCIDENT.REGRESSION_GUARD_TESTS",
+   "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+   "CAP.INCIDENT.STRUCTURED_INCIDENT_RECORDS"
+  ],
+  "DEPENDENCY_GRAPH": [
+   "CAP.DEPGRAPH.DELIVERABLE_DEPENDENCIES",
+   "CAP.DEPGRAPH.DESIGN_CHANGE_BLAST_RADIUS",
+   "CAP.DEPGRAPH.INVALIDATION_GRAPH",
+   "CAP.TREES.JURNL_SCREEN_TREE",
+   "CAP.TREES.PAGE_FAMILY_WORKSPACE",
+   "CAP.TREES.PROJECT_GRAPH",
+   "CAP.TREES.SITE00_PAGE_TREE"
+  ],
+  "RISK_ENGINE": [
+   "CAP.RISK.OPUS_NATIVE_COST_CEILING",
+   "CAP.RISK.PUBLISHING_FENCE",
+   "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD",
+   "CAP.RISK.RISK_REGISTER",
+   "CAP.RISK.SPEND_CONFIRMATION_GUARDS"
+  ],
+  "PIPELINE_ROUTER": [
+   "CAP.AGENT.AGENT_GOVERNANCE_RULES",
+   "CAP.AGENT.MODEL_ROLE_PIPELINE",
+   "CAP.AGENT.OPUS_NATIVE_RUNTIME",
+   "CAP.AGENT.PRODUCTION_ORCHESTRATION_QUEUE",
+   "CAP.ROUTER.COMPLEXITY_ROUTER",
+   "CAP.ROUTER.PROVIDER_CALL_SITES",
+   "CAP.ROUTER.TASK_CLASS_PROVIDER_ROUTING"
+  ],
+  "BUSINESS_INTELLIGENCE": [
+   "CAP.BIZ.BRAND_CREATIVE_CONTEXT_PROFILE",
+   "CAP.BIZ.BRAND_LORE_PERSONALITY_CAPTURE",
+   "CAP.BIZ.CREATIVE_INTAKE_ENGINE",
+   "CAP.BIZ.DISCOVERY_RECOMMENDATION",
+   "CAP.BIZ.EVOLVE_ASSESSMENT_INTAKE",
+   "CAP.BIZ.IDENTITY_BRIEF_STRATEGY",
+   "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE",
+   "CAP.BIZ.ORIGIN_INGESTION_CLIENT_TRUTH",
+   "CAP.BIZ.PROJECT_INTELLIGENCE_MANIFEST",
+   "CAP.BIZ.UNIFIED_BUSINESS_PROFILE",
+   "CAP.BIZ.WORLD_INTAKE_INVITE"
+  ],
+  "MARKET_INTELLIGENCE": [
+   "CAP.MKT_INTEL.AUDIENCE_PERSONA_CAPTURE",
+   "CAP.MKT_INTEL.COMPETITOR_RESEARCH",
+   "CAP.MKT_INTEL.CULTURAL_TREND_INTELLIGENCE",
+   "CAP.MKT_INTEL.MARKETING_ASSESSMENT",
+   "CAP.MKT_INTEL.POSITIONING"
+  ],
+  "OFFER_ARCHITECTURE": [
+   "CAP.OFFER.BLDR_BUILD_CLASSES",
+   "CAP.OFFER.CLIENT_AGREEMENTS",
+   "CAP.OFFER.EVOLVE_PLANS",
+   "CAP.OFFER.HOSTED_PRODUCT_MONETIZATION",
+   "CAP.OFFER.IDNTY_TIERS",
+   "CAP.OFFER.MARKETING_PACKAGES",
+   "CAP.OFFER.QUOTES_PROPOSALS",
+   "CAP.OFFER.SCOPE_FULFILLMENT_CONTRACTS",
+   "CAP.OFFER.SERVICE_CATALOG_CANON"
+  ],
+  "COMMERCIAL_CONTROLS": [
+   "CAP.COMMERCIAL.CLIENT_SPECIFIC_PRICING",
+   "CAP.COMMERCIAL.COMP",
+   "CAP.COMMERCIAL.COURTESY_CODE_ENGINE",
+   "CAP.COMMERCIAL.DEPOSITS_MILESTONES",
+   "CAP.COMMERCIAL.DISCOUNT_FIXED",
+   "CAP.COMMERCIAL.DISCOUNT_PERCENT",
+   "CAP.COMMERCIAL.ENTITLEMENT_STATE",
+   "CAP.COMMERCIAL.INVOICES",
+   "CAP.COMMERCIAL.PAYMENT_CHECKOUT",
+   "CAP.COMMERCIAL.PAYMENT_READINESS_AUDIT",
+   "CAP.COMMERCIAL.PRICE_OVERRIDE",
+   "CAP.COMMERCIAL.PROJECT_CREDIT",
+   "CAP.COMMERCIAL.REDEMPTION_AUDIT",
+   "CAP.COMMERCIAL.SIMULATED_ACTIVATION_PATHS",
+   "CAP.COMMERCIAL.STACKING_RULES",
+   "CAP.COMMERCIAL.USAGE_LIMIT_OVERRIDE",
+   "CAP.COMMERCIAL.VALIDITY_WINDOWS"
+  ],
+  "SALES_CONVERSION": [
+   "CAP.SALES.CONVERSION_TRACKING",
+   "CAP.SALES.PRICING_PLANS",
+   "CAP.SALES.PRIMARY_CTAS",
+   "CAP.SALES.UPSELL_OPPORTUNITIES"
+  ],
+  "CUSTOMER_JOURNEY": [
+   "CAP.JOURNEY.CLIENT_ONBOARDING",
+   "CAP.JOURNEY.CLIENT_PROJECT_ROOM_SURFACE",
+   "CAP.JOURNEY.EXISTING_LOCATION_FLOW",
+   "CAP.JOURNEY.LIFECYCLE_STAGE_MODEL",
+   "CAP.JOURNEY.PATHWAY_ASSESSMENTS",
+   "CAP.JOURNEY.POST_INTAKE_HANDOFF",
+   "CAP.JOURNEY.POST_LAUNCH_LIFECYCLE",
+   "CAP.JOURNEY.PUBLIC_ORIGIN_ENTRY"
+  ],
+  "SUPPORT": [
+   "CAP.SUPPORT.EMAIL_TEMPLATE_SYSTEM",
+   "CAP.SUPPORT.HELP_CENTER",
+   "CAP.SUPPORT.IN_APP_NOTIFICATIONS",
+   "CAP.SUPPORT.NOTIFICATION_PREFERENCES",
+   "CAP.SUPPORT.SLA_TRACKING",
+   "CAP.SUPPORT.TICKETING"
+  ],
+  "MOVEMENT_LAYER": [
+   "CAP.MOVEMENT.ENTER_00_WAITING_ROOM",
+   "CAP.MOVEMENT.EXIT_00",
+   "CAP.MOVEMENT.FAST_TRAVEL",
+   "CAP.MOVEMENT.LOCATIONS_DIRECTORY",
+   "CAP.MOVEMENT.PROJECT_SWITCHER",
+   "CAP.MOVEMENT.ROLE_AWARE_NAV",
+   "CAP.MOVEMENT.ROUTE_LINK_INTEGRITY",
+   "CAP.MOVEMENT.SHELL_CHROME_SYSTEMS",
+   "CAP.MOVEMENT.SWIPE_UP_TRANSITION",
+   "CAP.MOVEMENT.WORLD_TRANSITIONS"
+  ],
+  "SITES": [
+   "CAP.SITES.ADMIN_SITES_OPS",
+   "CAP.SITES.CLIENT_SITES_VIEW",
+   "CAP.SITES.PUBLIC_SHOWCASE",
+   "CAP.SITES.SITE00_RELEASE_ENGINE",
+   "CAP.SITES.SITE_ENTITY",
+   "CAP.SITES.SITE_PROJECT_LINKAGE"
+  ],
+  "CONTROL_ROOM": [
+   "CAP.CONTROL_ROOM.ACCESS_CREDENTIALS",
+   "CAP.CONTROL_ROOM.ADMIN_ATTENTION_CENTER",
+   "CAP.CONTROL_ROOM.CLIENT_BILLING",
+   "CAP.CONTROL_ROOM.CLIENT_OVERVIEW",
+   "CAP.CONTROL_ROOM.CLIENT_PROFILE_SECURITY",
+   "CAP.CONTROL_ROOM.CLIENT_TEAM",
+   "CAP.CONTROL_ROOM.EVOLVE_OPS_ACCESS_GATE",
+   "CAP.CONTROL_ROOM.FOUNDER_CONTROL_ROOM",
+   "CAP.CONTROL_ROOM.OPERATOR_CONSOLE"
+  ],
+  "CONTROL_PLANE": [
+   "CAP.CONTROL_PLANE.DESIGN_CONTROL_PLANE",
+   "CAP.CONTROL_PLANE.INFRA_CONTROL_PLANE",
+   "CAP.CONTROL_PLANE.MIGRATION_MANAGEMENT"
+  ],
+  "PROJECT_RUNTIME": [
+   "CAP.RUNTIME.PROJECT_BACKEND_ADAPTERS",
+   "CAP.RUNTIME.PROJECT_ENV_SECRETS",
+   "CAP.RUNTIME.PROJECT_RUNTIME_REGISTRY"
+  ],
+  "PRODUCT_ARCHITECTURE": [
+   "CAP.PRODUCT.BLDR_CLASS_MODEL",
+   "CAP.PRODUCT.BLDR_EXTENSIONS_CLASS",
+   "CAP.PRODUCT.EVOLVE_PATHS",
+   "CAP.PRODUCT.IDNTY_DELIVERY_PHASE_ENGINE",
+   "CAP.PRODUCT.IDNTY_STATE_MODEL",
+   "CAP.PRODUCT.JURNL_FAMILY_RUNTIME",
+   "CAP.PRODUCT.ROUTE_SURFACE_SPRAWL",
+   "CAP.PRODUCT.STUDIO_WORLD_ADAPTER",
+   "CAP.STUDIO.CLIENT_STUDIO_ROUTES"
+  ],
+  "EXPRESSION_ARCHITECTURE": [
+   "CAP.EXPRESSION.BRAND_LORE_CREATIVE_CONTEXT",
+   "CAP.EXPRESSION.ENVIRONMENT_DISTINCTNESS",
+   "CAP.EXPRESSION.EXPERIENCE_COMPILER_MAP2",
+   "CAP.EXPRESSION.FAMILY_EXPRESSION_BRIEF_GATE",
+   "CAP.EXPRESSION.FAMILY_OUTPUT_PROJECTS",
+   "CAP.EXPRESSION.FAMILY_PRODUCTION_CONTRACT",
+   "CAP.EXPRESSION.JURNL_FAMILY_PIPELINE",
+   "CAP.EXPRESSION.REFERENCE_REGISTRY"
+  ],
+  "ASSET_PROVENANCE": [
+   "CAP.ASSET.ASSTS_ASSET_FACTORY",
+   "CAP.ASSET.ASTRAL_WORLD_ASSETS",
+   "CAP.ASSET.CREATIVE_LINEAGE",
+   "CAP.ASSET.GENERATION_LEDGER",
+   "CAP.ASSET.JURNL_REPO_AUTHORITIES",
+   "CAP.ASSET.PRODUCT_ASSET_FACTORY",
+   "CAP.ASSET.STORAGE_BUCKETS",
+   "CAP.ASSET.VISUAL_AUTHORITY_REGISTRY"
+  ],
+  "DATA_MODEL": [
+   "CAP.DATA.METHODOLOGY_RUNS_BLOB_STORE",
+   "CAP.DATA.SCHEMA_INVENTORY",
+   "CAP.DATA.UNUSED_TABLES"
+  ],
+  "INTEGRATIONS": [
+   "CAP.INTEGRATION.AI_PROVIDERS",
+   "CAP.INTEGRATION.CLOUDFLARE_PREVIEW_TUNNEL",
+   "CAP.INTEGRATION.EMAIL_PROVIDER",
+   "CAP.INTEGRATION.GITHUB",
+   "CAP.INTEGRATION.OPENART_MANUAL",
+   "CAP.INTEGRATION.RAILWAY_API_HOST",
+   "CAP.INTEGRATION.SERVICE_CONNECTIONS",
+   "CAP.INTEGRATION.SUPABASE"
+  ],
+  "DEVICE_QA": [
+   "CAP.DEVICE_QA.CLIENT_APP_SCREEN_MATRIX",
+   "CAP.DEVICE_QA.DEVICE_MATRIX",
+   "CAP.DEVICE_QA.MOBILE_RESPONSIVE_SURFACES",
+   "CAP.DEVICE_QA.PRODUCTION_ROUTE_SMOKE",
+   "CAP.DEVICE_QA.VISUAL_REGRESSION"
+  ],
+  "EXPERIMENTATION": [
+   "CAP.EXPERIMENT.AB_TESTING",
+   "CAP.EXPERIMENT.FEATURE_FLAGS",
+   "CAP.EXPERIMENT.METHODOLOGY_VALIDATION_RUNS"
+  ],
+  "QUALITY_SCORING": [
+   "CAP.QUALITY.FAMILY_IMPLEMENTATION_GATE",
+   "CAP.QUALITY.FOUNDER_JUDGMENT_CAPTURE",
+   "CAP.QUALITY.LIVE_RUNTIME_QA_SCRIPTS",
+   "CAP.QUALITY.LLM_CREATIVE_JUDGES",
+   "CAP.QUALITY.PRODUCTION_BUILD_GUARDS"
+  ]
+ },
+ "by_mature_endpoint_stage": [
+  {
+   "stage": "IDEA",
+   "capabilities": 8,
+   "mean_maturity": 2.75,
+   "distribution": {
+    "0": 0,
+    "1": 1,
+    "2": 3,
+    "3": 1,
+    "4": 3,
+    "5": 0
+   }
+  },
+  {
+   "stage": "BUSINESS_UNDERSTANDING",
+   "capabilities": 9,
+   "mean_maturity": 2.33,
+   "distribution": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 6,
+    "4": 0,
+    "5": 0
+   }
+  },
+  {
+   "stage": "IDENTITY",
+   "capabilities": 7,
+   "mean_maturity": 3.14,
+   "distribution": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 6,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "stage": "OFFER",
+   "capabilities": 31,
+   "mean_maturity": 2.1,
+   "distribution": {
+    "0": 5,
+    "1": 2,
+    "2": 10,
+    "3": 13,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "stage": "CUSTOMER_JOURNEY",
+   "capabilities": 21,
+   "mean_maturity": 2.57,
+   "distribution": {
+    "0": 0,
+    "1": 1,
+    "2": 8,
+    "3": 11,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "capabilities": 20,
+   "mean_maturity": 2.15,
+   "distribution": {
+    "0": 0,
+    "1": 9,
+    "2": 3,
+    "3": 4,
+    "4": 4,
+    "5": 0
+   }
+  },
+  {
+   "stage": "PRODUCT_SYSTEM",
+   "capabilities": 35,
+   "mean_maturity": 2.66,
+   "distribution": {
+    "0": 1,
+    "1": 0,
+    "2": 11,
+    "3": 21,
+    "4": 2,
+    "5": 0
+   }
+  },
+  {
+   "stage": "MARKETING_SYSTEM",
+   "capabilities": 27,
+   "mean_maturity": 1.7,
+   "distribution": {
+    "0": 8,
+    "1": 3,
+    "2": 6,
+    "3": 9,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "stage": "LIVE_OPERATIONS",
+   "capabilities": 42,
+   "mean_maturity": 2.21,
+   "distribution": {
+    "0": 2,
+    "1": 9,
+    "2": 14,
+    "3": 12,
+    "4": 5,
+    "5": 0
+   }
+  },
+  {
+   "stage": "MEASUREMENT",
+   "capabilities": 16,
+   "mean_maturity": 2.12,
+   "distribution": {
+    "0": 3,
+    "1": 0,
+    "2": 6,
+    "3": 6,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "stage": "MAINTENANCE",
+   "capabilities": 16,
+   "mean_maturity": 1.94,
+   "distribution": {
+    "0": 1,
+    "1": 6,
+    "2": 4,
+    "3": 3,
+    "4": 2,
+    "5": 0
+   }
+  },
+  {
+   "stage": "EVOLUTION",
+   "capabilities": 3,
+   "mean_maturity": 2.67,
+   "distribution": {
+    "0": 0,
+    "1": 0,
+    "2": 1,
+    "3": 2,
+    "4": 0,
+    "5": 0
+   }
+  },
+  {
+   "stage": "PLATFORM_FOUNDATION",
+   "capabilities": 55,
+   "mean_maturity": 2.36,
+   "distribution": {
+    "0": 5,
+    "1": 8,
+    "2": 9,
+    "3": 28,
+    "4": 5,
+    "5": 0
+   }
+  }
+ ],
+ "by_layer": [
+  {
+   "layer": "PUBLIC_LOCATION",
+   "capabilities": 17,
+   "mean_maturity": 1.65,
+   "distribution": {
+    "0": 5,
+    "1": 4,
+    "2": 2,
+    "3": 4,
+    "4": 2,
+    "5": 0
+   }
+  },
+  {
+   "layer": "PRODUCTS_IDNTY",
+   "capabilities": 6,
+   "mean_maturity": 2.83,
+   "distribution": {
+    "0": 0,
+    "1": 0,
+    "2": 2,
+    "3": 3,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "layer": "PRODUCTS_BLDR",
+   "capabilities": 4,
+   "mean_maturity": 2.25,
+   "distribution": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 0,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "layer": "PRODUCTS_EVOLVE",
+   "capabilities": 23,
+   "mean_maturity": 2.43,
+   "distribution": {
+    "0": 2,
+    "1": 2,
+    "2": 6,
+    "3": 10,
+    "4": 3,
+    "5": 0
+   }
+  },
+  {
+   "layer": "CLIENT_PROJECT_ROOM",
+   "capabilities": 16,
+   "mean_maturity": 1.88,
+   "distribution": {
+    "0": 2,
+    "1": 5,
+    "2": 3,
+    "3": 5,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "layer": "CLIENT_SITES",
+   "capabilities": 10,
+   "mean_maturity": 2.0,
+   "distribution": {
+    "0": 0,
+    "1": 5,
+    "2": 1,
+    "3": 3,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "capabilities": 42,
+   "mean_maturity": 2.67,
+   "distribution": {
+    "0": 2,
+    "1": 0,
+    "2": 11,
+    "3": 26,
+    "4": 3,
+    "5": 0
+   }
+  },
+  {
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "capabilities": 31,
+   "mean_maturity": 2.23,
+   "distribution": {
+    "0": 3,
+    "1": 4,
+    "2": 8,
+    "3": 15,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "layer": "CLIENT_CONTROL_ROOM",
+   "capabilities": 11,
+   "mean_maturity": 1.36,
+   "distribution": {
+    "0": 2,
+    "1": 3,
+    "2": 6,
+    "3": 0,
+    "4": 0,
+    "5": 0
+   }
+  },
+  {
+   "layer": "MOVEMENT_LAYER",
+   "capabilities": 10,
+   "mean_maturity": 2.8,
+   "distribution": {
+    "0": 0,
+    "1": 0,
+    "2": 3,
+    "3": 6,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "layer": "CONTROL_PLANE",
+   "capabilities": 22,
+   "mean_maturity": 2.59,
+   "distribution": {
+    "0": 1,
+    "1": 4,
+    "2": 3,
+    "3": 9,
+    "4": 5,
+    "5": 0
+   }
+  },
+  {
+   "layer": "PROJECT_RUNTIME_LAYER",
+   "capabilities": 7,
+   "mean_maturity": 2.43,
+   "distribution": {
+    "0": 0,
+    "1": 1,
+    "2": 3,
+    "3": 2,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "layer": "STUDIO_OS",
+   "capabilities": 26,
+   "mean_maturity": 2.31,
+   "distribution": {
+    "0": 1,
+    "1": 5,
+    "2": 6,
+    "3": 13,
+    "4": 1,
+    "5": 0
+   }
+  },
+  {
+   "layer": "STUDIO_WORLD",
+   "capabilities": 0,
+   "mean_maturity": null,
+   "distribution": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+   }
+  },
+  {
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "capabilities": 65,
+   "mean_maturity": 2.22,
+   "distribution": {
+    "0": 8,
+    "1": 6,
+    "2": 20,
+    "3": 26,
+    "4": 5,
+    "5": 0
+   }
+  }
+ ],
+ "overall": {
+  "mean_maturity": 2.28,
+  "distribution": {
+   "0": 26,
+   "1": 40,
+   "2": 76,
+   "3": 122,
+   "4": 26,
+   "5": 0
+  }
+ },
+ "cells": [
+  {
+   "capability_id": "CAP.A11Y.A11Y_MVP_GATE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.A11Y.ARIA_SEMANTICS",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.A11Y.AUTOMATED_A11Y_TESTS",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.A11Y.CONTRAST_CHECKS",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.A11Y.REDUCED_MOTION",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.AGENT.AGENT_GOVERNANCE_RULES",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.AGENT.MODEL_ROLE_PIPELINE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.AGENT.OPUS_NATIVE_RUNTIME",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.AGENT.PRODUCTION_ORCHESTRATION_QUEUE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.ADMIN_AUDIT_LOG",
+   "stage": "MEASUREMENT",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.CLIENT_FACING_REPORTS",
+   "stage": "MEASUREMENT",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.CONTENT_PERFORMANCE_MANUAL",
+   "stage": "MEASUREMENT",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.EVOLVE_PROVIDER_METRICS",
+   "stage": "MEASUREMENT",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.FOUNDER_PIPELINE_REPORTS",
+   "stage": "MEASUREMENT",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER",
+   "stage": "MEASUREMENT",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.PUBLIC_PAGE_ANALYTICS",
+   "stage": "MEASUREMENT",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.ANALYTICS.USER_ACTIVITY_TRACKING",
+   "stage": "MEASUREMENT",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.ASSET.ASSTS_ASSET_FACTORY",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.ASSET.ASTRAL_WORLD_ASSETS",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "CLIENT_SITES",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.ASSET.CREATIVE_LINEAGE",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.ASSET.GENERATION_LEDGER",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.ASSET.JURNL_REPO_AUTHORITIES",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "CLIENT_SITES",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.ASSET.PRODUCT_ASSET_FACTORY",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "PRODUCTS_BLDR",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.ASSET.STORAGE_BUCKETS",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.ASSET.VISUAL_AUTHORITY_REGISTRY",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.BIZ.BRAND_CREATIVE_CONTEXT_PROFILE",
+   "stage": "IDENTITY",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.BIZ.BRAND_LORE_PERSONALITY_CAPTURE",
+   "stage": "IDENTITY",
+   "layer": "PRODUCTS_IDNTY",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.BIZ.CREATIVE_INTAKE_ENGINE",
+   "stage": "IDEA",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.BIZ.DISCOVERY_RECOMMENDATION",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.BIZ.EVOLVE_ASSESSMENT_INTAKE",
+   "stage": "IDEA",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.BIZ.IDENTITY_BRIEF_STRATEGY",
+   "stage": "IDENTITY",
+   "layer": "PRODUCTS_IDNTY",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE",
+   "stage": "IDEA",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.BIZ.ORIGIN_INGESTION_CLIENT_TRUTH",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "PROJECT_RUNTIME_LAYER",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.BIZ.PROJECT_INTELLIGENCE_MANIFEST",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "PROJECT_RUNTIME_LAYER",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.BIZ.UNIFIED_BUSINESS_PROFILE",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.BIZ.WORLD_INTAKE_INVITE",
+   "stage": "IDEA",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.CANON.DESIGN_LANGUAGE_CANON",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CANON.IDENTITY_CANON_PROMOTION",
+   "stage": "IDENTITY",
+   "layer": "PRODUCTS_IDNTY",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CANON.JURNL_FAMILY_CONTRACTS",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CANON.LOCKED_ONTOLOGY_ENFORCEMENT",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CANON.MOTHERBOARD_CONTEXT",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.CLIENT_SPECIFIC_PRICING",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.COMP",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.COURTESY_CODE_ENGINE",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.DEPOSITS_MILESTONES",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.DISCOUNT_FIXED",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.DISCOUNT_PERCENT",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.ENTITLEMENT_STATE",
+   "stage": "OFFER",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.INVOICES",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.PAYMENT_CHECKOUT",
+   "stage": "OFFER",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "CONCEPT_ONLY",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.PAYMENT_READINESS_AUDIT",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.PRICE_OVERRIDE",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.PROJECT_CREDIT",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.REDEMPTION_AUDIT",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.SIMULATED_ACTIVATION_PATHS",
+   "stage": "OFFER",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.STACKING_RULES",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.USAGE_LIMIT_OVERRIDE",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COMMERCIAL.VALIDITY_WINDOWS",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CONTENT.CAMPAIGN_PACKAGE_STORE",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.CONTENT.CMS",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CONTENT.CONTENT_BRAIN",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CONTENT.CONTENT_OPERATIONS_LIBRARY",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CONTENT.COPYWRITING_BRAND_VOICE",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CONTENT.EXPRESSION_ENGINE",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.CONTENT.I18N",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.CONTENT.PAGE_COPY_SOURCES",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.CONTROL_PLANE.DESIGN_CONTROL_PLANE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CONTROL_PLANE.INFRA_CONTROL_PLANE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "CONTROL_PLANE",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.CONTROL_PLANE.MIGRATION_MANAGEMENT",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "CONTROL_PLANE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.ACCESS_CREDENTIALS",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CONTROL_PLANE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.ADMIN_ATTENTION_CENTER",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.CLIENT_BILLING",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.CLIENT_OVERVIEW",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.CLIENT_PROFILE_SECURITY",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.CLIENT_TEAM",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.EVOLVE_OPS_ACCESS_GATE",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.FOUNDER_CONTROL_ROOM",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CONTROL_ROOM.OPERATOR_CONSOLE",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.COST.ANTHROPIC_COST_METER",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COST.CLIENT_COST_TRANSPARENCY",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.COST.CLIENT_CREDITS_ALLOWANCE",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COST.CLIENT_FUNDED_PRODUCTION",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.COST.FAL_COST_TRACKING",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COST.MARGIN_INTELLIGENCE",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.COST.OPENART_MANUAL_LEDGER",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.COST.PER_PROJECT_COST_ROLLUP",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.COST.UNIFIED_COST_LEDGER",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.CRM.CLIENT_ACCOUNT_ORG",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.CRM.CLIENT_MESSAGING",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CRM.CONTACT_IDENTITY_RECORD",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.CRM.CONTACT_INQUIRY",
+   "stage": "IDEA",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CRM.INTAKE_TO_PROJECT_CONVERSION",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.CRM.LEAD_CAPTURE",
+   "stage": "IDEA",
+   "layer": "STUDIO_OS",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CRM.LEAD_PIPELINE_ADMIN",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.CRM.NOTES_HISTORY",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.DATA.METHODOLOGY_RUNS_BLOB_STORE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.DATA.SCHEMA_INVENTORY",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.DATA.UNUSED_TABLES",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.DECISION.COMMERCIAL_FOUNDER_DECISIONS",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.DECISION.DOC_DECISION_LOGS",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 1,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.DECISION.FOUNDER_GATES_IN_PIPELINE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.DEPGRAPH.DELIVERABLE_DEPENDENCIES",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.DEPGRAPH.DESIGN_CHANGE_BLAST_RADIUS",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.DEPGRAPH.INVALIDATION_GRAPH",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.DEVICE_QA.CLIENT_APP_SCREEN_MATRIX",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.DEVICE_QA.DEVICE_MATRIX",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.DEVICE_QA.MOBILE_RESPONSIVE_SURFACES",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.DEVICE_QA.PRODUCTION_ROUTE_SMOKE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.DEVICE_QA.VISUAL_REGRESSION",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.DISTRIBUTION.CHANNEL_STRATEGY",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.DISTRIBUTION.PROVIDER_CONNECTIONS_OAUTH",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.DISTRIBUTION.SCHEDULING_CADENCE",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.DISTRIBUTION.SOCIAL_PUBLISHING",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.EVOLUTION.EXTERNAL_RECONCILIATION",
+   "stage": "EVOLUTION",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.EVOLVE.OPERATIONS_INTELLIGENCE",
+   "stage": "EVOLUTION",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.EXPERIMENT.AB_TESTING",
+   "stage": "MEASUREMENT",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.EXPERIMENT.FEATURE_FLAGS",
+   "stage": "MEASUREMENT",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.EXPERIMENT.METHODOLOGY_VALIDATION_RUNS",
+   "stage": "MEASUREMENT",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.EXPRESSION.BRAND_LORE_CREATIVE_CONTEXT",
+   "stage": "IDENTITY",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.EXPRESSION.ENVIRONMENT_DISTINCTNESS",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.EXPRESSION.EXPERIENCE_COMPILER_MAP2",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.EXPRESSION.FAMILY_EXPRESSION_BRIEF_GATE",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.EXPRESSION.FAMILY_OUTPUT_PROJECTS",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.EXPRESSION.FAMILY_PRODUCTION_CONTRACT",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.EXPRESSION.JURNL_FAMILY_PIPELINE",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.EXPRESSION.REFERENCE_REGISTRY",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.INCIDENT.MEMORY_LOG_INCIDENTS",
+   "stage": "MAINTENANCE",
+   "layer": "STUDIO_OS",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.INCIDENT.REGRESSION_GUARD_TESTS",
+   "stage": "MAINTENANCE",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+   "stage": "MAINTENANCE",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.INCIDENT.STRUCTURED_INCIDENT_RECORDS",
+   "stage": "MAINTENANCE",
+   "layer": "STUDIO_OS",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.AI_PROVIDERS",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.CLOUDFLARE_PREVIEW_TUNNEL",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.EMAIL_PROVIDER",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.GITHUB",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.OPENART_MANUAL",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "PROJECT_RUNTIME_LAYER",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.RAILWAY_API_HOST",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CONTROL_PLANE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.SERVICE_CONNECTIONS",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CONTROL_PLANE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.INTEGRATION.SUPABASE",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.JOURNEY.CLIENT_ONBOARDING",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.JOURNEY.CLIENT_PROJECT_ROOM_SURFACE",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.JOURNEY.EXISTING_LOCATION_FLOW",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.JOURNEY.LIFECYCLE_STAGE_MODEL",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.JOURNEY.PATHWAY_ASSESSMENTS",
+   "stage": "IDEA",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.JOURNEY.POST_INTAKE_HANDOFF",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.JOURNEY.POST_LAUNCH_LIFECYCLE",
+   "stage": "MAINTENANCE",
+   "layer": "CLIENT_SITES",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.JOURNEY.PUBLIC_ORIGIN_ENTRY",
+   "stage": "IDEA",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.LAUNCH.CLIENT_LAUNCH_FLOW",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.LAUNCH.CLIENT_SITE_HOSTING",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "CLIENT_SITES",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.LAUNCH.DOMAIN_DNS",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "CLIENT_SITES",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MAINTAIN.BACKUPS",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MAINTAIN.CLIENT_CHANGE_REQUESTS",
+   "stage": "MAINTENANCE",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.MAINTAIN.DEPENDENCY_UPDATES",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.MAINTAIN.RETAINERS",
+   "stage": "MAINTENANCE",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MARKETING.AD_CREATIVE",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.MARKETING.CAMPAIGN_PRODUCTION_DIRECTOR",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.MARKETING.CLIENT_MARKETING_ENGAGEMENTS",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 4,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MARKETING.EMAIL_MARKETING",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 1,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.MARKETING.EVOLVE_MARKETING_OS",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MARKETING.EVOLVE_PUBLIC_OFFER_PAGES",
+   "stage": "OFFER",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MARKETING.MARKETING_COMMERCIAL_PIPELINE",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MARKETING.SITE00_SELF_MARKETING",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 1,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MKT_INTEL.AUDIENCE_PERSONA_CAPTURE",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MKT_INTEL.COMPETITOR_RESEARCH",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.MKT_INTEL.CULTURAL_TREND_INTELLIGENCE",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.MKT_INTEL.MARKETING_ASSESSMENT",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.MKT_INTEL.POSITIONING",
+   "stage": "BUSINESS_UNDERSTANDING",
+   "layer": "PRODUCTS_IDNTY",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.ENTER_00_WAITING_ROOM",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.EXIT_00",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.FAST_TRAVEL",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.LOCATIONS_DIRECTORY",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.PROJECT_SWITCHER",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.ROLE_AWARE_NAV",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.ROUTE_LINK_INTEGRITY",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.SHELL_CHROME_SYSTEMS",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.SWIPE_UP_TRANSITION",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.MOVEMENT.WORLD_TRANSITIONS",
+   "stage": "CUSTOMER_JOURNEY",
+   "layer": "MOVEMENT_LAYER",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.OFFER.BLDR_BUILD_CLASSES",
+   "stage": "OFFER",
+   "layer": "PRODUCTS_BLDR",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OFFER.CLIENT_AGREEMENTS",
+   "stage": "OFFER",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OFFER.EVOLVE_PLANS",
+   "stage": "OFFER",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OFFER.HOSTED_PRODUCT_MONETIZATION",
+   "stage": "OFFER",
+   "layer": "CLIENT_SITES",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.OFFER.IDNTY_TIERS",
+   "stage": "OFFER",
+   "layer": "PRODUCTS_IDNTY",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OFFER.MARKETING_PACKAGES",
+   "stage": "OFFER",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OFFER.QUOTES_PROPOSALS",
+   "stage": "OFFER",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OFFER.SCOPE_FULFILLMENT_CONTRACTS",
+   "stage": "OFFER",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OFFER.SERVICE_CATALOG_CANON",
+   "stage": "OFFER",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OPS.CLIENT_REVIEW_ENGINE",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.OPS.DELIVERABLES_TRACKING",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.OPS.DELIVERABLE_HANDOFF_LIBRARY",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.OPS.DEMO_SEED_ISOLATION",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 1,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.OPS.INTERNAL_APPROVAL_QUEUE",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OPS.PROJECT_HEALTH_READINESS",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OPS.PROJECT_LIFECYCLE_STATUS",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.OPS.PROJECT_REGISTRY",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "STUDIO_OS",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.OPS.PROVISIONING",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.OPS.REVIEW_RETURN_LOOP",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "MISSING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.OPS.REVISION_MANAGEMENT",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.OPS.SEND_TO_CLIENT_REVIEW",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.OPS.TASKS_NEXT_ACTIONS",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PERF.BUNDLE_BUDGET",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.PERF.CACHING",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.PERF.IMAGE_OPTIMIZATION",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PERF.ROUTE_CODE_SPLITTING",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.POSTLAUNCH.HEALTH_ENDPOINTS",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PRIVACY.CLIENT_DATA_FIREWALL",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.PRIVACY.COOKIE_CONSENT",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.PRIVACY.DATA_EXPORT_DELETION",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PRIVACY.LEGAL_PAGES",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.PRODUCT.BLDR_CLASS_MODEL",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "PRODUCTS_BLDR",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PRODUCT.BLDR_EXTENSIONS_CLASS",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "PRODUCTS_BLDR",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.PRODUCT.EVOLVE_PATHS",
+   "stage": "EVOLUTION",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PRODUCT.IDNTY_DELIVERY_PHASE_ENGINE",
+   "stage": "IDENTITY",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PRODUCT.IDNTY_STATE_MODEL",
+   "stage": "IDENTITY",
+   "layer": "PRODUCTS_IDNTY",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PRODUCT.JURNL_FAMILY_RUNTIME",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "CLIENT_SITES",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.PRODUCT.ROUTE_SURFACE_SPRAWL",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.PRODUCT.STUDIO_WORLD_ADAPTER",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.PROJECT.ACTIVITY",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PROJECT.BENCH_ROUTE_GUARDING",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.PROJECT.DESIGN",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PROJECT.EXPERIENCE",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.PROJECT.EXPRESSION",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PROJECT.HUB",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PROJECT.INBOX",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.PROJECT.LEGACY_FOUNDER_SURFACES",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PROJECT.LIBRARY",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.PROJECT.WORKSPACE_PROJECT_SCOPING",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.PROJECT.WORKSPACE_SHELL",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_CONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.QUALITY.FAMILY_IMPLEMENTATION_GATE",
+   "stage": "MEASUREMENT",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.QUALITY.FOUNDER_JUDGMENT_CAPTURE",
+   "stage": "MEASUREMENT",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.QUALITY.LIVE_RUNTIME_QA_SCRIPTS",
+   "stage": "MEASUREMENT",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.QUALITY.LLM_CREATIVE_JUDGES",
+   "stage": "MEASUREMENT",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.QUALITY.PRODUCTION_BUILD_GUARDS",
+   "stage": "MEASUREMENT",
+   "layer": "STUDIO_OS",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.RELEASE.CI_HEALTH",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.RELEASE.MANUAL_ZIP_DEPLOY",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.RELEASE.PRODUCTION_PIPELINE",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 4,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.RELEASE.RELEASE_MANIFEST",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.RELEASE.ROLLBACK",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 1,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.RELEASE.STAGING_ENVIRONMENT",
+   "stage": "MAINTENANCE",
+   "layer": "CONTROL_PLANE",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.RISK.OPUS_NATIVE_COST_CEILING",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 4,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.RISK.PUBLISHING_FENCE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.RISK.RISK_REGISTER",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.RISK.SPEND_CONFIRMATION_GUARDS",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.ROUTER.COMPLEXITY_ROUTER",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "STUDIO_OS",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.ROUTER.PROVIDER_CALL_SITES",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.ROUTER.TASK_CLASS_PROVIDER_ROUTING",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.RUNTIME.PROJECT_BACKEND_ADAPTERS",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "PROJECT_RUNTIME_LAYER",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.RUNTIME.PROJECT_ENV_SECRETS",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "PROJECT_RUNTIME_LAYER",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.RUNTIME.PROJECT_RUNTIME_REGISTRY",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "PROJECT_RUNTIME_LAYER",
+   "maturity": 4,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.SALES.CONVERSION_TRACKING",
+   "stage": "OFFER",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.SALES.PRICING_PLANS",
+   "stage": "OFFER",
+   "layer": "PRODUCTS_EVOLVE",
+   "maturity": 3,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SALES.PRIMARY_CTAS",
+   "stage": "OFFER",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.SALES.UPSELL_OPPORTUNITIES",
+   "stage": "OFFER",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.SECURITY.ADMIN_GATING",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SECURITY.API_AUTH_MIDDLEWARE",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SECURITY.CLIENT_ROLE_ENFORCEMENT",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SECURITY.CORS_POLICY",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SECURITY.HTTP_SECURITY_HEADERS",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SECURITY.RATE_LIMITING",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SECURITY.RLS_POLICIES",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SECURITY.SECRETS_HANDLING",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "CONTROL_PLANE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.SECURITY.SERVICE_ROLE_CLIENT",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SECURITY.SUPABASE_AUTH_SESSION",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SECURITY.WEBHOOK_SIGNATURES",
+   "stage": "PLATFORM_FOUNDATION",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.SEO.CLIENT_SITE_SEO",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "CLIENT_SITES",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.SEO.HEAD_META_BASELINE",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SEO.OG_SOCIAL_PREVIEW",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SEO.PER_ROUTE_TITLE",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SEO.ROBOTS_TXT",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  {
+   "capability_id": "CAP.SEO.SITEMAP",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SEO.SPA_PRERENDER",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.SEO.STRUCTURED_DATA",
+   "stage": "MARKETING_SYSTEM",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.SITES.ADMIN_SITES_OPS",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "FOUNDER_CONTROL_ROOM",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SITES.CLIENT_SITES_VIEW",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "CLIENT_SITES",
+   "maturity": 1,
+   "status": "EXISTS_PARTIAL",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SITES.PUBLIC_SHOWCASE",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 1,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.SITES.SITE00_RELEASE_ENGINE",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "CONTROL_PLANE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.SITES.SITE_ENTITY",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "CLIENT_SITES",
+   "maturity": 2,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "CLIENT_READY_BLOCKER"
+  },
+  {
+   "capability_id": "CAP.SITES.SITE_PROJECT_LINKAGE",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "PROJECT_RUNTIME_LAYER",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.STUDIO.CLIENT_STUDIO_ROUTES",
+   "stage": "PRODUCT_SYSTEM",
+   "layer": "CLIENT_PROJECT_ROOM",
+   "maturity": 3,
+   "status": "SUPERSEDED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SUPPORT.EMAIL_TEMPLATE_SYSTEM",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 4,
+   "status": "EXISTS_CONNECTED",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SUPPORT.HELP_CENTER",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "PUBLIC_LOCATION",
+   "maturity": 2,
+   "status": "EXISTS_PARTIAL",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SUPPORT.IN_APP_NOTIFICATIONS",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 2,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  {
+   "capability_id": "CAP.SUPPORT.NOTIFICATION_PREFERENCES",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 1,
+   "status": "EXISTS_DISCONNECTED",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.SUPPORT.SLA_TRACKING",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "STUDIO_OS",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "FUTURE_OPTIONAL"
+  },
+  {
+   "capability_id": "CAP.SUPPORT.TICKETING",
+   "stage": "LIVE_OPERATIONS",
+   "layer": "CLIENT_CONTROL_ROOM",
+   "maturity": 0,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.TREES.JURNL_SCREEN_TREE",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "DUPLICATED_COMPETING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.TREES.PAGE_FAMILY_WORKSPACE",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "FOUNDER_PRODUCTION_WORKSPACE",
+   "maturity": 3,
+   "status": "EXISTS_PARTIAL",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.TREES.PROJECT_GRAPH",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "SHARED_PLATFORM_SERVICE",
+   "maturity": 1,
+   "status": "MISSING",
+   "priority": "MATURE_PLATFORM"
+  },
+  {
+   "capability_id": "CAP.TREES.SITE00_PAGE_TREE",
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "layer": "STUDIO_OS",
+   "maturity": 1,
+   "status": "CONCEPT_ONLY",
+   "priority": "GROUND_ZERO_FOUNDATION"
+  }
+ ]
+}

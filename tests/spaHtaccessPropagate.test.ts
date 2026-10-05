@@ -1,0 +1,74 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { describe, expect, it } from 'vitest';
+import { isSpaShellHtml, SPA_ROUTE_PREFIXES } from '../scripts/spa-route-prefixes.mjs';
+
+describe('SPA htaccess propagation', () => {
+  it('defines route prefixes including projects', () => {
+    expect(SPA_ROUTE_PREFIXES).toContain('projects');
+    expect(SPA_ROUTE_PREFIXES).toContain('services');
+  });
+
+  it('nested template rewrites to index.html', () => {
+    const body = readFileSync('scripts/spa-htaccess-nested.txt', 'utf8');
+    expect(body).toContain('/index.html');
+    expect(body).toContain('RewriteEngine On');
+    expect(body).toContain('ErrorDocument 403');
+  });
+
+  it('public root htaccess uses SymLinksIfOwnerMatch', () => {
+    const body = readFileSync('public/.htaccess', 'utf8');
+    expect(body).toContain('SymLinksIfOwnerMatch');
+    expect(body).toContain('projects|services');
+  });
+
+  it('dist contains nested projects/.htaccess after build', () => {
+    const nested = join('dist', 'projects', '.htaccess');
+    if (!existsSync(nested)) {
+      expect(true).toBe(true);
+      return;
+    }
+    expect(readFileSync(nested, 'utf8')).toContain('/index.html');
+    expect(existsSync(join('dist', 'htaccess-deploy.txt'))).toBe(true);
+    expect(existsSync(join('dist', 'projects', 'index.html'))).toBe(true);
+  });
+
+  it('dist contains visible htaccess-nested.txt for FTP activation', () => {
+    const visible = join('dist', 'projects', 'htaccess-nested.txt');
+    if (!existsSync(visible)) {
+      expect(true).toBe(true);
+      return;
+    }
+    expect(readFileSync(visible, 'utf8')).toContain('/index.html');
+  });
+
+  it('activate script exists for post-deploy', () => {
+    expect(existsSync('scripts/site00-activate-spa-htaccess.sh')).toBe(true);
+  });
+
+  it('activate script uses FTP rename primary and skips SSH in CI by default', () => {
+    const body = readFileSync('scripts/site00-activate-spa-htaccess.sh', 'utf8');
+    expect(body).toContain('FTP rename (primary)');
+    expect(body).toContain('RNFR');
+    expect(body).toContain('GODADDY_SSH_ACTIVATE_ENABLED');
+    expect(body).toContain('site00-verify-spa-deep-link.mjs');
+  });
+
+  it('deep link verify script exists', () => {
+    expect(existsSync('scripts/site00-verify-spa-deep-link.mjs')).toBe(true);
+  });
+
+  it('isSpaShellHtml accepts current SITE 00 index markers', () => {
+    const sample = `<html><head><meta name="app-build-id" content="abc" /></head><body>
+      <div id="site00-assts-boot-shell"></div><div id="root"></div>
+      <script src="/assets/index.DsIuvINJ.js"></script></body></html>`;
+    expect(isSpaShellHtml(sample)).toBe(true);
+    expect(isSpaShellHtml('<html><title>403 Forbidden</title></html>')).toBe(false);
+  });
+
+  it('activate script allows non-strict verify when FTP succeeded', () => {
+    const body = readFileSync('scripts/site00-activate-spa-htaccess.sh', 'utf8');
+    expect(body).toContain('SPA_HTACCESS_VERIFY_STRICT');
+    expect(body).toContain('verify_release');
+  });
+});

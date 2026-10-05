@@ -1,0 +1,58 @@
+{
+  "correctionId": "SITE00-NDXBOOK-BRAND-PRESENTATION-CONCEPT-CORRECTION-2026-08-23",
+  "methodologyGap": "BRAND_PRESENTATION_VS_CONTENT_CONCEPT_LAYER_COLLAPSE",
+  "assurancePrinciple": "ORTHOGONALITY ≠ CORRECT ABSTRACTION LEVEL",
+  "experimentF": {
+    "preserved": true,
+    "mutated": false,
+    "originalClassification": "CREATIVE_CONCEPT_TERRITORY_V2",
+    "laterMethodologyInterpretation": "CONTENT_CONCEPT_TERRITORY_EXPERIMENT",
+    "reason": "TOPIC_LEVEL_FORMATION_DETECTED",
+    "formationSubject": "CREDIT_UTILIZATION",
+    "brandPresentationAuthority": "NONE",
+    "historicalValue": "VALID_DOWNSTREAM_CONTENT_CONCEPT_RESEARCH",
+    "usedInSuccessorFormation": false
+  },
+  "experimentG": {
+    "runId": "ndxbook-brand-presentation-concept-formation",
+    "methodology": "BRAND_PRESENTATION_CONCEPT_TERRITORY_V1",
+    "predecessor": "EXPERIMENT_F",
+    "supersession": "CORRECTED_UPSTREAM_FORMATION",
+    "topicBlind": true,
+    "formationSubject": null
+  },
+  "hierarchy": [
+    "BRAND_INTELLIGENCE",
+    "BRAND_PRESENTATION_CONCEPT_TERRITORY",
+    "BRAND_SOCIAL_EXPRESSION_SYSTEM",
+    "CONTENT_STRATEGY",
+    "CONTENT_CONCEPT_TERRITORY",
+    "TOPIC",
+    "FORMAT",
+    "SEQUENCE",
+    "ASSETS",
+    "PRODUCTION_PUBLISHING"
+  ],
+  "model": "BrandPresentationConceptTerritory",
+  "evaluators": [
+    "evaluateBrandPresentationLevel",
+    "evaluateBrandPresentationTopicIndependence",
+    "evaluateBrandPresentationRecurrence",
+    "evaluateBrandPresentationConceptVsDirection"
+  ],
+  "burnBook": {
+    "classification": "FOUNDER_REFERENCE_EVIDENCE",
+    "purpose": "BRAND_PRESENTATION_LEVEL_CALIBRATION",
+    "mandatoryCanon": false,
+    "literalArtifactRequired": false
+  },
+  "generationBlocked": {
+    "images": true,
+    "fal": true,
+    "directions": true,
+    "content": true,
+    "brandCanonMutation": true
+  },
+  "reviewRoute": "/projects/ndxbook/experiment-g-brand-presentation-concepts",
+  "readyToFormSixBrandPresentationConcepts": true
+}

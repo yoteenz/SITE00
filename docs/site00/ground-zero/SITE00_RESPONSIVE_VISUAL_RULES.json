@@ -1,0 +1,138 @@
+{
+ "artifact": "SITE00_RESPONSIVE_VISUAL_RULES",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "rules": {
+  "responsive": [
+   {
+    "rule": "Production families: mobile <700, tablet 700\u20131119, desktop >=1120 (production-authority-registry.ts + CSS @media 699/700/1119/1120). Each family is an independent recomposition, never a scaled copy; host chrome never uses zoom/transform scale/vw type.",
+    "evidence": [
+     "src/site00/config/production-authority-registry.ts",
+     "src/site00/styles/site00-production-host-chrome.css",
+     "src/site00/styles/site00-production-inbox-family.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Authority aspect families 9:16 (or 9:19.5) / 4:3 / 16:9; QA artboards 360x640@2x, 1024x768, 1280x720; real devices 390x844, 430x932, 834x1194, 1440x900, 1920x1080.",
+    "evidence": [
+     "src/site00/config/production-authority-registry.ts",
+     "artifacts/production-hub-reconstruction-opus1/devices/"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Viewport presets (DESIGN/VIEWPORT): MOBILE 390x844, MOBILE XL 430x932, TABLET 834x1194, DESKTOP 1440x900. 393x852 is used by JURNL contracts, not by host presets.",
+    "evidence": [
+     "src/site00/components/productionAuthority/viewportTargets.ts",
+     "src/projects/jurnl/data/f01/contract.ts"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Other legacy breakpoints in host CSS: 640, 768/767, 900, 1024/1023, 1100, 1200, 360, 420.",
+    "evidence": [
+     "src/site00/styles/*.css (@media counts)"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Public pack authorities are mobile only (941x1672, 850x1850, 1080x1920).",
+    "evidence": [
+     "src/site00/authority/publicRedesignAuthorityManifest.ts"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "safe_areas": [
+   {
+    "rule": "env(safe-area-inset-bottom, 0px) used 80x, top 36x, left/right ~5x; bottom nav pads by bottom inset; client app header pads by top inset.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "src/site00/styles/site00-client-app.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "page_geometry": [
+   {
+    "rule": "Production page = fixed host top + body + fixed bottom nav; body must not scroll at parent level (no-scroll frame contract), internal panes scroll only.",
+    "evidence": [
+     "src/site00/styles/site00-production-inbox-family.css",
+     "artifacts/production-design-asset-convergence-opus3/README.md",
+     "artifacts/production-inbox-authority-opus2/NO_SCROLL_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Hero band then floating status rail overlapping hero foot (5 cells), then sectioned body. Hero heights: 172px desktop / 214px tablet / 150px for other roots.",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Gutters: 20px mobile/tablet, 40px desktop; full width (no max-width) for Library vault.",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Public mobile shell: symmetric gutter, phone artboard; desktop crops the 9:19.5 plate.",
+    "evidence": [
+     "src/site00/styles/site00-mobile-shell.css",
+     "src/site00/authority/publicRedesignAssetSlots.ts"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   }
+  ],
+  "density": [
+   {
+    "rule": "Production is dense and instrumented (many small caps labels 10\u201312px) but organized in few large zones; motherboard: \"Dense, instrumented, red/black/white \u2014 not generic SaaS admin.\"",
+    "evidence": [
+     "motherboard/CORE.md",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ]
+ },
+ "viewport_presets": {
+  "sprint_brief": {
+   "mobile": "393\u00d7852",
+   "tablet": "834\u00d71194",
+   "desktop": "1440\u00d7900"
+  },
+  "repo_host_presets": {
+   "mobile": "390\u00d7844",
+   "mobile_xl": "430\u00d7932",
+   "tablet": "834\u00d71194",
+   "desktop": "1440\u00d7900"
+  },
+  "production_breakpoint_families": {
+   "mobile": "<700",
+   "tablet": "700\u20131119",
+   "desktop": "\u22651120"
+  }
+ },
+ "composition_rule": "Where a mobile/tablet authority exists it is an INDEPENDENT composition authority \u2014 recompose per family, never scale a desktop artboard (bench 768px-scaled children violate this).",
+ "gaps": [
+  "No founder 834\u00d71194 tablet authority (production tablet authorities are 4:3)",
+  "Public pack is mobile-only",
+  "Client app has no responsive authority",
+  "Character Fabrication tablet/desktop missing"
+ ],
+ "conflict": "C11 (393\u00d7852 vs 390\u00d7844) \u2014 see design canon."
+}

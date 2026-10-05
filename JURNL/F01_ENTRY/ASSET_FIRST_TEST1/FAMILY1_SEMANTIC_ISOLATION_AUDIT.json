@@ -1,0 +1,21 @@
+{
+  "sprint": "P0.SITE00.FAMILY1.ASSET-FIRST.SEMANTIC-ISOLATION-INTELLIGENCE.CORRECTION1",
+  "rule": "Visually distinct is not the same as an independent production asset.",
+  "audit": [
+    {"asset_id": "ENTRY.MATERIAL.PLASTER.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Static wall atmosphere. No independent motion, state, or reuse."},
+    {"asset_id": "ENTRY.ARCH.ARCHWAY.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Scenic portal is part of the room composition."},
+    {"asset_id": "ENTRY.ARCH.COAST.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Background scenery."},
+    {"asset_id": "ENTRY.MATERIAL.CURTAIN.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Static dressing."},
+    {"asset_id": "ENTRY.MATERIAL.TRAVERTINE.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Table surface is scene styling."},
+    {"asset_id": "ENTRY.MATERIAL.TEXTILE.ROSE.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Fabric folds are decor."},
+    {"asset_id": "ENTRY.PAPER.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "DISCARD_AS_UNNECESSARY", "reason": "Texture fragment with no runtime role."},
+    {"asset_id": "ENTRY.OBJECT.BUST.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Static sculpture. Not clickable or stateful."},
+    {"asset_id": "ENTRY.OBJECT.BOWL.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Table decor."},
+    {"asset_id": "ENTRY.OBJECT.BOOKS.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Ambient books, not a product being manipulated."},
+    {"asset_id": "ENTRY.OBJECT.JURNLBOOK.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Spine detail is scene dressing on this screen."},
+    {"asset_id": "ENTRY.BOTANICAL.FOREGROUND.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Foliage is composition, not an interactive prop."},
+    {"asset_id": "ENTRY.BOTANICAL.ACCENT.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "MERGE_INTO_ENVIRONMENT", "reason": "Small floral styling."},
+    {"asset_id": "ENTRY.LIGHT.SUN.001", "verdict": "UNNECESSARY_ISOLATION", "disposition": "DISCARD_AS_UNNECESSARY", "reason": "Natural light is rendering, class H, not an asset."},
+    {"asset_id": "ENTRY.LOGO.OFFICIAL.001", "verdict": "REUSABLE", "disposition": "KEEP", "reason": "Recurring brand mark. Already exists. Overlay, do not regenerate."}
+  ]
+}

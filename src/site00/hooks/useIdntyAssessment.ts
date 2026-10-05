@@ -7,6 +7,10 @@ import {
   getIdntyAssessmentState,
 } from '../config/idnty-assessment';
 import { useIntakeSync } from './useIntakeSync';
+import {
+  mergeCommercialIntoDraftPayload,
+  parseIdentityCommercialSearchParams,
+} from '../lib/identityCommercialContext';
 
 export type IdntyStepAnswers = Record<string, string | string[]>;
 
@@ -18,6 +22,9 @@ export type IdntyAssessmentRecord = {
   /** Brand World / Lore layer — shared across all identity states. */
   loreAnswers: Record<string, string | string[]>;
   loreCompletedSteps: string[];
+  /** Brand Personality layer — behavioral canon upstream of Creative Direction. */
+  personalityAnswers: Record<string, string | string[]>;
+  personalityCompletedSteps: string[];
   freeformNotes: string;
   submissionStatus: 'draft' | 'complete';
   updatedAt: string;
@@ -31,6 +38,8 @@ const EMPTY: IdntyAssessmentRecord = {
   answers: {},
   loreAnswers: {},
   loreCompletedSteps: [],
+  personalityAnswers: {},
+  personalityCompletedSteps: [],
   freeformNotes: '',
   submissionStatus: 'draft',
   updatedAt: new Date().toISOString(),
@@ -88,8 +97,14 @@ function readRecord(): IdntyAssessmentRecord {
   }
 }
 
+function readCommercialSelectionFromLocation() {
+  if (typeof window === 'undefined') return parseIdentityCommercialSearchParams('');
+  return parseIdentityCommercialSearchParams(window.location.search);
+}
+
 export function useIdntyAssessment() {
   const [record, setRecord] = useState<IdntyAssessmentRecord>(() => readRecord());
+  const [commercialSelection] = useState(() => readCommercialSelectionFromLocation());
   const intakeSync = useIntakeSync('IDENTITY', 'site00-idnty');
 
   useEffect(() => {
@@ -117,12 +132,18 @@ export function useIdntyAssessment() {
         startedAt: new Date().toISOString(),
         submissionStatus: 'draft',
       });
+      const sourceRoute = typeof window !== 'undefined' ? window.location.pathname : undefined;
+      const selection = {
+        ...commercialSelection,
+        sourceRoute: sourceRoute ?? commercialSelection.sourceRoute ?? null,
+      };
       void intakeSync.ensureStarted({
         domainLabel: stateId,
-        sourceRoute: typeof window !== 'undefined' ? window.location.pathname : undefined,
+        sourceRoute,
+        draftPayload: mergeCommercialIntoDraftPayload({}, selection, sourceRoute),
       });
     },
-    [persist, intakeSync],
+    [persist, intakeSync, commercialSelection],
   );
 
   const setStepAnswers = useCallback(
@@ -138,7 +159,13 @@ export function useIdntyAssessment() {
           [stateId]: mergedForState,
         },
       });
-      intakeSync.autosave({ currentStep: stepId, draftPayload: { identityState: stateId, answers: mergedForState } });
+      intakeSync.autosave({
+        currentStep: stepId,
+        draftPayload: mergeCommercialIntoDraftPayload(
+          { identityState: stateId, answers: mergedForState },
+          commercialSelection,
+        ),
+      });
     },
     [persist, intakeSync],
   );
@@ -199,10 +226,55 @@ export function useIdntyAssessment() {
       persist({ ...current, loreCompletedSteps, currentStep: `world:${stepId}` });
       intakeSync.autosave({
         currentStep: `world:${stepId}`,
-        draftPayload: { loreCompletedSteps, loreAnswers: current.loreAnswers },
+        draftPayload: {
+          loreCompletedSteps,
+          loreAnswers: current.loreAnswers,
+          personalityAnswers: current.personalityAnswers,
+        },
       });
     },
     [persist, intakeSync],
+  );
+
+  const setPersonalityAnswers = useCallback(
+    (stepId: string, value: string | string[]) => {
+      const current = readRecord();
+      const personalityAnswers = { ...current.personalityAnswers, [stepId]: value };
+      persist({ ...current, personalityAnswers, currentStep: `personality:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `personality:${stepId}`,
+        draftPayload: {
+          identityState: current.identityState,
+          answers: current.identityState ? current.answers[current.identityState] ?? {} : {},
+          loreAnswers: current.loreAnswers,
+          personalityAnswers,
+          personalityCompletedSteps: current.personalityCompletedSteps,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const markPersonalityStepComplete = useCallback(
+    (stepId: string) => {
+      const current = readRecord();
+      const personalityCompletedSteps = Array.from(new Set([...current.personalityCompletedSteps, stepId]));
+      persist({ ...current, personalityCompletedSteps, currentStep: `personality:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `personality:${stepId}`,
+        draftPayload: {
+          personalityCompletedSteps,
+          personalityAnswers: current.personalityAnswers,
+          loreAnswers: current.loreAnswers,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const getPersonalityAnswers = useCallback(
+    (): Record<string, string | string[]> => record.personalityAnswers ?? {},
+    [record.personalityAnswers],
   );
 
   const getLoreAnswers = useCallback((): Record<string, string | string[]> => record.loreAnswers ?? {}, [record.loreAnswers]);
@@ -241,6 +313,9 @@ export function useIdntyAssessment() {
     getLoreAnswers,
     setLoreAnswers,
     markLoreStepComplete,
+    getPersonalityAnswers,
+    setPersonalityAnswers,
+    markPersonalityStepComplete,
     resumeTarget,
     hasResume: Boolean(resumeTarget),
     /** Canonical server persistence state — truthful save state for the UI (IX). */

@@ -1,0 +1,2753 @@
+{
+ "artifact": "SITE00_OPUS_ALTERNATIVE_TREE",
+ "status": "PROPOSED_BY_OPUS_ALTERNATIVE",
+ "founder_approved": false,
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "model": "PROJECT-FIRST: one project address (/projects/:slug) for every role with role lenses; LOCATIONS kept separate; CONTROL folded into production.",
+ "differences_from_primary": [
+  {
+   "id": "ALT-1",
+   "axis": "Project address",
+   "primary": "Audience-first: /app/:slug (client) and /production/:slug (founder) are different URLs.",
+   "alternative": "Project-first: /projects/:slug is THE project; client lens = HOME/PROJECT/REVIEWS/INBOX/LIBRARY, founder lens adds /production/* with the 7 locked tabs. VIEW AS CLIENT = lens toggle.",
+   "why_strong": "Reuses the existing /projects/:slug investment (ProjectOperatingModulePage already has overview/production/reviews/library tabs), one shareable link per project, no duplicated client/founder routing, deep links work for both roles.",
+   "cost": "Firewall becomes render-time role logic on shared URLs (higher leak risk: internal agent chat, costs, prompts); host chrome must switch skins per lens; client app loses a clean /app namespace for PWA/install."
+  },
+  {
+   "id": "ALT-2",
+   "axis": "Directory",
+   "primary": "Merge LOCATIONS into WAITING ROOM as a MAP state.",
+   "alternative": "Keep WAITING ROOM (/enter) and LOCATIONS (/origin/locations) as two places, both repaired to the same item set.",
+   "why_strong": "Both have spatial meaning in the digital-location metaphor (arrival lounge vs map); LOCATIONS already has a canonical authority; zero merge risk.",
+   "cost": "Two directories to keep in sync; already diverged once."
+  },
+  {
+   "id": "ALT-3",
+   "axis": "Internal apps",
+   "primary": "Two internal apps: PRODUCTION WORKSPACE (make the work) and 00 / CONTROL (run the business).",
+   "alternative": "One internal app: CONTROL becomes /production/ops/* reached from the production menu; one shell, one auth gate, one project switcher.",
+   "why_strong": "Founder is the only internal user today; one shell removes the CONTROL\u21c4PRODUCTION cross-link bugs and duplicate REVIEWS/ACTIVITY/PROJECTS views.",
+   "cost": "CONTROL has its own dense instrumented design language (site00-control.css) and 59 routes; re-housing it is large and mixes two visual grammars."
+  }
+ ],
+ "unchanged_from_primary": "Public families (except directory), IDNTY/BLDR/EVOLVE, ACCESS, LAB, runtimes, system capabilities, all collapses of review sub-routes and placeholder settings.",
+ "counts": {
+  "nodes": 73,
+  "by_family": {
+   "F01": 10,
+   "F02": 4,
+   "F03": 4,
+   "F04": 5,
+   "F05": 10,
+   "F06": 12,
+   "F07": 12,
+   "F08": 9,
+   "F09": 2,
+   "F10": 4,
+   "F11": 1
+  }
+ },
+ "nodes": [
+  {
+   "node_id": "PUB.ORIGIN",
+   "family": "F01",
+   "title": "ORIGIN",
+   "route": "/",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Arrive at the digital location; choose IDNTY / BLDR / EVOLVE",
+   "primary_user": "PUBLIC_VISITOR",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/",
+    "/origin",
+    "/sound"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (public.redesign.origin \u2014 code manifest; images not in repo)",
+   "launch_priority": "MVP",
+   "states": [
+    "ARRIVAL",
+    "CARD_EXPANDED(IDNTY|BLDR|EVOLVE)",
+    "SOUND_ON/OFF (global setting)"
+   ],
+   "interactions": [
+    "NEED GUIDANCE \u2192 GUIDE (currently dead)"
+   ],
+   "overlays": [],
+   "notes": "/origin becomes an ALIAS of /. Status-strip metrics are placeholders (config/status.ts) \u2014 must be real or removed.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "PUB.WAITING_ROOM",
+    "PUB.ORIGIN_STORY",
+    "PUB.SYSTEM",
+    "PUB.SITES",
+    "PUB.JOURNAL",
+    "PUB.SERVICES",
+    "PUB.SUPPORT",
+    "PUB.LEGAL"
+   ],
+   "grandchildren": [],
+   "routes": [
+    "/"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.WAITING_ROOM",
+   "family": "F01",
+   "title": "WAITING ROOM (ENTER 00)",
+   "route": "/enter",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "The one directory of the location \u2014 every public place + YOUR SPACE",
+   "primary_user": "PUBLIC_VISITOR",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/enter"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "CANONICAL for LOCATIONS map (public.redesign.locations); WAITING ROOM none",
+   "launch_priority": "MVP",
+   "states": [
+    "LIST",
+    "SIGNED_IN"
+   ],
+   "interactions": [
+    "EXIT 00 \u2192 /"
+   ],
+   "overlays": [],
+   "notes": "[ALT] WAITING ROOM stays the arrival lounge; LOCATIONS stays a separate map. Both repaired to list the same places.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "user_journey",
+    "locked_ontology"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/enter"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.ORIGIN_STORY",
+   "family": "F01",
+   "title": "ORIGIN STORY",
+   "route": "/origin/story",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "Inception, starting at zero, GRAPHIC \u2192 PAGE \u2192 PRODUCT \u2192 WORLD; SITE 00 philosophy",
+   "primary_user": "PUBLIC_VISITOR",
+   "audience": "PUBLIC",
+   "existing_or_new": "NEW",
+   "current_routes": [
+    "/about",
+    "/brand"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE \u2014 DERIVED_REUSE from public.redesign.origin + IDNTY 00 framing",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "ABOUT (generic principle cards) and BRAND (draft) merge here so ORIGIN does not become a generic about page. /about and /brand redirect.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "locked_ontology",
+    "inference"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/origin/story"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.SYSTEM",
+   "family": "F01",
+   "title": "SYSTEM",
+   "route": "/system",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "How the location works: IDNTY \u2192 BLDR \u2192 EVOLVE, STUDIO OS / STUDIO WORLD explained publicly",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/system",
+    "/guide"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "NONE (WAITING_FOR_AUTHORITY_ROUTES) \u2014 DERIVED_REUSE",
+   "launch_priority": "POST_MVP",
+   "states": [
+    "GUIDE section (absorbs /guide)"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Today a dead end with no CTA. GUIDE content folds in as a section/state; SOUND becomes a global setting, not a page.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "inference"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/system"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.SITES",
+   "family": "F01",
+   "title": "SITES (built locations)",
+   "route": "/sites",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "Show digital locations SITE 00 has built \u2014 as places, not a portfolio grid",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/sites"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE \u2014 DERIVED_REUSE from projects-index-approved-reference (orbital core, location tiles)",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Empty seed today. Public showcase only; never exposes client project rooms.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "visual_authority"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/sites"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.JOURNAL",
+   "family": "F01",
+   "title": "JOURNAL",
+   "route": "/journal",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "Editorial updates",
+   "primary_user": "PUBLIC_VISITOR",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/journal"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE",
+   "launch_priority": "FUTURE",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Empty seed; hide from nav until content exists.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/journal"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.SERVICES",
+   "family": "F01",
+   "title": "SERVICES (product map)",
+   "route": "/services",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "One-screen map of IDNTY / BLDR / EVOLVE and their sub-products, routing into each hub",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/services"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "NONE \u2014 DERIVED_REUSE from Origin cards",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "RECLASSIFY from agency service menu to a router over the locked products. No separate /services/:x pages: the IDNTY/BLDR/EVOLVE hubs ARE the service pages.",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology",
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/services"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.SUPPORT",
+   "family": "F01",
+   "title": "SUPPORT",
+   "route": "/support",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "Get help, contact the founder, book discovery",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/support",
+    "/contact",
+    "/faq"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "NONE",
+   "launch_priority": "MVP",
+   "states": [
+    "HELP (FAQ)",
+    "CONTACT",
+    "BOOK_DISCOVERY"
+   ],
+   "interactions": [
+    "submit contact",
+    "book discovery call"
+   ],
+   "overlays": [],
+   "notes": "MERGE /contact and /faq (both draft-gated) into SUPPORT. IDNTY/BLDR \"BOOK DISCOVERY CALL\" and EVOLVE \"CONSULT\" land here with a real action.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "user_journey"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/support"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.LEGAL",
+   "family": "F01",
+   "title": "LEGAL",
+   "route": "/legal/:doc",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "Privacy + Terms (+ client terms later)",
+   "primary_user": "PUBLIC_VISITOR",
+   "audience": "PUBLIC",
+   "existing_or_new": "NEW",
+   "current_routes": [
+    "/brand/privacy (linked, missing)",
+    "/brand/terms (linked, missing)"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE \u2014 text page in host chrome",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "ADD_MISSING_NODE. Footer links point at routes that do not exist; a client-facing product needs terms before onboarding.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/legal/:doc"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "IDNTY.HUB",
+   "family": "F02",
+   "title": "IDNTY",
+   "route": "/idnty",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Explain IDNTY and the four states",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/idnty",
+    "/identity",
+    "/identity/*"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "CANONICAL (public.redesign.idnty)",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "IDNTY.STATE"
+   ],
+   "grandchildren": [
+    "IDNTY.ASSESS"
+   ],
+   "routes": [
+    "/idnty"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "IDNTY.STATE",
+   "family": "F02",
+   "title": "STATE SELECTOR",
+   "route": "/idnty/state",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "IDNTY.HUB",
+   "product_job": "Choose 00 STARTING AT ZERO / 01 SOME PIECES EXIST / 02 READY FOR EVOLUTION / 03 BUILD READY",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/idnty/state"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "CANONICAL (public.redesign.idnty)",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "IDNTY.ASSESS"
+   ],
+   "grandchildren": [],
+   "routes": [
+    "/idnty/state"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "IDNTY.ASSESS",
+   "family": "F02",
+   "title": "IDNTY ASSESSMENT (per state)",
+   "route": "/idnty/:state/*",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "IDNTY.STATE",
+   "product_job": "Diagnose + capture identity intake; server draft is system of record",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/idnty/:stateSlug/*"
+   ],
+   "implementation_disposition": "CONNECT",
+   "authority_status": "CANONICAL (public.redesign.idnty, mobile only)",
+   "launch_priority": "MVP",
+   "states": [
+    "STEP n",
+    "SAVE STATUS",
+    "GUEST ACCESS CAPTURE",
+    "COMPLETE"
+   ],
+   "interactions": [
+    "save & resume",
+    "sign in to save"
+   ],
+   "overlays": [],
+   "notes": "CONNECT: COMPLETE must hand off into ACCESS (sign-in \u2192 intake \u2192 project) instead of /control or /support mailto.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/idnty/:state/*"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "IDNTY.SECURITY",
+   "family": "F02",
+   "title": "SIGN-IN SECURITY (identity step)",
+   "route": "/idnty/sign-in-security",
+   "proposed_route_status": "STATE",
+   "parent": "IDNTY.ASSESS",
+   "product_job": "Security step inside identity flow",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/idnty/sign-in-security"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "RECLASSIFY as a state of the assessment unless it has an independent entry point (not audited in depth).",
+   "confidence": "LOW",
+   "basis": [
+    "inference"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/idnty/sign-in-security"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "BLDR.HUB",
+   "family": "F03",
+   "title": "BLDR",
+   "route": "/bldr",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Explain BLDR and its four classes",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/bldr",
+    "/bldr/start"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (public.redesign.bldr) for state; hub none",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "COLLAPSE /bldr/start (self-described legacy hop) into the hub.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "BLDR.STATE",
+    "BLDR.TEMPLATES"
+   ],
+   "grandchildren": [
+    "BLDR.ASSESS"
+   ],
+   "routes": [
+    "/bldr"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "BLDR.STATE",
+   "family": "F03",
+   "title": "CLASS SELECTOR",
+   "route": "/bldr/state",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "BLDR.HUB",
+   "product_job": "Choose SITE / WORLD / SYSTEMS / EXTENSIONS",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/bldr/state"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (public.redesign.bldr: overview|site|world|systems|extensions)",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "RENAME ENTERPRISE \u2192 SYSTEMS; ADD EXTENSIONS (authority already has it). Decide NOT SURE as a state, not a class.",
+   "confidence": "HIGH",
+   "basis": [
+    "locked_ontology",
+    "visual_authority",
+    "repo_evidence"
+   ],
+   "children": [
+    "BLDR.ASSESS"
+   ],
+   "grandchildren": [],
+   "routes": [
+    "/bldr/state"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "BLDR.ASSESS",
+   "family": "F03",
+   "title": "BLDR INTAKE (per class)",
+   "route": "/bldr/:class/*",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "BLDR.STATE",
+   "product_job": "Capture builder intake",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/bldr/:classSlug/*"
+   ],
+   "implementation_disposition": "CONNECT",
+   "authority_status": "NONE for steps",
+   "launch_priority": "MVP",
+   "states": [
+    "STEP n",
+    "COMPLETE"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "COMPLETE \u2192 ACCESS handoff (today \"CREATE PROJECT\" opens founder /projects).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/bldr/:class/*"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "BLDR.TEMPLATES",
+   "family": "F03",
+   "title": "TEMPLATES",
+   "route": "/bldr/templates",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "BLDR.HUB",
+   "product_job": "Starting templates",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/bldr/templates",
+    "/blueprints"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE",
+   "launch_priority": "FUTURE",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Empty today; /blueprints (draft) merges here. Hide until content exists.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/bldr/templates"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "EVOLVE.HUB",
+   "family": "F04",
+   "title": "EVOLVE",
+   "route": "/evolve",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Explain EVOLVE: REFINE / INSTALL / TRANSFORM (+ MARKETING)",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/evolve"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "CANONICAL (public.redesign.evolve) for state; hub none",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "EVOLVE.STATE",
+    "EVOLVE.PLANS",
+    "EVOLVE.MARKETING"
+   ],
+   "grandchildren": [
+    "EVOLVE.ASSESS"
+   ],
+   "routes": [
+    "/evolve"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "EVOLVE.STATE",
+   "family": "F04",
+   "title": "PATH SELECTOR",
+   "route": "/evolve/state",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "EVOLVE.HUB",
+   "product_job": "Choose REFINE / INSTALL / TRANSFORM",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/evolve/state"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "CANONICAL",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "EVOLVE.ASSESS"
+   ],
+   "grandchildren": [],
+   "routes": [
+    "/evolve/state"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "EVOLVE.ASSESS",
+   "family": "F04",
+   "title": "EVOLVE ASSESSMENT",
+   "route": "/evolve/:path/*",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "EVOLVE.STATE",
+   "product_job": "Assess the existing property; capture intake",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/evolve/:pathSlug/*",
+    "/existing-location",
+    "/existing-location/start",
+    "/existing-location/case/:caseId/*"
+   ],
+   "implementation_disposition": "CONNECT",
+   "authority_status": "NONE for steps",
+   "launch_priority": "MVP",
+   "states": [
+    "STEP n",
+    "DIAGNOSIS",
+    "QUOTE",
+    "COMPLETE"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "MERGE the orphan /existing-location case flow (access\u2192diagnosis\u2192quote\u2192checkout) into EVOLVE assessment \u2014 same job (existing property). Rename \"ENTER STUDIO\" (leaks STUDIO OS) at completion.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "user_journey",
+    "locked_ontology"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/evolve/:path/*"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "EVOLVE.PLANS",
+   "family": "F04",
+   "title": "PLANS",
+   "route": "/evolve/plans",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "EVOLVE.HUB",
+   "product_job": "EVOLVE pricing",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/evolve/plans"
+   ],
+   "implementation_disposition": "CONNECT",
+   "authority_status": "NONE",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Link from hub; CONSULT \u2192 SUPPORT (currently \u2192 draft /contact \u2192 /).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/evolve/plans"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "EVOLVE.MARKETING",
+   "family": "F04",
+   "title": "MARKETING",
+   "route": "/evolve/marketing",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "EVOLVE.HUB",
+   "product_job": "Marketing & content capability",
+   "primary_user": "POTENTIAL_CLIENT",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/evolve/marketing",
+    "/evolve/marketing/services",
+    "/evolve/marketing/intake/:serviceId",
+    "/evolve/marketing/brief/:engagementId",
+    "/evolve/marketing/engagement/:engagementId"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE",
+   "launch_priority": "POST_MVP",
+   "states": [
+    "SERVICES",
+    "INTAKE",
+    "BRIEF",
+    "ENGAGEMENT"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Keep as EVOLVE child (CORE.md). Brief/engagement are signed-in client pages and should later surface inside the client app for that engagement.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/evolve/marketing"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "ACCESS.SIGNIN",
+   "family": "F05",
+   "title": "SIGN IN",
+   "route": "/origin/sign-in",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Sign in",
+   "primary_user": "RETURNING_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/origin/sign-in",
+    "/sign-in"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "NONE (WAITING_FOR_AUTHORITY_ROUTES)",
+   "launch_priority": "MVP",
+   "states": [
+    "PASSWORD",
+    "MAGIC_LINK",
+    "ERROR"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Return-to must honour intake/invite context instead of defaulting to /control. Magic link must not auto-create users for invite-only access.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/origin/sign-in"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "ACCESS.CREATE",
+   "family": "F05",
+   "title": "CREATE ACCOUNT",
+   "route": "/origin/create-account",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Create account",
+   "primary_user": "NEW_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/origin/create-account",
+    "/register",
+    "/create-account"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/origin/create-account"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "ACCESS.RECOVER",
+   "family": "F05",
+   "title": "RECOVER PASSWORD",
+   "route": "/origin/forgot-password",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Recover access",
+   "primary_user": "RETURNING_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/origin/forgot-password",
+    "/origin/reset-password"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "NONE",
+   "launch_priority": "MVP",
+   "states": [
+    "REQUEST",
+    "RESET (from email)"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Reset page never saves the password; reset email targets /account/settings (no route). MVP blocker.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/origin/forgot-password"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "ACCESS.INVITE",
+   "family": "F05",
+   "title": "ACCEPT INVITE",
+   "route": "/invite/:token",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Accept project access: create/activate account \u2192 bind membership \u2192 enter project room",
+   "primary_user": "NEW_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "NEW",
+   "current_routes": [],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE \u2014 DERIVED_REUSE from auth shell",
+   "launch_priority": "MVP",
+   "states": [
+    "VALID",
+    "EXPIRED",
+    "ALREADY_ACCEPTED",
+    "WRONG_ACCOUNT"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "ADD_MISSING_NODE. No invite flow exists (activation only sets a metadata flag). MVP blocker for AIO.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "user_journey"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/invite/:token"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "ACCESS.GUEST_TOKEN",
+   "family": "F05",
+   "title": "GUEST INTAKE ACCESS",
+   "route": "/intake/access/:token",
+   "proposed_route_status": "SYSTEM_SURFACE",
+   "parent": null,
+   "product_job": "Resume an intake from an emailed token",
+   "primary_user": "NEW_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/intake/:token",
+    "/intake/access/:token",
+    "/access/:credentialId"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/intake/access/:token"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTRL.HOME",
+   "family": "F05",
+   "title": "CTRL ROOM",
+   "route": "/control",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "The person's account home: their projects, intakes, sites, billing, security",
+   "primary_user": "RETURNING_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/control",
+    "/account"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "NONE",
+   "launch_priority": "MVP",
+   "states": [
+    "NO_PROJECTS",
+    "ONE_PROJECT",
+    "MANY_PROJECTS"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "/account (draft) redirects here. Remove the FOUNDER\u00b7INTERNAL EVOLVE operations card from client view (/control/evolve-operations is reachable by any signed-in account).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "CTRL.PROJECTS",
+    "CTRL.INTAKES",
+    "CTRL.SITES",
+    "CTRL.SETTINGS"
+   ],
+   "grandchildren": [],
+   "routes": [
+    "/control"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTRL.PROJECTS",
+   "family": "F05",
+   "title": "MY PROJECTS",
+   "route": "/projects",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTRL.HOME",
+   "product_job": "List the projects this person is a member of; open each in the client app",
+   "primary_user": "RETURNING_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/projects (client use)",
+    "/app/projects"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "[ALT] Merged with APP.ENTRY \u2014 /projects is everyone's project list.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTRL.INTAKES",
+   "family": "F05",
+   "title": "MY INTAKES",
+   "route": "/control/intakes",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTRL.HOME",
+   "product_job": "See and resume IDNTY/BLDR/EVOLVE intakes",
+   "primary_user": "NEW_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/account/intakes",
+    "/account/intakes/:intakeType/:intakeId"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "MOVE under CTRL ROOM (today only in desktop top nav).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/control/intakes"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTRL.SITES",
+   "family": "F05",
+   "title": "MY SITES",
+   "route": "/control/sites",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTRL.HOME",
+   "product_job": "Live sites/properties",
+   "primary_user": "RETURNING_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/control/sites"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/control/sites"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTRL.SETTINGS",
+   "family": "F05",
+   "title": "ACCOUNT SETTINGS",
+   "route": "/control/settings",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTRL.HOME",
+   "product_job": "Profile, security, team, domains, billing (tabs)",
+   "primary_user": "RETURNING_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/control/settings",
+    "/control/security",
+    "/control/team",
+    "/control/domains",
+    "/control/billing"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE",
+   "launch_priority": "POST_MVP",
+   "states": [
+    "PROFILE",
+    "SECURITY",
+    "TEAM",
+    "DOMAINS",
+    "BILLING"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "COLLAPSE 5 placeholder routes (one shared ControlSectionPage) into one settings surface with tabs. Password change is MVP; the rest is post-MVP.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/control/settings"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.ENTRY",
+   "family": "F06",
+   "title": "APP ENTRY",
+   "route": "/projects",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Splash + resolve which project room to open (auto when one)",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app",
+    "/app/projects"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "INCOMPLETE (CSS \"reference-faithful\" P0.APP.1; reference not tracked)",
+   "launch_priority": "MVP",
+   "states": [
+    "SPLASH",
+    "PROJECT_PICK (\u22652 projects)",
+    "NO_ACCESS"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "[ALT] /projects is the single project index for every role (client: member projects; founder: all).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "APP.HOME"
+   ],
+   "grandchildren": [
+    "APP.PROJECT",
+    "APP.REVIEWS",
+    "APP.INBOX",
+    "APP.LIBRARY"
+   ],
+   "routes": [
+    "/projects"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.HOME",
+   "family": "F06",
+   "title": "HOME",
+   "route": "/projects/:projectSlug",
+   "proposed_route_status": "ROUTE",
+   "parent": "APP.ENTRY",
+   "product_job": "Current moment: where are we, what needs me, what is next",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/projects/:projectSlug",
+    "/app/projects/:projectSlug/*",
+    "/client/projects/:projectSlug",
+    "/studio/:projectSlug (client view)"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [
+    "NEEDS_YOU",
+    "IN_PRODUCTION",
+    "WAITING_ON_FOUNDER",
+    "COMPLETE",
+    "EMPTY"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "MERGE three client project homes (app, web room, studio). Remove fixture copy and fake credit signals. Derived from Project Pulse. [ALT] Same URL for client and founder; role selects CLIENT lens.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence",
+    "locked_ontology"
+   ],
+   "children": [
+    "APP.PROJECT",
+    "APP.REVIEWS",
+    "APP.INBOX",
+    "APP.LIBRARY"
+   ],
+   "grandchildren": [
+    "APP.REVIEW",
+    "APP.THREAD",
+    "APP.FILE"
+   ],
+   "routes": [
+    "/projects/:projectSlug"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.PROJECT",
+   "family": "F06",
+   "title": "PROJECT",
+   "route": "/projects/:projectSlug/project",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "APP.HOME",
+   "product_job": "Journey: phases, families, approval gates, deliverable status (+ cost transparency \u2014 see client-room sprint)",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/projects/:projectSlug/project/:section",
+    "/studio/:projectSlug/milestones",
+    "/client/projects/:projectSlug/activity"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [
+    "JOURNEY",
+    "PHASE_DETAIL (sheet)",
+    "FAMILY_DETAIL (sheet)",
+    "ACTIVITY (curated section)"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Replaces the current PROJECTS tab (a project list) with the locked PROJECT tab. project/:section (8 sections) COLLAPSE into sections/sheets. Client ACTIVITY becomes a curated section here, not a tab. [ALT] Same URL for client and founder; role selects CLIENT lens.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/project"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.REVIEWS",
+   "family": "F06",
+   "title": "REVIEWS",
+   "route": "/projects/:projectSlug/reviews",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "APP.HOME",
+   "product_job": "What is waiting on me / in revision / approved",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/projects/:projectSlug/reviews",
+    "/client/projects/:projectSlug/reviews",
+    "/studio/:projectSlug/reviews"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [
+    "NEEDS_YOU",
+    "REVISION_IN_PROGRESS",
+    "APPROVED",
+    "EMPTY"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": " [ALT] Same URL for client and founder; role selects CLIENT lens.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/reviews"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.REVIEW",
+   "family": "F06",
+   "title": "REVIEW (family review mode)",
+   "route": "/projects/:projectSlug/reviews/:reviewId",
+   "proposed_route_status": "GRANDCHILD_ROUTE",
+   "parent": "APP.REVIEWS",
+   "product_job": "Focused review of one family/authority; approve or request revision",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/projects/:projectSlug/reviews/:reviewId",
+    "/app/projects/:projectSlug/reviews/:reviewId/*",
+    "/client/projects/:projectSlug/reviews/:reviewId",
+    "/studio/:projectSlug/reviews/:reviewId"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [
+    "VIEWING",
+    "COMPARE",
+    "HISTORY",
+    "APPROVED_CONFIRMATION",
+    "REVISION_SUBMITTED",
+    "SUPERSEDED"
+   ],
+   "interactions": [
+    "\u2665 APPROVE (optional note)",
+    "\u00d7 NEEDS REVISION (mandatory feedback)",
+    "COMMENT",
+    "ANNOTATE"
+   ],
+   "overlays": [
+    "REVISION FEEDBACK SHEET"
+   ],
+   "notes": "COLLAPSE 6 sub-routes (compare/comments/annotations/approve/revision/history \u2014 same component) into states/sheets. Keep /:reviewId deep link for notifications/email. [ALT] Same URL for client and founder; role selects CLIENT lens.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/reviews/:reviewId"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.INBOX",
+   "family": "F06",
+   "title": "INBOX",
+   "route": "/projects/:projectSlug/inbox",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "APP.HOME",
+   "product_job": "Founder \u2194 client threads: decisions, clarifications, upload requests, revision notes",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/projects/:projectSlug/inbox",
+    "/client/projects/:projectSlug/messages"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [
+    "EMPTY",
+    "UNREAD"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Today 3 hard-coded threads for every project; SEND does nothing; no messages table. [ALT] Same URL for client and founder; role selects CLIENT lens.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/inbox"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.THREAD",
+   "family": "F06",
+   "title": "THREAD",
+   "route": "/projects/:projectSlug/inbox/:threadId",
+   "proposed_route_status": "GRANDCHILD_ROUTE",
+   "parent": "APP.INBOX",
+   "product_job": "One conversation; may carry a decision/upload request",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/projects/:projectSlug/inbox/:threadId"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [
+    "reply",
+    "answer decision",
+    "upload requested file"
+   ],
+   "overlays": [],
+   "notes": " [ALT] Same URL for client and founder; role selects CLIENT lens.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/inbox/:threadId"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.LIBRARY",
+   "family": "F06",
+   "title": "LIBRARY",
+   "route": "/projects/:projectSlug/library",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "APP.HOME",
+   "product_job": "Clean project archive: identity, approved work, deliverables, references, uploads, final files",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/projects/:projectSlug/library",
+    "/client/projects/:projectSlug/library",
+    "/studio/:projectSlug/assets (client view)"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [
+    "SECTION(IDENTITY|APPROVED|DELIVERABLES|REFERENCES|UPLOADS|FINAL)"
+   ],
+   "interactions": [
+    "upload reference"
+   ],
+   "overlays": [],
+   "notes": "Today same two fake files for every category. [ALT] Same URL for client and founder; role selects CLIENT lens.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/library"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.FILE",
+   "family": "F06",
+   "title": "FILE",
+   "route": "/projects/:projectSlug/library/:section/:fileId",
+   "proposed_route_status": "GRANDCHILD_ROUTE",
+   "parent": "APP.LIBRARY",
+   "product_job": "View/download one file",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/projects/:projectSlug/library/:categoryId",
+    "/app/projects/:projectSlug/library/:categoryId/:fileId"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [
+    "download"
+   ],
+   "overlays": [],
+   "notes": "COLLAPSE /library/:categoryId into a LIBRARY state; keep file deep link. [ALT] Same URL for client and founder; role selects CLIENT lens.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/library/:section/:fileId"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.NOTIFICATIONS",
+   "family": "F06",
+   "title": "NOTIFICATIONS",
+   "route": null,
+   "proposed_route_status": "DRAWER",
+   "parent": "APP.HOME",
+   "product_job": "Attention signals: needs you, revision ready, approval received, file ready",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "(bell button \u2014 no handler)"
+   ],
+   "implementation_disposition": "CONNECT",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.MENU",
+   "family": "F06",
+   "title": "MENU",
+   "route": null,
+   "proposed_route_status": "DRAWER",
+   "parent": "APP.HOME",
+   "product_job": "Switch project, profile, account (CTRL ROOM), sign out",
+   "primary_user": "ACTIVE_CLIENT",
+   "audience": "CLIENT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "(menu button \u2014 no handler)",
+    "/app/projects/:projectSlug/profile",
+    "/app/projects/:projectSlug/projects"
+   ],
+   "implementation_disposition": "CONNECT",
+   "authority_status": "INCOMPLETE",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "PROFILE and the PROJECTS list DEMOTE from bottom-nav tabs into the menu drawer to free the locked 5 tabs.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "APP.PREVIEW",
+   "family": "F06",
+   "title": "APP PREVIEW (fixture mode)",
+   "route": "/app/preview/:projectSlug/*",
+   "proposed_route_status": "SYSTEM_SURFACE",
+   "parent": null,
+   "product_job": "Founder/QA preview of the client app with fixtures",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/app/preview/select",
+    "/app/preview/:projectSlug/*"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "n/a",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Keep, but it must mirror the canonical tree and be unreachable for client accounts (fixture-app-* / ?fixture=multi currently reachable by any signed-in user).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/app/preview/:projectSlug/*"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.ROOT",
+   "family": "F07",
+   "title": "PRODUCTION (all projects)",
+   "route": "/production",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Cross-project founder view: which project needs me; pick a project",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (prod.parent3view.forensic1 HUB)",
+   "launch_priority": "MVP",
+   "states": [
+    "ALL_PROJECTS",
+    "PROJECT_PICKER"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "[ALT] Cross-project founder landing only; every project tab lives at /projects/:slug/production/*.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "PW.HUB",
+    "PW.INBOX",
+    "PW.DESIGN",
+    "PW.EXPERIENCE",
+    "PW.EXPRESSION",
+    "PW.LIBRARY",
+    "PW.ACTIVITY"
+   ],
+   "grandchildren": [
+    "PW.CLIENT",
+    "PW.DESIGN.SECTIONS",
+    "PW.EXPERIENCE.CHILD",
+    "PW.EXPRESSION.FAMILY"
+   ],
+   "routes": [
+    "/production"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.HUB",
+   "family": "F07",
+   "title": "HUB",
+   "route": "/projects/:projectSlug/production",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PW.ROOT",
+   "product_job": "This project at a glance: pulse, needs-you, client relationship, status",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production",
+    "/production/:projectSlug"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (prod.parent3view.forensic1 + HUB founder trio)",
+   "launch_priority": "MVP",
+   "states": [
+    "DEFAULT",
+    "MACHINE (legacy ?view=machine \u2014 founder decision C10)"
+   ],
+   "interactions": [],
+   "overlays": [
+    "PROJECT SELECTOR"
+   ],
+   "notes": "PROJECT-SCOPE (today resolves to ndxbook for every project). ADD CLIENT RELATIONSHIP + PROJECT STATUS sections. [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.CLIENT",
+   "family": "F07",
+   "title": "CLIENT RELATIONSHIP",
+   "route": "/projects/:projectSlug/production/client",
+   "proposed_route_status": "GRANDCHILD_ROUTE",
+   "parent": "PW.HUB",
+   "product_job": "Members & invites, review status per family, client messages, funding/cost visibility controls",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "NEW",
+   "current_routes": [],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "NONE \u2014 DERIVED_REUSE from HUB descendants",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "ADD_MISSING_NODE: canon requires workspace\u2194client status; nothing exists. [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/client"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.INBOX",
+   "family": "F07",
+   "title": "INBOX",
+   "route": "/projects/:projectSlug/production/inbox",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PW.ROOT",
+   "product_job": "Decisions & requests incl. client actions (approved / revision / comment / upload)",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/queue"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (prod.inbox.root.convergence2)",
+   "launch_priority": "MVP",
+   "states": [
+    "NEEDS (lens)",
+    "WATCHING (lens; incl. AWAITING_CLIENT)",
+    "RESOLVED",
+    "ALL",
+    "MESSAGES",
+    "SYSTEM",
+    "CLIENT_REVIEWS (lens, new)"
+   ],
+   "interactions": [],
+   "overlays": [
+    "ITEM detail",
+    "THREAD detail",
+    "NOTICE detail",
+    "SEND TO CLIENT sheet"
+   ],
+   "notes": "RENAME /production/queue \u2192 /production/:slug/inbox (label already INBOX). Persist requests server-side (localStorage today). [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/inbox"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.DESIGN",
+   "family": "F07",
+   "title": "DESIGN",
+   "route": "/projects/:projectSlug/production/design",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PW.ROOT",
+   "product_job": "Design chamber: brand, experience, surfaces, compiler, assets, viewport",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/:projectSlug/design/*",
+    "/production/site00/design"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (prod.design.assetpack.opus3 + parent3view)",
+   "launch_priority": "MVP",
+   "states": [
+    "MODE(BRAND|EXPERIENCE|SURFACES|COMPILER|ASSETS|VIEWPORT)"
+   ],
+   "interactions": [
+    "SEND TO CLIENT"
+   ],
+   "overlays": [],
+   "notes": "Per-project content (NDX static config bleeds into other projects). [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/design"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.DESIGN.SECTIONS",
+   "family": "F07",
+   "title": "DESIGN sections",
+   "route": "/projects/:projectSlug/production/design/:section",
+   "proposed_route_status": "GRANDCHILD_ROUTE",
+   "parent": "PW.DESIGN",
+   "product_job": "References, assets, pages, skins, history, more",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/:projectSlug/design/references",
+    "/production/:projectSlug/design/assets",
+    "/production/:projectSlug/design/pages",
+    "/production/:projectSlug/design/skins",
+    "/production/:projectSlug/design/history",
+    "/production/:projectSlug/design/more"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "CONFLICTING (C8: golden twin-v3 vs chamber)",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Today mounts the twin-opus-direct bench (768px canvas scaled onto phones). Rebuild as authority-frame children. /design/workspace (bench) DEPRECATE. [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "visual_authority"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/design/:section"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.EXPERIENCE",
+   "family": "F07",
+   "title": "EXPERIENCE",
+   "route": "/projects/:projectSlug/production/experience",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PW.ROOT",
+   "product_job": "World, zones, paths, interactions, inhabitants, states, access",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/:projectSlug/experience/*",
+    "/production/:projectSlug/runtime/*"
+   ],
+   "implementation_disposition": "REDESIGN",
+   "authority_status": "CANONICAL root (parent3view 08); children IN_REVIEW (92 OpenArt boards, not in repo)",
+   "launch_priority": "POST_MVP",
+   "states": [
+    "LIVE (runtime preview; absorbs /runtime/*)"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "7 children are placeholders; taxonomy conflict C5. Runtime preview MOVES under EXPERIENCE as the LIVE state. [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "visual_authority",
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/experience"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.EXPERIENCE.CHILD",
+   "family": "F07",
+   "title": "EXPERIENCE children",
+   "route": "/projects/:projectSlug/production/experience/:area",
+   "proposed_route_status": "GRANDCHILD_ROUTE",
+   "parent": "PW.EXPERIENCE",
+   "product_job": "One experience area",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/:projectSlug/experience/*"
+   ],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "IN_REVIEW",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": " [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/experience/:area"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.EXPRESSION",
+   "family": "F07",
+   "title": "EXPRESSION",
+   "route": "/projects/:projectSlug/production/expression",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PW.ROOT",
+   "product_job": "Brand expression families (narrative, casting, campaign, character fabrication\u2026)",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/:projectSlug/expression/*",
+    "/evolve/campaign-flavor",
+    "/evolve/campaign-director",
+    "/projects/:projectSlug/content-operations/*",
+    "/projects/:projectSlug/character/*",
+    "/projects/:projectSlug/cultural-intelligence*"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (prod.expression.lite.opus1)",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [
+    "SEND TO CLIENT (review + handoff step)"
+   ],
+   "overlays": [],
+   "notes": "ABSORB the legacy founder content-operations / character / cultural-intelligence routes (they duplicate EXPRESSION families). REVIEW+HANDOFF currently links out to legacy pages. [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/expression"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.EXPRESSION.FAMILY",
+   "family": "F07",
+   "title": "EXPRESSION family",
+   "route": "/projects/:projectSlug/production/expression/:family/*",
+   "proposed_route_status": "GRANDCHILD_ROUTE",
+   "parent": "PW.EXPRESSION",
+   "product_job": "One expression family (40 routes today)",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/:projectSlug/expression/*"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "CANONICAL",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Placeholders (format-studio, content-package, campaign-board) stay hidden until built. [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/expression/:family/*"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.LIBRARY",
+   "family": "F07",
+   "title": "LIBRARY",
+   "route": "/projects/:projectSlug/production/library",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PW.ROOT",
+   "product_job": "Project assets, canon, references, approved authorities",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/libraries"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL root (parent3view 10); descendants IN_REVIEW (150 OpenArt boards)",
+   "launch_priority": "MVP",
+   "states": [
+    "ASSETS",
+    "CANON",
+    "REFERENCES",
+    "ACTORS"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "PROJECT-SCOPE (global today; fixtures). Host asset vault (/assts) stays in CONTROL. [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/library"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PW.ACTIVITY",
+   "family": "F07",
+   "title": "ACTIVITY",
+   "route": "/projects/:projectSlug/production/activity",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PW.ROOT",
+   "product_job": "Full internal production history for the project",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/activity"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (ACTIVITY half of prod.inbox_activity.3view.opus1 \u2014 founder decision)",
+   "launch_priority": "MVP",
+   "states": [
+    "VIEW(...)",
+    "MILESTONE"
+   ],
+   "interactions": [],
+   "overlays": [],
+   "notes": "PROJECT-SCOPE; move from localStorage to SYS.EVENTS so client events appear. [ALT] Production is the FOUNDER lens of the project address.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/production/activity"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.COMMAND",
+   "family": "F08",
+   "title": "COMMAND",
+   "route": "/production/ops",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "Operator dashboard: business + all projects",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/admin/site00"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "CORE.md: from approved references (not located in repo)",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "[ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "CTL.PROJECTS",
+    "CTL.REVIEWS",
+    "CTL.CLIENTS",
+    "CTL.BUSINESS",
+    "CTL.EVOLVE_OPS",
+    "CTL.VAULT",
+    "CTL.ACCESS",
+    "CTL.SETTINGS"
+   ],
+   "grandchildren": [],
+   "routes": [
+    "/production/ops"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.PROJECTS",
+   "family": "F08",
+   "title": "PROJECTS (registry)",
+   "route": "/production/ops/projects",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTL.COMMAND",
+   "product_job": "Create/activate projects (type, client, members, invites); the single project registry UI",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/admin/site00/projects",
+    "/admin/site00/projects/:projectId",
+    "/admin/site00/projects/:projectId/:section",
+    "/project/:projectSlug/provisioning",
+    "/projects/:projectSlug/setup"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "NONE located",
+   "launch_priority": "MVP",
+   "states": [
+    "LIST",
+    "DETAIL",
+    "PROVISIONING"
+   ],
+   "interactions": [
+    "create project",
+    "invite client",
+    "VIEW AS CLIENT \u2192 /app/:slug",
+    "OPEN PRODUCTION \u2192 /production/:slug"
+   ],
+   "overlays": [],
+   "notes": "VIEW AS CLIENT must open the canonical client app (today opens /studio). Provisioning + setup MERGE here. [ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/production/ops/projects"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.REVIEWS",
+   "family": "F08",
+   "title": "REVIEWS (all projects)",
+   "route": "/production/ops/approvals",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTL.COMMAND",
+   "product_job": "Cross-project approval queue",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/admin/site00/approvals",
+    "/admin/site00/evolve/approvals"
+   ],
+   "implementation_disposition": "CONNECT",
+   "authority_status": "NONE located",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Becomes a cross-project VIEW over SYS.REVIEW (same data as production INBOX client lens) \u2014 not a second queue. [ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "inference"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/production/ops/approvals"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.CLIENTS",
+   "family": "F08",
+   "title": "CLIENTS & INTAKES",
+   "route": "/production/ops/identities",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTL.COMMAND",
+   "product_job": "People, intakes, leads, discovery",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/admin/site00/identities",
+    "/admin/site00/identities/:id",
+    "/admin/site00/intakes",
+    "/admin/site00/client-intakes",
+    "/admin/site00/intakes/:intakeType/:intakeId",
+    "/admin/site00/bldr-intakes",
+    "/admin/site00/bldr-intakes/:id",
+    "/admin/site00/leads",
+    "/admin/site00/leads/:id",
+    "/admin/site00/discovery",
+    "/admin/site00/discovery/:id",
+    "/admin/site00/reconciliation"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE located",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "BLDR INTAKE and generic INTAKES duplicate each other (both kept per CORE.md) \u2014 candidate MERGE post-MVP. [ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/production/ops/identities"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.BUSINESS",
+   "family": "F08",
+   "title": "BUSINESS",
+   "route": "/production/ops/finance",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTL.COMMAND",
+   "product_job": "Finance, invoices, reports, team, sites, CTRL ROOM monitor",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/admin/site00/finance",
+    "/admin/site00/finance/invoices/:id",
+    "/admin/site00/reports",
+    "/admin/site00/reports/pipeline",
+    "/admin/site00/team",
+    "/admin/site00/sites",
+    "/admin/site00/sites/:id",
+    "/admin/site00/ctrl-room",
+    "/admin/site00/activity"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE located",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "[ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/production/ops/finance"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.EVOLVE_OPS",
+   "family": "F08",
+   "title": "EVOLVE OPS",
+   "route": "/production/ops/evolve",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTL.COMMAND",
+   "product_job": "EVOLVE / marketing operations per org",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/admin/site00/evolve",
+    "/admin/site00/evolve/connections",
+    "/admin/site00/orchestration/:orgSlug",
+    "/admin/site00/orchestration/:orgSlug/evolve*",
+    "/admin/site00/marketing-engagements",
+    "/admin/site00/marketing-engagements/:engagementId",
+    "/control/evolve-operations"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE located",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "MOVE /control/evolve-operations (founder-only card on a client route) here. [ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/production/ops/evolve"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.VAULT",
+   "family": "F08",
+   "title": "ASSET VAULT",
+   "route": "/assts",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTL.COMMAND",
+   "product_job": "Host asset factory (ASSTS)",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/assts",
+    "/assts/*"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE located",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Keep URL; it is a host-level tool reached from CONTROL. Not the client library. [ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/assts"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.ACCESS",
+   "family": "F08",
+   "title": "ACCESS & EMAIL",
+   "route": "/production/ops/access-credentials",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTL.COMMAND",
+   "product_job": "Access credentials, email pack",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/admin/site00/access-credentials",
+    "/admin/site00/access-credentials/:id",
+    "/admin/site00/debug/email-pack",
+    "/admin/site00/debug/email-pack/:templateId"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "[ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/production/ops/access-credentials"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "CTL.SETTINGS",
+   "family": "F08",
+   "title": "SETTINGS",
+   "route": "/production/ops/settings",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "CTL.COMMAND",
+   "product_job": "Operator settings, automation",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/admin/site00/settings",
+    "/admin/site00/settings/studio/automation",
+    "/admin/site00/studio",
+    "/admin/site00/studio/queue"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "NONE",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "CONTROL \"PRODUCTION\" nav item (\u2192 /admin/site00/studio) re-points to /production. [ALT] Operations lives inside the production app (menu destination, not a bottom-nav tab).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/production/ops/settings"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "RT.RUNTIME",
+   "family": "F09",
+   "title": "PROJECT RUNTIME",
+   "route": "/production/:projectSlug/runtime/*",
+   "proposed_route_status": "SYSTEM_SURFACE",
+   "parent": "PW.EXPERIENCE",
+   "product_job": "Mount a project-owned runtime (JURNL) inside its own chrome",
+   "primary_user": "FOUNDER",
+   "audience": "PROJECT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/production/:projectSlug/runtime/*"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "CANONICAL (proj.jurnl.f01)",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Firewalled: project CSS scoped (.jrn), mounts outside host layout (tests enforce).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/production/:projectSlug/runtime/*"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "RT.WORLD",
+   "family": "F09",
+   "title": "WORLD READER / EXPERIENCE",
+   "route": "/projects/:projectSlug/reader/*",
+   "proposed_route_status": "SYSTEM_SURFACE",
+   "parent": null,
+   "product_job": "ASTRAL WORLD reader + experience",
+   "primary_user": "FOUNDER",
+   "audience": "PROJECT",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/projects/:projectSlug/reader/*",
+    "/projects/:projectSlug/experience/*",
+    "/projects/:projectSlug/debug/world/*"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "CANONICAL (proj.astralworld.screen_masters)",
+   "launch_priority": "POST_MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/projects/:projectSlug/reader/*"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "LAB.ROOT",
+   "family": "F10",
+   "title": "LAB",
+   "route": "/lab",
+   "proposed_route_status": "ROUTE",
+   "parent": null,
+   "product_job": "One guarded index of benches, experiments and debug harnesses",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "NEW",
+   "current_routes": [],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "n/a",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "ADD: a single admin-guarded namespace so 53 one-off routes leave the product tree. 17 of them are currently unguarded.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [
+    "LAB.BENCH",
+    "LAB.EXPERIMENTS",
+    "LAB.DEV"
+   ],
+   "grandchildren": [],
+   "routes": [
+    "/lab"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "LAB.BENCH",
+   "family": "F10",
+   "title": "DESIGN BENCHES",
+   "route": "/lab/:projectSlug/bench/:bench",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "LAB.ROOT",
+   "product_job": "Model reconstruction benches",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/projects/:projectSlug/design/twin*",
+    "/projects/:projectSlug/design/opus-native",
+    "/projects/:projectSlug/design/reconstruction-lab",
+    "/projects/:projectSlug/debug/*",
+    "/projects/site00/master-skin-preview",
+    "/system/design/workspace-concepts",
+    "/studio-world/design"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "REFERENCE_ONLY",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "MOVE + guard; old URLs redirect (CORE.md documents several bench URLs).",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/lab/:projectSlug/bench/:bench"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "LAB.EXPERIMENTS",
+   "family": "F10",
+   "title": "EXPERIMENTS",
+   "route": "/lab/:projectSlug/:experiment",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "LAB.ROOT",
+   "product_job": "Creative-intelligence experiments D\u2013H, realism lab, personality replay, brand character\u2026",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/projects/:projectSlug/experiment*",
+    "/projects/:projectSlug/lab",
+    "/projects/:projectSlug/realism-lab*",
+    "/projects/:projectSlug/personality-replay*",
+    "/projects/:projectSlug/brand-character-*",
+    "/projects/:projectSlug/canonical-*",
+    "/projects/:projectSlug/calibrate",
+    "/projects/:projectSlug/creative-appetite",
+    "/projects/:projectSlug/marketing-expression*",
+    "/projects/:projectSlug/inspect/icons",
+    "/projects/:projectSlug/archive",
+    "/validation/ndxbook/*"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "n/a",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "MOVE; promote individual experiments into PRODUCTION only by explicit founder decision.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/lab/:projectSlug/:experiment"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "LAB.DEV",
+   "family": "F10",
+   "title": "DEV HARNESSES",
+   "route": "/lab/dev/:harness",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "LAB.ROOT",
+   "product_job": "Loader preview, hero measure, capture-auth, access debug",
+   "primary_user": "AGENT / DEVELOPER",
+   "audience": "INTERNAL",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/__dev/*",
+    "/loader-preview",
+    "/jurnl/f01/parent-assembly",
+    "/access/debug",
+    "/debug/*",
+    "/control/debug/*"
+   ],
+   "implementation_disposition": "KEEP",
+   "authority_status": "n/a",
+   "launch_priority": "MVP",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "Exclude from production builds or guard.",
+   "confidence": "HIGH",
+   "basis": [
+    "repo_evidence"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/lab/dev/:harness"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "SW.RESERVED",
+   "family": "F11",
+   "title": "STUDIO WORLD (reserved)",
+   "route": null,
+   "proposed_route_status": "RESERVED",
+   "parent": null,
+   "product_job": "Digital office / spatial world / resident system",
+   "primary_user": "FOUNDER",
+   "audience": "INTERNAL",
+   "existing_or_new": "NEW",
+   "current_routes": [],
+   "implementation_disposition": "REBUILD",
+   "authority_status": "none",
+   "launch_priority": "FUTURE",
+   "states": [],
+   "interactions": [],
+   "overlays": [],
+   "notes": "No current surface. Production workspace environments (luminous atrium, red core) are its visual seed. Founder decision whether it becomes the skin of PRODUCTION or its own place.",
+   "confidence": "LOW",
+   "basis": [
+    "locked_ontology",
+    "inference"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  },
+  {
+   "node_id": "PUB.LOCATIONS",
+   "family": "F01",
+   "title": "LOCATIONS (map)",
+   "route": "/origin/locations",
+   "proposed_route_status": "CHILD_ROUTE",
+   "parent": "PUB.ORIGIN",
+   "product_job": "The one directory of the location \u2014 every public place + YOUR SPACE",
+   "primary_user": "PUBLIC_VISITOR",
+   "audience": "PUBLIC",
+   "existing_or_new": "EXISTING",
+   "current_routes": [
+    "/origin/locations"
+   ],
+   "implementation_disposition": "REPAIR",
+   "authority_status": "CANONICAL (public.redesign.locations)",
+   "launch_priority": "MVP",
+   "states": [
+    "MAP"
+   ],
+   "interactions": [
+    "EXIT 00 \u2192 /"
+   ],
+   "overlays": [],
+   "notes": "[ALT] Kept as its own place; desktop composition added.",
+   "confidence": "MEDIUM",
+   "basis": [
+    "repo_evidence",
+    "user_journey",
+    "locked_ontology"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "routes": [
+    "/origin/locations"
+   ],
+   "status": "PROPOSED_BY_OPUS_ALTERNATIVE"
+  }
+ ]
+}
