@@ -209,7 +209,7 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
             <>
               <p className="cf-pop__h">PROJECT / PRODUCTION</p>
               <button type="button" className="cf-pop__row is-on" onClick={() => setPop(null)}>
-                <b>NDXBOOK</b><span>ENTRY {state.selectedEntryId} · {actor.catalogueNumber} · IN FABRICATION</span>
+                <b>NDXBOOK</b><span>ENTRY 002 · SW-017 · IN FABRICATION</span>
               </button>
               <p className="cf-pop__note">OTHER PROJECTS HAVE NO CHARACTER FABRICATION DATA YET.</p>
             </>
@@ -252,7 +252,7 @@ export function ActorAuthorityCard({
   className?: string;
   style?: React.CSSProperties;
 }) {
-  const { actor, url, state, character, dispatch, now, subjectChamberUrl } = useFabrication();
+  const { actor, url, state, character, dispatch, now } = useFabrication();
   const v: Record<ActorRow, ReactNode> = {
     AGE: actor.ageRange,
     HEIGHT: actor.heightRange,
@@ -265,8 +265,8 @@ export function ActorAuthorityCard({
   return (
     <aside className={`cf-acard ${className}`} style={style} data-testid="cf-actor-card">
       <i className="cf-acard__tick" aria-hidden />
-      <header><small>ACTOR</small><b>{actor.stageName}</b><small>{actor.catalogueNumber}</small></header>
-      <CfImage slotId={actor.portraitSlotId} url={subjectChamberUrl() ?? url(actor.portraitSlotId) ?? actor.portraitUrl} label="ACTOR PORTRAIT" className="cf-acard__img" />
+      <header><small>ACTOR</small><b>{actor.catalogueNumber}</b></header>
+      <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="ACTOR PORTRAIT" className="cf-acard__img" />
       <dl className="cf-rows">
         {rows.map((r) => <div key={r}><dt>{r}</dt><dd>{v[r]}</dd></div>)}
       </dl>
@@ -281,15 +281,13 @@ export function ActorAuthorityCard({
 }
 
 export function CharacterAuthorityCard({ className = '', style, mono = true }: { className?: string; style?: React.CSSProperties; mono?: boolean }) {
-  const { character, url, state, status, dispatch, actor } = useFabrication();
-  const charImg = state.fabricationSubject?.portraitUrl ?? url(actor.portraitSlotId) ?? url(character.portraitSlotId);
-  const charSlot = state.fabricationSubject ? actor.portraitSlotId : character.portraitSlotId;
+  const { character, url, state, status, dispatch } = useFabrication();
   const inFab = status('authority') !== 'LOCKED';
   return (
     <aside className={`cf-acard cf-acard--char ${className}`} style={style} data-testid="cf-character-card">
       <i className="cf-acard__tick" aria-hidden />
       <header><small>CHARACTER</small><b>{character.displayName}</b></header>
-      <CfImage slotId={charSlot} url={charImg} label="CHARACTER PORTRAIT" className={`cf-acard__img${mono ? ' is-mono' : ''}`} />
+      <CfImage slotId={character.portraitSlotId} url={url(character.portraitSlotId)} label="CHARACTER PORTRAIT" className={`cf-acard__img${mono ? ' is-mono' : ''}`} />
       <dl className="cf-rows">
         <div><dt>PROJECT</dt><dd>{state.selectedProjectId.toUpperCase()}</dd></div>
         <div><dt>ENTRY</dt><dd>{state.selectedEntryId}</dd></div>

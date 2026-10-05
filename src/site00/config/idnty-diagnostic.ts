@@ -47,8 +47,9 @@ export const IDNTY_INVESTMENT_ACTIONS: Record<IdntyBrandStateIconId, IdntyInvest
   'build-ready': {
     code: '03',
     tierLabel: 'BUILD READY',
-    statusLabel: 'VERIFICATION REQUIRED',
-    cta: 'BEGIN VERIFICATION →',
+    statusLabel: 'IDENTITY VERIFIED',
+    cta: 'ENTER BLDR →',
+    verified: true,
   },
 };
 
@@ -92,12 +93,12 @@ export const IDNTY_HANDOFF_COPY: Record<IdntyBrandStateIconId, IdntyHandoffCopy>
   },
   'build-ready': {
     stateSummary: '03 BUILD READY',
-    requirement: 'VERIFICATION REQUIRED',
+    requirement: 'IDENTITY VERIFIED',
     recommendedLabel: 'RECOMMENDED NEXT STEP',
-    cta: 'BEGIN VERIFICATION →',
+    cta: 'ENTER BLDR →',
     nextSystemLabel: 'NEXT SYSTEM',
-    nextSystemTitle: 'IDENTITY VERIFICATION',
-    nextSystemBody: 'CONFIRM YOUR IDENTITY AUTHORITY',
+    nextSystemTitle: 'BLDR',
+    nextSystemBody: 'BEGIN YOUR DIGITAL BUILD',
   },
 };
 
@@ -105,7 +106,9 @@ export function resolveIdntyStateDestination(
   brandStateId: IdntyBrandStateIconId,
   isDesktopArtboard: boolean,
 ): string {
-  // BUILD READY enters identity-authority verification — never routes straight into BLDR.
+  if (brandStateId === 'build-ready') {
+    return SITE00_ROUTES.bldrStart;
+  }
   const slug = brandStateToAssessmentSlug(brandStateId);
   if (!slug) return SITE00_ROUTES.idntyState;
   const path = idntyAssessmentPath(slug);

@@ -7,15 +7,12 @@
  * canonical locks and expose no write here. Comments have no data source → UNMOUNTED.
  */
 import { Link } from 'react-router-dom';
-import { frameSlotId } from '../../../../../../shared/site00-production-hub/index.js';
 import type { HubNodeId } from '../../../../../../shared/site00-production-hub/types.js';
 import type { PackageItem } from '../../../production/useEntry002Production';
 import { pad2 } from '../../primitives';
 import { done, words } from '../expressionData';
 import { EXPRESSION_FAMILIES, type ExpressionFamilyId } from '../expressionRoutes';
-import { characterMedia, lookMedia, type MediaItem } from '../expressionMedia';
-import { Actions, Btn, Chip, Donut, Empty, Grid, Kv, Panel, Row, type Tone } from '../ExpressionFamilyShell';
-import { Gallery, useMediaInspector } from '../ExpressionMediaKit';
+import { Actions, Btn, Chip, Donut, Empty, Grid, Img, Kv, Panel, Row, type Tone } from '../ExpressionFamilyShell';
 import { NarrativeApproval, usePlan } from './NarrativeFamily';
 import { StoryboardDecision } from './StoryboardFamily';
 import type { FamilyProps } from './types';
@@ -25,30 +22,8 @@ const ITEM_NODE: Record<PackageItem['id'], HubNodeId> = { narrative: 'narrative'
 const ITEM_FAMILY: Record<PackageItem['id'], ExpressionFamilyId> = { narrative: 'narrative', cast: 'casting', wardrobe: 'look', performance: 'performance', sets: 'sets', storyboard: 'storyboard' };
 const tone = (s: PackageItem['status']): Tone => (done(s) ? 'green' : s === 'BLOCKED' ? 'red' : s === 'IN_PROGRESS' ? 'amber' : 'gray');
 
-/** What is being approved, shown as its own canonical media (never another record's). */
-function itemMedia(d: FamilyProps['d'], id: PackageItem['id']): readonly MediaItem[] {
-  switch (id) {
-    case 'cast':
-      return d.cast.characters.flatMap((c) => characterMedia(d, c).slice(0, 2));
-    case 'wardrobe':
-      return d.cast.looks.flatMap((l) => lookMedia(l));
-    case 'performance':
-      return d.cast.characters.flatMap((c) => characterMedia(d, c).slice(0, 1));
-    case 'storyboard':
-      return d.frames.flatMap((f) => {
-        const u = d.assetUrl(frameSlotId(f)) ?? f.canonicalUrl;
-        return u ? [{ url: u, label: `F${pad2(f.number)}`, source: 'STORYBOARD PIPELINE · ENTRY 002' }] : [];
-      });
-    default: {
-      const u = d.nodeArt(ITEM_NODE[id]);
-      return u ? [{ url: u, label: `${id.toUpperCase()} AUTHORITY`, source: 'PRODUCTION HUB NODE' }] : [];
-    }
-  }
-}
-
 export function ReviewFamily({ d, r, go }: FamilyProps) {
   const { plan, reload } = usePlan(d.plan);
-  const insp = useMediaInspector();
   if (!d.ok) return <Empty title="NO CAMPAIGN ENTRY IN PRODUCTION" testId="expression-no-entry" />;
   const blockers = d.items.filter((i) => !done(i.status));
   const allReady = blockers.length === 0;
@@ -83,15 +58,13 @@ export function ReviewFamily({ d, r, go }: FamilyProps) {
     const node = d.graph?.byId[ITEM_NODE[item.id]];
     const fam = EXPRESSION_FAMILIES.find((f) => f.id === ITEM_FAMILY[item.id])!;
     const gateHere = !!gate?.open && gate.nodeId === ITEM_NODE[item.id];
-    const media = itemMedia(d, item.id);
     return (
-      <>
-      <Grid rows={{ d: '1fr 0.5fr 0.5fr', t: '1fr 0.5fr 0.5fr', m: '1.05fr 0.5fr 0.42fr' }}>
-        <Panel title={`${item.label} · APPROVAL`} meta={gateHere ? 'FOUNDER GATE' : words(item.status)} at={{ d: [7, 3], t: [7, 3], m: [6, 1] }} testId="review-approval-detail" className="exf-record exc-pane">
-          <Gallery items={media} title={`${item.label} · REVIEW`} open={insp.open} testId="review-approval-media" emptyLabel={`${item.label.toUpperCase()} · NO CANONICAL MEDIA`} />
+      <Grid rows={{ d: '1fr 0.8fr', t: '0.95fr 0.85fr 0.7fr', m: '0.85fr 0.8fr 0.75fr 0.65fr' }}>
+        <Panel title={`${item.label} · APPROVAL`} meta={gateHere ? 'FOUNDER GATE' : words(item.status)} at={{ d: [5, 2], t: [7, 1], m: [6, 1] }} testId="review-approval-detail" className="exf-record">
+          <Img url={d.nodeArt(ITEM_NODE[item.id])} label={`${item.label.toUpperCase()} AUTHORITY`} className="exf-fill" />
           <Kv cols={2} rows={[['STATUS', <Chip tone={tone(item.status)}>{words(item.status)}</Chip>], ['DETAIL', item.detail], ['NODE', words(node?.status ?? '—')], ['WHY', node?.statusDetail ?? '—']]} />
         </Panel>
-        <Panel title="REQUESTED DECISION" meta={gateHere ? 'HIGH' : undefined} at={{ d: [5, 1], t: [5, 1], m: [6, 1] }} testId="review-approval-decision">
+        <Panel title="REQUESTED DECISION" meta={gateHere ? 'HIGH' : undefined} at={{ d: [4, 1], t: [5, 1], m: [6, 1] }} testId="review-approval-decision">
           {item.id === 'narrative' ?
             <NarrativeApproval plan={plan} reload={reload} compact />
           : item.id === 'storyboard' ?
@@ -103,10 +76,10 @@ export function ReviewFamily({ d, r, go }: FamilyProps) {
             </Actions>
           }
         </Panel>
-        <Panel title="REVIEWERS" meta="FOUNDER" at={{ d: [2, 1], t: [2, 1], m: [2, 1] }} testId="review-reviewers">
+        <Panel title="REVIEWERS" meta="FOUNDER" at={{ d: [3, 1], t: [5, 1], m: [3, 1] }} testId="review-reviewers">
           <Row media={<i className={`exf-dot exf-dot--${done(item.status) ? 'green' : 'gray'}`} aria-hidden />} title="FOUNDER" sub={done(item.status) ? 'APPROVED / LOCKED' : 'PENDING'} />
         </Panel>
-        <Panel title="DEPENDENCIES" meta={node ? `${node.dependsOn.length} UPSTREAM · ${node.unlocks.length} UNLOCKS` : undefined} at={{ d: [3, 1], t: [3, 1], m: [2, 1] }} testId="review-dependencies">
+        <Panel title="DEPENDENCIES" meta={node ? `${node.dependsOn.length} UPSTREAM · ${node.unlocks.length} UNLOCKS` : undefined} at={{ d: [4, 1], t: [6, 1], m: [3, 1] }} testId="review-dependencies">
           {node ?
             <>
               {node.dependsOn.map((n) => (
@@ -118,12 +91,10 @@ export function ReviewFamily({ d, r, go }: FamilyProps) {
             </>
           : <Empty title="NO HUB NODE" />}
         </Panel>
-        <Panel title="COMMENTS" meta="0" at={{ d: [5, 1], t: [5, 1], m: [2, 1] }} testId="review-comments">
+        <Panel title="COMMENTS" meta="0" at={{ d: [3, 1], t: [6, 1], m: [6, 1] }} testId="review-comments">
           <Empty title="NO REVIEW COMMENTS" body="REVIEW COMMENTS HAVE NO DATA SOURCE YET." state="UNMOUNTED" testId="review-comments-unmounted" />
         </Panel>
       </Grid>
-      {insp.overlay}
-      </>
     );
   }
 

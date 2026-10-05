@@ -2,7 +2,7 @@
  * SITE 00 typed state architecture — domain boundaries.
  */
 
-import type { Site00PresentationOverride } from './preview-mode';
+import type { Site00PreviewDeviceMode } from './preview-mode';
 
 export type HomeMode = 'origin' | 'idnty-expanded' | 'bldr-expanded' | 'evolve-expanded';
 
@@ -16,8 +16,8 @@ export type Site00State = {
   authMode: AuthMode;
   /** Future: linked project */
   activeProjectId: string | null;
-  /** Composer preview — auto | mobile | desktop presentation override */
-  presentationOverride: Site00PresentationOverride;
+  /** Composer preview — mobile vs desktop presentation (persists across public routes). */
+  previewDeviceMode: Site00PreviewDeviceMode;
 };
 
 export const INITIAL_SITE00_STATE: Site00State = {
@@ -27,7 +27,7 @@ export const INITIAL_SITE00_STATE: Site00State = {
   selectedEvolvePathId: null,
   authMode: 'anonymous',
   activeProjectId: null,
-  presentationOverride: 'auto',
+  previewDeviceMode: 'desktop',
 };
 
 export type Site00Action =
@@ -37,7 +37,7 @@ export type Site00Action =
   | { type: 'SELECT_EVOLVE_PATH'; pathId: string }
   | { type: 'CLEAR_SELECTIONS' }
   | { type: 'SET_AUTH_MODE'; mode: AuthMode }
-  | { type: 'SET_PRESENTATION_OVERRIDE'; mode: Site00PresentationOverride };
+  | { type: 'SET_PREVIEW_DEVICE_MODE'; mode: Site00PreviewDeviceMode };
 
 export function site00Reducer(state: Site00State, action: Site00Action): Site00State {
   switch (action.type) {
@@ -58,8 +58,8 @@ export function site00Reducer(state: Site00State, action: Site00Action): Site00S
       };
     case 'SET_AUTH_MODE':
       return { ...state, authMode: action.mode };
-    case 'SET_PRESENTATION_OVERRIDE':
-      return { ...state, presentationOverride: action.mode };
+    case 'SET_PREVIEW_DEVICE_MODE':
+      return { ...state, previewDeviceMode: action.mode };
     default:
       return state;
   }

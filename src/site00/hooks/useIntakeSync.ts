@@ -51,8 +51,6 @@ export type UseIntakeSyncResult = {
   reset: () => void;
 };
 
-type AutosavePatch = { currentStep?: string | null; totalSteps?: number; draftPayload?: Record<string, unknown> };
-
 export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string): UseIntakeSyncResult {
   const idKey = `${storageKeyPrefix}-server-intake-id`;
   const tokenKey = `${storageKeyPrefix}-guest-token`;
@@ -67,8 +65,6 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
   const serverIntakeIdRef = useRef<string | null>(serverIntakeId);
   const guestTokenRef = useRef<string | null>(guestToken);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  /** Latest autosave patch that has not been sent yet — flushed before submit so nothing is dropped. */
-  const pendingPatchRef = useRef<AutosavePatch | null>(null);
   const startPromiseRef = useRef<Promise<string | null> | null>(null);
 
   useEffect(() => {
@@ -122,10 +118,9 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
   );
 
   const runAutosave = useCallback(
-    async (patch: AutosavePatch): Promise<boolean> => {
+    async (patch: { currentStep?: string | null; totalSteps?: number; draftPayload?: Record<string, unknown> }) => {
       const id = serverIntakeIdRef.current;
-      if (!id) return false;
-      pendingPatchRef.current = null;
+      if (!id) return;
       setSaveState('saving');
       try {
         const intake = await intakesApi.autosaveIntake({
@@ -140,34 +135,21 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
         setSaveState('saved');
         setLastSavedAt(intake.lastSavedAt ?? intake.updatedAt);
         setErrorMessage(null);
-        return true;
       } catch (e) {
         // FAIL LOUD — never report SAVED when the server write did not succeed.
         setSaveState('error');
         setErrorMessage(e instanceof Error ? e.message : 'SITE 00 could not save your latest answers.');
-        return false;
       }
     },
     [intakeType],
   );
 
   const autosave = useCallback(
-    (patch: AutosavePatch) => {
+    (patch: { currentStep?: string | null; totalSteps?: number; draftPayload?: Record<string, unknown> }) => {
       if (!serverIntakeIdRef.current) return;
-      // Coalesce rapid patches (answers then step-complete) instead of letting the last one win.
-      const previous = pendingPatchRef.current;
-      const merged: AutosavePatch = {
-        ...(previous ?? {}),
-        ...patch,
-        draftPayload:
-          previous?.draftPayload || patch.draftPayload
-            ? { ...(previous?.draftPayload ?? {}), ...(patch.draftPayload ?? {}) }
-            : undefined,
-      };
-      pendingPatchRef.current = merged;
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
       debounceTimerRef.current = setTimeout(() => {
-        void runAutosave(pendingPatchRef.current ?? merged);
+        void runAutosave(patch);
       }, AUTOSAVE_DEBOUNCE_MS);
     },
     [runAutosave],
@@ -177,12 +159,6 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
     const id = serverIntakeIdRef.current;
     if (!id) return null;
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
-    // Flush the latest un-sent answers first; never submit a stale draft.
-    const pending = pendingPatchRef.current;
-    if (pending) {
-      const flushed = await runAutosave(pending);
-      if (!flushed) return null;
-    }
     setSaveState('saving');
     try {
       const intake = await intakesApi.submitIntake({ intakeType, id, guestToken: guestTokenRef.current });
@@ -204,7 +180,7 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
       setErrorMessage(e instanceof Error ? e.message : 'SITE 00 could not submit your intake. Try again.');
       return null;
     }
-  }, [intakeType, runAutosave]);
+  }, [intakeType]);
 
   const requestGuestAccess = useCallback(
     async (email: string) => {

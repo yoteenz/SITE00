@@ -8,7 +8,6 @@ import { AUTHORITY_ASSETS } from './authorityAssets';
 import { NODE_SUB, AuthorityHero, LiveStatusBar } from './HubBody';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
 import { pad2, Priority, Sec, Thumb } from './primitives';
-import '../../styles/site00-production-expression-floor.css';
 
 /**
  * Floor cards read the project's live hub node art (cast / narrative / look / set / storyboard …) —
@@ -52,7 +51,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
           {production ?
             <div className="pxa-making__body" data-testid="expression-campaign-context">
               <Thumb slotId={graph?.nodes[5]?.assetSlotId} url={data?.assetUrl(graph?.nodes[5]?.assetSlotId ?? null) ?? null} label="ENTRY" className="pxa-making__img" />
-              <div className="pxa-making__copy" data-scroll="internal">
+              <div className="pxa-making__copy">
                 <small>{production.label}</small>
                 <b>{production.subtitle}</b>
                 <span className="pxa-bar pxa-bar--labeled">
@@ -112,7 +111,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
             </li>
           ))}
         </ol>
-        <nav className="pxa-subnav" aria-label="Expression sub-workspaces" data-scroll="internal-x">
+        <nav className="pxa-subnav" aria-label="Expression sub-workspaces">
           {subs.map((s) => (
             <Link key={s.id} to={href(s.id)} data-testid={`expression-sub-${s.id}`}>
               {s.label.toUpperCase()}
@@ -122,7 +121,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
       </Sec>
       <div className="pxa-expression__bottom">
         <Sec title="MAKE IT TRAVEL" className="pxa-card pxa-travel" testId="expression-travel">
-          <div className="pxa-travel__steps" data-scroll="internal">
+          <div className="pxa-travel__steps">
             <div>
               <em>01</em>
               <b>FORMAT STUDIO</b>
@@ -152,7 +151,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
         </Sec>
         <Sec title="ON YOUR TABLE" to="/production/queue" className="pxa-card pxa-table" testId="expression-table">
           {attention.length ?
-            <ol className="pxa-ops" data-scroll="internal">
+            <ol className="pxa-ops">
               {attention.slice(0, 3).map((a) => (
                 <li key={a.id}>
                   <Link to={a.nodeId ? href(NODE_SUB[a.nodeId]) : href('review')}>

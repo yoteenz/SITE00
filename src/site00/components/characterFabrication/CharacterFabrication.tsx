@@ -8,13 +8,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useSearchParams } from 'react-router-dom';
-import {
-  CF_LIBRARY_RETURN_TO,
-  clearFabricationLibraryReturn,
-  readFabricationLibraryReturn,
-  STATION_ORDER,
-  type StationId,
-} from '../../../../shared/site00-character-fabrication/index.js';
+import { STATION_ORDER, type StationId } from '../../../../shared/site00-character-fabrication/index.js';
 import { ProductionChromeStrip, productionChromeScale } from '../productionHub/chrome';
 import { ProductionBottomNav, ProductionHostNav } from '../productionHub/nav';
 import { useProductionViewportFamily } from '../../hooks/useProductionViewportFamily';
@@ -50,7 +44,7 @@ function useCanvasZoom(): number {
   return z;
 }
 
-function Body({ projectSlug }: { projectSlug: string }) {
+function Body() {
   const { state } = useFabrication();
   const { activeStation: st, surface } = state;
 
@@ -62,7 +56,7 @@ function Body({ projectSlug }: { projectSlug: string }) {
 
   switch (st) {
     case 'identity':
-      return <IdentityView projectSlug={projectSlug} />;
+      return <IdentityView />;
     case 'body':
       return <BodyView />;
     case 'look':
@@ -127,7 +121,7 @@ function Shell({ projectSlug }: { projectSlug: string }) {
           <div className="cf-frame">
             <main className="cf-scroll" data-testid="cf-scroll" data-view={`${state.activeStation}:${state.surface}`}>
               <div className="cf-col">
-                <Body projectSlug={projectSlug} />
+                <Body />
                 {needsTailRail(state.activeStation, state.surface, state.run?.status ?? null) ? (
                   <div className="cf-tailrail" data-testid="cf-tail-rail"><FabricationStageRail /></div>
                 ) : null}
@@ -155,32 +149,12 @@ function Shell({ projectSlug }: { projectSlug: string }) {
   return createPortal(ui, document.body);
 }
 
-function LibraryReturnRestore() {
-  const [params] = useSearchParams();
-  const { dispatch, state } = useFabrication();
-  useEffect(() => {
-    if (params.get('restore') !== CF_LIBRARY_RETURN_TO) return;
-    const ctx = readFabricationLibraryReturn();
-    if (!ctx) return;
-    dispatch({
-      type: 'RESTORE_AFTER_LIBRARY',
-      selectedActorId: ctx.selectedActorId,
-      selectedActorCandidateId: ctx.selectedActorCandidateId,
-      activeStation: ctx.activeStation,
-      actorCatalogueOpen: ctx.actorCatalogueOpen,
-    });
-    clearFabricationLibraryReturn();
-  }, [params, dispatch, state.selectedActorId]);
-  return null;
-}
-
 export function CharacterFabrication({ projectSlug, entryId }: { projectSlug: string; entryId: string }) {
   const [params] = useSearchParams();
   const s = params.get('station') as StationId | null;
   const initial = s && (STATION_ORDER as readonly string[]).includes(s) ? s : null;
   return (
     <FabricationProvider projectSlug={projectSlug} entryId={entryId} initialStation={initial}>
-      <LibraryReturnRestore />
       <Shell projectSlug={projectSlug} />
     </FabricationProvider>
   );

@@ -36,15 +36,13 @@ export const SITE00_ORIGIN_DESKTOP_COMPOSITION = {
   heroDescription1OffsetYPx: 0,
   heroDescription2OffsetYPx: 0,
   heroDescription3OffsetYPx: 0,
-  heroCoordinateOffsetYPx: 4,
+  heroCoordinateOffsetYPx: 0,
   /** @deprecated Use panelIconSizePx — kept for reference: 48.51/80 ≈ 0.606 */
   panelIconScale: 0.606,
   /** Expanded IDNTY/BLDR panel — centered over plaza (same anchor as collapsed cards). */
   expandedMaxWidthPx: 680,
   /** Expanded panel visual scale — desktop artboard only (0.875 × 0.85). */
   expandedPanelScale: 0.74375,
-  /** Expanded panel header icon (top-right) — 88px base × 3 × 0.6 (−40%). */
-  expandedPanelHeaderIconSizePx: 158.4,
   /** Framework pillar PNG size on expanded panels (32px base × 1.2). */
   frameworkIconSizePx: 38.4,
   /** Bottom status strip — matches Enter panel height (`--site00-bottom-panel-height`). */

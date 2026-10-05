@@ -3,7 +3,6 @@
  */
 import { APPEARANCE_LAYERS, MOTION_LIBRARY, SIM_TEST_DEFS, WARDROBE_LIBRARY } from './library.js';
 import { FABRICATION_DEFAULTS, findFabricationActor } from './actors.js';
-import { buildFabricationSubjectSnapshot } from './fabricationSubjectResolver.js';
 import { invalidateDownstream, isDone, openRevisions, stationBlockers } from './dependency.js';
 import { buildResult, motionById, requiredMotionFor } from './simulation.js';
 import { SKIN_BY_ID } from './lookups.js';
@@ -67,7 +66,6 @@ export function initialFabricationState(): FabricationState {
     actorSort: 'RECENT',
     actorLayout: 'GRID',
     actorFilter: 'ALL',
-    fabricationSubject: null,
 
     bodyVersions: [
       { versionId: 'V1.3', label: 'BODY VERSION V1.3', status: 'SUPERSEDED', lockedAt: null, note: 'SUPERSEDED' },
@@ -156,13 +154,6 @@ export type FabricationAction =
   | { type: 'ACTOR_FILTER'; filter: FabricationState['actorFilter'] }
   | { type: 'CATALOGUE_OPEN'; open: boolean }
   | { type: 'CONFIRM_ACTOR'; at: string }
-  | {
-      type: 'RESTORE_AFTER_LIBRARY';
-      selectedActorCandidateId: string;
-      selectedActorId: string;
-      activeStation: StationId;
-      actorCatalogueOpen: boolean;
-    }
   | { type: 'CHANGE_ACTOR'; at: string }
   // body
   | { type: 'BODY_VIEW'; view: FabricationState['bodyView'] }
@@ -304,16 +295,6 @@ export function fabricationReducer(state: FabricationState, a: FabricationAction
       return { ...state, activeStation: a.station, surface: 'STATION', notice: null };
     case 'SET_SURFACE':
       return { ...state, surface: a.surface, notice: null };
-    case 'RESTORE_AFTER_LIBRARY':
-      return {
-        ...state,
-        surface: 'STATION',
-        selectedActorId: a.selectedActorId,
-        selectedActorCandidateId: a.selectedActorCandidateId,
-        activeStation: a.activeStation,
-        actorCatalogueOpen: a.actorCatalogueOpen,
-        notice: null,
-      };
     case 'DISMISS_NOTICE':
       return { ...state, notice: null };
     case 'DRAIN_OUTBOX':
@@ -342,21 +323,10 @@ export function fabricationReducer(state: FabricationState, a: FabricationAction
         n = invalidateDownstream({ ...n, authority: { ...n.authority, identity: 'NONE' } }, 'identity');
       }
       n = grant(n, 'identity', 'LOCKED', a.at);
-      n = {
-        ...n,
-        fabricationSubject: buildFabricationSubjectSnapshot(actor, a.at),
-      };
       return info(n, `ACTOR ${actor.catalogueNumber} CONFIRMED`);
     }
     case 'CHANGE_ACTOR': {
-      let n: FabricationState = {
-        ...state,
-        actorCatalogueOpen: true,
-        activeStation: 'identity',
-        surface: 'STATION',
-        selectedActorCandidateId: state.selectedActorId,
-        fabricationSubject: state.fabricationSubject,
-      };
+      let n: FabricationState = { ...state, actorCatalogueOpen: true, activeStation: 'identity', surface: 'STATION', selectedActorCandidateId: state.selectedActorId };
       n = editing(n, 'identity');
       return log(n, a.at, 'identity', 'CHANGE ACTOR OPENED');
     }

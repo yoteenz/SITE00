@@ -215,6 +215,30 @@
   width: 12px;
   height: 12px;
 }
+.pxa .ibx-title {
+  flex: none;
+}
+.pxa .ibx-title h1 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+}
+.pxa .ibx-title p {
+  margin-top: 2px;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--ibx-mute);
+}
+.pxa .ibx-title--inline {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.pxa .ibx-title--inline span {
+  font-size: 20px;
+  font-weight: 600;
+}
 
 /* materials */
 .pxa .ibx-art {
@@ -379,7 +403,7 @@
   min-width: 0;
   font-size: var(--ibx-text);
   letter-spacing: 0.05em;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 .pxa .ibx-facts--tight {
   gap: 1px;
@@ -525,6 +549,24 @@
   flex: none;
   min-height: 0;
 }
+.pxa .ibx-seg {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+.pxa .ibx-seg button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--ibx-mute);
+  cursor: pointer;
+}
+.pxa .ibx-seg button.is-active {
+  color: var(--ibx-red);
+}
 .pxa .ibx-incoming .ibx-viewall {
   margin-left: 0;
 }
@@ -563,8 +605,50 @@
   font-weight: 500;
   line-height: 1.2;
 }
-.pxa .ibx-card:hover {
+.pxa .ibx-dot {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ibx-red);
+  box-shadow: 0 0 0 2px #fff;
+}
+.pxa .ibx-card:hover,
+.pxa .ibx-row:is(a):hover,
+.pxa .ibx-attn__grid a:hover {
   border-color: #c5c5cb;
+}
+.pxa .ibx-attn__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.pxa .ibx-attn__grid a {
+  display: grid;
+  grid-template-columns: 22px auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid var(--ibx-line);
+  border-radius: var(--ibx-radius);
+  background: var(--ibx-card);
+}
+.pxa .ibx-attn__grid a > .iax-ic:first-child {
+  width: 20px;
+  height: 20px;
+  color: var(--ibx-red);
+}
+.pxa .ibx-attn__grid b {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.pxa .ibx-attn__grid span {
+  font-size: 10px;
+  letter-spacing: 0.08em;
 }
 .pxa .ibx-recent__rail {
   display: grid;
@@ -605,9 +689,207 @@
 }
 
 /* ═══ LIST CHILDREN (WATCHING · RESOLVED · ALL) ═══ */
+.pxa .ibx-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  flex: none;
+  padding: 8px 4px;
+  border: 1px solid var(--ibx-line);
+  border-radius: var(--ibx-radius);
+  background: var(--ibx-card);
+}
+.pxa .ibx-stats > div {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  padding: 3px 2px;
+  border-radius: 4px;
+}
+.pxa .ibx-stats > div + div {
+  border-left: 1px solid var(--ibx-line-2);
+}
+.pxa .ibx-stats b {
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+.pxa .ibx-stats span {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--ibx-mute);
+  text-align: center;
+}
+.pxa .ibx-stats .is-hot b {
+  color: var(--ibx-red);
+}
+.pxa .ibx-filters {
+  display: flex;
+  gap: 6px;
+  flex: none;
+  min-width: 0;
+}
+.pxa .ibx-filters--menus > .ibx-menu {
+  flex: 1 1 0;
+}
+.pxa .ibx-filters--menus .ibx-menu__btn {
+  justify-content: space-between;
+  width: 100%;
+}
+.pxa .ibx-dims {
+  display: flex;
+  gap: 5px;
+  flex: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pxa .ibx-dims .ibx-menu__btn {
+  height: 30px;
+  font-size: 9.5px;
+}
+.pxa .ibx-dims .ibx-menu__list {
+  position: fixed;
+  top: auto;
+  left: auto;
+  margin-top: 4px;
+}
+.pxa .ibx-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex: 1 1 auto;
+  padding-bottom: 2px;
+}
+.pxa .ibx-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  padding: 7px;
+  border: 1px solid var(--ibx-line);
+  border-radius: var(--ibx-radius);
+  background: var(--ibx-card);
+}
+.pxa .ibx-row > .ibx-art {
+  width: 76px;
+  height: 58px;
+}
+.pxa .ibx-row__main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.pxa .ibx-row__main small {
+  font-size: 9px;
+  color: var(--ibx-mute);
+}
+.pxa .ibx-row__main b {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.pxa .ibx-row__main em {
+  font-size: 9.5px;
+  font-style: normal;
+  color: var(--ibx-mute);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-transform: none;
+}
+.pxa .ibx-row__main .ibx-facts > div {
+  grid-template-columns: 54px minmax(0, 1fr);
+}
+.pxa .ibx-row__side {
+  display: grid;
+  gap: 5px;
+  justify-items: stretch;
+  width: 112px;
+  padding-left: 9px;
+  border-left: 1px solid var(--ibx-line-2);
+}
+.pxa .ibx-row__side .ibx-btn {
+  min-height: 28px;
+  font-size: 10px;
+  padding: 0 6px;
+}
+.pxa .ibx-row__side--meta {
+  justify-items: start;
+  gap: 3px;
+  font-size: 10px;
+}
+.pxa .ibx-row__side--meta small {
+  color: var(--ibx-mute);
+  font-size: 9.5px;
+}
+.pxa .ibx-row:is(a) {
+  grid-template-columns: 76px minmax(0, 1fr) auto 12px;
+}
 /* ALL INBOX table rows (mobile shows type + state stacked; the table head appears on wider viewports) */
+.pxa .ibx-table__head {
+  display: none;
+}
+.pxa .ibx-row--all {
+  grid-template-columns: 64px minmax(0, 1fr) auto 12px !important;
+  grid-template-areas: 'art main type chev' 'art main state chev';
+  row-gap: 4px;
+}
+.pxa .ibx-row--all > .ibx-art {
+  grid-area: art;
+  width: 64px;
+  height: 52px;
+}
+.pxa .ibx-row--all .ibx-row__main {
+  grid-area: main;
+}
+.pxa .ibx-row--all .ibx-row__type {
+  grid-area: type;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+}
+.pxa .ibx-row--all .ibx-row__type .iax-ic {
+  width: 12px;
+  height: 12px;
+  color: var(--ibx-mute);
+}
+.pxa .ibx-row--all .ibx-row__state {
+  grid-area: state;
+}
+.pxa .ibx-row--all .ibx-row__urg,
+.pxa .ibx-row--all .ibx-row__area {
+  display: none;
+}
+.pxa .ibx-row--all .ibx-chev {
+  grid-area: chev;
+}
+.pxa .ibx-row--sys {
+  grid-template-columns: 64px minmax(0, 1fr) auto auto;
+}
+.pxa .ibx-row--sys > .ibx-art {
+  width: 64px;
+  height: 46px;
+}
+.pxa .ibx-row--sys .ibx-row__main b {
+  font-size: 12px;
+}
+.pxa .ibx-row--sys .ibx-btn {
+  min-height: 30px;
+  min-width: 70px;
+  font-size: 10px;
+}
 
 /* ═══ MESSAGES ═══ */
+.pxa .ibx-msgs__grid {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-areas: 'convos' 'context' 'thread';
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
 .pxa .ibx-convos {
   grid-area: convos;
   display: grid;
@@ -694,6 +976,49 @@
 }
 
 /* ═══ SYSTEM ═══ */
+.pxa .ibx-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  flex: none;
+  padding: 8px 4px;
+  border: 1px solid var(--ibx-line);
+  border-radius: var(--ibx-radius);
+  background: var(--ibx-card);
+}
+.pxa .ibx-metrics > div {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+}
+.pxa .ibx-metrics > div + div {
+  border-left: 1px solid var(--ibx-line-2);
+}
+.pxa .ibx-metrics span {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--ibx-mute);
+}
+.pxa .ibx-metrics b {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+.pxa .ibx-sys__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ibx-gap);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .ibx-sys__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ibx-gap);
+  flex: none;
+}
+.pxa .ibx-sys .ibx-recent {
+  display: none;
+}
 
 /* ═══ GRANDCHILDREN (decision · notice · thread) ═══ */
 .pxa .ibx-crumb a {
@@ -1250,38 +1575,30 @@
   cursor: pointer;
 }
 
-/* narrow phones: the five detail tabs share the width instead of scrolling sideways */
-@media (max-width: 380px) {
-  .pxa .ibx-dtabs button {
-    flex: 1 1 auto;
-    padding: 9px 3px;
-    font-size: 9.5px;
-    letter-spacing: 0.04em;
-  }
-}
-
 /* short phones: keep the root on one screen by trimming secondary rails, never by growing the page */
 @media (max-width: 699px) and (max-height: 760px) {
+  .pxa .ibx-msgs .ibx-context {
+    display: none;
+  }
   .pxa .ibx-notice .ibx-attach {
     display: none;
   }
 }
 @media (max-width: 699px) and (max-height: 680px) {
-  /* related materials stay reachable (ATTACHMENT PREVIEW) as a text-only rail */
-  .pxa .ibx-detail:not(.ibx-notice) .ibx-attach .ibx-head h2 {
-    font-size: 12px;
-  }
-  .pxa .ibx-detail:not(.ibx-notice) .ibx-attach__rail .ibx-art {
+  .pxa .ibx-sys__side {
     display: none;
   }
-  .pxa .ibx-detail:not(.ibx-notice) .ibx-attach__rail > button {
-    padding: 4px 8px;
+  .pxa .ibx-detail:not(.ibx-notice) .ibx-attach {
+    display: none;
   }
   .pxa .ibx-notice .ibx-chain {
     display: none;
   }
   .pxa .ibx-incoming__rail .ibx-art {
     height: 40px;
+  }
+  .pxa .ibx-attn__grid a {
+    height: 38px;
   }
 }
 
@@ -1311,6 +1628,9 @@
   .pxa .ibx-card .ibx-art {
     height: 70px;
   }
+  .pxa .ibx-attn__grid a {
+    height: 54px;
+  }
   .pxa .ibx-recent__rail {
     grid-auto-columns: calc((100% - 35px) / 8);
   }
@@ -1319,9 +1639,105 @@
   }
 
   /* lists */
+  .pxa .ibx-stats b {
+    font-size: 24px;
+  }
+  .pxa .ibx-stats span {
+    font-size: 10px;
+  }
+  .pxa .ibx-filters--menus {
+    max-width: 640px;
+  }
+  .pxa .ibx-rows--watch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: start;
+  }
+  .pxa .ibx-row--watch {
+    grid-template-columns: 92px minmax(0, 1fr);
+    grid-template-areas: 'art main' 'side side';
+    align-items: start;
+  }
+  .pxa .ibx-row--watch > .ibx-art {
+    grid-area: art;
+    width: 92px;
+    height: 92px;
+  }
+  .pxa .ibx-row--watch .ibx-row__main {
+    grid-area: main;
+  }
+  .pxa .ibx-row--watch .ibx-row__side {
+    grid-area: side;
+    grid-template-columns: auto 1fr 1fr;
+    align-items: center;
+    width: auto;
+    padding: 7px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--ibx-line-2);
+  }
+  .pxa .ibx-row {
+    grid-template-columns: 96px minmax(0, 1fr) auto;
+  }
+  .pxa .ibx-row > .ibx-art {
+    width: 96px;
+    height: 64px;
+  }
+  .pxa .ibx-row:is(a) {
+    grid-template-columns: 96px minmax(0, 1fr) auto 12px;
+  }
+  .pxa .ibx-row--all > .ibx-art {
+    width: 64px;
+    height: 48px;
+  }
+  .pxa .ibx-row--sys {
+    grid-template-columns: 84px minmax(0, 1fr) auto 96px;
+  }
+  .pxa .ibx-row--sys > .ibx-art {
+    width: 84px;
+    height: 56px;
+  }
+  .pxa .ibx-row__side--meta {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    width: 280px;
+    column-gap: 12px;
+  }
+  .pxa .ibx-row__side--meta .ibx-chip {
+    grid-row: span 2;
+  }
   /* ALL INBOX: true table on wider viewports */
+  .pxa .ibx-all .ibx-table__head,
+  .pxa .ibx-row--all {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 110px 120px 0 0 12px !important;
+    grid-template-areas: none;
+    align-items: center;
+    gap: 12px;
+  }
+  .pxa .ibx-table__head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 4px 7px;
+    background: var(--ibx-bg);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ibx-mute);
+  }
+  .pxa .ibx-row--all > * {
+    grid-area: auto !important;
+  }
+  .pxa .ibx-table__head > :nth-child(5),
+  .pxa .ibx-table__head > :nth-child(6) {
+    display: none;
+  }
 
   /* messages: conversations | thread, context rail on top of the thread column */
+  .pxa .ibx-msgs__grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: 'convos context' 'convos thread';
+  }
   .pxa .ibx-convos {
     align-content: start;
   }
@@ -1330,6 +1746,26 @@
   }
 
   /* system: notices | attention */
+  .pxa .ibx-sys__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .pxa .ibx-sys__grid > .ibx-rows--sys {
+    max-height: 100%;
+  }
+  .pxa .ibx-sys .ibx-attn__grid {
+    grid-template-columns: 1fr;
+  }
+  .pxa .ibx-sys .ibx-recent {
+    display: flex;
+  }
+  .pxa .ibx-sys .ibx-recent__rail {
+    grid-auto-columns: calc((100% - 15px) / 4);
+  }
+  .pxa .ibx-metrics b {
+    font-size: 22px;
+  }
 
   /* decision detail: card + tabs | materials */
   .pxa .ibx-dtitle h1 {
@@ -1477,17 +1913,111 @@
   .pxa .ibx-card b {
     font-size: 12px;
   }
+  .pxa .ibx-attn__grid a {
+    height: 58px;
+  }
+  .pxa .ibx-attn__grid b {
+    font-size: 22px;
+  }
   .pxa .ibx-recent__rail {
     grid-auto-columns: calc((100% - 45px) / 10);
   }
   .pxa .ibx-recent__rail .ibx-art {
     height: 58px;
   }
+
+  .pxa .ibx-list-view {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+    align-content: start;
+  }
+  .pxa .ibx-all {
+    grid-template-rows: auto auto auto auto minmax(0, 1fr);
+  }
+  .pxa .ibx-filters {
+    max-width: 920px;
+  }
+  .pxa .ibx-stats {
+    padding: 10px 6px;
+  }
+  .pxa .ibx-stats b {
+    font-size: 28px;
+  }
+  .pxa .ibx-row {
+    grid-template-columns: 120px minmax(0, 1fr) auto;
+  }
+  .pxa .ibx-row > .ibx-art {
+    width: 120px;
+    height: 72px;
+  }
+  .pxa .ibx-row:is(a) {
+    grid-template-columns: 120px minmax(0, 1fr) auto 12px;
+  }
+  .pxa .ibx-row--sys {
+    grid-template-columns: 120px minmax(0, 1fr) auto 110px;
+  }
+  .pxa .ibx-row--sys > .ibx-art {
+    width: 120px;
+    height: 64px;
+  }
+  .pxa .ibx-rows--watch {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pxa .ibx-row--watch {
+    grid-template-columns: 120px minmax(0, 1fr) 150px;
+    grid-template-areas: 'art main side';
+    align-items: center;
+  }
+  .pxa .ibx-row--watch > .ibx-art {
+    width: 120px;
+    height: 104px;
+  }
+  .pxa .ibx-row--watch .ibx-row__side {
+    grid-template-columns: 1fr;
+    padding: 0 0 0 10px;
+    border-top: 0;
+    border-left: 1px solid var(--ibx-line-2);
+  }
+  .pxa .ibx-all .ibx-table__head,
+  .pxa .ibx-row--all {
+    grid-template-columns: 76px minmax(0, 1.6fr) 120px 130px 90px minmax(0, 0.8fr) 12px !important;
+  }
+  .pxa .ibx-row--all > .ibx-art {
+    width: 76px;
+    height: 50px;
+  }
+  .pxa .ibx-table__head > :nth-child(5),
+  .pxa .ibx-table__head > :nth-child(6),
+  .pxa .ibx-row--all .ibx-row__urg,
+  .pxa .ibx-row--all .ibx-row__area {
+    display: block;
+  }
+  .pxa .ibx-row--all .ibx-row__area {
+    font-size: 11px;
+  }
+  .pxa .ibx-row--all .ibx-row__urg small {
+    font-size: 10px;
+    color: var(--ibx-mute);
+  }
+
+  .pxa .ibx-msgs__grid {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.7fr) minmax(0, 0.85fr);
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: 'convos thread context';
+  }
   .pxa .ibx-context {
     align-content: start;
   }
   .pxa .ibx-context .ibx-facts {
     grid-template-columns: 1fr;
+  }
+
+  .pxa .ibx-sys__grid {
+    grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+  }
+  .pxa .ibx-sys .ibx-attn__grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .pxa .ibx-dgrid {
@@ -1665,12 +2195,12 @@
   padding: 0 6px;
 }
 .pxa .ibx-root .ibx-card b {
-  font-size: 8.5px;
+  font-size: 8px;
   font-weight: 500;
   overflow-wrap: anywhere;
 }
 .pxa .ibx-card__status {
-  font-size: 8.5px;
+  font-size: 8px;
   color: var(--ibx-red);
 }
 
@@ -1726,8 +2256,8 @@
   display: grid;
   place-items: center;
   padding: 0 8px;
-  font-size: 8.5px;
-  letter-spacing: 0.06em;
+  font-size: 8px;
+  letter-spacing: 0.08em;
   text-align: center;
   color: var(--ibx-mute);
 }
@@ -1867,84 +2397,5 @@
   .pxa .ibx-root .ibx-recent__rail .ibx-art,
   .pxa .ibx-slot {
     height: 48px;
-  }
-}
-
-/* FA.OPUS2: incoming decision objects fill their pane — the art takes the card height instead of a fixed
-   9vh band (207×54px at 1280×720 with ~80px of empty pane under the cards). */
-@media (min-width: 700px) {
-  .pxa .ibx-root > .ibx-incoming {
-    display: flex;
-    flex-direction: column;
-  }
-  .pxa .ibx-root .ibx-incoming__rail {
-    flex: 1 1 auto;
-    min-height: 0;
-    height: auto;
-    grid-auto-rows: minmax(0, 1fr);
-  }
-  .pxa .ibx-root .ibx-card {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-  }
-  .pxa .ibx-root .ibx-card .ibx-art {
-    flex: 1 1 auto;
-    height: auto;
-    min-height: 56px;
-    max-height: 240px;
-  }
-}
-
-/* FA.OPUS2: decision + notice detail on tablet + desktop — related materials fill their column as media tiles (they were 70×48
-   thumbs above a 593–796px empty band on tall tablets); tiles cap at 160px so the node art is not upscaled further. */
-@media (min-width: 700px) {
-  .pxa .ibx-detail .ibx-attach {
-    grid-template-rows: auto minmax(0, 1fr);
-    align-content: stretch;
-    min-height: 0;
-  }
-  .pxa .ibx-detail .ibx-attach__rail {
-    grid-auto-rows: minmax(56px, 1fr);
-    align-content: start;
-  }
-  .pxa .ibx-detail .ibx-attach__rail > button {
-    grid-template-columns: minmax(70px, 0.9fr) minmax(0, 1fr);
-    align-items: stretch;
-    max-height: 160px;
-  }
-  .pxa .ibx-detail .ibx-attach__rail .ibx-art {
-    height: auto;
-    min-height: 48px;
-  }
-  .pxa .ibx-detail .ibx-attach__rail span {
-    align-content: center;
-  }
-}
-/* portrait tablets (FA.OPUS2): the decision / notice detail stacks — the hero card spans the width with a 4:5 art,
-   tabs and the materials / dependency column share the rest (the side-by-side tablet split left ~590px empty) */
-@media (min-width: 700px) and (max-width: 1119px) and (orientation: portrait) {
-  .pxa .ibx-dgrid {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr);
-    grid-template-areas: 'card card' 'tabs attach';
-  }
-  .pxa .ibx-dgrid.ibx-dgrid--notice {
-    grid-template-rows: auto auto minmax(0, 1fr);
-    grid-template-areas: 'card card' 'tabs chain' 'tabs attach';
-  }
-  .pxa .ibx-dcard {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 0.7fr);
-    align-items: start;
-  }
-  .pxa .ibx-notice .ibx-dcard {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
-  }
-  .pxa .ibx-dcard__art,
-  .pxa .ibx-notice .ibx-dcard__art {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
-    max-height: 40vh;
   }
 }

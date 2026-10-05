@@ -42,11 +42,6 @@ export type IdntyAssessmentStep = {
   maxLength?: number;
   required?: boolean;
   placeholder?: string;
-  /**
-   * Public redesign: selecting the OTHER option expands a conditional field inside the same
-   * working panel. The answer is stored under this key in the state's answers (never its own page).
-   */
-  conditionalOtherKey?: string;
 };
 
 export type IdntyAssessmentStateConfig = {
@@ -61,7 +56,7 @@ export type IdntyAssessmentStateConfig = {
   iconId?: IdntyBrandStateIconId;
   landingTitle: string;
   landingSubtitle?: string;
-  landingType: 'question-list' | 'option-grid' | 'pathway-grid' | 'service-grid' | 'verification';
+  landingType: 'question-list' | 'option-grid' | 'pathway-grid' | 'service-grid';
   landingOptions?: IdntyAssessmentOption[];
   steps: IdntyAssessmentStep[];
   processStrip: IdntyProcessStrip;
@@ -73,6 +68,16 @@ export type IdntyAssessmentStateConfig = {
 };
 
 export const IDNTY_ASSESSMENT_STORAGE_KEY = 'site00_idnty_assessment_v1';
+
+export const IDNTY_PROJECT_TYPE_OPTIONS: IdntyAssessmentOption[] = [
+  { id: 'site', label: 'SITE', description: 'WEBSITES, PORTFOLIOS, LANDING PAGES' },
+  { id: 'ecommerce', label: 'ECOMMERCE', description: 'ONLINE STORES AND PRODUCT SALES' },
+  { id: 'portfolio', label: 'PORTFOLIO', description: 'SHOWCASE WORK AND CREATIVE OUTPUT' },
+  { id: 'booking', label: 'BOOKING / APPOINTMENTS', description: 'SCHEDULING AND CLIENT BOOKINGS' },
+  { id: 'membership', label: 'MEMBERSHIP', description: 'MEMBER PORTALS AND SUBSCRIPTIONS' },
+  { id: 'web-app', label: 'WEB APPLICATION', description: 'CUSTOM DIGITAL PRODUCTS AND TOOLS' },
+  { id: 'other', label: 'OTHER', description: 'SOMETHING ELSE — DESCRIBE IN NEXT STEPS' },
+];
 
 export const IDNTY_GOAL_OPTIONS: IdntyAssessmentOption[] = [
   { id: 'launch-brand', label: 'LAUNCH A NEW BRAND' },
@@ -117,15 +122,22 @@ export const IDNTY_EXISTING_ASSET_OPTIONS: IdntyAssessmentOption[] = [
   { id: 'other', label: 'OTHER (PLEASE SPECIFY)' },
 ];
 
-/**
- * READY FOR EVOLUTION areas — IDNTY-owned identity domains only (public redesign authority).
- * Legacy cross-domain ids (digital-experience, growth-systems, launch-evolve) may still exist in
- * previously stored answers; they are never offered here and render by raw id if encountered.
- */
 export const IDNTY_EVOLUTION_PATHWAYS: IdntyAssessmentOption[] = [
-  { id: 'brand-strategy', label: 'BRAND STRATEGY', description: 'CLARITY CREATES DIRECTION.' },
-  { id: 'visual-identity', label: 'VISUAL IDENTITY', description: 'A STRONGER EXPRESSION.' },
-  { id: 'brand-messaging', label: 'BRAND MESSAGING', description: 'A CLEARER STORY.' },
+  { id: 'brand-strategy', label: 'BRAND STRATEGY', description: 'POSITIONING, AUDIENCE, DIFFERENTIATION' },
+  { id: 'visual-identity', label: 'VISUAL IDENTITY', description: 'LOGO, COLOR, TYPOGRAPHY, SYSTEM' },
+  { id: 'digital-experience', label: 'DIGITAL EXPERIENCE', description: 'WEBSITE, UX, CONVERSION, PRODUCT' },
+  { id: 'brand-messaging', label: 'BRAND MESSAGING', description: 'VOICE, COPY, POSITIONING LANGUAGE' },
+  { id: 'growth-systems', label: 'GROWTH SYSTEMS', description: 'ACQUISITION, ANALYTICS, CAMPAIGNS' },
+  { id: 'launch-evolve', label: 'LAUNCH & EVOLVE', description: 'RELAUNCH, ROLLOUT, OPTIMIZATION' },
+];
+
+export const IDNTY_BUILD_READY_SERVICES: IdntyAssessmentOption[] = [
+  { id: 'strategy', label: 'STRATEGY & PLANNING', description: 'ROADMAP, PRIORITIES, LAUNCH GOALS' },
+  { id: 'brand-design', label: 'BRAND & DESIGN', description: 'VISUAL SYSTEM, CREATIVE DIRECTION' },
+  { id: 'website', label: 'WEBSITE & DIGITAL', description: 'SITES, ECOMMERCE, DIGITAL PRODUCTS' },
+  { id: 'content', label: 'CONTENT & MESSAGING', description: 'COPY, CONTENT INVENTORY, VOICE' },
+  { id: 'marketing', label: 'MARKETING & GROWTH', description: 'CHANNELS, LAUNCH, ACQUISITION' },
+  { id: 'launch', label: 'LAUNCH & SUPPORT', description: 'DEPLOYMENT, QA, ONGOING SUPPORT' },
 ];
 
 export const IDNTY_COHESION_GAP_OPTIONS: IdntyAssessmentOption[] = [
@@ -157,10 +169,11 @@ export const IDNTY_PIECES_DIAGNOSTIC_OPTIONS: IdntyAssessmentOption[] = [
 ];
 
 const STARTING_AT_ZERO_QUESTIONS: IdntyAssessmentOption[] = [
-  { id: 'goal', label: 'WHAT IS THE PRIMARY GOAL?', description: 'WHAT DOES SUCCESS LOOK LIKE?' },
-  { id: 'audience', label: 'WHO IS YOUR AUDIENCE?', description: 'DESCRIBE YOUR IDEAL CUSTOMER OR USER.' },
+  { id: 'project', label: 'WHAT ARE YOU BUILDING?', description: 'SELECT THE OPTION THAT BEST DESCRIBES YOUR PROJECT.' },
+  { id: 'goal', label: 'WHAT IS THE PRIMARY GOAL?', description: 'HELP US UNDERSTAND THE MAIN OBJECTIVE.' },
+  { id: 'audience', label: 'WHO IS YOUR AUDIENCE?', description: "TELL US WHO YOU'RE BUILDING FOR." },
   { id: 'timeline', label: 'WHAT IS YOUR TIMELINE?', description: 'WHEN ARE YOU LOOKING TO LAUNCH?' },
-  { id: 'budget', label: 'WHAT IS YOUR BUDGET RANGE?', description: 'SELECT THE RANGE THAT BEST FITS YOUR PROJECT.' },
+  { id: 'budget', label: 'WHAT IS YOUR BUDGET RANGE?', description: 'THIS HELPS US ALIGN THE RIGHT RESOURCES.' },
 ];
 
 export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssessmentStateConfig> = {
@@ -180,10 +193,11 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
     landingType: 'question-list',
     landingOptions: STARTING_AT_ZERO_QUESTIONS,
     steps: [
-      { id: 'goal', title: 'WHAT IS THE PRIMARY GOAL?', subtitle: 'WHAT DOES SUCCESS LOOK LIKE?', type: 'single', options: IDNTY_GOAL_OPTIONS, required: true, conditionalOtherKey: 'goal-other' },
+      { id: 'project', title: 'WHAT ARE YOU BUILDING?', subtitle: 'SELECT ALL THAT APPLY.', type: 'multi', options: IDNTY_PROJECT_TYPE_OPTIONS, required: true },
+      { id: 'goal', title: 'WHAT IS THE PRIMARY GOAL?', subtitle: 'WHAT DOES SUCCESS LOOK LIKE?', type: 'multi', options: IDNTY_GOAL_OPTIONS, required: true },
       { id: 'audience', title: 'WHO IS YOUR AUDIENCE?', subtitle: 'DESCRIBE YOUR IDEAL CUSTOMER OR USER.', type: 'textarea', maxLength: 500, required: true, placeholder: 'DESCRIBE YOUR AUDIENCE, MARKET, AND GEOGRAPHIC SCOPE…' },
       { id: 'timeline', title: 'WHAT IS YOUR TIMELINE?', type: 'single', options: IDNTY_TIMELINE_OPTIONS, required: true },
-      { id: 'budget', title: 'WHAT IS YOUR BUDGET RANGE?', subtitle: 'SELECT THE RANGE THAT BEST FITS YOUR PROJECT.', type: 'single', options: IDNTY_BUDGET_OPTIONS, required: true },
+      { id: 'budget', title: 'WHAT IS YOUR BUDGET RANGE?', type: 'single', options: IDNTY_BUDGET_OPTIONS, required: true },
     ],
     processStrip: {
       id: 'process',
@@ -222,7 +236,7 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
     landingType: 'option-grid',
     landingOptions: IDNTY_EXISTING_ASSET_OPTIONS,
     steps: [
-      { id: 'assets', title: 'WHAT DO YOU ALREADY HAVE?', subtitle: 'SELECT ALL THAT APPLY.', type: 'multi', options: IDNTY_EXISTING_ASSET_OPTIONS, required: true, conditionalOtherKey: 'other-specify' },
+      { id: 'assets', title: 'WHAT DO YOU ALREADY HAVE?', type: 'multi', options: IDNTY_EXISTING_ASSET_OPTIONS, required: true },
       {
         id: 'cohesion-diagnostic',
         title: 'HOW WOULD YOU DESCRIBE WHAT YOU HAVE TODAY?',
@@ -231,7 +245,8 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
         options: IDNTY_PIECES_DIAGNOSTIC_OPTIONS,
         required: true,
       },
-      { id: 'gaps', title: 'WHAT FEELS INCOMPLETE?', subtitle: 'SELECT ALL THAT APPLY.', type: 'multi', options: IDNTY_COHESION_GAP_OPTIONS },
+      { id: 'other-specify', title: 'OTHER (PLEASE SPECIFY)', type: 'textarea', maxLength: 300, placeholder: 'DESCRIBE WHAT YOU HAVE…' },
+      { id: 'gaps', title: 'WHAT FEELS INCOMPLETE?', type: 'multi', options: IDNTY_COHESION_GAP_OPTIONS },
     ],
     processStrip: {
       id: 'process',
@@ -265,14 +280,14 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
     editorialCta: "LET'S DIAGNOSE WHAT'S NEXT.",
     breadcrumb: 'IDENTITY / READY FOR EVOLUTION',
     iconId: 'ready-evolution',
-    landingTitle: 'WHAT NEEDS TO EVOLVE?',
-    landingSubtitle: 'SELECT THE AREAS THAT REQUIRE REFINEMENT OR EVOLUTION.',
+    landingTitle: 'HOW WE CAN HELP YOU EVOLVE',
+    landingSubtitle: 'WE REFINE YOUR BRAND, ELEVATE YOUR PRESENCE, AND BUILD SYSTEMS THAT POSITION YOU FOR WHAT\'S NEXT.',
     landingType: 'pathway-grid',
     landingOptions: IDNTY_EVOLUTION_PATHWAYS,
     steps: [
-      { id: 'pathways', title: 'WHAT NEEDS TO EVOLVE?', subtitle: 'SELECT THE AREAS THAT REQUIRE REFINEMENT OR EVOLUTION.', type: 'multi', options: IDNTY_EVOLUTION_PATHWAYS, required: true },
-      { id: 'goals', title: 'WHAT ARE YOUR EVOLUTION GOALS?', subtitle: 'DESCRIBE WHAT YOU WANT TO ACHIEVE WITH THIS EVOLUTION.', type: 'textarea', maxLength: 500, required: true, placeholder: 'DESCRIBE WHAT YOU WANT TO ACHIEVE WITH THIS EVOLUTION…' },
-      { id: 'timeline', title: 'WHAT IS YOUR TIMELINE?', subtitle: 'SELECT THE OPTION THAT BEST FITS YOUR PLANS.', type: 'single', options: IDNTY_TIMELINE_OPTIONS, required: true },
+      { id: 'pathways', title: 'HOW WE CAN HELP YOU EVOLVE', type: 'multi', options: IDNTY_EVOLUTION_PATHWAYS, required: true },
+      { id: 'goals', title: 'WHAT ARE YOUR EVOLUTION GOALS?', type: 'textarea', maxLength: 500, required: true, placeholder: 'DESCRIBE WHAT YOU WANT TO ACHIEVE WITH THIS EVOLUTION…' },
+      { id: 'timeline', title: 'WHAT IS YOUR TIMELINE?', type: 'single', options: IDNTY_TIMELINE_OPTIONS, required: true },
     ],
     processStrip: {
       id: 'process',
@@ -302,22 +317,18 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
     title: 'BUILD READY',
     declaration: "MY IDENTITY IS COMPLETE. IT'S TIME TO BUILD.",
     editorialBody:
-      "BUILD READY MEANS YOUR IDENTITY ALREADY EXISTS AS A COMPLETE SYSTEM. BEFORE BLDR CAN BEGIN, SITE 00 VERIFIES THE EVIDENCE BEHIND EACH IDENTITY DOMAIN SO NOTHING HAS TO BE INVENTED.",
-    editorialCta: "LET'S VERIFY YOUR IDENTITY AUTHORITY.",
+      "PERFECT. WE'LL VERIFY YOUR IDENTITY SYSTEM, CONFIRM THE ASSETS REQUIRED FOR PRODUCTION, AND ROUTE YOU INTO BLDR.",
+    editorialCta: "LET'S VERIFY YOUR BUILD KIT.",
     breadcrumb: 'IDENTITY / BUILD READY',
     iconId: 'build-ready',
-    landingTitle: 'IS YOUR IDENTITY READY TO BUILD FROM?',
-    landingSubtitle: 'SITE 00 MUST CONFIRM ENOUGH BRAND AUTHORITY TO BUILD WITHOUT INVENTING YOUR IDENTITY.',
-    landingType: 'verification',
-    /**
-     * Identity-authority verification flow (public redesign). Replaces the legacy
-     * services / scope / timeline branch, which was BLDR intake — not identity verification.
-     * Step bodies are rendered by the verification components, not the generic step form.
-     */
+    landingTitle: 'YOUR BRAND. YOUR BLUEPRINT. OUR EXECUTION.',
+    landingSubtitle: 'SELECT THE CAPABILITIES YOU NEED TO BUILD YOUR VISION.',
+    landingType: 'service-grid',
+    landingOptions: IDNTY_BUILD_READY_SERVICES,
     steps: [
-      { id: 'verification', title: 'IS YOUR IDENTITY READY TO BUILD FROM?', subtitle: 'SITE 00 MUST CONFIRM ENOUGH BRAND AUTHORITY TO BUILD WITHOUT INVENTING YOUR IDENTITY.', type: 'custom' },
-      { id: 'evidence', title: 'PROVIDE YOUR IDENTITY EVIDENCE', subtitle: 'ADD OR CONFIRM THE SOURCE MATERIAL SITE 00 SHOULD USE TO VERIFY EACH IDENTITY DOMAIN.', type: 'custom' },
-      { id: 'authority-check', title: 'WHAT STILL NEEDS AUTHORITY?', subtitle: 'REVIEW WHERE EVIDENCE IS MISSING OR STILL NEEDS CONFIRMATION BEFORE BLDR CAN UNLOCK.', type: 'custom' },
+      { id: 'services', title: 'HOW CAN SITE 00 BUILD YOUR VISION?', type: 'multi', options: IDNTY_BUILD_READY_SERVICES, required: true },
+      { id: 'scope', title: 'DESCRIBE WHAT NEEDS TO BE BUILT', type: 'textarea', maxLength: 500, required: true, placeholder: 'PAGES, FEATURES, INTEGRATIONS, LAUNCH TARGETS…' },
+      { id: 'timeline', title: 'WHAT IS YOUR TIMELINE?', type: 'single', options: IDNTY_TIMELINE_OPTIONS, required: true },
     ],
     processStrip: {
       id: 'process',
@@ -331,12 +342,14 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
         { id: 'deliver', label: 'DELIVER', description: 'YOU GET EVERYTHING YOU NEED TO LAUNCH WITH CONFIDENCE.' },
       ],
     },
-    primaryCta: 'BEGIN VERIFICATION →',
+    primaryCta: 'BOOK DISCOVERY CALL →',
     secondaryCta: 'BACK',
-    completionTitle: 'REVIEW VERIFICATION',
-    completionSubtitle: 'REVIEW YOUR IDENTITY AUTHORITY BEFORE SUBMITTING FOR VERIFICATION.',
-    /** No BLDR route here: BLDR is never unlocked from a client-side status. */
-    recommendedActions: [{ id: 'support', label: 'BOOK DISCOVERY CALL →', href: SITE00_ROUTES.support }],
+    completionTitle: 'READY TO START BUILDING.',
+    completionSubtitle: 'YOUR BUILD-READY ASSESSMENT IS COMPLETE.',
+    recommendedActions: [
+      { id: 'support', label: 'BOOK DISCOVERY CALL →', href: SITE00_ROUTES.support },
+      { id: 'bldr', label: 'CONTINUE TO BLDR →', href: SITE00_ROUTES.bldrState },
+    ],
   },
 };
 

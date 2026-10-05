@@ -89,6 +89,7 @@ export type InvestmentTier = {
   label: string;
   priceLabel: string;
   services: string[];
+  brandStateId: IdntyBrandStateIconId;
 };
 
 export const IDNTY_INVESTMENT_TIERS: InvestmentTier[] = [
@@ -97,24 +98,28 @@ export const IDNTY_INVESTMENT_TIERS: InvestmentTier[] = [
     label: 'FOUNDATION',
     priceLabel: 'FROM $2,500',
     services: ['LOGO', 'VISUAL IDENTITY', 'BRAND GUIDELINES'],
+    brandStateId: 'starting-at-zero',
   },
   {
     id: 'refine',
     label: 'REFINE',
     priceLabel: 'FROM $1,750',
     services: ['LOGO ENHANCEMENT', 'GUIDELINES', 'VISUAL SYSTEM'],
+    brandStateId: 'some-pieces',
   },
   {
     id: 'evolve',
     label: 'EVOLVE',
     priceLabel: 'FROM $3,500',
     services: ['REBRANDING', 'STRATEGY', 'VISUAL EVOLUTION'],
+    brandStateId: 'ready-evolution',
   },
   {
     id: 'build-ready-tier',
     label: 'BUILD READY',
     priceLabel: 'NO IDNTY PURCHASE REQUIRED',
     services: ['ASSET VERIFICATION', 'PROCEED TO BLDR'],
+    brandStateId: 'build-ready',
   },
 ];
 
@@ -136,8 +141,8 @@ export const IDNTY_HOMEPAGE_EXPANDED = {
 
 export const IDNTY_STATE_COPY = {
   headline: 'WHERE IS YOUR BRAND RIGHT NOW?',
-  subheadLine1: 'CHOOSE THE STATE THAT BEST DESCRIBES YOUR FOUNDATION.',
-  subheadLine2: "WE'LL DETERMINE WHAT YOU ACTUALLY NEED FROM THERE.",
+  subhead:
+    "CHOOSE THE STATE THAT BEST DESCRIBES YOUR FOUNDATION. WE'LL DETERMINE WHAT YOU ACTUALLY NEED FROM THERE.",
   investmentHeading: 'IDNTY / INVESTMENT',
   investmentSubhead: 'YOUR BRAND STATE DETERMINES THE SCOPE.',
   footer: 'YOUR STATE TELLS US WHERE TO START. ♦ YOUR ASSESSMENT DETERMINES WHAT YOU NEED.',

@@ -29,9 +29,6 @@ const SRC: Record<ProductionNavGlyph, string> = {
   activity,
 };
 
-/** Runtime URL of a founder master glyph (LIBRARY / ICONS reads these; the files stay the single source). */
-export const productionNavGlyphSrc = (g: ProductionNavGlyph): string => SRC[g];
-
 const CONCEPT: Record<ProductionNavGlyph, string> = {
   hub: 'pavilion',
   inbox: 'envelope-tray',

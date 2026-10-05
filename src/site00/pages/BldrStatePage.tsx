@@ -2,9 +2,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { EnvironmentShell } from '../components/environment/EnvironmentShell';
 import { Site00AppShell } from '../components/shell/Site00AppShell';
 import { Site00OriginLayoutSwitch } from '../components/shell/Site00OriginLayoutSwitch';
+import { Site00PublicShell } from '../components/shell/Site00PublicShell';
 import { BLDR_BUILD_CLASSES, BLDR_INVESTMENT_TIERS, BLDR_STATE_COPY } from '../config/builder';
 import { BuildClassCard, InvestmentColumn, WorkflowSummary } from '../components/workflow/WorkflowCards';
-import { BuilderStateExperience } from '../components/public-redesign/PublicServicePages';
+import { BldrClassificationMobile } from '../components/bldr/classification/BldrClassificationMobile';
 import { useSite00 } from '../state/Site00Context';
 import { useBldrAssessment } from '../hooks/useBldrAssessment';
 import { buildClassToAssessmentSlug } from '../config/bldr-assessment-brand-map';
@@ -28,9 +29,26 @@ export default function BldrStatePage() {
   };
 
   if (!isDesktop) {
-    // Public redesign: BUILDER command center + path panels (?path=). The legacy class selector below
-    // stays for the desktop-artboard branch until approved desktop authority exists.
-    return <BuilderStateExperience />;
+    const resumeHref =
+      hasResume && resumeTarget
+        ? resumeTarget
+        : null;
+
+    return (
+      <Site00PublicShell>
+        <div className="site00-page site00-page--bldr-classification">
+          <BldrClassificationMobile
+            onSelectClass={handleSelectClass}
+            resumeHref={resumeHref}
+            resumeLabel={
+              record.buildClass
+                ? `CONTINUE BUILD — ${record.buildClass.replace(/-/g, ' ').toUpperCase()}`
+                : undefined
+            }
+          />
+        </div>
+      </Site00PublicShell>
+    );
   }
 
   return (

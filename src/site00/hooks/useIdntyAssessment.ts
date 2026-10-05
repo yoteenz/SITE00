@@ -201,21 +201,6 @@ export function useIdntyAssessment() {
     [persist, intakeSync],
   );
 
-  /**
-   * Honest submission for the public redesign review step. Flushes the latest draft, submits the
-   * canonical intake, and only marks the local record complete AFTER the server confirms.
-   * Returns false (and leaves the record as a draft) when the intake could not be submitted.
-   */
-  const submitAssessment = useCallback(
-    async (stateId: IdntyAssessmentStateId): Promise<boolean> => {
-      const intake = await intakeSync.submit();
-      if (!intake) return false;
-      persist({ ...readRecord(), identityState: stateId, submissionStatus: 'complete', currentStep: 'complete' });
-      return true;
-    },
-    [persist, intakeSync],
-  );
-
   const setLoreAnswers = useCallback(
     (stepId: string, value: string | string[]) => {
       const current = readRecord();
@@ -323,7 +308,6 @@ export function useIdntyAssessment() {
     markStepComplete,
     setCurrentStep,
     completeAssessment,
-    submitAssessment,
     clearAssessment,
     getAnswersForState,
     getLoreAnswers,

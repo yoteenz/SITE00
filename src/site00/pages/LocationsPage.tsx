@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { PublicLocationsDirectory } from '../components/public-redesign/PublicLocationsDirectory';
+import { Site00MobileShell } from '../components/mobile/Site00MobileShell';
+import { LocationsDirectory } from '../components/locations/LocationsDirectory';
 import { SITE00_ROUTES } from '../config/routes';
 
 function useIsMobileViewport(): boolean {
@@ -39,7 +40,9 @@ export default function LocationsPage() {
 
   return (
     <div className={`site00-locations-page ${enterClass}`.trim()}>
-      <PublicLocationsDirectory />
+      <Site00MobileShell headerVariant="directory" enterClassName={enterClass ? 'site00-locations-page--enter' : ''}>
+        <LocationsDirectory />
+      </Site00MobileShell>
     </div>
   );
 }
