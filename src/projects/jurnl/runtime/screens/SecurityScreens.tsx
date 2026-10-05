@@ -687,22 +687,3 @@ export function EntryCompleteScreen() {
   );
 }
 
-/* ───────────── F01 → F02 FAMILY BOUNDARY ───────────── */
-export function FamilyBoundaryScreen() {
-  const { go } = useJurnl();
-  return (
-    <JurnlScreen screenId="F02.BOUNDARY" scene="boundary" family>
-      <div className="jrn-col__head jrn-hero-copy--wide" data-runtime-bounds="copy">
-        <JurnlLogo />
-        <JurnlHeadline lines={C.boundary.headline} />
-        <i className="jrn-rule" aria-hidden />
-        <p className="jrn-body">{C.boundary.body}</p>
-      </div>
-      <div className="jrn-cta" data-runtime-bounds="cta">
-        <JurnlButton variant="secondary" trigger="boundary-back" onClick={() => go('F01.13')}>
-          {C.boundary.back}
-        </JurnlButton>
-      </div>
-    </JurnlScreen>
-  );
-}

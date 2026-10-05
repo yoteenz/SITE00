@@ -1,29 +1,28 @@
 JURNL F02 — SETUP
-OPUS FOLLOW-ON NOTE
+OPUS FOLLOW-ON
 
-Read this after Sonnet has implemented the structural skeleton. This is a handoff note, not an Opus sprint.
+Grok completed the live family. This is one final family-wide structural, responsive, and interaction audit. It is not a rebuild.
 
-Sonnet owns routes, forms, inputs, buttons, progress, states, and interaction triggers, using the mounted plates and header assets. The authorities in `AUTHORITIES/` are visual targets. They are not runtime images.
+Inspect the complete live family. Compare every route to its authority. Test routing, states, interactions, responsiveness, app canvas bounds, and shared component consistency. Identify architectural debt. Fix structural defects. Preserve the successful Grok visual implementation.
 
-After Sonnet, Opus must:
+Live routes are registered on the JURNL runtime. The design viewport family control is F02 SETUP. The route selector lists all eleven screens. Reference mode uses the authority file on each contract screen, and the state's authority file when a state is selected.
 
-- Audit the Sonnet implementation against `MANIFEST/F02_IMPLEMENTATION_SOURCE_MAP.json` and the authorities.
-- Preserve working routes and data flow.
-- Refine component architecture.
-- Refine interactions.
-- Refine responsive behavior at 393×852, 834×1194, and 1440×900 without scaling the phone screen.
-- Refine viewport fit inside the app canvas. Live content stays inside the stage unless a screen is explicitly scrollable.
-- Compare the live screens with the F02 authorities.
-- Prepare the tree for a Grok final visual pass. Do not regenerate art in that audit.
+Start here:
 
-Leave these constraints in place:
+- `src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_LIVE_ROUTE_MATRIX.json`
+- `src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_SOURCE_MAP.json`
+- `src/projects/jurnl/data/f02/`
+- `src/projects/jurnl/runtime/screens/SetupScreens.tsx`
 
-- Family name SETUP. Family id `F02_SETUP`.
-- User-facing copy stays uppercase, except values the user typed.
-- Square-rounded controls only.
+Audit targets:
+
+- 393 × 852, 834 × 1194, and 1440 × 900. Do not scale the phone.
+- The app canvas stays the product stage. JURNL does not fill the SITE 00 host workspace.
+- Plates, emblems, and lockups stay on their own layers. Authorities stay reference images.
+- A lockup is the only header mark on F02.00 and on validation.
+- Square-rounded controls. Uppercase copy, except values the user typed.
 - No paywall, upgrade prompt, or pricing UI.
-- No F01 edits.
-- Do not replace a mounted plate or floral with a screenshot crop.
-- Founder visual approval is still pending until a later review says otherwise.
+- No F03 product screens. The completion handoff is the existing family-boundary screen at `today`.
+- Founder visual approval is still pending.
 
-Start file for the sources: `HANDOFF/SONNET_START_HERE.txt`.
+Do not regenerate art. Do not search OpenArt. Do not replace a mounted plate or floral with a screenshot crop.

@@ -7,6 +7,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
+import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
 import {
   browserKV,
   createDesignPreviewAuthAdapter,
@@ -98,10 +99,11 @@ function readJson<T>(raw: string | null, fallback: T): T {
   }
 }
 
-/** Resolve a screen id (`F01.03`), the F02 boundary (`F02`) or a raw route to a runtime-relative route. */
+/** Resolve a screen id (`F01.03`, `F02.01`), a family handoff (`F02`, `F03`) or a raw route. */
 export function resolveJurnlRoute(target: string): string {
   if (target === 'F02') return F01_FAMILY_BOUNDARY.route;
-  return F01_SCREENS.find((s) => s.id === target)?.route ?? target.replace(/^\/+/, '');
+  if (target === 'F03') return 'today';
+  return F01_SCREENS.find((s) => s.id === target)?.route ?? F02_SCREENS.find((s) => s.id === target)?.route ?? target.replace(/^\/+/, '');
 }
 
 export function JurnlStoreProvider({ basePath, mode, children }: { basePath: string; mode: 'design-preview' | 'production'; children: ReactNode }) {
@@ -201,9 +203,10 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   // Route → host (screen tree highlight) + family boundary.
   useEffect(() => {
     const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
-    const screen = f01ScreenForRoute(rel);
-    postToHost({ type: 'route', screenId: screen?.id ?? null, path: rel });
+    const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel);
+    postToHost({ type: 'route', screenId: screen?.id ?? (rel === 'today' ? 'F03' : null), path: rel });
     if (rel === F01_FAMILY_BOUNDARY.route) postToHost({ type: 'family-boundary', from: F01_FAMILY_BOUNDARY.from, to: F01_FAMILY_BOUNDARY.to });
+    if (rel === 'today') postToHost({ type: 'family-boundary', from: 'F02', to: 'F03' });
   }, [location.pathname, basePath, postToHost]);
 
   // `?overlay=` deep links and overlay states (design-workspace inspection) re-open on param change.

@@ -13490,3 +13490,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** The mounted files match the repair outputs byte-for-byte. Fourteen screens resolve to an emblem or a lockup. `F02.04` reuses emblem 004. Interaction sheets have no header mark. A lockup is the only header on `F02.00` and `F02.ST.VALIDATION`. Layer order is plate, botanical, lockup, live UI, interactions. Repair spend stays 15 generations and 2025 credits at 135 each. That rate is the repair class only. Visual status stays `IN_REVIEW`. No new generations.
 - **Changes:** Sonnet README, start-here file, implementation source map, component map, readiness file, mount report, and a ledger binding note. Canonical root remains `src/projects/jurnl/families/F02_SETUP/`.
 - **Conventions:** Header marks are mounted PNGs. Do not redraw them in CSS, type, emoji, or a generic icon, and do not bake them into the plate.
+
+---
+
+## 2026-10-05 — F02 SETUP live family
+
+- **Context:** This chat built the F02 SETUP visual package, a review ZIP, the botanical repair, the canonical mount, the repair binding, and then the live family. The family name is SETUP (`F02_SETUP`), not FINANCE. Sonnet is skipped. Grok owns the live pass. Opus gets one family-wide structural audit afterward.
+- **Topics covered:** Screen authorities as visual targets. Four shared plates. Thirteen emblems and two lockups. Twelve inherited icons. Code-only panels and buttons. Uppercase copy. Square-rounded controls. F01.13 continues into F02. F02.08 opens the F03 TODAY boundary only.
+- **Decisions / outcomes:** Route `setup` is now F02.00, THE SHAPE OF YOUR LIFE, on the arrival plate with the JURNL lockup. The old F02.BOUNDARY placeholder is gone. Eleven live routes cover the parent, eight children, and two grandchildren. Resume, connected, and validation are behaviors. Permission, add, and skip are paper sheets. The design viewport family control says F02 SETUP and lists every F02 route. Reference mode points at the authority files. Measured at 393×852, 834×1194, and 1440×900 with no page scroll and no horizontal overflow. Founder visual approval stays open. No new image generations. site00.com was not deployed.
+- **Changes:** `src/projects/jurnl/data/f02/`, `src/projects/jurnl/runtime/screens/SetupScreens.tsx`, `jurnl-setup.css`, the F02 contract in `src/projects/families.ts`, `F02_LIVE_ROUTE_MATRIX.json`, and `HANDOFF/README_OPUS_FOLLOWON.md`.
+- **Conventions:** Preserve the live Grok visuals in the Opus audit. Do not rebuild the family. Do not use a screen authority as the runtime background. A lockup is the only header mark on its screen.

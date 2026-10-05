@@ -4,7 +4,7 @@
   "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-SONNET-HANDOFF1",
   "canonical_root": "src/projects/jurnl/families/F02_SETUP",
   "production_package": "JURNL/F02_SETUP",
-  "runtime_wired": false,
+  "runtime_wired": true,
   "rule": "Screen authorities are visual targets. Environment plates, botanicals, and brand lockups are the runtime images. Do not search OpenArt.",
   "botanical_repair_binding": {
     "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-BOTANICAL-REPAIR-BINDING1",

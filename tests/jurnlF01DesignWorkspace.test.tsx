@@ -120,7 +120,8 @@ describe('VIEWPORT renders the JURNL project runtime', () => {
       expect(html, id).toContain(`data-testid="${id}"`);
     }
     for (let i = 0; i < 14; i++) expect(html).toContain(`value="F01.${String(i).padStart(2, '0')}"`);
-    expect(html).toContain('F02 SETUP BOUNDARY');
+    expect(html).toContain('F02 SETUP');
+    expect(html).not.toContain('F02 SETUP BOUNDARY');
     expect(html).toContain('href="/production/jurnl/design?mode=compiler&amp;inspect=gate"');
     expect(html).not.toContain('fixture-app-ndxbook');
   });
@@ -147,7 +148,8 @@ describe('VIEWPORT renders the JURNL project runtime', () => {
     const html = render('jurnl', 'viewport');
     expect(html).toContain('data-testid="design-viewport-family"');
     expect(html).toMatch(/<option value="F01" selected="">F01 ENTRY<\/option>/);
-    expect(html).toContain('F02 SETUP · NOT STARTED (BOUNDARY)');
+    expect(html).toContain('>F02 SETUP</option>');
+    expect(html).not.toContain('FINANCE');
     const fam = render('jurnl', 'viewport', '&family=F01&preset=DESKTOP');
     expect(fam).toMatch(/src="\/production\/jurnl\/runtime\/entry"/);
     expect(fam).toContain('data-target-w="1440" data-target-h="900"');

@@ -7,16 +7,19 @@ import { useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 // Type-only: the host's runtime mount contract (no host UI, styles or state cross into the project).
 import type { ProjectRuntimeProps } from '../../../site00/projectRuntime/projectRuntimeRegistry';
-import { F01_FAMILY_BOUNDARY, F01_SCREENS } from '../data/f01/screens';
+import { F01_SCREENS } from '../data/f01/screens';
+import { F02_SCREENS } from '../data/f02/screens';
 import { JurnlOverlayHostContext, JurnlSuccessBanner } from './components/primitives';
 import { JurnlEntitlementsProvider } from './monetization/JurnlEntitlements';
 import { JurnlStoreProvider, useJurnl } from './state/store';
 import { CreateAccountScreen, ReturningUnlockScreen, SignInScreen, VerifyEmailScreen, WelcomeScreen } from './screens/EntryScreens';
 import { ForgotPasswordScreen, NewPasswordScreen, ResetSentScreen, ResetSuccessScreen } from './screens/RecoveryScreens';
-import { BiometricSetupScreen, DeviceTrustScreen, EntryCompleteScreen, FamilyBoundaryScreen, PrivacyPrimerScreen, SecurityPrimerScreen } from './screens/SecurityScreens';
+import { BiometricSetupScreen, DeviceTrustScreen, EntryCompleteScreen, PrivacyPrimerScreen, SecurityPrimerScreen } from './screens/SecurityScreens';
+import { JURNL_F02_SCREEN_COMPONENTS, TodayBoundaryScreen } from './screens/SetupScreens';
 import './jurnl-runtime.css';
 import './jurnl-environment.css';
 import './jurnl-screens.css';
+import './jurnl-setup.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {
@@ -60,7 +63,11 @@ function JurnlRoutes() {
         const Screen = JURNL_F01_SCREEN_COMPONENTS[s.id];
         return <Route key={s.id} path={s.route} element={<Screen key={location.pathname} />} />;
       })}
-      <Route path={F01_FAMILY_BOUNDARY.route} element={<FamilyBoundaryScreen />} />
+      {F02_SCREENS.map((s) => {
+        const Screen = JURNL_F02_SCREEN_COMPONENTS[s.id];
+        return <Route key={s.id} path={s.route} element={<Screen key={location.pathname} />} />;
+      })}
+      <Route path="today" element={<TodayBoundaryScreen />} />
       <Route path="*" element={<EntryIndex />} />
     </Routes>
   );

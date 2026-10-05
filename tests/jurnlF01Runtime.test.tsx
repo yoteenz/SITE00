@@ -99,7 +99,7 @@ describe('F01 routing — every screen is a live route', () => {
   }
   it('F01 → F02 family boundary is a live route with the family transition', () => {
     const html = renderRuntime('setup');
-    expect(html).toContain('data-jrn-screen="F02.BOUNDARY"');
+    expect(html).toContain('data-jrn-screen="F02.00"');
     expect(html).toContain('data-transition="family"');
   });
   it('the runtime is registered for the generic project-runtime route', () => {
