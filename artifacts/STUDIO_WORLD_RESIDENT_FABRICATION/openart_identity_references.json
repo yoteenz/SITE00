@@ -1,0 +1,86 @@
+{
+  "projectId": "Q7IHYCEK3RPn2c1ConEG",
+  "uploadedAt": "2026-10-04T17:25:00.000Z",
+  "residents": {
+    "SW-001": {
+      "portraitRepoPath": "public/site00/production-authority-assets/shared/residents/studio-world-etta-vale-portrait.jpg",
+      "uploadId": "h5j5eTZfam3mnxVql57l",
+      "visualReference": {
+        "type": "image",
+        "id": "h5j5eTZfam3mnxVql57l",
+        "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+        "label": "SW-001 Etta Vale identity"
+      }
+    },
+    "SW-002": {
+      "portraitRepoPath": "public/site00/production-authority-assets/shared/residents/studio-world-zuri-xu-portrait.jpg",
+      "uploadId": "vle2d0B4VdhTDw8SXyqD",
+      "visualReference": {
+        "type": "image",
+        "id": "vle2d0B4VdhTDw8SXyqD",
+        "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+        "label": "SW-002 Zuri Xu identity"
+      }
+    },
+    "SW-003": {
+      "portraitRepoPath": "public/site00/production-authority-assets/shared/residents/studio-world-jules-mercer-portrait.jpg",
+      "uploadId": "SVgwHX31K3HViJKxHeiK",
+      "visualReference": {
+        "type": "image",
+        "id": "SVgwHX31K3HViJKxHeiK",
+        "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+        "label": "SW-003 Jules Mercer identity"
+      }
+    },
+    "SW-004": {
+      "portraitRepoPath": "public/site00/production-authority-assets/shared/residents/studio-world-noa-kline-portrait.jpg",
+      "uploadId": "UAcwfXEBhxIUJV9Tq2Id",
+      "visualReference": {
+        "type": "image",
+        "id": "UAcwfXEBhxIUJV9Tq2Id",
+        "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+        "label": "SW-004 Noa Kline identity"
+      }
+    },
+    "SW-005": {
+      "portraitRepoPath": "public/site00/production-authority-assets/shared/residents/studio-world-caspian-reed-portrait.jpg",
+      "uploadId": "amks2ddUaF2iQZ43zBwL",
+      "visualReference": {
+        "type": "image",
+        "id": "amks2ddUaF2iQZ43zBwL",
+        "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+        "label": "SW-005 Caspian Reed identity"
+      }
+    },
+    "SW-006": {
+      "portraitRepoPath": "public/site00/production-authority-assets/shared/residents/studio-world-iona-wells-portrait.jpg",
+      "uploadId": "4uKCpVNe4lVwuNphJ1ZE",
+      "visualReference": {
+        "type": "image",
+        "id": "4uKCpVNe4lVwuNphJ1ZE",
+        "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-iona-wells-portrait_1791134563887_0608de65.jpg",
+        "label": "SW-006 Iona Wells identity"
+      }
+    },
+    "SW-007": {
+      "portraitRepoPath": "public/site00/production-authority-assets/shared/residents/studio-world-marlowe-saint-portrait.jpg",
+      "uploadId": "Ya5qIVkyUDbpRo0aKtXn",
+      "visualReference": {
+        "type": "image",
+        "id": "Ya5qIVkyUDbpRo0aKtXn",
+        "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-marlowe-saint-portrait_1791134565681_6bd99c93.jpg",
+        "label": "SW-007 Marlowe Saint identity"
+      }
+    },
+    "SW-008": {
+      "portraitRepoPath": "public/site00/production-authority-assets/shared/residents/studio-world-elio-vahn-portrait.jpg",
+      "uploadId": "S4sMbvS3qX4uqoQ9RQvF",
+      "visualReference": {
+        "type": "image",
+        "id": "S4sMbvS3qX4uqoQ9RQvF",
+        "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-elio-vahn-portrait_1791134566261_78074c09.jpg",
+        "label": "SW-008 Elio Vahn identity"
+      }
+    }
+  }
+}

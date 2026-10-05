@@ -1,0 +1,1282 @@
+[
+  {
+    "residentId": "SW-001",
+    "frameNumber": 1,
+    "frameId": "01_FRONT_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "01_FRONT_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 01 CANONICAL PORTRAIT FRONT: straight-on, eye-level, neutral expression, chest-up, identity inspection frame, clean readable lighting.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_01_FRONT_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 2,
+    "frameId": "02_LEFT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "02_LEFT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 02 PORTRAIT LEFT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's left, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_02_LEFT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 3,
+    "frameId": "03_RIGHT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "03_RIGHT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 03 PORTRAIT RIGHT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's right, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_03_RIGHT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 4,
+    "frameId": "04_LEFT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "04_LEFT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 04 PORTRAIT LEFT PROFILE: true left profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_04_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 5,
+    "frameId": "05_RIGHT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "05_RIGHT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 05 PORTRAIT RIGHT PROFILE: true right profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_05_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 6,
+    "frameId": "06_REAR_HEAD",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "06_REAR_HEAD",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 06 REAR HEAD AND SHOULDERS: back of head and shoulders visible, hair geometry readable, neutral posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_06_REAR_HEAD.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 7,
+    "frameId": "07_FULL_FRONT",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "07_FULL_FRONT",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 07 FULL BODY FRONT: standing neutral, full body head to feet, no crop, feet fully visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_07_FULL_FRONT.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 8,
+    "frameId": "08_FULL_LEFT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "08_FULL_LEFT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 08 FULL BODY LEFT THREE-QUARTER: standing neutral, approximately 45 degrees left, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_08_FULL_LEFT_3Q.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 9,
+    "frameId": "09_FULL_RIGHT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "09_FULL_RIGHT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 09 FULL BODY RIGHT THREE-QUARTER: standing neutral, approximately 45 degrees right, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_09_FULL_RIGHT_3Q.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 10,
+    "frameId": "10_FULL_LEFT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "10_FULL_LEFT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 10 FULL BODY LEFT PROFILE: true left profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_10_FULL_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 11,
+    "frameId": "11_FULL_RIGHT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "11_FULL_RIGHT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 11 FULL BODY RIGHT PROFILE: true right profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_11_FULL_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 12,
+    "frameId": "12_FULL_BACK",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "12_FULL_BACK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 12 FULL BODY BACK: straight rear view, full body, feet visible, hair and outfit continuity from front.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_12_FULL_BACK.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 13,
+    "frameId": "13_SEATED",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "13_SEATED",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 13 SEATED FRONT NEUTRAL: seated naturally, three-quarter or full body visible, relaxed but identity-readable posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_13_SEATED.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 14,
+    "frameId": "14_CONVERSATIONAL",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "14_CONVERSATIONAL",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 14 STANDING CONVERSATIONAL: natural relaxed posture, subtle natural hand placement, not theatrical, full or three-quarter body.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_14_CONVERSATIONAL.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 15,
+    "frameId": "15_WALK",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "15_WALK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 15 NATURAL WALK: walking naturally, full body, readable body mechanics, minimal motion blur, mid-stride.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_15_WALK.png"
+  },
+  {
+    "residentId": "SW-001",
+    "frameNumber": 16,
+    "frameId": "16_DOCUMENTARY",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "16_DOCUMENTARY",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ETTA VALE — Creative Director / Founding Presence (Studio World resident SW-001).\n\nWardrobe (single baseline, consistent across all 16 frames): Founding creative director baseline: refined black or charcoal tailored blazer over minimal dark top, subtle jewelry, professional studio leadership look consistent with mounted portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 16 DOCUMENTARY CAMERA-AWARE: subtle awareness of camera, natural workplace documentary energy, still identity-readable, not dramatic fashion editorial.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "h5j5eTZfam3mnxVql57l",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-etta-vale-portrait_1791134487016_9bb4d7e6.jpg",
+      "label": "SW-001 Etta Vale identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_16_DOCUMENTARY.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 1,
+    "frameId": "01_FRONT_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "01_FRONT_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 01 CANONICAL PORTRAIT FRONT: straight-on, eye-level, neutral expression, chest-up, identity inspection frame, clean readable lighting.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_01_FRONT_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 2,
+    "frameId": "02_LEFT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "02_LEFT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 02 PORTRAIT LEFT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's left, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_02_LEFT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 3,
+    "frameId": "03_RIGHT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "03_RIGHT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 03 PORTRAIT RIGHT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's right, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_03_RIGHT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 4,
+    "frameId": "04_LEFT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "04_LEFT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 04 PORTRAIT LEFT PROFILE: true left profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_04_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 5,
+    "frameId": "05_RIGHT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "05_RIGHT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 05 PORTRAIT RIGHT PROFILE: true right profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_05_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 6,
+    "frameId": "06_REAR_HEAD",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "06_REAR_HEAD",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 06 REAR HEAD AND SHOULDERS: back of head and shoulders visible, hair geometry readable, neutral posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/02_FACE_GEOMETRY/SW-002_06_REAR_HEAD.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 7,
+    "frameId": "07_FULL_FRONT",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "07_FULL_FRONT",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 07 FULL BODY FRONT: standing neutral, full body head to feet, no crop, feet fully visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_07_FULL_FRONT.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 8,
+    "frameId": "08_FULL_LEFT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "08_FULL_LEFT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 08 FULL BODY LEFT THREE-QUARTER: standing neutral, approximately 45 degrees left, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_08_FULL_LEFT_3Q.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 9,
+    "frameId": "09_FULL_RIGHT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "09_FULL_RIGHT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 09 FULL BODY RIGHT THREE-QUARTER: standing neutral, approximately 45 degrees right, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_09_FULL_RIGHT_3Q.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 10,
+    "frameId": "10_FULL_LEFT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "10_FULL_LEFT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 10 FULL BODY LEFT PROFILE: true left profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_10_FULL_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 11,
+    "frameId": "11_FULL_RIGHT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "11_FULL_RIGHT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 11 FULL BODY RIGHT PROFILE: true right profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_11_FULL_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 12,
+    "frameId": "12_FULL_BACK",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "12_FULL_BACK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 12 FULL BODY BACK: straight rear view, full body, feet visible, hair and outfit continuity from front.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/03_BODY_GEOMETRY/SW-002_12_FULL_BACK.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 13,
+    "frameId": "13_SEATED",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "13_SEATED",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 13 SEATED FRONT NEUTRAL: seated naturally, three-quarter or full body visible, relaxed but identity-readable posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/04_NATURAL_POSE/SW-002_13_SEATED.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 14,
+    "frameId": "14_CONVERSATIONAL",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "14_CONVERSATIONAL",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 14 STANDING CONVERSATIONAL: natural relaxed posture, subtle natural hand placement, not theatrical, full or three-quarter body.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/04_NATURAL_POSE/SW-002_14_CONVERSATIONAL.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 15,
+    "frameId": "15_WALK",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "15_WALK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 15 NATURAL WALK: walking naturally, full body, readable body mechanics, minimal motion blur, mid-stride.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/04_NATURAL_POSE/SW-002_15_WALK.png"
+  },
+  {
+    "residentId": "SW-002",
+    "frameNumber": 16,
+    "frameId": "16_DOCUMENTARY",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "16_DOCUMENTARY",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: ZURI XU — Strategy Director / Client Intelligence / Office Guide (Studio World resident SW-002).\n\nWardrobe (single baseline, consistent across all 16 frames): Beige or warm neutral architectural suit / structured blazer and trousers as in canonical portrait; minimal accessories; strategy-office guide presence.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 16 DOCUMENTARY CAMERA-AWARE: subtle awareness of camera, natural workplace documentary energy, still identity-readable, not dramatic fashion editorial.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "vle2d0B4VdhTDw8SXyqD",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-zuri-xu-portrait_1791134559400_0162b131.jpg",
+      "label": "SW-002 Zuri Xu identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-002_ZURI_XU/04_NATURAL_POSE/SW-002_16_DOCUMENTARY.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 1,
+    "frameId": "01_FRONT_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "01_FRONT_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 01 CANONICAL PORTRAIT FRONT: straight-on, eye-level, neutral expression, chest-up, identity inspection frame, clean readable lighting.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_01_FRONT_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 2,
+    "frameId": "02_LEFT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "02_LEFT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 02 PORTRAIT LEFT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's left, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_02_LEFT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 3,
+    "frameId": "03_RIGHT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "03_RIGHT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 03 PORTRAIT RIGHT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's right, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_03_RIGHT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 4,
+    "frameId": "04_LEFT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "04_LEFT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 04 PORTRAIT LEFT PROFILE: true left profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_04_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 5,
+    "frameId": "05_RIGHT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "05_RIGHT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 05 PORTRAIT RIGHT PROFILE: true right profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_05_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 6,
+    "frameId": "06_REAR_HEAD",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "06_REAR_HEAD",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 06 REAR HEAD AND SHOULDERS: back of head and shoulders visible, hair geometry readable, neutral posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/02_FACE_GEOMETRY/SW-003_06_REAR_HEAD.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 7,
+    "frameId": "07_FULL_FRONT",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "07_FULL_FRONT",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 07 FULL BODY FRONT: standing neutral, full body head to feet, no crop, feet fully visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_07_FULL_FRONT.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 8,
+    "frameId": "08_FULL_LEFT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "08_FULL_LEFT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 08 FULL BODY LEFT THREE-QUARTER: standing neutral, approximately 45 degrees left, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_08_FULL_LEFT_3Q.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 9,
+    "frameId": "09_FULL_RIGHT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "09_FULL_RIGHT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 09 FULL BODY RIGHT THREE-QUARTER: standing neutral, approximately 45 degrees right, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_09_FULL_RIGHT_3Q.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 10,
+    "frameId": "10_FULL_LEFT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "10_FULL_LEFT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 10 FULL BODY LEFT PROFILE: true left profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_10_FULL_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 11,
+    "frameId": "11_FULL_RIGHT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "11_FULL_RIGHT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 11 FULL BODY RIGHT PROFILE: true right profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_11_FULL_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 12,
+    "frameId": "12_FULL_BACK",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "12_FULL_BACK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 12 FULL BODY BACK: straight rear view, full body, feet visible, hair and outfit continuity from front.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/03_BODY_GEOMETRY/SW-003_12_FULL_BACK.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 13,
+    "frameId": "13_SEATED",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "13_SEATED",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 13 SEATED FRONT NEUTRAL: seated naturally, three-quarter or full body visible, relaxed but identity-readable posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/04_NATURAL_POSE/SW-003_13_SEATED.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 14,
+    "frameId": "14_CONVERSATIONAL",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "14_CONVERSATIONAL",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 14 STANDING CONVERSATIONAL: natural relaxed posture, subtle natural hand placement, not theatrical, full or three-quarter body.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/04_NATURAL_POSE/SW-003_14_CONVERSATIONAL.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 15,
+    "frameId": "15_WALK",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "15_WALK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 15 NATURAL WALK: walking naturally, full body, readable body mechanics, minimal motion blur, mid-stride.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/04_NATURAL_POSE/SW-003_15_WALK.png"
+  },
+  {
+    "residentId": "SW-003",
+    "frameNumber": 16,
+    "frameId": "16_DOCUMENTARY",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "16_DOCUMENTARY",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: JULES MERCER — Front Office / Concierge / Tenant Relations (Studio World resident SW-003).\n\nWardrobe (single baseline, consistent across all 16 frames): Front-office concierge baseline matching mounted Jules portrait (not locs candidate cluster): hospitality-professional attire, warm approachable tailoring.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 16 DOCUMENTARY CAMERA-AWARE: subtle awareness of camera, natural workplace documentary energy, still identity-readable, not dramatic fashion editorial.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "SVgwHX31K3HViJKxHeiK",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-jules-mercer-portrait_1791134560122_678154ab.jpg",
+      "label": "SW-003 Jules Mercer identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-003_JULES_MERCER/04_NATURAL_POSE/SW-003_16_DOCUMENTARY.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 1,
+    "frameId": "01_FRONT_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "01_FRONT_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 01 CANONICAL PORTRAIT FRONT: straight-on, eye-level, neutral expression, chest-up, identity inspection frame, clean readable lighting.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_01_FRONT_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 2,
+    "frameId": "02_LEFT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "02_LEFT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 02 PORTRAIT LEFT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's left, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_02_LEFT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 3,
+    "frameId": "03_RIGHT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "03_RIGHT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 03 PORTRAIT RIGHT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's right, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_03_RIGHT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 4,
+    "frameId": "04_LEFT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "04_LEFT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 04 PORTRAIT LEFT PROFILE: true left profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_04_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 5,
+    "frameId": "05_RIGHT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "05_RIGHT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 05 PORTRAIT RIGHT PROFILE: true right profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_05_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 6,
+    "frameId": "06_REAR_HEAD",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "06_REAR_HEAD",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 06 REAR HEAD AND SHOULDERS: back of head and shoulders visible, hair geometry readable, neutral posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/02_FACE_GEOMETRY/SW-004_06_REAR_HEAD.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 7,
+    "frameId": "07_FULL_FRONT",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "07_FULL_FRONT",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 07 FULL BODY FRONT: standing neutral, full body head to feet, no crop, feet fully visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_07_FULL_FRONT.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 8,
+    "frameId": "08_FULL_LEFT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "08_FULL_LEFT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 08 FULL BODY LEFT THREE-QUARTER: standing neutral, approximately 45 degrees left, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_08_FULL_LEFT_3Q.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 9,
+    "frameId": "09_FULL_RIGHT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "09_FULL_RIGHT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 09 FULL BODY RIGHT THREE-QUARTER: standing neutral, approximately 45 degrees right, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_09_FULL_RIGHT_3Q.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 10,
+    "frameId": "10_FULL_LEFT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "10_FULL_LEFT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 10 FULL BODY LEFT PROFILE: true left profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_10_FULL_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 11,
+    "frameId": "11_FULL_RIGHT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "11_FULL_RIGHT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 11 FULL BODY RIGHT PROFILE: true right profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_11_FULL_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 12,
+    "frameId": "12_FULL_BACK",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "12_FULL_BACK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 12 FULL BODY BACK: straight rear view, full body, feet visible, hair and outfit continuity from front.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/03_BODY_GEOMETRY/SW-004_12_FULL_BACK.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 13,
+    "frameId": "13_SEATED",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "13_SEATED",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 13 SEATED FRONT NEUTRAL: seated naturally, three-quarter or full body visible, relaxed but identity-readable posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/04_NATURAL_POSE/SW-004_13_SEATED.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 14,
+    "frameId": "14_CONVERSATIONAL",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "14_CONVERSATIONAL",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 14 STANDING CONVERSATIONAL: natural relaxed posture, subtle natural hand placement, not theatrical, full or three-quarter body.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/04_NATURAL_POSE/SW-004_14_CONVERSATIONAL.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 15,
+    "frameId": "15_WALK",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "15_WALK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 15 NATURAL WALK: walking naturally, full body, readable body mechanics, minimal motion blur, mid-stride.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/04_NATURAL_POSE/SW-004_15_WALK.png"
+  },
+  {
+    "residentId": "SW-004",
+    "frameNumber": 16,
+    "frameId": "16_DOCUMENTARY",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "16_DOCUMENTARY",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: NOA KLINE — Systems Architect / Studio OS Liaison (Studio World resident SW-004).\n\nWardrobe (single baseline, consistent across all 16 frames): Systems architect baseline: clean modern tech-studio layers, dark or neutral structured jacket, practical minimal styling from canonical portrait.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 16 DOCUMENTARY CAMERA-AWARE: subtle awareness of camera, natural workplace documentary energy, still identity-readable, not dramatic fashion editorial.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "UAcwfXEBhxIUJV9Tq2Id",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-noa-kline-portrait_1791134560786_1f5d0647.jpg",
+      "label": "SW-004 Noa Kline identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-004_NOA_KLINE/04_NATURAL_POSE/SW-004_16_DOCUMENTARY.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 1,
+    "frameId": "01_FRONT_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "01_FRONT_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 01 CANONICAL PORTRAIT FRONT: straight-on, eye-level, neutral expression, chest-up, identity inspection frame, clean readable lighting.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_01_FRONT_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 2,
+    "frameId": "02_LEFT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "02_LEFT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 02 PORTRAIT LEFT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's left, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_02_LEFT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 3,
+    "frameId": "03_RIGHT_3Q_PORTRAIT",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "03_RIGHT_3Q_PORTRAIT",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 03 PORTRAIT RIGHT THREE-QUARTER: head and chest turned approximately 45 degrees to subject's right, neutral expression, chest-up.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_03_RIGHT_3Q_PORTRAIT.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 4,
+    "frameId": "04_LEFT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "04_LEFT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 04 PORTRAIT LEFT PROFILE: true left profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_04_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 5,
+    "frameId": "05_RIGHT_PROFILE",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "05_RIGHT_PROFILE",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 05 PORTRAIT RIGHT PROFILE: true right profile, chest-up, neutral expression.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_05_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 6,
+    "frameId": "06_REAR_HEAD",
+    "folder": "02_FACE_GEOMETRY",
+    "fileSuffix": "06_REAR_HEAD",
+    "aspectRatio": "3:4",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 06 REAR HEAD AND SHOULDERS: back of head and shoulders visible, hair geometry readable, neutral posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/02_FACE_GEOMETRY/SW-005_06_REAR_HEAD.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 7,
+    "frameId": "07_FULL_FRONT",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "07_FULL_FRONT",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 07 FULL BODY FRONT: standing neutral, full body head to feet, no crop, feet fully visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_07_FULL_FRONT.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 8,
+    "frameId": "08_FULL_LEFT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "08_FULL_LEFT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 08 FULL BODY LEFT THREE-QUARTER: standing neutral, approximately 45 degrees left, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_08_FULL_LEFT_3Q.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 9,
+    "frameId": "09_FULL_RIGHT_3Q",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "09_FULL_RIGHT_3Q",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 09 FULL BODY RIGHT THREE-QUARTER: standing neutral, approximately 45 degrees right, full body, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_09_FULL_RIGHT_3Q.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 10,
+    "frameId": "10_FULL_LEFT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "10_FULL_LEFT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 10 FULL BODY LEFT PROFILE: true left profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_10_FULL_LEFT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 11,
+    "frameId": "11_FULL_RIGHT_PROFILE",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "11_FULL_RIGHT_PROFILE",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 11 FULL BODY RIGHT PROFILE: true right profile, full body standing, feet visible.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_11_FULL_RIGHT_PROFILE.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 12,
+    "frameId": "12_FULL_BACK",
+    "folder": "03_BODY_GEOMETRY",
+    "fileSuffix": "12_FULL_BACK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 12 FULL BODY BACK: straight rear view, full body, feet visible, hair and outfit continuity from front.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/03_BODY_GEOMETRY/SW-005_12_FULL_BACK.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 13,
+    "frameId": "13_SEATED",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "13_SEATED",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 13 SEATED FRONT NEUTRAL: seated naturally, three-quarter or full body visible, relaxed but identity-readable posture.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/04_NATURAL_POSE/SW-005_13_SEATED.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 14,
+    "frameId": "14_CONVERSATIONAL",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "14_CONVERSATIONAL",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 14 STANDING CONVERSATIONAL: natural relaxed posture, subtle natural hand placement, not theatrical, full or three-quarter body.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/04_NATURAL_POSE/SW-005_14_CONVERSATIONAL.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 15,
+    "frameId": "15_WALK",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "15_WALK",
+    "aspectRatio": "9:16",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 15 NATURAL WALK: walking naturally, full body, readable body mechanics, minimal motion blur, mid-stride.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/04_NATURAL_POSE/SW-005_15_WALK.png"
+  },
+  {
+    "residentId": "SW-005",
+    "frameNumber": 16,
+    "frameId": "16_DOCUMENTARY",
+    "folder": "04_NATURAL_POSE",
+    "fileSuffix": "16_DOCUMENTARY",
+    "aspectRatio": "4:3",
+    "prompt": "REFERENCE IMAGE = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE: face, facial proportions, age read, ethnicity, skin tone, eye structure, nose, lips, jaw, hairline, hair length, hair color, hair texture, part, overall body proportions.\nOnly change: camera angle, body angle, pose, framing, and expression exactly as specified.\nDo not reinterpret. Do not beautify into a different person. Do not stylize identity away.\nCharacter fabrication reference — NOT fashion campaign, NOT glamour editorial, NOT cinematic poster.\n\nSubject: CASPIAN REED — World Director / Environmental Storyteller (Studio World resident SW-005).\n\nWardrobe (single baseline, consistent across all 16 frames): World director baseline: creative director outerwear / layered storytelling wardrobe from mounted portrait, earthy or cinematic neutrals.\n\nEnvironment: neutral softly architectural Studio World fabrication bay, clean inspectable background, soft controlled lighting, no distracting props, identity readability priority.\n\nFrame 16 DOCUMENTARY CAMERA-AWARE: subtle awareness of camera, natural workplace documentary energy, still identity-readable, not dramatic fashion editorial.\n\nPhotorealistic fabrication reference photography, high detail, natural skin, correct anatomy, feet visible when full-body.",
+    "visualReference": {
+      "type": "image",
+      "id": "amks2ddUaF2iQZ43zBwL",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/studio-world-caspian-reed-portrait_1791134561170_efc6331e.jpg",
+      "label": "SW-005 Caspian Reed identity"
+    },
+    "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-005_CASPIAN_REED/04_NATURAL_POSE/SW-005_16_DOCUMENTARY.png"
+  }
+]
