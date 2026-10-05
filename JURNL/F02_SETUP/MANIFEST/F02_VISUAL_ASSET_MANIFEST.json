@@ -90,6 +90,293 @@
       "qa_status": "PASS_PROVISIONAL",
       "approval_status": "IN_REVIEW",
       "lineage": "F02.07 screen authority, UI removed."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.001",
+      "source_screen": "F02.00",
+      "asset_class": "BOTANICAL",
+      "purpose": "Graphic dusty-rose sprig. Parent only.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.001.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.00"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "FHM1gg4cjJz4gu4jfH84",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.00 header mark \u2192 F02.BOTANICAL.EMBLEM.001. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.002",
+      "source_screen": "F02.01",
+      "asset_class": "BOTANICAL",
+      "purpose": "Small pale rose on a short stem.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.002.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.01"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "pMOISAh33KNjq9DDZ9tT",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.01 header mark \u2192 F02.BOTANICAL.EMBLEM.002. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.003",
+      "source_screen": "F02.02",
+      "asset_class": "BOTANICAL",
+      "purpose": "Blush rose stem with a bud.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.003.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.02"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "k3SOcitavf9X1HTFs8aN",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.02 header mark \u2192 F02.BOTANICAL.EMBLEM.003. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.004",
+      "source_screen": "F02.03",
+      "asset_class": "BOTANICAL",
+      "purpose": "Fine white flower spray. Shared by income and commitments.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.004.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.03",
+        "F02.04"
+      ],
+      "shared_or_unique": "SHARED",
+      "generation_id": "KTYCKWywk3tMv11NTWbi",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.03 header mark \u2192 F02.BOTANICAL.EMBLEM.004. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.005",
+      "source_screen": "F02.05",
+      "asset_class": "BOTANICAL",
+      "purpose": "Olive branch with white blossoms.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.005.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.05"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "j7zVJALJly9HhqqZxGjD",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.05 header mark \u2192 F02.BOTANICAL.EMBLEM.005. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.006",
+      "source_screen": "F02.06",
+      "asset_class": "BOTANICAL",
+      "purpose": "Small pale rose on a thin stem.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.006.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.06"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "DSVV3vSXsJovebJXHLZi",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.06 header mark \u2192 F02.BOTANICAL.EMBLEM.006. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.007",
+      "source_screen": "F02.07",
+      "asset_class": "BOTANICAL",
+      "purpose": "Large open cream rose.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.007.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.07"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "lgjlP9cewMRrGmNiTsLg",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.07 header mark \u2192 F02.BOTANICAL.EMBLEM.007. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.008",
+      "source_screen": "F02.08",
+      "asset_class": "BOTANICAL",
+      "purpose": "Coral rose and bud.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.008.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.08"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "XXzZYM98bTzOq4rShdC6",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.08 header mark \u2192 F02.BOTANICAL.EMBLEM.008. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.009",
+      "source_screen": "F02.02.1",
+      "asset_class": "BOTANICAL",
+      "purpose": "Upright dark red rose buds.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.009.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.02.1"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "2iCYNNVI5ruUFyh19ED1",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.02.1 header mark \u2192 F02.BOTANICAL.EMBLEM.009. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.010",
+      "source_screen": "F02.05.1",
+      "asset_class": "BOTANICAL",
+      "purpose": "White flowers with broader leaves.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.010.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.05.1"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "oZHVwHoRTpcVYxaRkz9c",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.05.1 header mark \u2192 F02.BOTANICAL.EMBLEM.010. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.011",
+      "source_screen": "F02.ST.RESUME",
+      "asset_class": "BOTANICAL",
+      "purpose": "Pale rose and bud.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.011.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.ST.RESUME"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "Es9ngT2m9i9Jjvn0Eas3",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.ST.RESUME header mark \u2192 F02.BOTANICAL.EMBLEM.011. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.012",
+      "source_screen": "F02.ST.VALIDATION",
+      "asset_class": "BOTANICAL",
+      "purpose": "Burgundy rose and bud.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.012.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.ST.VALIDATION"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "0kONPLdJmekt013nl1Cb",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.ST.VALIDATION header mark \u2192 F02.BOTANICAL.EMBLEM.012. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BOTANICAL.EMBLEM.013",
+      "source_screen": "F02.ST.CONNECTED",
+      "asset_class": "BOTANICAL",
+      "purpose": "Dusty rosebud on a long stem.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/BOTANICALS/F02.BOTANICAL.EMBLEM.013.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.ST.CONNECTED"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "CCINpWE4yJokyHWrZEaA",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.ST.CONNECTED header mark \u2192 F02.BOTANICAL.EMBLEM.013. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BRANDLOCKUP.JURNL.001",
+      "source_screen": "F02.00",
+      "asset_class": "DECORATIVE",
+      "purpose": "Rose sprig, vertical rule, and rose JURNL.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/LOCKUPS/F02.BRANDLOCKUP.JURNL.001.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.00"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "WKHcpdQ32yi62oQpf7pq",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.00 header mark \u2192 F02.BRANDLOCKUP.JURNL.001. Fresh isolation on magenta, then keyed. Not a screenshot crop."
+    },
+    {
+      "asset_id": "F02.BRANDLOCKUP.JURNL_SETUP.001",
+      "source_screen": "F02.ST.VALIDATION",
+      "asset_class": "DECORATIVE",
+      "purpose": "Burgundy rose with JURNL. SETUP.",
+      "runtime_role": "Floating header asset above the environment plate. Not part of the plate.",
+      "file_path": "JURNL/F02_SETUP/ASSETS/LOCKUPS/F02.BRANDLOCKUP.JURNL_SETUP.001.png",
+      "format": "png",
+      "transparency": true,
+      "member_screens": [
+        "F02.ST.VALIDATION"
+      ],
+      "shared_or_unique": "UNIQUE",
+      "generation_id": "JTPMToA2X4k8yXZXTZOf",
+      "credit_cost": 135,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.ST.VALIDATION header mark \u2192 F02.BRANDLOCKUP.JURNL_SETUP.001. Fresh isolation on magenta, then keyed. Not a screenshot crop."
     }
-  ]
+  ],
+  "botanical_repair": "P0.JURNL.F02-BOTANICAL-BRAND-ASSET-REPAIR1"
 }
