@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-05T18:11:05.020Z",
+  "generatedAt": "2026-10-05T20:20:52.543Z",
   "base": "http://127.0.0.1:5174",
   "routes": {
     "total": 63,
@@ -113,8 +113,15 @@
       "query": "",
       "plate": "ENV.ARRIVAL",
       "railLeft": 34,
-      "railRight": 204,
-      "envEdge": 218,
+      "railRight": 198,
+      "envClearance": {
+        "text": 50,
+        "box": 28,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "THE SHAPE",
@@ -140,44 +147,44 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.7,
-          "min": 12.02
+          "p10": 13.31,
+          "min": 11.93
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.43,
-          "min": 12.46
+          "p10": 13.45,
+          "min": 12.48
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.62,
-          "min": 12.47
+          "p10": 12.82,
+          "min": 11.15
         },
         {
           "kind": "eyebrow",
           "large": false,
-          "p10": 11.61,
-          "min": 10.92
+          "p10": 10.19,
+          "min": 9.77
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 11.14,
-          "min": 10.01
+          "p10": 10.08,
+          "min": 9.62
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 11.32,
-          "min": 9.99
+          "p10": 10.01,
+          "min": 9.8
         },
         {
           "kind": "foot",
           "large": false,
-          "p10": 10.54,
-          "min": 9.9
+          "p10": 10.97,
+          "min": 10.3
         },
         {
           "kind": "cta:CONTINUE",
@@ -188,8 +195,8 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 16.52,
-          "min": 16.38
+          "p10": 16.23,
+          "min": 16.23
         },
         {
           "kind": "row",
@@ -206,11 +213,11 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 16.27,
-          "min": 16.23
+          "p10": 16.38,
+          "min": 16.24
         }
       ],
-      "minContrast": 10.54,
+      "minContrast": 10.01,
       "icons": [],
       "issues": [],
       "pageErrors": [],
@@ -223,8 +230,15 @@
       "query": "state=resume",
       "plate": "ENV.ARRIVAL",
       "railLeft": 34,
-      "railRight": 204,
-      "envEdge": 218,
+      "railRight": 198,
+      "envClearance": {
+        "text": 55,
+        "box": 25,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "CONTINUE",
@@ -246,38 +260,38 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.62,
-          "min": 12.36
+          "p10": 13.34,
+          "min": 12.48
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.32,
-          "min": 12.46
+          "p10": 13.88,
+          "min": 12.37
         },
         {
           "kind": "eyebrow",
           "large": false,
-          "p10": 11.45,
-          "min": 10.92
+          "p10": 10.03,
+          "min": 9.75
         },
         {
           "kind": "word",
           "large": true,
-          "p10": 3.28,
-          "min": 2.74
+          "p10": 3.64,
+          "min": 3.16
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 10.68,
-          "min": 9.71
+          "p10": 10.48,
+          "min": 8.69
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 10.85,
-          "min": 9.79
+          "p10": 9.99,
+          "min": 9.43
         },
         {
           "kind": "cta:CONTINUE SETUP",
@@ -288,25 +302,25 @@
         {
           "kind": "cta:START OVER",
           "large": false,
-          "p10": 12.94,
-          "min": 12.72
+          "p10": 12.7,
+          "min": 12.62
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 16.53,
-          "min": 16.39
+          "p10": 16.27,
+          "min": 16.23
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 16.52,
-          "min": 16.52
+          "p10": 16.23,
+          "min": 16.23
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 16.39,
+          "p10": 16.23,
           "min": 16.23
         },
         {
@@ -316,7 +330,7 @@
           "min": 16.23
         }
       ],
-      "minContrast": 3.28,
+      "minContrast": 3.64,
       "icons": [],
       "issues": [],
       "pageErrors": [],
@@ -329,8 +343,15 @@
       "query": "",
       "plate": "ENV.ARRIVAL",
       "railLeft": 34,
-      "railRight": 204,
-      "envEdge": 218,
+      "railRight": 198,
+      "envClearance": {
+        "text": 61,
+        "box": 33,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHO THIS",
@@ -342,8 +363,8 @@
         }
       ],
       "helper": {
-        "lines": 2,
-        "lastLineWords": 4,
+        "lines": 3,
+        "lastLineWords": 3,
         "text": "THE HOUSEHOLD JURNL WILL KEEP IN VIEW."
       },
       "rows": [
@@ -356,11 +377,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 268.03125,
-          "rowMid": 268.03125,
-          "rowRight": 204,
-          "trailingRight": 193,
-          "trailingMid": 268.03125,
+          "firstLineMid": 282.90625,
+          "rowMid": 282.90625,
+          "rowRight": 198,
+          "trailingRight": 187,
+          "trailingMid": 282.90625,
           "h": 42
         },
         {
@@ -372,11 +393,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 316.03125,
-          "rowMid": 316.03125,
-          "rowRight": 204,
-          "trailingRight": 193,
-          "trailingMid": 316.03125,
+          "firstLineMid": 330.90625,
+          "rowMid": 330.90625,
+          "rowRight": 198,
+          "trailingRight": 187,
+          "trailingMid": 330.90625,
           "h": 42
         }
       ],
@@ -385,53 +406,59 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.62,
-          "min": 12.55
+          "p10": 13.52,
+          "min": 11.15
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.65,
-          "min": 12.47
+          "p10": 12.82,
+          "min": 11.15
         },
         {
           "kind": "eyebrow",
           "large": false,
-          "p10": 10.16,
-          "min": 9.7
+          "p10": 12.06,
+          "min": 11.74
         },
         {
           "kind": "word",
           "large": true,
-          "p10": 3.76,
-          "min": 3.36
+          "p10": 3.59,
+          "min": 3.35
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 11.37,
-          "min": 9.95
+          "p10": 10,
+          "min": 9.8
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 10.18,
-          "min": 9.72
+          "p10": 9.9,
+          "min": 9.62
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.81,
+          "min": 9.52
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 12.73,
-          "min": 12.72
+          "p10": 12.82,
+          "min": 12.73
         },
         {
           "kind": "row",
           "large": false,
           "p10": 12.84,
-          "min": 12.73
+          "min": 12.81
         }
       ],
-      "minContrast": 3.76,
+      "minContrast": 3.59,
       "icons": [
         "back"
       ],
@@ -446,8 +473,15 @@
       "query": "",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 73,
+        "box": 28,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -459,8 +493,8 @@
         }
       ],
       "helper": {
-        "lines": 2,
-        "lastLineWords": 6,
+        "lines": 3,
+        "lastLineWords": 3,
         "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
       },
       "rows": [
@@ -470,14 +504,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 268.03125,
+          "iconMid": 282.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 268.03125,
-          "rowMid": 268.03125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 268.03125,
+          "firstLineMid": 282.90625,
+          "rowMid": 282.90625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 282.90625,
           "h": 42
         },
         {
@@ -486,14 +520,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 316.03125,
+          "iconMid": 330.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 316.03125,
-          "rowMid": 316.03125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 316.03125,
+          "firstLineMid": 330.90625,
+          "rowMid": 330.90625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 330.90625,
           "h": 42
         }
       ],
@@ -502,13 +536,13 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.77,
-          "min": 10.04
+          "p10": 11.95,
+          "min": 10.53
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 12.55,
+          "p10": 12.62,
           "min": 11.35
         },
         {
@@ -526,14 +560,20 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.44,
+          "p10": 9.42,
           "min": 9.02
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.44,
-          "min": 6.48
+          "p10": 9.48,
+          "min": 9.2
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.65,
+          "min": 9.31
         },
         {
           "kind": "cta:CONTINUE",
@@ -556,8 +596,8 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 12.73,
-          "min": 12.72
+          "p10": 12.72,
+          "min": 12.7
         }
       ],
       "minContrast": 3.27,
@@ -577,8 +617,15 @@
       "query": "state=connected",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 69,
+        "box": 28,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -590,8 +637,8 @@
         }
       ],
       "helper": {
-        "lines": 2,
-        "lastLineWords": 6,
+        "lines": 3,
+        "lastLineWords": 3,
         "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
       },
       "rows": [
@@ -601,14 +648,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 464.21875,
+          "iconMid": 479.09375,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 464.21875,
-          "rowMid": 464.21875,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 464.21875,
+          "firstLineMid": 479.09375,
+          "rowMid": 479.09375,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 479.09375,
           "h": 42
         },
         {
@@ -617,14 +664,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 512.21875,
+          "iconMid": 527.09375,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 512.21875,
-          "rowMid": 512.21875,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 512.21875,
+          "firstLineMid": 527.09375,
+          "rowMid": 527.09375,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 527.09375,
           "h": 42
         }
       ],
@@ -633,13 +680,13 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.77,
-          "min": 10.04
+          "p10": 11.95,
+          "min": 10.53
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 12.55,
+          "p10": 12.62,
           "min": 11.35
         },
         {
@@ -657,14 +704,20 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.44,
+          "p10": 9.42,
           "min": 9.02
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.44,
-          "min": 6.48
+          "p10": 9.48,
+          "min": 9.2
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.65,
+          "min": 9.31
         },
         {
           "kind": "cta:CONTINUE",
@@ -687,7 +740,7 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 12.53,
+          "p10": 12.61,
           "min": 12.5
         }
       ],
@@ -709,8 +762,15 @@
       "query": "overlay=permission",
       "plate": "ENV.QUIET",
       "railLeft": 34,
-      "railRight": 251,
-      "envEdge": 265,
+      "railRight": 246,
+      "envClearance": {
+        "text": 45,
+        "box": 20,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -733,14 +793,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 268.03125,
+          "iconMid": 265.65625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 268.03125,
-          "rowMid": 268.03125,
-          "rowRight": 251,
-          "trailingRight": 242,
-          "trailingMid": 268.03125,
+          "firstLineMid": 265.65625,
+          "rowMid": 265.65625,
+          "rowRight": 246,
+          "trailingRight": 237,
+          "trailingMid": 265.65625,
           "h": 42
         },
         {
@@ -749,14 +809,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 316.03125,
+          "iconMid": 313.65625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 316.03125,
-          "rowMid": 316.03125,
-          "rowRight": 251,
-          "trailingRight": 242,
-          "trailingMid": 316.03125,
+          "firstLineMid": 313.65625,
+          "rowMid": 313.65625,
+          "rowRight": 246,
+          "trailingRight": 237,
+          "trailingMid": 313.65625,
           "h": 42
         }
       ],
@@ -780,8 +840,15 @@
       "query": "overlay=skip",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 73,
+        "box": 28,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -793,8 +860,8 @@
         }
       ],
       "helper": {
-        "lines": 2,
-        "lastLineWords": 6,
+        "lines": 3,
+        "lastLineWords": 3,
         "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
       },
       "rows": [
@@ -804,14 +871,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 268.03125,
+          "iconMid": 282.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 268.03125,
-          "rowMid": 268.03125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 268.03125,
+          "firstLineMid": 282.90625,
+          "rowMid": 282.90625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 282.90625,
           "h": 42
         },
         {
@@ -820,14 +887,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 316.03125,
+          "iconMid": 330.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 316.03125,
-          "rowMid": 316.03125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 316.03125,
+          "firstLineMid": 330.90625,
+          "rowMid": 330.90625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 330.90625,
           "h": 42
         }
       ],
@@ -851,8 +918,15 @@
       "query": "",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 101,
+        "box": 26,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "NAME AN",
@@ -878,11 +952,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 326.03125,
-          "rowMid": 326.03125,
-          "rowRight": 254,
-          "trailingRight": 243,
-          "trailingMid": 326.03125,
+          "firstLineMid": 323.65625,
+          "rowMid": 323.65625,
+          "rowRight": 234,
+          "trailingRight": 223,
+          "trailingMid": 323.65625,
           "h": 42
         },
         {
@@ -894,11 +968,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 374.03125,
-          "rowMid": 374.03125,
-          "rowRight": 254,
-          "trailingRight": 243,
-          "trailingMid": 374.03125,
+          "firstLineMid": 371.65625,
+          "rowMid": 371.65625,
+          "rowRight": 234,
+          "trailingRight": 223,
+          "trailingMid": 371.65625,
           "h": 42
         },
         {
@@ -910,11 +984,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 422.03125,
-          "rowMid": 422.03125,
-          "rowRight": 254,
-          "trailingRight": 243,
-          "trailingMid": 422.03125,
+          "firstLineMid": 419.65625,
+          "rowMid": 419.65625,
+          "rowRight": 234,
+          "trailingRight": 223,
+          "trailingMid": 419.65625,
           "h": 42
         }
       ],
@@ -923,14 +997,14 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 12,
-          "min": 10.67
+          "p10": 12.08,
+          "min": 11.22
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.79,
-          "min": 10.55
+          "p10": 11.85,
+          "min": 10.76
         },
         {
           "kind": "eyebrow",
@@ -953,8 +1027,8 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.51,
-          "min": 9.14
+          "p10": 9.47,
+          "min": 9.2
         },
         {
           "kind": "row",
@@ -990,8 +1064,15 @@
       "query": "state=validation",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 102,
+        "box": 27,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "NAME AN",
@@ -1017,11 +1098,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 350.03125,
-          "rowMid": 350.03125,
-          "rowRight": 254,
-          "trailingRight": 243,
-          "trailingMid": 350.03125,
+          "firstLineMid": 347.65625,
+          "rowMid": 347.65625,
+          "rowRight": 234,
+          "trailingRight": 223,
+          "trailingMid": 347.65625,
           "h": 42
         },
         {
@@ -1033,11 +1114,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 398.03125,
-          "rowMid": 398.03125,
-          "rowRight": 254,
-          "trailingRight": 243,
-          "trailingMid": 398.03125,
+          "firstLineMid": 395.65625,
+          "rowMid": 395.65625,
+          "rowRight": 234,
+          "trailingRight": 223,
+          "trailingMid": 395.65625,
           "h": 42
         },
         {
@@ -1049,11 +1130,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 446.03125,
-          "rowMid": 446.03125,
-          "rowRight": 254,
-          "trailingRight": 243,
-          "trailingMid": 446.03125,
+          "firstLineMid": 443.65625,
+          "rowMid": 443.65625,
+          "rowRight": 234,
+          "trailingRight": 223,
+          "trailingMid": 443.65625,
           "h": 42
         }
       ],
@@ -1062,20 +1143,20 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.97,
-          "min": 10.67
+          "p10": 12.06,
+          "min": 11.22
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.85,
-          "min": 10.55
+          "p10": 11.88,
+          "min": 10.76
         },
         {
           "kind": "helper",
           "large": false,
           "p10": 9.46,
-          "min": 9.17
+          "min": 9.02
         },
         {
           "kind": "helper",
@@ -1099,7 +1180,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.73,
-          "min": 12.7
+          "min": 12.72
         }
       ],
       "minContrast": 9.46,
@@ -1117,8 +1198,15 @@
       "query": "",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 76,
+        "box": 26,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -1141,14 +1229,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 268.03125,
+          "iconMid": 265.65625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 268.03125,
-          "rowMid": 268.03125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 268.03125,
+          "firstLineMid": 265.65625,
+          "rowMid": 265.65625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 265.65625,
           "h": 42
         },
         {
@@ -1157,14 +1245,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 316.03125,
+          "iconMid": 313.65625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 316.03125,
-          "rowMid": 316.03125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 316.03125,
+          "firstLineMid": 313.65625,
+          "rowMid": 313.65625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 313.65625,
           "h": 42
         },
         {
@@ -1173,14 +1261,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 364.03125,
+          "iconMid": 361.65625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 364.03125,
-          "rowMid": 364.03125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 364.03125,
+          "firstLineMid": 361.65625,
+          "rowMid": 361.65625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 361.65625,
           "h": 42
         },
         {
@@ -1189,14 +1277,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 412.03125,
+          "iconMid": 409.65625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 412.03125,
-          "rowMid": 412.03125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 412.03125,
+          "firstLineMid": 409.65625,
+          "rowMid": 409.65625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 409.65625,
           "h": 42
         }
       ],
@@ -1205,13 +1293,13 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 12.51,
+          "p10": 12.5,
           "min": 11.53
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 12,
+          "p10": 12.04,
           "min": 11.35
         },
         {
@@ -1229,14 +1317,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.41,
+          "p10": 9.42,
           "min": 9.02
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.55,
-          "min": 9.14
+          "p10": 9.5,
+          "min": 9.2
         },
         {
           "kind": "row",
@@ -1248,7 +1336,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.73,
-          "min": 12.72
+          "min": 12.61
         },
         {
           "kind": "row",
@@ -1260,7 +1348,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.72,
-          "min": 12.62
+          "min": 12.7
         }
       ],
       "minContrast": 3.27,
@@ -1279,8 +1367,15 @@
       "query": "state=validation",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 76,
+        "box": 27,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -1303,14 +1398,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 327.28125,
+          "iconMid": 337.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 327.28125,
-          "rowMid": 327.28125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 327.28125,
+          "firstLineMid": 337.90625,
+          "rowMid": 337.90625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 337.90625,
           "h": 42
         },
         {
@@ -1319,14 +1414,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 375.28125,
+          "iconMid": 385.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 375.28125,
-          "rowMid": 375.28125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 375.28125,
+          "firstLineMid": 385.90625,
+          "rowMid": 385.90625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 385.90625,
           "h": 42
         },
         {
@@ -1335,14 +1430,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 423.28125,
+          "iconMid": 433.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 423.28125,
-          "rowMid": 423.28125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 423.28125,
+          "firstLineMid": 433.90625,
+          "rowMid": 433.90625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 433.90625,
           "h": 42
         },
         {
@@ -1351,14 +1446,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 471.28125,
+          "iconMid": 481.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 471.28125,
-          "rowMid": 471.28125,
-          "rowRight": 254,
-          "trailingRight": 245,
-          "trailingMid": 471.28125,
+          "firstLineMid": 481.90625,
+          "rowMid": 481.90625,
+          "rowRight": 234,
+          "trailingRight": 225,
+          "trailingMid": 481.90625,
           "h": 42
         }
       ],
@@ -1367,20 +1462,20 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 12.52,
+          "p10": 12.51,
           "min": 11.53
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 12,
+          "p10": 12.06,
           "min": 11.35
         },
         {
           "kind": "helper",
           "large": false,
           "p10": 9.42,
-          "min": 9.17
+          "min": 9.02
         },
         {
           "kind": "helper",
@@ -1430,8 +1525,15 @@
       "query": "",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 68,
+        "box": 26,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -1462,14 +1564,14 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 12.51,
+          "p10": 12.5,
           "min": 11.53
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.88,
-          "min": 10.76
+          "p10": 12.03,
+          "min": 11.35
         },
         {
           "kind": "eyebrow",
@@ -1492,8 +1594,8 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.53,
-          "min": 9.14
+          "p10": 9.48,
+          "min": 9.2
         },
         {
           "kind": "cta:CONTINUE",
@@ -1524,8 +1626,15 @@
       "query": "overlay=add",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 68,
+        "box": 26,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -1636,8 +1745,15 @@
       "query": "state=validation",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 68,
+        "box": 26,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -1749,8 +1865,15 @@
       "query": "",
       "plate": "ENV.EDIT",
       "railLeft": 34,
-      "railRight": 262,
-      "envEdge": 300,
+      "railRight": 268,
+      "envClearance": {
+        "text": 33,
+        "box": 42,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT MATTERS",
@@ -1762,8 +1885,8 @@
         }
       ],
       "helper": {
-        "lines": 1,
-        "lastLineWords": 7,
+        "lines": 2,
+        "lastLineWords": 3,
         "text": "UP TO THREE. THE REST CAN WAIT."
       },
       "rows": [
@@ -1776,11 +1899,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 250.78125,
-          "rowMid": 250.78125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 250.78125,
+          "firstLineMid": 265.65625,
+          "rowMid": 265.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 265.65625,
           "h": 42
         },
         {
@@ -1792,11 +1915,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 298.78125,
-          "rowMid": 298.78125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 298.78125,
+          "firstLineMid": 313.65625,
+          "rowMid": 313.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 313.65625,
           "h": 42
         },
         {
@@ -1808,11 +1931,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 346.78125,
-          "rowMid": 346.78125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 346.78125,
+          "firstLineMid": 361.65625,
+          "rowMid": 361.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 361.65625,
           "h": 42
         },
         {
@@ -1824,11 +1947,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 394.78125,
-          "rowMid": 394.78125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 394.78125,
+          "firstLineMid": 409.65625,
+          "rowMid": 409.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 409.65625,
           "h": 42
         },
         {
@@ -1840,11 +1963,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 442.78125,
-          "rowMid": 442.78125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 442.78125,
+          "firstLineMid": 457.65625,
+          "rowMid": 457.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 457.65625,
           "h": 42
         },
         {
@@ -1856,11 +1979,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 490.78125,
-          "rowMid": 490.78125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 490.78125,
+          "firstLineMid": 505.65625,
+          "rowMid": 505.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 505.65625,
           "h": 42
         }
       ],
@@ -1869,13 +1992,13 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 10.76,
-          "min": 9.2
+          "p10": 10.84,
+          "min": 9.51
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.41,
+          "p10": 11.4,
           "min": 9.72
         },
         {
@@ -1893,8 +2016,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 8.79,
-          "min": 7.21
+          "p10": 8.77,
+          "min": 8.04
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.99,
+          "min": 7.79
         },
         {
           "kind": "cta:CONTINUE",
@@ -1906,7 +2035,25 @@
           "kind": "row",
           "large": false,
           "p10": 12.62,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.71,
           "min": 12.51
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
         },
         {
           "kind": "row",
@@ -1918,24 +2065,6 @@
           "kind": "row",
           "large": false,
           "p10": 12.7,
-          "min": 12.62
-        },
-        {
-          "kind": "row",
-          "large": false,
-          "p10": 12.71,
-          "min": 12.7
-        },
-        {
-          "kind": "row",
-          "large": false,
-          "p10": 12.7,
-          "min": 12.62
-        },
-        {
-          "kind": "row",
-          "large": false,
-          "p10": 12.62,
           "min": 12.61
         }
       ],
@@ -1954,8 +2083,15 @@
       "query": "",
       "plate": "ENV.EDIT",
       "railLeft": 34,
-      "railRight": 262,
-      "envEdge": 300,
+      "railRight": 268,
+      "envClearance": {
+        "text": 98,
+        "box": 42,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "NAME A",
@@ -1981,11 +2117,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 326.03125,
-          "rowMid": 326.03125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 326.03125,
+          "firstLineMid": 323.65625,
+          "rowMid": 323.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 323.65625,
           "h": 42
         },
         {
@@ -1997,11 +2133,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 374.03125,
-          "rowMid": 374.03125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 374.03125,
+          "firstLineMid": 371.65625,
+          "rowMid": 371.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 371.65625,
           "h": 42
         },
         {
@@ -2013,11 +2149,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 422.03125,
-          "rowMid": 422.03125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 422.03125,
+          "firstLineMid": 419.65625,
+          "rowMid": 419.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 419.65625,
           "h": 42
         }
       ],
@@ -2026,7 +2162,7 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.24,
+          "p10": 11.22,
           "min": 10.14
         },
         {
@@ -2056,7 +2192,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.06,
+          "p10": 8.99,
           "min": 7.79
         },
         {
@@ -2068,7 +2204,7 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 12.73,
+          "p10": 12.71,
           "min": 12.62
         },
         {
@@ -2093,8 +2229,15 @@
       "query": "state=validation",
       "plate": "ENV.EDIT",
       "railLeft": 34,
-      "railRight": 262,
-      "envEdge": 300,
+      "railRight": 268,
+      "envClearance": {
+        "text": 124,
+        "box": 44,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "NAME A",
@@ -2120,11 +2263,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 394.03125,
-          "rowMid": 394.03125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 394.03125,
+          "firstLineMid": 391.65625,
+          "rowMid": 391.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 391.65625,
           "h": 42
         },
         {
@@ -2136,11 +2279,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 442.03125,
-          "rowMid": 442.03125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 442.03125,
+          "firstLineMid": 439.65625,
+          "rowMid": 439.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 439.65625,
           "h": 42
         },
         {
@@ -2152,11 +2295,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 490.03125,
-          "rowMid": 490.03125,
-          "rowRight": 262,
-          "trailingRight": 251,
-          "trailingMid": 490.03125,
+          "firstLineMid": 487.65625,
+          "rowMid": 487.65625,
+          "rowRight": 268,
+          "trailingRight": 257,
+          "trailingMid": 487.65625,
           "h": 42
         }
       ],
@@ -2171,20 +2314,20 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.4,
+          "p10": 11.38,
           "min": 9.72
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 8.83,
-          "min": 7.99
+          "p10": 8.8,
+          "min": 8.04
         },
         {
           "kind": "helper",
           "large": false,
           "p10": 9.1,
-          "min": 8.06
+          "min": 7.79
         },
         {
           "kind": "row",
@@ -2205,7 +2348,7 @@
           "min": 12.62
         }
       ],
-      "minContrast": 8.83,
+      "minContrast": 8.8,
       "icons": [
         "back",
         "alert"
@@ -2221,8 +2364,15 @@
       "query": "",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 50,
+        "box": 26,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT SHOULD",
@@ -2244,8 +2394,8 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.53,
-          "min": 9.25
+          "p10": 11.65,
+          "min": 9.82
         },
         {
           "kind": "headline",
@@ -2268,14 +2418,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.43,
+          "p10": 9.44,
           "min": 9.02
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.51,
-          "min": 9.14
+          "p10": 9.47,
+          "min": 9.2
         },
         {
           "kind": "cta:SKIP FOR NOW",
@@ -2299,8 +2449,15 @@
       "query": "state=validation",
       "plate": "ENV.DESK",
       "railLeft": 34,
-      "railRight": 254,
-      "envEdge": 266,
+      "railRight": 234,
+      "envClearance": {
+        "text": 51,
+        "box": 27,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT SHOULD",
@@ -2322,20 +2479,20 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.53,
-          "min": 9.63
+          "p10": 11.65,
+          "min": 9.84
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 12.53,
+          "p10": 12.6,
           "min": 11.35
         },
         {
           "kind": "helper",
           "large": false,
           "p10": 9.44,
-          "min": 9.17
+          "min": 9.02
         },
         {
           "kind": "helper",
@@ -2366,8 +2523,15 @@
       "query": "",
       "plate": "ENV.QUIET",
       "railLeft": 34,
-      "railRight": 251,
-      "envEdge": 265,
+      "railRight": 246,
+      "envClearance": {
+        "text": 73,
+        "box": 20,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "WHAT JURNL",
@@ -2390,15 +2554,15 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 246.28125,
+          "iconMid": 243.90625,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 244.78125,
-          "rowMid": 252.828125,
-          "rowRight": 251,
-          "trailingRight": 242,
-          "trailingMid": 252.828125,
-          "h": 46
+          "firstLineMid": 242.40625,
+          "rowMid": 256.75,
+          "rowRight": 246,
+          "trailingRight": 237,
+          "trailingMid": 256.75,
+          "h": 59
         },
         {
           "group": "jrn-setup__consents",
@@ -2406,14 +2570,14 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 300.375,
+          "iconMid": 310.59375,
           "labelMinX": 68,
           "labelLines": 2,
-          "firstLineMid": 298.875,
-          "rowMid": 319.96875,
-          "rowRight": 251,
-          "trailingRight": 242,
-          "trailingMid": 319.96875,
+          "firstLineMid": 309.09375,
+          "rowMid": 330.1875,
+          "rowRight": 246,
+          "trailingRight": 237,
+          "trailingMid": 330.1875,
           "h": 72
         },
         {
@@ -2422,14 +2586,14 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 60,
-          "iconMid": 380.5625,
+          "iconMid": 390.78125,
           "labelMinX": 68,
           "labelLines": 1,
-          "firstLineMid": 379.0625,
-          "rowMid": 393.40625,
-          "rowRight": 251,
-          "trailingRight": 242,
-          "trailingMid": 393.40625,
+          "firstLineMid": 389.28125,
+          "rowMid": 403.625,
+          "rowRight": 246,
+          "trailingRight": 237,
+          "trailingMid": 403.625,
           "h": 59
         }
       ],
@@ -2439,7 +2603,7 @@
           "icon": "chevron",
           "placement": "TRAILING",
           "labelLines": 1,
-          "overlap": 59,
+          "overlap": 54,
           "midDelta": 0
         }
       ],
@@ -2447,13 +2611,13 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.83,
+          "p10": 11.8,
           "min": 8.76
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.01,
+          "p10": 10.96,
           "min": 9.32
         },
         {
@@ -2471,7 +2635,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 8.97,
+          "p10": 8.89,
           "min": 7.91
         },
         {
@@ -2496,13 +2660,13 @@
           "kind": "row",
           "large": false,
           "p10": 16.33,
-          "min": 16.19
+          "min": 16.05
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 16.33,
-          "min": 16.19
+          "p10": 16.23,
+          "min": 16.09
         }
       ],
       "minContrast": 3.36,
@@ -2524,8 +2688,15 @@
       "query": "",
       "plate": "ENV.ARRIVAL",
       "railLeft": 34,
-      "railRight": 204,
-      "envEdge": 218,
+      "railRight": 198,
+      "envClearance": {
+        "text": 69,
+        "box": 31,
+        "required": {
+          "text": 28,
+          "box": 16
+        }
+      },
       "headline": [
         {
           "text": "JURNL IS",
@@ -2551,11 +2722,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 372.03125,
-          "rowMid": 372.03125,
-          "rowRight": 204,
-          "trailingRight": 193,
-          "trailingMid": 372.03125,
+          "firstLineMid": 369.65625,
+          "rowMid": 369.65625,
+          "rowRight": 198,
+          "trailingRight": 187,
+          "trailingMid": 369.65625,
           "h": 42
         },
         {
@@ -2567,11 +2738,11 @@
           "iconMid": null,
           "labelMinX": 45,
           "labelLines": 1,
-          "firstLineMid": 420.03125,
-          "rowMid": 420.03125,
-          "rowRight": 204,
-          "trailingRight": 193,
-          "trailingMid": 420.03125,
+          "firstLineMid": 417.65625,
+          "rowMid": 417.65625,
+          "rowRight": 198,
+          "trailingRight": 187,
+          "trailingMid": 417.65625,
           "h": 42
         }
       ],
@@ -2581,43 +2752,37 @@
           "kind": "headline",
           "large": true,
           "p10": 13.58,
-          "min": 12.55
+          "min": 11.15
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.67,
-          "min": 12.47
+          "p10": 12.82,
+          "min": 11.15
         },
         {
           "kind": "eyebrow",
           "large": false,
-          "p10": 10.16,
-          "min": 9.7
+          "p10": 12.06,
+          "min": 11.74
         },
         {
           "kind": "word",
           "large": true,
-          "p10": 3.77,
-          "min": 3.36
+          "p10": 3.53,
+          "min": 3.35
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 11.32,
-          "min": 9.95
+          "p10": 10.01,
+          "min": 9.8
         },
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.99,
-          "min": 9.72
-        },
-        {
-          "kind": "row",
-          "large": false,
-          "p10": 16.23,
-          "min": 16.23
+          "p10": 9.9,
+          "min": 9.62
         },
         {
           "kind": "row",
@@ -2635,22 +2800,28 @@
           "kind": "row",
           "large": false,
           "p10": 16.38,
-          "min": 16.23
+          "min": 16.24
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 12.84,
-          "min": 12.84
+          "p10": 16.38,
+          "min": 16.24
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 12.81,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.82,
           "min": 12.73
         }
       ],
-      "minContrast": 3.77,
+      "minContrast": 3.53,
       "icons": [
         "back"
       ],
@@ -2665,8 +2836,15 @@
       "query": "",
       "plate": "ENV.ARRIVAL",
       "railLeft": 72,
-      "railRight": 423,
-      "envEdge": 455,
+      "railRight": 343,
+      "envClearance": {
+        "text": 140,
+        "box": 74,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "THE SHAPE",
@@ -2682,8 +2860,8 @@
         }
       ],
       "helper": {
-        "lines": 1,
-        "lastLineWords": 6,
+        "lines": 2,
+        "lastLineWords": 3,
         "text": "JURNL LEARNS ONLY WHAT IT NEEDS."
       },
       "rows": [],
@@ -2699,12 +2877,12 @@
           "kind": "headline",
           "large": true,
           "p10": 14.27,
-          "min": 12.82
+          "min": 12.95
         },
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.61,
+          "p10": 13.45,
           "min": 11.85
         },
         {
@@ -2716,14 +2894,20 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 10.38,
+          "p10": 10.18,
           "min": 9.42
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.08,
+          "min": 9.89
         },
         {
           "kind": "foot",
           "large": false,
-          "p10": 9.81,
-          "min": 9.51
+          "p10": 9.9,
+          "min": 9.71
         },
         {
           "kind": "cta:CONTINUE",
@@ -2740,13 +2924,13 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 16.24,
-          "min": 16.24
+          "p10": 16.23,
+          "min": 16.23
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 16.24,
+          "p10": 16.23,
           "min": 16.23
         },
         {
@@ -2756,7 +2940,7 @@
           "min": 16.23
         }
       ],
-      "minContrast": 9.81,
+      "minContrast": 9.9,
       "icons": [],
       "issues": [],
       "pageErrors": [],
@@ -2769,8 +2953,15 @@
       "query": "state=resume",
       "plate": "ENV.ARRIVAL",
       "railLeft": 72,
-      "railRight": 423,
-      "envEdge": 455,
+      "railRight": 343,
+      "envClearance": {
+        "text": 137,
+        "box": 65,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "CONTINUE",
@@ -2782,8 +2973,8 @@
         }
       ],
       "helper": {
-        "lines": 1,
-        "lastLineWords": 7,
+        "lines": 2,
+        "lastLineWords": 3,
         "text": "PICK UP WHERE YOU LEFT THE SHAPE."
       },
       "rows": [],
@@ -2816,8 +3007,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 10.69,
+          "p10": 11.42,
           "min": 9.31
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.08,
+          "min": 9.23
         },
         {
           "kind": "cta:CONTINUE SETUP",
@@ -2829,18 +3026,12 @@
           "kind": "cta:START OVER",
           "large": false,
           "p10": 13.3,
-          "min": 13.29
+          "min": 13.3
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 16.53,
-          "min": 16.39
-        },
-        {
-          "kind": "row",
-          "large": false,
-          "p10": 16.27,
+          "p10": 16.38,
           "min": 16.24
         },
         {
@@ -2848,6 +3039,12 @@
           "large": false,
           "p10": 16.27,
           "min": 16.24
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.24,
+          "min": 16.23
         },
         {
           "kind": "row",
@@ -2869,8 +3066,15 @@
       "query": "",
       "plate": "ENV.ARRIVAL",
       "railLeft": 72,
-      "railRight": 423,
-      "envEdge": 455,
+      "railRight": 343,
+      "envClearance": {
+        "text": 151,
+        "box": 47,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHO THIS",
@@ -2882,8 +3086,8 @@
         }
       ],
       "helper": {
-        "lines": 1,
-        "lastLineWords": 7,
+        "lines": 2,
+        "lastLineWords": 4,
         "text": "THE HOUSEHOLD JURNL WILL KEEP IN VIEW."
       },
       "rows": [
@@ -2896,11 +3100,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 263.34375,
-          "rowMid": 263.34375,
-          "rowRight": 423,
-          "trailingRight": 412,
-          "trailingMid": 263.34375,
+          "firstLineMid": 283.6875,
+          "rowMid": 283.6875,
+          "rowRight": 343,
+          "trailingRight": 332,
+          "trailingMid": 283.6875,
           "h": 42
         },
         {
@@ -2912,11 +3116,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 311.34375,
-          "rowMid": 311.34375,
-          "rowRight": 423,
-          "trailingRight": 412,
-          "trailingMid": 311.34375,
+          "firstLineMid": 331.6875,
+          "rowMid": 331.6875,
+          "rowRight": 343,
+          "trailingRight": 332,
+          "trailingMid": 331.6875,
           "h": 42
         }
       ],
@@ -2931,7 +3135,7 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.14,
+          "p10": 13.09,
           "min": 11.85
         },
         {
@@ -2949,14 +3153,20 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 10.38,
+          "p10": 10.2,
           "min": 9.79
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.08,
+          "min": 9.8
         },
         {
           "kind": "row",
           "large": false,
           "p10": 12.73,
-          "min": 12.73
+          "min": 12.72
         },
         {
           "kind": "row",
@@ -2981,7 +3191,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 230,
+        "box": 49,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -2993,8 +3210,8 @@
         }
       ],
       "helper": {
-        "lines": 1,
-        "lastLineWords": 10,
+        "lines": 2,
+        "lastLineWords": 6,
         "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
       },
       "rows": [
@@ -3004,14 +3221,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 263.34375,
+          "iconMid": 283.6875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 263.34375,
-          "rowMid": 263.34375,
+          "firstLineMid": 283.6875,
+          "rowMid": 283.6875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 263.34375,
+          "trailingMid": 283.6875,
           "h": 42
         },
         {
@@ -3020,14 +3237,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 311.34375,
+          "iconMid": 331.6875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 311.34375,
-          "rowMid": 311.34375,
+          "firstLineMid": 331.6875,
+          "rowMid": 331.6875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 311.34375,
+          "trailingMid": 331.6875,
           "h": 42
         }
       ],
@@ -3060,8 +3277,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.07,
-          "min": 6.03
+          "p10": 9.84,
+          "min": 8.12
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.69,
+          "min": 7.46
         },
         {
           "kind": "cta:CONTINUE",
@@ -3072,20 +3295,20 @@
         {
           "kind": "cta:SKIP FOR NOW",
           "large": false,
-          "p10": 12.55,
-          "min": 12.44
-        },
-        {
-          "kind": "row",
-          "large": false,
-          "p10": 12.72,
-          "min": 12.59
+          "p10": 12.54,
+          "min": 12.35
         },
         {
           "kind": "row",
           "large": false,
           "p10": 12.72,
           "min": 12.61
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.72
         }
       ],
       "minContrast": 3.34,
@@ -3106,7 +3329,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 107,
+        "box": 49,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -3118,8 +3348,8 @@
         }
       ],
       "helper": {
-        "lines": 1,
-        "lastLineWords": 10,
+        "lines": 2,
+        "lastLineWords": 6,
         "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
       },
       "rows": [
@@ -3129,14 +3359,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 443.546875,
+          "iconMid": 463.890625,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 443.546875,
-          "rowMid": 443.546875,
+          "firstLineMid": 463.890625,
+          "rowMid": 463.890625,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 443.546875,
+          "trailingMid": 463.890625,
           "h": 42
         },
         {
@@ -3145,14 +3375,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 491.546875,
+          "iconMid": 511.890625,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 491.546875,
-          "rowMid": 491.546875,
+          "firstLineMid": 511.890625,
+          "rowMid": 511.890625,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 491.546875,
+          "trailingMid": 511.890625,
           "h": 42
         }
       ],
@@ -3185,8 +3415,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.07,
-          "min": 6.03
+          "p10": 9.84,
+          "min": 8.12
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.69,
+          "min": 7.46
         },
         {
           "kind": "cta:CONTINUE",
@@ -3197,8 +3433,8 @@
         {
           "kind": "cta:SKIP FOR NOW",
           "large": false,
-          "p10": 12.52,
-          "min": 12.44
+          "p10": 12.44,
+          "min": 12.33
         },
         {
           "kind": "row",
@@ -3210,7 +3446,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.72,
-          "min": 12.62
+          "min": 12.61
         }
       ],
       "minContrast": 3.34,
@@ -3232,7 +3468,14 @@
       "plate": "ENV.QUIET",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 531,
+      "envClearance": {
+        "text": 77,
+        "box": 66,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -3255,14 +3498,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 263.34375,
+          "iconMid": 264.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 263.34375,
-          "rowMid": 263.34375,
+          "firstLineMid": 264.9375,
+          "rowMid": 264.9375,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 263.34375,
+          "trailingMid": 264.9375,
           "h": 42
         },
         {
@@ -3271,14 +3514,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 311.34375,
+          "iconMid": 312.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 311.34375,
-          "rowMid": 311.34375,
+          "firstLineMid": 312.9375,
+          "rowMid": 312.9375,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 311.34375,
+          "trailingMid": 312.9375,
           "h": 42
         }
       ],
@@ -3303,7 +3546,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 230,
+        "box": 49,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -3315,8 +3565,8 @@
         }
       ],
       "helper": {
-        "lines": 1,
-        "lastLineWords": 10,
+        "lines": 2,
+        "lastLineWords": 6,
         "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
       },
       "rows": [
@@ -3326,14 +3576,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 263.34375,
+          "iconMid": 283.6875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 263.34375,
-          "rowMid": 263.34375,
+          "firstLineMid": 283.6875,
+          "rowMid": 283.6875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 263.34375,
+          "trailingMid": 283.6875,
           "h": 42
         },
         {
@@ -3342,14 +3592,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 311.34375,
+          "iconMid": 331.6875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 311.34375,
-          "rowMid": 311.34375,
+          "firstLineMid": 331.6875,
+          "rowMid": 331.6875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 311.34375,
+          "trailingMid": 331.6875,
           "h": 42
         }
       ],
@@ -3374,7 +3624,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 205,
+        "box": 47,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "NAME AN",
@@ -3400,11 +3657,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 321.34375,
-          "rowMid": 321.34375,
+          "firstLineMid": 322.9375,
+          "rowMid": 322.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 321.34375,
+          "trailingMid": 322.9375,
           "h": 42
         },
         {
@@ -3416,11 +3673,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 369.34375,
-          "rowMid": 369.34375,
+          "firstLineMid": 370.9375,
+          "rowMid": 370.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 369.34375,
+          "trailingMid": 370.9375,
           "h": 42
         },
         {
@@ -3432,11 +3689,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 417.34375,
-          "rowMid": 417.34375,
+          "firstLineMid": 418.9375,
+          "rowMid": 418.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 417.34375,
+          "trailingMid": 418.9375,
           "h": 42
         }
       ],
@@ -3469,7 +3726,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.48,
+          "p10": 9.5,
           "min": 8.12
         },
         {
@@ -3507,7 +3764,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 206,
+        "box": 48,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "NAME AN",
@@ -3533,11 +3797,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 345.34375,
-          "rowMid": 345.34375,
+          "firstLineMid": 346.9375,
+          "rowMid": 346.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 345.34375,
+          "trailingMid": 346.9375,
           "h": 42
         },
         {
@@ -3549,11 +3813,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 393.34375,
-          "rowMid": 393.34375,
+          "firstLineMid": 394.9375,
+          "rowMid": 394.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 393.34375,
+          "trailingMid": 394.9375,
           "h": 42
         },
         {
@@ -3565,11 +3829,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 441.34375,
-          "rowMid": 441.34375,
+          "firstLineMid": 442.9375,
+          "rowMid": 442.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 441.34375,
+          "trailingMid": 442.9375,
           "h": 42
         }
       ],
@@ -3628,7 +3892,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 143,
+        "box": 47,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -3651,14 +3922,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 263.34375,
+          "iconMid": 264.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 263.34375,
-          "rowMid": 263.34375,
+          "firstLineMid": 264.9375,
+          "rowMid": 264.9375,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 263.34375,
+          "trailingMid": 264.9375,
           "h": 42
         },
         {
@@ -3667,14 +3938,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 311.34375,
+          "iconMid": 312.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 311.34375,
-          "rowMid": 311.34375,
+          "firstLineMid": 312.9375,
+          "rowMid": 312.9375,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 311.34375,
+          "trailingMid": 312.9375,
           "h": 42
         },
         {
@@ -3683,14 +3954,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 359.34375,
+          "iconMid": 360.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 359.34375,
-          "rowMid": 359.34375,
+          "firstLineMid": 360.9375,
+          "rowMid": 360.9375,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 359.34375,
+          "trailingMid": 360.9375,
           "h": 42
         },
         {
@@ -3699,14 +3970,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 407.34375,
+          "iconMid": 408.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 407.34375,
-          "rowMid": 407.34375,
+          "firstLineMid": 408.9375,
+          "rowMid": 408.9375,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 407.34375,
+          "trailingMid": 408.9375,
           "h": 42
         }
       ],
@@ -3739,7 +4010,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.26,
+          "p10": 9.28,
           "min": 8.12
         },
         {
@@ -3784,7 +4055,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 144,
+        "box": 48,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -3807,14 +4085,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 334.59375,
+          "iconMid": 336.1875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 334.59375,
-          "rowMid": 334.59375,
+          "firstLineMid": 336.1875,
+          "rowMid": 336.1875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 334.59375,
+          "trailingMid": 336.1875,
           "h": 42
         },
         {
@@ -3823,14 +4101,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 382.59375,
+          "iconMid": 384.1875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 382.59375,
-          "rowMid": 382.59375,
+          "firstLineMid": 384.1875,
+          "rowMid": 384.1875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 382.59375,
+          "trailingMid": 384.1875,
           "h": 42
         },
         {
@@ -3839,14 +4117,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 430.59375,
+          "iconMid": 432.1875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 430.59375,
-          "rowMid": 430.59375,
+          "firstLineMid": 432.1875,
+          "rowMid": 432.1875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 430.59375,
+          "trailingMid": 432.1875,
           "h": 42
         },
         {
@@ -3855,14 +4133,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 478.59375,
+          "iconMid": 480.1875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 478.59375,
-          "rowMid": 478.59375,
+          "firstLineMid": 480.1875,
+          "rowMid": 480.1875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 478.59375,
+          "trailingMid": 480.1875,
           "h": 42
         }
       ],
@@ -3883,14 +4161,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.36,
+          "p10": 9.37,
           "min": 7.38
         },
         {
           "kind": "row",
           "large": false,
           "p10": 12.72,
-          "min": 12.72
+          "min": 12.7
         },
         {
           "kind": "row",
@@ -3911,7 +4189,7 @@
           "min": 12.72
         }
       ],
-      "minContrast": 9.36,
+      "minContrast": 9.37,
       "icons": [
         "back",
         "alert",
@@ -3929,7 +4207,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 160,
+        "box": 48,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -3984,7 +4269,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.32,
+          "p10": 9.35,
           "min": 8.12
         },
         {
@@ -4017,7 +4302,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 160,
+        "box": 48,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -4129,7 +4421,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 160,
+        "box": 48,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -4242,7 +4541,14 @@
       "plate": "ENV.EDIT",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 619,
+      "envClearance": {
+        "text": 207,
+        "box": 114,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT MATTERS",
@@ -4268,11 +4574,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 263.34375,
-          "rowMid": 263.34375,
+          "firstLineMid": 264.9375,
+          "rowMid": 264.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 263.34375,
+          "trailingMid": 264.9375,
           "h": 42
         },
         {
@@ -4284,11 +4590,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 311.34375,
-          "rowMid": 311.34375,
+          "firstLineMid": 312.9375,
+          "rowMid": 312.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 311.34375,
+          "trailingMid": 312.9375,
           "h": 42
         },
         {
@@ -4300,11 +4606,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 359.34375,
-          "rowMid": 359.34375,
+          "firstLineMid": 360.9375,
+          "rowMid": 360.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 359.34375,
+          "trailingMid": 360.9375,
           "h": 42
         },
         {
@@ -4316,11 +4622,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 407.34375,
-          "rowMid": 407.34375,
+          "firstLineMid": 408.9375,
+          "rowMid": 408.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 407.34375,
+          "trailingMid": 408.9375,
           "h": 42
         },
         {
@@ -4332,11 +4638,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 455.34375,
-          "rowMid": 455.34375,
+          "firstLineMid": 456.9375,
+          "rowMid": 456.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 455.34375,
+          "trailingMid": 456.9375,
           "h": 42
         },
         {
@@ -4348,11 +4654,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 503.34375,
-          "rowMid": 503.34375,
+          "firstLineMid": 504.9375,
+          "rowMid": 504.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 503.34375,
+          "trailingMid": 504.9375,
           "h": 42
         }
       ],
@@ -4385,7 +4691,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 8.65,
+          "p10": 8.64,
           "min": 6.17
         },
         {
@@ -4398,7 +4704,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.62,
-          "min": 12.51
+          "min": 12.59
         },
         {
           "kind": "row",
@@ -4447,7 +4753,14 @@
       "plate": "ENV.EDIT",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 619,
+      "envClearance": {
+        "text": 236,
+        "box": 114,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "NAME A",
@@ -4473,11 +4786,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 321.34375,
-          "rowMid": 321.34375,
+          "firstLineMid": 322.9375,
+          "rowMid": 322.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 321.34375,
+          "trailingMid": 322.9375,
           "h": 42
         },
         {
@@ -4489,11 +4802,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 369.34375,
-          "rowMid": 369.34375,
+          "firstLineMid": 370.9375,
+          "rowMid": 370.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 369.34375,
+          "trailingMid": 370.9375,
           "h": 42
         },
         {
@@ -4505,11 +4818,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 417.34375,
-          "rowMid": 417.34375,
+          "firstLineMid": 418.9375,
+          "rowMid": 418.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 417.34375,
+          "trailingMid": 418.9375,
           "h": 42
         }
       ],
@@ -4524,7 +4837,7 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.49,
+          "p10": 11.48,
           "min": 8.56
         },
         {
@@ -4580,7 +4893,14 @@
       "plate": "ENV.EDIT",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 619,
+      "envClearance": {
+        "text": 238,
+        "box": 116,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "NAME A",
@@ -4606,11 +4926,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 405.34375,
-          "rowMid": 405.34375,
+          "firstLineMid": 406.9375,
+          "rowMid": 406.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 405.34375,
+          "trailingMid": 406.9375,
           "h": 42
         },
         {
@@ -4622,11 +4942,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 453.34375,
-          "rowMid": 453.34375,
+          "firstLineMid": 454.9375,
+          "rowMid": 454.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 453.34375,
+          "trailingMid": 454.9375,
           "h": 42
         },
         {
@@ -4638,11 +4958,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 501.34375,
-          "rowMid": 501.34375,
+          "firstLineMid": 502.9375,
+          "rowMid": 502.9375,
           "rowRight": 472,
           "trailingRight": 461,
-          "trailingMid": 501.34375,
+          "trailingMid": 502.9375,
           "h": 42
         }
       ],
@@ -4657,14 +4977,14 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.43,
+          "p10": 11.4,
           "min": 7.58
         },
         {
           "kind": "helper",
           "large": false,
           "p10": 8.68,
-          "min": 6.17
+          "min": 6.33
         },
         {
           "kind": "row",
@@ -4682,7 +5002,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.7,
-          "min": 12.7
+          "min": 12.62
         }
       ],
       "minContrast": 8.68,
@@ -4702,7 +5022,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 135,
+        "box": 47,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT SHOULD",
@@ -4748,7 +5075,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.24,
+          "p10": 9.26,
           "min": 8.12
         },
         {
@@ -4774,7 +5101,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 540,
+      "envClearance": {
+        "text": 136,
+        "box": 48,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT SHOULD",
@@ -4835,7 +5169,14 @@
       "plate": "ENV.QUIET",
       "railLeft": 72,
       "railRight": 472,
-      "envEdge": 531,
+      "envClearance": {
+        "text": 227,
+        "box": 66,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "WHAT JURNL",
@@ -4858,14 +5199,14 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 258.84375,
+          "iconMid": 260.4375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 257.34375,
-          "rowMid": 265.390625,
+          "firstLineMid": 258.9375,
+          "rowMid": 266.984375,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 265.390625,
+          "trailingMid": 266.984375,
           "h": 46
         },
         {
@@ -4874,14 +5215,14 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 312.9375,
+          "iconMid": 314.53125,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 311.4375,
-          "rowMid": 319.484375,
+          "firstLineMid": 313.03125,
+          "rowMid": 321.078125,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 319.484375,
+          "trailingMid": 321.078125,
           "h": 46
         },
         {
@@ -4890,14 +5231,14 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 367.03125,
+          "iconMid": 368.625,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 365.53125,
-          "rowMid": 373.578125,
+          "firstLineMid": 367.125,
+          "rowMid": 375.171875,
           "rowRight": 472,
           "trailingRight": 463,
-          "trailingMid": 373.578125,
+          "trailingMid": 375.171875,
           "h": 46
         }
       ],
@@ -4921,7 +5262,7 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 10.92,
+          "p10": 10.91,
           "min": 8.19
         },
         {
@@ -4939,7 +5280,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 8.43,
+          "p10": 8.45,
           "min": 7.59
         },
         {
@@ -4952,7 +5293,7 @@
           "kind": "row",
           "large": false,
           "p10": 16.33,
-          "min": 16.09
+          "min": 16.19
         },
         {
           "kind": "row",
@@ -4986,8 +5327,15 @@
       "query": "",
       "plate": "ENV.ARRIVAL",
       "railLeft": 72,
-      "railRight": 423,
-      "envEdge": 455,
+      "railRight": 343,
+      "envClearance": {
+        "text": 92,
+        "box": 59,
+        "required": {
+          "text": 44,
+          "box": 32
+        }
+      },
       "headline": [
         {
           "text": "JURNL IS",
@@ -5013,11 +5361,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 367.34375,
-          "rowMid": 367.34375,
-          "rowRight": 423,
-          "trailingRight": 412,
-          "trailingMid": 367.34375,
+          "firstLineMid": 368.9375,
+          "rowMid": 368.9375,
+          "rowRight": 343,
+          "trailingRight": 332,
+          "trailingMid": 368.9375,
           "h": 42
         },
         {
@@ -5029,11 +5377,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 415.34375,
-          "rowMid": 415.34375,
-          "rowRight": 423,
-          "trailingRight": 412,
-          "trailingMid": 415.34375,
+          "firstLineMid": 416.9375,
+          "rowMid": 416.9375,
+          "rowRight": 343,
+          "trailingRight": 332,
+          "trailingMid": 416.9375,
           "h": 42
         }
       ],
@@ -5048,7 +5396,7 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.15,
+          "p10": 13.14,
           "min": 11.85
         },
         {
@@ -5122,7 +5470,14 @@
       "plate": "ENV.ARRIVAL",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 720,
+      "envClearance": {
+        "text": 366,
+        "box": 232,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "THE SHAPE",
@@ -5155,7 +5510,7 @@
           "kind": "headline",
           "large": true,
           "p10": 13.75,
-          "min": 12.59
+          "min": 12.61
         },
         {
           "kind": "headline",
@@ -5172,14 +5527,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.81,
-          "min": 9.43
+          "p10": 9.85,
+          "min": 9.47
         },
         {
           "kind": "foot",
           "large": false,
           "p10": 10.61,
-          "min": 10.31
+          "min": 10.35
         },
         {
           "kind": "cta:CONTINUE",
@@ -5191,7 +5546,7 @@
           "kind": "row",
           "large": false,
           "p10": 16.39,
-          "min": 16.24
+          "min": 16.38
         },
         {
           "kind": "row",
@@ -5203,16 +5558,16 @@
           "kind": "row",
           "large": false,
           "p10": 16.49,
-          "min": 16.38
+          "min": 16.39
         },
         {
           "kind": "row",
           "large": false,
-          "p10": 16.49,
+          "p10": 16.39,
           "min": 16.38
         }
       ],
-      "minContrast": 9.81,
+      "minContrast": 9.85,
       "icons": [],
       "issues": [],
       "pageErrors": [],
@@ -5226,7 +5581,14 @@
       "plate": "ENV.ARRIVAL",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 720,
+      "envClearance": {
+        "text": 356,
+        "box": 222,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "CONTINUE",
@@ -5296,7 +5658,7 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 16.39,
+          "p10": 16.38,
           "min": 16.23
         },
         {
@@ -5326,7 +5688,14 @@
       "plate": "ENV.ARRIVAL",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 720,
+      "envClearance": {
+        "text": 322,
+        "box": 208,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHO THIS",
@@ -5352,11 +5721,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 277.34375,
-          "rowMid": 277.34375,
+          "firstLineMid": 278.9375,
+          "rowMid": 278.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 277.34375,
+          "trailingMid": 278.9375,
           "h": 42
         },
         {
@@ -5368,11 +5737,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 325.34375,
-          "rowMid": 325.34375,
+          "firstLineMid": 326.9375,
+          "rowMid": 326.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 325.34375,
+          "trailingMid": 326.9375,
           "h": 42
         }
       ],
@@ -5412,7 +5781,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.93,
-          "min": 12.93
+          "min": 12.84
         },
         {
           "kind": "row",
@@ -5437,7 +5806,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 457,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -5460,14 +5836,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 277.34375,
+          "iconMid": 278.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 277.34375,
-          "rowMid": 277.34375,
+          "firstLineMid": 278.9375,
+          "rowMid": 278.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 277.34375,
+          "trailingMid": 278.9375,
           "h": 42
         },
         {
@@ -5476,14 +5852,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 325.34375,
+          "iconMid": 326.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 325.34375,
-          "rowMid": 325.34375,
+          "firstLineMid": 326.9375,
+          "rowMid": 326.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 325.34375,
+          "trailingMid": 326.9375,
           "h": 42
         }
       ],
@@ -5529,7 +5905,7 @@
           "kind": "cta:SKIP FOR NOW",
           "large": false,
           "p10": 12.55,
-          "min": 12.41
+          "min": 12.44
         },
         {
           "kind": "row",
@@ -5562,7 +5938,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 457,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -5585,14 +5968,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 457.546875,
+          "iconMid": 459.140625,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 457.546875,
-          "rowMid": 457.546875,
+          "firstLineMid": 459.140625,
+          "rowMid": 459.140625,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 457.546875,
+          "trailingMid": 459.140625,
           "h": 42
         },
         {
@@ -5601,14 +5984,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 505.546875,
+          "iconMid": 507.140625,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 505.546875,
-          "rowMid": 505.546875,
+          "firstLineMid": 507.140625,
+          "rowMid": 507.140625,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 505.546875,
+          "trailingMid": 507.140625,
           "h": 42
         }
       ],
@@ -5688,7 +6071,14 @@
       "plate": "ENV.QUIET",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 468,
+        "box": 437,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -5711,14 +6101,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 277.34375,
+          "iconMid": 278.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 277.34375,
-          "rowMid": 277.34375,
+          "firstLineMid": 278.9375,
+          "rowMid": 278.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 277.34375,
+          "trailingMid": 278.9375,
           "h": 42
         },
         {
@@ -5727,14 +6117,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 325.34375,
+          "iconMid": 326.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 325.34375,
-          "rowMid": 325.34375,
+          "firstLineMid": 326.9375,
+          "rowMid": 326.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 325.34375,
+          "trailingMid": 326.9375,
           "h": 42
         }
       ],
@@ -5759,7 +6149,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 457,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHERE IT",
@@ -5782,14 +6179,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 277.34375,
+          "iconMid": 278.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 277.34375,
-          "rowMid": 277.34375,
+          "firstLineMid": 278.9375,
+          "rowMid": 278.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 277.34375,
+          "trailingMid": 278.9375,
           "h": 42
         },
         {
@@ -5798,14 +6195,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 325.34375,
+          "iconMid": 326.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 325.34375,
-          "rowMid": 325.34375,
+          "firstLineMid": 326.9375,
+          "rowMid": 326.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 325.34375,
+          "trailingMid": 326.9375,
           "h": 42
         }
       ],
@@ -5830,7 +6227,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 607,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "NAME AN",
@@ -5856,11 +6260,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 335.34375,
-          "rowMid": 335.34375,
+          "firstLineMid": 336.9375,
+          "rowMid": 336.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 335.34375,
+          "trailingMid": 336.9375,
           "h": 42
         },
         {
@@ -5872,11 +6276,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 383.34375,
-          "rowMid": 383.34375,
+          "firstLineMid": 384.9375,
+          "rowMid": 384.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 383.34375,
+          "trailingMid": 384.9375,
           "h": 42
         },
         {
@@ -5888,11 +6292,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 431.34375,
-          "rowMid": 431.34375,
+          "firstLineMid": 432.9375,
+          "rowMid": 432.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 431.34375,
+          "trailingMid": 432.9375,
           "h": 42
         }
       ],
@@ -5925,14 +6329,14 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.95,
+          "p10": 9.99,
           "min": 9.05
         },
         {
           "kind": "row",
           "large": false,
           "p10": 12.73,
-          "min": 12.71
+          "min": 12.73
         },
         {
           "kind": "row",
@@ -5963,7 +6367,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 607,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "NAME AN",
@@ -5989,11 +6400,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 359.34375,
-          "rowMid": 359.34375,
+          "firstLineMid": 360.9375,
+          "rowMid": 360.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 359.34375,
+          "trailingMid": 360.9375,
           "h": 42
         },
         {
@@ -6005,11 +6416,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 407.34375,
-          "rowMid": 407.34375,
+          "firstLineMid": 408.9375,
+          "rowMid": 408.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 407.34375,
+          "trailingMid": 408.9375,
           "h": 42
         },
         {
@@ -6021,11 +6432,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 455.34375,
-          "rowMid": 455.34375,
+          "firstLineMid": 456.9375,
+          "rowMid": 456.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 455.34375,
+          "trailingMid": 456.9375,
           "h": 42
         }
       ],
@@ -6084,7 +6495,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 545,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -6107,14 +6525,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 277.34375,
+          "iconMid": 278.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 277.34375,
-          "rowMid": 277.34375,
+          "firstLineMid": 278.9375,
+          "rowMid": 278.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 277.34375,
+          "trailingMid": 278.9375,
           "h": 42
         },
         {
@@ -6123,14 +6541,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 325.34375,
+          "iconMid": 326.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 325.34375,
-          "rowMid": 325.34375,
+          "firstLineMid": 326.9375,
+          "rowMid": 326.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 325.34375,
+          "trailingMid": 326.9375,
           "h": 42
         },
         {
@@ -6139,14 +6557,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 373.34375,
+          "iconMid": 374.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 373.34375,
-          "rowMid": 373.34375,
+          "firstLineMid": 374.9375,
+          "rowMid": 374.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 373.34375,
+          "trailingMid": 374.9375,
           "h": 42
         },
         {
@@ -6155,14 +6573,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 421.34375,
+          "iconMid": 422.9375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 421.34375,
-          "rowMid": 421.34375,
+          "firstLineMid": 422.9375,
+          "rowMid": 422.9375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 421.34375,
+          "trailingMid": 422.9375,
           "h": 42
         }
       ],
@@ -6213,7 +6631,7 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 12.73,
+          "p10": 12.81,
           "min": 12.73
         },
         {
@@ -6240,7 +6658,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 545,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -6263,14 +6688,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 348.59375,
+          "iconMid": 350.1875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 348.59375,
-          "rowMid": 348.59375,
+          "firstLineMid": 350.1875,
+          "rowMid": 350.1875,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 348.59375,
+          "trailingMid": 350.1875,
           "h": 42
         },
         {
@@ -6279,14 +6704,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 396.59375,
+          "iconMid": 398.1875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 396.59375,
-          "rowMid": 396.59375,
+          "firstLineMid": 398.1875,
+          "rowMid": 398.1875,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 396.59375,
+          "trailingMid": 398.1875,
           "h": 42
         },
         {
@@ -6295,14 +6720,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 444.59375,
+          "iconMid": 446.1875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 444.59375,
-          "rowMid": 444.59375,
+          "firstLineMid": 446.1875,
+          "rowMid": 446.1875,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 444.59375,
+          "trailingMid": 446.1875,
           "h": 42
         },
         {
@@ -6311,14 +6736,14 @@
           "role": "radio",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 492.59375,
+          "iconMid": 494.1875,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 492.59375,
-          "rowMid": 492.59375,
+          "firstLineMid": 494.1875,
+          "rowMid": 494.1875,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 492.59375,
+          "trailingMid": 494.1875,
           "h": 42
         }
       ],
@@ -6339,7 +6764,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 10.03,
+          "p10": 10.04,
           "min": 8.81
         },
         {
@@ -6367,7 +6792,7 @@
           "min": 12.7
         }
       ],
-      "minContrast": 10.03,
+      "minContrast": 10.04,
       "icons": [
         "back",
         "alert",
@@ -6385,7 +6810,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 562,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -6422,7 +6854,7 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 12.87,
+          "p10": 12.88,
           "min": 10.98
         },
         {
@@ -6473,7 +6905,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 562,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -6585,7 +7024,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 562,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT",
@@ -6698,7 +7144,14 @@
       "plate": "ENV.EDIT",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 752,
+        "box": 581,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT MATTERS",
@@ -6724,11 +7177,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 277.34375,
-          "rowMid": 277.34375,
+          "firstLineMid": 278.9375,
+          "rowMid": 278.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 277.34375,
+          "trailingMid": 278.9375,
           "h": 42
         },
         {
@@ -6740,11 +7193,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 325.34375,
-          "rowMid": 325.34375,
+          "firstLineMid": 326.9375,
+          "rowMid": 326.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 325.34375,
+          "trailingMid": 326.9375,
           "h": 42
         },
         {
@@ -6756,11 +7209,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 373.34375,
-          "rowMid": 373.34375,
+          "firstLineMid": 374.9375,
+          "rowMid": 374.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 373.34375,
+          "trailingMid": 374.9375,
           "h": 42
         },
         {
@@ -6772,11 +7225,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 421.34375,
-          "rowMid": 421.34375,
+          "firstLineMid": 422.9375,
+          "rowMid": 422.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 421.34375,
+          "trailingMid": 422.9375,
           "h": 42
         },
         {
@@ -6788,11 +7241,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 469.34375,
-          "rowMid": 469.34375,
+          "firstLineMid": 470.9375,
+          "rowMid": 470.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 469.34375,
+          "trailingMid": 470.9375,
           "h": 42
         },
         {
@@ -6804,11 +7257,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 517.34375,
-          "rowMid": 517.34375,
+          "firstLineMid": 518.9375,
+          "rowMid": 518.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 517.34375,
+          "trailingMid": 518.9375,
           "h": 42
         }
       ],
@@ -6823,7 +7276,7 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 11.78,
+          "p10": 11.81,
           "min": 7.05
         },
         {
@@ -6841,7 +7294,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.19,
+          "p10": 9.21,
           "min": 6.16
         },
         {
@@ -6854,7 +7307,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.62,
-          "min": 12.28
+          "min": 12.18
         },
         {
           "kind": "row",
@@ -6903,7 +7356,14 @@
       "plate": "ENV.EDIT",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 733,
+        "box": 581,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "NAME A",
@@ -6929,11 +7389,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 335.34375,
-          "rowMid": 335.34375,
+          "firstLineMid": 336.9375,
+          "rowMid": 336.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 335.34375,
+          "trailingMid": 336.9375,
           "h": 42
         },
         {
@@ -6945,11 +7405,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 383.34375,
-          "rowMid": 383.34375,
+          "firstLineMid": 384.9375,
+          "rowMid": 384.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 383.34375,
+          "trailingMid": 384.9375,
           "h": 42
         },
         {
@@ -6961,11 +7421,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 431.34375,
-          "rowMid": 431.34375,
+          "firstLineMid": 432.9375,
+          "rowMid": 432.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 431.34375,
+          "trailingMid": 432.9375,
           "h": 42
         }
       ],
@@ -6998,7 +7458,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 9.2,
+          "p10": 9.21,
           "min": 6.16
         },
         {
@@ -7036,7 +7496,14 @@
       "plate": "ENV.EDIT",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 733,
+        "box": 581,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "NAME A",
@@ -7062,11 +7529,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 419.34375,
-          "rowMid": 419.34375,
+          "firstLineMid": 420.9375,
+          "rowMid": 420.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 419.34375,
+          "trailingMid": 420.9375,
           "h": 42
         },
         {
@@ -7078,11 +7545,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 467.34375,
-          "rowMid": 467.34375,
+          "firstLineMid": 468.9375,
+          "rowMid": 468.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 467.34375,
+          "trailingMid": 468.9375,
           "h": 42
         },
         {
@@ -7094,11 +7561,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 515.34375,
-          "rowMid": 515.34375,
+          "firstLineMid": 516.9375,
+          "rowMid": 516.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 515.34375,
+          "trailingMid": 516.9375,
           "h": 42
         }
       ],
@@ -7132,7 +7599,7 @@
           "kind": "row",
           "large": false,
           "p10": 12.7,
-          "min": 12.51
+          "min": 12.59
         },
         {
           "kind": "row",
@@ -7158,7 +7625,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 537,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT SHOULD",
@@ -7230,7 +7704,14 @@
       "plate": "ENV.DESK",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 537,
+        "box": 429,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT SHOULD",
@@ -7264,7 +7745,7 @@
         {
           "kind": "helper",
           "large": false,
-          "p10": 10.04,
+          "p10": 10.07,
           "min": 8.81
         },
         {
@@ -7274,7 +7755,7 @@
           "min": 12.44
         }
       ],
-      "minContrast": 10.04,
+      "minContrast": 10.07,
       "icons": [
         "back",
         "alert"
@@ -7291,7 +7772,14 @@
       "plate": "ENV.QUIET",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 900,
+      "envClearance": {
+        "text": 608,
+        "box": 437,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "WHAT JURNL",
@@ -7314,14 +7802,14 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 272.84375,
+          "iconMid": 274.4375,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 271.34375,
-          "rowMid": 279.390625,
+          "firstLineMid": 272.9375,
+          "rowMid": 280.984375,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 279.390625,
+          "trailingMid": 280.984375,
           "h": 46
         },
         {
@@ -7330,14 +7818,14 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 326.9375,
+          "iconMid": 328.53125,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 325.4375,
-          "rowMid": 333.484375,
+          "firstLineMid": 327.03125,
+          "rowMid": 335.078125,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 333.484375,
+          "trailingMid": 335.078125,
           "h": 46
         },
         {
@@ -7346,14 +7834,14 @@
           "role": "switch",
           "hasIcon": true,
           "iconRight": 98,
-          "iconMid": 381.03125,
+          "iconMid": 382.625,
           "labelMinX": 106,
           "labelLines": 1,
-          "firstLineMid": 379.53125,
-          "rowMid": 387.578125,
+          "firstLineMid": 381.125,
+          "rowMid": 389.171875,
           "rowRight": 492,
           "trailingRight": 483,
-          "trailingMid": 387.578125,
+          "trailingMid": 389.171875,
           "h": 46
         }
       ],
@@ -7377,8 +7865,8 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.98,
-          "min": 11.81
+          "p10": 13.99,
+          "min": 11.9
         },
         {
           "kind": "eyebrow",
@@ -7407,7 +7895,7 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 16.48,
+          "p10": 16.46,
           "min": 15.91
         },
         {
@@ -7443,7 +7931,14 @@
       "plate": "ENV.ARRIVAL",
       "railLeft": 72,
       "railRight": 492,
-      "envEdge": 720,
+      "envClearance": {
+        "text": 404,
+        "box": 226,
+        "required": {
+          "text": 60,
+          "box": 48
+        }
+      },
       "headline": [
         {
           "text": "JURNL IS",
@@ -7469,11 +7964,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 381.34375,
-          "rowMid": 381.34375,
+          "firstLineMid": 382.9375,
+          "rowMid": 382.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 381.34375,
+          "trailingMid": 382.9375,
           "h": 42
         },
         {
@@ -7485,11 +7980,11 @@
           "iconMid": null,
           "labelMinX": 83,
           "labelLines": 1,
-          "firstLineMid": 429.34375,
-          "rowMid": 429.34375,
+          "firstLineMid": 430.9375,
+          "rowMid": 430.9375,
           "rowRight": 492,
           "trailingRight": 481,
-          "trailingMid": 429.34375,
+          "trailingMid": 430.9375,
           "h": 42
         }
       ],
@@ -7504,7 +7999,7 @@
         {
           "kind": "headline",
           "large": true,
-          "p10": 13.87,
+          "p10": 13.85,
           "min": 12.82
         },
         {
@@ -7541,7 +8036,7 @@
           "kind": "row",
           "large": false,
           "p10": 16.39,
-          "min": 16.27
+          "min": 16.34
         },
         {
           "kind": "row",
@@ -7552,7 +8047,7 @@
         {
           "kind": "row",
           "large": false,
-          "p10": 12.92,
+          "p10": 12.84,
           "min": 12.81
         },
         {

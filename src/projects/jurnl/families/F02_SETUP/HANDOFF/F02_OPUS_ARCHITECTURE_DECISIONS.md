@@ -204,3 +204,46 @@ None of these block founder review.
   - The F01.13 → F02 check expects the live F02.00.
 
   It now reports 163/163 on this branch. F01 pixel parity is proven separately by a 42-capture diff against `main`: 40 identical; 2 differ only by noise that `main` reproduces on recapture.
+
+## 13. Follow-up: no text near the white curtain
+
+**Founder note:** on some child screens the text came close to the white curtain. Nothing may touch it, brush it, or crowd it.
+
+**Cause:** the single rail measured the curtain at the panel band. The ARRIVAL and DESK sheers lean LEFT toward the top of the frame. Measured clearance before this fix:
+- ARRIVAL headline and helper on a phone: −1 to −2 px (they reached the fringe).
+- F02.01 helper on tablet: 10 px.
+- F02.01 rows on tablet: the rows overlapped the sheer by up to 36 px.
+
+**Repair:**
+- **Traced edges.** Each plate's environment edge is traced per plate height, in `scripts/jurnl/f02-plate-edges.mjs`, and mapped through the plate's own crop.
+- **Two rails.**
+  - Head rail: mark, SETUP row, headline and helper. It uses the edge where the curtain sits furthest left and keeps type 32 px clear on a phone, 48 px on tablet.
+  - Body rail: panels, rows and fields. It keeps the paper 20 px clear on a phone, 36 px on tablet.
+- **Phone headline 34 → 32 px.** This is the small adjustment the founder offered. Authored lines never wrap. On a narrower phone, `useFittedHeadline` steps the headline down, never below 24 px.
+- **ARRIVAL phone crop: `0% 50%`.** The crop now opens on the plaster wall, which moves the curtain ~43 px right. The arch and sea stay in frame, and the half-cut bust at the far edge leaves it.
+
+**Measured minimum clearance after the repair:**
+
+| Plate | Phone type | Phone paper | Tablet type | Tablet paper |
+| --- | --- | --- | --- | --- |
+| ARRIVAL | 50 px | 25 px | 92 px | 47 px |
+| DESK | 50 px | 26 px | 107 px | 47 px |
+| EDIT (leaves) | 33 px | 42 px | 207 px | 114 px |
+| QUIET | 45 px | 20 px | 77 px | 66 px |
+
+Desktop clearance is 200 px or more on every plate. Per-screen values are in `F02_CONTENT_RAIL_MAP.json`.
+
+## 14. Global JURNL interactive-text containment
+
+**Implementation:** `useCompactFit()` (in `primitives.tsx`) runs the founder's compact-fit order on every JURNL clickable label: `JurnlButton`, standalone `JurnlTextLink`, `JurnlChoice` and clickable `JurnlRow`. The order is:
+
+1. a modest size step (≤ 1 px);
+2. tracking, down to 0.08 em;
+3. size, down to the 10 px floor;
+4. a controlled, balanced wrap.
+
+Labels that already fit are left untouched.
+
+**Underlines:** link underlines are now `text-decoration`, so the rule follows the words on every line. Before, a `border-bottom` on a flex-item span drew a full-width rule under a wrapped label.
+
+**Results:** the full audit is `scripts/jurnl/interactive-text-qa.mjs`, with its report in `JURNL/MANIFEST/JURNL_INTERACTIVE_TEXT_QA.json`. 1,128 labels across F01–F16 at all three viewports pass, with INTERACTIVE_TEXT_CONTAINMENT_DRIFT = 0. The F02 typography map carries the `interactive_text_*` fields.

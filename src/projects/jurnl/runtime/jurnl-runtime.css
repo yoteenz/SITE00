@@ -306,15 +306,20 @@
   color: var(--jrn-ink-2);
   border-radius: 6px;
 }
+/* The rule belongs to the words: it follows the text footprint on every line, never the control's box. */
 .jrn .jrn-link--underline span {
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 3px;
+  padding-bottom: 4px; /* the box keeps the height the old border rule gave it, so the label does not move */
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  text-decoration-skip-ink: none;
 }
 .jrn .jrn-link--strong {
   font-weight: 500;
   color: var(--jrn-emerald);
 }
 .jrn .jrn-link--inline {
+  position: relative;
   min-height: 0;
   padding: 0;
   display: inline;
@@ -324,6 +329,12 @@
   color: var(--jrn-emerald);
   border-bottom: 1px solid currentColor;
   border-radius: 0;
+}
+/* An inline link stays the size of its sentence; its hit area does not. */
+.jrn .jrn-link--inline::before {
+  content: '';
+  position: absolute;
+  inset: -7px -2px;
 }
 .jrn .jrn-iconbtn {
   display: inline-flex;

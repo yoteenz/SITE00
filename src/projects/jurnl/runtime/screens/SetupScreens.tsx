@@ -3,7 +3,7 @@
  * Screen authorities are not rendered.
  */
 
-import { useId, useState, type ReactNode } from 'react';
+import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { JurnlIcon } from '../components/icons';
 import {
   JurnlButton,
@@ -60,6 +60,36 @@ function Brand({ screen, validation }: { screen: F02ScreenDef; validation?: bool
   );
 }
 
+/* Authored headline lines never wrap. If a line is wider than the head rail (a narrow phone), the headline steps
+   down until its widest line fits, never below 24 px and never above the CSS size. */
+function useFittedHeadline() {
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const h = ref.current?.querySelector<HTMLElement>(':scope > .jrn-h1');
+    if (!h) return;
+    const range = document.createRange();
+    const fit = () => {
+      h.style.removeProperty('font-size');
+      const base = parseFloat(getComputedStyle(h).fontSize);
+      let widest = 0;
+      for (const line of Array.from(h.children)) {
+        range.selectNodeContents(line);
+        widest = Math.max(widest, range.getBoundingClientRect().width);
+      }
+      if (widest > h.clientWidth + 0.5) h.style.fontSize = `${Math.max(24, Math.floor(((base * h.clientWidth) / widest) * 2) / 2)}px`;
+    };
+    fit();
+    let live = true;
+    void document.fonts?.ready.then(() => live && fit());
+    window.addEventListener('resize', fit);
+    return () => {
+      live = false;
+      window.removeEventListener('resize', fit);
+    };
+  });
+  return ref;
+}
+
 function Frame({
   screen,
   title,
@@ -92,11 +122,12 @@ function Frame({
   const showResumeMark = !headerEmblem && screen.id === 'F02.00' && forcedState !== 'fresh' && (draft.started || forcedState === 'resume');
   const emblemOverride = headerEmblem ?? (showResumeMark && !validation ? F02_STATE_SCREENS['F02.ST.RESUME'].emblem : null);
   // The validation lockup already reads JURNL. SETUP.; a second SETUP label would repeat it.
+  const copyRef = useFittedHeadline();
   const lockupCarriesSetup = !emblemOverride && !!validation && F02_STATE_SCREENS['F02.ST.VALIDATION'].lockup === 'F02.BRANDLOCKUP.JURNL_SETUP.001';
   return (
     <JurnlScreen screenId={screen.id} plate={plate ?? screen.plate} family={screen.id === 'F02.00'} layout="form">
       {/* One left editorial grid: back, mark, SETUP + progress, headline, helper, panel, CTA. */}
-      <div className="jrn-setup" data-runtime-bounds="copy">
+      <div className="jrn-setup" data-runtime-bounds="copy" ref={copyRef}>
         {screen.back ?
           <div className="jrn-setup__top">
             <JurnlIconButton icon="back" label="BACK" trigger="setup-back" onClick={() => go(screen.back!)} />

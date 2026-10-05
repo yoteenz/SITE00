@@ -29,7 +29,7 @@
   max-width: 230px;
 }
 .jrn .jrn-act__stage {
-  width: min(100%, 78%);
+  width: min(100%, 72%); /* phone: the FILTER control ends well clear of the white curtain */
   max-width: 320px;
   flex: 0 1 auto;
 }
@@ -212,7 +212,7 @@
   color: var(--jrn-ink);
   border: 1px solid rgba(203, 189, 171, 0.7);
   border-radius: 8px;
-  font-size: 8px;
+  font-size: 10px; /* compact navigation stays readable: 10 px floor, tight tracking keeps CREDIT on one line */
   letter-spacing: 0.06em;
 }
 .jrn .jrn-nav__btn[data-active='true'] {

@@ -13634,3 +13634,56 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Each family has its own OpenArt project, brief, expression tree, occupancy map, and one mounted parent. The first twelve pictures were text-to-image and are recorded as an invalid postmortem. Ten of them were reframed with the plate file itself bound as the reference. That reframe did not clear the rail for plan, safe to spend, purchases, trips, paydown, goals, ahead, or records. Money, income, upcoming, and credit keep a quiet left field. Founder status stays UNREVIEWED. Child explosion is not authorized. F03 was not regenerated.
 - **Changes:** F05–F16 parent plates, briefs, trees, ledgers, the review board at `parents`, live routes for each parent, `JURNL_ENVIRONMENT_REUSE_MATRIX.json`, and a dispatch block on JURNL text-to-image plus missing occupancy maps.
 - **Conventions:** Do not call text-to-image for JURNL. Bind the actual file. Define the left rail before approving a plate. Do not explode these families until the founder marks LOVE_IT. Do not mark that status automatically.
+
+---
+
+## 2026-10-05 — F02 curtain clearance + global JURNL interactive-text containment
+
+- **Context:** The founder said text on some F02 child screens came too close to the white curtain: it may not touch, brush or crowd it, and a header-size reduction is acceptable. They also issued the GLOBAL JURNL TYPOGRAPHIC CONTAINMENT RULE for all clickable text: compact fit before wrap, rule fits the text, no environment invasion, readable floor, and tap targets separate from type size.
+- **Topics covered:**
+  - curtains traced per plate height
+  - head and body rails
+  - ARRIVAL phone crop
+  - headline 34 → 32 px
+  - a fitted-headline safeguard
+  - `useCompactFit` on every clickable-label primitive
+  - `text-decoration` underlines
+  - hit area for inline links
+  - nav label floor
+  - F04 FILTER and F01 FORGOT PASSWORD? kept off the curtain
+  - a JURNL-wide audit, including a white-curtain pixel probe
+- **Decisions / outcomes:**
+  - **Curtain profiles:** traced in `scripts/jurnl/f02-plate-edges.mjs`.
+  - **F02 rails:**
+    - Head rail (mark, SETUP row, headline, helper) keeps type 32 px clear on phones and 48 px on tablet.
+    - Body rail keeps paper 20 px / 36 px clear.
+    - ARRIVAL's phone crop is `0% 50%`.
+  - **F02 clearance:** minimum type clearance on phones is ≥ 50 px at the curtains and 33 px at the leaves. Before, it was −1 / −2 px.
+  - **`useCompactFit`:** runs size step ≤ 1 px → tracking to 0.08 em → 10 px floor → balanced wrap. It is used on `JurnlButton`, standalone `JurnlTextLink`, `JurnlChoice` and clickable `JurnlRow`.
+  - **Labels fixed:**
+    - LEARN WHAT THIS MEANS is one line at 11 px / 0.16 em.
+    - CONNECTED ACCOUNT CONTROL is one line at 9.5 px / 0.08 em, with an 8 px phone gap.
+    - Nav labels went from 8 px to 10 px.
+    - Inline links have a 32 px hit area.
+  - **Audit:** 1,128 / 1,128 labels across 79 views × 3 viewports pass, with drift 0.
+  - **F01 pixels:** unchanged except the two intended phone fixes. Every other underlined link is within 2 px.
+- **Changes:**
+  - `jurnl-setup.css`
+  - `SetupScreens.tsx` (`useFittedHeadline`)
+  - `primitives.tsx` (`useCompactFit`)
+  - `jurnl-runtime.css`
+  - `jurnl-screens.css`
+  - `jurnl-home.css`
+  - `HomeScreens.tsx`
+  - `scripts/jurnl/interactive-text-qa.mjs`
+  - `scripts/jurnl/f02-plate-edges.mjs`
+  - `f02-final-audit-qa.mjs`
+  - `JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json` (`typographic_containment` as a full contract)
+  - `JURNL/MANIFEST/JURNL_INTERACTIVE_TEXT_QA.json`
+  - the F02 rail and typography maps
+  - `docs/jurnl/INTERACTIVE_TEXT_CONTAINMENT.md`
+- **Conventions:**
+  - Never pass an icon as a `JurnlButton` child; use the `icon` prop.
+  - Underlines are `text-decoration`.
+  - Test clearance at each element's own height; curtains lean.
+  - Top-corner chrome over bright sky or wall is reported, not gated.

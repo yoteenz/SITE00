@@ -14,16 +14,14 @@ import { writeFileSync } from 'node:fs';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
 import { CAPTURES, VIEWPORTS } from './capture-f02.mjs';
+import { edgeX } from './f02-plate-edges.mjs';
 import { qaChromiumPath } from './qa-env.mjs';
 
-/* Environment edges measured on the gridded plate crops (device px). Independent of the CSS rail: the rail must end
-   left of these. ARRIVAL = sheer curtain at the panel band; DESK = sheer curtain; EDIT = olive leaves / pilaster;
-   QUIET = lit stone column. Desktop: the column ends at 492, far left of every edge (≥ 720). */
-export const ENV_EDGE = {
-  mobile: { 'ENV.ARRIVAL': 218, 'ENV.DESK': 266, 'ENV.EDIT': 300, 'ENV.QUIET': 265 },
-  tablet: { 'ENV.ARRIVAL': 455, 'ENV.DESK': 540, 'ENV.EDIT': 619, 'ENV.QUIET': 531 },
-  desktop: { 'ENV.ARRIVAL': 720, 'ENV.DESK': 900, 'ENV.EDIT': 900, 'ENV.QUIET': 900 },
-};
+/* Environment edges are traced on the plates per plate height (f02-plate-edges.mjs), independent of the CSS rails.
+   Nothing may touch, brush or crowd them: type keeps TEXT_CLEAR px, paper panels / controls keep BOX_CLEAR px,
+   measured at each element's own height. */
+export const TEXT_CLEAR = { mobile: 28, tablet: 44, desktop: 60 };
+export const BOX_CLEAR = { mobile: 16, tablet: 32, desktop: 48 };
 const SHORT_LABELS = new Set(['CONNECT AN ACCOUNT', 'NAME AN ACCOUNT', 'WEEKLY', 'EVERY TWO WEEKS', 'MONTHLY', 'IRREGULAR', 'REMEMBER THIS SETUP', 'NOTHING IS SOLD']);
 
 const lum = (r, g, b) => {
@@ -66,10 +64,26 @@ async function facts(page) {
     const cs = setup ? getComputedStyle(setup) : null;
     const railRight = setup ? setup.getBoundingClientRect().left + (parseFloat(cs.maxWidth) || setup.getBoundingClientRect().width) : null;
     // rail: everything in the copy block except the back control row
-    const railItems = setup ? [...setup.querySelectorAll(':scope > *:not(.jrn-setup__top)')].map((el) => {
+    const railItems = setup ? [...setup.querySelectorAll(':scope > *:not(.jrn-setup__top)'), ...screen.querySelectorAll('.jrn-cta > *')].map((el) => {
       const t = textRects(el);
-      const right = Math.max(el.getBoundingClientRect().right, ...t.map((r) => r.r));
-      return { cls: (el.className.baseVal ?? el.className).split(' ')[0] || el.tagName, right: Math.round(right) };
+      const b = el.getBoundingClientRect();
+      const right = Math.max(b.right, ...t.map((r) => r.r));
+      // paper / control box vs bare type: a box is anything that paints a surface
+      const paints = (n) => {
+        const c = getComputedStyle(n);
+        return c.backgroundColor !== 'rgba(0, 0, 0, 0)' || parseFloat(c.borderRightWidth) > 0 || n.tagName === 'IMG';
+      };
+      // a list container (choices, consents) does not paint; its row cards do
+      const cards = paints(el) ? [el] : [...el.querySelectorAll(':scope > *')].filter(paints);
+      const painted = cards.length > 0;
+      const cb = cards.map((n) => n.getBoundingClientRect());
+      return {
+        cls: (el.className.baseVal ?? el.className).split(' ')[0] || el.tagName,
+        inRail: !el.closest('.jrn-cta'),
+        right: Math.round(right),
+        box: painted ? { r: Math.round(Math.max(...cb.map((x) => x.right))), t: Math.round(Math.min(...cb.map((x) => x.top))), b: Math.round(Math.max(...cb.map((x) => x.bottom))) } : null,
+        text: t.map((r) => ({ r: Math.round(r.r), t: Math.round(r.y), b: Math.round(r.b) })),
+      };
     }) : [];
     const h1 = setup?.querySelector('.jrn-h1');
     const headline = h1 ? [...h1.children].map((s) => ({ text: s.textContent, lines: lineGroups(textRects(s)) })) : [];
@@ -211,20 +225,42 @@ async function contrast(page, targets) {
   });
 }
 
+/** The tightest type and box clearance to the plate edge on this capture. */
+function envClearance(vp, f) {
+  let text = null;
+  let box = null;
+  for (const it of f.railItems) {
+    for (const t of it.text) {
+      const e = edgeX(f.plate, f.vw, f.vh, t.t, t.b);
+      if (e != null && (text == null || e - t.r < text)) text = e - t.r;
+    }
+    if (it.box) {
+      const e = edgeX(f.plate, f.vw, f.vh, it.box.t, it.box.b);
+      if (e != null && (box == null || e - it.box.r < box)) box = e - it.box.r;
+    }
+  }
+  return { text, box, required: { text: TEXT_CLEAR[vp], box: BOX_CLEAR[vp] } };
+}
+
 function judge(vp, cap, f, cr) {
   const issues = [];
-  const edge = f.plate ? ENV_EDGE[vp][f.plate] : null;
   if (f.pageScroll > 0) issues.push(`PAGE_SCROLL ${f.pageScroll}`);
   if (f.pageHScroll > 0) issues.push(`PAGE_HSCROLL ${f.pageHScroll}`);
   if (f.colHScroll > 0) issues.push(`COL_HSCROLL ${f.colHScroll}`);
   if (f.colScroll > 0) issues.push(`COL_SCROLL ${f.colScroll}`);
   if (f.railLeft !== f.colLeft) issues.push(`RAIL_NOT_ON_GRID ${f.railLeft}≠${f.colLeft}`);
   for (const it of f.railItems) {
-    if (it.right > f.railRight + 1) issues.push(`RAIL_OVERFLOW ${it.cls} ${it.right}>${f.railRight}`);
-    if (edge && it.right > edge) issues.push(`CROSSES_ENV_EDGE ${it.cls} ${it.right}>${edge}`);
+    if (it.inRail && it.right > f.railRight + 1) issues.push(`RAIL_OVERFLOW ${it.cls} ${it.right}>${f.railRight}`);
+    if (!f.plate) continue;
+    for (const t of it.text) {
+      const e = edgeX(f.plate, f.vw, f.vh, t.t, t.b);
+      if (e != null && e - t.r < TEXT_CLEAR[vp]) issues.push(`TEXT_NEAR_ENV_EDGE ${it.cls} clearance ${e - t.r}`);
+    }
+    if (it.box) {
+      const e = edgeX(f.plate, f.vw, f.vh, it.box.t, it.box.b);
+      if (e != null && e - it.box.r < BOX_CLEAR[vp]) issues.push(`BOX_NEAR_ENV_EDGE ${it.cls} clearance ${e - it.box.r}`);
+    }
   }
-  if (vp !== 'mobile' && f.cta && edge && f.cta.r > edge) issues.push(`CTA_CROSSES_ENV_EDGE ${f.cta.r}>${edge}`);
-  for (const s of f.secondary) if (edge && vp !== 'mobile' && s.r > edge) issues.push(`SECONDARY_CROSSES_ENV_EDGE ${s.r}`);
   for (const l of f.headline) if (l.lines !== 1) issues.push(`HEADLINE_WRAP "${l.text}" ${l.lines}`);
   if (f.sub) {
     if (f.sub.lines > 3) issues.push(`HELPER_LINES ${f.sub.lines}`);
@@ -512,7 +548,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       // contrast is a property of the screen itself; overlay captures are judged on their own sheet surface
       const cr = f.overlay ? [] : await contrast(page, f.textTargets);
       const issues = judge(vp, id, f, cr);
-      routes.push({ viewport: vp, id, route, query, plate: f.plate, railLeft: f.railLeft, railRight: f.railRight, envEdge: f.plate ? ENV_EDGE[vp][f.plate] : null, headline: f.headline, helper: f.sub, rows: f.rows, buttonRows: f.buttonRows, contrast: cr, minContrast: cr.length ? Math.min(...cr.map((c) => c.p10)) : null, icons: [...new Set(f.icons)], issues, pageErrors: errs, pass: issues.length === 0 && errs.length === 0 });
+      routes.push({ viewport: vp, id, route, query, plate: f.plate, railLeft: f.railLeft, railRight: f.railRight, envClearance: f.plate ? envClearance(vp, f) : null, headline: f.headline, helper: f.sub, rows: f.rows, buttonRows: f.buttonRows, contrast: cr, minContrast: cr.length ? Math.min(...cr.map((c) => c.p10)) : null, icons: [...new Set(f.icons)], issues, pageErrors: errs, pass: issues.length === 0 && errs.length === 0 });
       await page.close();
     }
     await ctx.close();

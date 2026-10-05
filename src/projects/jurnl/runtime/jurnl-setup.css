@@ -1,34 +1,50 @@
 /* F02 SETUP column. Mobile authority first. Tablet and desktop reflow the same plates.
  *
- * LEFT CONTENT RAIL. Every F02 plate keeps its curtain, pilaster or column on the right. Copy, panels, rows and
- * fields stay in a rail that ends a breath before that edge, so the photograph keeps its side of the frame.
- * The edge is measured ON THE PLATE (`--f02-edge-f`, a fraction of plate width at the content band) and mapped
- * through the same object-fit: cover + object-position the plate uses. The rail therefore follows the photograph
- * at any canvas size. It is not one global pixel width. Values: F02_SETUP/MANIFEST/F02_CONTENT_RAIL_MAP.json.
+ * LEFT CONTENT RAIL. Every F02 plate keeps its curtain, leaves or column on the right. Nothing on the screen may
+ * touch, brush or crowd that edge. The edge is traced ON THE PLATE (scripts/jurnl/f02-plate-edges.mjs, a fraction of
+ * plate width per plate height) and mapped through the same object-fit: cover + object-position the plate uses, so
+ * the rails follow the photograph at any canvas size. It is not one global pixel width.
+ *
+ * Two rails, because the sheer curtains lean LEFT toward the top of the frame:
+ *   head rail  mark, SETUP row, headline, helper. Uses the edge at the top of the content band and keeps type
+ *              --f02-head-gap clear of it (32 px phone, 48 px tablet/desktop).
+ *   body rail  panels, rows, fields, errors, tablet CTA. Uses the edge at the top of the panel band and keeps the
+ *              paper --f02-body-gap clear (20 px phone, 36 px tablet); the type inside sits ≥ 10 px further in.
+ * Values per screen: F02_SETUP/MANIFEST/F02_CONTENT_RAIL_MAP.json.
  */
 
 .jrn .jrn-screen[data-jrn-family='F02'] {
   container-type: size;
   --f02-px: 0.5; /* plate object-position x at this breakpoint */
   --f02-plate-w: max(100cqw, 56.25cqh); /* rendered width of the 2016 × 3584 plate under cover */
-  --f02-edge: calc(var(--f02-px) * 100cqw + (var(--f02-edge-f, 0.6) - var(--f02-px)) * var(--f02-plate-w));
+  --f02-head-edge: calc(var(--f02-px) * 100cqw + (var(--f02-head-f, 0.6) - var(--f02-px)) * var(--f02-plate-w));
+  --f02-body-edge: calc(var(--f02-px) * 100cqw + (var(--f02-body-f, 0.6) - var(--f02-px)) * var(--f02-plate-w));
   --f02-left: var(--jrn-m);
-  --f02-gap: 14px; /* breathing space between the rail and the environment edge */
-  --f02-rail-min: 160px;
+  --f02-head-gap: 32px;
+  --f02-body-gap: 20px;
   --f02-rail-max: 440px;
-  --f02-rail: clamp(var(--f02-rail-min), calc(var(--f02-edge) - var(--f02-gap) - var(--f02-left)), var(--f02-rail-max));
+  --f02-head-rail: clamp(120px, calc(var(--f02-head-edge) - var(--f02-head-gap) - var(--f02-left)), var(--f02-rail-max));
+  --f02-rail: clamp(160px, calc(var(--f02-body-edge) - var(--f02-body-gap) - var(--f02-left)), var(--f02-rail-max));
 }
+/* ARRIVAL: the sheer starts at 0.43 of the plate at the top. On a phone the crop opens on the plaster wall instead
+   of the centre (0% 50%), so the headline keeps its size and still clears the curtain; arch and sea stay in frame. */
 .jrn .jrn-screen[data-jrn-plate='ENV.ARRIVAL'] {
-  --f02-edge-f: 0.545; /* sheer curtain, left edge at the panel band */
+  --jrn-plate-mobile: 0% 50%;
+  --f02-px: 0;
+  --f02-head-f: 0.4325;
+  --f02-body-f: 0.455;
 }
 .jrn .jrn-screen[data-jrn-plate='ENV.DESK'] {
-  --f02-edge-f: 0.649; /* sheer curtain in front of the wall corner */
+  --f02-head-f: 0.5975; /* sheer curtain in front of the wall corner */
+  --f02-body-f: 0.62;
 }
 .jrn .jrn-screen[data-jrn-plate='ENV.EDIT'] {
-  --f02-edge-f: 0.666; /* olive leaves top right, stone pilaster below */
+  --f02-head-f: 0.6; /* olive leaf tips top right */
+  --f02-body-f: 0.69; /* stone pilaster below the leaves */
 }
 .jrn .jrn-screen[data-jrn-plate='ENV.QUIET'] {
-  --f02-edge-f: 0.643; /* lit stone column */
+  --f02-head-f: 0.645; /* lit stone column */
+  --f02-body-f: 0.645;
 }
 
 .jrn .jrn-screen[data-jrn-family='F02'] .jrn-col {
@@ -103,12 +119,21 @@
   line-height: 1;
   color: var(--jrn-rose-ink);
 }
+/* The head of the screen keeps the head rail; authored headline lines never wrap (useFittedHeadline only ever
+   shrinks a line that would not fit, never below 24 px). */
+.jrn .jrn-setup > .jrn-setup__mark,
+.jrn .jrn-setup > .jrn-setup__lockup,
+.jrn .jrn-setup > .jrn-setup__meta,
+.jrn .jrn-setup > .jrn-h1,
+.jrn .jrn-setup > .jrn-kicker {
+  max-width: var(--f02-head-rail);
+}
 .jrn .jrn-screen[data-jrn-family='F02'] .jrn-h1 {
-  font-size: 34px;
-  line-height: 0.92;
+  font-size: 32px;
+  line-height: 0.94;
 }
 .jrn .jrn-screen[data-jrn-family='F02'] .jrn-h1 > span {
-  text-wrap: balance;
+  white-space: nowrap;
 }
 /* Helper copy: two or three intentional lines inside the rail, never a one-word last line. */
 .jrn .jrn-setup > .jrn-kicker {
@@ -269,7 +294,8 @@
 @media (min-width: 600px) {
   .jrn .jrn-screen[data-jrn-family='F02'] {
     --f02-px: 0.56;
-    --f02-gap: 32px;
+    --f02-head-gap: 48px;
+    --f02-body-gap: 36px;
     --f02-rail-max: 400px;
   }
   /* Tablet keeps the left rail: the column starts on the F01 grid line and never centres. */
