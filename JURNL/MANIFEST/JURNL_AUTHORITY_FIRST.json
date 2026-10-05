@@ -1,0 +1,57 @@
+{
+  "contract": "JURNL_AUTHORITY_FIRST",
+  "pipeline": [
+    "CURRENT_LIVE_UI",
+    "FAMILY_EXPRESSION",
+    "COMPOSITION_CONTRACT",
+    "VALID_REFERENCE",
+    "FULL_PAGE_AUTHORITY",
+    "AUTHORITY_VALIDATION",
+    "CLEAN_PLATE_DERIVATION",
+    "LIVE_UI_MOUNT",
+    "AUTHORITY_COMPARISON"
+  ],
+  "forbidden_primary_step": [
+    "EMPTY_ROOM",
+    "BACKGROUND_ONLY",
+    "PLATE_ONLY",
+    "ENVIRONMENT_ONLY",
+    "TEXT_TO_IMAGE"
+  ],
+  "applies_to_families": ["F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08", "F09", "F10", "F11", "F12", "F13", "F14", "F15", "F16"],
+  "f05_f16_rule": "The parent authority is the complete composed page. After founder approval, derive the clean environment plate. Do not generate a standalone background as the family parent.",
+  "object_types": {
+    "AUTHORITY": "FULL_PAGE",
+    "RUNTIME_PLATE": "DERIVED_FROM_AUTHORITY"
+  },
+  "full_page_authorities": {
+    "F03.00_TODAY_PARENT": {
+      "authority_type": "FULL_PAGE",
+      "family_id": "F03",
+      "status": "INVALID_METHOD",
+      "derivation_allowed": false,
+      "classification": "REFERENCE_ONLY",
+      "note": "Image-to-image from the entry welcome. It kept the arrival arch, curtain, bust, bowl, and books. Not a derivation source for the correction."
+    }
+  },
+  "invalid_outputs": [
+    {
+      "generation_id": "R7v2u8iMYCWa2EFCshuQ",
+      "asset_id": "TODAY.SCREEN.F03.00",
+      "classification": "INVALID_METHOD_OUTPUT",
+      "reason": "Text-to-image full page. No reference attached."
+    },
+    {
+      "generation_id": "HzvsFXSFIT00OiyvhNQF",
+      "asset_id": "TODAY.ENVIRONMENT.DAY.001",
+      "classification": "INVALID_METHOD_OUTPUT",
+      "reason": "Background extracted from the text-to-image page. Not an authority."
+    },
+    {
+      "generation_id": "wLHnKXCM1PNhNZFFYZc6",
+      "asset_id": "TODAY.ENVIRONMENT.DAY.001",
+      "classification": "INVALID_METHOD_OUTPUT",
+      "reason": "Clean plate of the arrival room. Mounted, and not the correction authority. Do not promote."
+    }
+  ]
+}

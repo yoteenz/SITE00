@@ -6,10 +6,11 @@
     "FAMILY_EXPRESSION_BRIEF",
     "HIERARCHICAL_EXPRESSION_TREE",
     "FOUNDER_GATE",
-    "PARENT_VISUAL_AUTHORITY",
-    "LINKED_ASSET_SIDEKICK",
-    "CHILDREN_STATES_INTERACTIONS",
-    "LIVE_IMPLEMENTATION"
+    "FULL_PAGE_AUTHORITY",
+    "AUTHORITY_VALIDATION",
+    "CLEAN_PLATE_DERIVATION",
+    "LIVE_UI_MOUNT",
+    "CHILDREN_STATES_INTERACTIONS"
   ],
   "global_traits": [
     "BRAND_VOICE",
@@ -119,6 +120,7 @@
       "brief_json": "JURNL/F03_TODAY/MANIFEST/F03_FAMILY_EXPRESSION_BRIEF.json",
       "brief_md": "JURNL/F03_TODAY/MANIFEST/F03_FAMILY_EXPRESSION_BRIEF.md",
       "expression_tree": "JURNL/F03_TODAY/MANIFEST/F03_EXPRESSION_TREE.json",
+      "plate_occupancy": "JURNL/F03_TODAY/MANIFEST/F03_PLATE_OCCUPANCY.json",
       "product_job": "What is true today.",
       "spatial_metaphor": "A morning room already in use.",
       "camera": "Intended: wider day room. Mounted: same as entry.",
@@ -136,7 +138,7 @@
       "composition": "Figure first, room behind",
       "current_mount_distinctness": "FAIL",
       "cross_family_plate_reuse": "NONE",
-      "replacement": "SHOULD_REPLACE. Do not generate until the founder asks."
+      "replacement": "SHOULD_REPLACE. Founder asked for an authority-first correction. Full page first. Do not mount a background-only candidate."
     },
     "F04": {
       "family_name": "ACTIVITY",
