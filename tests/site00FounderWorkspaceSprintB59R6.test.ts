@@ -23,6 +23,7 @@ const ROOT = join(import.meta.dirname, '..');
 const INDEX_PAGE = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexPage.tsx'), 'utf8');
 const NEW_CARD = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexNewProjectCard.tsx'), 'utf8');
 const INDEX_CSS = readFileSync(join(ROOT, 'src/site00/styles/site00-project-index.css'), 'utf8');
+const VIEW_DATA_ADAPTER = readFileSync(join(ROOT, 'shared/site00-projects/projectsViewDataAdapter.ts'), 'utf8');
 const HOOK = readFileSync(join(ROOT, 'src/site00/hooks/useProjectIndex.ts'), 'utf8');
 
 describe('B5.9R6 New Project Panel Restoration', () => {
@@ -101,12 +102,12 @@ describe('B5.9R6 New Project Panel Restoration', () => {
   });
 
   it('11. founder sees new project tile', () => {
-    expect(INDEX_PAGE).toContain('showNewProject = !clientView');
-    expect(INDEX_PAGE).toContain('showNewProject={showNewProject}');
+    expect(VIEW_DATA_ADAPTER).toContain('showNewProject: !clientView');
+    expect(INDEX_PAGE).toContain('showNewProject={viewData.showNewProject}');
   });
 
   it('12. client does not see founder creation tile by default', () => {
-    expect(INDEX_PAGE).toContain('showNewProject = !clientView');
+    expect(VIEW_DATA_ADAPTER).toContain('showNewProject: !clientView');
     expect(NEW_CARD).not.toContain('CLIENT');
   });
 
@@ -163,8 +164,8 @@ describe('B5.9R6 New Project Panel Restoration', () => {
     expect(ordered.map((i) => i.projectId)).toEqual([...PROJECT_INDEX_CANONICAL_ORDER]);
   });
 
-  it('20. design workspace remains first', () => {
-    expect(INDEX_PAGE.indexOf('ProjectIndexDesignCard')).toBeLessThan(
+  it('20. production summary precedes project grid on founder index', () => {
+    expect(INDEX_PAGE.indexOf('ProjectProductionSummaryStrip')).toBeLessThan(
       INDEX_PAGE.indexOf('ProjectIndexProjectGrid'),
     );
     const design = buildSite00PlatformDesignIndexItem();

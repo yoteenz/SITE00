@@ -1,0 +1,58 @@
+{
+  "concept_id": "DIR_B_PRODUCT_LAB",
+  "name": "THE PRODUCT LAB",
+  "one_line_premise": "An interactive lab where customers engineer their look with transparent logic.",
+  "experience_thesis": "Tool-first configuration with visible rules and live assembly preview.",
+  "customer_entry_model": "Lab threshold → instrument panel → live build canvas",
+  "journey_model": "Select base → tune attributes → validate → quote/checkout",
+  "primary_zones": [
+    "LAB ENTRY",
+    "CONFIGURATOR",
+    "VALIDATION",
+    "PROJECT SAVED",
+    "EXPERT REVIEW"
+  ],
+  "proposed_routes_high_level": [
+    "/",
+    "/lab",
+    "/build",
+    "/build/:step",
+    "/review",
+    "/projects"
+  ],
+  "custom_experiences": [
+    "BUILD-A-WIG CONFIGURATOR",
+    "LIVE ASSEMBLY PREVIEW"
+  ],
+  "commerce_model": "Configuration-driven SKU assembly + expert review upsell",
+  "content_model": "Spec sheets + tutorial snippets inside lab",
+  "membership_model": "Saved projects + revision history",
+  "interaction_model": "Step machine + persistent preview column",
+  "spatial_model": "Instrument grid + central preview stage",
+  "mobile_premise": "Sequential steps + sticky preview drawer",
+  "tablet_premise": "Side-by-side controls and preview",
+  "desktop_premise": "Simultaneous multi-panel lab workspace",
+  "app_premise": "Camera try-on + saved builds (companion)",
+  "integration_opportunities": [
+    "Shopify",
+    "Stripe",
+    "CRM"
+  ],
+  "capability_opportunities": [
+    "PRODUCT_ASSEMBLY_CONFIGURATOR"
+  ],
+  "brand_alignment": "LUMINA ATELIER",
+  "business_alignment": "Supports high-consideration custom orders",
+  "risks": [
+    "Complex validation rules"
+  ],
+  "tradeoffs": [
+    "Less emotional brand immersion upfront"
+  ],
+  "novelty": "High — transparent engineering UX",
+  "future_expansion": [
+    "B2B salon portal"
+  ],
+  "status": "DRAFT",
+  "lineage_parent_id": null
+}

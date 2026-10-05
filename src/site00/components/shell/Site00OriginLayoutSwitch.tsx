@@ -15,11 +15,16 @@ import {
   site00IdntyAssessmentMobilePath,
 } from '../../config/routes';
 import { useSite00 } from '../../state/Site00Context';
+import { isSite00LayoutPreviewSwitchEnabled } from '../../state/preview-mode';
 
 /** Toggle mobile vs desktop preview on Origin + workflow assessment routes. */
 export function Site00OriginLayoutSwitch() {
   const { pathname } = useLocation();
   const { isPreviewDesktop, setPreviewDeviceMode } = useSite00();
+
+  if (!isSite00LayoutPreviewSwitchEnabled()) {
+    return null;
+  }
 
   let nav: React.ReactNode = null;
 

@@ -1,0 +1,32 @@
+{
+  "experience_family": "EXISTING_LOCATION",
+  "units": [
+    "EXISTING_LOCATION",
+    "DIAGNOSTIC_CASE",
+    "INTERVENTION",
+    "CUSTOM_EXPERIENCE",
+    "CAPABILITY_INSTALLATION"
+  ],
+  "archetypes": [
+    "SERVICE_ENTRY",
+    "ISSUE_INTAKE",
+    "PLATFORM_SELECTION",
+    "ACCESS_SETUP",
+    "DIAGNOSIS_STATUS",
+    "DIAGNOSIS_RESULT",
+    "QUOTE",
+    "APPROVAL",
+    "CHECKOUT",
+    "INTERVENTION_STATUS",
+    "QA_RESULT",
+    "COMPLETION",
+    "CAPABILITY_INSTALL",
+    "CUSTOM_EXPERIENCE"
+  ],
+  "route_map": {
+    "SERVICE_ENTRY": ["/existing-location", "/existing-location/start"],
+    "ISSUE_INTAKE": ["/existing-location/case/:caseId"],
+    "ACCESS_SETUP": ["/existing-location/case/:caseId/access"],
+    "CHECKOUT": ["/existing-location/case/:caseId/checkout"]
+  }
+}
