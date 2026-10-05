@@ -1,0 +1,50 @@
+{
+  "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "asset_id": "CARD.BLDR.PATH.WORLD",
+  "slot_id": "CARD.BLDR.PATH.WORLD",
+  "authority": [
+    "01_BLDR_COMMAND_CENTER"
+  ],
+  "visual_role": "WORLD PATH CARD ILLUSTRATION (TERRACED PLATES WITH TREES).",
+  "asset_type": "card-thumbnail",
+  "target_pixels": {
+    "w": 400,
+    "h": 360
+  },
+  "aspect_ratio": "400:360",
+  "crop_behavior": "cover",
+  "final_geometry": {
+    "frame": "390x693",
+    "x": 111,
+    "y": 390,
+    "w": 79,
+    "h": 62,
+    "from": "01_BLDR_COMMAND_CENTER"
+  },
+  "transparency": false,
+  "mask_ownership": "PARENT_OVERFLOW",
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+  "continuity_group": "BLDR_WORLD_SYSTEM_V1",
+  "negative_space": "UI boxes in opus-geometry-after.json stay clear of focal detail. Wash on environments is live CSS over the lower region, not baked.",
+  "must_include": [
+    "WORLD PATH CARD ILLUSTRATION (TERRACED PLATES WITH TREES)."
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "card titles and body copy",
+    "live technical SVG linework",
+    "baked CSS wash or row fade"
+  ],
+  "reference_crop": "reference-crops/CARD_BLDR_PATH_WORLD_REFERENCE.jpg",
+  "safe_zone_map": "safe-zones/CARD_BLDR_PATH_WORLD_SAFE_ZONES.png",
+  "reference_crop_clipped_by_proof": false,
+  "generation_source_of_pixels": "MAP2_FIXTURE_V1",
+  "validation_status": "VALID_AS_IS",
+  "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+  "production_eligible": true,
+  "regeneration_required": false
+}
