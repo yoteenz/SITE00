@@ -13474,3 +13474,14 @@ Sprint `P0.STUDIOOS.PRODUCTION.LIBRARY.CHARACTER-DETAIL.MEDIA-HIERARCHY-INSPECTO
 - **Root cause:** Generic Library layout stacked lifecycle + 10-family grid + subfilter pills above a short 16:9 hero banner on Character Detail.
 - **Fix:** `CharacterDetail` route with `lbf--char-focus` compact category/subfilter rails, large `lbf-char-media` (4:5-style), `LibraryCharacterImageInspector` overlay, `RelatedCharacterTile` split image inspect vs card nav; `lbf--char-browse` taller tiles on index/residents/project/talent. Draft PR only.
 
+---
+
+## 2026-10-05 — Resident geometry complete + production injection (OpenArt1, in progress)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-COMPLETE-PRODUCTION-INJECTION.OPENART1` on `cursor/studio-world-resident-geometry-complete-production-injection1` (from Library Character Detail lineage).
+
+- **Pipeline:** `residentGeometryCompletePack/Registry`, uniform-aware `geometryPrompts`, `fabricationSourceAuthority` now binds **casting-thumbnails-v1 portrait + uniform regen full-body** (not season1 natural for fabrication body anchor). `validationSourceBinding` accepts uniform regen paths.
+- **OpenArt:** `scripts/studio-world-resident-geometry-complete-openart.mjs` scaffold/queue/record/finalize; 112-job queue; refs in `geometry_complete_openart_refs.json` (portrait upload + uniform output resource ids). Anchors copied to `public/site00/studio-world-residents/geometry-complete-v1/` and `artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/`.
+- **Production injection:** `residentFabricationManifest` resolves 16 frames/resident via geometry-complete registry; `libraryCharacterMedia` surfaces geometry categories; batch status `GEOMETRY_COMPLETE_IN_REVIEW`. Tests `p0StudioWorldGeometryCompleteProductionInjection1.test.ts`.
+- **OpenArt batch:** 112 remaining geometry frames generating resident-by-resident (background agent); review ZIPs on finalize. Draft PR only — no merge/deploy.
+
