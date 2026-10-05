@@ -243,3 +243,11 @@ Canonical upstream-to-downstream layers (methodology v20+):
 | `docs/studio-world/MODULAR-PRODUCTION-ENGINE1.md` | Studio World modular production engine — layers, libraries, pipelines, monetization (Phase 1) |
 | `docs/studio-world/MODULAR-PRODUCTION-ENGINE-OPERATIONAL-LAYERS1.md` | Operational augmentation — role-first casting, Actor Genesis stages, departments, entitlements |
 | `README.md` | Local dev, env vars, routing |
+
+---
+
+## JURNL Family 1 asset method
+
+Permanent method: asset-first, visual-semantic decomposition, minimum necessary assets, live UI separation, layer-aware compositing.
+
+Classify every region into one role before generating an image: live text, live control, structural UI, panel or surface, thumbnail or media slot, environment plate, independent visual asset, layered decorative asset, interactive stateful asset, effect, or not an asset. A static room (plants, books, stone, fabric, sunlight) is one environment plate unless a piece must move, change state, be reused alone, or overlap live UI on its own layer. Parent assembly proof: `/jurnl/f01/parent-assembly`. Layer map: `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/FAMILY1_PARENT_LAYER_MAP.json`.

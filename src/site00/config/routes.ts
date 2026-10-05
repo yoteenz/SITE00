@@ -53,6 +53,8 @@ export const SITE00_ROUTES = {
   signIn: '/origin/sign-in',
   createAccount: '/origin/create-account',
   loaderPreview: '/loader-preview',
+  /** P0.SITE00.FAMILY1.PARENT-ASSET-FIRST.PAGE-ASSEMBLY.TEST1 */
+  jurnlF01ParentAssembly: '/jurnl/f01/parent-assembly',
   accessDebug: '/access/debug',
   access: '/access',
   accessCredential: (code: string) => `/access/${code}`,
