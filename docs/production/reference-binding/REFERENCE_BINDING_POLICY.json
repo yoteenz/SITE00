@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "default_policy": "REQUIRED_WHEN_AVAILABLE",
+  "allowed_generation_modes": ["REFERENCE_GUIDED", "TEXT_TO_IMAGE_NET_NEW"],
+  "reference_required_rules": {
+    "generation_classes": [
+      "SCREEN_CHILD",
+      "SCREEN_GRANDCHILD",
+      "STATE_AUTHORITY",
+      "INTERACTION_AUTHORITY",
+      "ENVIRONMENT_PLATE",
+      "BOTANICAL",
+      "BRAND_LOCKUP",
+      "MATERIAL",
+      "OBJECT",
+      "ICON",
+      "DECORATIVE",
+      "ILLUSTRATION",
+      "SPECIAL_PANEL",
+      "SPECIAL_CONTROL",
+      "SIDEKICK_DERIVED"
+    ],
+    "when_authority_manifest_has_parent": true,
+    "when_visual_composition_must_match_known_source": true
+  },
+  "net_new_rules": {
+    "allowed_intents": ["NEW_AUTHORITY_REQUIRED", "NEW_ASSET_REQUIRED"],
+    "requires_no_canonical_or_approved_reference": true
+  },
+  "blocked_conditions": [
+    "REFERENCE_MISSING",
+    "REFERENCE_BINDING_FAILURE_PREVENTED",
+    "INVALID_GENERATION_MODE",
+    "CROSS_PROJECT_REFERENCE_DENIED",
+    "PROVIDER_REFERENCE_UNSUPPORTED",
+    "REFERENCE_FILE_CORRUPT",
+    "REFERENCE_RESOLUTION_FAILED",
+    "SUPERSEDED_REFERENCE_WHEN_CANONICAL_EXISTS",
+    "SILENT_FALLBACK_ATTEMPT"
+  ],
+  "project_scope_rules": {
+    "enforce_project_firewall": true,
+    "shared_global_registry_required_for_cross_project": true
+  },
+  "authority_priority": ["CANONICAL", "APPROVED", "IN_REVIEW", "PROVISIONAL_DERIVED", "REFERENCE_ONLY"],
+  "invalid_authority_statuses": ["SUPERSEDED", "INVALID"],
+  "provider_capability_rules": {
+    "require_explicit_reference_support_for_reference_guided": true,
+    "no_text_fallback_when_unsupported": true
+  },
+  "override_policy": {
+    "default": "NONE",
+    "requires_founder_authorization": true,
+    "audited": true
+  },
+  "no_prompt_from_memory": true,
+  "no_silent_fallback": true
+}

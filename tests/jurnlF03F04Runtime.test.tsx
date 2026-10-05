@@ -121,4 +121,13 @@ describe('F03 and F04 live routes', () => {
     expect(JURNL_F03_CONTRACT.generationBudget!.creditsBefore).toBe(35063);
     expect(JURNL_F04_CONTRACT.generationBudget!.creditsAfter).toBe(32501);
   });
+
+  it('inherits reference-binding policy on F03/F04 ledgers', () => {
+    const f03 = JSON.parse(readFileSync(path.resolve('src/projects/jurnl/families/F03_TODAY/MANIFEST/F03_GENERATION_LEDGER.json'), 'utf8'));
+    const f04 = JSON.parse(readFileSync(path.resolve('src/projects/jurnl/families/F04_ACTIVITY/MANIFEST/F04_GENERATION_LEDGER.json'), 'utf8'));
+    expect(f03.reference_binding_policy).toBe('REQUIRED_WHEN_AVAILABLE');
+    expect(f04.ledger_schema_version).toBe('2.0.0');
+    const postmortem = f03.generations.find((g: { dispatch_status?: string }) => g.dispatch_status === 'INVALID_GENERATION_POSTMORTEM');
+    expect(postmortem?.failure_class).toBe('REFERENCE_BINDING_FAILURE');
+  });
 });
