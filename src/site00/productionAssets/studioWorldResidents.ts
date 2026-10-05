@@ -1,4 +1,4 @@
-/** Persistent Studio World ensemble. Portrait files live in the production asset registry, not here. */
+/** Persistent Studio World ensemble. Portraits are not mounted — identity only. */
 
 export const STUDIO_WORLD_RESIDENTS = [
   { id: 'SW-001', name: 'Etta Vale', role: 'Creative Director / Founding Presence' },

@@ -12,8 +12,7 @@ import { useMemo } from 'react';
 import { buildHubScenes, hubNodeAssetSlotId, type HubNodeId } from '../../../../../shared/site00-production-hub/index.js';
 import {
   findActorById,
-  findProductionActorById,
-  getProductionStudioWorldActorCatalogue,
+  getStudioWorldActorCatalogue,
   validateCharacterContinuity,
   type CastingRequirement,
   type CharacterCampaignLook,
@@ -39,7 +38,7 @@ export function useExpressionData(slugIn?: string) {
   return useMemo(() => {
     const { plan, cast, gate, items, ready, total } = prod;
     const ok = isEntry002Project(slug);
-    const actors: readonly StudioWorldActor[] = getProductionStudioWorldActorCatalogue().actors;
+    const actors: readonly StudioWorldActor[] = getStudioWorldActorCatalogue().actors;
     const graph = hub?.graph ?? null;
     const scenes = hub?.scenes?.length ? hub.scenes : buildHubScenes(plan);
     const frames = hub?.frames ?? [];
@@ -50,8 +49,7 @@ export function useExpressionData(slugIn?: string) {
 
     const role = (id: string | null | undefined): CastingRequirement | null => cast.requirements.find((r) => r.requirementId === id) ?? null;
     const character = (id: string | null | undefined): ProductionCharacter | null => cast.characters.find((c) => c.characterId === id) ?? null;
-    const actor = (id: string | null | undefined): StudioWorldActor | null =>
-      id ? (actors.find((a) => a.actorId === id) ?? findProductionActorById(id) ?? findActorById(id) ?? null) : null;
+    const actor = (id: string | null | undefined): StudioWorldActor | null => (id ? (actors.find((a) => a.actorId === id) ?? findActorById(id) ?? null) : null);
     const look = (id: string | null | undefined): CharacterCampaignLook | null => cast.looks.find((l) => l.lookId === id) ?? null;
     const charactersForRole = (reqId: string) => cast.characters.filter((c) => c.castingRequirementId === reqId);
     const charactersForActor = (actorId: string) => cast.characters.filter((c) => c.actorId === actorId);

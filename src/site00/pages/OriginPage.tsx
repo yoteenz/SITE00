@@ -19,7 +19,6 @@ import { useOriginLocationsTransition } from '../hooks/useOriginLocationsTransit
 import { useOriginExpandedDismiss } from '../hooks/useOriginExpandedDismiss';
 import { useOriginBackgroundPreload } from '../hooks/useOriginBackgroundPreload';
 import { deriveOriginPanelState } from '../config/origin-panel-state';
-import { PublicOriginMobile } from '../components/public-redesign/PublicOrigin';
 
 export default function OriginPage() {
   const { state, setHomeMode } = useSite00();
@@ -36,19 +35,6 @@ export default function OriginPage() {
   useOriginBackgroundPreload(state.homeMode, isDesktopArtboardLayout ? 'desktop' : 'mobile');
 
   useOriginExpandedDismiss(state.homeMode, collapseExpandedPanel, !isMobileOrigin);
-
-  // Public redesign (SONNET-STRUCTURE1): mobile Origin is rebuilt from authority. The desktop-artboard
-  // branch below is preserved until approved desktop authority exists.
-  if (isMobileOrigin) {
-    return (
-      <PublicOriginMobile
-        homeMode={state.homeMode}
-        onExpand={(panel) => setHomeMode(`${panel}-expanded`)}
-        onCollapse={collapseExpandedPanel}
-        locationsTransition={locationsTransition}
-      />
-    );
-  }
 
   return (
     <EnvironmentShell environmentId="ORIGIN_ENVIRONMENT">
@@ -140,20 +126,12 @@ export default function OriginPage() {
                 <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc1">
                   {SITE00_ORIGIN_COPY.description1}
                 </p>
-                {isDesktopArtboardLayout ? (
-                  <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2 site00-home-hero__line--desktop-flow">
-                    {SITE00_ORIGIN_COPY.description2} {SITE00_ORIGIN_COPY.description3}
-                  </p>
-                ) : (
-                  <>
-                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
-                      {SITE00_ORIGIN_COPY.description2}
-                    </p>
-                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
-                      {SITE00_ORIGIN_COPY.description3}
-                    </p>
-                  </>
-                )}
+                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
+                  {SITE00_ORIGIN_COPY.description2}
+                </p>
+                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
+                  {SITE00_ORIGIN_COPY.description3}
+                </p>
                 {isDesktopArtboardLayout ? (
                   <p className="site00-coordinate site00-home-hero__coordinate">
                     {SITE00_ORIGIN_COPY.originPointLine.prefix}{' '}

@@ -21,8 +21,6 @@ export type AssetSourceType =
 export type AssetAuthorityStatus =
   | 'CANONICAL'
   | 'USED_BY_AUTHORITY'
-  | 'IDENTITY_CONFIRMED'
-  | 'FABRICATION_IN_REVIEW'
   | 'CANDIDATE'
   | 'SUPERSEDED'
   | 'UNAPPROVED'

@@ -10,7 +10,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
-import { ActivityBody, activityHref } from '../src/site00/components/productionAuthority/ActivityBody';
+import { ACTIVITY_LENSES, ActivityBody, activityHref, blockerSeverity } from '../src/site00/components/productionAuthority/ActivityBody';
 import { INBOX_LENSES, InboxBody, inboxHref } from '../src/site00/components/productionAuthority/InboxBody';
 import { ProductionAuthorityDataContext } from '../src/site00/components/productionAuthority/ProductionAuthorityData';
 import type { HubData } from '../src/site00/components/productionHub/useProductionHubData';
@@ -101,53 +101,70 @@ describe('INBOX decision detail (grandchild)', () => {
   });
 });
 
-/* ACTIVITY blocks superseded by P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1 (canonical DOMAIN × TIME
- * project memory; full coverage in tests/productionActivityOneViewportOpus1.test.ts). The OPUS1 intent is kept:
- * Activity mounts on the existing route, legacy lens links still resolve, nothing is invented, milestone focus works,
- * Inbox approvals and Activity stay distinct, and styles are body-only per-viewport compositions. */
-describe('ACTIVITY mounts on the existing /production/activity route', () => {
-  it('legacy OPUS1 lens links still resolve (blockers → BLOCKED, approvals → APPROVED)', () => {
-    const blockers = render(ActivityBody, '/production/activity?view=blockers');
-    expect(blockers).toContain('data-verb="BLOCKED"');
-    expect((blockers.match(/data-testid="activity-event"/g) ?? []).length).toBeGreaterThan(0);
-    expect([...blockers.matchAll(/data-testid="activity-event" data-verb="([A-Z]+)"/g)].every((m) => m[1] === 'BLOCKED')).toBe(true);
-    expect(render(ActivityBody, '/production/activity?view=approvals')).toContain('data-verb="APPROVED"');
-  });
-  it('Publish / comments are not invented', () => {
-    const html = render(ActivityBody, activityHref({ range: 'all' }));
+describe('ACTIVITY lenses mount on the existing /production/activity route', () => {
+  const expect_: Record<string, string[]> = {
+    all: ['activity-stats', 'activity-feed', 'activity-milestones', 'activity-attention'],
+    approvals: ['activity-approval-feed', 'activity-pending-review'],
+    updates: ['activity-updates', 'activity-related'],
+    comments: ['activity-comment-filters', 'activity-comments-unmounted'],
+    blockers: ['activity-blockers', 'activity-escalations'],
+  };
+  for (const lens of ACTIVITY_LENSES) {
+    it(lens, () => {
+      const html = render(ActivityBody, activityHref(lens));
+      expect(html).toContain(`data-lens="${lens}"`);
+      for (const id of ['authority-activity', 'activity-hero', 'activity-lenses', ...expect_[lens]!]) expect(has(html, id), `${lens}:${id}`).toBe(true);
+    });
+  }
+  it('Publish is not present (no route or data exists — not invented)', () => {
+    expect(ACTIVITY_LENSES).not.toContain('publish' as never);
+    const html = render(ActivityBody, '/production/activity');
     expect(html).not.toMatch(/>PUBLISH</);
+    expect(html).not.toContain('view=publish');
+  });
+  it('blocker rows come from the live graph and the gate node is CRITICAL', () => {
+    const html = render(ActivityBody, activityHref('blockers'));
+    expect((html.match(/data-testid="activity-blocker-row"/g) ?? []).length).toBeGreaterThan(0);
+    expect(blockerSeverity(NODES[0] as never, 'narrative')).toBe('CRITICAL');
+    expect(blockerSeverity(NODES[1] as never, 'narrative')).toBe('HIGH');
+    expect(blockerSeverity(NODES[4] as never, 'narrative')).toBe('MEDIUM');
+  });
+  it('comments are an honest UNMOUNTED shell', () => {
+    const html = render(ActivityBody, activityHref('comments'));
+    expect(html).toContain('data-state="UNMOUNTED"');
     expect(html).not.toMatch(/Maya Chen|Alex Rivas|Taylor Brooks/);
   });
-  it('blocked rows come from the live graph', () => {
-    const html = render(ActivityBody, activityHref({ verb: 'BLOCKED' }));
-    expect(html).toMatch(/data-testid="activity-event" data-verb="BLOCKED"/);
-    expect(html).toMatch(/awaiting founder approval/i);
+  it('existing workspace + range filters are preserved in the filter popover source', () => {
+    const src = read('src/site00/components/productionAuthority/ActivityBody.tsx');
+    expect(src).toContain('testId="activity-category"');
+    expect(src).toContain('testId="activity-range"');
   });
 });
 
-describe('ACTIVITY milestone focus (grandchild)', () => {
-  it('narrows the memory to a live node', () => {
-    const html = render(ActivityBody, activityHref({ milestone: 'cast', range: 'all' }));
-    expect(has(html, 'activity-filter-milestone')).toBe(true);
-    expect(html).toMatch(/data-testid="activity-filter-milestone"[^>]*>CAST/);
+describe('ACTIVITY milestone detail (grandchild)', () => {
+  it('mounts for a live node', () => {
+    const html = render(ActivityBody, activityHref('all', 'cast'));
+    expect(html).toContain('data-node="cast"');
+    for (const id of ['activity-milestone-back', 'activity-milestone-open', 'activity-milestone-timeline', 'activity-milestone-dependencies', 'activity-milestone-unlocks'])
+      expect(has(html, id), id).toBe(true);
   });
 });
 
-describe('Inbox Approvals and Activity stay distinct', () => {
+describe('Inbox Approvals and Activity Approvals stay distinct', () => {
   it('different routes, different surfaces', () => {
     expect(inboxHref('needs')).toBe('/production/queue');
-    expect(activityHref({ verb: 'APPROVED' })).toBe('/production/activity?verb=approved');
+    expect(activityHref('approvals')).toBe('/production/activity?view=approvals');
     const inbox = render(InboxBody, '/production/queue');
-    const act = render(ActivityBody, activityHref({ verb: 'APPROVED' }));
+    const act = render(ActivityBody, activityHref('approvals'));
     expect(has(inbox, 'inbox-focus')).toBe(true);
-    expect(has(inbox, 'activity-timeline-pane')).toBe(false);
-    expect(has(act, 'activity-timeline-pane')).toBe(true);
+    expect(has(inbox, 'activity-approval-feed')).toBe(false);
+    expect(has(act, 'activity-approval-feed')).toBe(true);
     expect(has(act, 'inbox-focus')).toBe(false);
   });
 });
 
 describe('styles: body-only, recomposed per viewport, no scaling', () => {
-  const css = read('src/site00/styles/site00-production-activity-memory.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  const css = read('src/site00/styles/site00-production-inbox-activity.css').replace(/\/\*[\s\S]*?\*\//g, '');
   it('never selects host chrome', () => {
     expect(css).not.toMatch(/\.pxh|\.ph-|\.prod-chrome|\.pxa-nav|\.pxa-top/);
   });

@@ -6,13 +6,13 @@
     "WARDROBE_TOP",
     "MOTION_TIMING"
   ],
-  "totalSlots": 108,
-  "runtimeCanonicalSlots": 10,
-  "grokRequiredCount": 24,
+  "totalSlots": 106,
+  "runtimeCanonicalSlots": 2,
+  "grokRequiredCount": 27,
   "slotsByGroup": {
     "MACHINE": 2,
     "BODY": 8,
-    "ACTOR": 16,
+    "ACTOR": 14,
     "CHARACTER": 3,
     "WARDROBE": 21,
     "LOOK": 6,
@@ -21,6 +21,69 @@
     "SIMULATION": 18
   },
   "assets": [
+    {
+      "slotId": "actor.sw052.portrait.primary",
+      "group": "ACTOR",
+      "purpose": "Primary approved portrait of actor SW-052.",
+      "aspectRatio": "4:5",
+      "minimumResolution": "1024x1280",
+      "usedBy": [
+        "ActorCard",
+        "ActorAuthorityCard",
+        "ActorProfile"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/actor/sw052/portrait/primary.webp",
+      "assetId": "grok.site00.character-fabrication.actor.sw052.portrait.primary.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "actor.sw019.portrait.primary",
+      "group": "ACTOR",
+      "purpose": "Primary approved portrait of actor SW-019.",
+      "aspectRatio": "4:5",
+      "minimumResolution": "1024x1280",
+      "usedBy": [
+        "ActorCard",
+        "ActorAuthorityCard",
+        "ActorProfile"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/actor/sw019/portrait/primary.webp",
+      "assetId": "grok.site00.character-fabrication.actor.sw019.portrait.primary.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "actor.sw063.portrait.primary",
+      "group": "ACTOR",
+      "purpose": "Primary approved portrait of actor SW-063.",
+      "aspectRatio": "4:5",
+      "minimumResolution": "1024x1280",
+      "usedBy": [
+        "ActorCard",
+        "ActorAuthorityCard",
+        "ActorProfile"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/actor/sw063/portrait/primary.webp",
+      "assetId": "grok.site00.character-fabrication.actor.sw063.portrait.primary.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
     {
       "slotId": "wardrobe.sw017.garment.legging-01",
       "group": "WARDROBE",
@@ -492,38 +555,6 @@
     }
   ],
   "canonicalRuntime": [
-    {
-      "slotId": "actor.sw001.portrait.primary",
-      "source": "/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-001_ETTA_VALE.jpg"
-    },
-    {
-      "slotId": "actor.sw002.portrait.primary",
-      "source": "/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-002_ZURI_XU.jpg"
-    },
-    {
-      "slotId": "actor.sw003.portrait.primary",
-      "source": "/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-003_JULES_MERCER.jpg"
-    },
-    {
-      "slotId": "actor.sw004.portrait.primary",
-      "source": "/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-004_NOA_KLINE.jpg"
-    },
-    {
-      "slotId": "actor.sw005.portrait.primary",
-      "source": "/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-005_CASPIAN_REED.jpg"
-    },
-    {
-      "slotId": "actor.sw006.portrait.primary",
-      "source": "/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-006_IONA_WELLS.jpg"
-    },
-    {
-      "slotId": "actor.sw007.portrait.primary",
-      "source": "/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-007_MARLOWE_SAINT.jpg"
-    },
-    {
-      "slotId": "actor.sw008.portrait.primary",
-      "source": "/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-008_ELIO_EV_VAHN.jpg"
-    },
     {
       "slotId": "actor.sw017.portrait.primary",
       "source": "pre-storyboard authority board: SUBJECT WOMAN DUAL-ERA AUTHORITY"

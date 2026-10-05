@@ -19,8 +19,6 @@ import IdntyAssessmentCompletePage from './IdntyAssessmentCompletePage';
 import IdntyDiscoveryResultPage from './IdntyDiscoveryResultPage';
 import { PostPurchaseIntelligenceRedirect } from '../../../components/discovery/PostPurchaseIntelligenceRedirect';
 import { IdntyAssessmentShell } from '../../../components/idnty-assessment/IdntyAssessmentShell';
-import { IdentityDiagnosticFlow } from '../../../components/public-redesign/IdentityDiagnosticFlow';
-import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 
 function isValidSlug(slug: string | undefined): slug is IdntyAssessmentStateId {
   return Boolean(slug && IDNTY_ASSESSMENT_STATE_SLUGS.includes(slug as IdntyAssessmentRouteSlug));
@@ -48,7 +46,6 @@ function parseAssessmentSegments(pathname: string, stateSlug: string): string | 
 export default function IdntyAssessmentRouterPage() {
   const { stateSlug } = useParams<{ stateSlug: string }>();
   const { pathname } = useLocation();
-  const isDesktopArtboard = useSite00DesktopArtboardPreview();
 
   if (stateSlug && RESERVED_IDNTY_ROUTE_SLUGS[stateSlug]) {
     return <Navigate to={RESERVED_IDNTY_ROUTE_SLUGS[stateSlug]} replace />;
@@ -70,26 +67,6 @@ export default function IdntyAssessmentRouterPage() {
 
   const stepSegment = parseAssessmentSegments(pathname, stateSlug);
   const isDesktop = isSite00IdntyAssessmentDesktopPath(pathname);
-
-  /**
-   * Public redesign (SONNET-STRUCTURE1): one continuous Diagnostic surface for state detail, every
-   * question and review. BUILD READY always uses it (the legacy desktop form cannot represent the
-   * identity-authority verification flow); other states use it everywhere except the legacy
-   * desktop-artboard branch, which is preserved until approved desktop authority exists.
-   */
-  const useRedesign = !isDesktopArtboard || stateSlug === 'build-ready';
-  const isFlowSegment =
-    stepSegment === null ||
-    stepSegment === 'review' ||
-    (stepSegment !== 'complete' &&
-      stepSegment !== 'discovery-result' &&
-      stepSegment !== 'desktop' &&
-      !/\/(world|calibrate|personality|calibrate-personality)\//.test(pathname) &&
-      stepSegment !== 'world-review' &&
-      stepSegment !== 'personality-review');
-  if (useRedesign && isFlowSegment) {
-    return <IdentityDiagnosticFlow stateSlug={stateSlug} segment={stepSegment} />;
-  }
 
   if (!stepSegment) {
     return <IdntyAssessmentLandingPage stateSlug={stateSlug} key={`${stateSlug}-${isDesktop ? 'd' : 'm'}`} />;

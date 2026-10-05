@@ -10,10 +10,9 @@
  * remaining height. Panels declare their span per viewport; a panel whose content exceeds its cell scrolls inside
  * its own body (`data-scroll="internal"`), so every route fits one viewport and nothing is silently clipped.
  */
-import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { HubImage } from '../../productionHub/HubImage';
-import { ExpressionMediaInspector, type ExpressionMediaSlide } from './ExpressionMediaInspector';
 import { AUTHORITY_ASSETS } from '../authorityAssets';
 import { LiveStatusBar } from '../HubBody';
 import { useProductionAuthorityData } from '../ProductionAuthorityData';
@@ -46,14 +45,11 @@ export function ExpressionFamilyShell({
   const routeLabel = route.kind === 'root' ? null : route.label;
   const href = (f: ExpressionFamilyId, id = 'root') => expressionHref(slug, f, id, undefined, entry);
   const parentTab = route.kind === 'detail' && route.parent && route.parent !== 'root' ? tabs.find((t) => t.id === route.parent) : null;
-  const mediaHeavyFamily = new Set<ExpressionFamilyId>(['casting', 'look', 'performance', 'sets', 'storyboard', 'review', 'format', 'package', 'campaign']);
-  const mediaFocus = route.kind !== 'root' || mediaHeavyFamily.has(family.id);
 
   return (
     <div
-      className={`exf${mediaFocus ? ' exf--media-focus' : ''}`}
+      className="exf"
       data-testid="expression-family"
-      data-media-focus={mediaFocus ? 'true' : undefined}
       data-family={family.id}
       data-route={route.id}
       data-kind={route.kind}
@@ -100,9 +96,9 @@ export function ExpressionFamilyShell({
           ))}
         </ul>
       </header>
-      <LiveStatusBar expressionMode compact={mediaFocus} context={{ title: 'EXPRESSION', sub: `${family.title}${routeLabel ? ` / ${routeLabel}` : ''}` }} />
+      <LiveStatusBar expressionMode context={{ title: 'EXPRESSION', sub: `${family.title}${routeLabel ? ` / ${routeLabel}` : ''}` }} />
       {family.downstream ?
-        <nav className="exf-tabs exf-tabs--flow" aria-label="Downstream flow" data-testid="expression-family-tabs" data-flow="format-package-campaign" data-scroll="internal-x">
+        <nav className="exf-tabs exf-tabs--flow" aria-label="Downstream flow" data-testid="expression-family-tabs" data-flow="format-package-campaign">
           {EXPRESSION_FAMILIES.filter((f) => f.downstream).map((f, i) => (
             <Link key={f.id} to={href(f.id)} className={f.id === family.id ? 'is-active' : undefined} aria-current={f.id === family.id ? 'page' : undefined} data-testid={`expression-tab-${f.id}`}>
               <em>{f.n}</em> {f.title}
@@ -111,7 +107,7 @@ export function ExpressionFamilyShell({
           ))}
         </nav>
       : tabs.length ?
-        <nav className="exf-tabs" aria-label={`${family.title} sections`} data-testid="expression-family-tabs" data-scroll="internal-x">
+        <nav className="exf-tabs" aria-label={`${family.title} sections`} data-testid="expression-family-tabs">
           {tabs.map((t) => (
             <Link key={t.id} to={href(family.id, t.id)} className={t.id === activeTab ? 'is-active' : undefined} aria-current={t.id === activeTab ? 'page' : undefined} data-testid={`expression-tab-${t.id}`}>
               {t.label}
@@ -157,7 +153,6 @@ export function Panel({
   hide,
   testId,
   className = '',
-  layout,
   children,
 }: {
   title: string;
@@ -169,8 +164,6 @@ export function Panel({
   hide?: string;
   testId?: string;
   className?: string;
-  /** Media-primary panel: image fills the pane; metadata scrolls inside the body if needed. */
-  layout?: 'media' | 'rail' | 'compact';
   children: ReactNode;
 }) {
   const d = at.d ?? [12, 1];
@@ -178,7 +171,7 @@ export function Panel({
   const m = at.m ?? [6, 1];
   const style = { '--dc': d[0], '--dr': d[1], '--tc': t[0], '--tr': t[1], '--mc': m[0], '--mr': m[1] } as CSSProperties;
   return (
-    <section className={`exf-panel${layout ? ` exf-panel--${layout}` : ''} ${className}`.trim()} style={style} data-hide={hide} data-testid={testId} data-layout={layout}>
+    <section className={`exf-panel ${className}`} style={style} data-hide={hide} data-testid={testId}>
       <header className="exf-panel__head">
         <h3>
           <i aria-hidden />
@@ -226,73 +219,6 @@ export function Img({ url, label, slotId = null, className = '' }: { url: string
     <span className={`exf-img ${className}`}>
       <HubImage slotId={slotId} url={url} label={label} />
     </span>
-  );
-}
-
-export type MediaFit = 'contain' | 'cover';
-
-/** Primary creative asset — tappable to inspect; fills available panel space when paired with `exf-media-primary`. */
-export function MediaImg({
-  url,
-  label,
-  slotId = null,
-  fit = 'contain',
-  inspect = true,
-  gallery,
-  galleryIndex = 0,
-  title,
-  className = '',
-  testId = 'expression-media-primary',
-}: {
-  url: string | null;
-  label: string;
-  slotId?: string | null;
-  fit?: MediaFit;
-  inspect?: boolean;
-  gallery?: readonly ExpressionMediaSlide[];
-  galleryIndex?: number;
-  title?: string;
-  className?: string;
-  testId?: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const [idx, setIdx] = useState(galleryIndex);
-  const slides = useMemo(() => {
-    if (gallery?.length) return gallery.filter((s) => !!s.url);
-    return url ? [{ url, label }] : [];
-  }, [gallery, label, url]);
-  const canInspect = inspect && slides.length > 0 && !!url;
-  const openInspect = () => {
-    if (!canInspect) return;
-    setIdx(Math.min(Math.max(0, galleryIndex), slides.length - 1));
-    setOpen(true);
-  };
-  return (
-    <>
-      <button
-        type="button"
-        className={`exf-media-primary exf-media-primary--${fit} ${className}`.trim()}
-        onClick={openInspect}
-        disabled={!canInspect}
-        aria-label={canInspect ? `Inspect ${label}` : label}
-        data-testid={testId}
-        data-inspectable={canInspect ? 'true' : 'false'}
-      >
-        <span className="exf-img exf-media-primary__img">
-          <HubImage slotId={slotId} url={url} label={label} />
-        </span>
-        {canInspect ? <span className="exf-media-primary__hint">TAP TO INSPECT</span> : null}
-      </button>
-      {open && slides.length ?
-        <ExpressionMediaInspector
-          slides={slides}
-          index={idx}
-          title={title ?? label}
-          onClose={() => setOpen(false)}
-          onStep={(d) => setIdx((i) => Math.min(Math.max(0, i + d), slides.length - 1))}
-        />
-      : null}
-    </>
   );
 }
 

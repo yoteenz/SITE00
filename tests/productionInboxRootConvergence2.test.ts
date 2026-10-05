@@ -2,7 +2,7 @@
  * P0.PRODUCTION.INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2 — INBOX part only (tunnel branch).
  * The NEEDS YOU root is recomposed to the newest parent authority (01_INBOX): selected decision surface ·
  * INCOMING DECISION OBJECTS · BLOCKERS & APPROVALS · RECENTLY RESOLVED. OPUS2 model / routing / gate unchanged.
- * The blockers count deep-links to Activity (now the canonical DOMAIN × TIME project memory — ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1).
+ * ACTIVITY stays the OPUS1 three-viewport ActivityBody (founder decision) — the blockers count deep-links to it.
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -83,10 +83,10 @@ describe('INBOX · NEEDS YOU recomposed to the newest parent authority (model, r
     expect(html.indexOf('data-testid="inbox-incoming"')).toBeLessThan(html.indexOf('data-testid="inbox-attention"'));
     expect(html.indexOf('data-testid="inbox-attention"')).toBeLessThan(html.indexOf('data-testid="inbox-resolved-rail"'));
   });
-  it('blockers deep-link into Activity; the legacy ?view=blockers link resolves to the BLOCKED change filter', () => {
+  it('blockers deep-link into the OPUS1 Activity blockers lens (Activity stays OPUS1)', () => {
     expect(html).toContain('href="/production/activity?view=blockers"');
-    // ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1 retired the OPUS1 lens bar; the link stays valid via readActivityQuery
-    expect(read('src/site00/components/productionAuthority/ActivityBody.tsx')).toMatch(/legacy === 'blockers' \? 'blocked'/);
+    expect(html).not.toContain('verb=');
+    expect(read('src/site00/components/productionAuthority/ActivityBody.tsx')).toContain("export const ACTIVITY_LENSES: readonly ActivityLens[] = ['all', 'approvals', 'updates', 'comments', 'blockers'];");
   });
   it('nothing resolved → honest empty strip, never filler art', () => {
     const empty = render('/production/queue', hub({ activity: [] }));

@@ -313,7 +313,7 @@ export type ActorCampaignHistoryEntry = {
 };
 
 export type StudioWorldActorCatalogue = {
-  catalogueId: 'studio-world-acting-company' | 'studio-world-season1-resident-casting';
+  catalogueId: 'studio-world-acting-company';
   version: typeof ACTING_CATALOGUE_VERSION;
   actors: readonly StudioWorldActor[];
   identityAuthorities: readonly ActorIdentityAuthority[];
