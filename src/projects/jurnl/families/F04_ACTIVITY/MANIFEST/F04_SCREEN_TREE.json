@@ -19,10 +19,12 @@
   "primary_canvas": { "w": 393, "h": 852, "unit": "px" },
   "environment_groups": {
     "ENV.LEDGER": {
-      "classification": "NO_LIFESTYLE_ENVIRONMENT",
-      "purpose": "The same welcome reference, framed onto the plaster so the ledger can be read. Curtain and a narrow arch remain. Not a new room and not a text-to-image paper field.",
+      "classification": "DISTINCT_PARENT_ENVIRONMENT",
+      "purpose": "A quieter reading wall in the same house. Broad plaster, a sliver of arch, no bust. Less busy than Today.",
       "member_screens": ["F04.00"],
-      "reuse": "REFERENCE WORLD SHARED WITH F01 AND F02. THE PLATE IS A CLEAN EXTRACTION OF THE ACTIVITY FRAME."
+      "reuse": "UNIQUE FILE. NOT A MOUNT OF ENV.DAY. WITHIN-FAMILY REUSE FOR SEARCH AND DETAIL.",
+      "distinctness_status": "PASS",
+      "cross_family_reuse": "NO"
     }
   },
   "parent": [

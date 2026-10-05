@@ -2,7 +2,17 @@
   "family_id": "F02_SETUP",
   "environments": [
     {
+      "environment_group_id": "ENV.ARRIVAL",
       "environment_id": "ENV.ARRIVAL",
+      "family_id": "F02",
+      "family_role": "Setup threshold. Arch, curtain, bust, and coast.",
+      "plate_id": "SETUP.ENVIRONMENT.ARRIVAL.001",
+      "origin_family": "F02",
+      "reuse_scope": "WITHIN_FAMILY",
+      "within_family_reuse": ["F02.00", "F02.01", "F02.08", "F02.ST.RESUME"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "PASS",
       "source_screen": "F02.00",
       "member_screens": [
         "F02.00",
@@ -28,7 +38,17 @@
       "desktop_crop": "Same plate, centered column at the mobile measure. No separate art file."
     },
     {
+      "environment_group_id": "ENV.DESK",
       "environment_id": "ENV.DESK",
+      "family_id": "F02",
+      "family_role": "Working desk. Travertine, closed book, brass tray, olive.",
+      "plate_id": "SETUP.ENVIRONMENT.DESK.001",
+      "origin_family": "F02",
+      "reuse_scope": "WITHIN_FAMILY",
+      "within_family_reuse": ["F02.02", "F02.02.1", "F02.03", "F02.04", "F02.06", "F02.ST.VALIDATION", "F02.ST.CONNECTED", "F02.IN.ADD", "F02.IN.SKIP"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "PASS",
       "source_screen": "F02.02",
       "member_screens": [
         "F02.02",
@@ -59,7 +79,17 @@
       "desktop_crop": "Same plate, centered column at the mobile measure. No separate art file."
     },
     {
+      "environment_group_id": "ENV.EDIT",
       "environment_id": "ENV.EDIT",
+      "family_id": "F02",
+      "family_role": "Stone ledge for the edit screens.",
+      "plate_id": "SETUP.ENVIRONMENT.EDIT.001",
+      "origin_family": "F02",
+      "reuse_scope": "WITHIN_FAMILY",
+      "within_family_reuse": ["F02.05", "F02.05.1"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "PASS",
       "source_screen": "F02.05",
       "member_screens": [
         "F02.05",
@@ -83,7 +113,17 @@
       "desktop_crop": "Same plate, centered column at the mobile measure. No separate art file."
     },
     {
+      "environment_group_id": "ENV.QUIET",
       "environment_id": "ENV.QUIET",
+      "family_id": "F02",
+      "family_role": "Lower quiet stone for permission.",
+      "plate_id": "SETUP.ENVIRONMENT.QUIET.001",
+      "origin_family": "F02",
+      "reuse_scope": "WITHIN_FAMILY",
+      "within_family_reuse": ["F02.07", "F02.IN.PERMISSION"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "PASS",
       "source_screen": "F02.07",
       "member_screens": [
         "F02.07",

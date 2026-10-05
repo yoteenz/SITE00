@@ -13537,3 +13537,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Parents stay `READY_FOR_FOUNDER_REVIEW` and are not approved. Child production stays blocked. No new paid generations and no credits spent. The existing plates were kept. The repair is live CSS, type, and interaction. F01 and F02 were audited only: entry titles sit high, F02 actions are not a centered dock, and the F02 amount field has no currency symbol. Those stay registered for a later surgical pass. Display currency is USD, EUR, or GBP. Changing it changes the symbol and grouping. Stored amounts stay numeric. Quick Add expense/income and checking/card are mutually exclusive, save is gated, and a saved row updates Today and Activity.
 - **Changes:** `src/projects/jurnl/data/home/currency.ts`, `money.ts`, `HomeScreens.tsx`, `jurnl-home.css`, primitives, product nav, transaction row, `tests/jurnlF03F04Runtime.test.tsx`. Contracts in `JURNL/MANIFEST/`. Child production files under `JURNL/F03_TODAY/MANIFEST/` and `JURNL/F04_ACTIVITY/MANIFEST/`.
 - **Conventions:** Future families inherit `JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json` and `JURNL_CURRENCY_CONTRACT.json`. Do not resume F03 or F04 child generation until the founder passes the parents. Do not invent an exchange rate.
+
+---
+
+## 2026-10-05 — Family environment distinctness
+
+- **Context:** After the reference-binding guard, the one-project-per-family rule, and the F03/F04 parent composition repair, the founder required that JURNL families share a world without sharing rooms.
+- **Topics covered:** Family visual identity, within-family plate reuse, cross-family reuse as an exception, environment briefs, and an audit of the F01–F04 plates.
+- **Decisions / outcomes:** Fourteen F01 files and four F02 files are unique. No two families mount the same bytes. F02 arrival and F03 day are different files of the same room (arch, curtain, bust, bowl, books), so F03 is `SHOULD_REPLACE` and was not regenerated. F04 is a quieter wall with no bust and is distinct from F03. Within-family reuse stays encouraged. F05 and later must record a cross-family reason or the dispatch blocks at zero credits.
+- **Changes:** `JURNL/MANIFEST/JURNL_FAMILY_ENVIRONMENT_DISTINCTNESS.json`, `JURNL_ENVIRONMENT_BRIEFS.json`, `JURNL_PLATE_REUSE_AUDIT.json`, family environment manifests, `.cursor/rules/jurnl-family-environment.mdc`, and `validateCrossFamilyPlateReuse`.
+- **Conventions:** Same world is not the same room. Do not generate a replacement for F03 until the founder asks. Do not copy the previous family's plate into the next family.

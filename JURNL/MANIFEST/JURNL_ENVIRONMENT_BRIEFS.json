@@ -1,0 +1,64 @@
+{
+  "contract": "JURNL_ENVIRONMENT_BRIEFS",
+  "note": "These briefs describe the rooms. They are not a generation order. No plate was regenerated for this record.",
+  "briefs": [
+    {
+      "family_id": "F01",
+      "family_name": "ENTRY",
+      "emotional_role": "Arrival. The house opens.",
+      "spatial_role": "Threshold and quiet interior rooms for account, trust, and privacy.",
+      "architectural_character": "Atrium plaster, then smaller clean rooms per screen.",
+      "lighting_character": "High natural light on the welcome plate. Child rooms stay calm.",
+      "material_emphasis": "Plaster, stone, bone.",
+      "hero_object_or_focal_point": "The welcome atrium. Each later entry screen has its own plate.",
+      "negative_space_strategy": "Open plaster for the live column.",
+      "relationship_to_previous_family": "First family. It establishes the world.",
+      "cross_family_reuse_allowed": "NO",
+      "reason_if_yes": null
+    },
+    {
+      "family_id": "F02",
+      "family_name": "SETUP",
+      "emotional_role": "Setting the life in order. Considered, not hurried.",
+      "spatial_role": "Four rooms: arrival, desk, edit, quiet.",
+      "architectural_character": "Coastal arch at arrival. Travertine desk for the working screens. A stone ledge for edit. A lower pier for permission.",
+      "lighting_character": "Morning side light. Warm on the quiet plate.",
+      "material_emphasis": "Plaster, travertine, burgundy cloth, olive, paper.",
+      "hero_object_or_focal_point": "Arrival bust and arch. Desk holds the closed burgundy ledger and brass tray.",
+      "negative_space_strategy": "Left plaster stays empty for the form.",
+      "relationship_to_previous_family": "Same world as F01. Its own rooms. The live setup routes do not mount the F01 atrium file.",
+      "cross_family_reuse_allowed": "NO",
+      "reason_if_yes": null
+    },
+    {
+      "family_id": "F03",
+      "family_name": "TODAY",
+      "emotional_role": "Open, brighter, lived-in, daily, active, more expansive than setup.",
+      "spatial_role": "The daily home. One environment group for the parent and its states.",
+      "architectural_character": "A different room from F02 arrival. Not the same arch, curtain, bust, bowl, and book stack.",
+      "lighting_character": "Brighter day light than the setup arrival.",
+      "material_emphasis": "Lived-in plaster, textile, a daily object. Still stone and bone.",
+      "hero_object_or_focal_point": "A daily focal point that is not the F02 bust-and-arch arrangement.",
+      "negative_space_strategy": "Left and center-left stay open for the safe-to-spend rail. The right plate breathes.",
+      "relationship_to_previous_family": "After setup. Same house, a more active room.",
+      "cross_family_reuse_allowed": "NO",
+      "reason_if_yes": null,
+      "current_plate_status": "SHOULD_REPLACE. TODAY.ENVIRONMENT.DAY.001 is a different file from SETUP.ENVIRONMENT.ARRIVAL.001 and still reads as that same room."
+    },
+    {
+      "family_id": "F04",
+      "family_name": "ACTIVITY",
+      "emotional_role": "Quieter, editorial, ledger-like, structured, less photographically busy than Today.",
+      "spatial_role": "A reading room for the record. One environment group for the parent, search, and detail.",
+      "architectural_character": "Broad plaster. The arch is only a sliver. No bust.",
+      "lighting_character": "Soft diagonal light on a large empty wall.",
+      "material_emphasis": "Plaster, burgundy textile, a small stack of books.",
+      "hero_object_or_focal_point": "The empty wall. Objects stay low and out of the reading field.",
+      "negative_space_strategy": "Most of the frame is quiet plaster so the ledger can sit without fighting a sculpture.",
+      "relationship_to_previous_family": "Same house as Today. Not Today's bust, bowl, and full arch.",
+      "cross_family_reuse_allowed": "NO",
+      "reason_if_yes": null,
+      "current_plate_status": "DISTINCT from F03. Unique file. Still the coastal house, which is the world, not a second copy of the Today plate."
+    }
+  ]
+}

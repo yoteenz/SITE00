@@ -1,0 +1,21 @@
+{
+  "family_id": "F03",
+  "family_name": "TODAY",
+  "environments": [
+    {
+      "environment_group_id": "ENV.DAY",
+      "family_id": "F03",
+      "family_role": "Daily home. Meant to be brighter and more lived-in than setup.",
+      "plate_id": "TODAY.ENVIRONMENT.DAY.001",
+      "origin_family": "F03",
+      "file": "src/projects/jurnl/families/F03_TODAY/ENVIRONMENTS/F03_ENVIRONMENT_DAY.jpg",
+      "reuse_scope": "WITHIN_FAMILY",
+      "within_family_reuse": ["F03.00 and its states"],
+      "cross_family_reuse": "NO",
+      "cross_family_reuse_reason": null,
+      "distinctness_status": "FAIL",
+      "classification": "SHOULD_REPLACE",
+      "note": "Unique file. Same room as F02 ENV.ARRIVAL. Do not generate a replacement until the founder asks. Child production stays blocked."
+    }
+  ]
+}
