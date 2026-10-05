@@ -703,18 +703,18 @@
       "name": "FAMILY DISCOVERY (NON-NAV FAMILIES)",
       "scope": "GLOBAL",
       "ownerFamily": null,
-      "current": "MISSING",
-      "criteria": "R0 U0 D- I0 S- V- E- M- L- P0 A0 N0",
-      "evidence": "In-product reach today: F03→F04 (ACTIVITY), nav → F05 / F08 / F12. F06, F07, F09, F10, F11, F13, F14, F15, F16 are reachable only through the review board (/parents) or a typed URL.",
-      "required": "HUB LINKS (PROPOSED): HOME→F04 F07 F09 · MONEY→F06 F16 · PLAN→F09 F10 F11 F14 F15 · CREDIT→F13. FOUNDER DECISION ON THE MAPPING.",
-      "wave": 1,
+      "current": "PARTIAL",
+      "criteria": "R1 U1 D- I1 S- V- E- M- L- P1 A1 N1",
+      "evidence": "FamilyDiscoveryLinks on F03 / F05 / F08 / F12 hubs; JURNL_FAMILY_DISCOVERY + JURNL_PRODUCT_DISCOVERY_EDGES in familyRegistry.ts.",
+      "required": "HUB LINKS: HOME→F07 F09 · MONEY→F06 F16 · PLAN→F09 F10 F11 F14 F15 · CREDIT→F13. REVIEW BOARD IS NOT PRODUCT NAV.",
+      "wave": 0,
       "consumers": [
         "F03",
         "F05",
         "F08",
         "F12"
       ],
-      "functional_score": 0
+      "functional_score": 1
     },
     {
       "id": "GS.ENTITLEMENTS",

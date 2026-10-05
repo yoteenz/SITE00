@@ -1,0 +1,13 @@
+{
+  "sprint": "P0.JURNL.WAVE0-FOUNDATIONS",
+  "wave": 0,
+  "functional_completion_before": 31.6,
+  "blockers_addressed": [
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B06",
+    "B11"
+  ]
+}

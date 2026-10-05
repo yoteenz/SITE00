@@ -23,17 +23,7 @@
       "PLACEHOLDER": 12,
       "MISSING": 14
     },
-    "unreachable_in_product_today": [
-      "F06.00",
-      "F07.00",
-      "F09.00",
-      "F10.00",
-      "F11.00",
-      "F13.00",
-      "F14.00",
-      "F15.00",
-      "F16.00"
-    ],
+    "unreachable_in_product_today": [],
     "non_product": 3
   },
   "product_routes": [
@@ -439,7 +429,7 @@
       "node_id": "F06.00",
       "family_id": "F06",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F05.00"
       ],
@@ -463,7 +453,7 @@
       "node_id": "F07.00",
       "family_id": "F07",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F03.00"
       ],
@@ -513,7 +503,7 @@
       "node_id": "F09.00",
       "family_id": "F09",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F03.00",
         "F08.00"
@@ -539,7 +529,7 @@
       "node_id": "F10.00",
       "family_id": "F10",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F08.00"
       ],
@@ -563,7 +553,7 @@
       "node_id": "F11.00",
       "family_id": "F11",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F08.00"
       ],
@@ -611,7 +601,7 @@
       "node_id": "F13.00",
       "family_id": "F13",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F12.00"
       ],
@@ -635,7 +625,7 @@
       "node_id": "F14.00",
       "family_id": "F14",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F08.00"
       ],
@@ -659,7 +649,7 @@
       "node_id": "F15.00",
       "family_id": "F15",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F08.00"
       ],
@@ -683,7 +673,7 @@
       "node_id": "F16.00",
       "family_id": "F16",
       "status": "PLACEHOLDER",
-      "reachable_in_product_today": false,
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F05.00"
       ],

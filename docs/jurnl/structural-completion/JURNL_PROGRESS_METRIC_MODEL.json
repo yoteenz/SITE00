@@ -7,15 +7,15 @@
   "axes": {
     "FUNCTIONAL_COMPLETION": {
       "formula": "mean over the 17 units (F01–F16 + GLOBAL) of [Σ functional_score(n) / |N_F ∩ unit|]. N_F = every material node except SHARED_COMPONENT and LEGACY interactions. functional_score = applicable criteria met / applicable criteria (1, 0.5, 0); interactions and states use their status scores.",
-      "value": 31.6,
+      "value": 31.7,
       "why_balanced": "F01’s contract enumerates every primitive behaviour (142 nodes); F05–F16 are authored at family grain. Node weighting would reward contract verbosity.",
       "node_weighted": {
         "formula": "Σ functional_score(n) / |N_F|",
-        "value": 48.6
+        "value": 48.8
       },
       "strict": {
         "formula": "unit-balanced share of nodes with score = 1",
-        "value": 19.6
+        "value": 19.7
       },
       "family_mean": {
         "formula": "mean over F01–F16 only (GLOBAL excluded)",
@@ -44,13 +44,13 @@
     },
     "LAUNCH_READINESS": {
       "formula": "mean of 12 launch gates scored 0..1 with evidence",
-      "value": 9.4,
+      "value": 9.5,
       "confidence": "MEDIUM",
       "gates": [
         {
           "id": "G01",
           "gate": "FUNCTIONAL_COMPLETION = 100%",
-          "score": 0.3161482274134134,
+          "score": 0.31723755203214976,
           "evidence": "Progress metric (unit-balanced)."
         },
         {
@@ -122,7 +122,7 @@
       ]
     }
   },
-  "report_format": "31.6% FUNCTIONAL / 26.6% VISUALLY IMPLEMENTED / 0.1% APPROVED / 9.4% LAUNCH READY",
+  "report_format": "31.7% FUNCTIONAL / 26.6% VISUALLY IMPLEMENTED / 0.1% APPROVED / 9.5% LAUNCH READY",
   "node_progression": [
     "PLANNED",
     "STRUCTURED",
@@ -252,23 +252,23 @@
       "unit": "GLOBAL",
       "name": "GLOBAL SYSTEMS + DATA",
       "nodes": 54,
-      "functional": 55.5,
-      "strict": 27.8
+      "functional": 57.4,
+      "strict": 29.6
     }
   ],
   "completion_simulation": [
     {
       "after_wave": 0,
-      "functional_completion": 34,
-      "node_weighted": 51.1,
+      "functional_completion": 34.2,
+      "node_weighted": 51.3,
       "nodes_completed_in_wave": 32,
-      "strict": 26.5
+      "strict": 26.6
     },
     {
       "after_wave": 1,
       "functional_completion": 44,
       "node_weighted": 59.9,
-      "nodes_completed_in_wave": 59,
+      "nodes_completed_in_wave": 58,
       "strict": 39.1
     },
     {
@@ -301,10 +301,10 @@
     }
   ],
   "gap_counts": {
-    "COMPLETE_FUNCTIONAL": 150,
+    "COMPLETE_FUNCTIONAL": 151,
     "PARTIAL_FUNCTIONAL": 116,
     "STRUCTURE_ONLY": 2,
-    "MISSING": 192,
+    "MISSING": 191,
     "PLACEHOLDER": 24,
     "LEGACY": 12,
     "DUPLICATED": 4,

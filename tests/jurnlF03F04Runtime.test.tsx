@@ -52,7 +52,9 @@ describe('F03 and F04 live routes', () => {
 
   it('keeps F01 and F02 ahead of the new families', () => {
     const families = projectFamilies('jurnl');
-    expect(families.map((f) => f.contract.familyId)).toEqual(['F01', 'F02', 'F03', 'F04']);
+    expect(families.map((f) => f.contract.familyId)).toEqual([
+      'F01', 'F02', 'F03', 'F04', 'F05', 'F06', 'F07', 'F08', 'F09', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16',
+    ]);
     expect(families[2]!.contract.familyName).toBe('TODAY');
     expect(families[3]!.contract.familyName).toBe('ACTIVITY');
     expect(families[2]!.contract.founderApproval.approved).toBe(false);
@@ -81,7 +83,7 @@ describe('F03 and F04 live routes', () => {
     const add = html.match(/data-jrn-trigger="nav-add"[\s\S]*?<\/button>/)?.[0] ?? '';
     expect(add.match(/data-jrn-icon="plus"/g)?.length).toBe(1);
     expect(add).not.toMatch(/>\s*\+\s*</);
-    expect(html.match(/data-jrn-role="panel_header_action"/g)?.length).toBe(2);
+    expect(html.match(/data-jrn-role="panel_header_action"/g)?.length).toBe(4);
     expect(html).toContain('data-jrn-trigger="today-why"');
     expect(html).not.toContain('F03.00_TODAY_PARENT');
     expect(html).not.toContain('AUTHORITIES');

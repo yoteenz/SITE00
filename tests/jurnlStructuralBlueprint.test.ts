@@ -54,8 +54,8 @@ describe('JURNL structural blueprint', () => {
     expect(v.incomplete_nodes_without_wave).toEqual([]);
   });
 
-  it('reports the families the product cannot reach today', () => {
-    expect(B.summary.validation.family_parents_unreachable_today).toEqual(['F06.00', 'F07.00', 'F09.00', 'F10.00', 'F11.00', 'F13.00', 'F14.00', 'F15.00', 'F16.00']);
+  it('registers product discovery so every F05–F16 parent is reachable without the review board', () => {
+    expect(B.summary.validation.family_parents_unreachable_today).toEqual([]);
   });
 
   it('a placeholder is never functional', () => {

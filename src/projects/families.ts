@@ -15,6 +15,34 @@ import { F03_COMPONENT_RUNTIME, F03_OVERLAYS } from './jurnl/data/f03/interactio
 import { JURNL_F04_CONTRACT } from './jurnl/data/f04/contract';
 import { JURNL_F04_COVERAGE } from './jurnl/data/f04/coverage';
 import { F04_COMPONENT_RUNTIME, F04_OVERLAYS } from './jurnl/data/f04/interactionBindings';
+import {
+  JURNL_F05_CONTRACT,
+  JURNL_F06_CONTRACT,
+  JURNL_F07_CONTRACT,
+  JURNL_F08_CONTRACT,
+  JURNL_F09_CONTRACT,
+  JURNL_F10_CONTRACT,
+  JURNL_F11_CONTRACT,
+  JURNL_F12_CONTRACT,
+  JURNL_F13_CONTRACT,
+  JURNL_F14_CONTRACT,
+  JURNL_F15_CONTRACT,
+  JURNL_F16_CONTRACT,
+  JURNL_F05_COVERAGE,
+  JURNL_F06_COVERAGE,
+  JURNL_F07_COVERAGE,
+  JURNL_F08_COVERAGE,
+  JURNL_F09_COVERAGE,
+  JURNL_F10_COVERAGE,
+  JURNL_F11_COVERAGE,
+  JURNL_F12_COVERAGE,
+  JURNL_F13_COVERAGE,
+  JURNL_F14_COVERAGE,
+  JURNL_F15_COVERAGE,
+  JURNL_F16_COVERAGE,
+} from './jurnl/data/f05f16/parentContracts';
+
+const JURNL_PARENT_SHELL = { componentRuntime: {} as Record<string, { component: string; variant?: string; primitive: string }>, overlays: {} as Record<string, readonly string[]>, claims: [] as const };
 
 export type ProjectClaim = Pick<F01Claim, 'id' | 'text' | 'source' | 'status' | 'category' | 'reason'>;
 
@@ -58,6 +86,18 @@ const FAMILIES: Record<string, ProjectFamilyEntry[]> = {
       overlays: F04_OVERLAYS,
       claims: [],
     },
+    { contract: JURNL_F05_CONTRACT, coverage: JURNL_F05_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F06_CONTRACT, coverage: JURNL_F06_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F07_CONTRACT, coverage: JURNL_F07_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F08_CONTRACT, coverage: JURNL_F08_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F09_CONTRACT, coverage: JURNL_F09_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F10_CONTRACT, coverage: JURNL_F10_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F11_CONTRACT, coverage: JURNL_F11_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F12_CONTRACT, coverage: JURNL_F12_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F13_CONTRACT, coverage: JURNL_F13_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F14_CONTRACT, coverage: JURNL_F14_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F15_CONTRACT, coverage: JURNL_F15_COVERAGE, ...JURNL_PARENT_SHELL },
+    { contract: JURNL_F16_CONTRACT, coverage: JURNL_F16_COVERAGE, ...JURNL_PARENT_SHELL },
   ],
 };
 

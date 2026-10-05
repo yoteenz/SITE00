@@ -125,8 +125,8 @@
         "F15",
         "F16"
       ],
-      "resolution": "W1.3 HUB LINKS (FOUNDER CONFIRMS THE MAPPING).",
-      "wave": 1,
+      "resolution": "W0.7 FAMILY REGISTRY + GS.FAMILY_DISCOVERY HUB LINKS (FF.DISCOVERY_HUBS MAPPING).",
+      "wave": 0,
       "founderDecision": "FF.DISCOVERY_HUBS"
     },
     {
@@ -523,17 +523,7 @@
   "graph_validation": {
     "orphans": [],
     "dangling_opens": [],
-    "family_parents_unreachable_today": [
-      "F06.00",
-      "F07.00",
-      "F09.00",
-      "F10.00",
-      "F11.00",
-      "F13.00",
-      "F14.00",
-      "F15.00",
-      "F16.00"
-    ],
+    "family_parents_unreachable_today": [],
     "target_unreachable": [],
     "dead_ends_today": [],
     "missing_return_paths_target": [],

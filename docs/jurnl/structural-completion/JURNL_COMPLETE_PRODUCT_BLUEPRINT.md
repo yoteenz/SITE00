@@ -14,12 +14,12 @@ Paid generation is not on the structural critical path. Each node carries three 
 
 ## Where JURNL stands
 
-**31.6% FUNCTIONAL / 26.6% VISUALLY IMPLEMENTED / 0.1% APPROVED / 9.4% LAUNCH READY**
+**31.7% FUNCTIONAL / 26.6% VISUALLY IMPLEMENTED / 0.1% APPROVED / 9.5% LAUNCH READY**
 
-- Functional is ESTIMATED, confidence MEDIUM. It is unit-balanced (F01–F16 + GLOBAL count once each); node-weighted 48.6%, strict 19.6%. Formulas: `JURNL_PROGRESS_METRIC_MODEL.json`.
+- Functional is ESTIMATED, confidence MEDIUM. It is unit-balanced (F01–F16 + GLOBAL count once each); node-weighted 48.8%, strict 19.7%. Formulas: `JURNL_PROGRESS_METRIC_MODEL.json`.
 - 543 material nodes: 16 parents, 34 child pages, 2 grandchild pages, 26 drawers, 30 sheets, 15 modals, 6 overlays, 101 states, 222 interactions, 28 global systems, 21 data domains, 42 shared primitives.
 - F01 and F02 are implemented and QA-passed but depend on simulated providers and session-only data. F03 and F04 run on mock data. F05–F16 are parent placeholders with disabled CTAs; their children do not exist.
-- Nine families (F06.00, F07.00, F09.00, F10.00, F11.00, F13.00, F14.00, F15.00, F16.00) can only be reached through the review board or a typed URL.
+- Nine families () can only be reached through the review board or a typed URL.
 
 ## Families
 
@@ -83,7 +83,7 @@ Per-family detail: `F01_ENTRY_STRUCTURAL_BLUEPRINT.json` … `F16_RECORDS_STRUCT
 | USER-SCOPED DATA PERSISTENCE | GLOBAL | MISSING | 0 |
 | AUTH | FAMILY_OWNED | PARTIAL | 5 |
 | ACCOUNT / PROFILE / SETTINGS | GLOBAL | MISSING | 1 |
-| FAMILY DISCOVERY (NON-NAV FAMILIES) | GLOBAL | MISSING | 1 |
+| FAMILY DISCOVERY (NON-NAV FAMILIES) | GLOBAL | PARTIAL | 0 |
 | ENTITLEMENTS / CAPABILITY GATES | GLOBAL | PARTIAL | 1 |
 | EXCHANGE RATE REFRESH | GLOBAL | IMPLEMENTED | 0 |
 | DATA REFRESH / STALENESS | GLOBAL | MISSING | 0 |
@@ -102,7 +102,7 @@ Per-family detail: `F01_ENTRY_STRUCTURAL_BLUEPRINT.json` … `F16_RECORDS_STRUCT
 - **B03 NO ACCOUNT REGISTRY** (FUNCTIONAL) — W0.4 ACCOUNTS DOMAIN + JurnlAccountPicker; F05 UI IN W2.
 - **B04 SAFE TO SPEND IGNORES SETUP OBLIGATIONS** (FUNCTIONAL) — W0.6 MOVE THE FORMULA TO AN F09-OWNED MODULE; OBLIGATIONS WITHOUT AN AMOUNT MARK THE SIGNAL PARTIAL (NEVER $0); F07 CAPTURES AMOUNTS IN W2.
 - **B05 F05–F16 CHILDREN DO NOT EXIST** (FUNCTIONAL) — W2–W4 FAMILY STRUCTURAL COMPLETION ON NEUTRAL PRESENTATION.
-- **B06 NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT** (FUNCTIONAL) — W1.3 HUB LINKS (FOUNDER CONFIRMS THE MAPPING).
+- **B06 NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT** (FUNCTIONAL) — W0.7 FAMILY REGISTRY + GS.FAMILY_DISCOVERY HUB LINKS (FF.DISCOVERY_HUBS MAPPING).
 - **B18 NO PRODUCTION AUTH PROVIDER (PREVIEW STORES PLAINTEXT PASSWORDS) — GATES F01 FUNCTIONAL AND LAUNCH** (FUNCTIONAL) — W5.1 PRODUCTION ADAPTER BEHIND JurnlAuthAdapter.
 - **B19 NO SERVER PERSISTENCE, SCHEMA OR RLS** (LAUNCH) — W5.2 SERVER ADAPTER + MIGRATIONS + RLS + SECURITY TESTS.
 
@@ -111,7 +111,7 @@ All 29 blockers: `JURNL_STRUCTURAL_BLOCKERS.json`.
 ## Graph validation
 
 - Orphans: 0 · dangling opens: 0 · target-unreachable: 0
-- Family parents unreachable today: 9
+- Family parents unreachable today: 0
 - Dead ends today: 0 · competing ownership: 14 domains · fake-completion claims: 7
 
 ## Founder decisions (real product judgment only)

@@ -13800,3 +13800,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Device persistence counts as functional for financial data. Identity needs a real provider.
   - Headline metrics are balanced across F01–F16 + GLOBAL, so contract verbosity does not inflate them.
   - Regenerate the blueprint after changing any family contract or `model.ts`.
+
+---
+
+## 2026-10-05 — JURNL Wave 0 foundations active (P0.JURNL.WAVE0-FOUNDATIONS)
+
+- **Context:** After forensic blueprint (#1382), Composer implemented shared foundations before F05–F16 child expansion. F01/F02 visuals frozen; zero generation.
+- **Wave 0 landed:**
+  1. **Date / category / view-state** — `src/projects/jurnl/data/foundation/{dates,categories,viewState}.ts`
+  2. **Repository + device adapter** — user-scoped snapshot (`setup`, `accounts`, `transactions`); F02 setup draft reads/writes through repo (no direct `sessionStorage` in setupDraft)
+  3. **Account registry** — selectors + Quick Add / filter use registry names (not hard-coded CHECKING/CARD only)
+  4. **F09 safe-to-spend** — `src/projects/jurnl/data/f09/safeToSpend.ts`; setup obligations without amounts mark **PARTIAL** (B04), not silent $0 upcoming
+  5. **Family registration** — F05–F16 production contracts (`f05f16/parentContracts.ts`), `jurnlProject` + `productTree` + `projectFamilies` list 16 families
+  6. **Reachability** — `GS.FAMILY_DISCOVERY` hub links; blueprint `family_parents_unreachable_today: []`
+- **Artifacts:** `docs/jurnl/structural-completion/wave0/` + regenerated structural-completion JSON (functional ~31.7% estimated).
+- **Doctrine unchanged:** structural completion first; paid generation off the functional critical path; B18/B19 remain Wave 5.

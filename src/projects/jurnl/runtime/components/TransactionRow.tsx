@@ -2,14 +2,12 @@
 
 import type { LedgerEntry } from '../../data/home/money';
 import { formatMoney, useCurrency } from '../../data/home/money';
+import { categoryIconMark, normalizeCategory } from '../../data/foundation/categories';
 import { JurnlIcon, type JurnlIconName } from './icons';
 
 function markFor(entry: LedgerEntry): JurnlIconName {
-  if (entry.direction === 'INCOME') return 'download';
-  if (entry.category === 'HOUSING') return 'account';
-  if (entry.category === 'FOOD') return 'money';
   if (entry.recurring) return 'clock';
-  return 'document';
+  return categoryIconMark(normalizeCategory(entry.category));
 }
 
 export function JurnlTransactionRow({ entry, onOpen }: { entry: LedgerEntry; onOpen?: (entry: LedgerEntry) => void }) {
