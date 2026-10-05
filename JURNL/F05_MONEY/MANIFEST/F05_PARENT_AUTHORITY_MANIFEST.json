@@ -1,0 +1,13 @@
+{
+  "family_id": "F05",
+  "screen_id": "F05.00",
+  "approval_status": "READY_FOR_FOUNDER_REVIEW",
+  "founder_status": "UNREVIEWED",
+  "plate": "ENV.CABINET",
+  "plate_origin": "KEPT_TEXT_IMAGE",
+  "plate_ui_interference": "PASS",
+  "child_explosion": "NO",
+  "sidekick": "NOT_GENERATED",
+  "route": "money",
+  "provider_project_id": "ga30cJVwkccjlXta8io5"
+}

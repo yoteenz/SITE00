@@ -4,6 +4,7 @@
 
 import type { BrandLoreProfile } from '../../../shared/site00-brand-lore/types.js';
 import { evaluateCreativeDirectionReadiness, canBeginCreativeDirection } from '../../../shared/site00-brand-lore/readiness.js';
+import { canBeginCoreDirectionFormation } from '../../../shared/site00-brand-lore/personalityReadiness.js';
 import { getLoreForIntake } from './loreService.js';
 
 export async function loadBrandLoreForIntake(
@@ -24,13 +25,20 @@ export function brandLoreReadinessGate(profile: BrandLoreProfile | null): {
   }
 
   const { state, missingDomains } = evaluateCreativeDirectionReadiness(profile);
-  const blocked = !canBeginCreativeDirection(state);
+  const personalityState = profile.brandPersonality?.personalityReadinessState ?? null;
+  const blocked =
+    !canBeginCreativeDirection(state) ||
+    !canBeginCoreDirectionFormation({ loreState: state, personalityState });
 
   return {
     blocked,
     state,
     missingDomains,
-    message: blocked ? 'CONTEXT CALIBRATION REQUIRED' : null,
+    message: blocked
+      ? personalityState !== 'PERSONALITY_READY' && canBeginCreativeDirection(state)
+        ? 'PERSONALITY CALIBRATION REQUIRED'
+        : 'CONTEXT CALIBRATION REQUIRED'
+      : null,
   };
 }
 
@@ -46,7 +54,9 @@ export function shouldEnforceLoreReadinessGate(_orgSlug: string, profile: BrandL
 
 export function brandLoreLineageEntries(profile: BrandLoreProfile): string[] {
   const entries: string[] = [];
-  if (profile.audienceRelationship.value) entries.push(`audienceRelationship: ${profile.audienceRelationship.value}`);
+  if (profile.audienceRelationship.value?.length) {
+    entries.push(`audienceRelationship: ${profile.audienceRelationship.value.join(' + ')}`);
+  }
   if (profile.worldMetaphor.value) entries.push(`worldMetaphor: ${profile.worldMetaphor.value}`);
   if (profile.culturalOpposition.value?.length) entries.push(`culturalOpposition: ${profile.culturalOpposition.value.join(', ')}`);
   if (profile.coreObsessions.value) entries.push(`coreObsessions: ${profile.coreObsessions.value}`);

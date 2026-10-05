@@ -1,0 +1,19 @@
+---
+description: One provider project per product family — do not mix generation outputs
+alwaysApply: true
+---
+
+# Family output projects
+
+Each product family gets its own provider project and its own repo folder. Do not generate a family's images into another family's project.
+
+Registered map: `shared/site00-production-guardrails/familyOutputProjects.ts` and `docs/production/reference-binding/FAMILY_OUTPUT_PROJECTS.json`.
+
+Before the first paid generation of a new family:
+
+1. Create the provider project (OpenArt name pattern: `JURNL F05 … Family Production`).
+2. Add the row to `FAMILY_OUTPUT_PROJECTS` before dispatch.
+3. Pass that `providerProjectId` on every job.
+4. File the outputs under that family's repo folder (`JURNL/F05_…/`).
+
+`precheckGenerationDispatch()` blocks with `FAMILY_PROJECT_REQUIRED` or `FAMILY_PROJECT_MISMATCH` and spends 0 credits. Do not bypass the gate.

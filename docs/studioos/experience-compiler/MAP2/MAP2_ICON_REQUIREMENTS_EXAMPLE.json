@@ -1,0 +1,564 @@
+{
+  "project_id": "lumina-atelier-greenfield",
+  "requirements": [
+    {
+      "usage_context": "Project-wide",
+      "experience_units": [],
+      "families": [
+        "EDITORIAL_CONTENT"
+      ],
+      "routes": [
+        "r_0__",
+        "r_1__lab",
+        "r_2__build",
+        "r_3__build_step",
+        "r_5__projects"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Navigate back",
+      "can_use_live_svg": true,
+      "brand_expression_required": false,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "semantic_id": "SEM_BACK",
+      "canonical_name": "BACK",
+      "meaning": "Navigate back",
+      "default_category": "NAVIGATION",
+      "icon_semantic_id": "SEM_BACK",
+      "category": "NAVIGATION",
+      "implementation_class": "LIVE_CODE_SVG"
+    },
+    {
+      "usage_context": "Project-wide",
+      "experience_units": [],
+      "families": [
+        "TRANSACTION_FLOW"
+      ],
+      "routes": [
+        "r_4__review"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Commerce checkout",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_CHECKOUT_DOMAIN",
+      "canonical_name": "CHECKOUT",
+      "meaning": "Commerce checkout",
+      "category": "COMMERCE",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "Product configurator controls",
+      "experience_units": [],
+      "families": [
+        "PRODUCT_ASSEMBLY_CONFIGURATOR"
+      ],
+      "routes": [
+        "cx_0"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Configuration",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_CONFIGURE",
+      "canonical_name": "CONFIGURE",
+      "meaning": "Configuration",
+      "category": "CONFIGURATION",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "Product configurator controls",
+      "experience_units": [],
+      "families": [
+        "PRODUCT_ASSEMBLY_CONFIGURATOR"
+      ],
+      "routes": [
+        "cx_0"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Preview output",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_PREVIEW",
+      "canonical_name": "PREVIEW",
+      "meaning": "Preview output",
+      "category": "ACTION",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "Product configurator controls",
+      "experience_units": [],
+      "families": [
+        "PRODUCT_ASSEMBLY_CONFIGURATOR"
+      ],
+      "routes": [
+        "cx_0"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Confirm action",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_CONFIRM",
+      "canonical_name": "CONFIRM",
+      "meaning": "Confirm action",
+      "category": "ACTION",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "Product configurator controls",
+      "experience_units": [],
+      "families": [
+        "PRODUCT_ASSEMBLY_CONFIGURATOR"
+      ],
+      "routes": [
+        "cx_0"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Reset configuration",
+      "can_use_live_svg": true,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_RESET",
+      "canonical_name": "RESET",
+      "meaning": "Reset configuration",
+      "category": "CONFIGURATION",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "Product configurator controls",
+      "experience_units": [],
+      "families": [
+        "PRODUCT_ASSEMBLY_CONFIGURATOR"
+      ],
+      "routes": [
+        "cx_0"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Select option",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_SELECT",
+      "canonical_name": "SELECT",
+      "meaning": "Select option",
+      "category": "ACTION",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "Product configurator controls",
+      "experience_units": [],
+      "families": [
+        "PRODUCT_ASSEMBLY_CONFIGURATOR"
+      ],
+      "routes": [
+        "cx_0"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Rotate view",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_ROTATE",
+      "canonical_name": "ROTATE",
+      "meaning": "Rotate view",
+      "category": "CONFIGURATION",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "BUILD-A-WIG CONFIGURATOR",
+      "experience_units": [],
+      "families": [
+        "PRODUCT_ASSEMBLY_CONFIGURATOR"
+      ],
+      "routes": [
+        "cx_0"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Live assembly preview object",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": true,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": true,
+      "notes": "",
+      "icon_semantic_id": "SEM_MICRO_ASSEMBLY",
+      "canonical_name": "ASSEMBLY_PREVIEW",
+      "meaning": "Live assembly preview object",
+      "category": "CUSTOM_EXPERIENCE",
+      "implementation_class": "ILLUSTRATIVE_MICRO_ASSET"
+    },
+    {
+      "usage_context": "Project-wide",
+      "experience_units": [],
+      "families": [],
+      "routes": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Shopify integration",
+      "can_use_live_svg": false,
+      "brand_expression_required": false,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "EXTERNAL_PLATFORM",
+      "icon_semantic_id": "SEM_EXT_SHOPIFY",
+      "canonical_name": "Shopify",
+      "meaning": "Shopify integration",
+      "category": "INTEGRATION",
+      "implementation_class": "EXTERNAL_PLATFORM_ICON"
+    },
+    {
+      "usage_context": "Project-wide",
+      "experience_units": [],
+      "families": [],
+      "routes": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Stripe integration",
+      "can_use_live_svg": false,
+      "brand_expression_required": false,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "EXTERNAL_PLATFORM",
+      "icon_semantic_id": "SEM_EXT_STRIPE",
+      "canonical_name": "Stripe",
+      "meaning": "Stripe integration",
+      "category": "INTEGRATION",
+      "implementation_class": "EXTERNAL_PLATFORM_ICON"
+    },
+    {
+      "usage_context": "Project-wide",
+      "experience_units": [],
+      "families": [],
+      "routes": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "surfaces": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB"
+      ],
+      "required_sizes": [
+        16,
+        24,
+        32
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "CRM integration",
+      "can_use_live_svg": false,
+      "brand_expression_required": false,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": false,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "EXTERNAL_PLATFORM",
+      "icon_semantic_id": "SEM_EXT_CRM",
+      "canonical_name": "CRM",
+      "meaning": "CRM integration",
+      "category": "INTEGRATION",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "Project-wide",
+      "experience_units": [],
+      "families": [],
+      "routes": [],
+      "surfaces": [
+        "APP"
+      ],
+      "required_sizes": [
+        20,
+        24
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "SELECTED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Search content",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": true,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_SEARCH",
+      "canonical_name": "SEARCH",
+      "meaning": "Search content",
+      "category": "APP_NAVIGATION",
+      "implementation_class": "BRAND_ICON"
+    },
+    {
+      "usage_context": "Project-wide",
+      "experience_units": [],
+      "families": [],
+      "routes": [],
+      "surfaces": [
+        "APP"
+      ],
+      "required_sizes": [
+        20,
+        24
+      ],
+      "interaction_states": [
+        "DEFAULT",
+        "ACTIVE",
+        "SELECTED"
+      ],
+      "frequency": "MEDIUM",
+      "prominence": "SECONDARY",
+      "accessibility_label_requirement": "Share externally",
+      "can_use_live_svg": false,
+      "brand_expression_required": true,
+      "micro_asset_candidate": false,
+      "app_nav_variant_required": true,
+      "compact_variant_required": true,
+      "display_variant_required": false,
+      "notes": "",
+      "icon_semantic_id": "SEM_SHARE",
+      "canonical_name": "SHARE",
+      "meaning": "Share externally",
+      "category": "APP_NAVIGATION",
+      "implementation_class": "BRAND_ICON"
+    }
+  ],
+  "compiled_at": "2026-10-01T15:32:20.452Z"
+}

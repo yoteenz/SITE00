@@ -1,0 +1,284 @@
+{
+  "dependencies": [
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.SITE",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.WORLD",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "child_asset": "ENV.BLDR.PATH.SITE",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "child_asset": "ENV.BLDR.PATH.WORLD",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "child_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "child_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.SITE",
+      "child_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.SITE",
+      "child_asset": "ENV.BLDR.PATH.WORLD",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.SITE",
+      "child_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.SITE",
+      "child_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.WORLD",
+      "child_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.WORLD",
+      "child_asset": "ENV.BLDR.PATH.SITE",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.WORLD",
+      "child_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.WORLD",
+      "child_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "child_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "child_asset": "ENV.BLDR.PATH.SITE",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "child_asset": "ENV.BLDR.PATH.WORLD",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "child_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "child_asset": "ENV.BLDR.PATH.OVERVIEW",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "child_asset": "ENV.BLDR.PATH.SITE",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "child_asset": "ENV.BLDR.PATH.WORLD",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "child_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.INTERVENTION_CENTER",
+      "child_asset": "ENV.EVOLVE.PATH.REFINE",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.INTERVENTION_CENTER",
+      "child_asset": "ENV.EVOLVE.PATH.INSTALL",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.INTERVENTION_CENTER",
+      "child_asset": "ENV.EVOLVE.PATH.TRANSFORM",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.PATH.REFINE",
+      "child_asset": "ENV.EVOLVE.PATH.INSTALL",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.PATH.REFINE",
+      "child_asset": "ENV.EVOLVE.PATH.TRANSFORM",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.PATH.INSTALL",
+      "child_asset": "ENV.EVOLVE.PATH.REFINE",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.PATH.INSTALL",
+      "child_asset": "ENV.EVOLVE.PATH.TRANSFORM",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.PATH.TRANSFORM",
+      "child_asset": "ENV.EVOLVE.PATH.REFINE",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.EVOLVE.PATH.TRANSFORM",
+      "child_asset": "ENV.EVOLVE.PATH.INSTALL",
+      "dependency_type": "CONTINUITY_LINEAGE",
+      "continuity_requirement": "EVOLVE_INTERVENTION_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.SITE",
+      "dependency_type": "PATH_VARIANT",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.WORLD",
+      "dependency_type": "PATH_VARIANT",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.SYSTEMS",
+      "dependency_type": "PATH_VARIANT",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "ENV.BLDR.PATH.EXTENSIONS",
+      "dependency_type": "PATH_VARIANT",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 2
+    },
+    {
+      "parent_asset": "ENV.BLDR.COMMAND_CENTER",
+      "child_asset": "MACHINE.BLDR.TOWER",
+      "dependency_type": "MASTER_VARIANT",
+      "continuity_requirement": "BLDR_WORLD_SYSTEM_V1",
+      "generation_order": 3
+    },
+    {
+      "parent_asset": "ENV.ORIGIN.COLLAPSED",
+      "child_asset": "ENV.ORIGIN.EXPANDED",
+      "dependency_type": "SURFACE_CROP",
+      "continuity_requirement": "SITE00_ORIGIN_UNIVERSE_V1",
+      "generation_order": 2
+    }
+  ]
+}

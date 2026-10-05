@@ -1,0 +1,119 @@
+{
+  "batches": [
+    {
+      "batch_id": "batch_0_EDITORIAL_CONTENT_APP",
+      "project_id": "lumina-atelier-greenfield",
+      "family_id": "EDITORIAL_CONTENT",
+      "surface": "APP",
+      "authorities": [
+        "01_EDITORIAL_CONTENT_APP"
+      ],
+      "model": "openart-gpt-image-2-family",
+      "generation_mode": "PARALLEL_INDEPENDENT",
+      "prompts": {
+        "01_EDITORIAL_CONTENT_APP": "[OpenArt GPT Image 2] Editorial Content APP_HOME APP — brand-specific, not generic template"
+      },
+      "aspect_ratios": {
+        "01_EDITORIAL_CONTENT_APP": "9:16"
+      },
+      "expected_filenames": [
+        "01_APP_EDITORIAL_CONTENT_APP_HOME.jpg"
+      ],
+      "dependency_order": [
+        "01_EDITORIAL_CONTENT_APP"
+      ]
+    },
+    {
+      "batch_id": "batch_1_TRANSACTION_FLOW_APP",
+      "project_id": "lumina-atelier-greenfield",
+      "family_id": "TRANSACTION_FLOW",
+      "surface": "APP",
+      "authorities": [
+        "02_TRANSACTION_FLOW_APP"
+      ],
+      "model": "openart-gpt-image-2-family",
+      "generation_mode": "PARALLEL_INDEPENDENT",
+      "prompts": {
+        "02_TRANSACTION_FLOW_APP": "[OpenArt GPT Image 2] Transaction Flow APP_HOME APP — brand-specific, not generic template"
+      },
+      "aspect_ratios": {
+        "02_TRANSACTION_FLOW_APP": "9:16"
+      },
+      "expected_filenames": [
+        "01_APP_TRANSACTION_FLOW_APP_HOME.jpg"
+      ],
+      "dependency_order": [
+        "02_TRANSACTION_FLOW_APP"
+      ]
+    },
+    {
+      "batch_id": "batch_2_PRODUCT_ASSEMBLY_CONFIGURATOR_MOBILE_WEB",
+      "project_id": "lumina-atelier-greenfield",
+      "family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "surface": "MOBILE_WEB",
+      "authorities": [
+        "03_PRODUCT_ASSEMBLY_CONFIGURATOR_MOBILE_WEB"
+      ],
+      "model": "openart-gpt-image-2-family",
+      "generation_mode": "SEQUENTIAL_DEPENDENT",
+      "prompts": {
+        "03_PRODUCT_ASSEMBLY_CONFIGURATOR_MOBILE_WEB": "[OpenArt GPT Image 2] Product Assembly Configurator ENTRY MOBILE_WEB — brand-specific, not generic template"
+      },
+      "aspect_ratios": {
+        "03_PRODUCT_ASSEMBLY_CONFIGURATOR_MOBILE_WEB": "9:16"
+      },
+      "expected_filenames": [
+        "01_PRODUCT_ASSEMBLY_CONFIGURATOR_MOBILE.jpg"
+      ],
+      "dependency_order": [
+        "03_PRODUCT_ASSEMBLY_CONFIGURATOR_MOBILE_WEB"
+      ]
+    },
+    {
+      "batch_id": "batch_3_PRODUCT_ASSEMBLY_CONFIGURATOR_DESKTOP_WEB",
+      "project_id": "lumina-atelier-greenfield",
+      "family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "surface": "DESKTOP_WEB",
+      "authorities": [
+        "04_PRODUCT_ASSEMBLY_CONFIGURATOR_DESKTOP_WEB"
+      ],
+      "model": "openart-gpt-image-2-family",
+      "generation_mode": "SEQUENTIAL_DEPENDENT",
+      "prompts": {
+        "04_PRODUCT_ASSEMBLY_CONFIGURATOR_DESKTOP_WEB": "[OpenArt GPT Image 2] Product Assembly Configurator WORKSPACE DESKTOP_WEB — brand-specific, not generic template"
+      },
+      "aspect_ratios": {
+        "04_PRODUCT_ASSEMBLY_CONFIGURATOR_DESKTOP_WEB": "16:9"
+      },
+      "expected_filenames": [
+        "01_PRODUCT_ASSEMBLY_CONFIGURATOR_DESKTOP.jpg"
+      ],
+      "dependency_order": [
+        "04_PRODUCT_ASSEMBLY_CONFIGURATOR_DESKTOP_WEB"
+      ]
+    },
+    {
+      "batch_id": "batch_4_PRODUCT_ASSEMBLY_CONFIGURATOR_APP",
+      "project_id": "lumina-atelier-greenfield",
+      "family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "surface": "APP",
+      "authorities": [
+        "05_PRODUCT_ASSEMBLY_CONFIGURATOR_APP"
+      ],
+      "model": "openart-gpt-image-2-family",
+      "generation_mode": "SEQUENTIAL_DEPENDENT",
+      "prompts": {
+        "05_PRODUCT_ASSEMBLY_CONFIGURATOR_APP": "[OpenArt GPT Image 2] Product Assembly Configurator APP_HOME APP — brand-specific, not generic template"
+      },
+      "aspect_ratios": {
+        "05_PRODUCT_ASSEMBLY_CONFIGURATOR_APP": "9:16"
+      },
+      "expected_filenames": [
+        "01_APP_PRODUCT_ASSEMBLY_CONFIGURATOR_APP_HOME.jpg"
+      ],
+      "dependency_order": [
+        "05_PRODUCT_ASSEMBLY_CONFIGURATOR_APP"
+      ]
+    }
+  ]
+}

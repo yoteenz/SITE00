@@ -1,0 +1,283 @@
+{
+ "artifact": "SITE00_CLIENT_APP_UX_MODEL",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "principle": "Private project room \u00b7 guided journey \u00b7 clear window into the work \u00b7 trust layer. Not a task manager, developer dashboard, production console, accounting app or wall of status cards.",
+ "client_jobs": [
+  "REVIEW",
+  "APPROVE",
+  "EXPLAIN REVISIONS",
+  "ANSWER REQUIRED QUESTIONS",
+  "PROVIDE REQUIRED MATERIALS",
+  "FUND REQUIRED THIRD-PARTY COSTS (where applicable)"
+ ],
+ "questions_the_room_must_answer": [
+  "WHERE ARE WE?",
+  "WHAT IS HAPPENING NOW?",
+  "WHAT IS WAITING ON ME?",
+  "WHAT HAVE I APPROVED?",
+  "WHAT DID I REQUEST CHANGES TO?",
+  "WHAT COMES NEXT?",
+  "WHAT WILL THE NEXT STEP REQUIRE?",
+  "WHAT WILL THE NEXT STEP COST?",
+  "HOW MUCH HAS BEEN SPENT?",
+  "WHAT FILES ARE MINE?",
+  "WHAT DOES THE FOUNDER NEED FROM ME?"
+ ],
+ "answer_location": {
+  "WHERE ARE WE?": "HOME.CurrentMoment",
+  "WHAT IS WAITING ON ME?": "HOME.NeedsYou",
+  "WHAT HAVE I APPROVED?": "HOME.RecentlyApproved + REVIEWS.APPROVED",
+  "WHAT DID I REQUEST CHANGES TO?": "REVIEWS.REVISION IN PROGRESS",
+  "WHAT COMES NEXT? / REQUIRE? / COST?": "HOME.Next + NextFamilyAdvance",
+  "HOW MUCH HAS BEEN SPENT?": "HOME.CostSnapshot + PROJECT.CostCenter",
+  "WHAT FILES ARE MINE?": "LIBRARY",
+  "WHAT DOES THE FOUNDER NEED FROM ME?": "HOME.NeedsYou + INBOX.REQUESTS"
+ },
+ "home": {
+  "order": [
+   "CURRENT MOMENT",
+   "NEEDS YOU",
+   "NEXT",
+   "RECENTLY APPROVED",
+   "COST SNAPSHOT",
+   "PROJECT UPDATES"
+  ],
+  "rules": [
+   "NEEDS YOU collapses to one quiet line when empty (\"NOTHING NEEDS YOU \u2014 WE'RE IN PRODUCTION ON FAMILY 02\")",
+   "No metrics without meaning; no fake numbers",
+   "Never more than one primary button above the fold"
+  ]
+ },
+ "project": {
+  "order": [
+   "SUMMARY",
+   "JOURNEY",
+   "FAMILY ROADMAP",
+   "TIMELINE",
+   "COST CENTER",
+   "UPDATES"
+  ]
+ },
+ "reviews": {
+  "groups": [
+   "NEEDS YOU",
+   "REVISION IN PROGRESS",
+   "APPROVED"
+  ],
+  "not": "a table of tickets"
+ },
+ "inbox": "Human conversation only; status never requires a message.",
+ "library": "Clean archive; never exposes the internal asset vault.",
+ "mobile": {
+  "primary_viewport": "393\u00d7852",
+  "secondary": [
+   "834\u00d71194",
+   "1440\u00d7900"
+  ],
+  "rules": [
+   "Review fully completable on a phone",
+   "Decision controls \u226548px, labelled, thumb-reachable, not swipe",
+   "Keyboard never covers prompt, field or submit (focused sheet with sticky submit above keyboard)"
+  ]
+ },
+ "components": [
+  {
+   "component": "CurrentMoment",
+   "shows": [
+    "project status word (ON TRACK / WAITING ON YOU / IN PRODUCTION / FUNDING NEEDED / COMPLETE)",
+    "one sentence derived from pulse",
+    "phase + family"
+   ],
+   "source": "SYS.PULSE",
+   "rule": "One sentence, no card wall."
+  },
+  {
+   "component": "NeedsYouItem",
+   "shows": [
+    "what it is",
+    "why it matters",
+    "action (single primary button)",
+    "deadline (only if real)",
+    "estimated time to complete"
+   ],
+   "types": [
+    "REVIEW",
+    "QUESTION",
+    "UPLOAD_REQUIRED",
+    "PAYMENT_OR_CREDIT_REQUIRED",
+    "REVISION_RESPONSE",
+    "ACCOUNT_CONNECTION",
+    "IDENTITY_DECISION",
+    "FINAL_APPROVAL"
+   ],
+   "source": "SYS.PULSE.needs_you"
+  },
+  {
+   "component": "ProjectPhase",
+   "shows": [
+    "phase name",
+    "state COMPLETED/CURRENT/NEXT/LATER",
+    "one-line purpose"
+   ],
+   "source": "project phases"
+  },
+  {
+   "component": "FamilyRoadmap",
+   "shows": [
+    "family rows: name, purpose, status, approval, est./actual cost, dependency"
+   ],
+   "source": "project families"
+  },
+  {
+   "component": "FamilyReview",
+   "shows": [
+    "family name",
+    "purpose",
+    "what changed",
+    "what you are reviewing",
+    "version",
+    "visual authority (dominant)",
+    "optional key children",
+    "notes",
+    "cost spent on this family",
+    "status"
+   ],
+   "source": "SYS.REVIEW"
+  },
+  {
+   "component": "ApproveAction",
+   "label": "APPROVE",
+   "glyph": "\u2665",
+   "rule": "Text label always visible; min 48px tall, full-width on mobile; optional ADD A NOTE never blocks."
+  },
+  {
+   "component": "RevisionAction",
+   "label": "NEEDS REVISION",
+   "glyph": "\u00d7",
+   "rule": "Does not submit; expands RevisionCommentComposer in place."
+  },
+  {
+   "component": "RevisionCommentComposer",
+   "shows": [
+    "prompt: WHAT ISN'T WORKING FOR YOU?",
+    "large text field",
+    "optional chips: VISUAL DIRECTION \u00b7 LAYOUT \u00b7 COPY \u00b7 COLOR \u00b7 IMAGERY \u00b7 INTERACTION \u00b7 DOESN'T FEEL LIKE MY BRAND \u00b7 OTHER",
+    "optional follow-ups: WHAT SHOULD WE KEEP? / WHAT WOULD YOU LIKE TO FEEL DIFFERENT?",
+    "SEND REVISION REQUEST (disabled until valid)"
+   ],
+   "validation": "SITE00_CLIENT_REVISION_FLOW.json#validation_contract"
+  },
+  {
+   "component": "CostSnapshot",
+   "shows": [
+    "spent to date (production expenses)",
+    "next family estimate (range, ESTIMATED label)",
+    "funding status"
+   ],
+   "source": "cost ledger + funding"
+  },
+  {
+   "component": "FamilyCostRow",
+   "shows": [
+    "family",
+    "ESTIMATED range or ACTUAL",
+    "credits \u2248 dollars",
+    "payer"
+   ],
+   "source": "cost ledger"
+  },
+  {
+   "component": "NextFamilyAdvance",
+   "shows": [
+    "previous family APPROVED",
+    "NEXT family",
+    "what we will build",
+    "estimated generations / credits / cost range",
+    "provider status",
+    "action READY TO ADVANCE or FUND / CONFIRM PRODUCTION"
+   ],
+   "source": "approval gate + funding"
+  },
+  {
+   "component": "ProviderStatus",
+   "shows": [
+    "provider",
+    "NOT CONNECTED / CONNECTED / NEEDS ATTENTION / REVOKED",
+    "project scope",
+    "safe balance metadata (if available)",
+    "used by this project"
+   ],
+   "never": [
+    "secret",
+    "masked secret beyond last-4 hint"
+   ]
+  },
+  {
+   "component": "ClientActivityItem",
+   "shows": [
+    "human sentence (FAMILY 02 IS NOW IN PRODUCTION)",
+    "time"
+   ],
+   "source": "curated projection of SYS.EVENTS"
+  },
+  {
+   "component": "ProjectFile",
+   "shows": [
+    "name",
+    "section",
+    "version",
+    "approved date",
+    "download"
+   ],
+   "source": "SYS.FILES"
+  }
+ ],
+ "founder_control_mapping": [
+  {
+   "client_sees": "READY FOR REVIEW",
+   "founder_controls": "SEND TO CLIENT (PW.INBOX / DESIGN / EXPRESSION)"
+  },
+  {
+   "client_sees": "NEEDS YOU: QUESTION / UPLOAD",
+   "founder_controls": "Create request in thread (INBOX)"
+  },
+  {
+   "client_sees": "ESTIMATED NEXT FAMILY COST",
+   "founder_controls": "APPROVE ESTIMATE FOR CLIENT VISIBILITY (per family)"
+  },
+  {
+   "client_sees": "ACTUAL FAMILY COST",
+   "founder_controls": "Ledger close-out for family (auto from ledger; founder can annotate)"
+  },
+  {
+   "client_sees": "PROVIDER CONNECTED",
+   "founder_controls": "Project provider authorization status (CLIENT RELATIONSHIP)"
+  },
+  {
+   "client_sees": "FUNDING REQUIRED",
+   "founder_controls": "Set funding_mode + budget; mark family AWAITING_PRODUCTION_FUNDING"
+  },
+  {
+   "client_sees": "PROJECT UPDATES",
+   "founder_controls": "Curation rules (which internal events map to client sentences); per-event hide"
+  },
+  {
+   "client_sees": "TIMELINE expectations",
+   "founder_controls": "Edit expected windows per phase/family"
+  },
+  {
+   "client_sees": "SCOPE CHANGE REQUEST",
+   "founder_controls": "Classify IN_SCOPE_REVISION vs SCOPE_CHANGE_REQUEST; set additional estimate; approve/decline"
+  },
+  {
+   "client_sees": "LIBRARY files",
+   "founder_controls": "Publish to library (approved/deliverable/final)"
+  },
+  {
+   "client_sees": "APPROVAL undo window",
+   "founder_controls": "Undo window length; post-window reversal = founder-mediated new version"
+  }
+ ]
+}

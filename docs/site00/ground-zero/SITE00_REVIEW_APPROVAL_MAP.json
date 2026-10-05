@@ -1,0 +1,410 @@
+{
+ "artifact": "SITE00_REVIEW_APPROVAL_MAP",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "summary": "Two disconnected review systems exist. (A) site00_client_review_* tables (P0.CLIENT.2) \u2014 the client app reads/writes these, but nothing in production creates review objects and nothing on the workspace side reads the results. (B) site00_approval_requests / site00_project_deliverables (Production OS) \u2014 has CLIENT_REVIEW / CLIENT_APPROVED statuses read by admin control and client studio, but no code transitions anything into CLIENT_REVIEW and the client app never touches it. There is no ONE shared project truth for reviews.",
+ "verdicts": {
+  "review_send": {
+   "verdict": "FAIL",
+   "reason": "No production code creates site00_client_review_objects or moves deliverables/approvals to CLIENT_REVIEW; only preview fixture seeding."
+  },
+  "client_approval": {
+   "verdict": "PARTIAL",
+   "reason": "Durable approve endpoint with receipts/idempotency exists, but client hooks send no Bearer token (401 in prod), role is client-tamperable, and there are no real review objects to approve."
+  },
+  "request_revision": {
+   "verdict": "PARTIAL",
+   "reason": "Revision receipt + status + event persist, same auth/role defects; nobody consumes the request."
+  },
+  "comment_return": {
+   "verdict": "FAIL",
+   "reason": "Comments persist but no founder UI reads them (adminFeedback endpoint unused and owner-gated) and no reply path."
+  },
+  "approval_return_loop": {
+   "verdict": "FAIL",
+   "reason": "Approval updates only client_status on the client table; no deliverable/project/gate update, no notification, no workspace read."
+  },
+  "client_inbox": {
+   "verdict": "FAIL",
+   "reason": "Three hardcoded fixture threads for every project; fake messages; SEND has no handler; no messages table."
+  },
+  "client_library": {
+   "verdict": "FAIL",
+   "reason": "Categories from template with 0 items; same two fake files for every category; null download URLs; viewer is placeholder text."
+  },
+  "client_invite": {
+   "verdict": "FAIL",
+   "reason": "Only self-activation by an already-owning client writes metadata flag; no founder invite, no token acceptance, no email (invitationSent:false), event table missing from migrations."
+  },
+  "client_project_room": {
+   "verdict": "PARTIAL",
+   "reason": "Real auth/ownership and project row power shell + phase list, but Home/Project content is template copy, nav diverges from canon, web room library/activity/messages are placeholders, and project-room hook omits auth header."
+  }
+ },
+ "loop_steps": [
+  {
+   "step": "1. Production workspace has a reviewable artifact",
+   "status": "PARTIAL",
+   "evidence": "site00_project_deliverables + site00_approval_requests (supabase/migrations/20260818143000_site00_production_os.sql:200-217); founder project OS REVIEWS module renders operatingState.reviewsState which is hardcoded [] (shared/site00-projects/generalizedProjectOperatingState.ts:211; src/site00/components/projectOperatingSystem/ProjectModulePanels.tsx:262-284)",
+   "gap": "Workspace REVIEWS module is always empty; design-workspace authorities/families are not modeled as reviewable objects."
+  },
+  {
+   "step": "2. Founder clicks 'Send to client review'",
+   "status": "FAIL",
+   "evidence": "No code path creates non-preview rows in site00_client_review_objects; only upsertPreviewReviewObject (api/_lib/site00ClientReviews/reviewRepository.ts:629-680) called from previewFixtureSeed.ts:31. decideApproval only sets APPROVED_INTERNALLY|REVISION (api/_lib/site00Production/service.ts:366-382). grep for send-to-client / SENT_TO_CLIENT / READY_TO_SEND returns nothing.",
+   "gap": "No send action, no endpoint, no UI button. CLIENT_REVIEW/READY_FOR_CLIENT statuses are only ever read (controlCommand.ts:280-283; clientStudio.ts:419-423), never written."
+  },
+  {
+   "step": "3. Client app receives review (queue)",
+   "status": "PARTIAL",
+   "evidence": "GET /api/site00/client-reviews?action=queue -> loadReviewObjectsForProject filters project_slug + client_visible (reviewRepository.ts:282-293); UI AppReviewsQueuePage.tsx:15-37",
+   "gap": "Queue always empty for real projects (step 2). Client hook uses bare fetch() without Authorization (src/site00/hooks/useClientReviews.ts:10) while getAuthUser requires Bearer (api/_lib/auth.ts:18-20) => 401 'REVIEWS UNAVAILABLE' in production. No notification on arrival."
+  },
+  {
+   "step": "4a. Client approves",
+   "status": "PARTIAL",
+   "evidence": "submitClientApproval writes receipt (decision_type APPROVE), sets client_status APPROVED, inserts APPROVED event (reviewService.ts:334-404); UI ClientAppReviewDetailView.tsx:118-135,355-366",
+   "gap": "Works only against preview fixtures; auth header missing (AppReviewsQueuePage.tsx:39-50 bare fetch); role tamperable via body.role (client-reviews.ts:155); no approvalAllowed check server-side; does not set version is_approved or approved_at column."
+  },
+  {
+   "step": "4b. Client requests revision",
+   "status": "PARTIAL",
+   "evidence": "submitClientRevision -> receipt REVISION with summary/commentIds/annotationIds/category, client_status REVISION_IN_PROGRESS, event REVISION_REQUESTED (reviewService.ts:406-478)",
+   "gap": "Same auth/role issues; revision receipt status stays 'RECEIVED' forever \u2014 no workspace path acknowledges/resolves."
+  },
+  {
+   "step": "4c. Client comments / annotates",
+   "status": "PARTIAL",
+   "evidence": "addClientReviewComment / addClientReviewAnnotation insert into site00_client_review_comments/annotations + events (reviewService.ts:229-332)",
+   "gap": "No founder reply path; comment status OPEN never transitions (no writer of ACKNOWLEDGED/RESOLVED)."
+  },
+  {
+   "step": "5. Event returns to workspace",
+   "status": "FAIL",
+   "evidence": "Only reader of client decisions for founders is getClientReviewAdminFeedback (reviewService.ts:179-206) exposed as GET action=adminFeedback (client-reviews.ts:92-103); no src/ consumer calls adminFeedback (grep). site00_client_review_events is not read by any workspace/admin module. Email template 'CLIENT REVIEW SUBMITTED' exists (shared/site00-email/registry/templates.ts:1162) but is not dispatched from reviewService.",
+   "gap": "Workspace never learns of client action. adminFeedback also requires owner access (assertReviewProjectAccess -> canAccessProjectAsOwner), blocking admins who are not the client."
+  },
+  {
+   "step": "6. Project status updates",
+   "status": "FAIL",
+   "evidence": "reviewService only updates site00_client_review_objects.client_status (reviewRepository.ts:606-627). No update to site00_projects, site00_project_deliverables, site00_approval_requests, or refreshProjectDerivedState.",
+   "gap": "Project phase/progress/home 'current moment' unaffected by approval."
+  },
+  {
+   "step": "7. Production gate unlocks",
+   "status": "FAIL",
+   "evidence": "Gate logic keys on deliverable status CLIENT_APPROVED (api/_lib/site00Production/dependencyEngine.ts:10-13; readinessEvaluator.ts:61), but no code writes CLIENT_APPROVED from a client action.",
+   "gap": "No bridge from client approval receipt to deliverable/authority status."
+  }
+ ],
+ "required_vs_actual_fields": [
+  {
+   "field": "review_id",
+   "present": true,
+   "where": "site00_client_review_objects.id"
+  },
+  {
+   "field": "project_id",
+   "present": true,
+   "where": "site00_client_review_objects.project_id (+ project_slug)"
+  },
+  {
+   "field": "phase",
+   "present": true,
+   "where": "phase_id / phase_label"
+  },
+  {
+   "field": "family_id",
+   "present": false,
+   "where": "missing \u2014 no link to design family"
+  },
+  {
+   "field": "authority_id",
+   "present": false,
+   "where": "missing \u2014 no link to page/family authority or deliverable_id"
+  },
+  {
+   "field": "status",
+   "present": true,
+   "where": "client_status + internal_status (vocab mismatch with canon)"
+  },
+  {
+   "field": "sent_by",
+   "present": false,
+   "where": "missing"
+  },
+  {
+   "field": "sent_at",
+   "present": "partial",
+   "where": "ready_at (no actor)"
+  },
+  {
+   "field": "client_action",
+   "present": "partial",
+   "where": "site00_client_review_receipts.decision_type (separate table, not on review)"
+  },
+  {
+   "field": "client_comment",
+   "present": "partial",
+   "where": "site00_client_review_comments rows; approval commentSnapshot in receipt payload"
+  },
+  {
+   "field": "revision_request",
+   "present": "partial",
+   "where": "receipt payload {summary, commentIds, annotationIds, category, status}"
+  },
+  {
+   "field": "approved_at",
+   "present": "partial",
+   "where": "receipt created_at for APPROVE; versions.is_approved never set by approve path"
+  },
+  {
+   "field": "superseded_by",
+   "present": false,
+   "where": "only boolean versions.is_superseded; no pointer"
+  },
+  {
+   "field": "history",
+   "present": true,
+   "where": "site00_client_review_events (client_visible filter) -> decisionHistory"
+  }
+ ],
+ "client_status_mapping": [
+  {
+   "required": "AWAITING REVIEW",
+   "actual": "READY_FOR_REVIEW / AWAITING_CLIENT (label 'AWAITING YOUR REVIEW')"
+  },
+  {
+   "required": "IN REVIEW",
+   "actual_or_missing": "MISSING (no state for client opened/viewing)"
+  },
+  {
+   "required": "REVISION REQUESTED",
+   "actual_or_missing": "REVISION_IN_PROGRESS (label 'REVISION IN PROGRESS')"
+  },
+  {
+   "required": "APPROVED",
+   "actual_or_missing": "APPROVED"
+  },
+  {
+   "required": "SUPERSEDED",
+   "actual_or_missing": "SUPERSEDED (enum exists; no writer)"
+  },
+  {
+   "extra_actual": [
+    "DECLINED",
+    "LOCKED"
+   ]
+  }
+ ],
+ "workspace_status_mapping": [
+  {
+   "required": "NOT_SENT",
+   "actual_or_missing": "MISSING (implicit: no review object row)"
+  },
+  {
+   "required": "READY_TO_SEND",
+   "actual_or_missing": "MISSING (closest: approval_requests READY_FOR_CLIENT \u2014 read-only, never written)"
+  },
+  {
+   "required": "SENT_TO_CLIENT",
+   "actual_or_missing": "MISSING (closest: internal_status CLIENT_REVIEW_READY / deliverable CLIENT_REVIEW \u2014 never written in prod)"
+  },
+  {
+   "required": "AWAITING_CLIENT",
+   "actual_or_missing": "client_status AWAITING_CLIENT exists in client enum; also controlCommand stage cell 'AWAITING_CLIENT' (controlCommand.ts:40,176) \u2014 unrelated derivation"
+  },
+  {
+   "required": "CLIENT_COMMENTED",
+   "actual_or_missing": "MISSING (only event COMMENT_ADDED)"
+  },
+  {
+   "required": "REVISION_REQUESTED",
+   "actual_or_missing": "client_status REVISION_IN_PROGRESS / event REVISION_REQUESTED (client table only)"
+  },
+  {
+   "required": "CLIENT_APPROVED",
+   "actual_or_missing": "deliverable status CLIENT_APPROVED exists in Production OS types (api/_lib/site00Production/types.ts:14) but is never written from client action"
+  },
+  {
+   "required": "SUPERSEDED",
+   "actual_or_missing": "client enum SUPERSEDED; no writer"
+  }
+ ],
+ "schema": {
+  "tables": {
+   "site00_client_review_objects": [
+    "id text pk",
+    "project_id uuid",
+    "project_slug",
+    "phase_id",
+    "phase_label",
+    "object_type",
+    "title",
+    "subtitle",
+    "internal_status (default CLIENT_REVIEW_READY)",
+    "client_status (default READY_FOR_REVIEW)",
+    "current_version_id",
+    "client_visible",
+    "is_preview_fixture",
+    "metadata jsonb",
+    "ready_at",
+    "created_at",
+    "updated_at"
+   ],
+   "site00_client_review_versions": [
+    "id",
+    "review_id",
+    "label",
+    "client_summary",
+    "preview_asset_url",
+    "preview_asset_alt",
+    "available_viewports",
+    "is_current",
+    "is_approved",
+    "is_superseded",
+    "created_at"
+   ],
+   "site00_client_review_comments": [
+    "id",
+    "project_id",
+    "review_id",
+    "version_id",
+    "viewport",
+    "author_user_id",
+    "author_role",
+    "body",
+    "annotation_id",
+    "parent_comment_id",
+    "visibility (CLIENT_AND_SITE00|SITE00_INTERNAL)",
+    "status (OPEN)",
+    "created_at",
+    "updated_at",
+    "resolved_at"
+   ],
+   "site00_client_review_annotations": [
+    "id",
+    "project_id",
+    "review_id",
+    "version_id",
+    "viewport",
+    "x_percent",
+    "y_percent",
+    "width_percent",
+    "height_percent",
+    "marker_index",
+    "comment_id",
+    "created_by_user_id",
+    "created_at"
+   ],
+   "site00_client_review_events": [
+    "id",
+    "project_id",
+    "review_id",
+    "event_type",
+    "actor_user_id",
+    "actor_role",
+    "payload",
+    "client_visible",
+    "created_at"
+   ],
+   "site00_client_review_receipts": [
+    "id",
+    "project_id",
+    "review_id",
+    "version_id",
+    "actor_user_id",
+    "actor_role",
+    "decision_type",
+    "request_id",
+    "payload",
+    "created_at",
+    "unique(review_id,decision_type,request_id)"
+   ],
+   "site00_approval_requests (parallel system)": [
+    "id",
+    "project_id",
+    "deliverable_id",
+    "version_id",
+    "brief_id",
+    "title",
+    "category",
+    "approval_type",
+    "status (AI_DRAFT default)",
+    "priority",
+    "submitted_at",
+    "decided_at",
+    "decided_by",
+    "decision",
+    "notes",
+    "metadata"
+   ]
+  },
+  "migrations": [
+   "supabase/migrations/20260826160000_site00_client_reviews.sql",
+   "supabase/migrations/20260826180000_site00_client_reviews_p0client2a.sql",
+   "supabase/migrations/20260818143000_site00_production_os.sql"
+  ],
+  "rls": "All six client review tables: RLS enabled, single policy service_role_all; no authenticated/anon policies.",
+  "missing_table": "site00_project_events (read by roomService.ts:79, written by appService.ts:136) has no CREATE TABLE in supabase/migrations.",
+  "enums_actual": {
+   "ClientReviewStatus": [
+    "READY_FOR_REVIEW",
+    "AWAITING_CLIENT",
+    "REVISION_IN_PROGRESS",
+    "APPROVED",
+    "DECLINED",
+    "SUPERSEDED",
+    "LOCKED"
+   ],
+   "ClientReviewStatus_source": "shared/site00-client-reviews/types.ts:5-12",
+   "client_status_written_by_actions": [
+    "APPROVED (approve)",
+    "REVISION_IN_PROGRESS (revision)",
+    "DECLINED (decline)"
+   ],
+   "receipt_decision_type": [
+    "APPROVE",
+    "REVISION",
+    "DECLINE",
+    "REVISIT"
+   ],
+   "ClientReviewDecisionType_type_def (unused mismatch)": [
+    "APPROVE",
+    "REQUEST_REVISION",
+    "DECLINE_DIRECTION",
+    "REQUEST_REVISIT"
+   ],
+   "event_type": [
+    "REVIEW_OPENED",
+    "COMMENT_ADDED",
+    "COMMENT_REPLIED",
+    "ANNOTATION_ADDED",
+    "APPROVED",
+    "REVISION_REQUESTED",
+    "DECLINED",
+    "REVISIT_REQUESTED"
+   ],
+   "DeliverableStatus (production OS)": [
+    "NOT_READY",
+    "READY",
+    "BRIEF_GENERATED",
+    "QUEUED",
+    "GENERATING",
+    "AI_DRAFT",
+    "ADMIN_REVIEW",
+    "REVISION",
+    "APPROVED",
+    "CLIENT_REVIEW",
+    "CLIENT_APPROVED",
+    "DELIVERED",
+    "BLOCKED"
+   ],
+   "approval_requests.status written": [
+    "AI_DRAFT (default)",
+    "APPROVED_INTERNALLY",
+    "REVISION"
+   ]
+  }
+ },
+ "proposed_single_truth": "Extend site00_client_review_objects/versions/receipts/events (they are the cleanest model and already client-safe) with authority_id, family_id, phase, sent_by, sent_at, superseded_by; bridge to site00_project_deliverables/site00_approval_requests by deliverable_id so CLIENT_APPROVED is written by the approval service and dependencyEngine gates unlock. One status enum serves workspace (NOT_SENT\u2026SUPERSEDED) and client (AWAITING\u2026SUPERSEDED) as two projections of one state machine."
+}

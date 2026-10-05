@@ -1,0 +1,88 @@
+{
+  "contract": "JURNL_EXPRESSION_LIVE_QA",
+  "audited": "2026-10-05",
+  "rule": "Score the live node against its expression tree.",
+  "opus_question": "Did the live family preserve the expression tree?",
+  "child_production": "BLOCKED",
+  "paid_generations_this_pass": 0,
+  "nodes": [
+    {
+      "node_id": "F03.00",
+      "classification": "MAJOR_EXPRESSION_DRIFT",
+      "also": [
+        "UNJUSTIFIED_PLATE_REUSE"
+      ],
+      "note": "The live signal, journal, and type follow the salon. The mounted plate is still the arrival still life. Not regenerated."
+    },
+    {
+      "node_id": "F03.SEE_WHY",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Analysis drawer. Taller paper. Factor figures in display. The room is covered."
+    },
+    {
+      "node_id": "F03.UPCOMING_DETAIL",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Inline sequence on the journal. No new plate."
+    },
+    {
+      "node_id": "F03.IN.QUICK_ADD",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Form drawer. Emerald selection. Save gated."
+    },
+    {
+      "node_id": "F03.IN.ASK",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Confirmation drawer. Currency is a choice, not an exchange."
+    },
+    {
+      "node_id": "F03.ST.EMPTY",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Empty salon copy and an empty panel, not a generic message."
+    },
+    {
+      "node_id": "F03.ST.LOADING",
+      "classification": "EXPRESSION_MATCH",
+      "note": "READING TODAY. No spinner."
+    },
+    {
+      "node_id": "F03.ST.ERROR",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Alert panel. Retry stays on today."
+    },
+    {
+      "node_id": "F04.00",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Paper ledger on the reading wall. The wall is distinct from today."
+    },
+    {
+      "node_id": "F04.SEARCH",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Query line and a veil over the wall. Same plate."
+    },
+    {
+      "node_id": "F04.DETAIL",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Receipt drawer. Ruled rows. No new plate."
+    },
+    {
+      "node_id": "F04.ST.NO_RESULTS",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Quiet empty archive inside the paper."
+    },
+    {
+      "node_id": "F04.IN.FILTER",
+      "classification": "EXPRESSION_MATCH",
+      "note": "Filter drawer. Structured choices. Not the quick-add form."
+    },
+    {
+      "node_id": "F01",
+      "classification": "MINOR_EXPRESSION_DRIFT",
+      "note": "Entry runtime predates drawer variants. Welcome still matches the atrium. Historical one-plate-per-screen files stay. They are not extended."
+    },
+    {
+      "node_id": "F02",
+      "classification": "MINOR_EXPRESSION_DRIFT",
+      "note": "Setup rooms match the tree. Grandchild authorities exist from before this cascade and are not new territory. Not regenerated."
+    }
+  ]
+}

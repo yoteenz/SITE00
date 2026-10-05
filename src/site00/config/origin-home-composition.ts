@@ -36,7 +36,7 @@ export const SITE00_ORIGIN_DESKTOP_COMPOSITION = {
   heroDescription1OffsetYPx: 0,
   heroDescription2OffsetYPx: 0,
   heroDescription3OffsetYPx: 0,
-  heroCoordinateOffsetYPx: 0,
+  heroCoordinateOffsetYPx: 4,
   /** @deprecated Use panelIconSizePx — kept for reference: 48.51/80 ≈ 0.606 */
   panelIconScale: 0.606,
   /** Expanded IDNTY/BLDR panel — centered over plaza (same anchor as collapsed cards). */
@@ -49,6 +49,27 @@ export const SITE00_ORIGIN_DESKTOP_COMPOSITION = {
   statusStripMinHeightPx: 36,
   statusStripCellPaddingYPx: 0,
   statusStripGuidancePaddingYPx: 0,
+} as const;
+
+/**
+ * Origin mobile composition — 390×844 artboard / native phone.
+ * Panel overlays align to baked blocks in ORIGIN_MOBILE_WITH_PANELS reference.
+ */
+export const SITE00_ORIGIN_MOBILE_COMPOSITION = {
+  cardsTopPercent: 53,
+  cardsTopOffsetPx: 0,
+  cardsMaxWidthPx: 360,
+  cardScale: 0.36,
+  cardsRowGapPx: 6,
+  panelIconSizePx: 34,
+  panelIconOffsetYPx: 4,
+  panelIconScale: 0.425,
+  expandedMaxWidthPx: 340,
+  expandedPanelScale: 0.92,
+  /** Collapsed teaser hit area — matches baked panel footprint. */
+  teaserMinWidthPx: 98,
+  teaserMinHeightPx: 148,
+  teaserPaddingPx: 8,
 } as const;
 
 /** @deprecated Use SITE00_ORIGIN_DESKTOP_COMPOSITION */
