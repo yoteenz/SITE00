@@ -385,6 +385,11 @@
   max-height: 100%;
 }
 
+.jrn .jrn-screen[data-jrn-family='F03'] {
+  --jrn-plate-mobile: left center;
+  --jrn-plate-tablet: left center;
+  --jrn-plate-desktop: left center;
+}
 .jrn .jrn-screen[data-jrn-family='F03'] .jrn-col,
 .jrn .jrn-screen[data-jrn-family='F04'] .jrn-col {
   width: 100%;

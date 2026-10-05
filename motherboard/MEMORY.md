@@ -13634,3 +13634,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Each family has its own OpenArt project, brief, expression tree, occupancy map, and one mounted parent. The first twelve pictures were text-to-image and are recorded as an invalid postmortem. Ten of them were reframed with the plate file itself bound as the reference. That reframe did not clear the rail for plan, safe to spend, purchases, trips, paydown, goals, ahead, or records. Money, income, upcoming, and credit keep a quiet left field. Founder status stays UNREVIEWED. Child explosion is not authorized. F03 was not regenerated.
 - **Changes:** F05–F16 parent plates, briefs, trees, ledgers, the review board at `parents`, live routes for each parent, `JURNL_ENVIRONMENT_REUSE_MATRIX.json`, and a dispatch block on JURNL text-to-image plus missing occupancy maps.
 - **Conventions:** Do not call text-to-image for JURNL. Bind the actual file. Define the left rail before approving a plate. Do not explode these families until the founder marks LOVE_IT. Do not mark that status automatically.
+
+---
+
+## 2026-10-05 — F03 authority-first plate
+
+- **Context:** After the F05–F16 parent mount, the founder stopped text-to-image and then required the F03 correction to start from a full page. The environment plate is derived from that page. A background by itself is not an authority.
+- **Topics covered:** The invalid arrival-copy plate and the earlier text-to-image page. Live Today as the structural reference. Occupancy before generation. One full page, then one clean plate. Live React stays the UI. The same rule for F05–F16.
+- **Decisions / outcomes:** Text-to-image was not used. The live structure file was attached. The full page is a daily room with quiet plaster on the left and daylight, a cup, and a cloth on the right. It does not repeat the arrival arch, curtain, bust, bowl, or books. The clean plate was derived from that page with the page attached. It is mounted under the existing Today UI at 393, 834, and 1440. Founder status stays UNREVIEWED. Child production stays off. Two paid generations, 644 credits.
+- **Changes:** `authorityFirstPlate.ts`, `JURNL_AUTHORITY_FIRST.json`, the F03 occupancy map, the full-page authority, the derived day plate, and `F03_AUTHORITY_FIRST_PLATE_DERIVATION_QA.json`.
+- **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.

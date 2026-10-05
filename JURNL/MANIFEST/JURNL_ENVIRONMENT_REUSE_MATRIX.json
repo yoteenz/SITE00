@@ -19,11 +19,12 @@
     },
     "F03": {
       "plate": "ENV.DAY",
-      "unique": false,
+      "unique": true,
       "within_family_reuse": "Children reuse the day plate when built",
-      "cross_family_reuse": "The mounted file repeats F01 and F02 arrival",
+      "cross_family_reuse": "NONE",
       "justification": "NONE",
-      "should_replace": true
+      "should_replace": false,
+      "origin": "DERIVED_FROM_AUTHORITY"
     },
     "F04": {
       "plate": "ENV.LEDGER",

@@ -3,6 +3,7 @@ import { validateFamilyExpressionBrief } from './familyExpressionBrief.js';
 import { validateHierarchicalExpression } from './hierarchicalExpression.js';
 import { validatePlateOccupancy } from './plateOccupancy.js';
 import { validateFamilyOutputProject } from './familyOutputProjects.js';
+import { validateAuthorityFirstPlate } from './authorityFirstPlate.js';
 import { validateSidekickDerivationReference } from './sidekickReferenceBinding.js';
 import {
   classifyGenerationRequest,
@@ -94,6 +95,24 @@ export function precheckGenerationDispatch(request: GenerationRequest, options: 
     return {
       classification,
       ...sidekick,
+    };
+  }
+  const authorityFirst = validateAuthorityFirstPlate(classification, options.resolverContext.repoRoot);
+  if (authorityFirst.status === 'BLOCKED') {
+    return {
+      classification,
+      status: 'BLOCKED',
+      dispatchAllowed: false,
+      blockedReason: authorityFirst.blockedReason,
+      referenceRequired: true,
+      referenceFound: false,
+      referenceAttached: Boolean(classification.referenceInputAttached),
+      generationMode: classification.generationMode,
+      resolvedReference: null,
+      referencePath: null,
+      referenceAuthorityId: classification.referenceAuthorityIdHint ?? null,
+      referenceStatus: null,
+      creditsSpent: 0,
     };
   }
   const binding = validateGenerationReferenceBinding(classification, options);
