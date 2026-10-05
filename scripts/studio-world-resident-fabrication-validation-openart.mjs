@@ -124,7 +124,7 @@ function scaffold() {
           hair_status: 'PENDING',
           anatomy_status: 'PENDING',
           retry_count: 0,
-          approval_status: 'FABRICATION_VALIDATION_IN_REVIEW',
+          approval_status: 'IN_REVIEW',
           classification: 'PENDING',
           notes: '',
         },
@@ -147,7 +147,7 @@ function scaffold() {
           hair_status: 'PENDING',
           anatomy_status: 'PENDING',
           retry_count: 0,
-          approval_status: 'FABRICATION_VALIDATION_IN_REVIEW',
+          approval_status: 'IN_REVIEW',
           classification: 'PENDING',
           notes: '',
         },
@@ -158,7 +158,9 @@ function scaffold() {
     MANIFEST,
     JSON.stringify(
       {
-        sprint: 'P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.OPENART1',
+        sprint: 'P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2',
+        source_binding_pr: 1324,
+        source_binding_sha: 'ebb9f3e7ecc9b03c6dd70026f1b823f0e188b97b0',
         openart_project_id: PROJECT,
         recovery_verified: true,
         source_commit: SOURCE_COMMIT,

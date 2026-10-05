@@ -13439,3 +13439,22 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` o
 
 - **One image:** Etta left three-quarter work portrait (`ODqcr3zgDJwpZfFwElmQ`); ref upload `fujq0PYW5H3SwY15Oq35`; inputImages URL verified = casting white-tee/red-collar sha256.
 - **Artifacts:** `SW-001_ETTA_SINGLE_TEST_SOURCE_PROOF.jpg`, `SW-001_ETTA_SINGLE_TEST_REVIEW.jpg`, `SW-001_ETTA_SINGLE_TEST_README.txt`, `artifacts/studio-world-resident-fabrication-validation/single-angle-source-test.json`. Classification **PASS**. No validation/geometry batch resume.
+
+---
+
+## 2026-10-05 — RESUME16 validation batch (OpenArt2, sha256 registry)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2` (from #1324 lineage).
+
+- **16/16** frames regenerated via `source-binding-registry.json` (SW-002–SW-008 fresh uploads; casting-thumbnails-v1 work look + season1 body). **0 retries**, **2432** credits. Review ZIPs refreshed. All `FOUNDER_REVIEW_REQUIRED` / `IN_REVIEW`. **128 geometry not resumed.**
+
+---
+
+## 2026-10-05 — RESUME16 OpenArt2 validation (16 frames, sha256 registry)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2`.
+
+- **Registry:** Re-uploaded SW-002..SW-008 workLook + bodyGeometry to OpenArt project `Q7IHYCEK3RPn2c1ConEG`; merged `source-binding-registry.json` with `supersededOpenArtUploadIds` from `openart_identity_references.json`. SW-001 unchanged.
+- **Generation:** 16/16 frames (WORK_PORTRAIT_FRONT + WORK_FULL_BODY_FRONT) via `studio-world-validation-openart-run-one.mjs` + MCP; recorded with binding sha256 + `openart_reference_upload_id`; **2432** credits (16×152); **0** retries.
+- **Artifacts:** Refreshed PNGs, `validation_manifest.json` (sprint RESUME16.OPENART2), contact sheets, `STUDIO_WORLD_RESIDENT_FABRICATION_VALIDATION_REVIEW.zip` + `_LITE.zip`, `failure_retry_report.json`. Helpers: `studio-world-validation-openart-build-record.mjs`, `studio-world-validation-openart-batch-run.mjs` (OPENART_MCP_BRIDGE).
+- **Status:** Automated lane PASS; all frames `classification: FOUNDER_REVIEW_REQUIRED`, `approval_status: IN_REVIEW` for founder sign-off.
