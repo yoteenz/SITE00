@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "statuses": [
+    "UNASKED",
+    "IN_PROGRESS",
+    "EVIDENCE_REQUIRED",
+    "INTERPRETATION_READY",
+    "REVIEW_REQUIRED",
+    "RESOLVED",
+    "LOCKED",
+    "CONFLICTED",
+    "SUPERSEDED"
+  ],
+  "rules": [
+    "Answering all questions for a dimension does NOT automatically set RESOLVED.",
+    "EVIDENCE_REQUIRED applies when entry state 01+ claims equity without upload.",
+    "INTERPRETATION_READY means SITE 00 may synthesize; client answers alone are insufficient for VERBAL_SYSTEM final lines.",
+    "LOCKED requires authority dimension approval and evidence for claimed equity.",
+    "CONFLICTED preserves tension; do not flatten contradictory client signals.",
+    "BUILD_READY (03) verification may reclassify dimensions to EVIDENCE_REQUIRED or CONFLICTED."
+  ],
+  "transitions": {
+    "UNASKED": ["IN_PROGRESS"],
+    "IN_PROGRESS": ["EVIDENCE_REQUIRED", "INTERPRETATION_READY", "CONFLICTED"],
+    "EVIDENCE_REQUIRED": ["IN_PROGRESS", "INTERPRETATION_READY"],
+    "INTERPRETATION_READY": ["REVIEW_REQUIRED", "RESOLVED", "CONFLICTED"],
+    "REVIEW_REQUIRED": ["RESOLVED", "LOCKED", "CONFLICTED", "IN_PROGRESS"],
+    "RESOLVED": ["LOCKED", "SUPERSEDED", "CONFLICTED"],
+    "LOCKED": ["SUPERSEDED"],
+    "CONFLICTED": ["REVIEW_REQUIRED", "RESOLVED", "IN_PROGRESS"],
+    "SUPERSEDED": []
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "intake_outputs": [
+    { "id": "CLIENT_ANSWER_RECORD", "format": "JSON", "mutable": true },
+    { "id": "EVIDENCE_MANIFEST", "format": "JSON + asset refs", "mutable": true },
+    { "id": "RAW_BRAND_SIGNALS", "format": "JSON", "owner": "client_input" },
+    { "id": "INTERPRETED_BRAND_SIGNALS", "format": "JSON", "owner": "site00" },
+    { "id": "IDNTY_PROFILE", "format": "IDNTY_PROFILE_CONTRACT", "canonical": true },
+    { "id": "CONFLICT_LIST", "format": "JSON", "links": "IDNTY_CONTRADICTION_MODEL" },
+    { "id": "OPEN_QUESTIONS", "format": "JSON" },
+    { "id": "REVIEW_QUEUE", "format": "JSON" },
+    { "id": "CREATIVE_BRIEF_INPUT", "format": "JSON", "derived_from": "IDNTY_PROFILE" },
+    { "id": "VERBAL_BRIEF_INPUT", "format": "JSON", "derived_from": ["IDNTY_05_LANGUAGE", "IDNTY_06_VERBAL_SYSTEM", "IDNTY_04_PERSONALITY"] },
+    { "id": "MARK_BRIEF_INPUT", "format": "JSON", "derived_from": "IDNTY_07_MARK" },
+    { "id": "PALETTE_BRIEF_INPUT", "format": "JSON", "derived_from": "IDNTY_08_PALETTE" },
+    { "id": "TYPE_BRIEF_INPUT", "format": "JSON", "derived_from": "IDNTY_09_TYPE" },
+    { "id": "VISUAL_GRAMMAR_BRIEF_INPUT", "format": "JSON", "derived_from": "IDNTY_10_VISUAL_GRAMMAR" },
+    { "id": "EXPRESSION_BRIEF_INPUT", "format": "JSON", "derived_from": "IDNTY_11_EXPRESSION" },
+    { "id": "AUTHORITY_CONTRACT", "format": "JSON", "derived_from": "IDNTY_12_AUTHORITY" }
+  ]
+}

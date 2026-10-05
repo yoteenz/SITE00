@@ -81,6 +81,8 @@ Investment guide: 4 columns aligned to 4 states (`IDNTY_INVESTMENT_TIERS` with `
 
 ## Intake persistence (Identity + Builder)
 
+**IDNTY product methodology (2026-10-05):** Brand intake is the first layer of IDNTY — not a generic questionnaire. Twelve canonical dimensions (`IDNTY_01_TRUTH` … `IDNTY_12_AUTHORITY`); questions map to structured fields; adaptive by entry state `00–03`. Canonical output: **`IDNTY_PROFILE`** (`docs/site00/idnty/intake/`). Clients provide meaning/constraints; SITE 00 synthesizes verbal/visual direction. AIO = first validation case.
+
 Canonical intake entity is **`site00_idnty_submissions` / `site00_bldr_intakes`** (extended, not duplicated — see MEMORY 2026-08-21). Server draft is the system of record; `localStorage` is resilience/recovery only, never trusted over server state.
 
 - **Lifecycle:** `shared/site00-intakes/types.ts` — `DRAFT → AWAITING_EMAIL_VERIFICATION → ACTIVE → SUBMITTED → IN_REVIEW → CONVERTED → ARCHIVED`, illegal transitions rejected server-side.

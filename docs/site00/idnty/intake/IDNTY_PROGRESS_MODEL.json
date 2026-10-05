@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "principle": "Progress is not question-count percentage. A client may answer 100% of surfaced questions while IDNTY remains partially unresolved.",
+  "tracks": {
+    "question_completion": {
+      "metric": "answered_required / required_questions_surfaced",
+      "weight": 0.2
+    },
+    "dimension_resolution": {
+      "metric": "dimensions_in RESOLVED_or_LOCKED / 12",
+      "weight": 0.35
+    },
+    "evidence_completion": {
+      "metric": "required_evidence_slots_filled / required_evidence_slots",
+      "weight": 0.25
+    },
+    "review_completion": {
+      "metric": "review_gates_passed / review_gates_required",
+      "weight": 0.15
+    },
+    "authority_completion": {
+      "metric": "authority_contract_locked ? 1 : 0",
+      "weight": 0.05
+    }
+  },
+  "display_rules": [
+    "Show dimension-level status chips, not a single misleading percent bar.",
+    "BUILD_READY entry state may downgrade dimensions when verification fails."
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "entry_states": {
+    "IDNTY_00": {
+      "code": "00",
+      "label": "STARTING AT ZERO",
+      "assumption": "No reliable brand system exists yet.",
+      "focus": ["discover truth", "position", "promise", "constraints", "approval authority"],
+      "suppress": ["style-picker questions", "logo style orders", "favorite color asks"],
+      "evidence_default": "optional",
+      "question_depth": "discovery"
+    },
+    "IDNTY_01": {
+      "code": "01",
+      "label": "PARTIAL",
+      "assumption": "Fragments exist; cohesion and equity audit required.",
+      "focus": ["inventory equity", "inconsistency", "preserve vs challenge", "evidence upload"],
+      "evidence_default": "required_for_claimed_equity",
+      "question_depth": "audit"
+    },
+    "IDNTY_02": {
+      "code": "02",
+      "label": "EVOLUTION",
+      "assumption": "Brand exists but must mature without losing recognition.",
+      "focus": ["what no longer fits", "audience continuity", "future markets", "recognizable constants"],
+      "evidence_default": "required_for_locked_claims",
+      "question_depth": "evolution"
+    },
+    "IDNTY_03": {
+      "code": "03",
+      "label": "BUILD READY",
+      "assumption": "Client believes identity is complete — system must verify.",
+      "focus": ["verify kit completeness", "contradiction checks", "reclassify unresolved dimensions"],
+      "evidence_default": "required_all_canonical_elements",
+      "question_depth": "verification",
+      "on_missing_evidence": "reclassify_dimension_to UNASKED or EVIDENCE_REQUIRED"
+    }
+  },
+  "global_branches": [
+    {
+      "branch_id": "BR_MULTI_AUDIENCE",
+      "when": { "audience_count_gte": 2 },
+      "then": ["surface IDNTY_11_EXPRESSION per-audience follow-ups", "add IDNTY_02_POSITION trust_position depth"]
+    },
+    {
+      "branch_id": "BR_PHYSICAL_PRESENCE",
+      "when": { "expression_contexts_includes": ["VEHICLES", "UNIFORMS", "PHYSICAL_SIGNAGE"] },
+      "then": ["require IDNTY_07_MARK small_scale", "require IDNTY_09_TYPE signage_behavior"]
+    },
+    {
+      "branch_id": "BR_DIGITAL_PRODUCT",
+      "when": { "expression_contexts_includes": ["PRODUCT_UI", "APP", "CLIENT_PORTAL"] },
+      "then": ["require IDNTY_09_TYPE UI_behavior", "require IDNTY_11_EXPRESSION PRODUCT_UI profile"]
+    },
+    {
+      "branch_id": "BR_EXISTING_MARK",
+      "when": { "entry_state_in": ["IDNTY_01", "IDNTY_02", "IDNTY_03"], "has_logo_upload": true },
+      "then": ["skip net-new mark discovery for name_equity if evidence confirms lock", "route to challengeable_elements"]
+    },
+    {
+      "branch_id": "BR_SUB_BRAND",
+      "when": { "sub_brand_count_gte": 1 },
+      "then": ["add expression sub_expression_need questions", "authority consulted_roles expansion"]
+    }
+  ]
+}

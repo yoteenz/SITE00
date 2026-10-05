@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "case_id": "AIO_ALL_IN_ONE_ENTERPRISES",
+  "purpose": "First live validation of intake methodology — represents brand decisions without inventing final logo/color/type outputs.",
+  "entry_state_recommended": "IDNTY_02",
+  "dimensions": {
+    "IDNTY_01_TRUTH": {
+      "status": "INTERPRETATION_READY",
+      "interpreted_fields": {
+        "business_definition": "Brokerage and back-office for owner-operators and small fleets — business office behind the truck.",
+        "customer_need": "Keep moving parts connected: compliance, cash flow, operations while on the road.",
+        "business_model_context": "Shipper → AIO → private carrier board (not open marketplace)."
+      },
+      "source_signal": "Founder AIO formalization + motherboard PROJECT_CONTEXT"
+    },
+    "IDNTY_02_POSITION": {
+      "status": "INTERPRETATION_READY",
+      "interpreted_fields": {
+        "desired_role": "PARTNER",
+        "differentiation": "Operational back-office integrated with road reality vs generic software or load boards.",
+        "category": "Transportation business services / brokerage operations"
+      }
+    },
+    "IDNTY_03_PROMISE": {
+      "status": "INTERPRETATION_READY",
+      "interpreted_fields": {
+        "functional_promise": "Connected operations from startup through every mile after.",
+        "emotional_promise": "Calm control while the business keeps moving."
+      }
+    },
+    "IDNTY_04_PERSONALITY": {
+      "status": "INTERPRETATION_READY",
+      "voice_genome": {
+        "primary_archetype": "THE_OPERATOR",
+        "relationship_archetype": "THE_BUSINESS_PARTNER",
+        "distinctive_character_archetype": "THE_ROAD_OFFICE",
+        "optional_weights": { "operator": 0.4, "business_partner": 0.3, "road_office": 0.3 },
+        "contextual_modulation": "Road-office character is selective — not constant punning.",
+        "boundaries": ["No bro-trucker parody", "No corporate emptiness"]
+      }
+    },
+    "IDNTY_05_LANGUAGE": {
+      "status": "INTERPRETATION_READY",
+      "interpreted_fields": {
+        "owned_language": ["road", "mile", "office", "connected parts"],
+        "prohibited_language": ["constant road puns on every line"],
+        "industry_lexicon": "Fluent logistics/operations terms when accurate — not buzzword soup."
+      }
+    },
+    "IDNTY_06_VERBAL_SYSTEM": {
+      "status": "REVIEW_REQUIRED",
+      "founder_decisions": {
+        "master_tagline": "WHERE BUSINESS MEETS THE ROAD.",
+        "positioning_line": "THE BUSINESS OFFICE BEHIND THE TRUCK.",
+        "product_promise": "FROM STARTUP TO EVERY MILE AFTER.",
+        "secondary_brand_lines": ["ONE OFFICE. THE WHOLE ROAD AHEAD.", "YOUR BUSINESS HAS MOVING PARTS. WE KEEP THEM CONNECTED."]
+      },
+      "note": "Lines are SITE 00 synthesis output — intake questions supply signals, not client-written final copy."
+    },
+    "IDNTY_07_MARK": {
+      "status": "IN_PROGRESS",
+      "interpreted_fields": {
+        "name_equity": "Company name carries significant equity — symbol must work with wordmark.",
+        "symbolic_requirements": "May symbolize connection, route, or office-truck unity — not cliché truck clip art.",
+        "prohibited_symbols": ["Generic highway clip art", "Mascot characters"],
+        "application_contexts": ["VEHICLES", "PUBLIC_SITE", "DOCUMENTS", "UNIFORMS"]
+      },
+      "unresolved_fields": ["symbolic_meaning", "existing_symbol_equity"],
+      "note": "Logo exploration deferred to post-methodology sprint."
+    },
+    "IDNTY_08_PALETTE": {
+      "status": "IN_PROGRESS",
+      "interpreted_fields": {
+        "emotional_temperature": "Professional, trustworthy, road-capable — not neon tech or grimy grit.",
+        "industry_color_cliches": ["Overused red/white/blue fleet tropes without meaning"]
+      },
+      "unresolved_fields": ["existing_color_equity", "non_negotiable_colors"],
+      "note": "No final hex values claimed in this sprint."
+    },
+    "IDNTY_09_TYPE": {
+      "status": "IN_PROGRESS",
+      "interpreted_fields": {
+        "UI_behavior": "OPERATIONAL_DASHBOARD",
+        "numeric_data_need": "High — operations and financial surfaces.",
+        "document_behavior": "Invoices, compliance, and correspondence must be legible."
+      }
+    },
+    "IDNTY_10_VISUAL_GRAMMAR": {
+      "status": "IN_PROGRESS",
+      "interpreted_fields": {
+        "brand_world": "American road + business office — asphalt, paper, cab, dispatch.",
+        "physical_place_metaphor": "Road office / mobile HQ",
+        "documentary_vs_commercial": "Leans documentary operational truth with professional polish.",
+        "prohibited_visual_cliches": ["Stock handshake photos", "Generic semi hero shots"]
+      }
+    },
+    "IDNTY_11_EXPRESSION": {
+      "status": "INTERPRETATION_READY",
+      "expression_contexts": {
+        "PUBLIC_SITE": { "trust_level": "high", "functional_level": "high" },
+        "VEHICLES": { "trust_level": "high", "energy_level": "medium" },
+        "DOCUMENTS": { "functional_level": "high", "premium_level": "professional" },
+        "PRODUCT_UI": { "functional_level": "high", "trust_level": "high" }
+      }
+    },
+    "IDNTY_12_AUTHORITY": {
+      "status": "REVIEW_REQUIRED",
+      "interpreted_fields": {
+        "final_creative_authority": "Founder",
+        "approval_threshold": "FOUNDER_ONLY"
+      }
+    }
+  },
+  "validation_result": "PASS",
+  "validation_notes": [
+    "All 12 dimensions represented with structured fields.",
+    "Verbal system uses founder-approved lines as decisions, not client questionnaire output.",
+    "Mark/palette/type remain intentionally unresolved for mark development sprint."
+  ]
+}

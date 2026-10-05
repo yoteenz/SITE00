@@ -130,6 +130,11 @@ Universal API auth, RLS, membership/invites, and permission engine still gaps �
 
 ---
 
+## IDNTY intake [REPO — 2026-10-05]
+
+- Intake **is** IDNTY layer 1: question bank reverse-engineered from 12 dimensions; **`IDNTY_PROFILE`** is the downstream canonical read model.
+- AIO validates verbal/voice genome; mark/palette/type exploration follows in a later sprint.
+
 ## Open / next root engines [RECOMMENDATION]
 
 After PROVIDER_GATEWAY wave 1: **PROJECT_REGISTRY** consolidation (7+ competing registries) and **PERMISSION_ENGINE** for client onboarding gate — evidence from ground-zero / capability-genome forensics.

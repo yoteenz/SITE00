@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "canonical_source": "IDNTY_PROFILE",
+  "consumers": [
+    { "system": "IDNTY_CREATIVE_WORKSPACE", "reads": ["IDNTY_PROFILE", "REVIEW_QUEUE"], "must_not": "re-infer truth from raw chat" },
+    { "system": "LOGO_MARK_DEVELOPMENT", "reads": ["IDNTY_07_MARK", "IDNTY_12_AUTHORITY", "MARK_BRIEF_INPUT"] },
+    { "system": "BRAND_KIT", "reads": ["IDNTY_08_PALETTE", "IDNTY_09_TYPE", "IDNTY_07_MARK"] },
+    { "system": "BLDR", "reads": ["IDNTY_11_EXPRESSION", "IDNTY_10_VISUAL_GRAMMAR"] },
+    { "system": "PAGE_FAMILY_EXPRESSION", "reads": ["IDNTY_11_EXPRESSION", "IDNTY_10_VISUAL_GRAMMAR"] },
+    { "system": "CONTENT_SYSTEM", "reads": ["IDNTY_05_LANGUAGE", "IDNTY_06_VERBAL_SYSTEM"] },
+    { "system": "EVOLVE", "reads": ["IDNTY_PROFILE", "AUTHORITY_CONTRACT"] },
+    { "system": "MARKETING", "reads": ["VERBAL_BRIEF_INPUT", "IDNTY_11_EXPRESSION"] },
+    { "system": "CAMPAIGN_PRODUCTION", "reads": ["IDNTY_06_VERBAL_SYSTEM", "IDNTY_11_EXPRESSION"] },
+    { "system": "SOCIAL_EXPRESSION", "reads": ["IDNTY_11_EXPRESSION", "IDNTY_04_PERSONALITY"] },
+    { "system": "CLIENT_PROJECT_ROOM", "reads": ["IDNTY_PROFILE.status_summary", "REVIEW_QUEUE"] },
+    { "system": "SITE00_PRODUCTION_INTELLIGENCE", "reads": ["IDNTY_PROFILE", "AUTHORITY_CONTRACT"] }
+  ]
+}
