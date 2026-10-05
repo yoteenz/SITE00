@@ -1,0 +1,1834 @@
+{
+ "artifact": "SITE00_CANONICAL_NAVIGATION_GRAPH",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "note": "Current graph from code evidence + clearly-marked PROPOSED context edges. Includes routes, global nav systems, non-route spatial systems, FAST TRAVEL, ENTER 00, WAITING ROOM, EXIT 00, control rooms and project/site context changes.",
+ "counts": {
+  "nodes": 86,
+  "edges": 161,
+  "edges_by_relationship": {
+   "IS": 1,
+   "TRIGGERS": 4,
+   "TRANSITIONS_TO": 1,
+   "OPENS": 1,
+   "RETURNS_TO": 1,
+   "NAVIGATES_TO": 148,
+   "CONTEXT_CHANGE": 5
+  },
+  "edges_by_status": {
+   "OK": 149,
+   "REDIRECT_WHEN_SIGNED_IN": 5,
+   "STUB": 2,
+   "PROPOSED": 5
+  }
+ },
+ "nodes": [
+  {
+   "id": "SPX-ORIGIN",
+   "label": "ORIGIN (arrival point \"YOU ARE AT 00.00 ORIGIN POINT\")",
+   "kind": "SPATIAL_ARRIVAL",
+   "layer": "C"
+  },
+  {
+   "id": "SPX-SWIPE",
+   "label": "SWIPE-UP (Origin mobile)",
+   "kind": "GESTURE_PORTAL",
+   "layer": "C"
+  },
+  {
+   "id": "SPX-LOCATIONS",
+   "label": "LOCATIONS directory (mobile)",
+   "kind": "DIRECTORY_PLACE",
+   "layer": "C"
+  },
+  {
+   "id": "SPX-ENTER00",
+   "label": "ENTER 00 (portal action)",
+   "kind": "SPATIAL_PORTAL",
+   "layer": "C"
+  },
+  {
+   "id": "SPX-WAITING",
+   "label": "WAITING ROOM (/enter directory)",
+   "kind": "DIRECTORY_PLACE",
+   "layer": "C"
+  },
+  {
+   "id": "SPX-EXIT00",
+   "label": "EXIT 00 (inverse portal)",
+   "kind": "SPATIAL_PORTAL",
+   "layer": "C"
+  },
+  {
+   "id": "SPX-COLDSTART",
+   "label": "World cold-start / loader gates",
+   "kind": "TRANSITION",
+   "layer": "C"
+  },
+  {
+   "id": "/",
+   "label": "ORIGIN",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/enter",
+   "label": "WAITING ROOM",
+   "kind": "ROUTE",
+   "layer": "C"
+  },
+  {
+   "id": "/origin/locations",
+   "label": "LOCATIONS",
+   "kind": "ROUTE",
+   "layer": "C"
+  },
+  {
+   "id": "/idnty",
+   "label": "IDNTY",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/bldr",
+   "label": "BLDR",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/evolve",
+   "label": "EVOLVE",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/sites",
+   "label": "SITES (public)",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/services",
+   "label": "SERVICES",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/system",
+   "label": "SYSTEM",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/about",
+   "label": "ABOUT",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/journal",
+   "label": "JOURNAL",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/support",
+   "label": "SUPPORT",
+   "kind": "ROUTE",
+   "layer": "A"
+  },
+  {
+   "id": "/origin/sign-in",
+   "label": "SIGN IN",
+   "kind": "ROUTE",
+   "layer": "D"
+  },
+  {
+   "id": "/control",
+   "label": "CTRL ROOM (client)",
+   "kind": "ROUTE",
+   "layer": "D"
+  },
+  {
+   "id": "/control/sites",
+   "label": "MY SITES",
+   "kind": "ROUTE",
+   "layer": "E"
+  },
+  {
+   "id": "/projects",
+   "label": "PROJECTS (founder modules)",
+   "kind": "ROUTE",
+   "layer": "F"
+  },
+  {
+   "id": "/app",
+   "label": "CLIENT APP",
+   "kind": "ROUTE",
+   "layer": "E"
+  },
+  {
+   "id": "/client/projects/:slug",
+   "label": "CLIENT PROJECT ROOM (web)",
+   "kind": "ROUTE",
+   "layer": "E"
+  },
+  {
+   "id": "/studio/:slug",
+   "label": "STUDIO",
+   "kind": "ROUTE",
+   "layer": "E"
+  },
+  {
+   "id": "/production",
+   "label": "PRODUCTION",
+   "kind": "ROUTE",
+   "layer": "F"
+  },
+  {
+   "id": "/admin/site00",
+   "label": "00 / CONTROL",
+   "kind": "ROUTE",
+   "layer": "F2"
+  },
+  {
+   "id": "/assts",
+   "label": "ASSET VAULT",
+   "kind": "ROUTE",
+   "layer": "F2"
+  },
+  {
+   "id": "/account/intakes",
+   "label": "MY INTAKES",
+   "kind": "ROUTE",
+   "layer": "E"
+  },
+  {
+   "id": "NAV-05",
+   "label": "FAST TRAVEL",
+   "kind": "GLOBAL_OVERLAY",
+   "layer": "B"
+  },
+  {
+   "id": "/bldr/state",
+   "label": "/bldr/state",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/origin",
+   "label": "/origin",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/idnty/state",
+   "label": "/idnty/state",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/control/billing",
+   "label": "/control/billing",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/control/settings",
+   "label": "/control/settings",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-01",
+   "label": "Public desktop header (Site00AppShell: logo + GlobalNav + EntryToggle)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-02",
+   "label": "Origin status strip + mobile swipe-up",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-03",
+   "label": "ENTER 00 directory (WAITING ROOM)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-04",
+   "label": "Mobile header (Site00MobileHeader)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-06",
+   "label": "Mobile bottom nav (MobileSiteNavigation / MOBILE_SITE_NAV)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-07",
+   "label": "LOCATIONS directory page",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-08",
+   "label": "Public mobile footer",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/brand/privacy",
+   "label": "/brand/privacy",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/brand/terms",
+   "label": "/brand/terms",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-09",
+   "label": "Auth shell (sign-in/create-account) desktop brand rail + mobile header",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/brand/contact",
+   "label": "/brand/contact",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-10",
+   "label": "Operating World top nav (account/CTRL ROOM desktop)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/admin/site00/studio",
+   "label": "/admin/site00/studio",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/admin/site00/approvals",
+   "label": "/admin/site00/approvals",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/control/security",
+   "label": "/control/security",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-11",
+   "label": "Ecosystem mobile shell chrome (header+FT+MOBILE_SITE_NAV) + CTRL sign-out bar",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-12",
+   "label": "CTRL ROOM mobile command cells",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/control/domains",
+   "label": "/control/domains",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-13",
+   "label": "Client app shell (/app/projects/:slug/*)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-14",
+   "label": "Client project room shell (/client/projects/:slug/*)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-15",
+   "label": "STUDIO shell (/studio/:slug/*)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-16",
+   "label": "Production authority chrome (header + bottom/host nav)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/production/queue",
+   "label": "/production/queue",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-17",
+   "label": "Production Hub machine view (?view=machine/panel/node/scene)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/QUEUE",
+   "label": "/QUEUE",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/Production",
+   "label": "/Production",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-18",
+   "label": "PwFrame projects variant (founder mobile /projects)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-19",
+   "label": "Admin 00/CONTROL shell (/admin/site00/*)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/VAULT-",
+   "label": "/VAULT-",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/DEBUG",
+   "label": "/DEBUG",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-20",
+   "label": "ASSTS vault nav",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-21",
+   "label": "Design workspace shell (/studio-world/design)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/projects/site00/design",
+   "label": "/projects/site00/design",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/account",
+   "label": "/account",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-22",
+   "label": "NDXBOOK founder workspace (/projects/ndxbook*)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/help",
+   "label": "/help",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-23",
+   "label": "Project operating shell module nav (/projects/:slug/<module>)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "/IDENTITY/BUILDER/PRODUCTION/REVIEWS/LIBRARY/MORE",
+   "label": "/IDENTITY/BUILDER/PRODUCTION/REVIEWS/LIBRARY/MORE",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "/CLIENT",
+   "label": "/CLIENT",
+   "kind": "ROUTE",
+   "layer": "?"
+  },
+  {
+   "id": "NAV-24",
+   "label": "JURNL runtime product nav (/production/:slug/runtime/*)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-25",
+   "label": "Public top nav (Site00PublicTopNav)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-26",
+   "label": "Mobile menu drawer (Site00MobileMenuDrawer)",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "NAV-27",
+   "label": "CTRL ROOM sidebar / ECOSYSTEM_MOBILE_NAV / Site00PublicSidebar / EcosystemSidebar",
+   "kind": "GLOBAL_NAV",
+   "layer": "B"
+  },
+  {
+   "id": "PSW:PS-1",
+   "label": "Production header PROJECT chip",
+   "kind": "PROJECT_SWITCHER",
+   "layer": "B"
+  },
+  {
+   "id": "PSW:PS-2",
+   "label": "Production Hub PROJECT/PRODUCTION selector",
+   "kind": "PROJECT_SWITCHER",
+   "layer": "B"
+  },
+  {
+   "id": "PSW:PS-3",
+   "label": "Design workspace DesignProjectSelector",
+   "kind": "PROJECT_SWITCHER",
+   "layer": "B"
+  },
+  {
+   "id": "PSW:PS-4",
+   "label": "Admin orchestration ProjectSwitcher",
+   "kind": "PROJECT_SWITCHER",
+   "layer": "B"
+  },
+  {
+   "id": "PSW:PS-5",
+   "label": "ClientSimulationSelector (view-as client)",
+   "kind": "PROJECT_SWITCHER",
+   "layer": "B"
+  },
+  {
+   "id": "PSW:PS-6",
+   "label": "ProjectModuleSwitcher (intra-project)",
+   "kind": "PROJECT_SWITCHER",
+   "layer": "B"
+  },
+  {
+   "id": "PSW:ABSENT",
+   "label": "No project switcher in: client app (/app), client project room, Fast Travel, Operating World top nav, MOBILE_SITE_NAV",
+   "kind": "PROJECT_SWITCHER",
+   "layer": "B"
+  }
+ ],
+ "edges": [
+  {
+   "source": "SPX-ORIGIN",
+   "target": "/",
+   "via": "arrival",
+   "relationship": "IS",
+   "status": "OK",
+   "evidence": ""
+  },
+  {
+   "source": "/",
+   "target": "SPX-SWIPE",
+   "via": "swipe up / SWIPE UP button",
+   "relationship": "TRIGGERS",
+   "status": "OK",
+   "evidence": ""
+  },
+  {
+   "source": "SPX-SWIPE",
+   "target": "/origin/locations",
+   "via": "720ms transition",
+   "relationship": "TRANSITIONS_TO",
+   "status": "OK",
+   "evidence": ""
+  },
+  {
+   "source": "/",
+   "target": "SPX-ENTER00",
+   "via": "ENTER SITE 00 link / ENTER 00 toggle",
+   "relationship": "TRIGGERS",
+   "status": "OK",
+   "evidence": ""
+  },
+  {
+   "source": "SPX-ENTER00",
+   "target": "/enter",
+   "via": "route",
+   "relationship": "OPENS",
+   "status": "OK",
+   "evidence": ""
+  },
+  {
+   "source": "/enter",
+   "target": "SPX-EXIT00",
+   "via": "EXIT 00",
+   "relationship": "TRIGGERS",
+   "status": "OK",
+   "evidence": ""
+  },
+  {
+   "source": "/origin/locations",
+   "target": "SPX-EXIT00",
+   "via": "EXIT 00",
+   "relationship": "TRIGGERS",
+   "status": "OK",
+   "evidence": ""
+  },
+  {
+   "source": "SPX-EXIT00",
+   "target": "/",
+   "via": "push /origin",
+   "relationship": "RETURNS_TO",
+   "status": "OK",
+   "evidence": ""
+  },
+  {
+   "source": "/enter",
+   "target": "/sites",
+   "via": "01 SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/directory.ts:36-42"
+  },
+  {
+   "source": "/enter",
+   "target": "/services",
+   "via": "02 SERVICES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "directory.ts:44-50"
+  },
+  {
+   "source": "/enter",
+   "target": "/system",
+   "via": "03 SYSTEM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "directory.ts:51-58"
+  },
+  {
+   "source": "/enter",
+   "target": "/about",
+   "via": "04 ABOUT",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "directory.ts:59-66"
+  },
+  {
+   "source": "/enter",
+   "target": "/journal",
+   "via": "05 JOURNAL",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "directory.ts:67-74"
+  },
+  {
+   "source": "/enter",
+   "target": "/bldr",
+   "via": "BLDR STUDIO",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "directory.ts:81-88"
+  },
+  {
+   "source": "/enter",
+   "target": "/projects",
+   "via": "PROJECTS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "directory.ts:89-97; directory.ts:119-128; Site00Routes.tsx:887-897"
+  },
+  {
+   "source": "/enter",
+   "target": "/control",
+   "via": "ACCOUNT",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "directory.ts:98-106; mobile-directory-nav.ts:47; Site00Routes.tsx:2894-2903"
+  },
+  {
+   "source": "/enter",
+   "target": "/support",
+   "via": "SUPPORT",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "directory.ts:107-114"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/bldr",
+   "via": "01 BLDR",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:31-38,143-145; routes.ts:956-967"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/evolve",
+   "via": "02 EVOLVE",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:39-46,146-148"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/sites",
+   "via": "03 SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:47-54"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/services",
+   "via": "04 SERVICES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:55-62"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/system",
+   "via": "05 SYSTEM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:63-70"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/about",
+   "via": "06 ABOUT",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:71-78"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/journal",
+   "via": "07 JOURNAL",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:79-86"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/idnty",
+   "via": "08 IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:90-97"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/control",
+   "via": "09 CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:98-106"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/projects",
+   "via": "10 PROJECTS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:107-115"
+  },
+  {
+   "source": "/origin/locations",
+   "target": "/control/sites",
+   "via": "11 MY SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "locations-directory.ts:116-124; Site00Routes.tsx:2918"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "SITES (/sites, /sites/*) \u203a START A BUILD",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:96"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr/state",
+   "via": "SITES (/sites, /sites/*) \u203a FIND MY BUILD TYPE",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:97"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/services",
+   "via": "SITES (/sites, /sites/*) \u203a EXPLORE SERVICES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:104"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/system",
+   "via": "SITES (/sites, /sites/*) \u203a HOW SITE 00 WORKS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:105"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/journal",
+   "via": "SITES (/sites, /sites/*) \u203a READ JOURNAL",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:106"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "SITES (/sites, /sites/*) \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:70"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "SITES (/sites, /sites/*) \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:71"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "SITES (/sites, /sites/*) \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "SITES (/sites, /sites/*) \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "SERVICES (/services exact) \u203a START A BUILD",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:124"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr/state",
+   "via": "SERVICES (/services exact) \u203a FIND MY BUILD TYPE",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:125"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/sites",
+   "via": "SERVICES (/services exact) \u203a VIEW SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "REDIRECT_WHEN_SIGNED_IN",
+   "evidence": "src/site00/config/fast-travel.ts:132"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/system",
+   "via": "SERVICES (/services exact) \u203a HOW SITE 00 WORKS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:133"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/journal",
+   "via": "SERVICES (/services exact) \u203a READ JOURNAL",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:134"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "SERVICES (/services exact) \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:70"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "SERVICES (/services exact) \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:71"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "SERVICES (/services exact) \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "SERVICES (/services exact) \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr/state",
+   "via": "SYSTEM (/system exact) \u203a FIND MY BUILD TYPE",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:152"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "SYSTEM (/system exact) \u203a START A BUILD",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:153"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/services",
+   "via": "SYSTEM (/system exact) \u203a EXPLORE SERVICES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:160"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/sites",
+   "via": "SYSTEM (/system exact) \u203a VIEW SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "REDIRECT_WHEN_SIGNED_IN",
+   "evidence": "src/site00/config/fast-travel.ts:161"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/journal",
+   "via": "SYSTEM (/system exact) \u203a READ JOURNAL",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:162"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "SYSTEM (/system exact) \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:70"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "SYSTEM (/system exact) \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:71"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "SYSTEM (/system exact) \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "SYSTEM (/system exact) \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/services",
+   "via": "ABOUT (/about exact) \u203a EXPLORE SERVICES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:180"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "ABOUT (/about exact) \u203a START A BUILD",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:181"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/sites",
+   "via": "ABOUT (/about exact) \u203a VIEW SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "REDIRECT_WHEN_SIGNED_IN",
+   "evidence": "src/site00/config/fast-travel.ts:188"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/journal",
+   "via": "ABOUT (/about exact) \u203a READ JOURNAL",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:189"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/system",
+   "via": "ABOUT (/about exact) \u203a HOW SITE 00 WORKS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:190"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "ABOUT (/about exact) \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:70"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "ABOUT (/about exact) \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:71"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "ABOUT (/about exact) \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "ABOUT (/about exact) \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/services",
+   "via": "JOURNAL (/journal, /journal/*) \u203a EXPLORE SERVICES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:208"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "JOURNAL (/journal, /journal/*) \u203a START A BUILD",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:209"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/sites",
+   "via": "JOURNAL (/journal, /journal/*) \u203a VIEW SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "REDIRECT_WHEN_SIGNED_IN",
+   "evidence": "src/site00/config/fast-travel.ts:216"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/system",
+   "via": "JOURNAL (/journal, /journal/*) \u203a HOW SITE 00 WORKS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:217"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/about",
+   "via": "JOURNAL (/journal, /journal/*) \u203a ABOUT SITE 00",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:218"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "JOURNAL (/journal, /journal/*) \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:70"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "JOURNAL (/journal, /journal/*) \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:71"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "JOURNAL (/journal, /journal/*) \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "JOURNAL (/journal, /journal/*) \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr/state",
+   "via": "BLDR (pathname.startsWith('/bl \u203a BUILD SELECTION",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:237"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "BLDR (pathname.startsWith('/bl \u203a BUILD INVESTMENT GUIDE",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:244"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "BLDR (pathname.startsWith('/bl \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:245"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "BLDR (pathname.startsWith('/bl \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:252"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "BLDR (pathname.startsWith('/bl \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:253"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/sign-in",
+   "via": "IDNTY signed-out (startsWith(' \u203a SIGN IN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:271"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty/state",
+   "via": "IDNTY signed-out (startsWith(' \u203a CREATE IDENTITY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:272"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "IDNTY signed-out (startsWith(' \u203a START BUILD",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:279"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/services",
+   "via": "IDNTY signed-out (startsWith(' \u203a EXPLORE SERVICES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:280"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "IDNTY signed-out (startsWith(' \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "IDNTY signed-out (startsWith(' \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "IDNTY signed-in \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:291"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/projects",
+   "via": "IDNTY signed-in \u203a PROJECTS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:292"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control/sites",
+   "via": "IDNTY signed-in \u203a MY SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:299"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "IDNTY signed-in \u203a START BUILD",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:300"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "IDNTY signed-in \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "IDNTY signed-in \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/sign-in",
+   "via": "CTRL ROOM signed-out (startsWi \u203a SIGN IN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:319"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "CTRL ROOM signed-out (startsWi \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "CTRL ROOM signed-out (startsWi \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/projects",
+   "via": "CTRL ROOM signed-in \u203a PROJECTS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:329"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control/sites",
+   "via": "CTRL ROOM signed-in \u203a MY SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:330"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control/billing",
+   "via": "CTRL ROOM signed-in \u203a BILLING",
+   "relationship": "NAVIGATES_TO",
+   "status": "STUB",
+   "evidence": "src/site00/config/fast-travel.ts:337"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control/settings",
+   "via": "CTRL ROOM signed-in \u203a SETTINGS",
+   "relationship": "NAVIGATES_TO",
+   "status": "STUB",
+   "evidence": "src/site00/config/fast-travel.ts:338"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "CTRL ROOM signed-in \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:339"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "CTRL ROOM signed-in \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "CTRL ROOM signed-in \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "PROJECTS (/projects, /projects \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:357"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control/sites",
+   "via": "PROJECTS (/projects, /projects \u203a MY SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:358"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "PROJECTS (/projects, /projects \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:364"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "PROJECTS (/projects, /projects \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "PROJECTS (/projects, /projects \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/bldr",
+   "via": "ORIGIN ('/', '/origin') \u203a START A BUILD",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:380"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/sites",
+   "via": "ORIGIN ('/', '/origin') \u203a EXPLORE SITES",
+   "relationship": "NAVIGATES_TO",
+   "status": "REDIRECT_WHEN_SIGNED_IN",
+   "evidence": "src/site00/config/fast-travel.ts:381"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/services",
+   "via": "ORIGIN ('/', '/origin') \u203a EXPLORE SERVICES",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:388"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/system",
+   "via": "ORIGIN ('/', '/origin') \u203a HOW SITE 00 WORKS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:389"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "ORIGIN ('/', '/origin') \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:70"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "ORIGIN ('/', '/origin') \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:71"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "ORIGIN ('/', '/origin') \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "ORIGIN ('/', '/origin') \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/idnty",
+   "via": "FALLBACK 'SITE 00 / NAVIGATE T \u203a IDNTY",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:70"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/control",
+   "via": "FALLBACK 'SITE 00 / NAVIGATE T \u203a CTRL ROOM",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:71"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin/locations",
+   "via": "FALLBACK 'SITE 00 / NAVIGATE T \u203a LOCATIONS",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:81"
+  },
+  {
+   "source": "NAV-05",
+   "target": "/origin",
+   "via": "FALLBACK 'SITE 00 / NAVIGATE T \u203a 00 ORIGIN",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/fast-travel.ts:82"
+  },
+  {
+   "source": "NAV-01",
+   "target": "/origin",
+   "via": "SITE 00 logo->/origin",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/shell/Site00AppShell.tsx:50-69; GlobalNav.tsx:7-40; EntryToggle.tsx:10-36"
+  },
+  {
+   "source": "NAV-01",
+   "target": "/enter",
+   "via": "ENTER 00->/enter | EXIT 00->/origin on /enter",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/shell/Site00AppShell.tsx:50-69; GlobalNav.tsx:7-40; EntryToggle.tsx:10-36"
+  },
+  {
+   "source": "NAV-02",
+   "target": "/origin/locations",
+   "via": "swipe up -> /origin/locations",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/homepage/StatusStrip.tsx:48-74; hooks/useOriginLocationsTransition.ts:9-37; pages/OriginPage.tsx:68-183"
+  },
+  {
+   "source": "NAV-03",
+   "target": "/control",
+   "via": "ACCOUNT (auth)->/control",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/enter00/DirectoryPanel.tsx:8; pages/EnterPage.tsx:8-12"
+  },
+  {
+   "source": "NAV-04",
+   "target": "/origin",
+   "via": "logo->/origin",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/mobile/Site00MobileHeader.tsx:16-35"
+  },
+  {
+   "source": "NAV-04",
+   "target": "/origin",
+   "via": "EXIT 00->/origin (directory variant)",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/mobile/Site00MobileHeader.tsx:16-35"
+  },
+  {
+   "source": "NAV-06",
+   "target": "/idnty/state",
+   "via": "IDNTY->/idnty/state",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/mobile/MobileSiteNavigation.tsx:53-93; config/mobile-site-nav.ts:23-56"
+  },
+  {
+   "source": "NAV-08",
+   "target": "/brand/privacy",
+   "via": "PRIVACY->/brand/privacy",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/shell/Site00PageFooter.tsx:9-11"
+  },
+  {
+   "source": "NAV-08",
+   "target": "/brand/terms",
+   "via": "TERMS->/brand/terms",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/shell/Site00PageFooter.tsx:9-11"
+  },
+  {
+   "source": "NAV-08",
+   "target": "/support",
+   "via": "SUPPORT->/support",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/shell/Site00PageFooter.tsx:9-11"
+  },
+  {
+   "source": "NAV-09",
+   "target": "/origin",
+   "via": "logo->/origin",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/auth/Site00AuthShell.tsx:77-123"
+  },
+  {
+   "source": "NAV-09",
+   "target": "/brand/terms",
+   "via": "PRIVACY->/brand/terms",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/auth/Site00AuthShell.tsx:77-123"
+  },
+  {
+   "source": "NAV-09",
+   "target": "/brand/terms",
+   "via": "TERMS->/brand/terms",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/auth/Site00AuthShell.tsx:77-123"
+  },
+  {
+   "source": "NAV-09",
+   "target": "/brand/contact",
+   "via": "SUPPORT->/brand/contact",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/auth/Site00AuthShell.tsx:77-123"
+  },
+  {
+   "source": "NAV-09",
+   "target": "/production",
+   "via": "paused: CONTINUE TO PRODUCTION->/production",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/auth/Site00AuthShell.tsx:77-123"
+  },
+  {
+   "source": "NAV-10",
+   "target": "/control",
+   "via": "logo->/control",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:15-62; config/ecosystem-nav.ts:18-28"
+  },
+  {
+   "source": "NAV-10",
+   "target": "/control/sites",
+   "via": "SITES->/control/sites",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:15-62; config/ecosystem-nav.ts:18-28"
+  },
+  {
+   "source": "NAV-10",
+   "target": "/admin/site00/studio",
+   "via": "STUDIO->/admin/site00/studio",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:15-62; config/ecosystem-nav.ts:18-28"
+  },
+  {
+   "source": "NAV-10",
+   "target": "/admin/site00/approvals",
+   "via": "APPROVALS->/admin/site00/approvals",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:15-62; config/ecosystem-nav.ts:18-28"
+  },
+  {
+   "source": "NAV-10",
+   "target": "/control/security",
+   "via": "ACCESS->/control/security",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:15-62; config/ecosystem-nav.ts:18-28"
+  },
+  {
+   "source": "NAV-12",
+   "target": "/control/sites",
+   "via": "PROPERTIES->/control/sites",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/ctrl-room-mobile.ts:53-90; components/ctrl-room/mobile/CtrlRoomAdminAccess.tsx:17"
+  },
+  {
+   "source": "NAV-12",
+   "target": "/control/domains",
+   "via": "DOMAINS->/control/domains",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/ctrl-room-mobile.ts:53-90; components/ctrl-room/mobile/CtrlRoomAdminAccess.tsx:17"
+  },
+  {
+   "source": "NAV-12",
+   "target": "/control/billing",
+   "via": "PLAN->/control/billing",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/ctrl-room-mobile.ts:53-90; components/ctrl-room/mobile/CtrlRoomAdminAccess.tsx:17"
+  },
+  {
+   "source": "NAV-12",
+   "target": "/control/billing",
+   "via": "BILLING->/control/billing",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/ctrl-room-mobile.ts:53-90; components/ctrl-room/mobile/CtrlRoomAdminAccess.tsx:17"
+  },
+  {
+   "source": "NAV-12",
+   "target": "/admin/site00",
+   "via": "ADMIN ACCESS->/admin/site00 (admin)",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/config/ctrl-room-mobile.ts:53-90; components/ctrl-room/mobile/CtrlRoomAdminAccess.tsx:17"
+  },
+  {
+   "source": "NAV-16",
+   "target": "/production/queue",
+   "via": "ITEMS NEED YOU->/production/queue",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/productionAuthority/ProductionAuthorityFrame.tsx:32-75; components/productionHub/chrome.tsx:130-339; components/productionHub/nav.tsx:8-114"
+  },
+  {
+   "source": "NAV-17",
+   "target": "/QUEUE",
+   "via": "HubMenu: DESIGN, EXPERIENCE, EXPRESSION, INBOX/QUEUE, LIBRAR",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/productionHub/ProductionHub.tsx:68-596; pages/production/ProductionWorkspaceHubPage.tsx:12"
+  },
+  {
+   "source": "NAV-17",
+   "target": "/Production",
+   "via": "Project/Production selector",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/productionHub/ProductionHub.tsx:68-596; pages/production/ProductionWorkspaceHubPage.tsx:12"
+  },
+  {
+   "source": "NAV-18",
+   "target": "/control",
+   "via": "avatar->/control",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/production/PwFrame.tsx:37-48,113-140; components/projectIndex/ProjectIndexPage.tsx:61-64; pages/ProjectOperatingModulePage.tsx:76-84"
+  },
+  {
+   "source": "NAV-18",
+   "target": "/control",
+   "via": "MORE->/control",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/production/PwFrame.tsx:37-48,113-140; components/projectIndex/ProjectIndexPage.tsx:61-64; pages/ProjectOperatingModulePage.tsx:76-84"
+  },
+  {
+   "source": "NAV-19",
+   "target": "/admin/site00/studio",
+   "via": "PRODUCTION->/admin/site00/studio",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/admin/components/shell/Site00AdminShell.tsx:102-165; admin/config/control-nav.ts:12-32; admin/components/shell/Site00AdminHeader.tsx:9-55"
+  },
+  {
+   "source": "NAV-19",
+   "target": "/VAULT-",
+   "via": "ASSETS/VAULT->/assts",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/admin/components/shell/Site00AdminShell.tsx:102-165; admin/config/control-nav.ts:12-32; admin/components/shell/Site00AdminHeader.tsx:9-55"
+  },
+  {
+   "source": "NAV-19",
+   "target": "/DEBUG",
+   "via": "EMAIL/DEBUG",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/admin/components/shell/Site00AdminShell.tsx:102-165; admin/config/control-nav.ts:12-32; admin/components/shell/Site00AdminHeader.tsx:9-55"
+  },
+  {
+   "source": "NAV-21",
+   "target": "/projects/site00/design",
+   "via": "DESIGN->/projects/site00/design",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx:110-142,206-213"
+  },
+  {
+   "source": "NAV-21",
+   "target": "/control",
+   "via": "SYSTEM->/control",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx:110-142,206-213"
+  },
+  {
+   "source": "NAV-21",
+   "target": "/account",
+   "via": "ACCOUNT->/account",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx:110-142,206-213"
+  },
+  {
+   "source": "NAV-22",
+   "target": "/help",
+   "via": "menu: PROJECT OVERVIEW, PROJECT SETTINGS, BACK TO PROJECTS, ",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/founderWorkspace/FounderWorkspaceShell.tsx:92-320; config/ndxFounderWorkspaceIcons.ts:36-85"
+  },
+  {
+   "source": "NAV-23",
+   "target": "/IDENTITY/BUILDER/PRODUCTION/REVIEWS/LIBRARY/MORE",
+   "via": "modules: OVERVIEW/IDENTITY/BUILDER/PRODUCTION/REVIEWS/LIBRAR",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/projectOperatingSystem/ProjectOperatingShell.tsx:159-169; ProjectModuleSwitcher.tsx:12-60"
+  },
+  {
+   "source": "NAV-23",
+   "target": "/CLIENT",
+   "via": "VIEW AS FOUNDER/CLIENT toggle",
+   "relationship": "NAVIGATES_TO",
+   "status": "OK",
+   "evidence": "src/site00/components/projectOperatingSystem/ProjectOperatingShell.tsx:159-169; ProjectModuleSwitcher.tsx:12-60"
+  },
+  {
+   "source": "/control",
+   "target": "/app",
+   "via": "MY PROJECTS \u2192 project room (proposed)",
+   "relationship": "CONTEXT_CHANGE",
+   "status": "PROPOSED",
+   "evidence": ""
+  },
+  {
+   "source": "/control/sites",
+   "target": "/app",
+   "via": "RETURN TO PROJECT (proposed)",
+   "relationship": "CONTEXT_CHANGE",
+   "status": "PROPOSED",
+   "evidence": ""
+  },
+  {
+   "source": "/admin/site00",
+   "target": "/app",
+   "via": "VIEW AS CLIENT (should target /app; today /studio)",
+   "relationship": "CONTEXT_CHANGE",
+   "status": "PROPOSED",
+   "evidence": ""
+  },
+  {
+   "source": "/admin/site00",
+   "target": "/production",
+   "via": "PRODUCTION nav (should; today /admin/site00/studio)",
+   "relationship": "CONTEXT_CHANGE",
+   "status": "PROPOSED",
+   "evidence": ""
+  },
+  {
+   "source": "/production",
+   "target": "/admin/site00",
+   "via": "menu CONTROL (should; today /control)",
+   "relationship": "CONTEXT_CHANGE",
+   "status": "PROPOSED",
+   "evidence": ""
+  }
+ ]
+}
