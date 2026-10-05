@@ -56,6 +56,8 @@ export type F01Binding = {
   trigger: string | null;
   /** Surface that renders the trigger: screen + optional selector. */
   surface: { screenId: string; query?: string } | null;
+  /** When the trigger is a status PANEL (error / success), the control that activates its result. */
+  action?: string;
   /** Where the interaction lands. */
   result: { kind: 'route'; screenId: string } | { kind: 'overlay'; overlayId: string } | { kind: 'inline'; marker: string } | { kind: 'toast' } | { kind: 'loading' } | { kind: 'focus' } | { kind: 'boundary'; family: string } | { kind: 'primitive' };
 };
@@ -131,9 +133,9 @@ export const F01_BINDINGS: Record<string, Omit<F01Binding, 'interactionId'>> = {
   'F01.08.ROUTE.SIGNIN': { trigger: 'reset-success-sign-in', surface: at('F01.08'), result: r('F01.03') },
 
   'F01.09.HANDOFF.ENABLE': { trigger: 'bio-enable', surface: at('F01.09'), result: o('faceid-enable') },
-  'F01.09.SUCCESS.ENABLED': { trigger: 'bio-enabled', surface: at('F01.09', 'state=biometric_enabled'), result: r('F01.10') },
+  'F01.09.SUCCESS.ENABLED': { trigger: 'bio-enabled', action: 'bio-enabled-continue', surface: at('F01.09', 'state=biometric_enabled'), result: r('F01.10') },
   'F01.09.DENIED.SHEET': { trigger: 'bio-denied-continue', surface: at('F01.09', 'state=biometric_declined'), result: o('biometric-denied') },
-  'F01.09.UNSUPPORTED.PANEL': { trigger: 'bio-error-unavailable', surface: at('F01.09', 'state=biometric_unavailable'), result: r('F01.10') },
+  'F01.09.UNSUPPORTED.PANEL': { trigger: 'bio-error-unavailable', action: 'bio-unavailable-continue', surface: at('F01.09', 'state=biometric_unavailable'), result: r('F01.10') },
   'F01.09.SKIP.CONTINUE': { trigger: 'bio-not-now', surface: at('F01.09'), result: r('F01.10') },
 
   'F01.10.TRUST.CONFIRM': { trigger: 'trust-confirm', surface: at('F01.10'), result: { kind: 'toast' } },

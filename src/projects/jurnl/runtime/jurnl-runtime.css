@@ -773,6 +773,16 @@
 }
 
 /* ─── overlays: drawer / sheet / modal / handoff ─── */
+.jrn .jrn-overlay-host {
+  /* Pinned to the runtime viewport: overlays never anchor to a screen's scrolled content. */
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+.jrn .jrn-overlay-host > * {
+  pointer-events: auto;
+}
 .jrn .jrn-overlay {
   position: absolute;
   inset: 0;

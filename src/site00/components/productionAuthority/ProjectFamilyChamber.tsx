@@ -186,7 +186,7 @@ export function ProjectFamilyChamber({ mode, project, families }: { mode: Produc
       <Sec title="ON YOUR TABLE" hint={`${project.displayName} — ITEMS THAT NEED YOUR ATTENTION`} to={inspectHref(projectSlug, mode, 'screens')} className="pxa-table-sec" testId="design-table">
         <div className="pxa-tablecards" data-count={cfg.table.length}>
           {cfg.table.map((t) => (
-            <Link key={t.title} to={inspectHref(projectSlug, mode, t.inspect)} className="pxa-tcard" data-testid="design-table-card">
+            <Link key={t.title} to={t.to ?? inspectHref(projectSlug, mode, t.inspect)} className="pxa-tcard" data-testid="design-table-card" data-live={t.to ? 'viewport' : undefined}>
               <span className="pxa-tcard__img pxa-pf-tcard__img" style={t.plate ? { backgroundImage: `url(${t.plate})` } : undefined} aria-hidden />
               <span className="pxa-tcard__copy">
                 <b>{t.title}</b>

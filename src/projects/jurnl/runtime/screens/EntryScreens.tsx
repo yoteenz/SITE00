@@ -318,9 +318,10 @@ function LegalDrawer({ kind, onAgree, onClose }: { kind: 'terms' | 'privacy-poli
 
 /* ───────────── F01.02 EMAIL VERIFICATION ───────────── */
 export function VerifyEmailScreen() {
-  const { forcedState, overlay, openOverlay, closeOverlay, auth, session, setSession, showToast, go } = useJurnl();
+  const { mode, forcedState, overlay, openOverlay, closeOverlay, auth, session, setSession, showToast, go } = useJurnl();
   const [params] = useSearchParams();
-  const link = params.get('link');
+  // `?link=valid|expired` simulates the emailed link's outcome in the design workspace only.
+  const link = mode === 'design-preview' ? params.get('link') : null;
   const [phase, setPhase] = useState<'pending' | 'expired' | 'verified'>(() =>
     forcedState === 'expired_link' ? 'expired' : forcedState === 'verification_success' ? 'verified' : 'pending',
   );

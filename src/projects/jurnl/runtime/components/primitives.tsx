@@ -3,11 +3,24 @@
  * One structural grammar, JURNL expression only (no SITE 00 styling reaches these). Square-rounded geometry only.
  */
 
-import { useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { F01_COPY } from '../../data/f01/copy';
 import { JurnlIcon, type JurnlIconName } from './icons';
 
 const C = F01_COPY.common;
+
+/**
+ * Overlay layer pinned to the runtime viewport (the `.jrn` root). Drawers, sheets, modals and handoffs portal here so
+ * they always sit on the visible screen and size to it — never to a screen's scrolled content (landscape, long forms,
+ * shorter desktop windows). Server rendering keeps them inline.
+ */
+export const JurnlOverlayHostContext = createContext<HTMLElement | null>(null);
+function OverlayLayer({ children }: { children: ReactNode }) {
+  const host = useContext(JurnlOverlayHostContext);
+  if (typeof document === 'undefined') return <>{children}</>;
+  return host ? createPortal(children, host) : null;
+}
 
 /* ── JURNL_BUTTON_PRIMARY / SECONDARY / LOADING_BUTTON ── */
 export function JurnlButton({
@@ -380,30 +393,32 @@ export function JurnlDrawer({
   const ref = useOverlayFocus(onClose);
   const titleId = useId();
   return (
-    <div className="jrn-overlay" data-jrn-overlay={testId} data-jrn-drawer={size}>
-      <div className="jrn-overlay__scrim" onClick={onClose} aria-hidden />
-      <div
-        ref={ref}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        className={`jrn-drawer jrn-drawer--${size}${tone ? ` jrn-drawer--${tone}` : ''}`}
-      >
-        <span className="jrn-drawer__grab" aria-hidden />
-        <div className="jrn-drawer__head">
-          <div>
-            {eyebrow ? <span className="jrn-eyebrow">{eyebrow}</span> : null}
-            <h2 className="jrn-h2" id={titleId}>
-              {title}
-            </h2>
-            {lead ? <p className="jrn-body">{lead}</p> : null}
+    <OverlayLayer>
+      <div className="jrn-overlay" data-jrn-overlay={testId} data-jrn-drawer={size}>
+        <div className="jrn-overlay__scrim" onClick={onClose} aria-hidden />
+        <div
+          ref={ref}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          className={`jrn-drawer jrn-drawer--${size}${tone ? ` jrn-drawer--${tone}` : ''}`}
+        >
+          <span className="jrn-drawer__grab" aria-hidden />
+          <div className="jrn-drawer__head">
+            <div>
+              {eyebrow ? <span className="jrn-eyebrow">{eyebrow}</span> : null}
+              <h2 className="jrn-h2" id={titleId}>
+                {title}
+              </h2>
+              {lead ? <p className="jrn-body">{lead}</p> : null}
+            </div>
+            <JurnlIconButton icon="close" label={C.close} onClick={onClose} trigger={`${testId}-close`} />
           </div>
-          <JurnlIconButton icon="close" label={C.close} onClick={onClose} trigger={`${testId}-close`} />
+          {children ? <div className="jrn-drawer__body">{children}</div> : null}
+          {footer ? <div className="jrn-drawer__foot">{footer}</div> : null}
         </div>
-        {children ? <div className="jrn-drawer__body">{children}</div> : null}
-        {footer ? <div className="jrn-drawer__foot">{footer}</div> : null}
       </div>
-    </div>
+    </OverlayLayer>
   );
 }
 
@@ -411,16 +426,18 @@ export function JurnlDrawer({
 export function JurnlSheet({ title, onClose, children, footer, testId }: { title: string; onClose: () => void; children: ReactNode; footer?: ReactNode; testId: string }) {
   const ref = useOverlayFocus(onClose);
   return (
-    <div className="jrn-overlay" data-jrn-overlay={testId} data-jrn-sheet="full">
-      <div ref={ref} role="dialog" aria-modal="true" aria-label={title} className="jrn-sheet">
-        <div className="jrn-sheet__bar">
-          <JurnlIconButton icon="back" label={C.back} onClick={onClose} trigger={`${testId}-close`} />
-          <b>{title}</b>
+    <OverlayLayer>
+      <div className="jrn-overlay" data-jrn-overlay={testId} data-jrn-sheet="full">
+        <div ref={ref} role="dialog" aria-modal="true" aria-label={title} className="jrn-sheet">
+          <div className="jrn-sheet__bar">
+            <JurnlIconButton icon="back" label={C.back} onClick={onClose} trigger={`${testId}-close`} />
+            <b>{title}</b>
+          </div>
+          <div className="jrn-sheet__body">{children}</div>
+          {footer ? <div className="jrn-sheet__foot">{footer}</div> : null}
         </div>
-        <div className="jrn-sheet__body">{children}</div>
-        {footer ? <div className="jrn-sheet__foot">{footer}</div> : null}
       </div>
-    </div>
+    </OverlayLayer>
   );
 }
 
@@ -449,25 +466,27 @@ export function JurnlModal({
   const ref = useOverlayFocus(onCancel);
   const titleId = useId();
   return (
-    <div className="jrn-overlay jrn-overlay--center" data-jrn-overlay={testId} data-jrn-modal="confirm">
-      <div className="jrn-overlay__scrim" onClick={onCancel} aria-hidden />
-      <div ref={ref} role="alertdialog" aria-modal="true" aria-labelledby={titleId} className="jrn-modal">
-        {icon ? <JurnlTile icon={icon} tone={tone} large size={26} /> : null}
-        <h2 className="jrn-h2" id={titleId}>
-          {title}
-        </h2>
-        {body ? <p className="jrn-body">{body}</p> : null}
-        {children}
-        {confirm ?
-          <JurnlButton variant={confirm.variant ?? 'primary'} onClick={confirm.onClick} loading={confirm.loading} trigger={confirm.trigger ?? `${testId}-confirm`}>
-            {confirm.label}
+    <OverlayLayer>
+      <div className="jrn-overlay jrn-overlay--center" data-jrn-overlay={testId} data-jrn-modal="confirm">
+        <div className="jrn-overlay__scrim" onClick={onCancel} aria-hidden />
+        <div ref={ref} role="alertdialog" aria-modal="true" aria-labelledby={titleId} className="jrn-modal">
+          {icon ? <JurnlTile icon={icon} tone={tone} large size={26} /> : null}
+          <h2 className="jrn-h2" id={titleId}>
+            {title}
+          </h2>
+          {body ? <p className="jrn-body">{body}</p> : null}
+          {children}
+          {confirm ?
+            <JurnlButton variant={confirm.variant ?? 'primary'} onClick={confirm.onClick} loading={confirm.loading} trigger={confirm.trigger ?? `${testId}-confirm`}>
+              {confirm.label}
+            </JurnlButton>
+          : null}
+          <JurnlButton variant="quiet" onClick={onCancel} trigger={`${testId}-cancel`}>
+            {cancelLabel}
           </JurnlButton>
-        : null}
-        <JurnlButton variant="quiet" onClick={onCancel} trigger={`${testId}-cancel`}>
-          {cancelLabel}
-        </JurnlButton>
+        </div>
       </div>
-    </div>
+    </OverlayLayer>
   );
 }
 
@@ -502,33 +521,35 @@ export function JurnlNativeHandoff({
 }) {
   const ref = useOverlayFocus(onCancel);
   return (
-    <div className="jrn-overlay jrn-overlay--center" data-jrn-overlay={testId} data-jrn-handoff="native">
-      <div className="jrn-overlay__scrim" onClick={waiting ? undefined : onCancel} aria-hidden />
-      <div ref={ref} role="dialog" aria-modal="true" aria-label={title} className="jrn-modal" data-waiting={waiting ? 'true' : 'false'}>
-        <span className="jrn-handoff__glyph" data-waiting={waiting ? 'true' : 'false'} aria-hidden>
-          <JurnlIcon name={icon} size={56} />
-        </span>
-        <h2 className="jrn-h2">{title}</h2>
-        <p className="jrn-body">{body}</p>
-        {waiting ?
-          <p className="jrn-handoff__waiting" role="status">
-            <span className="jrn-btn__pulse" aria-hidden>
-              <i />
-              <i />
-              <i />
-            </span>
-            {waitingLabel}
-          </p>
-        : onContinue ?
-          <JurnlButton onClick={onContinue} trigger={`${testId}-continue`}>
-            {continueLabel ?? C.continue}
+    <OverlayLayer>
+      <div className="jrn-overlay jrn-overlay--center" data-jrn-overlay={testId} data-jrn-handoff="native">
+        <div className="jrn-overlay__scrim" onClick={waiting ? undefined : onCancel} aria-hidden />
+        <div ref={ref} role="dialog" aria-modal="true" aria-label={title} className="jrn-modal" data-waiting={waiting ? 'true' : 'false'}>
+          <span className="jrn-handoff__glyph" data-waiting={waiting ? 'true' : 'false'} aria-hidden>
+            <JurnlIcon name={icon} size={56} />
+          </span>
+          <h2 className="jrn-h2">{title}</h2>
+          <p className="jrn-body">{body}</p>
+          {waiting ?
+            <p className="jrn-handoff__waiting" role="status">
+              <span className="jrn-btn__pulse" aria-hidden>
+                <i />
+                <i />
+                <i />
+              </span>
+              {waitingLabel}
+            </p>
+          : onContinue ?
+            <JurnlButton onClick={onContinue} trigger={`${testId}-continue`}>
+              {continueLabel ?? C.continue}
+            </JurnlButton>
+          : null}
+          <JurnlButton variant="quiet" onClick={onCancel} trigger={`${testId}-cancel`}>
+            {C.cancel}
           </JurnlButton>
-        : null}
-        <JurnlButton variant="quiet" onClick={onCancel} trigger={`${testId}-cancel`}>
-          {C.cancel}
-        </JurnlButton>
+        </div>
       </div>
-    </div>
+    </OverlayLayer>
   );
 }
 

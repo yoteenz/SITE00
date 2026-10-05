@@ -25,12 +25,24 @@ around inside JURNL). Classes per sprint §30.
 | D-15 | DESIGN_WORKSPACE | PROJECTS menu inside a DESIGN chamber: `.pxa .ph-img { position:absolute; inset:0 }` pulled the row thumbnail out of the grid → labels wrapped in a 30 px column under the thumb. Found during live QA. | `.pxm .pxm__list .pxm__thumb` pinned back into the grid (higher specificity). | live QA check "switcher rows: thumb + label laid out side by side"; `workspace/002` |
 | D-16 | ASSET_MOUNTING | No per-project public asset root. | `public/site00/projects/<slug>/` (brand, fonts, authorities); `projectCoverUrl()`. | runtime asset tests |
 
+### Follow-up `P0.JURNL.SITE00-F01-LIVE-VIEWPORT-DELIVERY1` — found while driving JURNL through DESIGN → VIEWPORT
+
+| ID | Class | Defect | Repair | Proof |
+|----|-------|--------|--------|-------|
+| D-19 | DESIGN_WORKSPACE | VIEWPORT was hard-wired to a project's **first** family (`projectFamilies(slug)[0]`) — no way to select / open a family; F02+ could never be inspected. | FAMILY control built from the project's declared families (implemented → screens; not started → boundary); `?family=` deep link. | workspace tests; viewport QA phase A |
+| D-20 | DESIGN_WORKSPACE | ROUTE / STATE controls did not follow navigation inside the live runtime; choosing a STATE after clicking through jumped the app back to the stale screen. | Controls follow runtime route messages without reloading the runtime; only an explicit control change remounts the iframe (keyed by selection). | viewport QA "SYNC" checks |
+| D-21 | DESIGN_WORKSPACE | Runtime-review cards (FAMILY RUNTIME, JOURNEY REVIEW, MOBILE / TABLET / DESKTOP REVIEW, FOUNDER APPROVAL) opened the inspector (authority images) instead of the live app. | Cards open DESIGN → VIEWPORT for the family (and preset). | workspace tests; viewport QA phase A |
+| D-22 | RUNTIME_ROUTING | No direct-preview entry from the workspace. | OPEN DIRECT PREVIEW — the same runtime URL as the viewport iframe (follows live navigation), no second app. | workspace tests; viewport QA phase E (same runtime module) |
+| D-23 | RESPONSIVE_RENDERER | Project-runtime overlays (drawers, sheets, modals, handoffs) were mounted inside the scrolling screen column: when content is taller than the device (landscape, error-expanded forms, shorter desktop windows) they anchored to the bottom of the content and lost their height limit (long drawers could not scroll). | Overlay host pinned to the runtime viewport; every overlay primitive portals into it. | runtime test; viewport QA "LONG / SCROLLABLE DRAWER" in MOBILE LANDSCAPE |
+| D-24 | HOST_PROJECT_FIREWALL | Design-inspection query switches (`?state` / `?overlay` / `?scenario` / `?os` / `?link`) were honoured in every runtime mode — a debug backdoor for a production shell. | Honoured in `design-preview` mode only. | runtime test "no debug surface in the user-facing app" |
+
 ## B. SITE 00 PLATFORM GAPS — FOUND, NOT REPAIRED (documented)
 
 | ID | Class | Gap | Why not repaired here | Next step |
 |----|-------|-----|----------------------|-----------|
 | D-14 | DATA_MODEL | Server `FOUNDER_PROJECTS` + org UUID map (`api/_lib/site00Projects/`) do not contain JURNL; `/projects` index and `PersonalProjectsMobile` read only the server index. | Needs a real `site00_organizations` row (Supabase) — inventing a UUID would be a fake record. | Founder: create the JURNL org row, then add JURNL to `FOUNDER_PROJECTS` with its UUID. |
 | D-17 | OTHER | JURNL end-user auth provider is unresolved. SITE 00 Supabase auth is the *studio's* auth, not JURNL customers'. | Sprint forbids a second auth system and fake success. | Founder decision: JURNL auth provider (Supabase project per product, or other). Adapter seam ready (`JurnlAuthAdapter`). |
+| D-25 | OTHER (HOSTING) | Production release pipeline (`site00-production-deploy.yml`, auto-promote ON) has been red on every `main` run since at least #696: the `test` job fails on pre-existing failures (CI Supabase missing migrations, stale expression-engine assertions, …), so `build` / `deploy_frontend` never run and nothing reaches site00.com automatically. | Unrelated failures across ~64 test files; fixing them is outside this sprint. Bypassing the gate (legacy `deploy-godaddy.yml` dispatch) is a founder decision. | Founder: dispatch the legacy deploy or upload an emergency ZIP; separately, a CI-repair sprint (apply migrations to the CI database / update stale tests). |
 | D-18 | OTHER | Apple / Google sign-in not configured for JURNL. | No provider credentials; boundary implemented, returns `PROVIDER_NOT_CONFIGURED`. | Configure providers with the chosen auth system. |
 
 ## C. JURNL AUTHORITY ISSUES (not SITE 00 defects)

@@ -143,6 +143,38 @@ describe('VIEWPORT renders the JURNL project runtime', () => {
     expect(applyProjectViewportSize(resolveViewportTarget('DESKTOP', 'PORTRAIT'), j.DESKTOP)).toMatchObject({ w: 1440, h: 900, orientationLocked: true });
     expect(resolveViewportTarget('MOBILE', 'PORTRAIT')).toMatchObject({ w: 390, h: 844 });
   });
+  it('FAMILY selector lists the project families: F01 ENTRY live, F02 SETUP as its boundary (not hard-wired to one family)', () => {
+    const html = render('jurnl', 'viewport');
+    expect(html).toContain('data-testid="design-viewport-family"');
+    expect(html).toMatch(/<option value="F01" selected="">F01 ENTRY<\/option>/);
+    expect(html).toContain('F02 SETUP · NOT STARTED (BOUNDARY)');
+    const fam = render('jurnl', 'viewport', '&family=F01&preset=DESKTOP');
+    expect(fam).toMatch(/src="\/production\/jurnl\/runtime\/entry"/);
+    expect(fam).toContain('data-target-w="1440" data-target-h="900"');
+    const f02 = render('jurnl', 'viewport', '&family=F02');
+    expect(f02).toMatch(/src="\/production\/jurnl\/runtime\/setup"/);
+  });
+  it('DIRECT PREVIEW opens the SAME runtime URL as the viewport iframe (one runtime, two inspection surfaces)', () => {
+    for (const extra of ['', '&screen=F01.04', '&screen=F01.03&state=locked', '&screen=F01.11&overlay=privacy-ai-access']) {
+      const html = render('jurnl', 'viewport', extra);
+      const frame = html.match(/<iframe[^>]*src="([^"]+)"/)![1];
+      const direct = html.match(/href="([^"]+)"[^>]*data-testid="design-viewport-direct-preview"/)![1];
+      expect(direct, extra).toBe(frame);
+      expect(direct).toMatch(/^\/production\/jurnl\/runtime\//);
+    }
+    expect(render('ndxbook', 'viewport')).not.toContain('design-viewport-direct-preview');
+  });
+  it('runtime-review cards open the LIVE viewport (not an authority image or the inspector)', () => {
+    const surfaces = render('jurnl', 'surfaces');
+    for (const p of ['MOBILE', 'TABLET', 'DESKTOP']) expect(surfaces).toContain(`href="/production/jurnl/design?mode=viewport&amp;family=F01&amp;preset=${p}"`);
+    for (const size of ['393 × 852', '834 × 1194', '1440 × 900']) expect(surfaces).toContain(size);
+    expect(render('jurnl', 'brand')).toMatch(/data-live="viewport" href="\/production\/jurnl\/design\?mode=viewport&amp;family=F01"><span[^>]*><\/span><span class="pxa-tcard__copy"><b>FAMILY RUNTIME<\/b>/);
+  });
+  it('controls follow live navigation inside the runtime without reloading it; explicit selection remounts the frame', () => {
+    const src = read('src/site00/components/productionAuthority/DesignChamber.tsx');
+    expect(src).toContain('followLive(m.screenId, m.path)');
+    expect(src).toContain('key={pr.runtime ? `${src}#${pr.nonce}` : undefined}');
+  });
   it('SAFE AREA uses the project insets; GRID uses the project layout grid; BOUNDS reads the isolated runtime', () => {
     const src = read('src/site00/components/productionAuthority/DesignChamber.tsx');
     expect(src).toContain('insets.top * scale');

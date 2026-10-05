@@ -13333,3 +13333,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Auth:** design-preview adapter in workspace only; production path = unconfigured adapter (never fakes success). JURNL end-user auth provider + Apple/Google **unresolved** (founder decision).
 - **Open platform gap:** JURNL has no `site00_organizations` row → not in server `FOUNDER_PROJECTS` / `/projects` index.
 - **Docs:** `docs/jurnl/` (audit A–V, defect log, decisions + claims register, contract, asset-first, budget, live QA). Proof: `artifacts/jurnl-f01-live-qa/` (live QA 103/103).
+
+---
+
+## 2026-10-05 — JURNL F01 live viewport delivery (follow-up DELIVERY1)
+
+- **Follow-up:** P0.JURNL.SITE00-F01-LIVE-VIEWPORT-DELIVERY1 — JURNL F01 must be live, mounted, clickable and inspectable inside DESIGN → VIEWPORT.
+- **Open it:** `/production/jurnl/design?mode=viewport&family=F01` (primary) · direct preview `/production/jurnl/runtime/entry` (same runtime; OPEN DIRECT PREVIEW ↗ in the viewport panel). BRAND → FAMILY RUNTIME · OPEN LIVE and SURFACES → MOBILE / TABLET / DESKTOP REVIEW open the live viewport.
+- **SITE 00 repairs:** viewport FAMILY control (no longer hard-wired to first family) · controls follow live navigation (no reload) · review cards open the live runtime, not the inspector · direct-preview link · runtime overlays pinned to the device viewport (were anchoring to scrolled content) · inspection query switches honoured in design-preview only.
+- **Proof:** `npx tsx scripts/jurnl/viewport-delivery-qa.ts` → 163/163 (42/42 screen×preset, 17/17 interaction types, 74/74 manifest interactions triggered inside the viewport, same runtime module for viewport + direct preview) → `artifacts/jurnl-f01-live-viewport/`.
+- **Hosting:** canonical = GoDaddy via `site00-production-deploy.yml` (auto-promote ON) — blocked: `test` job red on every `main` run since ≥ #696 (pre-existing). Legacy `deploy-godaddy.yml` dispatch deploys `main` without the test gate (founder decision).

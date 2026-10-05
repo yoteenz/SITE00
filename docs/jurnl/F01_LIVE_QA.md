@@ -1,5 +1,8 @@
 # JURNL F01 — LIVE BROWSER QA PROOF
 
+> Viewport delivery proof (everything driven through DESIGN → JURNL → VIEWPORT, 163/163): see
+> [F01_LIVE_VIEWPORT_DELIVERY.md](F01_LIVE_VIEWPORT_DELIVERY.md).
+
 Run: `node scripts/jurnl/live-qa-f01.mjs http://127.0.0.1:5174 artifacts/jurnl-f01-live-qa` (Playwright, headless Chromium,
 real SITE 00 dev server, real routes — no unit-test claims).
 
