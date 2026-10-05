@@ -13061,3 +13061,7 @@ Sprint `P0.PRODUCTION.INBOX-ACTIVITY.AUTHORITY-CONVERGENCE2`. Same branch `curso
   - Retired: the OPUS1 kit components and the `site00-production-inbox-activity.css` stylesheet (dead).
 - **Live QA:** 80/80 (16 states × 5 viewports), no scroll, nothing clipped. Known pre-existing issue: the HUB root overflows 22/45px on tablet/desktop.
 - **Proof:** `artifacts/production-inbox-activity-convergence2/`.
+
+## 2026-10-04 — Cloud preview on design-asset-convergence branch
+
+Founder asked to point `site00.fsbw-dev.com` tunnel at `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. VM checkout switched; Vite dev on `:5174` with `SITE00_CLOUD_PREVIEW_MODE=dev`, `SITE00_PREVIEW_SYNC_MAIN=0`; tunnel restarted.
