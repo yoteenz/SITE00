@@ -13677,6 +13677,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — IDNTY intake methodology formalization (P0 INTAKE-METHODOLOGY-FORMALIZATION1)
+
+- **Context:** Founder locked product truth: brand intake is the entryway to IDNTY, not a generic questionnaire interpreted later. Questions must reverse-engineer from twelve canonical dimensions (Truth → Authority). Clients supply meaning/constraints; SITE 00 supplies synthesis and creative direction. AIO is first validation case.
+- **Delivered:** `docs/site00/idnty/intake/` — dimension schema (145 fields, 108 required), generated question bank (503 questions, field traceability map), entry-state branching, profile/output contracts, inference/contradiction/progress models, voice genome in personality dimension, AIO validation JSON, methodology doc; generator `scripts/idnty/build-idnty-intake-artifacts.mjs`; tests `idntyIntakeMethodology.test.ts`.
+- **Not claimed:** Intake UI, logo/color/type final outputs, provider generation.
+- **Conventions:** Do not ask logo style or favorite colors; mark/palette questions target meaning and equity; verbal lines are SITE 00 synthesis from intake signals; downstream reads canonical `IDNTY_PROFILE`.
+
+---
+
 ## 2026-10-05 — JURNL live callsite migration (P0 JURNL-LIVE-CALLSITE-MIGRATION1)
 
 - **Context:** Prior gateway sprint built `runProductionProviderRequest` but inventoried 15 paid call sites with 0 migrated; JURNL had no in-repo OpenArt SDK path yet active production could still bypass guards via legacy FAL elsewhere. Founder sprint required moving **active JURNL** paid generation through the shared gateway without paid generation in CI.
