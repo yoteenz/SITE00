@@ -1,0 +1,167 @@
+{
+ "artifact": "SITE00_ENTER00_SYSTEM_MAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "runtime_verification": "RUNTIME_VERIFICATION_BLOCKED \u2014 npm registry is blocked in this environment, so no dev server; every finding is code evidence (file:line). Items tagged CONFIRM_LIVE in evidence/ need a live pass.",
+ "finding_in_one_line": "ENTER 00 is the portal into the WAITING ROOM (/enter). The mobile SWIPE-UP does NOT open ENTER 00 \u2014 it opens LOCATIONS (/origin/locations); the same Origin widget carries an \"ENTER SITE 00\" link to /enter, so one gesture area leads to two different directories.",
+ "triggers": [
+  {
+   "type": "link (header toggle)",
+   "file_line": "src/site00/components/shell/EntryToggle.tsx:27-36",
+   "element": "<Link to='/enter' class='site00-btn-ghost' aria-label='ENTER SITE 00 INTERIOR DIRECTORY'>ENTER 00 + FastTravel icon",
+   "accessible_alternative": "IS the accessible control (native <a>, labelled). Rendered by Site00AppShell header slot 3 (Site00AppShell.tsx:66-68) on every Site00AppShell page: Origin desktop, public desktop-canon pages (Site00PublicShell.tsx:44), IDNTY/BLDR/EVOLVE assessment shells, Evolve marketing pages. HIDDEN on Origin mobile layout by CSS `.site00-origin-page--mobile-layout .site00-safe-ui > div:nth-child(3){display:none}` (site00.css:764-766)."
+  },
+  {
+   "type": "link (mobile origin callout)",
+   "file_line": "src/site00/components/homepage/OriginMobileSwipeUp.tsx:37-39",
+   "element": "<Link to='/enter'>ENTER SITE 00 (copy: status.ts:43)",
+   "accessible_alternative": "native link, focusable; text label. Only rendered when !isDesktopArtboardLayout (OriginPage.tsx:181); shown only in mobile layout (site00.css:746-748 hides by default, 960-973 shows)."
+  },
+  {
+   "type": "seed link",
+   "file_line": "src/site00/config/seed/site00-page-seed.ts:96",
+   "element": "GUIDE section ORIGIN -> /enter (GuidePage.tsx:14)",
+   "accessible_alternative": "n/a \u2014 /guide is a composer DRAFT route (routes.ts:786-796; Site00Routes.tsx:855) redirected to / unless ?preview=1"
+  },
+  {
+   "type": "gesture (swipe up) \u2014 DOES NOT open /enter",
+   "file_line": "src/site00/hooks/useOriginLocationsTransition.ts:16-35",
+   "element": "swipe-up on Origin mobile opens /origin/locations (LOCATIONS), not /enter",
+   "accessible_alternative": "<button>SWIPE UP</button> calls the same goToLocations (OriginMobileSwipeUp.tsx:45-47)"
+  }
+ ],
+ "swipe_up": {
+  "exists": true,
+  "file_line": "src/site00/hooks/useSwipeUp.ts:1-101; src/site00/hooks/useOriginLocationsTransition.ts:1-38",
+  "threshold_logic": "pointerdown/touchstart records start (ignored if target is button/a/input/textarea/select/[role=button]/[data-swipe-ignore], useSwipeUp.ts:10-13); on pointerup/touchend: dy must be < -56px (thresholdPx default 56, :33,:23) and angle within 90\u00b140deg of vertical (:25-26). Pointer capture on down (:57). touch handlers are an iOS fallback (:74-93); pointer path resets start so touchend no-ops (no double fire). disabled while transitioning.",
+  "from_where": "Origin route (/ or /origin) in MOBILE layout only (isMobileOrigin = !isDesktopArtboardLayout, OriginPage.tsx:28). Three bound surfaces: (1) full-screen transparent .site00-origin-swipe-surface, aria-hidden, fixed top:72px..bottom, z-index ui+1, touch-action:none (OriginPage.tsx:78-84; site00.css:976-985); (2) .site00-origin-mobile-swipe callout section aria-label 'SWIPE UP TO OPEN SITE 00 LOCATIONS DIRECTORY' (OriginMobileSwipeUp.tsx:32-35); (3) status-strip metrics row (OriginPage.tsx:74; StatusStrip.tsx:85-90).",
+  "to_where": "navigate('/origin/locations', {state:{fromSwipe:true}}) after 720ms overlay (useOriginLocationsTransition.ts:7,21,31-32); immediate when prefers-reduced-motion (useSwipeUp.ts:98-101; useOriginLocationsTransition.ts:26-29).",
+  "notes": [
+   "Swipe-up is the LOCATIONS entry, not ENTER 00. On the same mobile callout the visible 'ENTER SITE 00' link goes to /enter while swiping/'SWIPE UP' goes to /origin/locations \u2014 two different directories from one widget.",
+   "The 720ms setTimeout is never cleared on unmount (useOriginLocationsTransition.ts:32): tapping another control (e.g. ENTER SITE 00 link, which is excluded from swipe) during the transition still fires navigate to /origin/locations afterwards \u2014 navigation hijack (CONFIRM_LIVE).",
+   "Overlay renders only __locations-preview; CSS for __origin exit animation (site00-locations.css:584-586) targets an element that is never rendered \u2014 dead CSS; overlay CSS only exists under @media (max-width:767px) (site00-locations.css:10,576).",
+   "Not rendered on tablet/desktop (>=768px) \u2014 no swipe there."
+  ]
+ },
+ "surface": "Route-level page, not an overlay: /enter -> Site00EnterPage (lazy, Site00Routes.tsx:75) inside Site00Layout > Site00OriginRouteShell (Site00Routes.tsx:649-659). EnterPage = EnvironmentShell(environmentId='ENTER_00_WAITING_ROOM') > Site00AppShell(locationLabel 'LOCATION / ENTER 00') > DirectoryPanel + EnterStatusStrip (EnterPage.tsx:6-14). DirectoryPanel = welcome block '00 / WELCOME TO 00 / WHERE WOULD YOU LIKE TO GO?' + ArchitecturalPanel menu with sections EXPLORE and YOUR SPACE (DirectoryPanel.tsx:8-51; directory.ts:130-137). Header shows GlobalNav (SITES..JOURNAL) and EntryToggle which flips to EXIT 00 (EntryToggle.tsx:14-25). Status strip portaled to artboard bottom chrome (DirectoryPanel.tsx:53-61). Viewport-locked 100dvh, overflow hidden (site00.css:1220-1227).",
+ "routes": [
+  "/enter (only route; no /enter/* children despite loader matching /enter/ prefix: site00LoaderRouteCopy.ts:56, site00LoaderRoutePreload.ts:59)"
+ ],
+ "destinations": [
+  {
+   "label": "01 SITES",
+   "destination": "/sites",
+   "auth": "public",
+   "file_line": "src/site00/config/directory.ts:36-42",
+   "status": "OK",
+   "note": "SitesPortfolioPage; SITE00_PORTFOLIO_SEED = [] (site00-page-seed.ts:15) \u2014 content empty; WAITING_FOR_AUTHORITY (publicRedesignAuthorityManifest.ts:144)"
+  },
+  {
+   "label": "02 SERVICES",
+   "destination": "/services",
+   "auth": "public",
+   "file_line": "directory.ts:44-50",
+   "status": "OK",
+   "note": "Site00Routes.tsx:840; WAITING_FOR_AUTHORITY"
+  },
+  {
+   "label": "03 SYSTEM",
+   "destination": "/system",
+   "auth": "public",
+   "file_line": "directory.ts:51-58",
+   "status": "OK",
+   "note": "Site00Routes.tsx:841"
+  },
+  {
+   "label": "04 ABOUT",
+   "destination": "/about",
+   "auth": "public",
+   "file_line": "directory.ts:59-66",
+   "status": "OK",
+   "note": "Site00Routes.tsx:852"
+  },
+  {
+   "label": "05 JOURNAL",
+   "destination": "/journal",
+   "auth": "public",
+   "file_line": "directory.ts:67-74",
+   "status": "OK",
+   "note": "Site00Routes.tsx:853; SITE00_JOURNAL_SEED = [] (site00-page-seed.ts:53) \u2014 empty"
+  },
+  {
+   "label": "BLDR STUDIO",
+   "destination": "/bldr",
+   "auth": "public",
+   "file_line": "directory.ts:81-88",
+   "status": "OK",
+   "note": "label 'BLDR STUDIO' vs 'BLDR' elsewhere"
+  },
+  {
+   "label": "PROJECTS",
+   "destination": "/projects (signed-out: /origin/sign-in?returnTo=%2Fprojects)",
+   "auth": "requiresAuth (localStorage flag) + Site00AccountRouteGuard",
+   "file_line": "directory.ts:89-97; directory.ts:119-128; Site00Routes.tsx:887-897",
+   "status": "OK"
+  },
+  {
+   "label": "ACCOUNT",
+   "destination": "/control (CTRL ROOM) (signed-out: sign-in?returnTo=/control)",
+   "auth": "requiresAuth + Site00AccountRouteGuard",
+   "file_line": "directory.ts:98-106; mobile-directory-nav.ts:47; Site00Routes.tsx:2894-2903",
+   "status": "OK",
+   "note": "Label mismatch: ACCOUNT here = CTRL ROOM; a separate /account route exists but is DRAFT_GATED (routes.ts:219,794)."
+  },
+  {
+   "label": "SUPPORT",
+   "destination": "/support",
+   "auth": "public",
+   "file_line": "directory.ts:107-114",
+   "status": "OK",
+   "note": "Site00Routes.tsx:854"
+  }
+ ],
+ "destination_count": 9,
+ "variants": {
+  "public": "All 9 rows rendered; PROJECTS/ACCOUNT render with --locked class and aria-label from site00AuthLockedAriaLabel, href rewritten to sign-in with returnTo (WorkflowCards.tsx:171-205).",
+  "signed_in": "Same rows; locked styling removed; href direct. Signed-in state is read from localStorage 'isSignedIn' (useSignedInFromStorage.ts:7-15), not the live Supabase session.",
+  "founder": "No founder-specific variant in EnterPage/DirectoryPanel/directory.ts (grep for founder/admin/isAdmin: none). Founder sees the public directory.",
+  "client": "No client-specific variant. Clients with a client-app project are not routed to /app from ENTER 00."
+ },
+ "responsive": {
+  "mobile": "Site00Context.resolveInitialPreviewMode forces 'desktop' preview mode when the FIRST loaded path is /enter (Site00Context.tsx:32-38). On a phone a hard load of /enter therefore renders Site00DesktopPresentationShell -> 'scaled' 1440x900 artboard shrunk to phone width (site00DesktopPresentation.ts:13-21; Site00DesktopArtboardShell.tsx:52-62). When reached client-side from mobile Origin, the Site00Provider reducer state is likely preserved across sibling routes (same Site00Layout element type), so preview mode stays 'mobile' -> native layout with single-column grid (site00.css:734-741) \u2014 rendering depends on HOW you arrived (CONFIRM_LIVE). No mobile environment asset for ENTER (environments.ts:92-103 has only desktopAssetPath; mobile uses desktop asset w/ mobilePosition 55%). No mobile bottom nav on /enter.",
+  "tablet": ">=768px is treated as desktop (site00OriginViewport.ts:2; preview-mode.ts:32-35) -> native viewport desktop presentation (Site00DesktopPresentationShell.tsx:30-32). ENTER 00 header toggle visible.",
+  "desktop": "Native full viewport (laptop) via Site00DesktopNativeViewportShell; env bg always mounted on /enter regardless of toggle (EnvironmentShell.tsx:60-66,80-86); focal 'center 75%' (desktop-environment-presentation.ts:19-29). Two-column welcome+menu (site00.css:1314-1340). Layout preview switch (Mobile/Desktop) is hard-disabled (preview-mode.ts:6-8)."
+ },
+ "transitions": "None into /enter: plain <Link> navigation, Suspense loader copy 'ENTERING SITE 00' (site00LoaderRouteCopy.ts:55-60). No enter/exit animation on EnterPage. (Animated transition exists only for swipe -> LOCATIONS.)",
+ "visual_authority": [
+  "Environment: 'Approved Enter 00 desktop \u2014 89319E70 @ live-preview/site00' (environments.ts:102); asset env-enter-00 status 'production', alt 'ENTER 00 waiting room lobby' (assets.ts:77-85).",
+  "No ENTER/WAITING ROOM record in publicRedesignAuthorityManifest.ts (families ORIGIN/IDNTY/BLDR/EVOLVE/LOCATIONS only, :13); only LOCATIONS has one (01_LOCATIONS_MAIN, :103).",
+  "Experience Engine V0 Sprint A used /enter desktop as reference-fidelity proof (motherboard/MEMORY.md:5784-5787; api/_lib/site00ExperienceEngine/enterReferenceFrame.ts, routeReferenceStore.ts:240).",
+  "History of tuning: MEMORY.md:148-161 (bg focal PR #9), :185-187 (wire directory links PR #12), :191-193 (decouple bg PR #17), :308-320 (refresh regression fix)."
+ ],
+ "implementation_status": "LIVE and functional as a route; desktop-first. Gaps: no mobile authority/asset; IDNTY/EVOLVE missing from menu; menu duplicates GlobalNav on the same screen; label drift (ACCOUNT vs CTRL ROOM, BLDR STUDIO vs BLDR); device-mode depends on entry path; Site00EnterArtboardViewportBackground component is defined but imported nowhere (enter00/Site00EnterArtboardViewportBackground.tsx:4-6 \u2014 dead).",
+ "product_role_evidence": [
+  "EntryToggle doc: 'ENTER 00 on origin routes; EXIT 00 on /enter' (EntryToggle.tsx:9) \u2014 binary inside/outside metaphor.",
+  "Copy: \"YOU'VE ENTERED SITE 00. \u2666 CHOOSE YOUR DESTINATION.\" (directory.ts:136).",
+  "Environment id ENTER_00_WAITING_ROOM (environments.ts:37,92-103) \u2014 it is a PLACE with its own environment plate.",
+  "Locked constraint L3: 'WAITING ROOM (directory) and EXIT 00 (return to origin) are named navigation concepts' (docs/site00/ground-zero/SITE00_INDEPENDENT_TREE_REVIEW_PACKET.json:9726).",
+  "Route forensics: screen 'waiting-room' displayName 'Waiting Room / Enter 00', priority CRITICAL, CUSTOMER_FACING (shared/.../p0vr3a/site00RouteForensics.ts:66-79); flow homepage -> waiting-room 'enter 00' (site00RouteDependencyGraph.ts:18)."
+ ],
+ "classification": {
+  "value": "SPATIAL_PORTAL",
+  "what_it_opens": "WAITING ROOM (a DIRECTORY_PLACE with its own environment plate)",
+  "not": "a hamburger menu; not a global overlay (FAST TRAVEL is the overlay)",
+  "agent_reasoning": {
+   "value": "SPATIAL_PORTAL",
+   "reasoning": "In code ENTER 00 is a navigation to a distinct route (/enter) with its own locked environment plate (ENTER_00_WAITING_ROOM), its own location label, and a reciprocal EXIT 00 that returns to ORIGIN. It is not an overlay (no modal/dialog, has a URL, has a status strip) and not global navigation (it does not persist across pages \u2014 it is one hop from Origin and offers destinations). It is the threshold between ORIGIN (outside) and the interior. Treat the trigger (header toggle, ENTER SITE 00 link, and ideally swipe-up) as a SHELL_INTERACTION whose single target is this portal; the directory content inside it is the WAITING ROOM. FAST TRAVEL is the actual GLOBAL_OVERLAY. Recommendation is contingent on founder decision U2 (merge LOCATIONS into WAITING ROOM)."
+  }
+ },
+ "gaps": [
+  "IDNTY, EVOLVE and MY SITES missing from WAITING ROOM destinations",
+  "no founder/client variants \u2014 only lock styling from a localStorage flag",
+  "label drift: CTRL ROOM appears as \"ACCOUNT\", BLDR as \"BLDR STUDIO\"",
+  "header nav duplicates EXPLORE 01\u201305 on /enter",
+  "loading /enter directly forces desktop mode for the session (Site00Context.tsx:32-38, CONFIRM_LIVE)"
+ ]
+}

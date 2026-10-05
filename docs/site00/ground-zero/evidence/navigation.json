@@ -1,0 +1,866 @@
+{
+  "nav_systems": [
+    {
+      "name": "PUBLIC DESKTOP HEADER (Site00AppShell: GlobalNav + EntryToggle)",
+      "file": "src/site00/components/shell/Site00AppShell.tsx:62-68; config/navigation.ts:12-18; EntryToggle.tsx:9-37",
+      "rendered": true,
+      "items": [
+        {
+          "label": "SITE 00 logo",
+          "destination": "/origin (Site00LogoBlock.tsx:24)"
+        },
+        {
+          "label": "SITES",
+          "destination": "/sites"
+        },
+        {
+          "label": "SERVICES",
+          "destination": "/services"
+        },
+        {
+          "label": "SYSTEM",
+          "destination": "/system"
+        },
+        {
+          "label": "ABOUT",
+          "destination": "/about"
+        },
+        {
+          "label": "JOURNAL",
+          "destination": "/journal"
+        },
+        {
+          "label": "ENTER 00 (non-/enter)",
+          "destination": "/enter"
+        },
+        {
+          "label": "EXIT 00 (on /enter)",
+          "destination": "/origin"
+        }
+      ],
+      "notes": "No IDNTY/BLDR/EVOLVE/CTRL ROOM/LOCATIONS in rendered desktop header."
+    },
+    {
+      "name": "PUBLIC TOP NAV (Site00PublicTopNav)",
+      "file": "src/site00/components/shell/Site00PublicTopNav.tsx:9-55",
+      "rendered": false,
+      "items": [
+        {
+          "label": "SITES",
+          "destination": "/sites (signed-in: /control/sites)"
+        },
+        {
+          "label": "SERVICES",
+          "destination": "/services"
+        },
+        {
+          "label": "SYSTEM",
+          "destination": "/system"
+        },
+        {
+          "label": "ABOUT",
+          "destination": "/about"
+        },
+        {
+          "label": "JOURNAL",
+          "destination": "/journal"
+        },
+        {
+          "label": "IDNTY",
+          "destination": "/idnty"
+        },
+        {
+          "label": "BLDR / START BUILD",
+          "destination": "/bldr"
+        },
+        {
+          "label": "CTRL ROOM",
+          "destination": "/control or sign-in?returnTo=/control"
+        }
+      ],
+      "notes": "DEAD CODE - never imported."
+    },
+    {
+      "name": "PUBLIC LEFT RAIL (Site00PublicSidebar)",
+      "file": "src/site00/config/site00-public-rail-nav.ts:11-21",
+      "rendered": false,
+      "items": [
+        {
+          "label": "ORIGIN",
+          "destination": "/origin"
+        },
+        {
+          "label": "LOCATIONS",
+          "destination": "/origin/locations"
+        },
+        {
+          "label": "SITES",
+          "destination": "/sites"
+        },
+        {
+          "label": "SERVICES",
+          "destination": "/services"
+        },
+        {
+          "label": "SYSTEM",
+          "destination": "/system"
+        },
+        {
+          "label": "ABOUT",
+          "destination": "/about"
+        },
+        {
+          "label": "JOURNAL",
+          "destination": "/journal"
+        },
+        {
+          "label": "IDNTY",
+          "destination": "/idnty"
+        },
+        {
+          "label": "BLDR / START BUILD",
+          "destination": "/bldr"
+        }
+      ],
+      "notes": "DEAD CODE - Site00PublicShell.tsx:65 exports a no-op Site00PublicSidebar; real component unused."
+    },
+    {
+      "name": "ENTER 00 DIRECTORY (WAITING ROOM menu)",
+      "file": "src/site00/config/directory.ts:30-117 (rendered by enter00/DirectoryPanel.tsx)",
+      "rendered": true,
+      "items": [
+        {
+          "label": "01 SITES",
+          "destination": "/sites"
+        },
+        {
+          "label": "02 SERVICES",
+          "destination": "/services"
+        },
+        {
+          "label": "03 SYSTEM",
+          "destination": "/system"
+        },
+        {
+          "label": "04 ABOUT",
+          "destination": "/about"
+        },
+        {
+          "label": "05 JOURNAL",
+          "destination": "/journal"
+        },
+        {
+          "label": "BLDR STUDIO",
+          "destination": "/bldr"
+        },
+        {
+          "label": "PROJECTS (auth)",
+          "destination": "/projects"
+        },
+        {
+          "label": "ACCOUNT (auth)",
+          "destination": "/control"
+        },
+        {
+          "label": "SUPPORT",
+          "destination": "/support"
+        }
+      ],
+      "notes": "Missing IDNTY, EVOLVE, LOCATIONS. 'BLDR STUDIO' naming collides with STUDIO OS/WORLD."
+    },
+    {
+      "name": "EXIT 00",
+      "file": "src/site00/components/locations/DirectoryExitButton.tsx:5-14; shell/EntryToggle.tsx:14-24; designWorkspace/Site00DesignWorkspaceShell.tsx:140",
+      "rendered": true,
+      "items": [
+        {
+          "label": "EXIT 00",
+          "destination": "/origin"
+        }
+      ],
+      "notes": "Always to /origin, never history back."
+    },
+    {
+      "name": "MOBILE HEADER (Site00MobileHeader)",
+      "file": "src/site00/components/mobile/Site00MobileHeader.tsx:16-35",
+      "rendered": true,
+      "items": [
+        {
+          "label": "SITE 00 logo",
+          "destination": "/origin"
+        },
+        {
+          "label": "FAST TRAVEL trigger",
+          "destination": "opens FastTravelPanel"
+        },
+        {
+          "label": "EXIT 00 (variant=directory on /origin/locations)",
+          "destination": "/origin"
+        }
+      ]
+    },
+    {
+      "name": "MOBILE BOTTOM NAV (MobileSiteNavigation / MOBILE_SITE_NAV)",
+      "file": "src/site00/config/mobile-site-nav.ts:23-56",
+      "rendered": true,
+      "items": [
+        {
+          "label": "ORIGIN",
+          "destination": "/origin"
+        },
+        {
+          "label": "IDNTY",
+          "destination": "/idnty/state"
+        },
+        {
+          "label": "LOCATIONS (center)",
+          "destination": "/origin/locations"
+        },
+        {
+          "label": "PROJECTS (auth)",
+          "destination": "/projects"
+        },
+        {
+          "label": "CTRL ROOM (auth)",
+          "destination": "/control"
+        }
+      ],
+      "notes": "Used on public mobile pages AND authenticated ecosystem mobile shell. EVOLVE routes highlight LOCATIONS bay (mobile-site-nav.ts:68). requiresAuth flag not applied to href (relies on route guard)."
+    },
+    {
+      "name": "FAST TRAVEL panel (context-aware)",
+      "file": "src/site00/config/fast-travel.ts:65-415",
+      "rendered": true,
+      "items": [
+        {
+          "label": "MY SPACE: IDNTY",
+          "destination": "/idnty"
+        },
+        {
+          "label": "MY SPACE: CTRL ROOM",
+          "destination": "/control (auth)"
+        },
+        {
+          "label": "RETURN: LOCATIONS",
+          "destination": "/origin/locations"
+        },
+        {
+          "label": "RETURN: 00 ORIGIN",
+          "destination": "/origin"
+        },
+        {
+          "label": "UP NEXT: START A BUILD",
+          "destination": "contextual BLDR href"
+        },
+        {
+          "label": "UP NEXT: FIND MY BUILD TYPE",
+          "destination": "/bldr/state"
+        },
+        {
+          "label": "QUICK JUMP: SERVICES/SYSTEM/SITES/JOURNAL/ABOUT",
+          "destination": "public pages"
+        },
+        {
+          "label": "IDNTY signed-out: SIGN IN / CREATE IDENTITY",
+          "destination": "/origin/sign-in, /idnty/state"
+        },
+        {
+          "label": "IDNTY/CTRL signed-in: CTRL ROOM, PROJECTS, MY SITES, BILLING, SETTINGS",
+          "destination": "/control, /projects, /control/sites, /control/billing, /control/settings"
+        },
+        {
+          "label": "BLDR: CONTINUE BUILD / BUILD INVESTMENT GUIDE",
+          "destination": "current path / /bldr"
+        }
+      ],
+      "notes": "No EVOLVE profile (EVOLVE pages fall to FALLBACK 'SITE 00'); EVOLVE never offered as destination. 'LOCATIONS' destination bounces to /origin on desktop."
+    },
+    {
+      "name": "LOCATIONS DIRECTORY",
+      "file": "src/site00/config/locations-directory.ts:30-130",
+      "rendered": true,
+      "items": [
+        {
+          "label": "01 BLDR",
+          "destination": "contextual /bldr"
+        },
+        {
+          "label": "02 EVOLVE",
+          "destination": "contextual /evolve"
+        },
+        {
+          "label": "03 SITES",
+          "destination": "/sites"
+        },
+        {
+          "label": "04 SERVICES",
+          "destination": "/services"
+        },
+        {
+          "label": "05 SYSTEM",
+          "destination": "/system"
+        },
+        {
+          "label": "06 ABOUT",
+          "destination": "/about"
+        },
+        {
+          "label": "07 JOURNAL",
+          "destination": "/journal"
+        },
+        {
+          "label": "08 IDNTY",
+          "destination": "/idnty"
+        },
+        {
+          "label": "09 CTRL ROOM (auth)",
+          "destination": "/control"
+        },
+        {
+          "label": "10 PROJECTS (auth)",
+          "destination": "/projects"
+        },
+        {
+          "label": "11 MY SITES (auth)",
+          "destination": "/control/sites"
+        }
+      ],
+      "notes": "Mobile only; only nav that lists all public families."
+    },
+    {
+      "name": "MOBILE MENU DRAWER (SITE00_MOBILE_DIRECTORY_PRIMARY)",
+      "file": "src/site00/config/mobile-directory-nav.ts:18-44",
+      "rendered": false,
+      "items": [
+        {
+          "label": "SERVICES",
+          "destination": "/services"
+        },
+        {
+          "label": "SYSTEM",
+          "destination": "/system"
+        },
+        {
+          "label": "ABOUT",
+          "destination": "/about"
+        },
+        {
+          "label": "JOURNAL",
+          "destination": "/journal"
+        },
+        {
+          "label": "IDNTY",
+          "destination": "/idnty"
+        },
+        {
+          "label": "BLDR / START BUILD",
+          "destination": "/bldr"
+        },
+        {
+          "label": "EVOLVE",
+          "destination": "/evolve"
+        },
+        {
+          "label": "CTRL ROOM",
+          "destination": "/control"
+        }
+      ],
+      "notes": "DEAD CODE - Site00MobileMenuDrawer never rendered."
+    },
+    {
+      "name": "PUBLIC FOOTER (mobile public shell)",
+      "file": "src/site00/components/shell/Site00PageFooter.tsx:8-12",
+      "rendered": true,
+      "items": [
+        {
+          "label": "PRIVACY",
+          "destination": "/brand/privacy (NO ROUTE)"
+        },
+        {
+          "label": "TERMS",
+          "destination": "/brand/terms (NO ROUTE)"
+        },
+        {
+          "label": "SUPPORT",
+          "destination": "/support"
+        }
+      ]
+    },
+    {
+      "name": "AUTH FOOTER",
+      "file": "src/site00/components/auth/Site00AuthShell.tsx:96-98",
+      "rendered": true,
+      "items": [
+        {
+          "label": "PRIVACY",
+          "destination": "/brand/terms (wrong + NO ROUTE)"
+        },
+        {
+          "label": "TERMS",
+          "destination": "/brand/terms (NO ROUTE)"
+        },
+        {
+          "label": "SUPPORT",
+          "destination": "/brand/contact (NO ROUTE)"
+        }
+      ]
+    },
+    {
+      "name": "ORIGIN CARDS / EXPANDED PANELS",
+      "file": "src/site00/components/homepage/{OriginCards,IdntyExpandedPanel:104,BldrExpandedPanel:99,EvolveExpandedPanel:21,77}.tsx",
+      "rendered": true,
+      "items": [
+        {
+          "label": "01 IDNTY -> BEGIN IDNTY",
+          "destination": "/idnty/state"
+        },
+        {
+          "label": "02 BLDR -> BEGIN BLDR",
+          "destination": "/bldr/state"
+        },
+        {
+          "label": "EVOLVE -> begin",
+          "destination": "/evolve/state"
+        },
+        {
+          "label": "EVOLVE ghost",
+          "destination": "/evolve"
+        },
+        {
+          "label": "NEED GUIDANCE? (status strip)",
+          "destination": "NONE - button without handler"
+        }
+      ]
+    },
+    {
+      "name": "ACCOUNT / OPERATING WORLD TOP NAV (desktop)",
+      "file": "src/site00/config/ecosystem-nav.ts:18-28; components/ecosystem/OperatingWorldTopNav.tsx",
+      "rendered": true,
+      "items": [
+        {
+          "label": "SITE 00 logo",
+          "destination": "/control"
+        },
+        {
+          "label": "CTRL ROOM",
+          "destination": "/control"
+        },
+        {
+          "label": "PROJECTS",
+          "destination": "/projects"
+        },
+        {
+          "label": "PRODUCTION (admin)",
+          "destination": "/production"
+        },
+        {
+          "label": "INTAKES",
+          "destination": "/account/intakes"
+        },
+        {
+          "label": "SITES",
+          "destination": "/control/sites"
+        },
+        {
+          "label": "STUDIO",
+          "destination": "/admin/site00/studio (AdminGuard -> non-admins bounced to /control)"
+        },
+        {
+          "label": "APPROVALS",
+          "destination": "/admin/site00/approvals (AdminGuard)"
+        },
+        {
+          "label": "ACCESS",
+          "destination": "/control/security"
+        },
+        {
+          "label": "BILLING",
+          "destination": "/control/billing"
+        },
+        {
+          "label": "IDNTY profile",
+          "destination": "/idnty"
+        }
+      ],
+      "notes": "STUDIO and APPROVALS shown to clients but are admin-only -> silent bounce to /control (AdminGuard.tsx:34). No way back to public site except logo? Logo goes to /control; no ORIGIN/EXIT."
+    },
+    {
+      "name": "CTRL ROOM SIDEBAR (CTRL_ROOM_NAV)",
+      "file": "src/site00/config/ctrl-room-nav.ts:13-21",
+      "rendered": false,
+      "items": [
+        {
+          "label": "OVERVIEW",
+          "destination": "/control"
+        },
+        {
+          "label": "SITES",
+          "destination": "/control/sites"
+        },
+        {
+          "label": "DOMAINS",
+          "destination": "/control/domains"
+        },
+        {
+          "label": "BILLING",
+          "destination": "/control/billing"
+        },
+        {
+          "label": "TEAM",
+          "destination": "/control/team"
+        },
+        {
+          "label": "SETTINGS",
+          "destination": "/control/settings"
+        },
+        {
+          "label": "SECURITY",
+          "destination": "/control/security"
+        }
+      ],
+      "notes": "DEAD CODE - CtrlRoomSidebar never rendered; /control/team thereby orphaned."
+    },
+    {
+      "name": "ECOSYSTEM MOBILE NAV (ECOSYSTEM_MOBILE_NAV)",
+      "file": "src/site00/config/ecosystem-nav.ts:43-48",
+      "rendered": false,
+      "items": [
+        {
+          "label": "CTRL ROOM",
+          "destination": "/control"
+        },
+        {
+          "label": "PROJECTS",
+          "destination": "/projects"
+        },
+        {
+          "label": "SITES",
+          "destination": "/control/sites"
+        },
+        {
+          "label": "IDNTY",
+          "destination": "/idnty"
+        }
+      ],
+      "notes": "DEAD CODE - comment says 'five' but has four; authenticated mobile uses MOBILE_SITE_NAV instead."
+    },
+    {
+      "name": "ADMIN CONTROL NAV",
+      "file": "src/site00/admin/config/control-nav.ts:13-32",
+      "rendered": true,
+      "items": [
+        {
+          "label": "COMMAND",
+          "destination": "/admin/site00"
+        },
+        {
+          "label": "PROJECTS",
+          "destination": "/admin/site00/projects"
+        },
+        {
+          "label": "PRODUCTION",
+          "destination": "/admin/site00/studio"
+        },
+        {
+          "label": "REVIEWS",
+          "destination": "/admin/site00/approvals"
+        },
+        {
+          "label": "CLIENTS",
+          "destination": "/admin/site00/identities"
+        },
+        {
+          "label": "ASSETS / VAULT",
+          "destination": "/assts"
+        },
+        {
+          "label": "SYSTEMS",
+          "destination": "/admin/site00/sites"
+        },
+        {
+          "label": "AUTOMATION",
+          "destination": "settings/studio/automation"
+        },
+        {
+          "label": "BUSINESS",
+          "destination": "/admin/site00/finance"
+        },
+        {
+          "label": "REPORTS",
+          "destination": "/admin/site00/reports"
+        },
+        {
+          "label": "EMAIL / DEBUG",
+          "destination": "debug/email-pack"
+        },
+        {
+          "label": "MARKETING",
+          "destination": "marketing-engagements"
+        },
+        {
+          "label": "SETTINGS",
+          "destination": "/admin/site00/settings"
+        }
+      ]
+    },
+    {
+      "name": "ASSET VAULT NAV",
+      "file": "src/site00/assts/components/AsstsMobileNav.tsx:39-60",
+      "rendered": true,
+      "items": [
+        {
+          "label": "LIBRARY",
+          "destination": "/assts"
+        },
+        {
+          "label": "BATCHES",
+          "destination": "/assts/batches"
+        },
+        {
+          "label": "SEARCH",
+          "destination": "/assts/search"
+        },
+        {
+          "label": "NOTIFICATIONS",
+          "destination": "/assts/notifications"
+        },
+        {
+          "label": "PROFILE",
+          "destination": "/assts/profile"
+        }
+      ]
+    },
+    {
+      "name": "CLIENT APP NAV",
+      "file": "shared/site00-client-app/routes.ts:40-46; components/clientApp/Site00ClientAppShell.tsx:36-106",
+      "rendered": true,
+      "items": [
+        {
+          "label": "HOME",
+          "destination": "/app/projects/:slug"
+        },
+        {
+          "label": "PROJECTS",
+          "destination": "\u2026/projects"
+        },
+        {
+          "label": "REVIEWS",
+          "destination": "\u2026/reviews"
+        },
+        {
+          "label": "INBOX",
+          "destination": "\u2026/inbox"
+        },
+        {
+          "label": "PROFILE",
+          "destination": "\u2026/profile"
+        }
+      ]
+    },
+    {
+      "name": "CLIENT PROJECT ROOM NAV",
+      "file": "shared/site00-client-project-room/client.ts:15-21",
+      "rendered": true,
+      "items": [
+        {
+          "label": "OVERVIEW",
+          "destination": "/client/projects/:slug"
+        },
+        {
+          "label": "REVIEWS",
+          "destination": "/client/projects/:slug/reviews"
+        },
+        {
+          "label": "LIBRARY",
+          "destination": "/client/projects/:slug/library"
+        },
+        {
+          "label": "ACTIVITY",
+          "destination": "/client/projects/:slug/activity"
+        },
+        {
+          "label": "MESSAGES",
+          "destination": "/client/projects/:slug/messages"
+        }
+      ]
+    }
+  ],
+  "orphan_routes": [
+    {
+      "route": "/existing-location, /existing-location/start, /existing-location/case/:id/*",
+      "reason": "no inbound link anywhere"
+    },
+    {
+      "route": "/evolve/plans",
+      "reason": "only from client-app SelfDirectedViews"
+    },
+    {
+      "route": "/evolve/start",
+      "reason": "constant in routes.ts:24, no Route element (falls to '*' -> '/') and no references"
+    },
+    {
+      "route": "/guide /sound /faq /contact /brand /blueprints /account /origin/forgot-password /origin/reset-password",
+      "reason": "COMPOSER_DRAFT_ROUTES; guard redirects to '/' without ?preview=1"
+    },
+    {
+      "route": "/bldr/templates",
+      "reason": "only linked from draft-gated /blueprints"
+    },
+    {
+      "route": "/control/team",
+      "reason": "only in unrendered CTRL_ROOM_NAV"
+    },
+    {
+      "route": "/app, /app/projects, /app/preview/select",
+      "reason": "no inbound link from site/account"
+    },
+    {
+      "route": "/project/:slug/provisioning",
+      "reason": "admin-only link"
+    },
+    {
+      "route": "/system/design/workspace-concepts",
+      "reason": "internal, unguarded"
+    },
+    {
+      "route": "/loader-preview, /jurnl/f01/parent-assembly, /access/debug",
+      "reason": "dev/test surfaces publicly routable"
+    }
+  ],
+  "dead_ends": [
+    {
+      "route": "/system",
+      "reason": "no CTA"
+    },
+    {
+      "route": "/journal",
+      "reason": "empty seed, no CTA"
+    },
+    {
+      "route": "/support",
+      "reason": "mailto only; receives 'BOOK DISCOVERY CALL' traffic without booking"
+    },
+    {
+      "route": "/bldr/templates",
+      "reason": "empty"
+    },
+    {
+      "route": "/evolve/:path/complete",
+      "reason": "-> /control with no project/intake link"
+    },
+    {
+      "route": "/control/{domains,billing,team,settings,security}",
+      "reason": "stub ControlSectionPage"
+    },
+    {
+      "route": "/origin status strip NEED GUIDANCE",
+      "reason": "button with no handler (StatusStrip.tsx:48-50)"
+    }
+  ],
+  "routes_only_direct": [
+    "/intake/:token",
+    "/intake/access/:token",
+    "/access/:credentialId",
+    "/client/projects/:slug (only via review links)",
+    "/studio/:slug/* (from provisioning/admin)",
+    "/projects/:slug/* internal STUDIO OS modules",
+    "/existing-location/*",
+    "/evolve/marketing/intake|brief|engagement/*",
+    "all ?preview=1 draft pages"
+  ],
+  "broken_links": [
+    {
+      "from": "Site00PageFooter.tsx:9",
+      "to": "/brand/privacy",
+      "reason": "no route -> App '*' -> '/'"
+    },
+    {
+      "from": "Site00PageFooter.tsx:10 / Site00AuthShell.tsx:96-97",
+      "to": "/brand/terms",
+      "reason": "no route; PRIVACY label also points to terms"
+    },
+    {
+      "from": "Site00AuthShell.tsx:98",
+      "to": "/brand/contact",
+      "reason": "no route"
+    },
+    {
+      "from": "EvolvePricing{Desktop:119,Mobile:89}Experience.tsx",
+      "to": "/contact?offer=consult",
+      "reason": "draft guard redirects to '/' (no preview param)"
+    },
+    {
+      "from": "site00SignInActions.ts:207 (password reset email)",
+      "to": "/account/settings",
+      "reason": "no route -> '/' ; reset token flow lost"
+    },
+    {
+      "from": "JournalPage.tsx:47",
+      "to": "/journal/:id",
+      "reason": "no route (latent; seed empty)"
+    },
+    {
+      "from": "SitesPortfolioPage.tsx:60",
+      "to": "/sites/:id",
+      "reason": "no route (latent; seed empty)"
+    },
+    {
+      "from": "site00-page-seed.ts:21-22",
+      "to": "/services#integrations, /services#forms",
+      "reason": "anchors don't exist (ids are 'ai','content')"
+    },
+    {
+      "from": "site00-page-seed.ts:56-63",
+      "to": "/support#*",
+      "reason": "no anchor ids on support page"
+    },
+    {
+      "from": "site00-page-seed.ts:79-85 (IDNTY hub modules)",
+      "to": "/control/settings#api-keys etc.",
+      "reason": "settings is stub"
+    },
+    {
+      "from": "OperatingWorldTopNav (ecosystem-nav.ts:24-25)",
+      "to": "/admin/site00/studio, /admin/site00/approvals",
+      "reason": "shown to clients; AdminGuard bounces non-admins to /control"
+    },
+    {
+      "from": "bldr-assessment.ts:287+ 'CREATE PROJECT'",
+      "to": "/projects",
+      "reason": "index only, no creation; mislabeled"
+    },
+    {
+      "from": "any desktop link to /origin/locations (fast travel RETURN, rail)",
+      "to": "/origin/locations",
+      "reason": "LocationsPage redirects to /origin when >767px"
+    }
+  ],
+  "deep_link_issues": [
+    "'/' renders ORIGIN only when VITE_SITE00_ROOT=1 (Site00Routes.tsx:547); otherwise '/' has no SITE 00 route and App '*' Navigate('/') loops.",
+    "Unknown paths all redirect to '/' (App.tsx:33) - no 404, so broken links are invisible.",
+    "/desktop legacy suffix: Site00PublicDesktopLegacyRedirect returns null (blank page) for bases not in SITE00_PUBLIC_PAGE_BASES - affects /guide/desktop, /sound/desktop, /faq/desktop, /contact/desktop, /blueprints/desktop, /account/desktop, /brand/desktop, /evolve/plans/desktop, /existing-location/desktop (Site00PublicWideDesktopRedirect.tsx:14-16 vs site00-public-pages.ts:6-20).",
+    "/desktop redirects permanently write sessionStorage preview mode 'desktop' (writeStoredPreviewDeviceMode) so a shared /desktop link forces desktop artboard on phones for the session.",
+    "Draft routes drop query (offer=consult) and send to '/' with state.draftBlocked - no user message.",
+    "/sites deep link for signed-in users force-redirects to /control/sites.",
+    "/idnty same URL renders public gateway or operating-world control center depending on auth.",
+    "/origin/locations deep link on desktop bounces to /origin.",
+    "Future namespaces /bluprint/*, /build/*, /live/* redirect to /origin (Site00Routes.tsx:2990-2992)."
+  ],
+  "back_behavior_notes": [
+    "No component uses navigate(-1); all back affordances are hard links: EXIT 00 -> /origin, auth BACK -> /origin, templates BACK -> /bldr, intake detail -> /account/intakes, origin expanded panels BACK collapse local state.",
+    "All redirects use replace, so browser back skips alias/legacy hops correctly.",
+    "Operating world (account) chrome has no route back to public world/ORIGIN on desktop (logo -> /control); mobile retains MOBILE_SITE_NAV ORIGIN bay.",
+    "Origin expanded panel state (homeMode) is not URL-encoded, so back button leaves origin instead of collapsing panel; authority manifest maps panels to '/' only.",
+    "Post sign-in default is /control regardless of entry intent when no returnTo."
+  ],
+  "dead_code_nav": [
+    "Site00PublicTopNav",
+    "Site00PublicSidebar (real)",
+    "Site00MobileMenuDrawer",
+    "Site00MobileNav",
+    "CtrlRoomSidebar",
+    "EcosystemSidebar",
+    "Site00EcosystemMobileNav",
+    "Site00PublicLayoutSwitch (isSite00LayoutPreviewSwitchEnabled() returns false)"
+  ]
+}

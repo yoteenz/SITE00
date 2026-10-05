@@ -1,0 +1,5974 @@
+{
+  "project_id": "site00",
+  "scenes": {
+    "01_ORIGIN_MAIN": [
+      {
+        "layer_id": "01_ORIGIN_MAIN_ENV.ORIGIN.COLLAPSED",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_ORIGIN_MAIN_LIVE_SVG_LINEWORK",
+          "01_ORIGIN_MAIN_CARD.ORIGIN.IDNTY",
+          "01_ORIGIN_MAIN_CARD.ORIGIN.BLDR",
+          "01_ORIGIN_MAIN_CARD.ORIGIN.EVOLVE",
+          "01_ORIGIN_MAIN_LIVE_HEADER",
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_ORIGIN_MAIN_LIVE_SVG_LINEWORK",
+          "01_ORIGIN_MAIN_LIVE_HEADER",
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.ORIGIN.COLLAPSED"
+      },
+      {
+        "layer_id": "01_ORIGIN_MAIN_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_ORIGIN_MAIN_ENV.ORIGIN.COLLAPSED",
+          "01_ORIGIN_MAIN_CARD.ORIGIN.IDNTY",
+          "01_ORIGIN_MAIN_CARD.ORIGIN.BLDR",
+          "01_ORIGIN_MAIN_CARD.ORIGIN.EVOLVE",
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_ORIGIN_MAIN_LIVE_HEADER",
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_ORIGIN_MAIN_CARD.ORIGIN.IDNTY",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.58,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 60,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_ORIGIN_MAIN_ENV.ORIGIN.COLLAPSED",
+          "01_ORIGIN_MAIN_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_ORIGIN_MAIN_LIVE_HEADER",
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.ORIGIN.IDNTY"
+      },
+      {
+        "layer_id": "01_ORIGIN_MAIN_CARD.ORIGIN.BLDR",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.54,
+          "y": 0.58,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 61,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_ORIGIN_MAIN_ENV.ORIGIN.COLLAPSED",
+          "01_ORIGIN_MAIN_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_ORIGIN_MAIN_LIVE_HEADER",
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.ORIGIN.BLDR"
+      },
+      {
+        "layer_id": "01_ORIGIN_MAIN_CARD.ORIGIN.EVOLVE",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.76,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 62,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_ORIGIN_MAIN_ENV.ORIGIN.COLLAPSED",
+          "01_ORIGIN_MAIN_LIVE_SVG_LINEWORK",
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_ORIGIN_MAIN_LIVE_HEADER",
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.ORIGIN.EVOLVE"
+      },
+      {
+        "layer_id": "01_ORIGIN_MAIN_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_ORIGIN_MAIN_ENV.ORIGIN.COLLAPSED"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_ORIGIN_MAIN_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_ORIGIN_MAIN_ENV.ORIGIN.COLLAPSED",
+          "01_ORIGIN_MAIN_LIVE_SVG_LINEWORK",
+          "01_ORIGIN_MAIN_CARD.ORIGIN.EVOLVE"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "02_ORIGIN_IDNTY_EXPANDED": [
+      {
+        "layer_id": "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_SVG_LINEWORK",
+          "02_ORIGIN_IDNTY_EXPANDED_ILLUSTRATION.ORIGIN.IDENTITY",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_HEADER",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_SVG_LINEWORK",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_HEADER",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.ORIGIN.EXPANDED"
+      },
+      {
+        "layer_id": "02_ORIGIN_IDNTY_EXPANDED_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "02_ORIGIN_IDNTY_EXPANDED_ILLUSTRATION.ORIGIN.IDENTITY",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_HEADER",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_ORIGIN_IDNTY_EXPANDED_ILLUSTRATION.ORIGIN.IDENTITY",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "excludes": [
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_HEADER",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.ORIGIN.IDENTITY"
+      },
+      {
+        "layer_id": "02_ORIGIN_IDNTY_EXPANDED_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_ORIGIN_IDNTY_EXPANDED_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_ORIGIN_IDNTY_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "02_ORIGIN_IDNTY_EXPANDED_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "03_ORIGIN_BLDR_EXPANDED": [
+      {
+        "layer_id": "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_SVG_LINEWORK",
+          "03_ORIGIN_BLDR_EXPANDED_ILLUSTRATION.ORIGIN.BLDR",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_HEADER",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_SVG_LINEWORK",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_HEADER",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.ORIGIN.EXPANDED"
+      },
+      {
+        "layer_id": "03_ORIGIN_BLDR_EXPANDED_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "03_ORIGIN_BLDR_EXPANDED_ILLUSTRATION.ORIGIN.BLDR",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_HEADER",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_ORIGIN_BLDR_EXPANDED_ILLUSTRATION.ORIGIN.BLDR",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "excludes": [
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_HEADER",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.ORIGIN.BLDR"
+      },
+      {
+        "layer_id": "03_ORIGIN_BLDR_EXPANDED_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_ORIGIN_BLDR_EXPANDED_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_ORIGIN_BLDR_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "03_ORIGIN_BLDR_EXPANDED_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "04_ORIGIN_EVOLVE_EXPANDED": [
+      {
+        "layer_id": "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_SVG_LINEWORK",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_HEADER",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_SVG_LINEWORK",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_HEADER",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.ORIGIN.EXPANDED"
+      },
+      {
+        "layer_id": "04_ORIGIN_EVOLVE_EXPANDED_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_HEADER",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_SVG_LINEWORK",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM"
+        ],
+        "depends_on": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "excludes": [
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_HEADER",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.ORIGIN.EVOLVE"
+      },
+      {
+        "layer_id": "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 51,
+        "parent": "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_SVG_LINEWORK",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM"
+        ],
+        "depends_on": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "excludes": [
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_HEADER",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE"
+      },
+      {
+        "layer_id": "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 52,
+        "parent": "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_SVG_LINEWORK",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM"
+        ],
+        "depends_on": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "excludes": [
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_HEADER",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL"
+      },
+      {
+        "layer_id": "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 53,
+        "parent": "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_SVG_LINEWORK",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
+          "04_ORIGIN_EVOLVE_EXPANDED_ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL"
+        ],
+        "depends_on": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "excludes": [
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_HEADER",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM"
+      },
+      {
+        "layer_id": "04_ORIGIN_EVOLVE_EXPANDED_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_ORIGIN_EVOLVE_EXPANDED_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_ORIGIN_EVOLVE_EXPANDED_ENV.ORIGIN.EXPANDED",
+          "04_ORIGIN_EVOLVE_EXPANDED_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "01_IDNTY_DIAGNOSTIC_OVERVIEW": [
+      {
+        "layer_id": "01_IDNTY_DIAGNOSTIC_OVERVIEW_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_SVG_LINEWORK",
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_HEADER",
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_SVG_LINEWORK",
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_HEADER",
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_ENV.IDNTY.ATRIUM",
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_HEADER",
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_ENV.IDNTY.ATRIUM",
+          "01_IDNTY_DIAGNOSTIC_OVERVIEW_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "02_IDNTY_STATE_00_FOUNDATION": [
+      {
+        "layer_id": "02_IDNTY_STATE_00_FOUNDATION_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_SVG_LINEWORK",
+          "02_IDNTY_STATE_00_FOUNDATION_MACHINE.IDNTY.FOUNDATION.ORB",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_HEADER",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_SVG_LINEWORK",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_HEADER",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "02_IDNTY_STATE_00_FOUNDATION_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_IDNTY_STATE_00_FOUNDATION_ENV.IDNTY.ATRIUM",
+          "02_IDNTY_STATE_00_FOUNDATION_MACHINE.IDNTY.FOUNDATION.ORB",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_HEADER",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_IDNTY_STATE_00_FOUNDATION_MACHINE.IDNTY.FOUNDATION.ORB",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "02_IDNTY_STATE_00_FOUNDATION_ENV.IDNTY.ATRIUM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_IDNTY_STATE_00_FOUNDATION_ENV.IDNTY.ATRIUM",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "02_IDNTY_STATE_00_FOUNDATION_ENV.IDNTY.ATRIUM"
+        ],
+        "excludes": [
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_HEADER",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.IDNTY.FOUNDATION.ORB"
+      },
+      {
+        "layer_id": "02_IDNTY_STATE_00_FOUNDATION_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_IDNTY_STATE_00_FOUNDATION_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_IDNTY_STATE_00_FOUNDATION_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_IDNTY_STATE_00_FOUNDATION_ENV.IDNTY.ATRIUM",
+          "02_IDNTY_STATE_00_FOUNDATION_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "03_IDNTY_STATE_01_REFINE": [
+      {
+        "layer_id": "03_IDNTY_STATE_01_REFINE_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_IDNTY_STATE_01_REFINE_LIVE_SVG_LINEWORK",
+          "03_IDNTY_STATE_01_REFINE_MACHINE.IDNTY.PARTIAL.LATTICE",
+          "03_IDNTY_STATE_01_REFINE_LIVE_HEADER",
+          "03_IDNTY_STATE_01_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_IDNTY_STATE_01_REFINE_LIVE_SVG_LINEWORK",
+          "03_IDNTY_STATE_01_REFINE_LIVE_HEADER",
+          "03_IDNTY_STATE_01_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "03_IDNTY_STATE_01_REFINE_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_IDNTY_STATE_01_REFINE_ENV.IDNTY.ATRIUM",
+          "03_IDNTY_STATE_01_REFINE_MACHINE.IDNTY.PARTIAL.LATTICE",
+          "03_IDNTY_STATE_01_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_IDNTY_STATE_01_REFINE_LIVE_HEADER",
+          "03_IDNTY_STATE_01_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_IDNTY_STATE_01_REFINE_MACHINE.IDNTY.PARTIAL.LATTICE",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "03_IDNTY_STATE_01_REFINE_ENV.IDNTY.ATRIUM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_IDNTY_STATE_01_REFINE_ENV.IDNTY.ATRIUM",
+          "03_IDNTY_STATE_01_REFINE_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "03_IDNTY_STATE_01_REFINE_ENV.IDNTY.ATRIUM"
+        ],
+        "excludes": [
+          "03_IDNTY_STATE_01_REFINE_LIVE_HEADER",
+          "03_IDNTY_STATE_01_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.IDNTY.PARTIAL.LATTICE"
+      },
+      {
+        "layer_id": "03_IDNTY_STATE_01_REFINE_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_IDNTY_STATE_01_REFINE_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_IDNTY_STATE_01_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_IDNTY_STATE_01_REFINE_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_IDNTY_STATE_01_REFINE_ENV.IDNTY.ATRIUM",
+          "03_IDNTY_STATE_01_REFINE_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "04_IDNTY_STATE_02_EVOLUTION": [
+      {
+        "layer_id": "04_IDNTY_STATE_02_EVOLUTION_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_SVG_LINEWORK",
+          "04_IDNTY_STATE_02_EVOLUTION_MACHINE.IDNTY.EVOLUTION.WAVES",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_HEADER",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_SVG_LINEWORK",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_HEADER",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "04_IDNTY_STATE_02_EVOLUTION_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_IDNTY_STATE_02_EVOLUTION_ENV.IDNTY.ATRIUM",
+          "04_IDNTY_STATE_02_EVOLUTION_MACHINE.IDNTY.EVOLUTION.WAVES",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_HEADER",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_IDNTY_STATE_02_EVOLUTION_MACHINE.IDNTY.EVOLUTION.WAVES",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "04_IDNTY_STATE_02_EVOLUTION_ENV.IDNTY.ATRIUM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_IDNTY_STATE_02_EVOLUTION_ENV.IDNTY.ATRIUM",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "04_IDNTY_STATE_02_EVOLUTION_ENV.IDNTY.ATRIUM"
+        ],
+        "excludes": [
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_HEADER",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.IDNTY.EVOLUTION.WAVES"
+      },
+      {
+        "layer_id": "04_IDNTY_STATE_02_EVOLUTION_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_IDNTY_STATE_02_EVOLUTION_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_IDNTY_STATE_02_EVOLUTION_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_IDNTY_STATE_02_EVOLUTION_ENV.IDNTY.ATRIUM",
+          "04_IDNTY_STATE_02_EVOLUTION_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "05_IDNTY_STATE_03_BUILD_READY": [
+      {
+        "layer_id": "05_IDNTY_STATE_03_BUILD_READY_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_SVG_LINEWORK",
+          "05_IDNTY_STATE_03_BUILD_READY_MACHINE.IDNTY.AUTHORITY.STAR",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_HEADER",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_SVG_LINEWORK",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_HEADER",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "05_IDNTY_STATE_03_BUILD_READY_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_IDNTY_STATE_03_BUILD_READY_ENV.IDNTY.ATRIUM",
+          "05_IDNTY_STATE_03_BUILD_READY_MACHINE.IDNTY.AUTHORITY.STAR",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_HEADER",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "05_IDNTY_STATE_03_BUILD_READY_MACHINE.IDNTY.AUTHORITY.STAR",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "05_IDNTY_STATE_03_BUILD_READY_ENV.IDNTY.ATRIUM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "05_IDNTY_STATE_03_BUILD_READY_ENV.IDNTY.ATRIUM",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "05_IDNTY_STATE_03_BUILD_READY_ENV.IDNTY.ATRIUM"
+        ],
+        "excludes": [
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_HEADER",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.IDNTY.AUTHORITY.STAR"
+      },
+      {
+        "layer_id": "05_IDNTY_STATE_03_BUILD_READY_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_IDNTY_STATE_03_BUILD_READY_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "05_IDNTY_STATE_03_BUILD_READY_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_IDNTY_STATE_03_BUILD_READY_ENV.IDNTY.ATRIUM",
+          "05_IDNTY_STATE_03_BUILD_READY_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "01_FOUNDATION_PRIMARY_GOAL": [
+      {
+        "layer_id": "01_FOUNDATION_PRIMARY_GOAL_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_SVG_LINEWORK",
+          "01_FOUNDATION_PRIMARY_GOAL_MACHINE.IDNTY.FOUNDATION.ORB",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_HEADER",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_SVG_LINEWORK",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_HEADER",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "01_FOUNDATION_PRIMARY_GOAL_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_FOUNDATION_PRIMARY_GOAL_ENV.IDNTY.ATRIUM",
+          "01_FOUNDATION_PRIMARY_GOAL_MACHINE.IDNTY.FOUNDATION.ORB",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_HEADER",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_FOUNDATION_PRIMARY_GOAL_MACHINE.IDNTY.FOUNDATION.ORB",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "01_FOUNDATION_PRIMARY_GOAL_ENV.IDNTY.ATRIUM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_FOUNDATION_PRIMARY_GOAL_ENV.IDNTY.ATRIUM",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "01_FOUNDATION_PRIMARY_GOAL_ENV.IDNTY.ATRIUM"
+        ],
+        "excludes": [
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_HEADER",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.IDNTY.FOUNDATION.ORB"
+      },
+      {
+        "layer_id": "01_FOUNDATION_PRIMARY_GOAL_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_FOUNDATION_PRIMARY_GOAL_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_FOUNDATION_PRIMARY_GOAL_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_FOUNDATION_PRIMARY_GOAL_ENV.IDNTY.ATRIUM",
+          "01_FOUNDATION_PRIMARY_GOAL_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "02_FOUNDATION_AUDIENCE": [
+      {
+        "layer_id": "02_FOUNDATION_AUDIENCE_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_FOUNDATION_AUDIENCE_LIVE_SVG_LINEWORK",
+          "02_FOUNDATION_AUDIENCE_LIVE_HEADER",
+          "02_FOUNDATION_AUDIENCE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_FOUNDATION_AUDIENCE_LIVE_SVG_LINEWORK",
+          "02_FOUNDATION_AUDIENCE_LIVE_HEADER",
+          "02_FOUNDATION_AUDIENCE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "02_FOUNDATION_AUDIENCE_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_FOUNDATION_AUDIENCE_ENV.IDNTY.ATRIUM",
+          "02_FOUNDATION_AUDIENCE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_FOUNDATION_AUDIENCE_LIVE_HEADER",
+          "02_FOUNDATION_AUDIENCE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_FOUNDATION_AUDIENCE_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_FOUNDATION_AUDIENCE_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_FOUNDATION_AUDIENCE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_FOUNDATION_AUDIENCE_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_FOUNDATION_AUDIENCE_ENV.IDNTY.ATRIUM",
+          "02_FOUNDATION_AUDIENCE_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "03_FOUNDATION_TIMELINE": [
+      {
+        "layer_id": "03_FOUNDATION_TIMELINE_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_FOUNDATION_TIMELINE_LIVE_SVG_LINEWORK",
+          "03_FOUNDATION_TIMELINE_LIVE_HEADER",
+          "03_FOUNDATION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_FOUNDATION_TIMELINE_LIVE_SVG_LINEWORK",
+          "03_FOUNDATION_TIMELINE_LIVE_HEADER",
+          "03_FOUNDATION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "03_FOUNDATION_TIMELINE_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_FOUNDATION_TIMELINE_ENV.IDNTY.ATRIUM",
+          "03_FOUNDATION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_FOUNDATION_TIMELINE_LIVE_HEADER",
+          "03_FOUNDATION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_FOUNDATION_TIMELINE_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_FOUNDATION_TIMELINE_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_FOUNDATION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_FOUNDATION_TIMELINE_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_FOUNDATION_TIMELINE_ENV.IDNTY.ATRIUM",
+          "03_FOUNDATION_TIMELINE_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "04_FOUNDATION_BUDGET": [
+      {
+        "layer_id": "04_FOUNDATION_BUDGET_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_FOUNDATION_BUDGET_LIVE_SVG_LINEWORK",
+          "04_FOUNDATION_BUDGET_LIVE_HEADER",
+          "04_FOUNDATION_BUDGET_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_FOUNDATION_BUDGET_LIVE_SVG_LINEWORK",
+          "04_FOUNDATION_BUDGET_LIVE_HEADER",
+          "04_FOUNDATION_BUDGET_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "04_FOUNDATION_BUDGET_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_FOUNDATION_BUDGET_ENV.IDNTY.ATRIUM",
+          "04_FOUNDATION_BUDGET_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_FOUNDATION_BUDGET_LIVE_HEADER",
+          "04_FOUNDATION_BUDGET_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_FOUNDATION_BUDGET_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_FOUNDATION_BUDGET_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_FOUNDATION_BUDGET_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_FOUNDATION_BUDGET_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_FOUNDATION_BUDGET_ENV.IDNTY.ATRIUM",
+          "04_FOUNDATION_BUDGET_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "05_FOUNDATION_REVIEW": [
+      {
+        "layer_id": "05_FOUNDATION_REVIEW_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "05_FOUNDATION_REVIEW_LIVE_SVG_LINEWORK",
+          "05_FOUNDATION_REVIEW_LIVE_HEADER",
+          "05_FOUNDATION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_FOUNDATION_REVIEW_LIVE_SVG_LINEWORK",
+          "05_FOUNDATION_REVIEW_LIVE_HEADER",
+          "05_FOUNDATION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "05_FOUNDATION_REVIEW_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_FOUNDATION_REVIEW_ENV.IDNTY.ATRIUM",
+          "05_FOUNDATION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_FOUNDATION_REVIEW_LIVE_HEADER",
+          "05_FOUNDATION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "05_FOUNDATION_REVIEW_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_FOUNDATION_REVIEW_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_FOUNDATION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "05_FOUNDATION_REVIEW_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_FOUNDATION_REVIEW_ENV.IDNTY.ATRIUM",
+          "05_FOUNDATION_REVIEW_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "01_REFINE_EXISTING_ASSETS": [
+      {
+        "layer_id": "01_REFINE_EXISTING_ASSETS_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_REFINE_EXISTING_ASSETS_LIVE_SVG_LINEWORK",
+          "01_REFINE_EXISTING_ASSETS_MACHINE.IDNTY.PARTIAL.LATTICE",
+          "01_REFINE_EXISTING_ASSETS_LIVE_HEADER",
+          "01_REFINE_EXISTING_ASSETS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_REFINE_EXISTING_ASSETS_LIVE_SVG_LINEWORK",
+          "01_REFINE_EXISTING_ASSETS_LIVE_HEADER",
+          "01_REFINE_EXISTING_ASSETS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "01_REFINE_EXISTING_ASSETS_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_REFINE_EXISTING_ASSETS_ENV.IDNTY.ATRIUM",
+          "01_REFINE_EXISTING_ASSETS_MACHINE.IDNTY.PARTIAL.LATTICE",
+          "01_REFINE_EXISTING_ASSETS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_REFINE_EXISTING_ASSETS_LIVE_HEADER",
+          "01_REFINE_EXISTING_ASSETS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_REFINE_EXISTING_ASSETS_MACHINE.IDNTY.PARTIAL.LATTICE",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "01_REFINE_EXISTING_ASSETS_ENV.IDNTY.ATRIUM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_REFINE_EXISTING_ASSETS_ENV.IDNTY.ATRIUM",
+          "01_REFINE_EXISTING_ASSETS_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "01_REFINE_EXISTING_ASSETS_ENV.IDNTY.ATRIUM"
+        ],
+        "excludes": [
+          "01_REFINE_EXISTING_ASSETS_LIVE_HEADER",
+          "01_REFINE_EXISTING_ASSETS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.IDNTY.PARTIAL.LATTICE"
+      },
+      {
+        "layer_id": "01_REFINE_EXISTING_ASSETS_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_REFINE_EXISTING_ASSETS_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_REFINE_EXISTING_ASSETS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_REFINE_EXISTING_ASSETS_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_REFINE_EXISTING_ASSETS_ENV.IDNTY.ATRIUM",
+          "01_REFINE_EXISTING_ASSETS_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "02_REFINE_CONDITION": [
+      {
+        "layer_id": "02_REFINE_CONDITION_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_REFINE_CONDITION_LIVE_SVG_LINEWORK",
+          "02_REFINE_CONDITION_LIVE_HEADER",
+          "02_REFINE_CONDITION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_REFINE_CONDITION_LIVE_SVG_LINEWORK",
+          "02_REFINE_CONDITION_LIVE_HEADER",
+          "02_REFINE_CONDITION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "02_REFINE_CONDITION_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_REFINE_CONDITION_ENV.IDNTY.ATRIUM",
+          "02_REFINE_CONDITION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_REFINE_CONDITION_LIVE_HEADER",
+          "02_REFINE_CONDITION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_REFINE_CONDITION_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_REFINE_CONDITION_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_REFINE_CONDITION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_REFINE_CONDITION_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_REFINE_CONDITION_ENV.IDNTY.ATRIUM",
+          "02_REFINE_CONDITION_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "03_REFINE_GAPS": [
+      {
+        "layer_id": "03_REFINE_GAPS_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_REFINE_GAPS_LIVE_SVG_LINEWORK",
+          "03_REFINE_GAPS_LIVE_HEADER",
+          "03_REFINE_GAPS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_REFINE_GAPS_LIVE_SVG_LINEWORK",
+          "03_REFINE_GAPS_LIVE_HEADER",
+          "03_REFINE_GAPS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "03_REFINE_GAPS_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_REFINE_GAPS_ENV.IDNTY.ATRIUM",
+          "03_REFINE_GAPS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_REFINE_GAPS_LIVE_HEADER",
+          "03_REFINE_GAPS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_REFINE_GAPS_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_REFINE_GAPS_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_REFINE_GAPS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_REFINE_GAPS_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_REFINE_GAPS_ENV.IDNTY.ATRIUM",
+          "03_REFINE_GAPS_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "04_REFINE_REVIEW": [
+      {
+        "layer_id": "04_REFINE_REVIEW_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_REFINE_REVIEW_LIVE_SVG_LINEWORK",
+          "04_REFINE_REVIEW_LIVE_HEADER",
+          "04_REFINE_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_REFINE_REVIEW_LIVE_SVG_LINEWORK",
+          "04_REFINE_REVIEW_LIVE_HEADER",
+          "04_REFINE_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "04_REFINE_REVIEW_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_REFINE_REVIEW_ENV.IDNTY.ATRIUM",
+          "04_REFINE_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_REFINE_REVIEW_LIVE_HEADER",
+          "04_REFINE_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_REFINE_REVIEW_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_REFINE_REVIEW_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_REFINE_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_REFINE_REVIEW_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_REFINE_REVIEW_ENV.IDNTY.ATRIUM",
+          "04_REFINE_REVIEW_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "01_EVOLUTION_AREAS": [
+      {
+        "layer_id": "01_EVOLUTION_AREAS_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_EVOLUTION_AREAS_LIVE_SVG_LINEWORK",
+          "01_EVOLUTION_AREAS_MACHINE.IDNTY.EVOLUTION.WAVES",
+          "01_EVOLUTION_AREAS_LIVE_HEADER",
+          "01_EVOLUTION_AREAS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLUTION_AREAS_LIVE_SVG_LINEWORK",
+          "01_EVOLUTION_AREAS_LIVE_HEADER",
+          "01_EVOLUTION_AREAS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "01_EVOLUTION_AREAS_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_EVOLUTION_AREAS_ENV.IDNTY.ATRIUM",
+          "01_EVOLUTION_AREAS_MACHINE.IDNTY.EVOLUTION.WAVES",
+          "01_EVOLUTION_AREAS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLUTION_AREAS_LIVE_HEADER",
+          "01_EVOLUTION_AREAS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_EVOLUTION_AREAS_MACHINE.IDNTY.EVOLUTION.WAVES",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "01_EVOLUTION_AREAS_ENV.IDNTY.ATRIUM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_EVOLUTION_AREAS_ENV.IDNTY.ATRIUM",
+          "01_EVOLUTION_AREAS_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "01_EVOLUTION_AREAS_ENV.IDNTY.ATRIUM"
+        ],
+        "excludes": [
+          "01_EVOLUTION_AREAS_LIVE_HEADER",
+          "01_EVOLUTION_AREAS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.IDNTY.EVOLUTION.WAVES"
+      },
+      {
+        "layer_id": "01_EVOLUTION_AREAS_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_EVOLUTION_AREAS_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLUTION_AREAS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_EVOLUTION_AREAS_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_EVOLUTION_AREAS_ENV.IDNTY.ATRIUM",
+          "01_EVOLUTION_AREAS_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "02_EVOLUTION_GOALS": [
+      {
+        "layer_id": "02_EVOLUTION_GOALS_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_EVOLUTION_GOALS_LIVE_SVG_LINEWORK",
+          "02_EVOLUTION_GOALS_LIVE_HEADER",
+          "02_EVOLUTION_GOALS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_EVOLUTION_GOALS_LIVE_SVG_LINEWORK",
+          "02_EVOLUTION_GOALS_LIVE_HEADER",
+          "02_EVOLUTION_GOALS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "02_EVOLUTION_GOALS_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_EVOLUTION_GOALS_ENV.IDNTY.ATRIUM",
+          "02_EVOLUTION_GOALS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_EVOLUTION_GOALS_LIVE_HEADER",
+          "02_EVOLUTION_GOALS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_EVOLUTION_GOALS_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_EVOLUTION_GOALS_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_EVOLUTION_GOALS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_EVOLUTION_GOALS_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_EVOLUTION_GOALS_ENV.IDNTY.ATRIUM",
+          "02_EVOLUTION_GOALS_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "03_EVOLUTION_TIMELINE": [
+      {
+        "layer_id": "03_EVOLUTION_TIMELINE_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_EVOLUTION_TIMELINE_LIVE_SVG_LINEWORK",
+          "03_EVOLUTION_TIMELINE_LIVE_HEADER",
+          "03_EVOLUTION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_EVOLUTION_TIMELINE_LIVE_SVG_LINEWORK",
+          "03_EVOLUTION_TIMELINE_LIVE_HEADER",
+          "03_EVOLUTION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "03_EVOLUTION_TIMELINE_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_EVOLUTION_TIMELINE_ENV.IDNTY.ATRIUM",
+          "03_EVOLUTION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_EVOLUTION_TIMELINE_LIVE_HEADER",
+          "03_EVOLUTION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_EVOLUTION_TIMELINE_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_EVOLUTION_TIMELINE_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_EVOLUTION_TIMELINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_EVOLUTION_TIMELINE_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_EVOLUTION_TIMELINE_ENV.IDNTY.ATRIUM",
+          "03_EVOLUTION_TIMELINE_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "04_EVOLUTION_REVIEW": [
+      {
+        "layer_id": "04_EVOLUTION_REVIEW_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_EVOLUTION_REVIEW_LIVE_SVG_LINEWORK",
+          "04_EVOLUTION_REVIEW_LIVE_HEADER",
+          "04_EVOLUTION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_EVOLUTION_REVIEW_LIVE_SVG_LINEWORK",
+          "04_EVOLUTION_REVIEW_LIVE_HEADER",
+          "04_EVOLUTION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "04_EVOLUTION_REVIEW_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_EVOLUTION_REVIEW_ENV.IDNTY.ATRIUM",
+          "04_EVOLUTION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_EVOLUTION_REVIEW_LIVE_HEADER",
+          "04_EVOLUTION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_EVOLUTION_REVIEW_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_EVOLUTION_REVIEW_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_EVOLUTION_REVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_EVOLUTION_REVIEW_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_EVOLUTION_REVIEW_ENV.IDNTY.ATRIUM",
+          "04_EVOLUTION_REVIEW_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "01_BUILD_READY_VERIFICATION": [
+      {
+        "layer_id": "01_BUILD_READY_VERIFICATION_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_BUILD_READY_VERIFICATION_LIVE_SVG_LINEWORK",
+          "01_BUILD_READY_VERIFICATION_MACHINE.IDNTY.AUTHORITY.STAR",
+          "01_BUILD_READY_VERIFICATION_LIVE_HEADER",
+          "01_BUILD_READY_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BUILD_READY_VERIFICATION_LIVE_SVG_LINEWORK",
+          "01_BUILD_READY_VERIFICATION_LIVE_HEADER",
+          "01_BUILD_READY_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "01_BUILD_READY_VERIFICATION_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_BUILD_READY_VERIFICATION_ENV.IDNTY.ATRIUM",
+          "01_BUILD_READY_VERIFICATION_MACHINE.IDNTY.AUTHORITY.STAR",
+          "01_BUILD_READY_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BUILD_READY_VERIFICATION_LIVE_HEADER",
+          "01_BUILD_READY_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_BUILD_READY_VERIFICATION_MACHINE.IDNTY.AUTHORITY.STAR",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "01_BUILD_READY_VERIFICATION_ENV.IDNTY.ATRIUM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_BUILD_READY_VERIFICATION_ENV.IDNTY.ATRIUM",
+          "01_BUILD_READY_VERIFICATION_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [
+          "01_BUILD_READY_VERIFICATION_ENV.IDNTY.ATRIUM"
+        ],
+        "excludes": [
+          "01_BUILD_READY_VERIFICATION_LIVE_HEADER",
+          "01_BUILD_READY_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.IDNTY.AUTHORITY.STAR"
+      },
+      {
+        "layer_id": "01_BUILD_READY_VERIFICATION_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_BUILD_READY_VERIFICATION_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BUILD_READY_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_BUILD_READY_VERIFICATION_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_BUILD_READY_VERIFICATION_ENV.IDNTY.ATRIUM",
+          "01_BUILD_READY_VERIFICATION_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "02_BUILD_READY_EVIDENCE": [
+      {
+        "layer_id": "02_BUILD_READY_EVIDENCE_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_BUILD_READY_EVIDENCE_LIVE_SVG_LINEWORK",
+          "02_BUILD_READY_EVIDENCE_LIVE_HEADER",
+          "02_BUILD_READY_EVIDENCE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_BUILD_READY_EVIDENCE_LIVE_SVG_LINEWORK",
+          "02_BUILD_READY_EVIDENCE_LIVE_HEADER",
+          "02_BUILD_READY_EVIDENCE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "02_BUILD_READY_EVIDENCE_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_BUILD_READY_EVIDENCE_ENV.IDNTY.ATRIUM",
+          "02_BUILD_READY_EVIDENCE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_BUILD_READY_EVIDENCE_LIVE_HEADER",
+          "02_BUILD_READY_EVIDENCE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_BUILD_READY_EVIDENCE_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_BUILD_READY_EVIDENCE_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_BUILD_READY_EVIDENCE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_BUILD_READY_EVIDENCE_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_BUILD_READY_EVIDENCE_ENV.IDNTY.ATRIUM",
+          "02_BUILD_READY_EVIDENCE_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "03_BUILD_READY_AUTHORITY_CHECK": [
+      {
+        "layer_id": "03_BUILD_READY_AUTHORITY_CHECK_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_SVG_LINEWORK",
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_HEADER",
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_SVG_LINEWORK",
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_HEADER",
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "03_BUILD_READY_AUTHORITY_CHECK_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_BUILD_READY_AUTHORITY_CHECK_ENV.IDNTY.ATRIUM",
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_HEADER",
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_BUILD_READY_AUTHORITY_CHECK_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_BUILD_READY_AUTHORITY_CHECK_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_BUILD_READY_AUTHORITY_CHECK_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_BUILD_READY_AUTHORITY_CHECK_ENV.IDNTY.ATRIUM",
+          "03_BUILD_READY_AUTHORITY_CHECK_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "04_BUILD_READY_REVIEW_VERIFICATION": [
+      {
+        "layer_id": "04_BUILD_READY_REVIEW_VERIFICATION_ENV.IDNTY.ATRIUM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_SVG_LINEWORK",
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_HEADER",
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_SVG_LINEWORK",
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_HEADER",
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.IDNTY.ATRIUM"
+      },
+      {
+        "layer_id": "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_BUILD_READY_REVIEW_VERIFICATION_ENV.IDNTY.ATRIUM",
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_HEADER",
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_BUILD_READY_REVIEW_VERIFICATION_ENV.IDNTY.ATRIUM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_BUILD_READY_REVIEW_VERIFICATION_ENV.IDNTY.ATRIUM",
+          "04_BUILD_READY_REVIEW_VERIFICATION_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "01_BLDR_COMMAND_CENTER": [
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_MACHINE.BLDR.TOWER",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SITE",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.WORLD",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SYSTEMS",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.EXTENSIONS",
+          "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.BLDR.COMMAND_CENTER"
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+          "01_BLDR_COMMAND_CENTER_MACHINE.BLDR.TOWER",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SITE",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.WORLD",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SYSTEMS",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.EXTENSIONS",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_MACHINE.BLDR.TOWER",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SITE",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.WORLD",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER"
+        ],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.BLDR.TOWER"
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SITE",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.58,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 60,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_MACHINE.BLDR.TOWER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.BLDR.PATH.SITE"
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.WORLD",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.54,
+          "y": 0.58,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 61,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_MACHINE.BLDR.TOWER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.BLDR.PATH.WORLD"
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SYSTEMS",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.76,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 62,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.BLDR.PATH.SYSTEMS"
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.EXTENSIONS",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.54,
+          "y": 0.76,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 63,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.BLDR.PATH.EXTENSIONS"
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_MACHINE.BLDR.TOWER",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SITE",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.WORLD",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SYSTEMS",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.EXTENSIONS"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_BLDR_COMMAND_CENTER_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_BLDR_COMMAND_CENTER_ENV.BLDR.COMMAND_CENTER",
+          "01_BLDR_COMMAND_CENTER_LIVE_SVG_LINEWORK",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.SYSTEMS",
+          "01_BLDR_COMMAND_CENTER_CARD.BLDR.PATH.EXTENSIONS"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "02_BLDR_OVERVIEW": [
+      {
+        "layer_id": "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_BLDR_OVERVIEW_LIVE_SVG_LINEWORK",
+          "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW",
+          "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "02_BLDR_OVERVIEW_LIVE_HEADER",
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS",
+          "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_BLDR_OVERVIEW_LIVE_SVG_LINEWORK",
+          "02_BLDR_OVERVIEW_LIVE_HEADER",
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS",
+          "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.BLDR.PATH.OVERVIEW"
+      },
+      {
+        "layer_id": "02_BLDR_OVERVIEW_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW",
+          "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW",
+          "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS",
+          "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_BLDR_OVERVIEW_LIVE_HEADER",
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS",
+          "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW",
+          "02_BLDR_OVERVIEW_LIVE_SVG_LINEWORK",
+          "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW"
+        ],
+        "excludes": [
+          "02_BLDR_OVERVIEW_LIVE_HEADER",
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS",
+          "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW"
+      },
+      {
+        "layer_id": "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 51,
+        "parent": "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW",
+          "02_BLDR_OVERVIEW_LIVE_SVG_LINEWORK",
+          "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW",
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW"
+        ],
+        "excludes": [
+          "02_BLDR_OVERVIEW_LIVE_HEADER",
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS",
+          "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      },
+      {
+        "layer_id": "02_BLDR_OVERVIEW_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS",
+          "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_BLDR_OVERVIEW_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW",
+          "02_BLDR_OVERVIEW_LIVE_SVG_LINEWORK",
+          "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW",
+          "02_BLDR_OVERVIEW_ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_BLDR_OVERVIEW_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_BLDR_OVERVIEW_ENV.BLDR.PATH.OVERVIEW",
+          "02_BLDR_OVERVIEW_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "03_BLDR_SITE": [
+      {
+        "layer_id": "03_BLDR_SITE_ENV.BLDR.PATH.SITE",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_BLDR_SITE_LIVE_SVG_LINEWORK",
+          "03_BLDR_SITE_ILLUSTRATION.BLDR.PATH.PANEL.SITE",
+          "03_BLDR_SITE_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "03_BLDR_SITE_LIVE_HEADER",
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS",
+          "03_BLDR_SITE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_BLDR_SITE_LIVE_SVG_LINEWORK",
+          "03_BLDR_SITE_LIVE_HEADER",
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS",
+          "03_BLDR_SITE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.BLDR.PATH.SITE"
+      },
+      {
+        "layer_id": "03_BLDR_SITE_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_BLDR_SITE_ENV.BLDR.PATH.SITE",
+          "03_BLDR_SITE_ILLUSTRATION.BLDR.PATH.PANEL.SITE",
+          "03_BLDR_SITE_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS",
+          "03_BLDR_SITE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_BLDR_SITE_LIVE_HEADER",
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS",
+          "03_BLDR_SITE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_BLDR_SITE_ILLUSTRATION.BLDR.PATH.PANEL.SITE",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "03_BLDR_SITE_ENV.BLDR.PATH.SITE",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_BLDR_SITE_ENV.BLDR.PATH.SITE",
+          "03_BLDR_SITE_LIVE_SVG_LINEWORK",
+          "03_BLDR_SITE_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "03_BLDR_SITE_ENV.BLDR.PATH.SITE"
+        ],
+        "excludes": [
+          "03_BLDR_SITE_LIVE_HEADER",
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS",
+          "03_BLDR_SITE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.PATH.PANEL.SITE"
+      },
+      {
+        "layer_id": "03_BLDR_SITE_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 51,
+        "parent": "03_BLDR_SITE_ENV.BLDR.PATH.SITE",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_BLDR_SITE_ENV.BLDR.PATH.SITE",
+          "03_BLDR_SITE_LIVE_SVG_LINEWORK",
+          "03_BLDR_SITE_ILLUSTRATION.BLDR.PATH.PANEL.SITE",
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "03_BLDR_SITE_ENV.BLDR.PATH.SITE"
+        ],
+        "excludes": [
+          "03_BLDR_SITE_LIVE_HEADER",
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS",
+          "03_BLDR_SITE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      },
+      {
+        "layer_id": "03_BLDR_SITE_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_BLDR_SITE_ENV.BLDR.PATH.SITE"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_BLDR_SITE_LIVE_ROUTE_SELECTORS",
+          "03_BLDR_SITE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_BLDR_SITE_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_BLDR_SITE_ENV.BLDR.PATH.SITE",
+          "03_BLDR_SITE_LIVE_SVG_LINEWORK",
+          "03_BLDR_SITE_ILLUSTRATION.BLDR.PATH.PANEL.SITE",
+          "03_BLDR_SITE_ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_BLDR_SITE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_BLDR_SITE_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_BLDR_SITE_ENV.BLDR.PATH.SITE",
+          "03_BLDR_SITE_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "04_BLDR_WORLD": [
+      {
+        "layer_id": "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_BLDR_WORLD_LIVE_SVG_LINEWORK",
+          "04_BLDR_WORLD_ILLUSTRATION.BLDR.PATH.PANEL.WORLD",
+          "04_BLDR_WORLD_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "04_BLDR_WORLD_LIVE_HEADER",
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS",
+          "04_BLDR_WORLD_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_BLDR_WORLD_LIVE_SVG_LINEWORK",
+          "04_BLDR_WORLD_LIVE_HEADER",
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS",
+          "04_BLDR_WORLD_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.BLDR.PATH.WORLD"
+      },
+      {
+        "layer_id": "04_BLDR_WORLD_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD",
+          "04_BLDR_WORLD_ILLUSTRATION.BLDR.PATH.PANEL.WORLD",
+          "04_BLDR_WORLD_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS",
+          "04_BLDR_WORLD_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_BLDR_WORLD_LIVE_HEADER",
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS",
+          "04_BLDR_WORLD_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_BLDR_WORLD_ILLUSTRATION.BLDR.PATH.PANEL.WORLD",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD",
+          "04_BLDR_WORLD_LIVE_SVG_LINEWORK",
+          "04_BLDR_WORLD_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD"
+        ],
+        "excludes": [
+          "04_BLDR_WORLD_LIVE_HEADER",
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS",
+          "04_BLDR_WORLD_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.PATH.PANEL.WORLD"
+      },
+      {
+        "layer_id": "04_BLDR_WORLD_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 51,
+        "parent": "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD",
+          "04_BLDR_WORLD_LIVE_SVG_LINEWORK",
+          "04_BLDR_WORLD_ILLUSTRATION.BLDR.PATH.PANEL.WORLD",
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD"
+        ],
+        "excludes": [
+          "04_BLDR_WORLD_LIVE_HEADER",
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS",
+          "04_BLDR_WORLD_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      },
+      {
+        "layer_id": "04_BLDR_WORLD_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS",
+          "04_BLDR_WORLD_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_BLDR_WORLD_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD",
+          "04_BLDR_WORLD_LIVE_SVG_LINEWORK",
+          "04_BLDR_WORLD_ILLUSTRATION.BLDR.PATH.PANEL.WORLD",
+          "04_BLDR_WORLD_ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_BLDR_WORLD_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_BLDR_WORLD_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_BLDR_WORLD_ENV.BLDR.PATH.WORLD",
+          "04_BLDR_WORLD_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "05_BLDR_SYSTEMS": [
+      {
+        "layer_id": "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "05_BLDR_SYSTEMS_LIVE_SVG_LINEWORK",
+          "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS",
+          "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "05_BLDR_SYSTEMS_LIVE_HEADER",
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS",
+          "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_BLDR_SYSTEMS_LIVE_SVG_LINEWORK",
+          "05_BLDR_SYSTEMS_LIVE_HEADER",
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS",
+          "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.BLDR.PATH.SYSTEMS"
+      },
+      {
+        "layer_id": "05_BLDR_SYSTEMS_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS",
+          "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS",
+          "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS",
+          "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_BLDR_SYSTEMS_LIVE_HEADER",
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS",
+          "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS",
+          "05_BLDR_SYSTEMS_LIVE_SVG_LINEWORK",
+          "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS"
+        ],
+        "excludes": [
+          "05_BLDR_SYSTEMS_LIVE_HEADER",
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS",
+          "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS"
+      },
+      {
+        "layer_id": "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 51,
+        "parent": "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS",
+          "05_BLDR_SYSTEMS_LIVE_SVG_LINEWORK",
+          "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS",
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS"
+        ],
+        "excludes": [
+          "05_BLDR_SYSTEMS_LIVE_HEADER",
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS",
+          "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      },
+      {
+        "layer_id": "05_BLDR_SYSTEMS_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS",
+          "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "05_BLDR_SYSTEMS_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS",
+          "05_BLDR_SYSTEMS_LIVE_SVG_LINEWORK",
+          "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS",
+          "05_BLDR_SYSTEMS_ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "05_BLDR_SYSTEMS_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "05_BLDR_SYSTEMS_ENV.BLDR.PATH.SYSTEMS",
+          "05_BLDR_SYSTEMS_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "06_BLDR_EXTENSIONS": [
+      {
+        "layer_id": "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "06_BLDR_EXTENSIONS_LIVE_SVG_LINEWORK",
+          "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "06_BLDR_EXTENSIONS_LIVE_HEADER",
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS",
+          "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "06_BLDR_EXTENSIONS_LIVE_SVG_LINEWORK",
+          "06_BLDR_EXTENSIONS_LIVE_HEADER",
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS",
+          "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.BLDR.PATH.EXTENSIONS"
+      },
+      {
+        "layer_id": "06_BLDR_EXTENSIONS_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS",
+          "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "06_BLDR_EXTENSIONS_LIVE_HEADER",
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS",
+          "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_LIVE_SVG_LINEWORK",
+          "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS"
+        ],
+        "excludes": [
+          "06_BLDR_EXTENSIONS_LIVE_HEADER",
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS",
+          "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS"
+      },
+      {
+        "layer_id": "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 51,
+        "parent": "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_LIVE_SVG_LINEWORK",
+          "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS"
+        ],
+        "excludes": [
+          "06_BLDR_EXTENSIONS_LIVE_HEADER",
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS",
+          "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+      },
+      {
+        "layer_id": "06_BLDR_EXTENSIONS_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS",
+          "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "06_BLDR_EXTENSIONS_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_LIVE_SVG_LINEWORK",
+          "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "06_BLDR_EXTENSIONS_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "06_BLDR_EXTENSIONS_ENV.BLDR.PATH.EXTENSIONS",
+          "06_BLDR_EXTENSIONS_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "01_EVOLVE_INTERVENTION_CENTER": [
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+          "01_EVOLVE_INTERVENTION_CENTER_MACHINE.EVOLVE.PROPERTY_TOWER",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.REFINE",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.INSTALL",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.TRANSFORM",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_HEADER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_HEADER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.EVOLVE.INTERVENTION_CENTER"
+      },
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+          "01_EVOLVE_INTERVENTION_CENTER_MACHINE.EVOLVE.PROPERTY_TOWER",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.REFINE",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.INSTALL",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.TRANSFORM",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_HEADER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_MACHINE.EVOLVE.PROPERTY_TOWER",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.REFINE",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.INSTALL",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER"
+        ],
+        "excludes": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_HEADER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "MACHINE.EVOLVE.PROPERTY_TOWER"
+      },
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.REFINE",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.58,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 60,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+          "01_EVOLVE_INTERVENTION_CENTER_MACHINE.EVOLVE.PROPERTY_TOWER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_HEADER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.EVOLVE.PATH.REFINE"
+      },
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.INSTALL",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.54,
+          "y": 0.58,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 61,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+          "01_EVOLVE_INTERVENTION_CENTER_MACHINE.EVOLVE.PROPERTY_TOWER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_HEADER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.EVOLVE.PATH.INSTALL"
+      },
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.TRANSFORM",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.76,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 62,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_HEADER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.EVOLVE.PATH.TRANSFORM"
+      },
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+          "01_EVOLVE_INTERVENTION_CENTER_MACHINE.EVOLVE.PROPERTY_TOWER",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.REFINE",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.INSTALL",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.TRANSFORM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_EVOLVE_INTERVENTION_CENTER_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_EVOLVE_INTERVENTION_CENTER_ENV.EVOLVE.INTERVENTION_CENTER",
+          "01_EVOLVE_INTERVENTION_CENTER_LIVE_SVG_LINEWORK",
+          "01_EVOLVE_INTERVENTION_CENTER_CARD.EVOLVE.PATH.TRANSFORM"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "02_EVOLVE_REFINE": [
+      {
+        "layer_id": "02_EVOLVE_REFINE_ENV.EVOLVE.PATH.REFINE",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_EVOLVE_REFINE_LIVE_SVG_LINEWORK",
+          "02_EVOLVE_REFINE_ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE",
+          "02_EVOLVE_REFINE_LIVE_HEADER",
+          "02_EVOLVE_REFINE_LIVE_ROUTE_SELECTORS",
+          "02_EVOLVE_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_EVOLVE_REFINE_LIVE_SVG_LINEWORK",
+          "02_EVOLVE_REFINE_LIVE_HEADER",
+          "02_EVOLVE_REFINE_LIVE_ROUTE_SELECTORS",
+          "02_EVOLVE_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.EVOLVE.PATH.REFINE"
+      },
+      {
+        "layer_id": "02_EVOLVE_REFINE_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_EVOLVE_REFINE_ENV.EVOLVE.PATH.REFINE",
+          "02_EVOLVE_REFINE_ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE",
+          "02_EVOLVE_REFINE_LIVE_ROUTE_SELECTORS",
+          "02_EVOLVE_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_EVOLVE_REFINE_LIVE_HEADER",
+          "02_EVOLVE_REFINE_LIVE_ROUTE_SELECTORS",
+          "02_EVOLVE_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_EVOLVE_REFINE_ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "02_EVOLVE_REFINE_ENV.EVOLVE.PATH.REFINE",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "02_EVOLVE_REFINE_ENV.EVOLVE.PATH.REFINE",
+          "02_EVOLVE_REFINE_LIVE_SVG_LINEWORK",
+          "02_EVOLVE_REFINE_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "02_EVOLVE_REFINE_ENV.EVOLVE.PATH.REFINE"
+        ],
+        "excludes": [
+          "02_EVOLVE_REFINE_LIVE_HEADER",
+          "02_EVOLVE_REFINE_LIVE_ROUTE_SELECTORS",
+          "02_EVOLVE_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE"
+      },
+      {
+        "layer_id": "02_EVOLVE_REFINE_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_EVOLVE_REFINE_ENV.EVOLVE.PATH.REFINE"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_EVOLVE_REFINE_LIVE_ROUTE_SELECTORS",
+          "02_EVOLVE_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_EVOLVE_REFINE_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_EVOLVE_REFINE_ENV.EVOLVE.PATH.REFINE",
+          "02_EVOLVE_REFINE_LIVE_SVG_LINEWORK",
+          "02_EVOLVE_REFINE_ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "02_EVOLVE_REFINE_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "02_EVOLVE_REFINE_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "02_EVOLVE_REFINE_ENV.EVOLVE.PATH.REFINE",
+          "02_EVOLVE_REFINE_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "03_EVOLVE_INSTALL": [
+      {
+        "layer_id": "03_EVOLVE_INSTALL_ENV.EVOLVE.PATH.INSTALL",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_EVOLVE_INSTALL_LIVE_SVG_LINEWORK",
+          "03_EVOLVE_INSTALL_ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL",
+          "03_EVOLVE_INSTALL_LIVE_HEADER",
+          "03_EVOLVE_INSTALL_LIVE_ROUTE_SELECTORS",
+          "03_EVOLVE_INSTALL_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_EVOLVE_INSTALL_LIVE_SVG_LINEWORK",
+          "03_EVOLVE_INSTALL_LIVE_HEADER",
+          "03_EVOLVE_INSTALL_LIVE_ROUTE_SELECTORS",
+          "03_EVOLVE_INSTALL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.EVOLVE.PATH.INSTALL"
+      },
+      {
+        "layer_id": "03_EVOLVE_INSTALL_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_EVOLVE_INSTALL_ENV.EVOLVE.PATH.INSTALL",
+          "03_EVOLVE_INSTALL_ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL",
+          "03_EVOLVE_INSTALL_LIVE_ROUTE_SELECTORS",
+          "03_EVOLVE_INSTALL_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_EVOLVE_INSTALL_LIVE_HEADER",
+          "03_EVOLVE_INSTALL_LIVE_ROUTE_SELECTORS",
+          "03_EVOLVE_INSTALL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_EVOLVE_INSTALL_ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "03_EVOLVE_INSTALL_ENV.EVOLVE.PATH.INSTALL",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "03_EVOLVE_INSTALL_ENV.EVOLVE.PATH.INSTALL",
+          "03_EVOLVE_INSTALL_LIVE_SVG_LINEWORK",
+          "03_EVOLVE_INSTALL_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "03_EVOLVE_INSTALL_ENV.EVOLVE.PATH.INSTALL"
+        ],
+        "excludes": [
+          "03_EVOLVE_INSTALL_LIVE_HEADER",
+          "03_EVOLVE_INSTALL_LIVE_ROUTE_SELECTORS",
+          "03_EVOLVE_INSTALL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL"
+      },
+      {
+        "layer_id": "03_EVOLVE_INSTALL_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_EVOLVE_INSTALL_ENV.EVOLVE.PATH.INSTALL"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_EVOLVE_INSTALL_LIVE_ROUTE_SELECTORS",
+          "03_EVOLVE_INSTALL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_EVOLVE_INSTALL_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_EVOLVE_INSTALL_ENV.EVOLVE.PATH.INSTALL",
+          "03_EVOLVE_INSTALL_LIVE_SVG_LINEWORK",
+          "03_EVOLVE_INSTALL_ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "03_EVOLVE_INSTALL_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "03_EVOLVE_INSTALL_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "03_EVOLVE_INSTALL_ENV.EVOLVE.PATH.INSTALL",
+          "03_EVOLVE_INSTALL_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "04_EVOLVE_TRANSFORM": [
+      {
+        "layer_id": "04_EVOLVE_TRANSFORM_ENV.EVOLVE.PATH.TRANSFORM",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_EVOLVE_TRANSFORM_LIVE_SVG_LINEWORK",
+          "04_EVOLVE_TRANSFORM_ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM",
+          "04_EVOLVE_TRANSFORM_LIVE_HEADER",
+          "04_EVOLVE_TRANSFORM_LIVE_ROUTE_SELECTORS",
+          "04_EVOLVE_TRANSFORM_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_EVOLVE_TRANSFORM_LIVE_SVG_LINEWORK",
+          "04_EVOLVE_TRANSFORM_LIVE_HEADER",
+          "04_EVOLVE_TRANSFORM_LIVE_ROUTE_SELECTORS",
+          "04_EVOLVE_TRANSFORM_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.EVOLVE.PATH.TRANSFORM"
+      },
+      {
+        "layer_id": "04_EVOLVE_TRANSFORM_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_EVOLVE_TRANSFORM_ENV.EVOLVE.PATH.TRANSFORM",
+          "04_EVOLVE_TRANSFORM_ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM",
+          "04_EVOLVE_TRANSFORM_LIVE_ROUTE_SELECTORS",
+          "04_EVOLVE_TRANSFORM_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_EVOLVE_TRANSFORM_LIVE_HEADER",
+          "04_EVOLVE_TRANSFORM_LIVE_ROUTE_SELECTORS",
+          "04_EVOLVE_TRANSFORM_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_EVOLVE_TRANSFORM_ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM",
+        "ownership_type": "TRANSPARENT_OBJECT",
+        "bbox": {
+          "x": 0.12,
+          "y": 0.22,
+          "w": 0.76,
+          "h": 0.38
+        },
+        "z_index": 50,
+        "parent": "04_EVOLVE_TRANSFORM_ENV.EVOLVE.PATH.TRANSFORM",
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "04_EVOLVE_TRANSFORM_ENV.EVOLVE.PATH.TRANSFORM",
+          "04_EVOLVE_TRANSFORM_LIVE_SVG_LINEWORK",
+          "04_EVOLVE_TRANSFORM_LIVE_ROUTE_SELECTORS"
+        ],
+        "depends_on": [
+          "04_EVOLVE_TRANSFORM_ENV.EVOLVE.PATH.TRANSFORM"
+        ],
+        "excludes": [
+          "04_EVOLVE_TRANSFORM_LIVE_HEADER",
+          "04_EVOLVE_TRANSFORM_LIVE_ROUTE_SELECTORS",
+          "04_EVOLVE_TRANSFORM_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM"
+      },
+      {
+        "layer_id": "04_EVOLVE_TRANSFORM_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_EVOLVE_TRANSFORM_ENV.EVOLVE.PATH.TRANSFORM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_EVOLVE_TRANSFORM_LIVE_ROUTE_SELECTORS",
+          "04_EVOLVE_TRANSFORM_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_EVOLVE_TRANSFORM_LIVE_ROUTE_SELECTORS",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0.04,
+          "y": 0.52,
+          "w": 0.92,
+          "h": 0.36
+        },
+        "z_index": 110,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_EVOLVE_TRANSFORM_ENV.EVOLVE.PATH.TRANSFORM",
+          "04_EVOLVE_TRANSFORM_LIVE_SVG_LINEWORK",
+          "04_EVOLVE_TRANSFORM_ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "04_EVOLVE_TRANSFORM_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "04_EVOLVE_TRANSFORM_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "04_EVOLVE_TRANSFORM_ENV.EVOLVE.PATH.TRANSFORM",
+          "04_EVOLVE_TRANSFORM_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ],
+    "01_LOCATIONS_MAIN": [
+      {
+        "layer_id": "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+        "ownership_type": "ENVIRONMENT_IMAGE",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "z_index": 10,
+        "parent": null,
+        "mask": null,
+        "clip": "full-bleed",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_LIVE_SVG_LINEWORK",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.BLDR",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.EVOLVE",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.SITES",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.SERVICES",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.SYSTEM",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.ABOUT",
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_SVG_LINEWORK",
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "ENV.LOCATIONS.ARCH"
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_LIVE_SVG_LINEWORK",
+        "ownership_type": "LIVE_SVG",
+        "bbox": {
+          "x": 0.05,
+          "y": 0.15,
+          "w": 0.9,
+          "h": 0.75
+        },
+        "z_index": 45,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.BLDR",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.EVOLVE",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.SITES",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.SERVICES",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_CARD.LOCATIONS.BLDR",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.58,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 60,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+          "01_LOCATIONS_MAIN_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.LOCATIONS.BLDR"
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_CARD.LOCATIONS.EVOLVE",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.54,
+          "y": 0.58,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 61,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+          "01_LOCATIONS_MAIN_LIVE_SVG_LINEWORK"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.LOCATIONS.EVOLVE"
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_CARD.LOCATIONS.SITES",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.76,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 62,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+          "01_LOCATIONS_MAIN_LIVE_SVG_LINEWORK",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.LOCATIONS.SITES"
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_CARD.LOCATIONS.SERVICES",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.54,
+          "y": 0.76,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 63,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+          "01_LOCATIONS_MAIN_LIVE_SVG_LINEWORK",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.LOCATIONS.SERVICES"
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_CARD.LOCATIONS.SYSTEM",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 0.94,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 64,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.LOCATIONS.SYSTEM"
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_CARD.LOCATIONS.ABOUT",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.54,
+          "y": 0.94,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 65,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.LOCATIONS.ABOUT"
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_CARD.LOCATIONS.JOURNAL",
+        "ownership_type": "CARD_IMAGE",
+        "bbox": {
+          "x": 0.06,
+          "y": 1.12,
+          "w": 0.4,
+          "h": 0.14
+        },
+        "z_index": 66,
+        "parent": null,
+        "mask": "card-viewport",
+        "clip": "card-inner",
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": true,
+        "generated_or_live": "GENERATED",
+        "overlaps": [],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_HEADER",
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": "CARD.LOCATIONS.JOURNAL"
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_LIVE_HEADER",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.1
+        },
+        "z_index": 100,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH"
+        ],
+        "depends_on": [],
+        "excludes": [
+          "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV"
+        ],
+        "asset_slot_id": null
+      },
+      {
+        "layer_id": "01_LOCATIONS_MAIN_LIVE_BOTTOM_NAV",
+        "ownership_type": "LIVE_CODE_UI",
+        "bbox": {
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12
+        },
+        "z_index": 200,
+        "parent": null,
+        "mask": null,
+        "clip": null,
+        "opacity": 1,
+        "surface": "MOBILE_WEB",
+        "asset_required": false,
+        "generated_or_live": "LIVE",
+        "overlaps": [
+          "01_LOCATIONS_MAIN_ENV.LOCATIONS.ARCH",
+          "01_LOCATIONS_MAIN_LIVE_SVG_LINEWORK",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.SITES",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.SERVICES",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.SYSTEM",
+          "01_LOCATIONS_MAIN_CARD.LOCATIONS.ABOUT"
+        ],
+        "depends_on": [],
+        "excludes": [],
+        "asset_slot_id": null
+      }
+    ]
+  },
+  "compiled_at": "2026-10-01T15:41:40.738Z"
+}

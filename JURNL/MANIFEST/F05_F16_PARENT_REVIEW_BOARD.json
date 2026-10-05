@@ -1,0 +1,150 @@
+{
+  "contract": "F05_F16_PARENT_REVIEW_BOARD",
+  "route": "parents",
+  "families": [
+    {
+      "family_id": "F05",
+      "family_name": "MONEY",
+      "parent_authority": "F05.00",
+      "expression_summary": "A refined limestone cabinet.",
+      "distinctness_status": "PASS",
+      "plate_origin": "KEPT_TEXT_IMAGE",
+      "generation_cost": 315,
+      "live_review_route": "/money",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "PASS"
+    },
+    {
+      "family_id": "F06",
+      "family_name": "INCOME",
+      "parent_authority": "F06.00",
+      "expression_summary": "Light moving down a gallery toward the user.",
+      "distinctness_status": "PASS",
+      "plate_origin": "KEPT_TEXT_IMAGE",
+      "generation_cost": 315,
+      "live_review_route": "/income",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "PASS"
+    },
+    {
+      "family_id": "F07",
+      "family_name": "UPCOMING",
+      "parent_authority": "F07.00",
+      "expression_summary": "A colonnade receding toward the coast.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/upcoming",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "PASS"
+    },
+    {
+      "family_id": "F08",
+      "family_name": "PLAN",
+      "parent_authority": "F08.00",
+      "expression_summary": "An editorial worktable.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/plan",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "FAIL"
+    },
+    {
+      "family_id": "F09",
+      "family_name": "SAFE TO SPEND",
+      "parent_authority": "F09.00",
+      "expression_summary": "An open loggia.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/safe",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "FAIL"
+    },
+    {
+      "family_id": "F10",
+      "family_name": "PURCHASES",
+      "parent_authority": "F10.00",
+      "expression_summary": "A curated niche.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/purchases",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "FAIL"
+    },
+    {
+      "family_id": "F11",
+      "family_name": "TRIPS",
+      "parent_authority": "F11.00",
+      "expression_summary": "A terrace turned toward the coast.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/trips",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "FAIL"
+    },
+    {
+      "family_id": "F12",
+      "family_name": "CREDIT",
+      "parent_authority": "F12.00",
+      "expression_summary": "A measured stone grid.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/credit",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "PASS"
+    },
+    {
+      "family_id": "F13",
+      "family_name": "PAYDOWN",
+      "parent_authority": "F13.00",
+      "expression_summary": "Steps descending toward a brighter garden.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/paydown",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "FAIL"
+    },
+    {
+      "family_id": "F14",
+      "family_name": "GOALS",
+      "parent_authority": "F14.00",
+      "expression_summary": "A young olive and a partly laid course of stone.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/goals",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "FAIL"
+    },
+    {
+      "family_id": "F15",
+      "family_name": "AHEAD",
+      "parent_authority": "F15.00",
+      "expression_summary": "A high overlook of layered headlands.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/ahead",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "FAIL"
+    },
+    {
+      "family_id": "F16",
+      "family_name": "RECORDS",
+      "parent_authority": "F16.00",
+      "expression_summary": "An archival drawer.",
+      "distinctness_status": "PASS",
+      "plate_origin": "REFERENCE_GUIDED_REFRAME",
+      "generation_cost": 639,
+      "live_review_route": "/records",
+      "founder_status": "UNREVIEWED",
+      "plate_ui_interference": "FAIL"
+    }
+  ]
+}

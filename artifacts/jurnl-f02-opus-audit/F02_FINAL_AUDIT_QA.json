@@ -1,0 +1,7574 @@
+{
+  "generatedAt": "2026-10-05T18:11:05.020Z",
+  "base": "http://127.0.0.1:5174",
+  "routes": {
+    "total": 63,
+    "pass": 63,
+    "fail": []
+  },
+  "journey": {
+    "total": 18,
+    "pass": 18,
+    "steps": [
+      {
+        "step": "F01.13 → F02.00 without reload, shell kept",
+        "pass": true,
+        "detail": "same document, same .jrn root"
+      },
+      {
+        "step": "F02.00 fresh → F02.01",
+        "pass": true
+      },
+      {
+        "step": "F02.01 continue disabled until a household is chosen",
+        "pass": true
+      },
+      {
+        "step": "F02.02 keyboard order: back → connect → name → continue → skip",
+        "pass": true,
+        "detail": "setup-back → setup-connect → setup-name-account → setup-continue → setup-skip"
+      },
+      {
+        "step": "Permission drawer: focus inside, Tab trapped, Escape closes, focus returns",
+        "pass": true
+      },
+      {
+        "step": "Account connect (permission CONTINUE) → connected state",
+        "pass": true
+      },
+      {
+        "step": "Manual entry: NAME AN ACCOUNT → validation → save → back on F02.02",
+        "pass": true
+      },
+      {
+        "step": "Income: non-numeric amount is announced, then recovers",
+        "pass": true,
+        "detail": "FIELD NEEDS A NUMBERUSE A PLAIN AMOUNT."
+      },
+      {
+        "step": "Recurring obligations: ADD sheet → save → listed",
+        "pass": true
+      },
+      {
+        "step": "Priorities: multi-select (checkbox), max three, A GOAL opens the goal grandchild",
+        "pass": true
+      },
+      {
+        "step": "Goal: name + horizon → F02.06; back from F02.06 returns to the goal",
+        "pass": true
+      },
+      {
+        "step": "Skip: SKIP FOR NOW sheet → GO BACK keeps the step; CONTINUE skips to F02.07",
+        "pass": true
+      },
+      {
+        "step": "Permission / consent: toggles are switches and work from the keyboard",
+        "pass": true
+      },
+      {
+        "step": "Save / resume: reload keeps the draft; F02.00 offers CONTINUE SETUP at the saved place",
+        "pass": true
+      },
+      {
+        "step": "Completion: OPEN TODAY needs a voice, then hands off to F03 at /today (F02 shell gone)",
+        "pass": true
+      },
+      {
+        "step": "Start over: CONTINUE SETUP → START OVER returns a fresh setup",
+        "pass": true
+      },
+      {
+        "step": "Error recovery: validation states render their error and the lockup",
+        "pass": true
+      },
+      {
+        "step": "Deep-linked sheet (F02.04 validation): focus inside, error clears on input, Escape closes it",
+        "pass": true
+      }
+    ],
+    "pageErrors": []
+  },
+  "icons": {
+    "count": 12,
+    "icons": [
+      "account",
+      "alert",
+      "back",
+      "check",
+      "chevron",
+      "clock",
+      "close",
+      "info",
+      "link",
+      "plus",
+      "privacy",
+      "shield"
+    ]
+  },
+  "detail": [
+    {
+      "viewport": "mobile",
+      "id": "F02.00",
+      "route": "setup",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 34,
+      "railRight": 204,
+      "envEdge": 218,
+      "headline": [
+        {
+          "text": "THE SHAPE",
+          "lines": 1
+        },
+        {
+          "text": "OF YOUR",
+          "lines": 1
+        },
+        {
+          "text": "LIFE.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "JURNL LEARNS ONLY WHAT IT NEEDS."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.7,
+          "min": 12.02
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.43,
+          "min": 12.46
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.62,
+          "min": 12.47
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 11.61,
+          "min": 10.92
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 11.14,
+          "min": 10.01
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 11.32,
+          "min": 9.99
+        },
+        {
+          "kind": "foot",
+          "large": false,
+          "p10": 10.54,
+          "min": 9.9
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.52,
+          "min": 16.38
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.23,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.27,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.27,
+          "min": 16.23
+        }
+      ],
+      "minContrast": 10.54,
+      "icons": [],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.00.RESUME",
+      "route": "setup",
+      "query": "state=resume",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 34,
+      "railRight": 204,
+      "envEdge": 218,
+      "headline": [
+        {
+          "text": "CONTINUE",
+          "lines": 1
+        },
+        {
+          "text": "SETUP.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "PICK UP WHERE YOU LEFT THE SHAPE."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.62,
+          "min": 12.36
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.32,
+          "min": 12.46
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 11.45,
+          "min": 10.92
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.28,
+          "min": 2.74
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.68,
+          "min": 9.71
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.85,
+          "min": 9.79
+        },
+        {
+          "kind": "cta:CONTINUE SETUP",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:START OVER",
+          "large": false,
+          "p10": 12.94,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.53,
+          "min": 16.39
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.52,
+          "min": 16.52
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.24,
+          "min": 16.23
+        }
+      ],
+      "minContrast": 3.28,
+      "icons": [],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.01",
+      "route": "setup/household",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 34,
+      "railRight": 204,
+      "envEdge": 218,
+      "headline": [
+        {
+          "text": "WHO THIS",
+          "lines": 1
+        },
+        {
+          "text": "IS FOR.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 4,
+        "text": "THE HOUSEHOLD JURNL WILL KEEP IN VIEW."
+      },
+      "rows": [
+        {
+          "group": "HOUSEHOLD",
+          "label": "JUST ME",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 268.03125,
+          "rowMid": 268.03125,
+          "rowRight": 204,
+          "trailingRight": 193,
+          "trailingMid": 268.03125,
+          "h": 42
+        },
+        {
+          "group": "HOUSEHOLD",
+          "label": "SHARED",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 316.03125,
+          "rowMid": 316.03125,
+          "rowRight": 204,
+          "trailingRight": 193,
+          "trailingMid": 316.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.62,
+          "min": 12.55
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.65,
+          "min": 12.47
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.16,
+          "min": 9.7
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.76,
+          "min": 3.36
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 11.37,
+          "min": 9.95
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.18,
+          "min": 9.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.84,
+          "min": 12.73
+        }
+      ],
+      "minContrast": 3.76,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.02",
+      "route": "setup/accounts",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 6,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 268.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 268.03125,
+          "rowMid": 268.03125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 268.03125,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 316.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 316.03125,
+          "rowMid": 316.03125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 316.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.77,
+          "min": 10.04
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.55,
+          "min": 11.35
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.67,
+          "min": 9.13
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.27,
+          "min": 3.01
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.44,
+          "min": 9.02
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.44,
+          "min": 6.48
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 9.5,
+          "min": 9.41
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.61
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        }
+      ],
+      "minContrast": 3.27,
+      "icons": [
+        "back",
+        "link",
+        "account"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.02.CONNECTED",
+      "route": "setup/accounts",
+      "query": "state=connected",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 6,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 464.21875,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 464.21875,
+          "rowMid": 464.21875,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 464.21875,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 512.21875,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 512.21875,
+          "rowMid": 512.21875,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 512.21875,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.77,
+          "min": 10.04
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.55,
+          "min": 11.35
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.67,
+          "min": 9.13
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.27,
+          "min": 3.01
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.44,
+          "min": 9.02
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.44,
+          "min": 6.48
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 9.5,
+          "min": 9.41
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.61,
+          "min": 12.5
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.53,
+          "min": 12.5
+        }
+      ],
+      "minContrast": 3.27,
+      "icons": [
+        "back",
+        "check",
+        "link",
+        "account"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.02.PERMISSION",
+      "route": "setup/accounts",
+      "query": "overlay=permission",
+      "plate": "ENV.QUIET",
+      "railLeft": 34,
+      "railRight": 251,
+      "envEdge": 265,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 6,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 268.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 268.03125,
+          "rowMid": 268.03125,
+          "rowRight": 251,
+          "trailingRight": 242,
+          "trailingMid": 268.03125,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 316.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 316.03125,
+          "rowMid": 316.03125,
+          "rowRight": 251,
+          "trailingRight": 242,
+          "trailingMid": 316.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "link",
+        "account",
+        "close"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.02.SKIP",
+      "route": "setup/accounts",
+      "query": "overlay=skip",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 6,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 268.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 268.03125,
+          "rowMid": 268.03125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 268.03125,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 316.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 316.03125,
+          "rowMid": 316.03125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 316.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "link",
+        "account",
+        "close"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.02.1",
+      "route": "setup/accounts/name",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "NAME AN",
+          "lines": 1
+        },
+        {
+          "text": "ACCOUNT.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "A LABEL AND A KIND. NO BALANCE."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CHECKING",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 326.03125,
+          "rowMid": 326.03125,
+          "rowRight": 254,
+          "trailingRight": 243,
+          "trailingMid": 326.03125,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "SAVINGS",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 374.03125,
+          "rowMid": 374.03125,
+          "rowRight": 254,
+          "trailingRight": 243,
+          "trailingMid": 374.03125,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CARD",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 422.03125,
+          "rowMid": 422.03125,
+          "rowRight": 254,
+          "trailingRight": 243,
+          "trailingMid": 422.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12,
+          "min": 10.67
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.79,
+          "min": 10.55
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.67,
+          "min": 9.13
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.27,
+          "min": 3.01
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.44,
+          "min": 9.02
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.51,
+          "min": 9.14
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        }
+      ],
+      "minContrast": 3.27,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.02.1.VALIDATION",
+      "route": "setup/accounts/name",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "NAME AN",
+          "lines": 1
+        },
+        {
+          "text": "ACCOUNT.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "A LABEL AND A KIND. NO BALANCE."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CHECKING",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 350.03125,
+          "rowMid": 350.03125,
+          "rowRight": 254,
+          "trailingRight": 243,
+          "trailingMid": 350.03125,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "SAVINGS",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 398.03125,
+          "rowMid": 398.03125,
+          "rowRight": 254,
+          "trailingRight": 243,
+          "trailingMid": 398.03125,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CARD",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 446.03125,
+          "rowMid": 446.03125,
+          "rowRight": 254,
+          "trailingRight": 243,
+          "trailingMid": 446.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.97,
+          "min": 10.67
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.85,
+          "min": 10.55
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.46,
+          "min": 9.17
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.55,
+          "min": 9.14
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.7
+        }
+      ],
+      "minContrast": 9.46,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.03",
+      "route": "setup/income",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "ARRIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 2,
+        "text": "A CADENCE AND ONE APPROXIMATE AMOUNT."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 268.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 268.03125,
+          "rowMid": 268.03125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 268.03125,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 316.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 316.03125,
+          "rowMid": 316.03125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 316.03125,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 364.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 364.03125,
+          "rowMid": 364.03125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 364.03125,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 412.03125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 412.03125,
+          "rowMid": 412.03125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 412.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.51,
+          "min": 11.53
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12,
+          "min": 11.35
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.67,
+          "min": 9.13
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.27,
+          "min": 3.01
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.41,
+          "min": 9.02
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.55,
+          "min": 9.14
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.62
+        }
+      ],
+      "minContrast": 3.27,
+      "icons": [
+        "back",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.03.VALIDATION",
+      "route": "setup/income",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "ARRIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 2,
+        "text": "A CADENCE AND ONE APPROXIMATE AMOUNT."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 327.28125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 327.28125,
+          "rowMid": 327.28125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 327.28125,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 375.28125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 375.28125,
+          "rowMid": 375.28125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 375.28125,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 423.28125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 423.28125,
+          "rowMid": 423.28125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 423.28125,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 471.28125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 471.28125,
+          "rowMid": 471.28125,
+          "rowRight": 254,
+          "trailingRight": 245,
+          "trailingMid": 471.28125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.52,
+          "min": 11.53
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12,
+          "min": 11.35
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.42,
+          "min": 9.17
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.56,
+          "min": 9.14
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.61
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.64,
+          "min": 12.61
+        }
+      ],
+      "minContrast": 9.42,
+      "icons": [
+        "back",
+        "alert",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.04",
+      "route": "setup/commitments",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.51,
+          "min": 11.53
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.88,
+          "min": 10.76
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.67,
+          "min": 9.13
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.27,
+          "min": 3.01
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.41,
+          "min": 9.02
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.53,
+          "min": 9.14
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 9.5,
+          "min": 9.41
+        }
+      ],
+      "minContrast": 3.27,
+      "icons": [
+        "back",
+        "plus"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.04.ADD",
+      "route": "setup/commitments",
+      "query": "overlay=add",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 50,
+          "iconMid": 603,
+          "labelMinX": 58,
+          "labelLines": 1,
+          "firstLineMid": 603,
+          "rowMid": 603,
+          "rowRight": 369,
+          "trailingRight": 360,
+          "trailingMid": 603,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 50,
+          "iconMid": 651,
+          "labelMinX": 58,
+          "labelLines": 1,
+          "firstLineMid": 651,
+          "rowMid": 651,
+          "rowRight": 369,
+          "trailingRight": 360,
+          "trailingMid": 651,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 50,
+          "iconMid": 699,
+          "labelMinX": 58,
+          "labelLines": 1,
+          "firstLineMid": 699,
+          "rowMid": 699,
+          "rowRight": 369,
+          "trailingRight": 360,
+          "trailingMid": 699,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 50,
+          "iconMid": 747,
+          "labelMinX": 58,
+          "labelLines": 1,
+          "firstLineMid": 747,
+          "rowMid": 747,
+          "rowRight": 369,
+          "trailingRight": 360,
+          "trailingMid": 747,
+          "h": 42
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "plus",
+        "close",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.04.VALIDATION",
+      "route": "setup/commitments",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 50,
+          "iconMid": 603,
+          "labelMinX": 58,
+          "labelLines": 1,
+          "firstLineMid": 603,
+          "rowMid": 603,
+          "rowRight": 369,
+          "trailingRight": 360,
+          "trailingMid": 603,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 50,
+          "iconMid": 651,
+          "labelMinX": 58,
+          "labelLines": 1,
+          "firstLineMid": 651,
+          "rowMid": 651,
+          "rowRight": 369,
+          "trailingRight": 360,
+          "trailingMid": 651,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 50,
+          "iconMid": 699,
+          "labelMinX": 58,
+          "labelLines": 1,
+          "firstLineMid": 699,
+          "rowMid": 699,
+          "rowRight": 369,
+          "trailingRight": 360,
+          "trailingMid": 699,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 50,
+          "iconMid": 747,
+          "labelMinX": 58,
+          "labelLines": 1,
+          "firstLineMid": 747,
+          "rowMid": 747,
+          "rowRight": 369,
+          "trailingRight": 360,
+          "trailingMid": 747,
+          "h": 42
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "plus",
+        "close",
+        "alert",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.05",
+      "route": "setup/priorities",
+      "query": "",
+      "plate": "ENV.EDIT",
+      "railLeft": 34,
+      "railRight": 262,
+      "envEdge": 300,
+      "headline": [
+        {
+          "text": "WHAT MATTERS",
+          "lines": 1
+        },
+        {
+          "text": "FIRST.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "UP TO THREE. THE REST CAN WAIT."
+      },
+      "rows": [
+        {
+          "group": "PRIORITIES",
+          "label": "HOUSING",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 250.78125,
+          "rowMid": 250.78125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 250.78125,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "DAILY LIFE",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 298.78125,
+          "rowMid": 298.78125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 298.78125,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "A GOAL",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 346.78125,
+          "rowMid": 346.78125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 346.78125,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "DEBT",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 394.78125,
+          "rowMid": 394.78125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 394.78125,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "TRAVEL",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 442.78125,
+          "rowMid": 442.78125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 442.78125,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "A BUFFER",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 490.78125,
+          "rowMid": 490.78125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 490.78125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 10.76,
+          "min": 9.2
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.41,
+          "min": 9.72
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 8.89,
+          "min": 8.61
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 2.92,
+          "min": 2.64
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.79,
+          "min": 7.21
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.51
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.61
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.71,
+          "min": 12.7
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.61
+        }
+      ],
+      "minContrast": 2.92,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.05.1",
+      "route": "setup/priorities/goal",
+      "query": "",
+      "plate": "ENV.EDIT",
+      "railLeft": 34,
+      "railRight": 262,
+      "envEdge": 300,
+      "headline": [
+        {
+          "text": "NAME A",
+          "lines": 1
+        },
+        {
+          "text": "GOAL.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "ONE INTENTION AND A LOOSE HORIZON."
+      },
+      "rows": [
+        {
+          "group": "HORIZON",
+          "label": "THIS SEASON",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 326.03125,
+          "rowMid": 326.03125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 326.03125,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "THIS YEAR",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 374.03125,
+          "rowMid": 374.03125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 374.03125,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "LATER",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 422.03125,
+          "rowMid": 422.03125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 422.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.24,
+          "min": 10.14
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.4,
+          "min": 9.72
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 8.89,
+          "min": 8.61
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 2.93,
+          "min": 2.64
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.79,
+          "min": 8.04
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.06,
+          "min": 7.79
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.51
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.61
+        }
+      ],
+      "minContrast": 2.93,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.05.1.VALIDATION",
+      "route": "setup/priorities/goal",
+      "query": "state=validation",
+      "plate": "ENV.EDIT",
+      "railLeft": 34,
+      "railRight": 262,
+      "envEdge": 300,
+      "headline": [
+        {
+          "text": "NAME A",
+          "lines": 1
+        },
+        {
+          "text": "GOAL.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 3,
+        "text": "ONE INTENTION AND A LOOSE HORIZON."
+      },
+      "rows": [
+        {
+          "group": "HORIZON",
+          "label": "THIS SEASON",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 394.03125,
+          "rowMid": 394.03125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 394.03125,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "THIS YEAR",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 442.03125,
+          "rowMid": 442.03125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 442.03125,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "LATER",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 490.03125,
+          "rowMid": 490.03125,
+          "rowRight": 262,
+          "trailingRight": 251,
+          "trailingMid": 490.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.29,
+          "min": 10.14
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.4,
+          "min": 9.72
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.83,
+          "min": 7.99
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.1,
+          "min": 8.06
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.71,
+          "min": 12.61
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        }
+      ],
+      "minContrast": 8.83,
+      "icons": [
+        "back",
+        "alert"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.06",
+      "route": "setup/protected",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHAT SHOULD",
+          "lines": 1
+        },
+        {
+          "text": "STAY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 4,
+        "text": "ONE PROTECTED AMOUNT. OR NONE FOR NOW."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.53,
+          "min": 9.25
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.62,
+          "min": 11.35
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.67,
+          "min": 9.13
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.27,
+          "min": 3.01
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.43,
+          "min": 9.02
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.51,
+          "min": 9.14
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 9.5,
+          "min": 9.41
+        }
+      ],
+      "minContrast": 3.27,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.06.VALIDATION",
+      "route": "setup/protected",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 34,
+      "railRight": 254,
+      "envEdge": 266,
+      "headline": [
+        {
+          "text": "WHAT SHOULD",
+          "lines": 1
+        },
+        {
+          "text": "STAY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 4,
+        "text": "ONE PROTECTED AMOUNT. OR NONE FOR NOW."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.53,
+          "min": 9.63
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.53,
+          "min": 11.35
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.44,
+          "min": 9.17
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.55,
+          "min": 9.14
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 9.5,
+          "min": 9.41
+        }
+      ],
+      "minContrast": 9.44,
+      "icons": [
+        "back",
+        "alert"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.07",
+      "route": "setup/boundaries",
+      "query": "",
+      "plate": "ENV.QUIET",
+      "railLeft": 34,
+      "railRight": 251,
+      "envEdge": 265,
+      "headline": [
+        {
+          "text": "WHAT JURNL",
+          "lines": 1
+        },
+        {
+          "text": "MAY KEEP.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 4,
+        "text": "YOU DECIDE WHAT STAYS."
+      },
+      "rows": [
+        {
+          "group": "jrn-setup__consents",
+          "label": "REMEMBER THIS SETUP",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 246.28125,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 244.78125,
+          "rowMid": 252.828125,
+          "rowRight": 251,
+          "trailingRight": 242,
+          "trailingMid": 252.828125,
+          "h": 46
+        },
+        {
+          "group": "jrn-setup__consents",
+          "label": "LINKED ACCOUNTS STAY OPTIONAL",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 300.375,
+          "labelMinX": 68,
+          "labelLines": 2,
+          "firstLineMid": 298.875,
+          "rowMid": 319.96875,
+          "rowRight": 251,
+          "trailingRight": 242,
+          "trailingMid": 319.96875,
+          "h": 72
+        },
+        {
+          "group": "jrn-setup__consents",
+          "label": "NOTHING IS SOLD",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 60,
+          "iconMid": 380.5625,
+          "labelMinX": 68,
+          "labelLines": 1,
+          "firstLineMid": 379.0625,
+          "rowMid": 393.40625,
+          "rowRight": 251,
+          "trailingRight": 242,
+          "trailingMid": 393.40625,
+          "h": 59
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "READ THE BOUNDARY",
+          "icon": "chevron",
+          "placement": "TRAILING",
+          "labelLines": 1,
+          "overlap": 59,
+          "midDelta": 0
+        }
+      ],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.83,
+          "min": 8.76
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.01,
+          "min": 9.32
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.34,
+          "min": 9.47
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.36,
+          "min": 2.68
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.97,
+          "min": 7.91
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.19,
+          "min": 16.06
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.19,
+          "min": 16.05
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.33,
+          "min": 16.19
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.33,
+          "min": 16.19
+        }
+      ],
+      "minContrast": 3.36,
+      "icons": [
+        "back",
+        "shield",
+        "privacy",
+        "info",
+        "chevron"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "mobile",
+      "id": "F02.08",
+      "route": "setup/ready",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 34,
+      "railRight": 204,
+      "envEdge": 218,
+      "headline": [
+        {
+          "text": "JURNL IS",
+          "lines": 1
+        },
+        {
+          "text": "READY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 2,
+        "lastLineWords": 2,
+        "text": "THIS IS THE SHAPE IT LEARNED."
+      },
+      "rows": [
+        {
+          "group": "VOICE",
+          "label": "GUIDED",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 372.03125,
+          "rowMid": 372.03125,
+          "rowRight": 204,
+          "trailingRight": 193,
+          "trailingMid": 372.03125,
+          "h": 42
+        },
+        {
+          "group": "VOICE",
+          "label": "QUIET",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 45,
+          "labelLines": 1,
+          "firstLineMid": 420.03125,
+          "rowMid": 420.03125,
+          "rowRight": 204,
+          "trailingRight": 193,
+          "trailingMid": 420.03125,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.58,
+          "min": 12.55
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.67,
+          "min": 12.47
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.16,
+          "min": 9.7
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.77,
+          "min": 3.36
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 11.32,
+          "min": 9.95
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.99,
+          "min": 9.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.23,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.27,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.27,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.38,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.84,
+          "min": 12.84
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.81,
+          "min": 12.73
+        }
+      ],
+      "minContrast": 3.77,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.00",
+      "route": "setup",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 72,
+      "railRight": 423,
+      "envEdge": 455,
+      "headline": [
+        {
+          "text": "THE SHAPE",
+          "lines": 1
+        },
+        {
+          "text": "OF YOUR",
+          "lines": 1
+        },
+        {
+          "text": "LIFE.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "JURNL LEARNS ONLY WHAT IT NEEDS."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.33,
+          "min": 11.87
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 14.27,
+          "min": 12.82
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.61,
+          "min": 11.85
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 11.77,
+          "min": 11.26
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.38,
+          "min": 9.42
+        },
+        {
+          "kind": "foot",
+          "large": false,
+          "p10": 9.81,
+          "min": 9.51
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.27,
+          "min": 16.24
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.24,
+          "min": 16.24
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.24,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.23,
+          "min": 16.23
+        }
+      ],
+      "minContrast": 9.81,
+      "icons": [],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.00.RESUME",
+      "route": "setup",
+      "query": "state=resume",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 72,
+      "railRight": 423,
+      "envEdge": 455,
+      "headline": [
+        {
+          "text": "CONTINUE",
+          "lines": 1
+        },
+        {
+          "text": "SETUP.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "PICK UP WHERE YOU LEFT THE SHAPE."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.33,
+          "min": 11.87
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 15.26,
+          "min": 13.49
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 12.02,
+          "min": 11.26
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.48,
+          "min": 3.35
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.69,
+          "min": 9.31
+        },
+        {
+          "kind": "cta:CONTINUE SETUP",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:START OVER",
+          "large": false,
+          "p10": 13.3,
+          "min": 13.29
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.53,
+          "min": 16.39
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.27,
+          "min": 16.24
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.27,
+          "min": 16.24
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.24,
+          "min": 16.23
+        }
+      ],
+      "minContrast": 3.48,
+      "icons": [],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.01",
+      "route": "setup/household",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 72,
+      "railRight": 423,
+      "envEdge": 455,
+      "headline": [
+        {
+          "text": "WHO THIS",
+          "lines": 1
+        },
+        {
+          "text": "IS FOR.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "THE HOUSEHOLD JURNL WILL KEEP IN VIEW."
+      },
+      "rows": [
+        {
+          "group": "HOUSEHOLD",
+          "label": "JUST ME",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 263.34375,
+          "rowMid": 263.34375,
+          "rowRight": 423,
+          "trailingRight": 412,
+          "trailingMid": 263.34375,
+          "h": 42
+        },
+        {
+          "group": "HOUSEHOLD",
+          "label": "SHARED",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 311.34375,
+          "rowMid": 311.34375,
+          "rowRight": 423,
+          "trailingRight": 412,
+          "trailingMid": 311.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 14.14,
+          "min": 12.35
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.14,
+          "min": 11.85
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 11.93,
+          "min": 10.92
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.51,
+          "min": 3.31
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.38,
+          "min": 9.79
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        }
+      ],
+      "minContrast": 3.51,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.02",
+      "route": "setup/accounts",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 10,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 263.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 263.34375,
+          "rowMid": 263.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 263.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 311.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 311.34375,
+          "rowMid": 311.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 311.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.52,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.64,
+          "min": 10.28
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.13,
+          "min": 9.74
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.34,
+          "min": 2.97
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.07,
+          "min": 6.03
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.55,
+          "min": 12.44
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.61
+        }
+      ],
+      "minContrast": 3.34,
+      "icons": [
+        "back",
+        "link",
+        "account"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.02.CONNECTED",
+      "route": "setup/accounts",
+      "query": "state=connected",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 10,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 443.546875,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 443.546875,
+          "rowMid": 443.546875,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 443.546875,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 491.546875,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 491.546875,
+          "rowMid": 491.546875,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 491.546875,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.52,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.64,
+          "min": 10.28
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.13,
+          "min": 9.74
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.34,
+          "min": 2.97
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.07,
+          "min": 6.03
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.52,
+          "min": 12.44
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.62
+        }
+      ],
+      "minContrast": 3.34,
+      "icons": [
+        "back",
+        "check",
+        "link",
+        "account"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.02.PERMISSION",
+      "route": "setup/accounts",
+      "query": "overlay=permission",
+      "plate": "ENV.QUIET",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 531,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 10,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 263.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 263.34375,
+          "rowMid": 263.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 263.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 311.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 311.34375,
+          "rowMid": 311.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 311.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "link",
+        "account",
+        "close"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.02.SKIP",
+      "route": "setup/accounts",
+      "query": "overlay=skip",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 10,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 263.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 263.34375,
+          "rowMid": 263.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 263.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 311.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 311.34375,
+          "rowMid": 311.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 311.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "link",
+        "account",
+        "close"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.02.1",
+      "route": "setup/accounts/name",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "NAME AN",
+          "lines": 1
+        },
+        {
+          "text": "ACCOUNT.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "A LABEL AND A KIND. NO BALANCE."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CHECKING",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 321.34375,
+          "rowMid": 321.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 321.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "SAVINGS",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 369.34375,
+          "rowMid": 369.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 369.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CARD",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 417.34375,
+          "rowMid": 417.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 417.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.54,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.63,
+          "min": 10.28
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.13,
+          "min": 9.74
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.35,
+          "min": 2.97
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.48,
+          "min": 8.12
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.61
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        }
+      ],
+      "minContrast": 3.35,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.02.1.VALIDATION",
+      "route": "setup/accounts/name",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "NAME AN",
+          "lines": 1
+        },
+        {
+          "text": "ACCOUNT.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "A LABEL AND A KIND. NO BALANCE."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CHECKING",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 345.34375,
+          "rowMid": 345.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 345.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "SAVINGS",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 393.34375,
+          "rowMid": 393.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 393.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CARD",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 441.34375,
+          "rowMid": 441.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 441.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.54,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.65,
+          "min": 10.28
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.55,
+          "min": 7.38
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.7
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        }
+      ],
+      "minContrast": 9.55,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.03",
+      "route": "setup/income",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "ARRIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A CADENCE AND ONE APPROXIMATE AMOUNT."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 263.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 263.34375,
+          "rowMid": 263.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 263.34375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 311.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 311.34375,
+          "rowMid": 311.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 311.34375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 359.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 359.34375,
+          "rowMid": 359.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 359.34375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 407.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 407.34375,
+          "rowMid": 407.34375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 407.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.75,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.62,
+          "min": 10.28
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.13,
+          "min": 9.74
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.35,
+          "min": 2.97
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.26,
+          "min": 8.12
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.61
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.7
+        }
+      ],
+      "minContrast": 3.35,
+      "icons": [
+        "back",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.03.VALIDATION",
+      "route": "setup/income",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "ARRIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A CADENCE AND ONE APPROXIMATE AMOUNT."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 334.59375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 334.59375,
+          "rowMid": 334.59375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 334.59375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 382.59375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 382.59375,
+          "rowMid": 382.59375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 382.59375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 430.59375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 430.59375,
+          "rowMid": 430.59375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 430.59375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 478.59375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 478.59375,
+          "rowMid": 478.59375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 478.59375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.74,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.63,
+          "min": 10.28
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.36,
+          "min": 7.38
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.72,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        }
+      ],
+      "minContrast": 9.36,
+      "icons": [
+        "back",
+        "alert",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.04",
+      "route": "setup/commitments",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.75,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.63,
+          "min": 10.28
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.13,
+          "min": 9.74
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.35,
+          "min": 2.97
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.32,
+          "min": 8.12
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.55,
+          "min": 12.35
+        }
+      ],
+      "minContrast": 3.35,
+      "icons": [
+        "back",
+        "plus"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.04.ADD",
+      "route": "setup/commitments",
+      "query": "overlay=add",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 187,
+          "iconMid": 915,
+          "labelMinX": 195,
+          "labelLines": 1,
+          "firstLineMid": 915,
+          "rowMid": 915,
+          "rowRight": 673,
+          "trailingRight": 664,
+          "trailingMid": 915,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 187,
+          "iconMid": 963,
+          "labelMinX": 195,
+          "labelLines": 1,
+          "firstLineMid": 963,
+          "rowMid": 963,
+          "rowRight": 673,
+          "trailingRight": 664,
+          "trailingMid": 963,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 187,
+          "iconMid": 1011,
+          "labelMinX": 195,
+          "labelLines": 1,
+          "firstLineMid": 1011,
+          "rowMid": 1011,
+          "rowRight": 673,
+          "trailingRight": 664,
+          "trailingMid": 1011,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 187,
+          "iconMid": 1059,
+          "labelMinX": 195,
+          "labelLines": 1,
+          "firstLineMid": 1059,
+          "rowMid": 1059,
+          "rowRight": 673,
+          "trailingRight": 664,
+          "trailingMid": 1059,
+          "h": 42
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "plus",
+        "close",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.04.VALIDATION",
+      "route": "setup/commitments",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 187,
+          "iconMid": 915,
+          "labelMinX": 195,
+          "labelLines": 1,
+          "firstLineMid": 915,
+          "rowMid": 915,
+          "rowRight": 673,
+          "trailingRight": 664,
+          "trailingMid": 915,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 187,
+          "iconMid": 963,
+          "labelMinX": 195,
+          "labelLines": 1,
+          "firstLineMid": 963,
+          "rowMid": 963,
+          "rowRight": 673,
+          "trailingRight": 664,
+          "trailingMid": 963,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 187,
+          "iconMid": 1011,
+          "labelMinX": 195,
+          "labelLines": 1,
+          "firstLineMid": 1011,
+          "rowMid": 1011,
+          "rowRight": 673,
+          "trailingRight": 664,
+          "trailingMid": 1011,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 187,
+          "iconMid": 1059,
+          "labelMinX": 195,
+          "labelLines": 1,
+          "firstLineMid": 1059,
+          "rowMid": 1059,
+          "rowRight": 673,
+          "trailingRight": 664,
+          "trailingMid": 1059,
+          "h": 42
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "plus",
+        "close",
+        "alert",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.05",
+      "route": "setup/priorities",
+      "query": "",
+      "plate": "ENV.EDIT",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 619,
+      "headline": [
+        {
+          "text": "WHAT MATTERS",
+          "lines": 1
+        },
+        {
+          "text": "FIRST.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "UP TO THREE. THE REST CAN WAIT."
+      },
+      "rows": [
+        {
+          "group": "PRIORITIES",
+          "label": "HOUSING",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 263.34375,
+          "rowMid": 263.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 263.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "DAILY LIFE",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 311.34375,
+          "rowMid": 311.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 311.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "A GOAL",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 359.34375,
+          "rowMid": 359.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 359.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "DEBT",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 407.34375,
+          "rowMid": 407.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 407.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "TRAVEL",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 455.34375,
+          "rowMid": 455.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 455.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "A BUFFER",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 503.34375,
+          "rowMid": 503.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 503.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.28,
+          "min": 8.22
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.47,
+          "min": 8.56
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 8.79,
+          "min": 7.85
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.06,
+          "min": 2.65
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.65,
+          "min": 6.17
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.51
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.51
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        }
+      ],
+      "minContrast": 3.06,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.05.1",
+      "route": "setup/priorities/goal",
+      "query": "",
+      "plate": "ENV.EDIT",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 619,
+      "headline": [
+        {
+          "text": "NAME A",
+          "lines": 1
+        },
+        {
+          "text": "GOAL.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "ONE INTENTION AND A LOOSE HORIZON."
+      },
+      "rows": [
+        {
+          "group": "HORIZON",
+          "label": "THIS SEASON",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 321.34375,
+          "rowMid": 321.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 321.34375,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "THIS YEAR",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 369.34375,
+          "rowMid": 369.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 369.34375,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "LATER",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 417.34375,
+          "rowMid": 417.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 417.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.31,
+          "min": 8.56
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.49,
+          "min": 8.56
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 8.79,
+          "min": 7.85
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.06,
+          "min": 2.65
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.63,
+          "min": 6.17
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.59
+        }
+      ],
+      "minContrast": 3.06,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.05.1.VALIDATION",
+      "route": "setup/priorities/goal",
+      "query": "state=validation",
+      "plate": "ENV.EDIT",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 619,
+      "headline": [
+        {
+          "text": "NAME A",
+          "lines": 1
+        },
+        {
+          "text": "GOAL.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "ONE INTENTION AND A LOOSE HORIZON."
+      },
+      "rows": [
+        {
+          "group": "HORIZON",
+          "label": "THIS SEASON",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 405.34375,
+          "rowMid": 405.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 405.34375,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "THIS YEAR",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 453.34375,
+          "rowMid": 453.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 453.34375,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "LATER",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 501.34375,
+          "rowMid": 501.34375,
+          "rowRight": 472,
+          "trailingRight": 461,
+          "trailingMid": 501.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.35,
+          "min": 8.56
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.43,
+          "min": 7.58
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.68,
+          "min": 6.17
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.51
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.7
+        }
+      ],
+      "minContrast": 8.68,
+      "icons": [
+        "back",
+        "alert"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.06",
+      "route": "setup/protected",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHAT SHOULD",
+          "lines": 1
+        },
+        {
+          "text": "STAY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "ONE PROTECTED AMOUNT. OR NONE FOR NOW."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.53,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.72,
+          "min": 10.6
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.13,
+          "min": 9.74
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.35,
+          "min": 2.97
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.24,
+          "min": 8.12
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.55,
+          "min": 12.44
+        }
+      ],
+      "minContrast": 3.35,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.06.VALIDATION",
+      "route": "setup/protected",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 540,
+      "headline": [
+        {
+          "text": "WHAT SHOULD",
+          "lines": 1
+        },
+        {
+          "text": "STAY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "ONE PROTECTED AMOUNT. OR NONE FOR NOW."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.53,
+          "min": 10.6
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.74,
+          "min": 10.6
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.35,
+          "min": 7.38
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.46,
+          "min": 12.33
+        }
+      ],
+      "minContrast": 9.35,
+      "icons": [
+        "back",
+        "alert"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.07",
+      "route": "setup/boundaries",
+      "query": "",
+      "plate": "ENV.QUIET",
+      "railLeft": 72,
+      "railRight": 472,
+      "envEdge": 531,
+      "headline": [
+        {
+          "text": "WHAT JURNL",
+          "lines": 1
+        },
+        {
+          "text": "MAY KEEP.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 4,
+        "text": "YOU DECIDE WHAT STAYS."
+      },
+      "rows": [
+        {
+          "group": "jrn-setup__consents",
+          "label": "REMEMBER THIS SETUP",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 258.84375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 257.34375,
+          "rowMid": 265.390625,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 265.390625,
+          "h": 46
+        },
+        {
+          "group": "jrn-setup__consents",
+          "label": "LINKED ACCOUNTS STAY OPTIONAL",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 312.9375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 311.4375,
+          "rowMid": 319.484375,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 319.484375,
+          "h": 46
+        },
+        {
+          "group": "jrn-setup__consents",
+          "label": "NOTHING IS SOLD",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 367.03125,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 365.53125,
+          "rowMid": 373.578125,
+          "rowRight": 472,
+          "trailingRight": 463,
+          "trailingMid": 373.578125,
+          "h": 46
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "READ THE BOUNDARY",
+          "icon": "chevron",
+          "placement": "TRAILING",
+          "labelLines": 1,
+          "overlap": 242,
+          "midDelta": 0
+        }
+      ],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.18,
+          "min": 9.45
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 10.92,
+          "min": 8.19
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 8.89,
+          "min": 8.23
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.55,
+          "min": 2.67
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 8.43,
+          "min": 7.59
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.33,
+          "min": 16.09
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.33,
+          "min": 15.94
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.33,
+          "min": 16.19
+        }
+      ],
+      "minContrast": 3.55,
+      "icons": [
+        "back",
+        "shield",
+        "privacy",
+        "info",
+        "chevron"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "tablet",
+      "id": "F02.08",
+      "route": "setup/ready",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 72,
+      "railRight": 423,
+      "envEdge": 455,
+      "headline": [
+        {
+          "text": "JURNL IS",
+          "lines": 1
+        },
+        {
+          "text": "READY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "THIS IS THE SHAPE IT LEARNED."
+      },
+      "rows": [
+        {
+          "group": "VOICE",
+          "label": "GUIDED",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 367.34375,
+          "rowMid": 367.34375,
+          "rowRight": 423,
+          "trailingRight": 412,
+          "trailingMid": 367.34375,
+          "h": 42
+        },
+        {
+          "group": "VOICE",
+          "label": "QUIET",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 415.34375,
+          "rowMid": 415.34375,
+          "rowRight": 423,
+          "trailingRight": 412,
+          "trailingMid": 415.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 14.75,
+          "min": 12.35
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.15,
+          "min": 11.85
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 11.93,
+          "min": 10.92
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.54,
+          "min": 3.31
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.28,
+          "min": 9.79
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.24,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.24,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.24,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.23,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.82,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.93,
+          "min": 12.84
+        }
+      ],
+      "minContrast": 3.54,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.00",
+      "route": "setup",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 720,
+      "headline": [
+        {
+          "text": "THE SHAPE",
+          "lines": 1
+        },
+        {
+          "text": "OF YOUR",
+          "lines": 1
+        },
+        {
+          "text": "LIFE.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "JURNL LEARNS ONLY WHAT IT NEEDS."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.71,
+          "min": 12.35
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.75,
+          "min": 12.59
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.75,
+          "min": 12.82
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.61,
+          "min": 10.26
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.81,
+          "min": 9.43
+        },
+        {
+          "kind": "foot",
+          "large": false,
+          "p10": 10.61,
+          "min": 10.31
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.24
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.53,
+          "min": 16.53
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.49,
+          "min": 16.38
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.49,
+          "min": 16.38
+        }
+      ],
+      "minContrast": 9.81,
+      "icons": [],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.00.RESUME",
+      "route": "setup",
+      "query": "state=resume",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 720,
+      "headline": [
+        {
+          "text": "CONTINUE",
+          "lines": 1
+        },
+        {
+          "text": "SETUP.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "PICK UP WHERE YOU LEFT THE SHAPE."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.71,
+          "min": 12.35
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 14.01,
+          "min": 12.82
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.91,
+          "min": 10.43
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.44,
+          "min": 3.34
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.81,
+          "min": 9.52
+        },
+        {
+          "kind": "cta:CONTINUE SETUP",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:START OVER",
+          "large": false,
+          "p10": 13.38,
+          "min": 13.3
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.27
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.23
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.38
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.38
+        }
+      ],
+      "minContrast": 3.44,
+      "icons": [],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.01",
+      "route": "setup/household",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 720,
+      "headline": [
+        {
+          "text": "WHO THIS",
+          "lines": 1
+        },
+        {
+          "text": "IS FOR.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "THE HOUSEHOLD JURNL WILL KEEP IN VIEW."
+      },
+      "rows": [
+        {
+          "group": "HOUSEHOLD",
+          "label": "JUST ME",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 277.34375,
+          "rowMid": 277.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 277.34375,
+          "h": 42
+        },
+        {
+          "group": "HOUSEHOLD",
+          "label": "SHARED",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 325.34375,
+          "rowMid": 325.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 325.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.58,
+          "min": 12.44
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.85,
+          "min": 12.82
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 12.07,
+          "min": 11.33
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.46,
+          "min": 3.35
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.9,
+          "min": 9.52
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.93,
+          "min": 12.93
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.81,
+          "min": 12.73
+        }
+      ],
+      "minContrast": 3.46,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.02",
+      "route": "setup/accounts",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 10,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 277.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 277.34375,
+          "rowMid": 277.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 277.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 325.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 325.34375,
+          "rowMid": 325.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 325.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.66,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.65,
+          "min": 10.98
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.57,
+          "min": 8.73
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.39,
+          "min": 2.83
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.02,
+          "min": 9.05
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.55,
+          "min": 12.41
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.61
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.62
+        }
+      ],
+      "minContrast": 3.39,
+      "icons": [
+        "back",
+        "link",
+        "account"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.02.CONNECTED",
+      "route": "setup/accounts",
+      "query": "state=connected",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 10,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 457.546875,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 457.546875,
+          "rowMid": 457.546875,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 457.546875,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 505.546875,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 505.546875,
+          "rowMid": 505.546875,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 505.546875,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.66,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.65,
+          "min": 10.98
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.57,
+          "min": 8.73
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.39,
+          "min": 2.83
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.02,
+          "min": 9.05
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.52,
+          "min": 12.02
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.7
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        }
+      ],
+      "minContrast": 3.39,
+      "icons": [
+        "back",
+        "check",
+        "link",
+        "account"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.02.PERMISSION",
+      "route": "setup/accounts",
+      "query": "overlay=permission",
+      "plate": "ENV.QUIET",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 10,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 277.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 277.34375,
+          "rowMid": 277.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 277.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 325.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 325.34375,
+          "rowMid": 325.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 325.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "link",
+        "account",
+        "close"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.02.SKIP",
+      "route": "setup/accounts",
+      "query": "overlay=skip",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHERE IT",
+          "lines": 1
+        },
+        {
+          "text": "LIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 10,
+        "text": "CONNECT A SOURCE, NAME ONE, OR LEAVE IT FOR LATER."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "CONNECT AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 277.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 277.34375,
+          "rowMid": 277.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 277.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT SOURCE",
+          "label": "NAME AN ACCOUNT",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 325.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 325.34375,
+          "rowMid": 325.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 325.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "link",
+        "account",
+        "close"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.02.1",
+      "route": "setup/accounts/name",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "NAME AN",
+          "lines": 1
+        },
+        {
+          "text": "ACCOUNT.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "A LABEL AND A KIND. NO BALANCE."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CHECKING",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 335.34375,
+          "rowMid": 335.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 335.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "SAVINGS",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 383.34375,
+          "rowMid": 383.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 383.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CARD",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 431.34375,
+          "rowMid": 431.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 431.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.64,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.88,
+          "min": 10.98
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.57,
+          "min": 8.73
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.39,
+          "min": 2.83
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.95,
+          "min": 9.05
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.71
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        }
+      ],
+      "minContrast": 3.39,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.02.1.VALIDATION",
+      "route": "setup/accounts/name",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "NAME AN",
+          "lines": 1
+        },
+        {
+          "text": "ACCOUNT.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "A LABEL AND A KIND. NO BALANCE."
+      },
+      "rows": [
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CHECKING",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 359.34375,
+          "rowMid": 359.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 359.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "SAVINGS",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 407.34375,
+          "rowMid": 407.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 407.34375,
+          "h": 42
+        },
+        {
+          "group": "ACCOUNT KIND",
+          "label": "CARD",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 455.34375,
+          "rowMid": 455.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 455.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.7,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.88,
+          "min": 10.98
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.02,
+          "min": 8.81
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        }
+      ],
+      "minContrast": 10.02,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.03",
+      "route": "setup/income",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "ARRIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A CADENCE AND ONE APPROXIMATE AMOUNT."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 277.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 277.34375,
+          "rowMid": 277.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 277.34375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 325.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 325.34375,
+          "rowMid": 325.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 325.34375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 373.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 373.34375,
+          "rowMid": 373.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 373.34375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 421.34375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 421.34375,
+          "rowMid": 421.34375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 421.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.5,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.84,
+          "min": 10.98
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.57,
+          "min": 8.73
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.39,
+          "min": 2.83
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.02,
+          "min": 9.05
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.62
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.62
+        }
+      ],
+      "minContrast": 3.39,
+      "icons": [
+        "back",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.03.VALIDATION",
+      "route": "setup/income",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "ARRIVES.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A CADENCE AND ONE APPROXIMATE AMOUNT."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 348.59375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 348.59375,
+          "rowMid": 348.59375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 348.59375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 396.59375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 396.59375,
+          "rowMid": 396.59375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 396.59375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 444.59375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 444.59375,
+          "rowMid": 444.59375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 444.59375,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 492.59375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 492.59375,
+          "rowMid": 492.59375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 492.59375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.51,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.84,
+          "min": 10.98
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.03,
+          "min": 8.81
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.73
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.72
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.7
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.73,
+          "min": 12.7
+        }
+      ],
+      "minContrast": 10.03,
+      "icons": [
+        "back",
+        "alert",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.04",
+      "route": "setup/commitments",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.5,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.87,
+          "min": 10.98
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.57,
+          "min": 8.73
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.39,
+          "min": 2.83
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.02,
+          "min": 9.05
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.55,
+          "min": 12.44
+        }
+      ],
+      "minContrast": 3.39,
+      "icons": [
+        "back",
+        "plus"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.04.ADD",
+      "route": "setup/commitments",
+      "query": "overlay=add",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 510,
+          "iconMid": 621,
+          "labelMinX": 518,
+          "labelLines": 1,
+          "firstLineMid": 621,
+          "rowMid": 621,
+          "rowRight": 956,
+          "trailingRight": 947,
+          "trailingMid": 621,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 510,
+          "iconMid": 669,
+          "labelMinX": 518,
+          "labelLines": 1,
+          "firstLineMid": 669,
+          "rowMid": 669,
+          "rowRight": 956,
+          "trailingRight": 947,
+          "trailingMid": 669,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 510,
+          "iconMid": 717,
+          "labelMinX": 518,
+          "labelLines": 1,
+          "firstLineMid": 717,
+          "rowMid": 717,
+          "rowRight": 956,
+          "trailingRight": 947,
+          "trailingMid": 717,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 510,
+          "iconMid": 765,
+          "labelMinX": 518,
+          "labelLines": 1,
+          "firstLineMid": 765,
+          "rowMid": 765,
+          "rowRight": 956,
+          "trailingRight": 947,
+          "trailingMid": 765,
+          "h": 42
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "plus",
+        "close",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.04.VALIDATION",
+      "route": "setup/commitments",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT",
+          "lines": 1
+        },
+        {
+          "text": "REPEATS.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "A FEW OBLIGATIONS. NOT THE CALENDAR."
+      },
+      "rows": [
+        {
+          "group": "CADENCE",
+          "label": "WEEKLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 510,
+          "iconMid": 621,
+          "labelMinX": 518,
+          "labelLines": 1,
+          "firstLineMid": 621,
+          "rowMid": 621,
+          "rowRight": 956,
+          "trailingRight": 947,
+          "trailingMid": 621,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "EVERY TWO WEEKS",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 510,
+          "iconMid": 669,
+          "labelMinX": 518,
+          "labelLines": 1,
+          "firstLineMid": 669,
+          "rowMid": 669,
+          "rowRight": 956,
+          "trailingRight": 947,
+          "trailingMid": 669,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "MONTHLY",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 510,
+          "iconMid": 717,
+          "labelMinX": 518,
+          "labelLines": 1,
+          "firstLineMid": 717,
+          "rowMid": 717,
+          "rowRight": 956,
+          "trailingRight": 947,
+          "trailingMid": 717,
+          "h": 42
+        },
+        {
+          "group": "CADENCE",
+          "label": "IRREGULAR",
+          "role": "radio",
+          "hasIcon": true,
+          "iconRight": 510,
+          "iconMid": 765,
+          "labelMinX": 518,
+          "labelLines": 1,
+          "firstLineMid": 765,
+          "rowMid": 765,
+          "rowRight": 956,
+          "trailingRight": 947,
+          "trailingMid": 765,
+          "h": 42
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "ADD ANOTHER",
+          "icon": "plus",
+          "placement": "LEADING",
+          "labelLines": 1,
+          "overlap": 8,
+          "midDelta": 0.3
+        }
+      ],
+      "contrast": [],
+      "minContrast": null,
+      "icons": [
+        "back",
+        "plus",
+        "close",
+        "alert",
+        "clock"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.05",
+      "route": "setup/priorities",
+      "query": "",
+      "plate": "ENV.EDIT",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT MATTERS",
+          "lines": 1
+        },
+        {
+          "text": "FIRST.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "UP TO THREE. THE REST CAN WAIT."
+      },
+      "rows": [
+        {
+          "group": "PRIORITIES",
+          "label": "HOUSING",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 277.34375,
+          "rowMid": 277.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 277.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "DAILY LIFE",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 325.34375,
+          "rowMid": 325.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 325.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "A GOAL",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 373.34375,
+          "rowMid": 373.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 373.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "DEBT",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 421.34375,
+          "rowMid": 421.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 421.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "TRAVEL",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 469.34375,
+          "rowMid": 469.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 469.34375,
+          "h": 42
+        },
+        {
+          "group": "PRIORITIES",
+          "label": "A BUFFER",
+          "role": "checkbox",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 517.34375,
+          "rowMid": 517.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 517.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.71,
+          "min": 9.39
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.78,
+          "min": 7.05
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.35,
+          "min": 8.72
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.03,
+          "min": 2.47
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.19,
+          "min": 6.16
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.28
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.48
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.48
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.59
+        }
+      ],
+      "minContrast": 3.03,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.05.1",
+      "route": "setup/priorities/goal",
+      "query": "",
+      "plate": "ENV.EDIT",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "NAME A",
+          "lines": 1
+        },
+        {
+          "text": "GOAL.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "ONE INTENTION AND A LOOSE HORIZON."
+      },
+      "rows": [
+        {
+          "group": "HORIZON",
+          "label": "THIS SEASON",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 335.34375,
+          "rowMid": 335.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 335.34375,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "THIS YEAR",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 383.34375,
+          "rowMid": 383.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 383.34375,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "LATER",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 431.34375,
+          "rowMid": 431.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 431.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.71,
+          "min": 10.04
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.77,
+          "min": 7.05
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.35,
+          "min": 8.72
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.06,
+          "min": 2.47
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.2,
+          "min": 6.16
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.62,
+          "min": 12.4
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.59
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.59
+        }
+      ],
+      "minContrast": 3.06,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.05.1.VALIDATION",
+      "route": "setup/priorities/goal",
+      "query": "state=validation",
+      "plate": "ENV.EDIT",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "NAME A",
+          "lines": 1
+        },
+        {
+          "text": "GOAL.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "ONE INTENTION AND A LOOSE HORIZON."
+      },
+      "rows": [
+        {
+          "group": "HORIZON",
+          "label": "THIS SEASON",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 419.34375,
+          "rowMid": 419.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 419.34375,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "THIS YEAR",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 467.34375,
+          "rowMid": 467.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 467.34375,
+          "h": 42
+        },
+        {
+          "group": "HORIZON",
+          "label": "LATER",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 515.34375,
+          "rowMid": 515.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 515.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.75,
+          "min": 10.04
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 11.8,
+          "min": 7.05
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 9.21,
+          "min": 7.5
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.48
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.51
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.7,
+          "min": 12.59
+        }
+      ],
+      "minContrast": 9.21,
+      "icons": [
+        "back",
+        "alert"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.06",
+      "route": "setup/protected",
+      "query": "",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT SHOULD",
+          "lines": 1
+        },
+        {
+          "text": "STAY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "ONE PROTECTED AMOUNT. OR NONE FOR NOW."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.74,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.62,
+          "min": 10.98
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 9.57,
+          "min": 8.73
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.39,
+          "min": 2.83
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.03,
+          "min": 9.05
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.55,
+          "min": 12.33
+        }
+      ],
+      "minContrast": 3.39,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.06.VALIDATION",
+      "route": "setup/protected",
+      "query": "state=validation",
+      "plate": "ENV.DESK",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT SHOULD",
+          "lines": 1
+        },
+        {
+          "text": "STAY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 7,
+        "text": "ONE PROTECTED AMOUNT. OR NONE FOR NOW."
+      },
+      "rows": [],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.76,
+          "min": 10.33
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 12.63,
+          "min": 10.98
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.04,
+          "min": 8.81
+        },
+        {
+          "kind": "cta:SKIP FOR NOW",
+          "large": false,
+          "p10": 12.55,
+          "min": 12.44
+        }
+      ],
+      "minContrast": 10.04,
+      "icons": [
+        "back",
+        "alert"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.07",
+      "route": "setup/boundaries",
+      "query": "",
+      "plate": "ENV.QUIET",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 900,
+      "headline": [
+        {
+          "text": "WHAT JURNL",
+          "lines": 1
+        },
+        {
+          "text": "MAY KEEP.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 4,
+        "text": "YOU DECIDE WHAT STAYS."
+      },
+      "rows": [
+        {
+          "group": "jrn-setup__consents",
+          "label": "REMEMBER THIS SETUP",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 272.84375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 271.34375,
+          "rowMid": 279.390625,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 279.390625,
+          "h": 46
+        },
+        {
+          "group": "jrn-setup__consents",
+          "label": "LINKED ACCOUNTS STAY OPTIONAL",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 326.9375,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 325.4375,
+          "rowMid": 333.484375,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 333.484375,
+          "h": 46
+        },
+        {
+          "group": "jrn-setup__consents",
+          "label": "NOTHING IS SOLD",
+          "role": "switch",
+          "hasIcon": true,
+          "iconRight": 98,
+          "iconMid": 381.03125,
+          "labelMinX": 106,
+          "labelLines": 1,
+          "firstLineMid": 379.53125,
+          "rowMid": 387.578125,
+          "rowRight": 492,
+          "trailingRight": 483,
+          "trailingMid": 387.578125,
+          "h": 46
+        }
+      ],
+      "buttonRows": [
+        {
+          "label": "READ THE BOUNDARY",
+          "icon": "chevron",
+          "placement": "TRAILING",
+          "labelLines": 1,
+          "overlap": 262,
+          "midDelta": 0
+        }
+      ],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.55,
+          "min": 9.54
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.98,
+          "min": 11.81
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 10.33,
+          "min": 8.08
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.58,
+          "min": 2.49
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.83,
+          "min": 8.75
+        },
+        {
+          "kind": "cta:CONTINUE",
+          "large": false,
+          "p10": 11.22,
+          "min": 11.22
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.48,
+          "min": 15.91
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.49,
+          "min": 16.2
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.49,
+          "min": 16.02
+        }
+      ],
+      "minContrast": 3.58,
+      "icons": [
+        "back",
+        "shield",
+        "privacy",
+        "info",
+        "chevron"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    },
+    {
+      "viewport": "desktop",
+      "id": "F02.08",
+      "route": "setup/ready",
+      "query": "",
+      "plate": "ENV.ARRIVAL",
+      "railLeft": 72,
+      "railRight": 492,
+      "envEdge": 720,
+      "headline": [
+        {
+          "text": "JURNL IS",
+          "lines": 1
+        },
+        {
+          "text": "READY.",
+          "lines": 1
+        }
+      ],
+      "helper": {
+        "lines": 1,
+        "lastLineWords": 6,
+        "text": "THIS IS THE SHAPE IT LEARNED."
+      },
+      "rows": [
+        {
+          "group": "VOICE",
+          "label": "GUIDED",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 381.34375,
+          "rowMid": 381.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 381.34375,
+          "h": 42
+        },
+        {
+          "group": "VOICE",
+          "label": "QUIET",
+          "role": "radio",
+          "hasIcon": false,
+          "iconRight": null,
+          "iconMid": null,
+          "labelMinX": 83,
+          "labelLines": 1,
+          "firstLineMid": 429.34375,
+          "rowMid": 429.34375,
+          "rowRight": 492,
+          "trailingRight": 481,
+          "trailingMid": 429.34375,
+          "h": 42
+        }
+      ],
+      "buttonRows": [],
+      "contrast": [
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.74,
+          "min": 12.7
+        },
+        {
+          "kind": "headline",
+          "large": true,
+          "p10": 13.87,
+          "min": 12.82
+        },
+        {
+          "kind": "eyebrow",
+          "large": false,
+          "p10": 12.07,
+          "min": 11.33
+        },
+        {
+          "kind": "word",
+          "large": true,
+          "p10": 3.54,
+          "min": 3.35
+        },
+        {
+          "kind": "helper",
+          "large": false,
+          "p10": 10.48,
+          "min": 9.76
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.53,
+          "min": 16.5
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.38
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.27
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 16.39,
+          "min": 16.38
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.92,
+          "min": 12.81
+        },
+        {
+          "kind": "row",
+          "large": false,
+          "p10": 12.81,
+          "min": 12.73
+        }
+      ],
+      "minContrast": 3.54,
+      "icons": [
+        "back"
+      ],
+      "issues": [],
+      "pageErrors": [],
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+ "artifact": "SITE00_CLIENT_NOTIFICATION_MODEL",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "priority": [
+  "NEEDS_YOU",
+  "REVISION_READY",
+  "APPROVAL_RECEIVED (confirmation)",
+  "FILE_READY",
+  "FUNDING_REQUIRED",
+  "IMPORTANT_PROJECT_CHANGE"
+ ],
+ "never_notify": [
+  "asset mounted",
+  "route QA passed",
+  "manifest updated",
+  "internal retries",
+  "provider errors"
+ ],
+ "channels": {
+  "in_app": "bell drawer + HOME",
+  "email": "NEEDS_YOU, REVISION_READY, FUNDING_REQUIRED, FILE_READY (templates exist in shared/site00-email; provider not configured)",
+  "digest": "optional daily when >3"
+ },
+ "store": "NEW notifications projection table keyed by (project_id, user_id) derived from events; read/unread state",
+ "founder_attention_queue": {
+  "destination": "PW.INBOX client lens + CTL.REVIEWS",
+  "events": [
+   "CLIENT_APPROVED_FAMILY",
+   "CLIENT_REQUESTED_REVISION",
+   "CLIENT_COMMENTED",
+   "CLIENT_UPLOADED_FILE",
+   "CLIENT_FUNDED_NEXT_FAMILY",
+   "PROVIDER_DISCONNECTED",
+   "SCOPE_CHANGE_REQUESTED"
+  ]
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "artifact": "SITE00_CLIENT_PROJECT_PULSE",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "definition": "One derived read model (no table) that drives CLIENT HOME, FOUNDER HUB, NOTIFICATIONS and CTRL ROOM project cards.",
+ "fields": {
+  "project_id": "uuid",
+  "status": "ON_TRACK | WAITING_ON_YOU | IN_PRODUCTION | FUNDING_NEEDED | BLOCKED | COMPLETE",
+  "current_phase": "phase id + label",
+  "current_family": "family id + label + family_state",
+  "blocker": "null | {kind, owner (CLIENT|FOUNDER|SYSTEM|PROVIDER), since}",
+  "next_action_owner": "CLIENT | FOUNDER | SYSTEM",
+  "next_action": "{label, target_route, estimated_minutes}",
+  "needs_you": "[NeedsYouItem]",
+  "last_meaningful_event": "{client_sentence, at}",
+  "next_family": "{id, label, estimate_range_usd, estimate_range_credits, funding_ready}",
+  "spent_to_date_usd": "number (client-visible production expenses only)",
+  "sentence": "derived human sentence (e.g. WAITING ON YOU \u2014 IDENTITY DIRECTION REVIEW. WHEN YOU APPROVE, WE MOVE INTO FAMILY 01.)"
+ },
+ "derivation_inputs": [
+  "site00_projects",
+  "families (persisted)",
+  "review objects + receipts",
+  "site00_next_actions",
+  "events (unified)",
+  "funding + cost ledger",
+  "provider connection status"
+ ],
+ "prerequisites": [
+  "fix site00_project_events (no migration) vs site00_project_activity split",
+  "persist families per project",
+  "notifications store"
+ ],
+ "reuse": [
+  "ClientProjectPulse type (shared/site00-client-app/types.ts) \u2014 CONNECT",
+  "legacy ProjectPulseHome component (unmounted) \u2014 CONNECT",
+  "site00_next_actions \u2014 CONNECT"
+ ],
+ "language_rule": "Active voice; say who must act. Never passive status (\"PENDING\").",
+ "single_source_rule": "Client app, production HUB and notifications read the same pulse; no client-specific manual status copies."
+}

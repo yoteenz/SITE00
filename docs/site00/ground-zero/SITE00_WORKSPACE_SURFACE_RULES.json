@@ -1,0 +1,236 @@
+{
+ "artifact": "SITE00_WORKSPACE_SURFACE_RULES",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "rules": {
+  "workspace_grammar": [
+   {
+    "rule": "Seven lenses of one project shell (ProductionAuthorityFrame); parent -> child -> grandchild inheritance; descendants specialize function but may not drift to unrelated design systems or generic SaaS.",
+    "evidence": [
+     "artifacts/production-authority-tree/README.md",
+     "artifacts/production-authority-tree/INHERITANCE_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "spatial_composition": [
+   {
+    "rule": "Workspace roots are staged as an architectural chamber/world: a luminous white atrium or plaza with a single central core object, and UI floating over it.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "artifacts/production-all-tabs-forensic1/02-design-brand-authority-vs-tunnel.jpg",
+     "artifacts/production-all-tabs-forensic1/08-experience-authority-vs-tunnel.jpg",
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Center-axis symmetry: core object at horizontal center, frequently with a vertical red light line or ring descending onto it.",
+    "evidence": [
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "DESIGN modes: boards arranged around the core \u2014 left pair, flat centre overview, right stack of three \u2014 with perspective tilt (rotateY \u00b118\u201321\u00b0, perspective 520\u2013860px).",
+    "evidence": [
+     "src/site00/styles/site00-production-authority-opus.css",
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "EXPERIENCE: full-bleed world fills the body between host bars; capsules + status + ENTER WORLD/PREVIEW at foot of world.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/08-experience-authority-vs-tunnel.jpg",
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "black_red_core": [
+   {
+    "rule": "Central core object = black/red crystal pyramid (HUB, EXPERIENCE, LIBRARY canon) or red-glass faceted core (DESIGN project core) or red-glass orb with orbit rings (projects/design reconstruction emblem).",
+    "evidence": [
+     "public/site00/production-authority-assets/production-hub-crystal-core-v1.jpg",
+     "public/site00/production-authority-assets/production-design-project-core-v1.png",
+     "public/site00/production-authority-assets/production-library-canon-hero-v1.jpg",
+     "public/visual-references/founder/site00/projects-index-approved-reference.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Host status uses a black disc with red core ring next to attention count (top bar).",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "artifacts/production-inbox-authority-opus2/root-needs-you/mobile/authority-vs-live.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "LIBRARY is the dark exception: black mountain range with red geometry/light beams as canon hero.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/10-library-authority-vs-tunnel.jpg",
+     "public/site00/production-authority-assets/production-library-red-geometry-0*-v1.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "suspended_surfaces": [
+   {
+    "rule": "Status rail floats over hero foot; boards hover in atrium; chamber overlays use glass + blur; HUB modules \"suspended\" fixed 113px outer shell (legacy hub).",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md",
+     "motherboard/MEMORY.md",
+     "src/site00/styles/site00-production-authority-opus.css"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": true
+   }
+  ],
+  "cards_boards": [
+   {
+    "rule": "Suspended boards: white glass boards with numbered heading (01 BRAND ESSENCE\u2026), dots menu, mixed media, floating in the atrium at tilt; centre board flat and larger.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/02-design-brand-authority-vs-tunnel.jpg",
+     "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg (01 PANEL SHELLS & PRESENTATION BOARDS)"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Review cards (ON YOUR TABLE): media thumbnail + title/meta + outlined red action (REVIEW > / CHOOSE > / APPROVE >).",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/02-design-brand-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Data tiles are sparse and instrumented (progress ring 62%, legend list with percentages) \u2014 not uniform card grids.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": true
+   }
+  ],
+  "density": [
+   {
+    "rule": "Production is dense and instrumented (many small caps labels 10\u201312px) but organized in few large zones; motherboard: \"Dense, instrumented, red/black/white \u2014 not generic SaaS admin.\"",
+    "evidence": [
+     "motherboard/CORE.md",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "host_vs_project_rules": [
+   {
+    "rule": "Host chrome (top bar, bottom nav, mode bar, type, red) stays constant across projects; project identity appears via thumbnail, hero media, boards content, world imagery.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "src/site00/styles/site00-production-host-chrome.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "--site00-project-presence-accent defaults to host accent; project skins (NDXBOOK lime/black, JURNL bone/emerald) live inside project surfaces only.",
+    "evidence": [
+     "src/site00/styles/tokens.css",
+     "public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg",
+     "public/site00/projects/jurnl/f01/authorities/reference/REFERENCE_MASTER_VISUAL_AUTHORITY.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Do not crop finished screens into runtime assets; authority images are QA/reference only, never shipped as UI.",
+    "evidence": [
+     "src/site00/config/production-authority-registry.ts",
+     "src/site00/authority/publicRedesignAssetSlots.ts",
+     "motherboard/CORE.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "anti_patterns": [
+   {
+    "rule": "Generic SaaS / admin / CRM list / DAM card grid (genericization risks: design-child-workspace, inbox-queue-list, library-collections, expression-engine-legacy).",
+    "evidence": [
+     "artifacts/production-authority-tree/STALE_FALLBACK_MAP.md",
+     "motherboard/CORE.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Checkbox category lists instead of icon chips (Library), 2-col grids where authority has 4.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/README.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "CSS gradient orbs / hard-coded hex swatches / empty device boxes as stand-ins for pack assets.",
+    "evidence": [
+     "artifacts/production-design-asset-convergence-opus3/ASSET_SUBSTITUTION_AUDIT.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Re-importing retired production-mobile plates; lime NME literals outside .pw--authority; white-on-white twin rails.",
+    "evidence": [
+     "artifacts/production-authority-tree/STALE_FALLBACK_MAP.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Scaling host chrome (zoom/transform/vw/clamp type); page-level scroll in Production parents.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "artifacts/production-design-asset-convergence-opus3/README.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Inventing data/sample names from screenshots; faking verification states (IDNTY build-ready deviations).",
+    "evidence": [
+     "src/site00/authority/publicRedesignAuthorityManifest.ts",
+     "artifacts/production-inbox-activity-threeviewport-opus1/README.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Promoting Martian Mono (host) into client brand typography.",
+    "evidence": [
+     "motherboard/CORE.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ]
+ },
+ "host_vs_project_firewall": {
+  "host_chrome": "SITE 00 canonical language (top bar, bottom nav, mode bar, type, red) constant across projects",
+  "project_content": "project personality only via thumbnail, hero media, board content, world imagery",
+  "forbidden": "JURNL / AIO / FRONTAL SLAYER / NDXBOOK styles rewriting host chrome; lime NME literals outside .pw--authority"
+ },
+ "no_scroll_frame_contract": "Production parents never scroll at page level; internal panes scroll."
+}

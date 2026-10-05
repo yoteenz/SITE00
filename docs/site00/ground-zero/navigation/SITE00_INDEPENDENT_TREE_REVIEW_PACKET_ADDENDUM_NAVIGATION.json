@@ -1,0 +1,4222 @@
+{
+ "artifact": "SITE00_INDEPENDENT_TREE_REVIEW_PACKET_ADDENDUM_NAVIGATION",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "how_to_use": "Read with SITE00_INDEPENDENT_TREE_REVIEW_PACKET.md. Part A = facts with file:line; Part B = problems; Part C = new founder constraints; Part D = Opus corrections (opinion); Part E = questions.",
+ "PART_A_FACTS": {
+  "runtime_verification": "RUNTIME_VERIFICATION_BLOCKED \u2014 npm registry is blocked in this environment, so no dev server; every finding is code evidence (file:line). Items tagged CONFIRM_LIVE in evidence/ need a live pass.",
+  "spatial_systems": [
+   {
+    "system_id": "SPX-ORIGIN",
+    "name": "ORIGIN (arrival point \"YOU ARE AT 00.00 ORIGIN POINT\")",
+    "layer": "C",
+    "kind": "SPATIAL_ARRIVAL",
+    "routes": [
+     "/",
+     "/origin"
+    ]
+   },
+   {
+    "system_id": "SPX-SWIPE",
+    "name": "SWIPE-UP (Origin mobile)",
+    "layer": "C",
+    "kind": "GESTURE_PORTAL",
+    "trigger": "vertical swipe \u226556px \u00b140\u00b0 on Origin mobile, or SWIPE UP button",
+    "effect": "720ms transition \u2192 /origin/locations (LOCATIONS)",
+    "evidence": "src/site00/hooks/useSwipeUp.ts:15-33; useOriginLocationsTransition.ts:7-35; OriginMobileSwipeUp.tsx:32-47"
+   },
+   {
+    "system_id": "SPX-LOCATIONS",
+    "name": "LOCATIONS directory (mobile)",
+    "layer": "C",
+    "kind": "DIRECTORY_PLACE",
+    "routes": [
+     "/origin/locations"
+    ],
+    "note": "mobile-only; \u2265768px redirects to /origin (LocationsPage.tsx:37-39)"
+   },
+   {
+    "system_id": "SPX-ENTER00",
+    "name": "ENTER 00 (portal action)",
+    "layer": "C",
+    "kind": "SPATIAL_PORTAL",
+    "trigger": "\"ENTER 00\" header toggle (EntryToggle.tsx:27-36) \u00b7 \"ENTER SITE 00\" link on Origin mobile (OriginMobileSwipeUp.tsx:37)",
+    "effect": "\u2192 /enter (WAITING ROOM)"
+   },
+   {
+    "system_id": "SPX-WAITING",
+    "name": "WAITING ROOM (/enter directory)",
+    "layer": "C",
+    "kind": "DIRECTORY_PLACE",
+    "routes": [
+     "/enter"
+    ],
+    "note": "environment ENTER_00_WAITING_ROOM (environments.ts:92-103,121); location label \"LOCATION / ENTER 00\""
+   },
+   {
+    "system_id": "SPX-EXIT00",
+    "name": "EXIT 00 (inverse portal)",
+    "layer": "C",
+    "kind": "SPATIAL_PORTAL",
+    "trigger": "EntryToggle on /enter \u00b7 DirectoryExitButton on LOCATIONS \u00b7 design workspace sidebar",
+    "effect": "\u2192 /origin (fixed target, push), design workspace \u2192 /"
+   },
+   {
+    "system_id": "SPX-COLDSTART",
+    "name": "World cold-start / loader gates",
+    "layer": "C",
+    "kind": "TRANSITION",
+    "note": "Site00WorldColdStartGate, AsstsColdStartGate, route loading fallback"
+   }
+  ],
+  "enter00": {
+   "triggers": [
+    {
+     "type": "link (header toggle)",
+     "file_line": "src/site00/components/shell/EntryToggle.tsx:27-36",
+     "element": "<Link to='/enter' class='site00-btn-ghost' aria-label='ENTER SITE 00 INTERIOR DIRECTORY'>ENTER 00 + FastTravel icon",
+     "accessible_alternative": "IS the accessible control (native <a>, labelled). Rendered by Site00AppShell header slot 3 (Site00AppShell.tsx:66-68) on every Site00AppShell page: Origin desktop, public desktop-canon pages (Site00PublicShell.tsx:44), IDNTY/BLDR/EVOLVE assessment shells, Evolve marketing pages. HIDDEN on Origin mobile layout by CSS `.site00-origin-page--mobile-layout .site00-safe-ui > div:nth-child(3){display:none}` (site00.css:764-766)."
+    },
+    {
+     "type": "link (mobile origin callout)",
+     "file_line": "src/site00/components/homepage/OriginMobileSwipeUp.tsx:37-39",
+     "element": "<Link to='/enter'>ENTER SITE 00 (copy: status.ts:43)",
+     "accessible_alternative": "native link, focusable; text label. Only rendered when !isDesktopArtboardLayout (OriginPage.tsx:181); shown only in mobile layout (site00.css:746-748 hides by default, 960-973 shows)."
+    },
+    {
+     "type": "seed link",
+     "file_line": "src/site00/config/seed/site00-page-seed.ts:96",
+     "element": "GUIDE section ORIGIN -> /enter (GuidePage.tsx:14)",
+     "accessible_alternative": "n/a \u2014 /guide is a composer DRAFT route (routes.ts:786-796; Site00Routes.tsx:855) redirected to / unless ?preview=1"
+    },
+    {
+     "type": "gesture (swipe up) \u2014 DOES NOT open /enter",
+     "file_line": "src/site00/hooks/useOriginLocationsTransition.ts:16-35",
+     "element": "swipe-up on Origin mobile opens /origin/locations (LOCATIONS), not /enter",
+     "accessible_alternative": "<button>SWIPE UP</button> calls the same goToLocations (OriginMobileSwipeUp.tsx:45-47)"
+    }
+   ],
+   "swipe_up": {
+    "exists": true,
+    "file_line": "src/site00/hooks/useSwipeUp.ts:1-101; src/site00/hooks/useOriginLocationsTransition.ts:1-38",
+    "threshold_logic": "pointerdown/touchstart records start (ignored if target is button/a/input/textarea/select/[role=button]/[data-swipe-ignore], useSwipeUp.ts:10-13); on pointerup/touchend: dy must be < -56px (thresholdPx default 56, :33,:23) and angle within 90\u00b140deg of vertical (:25-26). Pointer capture on down (:57). touch handlers are an iOS fallback (:74-93); pointer path resets start so touchend no-ops (no double fire). disabled while transitioning.",
+    "from_where": "Origin route (/ or /origin) in MOBILE layout only (isMobileOrigin = !isDesktopArtboardLayout, OriginPage.tsx:28). Three bound surfaces: (1) full-screen transparent .site00-origin-swipe-surface, aria-hidden, fixed top:72px..bottom, z-index ui+1, touch-action:none (OriginPage.tsx:78-84; site00.css:976-985); (2) .site00-origin-mobile-swipe callout section aria-label 'SWIPE UP TO OPEN SITE 00 LOCATIONS DIRECTORY' (OriginMobileSwipeUp.tsx:32-35); (3) status-strip metrics row (OriginPage.tsx:74; StatusStrip.tsx:85-90).",
+    "to_where": "navigate('/origin/locations', {state:{fromSwipe:true}}) after 720ms overlay (useOriginLocationsTransition.ts:7,21,31-32); immediate when prefers-reduced-motion (useSwipeUp.ts:98-101; useOriginLocationsTransition.ts:26-29).",
+    "notes": [
+     "Swipe-up is the LOCATIONS entry, not ENTER 00. On the same mobile callout the visible 'ENTER SITE 00' link goes to /enter while swiping/'SWIPE UP' goes to /origin/locations \u2014 two different directories from one widget.",
+     "The 720ms setTimeout is never cleared on unmount (useOriginLocationsTransition.ts:32): tapping another control (e.g. ENTER SITE 00 link, which is excluded from swipe) during the transition still fires navigate to /origin/locations afterwards \u2014 navigation hijack (CONFIRM_LIVE).",
+     "Overlay renders only __locations-preview; CSS for __origin exit animation (site00-locations.css:584-586) targets an element that is never rendered \u2014 dead CSS; overlay CSS only exists under @media (max-width:767px) (site00-locations.css:10,576).",
+     "Not rendered on tablet/desktop (>=768px) \u2014 no swipe there."
+    ]
+   },
+   "surface": "Route-level page, not an overlay: /enter -> Site00EnterPage (lazy, Site00Routes.tsx:75) inside Site00Layout > Site00OriginRouteShell (Site00Routes.tsx:649-659). EnterPage = EnvironmentShell(environmentId='ENTER_00_WAITING_ROOM') > Site00AppShell(locationLabel 'LOCATION / ENTER 00') > DirectoryPanel + EnterStatusStrip (EnterPage.tsx:6-14). DirectoryPanel = welcome block '00 / WELCOME TO 00 / WHERE WOULD YOU LIKE TO GO?' + ArchitecturalPanel menu with sections EXPLORE and YOUR SPACE (DirectoryPanel.tsx:8-51; directory.ts:130-137). Header shows GlobalNav (SITES..JOURNAL) and EntryToggle which flips to EXIT 00 (EntryToggle.tsx:14-25). Status strip portaled to artboard bottom chrome (DirectoryPanel.tsx:53-61). Viewport-locked 100dvh, overflow hidden (site00.css:1220-1227).",
+   "destinations": [
+    {
+     "label": "01 SITES",
+     "destination": "/sites",
+     "auth": "public",
+     "file_line": "src/site00/config/directory.ts:36-42",
+     "status": "OK",
+     "note": "SitesPortfolioPage; SITE00_PORTFOLIO_SEED = [] (site00-page-seed.ts:15) \u2014 content empty; WAITING_FOR_AUTHORITY (publicRedesignAuthorityManifest.ts:144)"
+    },
+    {
+     "label": "02 SERVICES",
+     "destination": "/services",
+     "auth": "public",
+     "file_line": "directory.ts:44-50",
+     "status": "OK",
+     "note": "Site00Routes.tsx:840; WAITING_FOR_AUTHORITY"
+    },
+    {
+     "label": "03 SYSTEM",
+     "destination": "/system",
+     "auth": "public",
+     "file_line": "directory.ts:51-58",
+     "status": "OK",
+     "note": "Site00Routes.tsx:841"
+    },
+    {
+     "label": "04 ABOUT",
+     "destination": "/about",
+     "auth": "public",
+     "file_line": "directory.ts:59-66",
+     "status": "OK",
+     "note": "Site00Routes.tsx:852"
+    },
+    {
+     "label": "05 JOURNAL",
+     "destination": "/journal",
+     "auth": "public",
+     "file_line": "directory.ts:67-74",
+     "status": "OK",
+     "note": "Site00Routes.tsx:853; SITE00_JOURNAL_SEED = [] (site00-page-seed.ts:53) \u2014 empty"
+    },
+    {
+     "label": "BLDR STUDIO",
+     "destination": "/bldr",
+     "auth": "public",
+     "file_line": "directory.ts:81-88",
+     "status": "OK",
+     "note": "label 'BLDR STUDIO' vs 'BLDR' elsewhere"
+    },
+    {
+     "label": "PROJECTS",
+     "destination": "/projects (signed-out: /origin/sign-in?returnTo=%2Fprojects)",
+     "auth": "requiresAuth (localStorage flag) + Site00AccountRouteGuard",
+     "file_line": "directory.ts:89-97; directory.ts:119-128; Site00Routes.tsx:887-897",
+     "status": "OK"
+    },
+    {
+     "label": "ACCOUNT",
+     "destination": "/control (CTRL ROOM) (signed-out: sign-in?returnTo=/control)",
+     "auth": "requiresAuth + Site00AccountRouteGuard",
+     "file_line": "directory.ts:98-106; mobile-directory-nav.ts:47; Site00Routes.tsx:2894-2903",
+     "status": "OK",
+     "note": "Label mismatch: ACCOUNT here = CTRL ROOM; a separate /account route exists but is DRAFT_GATED (routes.ts:219,794)."
+    },
+    {
+     "label": "SUPPORT",
+     "destination": "/support",
+     "auth": "public",
+     "file_line": "directory.ts:107-114",
+     "status": "OK",
+     "note": "Site00Routes.tsx:854"
+    }
+   ],
+   "variants": {
+    "public": "All 9 rows rendered; PROJECTS/ACCOUNT render with --locked class and aria-label from site00AuthLockedAriaLabel, href rewritten to sign-in with returnTo (WorkflowCards.tsx:171-205).",
+    "signed_in": "Same rows; locked styling removed; href direct. Signed-in state is read from localStorage 'isSignedIn' (useSignedInFromStorage.ts:7-15), not the live Supabase session.",
+    "founder": "No founder-specific variant in EnterPage/DirectoryPanel/directory.ts (grep for founder/admin/isAdmin: none). Founder sees the public directory.",
+    "client": "No client-specific variant. Clients with a client-app project are not routed to /app from ENTER 00."
+   },
+   "responsive": {
+    "mobile": "Site00Context.resolveInitialPreviewMode forces 'desktop' preview mode when the FIRST loaded path is /enter (Site00Context.tsx:32-38). On a phone a hard load of /enter therefore renders Site00DesktopPresentationShell -> 'scaled' 1440x900 artboard shrunk to phone width (site00DesktopPresentation.ts:13-21; Site00DesktopArtboardShell.tsx:52-62). When reached client-side from mobile Origin, the Site00Provider reducer state is likely preserved across sibling routes (same Site00Layout element type), so preview mode stays 'mobile' -> native layout with single-column grid (site00.css:734-741) \u2014 rendering depends on HOW you arrived (CONFIRM_LIVE). No mobile environment asset for ENTER (environments.ts:92-103 has only desktopAssetPath; mobile uses desktop asset w/ mobilePosition 55%). No mobile bottom nav on /enter.",
+    "tablet": ">=768px is treated as desktop (site00OriginViewport.ts:2; preview-mode.ts:32-35) -> native viewport desktop presentation (Site00DesktopPresentationShell.tsx:30-32). ENTER 00 header toggle visible.",
+    "desktop": "Native full viewport (laptop) via Site00DesktopNativeViewportShell; env bg always mounted on /enter regardless of toggle (EnvironmentShell.tsx:60-66,80-86); focal 'center 75%' (desktop-environment-presentation.ts:19-29). Two-column welcome+menu (site00.css:1314-1340). Layout preview switch (Mobile/Desktop) is hard-disabled (preview-mode.ts:6-8)."
+   }
+  },
+  "waiting_room": {
+   "mentions": [
+    {
+     "file_line": "src/site00/config/environments.ts:92-102",
+     "quote": "ENTER_00_WAITING_ROOM ... routes: ['/enter'] ... 'Approved Enter 00 desktop \u2014 89319E70'"
+    },
+    {
+     "file_line": "src/site00/config/environments.ts:121",
+     "quote": "if (pathname === '/enter') return 'ENTER_00_WAITING_ROOM';"
+    },
+    {
+     "file_line": "src/site00/pages/EnterPage.tsx:8",
+     "quote": "<EnvironmentShell environmentId=\"ENTER_00_WAITING_ROOM\" className=\"site00-enter-page\">"
+    },
+    {
+     "file_line": "src/site00/components/environment/EnvironmentShell.tsx:61-66",
+     "quote": "Enter desktop bg always on /enter \u2014 not gated on Mobile/Desktop toggle"
+    },
+    {
+     "file_line": "src/site00/components/environment/detectSite00ViewportEnvironment.ts:5-6",
+     "quote": ".site00-enter-page -> 'ENTER_00_WAITING_ROOM'"
+    },
+    {
+     "file_line": "src/site00/components/enter00/Site00EnterArtboardViewportBackground.tsx:5",
+     "quote": "environmentId=\"ENTER_00_WAITING_ROOM\" (component unused)"
+    },
+    {
+     "file_line": "src/site00/config/assets.ts:80",
+     "quote": "alt: 'ENTER 00 waiting room lobby'"
+    },
+    {
+     "file_line": "src/site00/styles/site00.css:1081",
+     "quote": "/* \u2500\u2500\u2500 Enter 00 \u2014 waiting room (/enter) \u2500\u2500\u2500 */"
+    },
+    {
+     "file_line": "src/site00/config/seed/site00-page-seed.ts:111",
+     "quote": "BEGIN AT ORIGIN OR ENTER THE WAITING ROOM TO ORIENT WITHIN THE ENVIRONMENT. (FAQ seed; /faq is draft-gated)"
+    },
+    {
+     "file_line": "shared/site00-studio-world-production/visualReconstruction/p0vr3a/site00RouteForensics.ts:66-79",
+     "quote": "screenId 'waiting-room', displayName 'Waiting Room / Enter 00', routeFamily 'WAITING_ROOM'"
+    },
+    {
+     "file_line": "shared/.../p0vr3a/site00RouteForensics.ts:682-688",
+     "quote": "stateId 'waiting-room-menu-open', 'Waiting Room \u2014 Directory Open'"
+    },
+    {
+     "file_line": "shared/.../p0vr3a/site00RouteDependencyGraph.ts:18-22",
+     "quote": "homepage -> waiting-room 'enter 00'; waiting-room -> system/about/support"
+    },
+    {
+     "file_line": "shared/.../p0vr3b/site00DesignScreenNormalization.ts:38",
+     "quote": "if (normalizedPath === '/enter') return 'WAITING_ROOM';"
+    },
+    {
+     "file_line": "api/_lib/site00ExperienceEngine/routeReferenceStore.ts:240",
+     "quote": "environmentId: 'ENTER_00_WAITING_ROOM', focal: 'center 75%'"
+    },
+    {
+     "file_line": "docs/site00/ground-zero/SITE00_INDEPENDENT_TREE_REVIEW_PACKET.json:9726",
+     "quote": "WAITING ROOM (directory) and EXIT 00 (return to origin) are named navigation concepts"
+    },
+    {
+     "file_line": "docs/site00/ground-zero/SITE00_INDEPENDENT_TREE_REVIEW_PACKET.json:9786",
+     "quote": "U2: Merge LOCATIONS into WAITING ROOM (MAP state) or keep both places"
+    },
+    {
+     "file_line": "docs/site00/ground-zero/SITE00_INDEPENDENT_TREE_REVIEW_PACKET.json:1054",
+     "quote": "'WAITING ROOM' exists only as environment id/asset naming; no user-visible 'WAITING ROOM' label"
+    },
+    {
+     "file_line": "docs/site00/ground-zero/SITE00_OPUS_TREE_RECOMMENDATION.md:43",
+     "quote": "/enter (WAITING ROOM) + /origin/locations (LOCATIONS) -> WAITING ROOM with a MAP state"
+    },
+    {
+     "file_line": "docs/site00/ground-zero/SITE00_OPUS_PROPOSED_SCREEN_TREE.json:28-37",
+     "quote": "PUB.WAITING_ROOM 'WAITING ROOM (ENTER 00)' /enter states LIST, MAP, SIGNED_IN; EXIT 00 -> /"
+    },
+    {
+     "file_line": "docs/site00/ground-zero/SITE00_INCOMPLETE_SURFACE_MAP.json:106-110",
+     "quote": "INC.WAITING_ROOM ... current_status 'PARTIAL (two directories)'"
+    },
+    {
+     "file_line": "docs/site00/ground-zero/SITE00_GROUND_ZERO_MASTER_BRIEF.md:109",
+     "quote": "MERGE ... LOCATIONS -> WAITING ROOM"
+    },
+    {
+     "file_line": "docs/site00/ground-zero/evidence/navigation.json:128",
+     "quote": "ENTER 00 DIRECTORY (WAITING ROOM menu)"
+    },
+    {
+     "file_line": "motherboard/MEMORY.md:5431",
+     "quote": "5 interaction states (homepage expanded panels, waiting room menu)"
+    }
+   ],
+   "founder_decision_MENU_EQUALS_WAITING_ROOM": "NOT FOUND verbatim anywhere in repo (searched src/, shared/, api/, docs/, motherboard/ incl. MEMORY.md, audit/, artifacts/, .cursor/, visual-references/, git log). Closest recorded: locked constraint L3 (packet.json:9726) equating WAITING ROOM with 'directory', and the docs label 'ENTER 00 DIRECTORY (WAITING ROOM menu)' (navigation.json:128; FULL_PRODUCT_INVENTORY.json:175). Merge question U2 remains UNRESOLVED in docs (packet.json:9786; TREE_TRADEOFF_MATRIX.md:44). If the founder has said 'MENU = WAITING ROOM', it lives outside the repo and should be recorded.",
+   "what_it_is_in_code": "WAITING ROOM == the /enter route (EnterPage) and its environment id ENTER_00_WAITING_ROOM. Its 'menu' is DirectoryPanel (enter00/DirectoryPanel.tsx) driven by SITE00_DIRECTORY_SECTIONS (directory.ts:30-117). It is NOT the LOCATIONS directory (/origin/locations), which is a separate mobile-only page with a different item set. The term is never shown to users (no rendered 'WAITING ROOM' string; only FAQ seed on a draft-gated page).",
+   "roles": {
+    "public": "Public route, no auth guard (Site00Routes.tsx:649-659).",
+    "entry": "Reached from ORIGIN via ENTER 00 header toggle (desktop/tablet) or ENTER SITE 00 link (mobile).",
+    "transition": "None animated; acts as an interstitial 'lobby' between Origin and destinations (copy 'TAKE A MOMENT. YOU'RE IN THE RIGHT PLACE.' directory.ts:135).",
+    "auth": "Auth-gated rows route signed-out users to /origin/sign-in?returnTo=... (directory.ts:119-128); no sign-in CTA of its own.",
+    "destination": "Hub to 9 destinations (5 EXPLORE + 4 YOUR SPACE)."
+   },
+   "relationships": {
+    "ENTER_00": "ENTER 00 is the portal action; WAITING ROOM is the place it opens.",
+    "EXIT_00": "On /enter the same toggle becomes EXIT 00 -> /origin (EntryToggle.tsx:14-25).",
+    "LOCATIONS": "Parallel directory on mobile (swipe-up target) with a different item set; docs propose merging (U2).",
+    "FAST_TRAVEL": "FAST TRAVEL (mobile header overlay) never links to /enter; it links to LOCATIONS and 00 ORIGIN (fast-travel.ts:81-82,252-253). /enter has no Fast Travel trigger (it uses Site00AppShell, not Site00MobileShell)."
+   },
+   "visual_authority": "Desktop environment plate 89319E70 approved (environments.ts:102; assets.ts:79-85). No foreground/menu authority record; no mobile authority.",
+   "implementation": "Implemented (desktop-tuned). See enter00.implementation_status.",
+   "routes_and_states": {
+    "routes": [
+     "/enter"
+    ],
+    "states": [
+     "default (menu always open \u2014 'waiting-room-menu-open' state in forensics has no distinct UI state in code)",
+     "signed-out locked rows",
+     "signed-in rows"
+    ]
+   }
+  },
+  "locations": {
+   "route": "/origin/locations -> Site00LocationsPage (Site00Routes.tsx:74,619-627) in Site00Layout, NO Site00OriginRouteShell.",
+   "page": "LocationsPage.tsx:22-48 \u2014 Site00MobileShell(headerVariant='directory') > LocationsDirectory.",
+   "desktop_redirect": "if viewport >=768 (matchMedia listener, re-evaluated on resize/rotation) -> <Navigate to='/origin' replace/> (LocationsPage.tsx:7-20,37-39). CSS also hides .site00-locations-page outside max-width:767 (site00-locations.css:6-12). So LOCATIONS is mobile-only; every desktop LOCATIONS link silently lands on Origin.",
+   "components": {
+    "LocationsDirectory": "src/site00/components/locations/LocationsDirectory.tsx:7-49 (sections PUBLIC WORLD / YOUR SPACE, role=list)",
+    "LocationsDirectoryHeader": "LocationsDirectoryHeader.tsx:1-8 'LOCATIONS / WHERE DO YOU NEED TO GO?'",
+    "DirectorySpine": "DirectorySpine.tsx (decorative spine per section)",
+    "DirectoryCard": "DirectoryCard.tsx:14-65 (Link with aria-label; lock + 'SIGN IN TO ENTER' when requiresAuth && !signedIn)",
+    "DirectoryExitButton": "DirectoryExitButton.tsx:5-15 (EXIT 00 in header)"
+   },
+   "destinations": [
+    {
+     "label": "01 BLDR",
+     "destination": "site00MobileBuildNavHref -> /bldr (or bldr state/assessment if already there)",
+     "file_line": "locations-directory.ts:31-38,143-145; routes.ts:956-967",
+     "auth": "public",
+     "status": "OK"
+    },
+    {
+     "label": "02 EVOLVE",
+     "destination": "site00MobileEvolveNavHref -> /evolve",
+     "file_line": "locations-directory.ts:39-46,146-148",
+     "auth": "public",
+     "status": "OK"
+    },
+    {
+     "label": "03 SITES",
+     "destination": "/sites",
+     "file_line": "locations-directory.ts:47-54",
+     "auth": "public",
+     "status": "OK"
+    },
+    {
+     "label": "04 SERVICES",
+     "destination": "/services",
+     "file_line": "locations-directory.ts:55-62",
+     "auth": "public",
+     "status": "OK"
+    },
+    {
+     "label": "05 SYSTEM",
+     "destination": "/system",
+     "file_line": "locations-directory.ts:63-70",
+     "auth": "public",
+     "status": "OK"
+    },
+    {
+     "label": "06 ABOUT",
+     "destination": "/about",
+     "file_line": "locations-directory.ts:71-78",
+     "auth": "public",
+     "status": "OK"
+    },
+    {
+     "label": "07 JOURNAL",
+     "destination": "/journal",
+     "file_line": "locations-directory.ts:79-86",
+     "auth": "public",
+     "status": "OK"
+    },
+    {
+     "label": "08 IDNTY",
+     "destination": "/idnty",
+     "file_line": "locations-directory.ts:90-97",
+     "auth": "public",
+     "status": "OK"
+    },
+    {
+     "label": "09 CTRL ROOM",
+     "destination": "/control",
+     "file_line": "locations-directory.ts:98-106",
+     "auth": "requiresAuth",
+     "status": "OK"
+    },
+    {
+     "label": "10 PROJECTS",
+     "destination": "/projects",
+     "file_line": "locations-directory.ts:107-115",
+     "auth": "requiresAuth",
+     "status": "OK"
+    },
+    {
+     "label": "11 MY SITES",
+     "destination": "/control/sites",
+     "file_line": "locations-directory.ts:116-124; Site00Routes.tsx:2918",
+     "auth": "requiresAuth",
+     "status": "OK"
+    }
+   ],
+   "entry_points": [
+    "swipe-up / SWIPE UP button on mobile Origin (useOriginLocationsTransition.ts:21)",
+    "mobile bottom nav center bay LOCATIONS (mobile-site-nav.ts:36-41)",
+    "FAST TRAVEL 'LOCATIONS' (fast-travel.ts:81,252)",
+    "AccessSystemFooter LOCATIONS link on /access desktop (AccessSystemFooter.tsx:31; CredentialAccessDesktop.tsx:106) -> redirects to /origin on desktop",
+    "Site00PublicSidebar rail (site00-public-rail-nav.ts:13) \u2014 component imported nowhere (dead)"
+   ],
+   "transitions": "fromSwipe state -> shell enter animation 780ms + staggered card enter 720ms (site00-locations.css:215-245,497-505); class removed after 900ms (LocationsPage.tsx:27-35); reduced-motion disables (site00-locations.css:618-627). enterClass initial state is the animating class even for non-swipe arrivals, removed in useEffect after first paint -> possible 1-frame animation start/flicker (LocationsPage.tsx:25-31; CONFIRM_LIVE).",
+   "visual_authority": "publicRedesignAuthorityManifest.ts:103 '01_LOCATIONS_MAIN' 941x1672, route /origin/locations, component 'PublicLocationsDirectory' (name does not exist in src; actual component LocationsDirectory), notes YOUR SPACE retained below supplied seven. Child pages /sites../journal are WAITING_FOR_AUTHORITY (:144-148). Background SITE00_LOCATIONS_BACKGROUND_PATH (locations-directory.ts:26); asset slots publicRedesignAssetSlots.ts:194-201.",
+   "relationship_to_enter00": "Separate place. Both are 'directories' with overlapping items; ENTER 00 is desktop-first, LOCATIONS mobile-only. Mobile Origin exposes both (ENTER SITE 00 link -> /enter; swipe -> /origin/locations). Mobile nav treats /enter as 'origin' bay, not 'locations' (mobile-site-nav.ts:74-80). Docs mark this as 'PARTIAL (two directories)' and propose merge (SITE00_INCOMPLETE_SURFACE_MAP.json:106-110)."
+  },
+  "exit00": {
+   "renders": [
+    {
+     "file_line": "src/site00/components/shell/EntryToggle.tsx:14-25",
+     "context": "/enter only (pathname === '/enter'), header right slot of Site00AppShell; aria-label 'EXIT SITE 00 INTERIOR'; same FastTravel icon as ENTER 00",
+     "destination": "/origin (Link push)"
+    },
+    {
+     "file_line": "src/site00/components/locations/DirectoryExitButton.tsx:5-15 via Site00MobileHeader.tsx:25-26",
+     "context": "Site00MobileShell when headerVariant='directory' or pathname startsWith /origin/locations (Site00MobileShell.tsx:47-48) => LOCATIONS page; replaces the FAST TRAVEL trigger and FastTravelPanel is not mounted (:63-69); aria-label 'EXIT DIRECTORY AND RETURN TO ORIGIN'; mobile gray color (MEMORY.md:736-739)",
+     "destination": "/origin (Link push)"
+    },
+    {
+     "file_line": "src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx:139-141",
+     "context": "Internal DESIGN RECONSTRUCTION workspace sidebar footer (StudioWorldDesignWorkspace -> /production/site00/design behind Site00InternalProductionGuard, Site00Routes.tsx:1230-1240); desktop sidebar only, not in mobile top bar",
+     "destination": "'/' (Link push) \u2014 Origin only when VITE_SITE00_ROOT=1 (Site00Routes.tsx:540-560); otherwise '/' is not SITE 00"
+    }
+   ],
+   "exits_what": "Public contexts: exits the interior directory (WAITING ROOM or LOCATIONS) back to ORIGIN. Design workspace: exits the internal production tool to the public site root. Same label, two different semantics (leave a place vs leave an application).",
+   "vs_back": "No history-based BACK anywhere: grep navigate(-1)/history.back finds only FastTravelPanel close (FastTravelPanel.tsx:33-40). 'BACK' controls are in-flow step-back (e.g. IdentityCalibrationNavigation.tsx:33, CreativeIntakeEngine.tsx:74) or explicit Links ('\u2190 BACK TO SITE 00' -> /origin, desktop sign-in only, Site00SignInForm.tsx:136-139; '\u2190 BACK TO PROJECT', '\u2190 BACK TO REVIEWS'). EXIT 00 always pushes /origin regardless of where the user came from, so it is a fixed-target spatial exit, not BACK; it also grows history (Origin->Locations->Origin; browser back returns into the directory).",
+   "vs_logout": "LOG OUT ends session: CtrlRoomSidebar.tsx:12-16,54-56 and EcosystemSidebar.tsx:14-18,50-52 (signOut + navigate('/origin',{replace:true})); CtrlRoomSignOutButton.tsx:12-18 (OperatingWorldTopNav, EcosystemShell). Site00PublicSidebar.tsx:57-64 and Site00MobileMenuDrawer.tsx:143-147 also have LOG OUT but both components are imported nowhere (dead). SelfDirectedViews.tsx:450-452 and 509-511 'SIGN OUT' is a plain Link to /origin/sign-in that does NOT sign out. EXIT 00 never touches session.",
+   "vs_close": "CLOSE dismisses an overlay without route change: FAST TRAVEL \u00d7 button, backdrop button (both aria 'CLOSE FAST TRAVEL') and Esc call closePanel -> history.back() of a pushed overlay entry (FastTravelPanel.tsx:33-40,54-70,79-83,109,123-125). Other CLOSE: dialogs (ReplaceDesignAuthorityDialog.tsx:247), Origin expanded panels collapse buttons (BldrExpandedPanel.tsx:104 etc.). EXIT 00 is a route change, not CLOSE \u2014 though the LOCATIONS doc comment says EXIT 00 'closes the directory' (DirectoryExitButton.tsx:4).",
+   "vs_home": "No 'HOME' in public chrome; ORIGIN plays home: bottom nav ORIGIN bay (mobile-site-nav.ts:24-29), FAST TRAVEL '00 ORIGIN \u2014 Return to the homepage.' (fast-travel.ts:82), logo. HOME exists as the client-app tab (shared/site00-client-app/routes.ts:41; shared/site00-self-directed/nav.ts:4) and 'WORKSPACE HOME' in ProjectWorkspaceDrawer.tsx:85-90. EXIT 00 and 00 ORIGIN resolve to the same URL (/origin).",
+   "vs_exit_project": "EXIT PROJECT (ProjectWorkspaceDrawer.tsx:268-270) -> /projects: leaves the current project inside the production workspace, stays signed in and inside the app. EXIT 00 leaves the spatial interior for ORIGIN."
+  },
+  "fast_travel": {
+   "entry_points": [
+    {
+     "trigger": "FastTravelTrigger icon button (24.2px Site00FastTravelIcon) in Site00MobileHeader default variant",
+     "file_line": "src/site00/components/mobile/Site00MobileHeader.tsx:25-33; src/site00/components/fast-travel/FastTravelTrigger.tsx:10-25",
+     "host_shells": [
+      "Site00MobileShell (Site00MobileShell.tsx:54-59,63-69) \u2014 public mobile pages via Site00PublicShell (Site00PublicShell.tsx:52) + IDNTY/BLDR/EVOLVE state & assessment shells, BldrStartPage, LocationsPage(directory variant: NO panel), existing-location pages",
+      "Site00EcosystemMobileShell (Site00EcosystemMobileShell.tsx:43-57) \u2014 EcosystemShell mobile layout (CTRL ROOM, PROJECTS, IDNTY signed-in hub, account intakes, STUDIO shell, project module pages); suppressed for /projects/ndxbook*",
+      "Site00AuthShell mobile block (Site00AuthShell.tsx:107-121) \u2014 /origin/sign-in, /origin/create-account"
+     ],
+     "contexts": "all route profiles reachable from hosting shells",
+     "viewports": [
+      "mobile (<768px, preview mode 'mobile')"
+     ]
+    },
+    {
+     "trigger": "FastTravelTrigger in AccessMobileHeader (credential access)",
+     "file_line": "src/site00/components/access/AccessMobileHeader.tsx:23-38 (host CredentialAccessMobile.tsx:54)",
+     "contexts": [
+      "FALLBACK"
+     ],
+     "viewports": [
+      "mobile"
+     ]
+    },
+    {
+     "trigger": "ENTER 00 / EXIT 00 links reuse Site00FastTravelIcon but do NOT open Fast Travel (navigate to /enter or /origin)",
+     "file_line": "src/site00/components/shell/EntryToggle.tsx:10-36",
+     "contexts": [
+      "desktop public header"
+     ],
+     "viewports": [
+      "desktop"
+     ],
+     "note": "Iconographic link only \u2014 desktop's equivalent is ENTER 00 directory route, not the overlay."
+    }
+   ],
+   "contexts": [
+    {
+     "context": "SITES (/sites, /sites/*)",
+     "how_detected": "src/site00/config/fast-travel.ts:89 (pathname match)",
+     "current_location": "02 SITES / world=public",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "START A BUILD",
+         "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:96"
+        },
+        {
+         "label": "FIND MY BUILD TYPE",
+         "destination": "/bldr/state",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:97"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "EXPLORE SERVICES",
+         "destination": "/services",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:104"
+        },
+        {
+         "label": "HOW SITE 00 WORKS",
+         "destination": "/system",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:105",
+         "note": "/system is a dead end (no CTA) per prior audit"
+        },
+        {
+         "label": "READ JOURNAL",
+         "destination": "/journal",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:106",
+         "note": "journal seed empty; dead end per prior audit"
+        }
+       ]
+      },
+      {
+       "title": "MY SPACE",
+       "items": [
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:70"
+        },
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+         "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:71"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "SERVICES (/services exact)",
+     "how_detected": "src/site00/config/fast-travel.ts:117 (pathname match)",
+     "current_location": "03 SERVICES",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "START A BUILD",
+         "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:124"
+        },
+        {
+         "label": "FIND MY BUILD TYPE",
+         "destination": "/bldr/state",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:125"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "VIEW SITES",
+         "destination": "/sites",
+         "auth": "PUBLIC",
+         "status": "REDIRECT_WHEN_SIGNED_IN",
+         "file_line": "src/site00/config/fast-travel.ts:132",
+         "note": "SitesPortfolioPage.tsx:25 Navigate->/control/sites when signed in"
+        },
+        {
+         "label": "HOW SITE 00 WORKS",
+         "destination": "/system",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:133",
+         "note": "/system is a dead end (no CTA) per prior audit"
+        },
+        {
+         "label": "READ JOURNAL",
+         "destination": "/journal",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:134",
+         "note": "journal seed empty; dead end per prior audit"
+        }
+       ]
+      },
+      {
+       "title": "MY SPACE",
+       "items": [
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:70"
+        },
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+         "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:71"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "SYSTEM (/system exact)",
+     "how_detected": "src/site00/config/fast-travel.ts:145 (pathname match)",
+     "current_location": "04 SYSTEM",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "FIND MY BUILD TYPE",
+         "destination": "/bldr/state",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:152"
+        },
+        {
+         "label": "START A BUILD",
+         "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:153"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "EXPLORE SERVICES",
+         "destination": "/services",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:160"
+        },
+        {
+         "label": "VIEW SITES",
+         "destination": "/sites",
+         "auth": "PUBLIC",
+         "status": "REDIRECT_WHEN_SIGNED_IN",
+         "file_line": "src/site00/config/fast-travel.ts:161",
+         "note": "SitesPortfolioPage.tsx:25 Navigate->/control/sites when signed in"
+        },
+        {
+         "label": "READ JOURNAL",
+         "destination": "/journal",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:162",
+         "note": "journal seed empty; dead end per prior audit"
+        }
+       ]
+      },
+      {
+       "title": "MY SPACE",
+       "items": [
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:70"
+        },
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+         "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:71"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "ABOUT (/about exact)",
+     "how_detected": "src/site00/config/fast-travel.ts:173 (pathname match)",
+     "current_location": "05 ABOUT",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "EXPLORE SERVICES",
+         "destination": "/services",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:180"
+        },
+        {
+         "label": "START A BUILD",
+         "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:181"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "VIEW SITES",
+         "destination": "/sites",
+         "auth": "PUBLIC",
+         "status": "REDIRECT_WHEN_SIGNED_IN",
+         "file_line": "src/site00/config/fast-travel.ts:188",
+         "note": "SitesPortfolioPage.tsx:25 Navigate->/control/sites when signed in"
+        },
+        {
+         "label": "READ JOURNAL",
+         "destination": "/journal",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:189",
+         "note": "journal seed empty; dead end per prior audit"
+        },
+        {
+         "label": "HOW SITE 00 WORKS",
+         "destination": "/system",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:190",
+         "note": "/system is a dead end (no CTA) per prior audit"
+        }
+       ]
+      },
+      {
+       "title": "MY SPACE",
+       "items": [
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:70"
+        },
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+         "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:71"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "JOURNAL (/journal, /journal/*)",
+     "how_detected": "src/site00/config/fast-travel.ts:201 (pathname match)",
+     "current_location": "06 JOURNAL",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "EXPLORE SERVICES",
+         "destination": "/services",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:208"
+        },
+        {
+         "label": "START A BUILD",
+         "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:209"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "VIEW SITES",
+         "destination": "/sites",
+         "auth": "PUBLIC",
+         "status": "REDIRECT_WHEN_SIGNED_IN",
+         "file_line": "src/site00/config/fast-travel.ts:216",
+         "note": "SitesPortfolioPage.tsx:25 Navigate->/control/sites when signed in"
+        },
+        {
+         "label": "HOW SITE 00 WORKS",
+         "destination": "/system",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:217",
+         "note": "/system is a dead end (no CTA) per prior audit"
+        },
+        {
+         "label": "ABOUT SITE 00",
+         "destination": "/about",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:218"
+        }
+       ]
+      },
+      {
+       "title": "MY SPACE",
+       "items": [
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:70"
+        },
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+         "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:71"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "BLDR (pathname.startsWith('/bldr') \u2014 hub, /bldr/state, /bldr/start, /bldr/templates, /bldr/:class/*)",
+     "how_detected": "src/site00/config/fast-travel.ts:229",
+     "current_location": "01 BLDR / world=onboarding",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "CONTINUE BUILD",
+         "destination": "ctx.pathname (self-link to current page)",
+         "auth": "PUBLIC",
+         "status": "SELF_LINK",
+         "file_line": "src/site00/config/fast-travel.ts:236",
+         "note": "No resume state is read; just links to the page you are on. On /bldr hub this equals BUILD INVESTMENT GUIDE (/bldr) -> duplicate."
+        },
+        {
+         "label": "BUILD SELECTION",
+         "destination": "/bldr/state",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:237"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "BUILD INVESTMENT GUIDE",
+         "destination": "/bldr",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:244",
+         "note": "Label says 'investment guide' but is the BLDR hub"
+        },
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:245"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:252"
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:253"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "IDNTY signed-out (startsWith('/idnty'))",
+     "how_detected": "src/site00/config/fast-travel.ts:262,265 (ctx.isSignedIn from localStorage 'isSignedIn' via useSignedInFromStorage, FastTravelPanel.tsx:26)",
+     "current_location": "07 IDNTY",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "SIGN IN",
+         "destination": "/origin/sign-in?returnTo=<current idnty path>",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:271"
+        },
+        {
+         "label": "CREATE IDENTITY",
+         "destination": "/idnty/state",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:272"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "START BUILD",
+         "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:279"
+        },
+        {
+         "label": "EXPLORE SERVICES",
+         "destination": "/services",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:280"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "IDNTY signed-in",
+     "how_detected": "src/site00/config/fast-travel.ts:286",
+     "current_location": "07 IDNTY (world still 'public' although page renders EcosystemShell operating chrome)",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control",
+         "auth": "AUTH (not flagged requiresAuth; relies on context)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:291"
+        },
+        {
+         "label": "PROJECTS",
+         "destination": "/projects",
+         "auth": "AUTH",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:292"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "MY SITES",
+         "destination": "/control/sites",
+         "auth": "AUTH",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:299"
+        },
+        {
+         "label": "START BUILD",
+         "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:300"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "CTRL ROOM signed-out (startsWith('/control'))",
+     "how_detected": "src/site00/config/fast-travel.ts:311,314",
+     "current_location": "08 CTRL ROOM / world=operating",
+     "reachability": "EFFECTIVELY_UNREACHABLE \u2014 /control/* is wrapped in Site00AccountRouteGuard which Navigates to sign-in before EcosystemShell (and its FT trigger) mounts (Site00AccountRouteGuard.tsx:280-315)",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "SIGN IN",
+         "destination": "/origin/sign-in?returnTo=%2Fcontrol",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:319"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "CTRL ROOM signed-in",
+     "how_detected": "src/site00/config/fast-travel.ts:324",
+     "current_location": "08 CTRL ROOM",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "PROJECTS",
+         "destination": "/projects",
+         "auth": "AUTH",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:329"
+        },
+        {
+         "label": "MY SITES",
+         "destination": "/control/sites",
+         "auth": "AUTH",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:330"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "BILLING",
+         "destination": "/control/billing",
+         "auth": "AUTH",
+         "status": "STUB",
+         "file_line": "src/site00/config/fast-travel.ts:337",
+         "note": "Route exists (Site00Routes.tsx:2942) but renders ControlSectionPage stub"
+        },
+        {
+         "label": "SETTINGS",
+         "destination": "/control/settings",
+         "auth": "AUTH",
+         "status": "STUB",
+         "file_line": "src/site00/config/fast-travel.ts:338",
+         "note": "Route exists (Site00Routes.tsx:2966) \u2014 ControlSectionPage stub"
+        },
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "AUTH-context",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:339"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "PROJECTS (/projects, /projects/*, /project/*)",
+     "how_detected": "src/site00/config/fast-travel.ts:350",
+     "current_location": "09 PROJECTS / world=operating",
+     "reachability": "PARTIAL \u2014 signed-out unreachable (route guard); /projects/ndxbook* suppresses site chrome (EcosystemShell.tsx:45,82; Site00EcosystemMobileShell.tsx:43-51); founder/admin on mobile /projects and personal-project overview get PwFrame portal (fixed inset 0, z-index 1200, site00-production-mobile.css:18-20) over the ecosystem header \u2014 ProjectIndexPage.tsx:61-64, ProjectOperatingModulePage.tsx:76-84. Reachable: non-admin signed-in client on mobile /projects and project module pages; /project/:slug/provisioning (Site00PublicShell).",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control (locked if signed-out)",
+         "auth": "AUTH",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:357"
+        },
+        {
+         "label": "MY SITES",
+         "destination": "/control/sites (locked if signed-out)",
+         "auth": "AUTH",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:358"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:364"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "ORIGIN ('/', '/origin')",
+     "how_detected": "src/site00/config/fast-travel.ts:373",
+     "current_location": "00 ORIGIN",
+     "reachability": "DEAD \u2014 Origin page renders Site00AppShell (OriginPage.tsx:68) whose header (logo/GlobalNav/EntryToggle) is display:none on mobile (site00.css:756-770); no FastTravelTrigger mounted; '/origin/locations' uses header variant 'directory' (EXIT 00) and Site00MobileShell skips the panel (Site00MobileShell.tsx:47-48,63-69). Profile can never be shown.",
+     "sections": [
+      {
+       "title": "UP NEXT",
+       "items": [
+        {
+         "label": "START A BUILD",
+         "destination": "site00MobileBuildNavHref(pathname) -> /bldr | /bldr/state | /bldr/state/desktop | /bldr/:class assessment mobile path (routes.ts:956-967)",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:380"
+        },
+        {
+         "label": "EXPLORE SITES",
+         "destination": "/sites",
+         "auth": "PUBLIC",
+         "status": "REDIRECT_WHEN_SIGNED_IN",
+         "file_line": "src/site00/config/fast-travel.ts:381"
+        }
+       ]
+      },
+      {
+       "title": "QUICK JUMP",
+       "items": [
+        {
+         "label": "EXPLORE SERVICES",
+         "destination": "/services",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:388"
+        },
+        {
+         "label": "HOW SITE 00 WORKS",
+         "destination": "/system",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:389"
+        }
+       ]
+      },
+      {
+       "title": "MY SPACE",
+       "items": [
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:70"
+        },
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+         "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:71"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "context": "FALLBACK 'SITE 00 / NAVIGATE THE ECOSYSTEM' (any other path hosting FT: /evolve/*, /support, /origin/sign-in, /origin/create-account, /access/:code, /account/intakes, /studio/:slug/*, /control-adjacent ecosystem pages not matched, /existing-location/*, /idnty-less public pages e.g. /evolve/marketing/*)",
+     "how_detected": "src/site00/config/fast-travel.ts:411-415 (ROUTE_PROFILES.find(...) ?? FALLBACK_PROFILE, line 422)",
+     "current_location": "SITE 00 (no index)",
+     "sections": [
+      {
+       "title": "MY SPACE",
+       "items": [
+        {
+         "label": "IDNTY",
+         "destination": "/idnty",
+         "auth": "PUBLIC (signed-in renders EcosystemShell hub, IdntyHubPage.tsx:53)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:70"
+        },
+        {
+         "label": "CTRL ROOM",
+         "destination": "/control (signed-out: /origin/sign-in?returnTo=%2Fcontrol, rendered as AuthLockedDestination 'SIGN IN TO ENTER')",
+         "auth": "AUTH (requiresAuth=true; Site00AccountRouteGuard Site00Routes.tsx:2894-2905)",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:71"
+        }
+       ]
+      },
+      {
+       "title": "RETURN",
+       "items": [
+        {
+         "label": "LOCATIONS",
+         "destination": "/origin/locations",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:81",
+         "note": "Mobile-only page; LocationsPage.tsx:37-38 Navigate->/origin when viewport >767px. FT is itself mobile-only so OK in practice."
+        },
+        {
+         "label": "00 ORIGIN",
+         "destination": "/origin",
+         "auth": "PUBLIC",
+         "status": "OK",
+         "file_line": "src/site00/config/fast-travel.ts:82"
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "destination_count_unique": {
+    "destination_ids": 20,
+    "ids": [
+     "idnty",
+     "ctrl-room",
+     "locations",
+     "origin",
+     "start-build",
+     "build-type",
+     "services",
+     "system",
+     "journal",
+     "sites",
+     "about",
+     "continue",
+     "bldr-state",
+     "investment",
+     "sign-in",
+     "create",
+     "projects",
+     "my-sites",
+     "billing",
+     "settings"
+    ],
+    "route_targets": 20,
+    "routes": [
+     "/idnty",
+     "/control",
+     "/origin/locations",
+     "/origin",
+     "/bldr",
+     "/bldr/state",
+     "/bldr/state/desktop (legacy redirect, via buildHref)",
+     "/bldr/:class/* assessment (via buildHref)",
+     "/services",
+     "/system",
+     "/journal",
+     "/sites",
+     "/about",
+     "/origin/sign-in?returnTo=",
+     "/idnty/state",
+     "/projects",
+     "/control/sites",
+     "/control/billing",
+     "/control/settings",
+     "<self pathname>"
+    ],
+    "context_profiles": 11,
+    "rendered_context_variants_incl_auth_split": 13,
+    "reachable_context_variants": 10
+   },
+   "responsive": {
+    "mobile": "<768px (defaultPreviewDeviceModeForViewport, preview-mode.ts:32-35; isSite00LayoutPreviewSwitchEnabled() returns false so no toggle, preview-mode.ts:6-8). Trigger in mobile header; panel slides in from right. All CSS inside @media (max-width:767px) (site00-fast-travel.css:18,24,570).",
+    "tablet": "NOT AVAILABLE. >=768px resolves to desktop preview mode; public pages render Site00AppShell/GlobalNav + ENTER 00; ecosystem renders OperatingWorldTopNav (EcosystemShell.tsx:60-76). No FT trigger mounted.",
+    "desktop": "NOT AVAILABLE. Desktop equivalent = ENTER 00 -> /enter DirectoryPanel (route, not overlay). Edge: ?site00MobileLayout=1 on wide viewport forces mobile layout in scaled artboard (site00OriginViewport.ts:11-17, Site00MobilePresentationShell.tsx:15-24) \u2014 FT trigger renders but its CSS is gated to max-width:767px so trigger/panel are unstyled (PLAUSIBLE visual break; QA-only)."
+   },
+   "appears_in": [
+    "Public mobile shell (Site00PublicShell -> Site00MobileShell): /sites /services /system /about /journal /support /idnty(signed-out) /bldr /bldr/state /bldr/templates /evolve /evolve/* marketing+pricing, /idnty/sign-in-security, /project/:slug/provisioning, intake guest access",
+    "Workflow mobile shells: IDNTY/BLDR/EVOLVE state + assessment (IdntyAssessmentShell, BldrAssessmentShell, EvolveAssessmentShell, BldrIntakeShell, BldrStartPage, Idnty/EvolveStatePage), existing-location entry/case",
+    "Auth shell mobile: /origin/sign-in, /origin/create-account",
+    "Credential access mobile: /access/:code",
+    "CTRL ROOM / account ecosystem mobile: /control/*, /account/intakes*, /idnty (signed-in), /projects (non-admin), /projects/:slug/* module pages (non-NDX), STUDIO shell /studio/:slug/*"
+   ],
+   "absent_from": [
+    "ORIGIN '/' and '/origin' (header hidden on mobile)",
+    "/origin/locations (EXIT 00 variant)",
+    "/enter (desktop-forced)",
+    "Production workspace /production/* (own chrome; ProductionAuthorityFrame portal + body lock)",
+    "Client app /app/* (Site00ClientAppShell)",
+    "Client project room /client/projects/* (ClientProjectRoomShell)",
+    "Admin /admin/site00/* (Site00AdminShell)",
+    "ASSTS /assts/*",
+    "Design workspace /studio-world/design (Site00DesignWorkspaceShell)",
+    "NDXBOOK founder workspace /projects/ndxbook* (suppressSiteChrome)",
+    "Founder mobile /projects + personal project overview (PwFrame covers)",
+    "JURNL runtime /production/:slug/runtime/*",
+    "All desktop/tablet surfaces"
+   ],
+   "classification": {
+    "value": "GLOBAL_DESTINATION_SWITCHER (contextual, mobile-only, route-curated shortcut overlay)",
+    "not": [
+     "spatial teleport (no spatial/world-state model; 'world' field unused)",
+     "project switcher (no project list/slug)",
+     "product switcher (IDNTY/BLDR/CTRL appear as destinations but no product state)",
+     "workspace switcher (never reaches production/admin/studio-world/client app)"
+    ],
+    "evidence": [
+     "fast-travel.ts:1-4 'contextual destination engine (mobile-only)... selective shortcuts... not a full directory'",
+     "resolveFastTravel picks one RouteProfile by pathname and returns fixed link lists (fast-travel.ts:417-435)",
+     "All destinations are react-router Links to top-level routes (FastTravelSection.tsx:51-70)"
+    ]
+   }
+  },
+  "global_nav_systems": [
+   {
+    "system_id": "NAV-01",
+    "name": "Public desktop header (Site00AppShell: logo + GlobalNav + EntryToggle)",
+    "trigger": "always visible",
+    "surface_type": "TOP_NAV",
+    "user_context": "ANON",
+    "destinations": [
+     "SITE 00 logo->/origin",
+     "SITES",
+     "SERVICES",
+     "SYSTEM",
+     "ABOUT",
+     "JOURNAL",
+     "ENTER 00->/enter | EXIT 00->/origin on /enter"
+    ],
+    "routes_touched": [
+     "/origin",
+     "/sites",
+     "/services",
+     "/system",
+     "/about",
+     "/journal",
+     "/enter"
+    ],
+    "non_route_states": [
+     "GlobalNav item.enabled=false renders disabled button (GlobalNav.tsx:18-25) \u2014 all currently enabled",
+     "site00PreviewNavHref rewrites hrefs in preview (GlobalNav.tsx:16)"
+    ],
+    "visual_authority": "config/navigation.ts:12-18; ORIGIN desktop composition",
+    "responsive_behavior": {
+     "mobile": "hidden on Origin mobile (site00.css:756-770); public pages use Site00MobileShell instead",
+     "tablet": "same as desktop (>=768 => desktop mode)",
+     "desktop": "rendered"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/shell/Site00AppShell.tsx:50-69; GlobalNav.tsx:7-40; EntryToggle.tsx:10-36",
+    "notes": "No IDNTY/BLDR/EVOLVE/CTRL ROOM/LOCATIONS; signed-in users get no account entry on public desktop pages.",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-02",
+    "name": "Origin status strip + mobile swipe-up",
+    "trigger": "static strip; swipe-up gesture on mobile",
+    "surface_type": "STATUS_STRIP/GESTURE",
+    "user_context": "ANON",
+    "destinations": [
+     "NEED GUIDANCE (button, no handler)",
+     "swipe up -> /origin/locations"
+    ],
+    "routes_touched": [
+     "/origin/locations"
+    ],
+    "non_route_states": [
+     "Origin homeMode panels (idnty/bldr/evolve-expanded) \u2014 not URL-encoded"
+    ],
+    "visual_authority": "config/status.ts",
+    "responsive_behavior": {
+     "mobile": "swipe surface + OriginMobileSwipeUp (OriginPage.tsx:77-82,181)",
+     "tablet": "desktop strip",
+     "desktop": "desktop strip"
+    },
+    "implementation_status": "PARTIAL",
+    "file_line": "src/site00/components/homepage/StatusStrip.tsx:48-74; hooks/useOriginLocationsTransition.ts:9-37; pages/OriginPage.tsx:68-183",
+    "notes": "Guidance button dead (no onClick).",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-03",
+    "name": "ENTER 00 directory (WAITING ROOM)",
+    "trigger": "ENTER 00 link",
+    "surface_type": "ROUTE_DIRECTORY",
+    "user_context": "ANON/CLIENT",
+    "destinations": [
+     "01 SITES",
+     "02 SERVICES",
+     "03 SYSTEM",
+     "04 ABOUT",
+     "05 JOURNAL",
+     "BLDR STUDIO",
+     "PROJECTS (auth)",
+     "ACCOUNT (auth)->/control",
+     "SUPPORT"
+    ],
+    "routes_touched": [
+     "/enter",
+     "/sites",
+     "/services",
+     "/system",
+     "/about",
+     "/journal",
+     "/bldr",
+     "/projects",
+     "/control",
+     "/support"
+    ],
+    "non_route_states": [
+     "auth-locked rows -> sign-in?returnTo"
+    ],
+    "visual_authority": "config/directory.ts:30-117",
+    "responsive_behavior": {
+     "mobile": "n/a \u2014 /enter forces desktop preview mode (Site00Context.tsx:32-38)",
+     "tablet": "desktop",
+     "desktop": "desktop"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/enter00/DirectoryPanel.tsx:8; pages/EnterPage.tsx:8-12",
+    "canonical_status": "CANONICAL_CONCEPT (locked name WAITING ROOM / ENTER 00)"
+   },
+   {
+    "system_id": "NAV-04",
+    "name": "Mobile header (Site00MobileHeader)",
+    "trigger": "always on mobile shells",
+    "surface_type": "TOP_BAR",
+    "user_context": "ANON/CLIENT/FOUNDER",
+    "destinations": [
+     "logo->/origin",
+     "FAST TRAVEL overlay",
+     "EXIT 00->/origin (directory variant)"
+    ],
+    "routes_touched": [
+     "/origin"
+    ],
+    "non_route_states": [
+     "FT open/closed",
+     "variant default|directory"
+    ],
+    "visual_authority": "site00-locations.css:65",
+    "responsive_behavior": {
+     "mobile": "rendered",
+     "tablet": "not rendered",
+     "desktop": "not rendered"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/mobile/Site00MobileHeader.tsx:16-35",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-05",
+    "name": "FAST TRAVEL contextual overlay",
+    "trigger": "FastTravelTrigger",
+    "surface_type": "FAST_TRAVEL (right drawer dialog)",
+    "user_context": "ANON/CLIENT (no role split)",
+    "destinations": [
+     "see fast_travel.json \u2014 20 ids / 13 context variants"
+    ],
+    "routes_touched": [
+     "/idnty",
+     "/control",
+     "/origin/locations",
+     "/origin",
+     "/bldr*",
+     "/services",
+     "/system",
+     "/journal",
+     "/sites",
+     "/about",
+     "/origin/sign-in",
+     "/idnty/state",
+     "/projects",
+     "/control/sites",
+     "/control/billing",
+     "/control/settings"
+    ],
+    "non_route_states": [
+     "open (history pushState site00Overlay)",
+     "signed-in vs signed-out (localStorage)",
+     "current-location card"
+    ],
+    "visual_authority": "site00-fast-travel.css; fast-travel-assets.ts",
+    "responsive_behavior": {
+     "mobile": "rendered",
+     "tablet": "absent",
+     "desktop": "absent"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/config/fast-travel.ts:65-443; components/fast-travel/FastTravelPanel.tsx:24-148",
+    "canonical_status": "CANONICAL_CONCEPT (FAST TRAVEL) \u2014 implementation partial (mobile-only, role-blind)"
+   },
+   {
+    "system_id": "NAV-06",
+    "name": "Mobile bottom nav (MobileSiteNavigation / MOBILE_SITE_NAV)",
+    "trigger": "always on mobile shells",
+    "surface_type": "BOTTOM_NAV",
+    "user_context": "ANON/CLIENT/FOUNDER",
+    "destinations": [
+     "ORIGIN",
+     "IDNTY->/idnty/state",
+     "LOCATIONS (center)",
+     "PROJECTS",
+     "CTRL ROOM"
+    ],
+    "routes_touched": [
+     "/origin",
+     "/idnty/state",
+     "/origin/locations",
+     "/projects",
+     "/control"
+    ],
+    "non_route_states": [
+     "route-derived active bay; EVOLVE highlights LOCATIONS (mobile-site-nav.ts:68)"
+    ],
+    "visual_authority": "icons/mobile-nav",
+    "responsive_behavior": {
+     "mobile": "rendered",
+     "tablet": "absent",
+     "desktop": "absent"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/mobile/MobileSiteNavigation.tsx:53-93; config/mobile-site-nav.ts:23-56",
+    "notes": "requiresAuth flag declared but href not rewritten; signed-out taps hit guard redirect.",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-07",
+    "name": "LOCATIONS directory page",
+    "trigger": "LOCATIONS bay / swipe / FT RETURN",
+    "surface_type": "ROUTE_DIRECTORY",
+    "user_context": "ANON/CLIENT",
+    "destinations": [
+     "01 BLDR",
+     "02 EVOLVE",
+     "03 SITES",
+     "04 SERVICES",
+     "05 SYSTEM",
+     "06 ABOUT",
+     "07 JOURNAL",
+     "08 IDNTY",
+     "09 CTRL ROOM*",
+     "10 PROJECTS*",
+     "11 MY SITES*"
+    ],
+    "routes_touched": [
+     "/bldr*",
+     "/evolve*",
+     "/sites",
+     "/services",
+     "/system",
+     "/about",
+     "/journal",
+     "/idnty",
+     "/control",
+     "/projects",
+     "/control/sites"
+    ],
+    "non_route_states": [
+     "auth-locked cards (DirectoryCard.tsx:16-17)"
+    ],
+    "visual_authority": "config/locations-directory.ts:30-130",
+    "responsive_behavior": {
+     "mobile": "rendered",
+     "tablet": "redirect /origin",
+     "desktop": "redirect /origin (LocationsPage.tsx:37-38)"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/pages/LocationsPage.tsx; config/locations-directory.ts:139-153",
+    "canonical_status": "CANONICAL (public.redesign.locations authority)"
+   },
+   {
+    "system_id": "NAV-08",
+    "name": "Public mobile footer",
+    "trigger": "page bottom",
+    "surface_type": "FOOTER",
+    "user_context": "ANON",
+    "destinations": [
+     "PRIVACY->/brand/privacy",
+     "TERMS->/brand/terms",
+     "SUPPORT->/support"
+    ],
+    "routes_touched": [
+     "/brand/privacy (none)",
+     "/brand/terms (none)",
+     "/support"
+    ],
+    "non_route_states": [],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "rendered",
+     "tablet": "n/a",
+     "desktop": "n/a"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/shell/Site00PageFooter.tsx:9-11",
+    "notes": "/brand is a COMPOSER_DRAFT base; /brand/privacy & /brand/terms have no route -> App '*' -> '/'.",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-09",
+    "name": "Auth shell (sign-in/create-account) desktop brand rail + mobile header",
+    "trigger": "page chrome",
+    "surface_type": "AUTH_CHROME",
+    "user_context": "ANON",
+    "destinations": [
+     "logo->/origin",
+     "PRIVACY->/brand/terms",
+     "TERMS->/brand/terms",
+     "SUPPORT->/brand/contact",
+     "paused: CONTINUE TO PRODUCTION->/production"
+    ],
+    "routes_touched": [
+     "/origin",
+     "/brand/terms (none)",
+     "/brand/contact (none)",
+     "/production"
+    ],
+    "non_route_states": [
+     "sign-in paused state (Site00AuthShell.tsx:68-72)",
+     "layout desktop|mobile via useSite00AuthLayout"
+    ],
+    "visual_authority": "site00-auth-assets.ts",
+    "responsive_behavior": {
+     "mobile": "Site00MobileHeader + FT",
+     "tablet": "desktop panel",
+     "desktop": "desktop panel"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/auth/Site00AuthShell.tsx:77-123",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-10",
+    "name": "Operating World top nav (account/CTRL ROOM desktop)",
+    "trigger": "always on EcosystemShell desktop",
+    "surface_type": "TOP_NAV",
+    "user_context": "CLIENT/FOUNDER/PREVIEW_GUEST",
+    "destinations": [
+     "logo->/control",
+     "CTRL ROOM",
+     "PROJECTS",
+     "PRODUCTION (admin)",
+     "INTAKES",
+     "SITES->/control/sites",
+     "STUDIO->/admin/site00/studio",
+     "APPROVALS->/admin/site00/approvals",
+     "ACCESS->/control/security",
+     "BILLING",
+     "IDNTY profile",
+     "SIGN OUT"
+    ],
+    "routes_touched": [
+     "/control",
+     "/projects",
+     "/production",
+     "/account/intakes",
+     "/control/sites",
+     "/admin/site00/studio",
+     "/admin/site00/approvals",
+     "/control/security",
+     "/control/billing",
+     "/idnty"
+    ],
+    "non_route_states": [
+     "previewGuest shows only STUDIO -> /studio/:slug/preview-guest (OperatingWorldTopNav.tsx:34-38; ecosystem-nav.ts:94-102)",
+     "adminOnly filter only on PRODUCTION"
+    ],
+    "visual_authority": "Operating World board canon",
+    "responsive_behavior": {
+     "mobile": "not rendered (mobile layout)",
+     "tablet": "rendered (>=768)",
+     "desktop": "rendered"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:15-62; config/ecosystem-nav.ts:18-28",
+    "notes": "STUDIO/APPROVALS shown to non-admin clients; AdminGuard bounces to /control (AdminGuard.tsx:34). No route back to public ORIGIN on desktop.",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-11",
+    "name": "Ecosystem mobile shell chrome (header+FT+MOBILE_SITE_NAV) + CTRL sign-out bar",
+    "trigger": "EcosystemShell mobile",
+    "surface_type": "SHELL",
+    "user_context": "CLIENT/FOUNDER",
+    "destinations": [
+     "FT",
+     "MOBILE_SITE_NAV",
+     "SIGN OUT (ctrl routes)"
+    ],
+    "routes_touched": [
+     "see NAV-05/06"
+    ],
+    "non_route_states": [
+     "suppressSiteChrome on /projects/ndxbook* (EcosystemShell.tsx:45,82)"
+    ],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "rendered",
+     "tablet": "n/a",
+     "desktop": "n/a"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/ecosystem/EcosystemShell.tsx:78-99; components/mobile/Site00EcosystemMobileShell.tsx:22-58",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-12",
+    "name": "CTRL ROOM mobile command cells",
+    "trigger": "CTRL ROOM mobile page body",
+    "surface_type": "CONTROL_SURFACE",
+    "user_context": "CLIENT/FOUNDER",
+    "destinations": [
+     "PROPERTIES->/control/sites",
+     "DOMAINS->/control/domains",
+     "PLAN->/control/billing",
+     "BILLING->/control/billing",
+     "ADMIN ACCESS->/admin/site00 (admin)"
+    ],
+    "routes_touched": [
+     "/control/sites",
+     "/control/domains",
+     "/control/billing",
+     "/admin/site00"
+    ],
+    "non_route_states": [],
+    "visual_authority": "config/ctrl-room-mobile.ts",
+    "responsive_behavior": {
+     "mobile": "rendered",
+     "tablet": "desktop overview",
+     "desktop": "desktop overview"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/config/ctrl-room-mobile.ts:53-90; components/ctrl-room/mobile/CtrlRoomAdminAccess.tsx:17",
+    "notes": "PLAN and BILLING both -> /control/billing (duplicate).",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-13",
+    "name": "Client app shell (/app/projects/:slug/*)",
+    "trigger": "always",
+    "surface_type": "SIDE_NAV + BOTTOM_NAV + HEADER",
+    "user_context": "CLIENT (PROJECT_SCOPED)",
+    "destinations": [
+     "HOME",
+     "PROJECTS",
+     "REVIEWS",
+     "INBOX",
+     "PROFILE",
+     "bell (no handler)",
+     "more (no handler)"
+    ],
+    "routes_touched": [
+     "/app/projects/:slug",
+     "\u2026/projects",
+     "\u2026/reviews",
+     "\u2026/inbox",
+     "\u2026/profile"
+    ],
+    "non_route_states": [
+     "badges from manifest"
+    ],
+    "visual_authority": "site00-client-app.css",
+    "responsive_behavior": {
+     "mobile": "bottom nav",
+     "tablet": "bottom nav (<1024)",
+     "desktop": "side nav (>=1024, site00-client-app.css:1127)"
+    },
+    "implementation_status": "PARTIAL",
+    "file_line": "src/site00/components/clientApp/Site00ClientAppShell.tsx:30-113",
+    "notes": "Bell and More buttons have no onClick (lines 79-85). No path to CTRL ROOM / SITE 00 public world; no project switcher despite PROJECTS tab.",
+    "canonical_status": "LOCKED (client app nav canon) \u2014 implementation diverges"
+   },
+   {
+    "system_id": "NAV-14",
+    "name": "Client project room shell (/client/projects/:slug/*)",
+    "trigger": "always",
+    "surface_type": "SIDEBAR + BOTTOM_NAV + HEADER",
+    "user_context": "CLIENT (PROJECT_SCOPED)",
+    "destinations": [
+     "OVERVIEW",
+     "REVIEWS",
+     "LIBRARY",
+     "ACTIVITY",
+     "MESSAGES",
+     "bell (no handler)",
+     "more (no handler)"
+    ],
+    "routes_touched": [
+     "/client/projects/:slug",
+     "/reviews",
+     "/library",
+     "/activity",
+     "/messages"
+    ],
+    "non_route_states": [
+     "optional right rail"
+    ],
+    "visual_authority": "site00-client-project-room-p0client1.css",
+    "responsive_behavior": {
+     "mobile": "bottom nav (<768)",
+     "tablet": "sidebar",
+     "desktop": "sidebar"
+    },
+    "implementation_status": "PARTIAL",
+    "file_line": "src/site00/components/clientProjectRoom/ClientProjectRoomShell.tsx:33-122",
+    "notes": "Bell/More dead (57-63). No exit to account.",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-15",
+    "name": "STUDIO shell (/studio/:slug/*)",
+    "trigger": "EcosystemShell wrapper",
+    "surface_type": "SHELL",
+    "user_context": "FOUNDER/CLIENT/PREVIEW_GUEST",
+    "destinations": [
+     "inherits NAV-10 desktop / NAV-11 mobile"
+    ],
+    "routes_touched": [
+     "/studio/:slug/*"
+    ],
+    "non_route_states": [
+     "renders children twice (mobile+desktop divs) StudioShell.tsx:10-15"
+    ],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "ecosystem mobile + FT (fallback profile)",
+     "tablet": "OperatingWorldTopNav",
+     "desktop": "OperatingWorldTopNav"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/studio/StudioShell.tsx:8-17",
+    "notes": "Double-mount of children; FT shows only FALLBACK profile.",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-16",
+    "name": "Production authority chrome (header + bottom/host nav)",
+    "trigger": "ProductionAuthorityFrame / PwFrame(production) / ProductionChromeOverlay portals",
+    "surface_type": "PORTAL SHELL",
+    "user_context": "FOUNDER/INTERNAL",
+    "destinations": [
+     "HUB",
+     "INBOX",
+     "DESIGN",
+     "EXPERIENCE",
+     "EXPRESSION",
+     "LIBRARY",
+     "ACTIVITY",
+     "PROJECT switcher",
+     "ITEMS NEED YOU->/production/queue",
+     "MENU: PRODUCTION HUB, INBOX, CONTROL"
+    ],
+    "routes_touched": [
+     "/production",
+     "/production/queue",
+     "/production/:p/design",
+     "/production/:p/experience/world",
+     "/production/:p/expression",
+     "/production/libraries",
+     "/production/activity",
+     "/control"
+    ],
+    "non_route_states": [
+     "project switcher dialog",
+     "menu dialog",
+     "viewport family mobile<700/tablet<1120/desktop (production-authority-registry.ts:24-31)",
+     "body scroll lock"
+    ],
+    "visual_authority": "site00-production-authority*.css, design-pack",
+    "responsive_behavior": {
+     "mobile": "ProductionWorkspaceHeader ph-top + ProductionBottomNav",
+     "tablet": "ProductionHostTop + ProductionHostNav",
+     "desktop": "same as tablet"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/productionAuthority/ProductionAuthorityFrame.tsx:32-75; components/productionHub/chrome.tsx:130-339; components/productionHub/nav.tsx:8-114",
+    "notes": "Guarded by Site00InternalProductionGuard (non-admin -> /projects). No route back to ORIGIN; CONTROL is only exit.",
+    "canonical_status": "LOCKED (production 7-tab nav)"
+   },
+   {
+    "system_id": "NAV-17",
+    "name": "Production Hub machine view (?view=machine/panel/node/scene)",
+    "trigger": "ProductionWorkspaceHubPage query params",
+    "surface_type": "PORTAL FULLSCREEN",
+    "user_context": "FOUNDER/INTERNAL",
+    "destinations": [
+     "HubMenu: DESIGN, EXPERIENCE, EXPRESSION, INBOX/QUEUE, LIBRARY",
+     "Project/Production selector",
+     "Attention quick view",
+     "Scene selector",
+     "Lightbox",
+     "Decision dialog"
+    ],
+    "routes_touched": [
+     "/production/:p/*",
+     "/production/queue",
+     "/production/libraries"
+    ],
+    "non_route_states": [
+     "overlay reducer state (SCENE_SELECTOR|LIGHTBOX|DECISION|PROJECT_SELECTOR|ATTENTION|MENU)",
+     "sessionStorage hub ctx"
+    ],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "zoomed 864px authority",
+     "tablet": "zoom",
+     "desktop": "zoom"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/productionHub/ProductionHub.tsx:68-596; pages/production/ProductionWorkspaceHubPage.tsx:12",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-18",
+    "name": "PwFrame projects variant (founder mobile /projects)",
+    "trigger": "admin + mobile + FOUNDER view",
+    "surface_type": "PORTAL SHELL",
+    "user_context": "FOUNDER",
+    "destinations": [
+     "SITE 00->'/'",
+     "avatar->/control",
+     "PROJECTS",
+     "SITES",
+     "PRODUCTION",
+     "LIBRARY",
+     "MORE->/control"
+    ],
+    "routes_touched": [
+     "/",
+     "/projects",
+     "/control/sites",
+     "/production",
+     "/production/libraries",
+     "/control"
+    ],
+    "non_route_states": [
+     "project actions sheet + toast"
+    ],
+    "visual_authority": "site00-production-mobile.css:8-20",
+    "responsive_behavior": {
+     "mobile": "rendered (fixed inset 0, z 1200) over EcosystemShell chrome",
+     "tablet": "n/a",
+     "desktop": "n/a"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/production/PwFrame.tsx:37-48,113-140; components/projectIndex/ProjectIndexPage.tsx:61-64; pages/ProjectOperatingModulePage.tsx:76-84",
+    "notes": "Covers the ecosystem mobile header/FT/bottom nav underneath (still mounted).",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-19",
+    "name": "Admin 00/CONTROL shell (/admin/site00/*)",
+    "trigger": "always",
+    "surface_type": "SIDEBAR + details-menu + header search",
+    "user_context": "FOUNDER/INTERNAL",
+    "destinations": [
+     "COMMAND",
+     "PROJECTS",
+     "PRODUCTION->/admin/site00/studio",
+     "REVIEWS",
+     "CLIENTS",
+     "ASSETS/VAULT->/assts",
+     "SYSTEMS",
+     "AUTOMATION",
+     "BUSINESS",
+     "REPORTS",
+     "EMAIL/DEBUG",
+     "MARKETING",
+     "SETTINGS",
+     "\u2318K search",
+     "OPEN CLIENT EXPERIENCE"
+    ],
+    "routes_touched": [
+     "/admin/site00/*",
+     "/assts"
+    ],
+    "non_route_states": [
+     "mobile <details> menu",
+     "AdminSearchModal",
+     "ExperienceContextBar (dual-context users)"
+    ],
+    "visual_authority": "admin/styles/site00-control.css",
+    "responsive_behavior": {
+     "mobile": "<details> 00/CONTROL menu (<1024)",
+     "tablet": "details menu",
+     "desktop": "sidebar (>=1024)"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/admin/components/shell/Site00AdminShell.tsx:102-165; admin/config/control-nav.ts:12-32; admin/components/shell/Site00AdminHeader.tsx:9-55",
+    "notes": "'PRODUCTION' label points to /admin/site00/studio, not /production (two different 'production' surfaces).",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-20",
+    "name": "ASSTS vault nav",
+    "trigger": "always under /assts (AdminGuard)",
+    "surface_type": "BOTTOM_DOCK/TOP_NAV",
+    "user_context": "INTERNAL",
+    "destinations": [
+     "LIBRARY",
+     "BATCHES",
+     "SEARCH",
+     "NOTIFICATIONS",
+     "PROFILE"
+    ],
+    "routes_touched": [
+     "/assts",
+     "/assts/batches",
+     "/assts/search",
+     "/assts/notifications",
+     "/assts/profile"
+    ],
+    "non_route_states": [
+     "AsstsColdStartGate",
+     "sheets (reject/variant/lock/regenerate)"
+    ],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "bottom dock",
+     "tablet": "dock",
+     "desktop": "top nav"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/assts/components/AsstsMobileNav.tsx:25-97",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-21",
+    "name": "Design workspace shell (/studio-world/design)",
+    "trigger": "always",
+    "surface_type": "SIDEBAR + mobile top + project selector",
+    "user_context": "FOUNDER/INTERNAL",
+    "destinations": [
+     "DESIGN->/projects/site00/design",
+     "PROJECTS",
+     "BLUEPRINTS",
+     "ASSET VAULT",
+     "SYSTEM->/control",
+     "GUIDE",
+     "SOUND",
+     "ABOUT",
+     "FAQ",
+     "CONTACT",
+     "ACCOUNT->/account",
+     "EXIT 00->'/'"
+    ],
+    "routes_touched": [
+     "/projects/site00/design",
+     "/projects",
+     "/blueprints*",
+     "/assts",
+     "/control",
+     "/guide*",
+     "/sound*",
+     "/about",
+     "/faq*",
+     "/contact*",
+     "/account*",
+     "/"
+    ],
+    "non_route_states": [
+     "host menus NONE|NOTIFICATIONS|OVERFLOW",
+     "DesignProjectSelector (state-only project switch)"
+    ],
+    "visual_authority": "shared/.../p0vr2b/constants.ts:30-41",
+    "responsive_behavior": {
+     "mobile": "mobile top bar",
+     "tablet": "sidebar",
+     "desktop": "sidebar"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx:110-142,206-213",
+    "notes": "6 of 12 links target COMPOSER_DRAFT routes (*) that redirect to '/' without ?preview=1.",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-22",
+    "name": "NDXBOOK founder workspace (/projects/ndxbook*)",
+    "trigger": "replaces site chrome on mobile",
+    "surface_type": "RAIL + BOTTOM_NAV + PROJECT MENU",
+    "user_context": "FOUNDER (PROJECT_SCOPED)",
+    "destinations": [
+     "OVERVIEW",
+     "CAMPAIGNS",
+     "CONTENT OPS",
+     "LAB",
+     "MORE(menu)",
+     "menu: PROJECT OVERVIEW, PROJECT SETTINGS, BACK TO PROJECTS, RETURN TO ORIGIN, INSPECT, HELP->/help",
+     "overflow: LEARN, INTELLIGENCE, ARCHIVE, EXPERIMENTS HUB"
+    ],
+    "routes_touched": [
+     "/projects/:slug/*",
+     "/projects",
+     "/origin",
+     "/help (NO ROUTE)"
+    ],
+    "non_route_states": [
+     "menu popover (FounderWorkspacePopoverSurface portal)",
+     "notification center"
+    ],
+    "visual_authority": "site00-founder-workspace.css",
+    "responsive_behavior": {
+     "mobile": "FounderWorkspaceMobileNav",
+     "tablet": "rail",
+     "desktop": "rail"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/founderWorkspace/FounderWorkspaceShell.tsx:92-320; config/ndxFounderWorkspaceIcons.ts:36-85",
+    "notes": "HELP -> /help has no route -> '/'. INSPECT and EXPERIMENTS HUB duplicate same href.",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-23",
+    "name": "Project operating shell module nav (/projects/:slug/<module>)",
+    "trigger": "always",
+    "surface_type": "DESKTOP NAV + MOBILE SUBNAV + MODULE SWITCHER",
+    "user_context": "FOUNDER/CLIENT (PROJECT_SCOPED)",
+    "destinations": [
+     "modules: OVERVIEW/IDENTITY/BUILDER/PRODUCTION/REVIEWS/LIBRARY/MORE (filtered by view mode)",
+     "VIEW AS FOUNDER/CLIENT toggle"
+    ],
+    "routes_touched": [
+     "/projects/:slug/*"
+    ],
+    "non_route_states": [
+     "ProjectModuleSwitcher dropdown (mobile)",
+     "view-as-client simulation (React state only)"
+    ],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "ProjectModuleSwitcher + mobile subnav",
+     "tablet": "desktop nav",
+     "desktop": "desktop nav"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/site00/components/projectOperatingSystem/ProjectOperatingShell.tsx:159-169; ProjectModuleSwitcher.tsx:12-60",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-24",
+    "name": "JURNL runtime product nav (/production/:slug/runtime/*)",
+    "trigger": "runtime root",
+    "surface_type": "BOTTOM_NAV (state screens)",
+    "user_context": "PROJECT_SCOPED (end-user runtime)",
+    "destinations": [
+     "HOME->F03",
+     "MONEY->F05",
+     "QUICK ADD",
+     "PLAN->F08",
+     "CREDIT->F12"
+    ],
+    "routes_touched": [
+     "(none \u2014 internal screen ids, not URLs)"
+    ],
+    "non_route_states": [
+     "toast (JurnlSuccessBanner)",
+     "drawers/sheets/modals/handoffs portalled into .jrn root (primitives.tsx:14-22)"
+    ],
+    "visual_authority": "src/projects/jurnl/runtime/*.css",
+    "responsive_behavior": {
+     "mobile": "rendered",
+     "tablet": "rendered",
+     "desktop": "rendered"
+    },
+    "implementation_status": "RENDERED",
+    "file_line": "src/projects/jurnl/runtime/components/ProductNav.tsx:5-37; JurnlRuntimeRoot.tsx:53-91",
+    "notes": "Host/project firewall: Suspense fallback null, no SITE 00 chrome (Site00Routes.tsx:1512-1520).",
+    "canonical_status": "CURRENT (not canon-locked)"
+   },
+   {
+    "system_id": "NAV-25",
+    "name": "Public top nav (Site00PublicTopNav)",
+    "trigger": "\u2014",
+    "surface_type": "TOP_NAV",
+    "user_context": "ANON/CLIENT",
+    "destinations": [
+     "SITES",
+     "SERVICES",
+     "SYSTEM",
+     "ABOUT",
+     "JOURNAL",
+     "IDNTY",
+     "BLDR",
+     "CTRL ROOM"
+    ],
+    "routes_touched": [],
+    "non_route_states": [],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "\u2014",
+     "tablet": "\u2014",
+     "desktop": "\u2014"
+    },
+    "implementation_status": "DEAD_CODE",
+    "file_line": "src/site00/components/shell/Site00PublicTopNav.tsx:14",
+    "canonical_status": "DEAD_CODE"
+   },
+   {
+    "system_id": "NAV-26",
+    "name": "Mobile menu drawer (Site00MobileMenuDrawer)",
+    "trigger": "\u2014",
+    "surface_type": "DRAWER",
+    "user_context": "ANON/CLIENT",
+    "destinations": [
+     "SERVICES",
+     "SYSTEM",
+     "ABOUT",
+     "JOURNAL",
+     "IDNTY",
+     "BLDR",
+     "EVOLVE",
+     "CTRL ROOM"
+    ],
+    "routes_touched": [],
+    "non_route_states": [],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "\u2014",
+     "tablet": "\u2014",
+     "desktop": "\u2014"
+    },
+    "implementation_status": "DEAD_CODE",
+    "file_line": "src/site00/components/mobile/Site00MobileMenuDrawer.tsx:30; config/mobile-directory-nav.ts:18-44",
+    "notes": "Superseded by FAST TRAVEL.",
+    "canonical_status": "DEAD_CODE"
+   },
+   {
+    "system_id": "NAV-27",
+    "name": "CTRL ROOM sidebar / ECOSYSTEM_MOBILE_NAV / Site00PublicSidebar / EcosystemSidebar",
+    "trigger": "\u2014",
+    "surface_type": "SIDEBAR/BOTTOM_NAV",
+    "user_context": "CLIENT",
+    "destinations": [
+     "OVERVIEW",
+     "SITES",
+     "DOMAINS",
+     "BILLING",
+     "TEAM",
+     "SETTINGS",
+     "SECURITY"
+    ],
+    "routes_touched": [],
+    "non_route_states": [],
+    "visual_authority": "",
+    "responsive_behavior": {
+     "mobile": "\u2014",
+     "tablet": "\u2014",
+     "desktop": "\u2014"
+    },
+    "implementation_status": "DEAD_CODE",
+    "file_line": "src/site00/config/ctrl-room-nav.ts:13-21; config/ecosystem-nav.ts:43-48; components/shell/Site00PublicShell.tsx:64-67",
+    "canonical_status": "DEAD_CODE"
+   }
+  ],
+  "non_route_surfaces": [
+   {
+    "id": "NRS-01",
+    "name": "Fast Travel panel",
+    "type": "FAST_TRAVEL",
+    "shell": "public mobile / auth mobile / ecosystem mobile / access",
+    "trigger": "FastTravelTrigger",
+    "file_line": "src/site00/components/fast-travel/FastTravelPanel.tsx:108-147",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Overlay pushes history entry; z 40."
+   },
+   {
+    "id": "NRS-02",
+    "name": "Site00WorldColdStartGate cinematic loader",
+    "type": "TRANSITION",
+    "shell": "all Site00Layout routes",
+    "trigger": "cold load / reload unless skipped (/control*, sign-in, public hubs, preview tunnel)",
+    "file_line": "src/site00/components/loader/Site00WorldColdStartGate.tsx:47-56,248; routes/Site00Routes.tsx:517",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "6s wall-clock failsafe (line 38). Portal."
+   },
+   {
+    "id": "NRS-03",
+    "name": "AsstsColdStartGate",
+    "type": "TRANSITION",
+    "shell": "ASSTS",
+    "trigger": "first load of /assts",
+    "file_line": "src/site00/assts/components/AsstsColdStartGate.tsx:69-283; routes/Site00Routes.tsx:764",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Portal overlay."
+   },
+   {
+    "id": "NRS-04",
+    "name": "Route loading fallback (Site00Suspense -> ReferenceShellSuspenseFallback)",
+    "type": "TRANSITION",
+    "shell": "all lazy routes",
+    "trigger": "React.lazy suspense",
+    "file_line": "src/site00/components/loader/Site00RouteLoadingFallback.tsx:8-10; routes/Site00Routes.tsx:427-429",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Production runtime uses fallback={null} (Site00Routes.tsx:1516)."
+   },
+   {
+    "id": "NRS-05",
+    "name": "Origin swipe-up -> LOCATIONS transition overlay",
+    "type": "GESTURE/TRANSITION",
+    "shell": "Origin mobile",
+    "trigger": "swipe up on strip/bottom",
+    "file_line": "src/site00/hooks/useOriginLocationsTransition.ts:9-37; pages/OriginPage.tsx:77-82,181",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-06",
+    "name": "Origin expanded panels (IDNTY/BLDR/EVOLVE) + backdrop",
+    "type": "OVERLAY",
+    "shell": "Origin",
+    "trigger": "OriginCards click",
+    "file_line": "src/site00/pages/OriginPage.tsx:149-177",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Not URL-encoded; back leaves Origin."
+   },
+   {
+    "id": "NRS-07",
+    "name": "Layout preview switches (Origin/Public/Ecosystem Mobile|Desktop)",
+    "type": "CONTEXT_SWITCHER",
+    "shell": "origin, public, ecosystem",
+    "trigger": "\u2014",
+    "file_line": "src/site00/components/shell/Site00OriginLayoutSwitch.tsx:21-119; Site00PublicLayoutSwitch.tsx:12-47; ecosystem/Site00EcosystemLayoutSwitch.tsx:18-53",
+    "materiality": "MATERIAL",
+    "status": "DEAD_CODE",
+    "notes": "isSite00LayoutPreviewSwitchEnabled() returns false (state/preview-mode.ts:6-8). Portals never render."
+   },
+   {
+    "id": "NRS-08",
+    "name": "Preview device mode (mobile/desktop) resolver",
+    "type": "CONTEXT_SWITCHER",
+    "shell": "global Site00Provider",
+    "trigger": "viewport >=768, /enter, */desktop legacy paths, ?site00MobileLayout=1",
+    "file_line": "src/site00/state/Site00Context.tsx:32-77; state/preview-mode.ts:32-35; components/shell/site00OriginViewport.ts:1-17",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Not live-resized: initial mode set at mount; resize across 768 does not flip preview mode (only presentation scaling via useSite00OriginWideViewport)."
+   },
+   {
+    "id": "NRS-09",
+    "name": "Desktop/Mobile artboard presentation shells",
+    "type": "CONTEXT_SWITCHER",
+    "shell": "public/origin/ecosystem",
+    "trigger": "preview mode \u00d7 viewport",
+    "file_line": "src/site00/components/shell/Site00DesktopPresentationShell.tsx:43-60; Site00MobilePresentationShell.tsx:15-24; site00DesktopPresentation.ts",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Phone+Desktop=>scaled 1440 artboard; laptop+Mobile=>390x844 phone frame."
+   },
+   {
+    "id": "NRS-10",
+    "name": "Signed-in vs public split of /idnty and /sites",
+    "type": "CONTEXT_SWITCHER",
+    "shell": "public\u2194ecosystem",
+    "trigger": "localStorage isSignedIn",
+    "file_line": "src/site00/pages/idnty/IdntyHubPage.tsx:22,53; pages/SitesPortfolioPage.tsx:25",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Same URL, different shell."
+   },
+   {
+    "id": "NRS-11",
+    "name": "Experience context bar (ADMIN CONTROL CENTER \u2194 CLIENT EXPERIENCE, CLIENT QA toggle)",
+    "type": "CONTEXT_SWITCHER",
+    "shell": "admin / client",
+    "trigger": "dual-context user",
+    "file_line": "src/site00/components/access/ExperienceContextBar.tsx:8-52; admin Site00AdminShell.tsx:143",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-12",
+    "name": "VIEW AS FOUNDER/CLIENT toggle + ClientSimulationSelector popover",
+    "type": "CONTEXT_SWITCHER",
+    "shell": "projects index / project operating shell",
+    "trigger": "toggle button (FOUNDER/ADMIN role)",
+    "file_line": "src/site00/components/projectOperatingSystem/ViewAsClientControls.tsx:23-45; components/projectIndex/ProjectIndexViewStrip.tsx:6-72; components/projectIndex/ClientSimulationSelector.tsx:11; context/ProjectViewModeContext.tsx:42-130",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "React state only \u2014 resets on route change/reload."
+   },
+   {
+    "id": "NRS-13",
+    "name": "Production project switcher (header PROJECT chip)",
+    "type": "PROJECT_SWITCHER",
+    "shell": "production authority",
+    "trigger": "chip click",
+    "file_line": "src/site00/components/productionHub/chrome.tsx:198-209,230-262,282-310; projectRuntime/projectHostProfile.ts:34-57",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Navigates to /production/<slug>/<same workspace>; from HUB/INBOX/LIBRARY/ACTIVITY lands on /design."
+   },
+   {
+    "id": "NRS-14",
+    "name": "Production MENU panel",
+    "type": "MENU",
+    "shell": "production authority",
+    "trigger": "menu button",
+    "file_line": "src/site00/components/productionHub/chrome.tsx:130-195",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "3 items: HUB, INBOX, CONTROL."
+   },
+   {
+    "id": "NRS-15",
+    "name": "Production Hub overlays (Scene selector, Lightbox, Decision, Project/Production selector, Attention, HubMenu)",
+    "type": "MODAL",
+    "shell": "production hub machine view",
+    "trigger": "reducer OPEN_OVERLAY",
+    "file_line": "src/site00/components/productionHub/overlays.tsx:29-490; ProductionHub.tsx:523-592",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-16",
+    "name": "Production Hub project/production selector",
+    "type": "PROJECT_SWITCHER",
+    "shell": "production hub machine view",
+    "trigger": "hub-project-trigger",
+    "file_line": "src/site00/components/productionHub/ProductionHub.tsx:261-270,567-577; overlays.tsx:336",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Changes reducer state only; URL stays /production?view=machine \u2014 not shareable; persisted via sessionStorage."
+   },
+   {
+    "id": "NRS-17",
+    "name": "INBOX sheets (revision, approve confirm, filter/sort, attachment preview)",
+    "type": "SHEET",
+    "shell": "production INBOX",
+    "trigger": "buttons",
+    "file_line": "src/site00/components/productionAuthority/InboxBody.tsx:156-170,259-298,760-781,951",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-18",
+    "name": "ProductionAuthorityFrame / PwFrame / ProductionChromeOverlay / CharacterFabrication portals",
+    "type": "PORTAL",
+    "shell": "production + founder mobile projects",
+    "trigger": "route mount",
+    "file_line": "src/site00/components/productionAuthority/ProductionAuthorityFrame.tsx:43; production/PwFrame.tsx:95,114; productionHub/chrome.tsx:323-338; characterFabrication/CharacterFabrication.tsx:149",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Each locks body scroll and replaces global chrome."
+   },
+   {
+    "id": "NRS-19",
+    "name": "Admin \u2318K search modal",
+    "type": "MODAL",
+    "shell": "admin",
+    "trigger": "Cmd/Ctrl+K or header search",
+    "file_line": "src/site00/admin/components/shell/Site00AdminHeader.tsx:9-55; admin/components/operations/AdminSearchModal.tsx:11-90",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-20",
+    "name": "Admin mobile <details> 00/CONTROL menu",
+    "type": "MENU",
+    "shell": "admin",
+    "trigger": "summary tap",
+    "file_line": "src/site00/admin/components/shell/Site00AdminShell.tsx:147-162",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-21",
+    "name": "Admin orchestration ProjectSwitcher (<select>)",
+    "type": "PROJECT_SWITCHER",
+    "shell": "admin orchestration/evolve/reconciliation/command",
+    "trigger": "select change",
+    "file_line": "src/site00/admin/components/orchestration/ProjectSwitcher.tsx:12-38",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Uses window.location.href -> full page reload (re-triggers cold-start gate logic)."
+   },
+   {
+    "id": "NRS-22",
+    "name": "Design workspace project selector popover",
+    "type": "PROJECT_SWITCHER",
+    "shell": "design workspace",
+    "trigger": "selector button",
+    "file_line": "src/site00/components/designWorkspace/DesignProjectSelector.tsx:28-70; founderWorkspace/StudioWorldDesignWorkspace.tsx:326-340",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "State-only rescope (designProjectContext.switchProject); URL unchanged."
+   },
+   {
+    "id": "NRS-23",
+    "name": "Design workspace notifications + overflow menus",
+    "type": "MENU",
+    "shell": "design workspace",
+    "trigger": "bell / overflow",
+    "file_line": "src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx:897-920; designWorkspace/DesignWorkspaceOverflowMenu.tsx:19",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-24",
+    "name": "NDX founder project menu + notification center (FounderWorkspacePopoverSurface portal)",
+    "type": "MENU/PORTAL",
+    "shell": "NDXBOOK founder workspace",
+    "trigger": "MORE",
+    "file_line": "src/site00/components/founderWorkspace/FounderWorkspaceProjectMenu.tsx:16-50; FounderWorkspacePopoverSurface.tsx:34-109; FounderWorkspaceShell.tsx:297-320",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-25",
+    "name": "Project module switcher dropdown",
+    "type": "PROJECT_SWITCHER(module)",
+    "shell": "project operating shell mobile",
+    "trigger": "button",
+    "file_line": "src/site00/components/projectOperatingSystem/ProjectModuleSwitcher.tsx:12-60",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Switches module within one project, not between projects."
+   },
+   {
+    "id": "NRS-26",
+    "name": "Project actions sheet + toast",
+    "type": "SHEET/GLOBAL_INTERACTION",
+    "shell": "PwFrame projects",
+    "trigger": "row action",
+    "file_line": "src/site00/components/projectIndex/ProjectActionsSheet.tsx:25-90",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Sends request into production; toast pw-toast line 84."
+   },
+   {
+    "id": "NRS-27",
+    "name": "Design workspace page-family dialogs/overlays (Replace authority, History, Forensic overlays, Creative upgrade panel, Details drawer, Skin sheet)",
+    "type": "MODAL/DRAWER/PORTAL",
+    "shell": "design workspace",
+    "trigger": "in-tool",
+    "file_line": "src/site00/components/designWorkspace/pageFamily/*.tsx; wizard/DesignDetailsDrawer.tsx:32; skins/SkinWorkspaceSheet.tsx",
+    "materiality": "MICRO",
+    "status": "RENDERED",
+    "notes": "Tool-level; not navigation."
+   },
+   {
+    "id": "NRS-28",
+    "name": "Astral world overlays/drawers (Who's Here, Take Me Somewhere, AstralDrawer)",
+    "type": "OVERLAY/DRAWER",
+    "shell": "astral world (/projects/:slug/experience,/reader,/debug/world)",
+    "trigger": "scene buttons",
+    "file_line": "src/site00/astral-world/components/scenes/overlays/*.tsx; immersive/AstralDrawer.tsx:13; AstralOverlay.tsx:11",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "TAKE ME SOMEWHERE is an in-world spatial teleport (distinct from SITE 00 Fast Travel)."
+   },
+   {
+    "id": "NRS-29",
+    "name": "JURNL runtime drawers/sheets/modals/handoffs + toast",
+    "type": "DRAWER/SHEET/MODAL/GLOBAL_INTERACTION",
+    "shell": "JURNL runtime",
+    "trigger": "screen actions",
+    "file_line": "src/projects/jurnl/runtime/components/primitives.tsx:14-22,323,372,426,445,494,501; JurnlRuntimeRoot.tsx:53-91",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "33 call sites across Entry/Home/Security/Setup screens."
+   },
+   {
+    "id": "NRS-30",
+    "name": "ASSTS sheets (reject, variant, lock, regenerate)",
+    "type": "SHEET",
+    "shell": "ASSTS inspection",
+    "trigger": "inspector actions",
+    "file_line": "src/site00/assts/components/AsstsSheets.tsx:31,81,132; AsstsRegenerateSheet.tsx:11",
+    "materiality": "MICRO",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-31",
+    "name": "Character Fabrication NoticeToast",
+    "type": "GLOBAL_INTERACTION",
+    "shell": "production expression",
+    "trigger": "fabrication events",
+    "file_line": "src/site00/components/characterFabrication/CharacterFabrication.tsx:134",
+    "materiality": "MICRO",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-32",
+    "name": "Self-directed profile edit sheet",
+    "type": "SHEET",
+    "shell": "client app self-directed",
+    "trigger": "profile edit",
+    "file_line": "src/site00/components/selfDirected/SelfDirectedProfileEditSheet.tsx:11",
+    "materiality": "MICRO",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-33",
+    "name": "Founder creative inspect drawer / page-concept drawer / project workspace drawer / Opus/Twin overlays",
+    "type": "DRAWER/OVERLAY",
+    "shell": "design bench / ingestion",
+    "trigger": "in-tool",
+    "file_line": "src/site00/components/founderCreativeIngestion/FounderCreativeInspectDrawer.tsx; designBench/**",
+    "materiality": "MICRO",
+    "status": "RENDERED",
+    "notes": "Internal tooling."
+   },
+   {
+    "id": "NRS-34",
+    "name": "Reconstruction debug overlays + LoaderReferenceOverlay + Site00TypeTestOverlay",
+    "type": "OVERLAY",
+    "shell": "debug",
+    "trigger": "query flags",
+    "file_line": "src/site00/components/reconstruction/*Overlay.tsx; loader/LoaderReferenceOverlay.tsx; Site00TypographyBootstrap.tsx:44",
+    "materiality": "MICRO",
+    "status": "RENDERED (flagged)",
+    "notes": ""
+   },
+   {
+    "id": "NRS-35",
+    "name": "Locations/BLDR composition debug overlays",
+    "type": "OVERLAY",
+    "shell": "Site00MobileShell",
+    "trigger": "?debug query",
+    "file_line": "src/site00/components/mobile/Site00MobileShell.tsx:35-36,70-71",
+    "materiality": "MICRO",
+    "status": "RENDERED (flagged)",
+    "notes": ""
+   },
+   {
+    "id": "NRS-36",
+    "name": "Client app / project room notification bell + more",
+    "type": "MENU (stub)",
+    "shell": "client app, client room",
+    "trigger": "button",
+    "file_line": "src/site00/components/clientApp/Site00ClientAppShell.tsx:79-85; clientProjectRoom/ClientProjectRoomShell.tsx:57-63",
+    "materiality": "MATERIAL",
+    "status": "PARTIAL",
+    "notes": "No handler \u2014 dead global interaction."
+   },
+   {
+    "id": "NRS-37",
+    "name": "Unused surfaces: InspectorDrawer, DesignVisualComparisonDrawer, Site00MobileMenuDrawer",
+    "type": "DRAWER",
+    "shell": "\u2014",
+    "trigger": "\u2014",
+    "file_line": "src/site00/components/founderWorkspace/InspectorDrawer.tsx; designWorkspace/DesignVisualComparisonDrawer.tsx; mobile/Site00MobileMenuDrawer.tsx:30",
+    "materiality": "MICRO",
+    "status": "DEAD_CODE",
+    "notes": "No JSX consumer found."
+   },
+   {
+    "id": "NRS-38",
+    "name": "Artboard bottom chrome portal (status strip host)",
+    "type": "PORTAL",
+    "shell": "origin desktop/mobile artboard",
+    "trigger": "\u2014",
+    "file_line": "src/site00/components/shell/Site00ArtboardBottomChromePortal.tsx:15; Site00AppShell.tsx:26-46",
+    "materiality": "MICRO",
+    "status": "RENDERED",
+    "notes": ""
+   },
+   {
+    "id": "NRS-X1",
+    "name": "ENTER 00 portal control (header toggle + Origin mobile link)",
+    "type": "GLOBAL_INTERACTION/PORTAL",
+    "shell": "public",
+    "trigger": "tap/click",
+    "file_line": "EntryToggle.tsx:27-36; OriginMobileSwipeUp.tsx:37-39",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Opens a ROUTE (/enter) \u2014 the portal itself is non-route; hidden on Origin mobile header via site00.css:764-766."
+   },
+   {
+    "id": "NRS-X2",
+    "name": "EXIT 00 control",
+    "type": "GLOBAL_INTERACTION/PORTAL",
+    "shell": "public + design workspace",
+    "trigger": "tap/click",
+    "file_line": "EntryToggle.tsx:14-25; DirectoryExitButton.tsx:5-15; Site00DesignWorkspaceShell.tsx:139-141",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Fixed-target spatial exit, not BACK."
+   },
+   {
+    "id": "NRS-X3",
+    "name": "Swipe-up gesture surface (Origin mobile)",
+    "type": "GESTURE",
+    "shell": "public",
+    "trigger": "swipe up",
+    "file_line": "OriginPage.tsx:74,78-84; site00.css:976-985",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "aria-hidden full-screen layer with touch-action:none; accessible alternative = SWIPE UP button."
+   },
+   {
+    "id": "NRS-X4",
+    "name": "Mobile bottom-nav centre bay (LOCATIONS)",
+    "type": "GLOBAL_INTERACTION",
+    "shell": "public mobile",
+    "trigger": "tap",
+    "file_line": "src/site00/config/mobile-site-nav.ts:23-56",
+    "materiality": "MATERIAL",
+    "status": "RENDERED",
+    "notes": "Second entry to LOCATIONS."
+   },
+   {
+    "id": "NRS-X5",
+    "name": "Client app MENU drawer (stub)",
+    "type": "DRAWER",
+    "shell": "client app",
+    "trigger": "menu button (no handler)",
+    "file_line": "Site00ClientAppShell.tsx",
+    "materiality": "MATERIAL",
+    "status": "PLACEHOLDER",
+    "notes": "Locked header item that does nothing."
+   }
+  ],
+  "project_switchers": [
+   {
+    "id": "PS-1",
+    "name": "Production header PROJECT chip",
+    "file_line": "src/site00/components/productionHub/chrome.tsx:198-209",
+    "mechanism": "route (projectSwitchPath)",
+    "source": "listHostProductionProjects() design-enabled managed projects minus site00",
+    "url_synced": true,
+    "issues": [
+     "From HUB/INBOX/LIBRARY/ACTIVITY always lands on /production/<slug>/design (projectHostProfile.ts:49-50)",
+     "Global routes /production/queue|libraries|activity hard-code project 'ndxbook' (chrome.tsx:58-64; ProductionAuthorityFrame.tsx:26-30) \u2014 switching on those pages is not remembered"
+    ]
+   },
+   {
+    "id": "PS-2",
+    "name": "Production Hub PROJECT/PRODUCTION selector",
+    "file_line": "src/site00/components/productionHub/ProductionHub.tsx:567-577",
+    "mechanism": "reducer + sessionStorage",
+    "url_synced": false,
+    "issues": [
+     "URL stays /production?view=machine; deep link/refresh relies on sessionStorage",
+     "initialHubState('ndxbook') default (ProductionHub.tsx:71)"
+    ]
+   },
+   {
+    "id": "PS-3",
+    "name": "Design workspace DesignProjectSelector",
+    "file_line": "src/site00/components/designWorkspace/DesignProjectSelector.tsx:28; StudioWorldDesignWorkspace.tsx:326-340",
+    "mechanism": "React state rescope",
+    "url_synced": false,
+    "issues": [
+     "Refresh returns to default project"
+    ]
+   },
+   {
+    "id": "PS-4",
+    "name": "Admin orchestration ProjectSwitcher",
+    "file_line": "src/site00/admin/components/orchestration/ProjectSwitcher.tsx:12-38",
+    "mechanism": "window.location.href (hard reload)",
+    "url_synced": true,
+    "issues": [
+     "Full reload instead of router navigate"
+    ]
+   },
+   {
+    "id": "PS-5",
+    "name": "ClientSimulationSelector (view-as client)",
+    "file_line": "src/site00/components/projectIndex/ClientSimulationSelector.tsx:11",
+    "mechanism": "React context",
+    "url_synced": false,
+    "issues": [
+     "Simulation lost on navigation between /projects and /projects/:slug (separate ProjectViewModeProvider instances: ProjectsPage.tsx:7, ProjectOperatingModulePage.tsx:105)"
+    ]
+   },
+   {
+    "id": "PS-6",
+    "name": "ProjectModuleSwitcher (intra-project)",
+    "file_line": "src/site00/components/projectOperatingSystem/ProjectModuleSwitcher.tsx:12",
+    "mechanism": "route",
+    "url_synced": true,
+    "issues": []
+   },
+   {
+    "id": "ABSENT",
+    "name": "No project switcher in: client app (/app), client project room, Fast Travel, Operating World top nav, MOBILE_SITE_NAV",
+    "file_line": "\u2014"
+   }
+  ],
+  "context_switchers": [
+   {
+    "id": "CS-1",
+    "name": "Public \u2194 signed-in (localStorage isSignedIn)",
+    "file_line": "src/hooks/useSignedInFromStorage.ts:7-37; utils/adminAuth.ts:241",
+    "effect": "FT items, Locations locks, /idnty shell, /sites redirect"
+   },
+   {
+    "id": "CS-2",
+    "name": "Mobile \u2194 desktop preview mode",
+    "file_line": "src/site00/state/Site00Context.tsx:32-77",
+    "effect": "Selects entire shell family; toggle UI disabled"
+   },
+   {
+    "id": "CS-3",
+    "name": "Layout preview toggles",
+    "file_line": "src/site00/state/preview-mode.ts:6-8",
+    "effect": "DEAD (always false)"
+   },
+   {
+    "id": "CS-4",
+    "name": "?site00MobileLayout=1 QA override",
+    "file_line": "src/site00/components/shell/site00OriginViewport.ts:4,11-17",
+    "effect": "Forces mobile layout on wide viewports"
+   },
+   {
+    "id": "CS-5",
+    "name": "?preview=1 composer draft gate",
+    "file_line": "src/site00/components/guards/Site00ComposerDraftRouteGuard.tsx:18",
+    "effect": "Draft routes -> '/' with state.draftBlocked"
+   },
+   {
+    "id": "CS-6",
+    "name": "Admin \u2194 client experience bar + CLIENT QA",
+    "file_line": "src/site00/components/access/ExperienceContextBar.tsx:8-52"
+   },
+   {
+    "id": "CS-7",
+    "name": "VIEW AS FOUNDER/CLIENT",
+    "file_line": "src/site00/components/projectOperatingSystem/ViewAsClientControls.tsx:23-45"
+   },
+   {
+    "id": "CS-8",
+    "name": "PREVIEW_GUEST auth mode (STUDIO only)",
+    "file_line": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:18-38"
+   },
+   {
+    "id": "CS-9",
+    "name": "Production viewport family mobile/tablet/desktop (700/1120)",
+    "file_line": "src/site00/config/production-authority-registry.ts:24-31"
+   }
+  ],
+  "control_naming_usage": [
+   {
+    "term": "CTRL ROOM",
+    "where": "src/site00/config/ctrl-room-nav.ts:2",
+    "meaning": "Doc comment: 'customer-facing account environment for SITE 00' \u2014 the /control/* client area (OVERVIEW/SITES/DOMAINS/BILLING/TEAM/SETTINGS/SECURITY)."
+   },
+   {
+    "term": "CTRL ROOM",
+    "where": "src/site00/config/ecosystem-nav.ts:19",
+    "meaning": "First item of OPERATING_WORLD_TOP_NAV (client top nav) -> /control. Same nav also lists PROJECTS, INTAKES, SITES, STUDIO(/admin), APPROVALS(/admin), ACCESS(/control/security), BILLING(/control/billing) \u2014 mixes account, project-management and operator links in one bar."
+   },
+   {
+    "term": "CTRL ROOM",
+    "where": "src/site00/config/ctrl-room-mobile.ts:5",
+    "meaning": "'CTRL ROOM / COMMAND CENTER \u2014 WHAT NEEDS MY ATTENTION? MONITOR YOUR PROPERTIES, PROJECTS, ACCESS, AND ACCOUNT ACTIVITY.' \u2014 framed as a command center, not account settings."
+   },
+   {
+    "term": "CTRL ROOM",
+    "where": "src/site00/hooks/useCtrlRoomData.ts:69,77 + :108",
+    "meaning": "Activity 'system' label for sign_in/sign_out; hook doc 'CTRL ROOM command center data'."
+   },
+   {
+    "term": "CTRL ROOM",
+    "where": "src/site00/admin/config/nav.ts:24,38 + src/site00/admin/pages/operations/CtrlRoomPage.tsx (title '[ CTRL ROOM ]')",
+    "meaning": "SAME NAME reused for the operator 'ADMIN ATTENTION CENTER' at /admin/site00/ctrl-room (blockers/approvals/leads/discovery/overdue invoices). Name collision with client CTRL ROOM. (SITE00_ADMIN_NAV is legacy; current shell uses CONTROL_OPERATOR_NAV which does not list it, so it is reachable by URL only.)"
+   },
+   {
+    "term": "CTRL ROOM",
+    "where": "motherboard/CORE.md:127,134",
+    "meaning": "Canon: 'CTRL ROOM \u2014 Customer account-level command center' (/control); distinct from 00 / CONTROL and Studio."
+   },
+   {
+    "term": "CTRL ROOM",
+    "where": "src/site00/components/auth/Site00AuthIntro.tsx:13; shell/Site00PublicTopNav.tsx:53; shell/Site00PublicSidebar.tsx:55; evolve-assessment/EvolveAssessmentShell.tsx:135",
+    "meaning": "Public CTA: 'ACCESS YOUR CTRL ROOM' / 'ENTER CTRL ROOM' = sign-in destination."
+   },
+   {
+    "term": "CONTROL ROOM",
+    "where": "src/site00/pages/complex/AccountPage.tsx:16",
+    "meaning": "Hub card 'CONTROL ROOM \u2014 ACCOUNT SETTINGS AND TEAM MANAGEMENT' -> /control. Closest to founder's intended meaning."
+   },
+   {
+    "term": "CONTROL ROOM",
+    "where": "src/site00/config/seed/site00-page-seed.ts:100,112",
+    "meaning": "'MANAGE SITES, DOMAINS, AND ACCOUNT SETTINGS' -> /control."
+   },
+   {
+    "term": "CONTROL ROOM",
+    "where": "src/site00/pages/control/EvolveOperationsPage.tsx:35; components/control/evolveOperations/EvolveOperationsCard.tsx:5",
+    "meaning": "'Founder Control Room summary card' \u2014 founder operations intelligence embedded inside the client-facing /control overview (conflates founder ops with client account room)."
+   },
+   {
+    "term": "CONTROL ROOM / CONTROL_ROOM",
+    "where": "src/site00/components/designWorkspace/useDesignSkinsState.ts:48; brandFamilySkin/ExperienceSkinManagementPanel.tsx:57; shared/site00-brand-lore/projectSkin/brandFamily/screenSlotConfig.ts:62",
+    "meaning": "Design-skin screen slot '08 CONTROL ROOM' \u2014 a project skin screen type (per-project account screen), not the SITE 00 host room."
+   },
+   {
+    "term": "CONTROL ROOM",
+    "where": "shared/site00-marketing/creativeIntake/copySystem.ts:23",
+    "meaning": "Marketing copy environment label 'THE CONTROL ROOM'."
+   },
+   {
+    "term": "00 / CONTROL",
+    "where": "motherboard/CORE.md:125-140; src/site00/admin/components/shell/Site00AdminShell.tsx:121-149; admin/components/control/ControlPageHeader.tsx:10; ControlCommandHero.tsx:21",
+    "meaning": "Internal operator environment /admin/site00/* ('OPERATOR ENVIRONMENT', V2.0.0) \u2014 monitor/approve/intervene/launch. Effectively founder business operations + project management + infra."
+   },
+   {
+    "term": "00 / CONTROL",
+    "where": "src/site00/components/control/CtrlRoomSidebar.tsx:49; pages/control/ControlSectionPage.tsx:20-26",
+    "meaning": "Admin-only link from client CTRL ROOM into operator env; ControlSectionPage /control/settings shows '00 / CONTROL \u00b7 OPERATOR' block for admins."
+   },
+   {
+    "term": "CONTROL ENVIRONMENT",
+    "where": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx:30",
+    "meaning": "Env label on the client operating-world top nav."
+   },
+   {
+    "term": "CONTROL (route ns)",
+    "where": "src/site00/config/routes.ts:61-68",
+    "meaning": "/control, /control/sites, /domains, /billing, /team, /settings, /security, /evolve-operations."
+   },
+   {
+    "term": "control plane",
+    "where": "supabase/migrations/20260826123000_site00_design_control_plane_bridge.sql:1-2",
+    "meaning": "'Cross-repo design control plane (SITE 00 <-> FSBW handoff). SITE 00 owns design intent; FSBW owns source code; Supabase is shared control plane.' Tables site00_managed_projects, site00_repo_bindings, etc."
+   },
+   {
+    "term": "control plane",
+    "where": "shared/site00-design-control-plane/{designControlPlane.ts:2,384, constants.ts:2, types.ts, client.ts}; api/site00/design-control-plane.ts (actions prepare_repo_change, approve_for_source_repo, publish_runtime_binding, record_receipt, check_source_divergence); server/routes.ts:41,105; src/site00/components/designWorkspace/DesignRepoChangePanel.tsx:86,119",
+    "meaning": "The ONLY 'control plane' in code = design/repo change bridge (Site00DesignControlPlane). Store mode defaults to 'memory' (designControlPlane.ts:48). It is infra in the founder's sense but narrowly scoped; no general 'SITE 00 control plane' module exists."
+   },
+   {
+    "term": "control plane",
+    "where": "motherboard/MEMORY.md:5523-5531; docs/design-workspace/DESIGN-PRODUCTION1R1-PERSISTENCE-AUDIT.md; docs/audits/SITE00_PROJECT_INGESTION_READINESS_AUDIT.md; studio-world visualReconstruction p0vr3m/p0vr8r2",
+    "meaning": "References to the P0.BRIDGE.1 design control plane only."
+   }
+  ],
+  "control_surfaces": [
+   {
+    "route": "/control",
+    "file": "src/site00/pages/control/ControlOverviewPage.tsx (+ hooks/useCtrlRoomData.ts, components/ctrl-room/mobile/CtrlRoomMobileExperience)",
+    "shows": "Metrics ACTIVE SITES, DOMAINS, PLAN, NEXT BILLING; signals panel; EVOLVE OPERATIONS card; activity; sites panel. Mobile: 'WHAT NEEDS MY ATTENTION' command center.",
+    "data_real": "PARTIAL \u2014 counts/sites/signals from GET /api/site00/client-production?action=ctrl-room (api/_lib/site00Production/service.ts:226 getClientCtrlRoomPayload: site00_sites by identity_id, ACTIVE site00_projects by client_email, project signals rewritten to /studio routes). PLAN = localStorage user.membershipType. NEXT BILLING hardcoded empty '\u2014'. Activity = localStorage readLocalActivityForEmail. EVOLVE OPERATIONS card = FIXTURES (useEvolveOperationsPortfolio DEMO_FIXTURES, fake 'AUTO-RETRIED 12...' lines).",
+    "audience": "Any signed-in user (Site00AccountRouteGuard). Founder card shown to clients too \u2014 no canAccessAdminPages() check.",
+    "classification": "MIXED: CLIENT_CONTROL_ROOM (plan/billing/domains intent) + PROJECT_MANAGEMENT (project signals -> ENTER STUDIO) + OPERATIONS (founder EVOLVE ops fixtures leak)",
+    "status": "LIVE-PARTIAL; semantic violation (project mgmt + founder ops inside control room)"
+   },
+   {
+    "route": "/control/sites",
+    "file": "src/site00/pages/control/ControlSitesPage.tsx (+ hooks/useEcosystemData.ts, components/ecosystem/SiteRow.tsx)",
+    "shows": "ACTIVE/DRAFT/TOTAL/TEAM site metrics, search, PUBLISHED/DRAFT filter, site rows with MANAGE + '\u22ef', SITE ACTIVITY, YOUR TEAM, '+ NEW SITE' -> /bldr.",
+    "data_real": "NO \u2014 100% seed: ECOSYSTEM_SITES_SEED (jordancole.studio, northquarter.co, ...), SITE_ACTIVITY_SEED, SITE_TEAM_SEED (Jordan Cole etc.) from config/seed/site00-ecosystem-seed.ts:161-247. Every signed-in client sees same fake sites. MANAGE -> /control/sites/:id (no such route -> App.tsx:33 catch-all -> '/'). '\u22ef' button has no handler.",
+    "audience": "Any signed-in user; also public /sites redirects here when signed in",
+    "classification": "SITES (client) \u2014 belongs to client's site/property surface; currently placed under CONTROL ROOM namespace",
+    "status": "PLACEHOLDER (fake data presented as real)"
+   },
+   {
+    "route": "/control/domains, /control/billing, /control/team, /control/settings, /control/security",
+    "file": "src/site00/pages/control/ControlSectionPage.tsx",
+    "shows": "Title + 'MODULES WILL APPEAR HERE AS SITE 00 ACCOUNT SERVICES EXPAND.' On /control/settings, admins also see 00 / CONTROL operator links (email pack, dashboard, operator settings).",
+    "data_real": "NO \u2014 stub",
+    "audience": "Any signed-in user",
+    "classification": "CLIENT_CONTROL_ROOM (intended) \u2014 stub",
+    "status": "STUB"
+   },
+   {
+    "route": "/control/evolve-operations",
+    "file": "src/site00/pages/control/EvolveOperationsPage.tsx (+ hooks/useEvolveOperationsPortfolio.ts, shared/site00-evolve-operations)",
+    "shows": "'FOUNDER \u00b7 INTERNAL ONLY \u2014 EVOLVE OPERATIONS' tabs TODAY/AT_RISK/SPEND/FAILURES/CLIENT_WAITING/SYSTEM_WAITING, scale mode (1000 fixture projects).",
+    "data_real": "NO \u2014 deterministic fixtures + generated outage failures",
+    "audience": "Labeled founder-only but guarded only by Site00AccountRouteGuard (any signed-in client can open it)",
+    "classification": "OPERATIONS (founder business ops intelligence) \u2014 misplaced under client /control",
+    "status": "PROTOTYPE; access-scope defect"
+   },
+   {
+    "route": "/account",
+    "file": "src/site00/pages/complex/AccountPage.tsx",
+    "shows": "Hub cards CONTROL ROOM (/control), INTAKES (/account/intakes), SIGN IN & SECURITY (/idnty/sign-in-security). Footer 'DATA CONTRACT PLACEHOLDER'. reviewFlag FUNCTIONAL_REVIEW_REQUIRED; registered as composer draft route.",
+    "data_real": "NO \u2014 static links",
+    "audience": "Public composer-draft route (not guarded)",
+    "classification": "CLIENT_CONTROL_ROOM (entry hub)",
+    "status": "PLACEHOLDER"
+   },
+   {
+    "route": "/account/intakes, /account/intakes/:intakeType/:intakeId",
+    "file": "src/site00/pages/account/AccountIntakesPage.tsx, AccountIntakeDetailPage.tsx",
+    "shows": "Client's IDNTY/BLDR intake submissions; claimGuestIntakes.",
+    "data_real": "YES \u2014 src/site00/api/intakesApi listMyIntakes",
+    "audience": "Signed-in client",
+    "classification": "PROJECT_MANAGEMENT (pre-project intake records) living under /account",
+    "status": "LIVE"
+   },
+   {
+    "route": "/idnty/sign-in-security",
+    "file": "src/site00/pages/idnty/IdntySignInSecurityPage.tsx",
+    "shows": "PASSWORD \u2022\u2022\u2022\u2022, 2FA NOT AVAILABLE, sessions CURRENT ONLY, trusted devices NOT AVAILABLE, sign-in email, 'NO ACTIVITY LOG'.",
+    "data_real": "MINIMAL \u2014 only user.email real; no actions",
+    "audience": "Signed-in client",
+    "classification": "CLIENT_CONTROL_ROOM (security)",
+    "status": "READ-ONLY STUB"
+   },
+   {
+    "route": "(no route) profile edit",
+    "file": "api/profile.ts (GET/PATCH profiles), src/utils/api.ts:161-169 getProfile/patchProfile",
+    "shows": "Profile API exists (incl. stripe_* field preservation) but no SITE 00 profile-edit UI; patchProfile used only by Site00AccountRouteGuard and Astral reader pages.",
+    "data_real": "API real; UI absent",
+    "audience": "n/a",
+    "classification": "CLIENT_CONTROL_ROOM (missing UI)",
+    "status": "MISSING UI; password reset email links /account/settings which has no route (navigation.json broken_links)"
+   },
+   {
+    "route": "/admin/site00",
+    "file": "src/site00/admin/pages/DashboardPage.tsx (COMMAND; api/_lib/site00Production/controlCommand.ts getControlCommandPayload)",
+    "shows": "Operator command dashboard incl. launch queue from site00_sites status BUILD/PRELAUNCH/QA.",
+    "data_real": "YES (+ demo seeding via ensureAdminOpsSeeded/ensureDemoProjectSeeded)",
+    "audience": "Founder/admin (AdminGuard; preview bypass constant per auth_permissions.json)",
+    "classification": "OPERATIONS + PROJECT_MANAGEMENT",
+    "status": "LIVE"
+   },
+   {
+    "route": "/admin/site00/ctrl-room",
+    "file": "src/site00/admin/pages/operations/CtrlRoomPage.tsx (api getCtrlRoomAdmin adminOperations.ts:~698)",
+    "shows": "'[ CTRL ROOM ] ADMIN ATTENTION CENTER': BLOCKERS, APPROVALS, NEW LEADS, UPCOMING DISCOVERY, OVERDUE INVOICES.",
+    "data_real": "YES (Supabase; seeded demo rows if empty)",
+    "audience": "Founder/admin",
+    "classification": "OPERATIONS (business + project attention monitor) \u2014 misnamed 'CTRL ROOM'",
+    "status": "LIVE; orphan from current CONTROL_OPERATOR_NAV (only in legacy SITE00_ADMIN_NAV)"
+   },
+   {
+    "route": "/admin/site00/settings (+ /settings/studio/automation renders same SettingsPage)",
+    "file": "src/site00/admin/pages/operations/SettingsPage.tsx",
+    "shows": "'SETTINGS / OPERATOR \u2014 CONTROL THE SYSTEM': EMAIL SYSTEM (link), INTEGRATIONS ('configured via env \u2014 NOT IN THIS UI'), ROLES & ACCESS ('ADMIN_EMAILS... requires backend'), STUDIO AUTOMATION (link to itself), NOTIFICATIONS ('not yet exposed').",
+    "data_real": "NO \u2014 static descriptive cards",
+    "audience": "Founder/admin",
+    "classification": "FOUNDER_CONTROL_ROOM (intended: system/personal settings) \u2014 stub",
+    "status": "STUB; automation route is a self-loop"
+   },
+   {
+    "route": "/admin/site00/finance, /admin/site00/finance/invoices/:id",
+    "file": "src/site00/admin/pages/operations/FinancePage.tsx, InvoiceDetailPage.tsx",
+    "shows": "'BUSINESS / OPERATIONS \u2014 WHAT HAS BEEN AUTHORIZED? WHAT IS MOVING?' invoices list.",
+    "data_real": "DB-backed (site00_invoices) but rows are demo-seeded; no payment provider (Stripe absent)",
+    "audience": "Founder/admin",
+    "classification": "OPERATIONS (commercial admin; candidate FOUNDER_CONTROL_ROOM commercial section)",
+    "status": "LIVE-DEMO"
+   },
+   {
+    "route": "/admin/site00/team",
+    "file": "src/site00/admin/pages/operations/TeamPage.tsx (adminOperations.ts:783 getTeamOverview)",
+    "shows": "'OPERATORS / TEAM' members = ADMIN_EMAILS env (fallback hardcoded 3 emails incl. founder) + ACTIVE project load.",
+    "data_real": "PARTIAL (derived from env allowlist; no team table, no roles)",
+    "audience": "Founder/admin",
+    "classification": "FOUNDER_CONTROL_ROOM (team/access) / OPERATIONS",
+    "status": "LIVE-DERIVED"
+   },
+   {
+    "route": "/admin/site00/access-credentials, /:id",
+    "file": "src/site00/admin/pages/access/AccessCredentialsPage.tsx, AccessCredentialDetailPage.tsx",
+    "shows": "Issued access credentials + events.",
+    "data_real": "YES (site00_access_credentials, site00_access_credential_events)",
+    "audience": "Founder/admin",
+    "classification": "CONTROL_PLANE_INFRA management surface (identity/access) \u2014 operations",
+    "status": "LIVE"
+   },
+   {
+    "route": "/admin/site00/evolve/connections",
+    "file": "src/site00/admin/pages/evolve/EvolveConnectionsPortfolioPage.tsx",
+    "shows": "'EXTERNAL CONNECTIONS \u2014 provider connections grouped by organization'.",
+    "data_real": "YES via site00EvolveApi.connectionsPortfolio",
+    "audience": "Founder/admin",
+    "classification": "CONTROL_PLANE_INFRA management surface (provider connections)",
+    "status": "LIVE"
+   },
+   {
+    "route": "/admin/site00/orchestration/:orgSlug/evolve/connections",
+    "file": "src/site00/admin/pages/evolve/EvolveOrgConnectionsPage.tsx",
+    "shows": "Per-org provider connections: initiate/verify/sync/disconnect.",
+    "data_real": "YES (site00_external_connections + site00_provider_secrets AES-GCM)",
+    "audience": "Founder/admin",
+    "classification": "CONTROL_PLANE_INFRA management (per org/project) \u2014 arguably PROJECT_MANAGEMENT scope",
+    "status": "LIVE"
+   },
+   {
+    "route": "/projects/:projectSlug/connections",
+    "file": "routes.ts:209 projectConnections",
+    "shows": "Per-project connections page.",
+    "data_real": "see client_components.json",
+    "audience": "Signed-in",
+    "classification": "PROJECT_MANAGEMENT",
+    "status": "EXISTS"
+   },
+   {
+    "route": "/projects/:projectSlug/notifications",
+    "file": "routes.ts:206; api/_lib/site00Projects/projectNotificationsService.ts",
+    "shows": "Project notification center.",
+    "data_real": "MEMORY STORE ONLY (shared/site00-studio-world-production/projectNotifications/memoryStore.js)",
+    "audience": "Signed-in",
+    "classification": "PROJECT_MANAGEMENT (notifications per project)",
+    "status": "NON-PERSISTENT"
+   },
+   {
+    "route": "/admin/site00/sites, /admin/site00/sites/:id",
+    "file": "src/site00/admin/pages/operations/SitesPage.tsx, SiteDetailPage.tsx",
+    "shows": "'SYSTEMS / INFRASTRUCTURE \u2014 WHAT IS CONNECTED? WHAT IS HEALTHY?' site list (filters issues/live); detail OVERVIEW (domain/status/health/owner/last deploy), PROJECT link, CLIENT identity link.",
+    "data_real": "YES (site00_sites join site00_projects, site00_identities) \u2014 but only seeded demo row is ever inserted",
+    "audience": "Founder/admin",
+    "classification": "OPERATIONS / CONTROL_PLANE_INFRA (site registry)",
+    "status": "LIVE-DEMO"
+   },
+   {
+    "route": "OperatingWorldTopNav (all EcosystemShell pages)",
+    "file": "src/site00/components/ecosystem/OperatingWorldTopNav.tsx + config/ecosystem-nav.ts:18-28",
+    "shows": "CTRL ROOM | PROJECTS | PRODUCTION(admin) | INTAKES | SITES | STUDIO(/admin) | APPROVALS(/admin) | ACCESS(/control/security) | BILLING(/control/billing); IDNTY profile link.",
+    "data_real": "n/a",
+    "audience": "Clients + founder; STUDIO/APPROVALS shown to clients but bounce via AdminGuard",
+    "classification": "NAV mixing CLIENT_CONTROL_ROOM + PROJECT_MANAGEMENT + OPERATIONS",
+    "status": "LIVE; semantically mixed"
+   },
+   {
+    "route": "/admin/site00/existing-location (constant only)",
+    "file": "src/site00/config/routes.ts:42; api/admin/site00-existing-location.ts",
+    "shows": "Founder queue/quote/courtesy-code API exists; NO admin page/route mounted for it.",
+    "data_real": "API real but in-memory store",
+    "audience": "Founder",
+    "classification": "OPERATIONS (commercial) \u2014 management UI missing",
+    "status": "API-ONLY"
+   }
+  ],
+  "control_plane_services": [
+   {
+    "service": "auth / identity",
+    "files_tables": "Supabase auth.users; api/_lib/auth.ts getAuthUser; api/_lib/adminAuth.ts (isAdminEmail, hardcoded founder); api/_lib/site00Access/accessModel.ts; profiles table; src/components/AdminGuard.tsx; Site00AccountRouteGuard",
+    "live": "YES (JWT real)",
+    "gaps": "No roles/membership; ~20 unauthenticated paid endpoints; getSupabaseAdmin anon fallback; AdminGuard preview bypass; password reset incomplete (auth_permissions.json verdict FAIL)."
+   },
+   {
+    "service": "project registry",
+    "files_tables": "site00_projects (20260818143000) + api/_lib/site00Projects/projectRegistry.ts, canonicalProject.ts, projectResolver.ts; site00_managed_projects (design bridge); 7+ static registries",
+    "live": "YES but fragmented",
+    "gaps": "No single source of truth; slug aliases; no FOUNDER/CLIENT/INTERNAL project type enum (project_registry.json FAIL)."
+   },
+   {
+    "service": "client registry (identities)",
+    "files_tables": "site00_identities, site00_idnty_submissions, site00_bldr_intakes, site00_leads (20260818180000_site00_admin_operations.sql); admin /admin/site00/identities",
+    "live": "YES (with demo seed when empty)",
+    "gaps": "Identity keyed by email; no org/account entity for clients separate from site00_organizations (EVOLVE orgs); no link identity<->auth user enforced."
+   },
+   {
+    "service": "membership",
+    "files_tables": "NONE (no site00_project_members); site00_projects.client_email/client_user_id + metadata.client_role; site00_shell_propagation_members is unrelated",
+    "live": "NO",
+    "gaps": "Single owner per project; collaborator/viewer not modeled per user; invites absent."
+   },
+   {
+    "service": "permissions",
+    "files_tables": "shared/site00-client-project-room/capabilities.ts; api/_lib/site00Projects/projectCapabilityGuard.ts; shared/site00-monetization/serverAuthorization.ts (contract only)",
+    "live": "PARTIAL",
+    "gaps": "Role taken from request in client-reviews; RLS service_role-only; no per-member policies."
+   },
+   {
+    "service": "firewall",
+    "files_tables": "Host/project CSS scoping (JURNL), lazy registry; shared/site00-evolve-operations/clientFirewall.ts (fixture-level)",
+    "live": "UI-PARTIAL",
+    "gaps": "Data firewall not enforced (firewall.json FAIL): open anon RLS on 2 tables, shared public bucket, unauth endpoints."
+   },
+   {
+    "service": "review engine",
+    "files_tables": "site00_client_review_objects/versions/comments/annotations/events/receipts (20260826160000, 20260826180000); api/_lib/site00ClientReviews/reviewService.ts; api/site00/client-reviews.ts",
+    "live": "YES",
+    "gaps": "Role escalation via request body; client-facing UI coverage per client_components.json."
+   },
+   {
+    "service": "approval engine",
+    "files_tables": "site00_approval_requests (status AI_DRAFT/ADMIN_REVIEW/...) used in 11 api call sites; site00_launch_overrides (requirement override w/ approver + reason); admin /admin/site00/approvals",
+    "live": "YES (admin side)",
+    "gaps": "Two parallel approval systems (approval_requests vs client reviews vs founder judgment tables); no unified approval ledger."
+   },
+   {
+    "service": "project graph (PCI route graph)",
+    "files_tables": "shared/site00-studio-world-production/parentChildExperienceInheritance/* (routeGraphDiscovery, navigationLinkage, routeManifestReconciliation); site00_deliverable_dependencies, site00_requirement_dependencies; api/_lib/site00Orchestration/dependencyGraph.ts",
+    "live": "CODE-ONLY (computed; no persisted graph table)",
+    "gaps": "No persisted project/route graph; PCI is per-run computation."
+   },
+   {
+    "service": "cost engine",
+    "files_tables": "api/_lib/site00OpusNative/costLedger.ts (receipts written as JSON FILES to opusNativeWorkDir/ledger \u2014 not DB); api/_lib/site00ExpressionEngine/storyboardGenerationCostGuard.ts; JURNL GENERATION_LEDGER.json files; PRODUCTION_COST_GUARD_RULES.json (PR #1357); shared/site00-evolve-operations spend watch (fixtures)",
+    "live": "PARTIAL / filesystem + docs",
+    "gaps": "No DB cost ledger, no per-project spend cap, no payer attribution (cost_provider_models.json recommends site00_generation_cost_ledger)."
+   },
+   {
+    "service": "funding",
+    "files_tables": "NONE (site00_projects.payment_state only)",
+    "live": "NO",
+    "gaps": "No funding_mode / production_expense_owner / budget; Stripe absent; payments simulated."
+   },
+   {
+    "service": "discount / promotion engine",
+    "files_tables": "shared/site00-existing-location/courtesy.ts; site00_courtesy_codes + site00_courtesy_redemptions (20261001150000) \u2014 service uses in-memory store; EVOLVE FOUNDATION_WAIVED_WITH_CANONICAL_INTELLIGENCE (foundationQualification.ts)",
+    "live": "PARTIAL (logic real; persistence memory-only)",
+    "gaps": "See discount_promotion."
+   },
+   {
+    "service": "provider connection engine",
+    "files_tables": "site00_provider_secrets (AES-256-GCM, org-scoped), site00_external_connections (20260820180000), site00_service_connections + site00_service_catalog + site00_project_service_requirements (20260818143000); api/_lib/site00Evolve/providers/*; api/_lib/site00Production/serviceAccess.ts",
+    "live": "YES (EVOLVE OAuth); project service_connections state-only",
+    "gaps": "Generation providers = SITE 00 env keys only; client connect-service sets arbitrary state unverified (client-production.ts:62-76); no BYOK."
+   },
+   {
+    "service": "notification engine (email registry)",
+    "files_tables": "shared/site00-email/ (84-template registry); api/_lib/email/sendEmail.ts; projectNotificationsService (memory)",
+    "live": "RENDER-ONLY",
+    "gaps": "EMAIL_PROVIDER unset -> 'not-configured'; in-memory idempotency; no preferences table; in-app notifications non-persistent."
+   },
+   {
+    "service": "project lifecycle",
+    "files_tables": "site00_projects.status CHECK (ACTIVE, PRE_INGESTION, ORIGIN_INGESTED, IDENTITY_IN_PROGRESS, IDENTITY_COMPLETE, INGESTION, PRODUCTION, ARCHIVED \u2014 20260825220000), current_phase (default DISCOVERY), project_health, payment_state, provisioning_state; PHASE_ORDER DISCOVERY..LAUNCH (serviceAccess.ts:4); intake lifecycle columns on site00_idnty_submissions / site00_bldr_intakes (20260821020947)",
+    "live": "YES (pre-launch)",
+    "gaps": "No LAUNCHED/LIVE/MAINTENANCE/POST_LAUNCH DB status; phase normalizer maps unknown -> DESIGN; no lifecycle transition log."
+   },
+   {
+    "service": "orchestration",
+    "files_tables": "api/_lib/site00Orchestration/* (manifestBuilder, readinessCalculator, deferralEngine, reconciliation, commandQueue, githubClient); tables site00_launch_manifests, site00_manifest_requirements, site00_requirement_dependencies, site00_manifest_deferrals, site00_launch_overrides, site00_workstreams, site00_orchestration_events, site00_reconciliation_records",
+    "live": "YES (Supabase canonical; memory when ORCHESTRATION_USE_MEMORY=1/VITEST)",
+    "gaps": "Org-scoped (site00_organizations) rather than project-scoped; EVOLVE-centric."
+   },
+   {
+    "service": "studio world adapter",
+    "files_tables": "api/_lib/studioWorld/{adapter,client,liveAdapter,mockAdapter}.ts; env STUDIO_WORLD_ADAPTER=mock|live, STUDIO_WORLD_API_BASE/KEY",
+    "live": "CONFIG-DEPENDENT (throws in production without live config)",
+    "gaps": "External dependency; no health surface."
+   },
+   {
+    "service": "design control plane (the only code 'control plane')",
+    "files_tables": "site00_managed_projects, site00_repo_bindings (+ bridge tables) 20260826123000/130000; shared/site00-design-control-plane; api/site00/design-control-plane.ts",
+    "live": "PARTIAL (store defaults to memory)",
+    "gaps": "Narrow scope (SITE00<->FSBW design change handoff); should become one subsystem of a broader control plane."
+   }
+  ],
+  "discount_promotion_current": [
+   {
+    "mechanism": "Existing Location courtesy codes",
+    "files_tables": "supabase/migrations/20261001150000_site00_existing_location_service.sql:68-112 (site00_courtesy_codes, site00_courtesy_redemptions, site00_existing_location_quotes.discount_cents, cases.courtesy_redemption_id); shared/site00-existing-location/courtesy.ts; types.ts:207; api/_lib/existingLocation/service.ts:194-301; memoryStore.ts; api/admin/site00-existing-location.ts:58-73; api/site00/existing-location.ts; src/site00/pages/existing-location/ExistingLocationCasePage.tsx:208",
+    "generation": "Founder POST action create-courtesy-code with raw_code (founder-chosen string, normalized upper/no-space, stored as SHA-256 hash). No random generator.",
+    "rules": "active; redemptions_used < max_redemptions; valid_from <= now; expires_at; eligible_email; eligible_client_id; timing-safe hash compare.",
+    "overrides": "discount_type: PERCENT_100, FULL_CASE_COMP, FIXED_AMOUNT (cents), DIAGNOSIS_ONLY, LABOR_ONLY, SPECIFIC_SERVICE (value cents).",
+    "credits": "None (no stored-value credit).",
+    "waivers": "Effectively full comps (PERCENT_100/FULL_CASE_COMP) -> case status COMPLIMENTARY_APPROVED + entitlement {complimentary:true}.",
+    "client_pricing": "Only via eligible_email / eligible_client_id restriction; quotes are per-case founder-authored line items.",
+    "limits": "max_redemptions (default 1).",
+    "expiration": "expires_at optional; valid_from.",
+    "redemption": "completeCheckout(): increments redemptions_used, writes redemption record, audit event COURTESY_CODE_APPLIED; if final total > 0 throws PAYMENT_REQUIRED (no payment provider). previewCourtesyCode for validation.",
+    "scope": "eligible_services column default ['EXISTING_LOCATION'] but validateCourtesyForQuote never checks it; service-specific by construction only.",
+    "audit": "case_events audit() in memory; created_by + founder_note on code; redemptions table (schema).",
+    "ui": "Client: courtesy code input on existing-location checkout. Founder: NONE \u2014 API only; SITE00_ROUTES.existingLocationAdmin constant has no mounted admin route/page.",
+    "persistence_note": "Service uses in-memory Maps (api/_lib/existingLocation/memoryStore.ts); no code reads/writes site00_courtesy_* tables. Codes vanish on Railway restart."
+   },
+   {
+    "mechanism": "EVOLVE Foundation waiver",
+    "files_tables": "api/_lib/site00Evolve/commercial/foundationQualification.ts:6,45,90; shared/site00-evolve-commercial/types.ts:116",
+    "generation": "Derived automatically when canonical Identity intelligence exists.",
+    "rules": "Status FOUNDATION_WAIVED_WITH_CANONICAL_INTELLIGENCE only if underlying canonical data actually present.",
+    "overrides": "Skips Foundation purchase requirement.",
+    "credits": "None",
+    "waivers": "Yes (rule-based)",
+    "client_pricing": "No",
+    "limits": "n/a",
+    "expiration": "n/a",
+    "redemption": "Implicit",
+    "scope": "EVOLVE Foundation",
+    "audit": "None dedicated",
+    "ui": "None for founder override"
+   },
+   {
+    "mechanism": "EVOLVE plan catalog + entitlements",
+    "files_tables": "shared/site00-evolve-commercial/catalog.ts (priceCents, priceQualifier FIXED|STARTING_AT, stripePriceId), entitlements.ts (channel/campaign/asset caps), api/_lib/site00Evolve/commercial/commercialState.ts (usageMetering NOT_AVAILABLE), site00_marketing_engagements.commercial_state jsonb (20260929153000), identity commercial state (20260929160000)",
+    "generation": "Static catalog",
+    "rules": "isWithin*Entitlement caps",
+    "overrides": "No per-client price override found",
+    "credits": "No",
+    "waivers": "No",
+    "client_pricing": "No",
+    "limits": "Plan caps (channels/campaigns/monthly assets)",
+    "expiration": "No",
+    "redemption": "n/a",
+    "scope": "EVOLVE marketing",
+    "audit": "commercial_state jsonb usage events (uncounted)",
+    "ui": "/admin/site00/orchestration/:orgSlug/evolve/plans (view)"
+   },
+   {
+    "mechanism": "Monetization contract (project-agnostic)",
+    "files_tables": "shared/site00-monetization/{contract.ts, entitlements.ts, serverAuthorization.ts}",
+    "generation": "Declarative",
+    "rules": "UsageLimit {limitType, period, tier LIMITED|HIGHER|UNLIMITED}; add-ons lift limits",
+    "overrides": "No",
+    "credits": "No",
+    "waivers": "No",
+    "client_pricing": "No",
+    "limits": "Yes (structural)",
+    "expiration": "No",
+    "redemption": "No",
+    "scope": "Personal products (e.g. JURNL)",
+    "audit": "No",
+    "ui": "None \u2014 explicitly 'never implies billing is live'"
+   },
+   {
+    "mechanism": "Launch requirement overrides (not pricing)",
+    "files_tables": "site00_launch_overrides (approver_email, reason, impact_acknowledgment); api/_lib/site00Orchestration/orchestrationService.ts:285",
+    "generation": "Founder action",
+    "rules": "Per manifest requirement",
+    "overrides": "Readiness requirement bypass",
+    "credits": "No",
+    "waivers": "Requirement waiver",
+    "client_pricing": "No",
+    "limits": "No",
+    "expiration": "No",
+    "redemption": "n/a",
+    "scope": "Launch manifest",
+    "audit": "Row = audit",
+    "ui": "Orchestration admin"
+   },
+   {
+    "mechanism": "Credit limit / credit exhaustion signals",
+    "files_tables": "shared/site00-evolve-operations/clientFirewall.ts:46-54 (CREDIT_WARNING/CREDIT_LIMIT), clientRiskIntelligence.ts:36, failureLoopIntelligence.ts:33-57 (INSUFFICIENT_CREDITS)",
+    "generation": "Fixture intelligence",
+    "rules": "Classifies provider credit failures",
+    "overrides": "No",
+    "credits": "Concept only \u2014 no credit balance store",
+    "waivers": "No",
+    "client_pricing": "No",
+    "limits": "Conceptual",
+    "expiration": "No",
+    "redemption": "No",
+    "scope": "EVOLVE ops",
+    "audit": "No",
+    "ui": "/control/evolve-operations (fixtures)"
+   }
+  ],
+  "sites": {
+   "public": {
+    "route": "/sites (Site00PublicPageRoutes, src/routes/Site00Routes.tsx:839)",
+    "file": "src/site00/pages/SitesPortfolioPage.tsx",
+    "status": "LIVE route, EMPTY content",
+    "content": "Portfolio grid from SITE00_PORTFOLIO_SEED which is [] (src/site00/config/seed/site00-page-seed.ts:15) -> always shows 'NO PUBLISHED PROJECTS YET'. Filters labelled ALL PROJECTS / COMPLETED / IN PROGRESS (conflates sites with projects). Card link /sites/:id has no route (latent broken link). CTA 'START A PROJECT' -> /bldr. Signed-in users are redirected to /control/sites.",
+    "authority": "No DB or API source; no 'public showcase approved' flag anywhere in site00_sites (metadata jsonb only)."
+   },
+   "client": {
+    "routes": [
+     "/control/sites",
+     "/control (ACTIVE SITES metric + CtrlRoomSitesPanel / mobile CtrlRoomPropertyNetwork)",
+     "OperatingWorldTopNav SITES and mobile nav SITES -> /control/sites"
+    ],
+    "files": [
+     "src/site00/pages/control/ControlSitesPage.tsx",
+     "src/site00/hooks/useEcosystemData.ts",
+     "src/site00/config/seed/site00-ecosystem-seed.ts:161-247",
+     "src/site00/components/ecosystem/SiteRow.tsx",
+     "src/site00/components/control/CtrlRoomSitesPanel.tsx",
+     "src/site00/components/ctrl-room/mobile/CtrlRoomPropertyNetwork.tsx",
+     "src/site00/hooks/useCtrlRoomData.ts",
+     "api/_lib/site00Production/service.ts:226-275"
+    ],
+    "data": "SPLIT: /control/sites list = hardcoded seed (jordancole.studio, northquarter.co, futurearchives.io..., fake team Jordan Cole/Taylor Morgan) shown identically to every user. /control overview sites panel + counts = REAL site00_sites rows where identity_id = site00_identities.id for the user's email (limit 8), status mapped LIVE/PUBLISHED->ACTIVE. The two screens can therefore disagree.",
+    "actions_available": [
+     "View site name/domain/status (seed on /control/sites; real on /control overview panel)",
+     "Search + filter PUBLISHED/DRAFT (seed only)",
+     "'+ NEW SITE' -> /bldr (starts a new BLDR intake/project, not a site)",
+     "Overview panel rows link back to /control/sites (not to a site or project)"
+    ],
+    "actions_missing": [
+     "Open live site (no live_url field; domain text not rendered as link)",
+     "Site info/detail page (MANAGE -> /control/sites/:id has no route -> App catch-all redirects to '/')",
+     "'\u22ef' more-actions menu (button without handler)",
+     "Return to originating project (site00_sites.project_id exists but not exposed to client)",
+     "Request maintenance / support ticket on a site",
+     "Request add-on / extension / new page",
+     "Start EVOLVE (marketing) for this site from the site",
+     "Start Existing Location service for this site (exists only as a separate public flow /existing-location with free-text site_url, optional project_id)",
+     "Domain / DNS / hosting management",
+     "Site health, deploy history, analytics"
+    ]
+   },
+   "tables": [
+    {
+     "table": "site00_sites",
+     "columns": "id, project_id, identity_id, name, domain, status (default 'DRAFT'; values used: DRAFT, BUILD, PRELAUNCH, QA, LIVE, PUBLISHED \u2014 no CHECK), health (default 'OK'), owner_email, last_deploy_at, metadata jsonb, created_at, updated_at",
+     "fk_to_project": "YES \u2014 project_id uuid references site00_projects(id) ON DELETE SET NULL (nullable; site survives project deletion). identity_id -> site00_identities ON DELETE SET NULL. Migration supabase/migrations/20260818180000_site00_admin_operations.sql:98-114. RLS enabled, no client policies."
+    },
+    {
+     "table": "site00_projects",
+     "columns": "slug, name, client_user_id, client_email, build_class, build_type, identity_state, current_phase (default DISCOVERY), project_health (default ON_TRACK), payment_state, provisioning_state, readiness pcts, status (CHECK), metadata ...",
+     "fk_to_project": "n/a (project root). No site_id / live_url / domain column."
+    },
+    {
+     "table": "site00_existing_location_cases",
+     "columns": "platform, site_url (text), project_id -> site00_projects ON DELETE SET NULL, status, quote_id, entitlement, courtesy_redemption_id ...",
+     "fk_to_project": "YES optional; NOT linked to site00_sites (site_url free text)"
+    },
+    {
+     "table": "site00_launch_manifests / site00_manifest_requirements / site00_launch_overrides",
+     "columns": "launch readiness per organization",
+     "fk_to_project": "org-scoped (site00_organizations), not site00_projects/site00_sites"
+    },
+    {
+     "table": "site00_managed_projects / site00_repo_bindings",
+     "columns": "project_key, runtime_mode, design/marketing enabled; repo owner/name/branch",
+     "fk_to_project": "Separate project registry (design control plane) \u2014 no FK to site00_projects or site00_sites"
+    },
+    {
+     "table": "site00_marketing_profiles",
+     "columns": "organization_id, lifecycle_stage default 'POST_LAUNCH' ...",
+     "fk_to_project": "org-scoped (20260820200000_site00_evolve_marketing_os.sql:5-8)"
+    },
+    {
+     "table": "domains table",
+     "columns": "NONE \u2014 no site00_domains; domain is a text column on site00_sites",
+     "fk_to_project": "n/a"
+    }
+   ],
+   "project_lifecycle_in_code": [
+    {
+     "field/enum": "site00_projects.status CHECK site00_projects_status_lifecycle_check",
+     "values": "ACTIVE, PRE_INGESTION, ORIGIN_INGESTED, IDENTITY_IN_PROGRESS, IDENTITY_COMPLETE, INGESTION, PRODUCTION, ARCHIVED (no LAUNCHED/LIVE/MAINTENANCE/POST_LAUNCH/DELETED)",
+     "file_line": "supabase/migrations/20260825220000_site00_identity_phase.sql:5-19 (earlier 20260825180000_site00_project_core_isolation.sql:48-55, 20260825210000_site00_origin_ingestion.sql:5-8)"
+    },
+    {
+     "field/enum": "site00_projects.current_phase",
+     "values": "free text, default DISCOVERY",
+     "file_line": "supabase/migrations/20260818143000_site00_production_os.sql:14"
+    },
+    {
+     "field/enum": "PHASE_ORDER + normalizeProjectPhase",
+     "values": "DISCOVERY, DESIGN, BUILD, INTEGRATION, LAUNCH (aliases: DESIGN_DIRECTION/ART_DIRECTION->DESIGN, DEVELOPMENT/DEV->BUILD, PRODUCTION->LAUNCH; anything else -> DESIGN). LAUNCH is terminal; no post-launch phase.",
+     "file_line": "api/_lib/site00Production/serviceAccess.ts:4-22"
+    },
+    {
+     "field/enum": "site00_projects.project_health",
+     "values": "default ON_TRACK; reconciliation adds ATTENTION_REQUIRED default",
+     "file_line": "20260818143000_site00_production_os.sql:15; 20260820190000_site00_reconciliation_sprint02.sql:4"
+    },
+    {
+     "field/enum": "payment_state / provisioning_state",
+     "values": "PENDING / NOT_STARTED defaults",
+     "file_line": "20260818143000_site00_production_os.sql:16-17"
+    },
+    {
+     "field/enum": "ProjectIndexStatus (derived from current_phase text)",
+     "values": "ACTIVE, IN_PROGRESS, ON_HOLD, BLOCKED, NOT_STARTED, PRE_LAUNCH, LAUNCHED, ARCHIVED, CONFIGURATION, POST_LAUNCH; isArchived = status==='ARCHIVED'",
+     "file_line": "shared/site00-projects/projectIndexItem.ts:17-27, 113-128, 164"
+    },
+    {
+     "field/enum": "Project index filters",
+     "values": "ACTIVE tab includes POST_LAUNCH; LAUNCHED tab = LAUNCHED|POST_LAUNCH (not archived)",
+     "file_line": "src/site00/hooks/useProjectIndex.ts:48,52,198; shared/site00-projects/projectIndexMetrics.ts:28"
+    },
+    {
+     "field/enum": "ClientAppState",
+     "values": "PRE_PRODUCTION, IN_PRODUCTION, YOUR_TURN, REVISION_IN_PROGRESS, READY_TO_LAUNCH, LIVE, PAUSED, COMPLETE; isPostLaunch = LIVE|COMPLETE",
+     "file_line": "shared/site00-client-app/types.ts:5-13; manifestBuilder.ts:24-33,159-161"
+    },
+    {
+     "field/enum": "liveDays",
+     "values": "HARDCODED 47 when post-launch",
+     "file_line": "shared/site00-client-app/manifestBuilder.ts:161"
+    },
+    {
+     "field/enum": "Post-launch opportunities",
+     "values": "POST_LAUNCH_OPPORTUNITY at liveDays>=30 (SITE CARE) and >=60 (MARKETING); CTA only records interest (VIEWED) via client-app opportunity-interest",
+     "file_line": "shared/site00-client-app/opportunityEngine.ts:60-102; src/site00/components/clientApp/ClientAppViews.tsx:141-172; api/site00/client-app.ts:112-125"
+    },
+    {
+     "field/enum": "Client studio status",
+     "values": "COMPLETE|ARCHIVED -> 'complete'",
+     "file_line": "api/_lib/site00Production/clientStudio.ts:213-214"
+    },
+    {
+     "field/enum": "Client project list filter",
+     "values": ".neq('status','DELETED') \u2014 DELETED is not a legal status in CHECK; projects are never hard-deleted in code",
+     "file_line": "api/_lib/site00Production/clientStudio.ts:361-363"
+    },
+    {
+     "field/enum": "Ctrl room / admin project queries",
+     "values": ".eq('status','ACTIVE') \u2014 PRODUCTION/IDENTITY_* /ARCHIVED projects drop out of CTRL ROOM counts, signals and operator team load",
+     "file_line": "api/_lib/site00Production/service.ts:12,52,208; adminOperations.ts:792"
+    },
+    {
+     "field/enum": "Orchestration command category",
+     "values": "NEEDS_YOU, BLOCKED, RUNNING, UPCOMING, POST_LAUNCH",
+     "file_line": "src/site00/admin/components/orchestration/OrchestrationCommandQueue.tsx:5"
+    },
+    {
+     "field/enum": "Email lifecycle",
+     "values": "POST_LAUNCH_CHECKIN template event",
+     "file_line": "shared/site00-email/registry/templates.ts:844"
+    },
+    {
+     "field/enum": "Intake lifecycle",
+     "values": "canonical lifecycle columns on site00_idnty_submissions / site00_bldr_intakes",
+     "file_line": "supabase/migrations/20260821020947_site00_intake_persistence.sql:15,71"
+    }
+   ]
+  },
+  "navigation_grammar_today": [
+   {
+    "verb": "ENTER SITE 00",
+    "today": "Arrive at ORIGIN (/). Mobile: \"ENTER SITE 00\" link \u2192 WAITING ROOM; swipe-up \u2192 LOCATIONS. Desktop: ENTER 00 toggle \u2192 WAITING ROOM."
+   },
+   {
+    "verb": "MOVE",
+    "today": "Public header (desktop) / bottom nav (mobile) / FAST TRAVEL (mobile only) / WAITING ROOM / LOCATIONS; no history BACK."
+   },
+   {
+    "verb": "FAST-TRAVEL",
+    "today": "Mobile header icon; route-curated shortcuts; never on Origin/LOCATIONS/ENTER 00/production/client app/admin."
+   },
+   {
+    "verb": "OPEN ENTER 00",
+    "today": "ENTER 00 toggle (desktop header) \u00b7 ENTER SITE 00 (Origin mobile) \u2192 /enter."
+   },
+   {
+    "verb": "REACH CONTROL ROOM",
+    "today": "ACCOUNT (WAITING ROOM) / CTRL ROOM (bottom nav, FAST TRAVEL, Operating World nav) \u2192 /control (a command center, not settings)."
+   },
+   {
+    "verb": "SELECT PROJECT",
+    "today": "6 switchers, 4 storage mechanisms; client app/project room/FAST TRAVEL have none; production switch from global tabs lands on DESIGN."
+   },
+   {
+    "verb": "SELECT SITE",
+    "today": "No site switcher; SITES is a link (/sites public empty; /control/sites seed)."
+   },
+   {
+    "verb": "ENTER PRODUCTION",
+    "today": "Operating World top nav PRODUCTION (admin) \u2192 /production; CONTROL \"PRODUCTION\" \u2192 /admin/site00/studio."
+   },
+   {
+    "verb": "CLIENT ENTERS PROJECT ROOM",
+    "today": "Only via review links to /client/projects or direct /app; CTRL ROOM links to none."
+   },
+   {
+    "verb": "EXIT",
+    "today": "EXIT 00 \u2192 /origin from WAITING ROOM/LOCATIONS; design workspace EXIT 00 \u2192 /; client SIGN OUT does not sign out."
+   }
+  ],
+  "user_context_matrix_today": {
+   "ANONYMOUS": {
+    "global_nav": "public header (desktop) \u00b7 mobile header + bottom nav",
+    "enter00": "EXPLORE 01\u201305 + YOUR SPACE items locked (sign-in returnTo)",
+    "fast_travel": "page profiles; CTRL ROOM/PROJECTS variants unreachable (guard redirects first)",
+    "control_room": "\u2192 sign in",
+    "project": "none",
+    "site": "/sites (empty)",
+    "production": "none",
+    "exit": "EXIT 00 \u2192 ORIGIN"
+   },
+   "SIGNED_IN_CLIENT": {
+    "global_nav": "Operating World top nav (shows admin STUDIO/APPROVALS that bounce) \u00b7 mobile ecosystem chrome",
+    "enter00": "same items unlocked (lock styling only)",
+    "fast_travel": "signed-in profiles (CTRL ROOM, PROJECTS, MY SITES, BILLING, SETTINGS)",
+    "control_room": "/control (command center; founder ops card leaks)",
+    "project": "/projects (FOUNDER view hard-coded) \u00b7 /client/projects via review links \u00b7 /app direct",
+    "site": "/control/sites (seed data)",
+    "production": "none (bounced)",
+    "exit": "EXIT 00; SIGN OUT link does not sign out"
+   },
+   "FOUNDER": {
+    "global_nav": "as client + PRODUCTION; production 7-tab nav; operations console nav",
+    "enter00": "same as client (no founder variant)",
+    "fast_travel": "same as client (role-blind); absent in production/admin",
+    "control_room": "no founder control room (static settings, env team)",
+    "project": "production switcher (lands on DESIGN; global tabs = ndxbook) \u00b7 admin switcher (full reload)",
+    "site": "/admin/site00/sites (demo)",
+    "production": "/production",
+    "exit": "EXIT 00 (public); design workspace EXIT 00 \u2192 /"
+   },
+   "INTERNAL_PRODUCTION_USER": {
+    "global_nav": "identical to founder (no role model \u2014 admin = email allowlist)",
+    "enter00": "n/a",
+    "fast_travel": "n/a",
+    "control_room": "n/a",
+    "project": "as founder",
+    "site": "as founder",
+    "production": "as founder",
+    "exit": "as founder"
+   },
+   "PROJECT_SCOPED_USER": {
+    "global_nav": "client app shell (HOME/PROJECTS/REVIEWS/INBOX/PROFILE) or web room nav",
+    "enter00": "n/a inside project shells",
+    "fast_travel": "absent",
+    "control_room": "via profile \u2192 /control",
+    "project": "no switcher",
+    "site": "none",
+    "production": "none",
+    "exit": "no EXIT PROJECT in client app"
+   }
+  }
+ },
+ "PART_B_PROBLEMS": {
+  "dead_navigation_nav": {
+   "dead_fast_travel_destinations": [
+    "ORIGIN profile (8 links) unreachable \u2014 fast-travel.ts:371-396",
+    "CTRL ROOM signed-out SIGN IN unreachable \u2014 fast-travel.ts:314-322",
+    "PROJECTS signed-out locked cards unreachable \u2014 fast-travel.ts:357-358",
+    "CONTINUE BUILD self-link \u2014 fast-travel.ts:236",
+    "BILLING/SETTINGS -> stub ControlSectionPage \u2014 fast-travel.ts:337-338",
+    "VIEW/EXPLORE SITES redirect to /control/sites when signed in \u2014 SitesPortfolioPage.tsx:25"
+   ],
+   "duplicate_menu_items": [
+    "FT BLDR hub: CONTINUE BUILD (/bldr self) == BUILD INVESTMENT GUIDE (/bldr) \u2014 fast-travel.ts:236,244",
+    "FT signed-in: VIEW SITES (-> /control/sites) duplicates MY SITES",
+    "CTRL ROOM mobile: PLAN and BILLING both /control/billing \u2014 ctrl-room-mobile.ts:55-87",
+    "NDX menu: INSPECT and EXPERIMENTS HUB both site00ProjectExperimentsPath \u2014 ndxFounderWorkspaceIcons.ts:74,84",
+    "Production: chrome MENU (HUB/INBOX/CONTROL) duplicates bottom nav HUB/INBOX \u2014 chrome.tsx:186-195",
+    "Production 'ACTIVITY' in PwFrame NAV_PRODUCTION -> /production?panel=activity vs nav.tsx -> /production/activity (two destinations, same label) \u2014 PwFrame.tsx:34; nav.tsx:22-23",
+    "Two 'PRODUCTION' destinations: Operating nav -> /production; admin control nav 'PRODUCTION' -> /admin/site00/studio \u2014 ecosystem-nav.ts:21; control-nav.ts"
+   ],
+   "broken_project_switches": [
+    "Production chip on HUB/INBOX/LIBRARY/ACTIVITY always routes to /design of new project (loses workspace) \u2014 projectHostProfile.ts:49-50",
+    "Global production pages hard-code 'ndxbook' as current project, so switcher shows NDXBOOK there regardless of prior selection \u2014 chrome.tsx:58-64",
+    "Hub machine selector not URL-synced \u2014 ProductionHub.tsx:567-577",
+    "Design selector not URL-synced \u2014 StudioWorldDesignWorkspace.tsx:326-340",
+    "Admin ProjectSwitcher hard reload \u2014 ProjectSwitcher.tsx:22-28"
+   ],
+   "broken_site_links": [
+    "/brand/privacy, /brand/terms (footer) \u2014 no route \u2014 Site00PageFooter.tsx:9-10",
+    "/brand/terms (PRIVACY label), /brand/contact \u2014 Site00AuthShell.tsx:96-98",
+    "/help \u2014 NDX founder menu \u2014 ndxFounderWorkspaceIcons.ts:75",
+    "Design workspace nav: /blueprints /guide /sound /faq /contact /account -> COMPOSER_DRAFT redirect to '/' \u2014 p0vr2b/constants.ts:33-40; Site00DesignWorkspaceShell.tsx:136",
+    "Design workspace EXIT 00 -> '/' (not /origin; '/' only renders Origin when VITE_SITE00_ROOT=1) \u2014 Site00DesignWorkspaceShell.tsx:139",
+    "OperatingWorldTopNav STUDIO/APPROVALS for non-admin -> AdminGuard -> /control \u2014 ecosystem-nav.ts:24-25",
+    "Client app + client room bell/more buttons have no handlers"
+   ],
+   "context_loss_bugs": [
+    "FT auth context from localStorage flag, not session \u2014 stale 'true' after token expiry shows unlocked CTRL ROOM then guard bounces (useSignedInFromStorage.ts:11; Site00AccountRouteGuard.tsx:276-277)",
+    "FT navigateAndClose replaceState(null,'') wipes router history state for the overlay entry (FastTravelPanel.tsx:42-51) \u2014 PLAUSIBLE extra back step",
+    "Origin expanded panel state not URL-encoded",
+    "ProjectViewModeProvider re-instantiated per page \u2014 view-as-client simulation lost between /projects and /projects/:slug",
+    "PwFrame portal (z 1200) covers still-mounted EcosystemShell mobile chrome incl. FT trigger for founder mobile /projects",
+    "Preview device mode decided at mount; resizing across 768px does not switch shell family (Site00Context.tsx:51-56)",
+    "Production /queue,/libraries,/activity reset project to ndxbook",
+    "Desktop operating world has no link back to public world (logo -> /control)"
+   ]
+  },
+  "dead_navigation_entry_exit": {
+   "stale_links": [
+    {
+     "from": "AccessSystemFooter LOCATIONS (desktop credential access)",
+     "file_line": "src/site00/components/access/AccessSystemFooter.tsx:31; CredentialAccessDesktop.tsx:106",
+     "problem": "/origin/locations redirects to /origin on >=768px (LocationsPage.tsx:37-39) \u2014 LOCATIONS link on a desktop surface lands on Origin."
+    },
+    {
+     "from": "Design workspace shell ACCOUNT",
+     "file_line": "Site00DesignWorkspaceShell.tsx:136-138",
+     "problem": "/account is a composer DRAFT route (routes.ts:794; Site00Routes.tsx:860) -> Site00ComposerDraftRouteGuard redirects to '/' unless ?preview=1 (Site00ComposerDraftRouteGuard.tsx:12-19; draftRouteGuard.ts:34-37)."
+    },
+    {
+     "from": "Design workspace nav GUIDE/SOUND/FAQ/CONTACT/BLUEPRINTS",
+     "file_line": "shared/site00-studio-world-production/visualReconstruction/p0vr2b/constants.ts:30-41",
+     "problem": "all DRAFT_GATED -> redirect to '/'"
+    },
+    {
+     "from": "ProjectWorkspaceDrawer ACCOUNT",
+     "file_line": "src/site00/components/designBench/production/projectTabs/ProjectWorkspaceDrawer.tsx:265-267",
+     "problem": "/account DRAFT_GATED"
+    },
+    {
+     "from": "Design workspace EXIT 00 -> '/'",
+     "file_line": "Site00DesignWorkspaceShell.tsx:139",
+     "problem": "Depends on VITE_SITE00_ROOT=1; otherwise not SITE 00 Origin. Use /origin for parity with other EXIT 00s."
+    },
+    {
+     "from": "GUIDE seed ORIGIN -> /enter; FAQ seed text mentions WAITING ROOM",
+     "file_line": "site00-page-seed.ts:96,111",
+     "problem": "host pages /guide,/faq are DRAFT_GATED; dormant"
+    },
+    {
+     "from": "Loader matches /enter/*",
+     "file_line": "site00LoaderRouteCopy.ts:56; site00LoaderRoutePreload.ts:59",
+     "problem": "no /enter/* routes exist"
+    },
+    {
+     "from": "SelfDirected profile SIGN OUT",
+     "file_line": "src/site00/components/selfDirected/SelfDirectedViews.tsx:450-452,509-511",
+     "problem": "Link to /origin/sign-in without signing out; see exit_loops"
+    }
+   ],
+   "duplicates": [
+    "SITES/SERVICES/SYSTEM/ABOUT/JOURNAL appear simultaneously in /enter header GlobalNav (navigation.ts:12-18; Site00AppShell.tsx:63-65) AND the ENTER 00 EXPLORE menu (directory.ts:30-76) \u2014 duplicated on one screen.",
+    "Same 5 also in LOCATIONS PUBLIC WORLD (locations-directory.ts:47-86), FAST TRAVEL variants (fast-travel.ts:104-106,132-134,160-162,...), and dead SITE00_MOBILE_DIRECTORY_PRIMARY / public rail.",
+    "CTRL ROOM labelled 'ACCOUNT' in ENTER 00 (directory.ts:99-106) vs 'CTRL ROOM' in LOCATIONS, bottom nav, FAST TRAVEL.",
+    "BLDR labelled 'BLDR STUDIO' in ENTER 00 vs 'BLDR' (LOCATIONS) vs 'BLDR / START BUILD' (rail/drawer) vs 'START A BUILD' (FAST TRAVEL).",
+    "PROJECTS in ENTER 00, LOCATIONS, bottom nav, FAST TRAVEL.",
+    "Item sets diverge: ENTER 00 lacks IDNTY, EVOLVE, MY SITES; LOCATIONS lacks SUPPORT.",
+    "Mobile Origin shows two directory entrances in one widget: ENTER SITE 00 (/enter) and SWIPE UP (/origin/locations)."
+   ],
+   "exit_loops": [
+    {
+     "loop": "SIGN OUT (self-directed client profile) -> /origin/sign-in -> redirectIfAlreadySignedIn sees localStorage isSignedIn + Supabase session -> window.location.assign(returnTo default '/control')",
+     "file_line": "SelfDirectedViews.tsx:509-511; useSite00SignInBootstrap.ts:25-31,71-90,106; signInReturnTo.ts:5,27-41",
+     "notes": "User never signs out; bounced into CTRL ROOM. Not on preview hosts where sign-in paused (signInPaused.ts:6-10). CONFIRM_LIVE."
+    },
+    {
+     "loop": "LOCATIONS on desktop/tablet/rotated phone -> immediate replace to /origin",
+     "file_line": "LocationsPage.tsx:7-20,37-39",
+     "notes": "Not infinite, but every LOCATIONS entry point on >=768px is a no-op bounce to Origin."
+    },
+    {
+     "loop": "EXIT 00 -> /origin pushes; back returns into directory (Origin<->directory ping-pong in history)",
+     "file_line": "EntryToggle.tsx:16-18; DirectoryExitButton.tsx:7-9",
+     "notes": "Not a redirect loop; history growth."
+    }
+   ],
+   "context_loss": [
+    {
+     "issue": "Preview device mode (Site00Provider useReducer) is decided once at first mount; /enter forces 'desktop' on hard load. Hard-loading /enter on a phone gives a scaled 1440 artboard; EXIT 00 to /origin likely keeps 'desktop' state (sibling routes share the same Site00Layout element type, so the provider is probably not remounted) -> phone Origin renders desktop artboard without swipe. Conversely mobile Origin -> /enter client-side renders native mobile /enter.",
+     "file_line": "Site00Context.tsx:32-46,48-66; Site00Routes.tsx:512-521",
+     "confidence": "PLAUSIBLE \u2014 CONFIRM_LIVE"
+    },
+    {
+     "issue": "Swipe transition timer not cancelled on unmount \u2014 later navigate to /origin/locations can override a navigation the user made during the 720ms window.",
+     "file_line": "useOriginLocationsTransition.ts:16-33",
+     "confidence": "PLAUSIBLE"
+    },
+    {
+     "issue": "FastTravel replaceState(null,'') wipes router state of the overlay entry; duplicate back entry.",
+     "file_line": "FastTravelPanel.tsx:42-51",
+     "confidence": "PLAUSIBLE"
+    },
+    {
+     "issue": "LOCATIONS page has no FAST TRAVEL (header swapped to EXIT 00; panel not mounted), so the only exits are EXIT 00, cards and bottom nav.",
+     "file_line": "Site00MobileShell.tsx:47-69",
+     "confidence": "CONFIRMED (code)"
+    },
+    {
+     "issue": "Auth-lock state on ENTER/LOCATIONS rows uses localStorage flag not session; a stale flag shows unlocked rows that then hit Site00AccountRouteGuard.",
+     "file_line": "useSignedInFromStorage.ts:7-15; WorkflowCards.tsx:171-173; DirectoryCard.tsx:16-18",
+     "confidence": "PLAUSIBLE"
+    }
+   ],
+   "dead_code": [
+    "Site00EnterArtboardViewportBackground (enter00/Site00EnterArtboardViewportBackground.tsx) \u2014 no importers",
+    "Site00MobileMenuDrawer (mobile/Site00MobileMenuDrawer.tsx) \u2014 no importers",
+    "Site00PublicSidebar (shell/Site00PublicSidebar.tsx) \u2014 no importers; Site00PublicShell.tsx:65 exports a null stub of same name",
+    "site00-origin-swipe-transition__origin CSS (site00-locations.css:584-586)"
+   ],
+   "tests": "No tests reference useSwipeUp, EntryToggle, DirectoryExitButton, LocationsPage, SITE00_DIRECTORY_SECTIONS, SITE00_LOCATIONS_SECTIONS or FastTravelPanel (grep of tests/ and src/**/*.test.*)."
+  },
+  "back_behavior": [
+   {
+    "item": "navigate(-1) / history.go: none in src",
+    "file_line": "grep result empty"
+   },
+   {
+    "item": "FastTravelPanel pushes an overlay history entry on open and calls window.history.back() on close/Esc/backdrop; popstate closes panel (hardware/browser back closes overlay).",
+    "file_line": "src/site00/components/fast-travel/FastTravelPanel.tsx:33-70"
+   },
+   {
+    "item": "On destination click, navigateAndClose does history.replaceState(null,'') on the overlay entry before the Link pushes the new route. This replaces the overlay entry (same URL) with a null state, wiping React Router's {usr,key,idx}; browser back then lands on a duplicate of the previous page (same URL) and a second back is needed to go further. Probable context-loss/duplicate-entry bug (CONFIRM_LIVE).",
+    "file_line": "FastTravelPanel.tsx:42-51"
+   },
+   {
+    "item": "EXIT 00 (both public variants) is a forward push to /origin, not replace/back; history accumulates loops Origin->Locations->Origin.",
+    "file_line": "EntryToggle.tsx:16-18; DirectoryExitButton.tsx:7-9"
+   },
+   {
+    "item": "Desktop LOCATIONS uses <Navigate replace> so back skips it (good), but the intended page is never shown.",
+    "file_line": "LocationsPage.tsx:37-39"
+   },
+   {
+    "item": "Logout flows use navigate('/origin',{replace:true}).",
+    "file_line": "CtrlRoomSidebar.tsx:15; EcosystemSidebar.tsx:17; CtrlRoomSignOutButton.tsx:17"
+   }
+  ]
+ },
+ "PART_C_NEW_FOUNDER_CONSTRAINTS": [
+  "CONTROL PLANE \u2260 CONTROL ROOM",
+  "FOUNDER CONTROL ROOM and CLIENT CONTROL ROOM are account/profile/settings (+ founder commercial admin)",
+  "Project management is not inside a control room",
+  "SITES \u2260 PROJECTS; LAUNCHED \u2260 DELETED",
+  "No route \u2260 not a product surface",
+  "MENU = WAITING ROOM (stated by founder; not yet recorded in repo)"
+ ],
+ "PART_D_OPUS_CORRECTIONS": {
+  "represented_well": [
+   "Route discovery (367/357, AST-verified)",
+   "Client review loop gaps",
+   "Production project scoping gap",
+   "Bench/experiment sprawl",
+   "Auth/registry/firewall security findings",
+   "Public dead links / draft gates"
+  ],
+  "undermodeled": [
+   {
+    "item": "FAST TRAVEL",
+    "prior": "listed only as a nav system row (navigation.json)",
+    "now": "a contextual global overlay with 11 page profiles, 20 destinations, mobile-only, role-blind \u2014 a first-class layer-B system"
+   },
+   {
+    "item": "ENTER 00 / WAITING ROOM / LOCATIONS",
+    "prior": "reduced to \"two directories, merge LOCATIONS as MAP state\"",
+    "now": "a spatial entry system (layer C): ORIGIN \u2192 SWIPE-UP/ENTER 00 \u2192 WAITING ROOM (mobile composition = LOCATIONS) \u2192 EXIT 00"
+   },
+   {
+    "item": "SWIPE-UP",
+    "prior": "not modeled",
+    "now": "gesture portal to LOCATIONS (not ENTER 00); accessible button alternative exists"
+   },
+   {
+    "item": "EXIT 00",
+    "prior": "mentioned as a locked name only",
+    "now": "inverse spatial portal with 3 render sites and one conflicting meaning (design workspace)"
+   },
+   {
+    "item": "Project switchers",
+    "prior": "one row (production selector)",
+    "now": "6 switchers with 4 storage mechanisms and broken landing behaviour"
+   },
+   {
+    "item": "Context switchers / transitions",
+    "prior": "not modeled",
+    "now": "9 context switchers (3 never render) + cold-start/loader transitions"
+   },
+   {
+    "item": "Non-route surfaces",
+    "prior": "35 appended from two audits",
+    "now": "43 inventoried (34 material)"
+   }
+  ],
+  "missing": [
+   "FOUNDER CONTROL ROOM (account/profile/security/notifications/defaults/commercial)",
+   "Client CONTROL ROOM as account/settings (distinct from project management)",
+   "CONTROL PLANE as an infrastructure layer (vs \"system capabilities\" list)",
+   "Commercial adjustments (discount/promotion/credits/waivers) engine + management surface",
+   "CLIENT SITES (MY SITES) with site actions",
+   "Project post-launch lifecycle (LAUNCHED/MAINTENANCE/EVOLVE/PAUSED)",
+   "Site \u2194 project linkage rules",
+   "LOG OUT / EXIT PROJECT distinctions"
+  ],
+  "flattened_incorrectly": [
+   {
+    "item": "11 peer families",
+    "why": "Families mixed different kinds of thing: page families (IDNTY), app shells (CLIENT APP), infrastructure (system capabilities), container layers (PROJECT RUNTIMES), machinery (STUDIO OS LAB) and spatial systems (not modeled). Experience tree now uses layers A\u2013J."
+   },
+   {
+    "item": "ACCESS & CTRL ROOM",
+    "why": "Bundled auth entry + account settings + MY PROJECTS + MY INTAKES + MY SITES. Founder rule: control room \u2260 project management. Split: ACCESS (entry) \u00b7 CLIENT CONTROL ROOM (account) \u00b7 YOUR SPACE (projects, sites, intakes)."
+   },
+   {
+    "item": "00 / CONTROL",
+    "why": "Treated as one operator family; it mixes FOUNDER CONTROL ROOM concerns (settings, commercial, team, provider connections), project management (registry, provisioning, reviews) and business operations."
+   },
+   {
+    "item": "SYSTEM CAPABILITIES",
+    "why": "Correct idea, wrong framing: it is the CONTROL PLANE (founder term); code's \"control plane\" means something narrower (design handoff bridge)."
+   },
+   {
+    "item": "PROJECT RUNTIMES",
+    "why": "Listed as a family; evidence shows it is a platform container layer that mounts project outputs into production preview and client live review."
+   },
+   {
+    "item": "STUDIO OS LAB",
+    "why": "Renamed the locked ontology; STUDIO OS is the root (machinery); LAB is its internal surface."
+   },
+   {
+    "item": "SITES",
+    "why": "Only a public showcase node; sites also have a client variant and a lifecycle independent of projects."
+   }
+  ],
+  "prior_changes_to_reconsider": [
+   {
+    "change_id": "TC010",
+    "what": "ADD CTRL.PROJECTS (/control/projects)",
+    "reconsider": "Project list must not live in CONTROL ROOM \u2192 YOUR SPACE \u203a MY PROJECTS."
+   },
+   {
+    "change_id": "TC011",
+    "what": "MOVE /account/intakes \u2192 /control/intakes",
+    "reconsider": "Intakes are pre-project records \u2192 YOUR SPACE \u203a MY INTAKES, not CONTROL ROOM."
+   },
+   {
+    "change_id": "TC013",
+    "what": "COLLAPSE CTRL settings sections",
+    "reconsider": "Keep, but as CLIENT CONTROL ROOM sections (profile, security, notifications, payments, providers, membership) \u2014 billing/domains placement re-check."
+   },
+   {
+    "change_id": "TC014",
+    "what": "MOVE /control/evolve-operations \u2192 CONTROL",
+    "reconsider": "Still correct; destination becomes OPERATIONS console, not a control room."
+   },
+   {
+    "change_id": "TC026",
+    "what": "MERGE admin projects + provisioning \u2192 CONTROL PROJECTS",
+    "reconsider": "Project management belongs with production/operations \u2014 confirm it is not placed in FOUNDER CONTROL ROOM."
+   },
+   {
+    "change_id": "TC027",
+    "what": "MERGE CONTROL REVIEWS + INBOX",
+    "reconsider": "Keep; place cross-project review view in operations/production, not a control room."
+   },
+   {
+    "change_id": "TC028",
+    "what": "Re-point CONTROL/production cross-links",
+    "reconsider": "Keep; production menu \"CONTROL\" should split into CONTROL ROOM (founder account) and OPERATIONS."
+   },
+   {
+    "change_id": "TC029\u2013TC032",
+    "what": "LAB namespace + moves",
+    "reconsider": "Keep routes; rename family to STUDIO OS \u203a LAB."
+   },
+   {
+    "change_id": "TC033",
+    "what": "MERGE /enter + /origin/locations (MAP state)",
+    "reconsider": "Replace with: one WAITING ROOM system, two viewport compositions, one destination registry; SWIPE-UP and ENTER 00 both open it."
+   },
+   {
+    "change_id": "TC034",
+    "what": "ALIAS /origin \u2192 /",
+    "reconsider": "Keep, but EXIT 00 and the LOCATIONS desktop redirect target /origin today \u2014 update together."
+   },
+   {
+    "change_id": "TC048",
+    "what": "Intake COMPLETE \u2192 CTRL.INTAKES",
+    "reconsider": "Hand off to YOUR SPACE \u203a MY INTAKES instead of a control room."
+   },
+   {
+    "change_id": "TC039",
+    "what": "DEMOTE /sound \u2192 setting",
+    "reconsider": "Check SOUND against ORIGIN/ENTER environment audio in the spatial layer before demoting."
+   },
+   {
+    "change_id": "PUB.SITES node",
+    "what": "SITES as public showcase only",
+    "reconsider": "Add CLIENT SITES (YOUR SPACE \u203a MY SITES) + site lifecycle + site\u2192project link."
+   },
+   {
+    "change_id": "F05/F08/F09/F10 family definitions",
+    "what": "ACCESS & CTRL ROOM \u00b7 00/CONTROL \u00b7 PROJECT RUNTIMES \u00b7 STUDIO OS LAB",
+    "reconsider": "Re-cast as layers per SITE00_EXPERIENCE_TREE.json."
+   }
+  ],
+  "re_evaluations": {
+   "ACCESS & CTRL ROOM vs 00/CONTROL vs CONTROL ROOM vs CONTROL PLANE": "RELATED BUT DISTINCT + LEGACY NAMING. ACCESS = entry to the account layer; CONTROL ROOM (client/founder) = account/settings UI; 00/CONTROL = operations console mixing founder settings, project management and business ops; CONTROL PLANE = infrastructure. \"CTRL ROOM\" names two different places today; \"control plane\" in code names only the design handoff bridge.",
+   "STUDIO OS LAB": "LAB is a child surface of STUDIO OS (machinery root). Do not rename the ontology.",
+   "PROJECT RUNTIMES": "PLATFORM_CONTAINER_LAYER \u2014 mounts SITE 00, JURNL, AIO, FRONTAL SLAYER and future products; not a page family.",
+   "ENTER 00": "SPATIAL_PORTAL that opens the WAITING ROOM (DIRECTORY_PLACE).",
+   "FAST TRAVEL": "GLOBAL_DESTINATION_SWITCHER (contextual shortcut overlay), layer B."
+  },
+  "reconsider_before_founder_lock": [
+   "U1 audience-first vs project-first (unchanged)",
+   "U2 WAITING ROOM \u2194 LOCATIONS \u2014 now evidence-backed proposal: one system, two compositions",
+   "NEW U10 founder control room scope (what moves out of 00/CONTROL)",
+   "NEW U11 client control room vs YOUR SPACE split",
+   "NEW U12 FAST TRAVEL scope (mobile-only today; every shell?)",
+   "NEW U13 project/site lifecycle states",
+   "NEW U14 \"control plane\" naming collision in code",
+   "NEW U15 EXIT 00 meaning inside internal shells"
+  ],
+  "counts": {
+   "undermodeled": 7,
+   "missing": 8,
+   "flattened_incorrectly": 7,
+   "prior_changes_to_reconsider": 14
+  }
+ },
+ "PART_E_QUESTIONS": [
+  "Should the final architecture be expressed as layers (A\u2013J) rather than peer families? Which layer does each prior family belong to?",
+  "Is WAITING ROOM one system with two viewport compositions (LOCATIONS on mobile, /enter on desktop)? Should SWIPE-UP open it?",
+  "Should FAST TRAVEL exist in every shell (client app, production, operations) and be role/project-aware?",
+  "Where should MY PROJECTS, MY SITES and MY INTAKES live if not in the CONTROL ROOM?",
+  "Which parts of 00 / CONTROL move to FOUNDER CONTROL ROOM vs stay in an operations console vs move to production?",
+  "Is a commercial-adjustments engine (control plane) + FOUNDER CONTROL ROOM \u203a COMMERCIAL the right split for discounts/promotions/credits/waivers?",
+  "Which project and site lifecycle states are needed for launch?",
+  "Is EXIT 00 reserved for public spatial exits only?",
+  "For each item in PART_D.prior_changes_to_reconsider: AGREE_WITH_OPUS / PARTIALLY_AGREE / DISAGREE / ALTERNATIVE_RECOMMENDATION."
+ ],
+ "tree_status": {
+  "opus_tree": "PROPOSED_BY_OPUS (unchanged by this sprint)",
+  "founder_tree_locked": false
+ }
+}
