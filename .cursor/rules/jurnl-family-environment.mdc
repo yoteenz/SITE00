@@ -15,4 +15,12 @@ Cross-family plate reuse is allowed only for a narrative reason, a direct contin
 
 A world reference for image-to-image is not permission to copy the previous room. F03 `ENV.DAY` currently fails that test against F02 `ENV.ARRIVAL` and is marked `SHOULD_REPLACE`. Do not regenerate it unless the founder asks.
 
-Contracts: `JURNL/MANIFEST/JURNL_FAMILY_ENVIRONMENT_DISTINCTNESS.json`, `JURNL_ENVIRONMENT_BRIEFS.json`, `JURNL_PLATE_REUSE_AUDIT.json`.
+## Expression brief
+
+Paid generation follows this order: product definition, family expression brief, founder gate, parent authority, sidekick, children, live implementation.
+
+No JURNL family starts paid generation without `F##_FAMILY_EXPRESSION_BRIEF.json` and the matching markdown. The matrix is `JURNL/MANIFEST/JURNL_FAMILY_EXPRESSION_MATRIX.json`. Read the occupied territories before writing a prompt. The arch, curtain, bust, bowl, and books belong to entry. The travertine desk belongs to setup. The safe-to-spend figure belongs to today. The paper ledger belongs to activity.
+
+`precheckGenerationDispatch()` blocks a missing or unready brief as `FAMILY_EXPRESSION_BRIEF_REQUIRED` or `FAMILY_EXPRESSION_GATE_FAILED`. Credits spent stay 0.
+
+Same world. Different room. Different moment. Different job. A family is a dialect of JURNL, not a new brand.

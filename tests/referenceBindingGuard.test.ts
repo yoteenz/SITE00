@@ -286,10 +286,10 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
   it('cross-family environment plate without a reason → BLOCK', () => {
     const pre = precheckGenerationDispatch(
       {
-        visualId: 'F05.ENV',
+        visualId: 'F04.ENV',
         projectId: 'JURNL',
-        familyId: 'F05',
-        providerProjectId: 'not-a-real-project',
+        familyId: 'F04',
+        providerProjectId: 'KUfyzoatdwpaYBkq2Mf8',
         generationClass: 'ENVIRONMENT_PLATE',
         generationIntent: 'NEW_ASSET_REQUIRED',
         generationMode: 'REFERENCE_GUIDED',
@@ -306,28 +306,27 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
     expect(pre.dispatchAllowed).toBe(false);
   });
 
-  it('cross-family environment plate with a written reason is not blocked for reuse', () => {
+  it('a family with no expression brief cannot start paid generation', () => {
     const pre = precheckGenerationDispatch(
       {
-        visualId: 'F05.ENV',
+        visualId: 'F05.00',
         projectId: 'JURNL',
-        familyId: 'F05_MONEY',
-        generationClass: 'ENVIRONMENT_PLATE',
-        generationIntent: 'NEW_ASSET_REQUIRED',
+        familyId: 'F05',
+        generationClass: 'SCREEN_PARENT',
+        generationIntent: 'NEW_AUTHORITY_REQUIRED',
         generationMode: 'TEXT_TO_IMAGE_NET_NEW',
-        sourcePlateFamilyId: 'F03',
-        crossFamilyReuseJustification: 'Budget constraint. The families stay distinguishable.',
         provider: 'OpenArt',
         model: 'gpt-image-2-5-sunburst',
       },
       { resolverContext: ctx },
     );
-    expect(pre.blockedReason).not.toBe('CROSS_FAMILY_PLATE_REUSE_UNJUSTIFIED');
-    expect(pre.blockedReason).toBe('FAMILY_PROJECT_REQUIRED');
+    expect(pre.status).toBe('BLOCKED');
+    expect(pre.blockedReason).toBe('FAMILY_EXPRESSION_BRIEF_REQUIRED');
     expect(pre.creditsSpent).toBe(0);
+    expect(pre.dispatchAllowed).toBe(false);
   });
 
-  it('new JURNL family with no project yet → BLOCK', () => {
+  it('expression brief is required before a new family can reach the project gate', () => {
     const pre = precheckGenerationDispatch(
       {
         visualId: 'F05.00',
@@ -342,7 +341,7 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
       { resolverContext: ctx },
     );
     expect(pre.status).toBe('BLOCKED');
-    expect(pre.blockedReason).toBe('FAMILY_PROJECT_REQUIRED');
+    expect(pre.blockedReason).toBe('FAMILY_EXPRESSION_BRIEF_REQUIRED');
     expect(pre.dispatchAllowed).toBe(false);
   });
 });
