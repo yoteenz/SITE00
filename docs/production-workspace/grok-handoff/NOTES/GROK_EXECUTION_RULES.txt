@@ -1,0 +1,93 @@
+GROK EXECUTION RULES · P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1
+==============================================================================
+
+LOOP (per asset): GENERATE → MOUNT → OPEN ROUTE → COMPARE → FIX
+  1. Pick the next item in ASSET_PASS_SCOPE.txt order (P0 first).
+  2. Generate ONE master per plate id; derive every crop from it (transformation_rules).
+  3. Mount through the existing resolver (below). Never add a new CDN URL; never inline a data URI.
+  4. Open every member route of the environment group (RUNTIME_ROUTES.json direct_route) at
+     393×852, 834×1194 and 1440×900 and compare with the pack authority.
+  5. Fix crop / light / scale. A route that breaks or starts scrolling = revert the mount.
+
+MOUNT POINTS (existing — do not invent new ones)
+  Workspace plates / objects   src/site00/productionAssets/productionAssetRegistry.ts (PRODUCTION_ASSETS, productionAssetPaths)
+                               + src/site00/productionAssets/routeAssetManifests.ts; files under public/site00/production-authority-assets/
+  Design pack objects / icons  src/site00/components/productionAuthority/designPackAssets.ts (+ design-pack/SOURCE.json hash lock: re-lock it)
+  Bottom nav glyphs            src/site00/components/productionHub/bottom-nav/masters/0N_*.png (ProductionNavIcon)
+  Functional line icons        live SVG in src/site00/components/productionAuthority/iaKit.tsx · HubBody.tsx (NodeIcon) · productionHub/icons.tsx
+  Character Fabrication        shared/site00-character-fabrication/assets.ts (slots + receipts)
+  PROJECT world art            project-keyed slots (project.ndxbook.world.*) — never the global registry (FIREWALL-02)
+
+OUTPUT NAMING
+  grok.site00.production.<plate_or_object_id lower-case>.v1  (e.g. grok.site00.production.plate-atrium-master.v1)
+  project art: grok.site00.project.ndxbook.<id>.v1
+  Record every output as a ProductionAssetRecord (sourceType, repoPath, publicPath, usedByRoutes, variantOf, confidence, notes = generation id).
+
+FORMATS + MINIMUM SIZES
+  Environment plates  JPG or WebP, sRGB, master ≥ the spec in ENVIRONMENT_GROUPS.json (no upscaled 1k plates)
+  Isolated objects    PNG with alpha, ≥1024 px (cores ≥2048 px)
+  Materials           JPG ≥1024 px square
+  Functional icons    SVG, currentColor stroke, 24/32 grid, round caps — matched to ICONS/WORKSPACE__DWS_ICON_PACK_AUTHORITY.jpg
+  Bottom nav glyphs   transparent PNG at the master size (384 px class); notify dots stay outside the image
+
+HARD RULES
+  - Keep the function: every route in RUNTIME_ROUTES.json keeps working with the same query states.
+  - Rebuild the look only through assets and icons; layout, copy, IA and components stay as they are.
+  - Plates are CLEAN: no baked text, UI, pins, labels, route lines, logos, people in focal areas, or project media.
+  - Screens / boards inside plates stay BLANK — live media mounts into them.
+  - Never build UI from the pack images; they are REFERENCE ONLY.
+  - One master per shared world. Credit plan = ENVIRONMENT_GROUPS.json new_plates (8), not one per page.
+  - Host chrome (SITE00_HOST) never carries project art; PROJECT_BODY art is keyed to the project slug.
+  - Do not generate or alter people (residents, actors, characters) — identity media is out of scope (U-17).
+  - Do not touch LEGACY surfaces: hub.machine (+ overlays), design.section.* (legacy bench, U-10).
+  - Keep D-PARENT-NOSCROLL: 0 px page scroll on every parent at the three presets.
+  - DWS icon rule: use the pack vocabulary, prefer live SVG for functional icons, do not invent a new icon family.
+  - Activity verb chips stay TEXT (authority); no event glyphs.
+
+FOUNDER DIRECTIVES THAT DECIDE AUTHORITY
+  D-SHELL-CANON            sonnet_production_authority_handoff_v2 / 07_DESKTOP_TABLET_SHELL_OVERRIDE — tablet/desktop host = full-width panel, left cluster, hamburger far right; nav icon-left. Image chrome in screen authorities is NOT literal.
+  D-PARENT-NOSCROLL        PARENT_3VIEW README — HUB is the density benchmark; no Production parent/root page scrolls vertically; tablet and mobile are first-class compositions.
+  D-ACTIVITY-FINAL         ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1 (FOUNDER AUTHORITY: FINAL) — DOMAIN × TIME project memory, timeline + inspector; giant hero retired; mobile fits one viewport, inspector is a slide-up drawer.
+  D-INBOX-FINAL            INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1 (FOUNDER AUTHORITY: FINAL) — children = rail + rows + inspector; stacked v2 cards are stale presentation.
+  D-INBOX-ROOT             MEMORY 2026-10-04 — NEEDS YOU root follows PARENT_3VIEW 01_INBOX.
+  D-HUB-LEGACY             MEMORY 2026-10-03 — hub machine (/production?view=machine) is LEGACY_LOCKED.
+  D-ROSTER                 MEMORY 2026-10-04 RECOVERY4 — casting-thumbnails-v1 is the resident work look.
+  D-EXPR-MEDIA             FULL-AUTHORITY OPUS2 — Expression media priority (character / actor / look / frame / environment / performance first); no strip collapse.
+  D-NAV-MASTERS            MEMORY 2026-10-03 — founder wanted the founder master PNG bottom-nav icons (commits d3d060b0, 43611fd8).
+  DWS-FIREWALL             DWS_SONNET_LITE README — STUDIO OS OWNS SHELL / NAVIGATION / CONTROLS / PIPELINE / REVIEW GRAMMAR. ACTIVE PROJECT OWNS PROJECT ARTIFACTS / IMAGERY / EXPRESSIVE CONTENT.
+  DWS-ICON-RULE            DWS_SONNET_LITE README — USE 05_SYSTEM_PACKS AS VISUAL VOCABULARY. PREFER LIVE SVG FOR FUNCTIONAL ICONS. DO NOT INVENT A NEW ICON FAMILY.
+  DWS-IMPLEMENTATION-RULE  DWS_SONNET_LITE README — LIVE REACT/CSS/SVG FOR NAVIGATION, TABS, PANELS, DRAWERS, MODALS, CARDS, FILTERS, SEARCH, PIPELINE, ON YOUR TABLE, INSPECTORS, STATUS AND INTERACTION STATES. DO NOT USE THE REFERENCE SCREENS AS FLATTENED FULL-PAGE BACKGROUNDS.
+
+CONFLICTS — EXPLICIT PRIORITY (never two equal authorities)
+  U-07 · experience.root · UNRESOLVED — founder decision
+     priority 1  EL 01_WORLD_ROOT (route body; later, route-specific)
+     priority 2  T12/PAR3V 08 immersive landing (environment language for PLATE-WORLD-CENTRAL-PLAZA only)
+     rule        Keep the runtime body (EL). Use T12 only as the look of the world hero.
+  U-08 · library.root · UNRESOLVED — founder decision
+     priority 1  EL 01_AUTHORITIES_ROOT (route body)
+     priority 2  T12/PAR3V 10 canon-vault landing (hero band language; library.canon already matches)
+     rule        No new plate; keep the runtime body.
+  U-09 · shell.host-top · RESOLVED by D-SHELL-CANON
+     priority 1  D-SHELL-CANON text + runtime host
+     priority 2  screen-authority chrome (not literal)
+     rule        Never copy host chrome out of a screen authority.
+  INBOX-CHILDREN · inbox.watching|resolved|all|messages|system · RESOLVED by D-INBOX-FINAL
+     priority 1  runtime (rail + rows + inspector, founder FINAL)
+     priority 2  IBX2 v2 mobile cards (model + copy only)
+     rule        Do not rebuild the stacked v2 cards.
+  ACTIVITY-HERO · activity.root · RESOLVED by D-ACTIVITY-FINAL
+     priority 1  runtime one-viewport DOMAIN × TIME memory (founder FINAL)
+     priority 2  T12/PAR3V 11 (density + chip language only; its hero is retired)
+     rule        No Activity hero plate.
+  NAV-FAMILY · shell.bottom-nav · RESOLVED by D-NAV-MASTERS
+     priority 1  founder master PNGs (architectural family, d3d060b0 / 43611fd8)
+     priority 2  BOTTOM_NAV_ICON_FAMILY_V1 line glyphs seen inside the screen authorities (superseded)
+     rule        Use the master family; screen-authority nav glyphs are not literal.
+  NAV-HUB-SUBSTITUTE · shell.bottom-nav (HUB) · RESOLVED to the founder master — runtime regression flagged
+     priority 1  founder pavilion master 01_HUB.png (git blob e2a248e1 @ 43611fd8, 384×284)
+     priority 2  48×48 design-pack house glyph that replaced it in 94831d12 (cherry-pick of afb22c27)
+     rule        Restore/clean the pavilion master; do not draw a new house.
+  U-17 · expression.casting.* · UNRESOLVED — founder decision (content)
+     priority 1  authority-board crops for CHARACTERS (dark-haired Entry 002 subject)
+     priority 2  actor receipts keep their own identity (SW-017 blonde)
+     rule        Do not generate or alter people; identity media is out of scope.

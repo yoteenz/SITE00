@@ -1,7 +1,3 @@
-STATUS: HISTORICAL_FIXTURE_HANDOFF
-
-This file is the original MAP2 fixture handoff. Do not inject from it. The production handoff is docs/site00/public-redesign/OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md and is READY for the 47 Grok-required slots. The five live-code slots stay excluded.
-
 # Composer integration handoff
 
 Sprint: `P0.SITE00.PUBLIC-REDESIGN.GROK-SURGICAL-FABRICATION1`

@@ -1,0 +1,28 @@
+{
+  "family_id": "F06",
+  "mounted": {
+    "generation_id": "ydoruMdFIvt4eMIf8fIb",
+    "provider": "OpenArt",
+    "model": "gpt-image-2-5-sunburst",
+    "settings": {
+      "mode": "text2image",
+      "resolutionTier": "4k",
+      "aspectRatio": "9:16",
+      "quality": "high",
+      "autoEnhancePrompt": false
+    },
+    "reference_mode": "TEXT_TO_IMAGE_NET_NEW",
+    "reference_id": null,
+    "reference_attached": false,
+    "generation_class": "SCREEN_PARENT",
+    "estimated_credits": 315,
+    "actual_credits": 315,
+    "retry_count": 0,
+    "repair_count": 0,
+    "status": "READY_FOR_FOUNDER_REVIEW",
+    "resource_id": "cPHQBYvzne9eDyKmV81I",
+    "note": "Kept. The left field was already quiet. Not regenerated."
+  },
+  "prior_text_to_image": null,
+  "child_generation": "NONE"
+}

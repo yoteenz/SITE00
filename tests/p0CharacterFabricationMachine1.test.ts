@@ -44,11 +44,12 @@ describe('character fabrication — model', () => {
     expect(STATION_ORDER).toEqual(['identity', 'body', 'look', 'appearance', 'character', 'performance', 'simulation', 'authority']);
   });
   it('keeps ACTOR and CHARACTER as separate canonical entities', () => {
-    const actor = findFabricationActor('sw-actor-017')!;
+    const actor = findFabricationActor('sw-resident-001')!;
     const character = buildFabricationCharacter()!;
-    expect(actor.catalogueNumber).toBe('SW-017');
+    expect(actor.catalogueNumber).toBe('SW-001');
+    expect(actor.sourceResidentId).toBe('SW-RESIDENT-001');
     expect(character.displayName).toBe('SUBJECT WOMAN');
-    expect(character.actorId).toBe(actor.actorId);
+    expect(character.actorId).not.toBe(actor.actorId);
     expect(character.characterId).not.toBe(actor.actorId);
     expect(Object.keys(actor)).not.toContain('narrativeRole');
     expect(Object.keys(character)).not.toContain('catalogueNumber');

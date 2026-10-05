@@ -1,0 +1,559 @@
+{
+  "family_id": "F02_SETUP",
+  "family_name": "SETUP",
+  "canonical_name": "SETUP",
+  "supersedes": "The earlier F01 transition label FINANCE is not the family name.",
+  "status": "IN_REVIEW",
+  "source": "Resolved before paid generation from the product tree (F02 SETUP, NOT_STARTED, entry route setup), the F01.13 handoff CONTINUE TO SETUP, and the setup domains named in P0.JURNL.F02-SETUP-FULL-FAMILY-SCREEN-PLUS-LINKED-ASSET-SIDEKICK1. Downstream families F03\u2013F16 manage and analyze. SETUP only configures.",
+  "monetization": "NO_PAYWALL. CORE_GUIDED_SETUP remains metadata only.",
+  "brand_expression_level": "HIGH",
+  "primary_canvas": {
+    "w": 393,
+    "h": 852,
+    "unit": "px",
+    "rule": "Content is designed inside the app canvas. No footer, panel, or control is composed past the bottom edge."
+  },
+  "responsive_intent": {
+    "834x1194": "Same environment plate, wider margins, the column stays a single editorial measure. No breakpoint-specific art.",
+    "1440x900": "Plate covers the stage. The column is centered at the mobile measure. No breakpoint-specific art."
+  },
+  "environment_groups": {
+    "ENV.ARRIVAL": {
+      "classification": "SHARED_PARENT_ENVIRONMENT",
+      "purpose": "The life-shape room. Plaster, arch, coast light. Orientation, household, and completion.",
+      "member_screens": [
+        "F02.00",
+        "F02.01",
+        "F02.08",
+        "F02.ST.RESUME"
+      ]
+    },
+    "ENV.DESK": {
+      "classification": "DISTINCT_CHILD_ENVIRONMENT",
+      "purpose": "The configuration desk. Paper, travertine, champagne metal. Facts about money, without figures or charts.",
+      "member_screens": [
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.06",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP"
+      ]
+    },
+    "ENV.EDIT": {
+      "classification": "DISTINCT_CHILD_ENVIRONMENT",
+      "purpose": "The selection wall. A few material choices, not a settings list.",
+      "member_screens": [
+        "F02.05",
+        "F02.05.1"
+      ]
+    },
+    "ENV.QUIET": {
+      "classification": "DISTINCT_CHILD_ENVIRONMENT",
+      "purpose": "The private room. Stone, a closed book, lower light. Consent and permission.",
+      "member_screens": [
+        "F02.07",
+        "F02.IN.PERMISSION"
+      ]
+    }
+  },
+  "parent": [
+    {
+      "screen_id": "F02.00",
+      "name": "THE SHAPE OF YOUR LIFE",
+      "purpose": "Open setup. Tell the user JURNL is learning the shape of their life, and show the short path ahead.",
+      "entry": "F01.13 CONTINUE TO SETUP",
+      "exit": "F02.01",
+      "data_purpose": "None. Establishes progress and the family world.",
+      "parent": null,
+      "children": [
+        "F02.01"
+      ],
+      "interaction_requirements": [
+        "continue",
+        "progress_visible"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.ARRIVAL",
+      "authority_file": "JURNL/F02_SETUP/PARENT/F02.00_SETUP_PARENT.jpg",
+      "environment_id": "ENV.ARRIVAL",
+      "linked_asset_bundle": {
+        "environment": "ENV.ARRIVAL",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    }
+  ],
+  "children": [
+    {
+      "screen_id": "F02.01",
+      "name": "WHO THIS IS FOR",
+      "purpose": "Set the household unit downstream money views will use.",
+      "entry": "F02.00",
+      "exit": "F02.02",
+      "data_purpose": "household_shape: JUST_ME or SHARED",
+      "parent": "F02.00",
+      "children": [],
+      "interaction_requirements": [
+        "back",
+        "single_select",
+        "continue"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.ARRIVAL",
+      "authority_file": "JURNL/F02_SETUP/CHILDREN/F02.01_CONTEXT.jpg",
+      "environment_id": "ENV.ARRIVAL",
+      "linked_asset_bundle": {
+        "environment": "ENV.ARRIVAL",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.02",
+      "name": "WHERE IT LIVES",
+      "purpose": "Let the user connect accounts, name them, or skip. This is not the Money family.",
+      "entry": "F02.01",
+      "exit": "F02.03",
+      "data_purpose": "account_sources: CONNECTED, NAMED, or SKIPPED",
+      "parent": "F02.00",
+      "children": [
+        "F02.02.1"
+      ],
+      "interaction_requirements": [
+        "back",
+        "connect",
+        "manual_entry",
+        "skip",
+        "continue"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.DESK",
+      "authority_file": "JURNL/F02_SETUP/CHILDREN/F02.02_ACCOUNTS.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.03",
+      "name": "WHAT ARRIVES",
+      "purpose": "Capture income cadence and one approximate amount so Income has a starting rhythm.",
+      "entry": "F02.02",
+      "exit": "F02.04",
+      "data_purpose": "income_cadence and approximate_amount",
+      "parent": "F02.00",
+      "children": [],
+      "interaction_requirements": [
+        "back",
+        "single_select",
+        "amount_field",
+        "validation",
+        "continue"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.DESK",
+      "authority_file": "JURNL/F02_SETUP/CHILDREN/F02.03_INCOME.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.04",
+      "name": "WHAT REPEATS",
+      "purpose": "Seed a few recurring obligations for Upcoming. Not the Upcoming product.",
+      "entry": "F02.03",
+      "exit": "F02.05",
+      "data_purpose": "obligation_seeds: name, cadence, optional amount, or none",
+      "parent": "F02.00",
+      "children": [],
+      "interaction_requirements": [
+        "back",
+        "add",
+        "skip",
+        "continue"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.DESK",
+      "authority_file": "JURNL/F02_SETUP/CHILDREN/F02.04_COMMITMENTS.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.05",
+      "name": "WHAT MATTERS FIRST",
+      "purpose": "Choose up to three priorities that seed Plan, Goals, and Safe to Spend.",
+      "entry": "F02.04",
+      "exit": "F02.06 or F02.05.1 when a goal is chosen",
+      "data_purpose": "priority_set, maximum three of HOUSING, DAILY LIFE, A GOAL, DEBT, TRAVEL, A BUFFER",
+      "parent": "F02.00",
+      "children": [
+        "F02.05.1"
+      ],
+      "interaction_requirements": [
+        "back",
+        "multi_select_max_three",
+        "continue"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.EDIT",
+      "authority_file": "JURNL/F02_SETUP/CHILDREN/F02.05_PRIORITIES.jpg",
+      "environment_id": "ENV.EDIT",
+      "linked_asset_bundle": {
+        "environment": "ENV.EDIT",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.06",
+      "name": "WHAT SHOULD STAY",
+      "purpose": "One protected amount. Seeds Safe to Spend. Does not open that family.",
+      "entry": "F02.05",
+      "exit": "F02.07",
+      "data_purpose": "protected_available_amount or skipped",
+      "parent": "F02.00",
+      "children": [],
+      "interaction_requirements": [
+        "back",
+        "amount_field",
+        "skip",
+        "validation",
+        "continue"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.DESK",
+      "authority_file": "JURNL/F02_SETUP/CHILDREN/F02.06_AVAILABLE.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.07",
+      "name": "WHAT JURNL MAY KEEP",
+      "purpose": "Consent boundaries for the data just given. Distinct from the F01 privacy primer.",
+      "entry": "F02.06",
+      "exit": "F02.08",
+      "data_purpose": "consent_flags for remembered setup facts and optional account links",
+      "parent": "F02.00",
+      "children": [],
+      "interaction_requirements": [
+        "back",
+        "consent_toggles",
+        "disclosure",
+        "continue"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.QUIET",
+      "authority_file": "JURNL/F02_SETUP/CHILDREN/F02.07_BOUNDARIES.jpg",
+      "environment_id": "ENV.QUIET",
+      "linked_asset_bundle": {
+        "environment": "ENV.QUIET",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.08",
+      "name": "JURNL IS READY",
+      "purpose": "Confirm the shape that was learned. One personalization: guided or quiet. Hand off to Today.",
+      "entry": "F02.07",
+      "exit": "F03 TODAY",
+      "data_purpose": "voice_preference: GUIDED or QUIET. Summary of prior answers is live, not baked.",
+      "parent": "F02.00",
+      "children": [],
+      "interaction_requirements": [
+        "back",
+        "single_select",
+        "complete"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.ARRIVAL",
+      "authority_file": "JURNL/F02_SETUP/CHILDREN/F02.08_READY.jpg",
+      "environment_id": "ENV.ARRIVAL",
+      "linked_asset_bundle": {
+        "environment": "ENV.ARRIVAL",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    }
+  ],
+  "grandchildren": [
+    {
+      "screen_id": "F02.02.1",
+      "name": "NAME AN ACCOUNT",
+      "purpose": "Manual account seed: a name and a kind. No balances, no transactions.",
+      "entry": "F02.02 manual action",
+      "exit": "F02.02",
+      "data_purpose": "named_account: label and kind (CHECKING, SAVINGS, CARD)",
+      "parent": "F02.02",
+      "children": [],
+      "interaction_requirements": [
+        "back",
+        "text_field",
+        "single_select",
+        "save",
+        "validation"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.DESK",
+      "why_distinct": "A focused naming form, visually and behaviorally different from the accounts choice screen.",
+      "authority_file": "JURNL/F02_SETUP/GRANDCHILDREN/F02.02.1_NAME_ACCOUNT.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.05.1",
+      "name": "NAME A GOAL",
+      "purpose": "One intention and a loose horizon. Not the Goals family.",
+      "entry": "F02.05 when A GOAL is selected",
+      "exit": "F02.06",
+      "data_purpose": "goal_seed: name and horizon (THIS SEASON, THIS YEAR, LATER)",
+      "parent": "F02.05",
+      "children": [],
+      "interaction_requirements": [
+        "back",
+        "text_field",
+        "single_select",
+        "save"
+      ],
+      "brand_expression_level": "HIGH",
+      "environment_group": "ENV.EDIT",
+      "why_distinct": "A naming moment with its own composition. Not required when no goal is chosen.",
+      "authority_file": "JURNL/F02_SETUP/GRANDCHILDREN/F02.05.1_NAME_GOAL.jpg",
+      "environment_id": "ENV.EDIT",
+      "linked_asset_bundle": {
+        "environment": "ENV.EDIT",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    }
+  ],
+  "states": [
+    {
+      "screen_id": "F02.ST.VALIDATION",
+      "name": "FIELD NEEDS A NUMBER",
+      "purpose": "Grouped validation authority for amount and name fields.",
+      "applies_to": [
+        "F02.03",
+        "F02.06",
+        "F02.02.1",
+        "F02.05.1"
+      ],
+      "visual": "Wine wash and square-rounded alert. No circular error badge.",
+      "environment_group": "ENV.DESK",
+      "authority_file": "JURNL/F02_SETUP/STATES/F02.ST.VALIDATION.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.ST.CONNECTED",
+      "name": "ACCOUNT LINKED",
+      "purpose": "Success state after an optional connection.",
+      "applies_to": [
+        "F02.02"
+      ],
+      "visual": "Emerald confirmation on the desk. No confetti, no bank logo.",
+      "environment_group": "ENV.DESK",
+      "authority_file": "JURNL/F02_SETUP/STATES/F02.ST.CONNECTED.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.ST.RESUME",
+      "name": "CONTINUE SETUP",
+      "purpose": "Return to an unfinished setup with progress visible.",
+      "applies_to": [
+        "F02.00"
+      ],
+      "visual": "Arrival room with the progress track partially filled.",
+      "environment_group": "ENV.ARRIVAL",
+      "authority_file": "JURNL/F02_SETUP/STATES/F02.ST.RESUME.jpg",
+      "environment_id": "ENV.ARRIVAL",
+      "linked_asset_bundle": {
+        "environment": "ENV.ARRIVAL",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    }
+  ],
+  "code_only_states": [
+    "FOCUS",
+    "LOADING",
+    "EMPTY_LIST",
+    "SKIPPED_CHIP",
+    "PARTIAL_LIST",
+    "DISABLED_CONTINUE"
+  ],
+  "interactions": [
+    {
+      "screen_id": "F02.IN.PERMISSION",
+      "name": "CONNECTION PERMISSION",
+      "purpose": "Sheet stating what an account link may read, before any provider handoff.",
+      "source_screen": "F02.02",
+      "environment_group": "ENV.QUIET",
+      "authority_file": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.PERMISSION.jpg",
+      "environment_id": "ENV.QUIET",
+      "linked_asset_bundle": {
+        "environment": "ENV.QUIET",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.IN.ADD",
+      "name": "ADD A COMMITMENT",
+      "purpose": "Sheet to add one repeating obligation.",
+      "source_screen": "F02.04",
+      "environment_group": "ENV.DESK",
+      "authority_file": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.ADD.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "screen_id": "F02.IN.SKIP",
+      "name": "ADD THIS LATER",
+      "purpose": "Sheet confirming a skip. The step can be finished later.",
+      "source_screen": "F02.02",
+      "also_used_by": [
+        "F02.04",
+        "F02.06"
+      ],
+      "environment_group": "ENV.DESK",
+      "authority_file": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.SKIP.jpg",
+      "environment_id": "ENV.DESK",
+      "linked_asset_bundle": {
+        "environment": "ENV.DESK",
+        "panels": "CODE_ONLY",
+        "buttons": "CODE_ONLY",
+        "controls": "CODE_ONLY",
+        "objects": "BAKED_INTO_ENVIRONMENT",
+        "botanicals": "BAKED_INTO_ENVIRONMENT",
+        "icons": "INHERIT_F01"
+      },
+      "approval_status": "IN_REVIEW"
+    }
+  ],
+  "not_in_this_family": [
+    "Full account ledger (F05 MONEY)",
+    "Income analysis (F06 INCOME)",
+    "Bill calendar (F07 UPCOMING)",
+    "Planning workspace (F08 PLAN)",
+    "Safe-to-spend product (F09)",
+    "Goals management (F14 GOALS)",
+    "Credit, paydown, records, trips, purchases"
+  ],
+  "production_status": "IN_REVIEW",
+  "runtime_implemented": false
+}

@@ -15,4 +15,9 @@ public/studio-world/design/capture-orchestration-registry.json
 public/studio-world/design/capture-worker-test/
 public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/r7m-generated/
 .worktrees/
+artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/**/*.png
+artifacts/STUDIO_WORLD_RESIDENT_FABRICATION_GEOMETRY_REVIEW.zip
+artifacts/STUDIO_WORLD_RESIDENT_FABRICATION_GEOMETRY_REVIEW_LITE.zip
+artifacts/STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW.zip
+artifacts/STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW_LITE.zip
 supabase/.temp/

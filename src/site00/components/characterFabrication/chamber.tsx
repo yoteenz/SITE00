@@ -11,9 +11,14 @@ import {
   CF_FABRICATION_ENV_SLOT,
   CF_SIMULATION_ENV_SLOT,
   GARMENT_BY_ID,
+  characterFigureBoxFromAnchor,
+  DEFAULT_CHARACTER_FIGURE_ANCHOR,
   isCharacterRunningSimulation,
   type BehaviorRole,
+  type CharacterFigureAnchor,
 } from '../../../../shared/site00-character-fabrication/index.js';
+import { buildWorkingAssemblyManifest } from '../../../../shared/studio-world-live-character-runtime/index.js';
+import { CharacterViewport } from '../../characterRuntime/CharacterViewport';
 import { useFabrication } from './FabricationContext';
 import { CfImage } from './CfImage';
 import { ActorAuthorityCard, CharacterAuthorityCard, FabricationStageRail } from './primitives';
@@ -99,12 +104,13 @@ function Proxy() {
 
 /** Figure + figure asset slot. Box is given in hero coordinates. */
 export function SubjectFigure({ x, y, w, h }: { x: number; y: number; w: number; h: number }) {
-  const { url } = useFabrication();
-  const src = url(SUBJECT_SLOT);
+  const { url, subjectChamberUrl, actor } = useFabrication();
+  const src = subjectChamberUrl() ?? url(SUBJECT_SLOT);
+  const slot = actor.portraitSlotId || SUBJECT_SLOT;
   return (
-    <div className="cf-fig" style={{ left: x, top: y, width: w, height: h }} data-asset-slot={SUBJECT_SLOT} data-asset-state={src ? 'filled' : 'missing'}>
+    <div className="cf-fig" style={{ left: x, top: y, width: w, height: h }} data-asset-slot={slot} data-asset-state={src ? 'filled' : 'missing'}>
       {src ? (
-        <CfImage slotId={SUBJECT_SLOT} url={src} label="" className="cf-fig__img" />
+        <CfImage slotId={slot} url={src} label="" className="cf-fig__img" />
       ) : (
         <svg viewBox="147 60 96 280" preserveAspectRatio="xMidYMax meet" className="cf-fig__svg" aria-hidden>
           <Proxy />
@@ -112,6 +118,23 @@ export function SubjectFigure({ x, y, w, h }: { x: number; y: number; w: number;
       )}
     </div>
   );
+}
+
+/**
+ * Semantic character layer — static figure today, live CharacterRenderer later.
+ * Environment + machine foreground mount as siblings inside ChamberHero.
+ */
+export function CharacterRenderer({
+  anchor = DEFAULT_CHARACTER_FIGURE_ANCHOR,
+  overrideBox,
+}: {
+  anchor?: CharacterFigureAnchor;
+  overrideBox?: { x: number; y: number; w: number; h: number };
+}) {
+  const { state, actor, character } = useFabrication();
+  const box = overrideBox ?? characterFigureBoxFromAnchor(anchor);
+  const manifest = buildWorkingAssemblyManifest(state, actor, character);
+  return <CharacterViewport box={box} manifest={manifest} />;
 }
 
 /** The lab plate: walls, ceiling strips, arms, glass cylinder, platform. Coordinates = hero px. */
@@ -210,13 +233,16 @@ export function ChamberHero({
   h,
   cyl,
   fig,
+  figureAnchor,
   children,
   className = '',
   testId = 'cf-machine',
 }: {
   h: number;
   cyl: { top: number; plat: number };
-  fig: { x: number; y: number; w: number; h: number };
+  /** Legacy explicit box; prefer figureAnchor for authority grounding. */
+  fig?: { x: number; y: number; w: number; h: number };
+  figureAnchor?: CharacterFigureAnchor;
   children?: ReactNode;
   className?: string;
   testId?: string;
@@ -232,7 +258,7 @@ export function ChamberHero({
     >
       <EnvironmentPlate h={h} />
       {envMounted ? null : <ChamberPlate h={h} cyl={cyl} />}
-      <SubjectFigure {...fig} />
+      <CharacterRenderer anchor={figureAnchor} overrideBox={fig} />
       {children}
     </section>
   );
@@ -248,6 +274,7 @@ export function StandardHero({
   cardTop,
   cyl,
   fig,
+  figureAnchor,
   actorRows,
   actorActions = true,
   cardH,
@@ -256,13 +283,14 @@ export function StandardHero({
   railTop: number;
   cardTop: number;
   cyl: { top: number; plat: number };
-  fig: { x: number; y: number; w: number; h: number };
+  fig?: { x: number; y: number; w: number; h: number };
+  figureAnchor?: CharacterFigureAnchor;
   actorRows?: readonly ('AGE' | 'HEIGHT' | 'ETHNICITY' | 'STATUS' | 'ENTRY' | 'PROJECT' | 'VERSION')[];
   actorActions?: boolean;
   cardH?: number;
 }) {
   return (
-    <ChamberHero h={h} cyl={cyl} fig={fig}>
+    <ChamberHero h={h} cyl={cyl} fig={fig} figureAnchor={figureAnchor}>
       <ActorAuthorityCard rows={actorRows} actions={actorActions} style={{ left: 16, top: cardTop, height: cardH }} />
       <CharacterAuthorityCard style={{ left: 312, top: cardTop + 2, height: cardH }} />
       <div className="cf-hero__rail" style={{ top: railTop }}>

@@ -82,14 +82,16 @@ export default function IdntyAssessmentCompletePage({ stateSlug }: IdntyAssessme
             {action.label}
           </Link>
         ))}
-        <Link to={SITE00_ROUTES.idnty} className="site00-idnty-assessment__btn-secondary">
-          RETURN TO IDNTY
-        </Link>
-        {!record.identityState ? null : (
-          <Link to={SITE00_ROUTES.signIn} className="site00-idnty-assessment__btn-secondary">
-            SIGN IN TO SAVE
+        <div className="site00-idnty-complete-actions__secondary-row">
+          <Link to={SITE00_ROUTES.idnty} className="site00-idnty-assessment__btn-secondary">
+            RETURN TO IDNTY
           </Link>
-        )}
+          {!record.identityState ? null : (
+            <Link to={SITE00_ROUTES.signIn} className="site00-idnty-assessment__btn-secondary">
+              SIGN IN TO SAVE
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
