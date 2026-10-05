@@ -36,7 +36,7 @@ import { useSetup } from '../../data/f02/setupDraft';
 import { JurnlIcon } from '../components/icons';
 import { JurnlProductNav } from '../components/ProductNav';
 import { JurnlTransactionRow } from '../components/TransactionRow';
-import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInput, JurnlPanel } from '../components/primitives';
+import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
 
@@ -122,9 +122,9 @@ export function TodayScreen() {
           <JurnlPanel role="editorial" className="jrn-home__panel" data-jrn-rhythm={openUpcoming ? 'sequence' : 'rest'}>
             <div className="jrn-home__sec">
               <span>COMING</span>
-              <JurnlButton variant="inline" trigger="today-upcoming" onClick={() => setOpenUpcoming((v) => !v)}>
+              <JurnlInlineAction trigger="today-upcoming" expanded={openUpcoming} onClick={() => setOpenUpcoming((v) => !v)}>
                 {openUpcoming ? 'LESS' : 'MORE'}
-              </JurnlButton>
+              </JurnlInlineAction>
             </div>
             <ul className="jrn-home__list">
               {(openUpcoming ? upcomingFor(draft) : upcoming).map((item) => (
@@ -147,9 +147,9 @@ export function TodayScreen() {
               <>
                 <div className="jrn-home__sec">
                   <span>MOVED</span>
-                  <JurnlButton variant="inline" trigger="today-activity" onClick={() => go('F04')}>
+                  <JurnlInlineAction trigger="today-activity" onClick={() => go('F04')}>
                     ACTIVITY
-                  </JurnlButton>
+                  </JurnlInlineAction>
                 </div>
                 <div role="list" className="jrn-home__list">
                   {recent.map((entry) => (

@@ -56,8 +56,8 @@ export const JURNL_F03_CONTRACT: FamilyProductionContract = {
     { id: 'F03.IN.SEE_WHY', sourceScreen: 'F03.00', trigger: 'SEE WHY', type: 'bottom_drawer', componentRef: 'JURNL_DRAWER_LONG', navigationResult: 'EXPLAINS THE COMPUTED SIGNAL. DOES NOT OPEN F09.', authorityFile: AUTH, sharing: 'distinct' },
     { id: 'F03.IN.QUICK_ADD', sourceScreen: 'F03.00', trigger: 'QUICK ADD', type: 'bottom_drawer', componentRef: 'JURNL_DRAWER_LONG', navigationResult: 'SHARED ADD SHEET. WRITES A PREVIEW MOVEMENT.', authorityFile: AUTH, sharing: 'shared' },
     { id: 'F03.IN.ASK', sourceScreen: 'F03.00', trigger: 'ASK JURNL', type: 'bottom_drawer', componentRef: 'JURNL_DRAWER_SHORT', navigationResult: 'SHARED EXPLANATION. NO UPGRADE PANEL.', authorityFile: AUTH, sharing: 'shared' },
-    { id: 'F03.IN.UPCOMING', sourceScreen: 'F03.00', trigger: 'MORE', type: 'inline_expansion', componentRef: 'JURNL_BUTTON_SECONDARY', navigationResult: 'EXPANDS THE COMING LIST ON TODAY.', authorityFile: AUTH, sharing: 'distinct' },
-    { id: 'F03.IN.ACTIVITY', sourceScreen: 'F03.00', trigger: 'ACTIVITY', type: 'route_transition', componentRef: 'JURNL_BUTTON_SECONDARY', navigationResult: 'OPENS F04 ACTIVITY.', authorityFile: AUTH, sharing: 'distinct' },
+    { id: 'F03.IN.UPCOMING', sourceScreen: 'F03.00', trigger: 'MORE', type: 'inline_expansion', componentRef: 'JURNL_INLINE_ACTION', navigationResult: 'EXPANDS THE COMING LIST ON TODAY.', authorityFile: AUTH, sharing: 'distinct' },
+    { id: 'F03.IN.ACTIVITY', sourceScreen: 'F03.00', trigger: 'ACTIVITY', type: 'route_transition', componentRef: 'JURNL_INLINE_ACTION', navigationResult: 'OPENS F04 ACTIVITY.', authorityFile: AUTH, sharing: 'distinct' },
     { id: 'F03.NAV.BACK', sourceScreen: 'F03.00', trigger: 'BACK TO SETUP', type: 'route_transition', componentRef: 'JURNL_ICON_BUTTON', navigationResult: 'RETURNS TO F02.08.', authorityFile: AUTH, sharing: 'shared' },
   ],
   dataObjects: [
@@ -66,6 +66,7 @@ export const JURNL_F03_CONTRACT: FamilyProductionContract = {
   globalComponents: [
     { id: 'JURNL_BUTTON_PRIMARY', scope: 'GLOBAL', primitive: 'BUTTON', description: 'SEE WHY' },
     { id: 'JURNL_BUTTON_SECONDARY', scope: 'GLOBAL', primitive: 'BUTTON', description: 'QUIET ACTIONS' },
+    { id: 'JURNL_INLINE_ACTION', scope: 'FAMILY', primitive: 'BUTTON', description: 'PANEL HEADER EDITORIAL UTILITY. TEXT AND CHEVRON. NOT A BOXED CTA.' },
     { id: 'JURNL_DRAWER_LONG', scope: 'GLOBAL', primitive: 'DRAWER', description: 'SEE WHY AND QUICK ADD' },
     { id: 'JURNL_NAV', scope: 'GLOBAL', primitive: 'NAV', description: 'HOME MONEY PLUS PLAN CREDIT' },
   ],

@@ -90,6 +90,16 @@ export function JurnlPanel({
   );
 }
 
+/** Secondary panel-header navigation. Text and the canonical chevron, not a boxed button. */
+export function JurnlInlineAction({ trigger, children, onClick, expanded }: { trigger?: string; children: ReactNode; onClick?: () => void; expanded?: boolean }) {
+  return (
+    <button type="button" className="jrn-inline-action" data-jrn-role="panel_header_action" data-jrn-trigger={trigger} data-expanded={expanded ? 'true' : undefined} onClick={onClick}>
+      <span>{children}</span>
+      <JurnlIcon name="chevron" size={11} />
+    </button>
+  );
+}
+
 export function JurnlTextLink({ trigger, children, strong, underline, onClick, inline }: { trigger?: string; children: ReactNode; strong?: boolean; underline?: boolean; inline?: boolean; onClick?: () => void }) {
   return (
     <button

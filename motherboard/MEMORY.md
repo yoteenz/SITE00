@@ -13704,3 +13704,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** This machine’s preview on port 5174 serves current `origin/main` in dev mode, including the JURNL parent pages. Parent board is `/production/jurnl/runtime/parents`. Money is `/production/jurnl/runtime/money`. Future boots use `serve-site00-preview-from-main.sh` instead of the old Grok-review pin. A conflict marker left in the gateway memory entry on main was removed so both the JURNL callsite note and the surgical-asset restore note stay.
 - **Changes:** `.cursor/scripts/serve-site00-preview-from-main.sh`, `.cursor/environment.json`, `motherboard/MEMORY.md`.
 - **Conventions:** The preview tunnel should track current `main` when the founder asks for the latest design. A CI production artifact from September is not that design.
+
+---
+
+## 2026-10-05 — F03 icon authority and editorial header actions
+
+- **Context:** This chat first restored the production workspace after a burst of stale squash-merges, then the founder reviewed live F03 TODAY. The page still mixed the icon sheet, showed a double plus in the center nav, and treated MORE and ACTIVITY as chunky buttons beside COMING and MOVED.
+- **Topics covered:** Which squashes rolled the workspace back, and which later work stayed. Then the F03 icon sheet, the center plus, and the Coming / Moved action hierarchy.
+- **Decisions / outcomes:** The icon sheet is `JURNL/F01_ENTRY/ICONS/F01_ICON_PACK_SHEET.png`, implemented in `icons.tsx`. Back and info already match it. Home, money, plan, credit, and the rent, groceries, atelier, and market marks have no matching sheet glyph, so they stay reported as missing rather than redrawn. The double plus was a drawn plus plus a text plus in `JurnlProductNav`. The text plus is gone. MORE and ACTIVITY are `JurnlInlineAction` header utilities with the canonical chevron. SEE WHY stays the filled primary. More still expands Coming. Activity still opens F04. Quick add still opens from the single plus. No new image was generated. F03 stays ready for founder review, not approved, and child production stays off.
+- **Changes:** `ProductNav.tsx`, `JurnlInlineAction`, F03 home CSS, the F03 contract and coverage, `JURNL_EXPRESSION_MATRIX.json`, `JURNL/MANIFEST/F03_PARENT_REFINEMENT_QA.json`.
+- **Conventions:** Secondary panel-header actions that navigate or expand should read as lightweight editorial utilities, not default buttons. Do not apply that treatment to every control. Do not place a text glyph on top of an icon. If the icon sheet has no asset, record `ICON_AUTHORITY_MISSING`.
