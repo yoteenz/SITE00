@@ -4,56 +4,6 @@ Append-only conversation summaries. **Do not overwrite earlier entries.** Latest
 
 ---
 
-## 2026-09-14 — Blueprint retry strip visibility v444 (legacy twin + dual mount)
-
-- **Founder report:** Blue **RETRY LIGHT BLUEPRINT** strip still not visible after twin pair (v442/v443).
-- **Cause:** `showRetryStrip` required `styleContractId` / `LIGHT_TECHNICAL` on blueprint artifact; legacy FAL rows + slot hydration misses hid the CTA. Strip was only below long founder-path stack.
-- **Fix:** `resolveBlueprintRetryTwinPair` + `evaluateBlueprintLightStyleRetryFromPipeline`; show when **NBP locked / Method A** + twin URIs exist; strip moved **directly under R5F2 recovery strip** (sticky); same block **embedded under GENERATE MOBILE TWIN PACKAGE** in locked provider panel. Build **v444**.
-
----
-
-## 2026-09-14 — Design page boot recovery v443 (process.env + error boundaries)
-
-- **Founder report:** Design page not booting correctly again on fsbw-dev (white / crash pattern similar to v438).
-- **Cause:** New blueprint retry / style-anchor path called **`process.env` in client-shared code** (`resolveLightBlueprintStyleReference`, `resolveMobileTwinPublicAssetUrl`) — **`ReferenceError: process is not defined`** in Vite/browser can white-screen the whole authority panel. Package inspector could also throw on missing `compositionHash` / jobId slices.
-- **Fix:** `readSite00OptionalEnv()` (import.meta + safe globalThis.process); public asset URL resolver uses it; sync wrapped in **`syncPilotSessionSafe`** on initial state + mount; **`DesignPageV3SectionErrorBoundary`** around batch-1 authority + mobile twin stack; defensive optional chaining in package inspector. Build **v443**. Tests **`designPageV3MobileTwinBoot.test.ts`**.
-
----
-
-## 2026-09-14 — Blueprint light retry strip visible on Design (v442)
-
-- **Founder report:** Session-close guidance (“RETRY LIGHT BLUEPRINT if dark”) not visible on fsbw-dev Design — button only rendered when automated `blueprintNeedsLightStyle` fired; real FAL blueprint URLs often **PASS** receipt heuristics (UNKNOWN background) so CTA stayed hidden below fold in pipeline panel.
-- **Fix:** `evaluateBlueprintLightStyleRetry()` + **`DesignPageV3MobileTwinBlueprintRetryStrip`** (blue card under **MOBILE TWIN PROVIDER · LOCKED**) shows **RETRY LIGHT BLUEPRINT** whenever light-contract twin pair exists; urgent copy when receipt/status fails contract; optional style-anchor hint (`VITE_SITE00_LIGHT_BLUEPRINT_STYLE_REFERENCE_URL` / Railway secret). Pipeline panel uses same helper (retry button always when pair ready). Build **v442**. Tests **`p0vrTwinV30BlueprintRetryUx.test.ts`**.
-
----
-
-## 2026-09-14 — R7MF3P7 Mobile Twin Package Inspector + artifact hydration (v441)
-
-- **Context:** Mobile Twin reaches **FOUNDER_REVIEW_READY** with structured package artifacts in `artifactsById`, but **PACKAGE** tab only showed three images + provider debug — founder could not inspect composition, blueprint, object/asset/function maps, ownership, traceability, or validation receipts.
-- **Delivered (review UX only — no regen/routing):** `hydrateMobileTwinPackageInspector()`, `buildMobileTwinPackageIntegrityReceipt()` + **`PACKAGE_ARTIFACT_MISSING`**, `requestMobileTwinPackageCorrection()`; **`DesignPageV3MobileTwinPackageInspector`** (stacked sections, accordions, gaps, approval readiness, approve/correction CTAs, raw JSON under **TECHNICAL DETAILS** only); **PACKAGE** tab in **`DesignPageV3MobileTwinPipelinePanel`** mounts inspector instead of 3-up grid; mobile CSS in **`site00-twin-v3-design-authority.css`**. Lineage **`P0_VR_TWIN_V30R7MF3P7_LINEAGE`**, build **v441**. Tests **`p0vrTwinV30R7MF3P7.test.ts`** (21). P6F1 light blueprint retry unchanged.
-
----
-
-## 2026-09-13 — P0.VR.TWINV3.0R6 derivation pipeline + GENERATE DERIVATIVES (v412)
-
-- **Delivered:** `runDesignWorkspaceDerivation` orchestrator from locked R5F2 pair → StructuralBlueprint, SurgicalObjectMap, feature bindings (29), CanonicalAssetManifest, FunctionBindingMap, ownership/responsive/typography/state/interaction/primitive contracts, ReverseTraceabilityMap, CompilerReadinessReceipt, `DesignWorkspaceImplementationPackage`. **GENERATE DERIVATIVES** button runs pipeline (LOCAL_COMPILER, **falJobsDispatched: 0**); idempotent reuse; button state machine (GENERATING / REVIEW DERIVATIVES). UI: `DesignPageV3DerivationReviewPanel`. Tests **`p0vrTwinV30R6.test.ts`**. Build **v412**. No auto live React build.
-
----
-
-## 2026-09-13 — R5F2 mobile recovery strip (v411)
-
-- **Founder report:** On **site00.fsbw-dev.com** mobile, did not see promised LOCKED / GENERATE DERIVATIVES UI — only dense header text and PAIR REVIEW after scroll; **GENERATE DERIVATIVES** lived inside collapsed **AUTHORITY PAIR · tap to manage** dock (desktop-only dock visible ≥720px).
-- **Fix:** `DesignPageV3AuthorityRecoveryStrip` — lime card under header with explicit LOCKED / FOUNDER APPROVED / DERIVATION READY rows + full-width **GENERATE DERIVATIVES** (`data-testid=v3-generate-derivatives-mobile-primary`); auto-expand mobile dock when R5F2 receipt PASS + pair locked; toggle label **LOCKED · show dock**. Build **v411**.
-
----
-
-## 2026-09-13 — P0.VR.TWINV3.0R5F2 founder authority injection + derivation unblock (v410)
-
-- **Context:** R5/R5F1 pipeline existed but broken gallery img display blocked in-product pair lock; founder attached **exact** approved mobile + desktop JPG masters for NDXBOOK (no FAL regen).
-- **Delivered:** Founder JPGs in `public/.../founder-r5f2-ndxbook/` (SHA256 pinned); `applyOneTimeFounderAuthorityInjection` + `FounderAuthorityInjectionReceipt` + asset records; extended deterministic `computePairChecksum` (ids, hashes, context, manifest, pairVersion); auto **PAIR_LOCKED** with `FOUNDER_AUTHORIZED_RECOVERY`, `TRANSLATION`, `NONE`; `deriveDesignWorkspacePackage` entrypoint (validates, no auto-dispatch); `applyFounderR5F2RecoveryIfNeeded` on NDXBOOK design panel mount; UX: FOUNDER APPROVED labels, **GENERATE DERIVATIVES** primary when derivation READY, no lock button after recovery; **`AUTHORITY_IMAGE_DISPLAY_BROKEN`** issue stays OPEN. Tests **`p0vrTwinV30R5F2.test.ts`** (16). Build **v410**.
-
----
-
 ## 2026-08-18 — Motherboard setup + cloud preview + IDNTY four states + GoDaddy mobile deploy guidance
 
 Summary of the **whole conversation so far** in this cloud agent run (source: mobile, repo: `yoteenz/SITE00`).
@@ -182,14 +132,6 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 ---
 
-
-## 2026-08-19 — Origin desktop hero copy spacing (desktop only)
-
-- **Request:** Desktop Origin — (1) SITE 00 header text down 2px, (2) “STARTS HERE.” same line as line above, (3) origin point line down 6px.
-- **Changes:** `site00-desktop-artboard.css` — logo mark `margin-top: 2px`; coordinate `margin-top: 26px` (was 20px). `OriginPage.tsx` — desktop merges description2+3 into one line; mobile unchanged.
-- **PR #15:** `cursor/origin-desktop-hero-copy-796f`
-
----
 ## 2026-08-19 — Wire ENTER 00 directory menu links (PR #12)
 
 - Enabled all EXPLORE + YOUR SPACE rows with live routes. Account → `/control`. Projects + Account use `requiresAuth`.
@@ -362,18 +304,6 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 
 ---
 
-
-## 2026-08-19 — Merge conflict triage (mobile GitHub workflow + loader PRs)
-
-- **Context:** Founder merging from GitHub mobile app hit "Unable to merge — conflicts must be resolved." Requested conflict review after fetching latest `main`.
-- **Simple (fixed):** **PR #33** (`cursor/mobile-loader-regression-lock-4a83`) — only `package.json`: both branches added different npm scripts. Resolved by keeping **both** `strip:loader-audio` (main) and `verify:loader-mobile` (branch). Pushed; PR mergeable.
-- **Complicated (not auto-fixed):**
-  - **PR #30** — presentation-architecture + loader overhaul vs main’s loader/audio/desktop-preview changes; **11 files** (loader boot, routes, Origin/Public shells, `Site00Context`, `OriginPage`). Conflicting intents — needs manual design pass or rebase onto main.
-  - **PR #15, #13, #5** — older Enter/Origin bg/copy tweaks; conflict with later artboard/shell work on main. Likely **superseded** — close or cherry-pick if still needed.
-- **Already clean:** **PR #29**, **#28**, **#2** mergeable with main without conflicts.
-- **Deploy reminder:** merge to `main` does not update site00.com until GoDaddy deploy (Actions artifact/ZIP or FTP).
-
----
 ## 2026-08-19 — Phone Desktop tab: blue panel text (iOS button default)
 
 - **Issue:** On phone with Desktop toggle, Origin IDNTY/BLDR/EVOLVE collapsed panels showed **blue text** instead of desktop palette (red numbers, black titles, muted subtitles).
@@ -884,6 +814,14 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
+
+## 2026-08-19 — Locations directory spine through journal + my sites dots
+
+- **Request:** Gray spine line should reach middle of JOURNAL card with red dot; MY SITES missing red dot in YOUR SPACE section.
+- **Fix:** `DirectorySpine` now measures first/last card centers from the DOM (`ResizeObserver`) so the gray line and red dots align with JOURNAL and MY SITES regardless of card height (auth rows, max-height). Red nodes at section start + last card midline. Node CSS uses `translate(-50%, -50%)`.
+- **Branch:** `cursor/locations-spine-journal-mysites-796f`.
+
+---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
 
 - **Request:** Remove blue outline around mobile Fast Travel icon button.
@@ -2195,34 +2133,6 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
-## 2026-08-21 — EVOLVE commercial productization + canonical pricing architecture
-
-- **Context:** EVOLVE had no canonical commercial/pricing layer — no service catalog, no plan concept, no Foundation/entitlement model, no billing readiness. Task: productize EVOLVE's existing governed workflow (Content Brain → Creative Direction → Visual DNA → campaign → assets → approval → distribution → performance) into a coherent paid-service architecture, without redesigning SITE 00, inventing services, faking checkout, or assigning fabricated billing to founder projects.
-
-- **Audit first:** Confirmed no prior EVOLVE pricing existed anywhere in the repo (no Stripe, no checkout, no subscription/entitlement model, no conflicting legacy pricing to migrate) — this was a greenfield commercial layer, not a migration.
-
-- **Canonical catalog (new `shared/site00-evolve-commercial/`):** `types.ts` defines the domain model (`EvolveBillingType`, `EvolvePriceQualifier`, plan/service IDs, `EvolveCommercialState`, etc.) with `priceCents` integer pricing and an optional `providerRef` (Stripe-ready but no IDs invented). `catalog.ts` is the single source of truth: `EVOLVE_FOUNDATION` ($1,500 one-time), `EVOLVE_RECURRING_PLANS` (Essential $1,250/mo, Growth $2,500/mo **recommended**, Studio $4,500/mo, Private from $7,500/mo `customScopeRequired`), `EVOLVE_PROJECT_SERVICES` (Creative Direction Intensive $1,500, Content Sprint from $1,250, Launch Campaign from $2,500, Campaign World from $4,000, Visual DNA Refresh from $750), `EVOLVE_PAID_MEDIA_SERVICE` ($750/mo min OR 15% of spend, whichever greater, `computePaidMediaFeeCents()`, ad spend explicitly separate). `formatEvolvePrice()` renders canonical display strings (`FROM $7,500 / MONTH`, never `$7.5k`).
-
-- **Foundation ↔ Identity qualification (new `api/_lib/site00Evolve/commercial/foundationQualification.ts`):** Server-side-only determination (never frontend) of `FOUNDATION_REQUIRED` / `FOUNDATION_WAIVED_WITH_CANONICAL_INTELLIGENCE` / `FOUNDATION_COMPLETED` by inspecting existing `MarketingProfileRow` + Content Brain canonical intelligence (positioning, audience, brand voice, objectives) — references existing intelligence, never duplicates it.
-
-- **Commercial state ≠ operational state (new `commercialState.ts`, `governedActions.ts`):** `resolveEvolveCommercialState(orgSlug)` aggregates applicability (`BILLABLE_CLIENT` / `INTERNAL_NON_BILLING` / `NOT_APPLICABLE`), active plan, Foundation status, entitlements, and paid-media status — strictly separate from Creative Direction / Visual DNA / publishing governance (tests assert plan selection never approves CD/Visual DNA/Page 001 and never enables publishing). `setEvolveCommercialPlan()` / `markEvolveFoundationCompleted()` are the only founder-controlled writes, persisted via a new `metadata.commercial` JSONB field on `MarketingProfileRow` (no migration needed) — wired through `storeAdapter.ts` → `memoryStore.ts` / `supabaseStore.ts` (`updateProfileCommercialMetadata`).
-
-- **Entitlements (new `entitlements.ts`):** Per-plan capacity (channel limit, asset capacity range) as informational-only guidance; explicitly does not gate publishing/provider-readiness/approval (regression-tested by scanning imports for forbidden governance-module references).
-
-- **Wiring:** `projectResolver.ts` adds a `commercial` field to `Site00ProjectDetail` (computed, not stored per-project — Frontal Slayer/Studio World/AIO stay `NOT_APPLICABLE`/`INTERNAL_NON_BILLING`, no fabricated subscriptions; NDXBOOK's approval/publishing state untouched). `api/admin/site00-evolve.ts` adds `commercial_catalog` / `commercial_state` (GET) and `commercial_set_plan` / `commercial_mark_foundation_completed` (POST) actions. `src/site00/admin/services/evolveApi.ts` adds matching client calls. Admin `EvolveOrgPage.tsx` gets a new "COMMERCIAL" panel (plan, Foundation, entitlements) — separate from client-facing context, no billing secrets exposed. Client `ProjectDetailPage.tsx` surfaces current plan + Foundation state truthfully (no fake usage metering — shows "USAGE METERING NOT YET AVAILABLE" style truthful state instead of fabricating "12 of 16 assets used").
-
-- **Public pricing page:** New route `/evolve/plans` (`shared/site00-access/routes.ts` → `site00ProjectCommercialRoute()`, `src/site00/config/routes.ts`, `src/routes/Site00Routes.tsx`) rendering `src/site00/pages/evolve/EvolveCommercialPage.tsx` inside the existing `Site00PublicShell` — Foundation, then Essential/Growth(recommended)/Studio/Private progression, then Project Services, then Paid Media — using only the canonical catalog (no hardcoded duplicate pricing in components) and existing SITE 00 visual system (no redesign). No fake checkout — plan/service selection uses truthful non-transactional CTAs.
-
-- **Studio World boundary preserved:** EVOLVE STUDIO is a plan-tier name only; no runtime/org-identity merge with Studio World's `PRODUCTION_INFRASTRUCTURE` boundary.
-
-- **Visual QA:** Used Playwright with `addInitScript` to inject the immersive-loader-skip `sessionStorage` keys (bypassing the cinematic loader for automated screenshots), verified `/evolve/plans` at 375/390/430/640/1024/1440+ with zero horizontal overflow. Temporary QA scripts (`scripts-tmp-shot.mjs`, `scripts-tmp-overflow-check.mjs`) were deleted before commit — not part of the repo.
-
-- **Tests/build:** 444 tests PASS (31 files, incl. new `catalog.test.ts`, `entitlements.test.ts`, `foundationQualification.test.ts`, `commercialState.test.ts` covering canonical pricing, paid-media higher-of calc, Foundation states, entitlement capacity, governance separation, and project-boundary non-fabrication). `tsc --noEmit` clean. Build PASS. No Stripe products created, no live charges, no emails, no deploy.
-
-- **Branch:** Merged via PR #193 (`cursor/evolve-commercial-pricing-architecture-1983` → `main`).
-
----
-
 ## 2026-08-21 — Identity + Builder intake persistence, guest access & retrieval (infrastructure sprint)
 
 - **Context:** Founder-specified infrastructure sprint (not a visual redesign). Identity and Builder intakes only ever persisted to `localStorage` — no server draft, no resume-by-email, no client/admin retrieval, no submission receipt, no lineage to downstream engagement/project. Explicitly out of scope: email art direction (placeholders only), deploy, real email sends, and any change to Frontal Slayer/Studio World/AIO/NDXBOOK/EVOLVE/Email Family 01.
@@ -2331,48 +2241,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 ---
 
----
-
-## 2026-08-21 — NDX BOOK three-direction Creative Direction reference-locked production cleanup + FAL pipeline
-
-- **Context:** Founder attached three approved reference boards (Editorial Utility / signal lime, Index Signal / electric cobalt, Kinetic Field / rose-orange-purple motion) and asked Sonnet to reconstruct the *visual systems* implied by each — not just palettes — using a new reference-to-production methodology, classify NDX BOOK's brand-expression context, and prove the system via a FAL asset pipeline with composite mapping. Repeated "send the conclusion in a code box" prompts across turns; this turn finished the outstanding implementation (Kinetic Field renderer) and ran real visual QA before returning the final conclusion.
-
-- **Methodology formalized:** `docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md` — `BrandExpressionContext` classification (`SOCIAL_FIRST_EDITORIAL` for ndxbook, set in `intelligenceBrief.ts`'s `synthesizeCreativeBrief`), mandatory reference decomposition manifest (`docs/studio-world/ndxbook/NDXBOOK_CD_REFERENCE_DECOMPOSITION.md`), `CODE_NATIVE` vs `GENERATED_ASSET` vs `HYBRID_COMPOSITION` decision rules, FAL production pipeline (fidelity modes, background-treatment declaration), and mandatory composite mapping (desktop + independently recomposed mobile, via CSS custom properties + media query in `HybridAssetLayer`).
-
-- **Assets:** 6 real FAL-generated assets via `fal-ai/nano-banana-pro` (+ `fal-ai/birefnet/v2` background removal for 3 of them), stored as static `.webp` in `public/site00/creative-direction/ndxbook/`, registered with full provenance + composite maps in `api/_lib/site00Evolve/creativeDirection/generatedAssets.ts`. One asset (`is_scan_hero`) went through 2 real regeneration cycles after visual inspection rejected an early candidate (baked-in HUD/lens-flare overlay, wrong tone, unwanted person) — genuine reject/regenerate loop, not just a technical pass.
-
-- **Renderers rewritten** (all three, each now with 9–10 new behavior/motion-principle specimens beyond the pre-existing set): `EditorialUtilityTerritoryView.tsx` (signal lime `#D6FF3B`, 9 editorial branches: burn page/receipts/margin notes/list/file/insert/redaction/centerfold/back page), `IndexSignalTerritoryView.tsx` (electric cobalt `#2457F7`, 9 signal behaviors: pulse/readout/pattern/scan/forecast/alert/transmission/coordinate/projection), `KineticFieldTerritoryView.tsx` (rose/orange/deep-purple `#FF2E7E`/`#FF7A2E`/`#5B21B6`, 10 motion principles: push/pull/ripple/collision/current/trajectory/build/break/aftermath/momentum). `territories.ts` specimen-type arrays expanded to match; `types.ts` extended with the new specimen-type unions plus `BackgroundTreatment`, `AssetClassification`, `FidelityMode`, `CompositeMap`, `SpecimenImageAsset`. `SpecimenFrame.tsx` gained `HybridAssetLayer` (renders GENERATED/HYBRID images with independent desktop/mobile composite recomposition) and `AssetProvenanceTag`; `paletteFromGrayscale` made generic so palettes with extra accent keys (`accent2`/`accent3` for Kinetic) type-check.
-
-- **Visual QA this turn:** Built a temporary unauthenticated preview route + Playwright script (both removed after use — not committed) to screenshot all three renderers at 375/390/430/640/1024/1440px. Confirmed **zero horizontal overflow at every breakpoint**, confirmed the three directions are visually distinct (lime/black/white editorial vs cobalt/graphite signal vs dark rose-orange-purple kinetic), and confirmed the 6 FAL hero/prop images composite correctly with SVG overlays via `HybridAssetLayer`. Full suite 507/507 PASS, `tsc --noEmit` clean, build PASS after every change.
-
-- **Known gaps (reported honestly, not glossed over):** No reference-conditioned FAL generation was used (attached founder images weren't available as files to the model this session — used detailed text-to-image prompts derived from visual inspection instead, `DIRECTED_VARIATION` fidelity). Only 6 of many possible specimens have real FAL imagery; the rest are intentionally `CODE_NATIVE` SVG (by design per the code-vs-generated decision rules, not a shortcut). Carousel/Stories/Reels social-first proof exists as individual specimen types within each renderer, not yet as a dedicated swipeable/sequential UI. No direction was marked founder-approved in system state — these remain `PROPOSED`/`GENERATED`, per governance.
-
-- **Conventions:** Never generate everything through FAL or recreate everything in CSS — decide per-component. Every `HYBRID_COMPOSITION`/`GENERATED_ASSET` needs an explicit composite map with independently authored (not proportionally shrunk) mobile placement. Reject-and-regenerate is normal production, not failure — document it. Visual QA (real screenshots at real breakpoints) is mandatory before declaring a Creative Direction pass complete; tests/build passing is necessary but not sufficient.
-
----
-
-## 2026-08-21 — Core Direction Formation + Controlled Expansion methodology (Stage A/B gating), applied to NDX BOOK
-
-- **Context:** Immediately after the NDX BOOK three-direction Creative Direction sprint above, the founder issued a standing methodology directive: **"Do not design the entire brand world before the core creative idea has been proven."** It mandates two non-collapsible stages — Stage A (Direction Formation: brand context classification, three conceptually distinct Core Direction Boards, Founder Core-Direction Gate) and Stage B (Direction Expansion: DNA extraction, controlled branch expansion with mandatory lineage declarations, a seven-question lineage test, channel translation, production expansion) — with "expansion freedom LOW before core approval, HIGH after, concept-drift tolerance always LOW." NDX BOOK was named as the validation example; the directive is explicitly universal for all future SITE 00/Studio World creative work, not NDX-specific.
-
-- **Key discovery:** The existing `CreativeDirectionEngagement` architecture (`api/_lib/site00Evolve/creativeDirection/`) already implemented ~90% of this gating model under different names — `CreativeDirectionLifecycle` (PROPOSED/UNDER_REVIEW/REVISION_REQUESTED/SELECTED/APPROVED), a founder-decision UI (APPROVE/REFINE/HYBRIDIZE/REJECT in `CreativeDirectionExperience.tsx`), and `VisualDnaContract` promotion gated strictly behind an `APPROVE` decision (`visualDnaContract.ts` / `engagementService.ts`), with `Page001ReadinessGate` blocked until DNA is `APPROVED`. Rather than rename/rebuild this (would break many existing tests/consumers), formalized the founder's exact vocabulary as an **additive derived layer**.
-
-- **New code:** `types.ts` gained `CoreDirectionDefinition` (bigIdea/oneLineThesis/brandConnection/culturalReference/emotionalPromise/visualMetaphor/governingBehavior/materialImageryLanguage/typographicAttitude/coreColorLogic/signatureDevices/primaryBrandArtifact/proprietaryQuality/antiDirection), `CoreDNA` (conceptRules/visualRules/compositionRules/imageRules/materialRules/typographyRules/colorRules/motionRules/contentBehavior/signatureDevices/prohibitedDrift), `BranchLineageDeclaration` + `BranchLineageTest` (the 7 founder questions as explicit booleans) + `branchPassesLineageTest()`, `CoreDirectionGateStatus` + `coreDirectionGateStatus()` (maps existing lifecycle → founder vocabulary; `SELECTED` stays `CORE_DIRECTION_PENDING` since DNA isn't locked), and `expansionFreedomFor()` (LOW pre-approval, HIGH post-approval, drift tolerance always LOW). `CreativeTerritory` gained `coreDirection` + `branchLineage` fields; `VisualDnaContract` gained `conceptDna: CoreDNA | null`, populated only inside `promoteVisualDnaToApproved()` (now takes the territory) via new `extractCoreDna()` in `coreDirection.ts` — never speculatively.
-
-- **NDX BOOK retrofit:** New `coreDirectionDefinitions.ts` formally authors a full `CoreDirectionDefinition` for all three territories (Editorial Utility/`ANNOTATION`/Burn-Book ancestor, Index Signal/`SCANNING`/instrumentation ancestor, Kinetic Field/`MOVEMENT`/physics ancestor) and retroactively documents **all 28 already-built branches** (9 + 9 + 10) as `BranchLineageDeclaration`s, each answering the 7-question lineage test — every one passes. Wired into `territories.ts` so every territory carries `coreDirection`/`branchLineage` end-to-end through the API payload (no extra plumbing needed — the admin/site00-evolve endpoint serializes the engagement object directly).
-
-- **Governance honesty:** None of NDX BOOK's three directions has reached `CORE_DIRECTION_APPROVED` — all sit at `CORE_DIRECTION_PENDING`, `conceptDna` is `null` for all three, expansion freedom is `LOW`. Explicitly flagged in the new methodology doc that the 28 branches were built *before* formal Stage A founder approval (prior sprint), which the new methodology says should not happen going forward — nothing was reverted, but future branch work must wait for `CORE_DIRECTION_APPROVED` per direction.
-
-- **Frontend:** `CreativeDirectionExperience.tsx` now renders a "CORE DIRECTION BOARD" panel (big idea, one-line thesis, cultural reference, visual metaphor, governing behavior, emotional promise, primary artifact, proprietary quality, signature devices, anti-direction) and a "BRANCH LINEAGE — STAGE B" panel per territory, plus a gate-status badge (`coreDirectionGateLabel()`), inside the existing territory-detail view (new CSS in `site00-creative-direction.css`). This makes the Founder Core-Direction Gate concretely reviewable in-product, not just documented.
-
-- **Docs:** New `docs/site00/CORE_DIRECTION_METHODOLOGY.md` — the full two-stage methodology, the lifecycle→gate-status mapping table, and the NDX BOOK validation example with an explicit process note about the pre-approval branch-expansion gap. Cross-referenced from the top of the existing `docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md` (that doc governs asset production once a direction IS being produced; the new doc governs sequencing/gating — when a direction may exist or expand at all).
-
-- **Testing:** New `api/_lib/site00Evolve/creativeDirection/coreDirectionMethodology.test.ts` (15 tests) validates: Core Direction Boards are fully populated and conceptually distinct across all 3 territories; every one of the 28 branch declarations passes the lineage test; Index Signal/Kinetic Field have their own branch names (not copies of Editorial Utility); gate starts `CORE_DIRECTION_PENDING` with `conceptDna` null; expansion freedom is `LOW` pre-approval; on a real `APPROVE` decision, gate flips to `CORE_DIRECTION_APPROVED`, `conceptDna` is extracted with all 11 `CoreDNA` fields populated, and expansion freedom flips to `HIGH`; `REFINE`/`REJECT` never advance past `CORE_DIRECTION_REVISION_REQUESTED`; `HYBRIDIZE` (`SELECTED`) stays `CORE_DIRECTION_PENDING` with DNA `PROPOSED`-not-locked. Full suite 522/522 PASS (was 507; +15 new), `tsc --noEmit` clean, production build PASS.
-
-- **Conventions:** This is now the standing sequencing methodology for **all** future SITE 00/Studio World creative work (not NDX-specific) — first find the world (Stage A, LOW freedom), then prove it (Core Direction Board), then lock its DNA (Founder Core-Direction Gate → `CORE_DIRECTION_APPROVED` only), then let it expand (Stage B, HIGH freedom but every branch must pass the 7-question lineage test). Never populate `conceptDna`/DNA extraction speculatively before approval. Extend the founder-vocabulary mapping (`coreDirectionGateStatus`) rather than renaming the underlying lifecycle enum when adding gate semantics to existing engagements.
-
----
-
 ## 2026-08-21 — AIO project restoration verification + Projects subtitle copy
 
 - **Context:** Founder sprint to restore **All In One Enterprises Inc (AIO)** to the SITE 00 Projects page via canonical project architecture (not frontend mock). Forensic audit required before changes; no EVOLVE enrollment, intake fabrication, or unrelated project regressions.
@@ -2410,31 +2278,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/identity-builder-brand-lore-1983`. PR opened, **not merged** (founder instruction).
 
 - **Conventions:** Raw founder answers stay in intake `loreAnswers`; synthesized profile is separate with per-field provenance (`RAW_FOUNDER_INPUT`, `FOUNDER_CONFIRMED`). Never auto-confirm AI synthesis. NDXBOOK canon unchanged. Builder must not re-ask Identity lore fields listed in `BUILDER_INHERITED_LORE_FIELDS`.
-
----
-
-## 2026-08-21 — Brand Lore semantic multi-selection + compound identity intelligence
-
-- **Context:** NDX BOOK calibration QA exposed intelligence-loss defect: `role` and other lore questions behaved as single-select when multiple answers can coexist. Sprint upgrades question model at data-contract level — brand-agnostic, no NDX hardcoding.
-
-- **Forensic audit:** `role` was `type: 'single'` in question registry; synthesis used `strAnswer()` flattening role to scalar; `audienceRelationship` was `BrandLoreField<string>`. UI (`IdentityLoreStepForm`) already supported multi toggle when `type: 'multi'` but role was mis-typed. No `ProjectLoreCalibrationPage` exists — Identity lore routes at `/idnty/:slug/world/:stepId`. ProjectLoreCalibration not in repo.
-
-- **Implementation:**
-  - `LoreResponseMode`: SINGLE_SELECT | MULTI_SELECT | RANKED_MULTI_SELECT | FREE_TEXT on every question definition
-  - `role` → MULTI_SELECT; feeling, enemy, contradiction, objects, ritual remain MULTI; status stays SINGLE; free-text questions explicit FREE_TEXT
-  - `shared/site00-brand-lore/loreAnswerTypes.ts` — normalization, serialization, compound label formatting, backward-compat scalar→array migration
-  - `audienceRelationship` → `BrandLoreField<string[]>` with `sourceSelectionIds` per option provenance
-  - Synthesis uses compound select fields — all selections preserved as label arrays, no flattening to first/last
-  - Founder confirmation invalidated when underlying selections change (`priorProfile` compare in synthesis)
-  - WHAT WE HEARD uses ` + ` compound presentation with resolved option labels
-  - Removed NDXBOOK readiness gate bypass — gate enforced whenever Brand Lore profile exists
-  - UI: selection guidance copy, SELECTED marker on multi-select rows
-
-- **Tests:** 20 new `loreAnswerTypes.test.ts` cases. **558/558 PASS**. Build PASS. Browser QA on role multi-select at 390px.
-
-- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR opened, not merged.
-
-- **Conventions:** Question definition owns `responseMode` — never infer from option count. Multi-select persists as JSON arrays in `loreAnswers` / `rawLoreAnswers`. Do not comma-delimit or flatten before persistence.
 
 ---
 
@@ -2564,6 +2407,166 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 ---
 
+## 2026-08-22 — Project lore calibration resume on refresh
+
+- **Symptom:** Founder on cloud preview tunnel — refreshing `/projects/ndxbook/calibrate` restarted at step 1 despite saved progress.
+
+- **Root cause:** `ProjectLoreCalibrationFlow` always reset `stepIndex` to 0 on load even though API returns `brandLoreCalibrationAnswers` from server `rawLoreAnswers`. In-progress selections before CONTINUE were also lost (no local draft).
+
+- **Fix:** `resolveProjectLoreCalibrationStepIndex()` in `adaptivity.ts` resumes at first step without a server answer; `projectLoreCalibrationResume.ts` persists step + draft to `localStorage` on every change and merges on reload; clears on completion. Flow waits for resume hydration before rendering steps.
+
+- **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
+
+## 2026-09-14 — Blueprint retry strip visibility v444 (legacy twin + dual mount)
+
+- **Founder report:** Blue **RETRY LIGHT BLUEPRINT** strip still not visible after twin pair (v442/v443).
+- **Cause:** `showRetryStrip` required `styleContractId` / `LIGHT_TECHNICAL` on blueprint artifact; legacy FAL rows + slot hydration misses hid the CTA. Strip was only below long founder-path stack.
+- **Fix:** `resolveBlueprintRetryTwinPair` + `evaluateBlueprintLightStyleRetryFromPipeline`; show when **NBP locked / Method A** + twin URIs exist; strip moved **directly under R5F2 recovery strip** (sticky); same block **embedded under GENERATE MOBILE TWIN PACKAGE** in locked provider panel. Build **v444**.
+
+---
+## 2026-09-14 — Design page boot recovery v443 (process.env + error boundaries)
+
+- **Founder report:** Design page not booting correctly again on fsbw-dev (white / crash pattern similar to v438).
+- **Cause:** New blueprint retry / style-anchor path called **`process.env` in client-shared code** (`resolveLightBlueprintStyleReference`, `resolveMobileTwinPublicAssetUrl`) — **`ReferenceError: process is not defined`** in Vite/browser can white-screen the whole authority panel. Package inspector could also throw on missing `compositionHash` / jobId slices.
+- **Fix:** `readSite00OptionalEnv()` (import.meta + safe globalThis.process); public asset URL resolver uses it; sync wrapped in **`syncPilotSessionSafe`** on initial state + mount; **`DesignPageV3SectionErrorBoundary`** around batch-1 authority + mobile twin stack; defensive optional chaining in package inspector. Build **v443**. Tests **`designPageV3MobileTwinBoot.test.ts`**.
+
+---
+## 2026-09-14 — Blueprint light retry strip visible on Design (v442)
+
+- **Founder report:** Session-close guidance (“RETRY LIGHT BLUEPRINT if dark”) not visible on fsbw-dev Design — button only rendered when automated `blueprintNeedsLightStyle` fired; real FAL blueprint URLs often **PASS** receipt heuristics (UNKNOWN background) so CTA stayed hidden below fold in pipeline panel.
+- **Fix:** `evaluateBlueprintLightStyleRetry()` + **`DesignPageV3MobileTwinBlueprintRetryStrip`** (blue card under **MOBILE TWIN PROVIDER · LOCKED**) shows **RETRY LIGHT BLUEPRINT** whenever light-contract twin pair exists; urgent copy when receipt/status fails contract; optional style-anchor hint (`VITE_SITE00_LIGHT_BLUEPRINT_STYLE_REFERENCE_URL` / Railway secret). Pipeline panel uses same helper (retry button always when pair ready). Build **v442**. Tests **`p0vrTwinV30BlueprintRetryUx.test.ts`**.
+
+---
+## 2026-09-14 — R7MF3P7 Mobile Twin Package Inspector + artifact hydration (v441)
+
+- **Context:** Mobile Twin reaches **FOUNDER_REVIEW_READY** with structured package artifacts in `artifactsById`, but **PACKAGE** tab only showed three images + provider debug — founder could not inspect composition, blueprint, object/asset/function maps, ownership, traceability, or validation receipts.
+- **Delivered (review UX only — no regen/routing):** `hydrateMobileTwinPackageInspector()`, `buildMobileTwinPackageIntegrityReceipt()` + **`PACKAGE_ARTIFACT_MISSING`**, `requestMobileTwinPackageCorrection()`; **`DesignPageV3MobileTwinPackageInspector`** (stacked sections, accordions, gaps, approval readiness, approve/correction CTAs, raw JSON under **TECHNICAL DETAILS** only); **PACKAGE** tab in **`DesignPageV3MobileTwinPipelinePanel`** mounts inspector instead of 3-up grid; mobile CSS in **`site00-twin-v3-design-authority.css`**. Lineage **`P0_VR_TWIN_V30R7MF3P7_LINEAGE`**, build **v441**. Tests **`p0vrTwinV30R7MF3P7.test.ts`** (21). P6F1 light blueprint retry unchanged.
+
+---
+## 2026-09-13 — P0.VR.TWINV3.0R6 derivation pipeline + GENERATE DERIVATIVES (v412)
+
+- **Delivered:** `runDesignWorkspaceDerivation` orchestrator from locked R5F2 pair → StructuralBlueprint, SurgicalObjectMap, feature bindings (29), CanonicalAssetManifest, FunctionBindingMap, ownership/responsive/typography/state/interaction/primitive contracts, ReverseTraceabilityMap, CompilerReadinessReceipt, `DesignWorkspaceImplementationPackage`. **GENERATE DERIVATIVES** button runs pipeline (LOCAL_COMPILER, **falJobsDispatched: 0**); idempotent reuse; button state machine (GENERATING / REVIEW DERIVATIVES). UI: `DesignPageV3DerivationReviewPanel`. Tests **`p0vrTwinV30R6.test.ts`**. Build **v412**. No auto live React build.
+
+---
+## 2026-09-13 — R5F2 mobile recovery strip (v411)
+
+- **Founder report:** On **site00.fsbw-dev.com** mobile, did not see promised LOCKED / GENERATE DERIVATIVES UI — only dense header text and PAIR REVIEW after scroll; **GENERATE DERIVATIVES** lived inside collapsed **AUTHORITY PAIR · tap to manage** dock (desktop-only dock visible ≥720px).
+- **Fix:** `DesignPageV3AuthorityRecoveryStrip` — lime card under header with explicit LOCKED / FOUNDER APPROVED / DERIVATION READY rows + full-width **GENERATE DERIVATIVES** (`data-testid=v3-generate-derivatives-mobile-primary`); auto-expand mobile dock when R5F2 receipt PASS + pair locked; toggle label **LOCKED · show dock**. Build **v411**.
+
+---
+## 2026-09-13 — P0.VR.TWINV3.0R5F2 founder authority injection + derivation unblock (v410)
+
+- **Context:** R5/R5F1 pipeline existed but broken gallery img display blocked in-product pair lock; founder attached **exact** approved mobile + desktop JPG masters for NDXBOOK (no FAL regen).
+- **Delivered:** Founder JPGs in `public/.../founder-r5f2-ndxbook/` (SHA256 pinned); `applyOneTimeFounderAuthorityInjection` + `FounderAuthorityInjectionReceipt` + asset records; extended deterministic `computePairChecksum` (ids, hashes, context, manifest, pairVersion); auto **PAIR_LOCKED** with `FOUNDER_AUTHORIZED_RECOVERY`, `TRANSLATION`, `NONE`; `deriveDesignWorkspacePackage` entrypoint (validates, no auto-dispatch); `applyFounderR5F2RecoveryIfNeeded` on NDXBOOK design panel mount; UX: FOUNDER APPROVED labels, **GENERATE DERIVATIVES** primary when derivation READY, no lock button after recovery; **`AUTHORITY_IMAGE_DISPLAY_BROKEN`** issue stays OPEN. Tests **`p0vrTwinV30R5F2.test.ts`** (16). Build **v410**.
+
+---
+## 2026-08-19 — Origin desktop hero copy spacing (desktop only)
+
+- **Request:** Desktop Origin — (1) SITE 00 header text down 2px, (2) “STARTS HERE.” same line as line above, (3) origin point line down 6px.
+- **Changes:** `site00-desktop-artboard.css` — logo mark `margin-top: 2px`; coordinate `margin-top: 26px` (was 20px). `OriginPage.tsx` — desktop merges description2+3 into one line; mobile unchanged.
+- **PR #15:** `cursor/origin-desktop-hero-copy-796f`
+
+---
+## 2026-08-19 — Merge conflict triage (mobile GitHub workflow + loader PRs)
+
+- **Context:** Founder merging from GitHub mobile app hit "Unable to merge — conflicts must be resolved." Requested conflict review after fetching latest `main`.
+- **Simple (fixed):** **PR #33** (`cursor/mobile-loader-regression-lock-4a83`) — only `package.json`: both branches added different npm scripts. Resolved by keeping **both** `strip:loader-audio` (main) and `verify:loader-mobile` (branch). Pushed; PR mergeable.
+- **Complicated (not auto-fixed):**
+  - **PR #30** — presentation-architecture + loader overhaul vs main’s loader/audio/desktop-preview changes; **11 files** (loader boot, routes, Origin/Public shells, `Site00Context`, `OriginPage`). Conflicting intents — needs manual design pass or rebase onto main.
+  - **PR #15, #13, #5** — older Enter/Origin bg/copy tweaks; conflict with later artboard/shell work on main. Likely **superseded** — close or cherry-pick if still needed.
+- **Already clean:** **PR #29**, **#28**, **#2** mergeable with main without conflicts.
+- **Deploy reminder:** merge to `main` does not update site00.com until GoDaddy deploy (Actions artifact/ZIP or FTP).
+
+---
+## 2026-08-21 — EVOLVE commercial productization + canonical pricing architecture
+
+- **Context:** EVOLVE had no canonical commercial/pricing layer — no service catalog, no plan concept, no Foundation/entitlement model, no billing readiness. Task: productize EVOLVE's existing governed workflow (Content Brain → Creative Direction → Visual DNA → campaign → assets → approval → distribution → performance) into a coherent paid-service architecture, without redesigning SITE 00, inventing services, faking checkout, or assigning fabricated billing to founder projects.
+
+- **Audit first:** Confirmed no prior EVOLVE pricing existed anywhere in the repo (no Stripe, no checkout, no subscription/entitlement model, no conflicting legacy pricing to migrate) — this was a greenfield commercial layer, not a migration.
+
+- **Canonical catalog (new `shared/site00-evolve-commercial/`):** `types.ts` defines the domain model (`EvolveBillingType`, `EvolvePriceQualifier`, plan/service IDs, `EvolveCommercialState`, etc.) with `priceCents` integer pricing and an optional `providerRef` (Stripe-ready but no IDs invented). `catalog.ts` is the single source of truth: `EVOLVE_FOUNDATION` ($1,500 one-time), `EVOLVE_RECURRING_PLANS` (Essential $1,250/mo, Growth $2,500/mo **recommended**, Studio $4,500/mo, Private from $7,500/mo `customScopeRequired`), `EVOLVE_PROJECT_SERVICES` (Creative Direction Intensive $1,500, Content Sprint from $1,250, Launch Campaign from $2,500, Campaign World from $4,000, Visual DNA Refresh from $750), `EVOLVE_PAID_MEDIA_SERVICE` ($750/mo min OR 15% of spend, whichever greater, `computePaidMediaFeeCents()`, ad spend explicitly separate). `formatEvolvePrice()` renders canonical display strings (`FROM $7,500 / MONTH`, never `$7.5k`).
+
+- **Foundation ↔ Identity qualification (new `api/_lib/site00Evolve/commercial/foundationQualification.ts`):** Server-side-only determination (never frontend) of `FOUNDATION_REQUIRED` / `FOUNDATION_WAIVED_WITH_CANONICAL_INTELLIGENCE` / `FOUNDATION_COMPLETED` by inspecting existing `MarketingProfileRow` + Content Brain canonical intelligence (positioning, audience, brand voice, objectives) — references existing intelligence, never duplicates it.
+
+- **Commercial state ≠ operational state (new `commercialState.ts`, `governedActions.ts`):** `resolveEvolveCommercialState(orgSlug)` aggregates applicability (`BILLABLE_CLIENT` / `INTERNAL_NON_BILLING` / `NOT_APPLICABLE`), active plan, Foundation status, entitlements, and paid-media status — strictly separate from Creative Direction / Visual DNA / publishing governance (tests assert plan selection never approves CD/Visual DNA/Page 001 and never enables publishing). `setEvolveCommercialPlan()` / `markEvolveFoundationCompleted()` are the only founder-controlled writes, persisted via a new `metadata.commercial` JSONB field on `MarketingProfileRow` (no migration needed) — wired through `storeAdapter.ts` → `memoryStore.ts` / `supabaseStore.ts` (`updateProfileCommercialMetadata`).
+
+- **Entitlements (new `entitlements.ts`):** Per-plan capacity (channel limit, asset capacity range) as informational-only guidance; explicitly does not gate publishing/provider-readiness/approval (regression-tested by scanning imports for forbidden governance-module references).
+
+- **Wiring:** `projectResolver.ts` adds a `commercial` field to `Site00ProjectDetail` (computed, not stored per-project — Frontal Slayer/Studio World/AIO stay `NOT_APPLICABLE`/`INTERNAL_NON_BILLING`, no fabricated subscriptions; NDXBOOK's approval/publishing state untouched). `api/admin/site00-evolve.ts` adds `commercial_catalog` / `commercial_state` (GET) and `commercial_set_plan` / `commercial_mark_foundation_completed` (POST) actions. `src/site00/admin/services/evolveApi.ts` adds matching client calls. Admin `EvolveOrgPage.tsx` gets a new "COMMERCIAL" panel (plan, Foundation, entitlements) — separate from client-facing context, no billing secrets exposed. Client `ProjectDetailPage.tsx` surfaces current plan + Foundation state truthfully (no fake usage metering — shows "USAGE METERING NOT YET AVAILABLE" style truthful state instead of fabricating "12 of 16 assets used").
+
+- **Public pricing page:** New route `/evolve/plans` (`shared/site00-access/routes.ts` → `site00ProjectCommercialRoute()`, `src/site00/config/routes.ts`, `src/routes/Site00Routes.tsx`) rendering `src/site00/pages/evolve/EvolveCommercialPage.tsx` inside the existing `Site00PublicShell` — Foundation, then Essential/Growth(recommended)/Studio/Private progression, then Project Services, then Paid Media — using only the canonical catalog (no hardcoded duplicate pricing in components) and existing SITE 00 visual system (no redesign). No fake checkout — plan/service selection uses truthful non-transactional CTAs.
+
+- **Studio World boundary preserved:** EVOLVE STUDIO is a plan-tier name only; no runtime/org-identity merge with Studio World's `PRODUCTION_INFRASTRUCTURE` boundary.
+
+- **Visual QA:** Used Playwright with `addInitScript` to inject the immersive-loader-skip `sessionStorage` keys (bypassing the cinematic loader for automated screenshots), verified `/evolve/plans` at 375/390/430/640/1024/1440+ with zero horizontal overflow. Temporary QA scripts (`scripts-tmp-shot.mjs`, `scripts-tmp-overflow-check.mjs`) were deleted before commit — not part of the repo.
+
+- **Tests/build:** 444 tests PASS (31 files, incl. new `catalog.test.ts`, `entitlements.test.ts`, `foundationQualification.test.ts`, `commercialState.test.ts` covering canonical pricing, paid-media higher-of calc, Foundation states, entitlement capacity, governance separation, and project-boundary non-fabrication). `tsc --noEmit` clean. Build PASS. No Stripe products created, no live charges, no emails, no deploy.
+
+- **Branch:** Merged via PR #193 (`cursor/evolve-commercial-pricing-architecture-1983` → `main`).
+
+---
+## 2026-08-21 — NDX BOOK three-direction Creative Direction reference-locked production cleanup + FAL pipeline
+
+- **Context:** Founder attached three approved reference boards (Editorial Utility / signal lime, Index Signal / electric cobalt, Kinetic Field / rose-orange-purple motion) and asked Sonnet to reconstruct the *visual systems* implied by each — not just palettes — using a new reference-to-production methodology, classify NDX BOOK's brand-expression context, and prove the system via a FAL asset pipeline with composite mapping. Repeated "send the conclusion in a code box" prompts across turns; this turn finished the outstanding implementation (Kinetic Field renderer) and ran real visual QA before returning the final conclusion.
+
+- **Methodology formalized:** `docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md` — `BrandExpressionContext` classification (`SOCIAL_FIRST_EDITORIAL` for ndxbook, set in `intelligenceBrief.ts`'s `synthesizeCreativeBrief`), mandatory reference decomposition manifest (`docs/studio-world/ndxbook/NDXBOOK_CD_REFERENCE_DECOMPOSITION.md`), `CODE_NATIVE` vs `GENERATED_ASSET` vs `HYBRID_COMPOSITION` decision rules, FAL production pipeline (fidelity modes, background-treatment declaration), and mandatory composite mapping (desktop + independently recomposed mobile, via CSS custom properties + media query in `HybridAssetLayer`).
+
+- **Assets:** 6 real FAL-generated assets via `fal-ai/nano-banana-pro` (+ `fal-ai/birefnet/v2` background removal for 3 of them), stored as static `.webp` in `public/site00/creative-direction/ndxbook/`, registered with full provenance + composite maps in `api/_lib/site00Evolve/creativeDirection/generatedAssets.ts`. One asset (`is_scan_hero`) went through 2 real regeneration cycles after visual inspection rejected an early candidate (baked-in HUD/lens-flare overlay, wrong tone, unwanted person) — genuine reject/regenerate loop, not just a technical pass.
+
+- **Renderers rewritten** (all three, each now with 9–10 new behavior/motion-principle specimens beyond the pre-existing set): `EditorialUtilityTerritoryView.tsx` (signal lime `#D6FF3B`, 9 editorial branches: burn page/receipts/margin notes/list/file/insert/redaction/centerfold/back page), `IndexSignalTerritoryView.tsx` (electric cobalt `#2457F7`, 9 signal behaviors: pulse/readout/pattern/scan/forecast/alert/transmission/coordinate/projection), `KineticFieldTerritoryView.tsx` (rose/orange/deep-purple `#FF2E7E`/`#FF7A2E`/`#5B21B6`, 10 motion principles: push/pull/ripple/collision/current/trajectory/build/break/aftermath/momentum). `territories.ts` specimen-type arrays expanded to match; `types.ts` extended with the new specimen-type unions plus `BackgroundTreatment`, `AssetClassification`, `FidelityMode`, `CompositeMap`, `SpecimenImageAsset`. `SpecimenFrame.tsx` gained `HybridAssetLayer` (renders GENERATED/HYBRID images with independent desktop/mobile composite recomposition) and `AssetProvenanceTag`; `paletteFromGrayscale` made generic so palettes with extra accent keys (`accent2`/`accent3` for Kinetic) type-check.
+
+- **Visual QA this turn:** Built a temporary unauthenticated preview route + Playwright script (both removed after use — not committed) to screenshot all three renderers at 375/390/430/640/1024/1440px. Confirmed **zero horizontal overflow at every breakpoint**, confirmed the three directions are visually distinct (lime/black/white editorial vs cobalt/graphite signal vs dark rose-orange-purple kinetic), and confirmed the 6 FAL hero/prop images composite correctly with SVG overlays via `HybridAssetLayer`. Full suite 507/507 PASS, `tsc --noEmit` clean, build PASS after every change.
+
+- **Known gaps (reported honestly, not glossed over):** No reference-conditioned FAL generation was used (attached founder images weren't available as files to the model this session — used detailed text-to-image prompts derived from visual inspection instead, `DIRECTED_VARIATION` fidelity). Only 6 of many possible specimens have real FAL imagery; the rest are intentionally `CODE_NATIVE` SVG (by design per the code-vs-generated decision rules, not a shortcut). Carousel/Stories/Reels social-first proof exists as individual specimen types within each renderer, not yet as a dedicated swipeable/sequential UI. No direction was marked founder-approved in system state — these remain `PROPOSED`/`GENERATED`, per governance.
+
+- **Conventions:** Never generate everything through FAL or recreate everything in CSS — decide per-component. Every `HYBRID_COMPOSITION`/`GENERATED_ASSET` needs an explicit composite map with independently authored (not proportionally shrunk) mobile placement. Reject-and-regenerate is normal production, not failure — document it. Visual QA (real screenshots at real breakpoints) is mandatory before declaring a Creative Direction pass complete; tests/build passing is necessary but not sufficient.
+
+---
+## 2026-08-21 — Core Direction Formation + Controlled Expansion methodology (Stage A/B gating), applied to NDX BOOK
+
+- **Context:** Immediately after the NDX BOOK three-direction Creative Direction sprint above, the founder issued a standing methodology directive: **"Do not design the entire brand world before the core creative idea has been proven."** It mandates two non-collapsible stages — Stage A (Direction Formation: brand context classification, three conceptually distinct Core Direction Boards, Founder Core-Direction Gate) and Stage B (Direction Expansion: DNA extraction, controlled branch expansion with mandatory lineage declarations, a seven-question lineage test, channel translation, production expansion) — with "expansion freedom LOW before core approval, HIGH after, concept-drift tolerance always LOW." NDX BOOK was named as the validation example; the directive is explicitly universal for all future SITE 00/Studio World creative work, not NDX-specific.
+
+- **Key discovery:** The existing `CreativeDirectionEngagement` architecture (`api/_lib/site00Evolve/creativeDirection/`) already implemented ~90% of this gating model under different names — `CreativeDirectionLifecycle` (PROPOSED/UNDER_REVIEW/REVISION_REQUESTED/SELECTED/APPROVED), a founder-decision UI (APPROVE/REFINE/HYBRIDIZE/REJECT in `CreativeDirectionExperience.tsx`), and `VisualDnaContract` promotion gated strictly behind an `APPROVE` decision (`visualDnaContract.ts` / `engagementService.ts`), with `Page001ReadinessGate` blocked until DNA is `APPROVED`. Rather than rename/rebuild this (would break many existing tests/consumers), formalized the founder's exact vocabulary as an **additive derived layer**.
+
+- **New code:** `types.ts` gained `CoreDirectionDefinition` (bigIdea/oneLineThesis/brandConnection/culturalReference/emotionalPromise/visualMetaphor/governingBehavior/materialImageryLanguage/typographicAttitude/coreColorLogic/signatureDevices/primaryBrandArtifact/proprietaryQuality/antiDirection), `CoreDNA` (conceptRules/visualRules/compositionRules/imageRules/materialRules/typographyRules/colorRules/motionRules/contentBehavior/signatureDevices/prohibitedDrift), `BranchLineageDeclaration` + `BranchLineageTest` (the 7 founder questions as explicit booleans) + `branchPassesLineageTest()`, `CoreDirectionGateStatus` + `coreDirectionGateStatus()` (maps existing lifecycle → founder vocabulary; `SELECTED` stays `CORE_DIRECTION_PENDING` since DNA isn't locked), and `expansionFreedomFor()` (LOW pre-approval, HIGH post-approval, drift tolerance always LOW). `CreativeTerritory` gained `coreDirection` + `branchLineage` fields; `VisualDnaContract` gained `conceptDna: CoreDNA | null`, populated only inside `promoteVisualDnaToApproved()` (now takes the territory) via new `extractCoreDna()` in `coreDirection.ts` — never speculatively.
+
+- **NDX BOOK retrofit:** New `coreDirectionDefinitions.ts` formally authors a full `CoreDirectionDefinition` for all three territories (Editorial Utility/`ANNOTATION`/Burn-Book ancestor, Index Signal/`SCANNING`/instrumentation ancestor, Kinetic Field/`MOVEMENT`/physics ancestor) and retroactively documents **all 28 already-built branches** (9 + 9 + 10) as `BranchLineageDeclaration`s, each answering the 7-question lineage test — every one passes. Wired into `territories.ts` so every territory carries `coreDirection`/`branchLineage` end-to-end through the API payload (no extra plumbing needed — the admin/site00-evolve endpoint serializes the engagement object directly).
+
+- **Governance honesty:** None of NDX BOOK's three directions has reached `CORE_DIRECTION_APPROVED` — all sit at `CORE_DIRECTION_PENDING`, `conceptDna` is `null` for all three, expansion freedom is `LOW`. Explicitly flagged in the new methodology doc that the 28 branches were built *before* formal Stage A founder approval (prior sprint), which the new methodology says should not happen going forward — nothing was reverted, but future branch work must wait for `CORE_DIRECTION_APPROVED` per direction.
+
+- **Frontend:** `CreativeDirectionExperience.tsx` now renders a "CORE DIRECTION BOARD" panel (big idea, one-line thesis, cultural reference, visual metaphor, governing behavior, emotional promise, primary artifact, proprietary quality, signature devices, anti-direction) and a "BRANCH LINEAGE — STAGE B" panel per territory, plus a gate-status badge (`coreDirectionGateLabel()`), inside the existing territory-detail view (new CSS in `site00-creative-direction.css`). This makes the Founder Core-Direction Gate concretely reviewable in-product, not just documented.
+
+- **Docs:** New `docs/site00/CORE_DIRECTION_METHODOLOGY.md` — the full two-stage methodology, the lifecycle→gate-status mapping table, and the NDX BOOK validation example with an explicit process note about the pre-approval branch-expansion gap. Cross-referenced from the top of the existing `docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md` (that doc governs asset production once a direction IS being produced; the new doc governs sequencing/gating — when a direction may exist or expand at all).
+
+- **Testing:** New `api/_lib/site00Evolve/creativeDirection/coreDirectionMethodology.test.ts` (15 tests) validates: Core Direction Boards are fully populated and conceptually distinct across all 3 territories; every one of the 28 branch declarations passes the lineage test; Index Signal/Kinetic Field have their own branch names (not copies of Editorial Utility); gate starts `CORE_DIRECTION_PENDING` with `conceptDna` null; expansion freedom is `LOW` pre-approval; on a real `APPROVE` decision, gate flips to `CORE_DIRECTION_APPROVED`, `conceptDna` is extracted with all 11 `CoreDNA` fields populated, and expansion freedom flips to `HIGH`; `REFINE`/`REJECT` never advance past `CORE_DIRECTION_REVISION_REQUESTED`; `HYBRIDIZE` (`SELECTED`) stays `CORE_DIRECTION_PENDING` with DNA `PROPOSED`-not-locked. Full suite 522/522 PASS (was 507; +15 new), `tsc --noEmit` clean, production build PASS.
+
+- **Conventions:** This is now the standing sequencing methodology for **all** future SITE 00/Studio World creative work (not NDX-specific) — first find the world (Stage A, LOW freedom), then prove it (Core Direction Board), then lock its DNA (Founder Core-Direction Gate → `CORE_DIRECTION_APPROVED` only), then let it expand (Stage B, HIGH freedom but every branch must pass the 7-question lineage test). Never populate `conceptDna`/DNA extraction speculatively before approval. Extend the founder-vocabulary mapping (`coreDirectionGateStatus`) rather than renaming the underlying lifecycle enum when adding gate semantics to existing engagements.
+
+---
+## 2026-08-21 — Brand Lore semantic multi-selection + compound identity intelligence
+
+- **Context:** NDX BOOK calibration QA exposed intelligence-loss defect: `role` and other lore questions behaved as single-select when multiple answers can coexist. Sprint upgrades question model at data-contract level — brand-agnostic, no NDX hardcoding.
+
+- **Forensic audit:** `role` was `type: 'single'` in question registry; synthesis used `strAnswer()` flattening role to scalar; `audienceRelationship` was `BrandLoreField<string>`. UI (`IdentityLoreStepForm`) already supported multi toggle when `type: 'multi'` but role was mis-typed. No `ProjectLoreCalibrationPage` exists — Identity lore routes at `/idnty/:slug/world/:stepId`. ProjectLoreCalibration not in repo.
+
+- **Implementation:**
+  - `LoreResponseMode`: SINGLE_SELECT | MULTI_SELECT | RANKED_MULTI_SELECT | FREE_TEXT on every question definition
+  - `role` → MULTI_SELECT; feeling, enemy, contradiction, objects, ritual remain MULTI; status stays SINGLE; free-text questions explicit FREE_TEXT
+  - `shared/site00-brand-lore/loreAnswerTypes.ts` — normalization, serialization, compound label formatting, backward-compat scalar→array migration
+  - `audienceRelationship` → `BrandLoreField<string[]>` with `sourceSelectionIds` per option provenance
+  - Synthesis uses compound select fields — all selections preserved as label arrays, no flattening to first/last
+  - Founder confirmation invalidated when underlying selections change (`priorProfile` compare in synthesis)
+  - WHAT WE HEARD uses ` + ` compound presentation with resolved option labels
+  - Removed NDXBOOK readiness gate bypass — gate enforced whenever Brand Lore profile exists
+  - UI: selection guidance copy, SELECTED marker on multi-select rows
+
+- **Tests:** 20 new `loreAnswerTypes.test.ts` cases. **558/558 PASS**. Build PASS. Browser QA on role multi-select at 390px.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR opened, not merged.
+
+- **Conventions:** Question definition owns `responseMode` — never infer from option count. Multi-select persists as JSON arrays in `loreAnswers` / `rawLoreAnswers`. Do not comma-delimit or flatten before persistence.
+
+---
 ## 2026-08-22 — PR #201 merge conflict resolution (main into ndxbook CD branch)
 
 - **Branch:** `cursor/ndxbook-cd-reference-locked-production-4f59` (PR #201) merged `origin/main` after create-account/deploy sprint.
@@ -2575,7 +2578,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Complicated (coexist, not unified):** Two asset pipelines — main's `assetGeneration.ts` (Supabase manifest) vs branch's `generatedAssets.ts` (static webp + compositeMap). `territories.ts` uses static registry for `ndxbook` org only. Stale on-disk `generatedAssets/ndxbook.assets.json` (main page_001 brief keys) does not match branch priority briefs — manifest module retained but not wired into territory build.
 
 ---
-
 ## 2026-08-22 — Brand Lore multi-select incorporated into NDXBOOK CD branch
 
 - **Context:** Founder reported multi-selection still missing for NDXBOOK calibration (`role` / WHO ARE YOU IN THEIR WORLD?).
@@ -2585,19 +2587,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Key files:** `loreAnswerTypes.ts`, `idnty-lore-questions.ts`, `loreSynthesis.ts`, `IdentityLoreStepForm.tsx`, `IdentityCalibrationOptionRows.tsx`, `ProjectLoreCalibrationFlow.tsx`.
 
 ---
-
-## 2026-08-22 — Project lore calibration resume on refresh
-
-- **Symptom:** Founder on cloud preview tunnel — refreshing `/projects/ndxbook/calibrate` restarted at step 1 despite saved progress.
-
-- **Root cause:** `ProjectLoreCalibrationFlow` always reset `stepIndex` to 0 on load even though API returns `brandLoreCalibrationAnswers` from server `rawLoreAnswers`. In-progress selections before CONTINUE were also lost (no local draft).
-
-- **Fix:** `resolveProjectLoreCalibrationStepIndex()` in `adaptivity.ts` resumes at first step without a server answer; `projectLoreCalibrationResume.ts` persists step + draft to `localStorage` on every change and merges on reload; clears on completion. Flow waits for resume hydration before rendering steps.
-
-- **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
-
----
-
 ## 2026-08-22 — Calibration step counter reset (frozen session steps)
 
 - **Symptom:** Near end of calibration, progress jumped (e.g. 06/08 → 01/01) as if a different questionnaire; tunnel refresh landed on step 1 with total count 1.
@@ -2609,7 +2598,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
 
 ---
-
 ## 2026-08-22 — Merge origin/main into brand-lore semantic multi-select branch
 
 - **Context:** Founder requested merge conflict review on `cursor/brand-lore-semantic-multi-select-1983` vs latest `origin/main` (includes productionization, calibration resume, frozen session steps).
@@ -2623,7 +2611,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR #205 updated, not merged.
 
 ---
-
 ## 2026-08-22 — Builder inherited lore multi-select typing
 
 - **Context:** Post-merge follow-up — `BldrExperienceMobileStep` cast `audienceRelationship` as scalar `string` though Identity role is multi-select (`string | string[]`).
@@ -2631,7 +2618,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Added `BuilderInheritedLoreContext`, `parseBuilderInheritedLoreContext()`, and `formatInheritedAudienceRelationship()` in `bldr-experience-questions.ts`. Builder mobile step uses shared parser instead of inline cast. Tests 17b/17c cover scalar + compound role ids.
 
 - **Branch:** `cursor/brand-lore-semantic-multi-select-1983`.
-
 ## 2026-08-22 — Batch merge conflict resolution + #103 mobile routes
 
 - **#103 `fix-mobile-routes-bc8e`:** Merged `main`; kept legacy `/sign-in` + `/identity/*` aliases, IDNTY reserved slug guards, projects desktop redirect, public-page coverage. Uses main `IdntyMobileDiagnostic` + `site00CreateAccountLinkTarget`.
@@ -2639,7 +2625,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Prior batch:** #94–#15, #106–#107, #96–#99, #93, etc. — mostly MEMORY-only conflicts resolved.
 
 ---
-
 ## 2026-08-22 — Calibration stuck at 06/06 instead of 08/08
 
 - **Symptom:** Founder on NDXBOOK calibration step 6 saw **06/06** (contradiction tensions) instead of **06/08**; stale frozen sessions dropped `lineage` + `now` when REFERENCE domain partially satisfied by `objects` answer.
@@ -2649,7 +2634,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/calibration-full-eight-steps-4f59`.
 
 ---
-
 ## 2026-08-22 — Uppercase calibration and site input text (password exception)
 
 - **Symptom:** Lore/calibration textareas (e.g. NDXBOOK step 06/08 lineage) showed typed text in lowercase despite SITE 00 uppercase brand law.
@@ -2661,7 +2645,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/uppercase-input-fields-4f59`.
 
 ---
-
 ## 2026-08-22 — Calibration complete loop (save → redirect)
 
 - **Symptom:** On final calibration step (08/08), tapping **COMPLETE CALIBRATION** flashed **SAVING…** then reverted to **COMPLETE CALIBRATION** with no redirect back to Creative Direction.
@@ -2673,7 +2656,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/calibration-complete-redirect-4f59`.
 
 ---
-
 ## 2026-08-22 — Calibration option row layout shift on multi-select
 
 - **Symptom:** On multi-select lore steps (e.g. contradictions 08/08), selecting an option jumped label/icon positions — **SELECTED** in top-right corner, target icon dropped to bottom-left, rows grew taller; header **08 / 08** overlapped the red corner mark.
@@ -2685,7 +2667,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/calibration-option-layout-fix-4f59`.
 
 ---
-
 ## 2026-08-22 — Calibration banner persists after save (stale readiness + CTA logic)
 
 - **Symptom:** After completing all 8 calibration steps (answers saved; calibrate page shows selections), Creative Direction still showed **COMPLETE CALIBRATION** banner as if nothing saved.
@@ -2697,7 +2678,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/calibration-readiness-banner-fix-4f59`.
 
 ---
-
 ## 2026-08-22 — Creative Intelligence Infrastructure + Core Direction Reasoning Engine
 
 - **Context:** User requested Composer Foundation Sprint to build provider-neutral generative-reasoning layer between Brand Lore → Core Direction Formation → FAL Visual Production. Sprint ends at FINAL CORE DIRECTION BOARDS + VISUAL PROOF PLANS (no FAL invocation, no deploy, no founder approval changes).
@@ -2718,7 +2698,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/creative-intelligence-formation-4f59`.
 
 ---
-
 ## 2026-08-22 — Creative Intelligence Production Activation
 
 - **Context:** Productionize Creative Intelligence so NDX BOOK can perform first real Brand-Lore-driven Core Direction Formation with durable persistence and founder-facing presentation. No FAL, no approval changes, no deploy.
@@ -2735,7 +2714,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/creative-intelligence-production-activation-4f59`.
 
 ---
-
 ## 2026-08-22 — Live NDX BOOK Core Direction Formation activation (Railway deploy + Sonnet run)
 
 Summary of this cloud agent run through live formation completion.
@@ -2746,7 +2724,6 @@ Summary of this cloud agent run through live formation completion.
 - **Founder UI:** `PROPOSED_FORMATION` surface active; legacy INDEX SIGNAL / EDITORIAL UTILITY / KINETIC FIELD under `LEGACY_PROPOSED_EXPLORATION`.
 
 ---
-
 ## 2026-08-22 — Projects page hang fix (formation guard on index)
 
 - **Symptom:** `/projects` would not load after live CI activation — stuck on LOADING or timing out.
@@ -2754,7 +2731,6 @@ Summary of this cloud agent run through live formation completion.
 - **Fix (PR #229):** `getCreativeDirectionPayload(orgSlug, { runFormation: false })` for project index + command connections; cached single read per project resolve.
 
 ---
-
 ## 2026-08-22 — Projects page blank screen after LOADING PROJECTS
 
 - **Symptom:** `/projects` showed LOADING PROJECTS then white/blank screen (preview + production).
@@ -2762,7 +2738,6 @@ Summary of this cloud agent run through live formation completion.
 - **Fix (PR #230):** Skip loader on public hub paths; cloud preview skips cinematic loader; lightweight index resolver; defensive ProjectsPage fields.
 
 ---
-
 ## 2026-08-22 — Core Direction canonicalization + founder field mapping (PR #231)
 
 Summary of this cloud agent sprint through forensic reconciliation and canonical founder payload.
@@ -2774,7 +2749,6 @@ Summary of this cloud agent sprint through forensic reconciliation and canonical
 - **Tests:** 772 passing (+6 new canonical/field contract tests). Branch `cursor/core-direction-canonicalization-4f59` → PR #231 merged to main.
 
 ---
-
 ## 2026-08-22 — NDX BOOK six-direction founder comparison set (PR #232)
 
 Summary: NDX BOOK-only instance-scoped exception exposing all six Core Direction candidates from formations v1 + v2 for founder comparison before selection.
@@ -2787,7 +2761,6 @@ Summary: NDX BOOK-only instance-scoped exception exposing all six Core Direction
 - **Tests:** 779 passing (+7). Branch `cursor/ndxbook-six-direction-comparison-4f59` → PR #232 merged.
 
 ---
-
 ## 2026-08-22 — Six-direction intelligence completion + controlled FAL visual proof production (PR #233)
 
 Summary: Composer production sprint implementing v1 Sonnet completion wiring, Stage A proof production pipeline, and founder UI proof asset display for NDX BOOK six-direction comparison.
@@ -2801,7 +2774,6 @@ Summary: Composer production sprint implementing v1 Sonnet completion wiring, St
 - **Not ready:** Founder six-direction visual review blocked until v1 Sonnet completion + proofs for all six directions.
 
 ---
-
 ## 2026-08-22 — Mobile production controls on Creative Direction debug page (PR #235)
 
 Summary: Founder on mobile requested tap-to-run production instead of curl/Railway CLI.
@@ -2812,7 +2784,6 @@ Summary: Founder on mobile requested tap-to-run production instead of curl/Railw
 - **Mobile flow:** Sign in on site00.com → Admin → EVOLVE → Creative Direction → **PRODUCTION CONTROLS** → tap Step 1, wait, tap Step 2 (keep tab open several minutes) → **OPEN FOUNDER COMPARISON VIEW**.
 
 ---
-
 ## 2026-08-22 — Evolve admin CORS fix on fsbw-dev (PR #238)
 
 Summary: Founder still saw **LOAD FAILED** / **FAILED TO FETCH** on Production Controls after PR #237 routing fix.
@@ -2822,7 +2793,6 @@ Summary: Founder still saw **LOAD FAILED** / **FAILED TO FETCH** on Production C
 - **Still required:** Sign in on site00 (preview admin bypass does not authenticate API). Then reload `/admin/site00/debug/evolve-creative-direction` and tap **RUN FULL PIPELINE (BACKGROUND)**.
 
 ---
-
 ## 2026-08-22 — THE MARKED-UP COPY single-board production pilot (board-first)
 
 Summary: Methodology correction sprint — validate board-first Creative Direction production on ONE direction before scaling to remaining five.
@@ -2834,7 +2804,6 @@ Summary: Methodology correction sprint — validate board-first Creative Directi
 - **Tests:** 797 passing (+10 board pilot tests). Branch `cursor/marked-up-copy-board-pilot-4f59`.
 
 ---
-
 ## 2026-08-22 — THE MARKED-UP COPY board engine v2 repair + reference-conditioned regeneration
 
 Summary: Remediation sprint implemented board engine v2 (not audit-only). Direction completion gate, reference file resolution from Supabase manifests, physical reference crops (sharp), influence graph, dynamic art direction service (Sonnet when configured; fallback from completed direction intelligence), reference-conditioned FAL via `fal-ai/nano-banana-pro/edit`, asset inspection gate (heuristic + optional Anthropic vision), hybrid primary artifact compositor, 0–5 board QA scoring, copy contract banning sibling-direction language, founder UI legacy isolation (`CREATIVE BOARD REFINING` vs proof slots).
@@ -2846,7 +2815,6 @@ Summary: Remediation sprint implemented board engine v2 (not audit-only). Direct
 - **Known gaps:** Anthropic vision QA not exercised this run (no API key in cloud agent); dynamic art direction used deterministic fallback enriched from completed direction fields; most FAL layers reused from v1 after reinspection — fresh reference-conditioned FAL edit calls not required on reuse path.
 
 ---
-
 ## 2026-08-22 — Background production jobs + export fix (PR #236)
 
 Summary: Founder reported Step 1 module export error and Step 2 EVOLVE API 404 on fsbw-dev; blocking sync requests impractical on mobile.
@@ -2857,7 +2825,6 @@ Summary: Founder reported Step 1 module export error and Step 2 EVOLVE API 404 o
 - **Migration applied** to Supabase FS project.
 
 ---
-
 ## 2026-08-22 — NDXbook board generation link below intelligence-ready banner
 
 Summary: Founder requested a direct link on the NDXbook project creative direction page to the board production route, placed below the **YOUR BRAND INTELLIGENCE IS READY** readiness panel.
@@ -2870,7 +2837,6 @@ Summary: Founder requested a direct link on the NDXbook project creative directi
 - **Tests:** 804/804 passing. Branch `cursor/ndxbook-board-generation-link-4f59`.
 
 ---
-
 ## 2026-08-22 — THE MARKED-UP COPY Sonnet creative-director pass (board v3)
 
 Summary: Surgical creative-direction upgrade sprint — Sonnet owns production board art direction for THE MARKED-UP COPY only. v2 engine substrate preserved; v3 plan/composition/critique layer added.
@@ -2884,7 +2850,6 @@ Summary: Surgical creative-direction upgrade sprint — Sonnet owns production b
 - **Tests:** 821 passing (+17 v3). tsc + build green. Branch `cursor/marked-up-copy-board-v3-sonnet-4f59`.
 
 ---
-
 ## 2026-08-22 — DirectionExpressionSystem + board v4 (live Sonnet production sprint)
 
 Summary: Follow-up sprint adds canonical intermediate layer **DirectionExpressionSystem** (Core Direction → Expression System → Board Art Direction → Board Production) for THE MARKED-UP COPY only. Admin board-pilot action now runs v4 orchestrator via Railway API runtime.
@@ -2897,7 +2862,6 @@ Summary: Follow-up sprint adds canonical intermediate layer **DirectionExpressio
 - **Tests:** 833 passing (+12 v4). Branch `cursor/marked-up-copy-expression-v4-4f59`.
 
 ---
-
 ## 2026-08-22 — Marked-Up Copy v4 live production execution (Sonnet PASS · FAL blocked on Railway)
 
 Summary: Completed live production run for THE MARKED-UP COPY v4 via Railway background job after fixing Sonnet JSON truncation and HTTP 502 timeout.
@@ -2910,7 +2874,6 @@ Summary: Completed live production run for THE MARKED-UP COPY v4 via Railway bac
 - **Next:** Configure `FAL_KEY` on Railway API runtime and re-run board v4 job for asset production + QA PASS.
 
 ---
-
 ## 2026-08-22 — Brand-native visual prompt compiler + ONE hero pilot (THE MARKED-UP COPY)
 
 Summary: Forensic prompt-architecture repair sprint — direction-system-first visual generation (not topic→stock). ONE hero pilot only; no board regen; directions 02–06 untouched.
@@ -2925,7 +2888,6 @@ Summary: Forensic prompt-architecture repair sprint — direction-system-first v
 - **Tests:** 16 compiler/pilot tests pass. Build PASS. Do NOT scale to remaining board assets until founder approves hero pilot.
 
 ---
-
 ## 2026-08-22 — Identity-native hero pilot remediation (THE MARKED-UP COPY · ONE hero · A/B UI)
 
 Summary: Founder rejected brand-native pilot as direction-native but identity-incomplete (stock-like editorial photography). Remediation sprint replaced topic→photograph pipeline with identity-first artifact design. ONE new hero `MUC-IDENTITY-NATIVE-HERO-PILOT`; brand-native pilot preserved for A/B.
@@ -2940,7 +2902,6 @@ Summary: Founder rejected brand-native pilot as direction-native but identity-in
 - **PR #250 merged to main.** 15 identity-native + 16 brand-native tests pass. STOP — no board regen, no directions 02–06 until founder identity-native review.
 
 ---
-
 ## 2026-08-22 — Creative-refined identity hero V2 (THE MARKED-UP COPY · ONE hero · A/B/C UI)
 
 Summary: Founder approved identity-native methodology (pilot B) but not final creative quality — typography, Martian Mono, wit, personality, compositional artistry. V2 sprint added Creative Expression Layer between Identity Art Direction and Visual Brief. ONE new hero `MUC-IDENTITY-NATIVE-HERO-PILOT-V2`; pilots A (brand-native) and B (identity V1) preserved.
@@ -2955,7 +2916,6 @@ Summary: Founder approved identity-native methodology (pilot B) but not final cr
 - **Preserved:** A `49828b9e` (brand-native), B `6fe8fec1` (identity V1). STOP — no board regen, no directions 02–06 until founder approves pilot C.
 
 ---
-
 ## 2026-08-23 — Brand Personality Intelligence formalization (upstream canon · Identity + pipeline)
 
 Summary: Follow-up production sprint formalizes **Brand Personality** as first-class upstream intelligence — behavioral canon sibling to Brand Lore, not adjective soup or downstream Creative Direction invention.
@@ -2977,7 +2937,6 @@ Summary: Follow-up production sprint formalizes **Brand Personality** as first-c
 - **Branch/PR:** `cursor/brand-personality-intelligence-4f59` merged to `main`.
 
 ---
-
 ## 2026-08-23 — NDX BOOK personality replay validation infrastructure (shadow E2E test)
 
 Summary: Follow-up sprint builds **shadow replay validation infrastructure** for NDX BOOK — proves methodology can reproduce creative DNA from fresh founder input without benchmark leakage. Phase 1 only — **WAITING_FOR_FOUNDER_PERSONALITY_REPLAY** before pipeline execution.
@@ -2995,7 +2954,6 @@ Summary: Follow-up sprint builds **shadow replay validation infrastructure** for
 - **Branch:** `cursor/ndxbook-personality-replay-validation-4f59`.
 
 ---
-
 ## 2026-08-23 — NDX project tunnel entry for personality replay intake
 
 Summary: Founder requested a **project-page button** for blind personality replay intake — same mobile tunnel pattern as lore calibration (`/projects/ndxbook/calibrate`) so they can reach intake directly from the NDX project command page without hunting admin validation URLs.
@@ -3011,7 +2969,6 @@ Summary: Founder requested a **project-page button** for blind personality repla
 - **Branch:** `cursor/ndxbook-personality-replay-project-button-4f59`.
 
 ---
-
 ## 2026-08-23 — Personality replay intake bootstrap fix (stuck on PREPARING)
 
 Summary: Founder reported personality replay page stuck on **"PREPARING PERSONALITY INTAKE…"** on fsbw-dev mobile tunnel.
@@ -3023,7 +2980,6 @@ Summary: Founder reported personality replay page stuck on **"PREPARING PERSONAL
 - **Branch:** `cursor/personality-replay-bootstrap-fix-4f59`.
 
 ---
-
 ## 2026-08-23 — fsbw-dev projects API routing fix (UNKNOWN ACTION on personality intake)
 
 Summary: Founder saw **UNKNOWN ACTION** (uppercase "Unknown action") on personality replay intake on `site00.fsbw-dev.com` after bootstrap fix.
@@ -3034,7 +2990,6 @@ Summary: Founder saw **UNKNOWN ACTION** (uppercase "Unknown action") on personal
 - **Branch:** `cursor/fsbw-dev-projects-api-routing-4f59`.
 
 ---
-
 ## 2026-08-23 — Brand Personality + Primary Expression Context pipeline closure + NDXBOOK naming
 
 Summary: Two follow-up production sprints closed personality pipeline gaps and normalized NDXBOOK canonical naming/uppercase typography before blind personality replay validation.
@@ -3065,7 +3020,6 @@ Summary: Two follow-up production sprints closed personality pipeline gaps and n
 **Branch:** `cursor/personality-expression-pipeline-closure-4f59`.
 
 ---
-
 ## 2026-08-23 — Cloudflare preview tunnel restart
 
 Summary: Founder requested tunnel restart.
@@ -3075,7 +3029,6 @@ Summary: Founder requested tunnel restart.
 - **Verified:** Tunnel + Vite both return 200; preview URL refreshed in `/tmp/site00-cloud-preview-url.txt`.
 
 ---
-
 ## 2026-08-23 — Production prompt normalization + format-proof enforcement (pre-replay closure)
 
 Summary: Closed remaining production-path gaps before NDXBOOK blind personality replay downstream execution.
@@ -3088,7 +3041,6 @@ Summary: Closed remaining production-path gaps before NDXBOOK blind personality 
 - **Branch:** `cursor/production-prompt-normalization-4f59`.
 
 ---
-
 ## 2026-08-23 — Personality replay review empty answers fix
 
 Summary: Founder completed personality intake but review showed **NO ANSWERS YET** / **STATUS: CREATED**.
@@ -3098,7 +3050,6 @@ Summary: Founder completed personality intake but review showed **NO ANSWERS YET
 - **Branch:** `cursor/personality-replay-review-fix-4f59`.
 
 ---
-
 ## 2026-08-23 — Personality replay SAVE FAILED · LOAD FAILED on site00.com
 
 Summary: Founder on production **site00.com** saw **SAVE FAILED · LOAD FAILED** on NDXBOOK personality intake step 10/15 after selecting an answer.
@@ -3109,7 +3060,6 @@ Summary: Founder on production **site00.com** saw **SAVE FAILED · LOAD FAILED**
 - **Branch:** `cursor/personality-replay-save-cors-fix-4f59`.
 
 ---
-
 ## 2026-08-23 — Personality replay submit button dead on review
 
 Summary: After save fix deployed, founder reached review and **SUBMIT PERSONALITY** appeared to do nothing.
@@ -3119,7 +3069,6 @@ Summary: After save fix deployed, founder reached review and **SUBMIT PERSONALIT
 - **Branch:** `cursor/personality-replay-submit-fix-4f59`.
 
 ---
-
 ## 2026-08-23 — Personality replay SUBMIT ERROR: REPLAY NOT FOUND
 
 Summary: After v3 deploy, founder saw **SUBMIT ERROR: REPLAY NOT FOUND** with **STATUS: CREATED** despite full local answers on review.
@@ -3130,7 +3079,6 @@ Summary: After v3 deploy, founder saw **SUBMIT ERROR: REPLAY NOT FOUND** with **
 - **Branch:** `cursor/personality-replay-not-found-fix-4f59`.
 
 ---
-
 ## 2026-08-23 — Supabase migration audit (FS Website)
 
 Summary: Founder asked if any SITE 00 migrations were missing; agent audited repo `supabase/migrations/` vs production Supabase project **FS Website** (`hyycomvcaqxxvyrfupes`).
@@ -3141,7 +3089,6 @@ Summary: Founder asked if any SITE 00 migrations were missing; agent audited rep
 - **Note:** Railway API must redeploy after migration so replay store cache switches from memory → Supabase.
 
 ---
-
 ## 2026-08-23 — Full session: personality replay production fixes + migration audit + cPanel ZIP convention
 
 Summary: Founder debugged NDXBOOK personality replay on **site00.com** through save failures, dead submit button, replay-not-found, migration gaps, and established a standing deploy workflow.
@@ -3154,7 +3101,6 @@ Summary: Founder debugged NDXBOOK personality replay on **site00.com** through s
 - **Still required by founder:** Railway redeploy from `main`; upload latest cPanel ZIP to GoDaddy `public_html`.
 
 ---
-
 ## 2026-08-23 — Conclusion format: text summary + cPanel code box
 
 Summary: Founder clarified prior agent responses sent **only** the deploy code box; they want **both** every time.
@@ -3164,7 +3110,6 @@ Summary: Founder clarified prior agent responses sent **only** the deploy code b
 - **Updated:** `CORE.md` Production deployment section.
 
 ---
-
 ## 2026-08-23 — Deploy links sent separately (not one code box)
 
 Summary: Founder copies deploy links **one at a time** on mobile — do not bundle them in a single fenced CPANEL DEPLOY code box.
@@ -3174,7 +3119,6 @@ Summary: Founder copies deploy links **one at a time** on mobile — do not bund
 - **Updated:** `CORE.md` Production deployment section.
 
 ---
-
 ## 2026-08-23 — HOST UI vs CLIENT typography provenance (pre-replay corrective sprint)
 
 Summary of the **whole conversation so far** in this cloud agent run: NDXBOOK blind personality replay blocked on methodology contamination — Martian Mono (SITE 00 host UI font) was leaking into client creative intelligence as if it were NDXBOOK brand typography.
@@ -3186,7 +3130,6 @@ Summary of the **whole conversation so far** in this cloud agent run: NDXBOOK bl
 - **Conventions:** Separate `TYPOGRAPHIC_BEHAVIOR` from `FONT_SELECTION`. Historical pilot Martian Mono = `HISTORICAL_OUTPUT`, never replay input.
 
 ---
-
 ## 2026-08-23 — Blind personality replay post-submission execution + resume
 
 Summary of the **whole conversation so far** in this cloud agent run: typography provenance sprint merged (PR #266–#267); founder requested motherboard three-part session close (prose + conclusion code box + deploy links on separate lines); then NDXBOOK blind personality replay post-submission diagnostic + resume sprint.
@@ -3203,7 +3146,6 @@ Summary of the **whole conversation so far** in this cloud agent run: typography
 - **Founder action:** Railway redeploy from `main` (API execution + Supabase persistence); cPanel ZIP for frontend. After redeploy, re-open replay review — execution should resume same replay idempotently (or bootstrap recovers from local answers if API restarted).
 
 ---
-
 ## 2026-08-23 — Replay Core Direction formation failure hotfix
 
 Summary: Founder hit **CORE DIRECTION FORMATION FAILED** on mobile replay execution UI after PR #268 deploy.
@@ -3214,7 +3156,6 @@ Summary: Founder hit **CORE DIRECTION FORMATION FAILED** on mobile replay execut
 - **Founder action:** **Railway redeploy API from `main`** (required — cPanel ZIP does not fix this). Tap **RETRY EXECUTION** on replay review. If error mentions `ANTHROPIC_API_KEY`, add key to Railway API service env and redeploy again.
 
 ---
-
 ## 2026-08-23 — Replay pipeline JSON parse hardening (Sonnet truncation)
 
 Summary: Founder hit repeated Sonnet JSON errors during blind replay (`Unterminated string`, `Expected double-quoted property name`) at ~35k char positions — `[FORMATION_FAILED]` and similar across formation / DES / CES / IAD steps.
@@ -3224,7 +3165,6 @@ Summary: Founder hit repeated Sonnet JSON errors during blind replay (`Untermina
 - **Founder action:** Railway redeploy API from `main`; RETRY EXECUTION on replay (no questionnaire reset).
 
 ---
-
 ## 2026-08-23 — Founder replay comparison panel on review page
 
 Summary: Founder completed blind replay pipeline; asked where to see results; requested comparison on same page.
@@ -3235,7 +3175,6 @@ Summary: Founder completed blind replay pipeline; asked where to see results; re
 - **Deploy:** PR #271 merged; cPanel ZIP **`site00-deploy-2026-08-23-v9`** — founder hard-refresh review page after upload.
 
 ---
-
 ## 2026-08-23 — Six-direction blind creative consistency validation sprint
 
 Summary: Founder requested repeatability test — generate other five Core Direction heroes through same blind replay methodology (not Marked-Up Copy clones), audit 0/5 comparison scores, founder six-hero review UI.
@@ -3247,7 +3186,6 @@ Summary: Founder requested repeatability test — generate other five Core Direc
 - **Action:** Railway redeploy API; founder tap RUN SIX-DIRECTION VALIDATION on consistency page (5 FAL images, sequential).
 
 ---
-
 ## 2026-08-23 — Six-direction format selection correction (pre-generation)
 
 Summary: Founder blocked six-direction trigger — format rotation/diversity quota violated experimental integrity. Corrected before any generation.
@@ -3258,7 +3196,6 @@ Summary: Founder blocked six-direction trigger — format rotation/diversity quo
 - **Preflight:** `buildSixDirectionGenerationPreflight` — no Anthropic/FAL calls.
 
 ---
-
 ## 2026-08-23 — Six-direction route button on replay review
 
 Summary: Founder asked for a button on replay review to route to six-direction generated heroes page.
@@ -3268,7 +3205,6 @@ Summary: Founder asked for a button on replay review to route to six-direction g
 - **Removed:** Duplicate text link on review rail (button replaces it).
 
 ---
-
 ## 2026-08-23 — cPanel deploy v11 (six-direction route button + comparison UI)
 
 - **Release:** `site00-deploy-2026-08-23-v11` — includes PR #274 comparison UI fixes + PR #275 six-direction route button on replay review.
@@ -3276,7 +3212,6 @@ Summary: Founder asked for a button on replay review to route to six-direction g
 - **Verify:** Review page button → `/projects/ndxbook/personality-replay/consistency`; bundle `index.eRGSgvvl.js`.
 
 ---
-
 ## 2026-08-23 — Distinctiveness gate non-blocking (clone signal fix)
 
 Summary: Founder six-direction run FAILED at distinctiveness gate — CLONE RISK for THE MARKED COPY vs Marked-Up Copy editorial language.
@@ -3285,7 +3220,6 @@ Summary: Founder six-direction run FAILED at distinctiveness gate — CLONE RISK
 - **Principle:** Convergent directions are valid experimental evidence — gate reports, does not enforce diversity.
 
 ---
-
 ## 2026-08-23 — Canonical six-direction creative range validation (Experiment B)
 
 Summary: Founder requested correction from blind shadow-formation Experiment A to canonical six-direction creative range validation — generate one first-pass hero per established NDXBOOK direction from canonical formation intelligence, not shadow v1+v2 roster.
@@ -3298,7 +3232,6 @@ Summary: Founder requested correction from blind shadow-formation Experiment A t
 - **Founder action:** Merge PR; Railway redeploy API; cPanel v13 for UI; open canonical range page → RUN CANONICAL RANGE VALIDATION (6 sequential heroes). Experiment A and B verdicts must never be mixed.
 
 ---
-
 ## 2026-08-23 — Canonical range heroes exist in storage; UI stuck on Direction 01
 
 Summary: Founder asked if heroes generated overnight — page showed **GENERATING DIRECTION · DIRECTION 01** with no images.
@@ -3309,7 +3242,6 @@ Summary: Founder asked if heroes generated overnight — page showed **GENERATIN
 - **Founder action:** Railway redeploy from `main`; hard refresh canonical range page — six heroes should appear without re-spending credits.
 
 ---
-
 ## 2026-08-23 — Canonical six same-topic carousel world expansion (Experiment C)
 
 Summary: Founder requested Experiment C — expand each canonical six direction into a 6-slide **CREDIT UTILIZATION** carousel. Experiment B heroes become immutable Slide 01; generate slides 02–06 only (30 new images). Resumable execution, cross-direction isolation, founder carousel + same-slide comparison UI.
@@ -3322,7 +3254,6 @@ Summary: Founder requested Experiment C — expand each canonical six direction 
 - **Founder action:** Merge PR; Railway redeploy API; cPanel frontend deploy; open carousel expansion page → INITIALIZE then RUN ALL REMAINING (or step through resumable controls). Experiment B must have 6/6 heroes first.
 
 ---
-
 ## 2026-08-23 — NDXBOOK creative asset lineage + winning world promotion + salvage system
 
 Summary: Founder requested a 25-phase production sprint to formalize durable creative intelligence for NDXBOOK validation outputs — lineage, winning-world promotion (founder-triggered only), losing-direction salvage, translation engine, content library UI, canon versioning, and full test coverage. No new creative generation; no auto winner selection; no visual system merging.
@@ -3338,7 +3269,6 @@ Summary: Founder requested a 25-phase production sprint to formalize durable cre
 - **Founder action:** Apply Supabase migration; Railway redeploy API; cPanel deploy for Content Library UI; open `/projects/ndxbook/content-library` → NORMALIZE LINEAGE FROM VALIDATION RUNS; winner promotion and salvage remain founder-controlled — do not auto-trigger.
 
 ---
-
 ## 2026-08-23 — Experiment C carousel FAILED at slide 02 — brief compiler crash
 
 Summary: Founder reported Experiment C stuck at **FAILED · WORLD 01 / 06 · SLIDE 02 / 06** on fsbw-dev.com; slide 01 (preserved Experiment B cover) visible but generation would not continue.
@@ -3349,7 +3279,6 @@ Summary: Founder reported Experiment C stuck at **FAILED · WORLD 01 / 06 · SLI
 - **Founder action:** Merge PR; Railway redeploy API; hard refresh carousel page → tap **RUN NEXT SLIDE** (FAILED runs auto-reset on retry). No re-initialize needed unless worlds missing.
 
 ---
-
 ## 2026-08-23 — Why agents skip three-part session close (root cause + fix)
 
 Summary: Founder reported agents repeatedly omitting copy-paste BLOCK + deploy links despite CORE.md convention (at least third occurrence). Diagnosis and structural fix applied.
@@ -3359,7 +3288,6 @@ Summary: Founder reported agents repeatedly omitting copy-paste BLOCK + deploy l
 - **Convention for future sprints:** Sprint CONCLUSION template goes **inside** part 2 code box; deploy links remain part 3 separate lines per CORE.md.
 
 ---
-
 ## 2026-08-23 — AGENTS.md cloud handoff layer for session close
 
 Summary: Founder asked to close the last gap — Cloud Agent environment instructions only mandated git/PR workflow, not three-part session close. Handoffs dropped close format even after session-close.mdc.
@@ -3369,7 +3297,6 @@ Summary: Founder asked to close the last gap — Cloud Agent environment instruc
 - **Cursor docs:** Cloud agents read AGENTS.md at session start; complements `.cursor/rules/*.mdc` for handoff-safe procedural requirements.
 
 ---
-
 ## 2026-08-23 — Founder judgment → brand-scoped lineage wiring
 
 Summary of the **whole conversation so far** in this cloud agent run.
@@ -3389,7 +3316,6 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Founder next:** Railway redeploy API from `main`; cPanel v15 for judgment lineage UI hints + Content Library EXCLUDED filter.
 
 ---
-
 ## 2026-08-23 — Carousel slide 02 broken preview (ghost SUCCESS)
 
 - **Symptom:** Experiment C slide 2 preview broken on site00.com; fal.ai shows successful generation in recent history.
@@ -3398,7 +3324,6 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Fix:** `carouselSlideStorageReconciliation.ts` + `site00StorageObjectExists()` — on get/execute, clear SUCCESS slides missing storage → `TRANSPORT_FAILURE` → RUN NEXT SLIDE regenerates + uploads.
 
 ---
-
 ## 2026-08-23 — Founder creative judgment + surgical revision lineage sprint
 
 Summary of the **whole conversation so far** in this cloud agent run (35-phase sprint).
@@ -3419,7 +3344,6 @@ Summary of the **whole conversation so far** in this cloud agent run (35-phase s
 - **Founder next:** Railway redeploy API; cPanel **v16** for Revision Studio + REVISE buttons; apply migration `20260823140000` on Supabase if not applied.
 
 ---
-
 ## 2026-08-23 — Founder judgment semantics + revision lifecycle integration
 
 Summary of follow-up integration sprint after PR #286 + #288.
@@ -3441,7 +3365,6 @@ Summary of follow-up integration sprint after PR #286 + #288.
 - **Founder next:** Railway redeploy API from main; cPanel **v17** for library lifecycle UI; run launch seed reconcile once if historical seed entries exist.
 
 ---
-
 ## 2026-08-23 — Live surgical revision generation + before/after compliance review
 
 Summary of follow-up sprint replacing `GENERATION_NOT_YET_ENABLED` with founder-triggered live revision generation.
@@ -3460,7 +3383,6 @@ Summary of follow-up sprint replacing `GENERATION_NOT_YET_ENABLED` with founder-
 - **Founder next:** Railway redeploy API; cPanel **v18** for Revision Studio generate + comparison UI; first live FAL spend only when founder taps GENERATE REVISION after approval.
 
 ---
-
 ## 2026-08-23 — Experiment C supersession + Creative Concept Territory architecture (Experiment D ready)
 
 Summary of sprint stopping NDXBOOK Experiment C carousel/world-expansion generation and introducing four-layer creative methodology (Brand Intelligence → Creative Concept Territory → World Expression System → Format Expression).
@@ -3483,7 +3405,6 @@ Summary of sprint stopping NDXBOOK Experiment C carousel/world-expansion generat
 - **Founder next:** Railway redeploy API from main; cPanel **v19** for superseded Experiment C UI + Experiment D review; tap **FORM SIX CONCEPT TERRITORIES** then **RUN SIX CONCEPT TERRITORY HEROES** when ready (max 6 heroes, no carousel expansion).
 
 ---
-
 ## 2026-08-23 — Founder Creative Appetite + Sequence Creative System methodology (Experiment D frozen)
 
 Summary of follow-up sprint formalizing two Studio World discoveries without contaminating the frozen NDXBOOK Concept Territory experiment.
@@ -3507,7 +3428,6 @@ Summary of follow-up sprint formalizing two Studio World discoveries without con
 - **Founder next:** Railway redeploy API; cPanel **v20** for Creative Appetite questionnaire + intelligence inspector; Experiment D continues without appetite injection; future carousel v2 uses Sequence Creative System.
 
 ---
-
 ## 2026-08-23 — Experiment E Experience Expression (NDXBOOK interactive experience direction)
 
 Summary of production sprint extending Studio World so Concept Territory + World Expression can creative-direct interactive digital product experience — not a dashboard facelift.
@@ -3529,7 +3449,6 @@ Summary of production sprint extending Studio World so Concept Territory + World
 - **Founder next:** Railway redeploy API; cPanel **v21**; open Experiment E → **SELECT CONCEPT TERRITORY FOR EXPERIENCE TEST** → **FORM THREE EXPERIENCE CONCEPTS** → review concepts/bibles → **GENERATE VISUAL DEVELOPMENT** per concept when ready. `READY_FOR_IMPLEMENTATION: false` until founder selects experience concept.
 
 ---
-
 ## 2026-08-23 — World-class client intake foundation (guest discovery + World Readiness)
 
 Summary of sprint building reusable infrastructure to capture business/founder intelligence before World Formation exists.
@@ -3554,7 +3473,6 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - **Founder next:** Railway API redeploy; cPanel **v22**; admin → CLIENT INTAKES → CREATE → copy link to sister. `WORLD_FORMATION_IMPLEMENTED: false`.
 
 ---
-
 ## 2026-08-23 — World intake foundation shipped (PR merge + Supabase persistence)
 
 - Continued sprint: added `api/_lib/site00WorldIntake/supabaseStore.ts` (auto-select Supabase when tables + service role exist; memory in Vitest); admin CLIENT INTAKES cards with REGENERATE LINK, VIEW INTELLIGENCE, MARK READY; guest WHAT WE HEARD review step before submit.
@@ -3562,7 +3480,6 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - Founder: redeploy Railway API, apply migration `20260823160000_site00_world_intake_foundation.sql` if not applied, cPanel **v22**, set `SITE00_PUBLIC_INTAKE_BASE_URL` for correct guest link host.
 
 ---
-
 ## 2026-08-23 — Experiment E follow-up: cross-medium evidence + snapshot independence
 
 - Corrected Concept Territory dependency: Experiment E no longer requires selected Experiment D territory; `CrossMediumConceptEvidence` classifies evidence (MEDIUM_SPECIFIC / EXPLICITLY_PROMOTED_CROSS_MEDIUM); optional founder promotion only.
@@ -3571,7 +3488,6 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - Tests **1292** pass; build pass. Experiment D unchanged. Deploy cPanel **v23**.
 
 ---
-
 ## 2026-08-23 — Experience Asset Direction + FAL pipeline + World Formation future-depth
 
 - Closed methodology gap: Experience Expression now commissions client-native visual materials via generalized **ExperienceAssetDirection → ExperienceAssetRequirement → ExperienceAssetManifest → FAL generation → review → production promotion → Implementation Contract asset bindings**.
@@ -3582,7 +3498,6 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - Tests **1321** pass (+29 asset direction); build pass. Experiment D v1 frozen; appetite not in D.
 
 ---
-
 ## 2026-08-23 — Universal Project Workspace + NDXBOOK hero proof
 
 - Methodology correction: **Active Workbench + Dossier** reclassified from NDXBOOK Experience Concept → **SITE 00 PROJECT WORKSPACE CANON** (Experiment E discovery record preserved; historical records immutable).
@@ -3594,7 +3509,6 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - Tests **1351** pass (+30 workspace); build pass. `WORLD_FORMATION_IMPLEMENTED: false`.
 
 ---
-
 ## 2026-08-23 — Experiment E visual development before implementation (correction sprint)
 
 Summary of follow-up sprint correcting implementation sequence: visual development must precede production page redesign.
@@ -3622,7 +3536,6 @@ Summary of follow-up sprint correcting implementation sequence: visual developme
 - Tests **1371** pass (+20 visual development); build pass. Deploy **v24**. `WORLD_FORMATION_IMPLEMENTED: false`. `READY_FOR_IMPLEMENTATION: false` until founder approves generated design proofs.
 
 ---
-
 ## 2026-08-23 — Canonical image model: GPT Image 2 (not nano-banana-pro)
 
 - Founder directive: use **GPT Image 2** (`openai/gpt-image-2` / `openai/gpt-image-2/edit` via FAL) for visual development and all image generation settings moving forward.
@@ -3631,7 +3544,6 @@ Summary of follow-up sprint correcting implementation sequence: visual developme
 - Tests **1374** pass (+3 model tests); build pass.
 
 ---
-
 ## 2026-08-23 — Visual Reference Intelligence + reference-conditioned design proofs (Experiment E)
 
 Summary of follow-up sprint formalizing automated visual reference intelligence for Studio World / Experiment E visual development.
@@ -3655,7 +3567,6 @@ Summary of follow-up sprint formalizing automated visual reference intelligence 
 - Tests **1424** pass (+50 visual reference intelligence); build pass. Deploy **v26** pending. `NEW_PROJECTS_PROOF_GENERATED: false` until founder triggers reference-conditioned generation on visual-development route.
 
 ---
-
 ## 2026-08-23 — Visual development page infinite loading fix
 
 - **Symptom:** `/projects/ndxbook/experience-expression/visual-development` on fsbw-dev appeared broken — stuck on "Loading visual development…" or never reaching content.
@@ -3669,7 +3580,6 @@ Summary of follow-up sprint formalizing automated visual reference intelligence 
 - **Branch:** `cursor/visual-development-page-load-fix-1983`.
 
 ---
-
 ## 2026-08-23 — Discovery → Purchase → Project Intelligence Activation
 
 Summary of follow-up architecture sprint separating **pre-purchase discovery** from **post-purchase production intelligence**.
@@ -3687,7 +3597,6 @@ Summary of follow-up architecture sprint separating **pre-purchase discovery** f
 - **Rules preserved:** No duplicate intelligence systems; guest world intake `/intake/:token` preserved; Experiment D frozen v1; World Formation unimplemented; zero provider requests on public discovery autosave.
 
 ---
-
 ## 2026-08-23 — NDXBOOK Six-Concept Reformation (Experiment F / Concept Territory V2)
 
 Summary of follow-up sprint correcting Creative Concept Territory methodology after founder review found Experiment D's six territories were direction-level clusterings of a shared parent concept, not genuinely orthogonal creative concepts.
@@ -3713,7 +3622,6 @@ Summary of follow-up sprint correcting Creative Concept Territory methodology af
 - Deploy **v28** (`site00-deploy-2026-08-23-v28`). `SIX_NEW_CONCEPTS_FORMED: false` until founder triggers FORM SIX CONCEPTS on production API.
 
 ---
-
 ## 2026-08-23 — Master Assurance Audit (Studio World architecture)
 
 Summary of read-only end-to-end audit sprint — no large remediation performed.
@@ -3731,7 +3639,6 @@ Summary of read-only end-to-end audit sprint — no large remediation performed.
 - **Recommended next action:** Durable Run Persistence Sprint (P0) before treating any creative run as research-grade or ops-ready.
 
 ---
-
 ## 2026-08-23 — P0 Durable Run Persistence + Execution Truth
 
 Summary of production-hardening sprint addressing MA-001 and related P0 audit findings.
@@ -3757,7 +3664,6 @@ Summary of production-hardening sprint addressing MA-001 and related P0 audit fi
 - **Apply migration on Supabase** before production deploy expects durable paths.
 
 ---
-
 ## 2026-08-23 — Railway API crash: falImageModels import path
 
 - **Symptom:** Railway production deploy failed on boot with `ERR_MODULE_NOT_FOUND: Cannot find module '/shared/site00-visual-generation/falImageModels.js'` imported from `api/_lib/studioBuilderGeneration.ts`.
@@ -3771,7 +3677,6 @@ Summary of production-hardening sprint addressing MA-001 and related P0 audit fi
 - **Branch:** `cursor/railway-fal-import-path-fix-1983` → PR #308 merged to `main`.
 
 ---
-
 ## 2026-08-23 — Supabase migration audit + cPanel v29 deploy bundle
 
 - **Context:** Founder asked to apply missing Supabase migrations and receive cPanel direct download link after Railway build failures.
@@ -3791,7 +3696,6 @@ Summary of production-hardening sprint addressing MA-001 and related P0 audit fi
 - **Founder next:** Upload v29 ZIP to GoDaddy `public_html`; confirm Railway API healthy at `/api/health`; hard-refresh mobile.
 
 ---
-
 ## 2026-08-23 — P0.5 Production Methodology + Automation Assurance Audit
 
 Summary of read-only forensic audit — no large remediation, no Product Expression, no World Formation.
@@ -3821,7 +3725,6 @@ Summary of read-only forensic audit — no large remediation, no Product Express
 - **Recommended next:** P0.5A methodology spec sprint (invalidation graph, site page families, Product Expression boundary doc, Identity Concept Territory spec) before P1 live pipeline + Composer adapter.
 
 ---
-
 ## 2026-08-23 — P0.5A Production Methodology Corrections
 
 Summary of minimum methodology corrections before P1 — dependency invalidation, site page families, experience scope, identity concept territory.
@@ -3846,7 +3749,6 @@ Summary of minimum methodology corrections before P1 — dependency invalidation
 - **Apply migration on Supabase** before production expects durable invalidation event persistence.
 
 ---
-
 ## 2026-08-23 — Visual development Supabase store bugs (three errors on site00.com)
 
 - **Symptoms on `/projects/ndxbook/experience-expression/visual-development`:**
@@ -3863,7 +3765,6 @@ Summary of minimum methodology corrections before P1 — dependency invalidation
 - **Founder next:** Railway redeploy API from `main`; hard-refresh visual development page → RETRY.
 
 ---
-
 ## 2026-08-23 — NDXBOOK Experiments Hub (single methodology index)
 
 - **Context:** Founder tired of hunting scattered experiment routes across the NDXBOOK project surface.
@@ -3877,7 +3778,6 @@ Summary of minimum methodology corrections before P1 — dependency invalidation
 - **Config:** `src/site00/config/projectExperimentsHub.ts` (canonical ordered ordered index).
 
 ---
-
 ## 2026-08-23 — P1 Live Visual Pipeline + Contract-Driven Composer Orchestration
 
 Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
@@ -3901,7 +3801,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Review visual development proof at `/projects/ndxbook/experience-expression/visual-development`; LOVE THE DIRECTION before Composer implementation branch; Railway redeploy after merge; live Playwright + FAL verification in deployed environment when ready.
 
 ---
-
 ## 2026-08-23 — Experiment G missing from Experiments Hub
 
 - **Issue:** Founder on site00.com Experiments Hub saw 07 D → 08 F → 09 E with no Experiment G, despite G route/API existing from Brand Presentation correction (PR #314).
@@ -3910,7 +3809,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Direct URL (works even before hub deploy):** `/projects/ndxbook/experiment-g-brand-presentation-concepts`
 
 ---
-
 ## 2026-08-23 — Experiment G still missing on live site00.com (deploy gap)
 
 - **Context:** Founder reported "still doesn't exist" after hub fix (PR #316) and v31 release — Experiment G not visible on production site00.com.
@@ -3921,7 +3819,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **API:** Railway must have `experiment_g_*` endpoints from main for FORM SIX BRAND PRESENTATION CONCEPTS.
 
 ---
-
 ## 2026-08-23 — Experiment G FAILED with no retry button
 
 - **Issue:** After v32 deploy, founder reached Experiment G but saw STATUS: FAILED with "No concepts formed yet" and **no buttons** to restart.
@@ -3930,7 +3827,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** **`site00-deploy-2026-08-23-v33`**. If retry still fails, read red error line — likely Railway API needs redeploy for `experiment_g_*` or Anthropic/formation error.
 
 ---
-
 ## 2026-08-23 — Experiment G quarantine false-positive (journal)
 
 - **Issue:** RETRY FORMATION failed with `Successor formation quarantine blocked: journal` on fsbw-dev / production API.
@@ -3939,7 +3835,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** **Railway redeploy from main** (api.site00.com) — API-side fix; cPanel static bundle unchanged. Then RETRY FORMATION on Experiment G.
 
 ---
-
 ## 2026-08-23 — NDXBOOK Hero Proof no preview after compose
 
 - **Issue:** Experiment E → NDXBOOK Hero Proof — COMPOSE HERO FRAME finished but no preview image below controls.
@@ -3948,7 +3843,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** cPanel **v34** + **Railway redeploy** (FAL_KEY required for live images).
 
 ---
-
 ## 2026-08-23 — Hero proof blocked: Experiment E run required
 
 - **Issue:** fsbw-dev hero proof showed FULL MANIFEST HAD 0, missing assets, error `Experiment E run required for hero asset lineage` on generate.
@@ -3957,7 +3851,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** v35 static + Railway redeploy.
 
 ---
-
 ## 2026-08-23 — Experiment G stuck on FORMING (not background processing)
 
 - **User question:** Brand concepts still say FORMING after a long time — still processing?
@@ -3966,7 +3859,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** Railway redeploy (API) + cPanel **v36** (UI). Refresh page → stale FORMING becomes FAILED → RETRY.
 
 ---
-
 ## 2026-08-23 — Hero PREPARE UUID error (`ndxbook` slug in FK column)
 
 - **Issue:** `INVALID INPUT SYNTAX FOR TYPE UUID: "NDXBOOK"` on **PREPARE EXPERIMENT E + HERO SUBSET** (fsbw-dev screenshot).
@@ -3975,7 +3867,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** **Railway redeploy from main only** — API-side fix; static bundle unchanged. After deploy, tap **PREPARE EXPERIMENT E + HERO SUBSET** again.
 
 ---
-
 ## 2026-08-23 — P1 Correction: reference-locked UX orchestration + asset-level generation
 
 - **Context:** Founder-triggered Projects UX generation in FAL ran `openai/gpt-image-2` TEXT_TO_IMAGE and invented a dark workbench/dossier UI — image model was acting as interface designer instead of asset generator.
@@ -3993,7 +3884,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** Railway redeploy (API) + cPanel static **v37+** for visual-development UI. Founder flow: CAPTURE/REFRESH REFERENCES → PREPARE INTERFACE → GENERATE MISSING ASSETS → PREPARE IMPLEMENTATION → ORCHESTRATE (Composer).
 
 ---
-
 ## 2026-08-23 — Experiment G background formation job
 
 - **Issue:** Experiment G formation ran synchronously inside the HTTP request (~2–5 min Anthropic call), causing Railway/gateway timeouts and stuck `FORMING` status.
@@ -4003,7 +3893,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** Railway redeploy (API) + cPanel static for Experiment G UI polling copy.
 
 ---
-
 ## 2026-08-23 — Visual development blank page fix (legacy proof hydration)
 
 - **Issue:** `/projects/ndxbook/experience-expression/visual-development` white blank page on tunnel and deployed site after P1 correction deploy.
@@ -4012,7 +3901,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** Railway redeploy + cPanel **v39** static bundle.
 
 ---
-
 ## 2026-08-23 — Experiment G formation corruption fix (stall beyond background job)
 
 - **Context:** Founder reported brand formation still stalling/timing out even after PR #325 background-job change; suspected another process corrupting formation.
@@ -4035,7 +3923,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** Railway redeploy (API) + cPanel static for UI skip-prepare fix.
 
 ---
-
 ## 2026-08-23 — Visual development FAL failure (storage already exists)
 
 - **Context:** Founder screenshot on visual development page — `GENERATION_FAILED — ONE OR MORE FAL ASSET GENERATIONS FAILED` for SITE00 Projects Index composed interface (5 missing FAL assets, MOBILE PROJECTS BASELINE reference surface). Separate from Experiment G formation.
@@ -4044,7 +3931,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder action:** Railway redeploy, then tap **GENERATE MISSING ASSETS** again — should reuse existing files or overwrite without failing.
 
 ---
-
 ## 2026-08-23 — CAPTURE REQUIRED but no real captures (Playwright missing on Railway)
 
 - **Context:** fsbw-dev shows **CAPTURE REQUIRED** labels (PR #331 UI) but reference thumbnails still empty after refresh — only cosmetic change landed.
@@ -4053,7 +3939,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder action:** Redeploy Railway from main, then **CAPTURE / REFRESH REFERENCES + PREPARE INTERFACE** — thumbnails should populate, then **GENERATE MISSING ASSETS**.
 
 ---
-
 ## 2026-08-24 — CAPTURE REQUIRED cosmetic-only; production refs unblocked
 
 - **Context:** Founder reported visual development still showed **CAPTURE REQUIRED** on all reference thumbnails after refresh — only change from prior session was PR #331 UI labels (replacing grey broken images).
@@ -4063,7 +3948,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder action:** Hard-refresh visual development page — thumbnails should appear. Then **GENERATE MISSING ASSETS**. Railway redeploy from `main` still needed so future captures run on API (health should show `playwrightInstalled: true`).
 
 ---
-
 ## 2026-08-24 — Visual dev progress: refs working, assets reconciled, origin capture fix
 
 - **Context:** Founder reported progress — 2/3 reference thumbnails showing (SIGN IN shells), one blank grey (SITE 00 ENVIRONMENT / origin), GENERATION_FAILED with stale "resource already exists" errors from earlier API run.
@@ -4076,7 +3960,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder action:** Hard-refresh visual development — all 3 reference thumbnails + **FOUNDER_REVIEW** status should show. Judgment buttons ready.
 
 ---
-
 ## 2026-08-24 — FOUNDER_REVIEW reached; manifest counts + mobile reference thumbs
 
 - **Context:** Founder screenshots show **FOUNDER_REVIEW** with 5 GENERATED INTERFACE ASSETS (PREVIEW links) and judgment buttons — major progress. Remaining: blank SITE 00 ENVIRONMENT thumbnail on mobile; UI still showed REUSABLE: 1 · MISSING: 4 despite 5 assets.
@@ -4089,7 +3972,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder action:** Hard-refresh; environment thumb should load. Tap judgment when ready.
 
 ---
-
 ## 2026-08-24 — P1 follow-up: authenticated capture + purpose-gated asset resolution
 
 - **Context:** Founder sprint after P1 correction — live failure: `/projects` Playwright capture was sign-in page masquerading as Projects authority; asset manifest invented methodology slots (WORKBENCH_FOCAL_ARTIFACT, DOSSIER_DEPTH_LAYER, etc.) and generated irrelevant dark workbench imagery.
@@ -4100,7 +3982,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Production action:** Configure `SITE00_CAPTURE_STORAGE_STATE_PATH` on Railway with founder session storage state; refresh Projects refs; re-prepare interface — do NOT tap GENERATE until authenticated refs VALID.
 
 ---
-
 ## 2026-08-24 — Experiment G mobile text layout + regenerate guidance
 
 - **Context:** Founder on fsbw-dev (`site00.fsbw-dev.com`) reported Experiment G page bug — concept card fields (e.g. WHAT NDXBOOK BECOMES) crushed into a narrow right column on mobile; asked how to regenerate brand presentation concepts.
@@ -4110,7 +3991,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** cPanel ZIP after merge (frontend-only CSS/UI); no Railway redeploy required unless API stale.
 
 ---
-
 ## 2026-08-24 — Experiment G LOVE THE CONCEPT judgment feedback
 
 - **Context:** Founder reported LOVE THE CONCEPT button on Experiment G brand concepts page did nothing visible — reverted to default label after tap.
@@ -4118,7 +3998,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (branch `cursor/experiment-g-judgment-persist-ui-1983`):** Active button state + green “✓ YOU LOVED THIS CONCEPT — selection saved” banner; apply API response run immediately (no second reload); status `FOUNDER_REVIEWED` on save. Tests: judgment persistence + UI option contract.
 
 ---
-
 ## 2026-08-24 — Brand Presentation Direction Development (Experiment G top-3)
 
 - **Context:** Sprint after founder loved three Experiment G concepts (COLLECTOR WHO CONNECTS, ROOM THAT KNOWS, THING THAT KEEPS NOTICING). Build concept → direction layer: 3 parents × 3 directions = 9 candidates, zero visual/FAL.
@@ -4127,7 +4006,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** cPanel + Railway redeploy for API actions.
 
 ---
-
 ## 2026-08-24 — Brand Presentation Finalist Visual Formulation (2×3 pipeline)
 
 - **Context:** Correct downstream methodology after direction review: founder selects **2 visual finalists** (not 1 direction winner), each gets **3 visual expression contracts**, then **6 FAL benchmark assets** for comparison before ultimate winner (concept + direction + expression). Do not mutate Experiment D/F/G formation history, Brand Canon, or Projects UX.
@@ -4141,7 +4019,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** cPanel frontend + **Railway redeploy** for new API actions.
 
 ---
-
 ## 2026-08-24 — Direction formation live status panel + retry UX
 
 - **Context:** Founder on direction development page saw FORMING with no buttons, no retry, no live progress — couldn't tell if stalled (especially after Railway redeploy killed background job).
@@ -4149,7 +4026,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** cPanel v49 frontend.
 
 ---
-
 ## 2026-08-24 — Parent-concept finalist direction visualization (2×3×1 correction)
 
 - **Context:** Founder clarified NDXBOOK visual decision flow is NOT 2 direction finalists × 3 expressions. Correct flow: select **2 parent concept finalists** (ROOM THAT KNOWS + THING THAT KEEPS NOTICING) → **all 3 directions under each** advance → **6 direction-level benchmarks** (1 visual each) → founder compares six → later direction finalist + deep expression work. COLLECTOR WHO CONNECTS deferred (`FOUNDER_DEFERRED_VISUALIZATION`, salvage eligible) — records preserved, not visualized.
@@ -4165,7 +4041,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** cPanel v50 frontend + Railway redeploy for API.
 
 ---
-
 ## 2026-08-24 — Visual benchmark formulation background task + status panel
 
 - **Context:** Founder on Parent Finalist Visual Review tapped FORMULATE and saw **FORMULATING SIX DIRECTION VISUALS…** stuck on the button — asked **"is this a background task? bc it should be"**. Before this fix, benchmark formulation ran **synchronously** in the HTTP request (6 sequential Anthropic calls), blocking until complete — unlike direction formation which already runs on the server with polling.
@@ -4179,7 +4054,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** cPanel frontend + **Railway redeploy** (API must run new background worker).
 
 ---
-
 ## 2026-08-24 — P0.5B Brand Character System + NDXBOOK Character Formation
 
 - **Context:** Founder sprint correcting methodological sequencing — fixed TOPIC→CONTENT to BRAND→BRAND PRESENTATION but still entered formation too downstream ("who is this brand?" before "how does it present?"). Personality existed in lore but lacked authority in Experiment G visual pipeline (presence stub only).
@@ -4189,7 +4063,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** Railway API + cPanel/fsbw-dev frontend.
 
 ---
-
 ## 2026-08-24 — Brand character page white-screen fix (partial payload crash)
 
 - **Context:** Founder on `/projects/ndxbook/brand-character-formation` saw white screen when formation nearly complete — React crash rendering characters when Anthropic returned partial/malformed nested payload (missing `core`, string instead of array for `whatItMustNeverBecome`).
@@ -4197,7 +4070,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** Railway API + frontend redeploy.
 
 ---
-
 ## 2026-08-24 — P0.5B.1 Brand Character Formation Assurance + Territory Development Correction
 
 - **Context:** First live NDXBOOK character formation (run `c4e1a2b3-0009-4000-8000-000000000001`, 6 territories, `outputTokens: 12000` at max) showed blank UI fields and archetypal territory names. Sprint: forensic audit first, preserve historical six, correct methodology to Territory → Development → System without regenerating territories or using FAL.
@@ -4208,7 +4080,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 78 character tests pass (+47 P0.5B.1 suite). Build green. No FAL. Experiment G blocked. Historical six preserved immutable.
 
 ---
-
 ## 2026-08-24 — P0.5B.2 Brand Character Readiness + Conditional Deepening
 
 - **Context:** Extend P0.5B/P0.5B.1 so Studio World evaluates post-purchase Project Intelligence before Character Territory formation — ask targeted follow-up questions only when material character gaps exist; do not force another full intake or duplicate Brand Lore/Personality/Appetite questions.
@@ -4218,7 +4089,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +44 P0.5B.2 tests; 1917 total pass. Build green. No FAL/GPT Image. Experiment G unchanged. First six territories immutable.
 
 ---
-
 ## 2026-08-24 — Brand Character Readiness / Deepening contradiction fix
 
 - **Context:** Founder on NDXBOOK mobile saw contradictory UX: Readiness page showed **CHARACTER INSUFFICIENT** + **ANSWER 5 QUESTIONS**, while Deepening page said **NO DEEPENING QUESTIONS REQUIRED** / existing evidence sufficient. Duplicate identical bullet under WORLDVIEW ORIENTATION. User asked if this was a bug.
@@ -4228,7 +4098,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Conventions:** Never show “sufficient for formation” unless `CHARACTER_READY`; never use pre-compile gap count as answer-button label — use compiled `deepeningModule.questions.length` only.
 
 ---
-
 ## 2026-08-24 — P0.5B.3 Composite Brand Character Synthesis + Artifact Visualization
 
 - **Context:** After P0.5B.2 readiness/deepening + founder completing live deepening questions, implement composite synthesis sprint: reclassify six historical territories as discoveries/components, synthesize Cultural Accomplice + Committed Contrarian + Relentless Synthesizer into one NDXBOOK character, maturation continuity (Burn Book ancestry as calibration not canon), founder review, Brand Character System compile, three behavior-first artifact proof scenarios + founder-triggered FAL visualization. Do NOT restart formation, mutate Experiment G, or proceed to Identity/Presentation.
@@ -4238,7 +4107,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +39 P0.5B.3 tests; **1960 total pass**. Build green. Experiment G reevaluation flag set on system compile. No Brand Canon mutation. FAL blocked until founder approves synthesis.
 
 ---
-
 ## 2026-08-24 — Composite synthesis button silent failure fix
 
 - **Context:** Founder on `/projects/ndxbook/brand-character-synthesis` (fsbw-dev mobile) tapped **RUN COMPOSITE SYNTHESIS** — button briefly busy then nothing visible; felt broken.
@@ -4247,7 +4115,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy note:** fsbw-dev frontend hits **`https://api.site00.com`** — Railway must redeploy for synthesis actions; UI now surfaces **Unknown action** if API stale.
 
 ---
-
 ## 2026-08-24 — Deepening answers now recalculate character readiness
 
 - **Context:** After synthesis button error UX shipped (PR #354), founder screenshot showed real blocker: **CHARACTER READINESS: CHARACTER_INSUFFICIENT** despite **5 deepening answers ingested** — synthesis correctly blocked but readiness never improved after deepening.
@@ -4256,7 +4123,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +3 P0.5B.2 tests (deepening merge, submission re-eval, all-questions unlock); 89 in readiness+synthesis suites pass. Build green.
 
 ---
-
 ## 2026-08-24 — Composite synthesis background worker + readiness gate fix
 
 - **Context:** Founder still saw **SYNTHESIS COULD NOT RUN / CHARACTER INSUFFICIENT** while readiness refresh showed **INSUFFICIENT → PARTIAL** (5 deepening answers ingested). Also requested synthesis run in **background** with **loading bar** so page need not stay open (like visual benchmark formulation).
@@ -4265,7 +4131,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** Railway API redeploy required for background worker; fsbw-dev frontend after cPanel/tunnel refresh.
 
 ---
-
 ## 2026-08-24 — Retrospective synthesis readiness floor (INSUFFICIENT + 5 deepening)
 
 - **Context:** Founder screenshots showed **COMPOSITE SYNTHESIS FAILED**, readiness stuck **INSUFFICIENT → INSUFFICIENT** despite **5 deepening answers ingested** and historical six territories already formed; **RUN COMPOSITE SYNTHESIS** disabled.
@@ -4274,7 +4139,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +3 synthesisReadinessGate tests; 44 in synthesis suites pass. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5C Character-Led Marketing Expression System + North-Star Calibration
 
 - **Context:** Full sprint to implement the methodological layer between Brand Character System and marketing artifacts for NDXBOOK. Founder-approved 3×3 exploratory board is **CHARACTER_EXPRESSION_CALIBRATION** (high character authority, no identity authority — not final palette/typography/collage mandate). Pipeline: Character Event → Content Thesis → Marketing Artifact → behavior-first FAL. Experiment 01: nine unrelated-topic Instagram first slides testing same character without template collapse. Explicitly do NOT finalize identity, product expression, world formation, or mutate Experiment F/G.
@@ -4284,7 +4148,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +52 P0.5C tests (`brandMarketingExpressionP05C.test.ts`). Build green. Experiment G `characterReevaluationRequired` preserved. Brand Canon unchanged.
 
 ---
-
 ## 2026-08-24 — P0.5D Content Operations + Performance Learning Engine
 
 - **Context:** Build operational layer turning approved Brand Character System + Marketing Expression System into repeatable, testable, partially automated NDXBOOK social content operation. Answers: what should NDX talk about next, what deserves attention, what's repetitive, channel/format selection, founder approval gates, performance ingestion, production learning without mutating character/canon. Default: ASSISTED_AUTONOMY — no autonomous publishing.
@@ -4294,7 +4157,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +62 P0.5D tests. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5C.1 Editorial Information Architecture + Typographic Governance + Carousel Sequence Direction
 
 - **Context:** Correct visual communication weaknesses from Experiment 01 V1 live generations — information architecture, not expression world redesign. Founder approves black/cream/lime investigative energy; problem is too much simultaneous information, weak hierarchy, random typography. Distinction: MESSY THINKING ≠ MESSY COMMUNICATION. Pipeline: Character → Thesis → Evidence Workspace → Editorial Decision → Hierarchy → First-Slide Art Direction → Sequence → Typographic Governance → Visual Artifact → Distance QA.
@@ -4304,7 +4166,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +60 P0.5C.1 tests. P0.5C + P0.5D still passing. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5C.2 Cultural Image Participation + Visual Subject Matter Governance + Artistic Range
 
 - **Context:** Layer on P0.5C.1 (do not replace). Experiment 01 V1/V2 artifacts remain too text/document/evidence-heavy; underexpress culture, people, photography, art, play, emotional entry. NDX is also **Cultural Accomplice** — cultural/human/artistic visual material must be first-class evidence and expression. Same nine Experiment 01 topics; controlled question: can same content ideas become more culturally alive without losing hierarchy clarity?
@@ -4315,14 +4176,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +59 P0.5C.2 tests (`culturalVisualParticipationP05C2.test.ts`). P0.5C + P0.5C.1 + P0.5D still passing. Build green. `EXPERIMENT_01_CULTURAL_VISUALS_GENERATED = false` unless founder triggers.
 
 ---
-
 ## 2026-08-24 — Experiment 01 batch FAL generation (all nine slides)
 
 - **Context:** Founder reported Experiment 01 only allowed generating one slide at a time (per selected artifact). UX should be one founder-triggered button that generates all nine first slides in the background with polling progress.
 - **Fix:** `generateAllExperiment01ArtifactAssets`, `generateAllExperiment01V2ArtifactAssets`, `generateAllExperiment01V21ArtifactAssets` — background worker loops pending artifacts, saves after each. API `*_generate_all` actions. UI: **GENERATE ALL NINE FIRST SLIDES (FAL)** above 3×3 grid; polls during GENERATING; shows X/9 progress. Contract review gates allow GENERATING status during active batch.
 
 ---
-
 ## 2026-08-24 — P0.5E Campaign Board + Horizontal Sequence Production + Client Approval Architecture
 
 - **Context:** Extend Marketing Expression + Content Operations into generic Studio World campaign-preparation workflow. Horizontal production: Round 01 = all Slide 01s across slate, lock, then Round 02 = all Slide 02s. Preserve vertical coherence within sequences AND horizontal coherence across campaign. NDXBOOK Experiment 01 V2.1 as proving ground — generic models contain NO NDX aesthetic assumptions.
@@ -4332,7 +4191,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +23 P0.5E tests. Full suite 2225 passing. Build green.
 
 ---
-
 ## 2026-08-24 — Experiment 01 stale batch generation recovery
 
 - **Context:** Founder on mobile V2.1 Experiment 01 saw **"GENERATING FIRST SLIDES IN BACKGROUND… 1/9 COMPLETE"** with no generate button and nothing running on FAL — persisted state stuck after batch worker died (Railway redeploy or mid-batch crash).
@@ -4340,7 +4198,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `reconcileStaleExperiment01Generation()` on every `getBrandMarketingExpressionState` GET when no active worker — resets stale GENERATING artifacts to `NOT_GENERATED`, run back to `*_READY`. Batch worker `finalizeExperiment01BatchGeneration` + per-artifact try/catch on failure. UI: show **GENERATE REMAINING N FIRST SLIDES (FAL)** when partial complete; progress text only while worker actually running. Tests: `experiment01StaleGeneration.test.ts`.
 
 ---
-
 ## 2026-08-24 — P0.5E.1 NDX Daily Publishing Cadence + Cross-Platform Content Derivation
 
 - **Context:** Extend P0.5D/P0.5E so NDXBOOK can operate high-volume daily publishing (3 feed, 4 story, 1–2 reels/day) without requiring 9–10 unrelated ideas daily. Core principle: **reuse thinking, re-derive expression** — one Content Intelligence → many platform-native expressions.
@@ -4351,7 +4208,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +61 P0.5E.1 tests. Full suite 2288 passing. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5C.3 Character Retention + Controlled Misbehavior + Humor Reinjection
 
 - **Context:** V2.1 editorial compression improved clarity but removed too much NDX character (punchlines, side comments, human trace, mischief). Core principle: **reduce information, preserve character** — distinguish **information density** vs **character density**. V2.1 history immutable; new lineage **Experiment 01 V2.2**.
@@ -4362,7 +4218,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +17 P0.5C.3. Full suite 2305 passing. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5C.4 Art-Board Materiality + Imperfect Canvas Composition
 
 - **Context:** V2.2 character retention succeeded but artifacts still read as graphics on clean templates. Core principle: **THE CANVAS IS AN OBJECT** — material surface participates, not neutral background texture.
@@ -4373,7 +4228,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +15 P0.5C.4. Full suite 2320 passing. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5E.1A Daily Cadence Reconciliation + Second-Reel Policy Cleanup + Volume Semantics
 
 - **Context:** Focused cleanup of P0.5E.1 daily publishing cadence — not a new methodology sprint. Founder-approved NDX Instagram cadence: **3 Feed + 4 Stories + 1 Reel/day baseline (8/day, 56/week)**; optional second Reel max-normal **9/day, 63/week** (63 is NOT baseline). Cadence is operating rhythm, not content quota.
@@ -4384,7 +4238,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +14 P0.5E.1A regression tests; P0.5E.1 test 19 updated to HEALTHY_BASELINE. Cadence suite 75 passing; full suite 2333+ passing; build green.
 
 ---
-
 ## 2026-08-24 — P0.5D.1 Live Cultural Intelligence + Trend Forecasting + Temporal Relevance Engine
 
 - **Context:** Upstream intelligence layer between live external world and Content Operations. Core question: *what is happening or about to happen that this brand could notice, understand, connect, question, remember, explain, react to, or have a distinctive POV about?* NOT a trending-hashtag scraper or trend-copying engine. Generic Studio World architecture + NDX adapter; feeds better intelligence into existing ContentOpportunity without replacing it.
@@ -4399,7 +4252,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +12 grouped P0.5D.1 tests (~50 requirements in `culturalIntelligenceP05D1.test.ts`). P0.5D test 58 updated. Cadence + content ops regressions green. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5C.4A Human-Made Mark System + Lime Intervention Governance + Anti-AI Artifact Correction
 
 - **Context:** Surgical refinement of P0.5C.4 V2.3 after first generated artifact review. Materiality directionally successful; gaps were under-utilized lime as NDX intervention color and AI-looking pictograms/micro-details. Core correction: maker presence must become visually undeniable without undoing art-board materiality.
@@ -4411,7 +4263,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +13 P0.5C.4A tests; P0.5C.4 regressions updated. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5C.4B Signature Lime Presence + Artifact Color Continuity + Semantic Accent Selection
 
 - **Context:** After live V2.3 generation review — artifacts visually successful; signature NDX lime not guaranteed on every artifact. Rule: every NDX marketing artifact must contain ≥1 intentional visible signature-lime element (may be tiny — word, punctuation, circle, mark). NOT make every post lime-dominant.
@@ -4423,7 +4274,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +8 grouped P0.5C.4B tests (~30 requirements). P0.5C.4/4A regressions green. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5D.2 Live Signal Source Acquisition + Connector Wiring + Weekly Forecast Proving Run
 
 - **Context:** Move P0.5D.1 from MANUAL_CONNECTED to PARTIALLY LIVE-CONNECTED cultural intelligence. P0.5D.1 methodology unchanged — bottleneck was source acquisition (live external sources connected: 0).
@@ -4435,7 +4285,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** +8 grouped P0.5D.2 tests (50 requirements). P0.5D.1 regressions green. Build green.
 
 ---
-
 ## 2026-08-24 — V2.3 Founder Revision Notes + Auto FAL Re-render Pipeline
 
 - **Context:** Revision labels (NEEDS_LIME, etc.) previously saved judgment only — no note, no FAL re-render.
@@ -4443,7 +4292,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI/API:** `marketing_expression_experiment_01_v23_founder_revision`; approval labels save immediately.
 
 ---
-
 ## 2026-08-24 — V2.3 slide selection fix + signature-lime board readiness banner
 
 - **Context:** Founder could not select V2.3 grid cells on mobile; asked whether board has signature-lime FAL instructions or needs new board version.
@@ -4451,7 +4299,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Board readiness:** Banner detects `SIGNATURE LIME REQUIREMENT` in prompts. Legacy boards: re-formulate V2.3 (clears images) or per-slide NEEDS LIME revision. No V2.4 needed.
 
 ---
-
 ## 2026-08-24 — Campaign production wall wired to V2.3 marketing expression slides
 
 - **Context:** Founder reported campaign production wall (CAMPAIGN WALL / Feed Preview) was not using latest marketing expression slides (V2.3 art-board materiality). Board showed V2.1-era Slide 01 assets despite V2.3 being current.
@@ -4461,7 +4308,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** P05E + P0.5C.3 updated; 40 tests green. PR #378 merged.
 
 ---
-
 ## 2026-08-24 — P0.5C.5 First-Person Authorship + Public Copy Translation + Campaign Caption Synthesis
 
 - **Context:** Sprint P0.5C.5 — visual art direction strong but public artifacts exposed internal production language (CHARACTER BEAT, WHAT NDX NOTICED, PRIMARY EDITORIAL IDEA, CONTROLLED MISBEHAVIOR, etc.). Need strict internal/public boundary + downstream automated Instagram caption synthesis after slides are caption-ready.
@@ -4473,7 +4319,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 50 P0.5C.5 requirements in `firstPersonAuthorshipP05C5.test.ts`. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5E.2 NDX Book Cultural Language + Content Ontology + Motion Character Foundation
 
 - **Context:** Sprint P0.5E.2 — formalize NDXBOOK book-based cultural language/content ontology and motion character system foundation. Architecture only — no embodied character visual design, no FAL/LoRA, no generation.
@@ -4486,7 +4331,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 28 requirements in `bookLanguageMotionCharacterP05E2.test.ts`. Build green.
 
 ---
-
 ## 2026-08-24 — P0.5C.5A V2.3 Regeneration Recompilation + Current-Contract Authority
 
 - **Context:** Sprint P0.5C.5A — fix critical generation-path defect where `generateExperiment01V23ArtifactAsset` dispatched stored `generationContract.prompt` instead of recompiling from current structured V2.3 contract. V2.3 remains current experiment (no V2.4).
@@ -4498,7 +4342,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 14 requirements in `v23GenerationAuthorityP05C5A.test.ts`; 65 related regression tests green. Build green. Deploy v56.
 
 ---
-
 ## 2026-08-24 — P0.5E.3 Embodied NDX Character Discovery + Human Complexity Model
 
 - **Context:** Sprint P0.5E.3 — full discovery methodology for recurring embodied NDX character (P0.5E.2 foundation). Architecture/discovery only — NO face finalization, NO FAL, NO character generation.
@@ -4510,7 +4353,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 16 requirements in `embodiedCharacterDiscoveryP05E3.test.ts`. Build green. Deploy v57.
 
 ---
-
 ## 2026-08-24 — V2.3 batch GENERATE ALL parallel FAL + durable attempt tracking
 
 - **Context:** Founder reported V2.3 board **GENERATE ALL NINE** stopped/timed out after slide 2 — not firing all FAL requests at once.
@@ -4518,7 +4360,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Parallel FAL via `Promise.all` over pending artifact IDs; single merge save (visual formulation pattern). Persist `experiment01GenerationTracking` `{ version, attemptId, startedAt }` on run; stale reconcile skips when fresh attempt &lt; 15 min (matches synthesis pattern). Cleared on batch finalize. Integrated with P0.5C.4B.1 V2.3 supersession guards.
 - **Tests:** `experiment01StaleGeneration.test.ts` — fresh V2.3 attempt not reconciled; V2.3 generateAll fires 9 FAL in one batch. All targeted marketing-expression tests green.
 - **Ship:** API-only — Railway redeploy from `main` after merge; no cPanel ZIP unless UI touched.
-
 ## 2026-08-24 — P0.5C.4B.1 Signature Lime Restraint + Queue Supersession
 
 - **Context:** Founder reported P0.5C.4B overcorrected — FAL rendered lime as default ink across handwriting, icons, annotations. Sprint also required immediately superseding stale V2.3 generation queue compiled pre-C4B.1 without auto-regenerating after implementation.
@@ -4531,7 +4372,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `artBoardMaterialityP05C4B1.test.ts` (14) + updated P05C4B/P05C5A. Build green.
 
 ---
-
 ## 2026-08-24 — Embodied Character Discovery synthesize button fix
 
 - **Context:** Founder reported **SYNTHESIZE CHARACTER (FOUNDER-TRIGGERED)** on `/projects/ndxbook/embodied-character` did nothing.
@@ -4540,7 +4380,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Ship:** Railway API redeploy + cPanel ZIP for UI error/feedback changes.
 
 ---
-
 ## 2026-08-24 — Embodied Character page white screen (Supabase row id collision)
 
 - **Context:** `/projects/ndxbook/embodied-character` showed a blank white screen after Supabase persistence shipped.
@@ -4549,7 +4388,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder action:** Re-open page — should show INITIALIZE (or prior discovery state once initialized on the new row). Railway API redeploy required.
 
 ---
-
 ## 2026-08-24 — P0.5E.4 Founder Character Discovery Room + Pre-Casting Synthesis Gate
 
 - **Context:** Sprint P0.5E.4 — continue from P0.5E.3 embodied character foundation. P0.5E.3 seeded psychology/intelligence/contradictions/etc. as **SYSTEM_SEEDED proposals**; founder must confirm/revise/reject before casting. Build interactive Founder Character Discovery Room — character truth before visual identity. NO FAL, NO face selection, NO Character Bible synthesis auto-advance.
@@ -4560,7 +4398,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 46 requirements in `embodiedCharacterFounderDiscoveryP05E4.test.ts`. Build green. Deploy v59 after merge.
 
 ---
-
 ## 2026-08-24 — P0.5E.5 Character Bible Ingestion + Continuity Authority + Provider-Aware FAL Pipeline
 
 - **Context:** Sprint P0.5E.5 — build generic Studio World embodied-character continuity pipeline architecture WITHOUT final NDX casting, face selection, Character Bible approval, FAL generation, or LoRA training. Pipeline must accept future approved Character Bible and compile through continuity → reference pack → scene contract → provider capability → FAL contract → QA → founder review. Pre-casting mode blocks production generation.
@@ -4571,7 +4408,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 61 requirements in `characterContinuityP05E5.test.ts`. Build green. Deploy v61 after merge.
 
 ---
-
 ## 2026-08-24 — Founder mobile capture-auth bootstrap page
 
 - **Context:** Founder codes from mobile; asked how to configure Railway `SITE00_CAPTURE_STORAGE_STATE_*` without a laptop. Prior answer required Playwright codegen on desktop.
@@ -4583,7 +4419,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder flow (phone):** Sign in on site00.com → open `/control/debug/capture-auth` → EXPORT → copy JSON → Railway Variables → redeploy API → CAPTURE / REFRESH REFERENCES → PROJECTS DESKTOP: VALID.
 
 ---
-
 ## 2026-08-24 — Art board slide inspect lightbox
 
 - **Context:** Founder requested tapping a slide on the Experiment 01 art board should enlarge the image in a popup with an X close icon for closer inspection.
@@ -4591,7 +4426,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Ship:** PR #390 merged; deploy v62 (`index.BAVo19wc.js`).
 
 ---
-
 ## 2026-08-24 — P0.5C.6 Visual Appetite Authority + Bespoke Art Direction Dominance
 
 - **Context:** Sprint P0.5C.6 — correct NDX Marketing Expression generation hierarchy. Synthesize V2.1 visual appetite (graphic design, cultural participation, feed-stopping power) with V2.3 editorial/materiality discipline. Principle: **ARTISTICALLY_RICH_COGNITIVELY_SIMPLE**. Amend V2.3 methodology only — no V2.4. No FAL generation during sprint.
@@ -4602,7 +4436,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Ship:** deploy v63 (`index.QrvF_fKd.js`). Founder: review VISUAL AUTHORITY board, then REGENERATE CURRENT when ready.
 
 ---
-
 ## 2026-08-24 — P0.5E.4A Adaptive Founder Character Calibration
 
 - **Context:** Upgrade P0.5E.4 Founder Character Discovery from static questionnaire to adaptive PROPOSE → REACT → UPDATE calibration loop. Founder role = recognition not creation. P0.5E.4 methodology preserved.
@@ -4612,7 +4445,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `embodiedCharacterFounderDiscoveryP05E4A.test.ts` (13 tests) + P05E4 (46) preserved. FAL=0; casting blocked until YES_I_KNOW_HER.
 
 ---
-
 ## 2026-08-24 — V2.3 apology slide (topic 3) generation after supersession
 
 - **Context:** Founder reported "WE OWE HER AN APOLOGY." V2.3 slide (`bma-exp01-v23-3`) would not generate. Root cause: after P0.5C.4B.1/C.6 methodology supersession, pending queue jobs were `CANCELLED_SUPERSEDED` but `assertV23GenerationAllowed` blocked **all** generation including per-slide `REGENERATE_CURRENT`; UI only showed regenerate for slides that already had images — leaving never-generated slides (like culture/apology) with no action.
@@ -4621,7 +4453,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Select apology slide → tap **GENERATE CURRENT** (or REGENERATE if image exists). Batch generate remains blocked after supersession by design.
 
 ---
-
 ## 2026-08-24 — P0.5E.4B.1 Neural Voice Casting Provider + Synthetic Placeholder Retirement
 
 - **Context:** Founder reported P0.5E.4B browser SpeechSynthesis auditions sound robotic ("robots trying to sound like women"). Sprint preserves full P0.5E.4B calibration methodology while replacing founder-facing audition provider with FAL neural TTS (MiniMax Speech-02 HD).
@@ -4631,7 +4462,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Railway redeploy (requires `FAL_KEY`). GoDaddy deploy v69. Character Discovery → INSPECT → VOICE LAB → START NEURAL VOICE AUDITION. Ignore prior browser-TTS auditions as placeholder evidence.
 
 ---
-
 ## 2026-08-24 — Neural provider status UX fix (false NOT CONFIGURED banner)
 
 - **Symptom:** Voice Lab showed `NEURAL VOICE PROVIDER NOT CONFIGURED` on fsbw-dev even when founder believed `FAL_KEY` was set on Railway.
@@ -4639,7 +4469,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** GET discovery syncs `neuralProviderConfigured` from live `FAL_KEY`; returns `neuralProviderConfigured` on GET; separate error message when estimate fails vs key missing; live `falRequests` in header; `FAL_KEY?.trim()` check.
 
 ---
-
 ## 2026-08-24 — Neural voice audition FAL voice_id fix (UNPROCESSABLE ENTITY)
 
 - **Symptom:** START NEURAL VOICE AUDITION failed with `UNPROCESSABLE ENTITY` after provider configured.
@@ -4648,7 +4477,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** **Railway API redeploy required** (not just cPanel). Then retry START NEURAL VOICE AUDITION.
 
 ---
-
 ## 2026-08-24 — NDX neural casting v2 (charisma / adult presence territories)
 
 - **Founder feedback:** Round 1 MiniMax presets (Calm/Wise/Lively/Soft) too generic — last voice (Soft_Girl) closest on naturalness but none matched late-20s AA woman with attitude, personality, charisma.
@@ -4657,7 +4485,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Railway redeploy + optional cPanel v71. Mark closest voice CLOSE → GENERATE NEXT NEURAL ROUND; or START NEURAL VOICE AUDITION again for refreshed Round 1 voices.
 
 ---
-
 ## 2026-08-24 — Neural voice edit / re-prompt / regenerate loop (mirrors V2.3 slides)
 
 - **Context:** Full chat arc: P0.5E.4B.1 neural voice casting on FAL MiniMax; provider status UX fix; FAL 422 invalid voice_id fix; NDX v2 territories for African-American woman late 20s attitude; founder asked voice system get same edit/re-prompt/regenerate loop as lime green campaign slides (Experiment 01 V2.3).
@@ -4667,7 +4494,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Railway redeploy API from `main`. GoDaddy deploy for Voice Lab UI. Voice Lab → tap revision label → note → CONFIRM & RE-SYNTHESIZE; or REGENERATE CURRENT / REPLAY on any neural clip.
 
 ---
-
 ## 2026-08-24 — Experiments Hub scroll restore on refresh
 
 - **Context:** Founder on `/projects/ndxbook/experiments` — browser refresh or return from an experiment reset scroll to top of hub ("homepage" of the index).
@@ -4676,7 +4502,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** GoDaddy deploy for UI bundle. Scroll down hub → refresh or open experiment → EXPERIMENTS HUB — should land at same scroll position.
 
 ---
-
 ## 2026-08-24 — Voice Lab CURRENT vs PRIOR tabs
 
 - **Context:** Founder could not tell new neural voices from old when revisions/rounds stacked on one page — needed separate tab to know what's current vs prior.
@@ -4685,7 +4510,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** GoDaddy deploy → Voice Lab → CURRENT tab for active auditions; PRIOR tab for old rounds and pre-revision clips.
 
 ---
-
 ## 2026-08-24 — Voice Lab GENERATE NEXT NEURAL ROUND visibility
 
 - **Context:** Founder could not find button to generate new voice packs after marking CLOSE — button required all four JUDGMENTS_COMPLETE and sat at bottom of long CURRENT tab.
@@ -4695,13 +4519,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 
 ---
-
 ## 2026-08-24 — Founder calibration closed-loop progress panel
 
 ---
 
 ---
-
 ## 2026-08-24 — P0.5C.6A Authored Artifact Grammar + Template Frame Removal + Human History Authority
 
 - **Context:** P0.5C.6 improved bespoke artistic premise (e.g. subscription THEN/NOW shelf) but FAL outputs still read as infographic templates (top headline panel, bottom evidence box, header/body/footer hierarchy). Sprint required amending V2.3 FAL compiler — NOT V2.4 — with authored artifact grammar, human history authority, template frame removal; supersede stale queue; no auto-regeneration.
@@ -4728,7 +4550,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Continue CALIBRATION (6+ moments) → I KNOW HER → CASTING tab lists any remaining gates. Voice lab: tap THAT'S HER — should show Saved line. Railway API redeploy required for backend bridge.
 
 ---
-
 ## 2026-08-24 — Founder trait propositions v2 (fluent INSPECT TRAITS)
 
 - **Context:** Founder reported INSPECT → TRAITS incoherent / AI jargon (`PSYCHOLOGY • SYSTEM_SEEDED • HYPOTHESIS` + fragment statements).
@@ -4736,7 +4557,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `ndxFounderTraitPropositions.test.ts` (4 tests).
 
 ---
-
 ## 2026-08-24 — P0.5E.4B Adaptive Character Voice Casting + Auditory Calibration
 
 - **Context:** Full sprint P0.5E.4B — split Language Lab from Voice Lab; auditory adaptive voice casting with persistent voice identity; P0.5E.5 integration; founder recognition-only UX (no acoustic parameters).
@@ -4749,7 +4569,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ---
 
 ---
-
 ## 2026-08-24 — Founder Workspace Experience Architecture (P0.5E.6)
 
 - **Context:** Founder sprint to remodel NDXBOOK Studio World as one cohesive operating environment — editorial command-center IA, progressive disclosure (OPERATE / UNDERSTAND / INSPECT), artwork-first surfaces. Attached concept = visual authority; production screenshots = functional evidence only.
@@ -4759,7 +4578,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Ship:** PR #409 merged to `main`. Founder deploy: GoDaddy v79 ZIP → hard refresh.
 
 ---
-
 ## 2026-08-24 — Visual Reconstruction Engine P0.VR.1 (Experiments Hub pilot)
 
 - **Context:** Founder sprint to build Studio World Visual Reconstruction Engine — screenshot-to-code reverse engineering with closed-loop render/compare/correct/region-lock. Pilot target: Experiments Hub remodel per concept (visual authority); production screenshots = functional evidence only.
@@ -4770,7 +4588,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Constraints:** FAL=0; Brand Character/Canon unchanged; canonical experiment data preserved.
 
 ---
-
 ## 2026-08-24 — Account pages Desktop preview fix (PROJECTS / CTRL ROOM)
 
 - **Symptom:** Founder toggled Desktop on mobile but PROJECTS kept showing mobile shell (bottom nav, ORIGIN bay) — felt blocked from desktop account pages.
@@ -4778,7 +4595,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `EcosystemShell` now respects preview mode; phone + Desktop uses scaled artboard; `Site00EcosystemLayoutSwitch` on `/projects` and `/control` routes.
 
 ---
-
 ## 2026-08-24 — fsbw-dev project presence import error fix
 
 - **Symptom:** Vite overlay on site00.fsbw-dev.com — `Failed to resolve import shared/site00-brand-lore/projectPresence/index.js` from `useProjectPresenceAccent.ts`.
@@ -4786,7 +4602,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Merged P0.UI.1 project presence accent system to main (registry, resolver, ProjectPresenceScope, Site00Diamond). Build green; 13 tests pass.
 
 ---
-
 ## 2026-08-24 — Visual Reconstruction Engine P0.VR.1A (Founder reference calibration)
 
 - **Context:** Sprint to calibrate VR engine against founder-approved desktop + mobile NDXBOOK workspace boards (cream/paper-led); upgrade from structural matching to multi-viewport design grammar + brand fidelity diagnosis. Supersedes dark-primary NDX workspace from P0.VR.1.
@@ -4797,7 +4612,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Scripts:** `runFounderCalibration.ts`. Tests: `visualReconstructionP0VR1A.test.ts` (14 tests). Full suite 2720 pass; build green. FAL=0; Brand Character/Canon unchanged.
 
 ---
-
 ## 2026-08-24 — Project Presence Accent System P0.UI.1
 
 - **Context:** Formalize Studio World rule — SITE 00 diamond inherits active project's canonical primary color; wordmark stays host-canonical. Generic data-driven system, not NDX-specific shell hack.
@@ -4808,7 +4622,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `projectPresenceAccentP0UI1.test.ts` (13 tests). Full suite 2733 pass; build green.
 
 ---
-
 ## 2026-08-24 — P0.VR.1C Campaign Board structural empty state + token sweep + artwork recomposition
 
 - **Context:** Final implementation sprint from P0.VR.1B-S forensic diagnosis. Campaign Board pilot only — prove Studio World preserves spatial grammar of a creative operating surface before campaign content initializes.
@@ -4818,7 +4631,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** PR **#416** merged to `main`. Deploy **v84**. Tests: `campaignBoardP0VR1C.test.ts` (21); full suite **2835** pass; build green. FAL=0. Content Operations full recomposition deferred.
 
 ---
-
 ## 2026-08-24 — P0.CR.1 Cinematic Realism Lab (multi-provider evaluation pipeline)
 
 - **Context:** Build reusable Studio World Realism Lab for luxury lifestyle / founder / influencer-grade AI video evaluation — multi-provider lanes, prompt compiler, hybrid still→video, founder review.
@@ -4828,7 +4640,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** PR **#417** merged to `main`. Deploy **v85**. Tests: `cinematicRealismLabP0CR1.test.ts` (15); full suite **2850** pass. FAL=0. Brand Character/Canon unchanged.
 
 ---
-
 ## 2026-08-24 — Character Lab calibration buttons fix (P0.5E.4A UX)
 
 - **Issue:** Founder reported progress checklist / GO TO NEXT STEP buttons non-functional on Character Calibration — could not advance moments or reach synthesis.
@@ -4837,7 +4648,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `founderCharacterCalibrationProgressPanel.test.ts` (2) + existing P0.5E.4A suite green.
 
 ---
-
 ## 2026-08-25 — P0.5E.4C I KNOW HER state transition fix + visual casting gate + candidate generation
 
 - **Context:** After YES I KNOW HER on Character Lab synthesis, founder was routed back into calibration instead of entering visual casting. Sprint required fixing the state transition and implementing the missing CAST NDX visual casting stage (founder-triggered still generation, six candidates, judgments, LOCK HER → reference pack → continuity).
@@ -4849,7 +4659,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ---
 
 ---
-
 ## 2026-08-25 — CAST NDX FAL generation wired (P0.5E.4C follow-up)
 
 - **Context:** Founder reported CAST NDX page (`/projects/ndxbook/character/casting`) wasn't calling FAL — generation produced placeholder URLs only, never live stills.
@@ -4859,7 +4668,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` expanded (13) — prompt compile, apply results, vitest-mocked full generate path.
 
 ---
-
 ## 2026-08-25 — P0.CB.1 Founder creative ingestion + reference decomposition + production reconstruction
 
 - **Context:** Build production-grade workflow for founder-created NDXBOOK launch carousel direction entering Studio World. Pilot: MEET NDX (9 slides), EVERYBODY HAS A PERSONAL BRAND (12), THINGS I SAVED THIS WEEK / ENTRY 001 (12). Critical rule: mood boards are REFERENCES not production assets — no bitmap crop/upscale as reconstruction.
@@ -4868,7 +4676,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** PR merged to `main`. Deploy **v88**. Tests: `founderCreativeIngestionP0CB1.test.ts` (15); full suite **2877** pass; build green. Brand Character/Canon/experiment lineage unchanged; founder-triggered generation only.
 
 ---
-
 ## 2026-08-25 — CAST NDX placeholder round FAL retry (P0.5E.4C UX unblock)
 
 - **Context:** Founder generated first casting round before live FAL wiring shipped; page advanced to review with placeholder stills (`/api/placeholder/casting/...`) and the generate button disappeared (`castingCandidatesReady: true`).
@@ -4876,7 +4683,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` (15) — placeholder detection + retry path.
 
 ---
-
 ## 2026-08-25 — CAST NDX FAL background jobs (tunnel-safe generation)
 
 - **Context:** Founder codes via tunnel (tocode) that constantly refreshes; synchronous FAL casting requests were dropped mid-generation when HTTP disconnected.
@@ -4885,7 +4691,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` (16).
 
 ---
-
 ## 2026-08-25 — Founder creative ingestion FAL dispatch + background reconstruction (P0.CB.1)
 
 - **Context:** Founder reported **DECOMPOSE ALL REFERENCES** on `/projects/ndxbook/content-operations/founder-creative-ingest` did nothing — slide specs built but no FAL photography reconstruction; broken reference preview (wrong asset per sequence).
@@ -4894,7 +4699,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `founderCreativeIngestionP0CB1.test.ts` (16) — FAL batch completes on decompose, photography mode resolution.
 
 ---
-
 ## 2026-08-25 — P0.FILM.1 Brand Film Bible + Shot Library + Script-to-Scene Planner + Model Routing + Founder Dailies + Scene Deck
 
 - **Context:** Build generic Studio World film production architecture so founder can supply script/storyboard/concept and Studio World autonomously derives production layer (wardrobe, environment, shot contracts, model routing, dailies, scene deck, rough cut EDL). Pilot: NDXBOOK Reel 01 APPARENTLY I HAVE TO INTRODUCE MYSELF (MINI_VLOG_INTRO, 12 shots) and Reel 02 THAT CANNOT BE RIGHT — 001 (RABBIT_HOLE_INVESTIGATION, 15 shots). Philosophy: FOUNDER DIRECTS. STUDIO WORLD PRODUCES.
@@ -4905,7 +4709,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Recommended next:** Run Reel 01 through production plan review only; if plan correct, approve and generate continuity cluster shots 02–04 (table level, lime pen, non-introduction) before full reel generation.
 
 ---
-
 ## 2026-08-25 — P0.5C.7 Canonical Hand-Built Notebook Carousel Grammar + Physical Page Lineage + Uppercase Authorship
 
 - **Context:** Formalize NDXBOOK carousel visual language for all V2.3 carousel generation. Carousels must look like physical pages inside The Book — not templates with handwriting added afterward. Remains V2.3 + P0.5C.7 amendment (no V2.4). No automatic FAL spend during implementation; founder review required for pilot regeneration.
@@ -4914,7 +4717,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Compiler:** `falPromptCompilerV23@P0.5C.7` — explicit sections: PHYSICAL PAGE OBJECT, PAGE MATERIAL, BINDING/EDGE, CONSTRUCTION HISTORY, PHOTO INTEGRATION, UPPERCASE AUTHORSHIP, HAND MARKS, LIME INTERRUPTION, NEGATIVE TEMPLATE CONSTRAINTS. `FAL_MATERIAL_PROMPT_SECTION_ORDER` expanded to 35 sections. Pre-C7 supersession (`artifactHasPreC7Prompt`, `V23_SUPERSESSION_REASON_C7`, `PRESERVED_PRE_C7` lineage). Round 01 notebook carousel gate wired.
 - **Pilot:** Subscription receipt topic 1 recommended for founder-triggered OLD V2.3 vs P0.5C.7 compare — no auto-lock.
 - **Shipped:** PR **#428** merged to `main`. Tests: `artBoardMaterialityP05C7.test.ts` (13); full suite **2928** pass; build green. Historical V2.3 assets immutable; Brand Character/Canon unchanged.
-
 ## 2026-08-25 — P0.CB.1A Reference board replacement + notebook grammar re-decomposition
 
 - **Context:** NDXBOOK Launch Row 01 ingested before P0.5C.7 notebook carousel grammar. Founder approved new reference boards for MEET NDX, PERSONAL BRAND, THINGS I SAVED; old boards must not remain active authority; full lineage preserved.
@@ -4922,7 +4724,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Flows:** REPLACE → DRAFT upload → RE-DECOMPOSE (no auto FAL) → diff/QA → PROMOTE. Bulk replace all 3 posts. Slide-level replace. MEET NDX HQ desk photo carried forward when compatible.
 - **API/UI:** replace/redecompose/promote/bulk/slide-reference/comparison actions; ingestion page three-way compare + promotion.
 - **Tests:** `founderCreativeIngestionP0CB1A.test.ts` (14); build green.
-
 ## 2026-08-25 — FCI reference board upload UI + API (founder mobile fix)
 
 - **Problem:** Founder on mobile at Founder Creative Ingestion saw "Upload replacement to compare" and "REPLACE REFERENCE BOARD →" but no file picker — P0.CB.1A backend existed but upload was never wired; replace used placeholder URLs.
@@ -4930,7 +4731,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** PR merged to `main`. Deploy **v90**. Tests: FCI P0CB1A (15) pass; build green.
 
 ---
-
 ## 2026-08-25 — P0.5E.7 Character-first content operations + NDX situation seeds + first-person editorial formulation
 
 - **Context:** Content Operations still topic-first (`subscription normalization`, etc.). NDX character architecture matured — content must plan through NDX herself: notice → react → investigate → revise → document. Topic becomes metadata; spoken first-person premise is founder-facing creative idea.
@@ -4942,7 +4742,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preservation:** Brand Character/Canon unchanged; historical topic research preserved via migration records; no autonomous publishing.
 
 ---
-
 ## 2026-08-25 — Founder creative reference board upload 413 fix
 
 - **Issue:** Founder saw `REQUEST ENTITY TOO LARGE` uploading/replacing reference boards on founder-creative-ingest (mobile fsbw-dev).
@@ -4950,7 +4749,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** New `founder_creative_ingestion_upload_reference` uploads image to Supabase storage (webp via sharp), then creates draft reference with `storagePath` + public URL only. UI: **UPLOAD REFERENCE BOARD** file picker with client-side compression. Express JSON limit raised to 25MB. Friendly 413 handler.
 
 ---
-
 ## 2026-08-25 — FCI upload → show → auto-decompose flow fix
 
 - **Context:** Founder selected and uploaded a replacement reference board on Founder Creative Ingestion but nothing changed on the page — expected uploaded image to appear and decompose stage to begin automatically.
@@ -4960,7 +4758,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Ship:** PR to `main`; deploy Railway + fsbw-dev for live fix.
 
 ---
-
 ## 2026-08-25 — P0.CB.1B Guided creative ingestion workflow (stepper + slide-by-slide proofing)
 
 - **Context:** Founder Creative Ingestion felt like an admin state dump — reference versioning, slide state, methodology, photo modes, and registration actions all visible at once. Sprint restructured into a guided production workflow: one screen = one decision.
@@ -4970,7 +4767,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `founderCreativeIngestionP0CB1B.test.ts` (14); P0CB1A updated; build green.
 
 ---
-
 ## 2026-08-25 — CAST NDX founder character reference upload + bible storage
 
 - **Problem:** CAST NDX page had generate/review stills but no way to upload founder character references, decompose into casting authority, store in Character Bible, or regenerate casting from those references.
@@ -4978,7 +4774,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** PR #435 merged to `main`. Deploy **v91**. Tests: `castNdxFounderReferenceUpload.test.ts` (3) pass; build green.
 
 ---
-
 ## 2026-08-25 — P0.5E.7A Character-premise lock + hero slide authority + thought-arc preservation
 
 - **Problem:** REGENERATE CURRENT preserved P0.5C.7 notebook grammar but collapsed character-first posts back into generic educational explainers — topic metadata overwrote NDX premise in editorial layer and FAL compiler (`headline: subject.toUpperCase()`, `CONTENT THESIS: topic — hook`).
@@ -4986,7 +4781,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `contentOperationsP05E7A.test.ts` (22) + P0.5E.7 (22) pass; build green.
 
 ---
-
 ## 2026-08-25 — CAST NDX FAL generation stuck fix
 
 - **Problem:** CAST NDX showed "GENERATING CANDIDATE 01…" indefinitely with no FAL activity — DB had `falGenerationTracking.status=RUNNING` but background job never ran (orphaned after HTTP 202 / server restart; early-return blocked re-dispatch).
@@ -4994,7 +4788,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** PR merged to `main`. Railway redeploy required. Tests: `castingFalBackgroundJob.test.ts` (1) + P0.5E.4C (16) pass.
 
 ---
-
 ## 2026-08-25 — P0.5E.4D Reference-first casting regeneration + Character Bible asset pack
 
 - **Problem:** REGENERATE CASTING FROM REFERENCES reused stale `CharacterTruthSnapshot` + variation-axis prompt contracts; founder notes were appended as secondary strings. FAL dispatch recompiled prompts without reference notes (`castingFalDispatch.ts`). Six unrelated casting candidates instead of same-woman bible asset pack.
@@ -5004,7 +4797,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `referenceFirstCastingP05E4D.test.ts` (9) + cast upload (3) + P0.5E.4C (16) pass; build green. Decomposition is structured/heuristic (vision hook point for future).
 
 ---
-
 ## 2026-08-25 — P0.A Project Ingestion Readiness Audit (Astral World)
 
 - **Context:** Audit-only sprint to determine whether SITE 00 can ingest Astral World as first real client WORLD project. No Astral build, no client repo, no schema changes.
@@ -5014,7 +4806,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Recommended next sprint:** P0.B — Project Core / `project_id` isolation (capability registry, enum unification, Astral project stub metadata only).
 
 ---
-
 ## 2026-08-25 — P0.B Project Core + project_id Isolation
 
 - **Context:** Implement multi-project runtime after P0.A audit. No Astral creative production, no world formation, no production handoff.
@@ -5027,7 +4818,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ---
 
 ---
-
 ## 2026-08-25 — P0.C Origin + Client Truth Ingestion (Astral World)
 
 - **Context:** First real WORLD project ingestion after P0.B isolation. Astral World moves PRE_INGESTION → ORIGIN_INGESTED. No creative formation, no canon promotion.
@@ -5037,7 +4827,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Recommended next sprint:** P0.D — Identity Phase Entry (Astral World).
 
 ---
-
 ## 2026-08-25 — P0.5E.4E Visual identity lock + anchor-first Character Bible generation
 
 - **Problem:** Reference-first casting (P0.5E.4D) generated correct asset categories but not the same woman/outfit/environment — no anchor gate, no structured identity/wardrobe/environment locks, no drift QA, bible pack generated all slots at once without approved anchor authority.
@@ -5049,7 +4838,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ---
 
 ---
-
 ## 2026-08-25 — P0.5E.4F Canonical NDX visual identity gate + character injection authority
 
 - **Context:** Follow-up to P0.5E.4E — enforce that NDX cannot be visually generated downstream until canonical visual identity is READY; downstream systems must consume `CharacterInjectionBundle` instead of reinventing NDX from text/stale casting.
@@ -5059,7 +4847,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** After P0.5E.4E produces approved anchor + angle pack — run still/motion continuity tests, promote `NDX_VISUAL_V1`, controlled MEET NDX single-slide injection test before wider production queue.
 
 ---
-
 ## 2026-08-25 — P0.5E.4E.1 Image-reference identity generation + turnaround + env separation
 
 - **Context:** Follow-up to P0.5E.4E/P0.5E.4F — fix remaining character drift by making founder-uploaded reference image the primary generation authority (image-to-image / reference conditioning) instead of text-to-image reconstruction. Separate character pipeline (isolate → turnaround → wardrobe doc) from environment pipeline (character-free plates).
@@ -5074,7 +4861,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next step:** Redeploy Railway from latest `main`; confirm `/api/health` gitCommit current; hard-refresh fsbw-dev; retry GENERATE CANONICAL ANCHOR.
 
 ---
-
 ## 2026-08-25 — Railway deploy syntax fix (projects.ts P0.B handler regression)
 
 - **Symptom:** Railway deploy failed — `Transform failed … projects.ts:1086:6 ERROR: Unexpected "case"` (screenshot). API stuck on `e09218d`; new actions never reached production.
@@ -5083,7 +4869,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Outcome:** `projects.ts` parses locally; Railway redeploy from `main` should succeed and unblock canonical anchor + all restored actions.
 
 ---
-
 ## 2026-08-25 — P0.D Identity Phase Entry + Canon Promotion (Astral World)
 
 - **Context:** Sprint P0.D — generic Identity Phase entry for Astral World: `ORIGIN_INGESTED` → `IDENTITY_IN_PROGRESS`. Establish CLIENT TRUTH → CREATIVE EXPLORATION → JUDGMENT → APPROVED IDENTITY CANON without auto-canonization. Model hierarchy: ASTRAL WORLD (master) → ASTRÉA (flagship district) → Tarot Suite / Astral Mall / Coffee Shop (destinations).
@@ -5096,7 +4881,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ---
 
 ---
-
 ## 2026-08-25 — P0.E Identity Judgment + First Canon Promotion (Astral World)
 
 - **Context:** Sprint P0.E — field-level + territory-level founder judgments, partial hierarchical canon, structural world canon promotion. NO fake founder judgment.
@@ -5106,7 +4890,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder reviews at `/projects/astral-world/identity` OR P0.F after canon gate satisfied.
 
 ---
-
 ## 2026-08-25 — P0.VR.1D screenshot-first visual reconstruction
 
 - **Context:** Founder sprint to fix website reconstruction drift by making reference screenshots primary visual authority (not text-derived approximations). Extends P0.VR.1 / 1A / 1C without replacing prior lineage.
@@ -5115,7 +4898,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Validation after ship:** Run one controlled desktop + mobile reconstruction pair; overlay reference vs implementation before responsive interpolation.
 
 ---
-
 ## 2026-08-25 — P0.VR.1D.A NDXBOOK project hub reconstruction retry
 
 - **Context:** Founder sprint to repair failed NDXBOOK founder workspace / project hub pages using attached desktop (Image A) and mobile (Image B) reference boards as primary visual authority — reconstruction mode, not redesign.
@@ -5123,18 +4905,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fidelity note:** Fixture PNGs in repo are wireframes; founder-attached editorial boards are canonical authority. Full pixel match requires those assets ingested + authenticated project detail render for live overlay QA.
 - **Founder review:** Desktop rail/nav CLOSE; hub board panels NEEDS FIX until auth + high-res reference overlay pass. Mobile chrome CLOSE; screen family NEEDS FIX for campaign/experiment/CI routes polish + reference assets.
 - **Next:** Ingest founder desktop/mobile reference PNGs into visual-references vault; run overlay loop per screen at locked viewports.
-
 ## 2026-08-25 — P0.VR.1D.A mobile fix (preview-mode wiring + screen family)
 
 - **Issue:** Founder reported mobile design unchanged — root cause: mobile layouts gated by `isPreviewDesktop` toggle, not CSS media queries; global SITE 00 mobile shell (header + bottom nav) still wrapped NDXBOOK; only overview had a mobile component.
 - **Fix:** `FounderWorkspaceShell` now uses `isPreviewDesktop` to swap desktop operate vs `renderMobileFounderWorkspaceScreen()` inside `MobileFounderWorkspaceChrome`. Added 6 reference mobile screens in `MobileFounderWorkspaceScreens.tsx`. `EcosystemShell` adds `site00-ecosystem-shell--ndx-founder-mobile` on `/projects/ndxbook/*` to hide global mobile header/nav. Mobile bottom nav "More" → Experiments Hub.
 - **Verified:** Mobile toggle shows KPI overview, campaign board, content ops with NDXBOOK bottom nav (Overview/Campaigns/Content Ops/Lab/More).
-
 ## 2026-08-25 — P0.VR.1D.A mobile regression fix (hub restore)
 
 - **Issue:** Founder reported broken project hub on mobile (unstyled blue inline nav links, global SITE 00 bottom nav still visible, plain-text KPIs). Root cause: static mobile screens replaced all operate layers; global mobile shell not suppressed structurally; nav CSS relied on broken unicode icons + sticky positioning below global nav.
 - **Fix:** `suppressSiteChrome` on `Site00EcosystemMobileShell` for ndxbook routes (hides global header + bottom nav). Mobile reference overview only on `/projects/ndxbook`; other routes restore real `operate` layers. Fixed bottom nav (fixed position, label-only, screenId active matching). CSS imported directly in mobile chrome component.
-
 ## 2026-08-25 — Promote founder reference to WHO FEELS CLOSEST
 
 - **Context:** Founder uploaded full-look reference (lime green sneakers) on CAST NDX and wanted it in WHO FEELS CLOSEST? to confirm identity before isolate generation.
@@ -5143,7 +4922,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ---
 
 ---
-
 ## 2026-08-25 — P0.UI.3 NDX SVG icon system
 
 - **Context:** NDX project workspace had inconsistent/broken icons across bottom nav, project menu, header, and desktop rail — mixed inline SVG, unicode glyphs, and mismatched sizing.
@@ -5152,7 +4930,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Rule:** One semantic action → one canonical SVG; same drawing on mobile/desktop/menu/rail.
 
 ---
-
 ## 2026-08-25 — P0.VR.1D.1 Screenshot-as-design-spec + moodboard extraction + visual-spec-to-code bridge
 
 - **Context:** Follow-up to P0.VR.1D / P0.VR.1D.A — fix Composer treating screenshots as inspiration instead of executable design spec. Default input = desktop + mobile mood boards with automatic per-screen extraction; full-screen references optional precision overrides only.
@@ -5162,7 +4939,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload desktop + mobile mood boards only (no manual per-screen crops); use optional ADD HIGH-RES REFERENCE per screen when resolution flags PARTIALLY_SUFFICIENT; run overlay QA on NDX hub routes after ingesting founder editorial boards into vault.
 
 ---
-
 ## 2026-08-25 — P0.VR.1D.2 NDX project hub live reconstruction execution
 
 - **Context:** Execution sprint — prove P0.VR.1D + P0.VR.1D.1 pipeline with real browser renders, not architecture-only. Founder editorial mood boards not yet persisted in Supabase; wireframe fixtures exist for dev only.
@@ -5171,7 +4947,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Drop actual desktop + mobile mood boards into `visual-references/founder/ndxbook/` (or Supabase paths in README); re-run live script without `--allow-fixture-fallback`; upload GoDaddy ZIP after hub CSS convergence passes.
 
 ---
-
 ## 2026-08-25 — P0.VR.1D.3 single-screen NDX overview menu-open reconstruction proof
 
 - **Context:** Founder attached mobile screenshot as PRIMARY_VISUAL_AUTHORITY for NDXBOOK overview with three-dot project escape menu open. Narrow sprint: one screen, one interaction state, prove screenshot → spec → code → render → DOM delta → patch loop using existing P0.VR.1D lineage (no new architecture).
@@ -5180,7 +4955,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP v107; optional HELP route when defined; re-run `npx tsx scripts/visualReconstruction/runNdxOverviewMenuOpenLiveReconstruction.ts` after further CSS convergence.
 
 ---
-
 ## 2026-08-25 — NDXBOOK duplicate mobile project menu fix
 
 - **Context:** Founder reported overlapping duplicate menus on mobile NDXBOOK (`site00.fsbw-dev.com`) — header-anchored partial popover behind full project menu when tapping ellipsis.
@@ -5191,7 +4965,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ---
 
 ---
-
 ## 2026-08-25 — P0.VR.1D.4 founder board persistence + region ID alignment + actionable DOM patches
 
 - **Context:** Follow-up to P0.VR.1D.2 blockers: (A) actual founder desktop/mobile mood boards not persisted → fixture fallback; (B) decomposition region IDs ≠ DOM `data-vr-region` → zero actionable patches. Reuse P0.VR.1D / 1D.1 / 1D.2 / 1D.3 only — no new reconstruction architecture.
@@ -5200,7 +4973,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload desktop-mood-board.png + mobile-mood-board.png to canonical paths or Supabase; re-run aligned live reconstruction with `allowFixtureFallback: false`; upload GoDaddy ZIP after merge.
 
 ---
-
 ## 2026-08-25 — P0.VR.1D.5 mobile overview micro-fidelity tightening
 
 - **Context:** Follow-up after P0.VR.1D.4 — mobile Overview structurally correct but missing micro details vs founder reference (audience KPI blank, no card artwork, missing dividers, tight spacing).
@@ -5217,7 +4989,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Verified:** Playwright on 390px — mobile + desktop-preview both show `mobileChrome:1`, `mobileNav:0`, one `[role="menu"]` after MORE tap.
 
 ---
-
 ## 2026-08-25 — P0.UI.3B pixel-to-vector icon trace + exact geometry convergence
 
 - **Context:** Founder sprint P0.UI.3B — eliminate semantic icon invention; trace approved reference pixels from `mobile-overview-menu-open.png` (941×1672) into SVG paths; replace V1 hand-approximated geometry in canonical `NDXIconRegistry`.
@@ -5227,7 +4998,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Page layout, navigation behavior, SITE00 host canon, NDX brand canon — icon geometry only.
 
 ---
-
 ## 2026-08-25 — Character isolate "generating" stuck without FAL / preview
 
 - **Context:** Founder on CAST NDX character casting saw "Isolate generating…" while FAL dashboard showed no in-flight job.
@@ -5236,7 +5006,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Test:** `imageReferenceCastingP05E4E1.test.ts` case `27b`.
 
 ---
-
 ## 2026-08-25 — Character isolate orphan GENERATING (nothing on FAL)
 
 - **Context:** Founder still saw "Character isolate still generating" / ANCHOR PENDING on LAB casting while FAL dashboard showed no in-flight job (after PR #464 preview sync fix).
@@ -5245,7 +5014,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Test:** `characterIsolateOrphanGenerating.test.ts`.
 
 ---
-
 ## 2026-08-25 — P0.UI.3C active project notification center + bell dropdown wiring
 
 - **Context:** Founder sprint P0.UI.3C — bell incorrectly opened project menu (duplicate of ellipsis). Required separation: bell → project-scoped notification center; ellipsis → project/system menu only.
@@ -5254,7 +5022,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Redeploy Railway API for notification endpoints; optional future Supabase `studio_world_project_notifications` + live message transport.
 
 ---
-
 ## 2026-08-25 — Notification dropdown mobile alignment fix
 
 - **Context:** Founder screenshot — bell notification panel clipped on left ("NDXBOOK" → "XBOOK"); not aligned to bell on mobile.
@@ -5265,7 +5032,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ---
 
 ---
-
 ## 2026-08-25 — P0.VR.1D.6 mobile Campaign Board design correction + lime diamond recovery
 
 - **Context:** Founder attached mobile Campaign Board screenshot as PRIMARY_VISUAL_AUTHORITY. Screen existed but wrong day selector, placeholder cards, broken gray diamond, missing artwork lanes.
@@ -5273,7 +5039,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP v111.
 
 ---
-
 ## 2026-08-26 — P0.VR.1D.9 mobile page shell reconstruction (Campaign + Lab frame replacement)
 
 - **Context:** P0.VR.1D.6/1D.8 tightened inner content but protected the old mobile page shell — reference governed cards inside an incorrect frame. Founder sprint P0.VR.1D.9: entire visible phone screen is design authority; preserve function, replace visual shell.
@@ -5288,7 +5053,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP v112.
 
 ---
-
 ## 2026-08-26 — P0.VR.1D.10 mobile full-screen shell rollout (Overview, Content Ops, Cultural Intelligence, Character Lab)
 
 - **Context:** Founder sprint P0.VR.1D.10 — roll P0.VR.1D.9 methodology across remaining NDX mobile tabs. Full-screen references are design authority; preserve routes/data/interactions; rebuild page shell, header geometry, content bounds, section spacing, bottom nav. Campaign Board + Lab/Experiment 01 regression only.
@@ -5296,7 +5060,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP v113.
 
 ---
-
 ## 2026-08-26 — P0.UI.3D reference-locked icon rebuild + NDX_ICON_VISUAL_CANON_V3
 
 - **Context:** Founder attached NDXBOOK icon reference sheet (13 icons) as PRIMARY_ICON_VISUAL_AUTHORITY. P0.UI.3B improved architecture but some icons remained approximate (ellipsis missing circle container, project_overview copied house, etc.).
@@ -5309,7 +5072,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** All P0.UI.3C notification semantics; project menu behavior; bell/ellipsis exclusivity; P0.UI.3B bell SVG.
 
 ---
-
 ## 2026-08-26 — P0.UI.3E hard icon asset replacement + registry source swap + runtime hash verification
 
 - **Context:** Founder sprint P0.UI.3E — P0.UI.3D created reference-locked V3 geometry but live NDX UI could still render stale icons (inline paths not consumed, no runtime proof). Sprint requires physical canonical SVG files as single runtime source, registry hard-swap (no V1/V2 fallback for 13 targets), DOM version/hash attributes, and live DOM proof.
@@ -5325,7 +5087,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** Expanded `docs/DEPLOYMENT.md` with **Deploy checklist** section — quick decision tree, path cheat sheet, agent session-close format (`FRONTEND` · `API` · `BOTH` · `NONE`), founder steps, Railway watch-paths cost tip, common symptoms table. `CORE.md` shipping note updated to reference checklist and forbid Railway redeploy on frontend-only merges.
 
 ---
-
 ## 2026-08-26 — P0.VR.1D.11 Character Lab full-screen reference reconstruction + FAL asset extraction
 
 - **Context:** Founder attached Character Lab mobile screenshot as FULL_SCREEN_REFERENCE authority. P0.VR.1D.10 rolled out generic shell but Character Lab content still used old stacked layout, wrong copy/metrics, generic sticky note CSS, 2-col performance grid.
@@ -5334,7 +5095,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP after merge.
 
 ---
-
 ## 2026-08-26 — P0.VR.1D.12 Legacy shell flash removal + reference-shell-first loading
 
 - **Context:** Reconstructed NDXBOOK routes (especially Experiment 01) briefly showed superseded `site00-project-lore-calibration` shell with "Loading Experiment 01…" before P0.VR.1D.9+ reference shell appeared after data fetch.
@@ -5344,7 +5104,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP (frontend-only).
 
 ---
-
 ## 2026-08-26 — Campaign Board live local week dates
 
 - **Context:** Founder reported Campaign Board tab still showed static reference dates (WEEK 01, May 24–30) instead of current calendar week.
@@ -5352,7 +5111,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP (frontend-only).
 
 ---
-
 ## 2026-08-26 — NDX founder mobile gray letterbox removal
 
 - **Context:** Founder reported gray side panels / letterbox gutters on left and right of mobile NDX founder screens (Campaign Board and related routes).
@@ -5361,7 +5119,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP (frontend-only).
 
 ---
-
 ## 2026-08-26 — Overview mobile TODAY AT NDX live date
 
 - **Context:** Founder reported Overview tab showed static reference date "May 24" instead of actual current date.
@@ -5369,7 +5126,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP (frontend-only).
 
 ---
-
 ## 2026-08-26 — P0.NAV.1 Lab Hub + Experiment / Character navigation recovery
 
 - **Context:** Founder sprint — LAB bottom nav routed directly to Experiment 01, orphaning Character Lab (Language Lab, Voice Lab, Casting, Character Bible, continuity). Required parent Lab workspace with EXPERIMENTS + CHARACTER destinations.
@@ -5379,7 +5135,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** FRONTEND only — cPanel/fsbw-dev ZIP after merge.
 
 ---
-
 ## 2026-08-26 — P0.VR.1D.13 Campaign Board full-screen reference rebuild
 
 - **Context:** Founder attached approved Campaign Board mobile screenshot as FULL_SCREEN_REFERENCE authority (`CAMPAIGN_BOARD_FULL_SCREEN_VISUAL_AUTHORITY`). Required complete mobile shell rebuild matching reference while preserving campaign data, day selector, quick actions, notifications, project menu, and bottom nav.
@@ -5388,7 +5143,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** FRONTEND only — cPanel/fsbw-dev ZIP after merge.
 
 ---
-
 ## 2026-08-26 — P0.VR.2 Master Design Reconstruction Workspace
 
 - **Context:** Founder sprint P0.VR.2 — formalize NDXBOOK visual reconstruction methodology into permanent Studio World Design workspace. Reference = design authority; keep function, rebuild look; mobile/desktop independent authorities.
@@ -5396,7 +5150,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** SITE 00 host canon, project brands, historical lineage, existing P0.VR.1D pipelines.
 
 ---
-
 ## 2026-08-26 — P0.VR.2A Reference asset slot compiler + FAL prompt generation
 
 - **Context:** Follow-up to P0.VR.2 — extend Design workspace so image-like reference regions become geometry-locked asset slots with auto-compiled FAL prompts, existing-asset-first resolution, async generation, preview/canon bind, without layout shift or blocking shell reconstruction.
@@ -5405,7 +5158,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 workspace, P0.VR.1D.13 campaign assets, character authority gate (no random character fallback), Studio World generic architecture.
 
 ---
-
 ## 2026-08-26 — P0.VR.2B Design workspace full-screen reference rebuild
 
 - **Context:** Founder attached complete Design Workspace reference (desktop + mobile in one composition). Required full shell rebuild to match reference — SITE 00 host authority, not NDX project shell. Preserve all P0.VR.2 + P0.VR.2A functionality.
@@ -5414,7 +5166,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 reconstruction pipeline, P0.VR.2A asset slot/FAL pipeline, canonical references, mobile/desktop authority separation.
 
 ---
-
 ## 2026-08-26 — P0.PAF.1 Frontal Slayer Product Asset Factory
 
 - **Context:** Founder sprint P0.PAF.1 — dedicated Frontal Slayer product-image production pipeline separate from SITE 00 visual reconstruction. Master hero = product visual authority; Build-A-Wig variant matrix + Product Page color derivatives; concurrent FAL batch generation; Supabase asset canon with lineage.
@@ -5423,7 +5174,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Six signature unit visual canon (read-only registry, no commerce SKU mutation), SITE 00 host canon, historical asset lineage.
 
 ---
-
 ## 2026-08-26 — P0.PAF.2 Shared Supabase product asset delivery + bindings + runtime resolver
 
 - **Context:** Follow-up to P0.PAF.1 — wire Product Asset Factory to shared Supabase (`hyycomvcaqxxvyrfupes`) with dedicated `frontal-slayer/product-assets/` namespace, canonical DB tables, ACTIVE/PREVIEW bindings, and Frontal Slayer website runtime resolver (no FAL at runtime).
@@ -5432,7 +5182,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Single shared Supabase project, six signature units, commerce/SKU/pricing unchanged, no service-role in client bundles.
 
 ---
-
 ## 2026-08-26 — P0.VR.3A SITE 00 self-audit + design route manifest registration
 
 - **Context:** Founder sprint P0.VR.3A — extend Design Reconstruction so SITE 00 is a first-class designable project (customer-facing website routes, not host shell). Code-driven route forensics, missing dependency discovery, mobile/tablet/desktop independent coverage, self-design safety boundary.
@@ -5441,7 +5190,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 reconstruction, P0.VR.2A asset slots, NDXBOOK pilot, design workspace host canon.
 
 ---
-
 ## 2026-08-26 — P0.VR.3D SITE 00 manifest v2 reconciliation + self-audit semantic merge
 
 - **Context:** Follow-up to P0.VR.3A (SITE 00 semantic self-audit, v1 manifest) — reconcile with P0.VR.3B normalized route authority before P0.VR.3C design-family consolidation. User required one active v2+ manifest; v1 becomes historical artifact only; separate route count layers (raw implementation vs normalized screens vs website/client experience vs primary founder-designable).
@@ -5451,7 +5199,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3B normalization, P0.VR.3A forensics/self-design boundary, host protection, historical v1 lineage.
 
 ---
-
 ## 2026-08-26 — P0.VR.3E implementation snapshot capture + design workspace visual index
 
 - **Context:** Founder needs every designable page visually identifiable in Design workspace — current implementation screenshots (NOT canonical references) for mobile/tablet/desktop.
@@ -5460,7 +5207,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 compare pipeline, reference authority, no FAL spend for captures.
 
 ---
-
 ## 2026-08-26 — P0.VR.3H-SITE00 missing route completion + founder review governance
 
 - **Context:** Complete missing SITE 00 + NDXBOOK routes only (this repo authority). Family-derived simple pages, complex shells, Composer authorship, preview-only draft guard, review queue — after P0.VR.3D manifest reconciliation and P0.VR.3E implementation snapshots.
@@ -5469,7 +5215,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 handoff, P0.VR.2A asset slots, existing About/Support/NDXBOOK workspace pages, external repo routes (Frontal Slayer, AIO, FSBW Studio World).
 
 ---
-
 ## 2026-08-26 — P0.VR.3J composer draft screenshot backfill + review sets + NDXBOOK design-pilot reconciliation
 
 - **Context:** Post-P0.VR.3H follow-up — capture 27 composer-draft screenshots (9 pages × M/T/D), populate Design REVIEW queue with real thumbnails, group simple pages into Information + Auth review sets, hold complex shells (Blueprints/Brand/Account) for founder direction, reconcile NDXBOOK design-pilot registration gaps without rebuilding routes.
@@ -5479,7 +5224,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3H authorship/receipts, draft guards, no FAL, no production release, NDXBOOK expressive canon.
 
 ---
-
 ## 2026-08-26 — P0.VR.3L missing-target family derivation + shell propagation governance
 
 - **Context:** Work outward from missing SITE 00 / NDXBOOK design targets without full screenshot backfill — classify target type, select family sibling, on-demand capture, derive Composer drafts, shell propagation blast-radius governance (TARGET_ONLY / DESIGN_FAMILY / SHARED_SHELL_GLOBAL).
@@ -5488,7 +5232,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3J registration reconciliation, P0.VR.3H true-missing handoff, P0.VR.3E snapshots, P0.VR.2 reference, P0.VR.2A assets, no FAL, no auto publish.
 
 ---
-
 ## 2026-08-26 — P0.VR.3J.1 persistent snapshot hydration + account auth recapture + draft review activation
 
 - **Context:** Finish P0.VR.3J operational gaps — 24 existing composer-draft screenshots must hydrate from persistent P0.VR.3E storage (not re-capture); only Account M/T/D needs authenticated recapture; founder must see all 9 composer drafts in Design REVIEW with correct statuses and review-set navigation.
@@ -5497,7 +5240,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3J NDXBOOK 13-gap reconciliation, failed Account capture history in persistent registry, Composer authorship/receipts, no FAL, no mass backfill.
 
 ---
-
 ## 2026-08-26 — P0.VR.3J.2-SITE00 Account auth capture execution + NDXBOOK Voice Lab family-derived execution
 
 - **Context:** Execution sprint (no new architecture) — run existing `capture_account_drafts` to finish SITE 00 27/27 composer-draft screenshots; execute prepared Character Lab → Language Lab source → Voice Lab derivation with on-demand P0.VR.3E captures and founder Source vs Derived review.
@@ -5506,7 +5248,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Account NEEDS_FUNCTIONAL_REVIEW, Sound content-blocked, Blueprints/Brand creative, NDXBOOK 13 registrations, project canon boundaries.
 
 ---
-
 ## 2026-08-26 — P0.VR.3M-SITE00 Design ownership + route normalization + host-shell canon
 
 - **Context:** Design workspace incorrectly appeared owned by managed projects (e.g. `/projects/ndxbook/design`) with NDXBOOK lime recoloring the host shell. Sprint clarifies SITE 00 owns Design; managed projects are subject context only.
@@ -5515,7 +5256,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3J.2 snapshots/review, P0.VR.3L family derivation, project-scoped record IDs, no FAL, no mass capture.
 
 ---
-
 ## 2026-08-26 — P0.VR.3M.1-SITE00 Design shell completion + host menus + icon canon
 
 - **Context:** After P0.VR.3M, Design workspace still missing bottom panel, dead notification/overflow controls, and legacy emoji/unicode icons on host shell.
@@ -5524,7 +5264,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3M canonical route, 27/27 snapshots/review, P0.BRIDGE repo change panel, no FAL, no mass capture.
 
 ---
-
 ## 2026-08-26 — P0.BRIDGE.1B-SITE00 NDXBOOK repo authority correction + native execution mode
 
 - **Context:** P0.BRIDGE.1 incorrectly seeded NDXBOOK as `yoteenz/fsbw/ndxbook` cross-repo subject. NDXBOOK is a managed project inside SITE 00 Design but lives in the SITE00 repo — not an FSBW bridge subject.
@@ -5533,7 +5272,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3M design ownership, Voice Lab/snapshots/references, P0.BRIDGE.1 control plane structure, RLS, no FAL, no mass capture.
 
 ---
-
 ## 2026-08-26 — Hotfix: blank screen from process.env in repoBranchAuthority (browser)
 
 - **Context:** After P0.BRIDGE.1B merge, Vite dev / cloud preview showed blank screen. Console: `Uncaught ReferenceError: process is not defined` in `repoBranchAuthority.ts` (imported via design control plane client → DesignRepoChangePanel).
@@ -5541,7 +5279,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Branch authority behavior, all P0.BRIDGE.1B tests pass.
 
 ---
-
 ## 2026-08-26 — P0.VR.3M.2 Design footer visibility (scroll-container repair)
 
 - **Context:** Founder could not see P0.VR.3M.1 bottom panel on live `/projects/site00/design` despite component existing. Diagnostic: footer DOM present but height ~0.09px, y≈1041 (below viewport). Root cause: shell used `min-height:100dvh` without height cap; sticky footer was sibling of scrollable `__content`, so page grew and footer pushed off-screen / flex-collapsed.
@@ -5549,7 +5286,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3M.1 notifications, overflow menus, icons, canonical route, single DesignWorkspaceFooter.
 
 ---
-
 ## 2026-08-26 — P0.CLIENT.1 Client Project Room architecture + responsive shell
 
 - **Context:** First production-ready client-facing Project Room from attached mobile/desktop reference authority. Admin builds; client watches — same underlying data, different permissions/surface/language.
@@ -5558,7 +5294,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Admin project workspace, P0.VR.3M design workspace, P0.BRIDGE architecture, no FAL.
 
 ---
-
 ## 2026-08-26 — P0.CLIENT.2 Client Reviews experience (compare, comments, annotations, decisions)
 
 - **Context:** Turn Client Reviews from P0.CLIENT.1 stub into full client decision surface — queue, detail, compare, comments, annotations, approve/revision/decline, version history, decision history, client-safe receipts. Preserve P0.CLIENT.1 Project Room shell; no generation/capture/canon/repo/provider exposure.
@@ -5567,7 +5302,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.CLIENT.1 shell/nav/accent, admin design workspace, P0.BRIDGE, P0.VR.3M, no FAL, no mass capture.
 
 ---
-
 ## 2026-08-26 — P0.CLIENT.2A Production review persistence hardening (Supabase source of truth)
 
 - **Context:** P0.CLIENT.2 used in-memory preview store for comments/annotations/approvals. Sprint required one durable Supabase authority for web/app/admin with preview bypass locked out in production.
@@ -5582,7 +5316,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Core rule:** Execution artifacts must land in P0.VR.3E persistent registry in git — not only in-memory/remote storage from a dev run.
 
 ---
-
 ## 2026-08-26 — P0.APP.1 Client-only mobile app reconstruction + lifecycle engine foundation
 
 - **Context:** Founder attached master mobile app presentation board (25 screens). Reconstruct dedicated `/app` client companion on top of P0.CLIENT.1 manifest + P0.CLIENT.2 reviews — not admin, not generic SaaS, not website UI 1:1.
@@ -5591,7 +5324,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.CLIENT.1 web Project Room, P0.CLIENT.2 review governance, admin Projects/Design, P0.BRIDGE, no FAL.
 
 ---
-
 ## 2026-08-26 — P0.APP.2 Client app 25-screen visual convergence + REFERENCE_LOCKED_V1
 
 - **Context:** P0.APP.1 built first-pass `/app` client mobile app (25 screens). Sprint required reference-faithful visual convergence + interaction completion + live browser QA against founder master board — no new product features.
@@ -5607,14 +5339,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Identity phase (P0.D/P0.E), no payment/push/realtime production presence, no canon auto-promotion, project isolation from NDXBOOK.
 
 ---
-
 ## 2026-08-26 — P0.E.FT1 Astral World Founder Fast Track interactive prototype
 
 - **Context:** Sprint P0.E.FT1 — steamroll visual/product implementation on isolated debug surface while formal governance continues. Dual-track: governance intact, fast track = experimental laboratory. REFERENCE A/B not attached in VM.
 - **Delivered:** Route `/projects/astral-world/debug/world/*` (OPEN LIVE PROTOTYPE on project command). Extended `fixtureService`, `takeMeSomewhereContextEngine`, `fastTrackRegistry`. Demo session Teena with inhabited fixtures. Features: favorite readers, reader relationships, privacy + allow-friends-to-join, Places Popular Now, Your World Your Way (daily card, avatar, circle, deck), mall kiosk states, coffee shop table activity, mobile notification demo (PUSH_NOTIFICATION_DEMO). Reuses P0.E.1 shell with `mode=fast-track` + `data-fast-track-prototype`. Tests `astralWorldFastTrackFt1.test.ts` (16 pass) + P0.E.1 (22 pass). Docs: FOUNDER_FAST_TRACK, FAST_TRACK_PRODUCT_MODEL, COFFEE_SHOP, ASTRAL_MALL, TAROT_SUITE, FAST_TRACK_REFERENCE_FIDELITY, audit FT1.
 - **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK — no canon auto-promotion. WORLD_FORMATION not required for prototype.
 ---
-
 ## 2026-08-26 — P0.E.2 Astral World reference ingestion + pixel-fidelity convergence
 
 - **Context:** Founder attached REFERENCE A (desktop 1672×941) and REFERENCE B (mobile 941×1672) Supabase URLs. Sprint P0.E.2: ingest references, rebuild visuals against them, preserve all P0.E.1/FT1 functionality. KEEP FUNCTION · REBUILD LOOK.
@@ -5622,7 +5352,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fidelity:** Desktop/mobile **HIGH** (~91/90 perceptual) — interim reference crops, not pixel-exact standalone environment art.
 - **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK unchanged; no canon promotion.
 ---
-
 ## 2026-08-26 — Astral World fast-track blank screen fix
 
 - **Bug:** `/projects/astral-world/debug/world/home` showed blank screen when signed in (fsbw-dev + local).
@@ -5631,7 +5360,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Follow-up (fsbw-dev blank):** Preview tunnel was serving stale Vite bundle; restarted dev server. Added `AstralWorldRouteGuard` — skip CTRL ROOM auth on preview hosts for astral debug/experience routes. PR #518.
 
 ---
-
 ## 2026-08-26 — P0.ORIGIN.1 Origin built-in panel backgrounds + CLEAN expanded swap
 
 - **Context:** Founder attached four approved Origin environment images (desktop/mobile WITH_PANELS + desktop/mobile CLEAN). Sprint required replacing Origin backgrounds, removing acrylic glass teaser cards, aligning IDNTY/BLDR/EVOLVE overlays on baked panel blocks, and swapping to CLEAN background when any panel expands (hide all teasers).
@@ -5640,7 +5368,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Expanded IDNTY/BLDR/EVOLVE content, Origin routing/shell, icons/copy, other environment backgrounds, no FAL/regeneration.
 
 ---
-
 ## 2026-08-26 — P0.E.FT3 Astral World immersion recovery + reference-shell reconstruction
 
 - **Context:** Founder rejected P0.E.2 fidelity scores as website-like (CSS cards + initials) rather than cinematic world. Sprint P0.E.FT3: KEEP FUNCTION · REBUILD LOOK — reference PNGs as primary visual surfaces, portraits for seeded identities, environment-first heroes on all major screens. No new product features.
@@ -5649,7 +5376,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK; CANON_PROMOTED=FALSE; all FT1 interactions preserved.
 
 ---
-
 ## 2026-08-26 — P0.E.FT4 Astral World FAL generative asset factory
 
 - **Context:** Sprint P0.E.FT4 — stop treating Astral World imagery as a CSS/coding problem; wire semantic visual slots to existing FAL infrastructure for async generation, persistence, and automatic slot inhabitation. Predecessor: FT3 reference-shell immersion.
@@ -5658,7 +5384,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FT5 live P0 batch on Railway + founder visual QA per slot.
 
 ---
-
 ## 2026-08-26 — P0.E.FT3.1 Astral World scene-first immersive shell reconstruction
 
 - **Context:** Founder rejected remaining website-like mobile architecture (vertical card stacks, document pages) despite FT3/FT4 reference assets. Sprint P0.E.FT3.1: ROUTE→SCENE not ROUTE→PAGE; full-bleed environments, hotspots, contextual drawers/overlays, world HUD nav, FAL-ready scene slots. KEEP FUNCTION · REBUILD EXPERIENCE.
@@ -5667,7 +5392,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FT5 FAL P0 batch — generated assets inhabit scene slots automatically.
 
 ---
-
 ## 2026-08-26 — P0.E.FT3.2 Astral World immersive interaction language
 
 - **Context:** Post-FT3.1 scene shell still had conventional website patterns: directory search, kiosk pricing grid, CRM friend rows, loose portrait crops, loose Astréa hotspots. Sprint FT3.2: rebuild controls as Astral World interactions.
@@ -5675,7 +5399,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FT4 FAL P0 batch for generated portraits replacing extraction crops.
 
 ---
-
 ## 2026-08-26 — P0.E.FT5 Astral World master visual convergence
 
 - **Context:** Founder sprint to consolidate all prior FT visual work into one coherent reference-authoritative implementation. Pre-flight audit identified desktop/mobile split as primary drift: mobile scene-first vs desktop panel/card layouts + persistent right rail.
@@ -5684,7 +5407,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FT4 FAL P0 batch on Railway; founder desktop reference comparison after generated assets land.
 
 ---
-
 ## 2026-08-26 — P0.E.FT5.1 Live FAL asset production + founder slot QA
 
 - **Context:** Manufacture missing FAL-generated world assets without redesigning FT3.1/FT3.2/FT5 scene architecture. Primary blocker was FAL pipeline failing on production reference URLs (site00.com returns HTML SPA fallback for `/astral-world/bg-*.png`).
@@ -5698,7 +5420,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Visual lock:** `ASTRAL_WORLD_VISUAL_LOCK=FALSE` — P0 outputs need founder per-slot QA + activation; P1/P2 pending; full reference comparison not yet re-scored.
 
 ---
-
 ## 2026-08-26 — P0.E.FT5.2 Canonical screen master + SITE 00 pipeline adoption
 
 - **Context:** Root production-method fix — large multi-screen reference boards forced Composer interpretation. Astral World must adopt SITE 00 individual screen master → asset manifest → generation → implementation → screenshot QA pipeline.
@@ -5709,7 +5430,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FT5.3 batch remaining screens one-at-a-time; founder lock pilot then scale.
 
 ---
-
 ## 2026-08-26 — P0.E.FT5.2 PILOT AW_M_01_WORLD_ENTRY exact reference replication
 
 - **Context:** User attached full-screen canonical mobile master (941×1672) for `AW_M_01_WORLD_ENTRY` at 390px. Rule: reference = design authority; keep function, rebuild look; no whole-page screenshot cheat.
@@ -5718,7 +5438,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Visual lock:** `PILOT_SCREEN_VISUAL_LOCK=FALSE` — hero city/balcony depth, destination thumb fidelity, typography micro-spacing, and secondary-action row still deviate from canonical master; convergence pass 3 of N.
 
 ---
-
 ## 2026-08-26 — P0.R.1 Reader account foundation + curated avatar library + canonical identity
 
 - **Context:** Full Reader identity/account layer for Astral World — no random stock faces; one Reader → one `avatar_id` → consistent appearance everywhere (Find My Reader, Who's Here, notifications, destinations, Reader dashboard).
@@ -5733,7 +5452,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Conventions:** Reader admin routes separate from Seeker nav; never store arbitrary image URLs on Reader records; custom avatar requires user selection before ACTIVE; curated library scales only after pilot QA.
 
 ---
-
 ## 2026-08-26 — P0.E.FT5.2B AW_M_01 layered background + live overlay replication
 
 - **Context:** Exact mobile Home replication using Attachment A (production background shell) + Attachment B (composition authority). Rule: use background exactly; no CSS panel recreation; real DOM overlays in baked shells.
@@ -5742,7 +5460,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Extract dedicated TAROT/COFFEE/MALL medallion PNGs from canonical master; convergence pass on anchor percentages.
 
 ---
-
 ## 2026-08-26 — P0.E.FT5.2C AW_D_01 desktop layered background + live overlay replication
 
 - **Context:** Desktop Home exact layered replication — Attachment A production shell (1672×941) + Attachment B composition authority at 1280px. Same pattern as FT5.2B mobile.
@@ -5751,7 +5468,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Extract desktop medallion PNGs; pixel-convergence pass on anchor percentages at 1280 and 1440.
 
 ---
-
 ## 2026-08-26 — P0.E.FT5.2D Canonical resolution normalization + overlay realignment (AW_M_01 / AW_D_01)
 
 - **Context:** Corrective geometry sprint — final constructed references and deconstructed production shells were generated at different resolutions/aspect ratios, causing hero text drift, destination misalignment, quick-action displacement, and bottom nav vertical error. Rule: reference = design authority; fix coordinate system first; do not nudge individual elements.
@@ -5769,7 +5485,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Conventions:** Always use V2 backgrounds + CanonicalScreenStage for AW_M_01/AW_D_01; never position overlays against 941×1672 or 1672×941 assumptions.
 
 ---
-
 ## 2026-08-26 — P0.E.FT5.2E Viewport edge-to-edge + scroll height cleanup (AW_M_01)
 
 - **Context:** Post-FT5.2D mobile home still showed white side letterboxing (~8px body margin), ~72px black region below nav, and unnecessary document scroll. Nav is baked inside canonical stage — must not reserve second nav height.
@@ -5780,7 +5495,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Conventions:** M01 article must not contain flow siblings after CanonicalScreenStage; one safe-area owner only when needed.
 
 ---
-
 ## 2026-08-27 — AW_M_01 mobile background swap (founder Supabase shell)
 
 - **Context:** Founder requested mobile home background use Supabase live-preview PNG `640BC0A0-BE92-4519-88F6-EED15E4B2998` (853×1844).
@@ -5788,7 +5502,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Merged:** PR #532 → `main`.
 
 ---
-
 ## 2026-09-07 — Experience Engine V0 Sprint A (/enter reference-fidelity proof)
 
 - **Context:** Dual Production Engine kickstart audit completed; Sprint A implements Experience Engine V0 wrapping existing visual reconstruction + Playwright capture + pixelmatch for `/enter` desktop proof.
@@ -5797,7 +5510,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Conventions:** IMPLEMENTATION_BASELINE cannot satisfy DESIGN_AUTHORITY gate; status-strip blocked from promotion until founder mobile/strip reference; no NDXBOOK_ORG_ID in Experience Engine records; STRUCTURAL_PASS 0.82 does not ship.
 
 ---
-
 ## 2026-09-07 — Expression Engine V0 Sprint B (NDXBOOK ENTRY 001 production proof)
 
 - **Context:** Sprint B formalizes Studio World Expression Engine V0 — brand → entry → territory → world → format → production → audio → continuity → asset → platform → judgment → lineage — using NDXBOOK ENTRY 001 ("WHO TF IS WE?" / Britney Spears) as forensic proof object. ENTRY 002 handoff skeleton only (no asset generation).
@@ -5812,7 +5524,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Conventions:** Expression Engine brand-agnostic — no NDXBOOK_ORG_ID fallback; FORMAT_NATIVE_QA blocks resize-only; concept collapse blocks dispatch; orphan assets cannot reach production-ready; NOT FOR ME preserves history as NON_CANON; EntryArtifact entry-specific (vintage TV not generic NDXBOOK template)
 
 ---
-
 ## 2026-09-07 — Expression Engine B1 Phase 1 (ENTRY 001 close + ENTRY 002 territory judgment)
 
 - **Context:** Sprint B1 Phase 1 proves Expression Engine V0 in production — close ENTRY 001 missing requirements (TikTok plan, X expression, founder judgment exposure, readiness) without regenerating assets; compile ENTRY 002 territory candidates (max 3) and halt at AWAITING_TERRITORY_JUDGMENT with zero generated assets.
@@ -5828,7 +5539,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder territory judgment required before B1 Phase 2 (world expression, format production, anchor expression)
 
 ---
-
 ## 2026-09-07 — Expression Engine B1 Phase 2 (ENTRY 002 territory lock + blueprint)
 
 - **Context:** Founder locked ENTRY 002 territory 03 THE NOSTALGIA EDIT SUITE (LOVE IT). Phase 2 compiles full production blueprint without generating assets — STOP AFTER BLUEPRINT.
@@ -5842,7 +5552,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder anchor judgment (LOVE IT / PROMISING REFINE / NOT FOR ME) before Stage 1 production dispatch
 
 ---
-
 ## 2026-09-07 — Expression Engine campaign UI (NDXBOOK founder workspace)
 
 - **Context:** Founder needed a page route to view ENTRY 002 blueprint from Campaign Board / NDXBOOK project flow — not raw API JSON.
@@ -5856,7 +5565,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Note:** Cloud preview / production requires Railway API redeploy from `main` for live blueprint JSON
 
 ---
-
 ## 2026-09-07 — Expression Engine mobile Campaign Board entry
 
 - **Context:** Founder on mobile Campaign Board (fsbw-dev / site00) saw no Expression Engine — desktop-only wiring missed `MobileCampaignBoardScreen`.
@@ -5864,7 +5572,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Mobile route:** `/projects/ndxbook/content-operations/expression-engine` (mobile-native screen when viewport is phone)
 
 ---
-
 ## 2026-09-07 — Railway API startup fix (healthcheck failure)
 
 - **Context:** Railway deploy failed — healthcheck `/api/health` never passed; logs showed service unavailable after 10+ attempts.
@@ -5873,7 +5580,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Redeploy Railway from `main`; confirm `GET https://api.site00.com/api/health` returns `{ ok: true }`; then upload cPanel v163 for mobile Expression Engine card.
 
 ---
-
 ## 2026-09-07 — Sprint B2 Chapter Argument Grammar (NDXBOOK Chapter 01)
 
 - **Context:** Formalize methodology layer above Entry — Chapter Argument Grammar. Retrofit ENTRY 001 + 002 to Chapter 01 WHICH ONE IS IT? No asset generation.
@@ -5890,7 +5596,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** B3 — ENTRY 002 creative anchor production under Chapter 01 grammar
 
 ---
-
 ## 2026-09-07 — Sprint B3 ENTRY 002 creative anchor (COVER)
 
 - **Context:** Produce first ENTRY 002 creative anchor only — 2016 Instagram baddie fashion focal point in Nostalgia Edit Suite world. No downstream format propagation.
@@ -5905,7 +5610,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder judgment:** UNREVIEWED — LOVE_IT required before downstream production unlock
 
 ---
-
 ## 2026-09-07 — Expression Engine Railway route fix (404 on fsbw-dev)
 
 - **Symptom:** Mobile Expression Engine page showed "API unavailable" on site00.fsbw-dev.com.
@@ -5915,7 +5619,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Redeploy Railway from `main` — hard refresh Expression Engine page on fsbw-dev.
 
 ---
-
 ## 2026-09-07 — Sprint B3.1 Founder Creative Override + Chapter Cover Grammar
 
 - **Context:** B3 generated anchor `NDX-ENTRY-002-COVER-ANCHOR-6062E715` passed technical QA but failed founder creative judgment (too graphic-flyer / environmental). Founder manually creative-directed stronger Entry 002 cover. Record B3 as preserved NON_CANON history; register founder-refined authority; formalize Chapter 01 cover presentation grammar.
@@ -5932,7 +5635,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** B4 — ENTRY 002 REEL production under approved cover + Chapter 01 argument grammar
 
 ---
-
 ## 2026-09-07 — Sprint B3.2 Chapter Cover Annotation Variation System
 
 - **Context:** Chapter cover cohesion is shared presentation grammar — but header annotation language must not repeat literally entry-to-entry. Need controlled variation system for Chapter 01 and future chapters.
@@ -5948,7 +5650,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** B4 — ENTRY 002 REEL production under approved cover + annotation variation rules
 
 ---
-
 ## 2026-09-07 — Sprint B4 Entry 002 REEL Production
 
 - **Context:** First downstream format after approved cover authority. Staged REEL production under Chapter 01 argument grammar + Nostalgia Edit Suite world. REEL only — no carousel/story/TikTok/X.
@@ -5966,7 +5667,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next action:** FOUNDER KEYFRAME REVIEW REQUIRED
 
 ---
-
 ## 2026-09-07 — B4 follow-up patch: annotation usage (consume B3.2, do not reimplement)
 
 - **Context:** B3.2 ChapterCoverAnnotationVariationSystem already locked. B4 must consume it for cover/identity surfaces only — reel is NOT cover annotations in motion.
@@ -5977,7 +5677,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** — 4 new B4 patch cases (119 total Expression Engine tests)
 
 ---
-
 ## 2026-09-07 — Sprint B4.1 Entry 002 REEL keyframe rasterization (first visual generation)
 
 - **Context:** B4 Gate 1 blocked — 3 REEL keyframe receipts were COMPILED/RECEIPT_ONLY with ephemeral random asset IDs and no storage rasters. Founder could not inspect visuals.
@@ -5994,7 +5693,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder Gate 1 visual review per frame (LOVE_IT / PROMISING_REFINE / NOT_FOR_ME); repair failed frame only with `-002` version suffix
 
 ---
-
 ## 2026-09-07 — Sprint B4.2 Entry 002 REEL keyframe execution dispatch
 
 - **Context:** B4.1 had dispatch layer but telemetry counted COMPILED plans as generation attempts; founder still blocked if rasters not executed. B4.2 is execution sprint — actual FAL dispatches required.
@@ -6009,7 +5707,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder Gate 1 visual review — `LOVE_IT | PROMISING_REFINE | NOT_FOR_ME` per frame
 
 ---
-
 ## 2026-09-07 — Sprint B4.3 Entry 002 REEL keyframe provenance + Gate 1 surfacing
 
 - **Context:** Record A (B4.1 gpt-image-2 fallback) and Record B (B4.2 flux-pro/v1.1) reported conflicting models for same asset IDs. Founder needed actual visuals + reconciled lineage.
@@ -6023,7 +5720,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder Gate 1 visual judgment per frame
 
 ---
-
 ## 2026-09-07 — Sprint B4.5 Entry 002 cinematic visual sequence board
 
 - **Context:** B4.4 sketch storyboard was too literal — founder needs cinematic visual development frames, not director sketches. B4.5 replaces visual authority with CinematicVisualSequenceBoard.
@@ -6041,7 +5737,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder GATE_0B cinematic visual sequence review
 
 ---
-
 ## 2026-09-07 — Expression Engine storyboard review UI (B4.4 surfacing)
 
 - **Context:** Founder could not see B4.4 blocking storyboard panels in UI — API-only until now.
@@ -6050,7 +5745,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 
 ---
-
 ## 2026-09-07 — Sprint B4.4 Entry 002 REEL storyboard authority before keyframes
 
 - **Context:** Pipeline was generating START/MID/END keyframes before full reel storyboard approval. B4.4 locks production order: complete storyboard → GATE_0_STORYBOARD → keyframe extraction.
@@ -6068,7 +5762,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder GATE_0 storyboard review — `LOVE_IT | PROMISING_REFINE | NOT_FOR_ME`
 
 ---
-
 ## 2026-09-07 — Sprint B4.6 Entry 002 storyboard gate + reel treatment authority
 
 - **Context:** Founder sprint B4.3 methodology — pipeline jumped from cover anchor to keyframes without locked reel story / structural storyboard. Same-woman contradiction and NDX vs subject woman roles needed formal authority before keyframes.
@@ -6087,7 +5780,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder per-board storyboard review (Board 01–05: LOVE_IT | PROMISING_REFINE | NOT_FOR_ME)
 
 ---
-
 ## 2026-09-07 — Sprint B4.6 follow-up — Pre-storyboard visual authority pack
 
 - **Context:** B4.5 cinematic sequence incorrectly collapsed NDX and subject woman ("same NDXBOOK woman every frame"). Founder requires two distinct human roles before cinematic storyboard can become visual canon.
@@ -6104,7 +5796,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder review five pre-storyboard visual authorities (LOVE_IT | PROMISING_REFINE | NOT_FOR_ME)
 
 ---
-
 ## 2026-09-07 — B4.6 pipeline state reconciliation
 
 - **Context:** Pre-storyboard follow-up superseded earlier B4.6 next-action language. Founder must review pre-storyboard authorities first — not structural storyboard boards as final visual canon.
@@ -6119,7 +5810,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FOUNDER REVIEW OF FIVE PRE-STORYBOARD VISUAL AUTHORITIES
 
 ---
-
 ## 2026-09-08 — Sprint B4.7 — Pre-storyboard authority approval + final storyboard preparation
 
 - **Context:** Founder attached five visual authority boards as active evidence for NDXBOOK Entry 002. System must record founder judgments, reconcile pipeline truthfully, and advance to FINAL CINEMATIC STORYBOARD READY only when all five = LOVE_IT.
@@ -6138,7 +5828,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder marks each of 5 authorities LOVE_IT in Pre-Storyboard Authority tab → gate satisfied → generate final cinematic storyboard
 
 ---
-
 ## 2026-09-08 — Sprint B4.8 — Pre-storyboard gate satisfaction + final storyboard activation
 
 - **Context:** Founder explicitly approved all five pre-storyboard visual authority boards (v001) as LOVE_IT. B4.8 persists approvals, satisfies GATE_0B, activates FINAL CINEMATIC STORYBOARD as next production step.
@@ -6157,7 +5846,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FINAL CINEMATIC STORYBOARD GENERATION
 
 ---
-
 ## 2026-09-08 — Sprint B4.9 — Final cinematic storyboard generation + founder review gate
 
 - **Context:** B4.8 left FINAL CINEMATIC STORYBOARD at READY_FOR_GENERATION with all 5 pre-storyboard authorities LOVE_IT v001. B4.9 generates first canonical final storyboard for Entry 002 and activates founder storyboard review gate.
@@ -6177,7 +5865,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD
 
 ---
-
 ## 2026-09-08 — Sprint B4.9R — Final cinematic storyboard structure recovery (false-positive QA correction)
 
 - **Context:** Founder determined B4.9 artifact `NDX-ENTRY-002-FINAL-CINEMATIC-STORYBOARD-001` is NOT a valid sequential cinematic storyboard — local-sharp-composite of authority images falsely passed QA and activated founder review gate.
@@ -6194,7 +5881,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (002)
 
 ---
-
 ## 2026-09-08 — Sprint B4.9R2 — Single-artifact cinematic storyboard recovery
 
 - **Context:** B4.9 produced one hero image + notes (false-positive QA). B4.9R overcorrected with 16 independent panel provider dispatches assembled afterward — also wrong. Founder requires ONE multi-panel cinematic storyboard image via ONE provider dispatch.
@@ -6209,7 +5895,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (003)
 
 ---
-
 ## 2026-09-08 — Sprint B4.9R3 — Reel-first storyboard conception recovery
 
 - **Context:** B4.9R2 technically produced one storyboard sheet but visual logic still treated beats as isolated illustrations, not successive moments from one conceived reel. Founder requires reel-first conception → 9 selected stills from one continuous film inside ONE board.
@@ -6226,7 +5911,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (004)
 
 ---
-
 ## 2026-09-08 — Sprint B4.9R4 — Visual authority binding recovery
 
 - **Context:** B4.9R3 achieved reel-first single artifact but founder finding: "5/5 authorities consumed" was metadata-only — authority IDs/text in prompt/lineage without five approved authority **images** bound into FAL reference conditioning. Deterministic CI renders incorrectly reached founder review.
@@ -6244,7 +5928,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next production action:** Railway FAL dispatch (`?phase=B49R4&dispatchFal=1`) with five authority refs → visual fidelity QA PASS → founder review
 
 ---
-
 ## 2026-09-08 — Sprint B5.0 — Expression Engine workspace experience rebuild
 
 - **Context:** Founder identified Expression Engine Entry 002 UI as text-heavy debug-page experience — 15 equal pill tabs, buried production state, prose continuity dump, oversized authority attachments, no visible Campaign Board destination. First **EXPRESSION_ENGINE_SELF_APPLICATION** test: use production methodology to rebuild operator interface without removing intelligence.
@@ -6263,7 +5946,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next production action:** Railway redeploy → FAL dispatch storyboard 005 (`?phase=B49R4&dispatchFal=1`) → founder review LOVE_IT on visual-review-ready strip
 
 ---
-
 ## 2026-09-08 — Expression Engine reference-fidelity mobile UI rebuild
 
 - **Context:** Founder approved mobile reference image as **design authority** (not inspiration). Rebuild look while preserving all B5.0 function and canonical state bindings.
@@ -6279,7 +5961,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Route:** `/projects/ndxbook/content-operations/expression-engine` (mobile presentation via FounderWorkspaceShell)
 
 ---
-
 ## 2026-09-08 — Sprint B5.0R1 — Social Package Journey Reconciliation
 
 - **Context:** B5.0 journey incorrectly implied FINAL REEL → CAMPAIGN BOARD. Founder locked true downstream order: FINAL REEL → DERIVED SOCIAL CONTENT → SOCIAL PACKAGE → CAMPAIGN BOARD.
@@ -6294,7 +5975,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next production action:** Founder chooses ONE controlled Studio World generation (POST `GENERATE_FINAL_STORYBOARD`) OR import founder storyboard variant A/B (POST `IMPORT_FOUNDER_STORYBOARD`) — no auto-dispatch
 
 ---
-
 ## 2026-09-08 — Sprint B5.0R2 — Storyboard Cost Control + Founder-Supplied Fallback
 
 - **Context:** Storyboard generation consumed unnecessary provider spend via GET/auto-retry loops. Founder supplied external storyboard variants (A/B) that better represent Entry 002 reel intent. Sprint: cleanup UI/state semantics, hard cost guard, first-class founder import path — without regenerating authorities, keyframes, or video.
@@ -6311,7 +5991,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next production action:** Founder chooses A (one POST generation) or B (import variant A or B) — system will not auto-choose
 
 ---
-
 ## 2026-09-08 — Sprint C1.0 — Narrative Synthesis Engine
 
 - **Context:** Studio World produced strong concepts/territories/treatments but lacked connective human storytelling tissue between creative thinking and production treatment. Founder still manually authored causal story logic.
@@ -6327,7 +6006,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next intellectual test:** Run Narrative Synthesis against a new/underdeveloped Entry without founder-supplied connective tissue
 
 ---
-
 ## 2026-09-08 — Sprint B5.2 — Entry 001 Campaign Package Page
 
 - **Context:** Founder attached reference-fidelity mobile design for Entry 001 Campaign Board package page. Entry 001 (WHO TF IS WE? / Britney Spears / media complicity) had approved archive assets but no dedicated package workspace — unlike Entry 002 Expression Engine production page.
@@ -6344,7 +6022,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next production action:** Founder confirms archive assets → compile derivation plan → choose generate vs manual supply for remaining deliverables (no auto FAL)
 
 ---
-
 ## 2026-09-08 — Sprint B5.3 — Entry 002 Expression Engine reference-fidelity rebuild
 
 - **Context:** Founder attached two mobile design authorities (REF 01 collapsed/default, REF 02 expanded accordions). Entry 002 page had cramped cards, text clipping, text-heavy accordion dumps, weak visual hierarchy vs new Entry 001 package page.
@@ -6361,7 +6038,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next production action:** Founder deploys cPanel ZIP; on mobile verify collapsed + expanded accordion states vs REF 01/02; choose Generate or Import storyboard when ready (no auto-dispatch)
 
 ---
-
 ## 2026-09-08 — Sprint C1.1 — Autonomous Creative Director Runtime
 
 - **Context:** C1.0 built narrative synthesis structure but compiler was deterministic from canon inputs. C1.1 adds LLM-backed (optional Anthropic text) Autonomous Creative Director Runtime that develops thin Entry briefs into full creative direction + narrative spine without founder connective tissue.
@@ -6377,7 +6053,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next evaluation action:** Founder reviews blind-test Creative Director output (`entry-c1-blind`) without rewriting first — judge whether Studio World supplied connective tissue on its own
 
 ---
-
 ## 2026-09-08 — Projects bottom panel icon update
 
 - **Context:** Founder supplied five Supabase PNG icons for the NDXBOOK projects mobile bottom panel (Overview, Campaigns, Content Ops, Lab, More).
@@ -6385,7 +6060,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `ndxBottomNavIconUrls.test.ts` (2/2 pass)
 
 ---
-
 ## 2026-09-08 — Sprint C1.2 — Entry 003 Autonomous Creative Director blind test
 
 - **Context:** First real blind production test — Studio World must autonomously discover Entry 003 subject and supply full creative connective tissue without founder input. Entry 001/002 unchanged. No image/video/FAL. No canonization.
@@ -6402,7 +6076,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next evaluation action:** FOUNDER REVIEWS ENTRY 003 AS STUDIO WORLD CREATED IT — taste-level feedback only; no production assets yet
 
 ---
-
 ## 2026-09-08 — Sprint B5.4 — Entry 001 Approved Archive taxonomy
 
 - **Context:** Approved Archive treated all uploads as equivalent images — no type grouping, no remove flow, package readiness could not reason by format.
@@ -6418,7 +6091,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Review Entry 001 archive on mobile — remove any incorrect assets, confirm type labels
 
 ---
-
 ## 2026-09-08 — Sprint B5.5 — Deliverable workspaces + live social preview
 
 - **Context:** Founder correction — uploaded deliverables disappeared after ingestion; package readiness was numeric only (2/5) with no visual package construction. B5.4 archive taxonomy must remain; no FAL/provider dispatch.
@@ -6450,7 +6122,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next evaluation action:** FOUNDER REVIEWS THE EVOLVED ENTRY 003 IN THE CONTEXT OF THE ENTIRE CHAPTER 01 STORY ARC — judge ENTRY 001 → 002 → 003 as one directed sequence
 
 ---
-
 ## 2026-09-08 — Sprint B5.6 — Persistent Package Storage + Visual Sequence Editing
 
 - **Context:** B5.4/B5.5 Entry 001 package state lived in localStorage (archive, deliverables, sequences, versions) — unacceptable for cross-device continuity and future AI derivation. Sprint also required real Carousel/Story drag-reorder with live Preview sync. No FAL/provider dispatch.
@@ -6465,7 +6136,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** OPEN ENTRY 001 ON MOBILE → REORDER CAROUSEL/STORY → VERIFY PREVIEW → OPEN SAME PACKAGE ON ANOTHER DEVICE → CONFIRM ORDER + DELIVERABLES PERSIST
 
 ---
-
 ## 2026-09-08 — Sprint C1.4 — Senior Creative Judgment Engine
 
 - **Context:** Studio World generated structurally coherent concepts but stopped at VALID/STRONG instead of autonomously deepening to EXCEPTIONAL. Founder repeatedly supplied final 20–30% of creative sophistication. Sprint required generic executive creative director layer (not Entry 003 hardcoded patches). Entry 003 (`THE EMPLOYEE-ONLY DOOR`) is regression fixture only. No FAL/image/video dispatch.
@@ -6481,7 +6151,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** FOUNDER REVIEWS THE SENIOR CREATIVE JUDGMENT RESULT FOR ENTRY 003 AND JUDGES WHETHER STUDIO WORLD NOW IDENTIFIED AND RESOLVED THE SAME DEEPER CREATIVE ISSUES BEFORE THE FOUNDER HAD TO POINT THEM OUT
 
 ---
-
 ## 2026-09-08 — Combined Sprint B5.6R1 + C1.5 — Production Persistence Hardening + Creative Intelligence Runtime Activation
 
 - **Context:** Follow-up to B5.6 (campaign package persistence architecture) and C1.4 (Senior Creative Judgment). Two independent workstreams: (A) wire Supabase as canonical production store for campaign packages, decommission deliverable localStorage ownership; (B) activate Senior Creative Judgment as global mandatory MPMD runtime with reasoning provider, blind non-NDXBOOK test, durable correction/judgment persistence. No FAL/image/video dispatch.
@@ -6505,7 +6174,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder actions:** (A) VERIFY ENTRY 001 ON TWO SESSIONS/DEVICES after cPanel deploy; (B) REVIEW FRESH SOLSTICE AUDIO BLIND CAMPAIGN in Expression Engine C1.5 phase without rewriting first
 
 ---
-
 ## 2026-09-08 — Sprint C1.6 — Full Reasoning Proof + Multi-Unit Creative Globalization
 
 - **Context:** C1.5 left gaps: FULL_REASONING not proven live, SCJ only on entry-003, corrections/judgments memory-only, GenericCreativeJudgmentReview unwired, no multi-unit package architect. Sprint closes these without Entry 003 repair or visual providers.
@@ -6522,7 +6190,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** FOUNDER REVIEWS THE FRESH FULL_REASONING MULTI-UNIT VERDANT ROW CAMPAIGN WITHOUT REWRITING IT FIRST — judge whether Studio World created a campaign worth producing with native medium expression per unit
 
 ---
-
 ## 2026-09-08 — Sprint C1.7 — Campaign Copy Director + Caption Intelligence
 
 - **Context:** C1.6 proved multi-unit creative direction but copy/captions were still treated as metadata. Sprint adds first-class CampaignCopyDirector after Senior Creative Judgment, before founder approval. No visual providers.
@@ -6538,7 +6205,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** FOUNDER REVIEWS VISUAL DIRECTIONS AND COINCIDING COPY AS ONE CREATIVE PACKAGE — judge whether each caption adds what the visual does not
 
 ---
-
 ## 2026-09-08 — Hotfix — Railway API healthcheck failure
 
 - **Context:** Railway SITE00 production deploy failed healthcheck (`service unavailable`, 11 attempts). Root cause: API never started — `tsx server/index.ts` crashed on import with esbuild `Multiple exports with the same name "importFounderSuppliedStoryboardForEntry002"` in `entry002B49Bootstrap.ts` (duplicate re-export line).
@@ -6547,7 +6213,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Redeploy Railway from `main` after merge — healthcheck should pass.
 
 ---
-
 ## 2026-09-08 — Sprint C1.8 — Live Creative Brain + Brand-True Copy Intelligence
 
 - **Context:** C1.7 proved copy director architecture but copy was deterministic/template-driven with Verdant Row voice bleeding across brands. C1.8 adds BrandLanguageIdentity, live copy reasoning path, cross-brand QA, founder copy actions, Supabase adapter wiring, 4-brand blind voice test.
@@ -6564,7 +6229,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** FOUNDER REVIEWS MULTI-BRAND COPY BLIND TEST WITHOUT BRAND NAMES FIRST — identify which caption belongs to which brand by language alone
 
 ---
-
 ## 2026-09-08 — Sprint C1.9 — Live Creative Intelligence Activation + Production Proof
 
 - **Context:** C1.8 architecture existed but FULL_REASONING never ran live, BrandLanguageIdentity was session-only, copy unproven on fresh multi-unit campaign. C1.9 adds Meridian Atelier blind brand, Supabase brand-language persistence, production proof orchestrator, system inspector, founder-action Supabase wiring.
@@ -6573,7 +6237,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Configure ANTHROPIC_API_KEY on Railway, redeploy API, then review live Meridian Atelier campaign as real client work.
 
 ---
-
 ## 2026-09-08 — Sprint B5.7 — Intelligent Project Module Sync + Context-Aware Asset Ingestion
 
 - **Context:** Project module tabs (Overview, Content Ops, Lab, Campaigns) showed stale demo fixtures and disconnected mock state. Asset upload defaulted to STATIC POST / LOW confidence even when uploading from Carousel or Story format tabs. Founder required one canonical `ProjectOperatingState` and tab-aware classification.
@@ -6587,7 +6250,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Open project module — verify Overview, Campaigns, Content Ops, Lab show same NDXBOOK Entries 001–003 reality. Entry 001 → Carousel → upload 4:5 asset → expect CAROUSEL SLIDE DETECTED · HIGH CONFIDENCE without manual type selection. Repeat from Story with 9:16.
 
 ---
-
 ## 2026-09-08 — Sprint C1.9R1 — Live FULL_REASONING Meridian Proof (zero-mock comparison)
 
 - **Context:** C1.9 could not complete live FULL_REASONING because ANTHROPIC_API_KEY was not configured on Railway. C1.9R1 runs the same Meridian Atelier / Nocturne Parfum brief twice — CONTROL_A (DETERMINISTIC_FALLBACK) vs FULL_REASONING_B (live) — with honest comparison, no mock substitution, separate persistence, and founder side-by-side review UI.
@@ -6605,7 +6267,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Configure ANTHROPIC_API_KEY on Railway, redeploy API, open Expression Engine → MERIDIAN · DETERMINISTIC vs FULL REASONING (C1.9R1). Review both campaigns side by side without editing either first. Judge which sounds more brand-owned and less generic luxury.
 
 ---
-
 ## 2026-09-08 — Sprint C1.9R2 — Live Provider Activation + Meridian Acceptance Run
 
 - **Context:** C1.9R1 infrastructure shipped but production Railway had `ANTHROPIC_API_KEY` configured yet FULL_REASONING returned zero dispatch. Root cause: expression-engine creative/copy providers defaulted to retired model `claude-sonnet-4-20250514` instead of centralized `claude-sonnet-4-6`.
@@ -6622,7 +6283,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** After merge deploys to Railway, open Expression Engine Meridian comparison (C1.9R2) — if FULL_REASONING_LIVE_PASS, review side-by-side without editing. If still blocked, check Railway logs for provider HTTP errors in runtime receipt.
 
 ---
-
 ## 2026-09-08 — Sprint B5.8 — Reference-Fidelity Social Package Preview Redesign
 
 - **Context:** Founder approved desktop + mobile reference mockups for Entry 001 Social Package Preview. Rebuild look to match references while preserving B5.4–B5.7 package route, deliverable, sequence, and persistence logic.
@@ -6638,7 +6298,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** OPEN ENTRY 001 → PREVIEW on mobile (390px): OVERVIEW → each format. Desktop 1440px: verify ASSETS → LIVE PREVIEW → COPY/DETAILS. Upload v198 ZIP to GoDaddy.
 
 ---
-
 ## 2026-09-08 — Sprint C1.9R3 — Post-Redeploy Live FULL_REASONING Execution
 
 - **Context:** C1.9R2 merged model fix but production blocked by `SITE00_CREATIVE_REASONING_FORCE_FALLBACK=1` on Railway (auth OK, dispatch 0). Health showed gitCommit 7df5017265a6, claude-sonnet-4-6.
@@ -6652,7 +6311,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** After Railway redeploy from main, hit `GET api.site00.com/.../expression-engine?phase=C1.9R3` (may take ~1–3 min). Open Expression Engine → MERIDIAN CONTROL vs FULL REASONING. Judge side-by-side without editing first.
 
 ---
-
 ## 2026-09-08 — C1.9R3 async job polling (HTTP timeout fix)
 
 - **Context:** Founder asked to ship Option C — POST starts C19R3 Meridian live job, GET `?jobId=` polls result — to avoid Railway/gateway HTTP timeout on long FULL_REASONING runs (~1–3 min).
@@ -6668,7 +6326,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Redeploy Railway API from `main`. Open Expression Engine → Meridian comparison loads via background job (spinner/poll). If still blocked, check acceptance status in poll response — not gateway timeout.
 
 ---
-
 ## 2026-09-08 — Sprint B5.9R1 — Universal Project Operating System + Founder/Client View Modes
 
 - **Context:** Founder approved PROJECT MODULE reference board as design authority. Replace first-generation project dossier with capability-driven operating system supporting distinct modules (Overview, Identity, Builder, Evolve, Production), per-module mobile subnav, module switcher, founder view-as-client QA mode, and project-specific capability manifests.
@@ -6686,7 +6343,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** OPEN PROJECTS → FRONTAL SLAYER in founder view. Compare against approved module board. Verify each module subnav. Toggle VIEW AS CLIENT. Upload v199 ZIP to GoDaddy.
 
 ---
-
 ## 2026-09-08 — Sprint B5.9R2 — Project Index reference-fidelity redesign
 
 - **Context:** Founder approved PROJECT INDEX reference board (mobile + desktop) as design authority. Legacy `/projects` page was text-heavy dossier index inconsistent with new Project Operating System from B5.9R1.
@@ -6703,7 +6359,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** OPEN PROJECTS on mobile first. Compare to approved mobile reference. Toggle VIEW AS CLIENT. Open FRONTAL SLAYER → verify modern Project OS overview (not legacy dossier). Upload v200 ZIP to GoDaddy.
 
 ---
-
 ## 2026-09-08 — Sprint B5.10 — Project Repository Intelligence + Technical Readiness Engine
 
 - **Context:** Founder approved desktop + mobile technical intelligence reference boards. SITE 00 must connect Builder/Production projects to real repositories and derive CI, dependencies, deployments, environments, diagnostics, notes, milestones, and readiness — not stale manual metadata.
@@ -6720,7 +6375,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** OPEN FRONTAL SLAYER → CODEBASE. Verify repository/branch/commit/PRs/CI when token configured. Toggle through DEPENDENCIES, DEPLOYMENTS, ENVIRONMENTS, DIAGNOSTICS, NOTES, MILESTONES tabs. Upload v201 ZIP to GoDaddy.
 
 ---
-
 ## 2026-09-08 — Sprint B5.9R3 — Evolve Module Regression Recovery + Specialized Module Restoration
 
 - **Context:** B5.9R1 universal Project OS shell replaced NDXBOOK Evolve with generic placeholder (`CAMPAIGNS — 0 ACTIVE`, gray hero). Founder required full NDXBOOK marketing operating system restored inside universal shell without reverting header/module switcher/founder-client toggle.
@@ -6738,7 +6392,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** OPEN PROJECTS → NDXBOOK → EVOLVE. Verify universal header/module switcher remains; main workspace shows full NDXBOOK OS (Campaigns, Content Ops, Lab, Entries 001–003 links). Then FRONTAL SLAYER → EVOLVE — must NOT show NDXBOOK content. Upload v202 ZIP to GoDaddy.
 
 ---
-
 ## 2026-09-08 — Restore SITE 00 Design Workspace on Projects index (post B5.9R2)
 
 - **Context:** Founder reported the SITE 00 project module for editing entire website design missing from mobile `/projects` after B5.9R2 reference-fidelity index redesign (card grid with FS/SW/ND/AI/AW but no SITE 00 entry).
@@ -6752,7 +6405,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** PROJECTS → tap top **SITE 00** card → **OPEN DESIGN →** → `/projects/site00/design`. Upload fresh GoDaddy ZIP after merge.
 
 ---
-
 ## 2026-09-08 — Sprint B5.9R4 — Evolve Subshell + Tab Icon Restoration
 
 - **Context:** B5.9R3 restored NDXBOOK Evolve content inside POS shell but internal subshell/tab navigation regressed — text-only POS `ProjectModuleMobileSubnav`, overflow links (Expression Engine, Performance, Cultural Intelligence) rendering inline, approved bottom-nav icons orphaned.
@@ -6770,7 +6422,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** OPEN PROJECTS → NDXBOOK → EVOLVE → verify bottom subnav shows approved icons for CAMPAIGNS, CONTENT OPS, LAB, MORE; tap each tab; confirm MORE panel (not inline links on campaign body). Upload v204 ZIP to GoDaddy.
 
 ---
-
 ## 2026-09-08 — Sprint B5.9R5 — Projects Index Reference-Fidelity Redesign
 
 - **Context:** Founder attached approved mobile PROJECTS index reference image. B5.9R2 index was functional but too admin-like; needed IDNTY-level visual confidence — orbital hero, founder/client strip, summary metrics, design workspace first (unnumbered), canonical project numbering 01–05, visual 2-col grid cards, new project tile unnumbered.
@@ -6789,7 +6440,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Sign in → PROJECTS on mobile → compare to reference; confirm DESIGN first (no number), FRONTAL SLAYER = 01; upload GoDaddy ZIP after merge.
 
 ---
-
 ## 2026-09-08 — Sprint B5.9R6 — New Project Panel Restoration
 
 - **Context:** B5.9R5 redesigned PROJECTS index but New Project tile was omitted in common states — gated behind `projectItems.length > 0`, so error/empty/filtered views hid it; styling used dashed generic CTA instead of reference crosshair card.
@@ -6803,7 +6453,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** PROJECTS mobile → scroll past 05 ASTRAL WORLD → verify NEW PROJECT tile (no number, red plus) → tap CREATE PROJECT →.
 
 ---
-
 ## 2026-09-08 — C19R3 Meridian Live Retry (Anthropic credits restored)
 
 - **Context:** Founder topped up Anthropic credits and asked to retry C19R3 Meridian live job after prior `REASONING_PROVIDER_FAILURE` (credit balance too low).
@@ -6813,7 +6462,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Expression Engine → Meridian comparison should load live FULL_REASONING run; record founder judgment if prompted.
 
 ---
-
 ## 2026-09-08 — Sprint B5.9R7 — Project Overview Intelligence + Reference-Fidelity Restoration
 
 - **Context:** NDXBOOK overview regressed to thin generic POS header (0% progress, 0 needs-your-eye, blank body). Approved Frontal Slayer mobile overview reference is design authority for structure/density; NDXBOOK adapter is content authority.
@@ -6833,7 +6481,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** PROJECTS → NDXBOOK → OVERVIEW on mobile; compare to approved reference; verify EVOLVE subshell; upload GoDaddy ZIP v208.
 
 ---
-
 ## 2026-09-08 — P0.VR.4 Reference Asset Reconstruction Pipeline (Design Workspace)
 
 - **Context:** Founder sprint formalizing manual screenshot→crop→recreate→transparency→QA→Supabase→live-bind workflow into first-class Design Workspace capability.
@@ -6851,7 +6498,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Added `shared/site00-bldr-classification/siteTypeModel.ts` + `bldrFieldValidation.ts`; synced `BldrIntakeFields.tsx` (OTHER site-type specify). PR #600 merged. Vite dev restarted.
 - **Founder action:** Hard refresh `site00.fsbw-dev.com` → NDXBOOK → Expression Engine → Meridian section.
 ---
-
 ## 2026-09-09 — Hotfix: Expression Engine hang (Meridian blocked core load)
 
 - **Symptom:** After BLDR import fix (#600), Expression Engine no longer showed Vite error but hung on "Loading Expression Engine…" with no data.
@@ -6867,7 +6513,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 
 ---
-
 ## 2026-09-08 — BLDR Site Type Multi-Select Classification Fix
 
 - **Context:** Targeted correction sprint — BLDR SITE step 01/03 had site type behaving as single-select (radio) when it must be multi-select; audience must remain single-select.
@@ -6883,7 +6528,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** BLDR → SITE → step 01/03 — select three site types + B2B audience; confirm multi-select + single-select behavior; upload GoDaddy ZIP after merge.
 
 ---
-
 ## 2026-09-09 — P0.VR.4R1 live reconstruction + Projects header auto-bind
 
 - **Context:** Sprint P0.VR.4R1 closes last-mile gaps from P0.VR.4 reference asset reconstruction pipeline. Golden asset: **PROJECTS HEADER PLANET** from approved Projects page reference (`projects-index-approved-reference.jpg`).
@@ -6902,7 +6546,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Upload GoDaddy ZIP (v211) → open DESIGN → PROJECTS INDEX → ASSETS → PROJECTS HEADER PLANET to run founder-led GENERATE/LOVE IT flow in UI; confirm `/projects` hero planet matches approved reference.
 
 ---
-
 ## 2026-09-09 — P0.VR.4R2 reference crop authority + zero-waste guard
 
 - **Root cause:** Hard-coded `220×220` crop at `(565,52)` captured only the central red core — feature-point-sized region, not full object bounding box. Double padding in extract path made it worse. No crop QA gate before FAL dispatch → wasted GPT Image 2 Edit credits.
@@ -6914,7 +6557,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** DESIGN → PROJECTS INDEX → ASSETS → PROJECTS HEADER PLANET → review crop preview → USE CROP → then GENERATE once.
 
 ---
-
 ## 2026-09-09 — P0.VR.5 founder instruction intelligence + multi-asset deconstruction pipeline
 
 - **Context:** Upgrade Design Workspace ASSETS tab from single-asset P0.VR.4 pipeline into founder-facing visual deconstruction job workspace with multi-asset detection, instruction presets, crop confirmation gate, replacement mapping, and spend guardrails.
@@ -6927,7 +6569,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** DESIGN → PROJECTS INDEX → ASSETS → use new ASSET DECONSTRUCTION PIPELINE → upload screenshot → select preset or type instruction → RUN DETECTION → CONFIRM ALL CROPS → RECONSTRUCT APPROVED (explicit) → APPROVE · UPLOAD · BIND.
 
 ---
-
 ## 2026-09-09 — Sprint B5.9R8 — View-mode shell invariance (Projects index)
 
 - **Bug:** Toggling Founder → Client on `/projects` recomposed the page: different hero copy/height, hidden toggle, collapsed 2-tile metrics, black "CLIENT VIEW / RETURN TO FOUNDER VIEW" bar.
@@ -6944,14 +6585,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Hard refresh → `/projects` → toggle CLIENT VIEW on existing control → verify same shell, data-only change.
 
 ---
-
 ## 2026-09-09 — B5.9R9 Projects page account-identity eyebrow
 
 - Red eyebrow shows active account person full name (uppercase); black title stays `PROJECTS`. `AccountIdentityEyebrow` in `ProjectsPageShell` hero.
 - **Next founder action:** `/projects` Founder View — verify name eyebrow; toggle Client View — client name in same slot.
 
 ---
-
 ## 2026-09-09 — B5.9R9R1 canonical account identity resolution
 
 - **Root cause:** `ACCOUNT /` fallback — localStorage snake_case fields not read; no profile hydration on Projects page; no auth metadata fallback.
@@ -6960,7 +6599,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** `/projects` → expand SYSTEM INSPECTOR · ACCOUNT IDENTITY → confirm SOURCE=PROFILE, RESOLUTION STATUS=RESOLVED; toggle client view.
 
 ---
-
 ## 2026-09-09 — Sprint B5.9R8R1 — Runtime client-view branch elimination + bundle audit
 
 - **Live symptom:** Founder reported B5.9R8 fix not visible — black CLIENT VIEW bar, YOUR PROJECTS hero, 2 metric cards on deployed site.
@@ -6975,7 +6613,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Upload GoDaddy release v217 ZIP; hard refresh; verify page source shows new `index.*.js` hash (NOT `index.Cr70B6lr.js`).
 
 ---
-
 ## 2026-09-09 — Remove unused ExperienceContextBar from ecosystem shell
 
 - **Context:** Founder flagged gray debug strip at top of `/projects` mobile (VIEWING AS · PROJECT OWNER, CLIENT QA · OFF, duplicate ADMIN CONTROL CENTER link) — never used.
@@ -6983,7 +6620,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Upload fresh GoDaddy ZIP after merge; hard refresh `/projects` — gray strip should be gone.
 
 ---
-
 ## 2026-09-09 — B5.9R10 client simulation selector + Jane Doe fixture
 
 - **Context:** CLIENT VIEW = mode; active client = context. Founder needs searchable client selector on existing toggle without shell recomposition.
@@ -6997,7 +6633,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** `/projects` → CLIENT VIEW → search JANE → select → verify 05 YOUR PROJECTS + 5 project cards, no SITE 00.
 
 ---
-
 ## 2026-09-09 — P0.VR.6 Design workspace UX reconstruction (11-reference sprint)
 
 - **Problem:** Design module too text-heavy, activity dominated viewport, assets pipeline stacked all 7 stages vertically.
@@ -7013,7 +6648,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** `/projects/site00/design` mobile → QA each tab against 11 references; walk asset pipeline stages; confirm activity stays collapsed.
 
 ---
-
 ## 2026-09-09 — Reference-fidelity recovery sprint (Design workspace)
 
 - **Problem:** P0.VR.6 treated 11 reference images as inspiration — shell geometry, stepper clipping, generic SVG orb, loose typography/spacing, History as text list, Pages/More tab drift.
@@ -7031,7 +6665,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Mobile QA all 11 references starting ASSETS→UPLOAD; compare pixel geometry vs attachments; deploy v222 ZIP after merge.
 
 ---
-
 ## 2026-09-09 — P0.VR.7 Reference fidelity contract + screenshot design authority engine
 
 - **Context:** Founder required screenshot uploads in Design Workspace to default to **DESIGN_AUTHORITY + EXACT** (not inspiration), with automatic system fidelity instruction, reference decomposition, implementation plan, screenshot QA, drift classification, correction loop, asset pipeline inheritance, UI badge/inspector, and composer handoff.
@@ -7045,7 +6678,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Design → upload mobile page screenshot without typing “copy exactly” → verify badge + VIEW CONTRACT → confirm interpretation → run reconstruction → verify QA reports drift not false pass.
 
 ---
-
 ## 2026-09-09 — P0.VR.6R1 Pixel-fidelity calibration + overlay diff recovery
 
 - **Context:** Design workspace structurally close to 11 reference authorities but still had calibration drift (spacing, blue leakage, emoji icons, Pages filter clipping, compressed featured card, flat History, More provider text collisions).
@@ -7060,7 +6692,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Mobile QA all 11 tabs vs authorities; deploy v224 ZIP; re-run overlay script after any further CSS tweaks.
 
 ---
-
 ## 2026-09-09 — P0.VR.6R2 Canonical visual convergence engine
 
 - **Context:** P0.VR.6R1 overlay/calibration was a one-off recovery pass. Founder required it become permanent pipeline behavior for every DESIGN_AUTHORITY + EXACT reference — capture → normalize → overlay → measure → correct → recapture → verify without manual “pixel perfect” prompts.
@@ -7074,7 +6705,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Upload test screenshot (no special QA instruction) → verify EXACT + convergence session → run implementation → confirm page enters VISUAL QA → VIEW COMPARISON → run correction pass → verify recapture + recompare.
 
 ---
-
 ## 2026-09-09 — Master Skin System (field classification + module variants + onboarding)
 
 - **Context:** Founder required projects to express distinct brand experiences without template drift (not NDXBOOK + different primary color). Field classification ≠ master skin; host shell firewall preserved.
@@ -7088,7 +6718,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Open `/projects/site00/master-skin-preview` → compare three Evolve proofs → run doctor onboarding step → verify CLINICAL EDITORIAL recommended.
 
 ---
-
 ## 2026-09-09 — Brand Family Skins Foundation (STUDIO WORLD sprint)
 
 - **Context:** Replace generic industry MasterSkin direction with brand-family-aware model. Five canonical families: NDXBOOK, FRONTAL_SLAYER, AIO, ASTRAL_WORLD, STUDIO_WORLD. Architecture + registry + screen authority framework only — **no final visual designs invented**.
@@ -7104,7 +6733,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Design → MORE → EXPERIENCE SKIN → verify five family records + screen pack status → do NOT test auto-generated skins → create Project Overview visual authority for first brand family when ready.
 
 ---
-
 ## 2026-09-09 — Screen Authority Ingestion UX Recovery
 
 - **Problem:** Brand family skin foundation existed but whole-screen approved uploads still routed to Assets → Instruct → Detect (asset extraction). Missing founder UX for SCREEN AUTHORITY → REGISTER → IMPLEMENT → CONVERGE.
@@ -7122,7 +6750,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Design → MORE → EXPERIENCE SKIN → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → upload mobile NDX overview → REGISTER → IMPLEMENT (not Assets → Instruct).
 
 ---
-
 ## 2026-09-09 — Design Workspace Project Selector Recovery
 
 - **Problem:** Top-right Design workspace project selector visually present but non-functional — stuck on PROJECT SITE 00; all tabs showed Site 00 data regardless of selection.
@@ -7138,7 +6765,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Design → tap PROJECT SITE 00 ▼ → select NDXBOOK → verify breadcrumb + Pages no longer show Site 00's 45 pages → MORE → EXPERIENCE SKIN → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → upload approved mobile NDX overview.
 
 ---
-
 ## 2026-09-09 — Design Workspace Live Page Mirror (P0.VR.8)
 
 - **Problem:** PAGES tab used static screen lists (`listScreensWithSnapshots`) — stale thumbnails, hardcoded copy, no route discovery sync, no deploy-aware recapture.
@@ -7151,7 +6777,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Design → NDXBOOK → PAGES → verify routes from NDX router (6 pages) → REFRESH CAPTURE one page → make small NDX visible change → deploy → verify page marked STALE then recaptured.
 
 ---
-
 ## 2026-09-09 — Design Workspace SKINS Tab Pixel-Fidelity Sprint
 
 - **Context:** Approved mobile + desktop visual authorities for new first-class SKINS tab between PAGES and HISTORY. Experience Skin UX moved from MORE to SKINS.
@@ -7166,7 +6791,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Design → SKINS on mobile + desktop → compare to attached authorities → MORE confirms no Experience Skin wall → NDXBOOK → OVERVIEW → MOBILE → ADD AUTHORITY.
 
 ---
-
 ## 2026-09-09 — SKINS Nested Flow Visual Cohesion Recovery
 
 - **Problem:** Primary SKINS landing matched approved authorities, but child surfaces (ADD AUTHORITY, IMPLEMENT, VISUAL QA) fell back to raw admin forms — native file input, disabled selects, bullet-list contract, lost context.
@@ -7180,7 +6804,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Design → SKINS → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → verify designed sheet (no text wall, no raw file input) → upload NDX mobile overview → REGISTER → IMPLEMENT → verify visual QA flow uses same SKINS language → deploy v232 ZIP to GoDaddy.
 
 ---
-
 ## 2026-09-09 — SKINS Pixel-Fidelity + Reference Asset Deconstruction
 
 - **Problem:** SKINS landing was directionally correct but rough vs approved mobile/desktop authorities — geometry drift, typography/line-break drift, flat color swatches instead of reference imagery.
@@ -7195,7 +6818,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v233 → Design → SKINS mobile + desktop → compare to attached authorities → verify family cards show real visuals (not lime/red/gold blocks) → NDXBOOK → OVERVIEW → ADD AUTHORITY.
 
 ---
-
 ## 2026-09-09 — Reference Asset Pipeline Recovery (P0.VR.6R4)
 
 - **Problem:** v233 bound **source crops** directly as live family thumbnails — screenshot fragments with phone edges, card UI, label text still visible as final assets.
@@ -7212,7 +6834,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v234 → Design → ASSETS → SKINS REFERENCE ASSET JOB → NDXBOOK → verify pipeline stages + prompt + source crop NOT marked final → FOUNDER GENERATE → approve → Design → SKINS → verify NDXBOOK card uses clean canonical (not crop fragment).
 
 ---
-
 ## 2026-09-09 — Design Project Selector Visual Cleanup
 
 - **Problem:** Project selector dropdown used heavy black/dark theme — low contrast inactive text, unclear selected state, felt like a different product vs SITE 00 light host UI.
@@ -7227,7 +6848,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v235 → Design → tap PROJECT [name] ▼ → verify light popover → select FRONTAL SLAYER → verify label/breadcrumb/rescope → reopen and verify CURRENT mark.
 
 ---
-
 ## 2026-09-09 — SKINS Pixel-Fidelity No-Op Recovery
 
 - **Problem:** v233/v234 SKINS fidelity sprints produced no material runtime change — family cards still flat color blocks; v234 correctly unbound source crops but never completed reconstruction/bind.
@@ -7239,7 +6859,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v236 → Design → SKINS → MOBILE → verify NDXBOOK card shows planetary artwork (not lime block) → compare family row to authority.
 
 ---
-
 ## 2026-09-09 — Reference Reconstruction Intelligence (P0.VR.6R5)
 
 - **Problem:** Reconstruction still followed REFERENCE → visual interpretation → approximate implementation. EXACT mode lacked formal MEASURE → INFER → CONSTRAIN → CONVERGE → VERIFY pipeline between "composer can see the screen" and "live implementation is actually exact."
@@ -7262,7 +6881,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v237 → Design → MORE → REFERENCE RECONSTRUCTION → verify blueprint READY + viewport/content canvas/region tree/layout plan visible → run IMPLEMENT/RECONVERGE MOBILE SKINS when wired → only then move to desktop SKINS authority.
 
 ---
-
 ## 2026-09-09 — Authority Boundary + Multi-Asset Orchestration (P0.VR.6R6)
 
 - **Problem:** P0.VR.6R5 shipped methodology but runtime SKINS mobile unchanged — only NDXBOOK improved; system treated too much as HOST_LOCKED and processed assets one-at-a-time.
@@ -7281,7 +6899,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v238 → MORE → REFERENCE RECONSTRUCTION → verify SKINS workspace shows AUTHORITY_REBUILD (red overlay) not HOST_LOCKED → ASSETS → SKINS MOBILE JOB → verify 5 assets → approve crops → review plan → approve generation (no auto-dispatch until wired).
 
 ---
-
 ## 2026-09-09 — Founder Action Routing + Auto-Surfaced Approval Workflow (P0.VR.6R7)
 
 - **Problem:** v238 SKINS mobile job blocked on crops 0/5 + generation blocked — founder saw nothing actionable in Design workspace; had to hunt System Inspector. Structural/typography corrections incorrectly coupled to asset gate.
@@ -7303,7 +6920,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v239 → Design → SKINS (NOT Inspector) → verify "5 CROPS NEED YOUR REVIEW" + [REVIEW CROPS] → approve 5 crops → review generation plan → APPROVE GENERATION → compare layout to authority (structure/typography should already have moved before asset approval).
 
 ---
-
 ## 2026-09-09 — Founder Action UX Repackaging (P0.VR.6R8)
 
 - **Problem:** Founder gates (crop approval) technically correct but felt silent — work buried in pipeline language, not surfaced via ASSETS alerts or bell notifications.
@@ -7317,7 +6933,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v241 → top-right bell shows pending action → OPEN → verify lands on Design → ASSETS → crop review; ASSETS root shows NEEDS YOUR REVIEW card with [REVIEW CROPS].
 
 ---
-
 ## 2026-09-09 — Page Completion + Interaction Intelligence Engine (P0.VR.7)
 
 - **Problem:** Pages could ship as primary screens only — visible buttons/tabs/toggles with no resolved child routes, states, or surfaces until a later sprint.
@@ -7335,7 +6950,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v242 → Design → PAGES → verify PAGE COMPLETION panel shows interactions/child surfaces for selected page → MORE → inspect PAGE COMPLETION block.
 
 ---
-
 ## 2026-09-09 — Evolve Service Page + Self-Directed Client Product (reference-fidelity sprint)
 
 - **Context:** Founder sprint to split **public Evolve service discovery** from **self-directed Evolve client product**, rebuild both from attached mobile/desktop authorities (Martian Mono, uppercase UI), wire functional CTAs via page completion, support MARKETING_ONLY scope + project relationship architecture.
@@ -7350,7 +6964,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v243 → mobile `/evolve` compare to Evolve service authority → desktop `/evolve/desktop` compare → sign into `/app/projects/:slug` → verify 5-tab shell → tap primary actions on Home/Projects/Profile.
 
 ---
-
 ## 2026-09-09 — P0.VR.6R9 Visual Convergence + Screen QA Matrix
 
 - **Context:** Architecture from v243 shipped (PR #635); sprint goal = converge live UI to approved authorities without rebuilding product model. Known gaps: desktop self-directed grids, Reviews/Inbox visual rebuild, screenshot QA matrix.
@@ -7366,7 +6979,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v244 → open screenshot QA matrix in tests/shared module → compare `/evolve` + `/evolve/desktop` → preview `/app/preview/preview-client-room` (or signed project) → verify Reviews/Inbox rebuild + desktop side nav → click primary action per tab.
 
 ---
-
 ## 2026-09-09 — EVOLVE Pricing Authorities (Self-Directed + Site 00 Directed)
 
 - **Context:** Sprint to rebuild `/evolve/plans` to match four attached pricing authorities (self-directed + directed × mobile + desktop) with functional mode toggle and reconstructed SVG icons.
@@ -7380,7 +6992,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining:** Pixel-level overlay QA vs attached authorities post-deploy; old `EvolveCommercialPage.tsx` retained in repo but unmounted from public route (admin catalog still uses shared commercial module separately).
 
 ---
-
 ## 2026-09-09 — Evolve Operations Intelligence Engine + Founder Control Room
 
 - **Context:** System intelligence sprint — build operating engine (not dashboard-only) for portfolio-scale Evolve ops: spend, failures, health, escalation, routing, margin, client risk, executive brief; founder control room integration; client firewall.
@@ -7394,7 +7005,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy → Control Room → OPEN EVOLVE OPERATIONS → verify NEEDS ATTENTION / SPEND WATCH / FAILURES / CLIENT WAITING queues → run acceptance fixtures (credit watch, bad crop, provider outage, growth partner launch, retainer stall, margin watch, 1k portfolio toggle).
 
 ---
-
 ## 2026-09-09 — P0.VR.6R7 Founder Crop Intelligence + Editable Crop Workspace
 
 - **Context:** Recovery sprint — multi-asset SKINS MOBILE reconstruction surfaced crop approvals but founder could approve without understanding detection, editing crops, or quality warnings (NDXBOOK device chrome). Required formal FounderCropIntelligence + EditableCropWorkspace with three gates (asset identity → crop approval → generation approval).
@@ -7409,7 +7019,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v248 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → REVIEW CROPS → open 01 NDXBOOK → verify detection explanation + device chrome warning → edit crop → approve crop (no generation) → approve remaining valid crops → generation plan → explicit APPROVE GENERATION.
 
 ---
-
 ## 2026-09-09 — P0.CJ.1 Creative Judgment Intelligence + Founder Judgment Memory + Benchmark Loop
 
 - **Context:** Methodology/intelligence sprint to formalize Expression Engine maturity program — stack: Brand Intelligence → Concept Engine → Expression Engine → CreativeJudgmentIntelligence → FounderJudgmentMemory → Benchmark/Learning Loop. Goal = operational 100% (reliable approvable work, correct rejection, brand fidelity, channel differentiation, self-critique, bounded revision) — not prompt tuning or UI-only.
@@ -7423,7 +7032,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy → Expression Engine → CREATIVE JUDGMENT MATURITY → verify Entry 003 golden judgment → Verdant Row non-NDX golden (no NDX leak) → run 5–10 brief blind batch → record founder judgments → inspect maturity scores / rescue rate / self-critique accuracy — do not optimize to 100 from one run.
 
 ---
-
 ## 2026-09-09 — P0.VR.6R8 Semantic Crop Intelligence + Direct Manipulation Editor
 
 - **Context:** Recovery sprint — P0.VR.6R7 crop gates existed but failed on wrong detection (phone frame vs inner NDXBOOK visual), button-nudge editor, and text-heavy inspector UX.
@@ -7440,7 +7048,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v250 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → NDXBOOK → verify red box on inner visual, drag/resize handles, live preview, chips + DETAILS — approve crop only after exact asset match (no generation on crop approve).
 
 ---
-
 ## 2026-09-09 — P0.VR.6R9 Crop Overlay / Live Preview Coordinate Convergence
 
 - **Context:** Recovery sprint — P0.VR.6R8 direct-manipulation crop editor worked but red crop box and live preview showed different source regions (coordinate-system failure visible on mobile NDXBOOK).
@@ -7456,7 +7063,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v251 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → 01 NDXBOOK — place red box on unique region, move/resize all edges, zoom 50/100/200%, scroll page — confirm live preview matches box exactly before crop approve (generation still separate).
 
 ---
-
 ## 2026-09-09 — P0.CJ.2 Creative Judgment Presentation + Savor Celeste Demo
 
 - **Context:** P0.CJ.1 engine produced valuable reasoning but text-heavy internal dump; founder needed visual-first swipeable concept panels + real fragrance brand demo (Savor Celeste / The Private Room) without hallucinating live site details.
@@ -7472,7 +7078,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy v252 → Expression Engine → CONCEPT REVIEW · GALLERY → swipe Savor Celeste THE PRIVATE ROOM → verify PROFILE-GROUNDED badge → judge with LOVE IT / REVISE → open TRAILER mode for gift deck preview.
 
 ---
-
 ## 2026-09-09 — P0.CJ.2V Creative Judgment Visual Authority
 
 - **Context:** P0.CJ.2 data layer worked but presentation still felt text-heavy / dark / generic; sprint required premium bright-host creative-director UX on mobile + desktop without touching CJ engine.
@@ -7486,7 +7091,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Status:** `VISUAL_DIRECTION_IMPLEMENTED · VISUAL_AUTHORITY_REQUIRED` (no pixel-perfect authority claim).
 - **Remaining gaps:** Generated hero key art / product photography binding; live savorceleste.com fetch; final mobile+desktop screen authority captures for pixel pass.
 - **Next founder action:** Deploy v253 → Expression Engine → CREATIVE JUDGMENT → review 4 cases (Employee Door, Verdant Row, Sleep Debt, Savor Celeste) on mobile gallery + desktop compare + trailer — capture screenshots for visual authority pass.
-
 ## 2026-09-10 — P0.VR.7R1 Guided reconstruction flow + workflow sequence intelligence
 
 - **Context:** Design reconstruction pipeline worked technically but founder still had to manually interpret multi-asset jobs (SKINS mobile 5 brand-family row). Sprint adds guided sequence intelligence without replacing crop editor, approval gates, or provider safeguards.
@@ -7502,7 +7106,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `visualReconstructionP0VR7R1.test.ts` (21/21 pass); build bundle `index.BU4ppssv.js`
 - **Preserved:** semantic crop intelligence, direct manipulation editor, crop/generation approval gates, no silent paid generation
 - **Next founder action:** DESIGN → ASSETS → CONTINUE RECONSTRUCTION → approve NDXBOOK crop → verify auto-advance to FRONTAL SLAYER with smart crop proposal → complete sequence → REVIEW GENERATION PLAN before APPROVE GENERATION
-
 ## 2026-09-10 — P0.VR.8-SRF Screen Replication Fidelity / Asset-Deferred Convergence
 
 - **Context:** Asset reconstruction pipeline still stabilizing; sprint isolates whether SITE 00 can replicate approved screen authority (layout/spacing/typography/composition) while deferring unresolved hero/card assets.
@@ -7520,7 +7123,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** DESIGN → MORE → SCREEN REPLICATION QA → verify REFERENCE/LIVE/OVERLAY/DIFF links → open `/projects/ndxbook/overview` mobile → confirm authority layout (not generic pov) → continue asset reconstruction separately
 
 ---
-
 ## 2026-09-10 — P0.VR.8R1 Project-Scoped Design Context + Brand Skin / Page Registry Sync
 
 - **Context:** Design workspace project selector changed labels but did not fully rebind pages, accents, skins, captures, or references to the active project (NDXBOOK showed SITE 00 red; Studio World showed fake 0 pages).
@@ -7538,7 +7140,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** After cPanel deploy — DESIGN → run 5-project switch matrix (NDXBOOK → Studio World → FS → AIO → Astral → NDXBOOK) then proceed to P0.VR.8 screen-replication golden test on NDXBOOK overview mobile
 
 ---
-
 ## 2026-09-10 — P0.VR.8R2 Prior Route Audit Recovery + Stale Route Reconciliation
 
 - **Context:** Design → PAGES showed 0–1 page per project despite prior full route audits (P0.VR.3A/B/D, P0.UI.2 NDX routeInventory, FSBW legacy). P0.VR.8R1 bootstrap registered minimal pilot screens only; `routeRepresentativeResolver` collapsed all `/projects/:projectSlug/*` routes to one pageId.
@@ -7550,7 +7151,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy → DESIGN → MORE → ROUTE AUDIT / RECOVERY (verify PRIOR AUDIT FOUND + both repos) → NDXBOOK → PAGES (full inventory, CAPTURE STALE expected) → REFRESH CAPTURES when ready.
 
 ---
-
 ## 2026-09-10 — P0.VR.8R3 Project Capture Refresh + Queue Orchestration Recovery
 
 - **Context:** After P0.VR.8R2 route inventory recovery (NDXBOOK ~46 pages), **REFRESH PROJECT** only updated `LAST UPDATED` and left all pages STALE / "NEVER CAPTURED" with blank LIVE boxes — capture orchestration chain was broken.
@@ -7562,7 +7162,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy → DESIGN → NDXBOOK → PAGES → verify NEVER CAPTURED counts → REFRESH PROJECT → watch QUEUED/CAPTURING/CURRENT update live → open `/projects/ndxbook` first page for LIVE screenshot + CURRENT status.
 
 ---
-
 ## 2026-09-10 — P0.VR.8R3R1 Capture Run Contract + Worker Execution Recovery
 
 - **Context:** P0.VR.8R3 architecture shipped but live UI showed NaN/undefined capture run (`totalPages` vs contract mismatch), STALE 46 instead of NEVER CAPTURED 46, queue counts 0 after refresh — receipts missing at runtime.
@@ -7572,7 +7171,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Redeploy Railway API + cPanel v259 → hard refresh → NDXBOOK PAGES should show NEVER CAPTURED 46 / STALE 0 before refresh → REFRESH PROJECT → run shows 46 targets + queued jobs + worker HEALTHY → wait for `/projects/ndxbook` CURRENT + live screenshot.
 
 ---
-
 ## 2026-09-10 — P0.VR.8R3R2 Capture Contract Receipt + Canonical Page-State Reconciliation
 
 - **Context:** P0.VR.8R3R1 fail-closed stopped NaN UI but live still showed `RUN_CONTRACT_INVALID`; project summary all zeros while page cards showed CAPTURE REQUIRED; display routes like `/OVERVIEW` not resolved to runtime URLs before target creation.
@@ -7582,7 +7180,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Redeploy Railway + cPanel v260 → verify NDXBOOK pre-run NEVER CAPTURED 46 → REFRESH PROJECT → preflight receipt (46 inventory, 46 URLs, contract valid, 46 targets/jobs) → first overview page CURRENT + live screenshot.
 
 ---
-
 ## 2026-09-10 — P0.VR.8R3R3 Capture API Connectivity + Runtime Transport Proof
 
 - **Context:** P0.VR.8R3R2 fixed page-state reconciliation (NEVER CAPTURED 46 correct). REFRESH PROJECT still failed with generic `NETWORK_ERROR` on live cPanel deploy.
@@ -7592,7 +7189,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Redeploy Railway + cPanel v261 → MORE → CAPTURE ORCHESTRATION → TRANSPORT verify HEALTHY → NDXBOOK PAGES → REFRESH PROJECT (no NETWORK_ERROR) → first page CURRENT.
 
 ---
-
 ## 2026-09-10 — P0.VR.8R3R4 Capture Worker Boot + Heartbeat + Shared Runtime Health
 
 - **Context:** P0.VR.8R3R3 proved API transport (API CONNECTED, contract capture-run-v1 ✓, NEVER CAPTURED 46 correct). Live blocker: WORKER UNKNOWN / UNAVAILABLE — API→worker chain not proven.
@@ -7603,7 +7199,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Redeploy Railway from main (worker boots on API start) → cPanel v262 → MORE → CAPTURE ORCHESTRATION → verify WORKER HEALTHY + recent heartbeat + BROWSER READY → TEST WORKER → then NDXBOOK REFRESH PROJECT → first overview CURRENT + live screenshot.
 
 ---
-
 ## 2026-09-10 — P0.VR.8R3R5 Capture Orchestration Visual UX + Founder-Guided Workflow
 
 - **Context:** P0.VR.8R3R4 shipped worker boot/heartbeat/test gate; Pages tab still too diagnostic (worker IDs, heartbeats, contract strings, zero-count telemetry).
@@ -7613,7 +7208,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy cPanel v263 → DESIGN → NDXBOOK → PAGES → follow guided CHECK → TEST → CAPTURE → REVIEW without opening system details.
 
 ---
-
 ## 2026-09-10 — P0.VR.8R3R5R1 True Wizard Workspace + Single-Screen Task Orchestration
 
 - **Context:** Screen recording after R3R5 showed Design workspace still behaved like a long scrolling admin document — founder forced to scroll through providers, spend guard, capture panels, page cards, route audit, quick actions stacked vertically. R3R5 improved copy but not interaction model.
@@ -7624,7 +7218,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy cPanel v264 → DESIGN → NDXBOOK → PAGES — do NOT scroll; landing shows START CAPTURE SETUP → advance screen-by-screen through service check → test worker → capture → results; verify MORE opens category grid not settings document.
 
 ---
-
 ## 2026-09-10 — P0.VR.MOF.R1 System & Settings Tab Visual Convergence
 
 - **Context:** MORE tab landing after R3R5R1 still underwhelming vs target concept — sparse generic cards, weak hero, no status hierarchy, not control-room feel.
@@ -7632,7 +7225,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy cPanel v265 → DESIGN → NDXBOOK → MORE → scan system hub at a glance → tap CAPTURE/PROVIDERS to confirm detail screens.
 
 ---
-
 ## 2026-09-10 — P0.PCI.1 Parent–Child Experience Inheritance Engine
 
 - **Context:** Founder sprint for system-level product/design intelligence — parent landing pages can be authoritative while child routes fall back to generic admin UI (MORE tab pattern: hub improved, children old). Goal: reusable engine for SITE 00, client projects, and future generated sites — not one-off page restyles.
@@ -7648,7 +7240,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** No cPanel deploy (shared engine only). Next sprint: run engine against Project OS MORE module + apply convergence plans to replace `site00-pos-panel` fallback UI.
 
 ---
-
 ## 2026-09-10 — P0.VR.MOF.R2 MORE Child-Page Visual System + Wizardized Subroutes
 
 - **Context:** MOF.R1 redesigned MORE hub only; child routes (Capture, Route Audit, etc.) still showed raw diagnostic dumps (API BASE URL, worker UUID, DEGRADED strings, audit lineage walls).
@@ -7657,7 +7248,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy cPanel v266 → DESIGN → MORE → tap each tile (SYSTEM, PROVIDERS, CAPTURE, ROUTE AUDIT, STORAGE, AUTOMATION, PRESETS) — verify one status + one primary action + compact cards; CAPTURE should read NEEDS ATTENTION with browser-not-ready copy, not raw build/URL dump.
 
 ---
-
 ## 2026-09-10 — P0.PCI.2 Route Linkage Contract + Parent-to-Child Wiring Convergence
 
 - **Context:** Follow-up to P0.PCI.1 — experience tree and navigation tree must agree. Parent tiles/buttons/wizard steps must reach real child/grandchild surfaces with return paths. MORE hub proved pattern: parent improved, wiring must be provably correct.
@@ -7672,7 +7262,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy cPanel v267 → DESIGN → MORE → CHILD EXPERIENCE MATRIX → verify MORE/PAGES/ASSETS/SKINS wiring rows → click every MORE tile + test MORE→CAPTURE→TEST WORKER grandchild + return paths.
 
 ---
-
 ## 2026-09-10 — P0.PCI.3 Page Family Workspace + Derivative Design Wizard (PAGES tab revamp)
 
 - **Context:** Founder sprint to replace PAGES tab long-scroll 46-page inventory with reference-led **Page Family Workspace** — visual control center for parent → child → grandchild experience inheritance, route wiring, design approval, build, capture, verification. Reference image is design authority; preserve routing, data, auth, capture, page completion.
@@ -7686,7 +7275,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy cPanel **v268** → DESIGN → NDXBOOK → PAGES (`?tab=pages&pagesStep=family`) → verify PROJECT PROGRESS + PAGE FAMILY WORKSPACE + MAP + DERIVATIVE REVIEW + WORKFLOW (not 46-card scroll) → CONFIRM FAMILY → swipe derivatives → approve one child → verify parent control wiring.
 
 ---
-
 ## 2026-09-10 — P0.VR.8R3R5 Railway Chromium System Dependencies + Browser Boot Proof
 
 - **Context:** Live worker DEGRADED with PLAYWRIGHT READY but BROWSER NOT READY / SYSTEM DEPENDENCY MISSING on Railway v263. Sprint scoped to Railway Linux runtime + Chromium deps + real browser launch/screenshot proof — not worker boot/heartbeat/CORS/auth/PCI/More UX rewrites.
@@ -7698,7 +7286,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** **Redeploy Railway from main** (critical — apt deps apply at build). Then deploy matching cPanel bundle → DESIGN → MORE → CAPTURE → verify BROWSER READY → TEST WORKER → view test screenshot → only then NDXBOOK PAGES REFRESH PROJECT.
 
 ---
-
 ## 2026-09-10 — P0.PCI.3R1 Page Family Workspace Authority + Capture Decoupling
 
 - **Context:** PCI.3 shipped Page Family Workspace but live PAGES tab still opened to capture-first wizard (NDXBOOK PAGE CAPTURE → SERVICE CHECK), blocking all progress when browser/worker degraded. Sprint: make PageFamilyWorkspace own DESIGN → PAGES; capture is downstream readiness dimension only.
@@ -7713,7 +7300,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Deploy cPanel v270 → DESIGN → NDXBOOK → PAGES — verify PAGE FAMILY WORKSPACE loads even when LIVE CAPTURE NEEDS ATTENTION → confirm family / approve design without fixing capture first.
 
 ---
-
 ## 2026-09-10 — P0.DEPLOY.1 Unified SITE 00 Continuous Deployment Pipeline
 
 - **Context:** Founder still manually downloaded cPanel ZIP, uploaded/extracted in File Manager, and verified bundles. Sprint replaced ZIP-primary flow with unified CD: merge to `main` → test → build → Railway verify → cPanel deploy → live verify → compatibility receipt.
@@ -7727,7 +7313,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Set GitHub vars `GODADDY_DEPLOY_ENABLED=true` (or SSH vars); optionally `SITE00_AUTO_PROMOTE=true`. Merge PR → Actions runs → verify backend → click **Deploy frontend** if manual mode → MORE → DEPLOYMENTS shows PRODUCTION READY. No manual ZIP for normal releases.
 
 ---
-
 ## 2026-09-10 — P0.CSI.1 Campaign Strategy + Expression Language System
 
 - **Context:** Founder sprint to formalize reusable campaign intelligence — not one campaign style, but a system that classifies strategies, expression languages/flavors, matches brand personality + objective, prevents repetition, and feeds concept territories upstream.
@@ -7743,7 +7328,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Open `/evolve/campaign-flavor` or `/projects/ndxbook/campaign-flavor` → select FRONTAL SLAYER + LAUNCH → verify LIVED-IN ENVIRONMENTAL in SAFE → open detail → GENERATE CAMPAIGN TERRITORIES → repeat NDXBOOK and confirm different range.
 
 ---
-
 ## 2026-09-10 — P0.VR.CAPTURE.1 Page-Scoped CAPTURE NOW + Creative Upgrade
 
 - **Context:** Replace batch whole-site capture as primary workflow with page-scoped CAPTURE NOW — one page, one viewport, one job, then creative-directed upgrade.
@@ -7755,7 +7339,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** DESIGN → NDXBOOK → PAGES → select one page → CAPTURE NOW (current viewport only) → UPGRADE THIS PAGE → approve → verify before/after → NEXT PAGE.
 
 ---
-
 ## 2026-09-10 — P0.CGO.1 Campaign World Genesis + Creative Direction Orchestration
 
 - **Context:** Strong campaign concepts die in generic execution (over-staged, product-centered, disconnected from idea). Sprint creates two layers: (1) **Campaign World Genesis** — associative reasoning → high-yield worlds; (2) **Creative Direction Orchestration** — protects concept through shot system, sequence, fidelity QA.
@@ -7770,7 +7353,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `campaignGenesisOrchestrationP0CGO1.test.ts` (22/22). PR **#667** merged. Build `P0_CGO_1_BUILD = v273`.
 - **Remaining gaps:** Supabase persistence for world bibles; live image-gen adapter hook; performance feedback loop.
 - **Next founder action:** `/evolve/campaign-director?mode=forensic` → verify high-yield beats weak → genesis mode → FRONTAL SLAYER → approve world → step through wizard → REVIEW must fail generic pool-table pose with specific revision.
-
 ## 2026-09-10 — P0.CBI.1 Brand Creative Context + Campaign Intelligence Ingestion
 
 - **Context:** Campaign systems could generate generic category campaigns from brand name alone. Sprint creates persistent `BrandCreativeContext` + `BrandCreativeContextAssembler` wired into CSI.1/CGO.1 with generation gate, project firewall, and founder-facing Brand Context UI.
@@ -7783,24 +7365,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** EVOLVE → CAMPAIGN FLAVOR → FRONTAL SLAYER → verify BRAND CONTEXT READY → VIEW CONTEXT → LAUNCH → generate flavors → repeat NDXBOOK and verify materially different results.
 
 ---
-
 ## 2026-09-10 — deploy_frontend CPANEL_CONNECTION_FAILED (missing SSH secrets)
 
 - **Issue:** `GODADDY_SSH_DEPLOY_ENABLED=true` but `GODADDY_SSH_HOST`/`USER`/`PRIVATE_KEY` secrets empty — SSH step ran, script exited `CPANEL_CONNECTION_FAILED`.
 - **Fix:** `scripts/site00-resolve-cpanel-deploy-method.sh` — require full SSH trio for SSH; fall back to FTP when FTP secrets + var set; validate in `validate` job before build; deploy steps keyed on `cpanel_method` output.
 - **Founder:** Add GitHub secrets (SSH **or** FTP) or disable `SITE00_AUTO_PROMOTE` for manual ZIP mode.
-
 ## 2026-09-10 — deploy_frontend SSH script not found (exit 127)
 
 - **Issue:** `deploy_frontend` downloaded artifact to `dist/` only — no repo checkout — so `bash scripts/site00-cpanel-deploy.sh dist` failed with exit 127.
 - **Fix:** Add `actions/checkout@v4` before artifact download in `deploy_frontend` job. Test 22c in release pipeline suite.
-
 ## 2026-09-10 — verify_backend COMPATIBILITY_FAILED (Missing version receipt)
 
 - **Issue:** Production Release `verify_backend` passed Railway health but failed `VERIFY_COMPATIBILITY` with `Missing version receipt` — script ran full frontend compatibility while `SKIP_FRONTEND_VERIFY=true` (manual promotion mode).
 - **Fix:** `site00-verify-production-release.mjs` — when frontend skipped, gate backend-only (`apiBuild`/`workerBuild` vs `EXPECTED_VERSION`); mark `VERIFY_COMPATIBILITY=SKIPPED`, status `BACKEND_READY`. Added `checkBackendOnlyCompatibility` in release engine + test.
 - **Note:** Live `site00.com/release-manifest.json` still serves HTML until cPanel deploy — full `verify_release` needs frontend ZIP upload or `deploy_frontend=true` workflow re-run.
-
 ## 2026-09-10 — P0.CGO.2 Conceptual Efficiency + Product/World Interaction Logic
 
 - **Context:** CGO.1 could generate high-yield worlds but still defaulted toward category-literal environments and multi-shot bloat. Sprint teaches **interaction-first lateral world reasoning**: product visibility through behavior, not category-matched locations; favor high-yield / high-efficiency concepts with minimal execution.
@@ -7818,7 +7396,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **FS pilot:** ≥2/3 worlds non-salon/vanity/bathroom; micro-reel duration 3–8s when one-shot viable.
 - **Remaining gaps:** Supabase persistence for efficiency enrichment on campaign runs; automated FounderCreativeAppetite wire at runtime when profile absent; live image-gen for hero frames on world cards.
 - **Next founder action:** EVOLVE → CAMPAIGN DIRECTOR → FRONTAL SLAYER → LAUNCH → verify BRAND CONTEXT READY → generate worlds → confirm ≥2 non-literal hair/beauty environments → open CREATIVE LEAP → pick HIGH YIELD + HIGH EFFICIENCY → approve → verify single-shot / micro-reel path → REDUCE EXECUTION.
-
 ## 2026-09-10 — Railway Noble apt fix (libasound2 → t64)
 
 - **Issue:** Railway Nixpacks build on Ubuntu 24.04 Noble failed: `E: Package 'libasound2' has no installation candidate`.
@@ -7826,7 +7403,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Redeploy Railway from `main`; build should pass apt install step.
 
 ---
-
 ## 2026-09-10 — GitHub Actions CI test failures (Supabase + Playwright)
 
 - **Context:** Founder triggered `SITE 00 Production Release` workflow; validate passed after adding `VITE_*` secrets but **test** job failed with `Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY/SUPABASE_ANON_KEY` and Playwright `Executable doesn't exist`.
@@ -7841,7 +7417,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Add `SUPABASE_SERVICE_ROLE_KEY` secret if missing → re-run workflow.
 
 ---
-
 ## 2026-09-10 — CI test job green (5605 tests)
 
 - **Context:** After founder added `SUPABASE_SERVICE_ROLE_KEY`, validate passed but **test** failed (~108 tests) — stale sprint snapshot assertions (B5.9R1 project redirect, Design MORE hub split, v271→v272 release IDs, B4.9R4 deterministic storyboard path, project index astral-world client row).
@@ -7849,7 +7424,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next founder action:** Re-run **SITE 00 Production Release** workflow on `main`.
 
 ---
-
 ## 2026-09-11 — P0.VR.CAPTURE.1R1 family root targeting + overview capture authority
 
 - **Context:** Founder sprint — NDXBOOK Overview root (`/projects/ndxbook`) was missing from JUMP TO, defaulted to first child, showed "Desktop Overview Hub" / MAPPED≠APPROVED confusion, blocked page-scoped CAPTURE NOW → UPGRADE flow on family root.
@@ -7858,7 +7432,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** GoDaddy ZIP v277 after merge; Railway unchanged (frontend-only).
 
 ---
-
 ## 2026-09-11 — SSH rsync deploy_frontend protocol mismatch (cPanel dirty shell)
 
 - **Issue:** `deploy_frontend` SSH step failed: `protocol version mismatch — is your shell clean?` / rsync exit 2 — cPanel `.bashrc`/motd prints to stdout on SSH login, breaking rsync binary protocol.
@@ -7866,7 +7439,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Re-run Production Release workflow (or wait for next merge with `SITE00_AUTO_PROMOTE=true`). If SSH still fails, FTP fallback deploys automatically when `GODADDY_FTP_*` secrets set. Optional long-term: add to remote `.bashrc` `[[ $- != *i* ]] && return` at top to silence non-interactive login noise.
 
 ---
-
 ## 2026-09-11 — GoDaddy SSH rsync still dirty after .bashrc fix → FTP-first default
 
 - **Issue:** Founder added `.bashrc` guard; SSH rsync still fails protocol mismatch (exit 42). cPanel often runs `/etc/profile` or login shell before user `.bashrc` — user fix alone insufficient on shared hosting.
@@ -7875,7 +7447,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Re-run workflow after merge; should see FTP deploy only. To force SSH later: GitHub var `GODADDY_SSH_DEPLOY_ENABLED=true` after fixing `.bash_profile` + `.profile` with same guard.
 
 ---
-
 ## 2026-09-11 — P0.VR.CAPTURE.1R2 capture receipt + persistence + live preview binding
 
 - **Context:** Founder QA — CAPTURE NOW UI advanced through 4 progress steps but LIVE PAGE stayed "NO LIVE CAPTURE YET"; no screenshot, no CAPTURE READY, no UPGRADE THIS PAGE. Root cause: `usePageMirror` used `setInterval` fake progress; API completion never bound to client `PageViewportCapture` store (server Map ≠ browser Map); pageId mismatch risk vs canonical `buildPageId`.
@@ -7884,7 +7455,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** GoDaddy ZIP v278 after merge; Railway unchanged unless API handler touched (minor build version bump only).
 
 ---
-
 ## 2026-09-11 — P0.VR.CAPTURE.1R3 image delivery + canonical asset ref resolution
 
 - **Context:** After 1R2, CAPTURE NOW reached CAPTURE READY ✓ but both LIVE CAPTURE and DESIGN AUTHORITY previews showed broken `<img>` icons — record existed but image delivery chain broken. Shared root cause: ad-hoc URL paths (`/visual-references/...` repo-root only, `/${storagePath}` bare relative) without canonical resolver; no browser onLoad health; upgrade gate ignored preview renderability.
@@ -7893,7 +7463,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder QA:** DESIGN → NDXBOOK → PAGES → MOBILE → NDXBOOK OVERVIEW — verify APPROVED ✓ + PREVIEW READY ✓ + visible authority image; live capture PREVIEW READY after onLoad; UPGRADE only when both render; VIEW DETAILS on failure. Deploy GoDaddy ZIP v279.
 
 ---
-
 ## 2026-09-11 — P0.VR.CAPTURE.1R3A design authority replacement + capture artifact proof
 
 - **Context:** Founder live QA on NDXBOOK OVERVIEW `/projects/ndxbook` MOBILE — (A) design authority showed APPROVED but stale with no page-scoped REPLACE flow; (B) live capture reached CAPTURE SAVED ✓ but preview not proven renderable; UPGRADE could enable without visual proof.
@@ -7902,7 +7471,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** GoDaddy ZIP v280 after merge; Railway redeploy if API page-mirror touched.
 
 ---
-
 ## 2026-09-11 — P0.VR.CAPTURE.1R3A hotfix: replace dialog + live preview URL repair
 
 - **Issue:** Founder QA on fsbw-dev — REPLACE DESIGN AUTHORITY button appeared to do nothing; LIVE PAGE preview showed 404 while status said PREVIEW READY.
@@ -7910,14 +7478,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `ReplaceDesignAuthorityDialog` → `createPortal` + wizard drawer overlay; import wizard CSS on PAGES tab; `resolveLiveCapturePreviewRef` repairs same-origin storage paths to Supabase; hydrate + bind preserve `artifactProof`; `DesignAssetPreview` rejects zero-dimension loads. Deploy ZIP v281.
 
 ---
-
 ## 2026-09-11 — P0.VR.CAPTURE.1R3A persistence + Supabase authority upload
 
 - **Issue:** After v281, REPLACE dialog visible but authority did not survive reload; live capture still 404. Root cause: canonical registry + authority versions were in-memory only (NDX seed overwrote founder replace on reload); founder upload was localStorage data URL only (quota / no durable asset).
 - **Fix:** `canonicalReferencePersistence` hydrates before NDX seed; `hydrateDesignAuthorityVersionsFromStorage`; `upload_design_authority` page-mirror action uploads to Supabase (`site00/visual-references/founder/...`); APPROVE & REPLACE calls API then persists registry snapshot; expanded live capture URL repair for relative `/studio-world/...` paths. Deploy ZIP v282; **Railway redeploy required** for API action.
 
 ---
-
 ## 2026-09-11 — Cloud preview tunnel blank after ASSEMBLING CTRL ROOM
 
 - **Issue:** Preview tunnel hung on white screen after "ASSEMBLING CTRL ROOM…" — not cinematic loader; `Site00AccountRouteGuard` blocked on Supabase session restore / profile sync. Boot shell `#root { display:none }` could persist on persistent tunnel hostnames not in `.trycloudflare.com` list.
@@ -7925,7 +7491,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Hard refresh preview tunnel after merge; sign in on preview before /control or design routes.
 
 ---
-
 ## 2026-09-11 — Authority upload CORS + device-local fallback (v283)
 
 - **Issue:** After v282, REPLACE DESIGN AUTHORITY showed **API UNREACHABLE** on APPROVE from `site00.fsbw-dev.com` — nothing appeared to change for founder.
@@ -7934,7 +7499,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder QA:** Hard refresh fsbw-dev → REPLACE → APPROVE (cloud upload if API up; else local save + yellow notice). RECAPTURE if live preview still 404 (stale localStorage capture).
 
 ---
-
 ## 2026-09-11 — CAPTURE NOW dead + refresh 404 on fsbw-dev (v284)
 
 - **Issue:** Founder on fsbw-dev — CAPTURE NOW button appeared dead (disabled when transport preflight failed); hard refresh on design/projects deep URLs showed server 404; live capture preview showed 404 page.
@@ -7942,7 +7506,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** CAPTURE NOW always clickable (retry transport + readable errors); `resolveFounderCaptureBaseUrl()` targets `https://site00.com` from preview hosts; `.htaccess` `ErrorDocument 404 /index.html` + `404.html` SPA fallback. Deploy ZIP **v284**; Railway redeploy still required for API CORS/worker.
 
 ---
-
 ## 2026-09-11 — CAPTURE NOW hidden behind UPGRADE label (v285)
 
 - **Issue:** Founder on fsbw-dev NDXBOOK OVERVIEW — primary CTA showed **UPGRADE THIS PAGE** with gate **DESIGN AUTHORITY PREVIEW REQUIRED** / live preview 404; no visible CAPTURE NOW.
@@ -7950,7 +7513,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `resolvePageCapturePrimaryLabel` + `shouldOfferPageUpgrade` — UPGRADE only when both previews PASS + liveState READY; else **RECAPTURE** / **CAPTURE NOW** / **RETRY**. Deploy ZIP **v285**.
 
 ---
-
 ## 2026-09-11 — Capture progress stuck on OPENING PAGE + 404 preview (v288)
 
 - **Issue:** Founder still saw live capture preview **404** and CAPTURE NOW progress frozen on first step **OPENING PAGE** — felt stuck, never advanced through RENDERING / SCREENSHOT / SAVING.
@@ -7959,7 +7521,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder QA:** Upload v288 → hard refresh fsbw-dev → RECAPTURE NDXBOOK OVERVIEW — watch all four progress steps advance → both previews **PREVIEW READY ✓** before UPGRADE.
 
 ---
-
 ## 2026-09-11 — Capture preview 404 root cause (v289)
 
 - **Issue:** After v288 progress fix, founder still saw **404** in live capture preview — not a stuck step problem.
@@ -7967,7 +7528,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** QA min **12KB** + `PAGE_NOT_FOUND` + `CAPTURE_ANCHOR_MISSING`; skip Supabase upload when QA fails; `page-mirror` rejects failed QA; overview capture route → `/overview`; Playwright networkidle + 404 body detect; `repairMishostedStorageHttpUrl` for cross-origin site-host paths; bind/hydrate normalize to Supabase URL. Deploy ZIP **v289**; **Railway redeploy required** for capture engine + QA gate.
 
 ---
-
 ## 2026-09-11 — Capture wait selector mismatch (actual 404 root cause, v290)
 
 - **Issue:** Founder on fsbw-dev NDXBOOK OVERVIEW — live preview showed **404 Not Found** inside capture image or **CAPTURE FAILED** after page opened; v289 QA correctly rejected bad shells but capture still could not produce real page screenshots.
@@ -7975,14 +7535,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Shared `resolveCaptureWaitSelector()` maps screen/route → correct markers (`mobile-overview`, `mobile-content-ops`, etc.); capture engine passes `screenId`; removed legacy `ndx.header` default; `designPreview=1` fast-path in `Site00AccountRouteGuard` skips Supabase restore for headless capture; `/overview` path in mobile screen resolver. Local Playwright verify: **anchorFound true**, **128KB PNG** (was 4.7KB). Deploy ZIP **v290**; **Railway redeploy required** for server capture fix; founder must **RECAPTURE** after deploy to replace stale 404 shells in localStorage.
 
 ---
-
 ## 2026-09-11 — P0.VR.AUTH.1 design authority replace + preview lifecycle (v291)
 
 - **Issue:** Founder proved NDXBOOK mobile design authority PNG loads directly in Safari (`/visual-references/founder/ndxbook/mobile-overview-fullscreen-reference-hifi.png`) but gate stuck **DESIGN AUTHORITY PREVIEW REQUIRED** — authority is **stale/outdated**, not missing; preview health **UNKNOWN** blocked same as FAIL with no timeout.
 - **Fix:** Page-scoped **REPLACE DESIGN AUTHORITY** flow hardened (upload → preview/compare → APPROVE & REPLACE only); `DesignAuthorityVersion` + `assetRef` + current pointer persistence; founder upload wins over pilot seed via `syncFounderAuthorityVersionsForProject`; approval/supersession receipts; **VIEW HISTORY** dialog; `PreviewHealthLifecycle` (LOADING→PASS/FAIL/TIMEOUT in 10s) in `DesignAssetPreview` with RETRY; gate block reasons: LOADING / FAILED / TIMED OUT / MISSING. No Railway/capture changes. Deploy ZIP **v291**.
 
 ---
-
 ## 2026-09-11 — UPGRADE THIS PAGE button no-op (v292)
 
 - **Issue:** After v291 both previews **PREVIEW READY ✓** and **UPGRADE THIS PAGE** showed with “THIS PAGE IS READY FOR CREATIVE DIRECTION” — tap did nothing on mobile.
@@ -7990,14 +7548,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `PageCreativeUpgradePanel` → `createPortal` drawer (`site00-dw-wizard-drawer`, z-index 200) like Replace Authority; `PageFamilyWorkspace` stores session in `useState`, resolves capture via `resolveCurrentPageViewportCapture`; visible `upgradeError` if capture id missing. Deploy ZIP **v292**; no Railway redeploy.
 
 ---
-
 ## 2026-09-11 — CI test stale overview route expectation
 
 - **Issue:** Production Release / test failed after v290 merge — `pageFamilyRootTargetP0VRCapture1R1.test.ts` expected `resolvedRuntimePath` `/projects/ndxbook` but runtime resolver correctly returns `/projects/ndxbook/overview` for overview screen (v290 capture fix).
 - **Fix:** Updated test 14 expectation to `/projects/ndxbook/overview`. Test-only; no new deploy ZIP.
 
 ---
-
 ## 2026-09-11 — UPGRADE hidden, only RECAPTURE shown (v293)
 
 - **Issue:** After v292, founder lost **UPGRADE THIS PAGE** — only **RECAPTURE** primary CTA; previously both showed when previews PASS.
@@ -8005,7 +7561,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `captureRootOverviewRoutesEquivalent` + navigation MATCH for root/overview alias; upgrade gate uses route equivalence for legacy receipts; `resolvePageUpgradeBlockReasons` surfaces why upgrade is locked; OUTDATED capture allowed when both previews PASS. Deploy ZIP **v293**.
 
 ---
-
 ## 2026-09-11 — verify_release FRONTEND_SMOKE_FAILED HTTP 403
 
 - **Issue:** Production Release workflow `verify_release` failed with `FRONTEND_SMOKE_FAILED: https://site00.com/release-manifest.json HTTP 403` while backend PASS — site fine when checked later.
@@ -8013,7 +7568,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `pollFrontend()` in `site00-verify-production-release.mjs` retries retryable HTTP (403/404/5xx) for up to 5m; workflow sets `FRONTEND_POLL_TIMEOUT_MS` + 10s poll interval. CI-only; no founder deploy action.
 
 ---
-
 ## 2026-09-11 — CAPTURE NOW dead after design authority upload (v294)
 
 - **Issue:** After uploading/replacing design authority, **CAPTURE NOW** / **RECAPTURE** appeared to do nothing.
@@ -8021,7 +7575,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `resolveCaptureIndexRow` with overview aliases + registry fallback; visible error if row still missing; local-only authority closes dialog + shows notice in panel; authority refresh uses cache-bust nonce only (no full panel remount). Deploy ZIP **v294**.
 
 ---
-
 ## 2026-09-11 — Hard refresh 404 on /projects/.../design (SPA hosting)
 
 - **Issue:** Refreshing `https://site00.com/projects/site00/design?...` shows Apache **404 Not Found**, not the React app. In-app navigation works; only full page load fails. Same for `/services` and other deep links.
@@ -8029,7 +7582,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Hardened `public/.htaccess` (FollowSymLinks, route-prefix rewrites, FallbackResource); `verifyFrontendOnce` probes `/projects/site00/design` for SPA shell. Founder must redeploy dist (includes `.htaccess` dotfile) to GoDaddy public_html.
 
 ---
-
 ## 2026-09-11 — site00 CAPTURE INDEX MISSING FOR OVERVIEW (pipeline root mismatch)
 
 - **Issue:** On SITE 00 design → PAGES, root shows PROPOSED + `CAPTURE INDEX MISSING FOR "OVERVIEW"` even though CAPTURE NOW visible. ndxbook pipeline worked; site00 broken.
@@ -8037,7 +7589,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `isSite00WebsiteProject` + `SITE00_WEBSITE_ROOT_SCREEN_ID=homepage`; site00 canonical root `/`; capture aliases overview→homepage; page family indexes all site00 routes and prefers homepage when multiple rows share `/`. Tests in captureNowAfterAuthority + pageFamilyRootTarget.
 
 ---
-
 ## 2026-09-11 — Founder still on v295 after deploy (capture fix not live)
 
 - **Issue:** After cPanel upload, still `CAPTURE INDEX MISSING FOR "OVERVIEW"` + root PROPOSED. Deep link refresh fixed (v295 htaccess).
@@ -8045,7 +7596,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hardening:** `normalizeCaptureScreenId`, `buildLocalPageMirrorVisualRows`, mirror hook seeds local rows when API empty/fails; PageFamilyWorkspace root screen from `rootTarget`; SITE00-DEPLOY-README verify section (bundle hash + commitSha).
 
 ---
-
 ## 2026-09-11 — Deep link 404 persists after v297 (root .htaccess ignored on GoDaddy)
 
 - **Issue:** v297 bundle live (`index.DWY9w-w1.js`, commit b5a7a221) but `/projects/site00/design` still Apache 404; CI `verify_release` FRONTEND_SMOKE_FAILED on SPA deep link probe; CAPTURE/hard-refresh still broken.
@@ -8053,7 +7603,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `scripts/site00-propagate-spa-htaccess.mjs` writes nested `.htaccess` into 17 route-prefix folders (`projects/`, `services/`, …) + ships visible `htaccess-deploy.txt` for manual rename. Root htaccess uses `SymLinksIfOwnerMatch` + relative `index.html`. Deploy ZIP v298+.
 
 ---
-
 ## 2026-09-11 — P0.VR.UPGRADE.1 current vs design authority visual compare
 
 - **Context:** NDXBOOK OVERVIEW page upgrade showed CURRENT vs text “PROPOSED” list — confusing because reference should be approved design authority, not a textual plan.
@@ -8063,7 +7612,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Build:** `P0_VR_UPGRADE_1_BUILD = v299`. Deploy ZIP `site00-deploy-2026-09-11-v299`.
 
 ---
-
 ## 2026-09-11 — verify_release FRONTEND_SMOKE_FAILED deep link 404 (htaccess dotfiles)
 
 - **Issue:** CI `verify_release` fails after successful `deploy_frontend` — `FRONTEND_SMOKE_FAILED` polling `/projects/site00/design` (Apache 404). Manifest updates (efbc768) but deep links broken.
@@ -8071,7 +7619,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `scripts/site00-activate-spa-htaccess.sh` post-deploy (SSH cp or FTP curl upload `.htaccess`); visible `htaccess-nested.txt` per route prefix; workflow step after deploy. Manual: rename htaccess-deploy.txt → .htaccess + projects/htaccess-nested.txt → .htaccess in cPanel.
 
 ---
-
 ## 2026-09-11 — P0.VR.UPGRADE.2 twin reconstruction + promotion workflow
 
 - **Context:** After UPGRADE.1 visual compare, approving direction must not mutate live page. Need isolated TWIN build → preview → refine → promote with archive/recovery.
@@ -8081,7 +7628,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Build:** v300 · 16 tests in `pageUpgradeTwinP0VRUpgrade2.test.ts`.
 
 ---
-
 ## 2026-09-11 — verify_release still failing: htaccess FTP path + activation order
 
 - **Issue:** After #708, CI still FRONTEND_SMOKE_FAILED — `/projects/site00/design` Apache 404. `htaccess-deploy.txt` + `projects/htaccess-nested.txt` live on host but dotfiles not activated.
@@ -8089,7 +7635,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** FTP upload PRIMARY (same path as deploy), SSH backup; normalize FTP server dir; post-activate `site00-verify-spa-deep-link.mjs` fails deploy job if still 404. Manual: rename visible htaccess files in cPanel.
 
 ---
-
 ## 2026-09-11 — Preview pipeline PREVIEW TOOK TOO LONG on fsbw-dev (image delivery)
 
 - **Issue:** Founder on `site00.fsbw-dev.com` — DESIGN RECONSTRUCTION for NDXBOOK OVERVIEW mobile shows repeated **PREVIEW TOOK TOO LONG**, **UNKNOWN_IMAGE_DELIVERY_ERROR**, design authority + live capture preview failures. URLs looked mishosted (`/site00/visual-references/...` on preview host).
@@ -8098,7 +7643,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Hard refresh fsbw-dev → NDXBOOK DESIGN → verify authority + capture previews load; retry RECAPTURE if live capture still stale.
 
 ---
-
 ## 2026-09-11 — P0.VR.DIAG.1 authority-relative visual forensics + measured reconstruction spec
 
 - **Context:** Page upgrade flow (UPGRADE.1/2) worked but diagnosis was generic (“HEADER IS TOO TALL”) without authority-relative px/% evidence; plan items lacked traceability; twin builder received prose-only targets.
@@ -8109,7 +7653,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy v302 → DESIGN → NDXBOOK → OVERVIEW mobile → UPGRADE → verify TOP VISUAL DIFFERENCES show measured values → VIEW EVIDENCE → APPROVE → BUILD TWIN → check BEFORE/AFTER drift.
 
 ---
-
 ## 2026-09-11 — P0.VR.DIAG.1R1 full-page region coverage + multi-dimension forensics
 
 - **Context:** DIAG.1 proved measured deltas but live QA only surfaced HEADER + BOTTOM NAV; most page regions silent; regions measured height-only.
@@ -8119,7 +7662,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy v303 → NDXBOOK OVERVIEW mobile UPGRADE → verify FORENSIC COVERAGE shows all major regions → VIEW ALL FORENSICS → check ≥3 regions with multiple dimensions → only APPROVE when PASS/WARNING accepted.
 
 ---
-
 ## 2026-09-11 — Design authority STEP 1 REFERENCE UPLOAD FAILED (iOS site00.com)
 
 - **Symptoms:** Same photo worked before; REPLACE DESIGN AUTHORITY STEP 1 shows generic **REFERENCE UPLOAD FAILED** on site00.com / fsbw-dev; preview still pointed at missing legacy `mobile-overview-fullscreen-reference-hifi.png` (Supabase NoSuchKey) while valid blobs exist under `page-authority/overview-mobile-*.png`.
@@ -8128,7 +7670,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder now:** After deploy — retry upload; if still fails, read the **specific** red error (not generic). Optional: Settings → Camera → Formats → Most Compatible. Replace authority until preview URL shows `page-authority/overview-mobile-…`, not `mobile-overview-fullscreen-reference-hifi.png`.
 
 ---
-
 ## 2026-09-11 — iOS REPLACE DESIGN AUTHORITY `undefined is not an object (evaluating 'o.width')`
 
 - **Symptom:** After PR #714, site00.com STEP 1 showed Safari error `undefined is not an object (evaluating 'o.width')` on same photo upload.
@@ -8136,7 +7677,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `prepareReferenceBoardUpload` — on iPhone/iPad prefer **object URL → Image** decode before ImageBitmap; validate width/height; fallback chain. `beginReplaceDesignAuthorityFromDataUrl` — default viewport dims to mobile + image dimension fallbacks.
 
 ---
-
 ## 2026-09-11 — PAGE UPGRADE VIEW ALL FORENSICS / VIEW EVIDENCE stale (no-op)
 
 - **Symptoms:** NDXBOOK OVERVIEW mobile PAGE UPGRADE — **VIEW ALL FORENSICS** and **VIEW EVIDENCE** looked active but did nothing; founder expected full breakdown.
@@ -8145,7 +7685,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy new frontend bundle → NDXBOOK OVERVIEW mobile UPGRADE → tap **VIEW ALL FORENSICS** (full-screen list) → **VIEW EVIDENCE** on a region (dimension grid AUTHORITY/CURRENT/DELTA/CONFIDENCE).
 
 ---
-
 ## 2026-09-12 — P0.VR.DIAG.1R2 region measurement depth + DOM-assisted extraction
 
 - **Problem:** R1 fixed 8/8 region coverage but **measurement depth ~13%** — matched regions showed **0 dimensions** when authority/current aligned (delta filter stripped all rows); shallow understanding blocked direction.
@@ -8153,7 +7692,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy frontend → NDXBOOK OVERVIEW mobile UPGRADE → confirm most regions show **≥3–6 dimensions** (not 0) → SECTION NAV + HERO VIEW EVIDENCE show multiple rows with sources → depth PASS/WARNING before APPROVE DIRECTION → BUILD TWIN → check dimension convergence.
 
 ---
-
 ## 2026-09-12 — P0.VR.DIAG.1R3 depth score reconciliation + delta math integrity
 
 - **Problem:** After 1R2, region cards showed 4–7 dimensions but top summary still **0% MEASUREMENT DEPTH / BLOCK**; evidence rows showed **-100%** when authority=current; aggregation used R2 `hasDomAnchor` sufficiency while UI counted raw dimension rows.
@@ -8161,7 +7699,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy → open existing UPGRADE (no recapture) → **RECALCULATE FORENSICS** if stale → verify **MEASUREMENT DEPTH X/8 SUFFICIENT** matches region cards → spot-check equal values show **0px · 0%**.
 
 ---
-
 ## 2026-09-12 — Design authority + capture reset on page refresh (localStorage vs Supabase)
 
 - **User question:** Design authority and screen capture appeared to reset every refresh — expected Supabase persistence; tired of re-upload/re-capture.
@@ -8170,7 +7707,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** **Redeploy Railway API** (new mirror actions) + **deploy frontend ZIP** → replace authority + capture once → hard refresh → bindings should restore from cloud even if localStorage cleared. If upload shows **SAVED ON THIS DEVICE ONLY**, fix API/CORS before expecting cross-device persistence.
 
 ---
-
 ## 2026-09-12 — RECALCULATE FORENSICS button no visible feedback
 
 - **Symptom:** PAGE UPGRADE **RECALCULATE FORENSICS** appeared to do nothing visually.
@@ -8178,7 +7714,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `forensicReportRegistry.ts` stores reports on bundle build; `recalculatePageCreativeUpgradeForensics()` prefers rescore-from-stored-report; session `forensicsRecalculatedAt`; button shows **RECALCULATING…**, **FORENSICS UPDATED · time**, error line, coverage pulse CSS. Tests: `recalculateForensicsUpgrade.test.ts`.
 
 ---
-
 ## 2026-09-12 — Replace authority APPROVE `a.width` Safari error (site00.com)
 
 - **Symptom:** REPLACE DESIGN AUTHORITY step 2 — **APPROVE & REPLACE** showed `undefined is not an object (evaluating 'a.width')` on deployed site00.com (mobile Safari).
@@ -8186,7 +7721,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `normalizeDesignViewportClass` + `resolveCanonicalViewportDimensions` in `p0vr2/constants.ts`; approve uses draft image dimensions + safe viewport; draft context normalized on upload; try/finally on dialog approve. Test in `visualReconstructionP0VRAUTH1.test.ts`.
 
 ---
-
 ## 2026-09-12 — Founder workspace persist on refresh (1R3B hardening)
 
 - **User follow-up:** Upload/capture still not persisting after page refresh despite cloud snapshot (1R3B).
@@ -8195,7 +7729,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **frontend ZIP** (v312+) + **Railway** redeploy → capture/upload once → hard refresh → LIVE capture + design authority should remain; cloud sync is bonus when API up.
 
 ---
-
 ## 2026-09-12 — P0.VR.DIAG.1R4 shallow region evidence recovery
 
 - **Context:** After 1R3 math fix, live NDXBOOK overview shows believable **4/8 SUFFICIENT (50%) BLOCK** — remaining gap is missing forensic depth on shallow major regions, not aggregation bugs.
@@ -8203,7 +7736,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy frontend v313+ → open PAGE UPGRADE (no new capture) → tap **ANALYZE MISSING EVIDENCE** → verify depth improves from real DOM/authority recovery → then APPROVE DIRECTION / BUILD TWIN when gate PASS/WARNING.
 
 ---
-
 ## 2026-09-12 — Preview flash/wipe + UPGRADE hidden on fsbw-dev mobile
 
 - **Symptom:** NDXBOOK DESIGN RECONSTRUCTION on `site00.fsbw-dev.com` — thumbnails load then disappear (`PREVIEW TOOK TOO LONG`, `UNKNOWN_IMAGE_DELIVERY_ERROR`); only **RECAPTURE** visible, no **UPGRADE THIS PAGE** → no **ANALYZE MISSING EVIDENCE**.
@@ -8211,7 +7743,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `DesignAssetPreview` sticky pass frame, longer Supabase timeout (28s), `img.complete` check; `evaluateRenderableAuthorityContract` + `shouldOfferPageUpgrade` **degraded** path when URLs resolve but verification slow/fail-soft; tests `previewHealthLifecycle.test.ts`, `pageCapturePrimaryAction.test.ts`.
 
 ---
-
 ## 2026-09-12 — P0.VR.DIAG.1R5 internal region structure + child-anchor forensics
 
 - **Context:** 1R4 targeted recovery runs but live QA often **NO PROGRESS** at 50% depth — engine finds region containers (section nav, metrics, progress) but not enough internal anchors (items, gaps, active indicator, track/fill, cells) for type-aware critical dimensions.
@@ -8219,7 +7750,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy frontend **v315+** (no new capture) → PAGE UPGRADE → **ANALYZE MISSING EVIDENCE** → open SECTION NAV / METRIC CELLS / PROGRESS blockers → verify **VIEW STRUCTURE** + counts not px → depth should rise when structure exists; if shallow, read explicit `DOM_CHILDREN_UNRESOLVED` / etc. on recovery line.
 
 ---
-
 ## 2026-09-12 — P0.VR.DIAG.1R5A surface VIEW STRUCTURE + structure→depth binding
 
 - **Context:** v315 live QA — **VIEW STRUCTURE** missing from ALL FORENSICS / evidence UI (gated on `internalStructureHierarchy` only set post-recovery on blockers); recovery showed PARTIAL but depth stuck 50%→50% with no per-region explanation.
@@ -8229,7 +7759,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v316+** → VIEW ALL FORENSICS → confirm **VIEW EVIDENCE** + **VIEW STRUCTURE** on blockers → tap structure → see CURRENT/AUTHORITY anchor status + depth trace after **ANALYZE MISSING EVIDENCE**.
 
 ---
-
 ## 2026-09-12 — P0.VR.DIAG.1R5B VIEW STRUCTURE live surface + zero-anchor recovery
 
 - **Context:** v316 live QA — recovery trace visible but **VIEW STRUCTURE** still absent on ALL FORENSICS region cards; zero-anchor blockers (CURRENT FOCUS, METRIC CELLS, SECTION NAV, PROGRESS) needed founder-readable diagnostics and scoped recovery without rewriting forensics stack.
@@ -8238,7 +7767,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v317+** (no new capture) → NDXBOOK OVERVIEW → UPGRADE → **VIEW ALL FORENSICS** → every shallow region has **VIEW EVIDENCE** + **VIEW STRUCTURE** → open structure → **ANALYZE STRUCTURE** per blocker → **ANALYZE MISSING EVIDENCE** → read per-region anchors/qualified/depth before→after; if current resolves but authority does not, UI shows **AUTHORITY ANCHORS UNRESOLVED**.
 
 ---
-
 ## 2026-09-12 — P0.VR.CONVERGE.1 Build twin now + founder visual review override
 
 - **Context:** Forensics depth loop blocked founder from ever seeing reconstructed NDXBOOK overview (8/8 coverage, 4/8 depth 50%) despite valid authority, capture, and isolated twin route.
@@ -8246,7 +7774,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v318+** → NDXBOOK OVERVIEW → UPGRADE → **APPROVE DIRECTION** (warning OK) → **BUILD TWIN NOW** → **PREVIEW TWIN** → compare TWIN vs AUTHORITY → **REFINE TWIN** with a note; live `/projects/ndxbook` unchanged until explicit promote.
 
 ---
-
 ## 2026-09-12 — P0.VR.CONVERGE.1R1 Twin planned → real build handoff
 
 - **Context:** After CONVERGE.1, live QA showed **STATUS: COMPLETE** + **TWIN: PLANNED** with no **BUILD TWIN NOW** — pipeline dead-end after direction approval created a planned twin session.
@@ -8255,7 +7782,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v319+** → reopen existing NDXBOOK mobile PAGE UPGRADE (no restart) → expect **READY TO BUILD TWIN** + **BUILD TWIN NOW** → build progress from real steps → **TWIN READY** → **PREVIEW TWIN** on debug route (NOT LIVE); live `/projects/ndxbook` unchanged until promote.
 
 ---
-
 ## 2026-09-12 — Twin debug preview load fix (handoff + mobile)
 
 - **Symptom:** PREVIEW TWIN / twin debug URL not loading (blank, NOT FOUND, or popup blocked on mobile).
@@ -8264,7 +7790,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v320+** → TWIN READY → **PREVIEW TWIN** again (same device/browser); expect NOT LIVE banner + page content.
 
 ---
-
 ## 2026-09-12 — P0.VR.REBUILD.1 authority-first twin reconstruction (execution layer)
 
 - **Context:** NDXBOOK mobile twin QA proved patch-first model wrong — twin kept legacy stack (CONTENT OPERATIONS → date → 4 KPIs → production → radar) instead of approved authority macro composition (masthead, module nav, editorial hero, progress/metrics bands, activity, bottom nav).
@@ -8272,7 +7797,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Do **not** promote existing patch twin — verify **FAILED VISUAL AUTHORITY** + disabled **APPROVE FOR PROMOTION** → **BUILD TWIN NOW** again → **PREVIEW TWIN** must show authority-shaped structure at first glance (not old stack); compare TWIN vs AUTHORITY before scores; refine from new twin only.
 
 ---
-
 ## 2026-09-12 — CI fix: p0vrDiag1R5 internal structure cache key test
 
 - **Symptom:** Production Release / test failed — `tests/p0vrDiag1R5InternalStructure.test.ts` `expected null to be truthy` on `getRegionInternalStructure`.
@@ -8280,7 +7804,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Test uses `structureCacheKey({ ...after report fields, forensicsVersion: P0_VR_DIAG_1R5B_BUILD })`. PR **#737** merged to `main`.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.1 high-fidelity replication mode + Page Upgrade UX rebuild
 
 - **Context:** Rebuild.1 fixed authority-first execution but founder UX still forensic-first (diagnose → gate → patch). Sprint reorganizes around product promise: reference → replicate → render → compare → self-correct → founder review.
@@ -8288,7 +7811,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v322+** → DESIGN → NDXBOOK → PAGES → MOBILE → OVERVIEW → UPGRADE → expect **REFERENCE** screen with **REPLICATE PAGE** (not forensic wall) → replicate → **REVIEW** authority vs twin → refine in plain language → promote only after visual accept.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.2 shell-first geometric reconstruction (NDXBOOK overview mobile)
 
 - **Context:** 1R1 twin still read as aesthetic reinterpretation (dark dashboard cards, wrong host/shell) — sprint shifts to **shell-first**: segment authority → macro geometry blueprint → reconstruct shell → bind content → shell match gate → review.
@@ -8296,7 +7818,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v324+** → UPGRADE → confirm authority image in REFERENCE → **REPLICATE PAGE** → REVIEW (shell line + AUTHORITY/TWIN) → **PREVIEW TWIN** — twin should read as same page family as authority (light shell, host header), not dark card dashboard. Live unchanged until promote. Remaining gap: pixel-perfect geometry still profile-derived until authority-image CV segmentation lands.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.3A drift triangulation + decision trace (NDXBOOK pilot)
 
 - **Context:** Shell-first twin closer but still drifts — need evidence of **where** authority structure is lost (implementation vs orchestration vs visual model vs policy vs source vs assets vs render).
@@ -8305,7 +7826,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v325+** → UPGRADE → DETAILS → **DRIFT TRACE** → drill **HERO**, **HOST HEADER**, **MASTHEAD**, **METRICS**, **BOTTOM NAV** — read REFERENCE→RENDER pipeline and culprit ranking.
 
 ---
-
 ## 2026-09-12 — Production boot fix: Playwright leaked into SPA vendor bundle
 
 - **Context:** Founder reported **site00.com no longer booting** — immersive loader shell stuck, `#root` empty, React never mounted.
@@ -8314,7 +7834,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload fresh GitHub Release ZIP to GoDaddy (new bundle hash, e.g. not `index.BYksM3jN.js` with chromium-bidi). Playwright replication remains **server-only** (Railway/API); browser twin build paths that call Playwright fail fast if mis-invoked client-side.
 
 ---
-
 ## 2026-09-12 — Loader still stuck: live deploy on pre-fix bundle (38dbcb / index.BB6PY5fd.js)
 
 - **Symptom:** Founder still stuck on loading animation after v325 guidance.
@@ -8323,7 +7842,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload **v327+** ZIP — delete old `assets/` + `index.html` first. Verify page source: **no** chromium-bidi in script bundle name/hash; includes `site00-assts-boot-recovery.js`; `app-build-id` ≥ **905a194** area. Hard refresh / clear site data on mobile.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.3B vision-in-the-loop literal replication (NDXBOOK mobile)
 
 - **Context:** 3A primary culprit **VISUAL_INTELLIGENCE** — REPLICATE did not send authority/twin images to a vision model. Sprint wires vision into replication loop with literal region specs + hero proof.
@@ -8332,7 +7850,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy release with 3B → UPGRADE → **REPLICATE PAGE** → REVIEW hero (not blank placeholder) → DETAILS → **VISION TRACE** if still off. Live unchanged; not promotion-ready.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.3B-R1 browser `process` crash on REPLICATE
 
 - **Symptom:** Mobile UPGRADE → REPLICATE → `Can't find variable: process` — flow died before vision API ran; UI wrongly suggested SWITCH_IMPLEMENTATION_APPROACH.
@@ -8341,7 +7858,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v329+** frontend; Railway redeploy if API not yet live → REPLICATE again (vision path should run).
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.3C visual asset recovery + literal source execution
 
 - **Context:** 3B proved vision-in-loop (multi-zone hero) but twin still showed unresolved visuals and approximate source (generic hero collapse). Sprint patches **downstream** only: asset binding + literal source execution — no new vision/forensics engine.
@@ -8350,7 +7866,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v330+** → UPGRADE → REPLICATE → REVIEW hero (real grayscale/lime, no wireframe labels) → DETAILS → ASSET RESOLUTION + VISION TRACE. Live unchanged.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.3C-R1 hero asset materialization proof
 
 - **Symptom:** After v330, hero still looked like gray blocks — receipts claimed BOUND but browser showed no authority photography.
@@ -8359,7 +7874,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v331+** → REPLICATE → PREVIEW TWIN → center hero mid-slice should show real cropped photo texture (not flat gray). DETAILS → MATERIALIZATION TRACE → `visible: YES` on slice_b.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.3D authority coordinate map + grid lock
 
 - **Context:** Post-3C-R1 twin still had visible placement/size drift — regions known but DOM used approximate % spacing.
@@ -8368,7 +7882,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v332+** → REPLICATE → check hero columns/CTA/lime → DETAILS → GEOMETRY.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.3D content root isolation + shell boundary enforcement
 
 - **Symptom:** Twin read as page-within-page — hero/media showed full authority screenshot via CSS `background-image` on non-proof slots (`slice_a`, `slice_c`, `right_graphic`), not a single page composition.
@@ -8377,7 +7890,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v333+** → REPLICATE → DETAILS → BOUNDARY TRACE (PAGE_NESTING NO, content root valid) → PREVIEW TWIN `?renderRootsDebug=1` → confirm no miniature page in hero band. Wait on blueprint-grid until founder confirms visual QA PASS.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.4 forensic blueprint consumption + zero-invention rebuild
 
 - **Context:** Founder attached NDXBOOK mobile **design authority** + **forensic UI blueprint** (objects 01–70). Sprint treats blueprint as coding spec, not inspiration — stop semantic region collapse and invented typography/layout.
@@ -8386,7 +7898,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v334+** → REPLICATE → REVIEW (AUTHORITY / BLUEPRINT / TWIN) → DETAILS coverage → PREVIEW `?blueprintDebug=overlay`. Live `/projects/ndxbook` unchanged.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.4R1 authority tightening pass (twin only)
 
 - **Problem:** Twin still drifted — hero showed duplicate/ghost text (full authority URL behind DOM copy), loose shell spacing, masthead right column unstable.
@@ -8394,7 +7905,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v335+** → REPLICATE → PREVIEW `?twinCompare=1` + `?blueprintDebug=overlay` → confirm hero has single text layer. Visual exactness still founder-signed.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.4R2 hero surgical lock + collision elimination (twin only)
 
 - **Context:** 4R1 tightened full page but hero remained fragile — duplicated/ghost text, wrong NDX outline, collapsed blueprint objects, page-in-hero risk. Sprint scope **hero/editorial band only** (H01–H14); no progress/metrics/nav changes.
@@ -8403,7 +7913,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v336+** → REPLICATE → REVIEW hero only → `?blueprintDebug=hero` → confirm single copies of ENTRY/headline/body/CTA/00 and NDX placement. Do not expand refinement until hero passes founder QA.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.4R3 hero geometry convergence + INSPECT HERO (twin only)
 
 - **Context:** 4R2 bound H01–H14 but `HeroGeometryDelta` stayed `NOT_MEASURED`; H12 crop showed lower-page content (bad `background-position`); founder had no UI for hero debug (manual `?blueprintDebug=hero`).
@@ -8412,7 +7921,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v337+** → REPLICATE → REVIEW → **INSPECT HERO** → verify deltas + H12 photo slot → EXIT INSPECTION.
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.4R3R1 live DOM rects + hero crop purity (twin only)
 
 - **Root cause (14 authority / 0 rendered):** Debug overlay read `heroGeometryConvergenceReport.renderedGeometry` from session (layout-spec / empty after handoff). No **live browser** measurement ran in inspection mode, so rendered count stayed 0 despite authority contracts.
@@ -8420,7 +7928,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v338+** → REPLICATE (refresh session) → INSPECT HERO → confirm **14 authority · 14 rendered** + cyan boxes; H06/H12 no nav/milestone text.
 
 ---
-
 ## 2026-09-12 — CI fix: p0vrReplication3cR1.test.ts (PERSISTED + Playwright)
 
 - **Symptom:** Production Release **test** job failed — `expected 'RESOLVED' to be 'PERSISTED'`; `browserType.launch: Executable does not exist`.
@@ -8428,7 +7935,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Preserve proof slot when already `PERSISTED` + visible materialized URL; CI `npx playwright install chromium` + `PLAYWRIGHT_BROWSERS_PATH`; skip browser smoke if launch fails. PR **#754** merged.
 
 ---
-
 ## 2026-09-13 — Production boot regression: sharp in vendor (`process is not defined`)
 
 - **Symptom:** site00.com stuck on loader again; boot recovery banner; console **`ReferenceError: process is not defined`** in `vendor.*.js` (deploy `e66dbfd` / `index.CIg10A0g.js`).
@@ -8437,7 +7943,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Production Release with **Promote frontend** after merge; verify vendor hash changed and Origin loads (not boot recovery banner).
 
 ---
-
 ## 2026-09-12 — P0.VR.REPLICATION.4R4 hero outlier-only geometry convergence (twin only)
 
 - **Context:** After 4R3R1 live DOM measurement, remaining hero work is outlier-only CSS nudges from measured deltas — no new blueprint/forensics/architecture.
@@ -8446,7 +7951,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v339+** → REPLICATE → INSPECT HERO → OUTLIERS ONLY + deltas → human AUTHORITY vs TWIN bar; lock hero or report remaining outlier IDs + live deltas.
 
 ---
-
 ## 2026-09-13 — P0.VR.REPLICATION.4R4R1 eight-outlier factual hero convergence (twin only)
 
 - **Context:** Founder QA on v339: **14 measured · 14 rendered · 6 pass · 8 outliers** (H01–H05, H08, H11, H12). Sprint required snapshot-before-patch and factual CSS only.
@@ -8455,7 +7959,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v340** → fresh REPLICATE → INSPECT HERO → confirm outlier count 0 → EXIT → AUTHORITY vs TWIN visual bar → lock hero → masthead + section nav next.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.1 concept-directed Twin V2 (NDXBOOK overview mobile, parallel to V1)
 
 - **Context:** Experiment inside-out pipeline: page intent → function graph → brand/grammar → internal creative director → **full-page visual concept** (founder approve/regenerate/refine) → coded Twin V2 → forensic fidelity QA downstream. **Must not disturb** Twin V1 forensic replication, hero lock, or live `/projects/ndxbook`.
@@ -8464,7 +7967,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v341+** → DESIGN → NDXBOOK → PAGES → MOBILE → OVERVIEW → UPGRADE → **CREATE TWIN V2** → review intent/direction → **GENERATE VISUAL CONCEPT** (confirm spend) → APPROVE/REFINE/REGENERATE → **BUILD TWIN V2** → compare LIVE / V1 / V2 → forensic QA for implementation drift only.
 
 ---
-
 ## 2026-09-13 — TWINV2.1 fix: CREATE TWIN V2 missing on Page Upgrade
 
 - **Symptom:** Founder did not see **CREATE TWIN V2** on upgrade screen.
@@ -8472,7 +7974,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Broaden `isTwinV2PilotEligible` (root route, `isRootOverview`, screenId `overview`); persistent lime-bordered **CREATE TWIN V2** strip on all replication states; duplicate entry in upgrade drawer header.
 
 ---
-
 ## 2026-09-13 — TWINV2.1 fix: visual concept 404 on fsbw-dev
 
 - **Symptom:** **GENERATE VISUAL CONCEPT** → `Visual concept request failed (404)` on `00.fsbw-dev.com`.
@@ -8480,7 +7981,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `site00ClientApiBase.ts` + `site00ClientApiUrl` (fsbw-dev / cloudflare / site00.com → `https://api.site00.com`); Twin V2 request uses it; vite local API plugin registers twin-v2 route for dev.
 
 ---
-
 ## 2026-09-13 — TWINV2.1 fix: Load failed / FAL connection clarity
 
 - **Symptom:** Safari **Load failed** on GENERATE VISUAL CONCEPT; founder asked if fal account is connected.
@@ -8488,7 +7988,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `credentials: 'omit'`, capture-style CORS on twin-v2 handler, `{ fal }` import + explicit `FAL_KEY_MISSING` 503, GET `/api/site00/twin-v2-visual-concept` returns `falKeyConfigured`, UI status line, `/api/health` includes `fal.configured`.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2 concept gallery + blueprint lineage + build-readiness (NDXBOOK Twin V2)
 
 - **Context:** Founder sprint after TWINV2.1 proved distinct V2 concepts; risk was ephemeral FAL-only history with no per-concept executable lineage. Goal: persistent swipeable **ConceptCandidate** records with **ConceptBlueprint**, **ConceptAssetManifest**, **ConceptFunctionBindingPlan**, **ConceptBuildReadiness**, **ExecutableConceptPackage** required for build; regenerate/refine never overwrite prior concepts; backfill from session `history` as `LEGACY_V2_CONCEPT`.
@@ -8496,7 +7995,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v345** → TWIN V2 → swipe existing concepts (no new gen) → check VISUAL/BLUEPRINT/ASSETS/FUNCTIONS → VIEW BLUEPRINT → approve one **READY TO BUILD** → **BUILD THIS CONCEPT** → compare approved vs Twin V2.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R1 concept gallery hydration + legacy backfill (NDXBOOK)
 
 - **Symptom:** Twin V2 UI showed **NO VISUAL CONCEPT YET** despite five generated concepts; no swipe gallery.
@@ -8505,7 +8003,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v346** → TWIN V2 → must see **CONCEPT 1 OF 5** immediately (no generate) → swipe 1–5 → VIEW BLUEPRINT → approve → build when ready.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2 project-wide concept recovery (founder still empty gallery)
 
 - **Symptom:** After v346, fsbw-dev still showed pre-gallery UI (**NO VISUAL CONCEPT YET**) — concepts not in current localStorage session; per-sessionId storage scan insufficient.
@@ -8513,14 +8010,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Deploy **v347** cPanel ZIP **and** Railway API redeploy → reopen TWIN V2 → expand **VIEW INPUTS & DETAILS → CONCEPT STORE** (should show DISCOVERED/BACKFILLED counts). If DISCOVERED=0, prior gens were never persisted to Supabase/session (FAL-only); one new gen after v347 will ledger + gallery going forward.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R3 import existing concept URLs (FAL-only recovery)
 
 - **Confirmed:** `GET ?projectId=ndxbook` on api.site00.com returns **0 records** — five founder concepts were never in Supabase ledger/storage or local session on device.
 - **Fix (v348):** **IMPORT EXISTING CONCEPTS** UI (paste image URLs, no paid gen); `POST /api/site00/twin-v2-import-concept` copies to storage + ledger; `importExistingV2ConceptsFromUrls`; broader localStorage scan (case-insensitive projectId).
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R3 founder QA: “Recovery found 0” (expected) + ship v348
 
 - **Context:** Founder on **site00.fsbw-dev.com** after v347 deploy saw new copy (“Recovery found 0 stored concepts…”) but still no gallery — asked why.
@@ -8529,7 +8024,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Deploy **v348** frontend + **Railway** API → TWIN V2 → paste five `fal.media` URLs → **IMPORT INTO GALLERY** → **CONCEPT 1 OF 5** without new generation. Future gens after v347 auto-ledger.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R4 import button dead + hydration clobber (v349)
 
 - **Symptom:** v348 UI visible but **IMPORT INTO GALLERY** appeared to do nothing; still no gallery.
@@ -8537,7 +8031,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (v349):** `sessionRef` + never reduce candidate count on hydrate merge; inline import feedback/errors above button; require `https://` URLs; `ensureTwinV2SessionCreativeDirection` on import; local-only fallback still builds gallery if API copy fails.
 
 ---
-
 ## 2026-09-13 — Site stuck on loading animation (boot shell / loader failsafe v351)
 
 - **Symptom:** Deployed site hangs on cinematic loading animation (founder mobile).
@@ -8545,7 +8038,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (v351):** `site00-assts-boot-recovery.js` removes boot shell when `#root` has content; `Site00WorldColdStartGate` 22s failsafe reveals app; Twin V2 remote fetch 8s timeout + 12s hydrate wall clock.
 
 ---
-
 ## 2026-09-13 — Tunnel preview reload clears mobile work (sessionStorage persist)
 
 - **Question:** Founder asked to stop tunnel **refreshing on leave/return** and clearing Twin V2 / import progress.
@@ -8553,7 +8045,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Mitigation:** `twinV2UiPersistence` (sessionStorage) saves import URL draft + twinV2Open; restores when Page Upgrade reopens same page; Vite cloud preview defaults to **stable** build stamp (override `SITE00_CLOUD_PREVIEW_STABLE=0`). Twin V2 **concepts** remain in **localStorage** after reload. **Production ZIP** on fsbw-dev avoids dev no-cache churn.
 
 ---
-
 ## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
 
 - **Symptom:** Founder: deployed site still stuck on loading animation after v351.
@@ -8562,7 +8053,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2 host-shell exclusion + client-canvas boundary (v352)
 
 - **Context:** Strong new Twin V2 concept included invented bottom nav (HOME/PROJECTS/CREATE/MESSAGES/ACCOUNT) — image model drew SITE 00 host chrome; must not enter executable build.
@@ -8570,14 +8060,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Changes:** `shared/.../p0vrTwinV22R2/*`, wired into `p0vrTwinV22` gallery/approve/package; `ConceptDirectedTwinGallery`, `TwinV2HostShellCompositePreview`; tests `tests/p0vrTwinV22R2.test.ts`. No V1/live promotion. Build ref **v352**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2R1 sanitized blueprint binding + host preview UI recovery (v356)
 
 - **Root cause:** Persisted concept galleries (localStorage) kept candidates but **never hydrated** `sanitizedBlueprints` / `hostBoundaryReady` on reopen — UI read raw `blueprint.sections` including **host bottom nav** band with no exclusion labels; founder on pre-v355 deploy also missed tab UI.
 - **Fix:** `repairConceptGalleryHostBoundary` on every gallery hydrate/backfill; `originalBlueprintId` + `executionBlueprintId` on candidates; blueprint inspection rows with GENERATED HOST ARTIFACT / EXCLUDED; prominent **HOST PREVIEW** + **CLIENT CANVAS** tabs; build blocked until `hostBoundaryReady`; `HostBoundarySanitizationReceipt`; stale guard `TWIN_V2_STALE_UNSANITIZED_BLUEPRINT`. Build ref **v356**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2R2 client canvas bottom-boundary trim (v357)
 
 - **Symptom:** HOST PREVIEW showed large white gap between NDXBOOK content and real SITE 00 bottom nav after fake nav exclusion.
@@ -8585,7 +8073,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Blueprint-driven `ClientCanvasBoundary` + `TwinV2ExecutionClientCanvasFrame` (dynamic crop + collapsed aspect); `ClientCanvasTrimReceipt`; `assertClientCanvasExcludesHostArtifactExtent`; gallery stores trim metadata; original `visualAsset` unchanged. Build ref **v357**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2R3 client canvas top-boundary recovery (v358)
 
 - **Symptom:** R2R2 bottom PASS; CLIENT CANVAS top FAIL — NDXBOOK masthead/identity cropped; canvas appeared to start at section-nav/hero.
@@ -8593,7 +8080,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Independent `firstClientContentTop` from min CLIENT-owned sections/objects; `canvasTop` = that value; `lastClientContentBottom` unchanged; padding-bottom + `translateY` frame (no top 12%/7% clip); `assertClientCanvasIncludesFirstClientObject` → `CLIENT_CANVAS_TOP_CROP_LOSS`; `ClientCanvasTopReceipt`; masthead band layout at y=0.06; stop tagging all shells y&lt;0.08 as host (only `obj-host-header`); host bottom nav band omitted from client section layout. Build ref **v358**. No V1/live promotion.
 
 ---
-
 ## 2026-09-13 — Loader infinite after gate (v354 suspense fallback)
 
 - **Symptom:** Founder: **nothing changed** after v353 — still stuck on loading animation on **site00.com** (bundle had gate failsafe but hang persisted).
@@ -8601,7 +8087,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (v354):** Fallbacks skip when `isSite00ImmersiveSessionComplete()`; **AsstsColdStartGate** parity with world gate; boot CSS `:has()` so `#root` is not hidden after shell hidden; scheduled boot teardown + force-reveal in `main.tsx`.
 
 ---
-
 ## 2026-09-13 — Loader marble pedestal stuck (v355 triangulation)
 
 - **Symptom:** Founder screenshot — full-screen **marble pedestal / hall** on **site00.com** with **no** SITE 00 copy or progress (Safari mobile). v354 live but “not fixed.”
@@ -8609,7 +8094,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (v355):** Remove immersive loader from route Suspense fallbacks entirely; `purgeSite00ImmersiveLoaderDom()` on session complete / force-reveal / loading-terminal recovery; boot-recovery **watchdog** (after gate complete or 10s) strips orphaned `.site00-immersive-loader`; stop marking immersive session complete on raw React mount (gate owns session).
 
 ---
-
 ## 2026-09-13 — Blank screen after loader (`removeChild` React crash)
 
 - **Context:** Founder: site00.com passes immersive loader then **white blank** `#root`; boot recovery banner; console **`NotFoundError: removeChild`**.
@@ -8617,7 +8101,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Session mark sets storage only; **`purgeSite00ImmersiveLoaderDomAfterGateReveal`** runs in gate `useLayoutEffect` when `revealed`; force-reveal dispatches event only (no DOM purge); boot-recovery purges immersive overlay only when session complete + static shell cleanup when `#root` has children; pageshow/bfcache same rules. PR **#788**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2R3 hotfix (v359) — masthead + bottom nav crop regression
 
 - **Symptom:** After v358, founder QA on Twin V2 CLIENT CANVAS: NDXBOOK masthead top still clipped; invented HOME/PROJECTS bottom nav visible again inside client preview.
@@ -8625,7 +8108,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `canvasTop = min(firstClient, masthead, hostTopInset 0.07)`; `sanitizedCanvasBottom = min(..., 1 - hostBottomInset, artifact y)`; exclude invented bottom-nav objects from last-client extent; crop frame = aspect-ratio window + inner shift + bottom-only `clip-path`; gallery repair when `buildRef !== v359` or bottom &gt; 0.88. Build ref **v359**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2R3 crop frame fix (v360)
 
 - **Symptom:** Founder v359 QA — masthead still top-clipped; second view showed wrong vertical slice (metrics band cut off).
@@ -8633,7 +8115,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Single full artboard img with `top: calc(-100% * top / visible)` inside aspect-ratio viewport; remove transform+clip stack; `MASTHEAD_VISUAL_BLEED_NORM` (0.012) on `canvasTop` when masthead band present. Build ref **v360**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2R3 client canvas panel unclip (v361)
 
 - **Symptom:** Founder QA after v360 — masthead still “clipped”; scroll inside CLIENT CANVAS showed KPI band (wrong slice).
@@ -8641,7 +8122,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Dedicated `.site00-twin-v2-gallery__client-canvas-panel` (no max-height, overflow visible). Build ref **v361**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2R3 masthead/activity bleed (v362)
 
 - **Symptom:** ~10–15px masthead + ~20–30px latest activity still clipped after v361.
@@ -8649,14 +8129,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Top bleed **0.019**; bottom visual bleed **0.037**; when invented nav artifact exists, cap bottom at artifact only (not hostSafe 0.88); activity section tail in last-bottom; crop `top` −1px Safari fudge. Build ref **v362**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.2R2R3 bleed +16px / +40px (v363)
 
 - **Founder QA:** Masthead and latest activity still slightly clipped after v362.
 - **Fix:** Masthead visual bleed **31px** @812 (+16); activity bottom bleed **70px** @812 (+40); crop top −2px Safari. Build ref **v363**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2 activity tail to invented nav + drawer scroll (v364)
 
 - **Symptom:** Latest activity still ~100–200px “clipped”; masthead OK (do not touch).
@@ -8664,7 +8142,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** When invented nav artifact exists, `sanitizedCanvasBottom = artifactTop − ε` (full paint to nav); drawer **94vh** on CLIENT CANVAS; scroll hint on panel. Masthead unchanged. Build ref **v364**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2 activity bleed no-op fix + gallery re-sanitize (v365)
 
 - **Symptom:** Founder “nothing changed” after v364 bleed — latest activity still one row clipped; masthead OK.
@@ -8672,7 +8149,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Bottom = `min(paddedBottom, navArtifact.y + 0.002)` (assert leak ceiling); `repairConceptGalleryHostBoundary` drift + stale-tight detection; build ref **v365**. Masthead unchanged.
 
 ---
-
 ## 2026-09-13 — Twin V2 BUILD THIS CONCEPT one-tap (approve + package)
 
 - **Symptom:** BUILD button appeared dead on mobile — all readiness chips ✓ including HOST BOUNDARY, but tap did nothing.
@@ -8680,7 +8156,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Enable BUILD when technical readiness complete; `prepareConceptDirectedTwinV2Build` runs approve + executable package upsert then compose; hint text explains BUILD locks authority.
 
 ---
-
 ## 2026-09-13 — Twin V2 BUILD visible feedback + inline preview
 
 - **Symptom:** After APPROVE, red BUILD tap felt dead — no building state; nothing appeared to happen.
@@ -8688,7 +8163,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** BUILDING TWIN… button state + lime banner; **TWIN V2 BUILT** panel with inline `ConceptDirectedNdxOverviewTwinV2` + scroll-into-view; collapse gallery after build; hydrate preserves `renderedTwin`.
 
 ---
-
 ## 2026-09-13 — Twin V2 OPEN PREVIEW routed to home (encoded sessionId)
 
 - **Symptom:** OPEN TWIN V2 PREVIEW landed on SITE 00 home (`/`).
@@ -8696,7 +8170,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `encodeURIComponent` in `buildTwinV2PreviewRoute` + decode on preview page; stash live built session; localStorage fallback resolve; signed-in gate only.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.3R1 DOM-first twin (no authority UI crops)
 
 - **Symptom:** Package renderer still showed cropped concept strips + “Preserve function: …” labels — not real coded UI.
@@ -8704,7 +8177,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `p0vrTwinV23R1` object expansion + `NdxTwinDomArtboard` (DOM nav/progress/metrics/activity/hero CSS+SVG); build ref **v374**; prior raster twin → `FAILED_RASTERIZED_EXECUTION` on rebuild. Creative/V1/live untouched.
 
 ---
-
 ## 2026-09-13 — Twin V2 REBUILD THIS CONCEPT (post-build pipeline re-run)
 
 - **Symptom:** After a twin was built, **BUILD THIS CONCEPT** disappeared — only preview buttons; gallery collapsed.
@@ -8712,21 +8184,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Enable **REBUILD THIS CONCEPT** when readiness OK; primary rebuild on **TWIN V2 BUILT** panel; expand gallery details when twin exists.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.6 design compiler hardening (v377)
 
 - **Goal:** Formal design compiler — typed IR chain, bundle checksum, preflight before paid gen, compiler readiness before build, immutable approve lock, CREATIVE→TRANSLATION, fail-closed (no silent fallback).
 - **Fix:** `p0vrTwinV26` — Intent→Fidelity IR envelopes, `ConceptBundleChecksum`, `ConceptGenerationPreflight`, `CompilerReadinessReceipt`, `ObjectLineage`, `designCompilerBundles` on gallery; wired preflight in `beginDualOutput`, bundle build in `finalizeDualOutput`, lock on approve, `assertBuildCompilerContracts` in `prepareConceptDirectedTwinV2Build`; UI **COMPILER READINESS** + collapsed DESIGN COMPILER debug. Build ref **v377**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.5 dual-output concept generation (v376)
 
 - **Problem:** Image-first concepts forced post-hoc blueprint/asset inference; unique assets trapped in authority image.
 - **Fix:** `p0vrTwinV25` — **CompositionPlan + ConceptVisualBlueprint + ConceptAssetPlan + ConceptFunctionTargetPlan** created **before** FAL visual; `beginDualOutputConceptGeneration` → API prompt carries object plan → `finalizeDualOutputConceptGeneration` reconciles, materializes **ConceptGeneratedAsset** canonical paths, builds manifest/bindings; approval gate `assertPairedConceptApprovalGate`; UI **TwinV2PairedConceptReviewPanel** (VISUAL/BLUEPRINT/OVERLAY/ASSETS/FUNCTION MAP); legacy concepts **`LEGACY_IMAGE_FIRST`** preserved; build ref **v376**. Railway API must redeploy for dual-output prompt on generate.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.4R1 compiler route enforcement (v375)
 
 - **Symptom:** After v374 DOM-first build, twin still looked like generic semantic wireframe; EXECUTION LINEAGE showed **PACKAGE_DRIVEN_SOURCE_GENERATION**.
@@ -8734,7 +8203,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `p0vrTwinV24R1` — `TwinV2StrategyResolver`, `buildTwinV2ViaVisualCompiler`, `runConceptVisualToCodeCompiler`, receipts (strategy/visual authority/compiler/source/route), `assertVisualCompilerRoute`; compose now calls visual compiler only; **`ConceptVisualCompilerTwinV2`** renderer + client canvas frame; legacy package renderer marked **LEGACY_V2_EXECUTION_PATH**; v374 builds invalidated **`FAILED_WRONG_IMPLEMENTATION_STRATEGY`**; UI lineage STRATEGY→VISUAL→COMPILER→PLAN→SOURCE→FUNCTIONS→RENDER→FIDELITY; build ref **v375**. V1/live/creative untouched. Cloud browser QA blocked on sign-in (code + vitest verified).
 
 ---
-
 ## 2026-09-13 — Twin V2 gallery stuck on old image after REGENERATE
 
 - **Symptom:** Gallery / paired review kept showing prior concept image after REGENERATE or REBUILD.
@@ -8742,7 +8210,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Remove post-finalize hydrate; skip hydrate apply when session advanced during fetch; `conceptImageDisplayUrl` cache-bust; scroll active slide after generate.
 
 ---
-
 ## 2026-09-13 — Twin V2 still unchanged after rebuild (hydrate preserveBuild)
 
 - **Symptom:** Founder still saw no change after v379 REBUILD / generate fixes on mobile tunnel.
@@ -8750,7 +8217,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `reconcileTwinV2SessionState` (sync all package visuals + invalidate stale compiler); hydrate/open/build call reconcile; remove preserveBuild merge; prefer direct page session when it has data; success banner shows compiled timestamp.
 
 ---
-
 ## 2026-09-13 — Twin V2 REBUILD THIS CONCEPT no-op (stale package + hydrate)
 
 - **Symptom:** REBUILD / BUILD THIS CONCEPT clicked; no visible change (same compiled preview / timestamp).
@@ -8758,7 +8224,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `executablePackageVisualDrift` + `refreshExecutablePackageForActiveCandidate` in `prepareConceptDirectedTwinV2Build`; skip full hydrate when gallery already populated (`buildRef`); same skip in `buildTwinV2ViaVisualCompiler`; compiler attaches active visual when package drift; UI remount compiler preview + scroll errors into built panel.
 
 ---
-
 ## 2026-09-13 — Twin V2 stale concept visual after GENERATE/REGENERATE
 
 - **Symptom:** Founder generated a new concept image; Twin V2 screen still showed the **previous compiled render** (old VISUAL_TO_CODE_COMPILER canvas), not the new gallery visual.
@@ -8766,7 +8231,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `invalidateStaleTwinBuildForActiveConcept` after `mergeVisualConceptApiResult` — clears build artifacts when active concept id or visual URL diverges; hydrate prefers `lastActiveConceptId`; **TWIN V2 BUILT** + compiler renderer gated on `sourceConceptId === activeConceptId`; gallery/paired review `<img key={conceptId-updatedAt}>` for remount. Build ref ships with next deploy after merge.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.9 atomic creative generation bundle (v384)
 
 - **Context:** Follow-up to v28 — one **ConceptCompositionState** must emit all sibling outputs in one logical transaction (authority visual, blueprint twin visual, surgical blueprint data, asset contracts, standalone asset renders, function binding map) before concept is complete. No BUILD/V1/live changes.
@@ -8774,7 +8238,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Classification:** vitest → **ATOMIC_CREATIVE_GENERATION_PARTIAL**; live PROVEN when all siblings + FAL on Railway with founder alignment.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.8 FAL parallel twin generation capability proof (v383)
 
 - **Context:** Validate whether FAL can produce **two distinct visual artifacts** (authority + blueprint twin) from the same **MinimalTwinGenerationState** before investing in blueprint-exclusive BUILD wiring. Scope: NDXBOOK overview mobile pilot only; no BUILD/V1/live changes.
@@ -8783,7 +8246,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next:** Founder runs proof once, checks FAL history for two jobs, visually compares authority vs blueprint twin; do not BUILD until capability proven.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.7 parallel composition + surgical blueprint twin (v382)
 
 - **Context:** Sprint P0.VR.TWINV2.7 — shared **ConceptCompositionState**, parallel **AuthorityVisual** + **SurgicalBlueprintTwin** + **AssetGenerationContractSet**, three-way reconciliation, blueprint-only code path, no authority image as runtime substrate; NDXBOOK overview mobile pilot; do not touch V1/live.
@@ -8793,7 +8255,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Conventions:** New concepts must share **`compositionStateId`** across authority, surgical blueprint, and contracts; build compiler consumes surgical blueprint + canonical manifest, not FAL raster as structure; paid asset regen remains founder-triggered (`FOUNDER_CONFIRM` spend policy).
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV2.3 execution lineage + package-driven builder (v372)
 
 - **Symptom:** Built Twin V2 read as generic NDXBOOK overview — ghosted concept image, pageIntent/functionGraph bands, not approved blueprint layout.
@@ -8801,7 +8262,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** New `p0vrTwinV23` — `buildTwinV2FromPackage`, lineage/receipts, fail-closed validation, `ConceptDirectedPackageTwinV2` blueprint renderer (no ghost image); BUILD stages PACKAGE→SOURCE→RENDER→FIDELITY + EXECUTION LINEAGE UI; prior non-package builds marked `FAILED_PACKAGE_LINEAGE` in history. Build ref **v372**. V1/live/creative generation untouched.
 
 ---
-
 ## 2026-09-13 — TWIN V2.2R1 CI gallery duplicate candidate fix
 
 - **Context:** Production Release CI showed **5 failures** in `tests/p0vrTwinV22R1.test.ts` (gallery counts +1, stale backfill `activeConceptId` on last vs first candidate). Follow-up after v27–v29 merges; user screenshot implied fix needed.
@@ -8810,7 +8270,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Changes:** `p0vrTwinV21/orchestrateTwinV2VisualConcept.ts`, `p0vrTwinV22/hydrateConceptGallerySession.ts`; `tests/p0vrTwinV22R1.test.ts` green (12/12). No GoDaddy ZIP required (shared logic only); Railway redeploy optional.
 
 ---
-
 ## 2026-09-13 — v29 atomic bundle button invisible on real NDXBOOK pageId
 
 - **Symptom:** Founder could not find **RUN ATOMIC GENERATION BUNDLE (v29)** (or v28 proof) in Twin V2 UX.
@@ -8818,7 +8277,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Gate v28/v29 controls with **`isTwinV2OverviewPageScope`**; moved pilot block to **top of Twin V2 drawer** (after hydrate) with `NDXBOOK FAL pilot` label. Deploy ZIP required for site00.com.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV3.0 design page authority generation (v386)
 
 - **Context:** Step back from Twin V2 overview generation; bottleneck is **Design workspace page** UX (console-like, text-heavy). Sprint produces **mobile + desktop visual authorities** only — **no design page implementation**, no BUILD route / V1 / live changes.
@@ -8826,21 +8284,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next sprint:** Implement approved authority and reconnect compiler/bundle/asset/fidelity — not this sprint.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV3.0R1 SITE 00 host-first authority correction (v388)
 
 - **Problem:** V3.0 authorities read as **NDXBOOK-branded design workstation** instead of **SITE 00 Design page with NDXBOOK open**.
 - **Fix:** R1 skeleton (SITE_00_PAGE_FRAME first), host/client firewall in FAL prompts, prototypes redrawn (SITE 00 › PROJECT: NDXBOOK › DESIGN), separate approve locks **`DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE`** / **`DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP`**, panel copy + per-viewport approve. Build ref **v388**. Still authority-only — no implementation.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV3.0R2 design page authority lock (v389)
 
 - **Objective:** Zero ambiguity — **SITE 00 owns workspace**, NDXBOOK client open; A–G page zones; founder-review-ready visuals; R2 self-check on prompts.
 - **Delivered:** R2 skeleton (HOST_HEADER through SECONDARY_DETAIL), `designPageAuthoritySelfCheck`, prompts with strict fail cases + foundershi test line, **`mobile-authority-r2.svg`** / **`desktop-authority-r2.svg`**, panel shows R2 lineage + self-check PASS. Build **v389**. Locks unchanged per viewport. No implementation.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV3.0R3 host shell + NDXBOOK project atmosphere (v390)
 
 - **Problem:** R1/R2 fixed host ownership but **over-corrected** — workspace felt generic SITE 00 / SaaS admin (flat cards, host red everywhere, missing NDXBOOK lime atmosphere).
@@ -8848,41 +8303,35 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** Territory prompts A/B/C (Central Stage, Editorial Workbench, Spatial Workflow) × mobile/desktop — **6 R3 SVG prototypes**, `designPageAuthorityR3SelfCheck`, `dispatchDesignPageAuthorityTerritoryVisuals`, panel territory select + founder verdicts (LOVE IT / PROMISING / …), **viewport approve requires territory selection**. Build **v390**. Still authority-only — lock pair after founder picks territory; then implementation sprint.
 
 ---
-
 ## 2026-09-13 — Twin V3 authority FAL jobs parallelized
 
 - **Change:** `dispatchDesignPageAuthorityTerritoryVisuals` runs all **6** territory frames (A/B/C × mobile/desktop) via **`Promise.all`**; legacy `dispatchDesignPageAuthorityVisuals` runs mobile+desktop in parallel. Provider trace notes parallel batch. No UI/build ref bump — Railway redeploy optional for faster live generation.
 
 ---
-
 ## 2026-09-13 — FAL parallel enqueue helper (v391)
 
 - **Problem:** Founder still saw **sequential** FAL dispatches for territory A/B/C despite `Promise.all` on `fal.subscribe`.
 - **Fix:** Shared **`runFalImageJobsParallel`** — phase 1 **`queue.submit` × N in parallel**, phase 2 **`subscribeToStatus` + `result` × N in parallel**. Wired into Twin V3 territory + R2 pair, Twin V28 dual proof, Twin V29 atomic bundle. Panel shows **`FAL_PARALLEL_ENQUEUE spreadMs=…`** in `falProviderTrace`. Build **v391** — Railway redeploy + optional GoDaddy ZIP for trace UI.
 
 ---
-
 ## 2026-09-13 — Twin V3 per-territory candidate galleries (v392)
 
 - **Problem:** FAL outputs only in FAL history; each regenerate replaced the prior batch on the design page — no compare stack within Editorial (B) etc.
 - **Fix:** `territoryGallery` in authority session (localStorage) appends mobile+desktop pairs per A/B/C; **+ GENERATE THIS TERRITORY** (`REGENERATE_TERRITORY`); UI lists Compare #1…#N under each category with FAL URLs. Build **v392**.
 
 ---
-
 ## 2026-09-13 — Twin V3 gallery wired to FAL API result (v393)
 
 - **Problem:** After live FAL batch, UI still showed **0 candidates** — panel persisted `res.session` from API without merging `result.territories` (stale/mismatched server session).
 - **Fix:** **`mergeDesignPageAuthorityApiResponse`** applies `result.territories` on client; **`syncGalleryFromLastResult`** on normalize; API response validation if territories empty. Build **v393**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV3.0R4 project creative grounding (v394)
 
 - **Problem:** R3 improved spatial composition and host/project separation but creative layer still invented **random books, portraits, architecture** — style context without **project truth**.
 - **Delivered (authority-only):** `ProjectCreativeContextPackage` + NDXBOOK pilot DNA, artifact vocabulary (entry/campaign/receipt/index families), asset source map (Entry 001, CD manifests, handoff canon), visual/typography/material/symbolic language, workspace expression + **DesignWorkspaceFunctionContract**, **`ProjectCreativeGroundingGate`** (fail closed `PROJECT_CREATIVE_CONTEXT_INCOMPLETE`), grounding injected into territory prompts before FAL, **`AuthorityGroundedAssetManifest`** + **`AssetGroundingRecord`** slots, **`runDesignPageAuthorityR4SelfCheck`**, ungrounded guard `PROJECT_VISUAL_ASSET_UNGROUNDED`, founder **project grounding QA** line on authority panel. Territories A/B/C share same NDXBOOK artifact family — spatial diff only. Build **v394**. V1/live/compiler untouched.
 
 ---
-
 ## 2026-09-13 — Twin V3 authority prototype broken images (v396)
 
 - **Symptom:** Territory gallery showed Compare #1 **prototype** rows but `<img>` broken (blue ?) on mobile design page.
@@ -8890,7 +8339,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `resolveDesignPageAuthorityImageSrc` (absolute origin + path), Vite bundled SVGs under `src/site00/assets/twin-v3-design-page-authority/`, `rewritePrototypeGalleryUrls` on session display. Build **v396**.
 
 ---
-
 ## 2026-09-13 — Twin V3 territory gallery empty on mobile (v395)
 
 - **Symptom:** Design page showed **0 candidates** for A/B/C despite generate actions; founder on **site00.fsbw-dev.com** mobile.
@@ -8898,7 +8346,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Auto **`seedDesignPageAuthorityPrototypeGallery`** (SVG A/B/C × mobile/desktop on mount); **`mergeDesignPageAuthorityApiResponse`** falls back to API **`session`**; slim persisted **`lastResult`** + **sessionStorage** backup; in-flight generating hint. Build **v395**.
 
 ---
-
 ## 2026-09-13 — Twin V3 img src wired to bundled SVGs again (v409)
 
 - **Symptom:** Batch 1 + batch 2 prototypes show broken `?` on fsbw-dev / deploy though storage has `/site00/...` paths.
@@ -8906,21 +8353,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Resolver + `onError` fallback return **`DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS`** / map lookup (bundled data URLs). Public `/site00/` only as last resort without hint. Build **v409**.
 
 ---
-
 ## 2026-09-13 — Twin V3 batch 2 auto-seed prototypes (v408)
 
 - **Symptom:** Founder on fsbw-dev v407 — BATCH 2 panel empty (“NO BATCH 2 FRAMES YET”); no images until FAL.
 - **Fix:** `seedDesignPageAuthorityBatch2PrototypeGallery` on read when batch-2 store empty — 6 R3 `/site00/...` SVG frames (batchGeneration 2), independent of batch 1. Build **v408**.
 
 ---
-
 ## 2026-09-13 — Twin V3 batch 2 isolated module/panel (v407)
 
 - **Founder:** Batch 1 recovery still not trustworthy — put **batch 2** in a **separate module/panel above batch 1**, independent storage.
 - **Delivered:** `DesignPageV3AuthorityBatch2Panel` + `designPageAuthorityBatch2Module.ts` + **`site00:design-page-v3-authority:batch2-module:v1`** (localStorage only — no ledger/backup/recovery merge). Batch 2 panel: GENERATE / ADD BATCH 2 / per-territory regen via FAL. Batch 1 panel relabeled **LEGACY**; FAL button disabled (“use batch 2 above”). Stack order in `StudioWorldDesignWorkspace`. Tests **`p0vrTwinV30Batch2Module.test.ts`**. Build **v407**.
 
 ---
-
 ## 2026-09-13 — Twin V3 gallery persistence loops (v406)
 
 - **Symptom:** Founder: “nothing is changing” on tunnel + site00.com — still broken batch 1 after v405.
@@ -8928,7 +8372,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`AUTHORITY_GALLERY_RECOVERY_EPOCH=2`** one-time heal; **`pruneGalleryToLatestCandidatePerTerritory`**; sync only into **empty** territories; **`purgeDesignPageAuthoritySideStores`** on force reset; recover on every **write**; mount loads disk only. Build **v406**.
 
 ---
-
 ## 2026-09-13 — Twin V3 broken batch 1 stuck (tunnel + site00.com) — gallery recovery v405
 
 - **Symptom:** Tunnel and GoDaddy deploy still showed only **broken batch 1** (blue ?); batch 2 not visible.
@@ -8936,14 +8379,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `recoverDesignPageAuthorityGallery.ts` — force **public-path prototype** gallery on stale `buildRef` or unviewable URLs; persist on read; **RESET WORKING PROTOTYPES** button; skip merging **unviewable** ledger/backup; resolver prefers **`/site00/twin-v3-design-page-authority/*.svg`** (origin URL in browser); mount re-read when disk session differs. Tests **`p0vrTwinV30GalleryRecovery.test.ts`**. Build **v405**. Founder: hard refresh after deploy; use **ADD BATCH** for new FAL if prototypes reset.
 
 ---
-
 ## 2026-09-13 — Twin V3 ADD BATCH replaces prior batch (v404)
 
 - **Founder:** Replace unusable batch 1 with batch 2 — do not stack broken history.
 - **Delivered:** `REGENERATE` / `REGENERATE_TERRITORY` / `REFINE` use `replaceTerritoryBundlesInGallery` (one candidate per affected territory); `pruneGalleryToLatestBatch` per territory on normalize; batch ledger stores **latest only**; full regen resets authority pipeline selection. Build **v404**.
 
 ---
-
 ## 2026-09-13 — Twin V3 batch ledger + gallery stats (v403)
 
 - **Symptom:** After v402, batch 2 still not visible on fsbw-dev; batch 1 images still broken.
@@ -8951,7 +8392,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Note:** Batches generated before v403 ledger cannot be recovered — re-run ADD BATCH once on v403+.
 
 ---
-
 ## 2026-09-13 — Twin V3 batch 2 gallery lost + batch 1 broken (v402)
 
 - **Symptom:** ADD BATCH (batch 2) vanished after reload; only batch 1 remained with broken thumbnails.
@@ -8959,7 +8399,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Dedupe by **artifactId**; `mergeTerritoryGalleries` on read + API merge; slim persisted `lastResult.territories` when gallery populated; dedicated **gallery-backup** in sessionStorage. Build **v402**.
 
 ---
-
 ## 2026-09-14 — Projects page boot recovery false alarm on fsbw-dev (v415)
 
 - **Symptom:** Mobile `site00.fsbw-dev.com` /projects — white screen + “SITE 00 did not finish loading (v325+)” though tunnel/Vite healthy.
@@ -8967,7 +8406,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** React sets `#root[data-site00-app-mounted=1]`; recovery waits for that (not placeholder text); **60s** deadline on cloud preview hosts; preview-specific banner copy; inline “Loading SITE 00…” in `index.html`. Build **v415**.
 
 ---
-
 ## 2026-09-14 — GENERATE DERIVATIVES dead on mobile/fsbw-dev (v414)
 
 - **Symptom:** Founder tap **GENERATE DERIVATIVES** on `site00.fsbw-dev.com` (v413) — no visible result.
@@ -8975,14 +8413,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Browser runtime uses `Image()` dimensions + template row bands (no sharp); sharp isolated in `pixelGroundedAuthorityAnalysisNode.ts` (dynamic import Node-only). Inline derivation feedback on recovery strip + scroll to translation review. Build **v414**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV3.0R6F1 pixel-grounded derivation + translation review (v413)
 
 - **Context:** R6 proved derivation orchestration but ~10 skeleton objects/viewport was too coarse for TRANSLATION / inventionBudget NONE; founder must approve **translation interpretation** separately from creative authority JPGs.
 - **Delivered:** Sharp-based **`PixelGroundedAuthorityAnalysis`** on locked R5F2 JPGs; **51** measured objects/viewport (fractional templates + row-band nudge); **`ObjectGranularityReceipt`**, **`AuthorityVisualCoverageReceipt`**, **`WeightedAuthorityCoverageReceipt`**, **`AuthorityVisualCoverageGate`**, **`VisualClusterMap`**, **`ResponsiveObjectCorrespondenceMap`**; async **`runDesignWorkspaceDerivation`** → **`buildPixelGroundedDerivationBundle`**; scoped **`CompilerReadinessReceipt`** (DERIVATION/REVIEW/BUILD — `move_to_build` NOT_APPLICABLE at derivation); package status **`FOUNDER_REVIEW_READY`** (not BUILD_READY); **`DesignPageV3DerivationReviewPanel`** overlay modes + **APPROVE TRANSLATION** / **REQUEST DERIVATION CORRECTION**; tests **`p0vrTwinV30R6F1.test.ts`** + R6 suite updated async. Build **v413**. No live React design page implementation.
 
 ---
-
 ## 2026-09-13 — Twin V3 authority gallery images still broken (v401 heal)
 
 - **Symptom:** Founder on **site00.fsbw-dev.com** — DESIGN authority cards show blue **?** (MOBILE/DESKTOP · GENERATED) after v398 URL repair.
@@ -8990,7 +8426,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `isBrokenPersistedAuthorityImageStorageUrl` + rewrite hashed `/assets/*-r3*.svg` to canonical `/site00/twin-v3-design-page-authority/*.svg`; resolver maps those HTTPS asset URLs to bundled imports; mount effect **persists healed gallery**; `<img onError>` fallback to R3 prototype. Build **v401**.
 
 ---
-
 ## 2026-09-13 — Twin V3 authority prompts: uppercase UI on every page (v400)
 
 - **Founder ask:** Confirm concept-driving prompts enforce **uppercase** UI typography on **all pages** shown in authority mockups.
@@ -8998,14 +8433,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `formatDesignWorkspaceTypographyCasePromptBlock` injected into R2 + R3 territory prompts; NDXBOOK `ProjectTypographyExpression.uiCaseRule` + `allPagesCaseRule`; R3 self-check `UPPERCASE_CASE_GOVERNANCE_QA`; R5F1 affordance line; tests in **`p0vrTwinV30R4.test.ts`**. Build **v400**. Existing FAL/SVG authorities need regen to pick up prompt law.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV3.0R5F1 feature manifest + master amendment (v399)
 
 - **Context:** R5 viewport master UX could not be frozen into pre-R5 visual authorities without omitting new product capabilities under TRANSLATION mode.
 - **Delivered:** `DesignWorkspaceFeatureManifest` v1 (29 required DESIGN features A–AC incl. R5 authority-selection set), `WorkspaceFeatureChangeSet` (R5F1 ADD), `MasterAuthorityAmendment` (MASTER_AMENDMENT vs FULL_REGENERATION), `FeatureCoverageReceipt` + fail-closed promotion gate, `MasterFeatureBinding` on promote, stale master detection (`MASTER UPDATE REQUIRED`), R5F1 prompt block injected into all A/B/C mobile+desktop generation prompts, generation lineage **P0.VR.TWINV3.0R5F1**, `designWorkspaceFeatureManifestVersion` on masters/results. Tests **`p0vrTwinV30R5F1.test.ts`**. Founder runs **ADD BATCH (A+B+C)** for six FAL authorities — not live design page implementation. Build **v399**.
 
 ---
-
 ## 2026-09-13 — Twin V3 authority R3 mockups broken (gray ?) — URL repair (v398)
 
 - **Symptom:** NDXBOOK design authority gallery on **site00.fsbw-dev.com** / mobile showed gray boxes + blue broken-image icon; batch 1 prototype rows did not show SITE 00 + NDXBOOK lime SVGs.
@@ -9013,28 +8446,24 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `repairAuthorityPrototypeUrls.ts` — canonical **`/site00/twin-v3-design-page-authority/*.svg`** in session; repair on **`normalizeDesignPageAuthoritySession`**; resolver passes through **data:/blob:**, strips **origin/data:** mangling, maps to bundled assets at render. Tests **`p0vrTwinV30AuthorityImageRepair.test.ts`**. Build **v398**.
 
 ---
-
 ## 2026-09-14 — P0.VR.TWINV3.0R7MF3P1 mobile twin A/B capability test (v424)
 
 - **Context:** Before full R7MF3 package fan-out, empirically compare Flow A (composition sibling blueprint) vs Flow B (Actual→blueprint transform) with same frozen snapshot.
 - **Delivered:** `TwinCapabilityTestCompositionSnapshot`, SHARED_CANONICAL_ACTUAL (1 Actual + Blueprint A + Blueprint B = 3 FAL jobs), `TwinFlowA/B` receipts, `TwinVisualMatchReceipt` (machinePass false), founder decision → `MobileTwinVisualGenerationStrategy`; full `GENERATE_MOBILE_TWIN` blocked until strategy set. UI **MOBILE TWIN CAPABILITY TEST** panel. Build **v424**. Tests **`p0vrTwinV30R7MF3P1.test.ts`**.
 
 ---
-
 ## 2026-09-14 — P0.VR.TWINV3.0R7MF3 atomic mobile twin generation (v423)
 
 - **Context:** R7MF2 fixed reference cloning but Phase A→approve→Phase B was wrong; Actual and Blueprint must be sibling outputs of one frozen `MobileTwinCompositionState`.
 - **Delivered:** `GENERATE_MOBILE_TWIN` / `REGENERATE_MOBILE_TWIN` → `MobileAtomicTwinGenerationRun` dispatches Actual + Blueprint FAL jobs from same composition (blueprint from composition+reference, not Actual pixels); structured artifacts in same transaction; `MobileTwinVisualPair`, `TwinVisualCompositionReceipt`, `approveMobileTwinPackage` replaces render-only gate. UI: MOBILE TWIN REVIEW, pair statuses. Build **v423**. Tests **`p0vrTwinV30R7MF3.test.ts`**. Legacy sequential actions retained for tests.
 
 ---
-
 ## 2026-09-14 — P0.VR.TWINV3.0R7MF2 reference translation + anti-clone guard (v422)
 
 - **Context:** R7MF1 FAL Phase A worked but outputs mirrored Design Reference too literally (reference cloning vs true MobileImplementationRender).
 - **Delivered:** R7MF2 lineage; strengthened render prompt (reference vs implementation roles, anti-clone prohibitions, composition-first input priority); `ReferenceCloneFirewall` + `REFERENCE_TRANSLATION_COLLAPSE_TO_REPLICATION`; `ReferenceTranslationEvidenceReceipt`; founder reject reasons incl. `TOO_CLOSE_TO_REFERENCE`; UI Phase A labels, clone-risk advisory, reject path; package still blocked until valid render approved. Build **v422**. Tests **`p0vrTwinV30R7MF2.test.ts`**.
 
 ---
-
 ## 2026-09-14 — R7MF1 ACTUAL RENDER empty after FAL success (v421)
 
 - **Symptom:** Founder generated mobile render on fal.ai (job OK) but DESIGN RECONSTRUCTION **ACTUAL RENDER** still **NOT GENERATED YET**; gate could show GENERATED with FAL jobs hint at 0.
@@ -9042,7 +8471,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Dedicated key **`site00:mobile-twin-pipeline:v1`** (`mobileTwinPipelinePersistence.ts`); read/write on authority session load/save; merge preferring row with more renders; UI **`ensureMobileTwinPipelineDefaults`** + fallback **`activeRenderId` → latest render**. Build **v421**. fsbw-dev tunnel still dev server — hard refresh Design tab after generate; production ZIP for stable QA.
 
 ---
-
 ## 2026-09-14 — R7MF1 FAL reference upload fix (v420)
 
 - **Symptom:** FAL 422 **Failed to download the file** on mobile twin render.
@@ -9050,35 +8478,30 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `falEnsureReferenceUrls.ts` loads JPG from Railway `public/` or GitHub raw, uploads to **fal.storage**, then runs gpt-image-2/edit. Build **v420**. Railway redeploy required.
 
 ---
-
 ## 2026-09-14 — Mobile twin SYNC unlock v428
 
 - **Still locked after v427:** sessionView never merged `site00:mobile-twin-pipeline:v1`; founder images could exist only in LS while UI read empty authority session.
 - **Fix:** `syncFounderMobileTwinSession` on every `sessionView`; **SYNC & UNLOCK FROM SAVED FAL STATE** button + diagnostics line; broader FAL pair detection + PARTIAL bootstrap from lone FAL renders; preview fallbacks for actual/blueprint. Build **v428**.
 
 ---
-
 ## 2026-09-14 — Mobile twin pipeline reconcile unlock (v427)
 
 - **Bug:** FAL images generated but **FLOW A** / **RUN PROVIDER BENCHMARK** stayed locked — `mergeMobileTwinPipelinePreferRenders` kept the LS row with more `renders` but dropped `twinCapabilityTest`, strategy, and blueprint ids; UI gated on missing metadata.
 - **Fix:** `mergeMobileTwinPipelineRich` + `reconcileMobileTwinPipelineState` (rebuild test from Flow A receipt or actual+blueprint pair); panels merge LS + reconcile before enable/actions. Build **v427**.
 
 ---
-
 ## 2026-09-14 — Mobile twin founder path UX (v426)
 
 - **Issue:** Founder on fsbw-dev saw capability test but not **FLOW A MORE ACCURATE** (hidden until test completes) or **MOBILE TWIN PROVIDER BENCHMARK** (panel returned null until Method A selected).
 - **Fix:** **`DesignPageV3MobileTwinFounderPathPanel`** (4-step checklist), always-visible Step 2 buttons (disabled until test ready), provider benchmark section always rendered with **LOCKED** gate copy; CSS for capability/provider/founder panels. Build **v426**.
 
 ---
-
 ## 2026-09-14 — P0.VR.TWINV3.0R7MF3P2 Method A multi-provider benchmark (v425)
 
 - **Context:** After R7MF3P1 locked **Method A** (atomic sibling Actual + Blueprint from one frozen composition), founder needs side-by-side **provider/model** comparison without changing pipeline architecture.
 - **Delivered:** `TwinProviderBenchmarkSnapshot`, `TwinProviderBenchmarkAdapter` (`runTwinProviderBenchmarkFalJob`), `runMobileTwinProviderBenchmark` (baseline GPT Image 2 pair reused from P1 Flow A; challengers **Nano Banana Pro Edit**, **FLUX.2 Max Edit**, **FLUX.1 Kontext Max** via env-overridable FAL IDs), `ProviderTwinBenchmarkReceipt` + cost/latency records, idempotency on snapshot+version, per-provider retry actions, `recordFounderProviderBenchmarkDecision` → `MobileTwinProviderStrategy` (`PROVISIONAL_WINNER` or null on NONE). UI **`DesignPageV3MobileTwinProviderBenchmarkPanel`** (compare all actuals/blueprints/twin pairs, founder pick, fullscreen). API actions `RUN_MOBILE_TWIN_PROVIDER_BENCHMARK`, `RETRY_PROVIDER_BENCHMARK_*`. Tests **`p0vrTwinV30R7MF3P2.test.ts`**. Build **v425**. No package fan-out, no desktop, no Method B in benchmark path.
 
 ---
-
 ## 2026-09-14 — R7MF1 mobile FAL fetch fix (v419)
 
 - **Symptom:** iOS Safari on `site00.fsbw-dev.com` showed **Load failed** on GENERATE MOBILE RENDER (FAL).
@@ -9086,35 +8509,30 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `credentials: 'omit'`, clearer network/FAL_KEY errors; founder JPG reference always resolves to `https://site00.com/...` for FAL. Build **v419**.
 
 ---
-
 ## 2026-09-14 — P0.VR.TWINV3.0R7MF1 mobile FAL provider activation (v418)
 
 - **Context:** R7M proved composition-state architecture via LOCAL_COMPILER stub; R7MF1 wires real FAL for Phase A mobile implementation render + Phase B blueprint twin without changing R7M state model.
 - **Delivered:** `falReferenceImageJob`, `dispatchMobileTwinFalRender/BlueprintTwin`, `runMobileTwinFalPipeline`, API `POST /api/site00/twin-v3-mobile-twin-pipeline`. LOCAL_COMPILER renders classified `PIPELINE_PROOF_STUB` / `LOCAL_PROOF_ONLY` — blocked from `FROZEN_IMPLEMENTATION_AUTHORITY` unless `founderStubOverride`. UI: FAL generate/refine/regenerate, render version picker, fullscreen compare. Tests **`p0vrTwinV30R7MF1.test.ts`**. Build **v418**.
 
 ---
-
 ## 2026-09-14 — P0.VR.TWINV3.0R7M mobile composition-state twin pipeline (v417)
 
 - **Context:** R6/R6F1/R6F2 incorrectly treated founder mobile JPG as implementation render for blueprint extraction. Sprint R7M restores architecture: **MobileDesignReferenceAuthority** → **MobileTwinCompositionState** → **MobileImplementationRender** → **MobileBlueprintTwin** + structured package (mobile-only; desktop deferred).
 - **Delivered:** `mobileTwinPipeline/` (composition builder, browser + Node render/package runners, render gate, twin package, reconciliation receipts). UI **MOBILE TWIN PIPELINE** panel with founder compare modes (REFERENCE↔ACTUAL, ACTUAL↔BLUEPRINT, PACKAGE) plus GENERATE MOBILE RENDER / APPROVE / GENERATE TWIN PACKAGE. R6F2 role **SUPERSEDED_BY_COMPOSITION_STATE_TWIN_PIPELINE** (forensic QA only). Phase A/B proof uses **LOCAL_COMPILER** (FAL gated post–render approval). Tests **`p0vrTwinV30R7M.test.ts`** (13). Build **v417**.
 
 ---
-
 ## 2026-09-14 — P0.VR.TWINV3.0R6F2 exact boundaries + geometry fidelity (v416)
 
 - **Context:** Founder rejected R6F1 translation overlays as loose / oversized; sprint required pixel-exact visual bounds, separate geometry fidelity receipts/gates, preserved R6F1 history, no build/regen.
 - **Delivered:** `exactBoundaryAnalysis.ts` + Node `refineBoundsFromPixelEdges`; `runExactBoundaryDerivation` wired as default in `runDesignWorkspaceDerivation` (algorithm **R6F2**, derivation v2 idempotency); `VisualBounds` vs `InteractionBounds`, line geometry for dividers, overlap/tightness QA, `GeometryFidelityReceipt` per viewport; translation approval gated on coverage + geometry + granularity; correction records `OBJECT_BOUNDARIES_NOT_PIXEL_EXACT`; viewport-specific template objects (Mobile/Desktop counts differ); review UI layers (OBJECTS/REGIONS/GEOMETRY QA), zoom/pan, inspect panel, distinct overlay styles. Tests **`p0vrTwinV30R6F2.test.ts`**. Build **v416**.
 
 ---
-
 ## 2026-09-13 — P0.VR.TWINV3.0R5 viewport master selection + pair lock (v397)
 
 - **Context:** Founder picked mobile/desktop authorities outside the product; gallery was view-only with legacy APPROVE MOBILE/DESKTOP per territory.
 - **Delivered:** Independent **MOBILE** / **DESKTOP** selection → explicit **promote** → **DesignWorkspaceAuthorityPair** → explicit **pair lock** (`executionIntent: TRANSLATION`, `inventionBudget: NONE`). Models: **`ViewportMasterAuthority`**, **`DesignWorkspaceAuthorityPair`**, pipeline in **`designWorkspaceAuthorityPipeline.ts`**; **`DesignAuthorityPairReadinessGate`** / **`assertDerivationAllowed`** block derivation until **`PAIR_LOCKED`**. UI: per-frame **SELECT FOR MOBILE/DESKTOP**, **`DesignPageV3AuthorityPairDock`**, pair review + lock confirmations, mobile bottom-sheet toggle for dock. Promotion preserves **`authorityImageUri`** (no regen). **`beginViewportMasterReplacement`** supersedes masters without deleting sibling candidates. Generation lineage **`P0.VR.TWINV3.0R5`**, build **v397**. Tests **`p0vrTwinV30R5.test.ts`** (18 scenarios). No live design page / blueprint fan-out in this sprint.
 
 ---
-
 ## 2026-09-14 — Mobile twin founder manual unlock (v429)
 
 - **Context:** R7MF3P2 founder path on mobile showed **renders 0/0 · FAL jobs 0** with Step 2 / benchmark **LOCKED** after founder generated images; **SYNC** could not help when **`site00:mobile-twin-pipeline:v1`** was empty (FAL dashboard success ≠ persisted pipeline).
@@ -9123,14 +8541,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Changes:** `founderManualUnlockMobileTwinPath.ts`, `founderManualTwinPathUnlock` on pipeline state, reconcile + `runMobileTwinProviderBenchmark` honor flag; primary UI **FOUNDER OVERRIDE — UNLOCK METHOD A + BENCHMARK**; SYNC demoted to secondary with status message. Build **v429**. Tests **`founderManualUnlockMobileTwinPath.test.ts`**.
 
 ---
-
 ## 2026-09-14 — R7MF3P3 GPT2/NBP focused hybrid twin test (v430)
 
 - **Context:** P2 showed GPT2 best Actual, NBP strong Blueprint but NBP Actual often device-mockup; FLUX not fit — need 3-way strategy compare (GPT2 pair, NBP corrected pair, hybrid GPT2 Actual + NBP Blueprint) without architecture change.
 - **Delivered:** `runMobileTwinFocusedHybridBenchmark`, split-provider `dispatchMobileTwinSplitProviderPair`, NBP **presentation firewall** prompt + `ACTUAL_PRESENTATION_VIOLATION_DEVICE_FRAME`, `ProviderStrategyBenchmarkReceipt`, `MobileTwinRenderStrategy` + `recordFounderMobileTwinRenderStrategy`, UI **`DesignPageV3MobileTwinFocusedHybridPanel`**, actions `RUN_MOBILE_TWIN_FOCUSED_HYBRID_BENCHMARK` / retries. GPT2 control reused from P2 baseline. Build **v430**. Tests **`p0vrTwinV30R7MF3P3.test.ts`**. No FLUX in P3 path; no package fan-out.
 
 ---
-
 ## 2026-09-14 — Focused hybrid RETRY mobile fix (v431)
 
 - **Symptom:** RETRY on NBP/hybrid cards showed **MOBILE_RENDER_PROVIDER_FAILED**; strategies stayed **NOT_RUN** on fsbw-dev mobile.
@@ -9138,7 +8554,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** API returns **slim `mobileTwinPipeline` only**; `requestMobileTwinFal` strips gallery from POST and **merges** pipeline into local session. UI **RUN** chains two RETRY actions (~60–90s each) with visible status; RETRY buttons wired with `data-testid` + provider error display. Build **v431**. Railway redeploy required for API half.
 
 ---
-
 ## 2026-09-14 — Focused hybrid RUN gate + control bootstrap (v432)
 
 - **Symptom:** **RUN FOCUSED HYBRID BENCHMARK** grey/disabled, SNAPSHOT NOT RUN — nothing dispatched.
@@ -9146,28 +8561,24 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `getFocusedHybridBenchmarkGate` (capability-ready / Method A, not URI gate); RUN button explains lock; `ensureMobileTwinFlowAControlPair` bootstraps GPT2 control on Railway when override-ready but no images. Build **v432**.
 
 ---
-
 ## 2026-09-14 — R7MF3P6 Mobile Twin routing cleanup + NBP enforcement + hydration (v435)
 
 - **Context:** Post P4/P5, founders saw GPT2 leakage, FAL outputs not mounting in review slots, FAL jobs 0, stale Phase A UI, duplicate GENERATE spend.
 - **Delivered:** `assertMobileTwinNbpModelAtDispatch` / post-job lock check (`MOBILE_TWIN_PROVIDER_LOCK_VIOLATION`); API merge prefers **server** pipeline; `requestMobileTwinFal` writes LS + `hydrateMobileTwinReviewState`; atomic run created **GENERATING** before FAL; `ingestMobileTwinProviderResult` + provider job records; review slots via `resolveMobileTwinReviewSlots`; idempotency gate + orphan recovery; UI **ACTUAL PAGE** / **BLUEPRINT TWIN** labels + technical provider details. Build **v435**. Tests **`p0vrTwinV30R7MF3P6.test.ts`**.
 
 ---
-
 ## 2026-09-14 — R7MF3P5 light technical blueprint contract (v434)
 
 - **Context:** After P4 NBP lock, founder prefers **light** technical blueprint (readability) vs ambiguous dark/light NBP outputs.
 - **Delivered:** `BlueprintVisualStyleContract` (`mobile-light-technical-blueprint-v1`), `buildMobileLightTechnicalBlueprintFalPrompt`, style/structure + presentation firewalls, `BlueprintVisualStyleReceipt` + `DarkBlueprintRisk` / `BLUEPRINT_DARK_MODE_VIOLATION`, locked-route dispatch uses `LIGHT_TECHNICAL_BLUEPRINT` + `r7mf3p5-light-blueprint-v1`; historical blueprints tagged `HISTORICAL_BLUEPRINT_VARIANT`; `RETRY_MOBILE_BLUEPRINT_LIGHT` blueprint-only retry; UI labels **LIGHT TECHNICAL**. Build **v434**. Tests **`p0vrTwinV30R7MF3P5.test.ts`**. Structured blueprint still from composition state only.
 
 ---
-
 ## 2026-09-14 — R7MF3P6F1 blueprint-only light style retry (v439)
 
 - **Context:** P6 pipeline proof OK; Blueprint violated **mobile-light-technical-blueprint-v1** (dark sheet). Representation-only fix — no Actual / routing / mounting changes.
 - **Delivered:** P6F1 prompt priority + negative style contract; optional **STYLE_REFERENCE_ONLY** anchor; strengthened **dominantBackground** / **LIGHT_BACKGROUND_PASS** receipts; **RETRY LIGHT BLUEPRINT** (1 NBP job, 0 Actual, same atomic run + composition + Actual); historical dark variants preserved; UI warning + technical row. Tests **`p0vrTwinV30R7MF3P6F1.test.ts`**. Build **v439**.
 
 ---
-
 ## 2026-09-14 — Design page white screen fix (v438)
 
 - **Symptom:** site00.fsbw-dev.com loads; **/projects/ndxbook/design** blank white (signed-in founder).
@@ -9175,7 +8586,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Sync is **pure** (no LS in sync); try/catch around sync + promotion; one-shot promotion persist ref; mount **load effect** syncs + writes once. Build **v438**.
 
 ---
-
 ## 2026-09-14 — R7MF3P4c NBP locked panel + persist promotion (v437)
 
 - **Symptom:** Generate enabled as **GENERATE MOBILE TWIN (FAL)**; no **MOBILE TWIN PROVIDER · LOCKED BY FOUNDER** / **GENERATE MOBILE TWIN PACKAGE** (founder screenshot post-v436).
@@ -9183,7 +8593,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Persist lock when **`sessionView`** promotes; sync writes LS on Method A transition; founder override chains **`applyFounderNbpMobileTwinPromotion`** for ndxbook; locked panel shows with **designReference**; pipeline button label uses **NBP package mode** when render strategy locked. Build **v437**.
 
 ---
-
 ## 2026-09-14 — R7MF3P4b NDXBOOK generate gate auto-unlock on load (v436)
 
 - **Symptom:** **GENERATE MOBILE TWIN** grey on fsbw-dev with “run capability test / visual strategy” despite P4 NBP manual promotion intent.
@@ -9191,7 +8600,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** For **ndxbook** with mobile reference/master, set **ATOMIC_SIBLING_FROM_COMPOSITION** when **UNRESOLVED**, then **`applyFounderNbpMobileTwinPromotion`**; persist LS when lock newly applied in **`syncFounderMobileTwinSession`**; UI treats **`founderManualTwinPathUnlock`** as resolved + clearer hint. Test **24b** in **`p0vrTwinV30R7MF3P4.test.ts`**.
 
 ---
-
 ## 2026-09-14 — Light blueprint retry review slot mount (v445)
 
 - **Context:** Founder **RETRY LIGHT BLUEPRINT** succeeded (new FAL URL / blueprint twin in pipeline) but Design **compare slots** and PACKAGE inspector still showed the **previous** blueprint image.
@@ -9199,14 +8607,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`syncActiveBlueprintReviewMount`** aligns visual pair + package to active run blueprint and demotes sibling actives; slot resolver **prefers run-mounted blueprint id**; reconcile skips historical demotion for **`activeRun.blueprintRenderArtifactId`**; **`mergeMobileTwinFalApiResponse`** + **`attachMobileTwinPipelineFromBrowserStore`** hydrate after merge; session with higher **`falJobsDispatched`** wins over LS. Test **9b** in **`p0vrTwinV30R7MF3P6F1.test.ts`**. Build **v445**.
 
 ---
-
 ## 2026-09-14 — R8M durable mobile twin approval + twin design route (v446)
 
 - **Context:** Sprint **P0.VR.TWINV3.0R8M** — post-approval pipeline after founder **APPROVE MOBILE TWIN PACKAGE** (was browser-only).
 - **Delivered:** Supabase tables **`site00_mobile_twin_package_approvals`**, **`site00_mobile_twin_implementation_builds`**, **`site00_mobile_twin_implementation_state`**; API **`/api/site00/twin-v3-mobile-twin-implementation`** (persist approval, compile, founder implementation approve/correction); **`approveAndPersistMobileTwinPackage`** + **`MOBILE_TWIN_APPROVAL_PERSIST_FAILED`**; **`compileApprovedMobileTwinPackage`** from structured artifacts (no raster page); route **`/projects/ndxbook/design/twin`** + **`DesignTwinImplementationPage`**; MOBILE TWIN REVIEW shows **MOBILE TWIN PACKAGE APPROVED** + **BUILD TWIN DESIGN ROUTE**; fidelity receipts + **PROMOTION_READY** without auto-promote; **`StudioWorldDesignWorkspace`** untouched. Build **v446**. Tests **`p0vrTwinV30R8M.test.ts`**. **Railway redeploy + Supabase migration** required for durable backend.
 
 ---
-
 ## 2026-09-14 — Twin route LOAD FAILED on fsbw-dev Safari (v447)
 
 - **Symptom:** **`/projects/ndxbook/design/twin`** showed **Load failed** on mobile preview tunnel.
@@ -9214,14 +8620,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`credentials: 'omit'`** on GET; **`resolveTwinImplementationPreview`** tries API → **localStorage cache** → **local compile** from approved Design session; BUILD TWIN writes cache. Build **v447**. Test **28** in **`p0vrTwinV30R8M.test.ts`**.
 
 ---
-
 ## 2026-09-14 — BUILD TWIN DESIGN ROUTE visible after package approve (v448)
 
 - **Context:** Founder approved mobile twin package but **BUILD TWIN DESIGN ROUTE** was not visible on Design UX (buried in MOBILE TWIN REVIEW actions; **`readyToCompile`** could hide button when **`latestBuildId`** set; PACKAGE compare tab had approve but no BUILD).
 - **Fix:** Sticky green **`DesignPageV3MobileTwinBuildRouteStrip`** under blueprint retry strip (uses **`shouldShowBuildTwinDesignRoute`**); shared **`DesignPageV3MobileTwinBuildRouteBlock`** + **`compileAndCacheMobileTwinImplementation`** (always shows BUILD/REBUILD + twin route link); same block in **PACKAGE inspector** and pipeline actions. Build **v448**. Tests **`p0vrTwinV30BuildRouteUx.test.ts`**.
 
 ---
-
 ## 2026-09-14 — GENERATE failed silently (MOBILE_REFERENCE_MISSING) v451
 
 - **Symptom:** Founder tapped **GENERATE MOBILE TWIN PACKAGE** — no package, “nothing happened.”
@@ -9229,7 +8633,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Accept locked **`designReference`** without mobile master; preflight in **`requestMobileTwinFal`**; founder strip shows in-progress + result/error. Build **v451** PR **#882**.
 
 ---
-
 ## 2026-09-14 — Founder actions strip on PACKAGE tab (v450)
 
 - **Symptom:** Neither orange RESTORE nor **GENERATE MOBILE TWIN PACKAGE** / BUILD visible — founder only on PACKAGE inspector with FAL 0.
@@ -9237,7 +8640,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Purple sticky **`DesignPageV3MobileTwinFounderActionsStrip`** at Batch 1 authority top **and inside Package Inspector** — always shows empty-backup copy + **GENERATE** (+ **ENABLE NBP GENERATE** when lock missing) + RESTORE/BUILD when applicable. **`P0_VR_TWIN_V30_BUILD` → v450**. PR **#881**.
 
 ---
-
 ## 2026-09-14 — Mobile twin session wipe + browser backup recovery (v449)
 
 - **Symptom:** After v448, Design PACKAGE tab showed **MOBILETWINPACKAGE missing**, FAL jobs **0**, no BUILD — founder reported prior twin/package data gone (screenshots on fsbw-dev **BUILD v447**).
@@ -9245,7 +8647,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`writeMobileTwinPipelineToBrowser`** merges + blocks regressive writes; **`site00:mobile-twin-pipeline:backup:v1`** snapshot on rich writes; attach/restore prefers richest store; orange **`DesignPageV3MobileTwinPipelineRecoveryStrip`** (**RESTORE MOBILE TWIN FROM BROWSER BACKUP**); auto-restore path in **`syncFounderMobileTwinSession`**; BUILD strip also when **`readTwinImplementationCache`**. Build **v449**. Tests **`p0vrTwinV30MobileTwinPersistenceRecovery.test.ts`**. If both stores empty on device, founder must **GENERATE MOBILE TWIN PACKAGE** again (backup cannot invent pre-fix data).
 
 ---
-
 ## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
 
 - **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.
@@ -9253,7 +8654,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `FounderTwinProviderPromotionReceipt`, `MobileTwinProviderLock`, `getMobileTwinVisualProviderStrategy()`, `applyFounderNbpMobileTwinPromotion` + **`normalizeFounderNbpPromotionOnLoad`** on `syncFounderMobileTwinSession`; atomic FAL dispatches use locked NBP + NBP page-only Actual prompt; fail closed (`MOBILE_TWIN_NBP_PROVIDER_FAILED` / `MOBILE_TWIN_LOCKED_PROVIDER_UNAVAILABLE`); benchmark FAL actions blocked when locked; UI **`DesignPageV3MobileTwinLockedProviderPanel`** primary CTA **GENERATE MOBILE TWIN PACKAGE**; benchmarks under History `<details>`; advanced **UNLOCK MOBILE PROVIDER STRATEGY**. Build **v433**. Tests **`p0vrTwinV30R7MF3P4.test.ts`**. Desktop untouched; no React implementation compiler auto-start.
 
 ---
-
 ## 2026-09-14 — Mount mobile twin RESTORE UX (v457)
 
 - **Symptom:** Founder never saw **MOBILE TWIN · BROWSER BACKUP FOUND** / orange RESTORE — only purple founder strip sometimes hid RESTORE after auto-heal.
@@ -9261,14 +8661,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Mount orange recovery strip on Design; widen recovery + founder **`showRestore`** when Actual/Blueprint missing but FAL jobs / packages / browser backup exist. Build **v457**.
 
 ---
-
 ## 2026-09-15 — Founder package escalation + twin rebuild (v462)
 
 - **Founder:** Escalate — use supplied light blueprint JPG to **create approved package** and **rebuild twin route** (display/sync still not enough on mobile).
 - **Delivered:** **`escalateFounderMobileTwinPackageFromCanonicalAssets`** (canonical Actual JPG + light blueprint → structured package → **`approveMobileTwinPackage`** with **`founderStubOverride`**); **`runFounderMobileTwinPackageEscalation`** persists LS + compile cache; purple strip button **USE FOUNDER BLUEPRINT · BUILD PACKAGE · REBUILD TWIN**. Build **v462**. Test **`p0vrTwinV30FounderPackageEscalation.test.ts`**.
 
 ---
-
 ## 2026-09-15 — NDXBOOK founder blueprint display pin (v461)
 
 - **Symptom:** Mobile Design still showed dark FAL blueprint; founder JPG not used after v460.
@@ -9276,7 +8674,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** NDXBOOK **always** display **`ndxbook-mobile-light-technical-blueprint-v1.jpg`** via **`resolveMobileTwinBlueprintDisplayUri`** (pipeline + package inspector); sync/FAL response **`applyFounderCanonicalLightBlueprintMount`** pins `twinImageUri` + stores FAL on **`providerTwinImageUri`**. Build **v461**.
 
 ---
-
 ## 2026-09-15 — FAL blueprint mount sync fix (v460)
 
 - **Symptom:** FAL generated correct light blueprint but Design compare slot still showed bundled founder JPG / stale mount.
@@ -9284,21 +8681,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Founder mount **fallback only** (missing URI, legacy `TECHNICAL_BLUEPRINT_RENDER`, dark/blocked — never stomp live FAL LIGHT+PASS); API merge always **`mergeMobileTwinPipelineRich(server, client)`**. Build **v460**.
 
 ---
-
 ## 2026-09-15 — Founder canonical light blueprint mount (v459)
 
 - **Founder:** Replace mounted Design blueprint compare image with supplied light technical JPG (not dark FAL sheet).
 - **Delivered:** Bundled **`public/assets/ndxbook-reconstruction/ndxbook-mobile-light-technical-blueprint-v1.jpg`** (also synced **`ndxbook-mobile-forensic-blueprint.jpg`**); **`applyFounderCanonicalLightBlueprintMount`** on NDXBOOK **`syncFounderMobileTwinSession`** + restore; default NBP light **style reference** uses same asset. Build **v459**. Test **`p0vrTwinV30FounderLightBlueprintMount.test.ts`**.
 
 ---
-
 ## 2026-09-14 — Global mobile twin RESTORE banner + restore offer (v458)
 
 - **Symptom:** Founder still did not see **MOBILE TWIN · BROWSER BACKUP FOUND** after v457 — strip lived only inside Batch 1 authority (below Batch 2); **`sessionView` sync** could hide recovery while Actual/Blueprint still missing.
 - **Fix:** **`evaluateMobileTwinRestoreOffer`** (richest browser LS vs session slots); sticky **`DesignPageV3MobileTwinGlobalRecoveryStrip`** at **top of Design workspace** (above Batch 2); **`designAuthoritySessionEvents`** so global RESTORE updates authority panel same tab. Build **v458**. Tests **`p0vrTwinV30RestoreOffer.test.ts`**.
 
 ---
-
 ## 2026-09-14 — Auto-heal Actual/Blueprint on Design sync (v456)
 
 - **Symptom:** v455 rehydrate/snapshot **did not recover** Actual/Blueprint after refresh on founder device.
@@ -9306,7 +8700,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`autoHealMobileTwinAuthorityImages`** on every sync + restore; snapshot mirrored to **sessionStorage**; write snapshot on **design session persist** + FAL ingest; recovery strip when URIs recoverable off-device. Build **v456**.
 
 ---
-
 ## 2026-09-14 — Actual/Blueprint authority image persistence (v455)
 
 - **Symptom:** MOBILE TWIN **Actual** + **Blueprint** images **disappear on refresh**; founder reruns FAL / rebuild though assets existed.
@@ -9314,7 +8707,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`rehydrateMobileTwinVisualArtifactsFromStore`** before reconcile; **`mobileTwinAuthorityImageSnapshot`** (`site00:mobile-twin-authority-images:v1`) written on pipeline save; **`applyMobileTwinAuthorityImageSnapshot`** on sync with `projectId`. Build **v455**. Tests **`p0vrTwinV30AuthorityImagePersistence.test.ts`**.
 
 ---
-
 ## 2026-09-14 — Twin local compile merged pipeline (v454)
 
 - **Symptom:** After v453, twin still showed SCHEMA_MISSING + “tap REBUILD” even after REBUILD.
@@ -9322,7 +8714,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`resolveLocalMobileTwinCompileInput`** merges design + dedicated pipeline stores; compile on APPROVED package only; twin load **writes R8M1 cache** after local compile. Build **v454**.
 
 ---
-
 ## 2026-09-14 — Twin route SCHEMA_MISSING local fallback (v453)
 
 - **Symptom:** Twin page showed **`MOBILE_TWIN_IMPLEMENTATION_SCHEMA_MISSING`** after REBUILD; founder stuck on gate message.
@@ -9330,7 +8721,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`isMobileTwinImplementationServerUnavailableMessage`** includes SCHEMA_MISSING/STORE_UNAVAILABLE; **`resolveTwinImplementationPreview`** + REBUILD cache path use local R8M1 compile + clearer Supabase migration hint. Migration file: **`20260914193000_site00_mobile_twin_implementation_r8m.sql`**. Build **v453**.
 
 ---
-
 ## 2026-09-14 — P0.VR.TWINV3.0R8M1 visual implementation translation (v452)
 
 - **Symptom:** `/projects/ndxbook/design/twin` showed wireframe/debug output — semantic object labels (HOST NAV, DOMINANT HEADLINE, GALLERY THUMB, etc.), overlapping boxes, generic typography; cached build treated as success.
@@ -9338,7 +8728,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** R8M1 **`VisualImplementationTranslator`** + **`SemanticDebugLabelFirewall`** + **`ImplementationTypographyResolver`**; production compile path **`compileVisualMobileTwinImplementation`** (authorities: Actual + Blueprint + ndxbook-pilot-r4-v1); legacy wireframe kept as **`compileApprovedMobileTwinPackageLegacyWireframe`**; preview/cache rejects non-R8M1 docs; prior wireframe builds marked **`REJECTED_IMPLEMENTATION`** (`IMPLEMENTATION_COMPILER_SEMANTIC_WIREFRAME_LEAK`) on new compile; section-based twin renderer + NDXBOOK black/lime CSS; fidelity receipts require R8M1 render tree. Build **v452**. Tests **`p0vrTwinV30R8M1.test.ts`**. Founder: **BUILD TWIN DESIGN ROUTE** after merge; Railway redeploy for durable API builds; GoDaddy ZIP v452 for production twin QA.
 
 ---
-
 ## 2026-09-15 — Founder escalation visible at top of Design (v463)
 
 - **Context:** Founder asked to escalate — bundled light blueprint JPG should **create approved package** + **rebuild twin route**; v461 display pin + v462 pipeline escalation still not showing/working reliably on mobile (buried purple strip, missing mobile reference on cold session).
@@ -9348,7 +8737,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder ops:** Production GoDaddy ZIP **v463** (JPG assets under `/assets/ndxbook-reconstruction/`); Design top purple strip → one tap escalation → **OPEN TWIN IMPLEMENTATION REVIEW**.
 
 ---
-
 ## 2026-09-15 — NDXBOOK twin autobuild, manual gates off (v464)
 
 - **Founder:** No more button maze — auto-build design twin route from bundled founder blueprint; disable manual gates for now.
@@ -9356,7 +8744,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder ops:** Deploy **v464** ZIP → open **`/projects/ndxbook/design/twin`** (hard refresh once); no BUILD/RESTORE/ESCALATE taps required.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV3.0R8M2 implementation fidelity (v465)
 
 - **Sprint:** R8M2 — fidelity convergence, authority-raster purge, canonical asset rebind; twin route only; package/composition untouched.
@@ -9364,7 +8751,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder ops:** Deploy **v465** ZIP; signed-in **`/projects/ndxbook/design/twin`** autorebuilds R8M2 cache. Supabase R8M migration still optional for durable API builds.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV3.0R8M2R1 visual authority ingestion + ImplementationExpressionIR (v466)
 
 - **Sprint:** R8M2R1 — audit R8M2 path (URIs vs bytes vs analysis); **`VisualAuthorityIngestionLayer`**, **`ActualVisualAnalysis`** / **`BlueprintVisualAnalysis`**, **`ImplementationExpressionIR`** + readiness gate; translator consumes IR; drift audit vs R8M2; twin Technical Details **IMPLEMENTATION EXPRESSION** trace UI.
@@ -9373,7 +8759,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder ops:** Deploy **v466** ZIP; **`/projects/ndxbook/design/twin`** recompiles from expression IR; inspect **IMPLEMENTATION EXPRESSION** under twin review panel. No Design route promotion; desktop deferred.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV3.0R8M2R2 Implementation Translation Brief + coding prompt (v467)
 
 - **Sprint:** R8M2R2 — written **`ImplementationTranslationBrief`** + compiler-facing **`VisualImplementationCodingPrompt`** between visual analysis and expression IR; refine IR from brief; inject prompt into **`compileApprovedMobileTwinPackage`**; readiness + fidelity receipts; twin **IMPLEMENTATION TRANSLATION** inspector; prompt traceability; **`mobile-twin-impl-v4-translation-brief`** / **`R8M2R2`** production path; R8M2R1 caches force recompile.
@@ -9381,7 +8766,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder ops:** Deploy **v467** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; expand **IMPLEMENTATION TRANSLATION** to debug drift vs Actual. Design route untouched; desktop deferred.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV3.0R8M2R3 translation-driven full rebuild (v468)
 
 - **Sprint:** R8M2R3 — **`FULL_TRANSLATION_REBUILD`** mandatory; **`StaleRenderTreeReuseFirewall`**; fresh **`TranslationDrivenImplementationPlan`**, component tree, style system, CSS contract (`site00-twin-td`); no reuse of R8M2R2 render tree; **`TranslationMaterialityReceipt`** + region convergence; R8M2R2 marked **`TRANSLATION_NOT_MATERIALLY_APPLIED`**; production **`mobile-twin-impl-v5-translation-rebuild`** / **`R8M2R3`**; renderer branch + **`site00-mobile-twin-implementation-r8m2r3.css`** (hero 3-col grid, 4-up gallery, 5-up structured band).
@@ -9389,7 +8773,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder ops:** Deploy **v468** ZIP → hard refresh twin route → compare Actual vs LIVE (hero grid, authority rail, gallery density). Design route untouched; desktop deferred.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV3.0R8M2R4 actual-first pixel-fidelity reconstruction (v469)
 
 - **Sprint:** R8M2R4 — approved **Actual** as top visual authority; **`ActualToCodeReconstructionDirective`** (`PIXEL_FIDELITY_RECONSTRUCTION`, no layout/style invention); region contracts + visual weight + typography/control/asset targets; **`ActualFirstVisualReconstructionPrompt`**; **`VisualReconstructionPlan`** (image-grounded); fresh **`af-*`** DOM/CSS tree (`site00-twin-af`); iterative render/compare loop (≥2) with **`ActualToLiveVisualComparison`**, **`PerceptualDifferenceMap`**, region drift → code corrections; **`VisualReconstructionConvergenceGate`** → **`FOUNDER_IMPLEMENTATION_REVIEW`**; twin **Actual ↔ Live** compare overlay + **Implementation Authority Inspector**; production **`mobile-twin-impl-v6-actual-first-reconstruction`** / **`R8M2R4`**; R8M2R3 caches force recompile.
@@ -9397,7 +8780,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder ops:** Deploy **v469** ZIP; twin route **COMPARE ACTUAL ↔ LIVE** (side-by-side, overlay, flicker); clear implementation cache if still on v5 td tree. Design route untouched; desktop deferred.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV3.0R8M2R5 @Fal forensic UI blueprint + blueprint-driven twin (v470)
 
 - **Sprint:** R8M2R5 — generate **Forensic UI Blueprint** from approved Actual via **`fal-ai/nano-banana-2/edit`** (primary Actual, optional light blueprint secondary); structured **`ForensicImplementationSpec`** (object/section/typography/style/spacing/asset maps); production compile **`mobile-twin-impl-v7-forensic-blueprint`** / **`R8M2R5`** with fresh **`fb-*`** DOM/CSS (`site00-twin-fb`); real-browser fidelity gate (**`PLAYWRIGHT_DOM`**, rejects synthetic screenshot proof); ≥2 DOM correction iterations; twin review tabs **FORENSIC BLUEPRINT** + **Forensic Implementation** inspector; R8M2R4 caches force recompile.
@@ -9405,7 +8787,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder ops:** Deploy **v470** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; review **FORENSIC BLUEPRINT** tab alongside Actual + LIVE. Production FAL blueprint generation runs server-side with **`FAL_KEY`** (browser autobuild uses local stub pending founder blueprint review). Design route untouched; desktop deferred.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV3.0R8M2R5F1 client process fix + forensic Fal dispatch (v471)
 
 - **Hotfix:** Safari **`Can't find variable: process`** on twin route — removed unguarded **`process.env`** from browser-reachable R8M2R5 compile path via **`site00RuntimeEnv.site00IsVitest()`**; browser no longer seeds forensic blueprint locally (must server-prime).
@@ -9413,7 +8794,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UX:** Twin page **FORENSIC BLUEPRINT GENERATION FAILED** + retry; cache epoch **v2** + build **v471**. Tests **`p0vrTwinV30R8M2R5F1.test.ts`**. **Founder:** Redeploy **Railway** (new API route) + deploy **v471** ZIP.
 
 ---
-
 ## 2026-09-15 — R8M2R5F2 fsbw-dev forensic API routing (v472)
 
 - **Symptom:** Founder **`site00.fsbw-dev.com`** twin showed **`FORENSIC_BLUEPRINT_GENERATION_FAILED`** after v471 process fix (page renders, Fal not reached).
@@ -9421,7 +8801,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Preview tries **same-origin Vite local API first** (`listForensicUiBlueprintApiPostUrls`); **`vite-site00-local-api.mjs`** registers forensic route; clearer **`FORENSIC_API_NOT_DEPLOYED`** / FAL_KEY messages. Build **v472**.
 
 ---
-
 ## 2026-09-15 — R8M2R5F3 Fal reference bytes for light blueprint (v473)
 
 - **Symptom:** Founder “nothing generated” — Fal history empty; API returned generic **`FORENSIC_BLUEPRINT_GENERATION_FAILED`**.
@@ -9429,7 +8808,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`falEnsureReferenceUrls`** — local `public/assets/ndxbook-reconstruction/*` + **GitHub raw** fallback; forensic dispatch uses **`buildNanoBanana2EditInput`** + surfaces real error messages. Verified live Fal **`request_id`** + PNG result URL. Build **v473**.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV3.0R8M3 forensic blueprint ingestion + merged object map (v474)
 
 - **Sprint:** Ingest existing **Forensic UI Implementation Blueprint** as **`FORENSIC_BLUEPRINT_IMPLEMENTATION_SPEC`** (no new Fal); **`extractCleanForensicObjectMap`** + **`validateAndMergeForensicObjectMap`** (precedence: actual → forensic → package); production compile **`mobile-twin-impl-v8-forensic-ingestion`** / **`R8M3`** with **`fm3-*`** DOM/CSS (`site00-twin-fm3`); **`ForensicReconstructionFidelityReceipt`** + translation-layer effect vs prior **R8M2R5**; twin inspector shows ingestion evidence; design route untouched.
@@ -9437,7 +8815,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** Deploy **v474** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; compare Actual vs LIVE (fm3 layout). Railway unchanged unless API edits later.
 
 ---
-
 ## 2026-09-15 — Twin preview stuck on “Loading…” (fsbw-dev hotfix)
 
 - **Symptom:** **`site00.fsbw-dev.com`** twin route hung on **Loading twin implementation…** (no error UI).
@@ -9445,7 +8822,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Persist forensic blueprint **localStorage**; skip Fal when cached; **120s fetch timeout** + local stub fallback; browser **skip nested R8M2R5** compile; autobuild errors non-fatal for preview resolver; loading hint on twin page.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV4.0 clean-room forensic reconstruction proof route (v476)
 
 - **Sprint:** New isolated route **`/projects/ndxbook/design/twin-v4`** — does **not** import V3 visual compiler/CSS/render tree; **`TwinV4IsolationContract`** all `inheritsV3* = false`; **`TwinV4ForensicAuthorityLock`** from cached/stub forensic only (**`TWIN_V4_FAL_GENERATION_JOBS = 0`**); pipeline **scene graph → DOM plan → fresh `site00-twin-v4-*` DOM/CSS → correction loop → gate/proof** in **`p0vrTwinV40/`**; minimal review UI (LIVE / authority / compare / overlay / scene graph / DOM measurements); LIVE stage uses real DOM (forensic PNG only in reference panels); browser **`getBoundingClientRect`** capture via **`captureTwinV4LiveDomMeasurements`**. V3 **`/design/twin`** and main design workspace **unchanged**. Persistence **`site00:twin-v4:`** keys separate from V3 cache.
@@ -9453,19 +8829,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** **`tests/p0vrTwinV40.test.ts`** (27 checklist items). Deploy **v476** ZIP; open **`/projects/ndxbook/design/twin-v4`**.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV4.1 pixel-derived scene graph extraction (v477)
 
 - **Sprint:** Twin V4.1 replaces V4.0 **hardcoded 42-node placeholder graph** (rejected **`HARDCODED_SCENE_GRAPH_PLACEHOLDER_RENDER`**) with **`p0vrTwinV41/`** pipeline: **founder-approved forensic PNG only** (no stub/local-autobuild), **`ForensicPixelAnalysis`** (regions, edges, color samples, text regions, callouts, visual objects), **`TwinV41PixelDerivedSceneGraph`** with per-node **evidence refs**, **`PIXEL EXTRACTION`** overlay on real authority raster, modes **FORENSIC AUTHORITY / PIXEL EXTRACTION / SCENE GRAPH / EVIDENCE**; **LIVE DOM reconstruction disabled** until V4.2 (`DOM_RECONSTRUCTION_DISABLED_V41`). **`reconstructionEngineProof = INCONCLUSIVE`**; gate **`FOUNDER_EXTRACTION_REVIEW`**. Persistence **`site00:twin-v41:`**. Tests **`p0vrTwinV41.test.ts`**. Founder needs approved forensic in localStorage + **`?actualHash=`** matching cache when hash not auto-resolved.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV4.2R1 production golden + diff-driven mutation loop (v482)
 
 - **Sprint:** **`TwinV4ProductionGoldenAuthority`** via `VITE_NDXBOOK_TWIN_V4_PRODUCTION_GOLDEN_*` (prod proof only; **`PRODUCTION_GOLDEN_AUTHORITY_UNAVAILABLE`** if unset). Engineering/dev still seals https forensic — **no first-valid in prod proof**. **`TwinV4DiffDrivenMutationEngine`** + **`twinV42ReconstructionContract`** (layout tokens, impl hash); **`TwinV42ForensicLiveCanvas`** replaces scene-graph box LIVE renderer (**`CORRECTION_REQUIRED` / `LIVE_OUTPUT_DOES_NOT_RESEMBLE_REFERENCE`** on prior V4.2 boxes). Convergence loop: mutation → new screenshot hash → fresh pixel diff (**valid iterations only**; stall detection). UI: iteration history, **CORRECTION HISTORY** tab. Tests **`p0vrTwinV42R1.test.ts`**. Threshold pass still open — diff should move, not flat 9.55% ceremonial loops.
 
 ---
-
 ## 2026-09-15 — Twin V4.2 mobile golden boot hotfix (v481)
 
 - **Symptom:** fsbw-dev / mobile showed **`TWIN_V4_GOLDEN_AUTHORITY_INVALID`** with no path forward after V4.2 shipped.
@@ -9473,13 +8846,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Page **auto-primes** forensic API first; **`resolveForensicForGoldenSeal`** uses boot cache + prime; **invalid pin cleared** and re-sealed from loadable https forensic; **`TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE`** + detail when cache/prime missing. Still **no fallback** to stub/local-autobuild.
 
 ---
-
 ## 2026-09-15 — P0.VR.TWINV4.1F1 + P0.VR.TWINV4.2 golden authority pin + Playwright pixel diff gate (v480)
 
 - **Sprint:** **`p0vrTwinV42/`** hard-pins **`TwinV4GoldenAuthority`** (SHA256, dimensions, https — no stub fallback); **`TwinV4AuthorityPurgeReceipt`**; Twin V4 page boot **`compileTwinV42PageBoot`** validates pin before V4.1 segmentation (cache key **`goldenSha256 + segmentationVersion`**). **V4.2:** canonical viewport from golden dims; **`TwinV42LiveReconstruction`** fixed canvas; **Playwright + pixelmatch** diff loop (**`runTwinV4GoldenDiffLoop`**, region masks, heatmap artifacts); UI tabs LIVE / FORENSIC AUTHORITY / SIDE BY SIDE / OVERLAY / DIFF HEATMAP / REGION DIFF + V4.1 tabs; **`goldenDiffCapture=1`** QA route + guard bypass for engineering screenshots. Proof **YES** only with real pixel pass + raster firewall — current live DOM vs golden still **high diff (~9.5%)** → **`INCONCLUSIVE`/`NO`** until CSS convergence. Tests **`tests/p0vrTwinV42.test.ts`**. V3 **`/design/twin`** unchanged.
 
 ---
-
 ## 2026-09-15 — Twin V4 route boot hotfix (v478)
 
 - **Symptom:** **`/projects/ndxbook/design/twin-v4`** not booting on fsbw-dev / mobile.
@@ -9487,7 +8858,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** **`findCachedForensicBlueprintForTwinV41Boot`** + **`resolveTwinV41BootContext`**; accept cached **https** Fal forensic; **canvas** PNG decode in browser; boot help copy when authority missing.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1 isolated Sol reference-to-Figma benchmark
 
 Summary of the **whole conversation so far** in this chat: founder requested an isolated Test B environment where GPT-5.6 Sol receives a golden screenshot only through the finished route, freezes it, performs asynchronous literal interface translation, and emits a visual Figma-style reconstruction plus complete implementation handoff without Composer or Grok.
@@ -9500,7 +8870,6 @@ Summary of the **whole conversation so far** in this chat: founder requested an 
 - **Conventions:** Never label another vision model as Sol. Test B remains fail-closed on provider identity and never falls back, invokes Composer, or reads Grok result data.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F1 OpenAI GPT-5.6 Sol hard binding
 
 Summary of the **whole conversation so far** in this chat: founder first requested isolated Sol Test B reference-to-Figma infrastructure, then required a surgical provider correction so the benchmark proves exact OpenAI `gpt-5.6-sol` execution at high reasoning rather than accepting a generic Responses-compatible endpoint.
@@ -9513,7 +8882,6 @@ Summary of the **whole conversation so far** in this chat: founder first request
 - **Conventions:** Test B must never accept model aliases or provider-reported substitutions. Railway must provide `OPENAI_API_KEY`; until then START remains visibly blocked.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1 Grok twin-testA visual translation lab (v483)
 
 Summary of this chat: founder assigned **GROK** (not Composer) to build an isolated visual/Figma-style interface translation benchmark and later translate one golden image uploaded only through the page.
@@ -9525,7 +8893,6 @@ Summary of this chat: founder assigned **GROK** (not Composer) to build an isola
 - **Conventions:** Design-bench routes stay isolated; Grok bench never reads Test B / Sol / Twin V3–V4 compilers.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F1 grok-4.6 hard-bind (v484)
 
 Summary of this chat: Grok built isolated twin-testA (GROK1), then founder required a surgical provider correction so Test A evaluates **grok-4.6** vs GPT-5.6 Sol — not `grok-2-vision-1212`.
@@ -9537,7 +8904,6 @@ Summary of this chat: Grok built isolated twin-testA (GROK1), then founder requi
 - **Conventions:** Benchmark integrity > successful execution. Never silently change Test A model ID.
 
 ---
-
 ## 2026-09-16 — P0.VR.RUNTIME.BUNDLE-BOOT1 (QT.inherits / pngjs vendor leak)
 
 Summary: production SPA boot failed with **`QT.inherits is not a function`** — full **pngjs** tree bundled into **`vendor.*.js`** via dynamic `import('pngjs')` from Twin V4 client graph.
@@ -9548,7 +8914,6 @@ Summary: production SPA boot failed with **`QT.inherits is not a function`** —
 - **Evidence:** `vendor` chunk no longer contains pngjs/inherits; preview **`/projects/ndxbook/design/twin-opus-direct`** Canonical/List switch OK; no QT.inherits in console.
 
 ---
-
 ## 2026-09-15 — CI fix: V3 twin tests (R5F2/R6 paths + R7MF3 regenerate)
 
 Summary of this chat: founder shared GitHub Actions **Production Release / test** failures — 3 files (`p0vrTwinV30R5F2`, `p0vrTwinV30R6`, `p0vrTwinV30R7MF3`).
@@ -9560,7 +8925,6 @@ Summary of this chat: founder shared GitHub Actions **Production Release / test*
 - **Conventions:** Never hardcode `/workspace` in vitest file paths; use `process.cwd()` or repo-root helper like other VR tests.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F2 Responses JSON request + frozen retry
 
 Summary of the **whole conversation so far** in this chat: founder commissioned isolated Test B, required exact OpenAI `gpt-5.6-sol` high-reasoning binding, then supplied the first live provider failure proving that `json_object` validation rejected the request because the actual user message omitted the literal word JSON.
@@ -9573,7 +8937,6 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Conventions:** `json_object` requests must place the literal JSON instruction in provider-validated user input, not only system instructions/comments. A malformed Responses request is not a model-binding failure.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F2 API host environment boundary (v485)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound it to **xAI grok-4.6** (GROK1F1), then founder reported Test A still saying **XAI_API_KEY MISSING ON THE API HOST** even after the key existed on Railway production SITE00 and the service was redeployed.
@@ -9586,7 +8949,6 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Conventions:** Secret-backed Test A calls must target the Railway API host that holds `XAI_API_KEY`. Do not put the key in `VITE_*`. A 200 from Vite is not a usable readiness host if `xaiApiKeyPresent` is false.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F2 live provider verification
 
 - **Deployment proof:** Railway serves prompt **`sol-design-bench-test-b-v3-json-instruction`** with the server-side OpenAI credential present, exact model **`gpt-5.6-sol`**, reasoning **`high`**, no fallback, and web search disabled.
@@ -9596,7 +8958,6 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Conclusion:** The observed OpenAI 400 JSON-instruction failure is fixed in production. Founder may retry the preserved golden reference through **`/projects/ndxbook/design/twin-testB`**.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F3 grok-4.6 team access probe (v486)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed the Railway vs Vite host boundary (GROK1F2), then founder hit live **410 MODEL_REJECTED** after the key and host were already correct.
@@ -9607,7 +8968,6 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Conventions:** Key-present is not READY. Do not substitute another Grok model. Image smokes must meet xAI pixel floors. Query `/v1/models` for this key instead of assuming public docs.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F4 long-run watchdog + provider/polling diagnostic (v487)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed Railway vs Vite host boundary (GROK1F2), proved team access on `POST /v1/responses` (GROK1F3), then founder started a real golden run that sat **54+ minutes** on ANALYZING VISUAL HIERARCHY with a fake **~00:05** ETA.
@@ -9619,7 +8979,6 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Conventions:** Never show a fake short ETA after a stage exceeds 2× expected. Founder golden stays blocked until runtime health passes. Preserve 54+ minute runs in incident history. Do not auto-retry. Do not add `max_output_tokens` until diagnosed and founder asks.
 
 ---
-
 ## 2026-09-15 — twin-testA preview boot: remove CTRL ROOM sign-in gate (v488)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA through GROK1–F4 (watchdog, timeout, cancel, runtime health). Founder then reported **the test page isn’t booting**.
@@ -9630,7 +8989,6 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Conventions:** Isolated design-bench routes must boot on the preview tunnel without sign-in. Production deep links still need the v488 ZIP + `.htaccess`.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F3–F6R1 strict parsed output + 32K capacity proof
 
 Summary of the whole conversation: after F2 fixed OpenAI’s missing JSON instruction, founder runs still produced malformed ~92–93KB free-form JSON. F3 introduced strict JSON Schema, validation/completeness receipts, private raw-response persistence, a separate SVG preview artifact, and frozen-reference retry recovery. F4 live tracing proved F3 had initially not deployed, then proved strict schema was live but the application still consumed `output_text` through `JSON.parse`. F5 replaced that success path with the official OpenAI SDK `responses.parse().output_parsed`, added `SolStructuredOutputRuntimeReceipt`, a legacy-parser firewall, and a founder-run gate requiring tiny + ≥50KB live proofs. F6 raised one shared founder/stress output budget from 16K to 32K after the first stress attempt truncated at 42,651 characters / 16,000 tokens.
@@ -9640,7 +8998,6 @@ Summary of the whole conversation: after F2 fixed OpenAI’s missing JSON instru
 - **Invariants:** OpenAI `gpt-5.6-sol`, high reasoning, strict `json_schema`, schema `figma_style_interface_translation_package`, actual image input, no fallback/web/Composer/Grok access, and the 14-part benchmark contract remain unchanged.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F5 xAI 503 classification + transient retry (v489)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed Railway vs Vite host boundary (GROK1F2), proved team access on `POST /v1/responses` (GROK1F3), added 10-min timeout + 5-min stall watchdog (GROK1F4 / v487), unblocked preview boot without CTRL ROOM sign-in (v488), then founder reran the real Grok 4.6 benchmark after F4 health gates passed and hit **HTTP 503 classified as MODEL_REJECTED**.
@@ -9652,7 +9009,6 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Conventions:** Never classify 503 as MODEL_REJECTED. Model-access failures and transient-service failures stay distinct. Do not hide retries when comparing Grok vs Sol. Manual retry is a new run; automatic retry is provider-attempt only. Do not manufacture paid 503s — use mocked provider tests.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1 golden-reference reconstruction
 
 Summary of the **whole conversation so far** in this chat: founder supplied a 572×1024 NDXBOOK Design workspace golden and directed GPT-5.6 Sol to reconstruct it directly as an isolated React/CSS route without Composer, benchmark providers, prior Twin renderers, Grok output, or raster alignment cheats.
@@ -9664,7 +9020,6 @@ Summary of the **whole conversation so far** in this chat: founder supplied a 57
 - **Conventions:** Direct visual benchmarks should use isolated page/CSS modules, preserve reference-first geometry, test against the exact authority viewport, and state missing-asset gaps honestly rather than extracting screenshot pixels.
 
 ---
-
 ## 2026-09-15 — Public Sol-direct route intermittently served by stale tunnel connectors
 
 Summary of the **whole conversation so far** in this chat: user requested a runtime-only diagnosis of why the new public **`/projects/ndxbook/design/twin-sol-direct`** route sometimes falls through to the homepage while the same route works on local Vite, with all existing Twin visual implementations explicitly off limits.
@@ -9676,7 +9031,6 @@ Summary of the **whole conversation so far** in this chat: user requested a runt
 - **Conventions:** A stable named preview tunnel must have one active Cloud Agent connector (or all connectors must serve the same revision). Cache-busted transformed-module sampling is the concrete check when a public Vite hostname behaves inconsistently with localhost.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1R1 fidelity tightening
 
 Summary of the **whole conversation so far** in this chat: founder commissioned the isolated Sol direct reconstruction from a 572×1024 NDXBOOK golden, reported that the shared preview URL fell through to the homepage, then requested an outside-in visual-authority follow-up on the same route and same direct-build chat.
@@ -9688,7 +9042,6 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Conventions:** A visually aligned shell does not excuse a wrong dominant asset. When the exact standalone source is unavailable and screenshot extraction is forbidden, use honest DOM/SVG approximation, preserve the measured parent box, and report the photographic-fidelity gap explicitly.
 
 ---
-
 ## 2026-09-15 — Test B signed-out preview boot fix
 
 Summary of the **whole conversation so far** in this chat: founder commissioned the isolated `twin-testB` SOL visual-design benchmark, hard-bound OpenAI `gpt-5.6-sol` at high reasoning, advanced it from free-form JSON through strict schema-enforced SDK parsing, proved the 32K output budget with tiny and ≥50KB live runs, then reported that the testing page itself would not boot.
@@ -9700,7 +9053,6 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Conventions:** Isolated design-benchmark preview routes must boot without a CTRL ROOM session. Missing or stale readiness fields must keep execution safely blocked rather than crash the page.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1 isolated golden reconstruction (v490)
 
 Summary of the **whole conversation so far** in this chat: founder ran a fresh Grok 4.6 Cursor sprint to recreate an attached NDXBOOK DESIGN golden as real DOM/CSS — not a Figma package, not Composer, not a provider bench.
@@ -9713,7 +9065,6 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.OPUS-DIRECT1 isolated Opus golden reconstruction
 
 Summary of the **whole conversation so far** in this chat: founder ran a fresh **Claude Opus 5** Cursor sprint asking whether Opus can look at the NDXBOOK DESIGN golden and directly recreate the page's structure in code, weighted toward structural fidelity rather than asset recreation.
@@ -9728,7 +9079,6 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh *
 - **Known gap:** The archival pointing-hand photograph and the newsprint collages behind candidates V1.1/V1.0 are not standalone repo assets; boxes, tone and density are reconstructed from `eu-branch-receipts-isolated.webp` plus CSS, so the candidate gallery keeps the largest residual pixel difference.
 - **Conventions:** For design-bench reconstruction sprints, measure the golden programmatically (row/column edge scans + ink spans) before writing CSS, and converge with a scripted browser screenshot → pixel-diff loop rather than by eye.
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SPARK-DIRECT1 isolated golden reconstruction
 
 Summary of the **whole conversation so far** in this chat: founder ran a fresh Muse Spark 1.3 (HIGH effort) Cursor sprint to directly recreate the attached NDXBOOK DESIGN golden as real DOM/CSS on an isolated route — no Composer, no other-model output, no raster cheat.
@@ -9740,7 +9090,6 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh M
 - **Conventions:** Spark-direct bench keeps the same no-guard isolated-route pattern as prior direct benches; visual authority is always the attached golden, never current DESIGN visuals.
 ---
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1R1 reference-fidelity tightening (v491)
 
 Summary of the **whole conversation so far** in this chat: founder first asked Grok 4.6 to recreate the attached NDXBOOK DESIGN golden as an isolated DOM/CSS route (`twin-grok-direct`, v490), then sent a surgical follow-up to enforce reference-fidelity more strictly — golden is exact design authority, existing visual code has no protection, parent geometry before children, three rendered comparison passes, no Composer, no raster cheat.
@@ -9751,7 +9100,6 @@ Summary of the **whole conversation so far** in this chat: founder first asked G
 - **Conventions:** Direct-reconstruction follow-ups replace conflicting visual code. Do not add analog markup that is not in the golden. Do not slice the golden into the page.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F6R2 durable structured-output proof receipt
 
 Summary of the **whole conversation so far** in this chat: after Test B’s signed-out boot fix, the verified F6 structured-output gate regressed on Railway because runs and `structured-output-proof.json` lived under process-local `/tmp`. Both historical proof run IDs became `SOL_RUN_NOT_FOUND`, and readiness fell back to tiny PASS / large FAIL despite the completed F6R1 evidence. The fix moved proof authority to existing SITE 00 Supabase persistence, separated provider readiness from reference selection, exposed explicit UI readiness states, reconciled stale browser runs, and survived repeated API restarts.
@@ -9764,7 +9112,6 @@ Summary of the **whole conversation so far** in this chat: after Test B’s sign
 - **Conventions:** Durable JSONB fingerprints must use canonical stable serialization, never insertion-order `JSON.stringify`. Proof compatibility binds the historical provider build and exact current provider configuration; unrelated storage/UI deployment commits do not invalidate the attested pipeline.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1R2 forensic structural convergence
 
 Summary of the **whole conversation so far** in this chat: founder commissioned the isolated 572×1024 Sol direct reconstruction, requested R1 reference-fidelity tightening, reported and worked around stale shared preview connectors, then directed R2 to stop designing and calibrate section boundaries plus live DOM text as two measured coordinate systems.
@@ -9777,7 +9124,6 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Conventions:** For mature visual convergence, reject guessed coordinates, measure DOM and authority pixels directly, correct upstream cumulative drift, and treat visible live copy as geometry. Embedded asset lettering stays flagged for **`GROK_ASSET_TEXT_CORRECTION`** rather than being redrawn by Sol.
 
 ---
-
 ## 2026-09-15 — Grok direct reconstruction + Sol asset fidelity (DIRECT1 / DIRECT1R1 / ASSET1)
 
 Summary of the **whole conversation so far** in this chat: founder ran three Grok 4.6 Cursor sprints on the same NDXBOOK DESIGN golden (768×1376). First two built and tightened an isolated Grok-direct route; the third kept Sol’s existing page as frozen structure and asked Grok only to rebuild weak visual material.
@@ -9789,7 +9135,6 @@ Summary of the **whole conversation so far** in this chat: founder ran three Gro
 - **Conventions:** After a Sol structural pass, Grok asset sprints must not move shell/section geometry. If a larger layout change seems necessary, report `STRUCTURAL_CONFLICT` and stop. Do not use an incorrect existing photo just because it is already in the repo.
 
 ---
-
 ## 2026-09-15 — GROK-ASSET1R1 Sol icon / micro-graphic fidelity
 
 Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 Cursor sprints on one NDXBOOK DESIGN golden. DIRECT1 + DIRECT1R1 built `twin-grok-direct`. ASSET1 rebuilt Sol-direct plates on frozen Sol structure (PR #938 / v493). ASSET1R1 then expanded Grok’s ownership to icons, symbols, and micro-graphics on the same Sol page.
@@ -9801,7 +9146,6 @@ Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 
 - **Conventions:** If a mark is perceived as a shape rather than live text, Grok redraws it. Keep the function, rebuild the shape. Do not drop in Lucide/emoji when the golden shows a different silhouette.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1R3 max-effort forensic convergence
 
 Summary of the **whole conversation so far** in this chat: founder commissioned the isolated Sol-direct golden reconstruction, tightened it through R1 and measured R2, then requested a final maximum-effort R3 that preserved approved image/icon work while correcting every remaining reasonably measurable structural, live-copy, and typographic discrepancy.
@@ -9815,7 +9159,6 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Conventions:** When macro geometry already converges, measure internal control edges, text pixel bounding boxes, overflow, status semantics, and asset-container bounds separately. A section envelope matching the golden does not prove its internal grid is correct. Concurrent “fidelity” layers must be checked against the actual golden before merge: PR #946’s `FUNCTION MAP` warning, `F04_CONTEXT_THREAD`, `F05_SOURCE_TRACE`, `NAA-RSF1`, Anton headline, and geometry-changing overrides contradicted the measured reference and were not retained.
 
 ---
-
 ## 2026-09-15 — GROK-ASSET1R2 exhaustive Sol icon slot completeness
 
 Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 Cursor sprints on one NDXBOOK DESIGN golden. DIRECT1/R1 built `twin-grok-direct`. ASSET1 rebuilt Sol-direct plates (PR #938). ASSET1R1 redrew icon *style* (PR #941) but claimed audit complete while slots were still missing. ASSET1R2 required a literal slot-by-slot inventory.
@@ -9827,7 +9170,6 @@ Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 
 - **Conventions:** Do not report ICON_SYMBOL_AUDIT COMPLETE by category. Audit LOCATION + ROLE + SLOT. One footer icon on one card does not prove the other four. All five dock slots must pass independently.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.FABLE-DIRECT1 isolated golden reconstruction (v495)
 
 Summary of the **whole conversation so far** in this chat: founder ran a fresh Claude Fable 5.1 High sprint to recreate the attached NDXBOOK DESIGN golden directly in code with high structural/visual fidelity — no Composer, no Sol/Grok/Opus direct code or results consulted, real DOM/CSS only.
@@ -9839,7 +9181,6 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh C
 - **Conventions:** Inside a scoped stylesheet, element resets (`button`, `dl`, `ul`) must use `:where(.scope) el` so component classes can override them. `.fd-viewport` is `position: fixed; inset: 0` so body default margin cannot offset/scale the artboard. Golden-derived text sizes on this page are 6–10px medium weight; measure ink extents, not guessed sizes.
 
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.OPUS-DIRECT1R1 forensic reference-fidelity cleanup
 
 Summary of the **whole conversation so far** in this chat: founder ran **OPUS-DIRECT1** (Claude Opus 5 alone recreates the NDXBOOK DESIGN golden directly in code at `/projects/ndxbook/design/twin-opus-direct`, no Composer, no other twin implementations consulted), then asked for the tunnel link (it kept bouncing to the homepage), then asked for a merge-conflict review against `main`, then ran **OPUS-DIRECT1R1** — a full structural refinement of the same route — and finally "continue working".
@@ -9850,7 +9191,6 @@ Summary of the **whole conversation so far** in this chat: founder ran **OPUS-DI
 - **Changes:** Candidate card 3 rebuilt as a light sheet-stack plus cream sheet; card 4 rebuilt as a left ink panel over full-bleed newsprint (golden's column order); card 2 and the plate filters retoned to the golden's warm mid-greys; band device icons pinned to measured centres with the lime underline row; nav caret is a filled triangle; panel borders 1 → 1.6px with gallery/structured/pipeline heads and dividers on the measured rows; concept tabs absolutely pinned to the golden's uneven centres with a larger bold active tab; rail `SELECTED` recoloured to the golden's dark olive; concept label/value greys lightened; the lock glyph redrawn taller with a keyhole. Audit harness moved to `scripts/design-bench/opus-direct/{audit,rows,crop}.mjs`. Test fixtures corrected (header 41.1, nav 33.5, gallery 195.3). Leftover `<<<<<<<`/`>>>>>>>` conflict markers in this file (from the earlier `main` merge) removed.
 - **Conventions:** sharp's `stats()` reads the **input** image and ignores a pending `extract()` — always `toBuffer()` the crop first or every region reports identical numbers. Judge texture work by mean/stdev against the golden region, not by how the crop looks at 4× nearest-neighbour. When a shared class (`.tod-plate__paper`) serves two contexts, scope the tonal override rather than retuning the base and breaking the other.
 ---
-
 ## 2026-09-15 — P0.VR.DESIGNBENCH.FABLE-TEXT1 live text / highlight fidelity on Sol direct
 
 Summary of the **whole conversation so far** in this chat: after FABLE-DIRECT1 shipped (v495), founder reported the shared tunnel `site00.fsbw-dev.com` "keeps rerouting to the homepage"; diagnosed as two agent VMs (Fable + Opus) running `cloudflared` on the same token so Cloudflare round-robins to a Vite server lacking the route and `App.tsx` `path="*"` sends `/`. Workaround: VM-unique quick tunnel (`cloudflared tunnel --url http://localhost:5174`, tmux `fable-quick-tunnel`). Founder then ran sprint **P0.VR.DESIGNBENCH.FABLE-TEXT1**: Fable owns live text / typography / text highlights on `/projects/ndxbook/design/twin-sol-direct`; Sol structure frozen; Grok owns plates and icons; no Composer.
@@ -9860,7 +9200,6 @@ Summary of the **whole conversation so far** in this chat: after FABLE-DIRECT1 s
 - **Decisions / outcomes:** Golden AI-garble (`PAIR REVIEN`, `POSETION NAP`, `F02_CRONI_REFRENCE`) is not copied; sprint canonical spelling used, but visible facts are (6 function rows, `_v1` lowercase suffixes, `NAA-RSF1-…`, warning dot on FUNCTION MAP). Hero headline and candidate titles use Anton (already imported by fable-direct) with `scaleX(.7)`. Mobile-master row rebuilt as black block + lime border with V1.3/SELECTED at right (thumb narrowed to 62% — reported as tiny local adjustment). STATUS-column check dots kept (Grok icon slots) though the golden shows none. LIVE_TEXT_COMPLETENESS 151/172 → 172/172. Nav item x-centers differ from golden because Sol's 6×1fr nav grid is frozen (SOL_STRUCTURAL_CONFLICT noted, not applied).
 - **Changes:** `NdxbookSolDirectPage.tsx` (copy, hero meta `<b>001</b>`, master rows, candidate `copy` lines, `functionMap`, amendment `dl`), `site00-ndxbook-sol-direct.css` (Anton import + appended FABLE-TEXT1 layer; Sol geometry rules untouched), `tests/p0vrDesignBenchFableText1.test.ts` (7 tests). Removed stray `<<<<<<<`/`>>>>>>>` markers left in MEMORY.md by the #944 merge. PR **#946**.
 - **Conventions:** Parallel benchmark agents must not share one Cloudflare tunnel token — use a quick tunnel per VM or separate hostnames. When layering on a frozen route, append an override block instead of editing structural rules, and probe computed boxes (`getBoundingClientRect`) rather than trusting the screenshot when a column overflows.
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.FABLE-DIRECT1R1 max reference-fidelity convergence on the Fable direct route
 
 Summary of the **whole conversation so far** in this chat: FABLE-DIRECT1 (isolated `/projects/ndxbook/design/twin-fable-direct`, v495) → shared-tunnel diagnosis + VM-unique quick tunnel → FABLE-TEXT1 live-text layer on Sol direct (#946, v499) → founder ran **P0.VR.DESIGNBENCH.FABLE-DIRECT1R1**: push the Fable route as far as Fable alone can on structure, text, highlights, assets, icons, density; golden is exact authority; no Composer / Sol / Grok / Opus / Spark code or screenshots; five browser QA passes; Fable may now improve imagery.
@@ -9872,7 +9211,6 @@ Summary of the **whole conversation so far** in this chat: FABLE-DIRECT1 (isolat
 - **Conventions:** Measure section edges from luminance transitions at fixed x-columns on both images before trusting a screenshot; a single shared border line means two golden blocks share a panel. For "faithful recreation" plates prefer inline SVG with `<pattern>` text + turbulence grain over CSS gradients (gradients read as bars). The pre-existing 46 failing `visualReconstruction*`/`campaignBoard*` suites fail on `main` too and are unrelated.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.SPARK-RESPONSIVE-OPUSGROK1 isolated responsive translation
 
 Summary of the **whole conversation so far** in this chat: founder ran a Muse Spark 1.3 sprint to test a dedicated responsive-translation layer — take the approved Opus+Grok route (read-only source) and translate it into mobile/tablet/desktop-native authorities on an isolated route, preserving identity/content/assets/icons, then judge whether Spark earns a permanent pipeline stage.
@@ -9885,7 +9223,6 @@ Summary of the **whole conversation so far** in this chat: founder ran a Muse Sp
 - **Conventions:** Responsive-bench forks rename identifiers mechanically (sed) then verify string parity by diff; source-route guards (opus test suite) double as mutation detectors.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.OPUS-DIRECT1R2 panel border hierarchy + small-UI legibility
 
 Summary of the **whole conversation so far** in this chat: OPUS-DIRECT1 built the isolated Opus reconstruction at `/projects/ndxbook/design/twin-opus-direct`; OPUS-DIRECT1R1 removed the invented rounded outer frame, went full-bleed and converged all 14 sections to within 2.0px of the golden; founder then ran **P0.VR.DESIGNBENCH.OPUS-DIRECT1R2** — a micro-visual pass with exactly two objectives (stronger panel/divider borders, modestly heavier small UI text), borrowing only the *panel-definition quality* of the Fable reconstruction, never its structure or spacing.
@@ -9898,7 +9235,6 @@ Summary of the **whole conversation so far** in this chat: OPUS-DIRECT1 built th
 - **Conventions:** For "the borders look faint" / "the text looks thin" reports, measure before styling — row/column luminance minima for rules, ink mass for type. Golden JPEGs blur strokes, so their measured means *understate* true line darkness and *overstate* text weight; matching the measured mean is the conservative target for borders and a ceiling for type. Keep a border hierarchy as ordered tokens so a test can assert the ordering rather than individual hex values.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 CANONICAL / LIST view-mode architecture
 
 Summary of the **whole conversation so far** in this chat: OPUS-DIRECT1 built the isolated Opus reconstruction; OPUS-DIRECT1R1 went full-bleed and converged all 14 sections to within 2.0px of the golden; OPUS-DIRECT1R2 added a four-tier border hierarchy and a restrained 500-weight small-UI pass (#951, v506); founder then ran **P0.VR.DESIGNBENCH.OPUS-VIEWMODE1** — prepare the Opus design workspace to carry a second presentation mode without building it. Opus explicitly must NOT invent the List View; Spark supplies that renderer in a later sprint.
@@ -9913,7 +9249,6 @@ Summary of the **whole conversation so far** in this chat: OPUS-DIRECT1 built th
 - **Changes:** `twinOpusDirectWorkspace.ts`, `TwinOpusDirectViewModeControl.tsx`, `TwinOpusDirectCanonicalView.tsx`, `TwinOpusDirectListView.tsx`, rewritten `TwinOpusDirectScreen.tsx`, view-mode + list-mount CSS, two design-bench scripts, test guards. PR **#953**.
 - **Conventions:** When a sprint says "add a control but change nothing", look for existing dead space and position out of flow, then *prove* it with a pixel diff against the previous build rather than asserting it. For fixed-artboard routes that scale by viewport width, any control that must stay operable needs an explicit counter-scale with a cap derived from the space it sits in. Renderer registries beat conditional JSX for "shared model, swappable presentation": the insertion point becomes one object entry a later agent can replace.
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.SPARK-CONVERGENCE1 Opus-look + Spark-choreography convergence
 
 Summary of the **whole conversation so far** in this chat: founder ran a follow-up to the responsive test — the first Spark pass was mobile-native but drifted toward generic app UI. This sprint kept all responsive choreography and pulled visual presentation back to the Opus language (including the newly landed OPUS-DIRECT1R2 border hierarchy + 500 small-UI weight, synced into the fork base), with 4 browser QA passes.
@@ -9924,7 +9259,6 @@ Summary of the **whole conversation so far** in this chat: founder ran a follow-
 - **Conventions:** When the source authority revs (R1->R2), regenerate the fork base from current source and re-verify normalized parity rather than hand-porting hunks.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 Spark digest renderer inside Opus view-mode architecture
 
 Summary of the **whole conversation so far** in this chat: founder asked Spark to replace the LIST placeholder on the twin-opus-direct route with the digest presentation, inside the OPUS-VIEWMODE1 architecture (shared `useTwinOpusDirectWorkspace`, `VIEW_RENDERERS.list = { body, record }`). Canonical frozen; no new route; no duplicate state; visual polish explicitly deferred to a later Opus sprint.
@@ -9935,7 +9269,6 @@ Summary of the **whole conversation so far** in this chat: founder asked Spark t
 - **Conventions:** LIST renderer must never `useState` or `useTwinOpusDirectWorkspace(` (receives workspace prop); reuse `TodArchivalPlate`/icons/paper via import, never restyle canonical classes; dock-stability means bottom-pinned, not identical top.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R1 Spark list grammar restoration
 
 Summary of the **whole conversation so far** in this chat: founder judged the integrated LIST renderer functionally correct but visually too Opus-like (canonical panels stacked vertically). This R1 follow-up restored Spark's own digest presentation grammar with a CSS-only restyle — no TSX, state, action, asset, or route changes.
@@ -9946,7 +9279,6 @@ Summary of the **whole conversation so far** in this chat: founder judged the in
 - **Conventions:** LIST visual iterations stay CSS-only whenever possible so state/action parity never needs re-proof; guard distinct grammar with eyebrow/type/panel asserts.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 actual Spark transplant into LIST
 
 Summary of the **whole conversation so far** in this chat: founder rejected R1 as spacing-only and demanded the ACTUAL spark-responsive presentation grammar transplanted into the LIST renderer. This sprint forensically audited the source route at 390, then mechanically transplanted its body/record structure + mobile-layer values (scaled x1.969 = 768/390 for identical physical size at the reference width) with all bindings on the shared opus workspace.
@@ -9957,7 +9289,6 @@ Summary of the **whole conversation so far** in this chat: founder rejected R1 a
 - **Conventions:** Future LIST visual work = re-run transplant from source if source revs; never hand-diverge tod-lv- values from the x1.969 mapping.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.OPUS-LIST-REFINE1 view-control reposition + list cleanup
 
 Summary of the **whole conversation so far** in this chat: after the Spark List transplant landed, founder reported three problems on `/projects/ndxbook/design/twin-opus-direct` — the CANONICAL/LIST toggle felt cramped and utility-patched in the header, a stray black line sat above the concept-data strip, and the List view wanted a light alignment pass that must not undo Spark's grammar.
@@ -9972,7 +9303,6 @@ Summary of the **whole conversation so far** in this chat: after the Spark List 
 - **Conventions:** workspace-level presentation controls belong in the context strip, not the header utility row; anchor them out of flow so the fixed artboard never shifts. When a golden-faithful detail is reported as a defect, remove it in both renderers and say so explicitly rather than silently keeping canonical fidelity.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.OPUS-VIEWMODE1R1 visible view selector in its own row
 
 Summary of the **whole conversation so far** in this chat: founder reported the CANONICAL/LIST selector was not visibly accessible on the live mobile route, invalidating the OPUS-LIST-REFINE1 context-strip placement, and required a slim dedicated row below the black NDXBOOK bar and above TARGET/VIEWPORT/STAGE.
@@ -9986,7 +9316,6 @@ Summary of the **whole conversation so far** in this chat: founder reported the 
 - **Conventions:** workspace-level controls that must stay operable on this route size themselves with `--tod-viewrow-boost` rather than being fitted into leftover space; prove visibility with screenshots, never with coordinates alone.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1 design workspace interaction contract
 
 Summary of the **whole conversation so far** in this chat: after the OPUS-VIEWMODE1R1 view-row fix shipped (PR #960 + memory #961, release v515), founder moved from visual work to semantics and asked for a complete pre-Composer function/interaction map of the Design Workspace at `/projects/:projectSlug/design/twin-opus-direct` — 18 deliverables, explicitly **not** an implementation sprint.
@@ -10004,7 +9333,6 @@ Summary of the **whole conversation so far** in this chat: after the OPUS-VIEWMO
 - **Conventions:** resolve design-workspace semantics from the feature manifest first and the authority pipeline second; never infer a product behaviour from appearance when those are available. When a golden string contradicts the model, contract the model and flag the string. A card is not a page.
 
 ---
-
 ## 2026-09-16 — P0.VR.OPUS-NATIVE1 native Opus design runtime (Cursor exit foundation)
 
 Summary of the **whole conversation so far** in this chat: after the OPUS-INTERACTION-CONTRACT1 documentation sprint merged (PR #962), founder moved from documenting the workspace to replacing the tooling behind it — build the first production-capable runtime that lets SITE 00's DESIGN workspace talk to Claude Opus 5 directly through the Anthropic API, server-side key, so routine Opus design work no longer needs Cursor. 24 phases, architecture + implementation.
@@ -10022,7 +9350,6 @@ Summary of the **whole conversation so far** in this chat: after the OPUS-INTERA
 - **Conventions:** register a new design surface in `designSurfaceRegistry.ts` defaulting to `writable: []` plus a firewall reason, and widen deliberately. Cost estimates model the whole loop, never one request. An agent may inspect, patch a sandbox, render and test — it may never approve, apply to the baseline, or touch git.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.OPUS-ASSET-PERSISTENCE1 asset authority + reversion root cause
 
 Founder reported that Grok's plates on `/projects/ndxbook/design/twin-opus-direct` kept disappearing after later builds/merges/sprints, and asked for a forensic cause rather than another visual pass. The sprint hypothesised runtime causes (stale fixtures, fallback maps, localStorage, state initialisers). **All of them were wrong.**
@@ -10040,7 +9367,6 @@ Founder reported that Grok's plates on `/projects/ndxbook/design/twin-opus-direc
 - **Conventions:** never merge an asset PR into a feature branch — base asset work on `main`, because no CI can infer that intent. A new plate needs a committed file, a manifest entry with lineage, and a PR against `main`.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1R1 founder decisions resolved + Composer contract frozen
 
 The R0 sprint mapped all 29 DESIGN workspace features and ended with nine questions it refused to answer by invention. R1 closes all nine and freezes `docs/design-workspace/composer-contract.json` at `2.0.0`, status `FOUNDER_APPROVAL_PENDING`. **Semantics only — no component, style, asset or route file changed** (`git diff --stat`: docs, tests, one script).
@@ -10057,7 +9383,6 @@ The R0 sprint mapped all 29 DESIGN workspace features and ended with nine questi
 - **Convention:** a contract decision must cite the type, constant or function that forces it. If nothing in the codebase forces it, it is a founder decision and stays open rather than being quietly settled by a mock.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGN-PRODUCTION1R1 — server-authoritative design workspace persistence
 
 Follow-up closed the `AUTHORITY_PERSISTENCE: PARTIAL` gap from DESIGN-PRODUCTION1.
@@ -10068,7 +9393,6 @@ Follow-up closed the `AUTHORITY_PERSISTENCE: PARTIAL` gap from DESIGN-PRODUCTION
 - **Tests:** `tests/p0vrDesignProduction1R1.test.ts` (multi-session sync, stale write, founder gate, build package).
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGN-PRODUCTION1 — Composer productionizes twin-opus-direct workspace
 
 Founder sprint to freeze `composer-contract.json` v2.0.0 and wire production authority/readiness/workflow on `/projects/:projectSlug/design/twin-opus-direct` without Opus or visual redesign.
@@ -10080,7 +9404,6 @@ Founder sprint to freeze `composer-contract.json` v2.0.0 and wire production aut
 - **Known gap (documented in receipt):** Supabase server row for `DesignWorkspaceAuthoritySession` not wired — localStorage is optimistic cache per contract `persistenceContract`.
 
 ---
-
 ## 2026-09-16 — P0.VR.OPUS-NATIVE2 — native Opus embedded in DESIGN, controlled page creation/editing, preview fixed
 
 NATIVE1 left the native runtime on a laboratory route with `PREVIEW: FAILED` and a binary write model. This sprint made it a DESIGN capability.
@@ -10097,7 +9420,6 @@ NATIVE1 left the native runtime on a laboratory route with `PREVIEW: FAILED` and
 - **Two environment traps worth remembering for any DESIGN UI work on the VM.** A Vite dev server without `VITE_DEV_PROXY_TARGET` serves `/api/...` as source modules, so any client that parses JSON fails silently — the dock used to hide itself, and now renders `AGENT UNAVAILABLE` with the remedy. And with `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME` set, the HMR client points at the tunnel, fails its handshake and reloads the page every few hundred milliseconds, which resets all panel state and looks exactly like a broken component.
 
 ---
-
 ## 2026-09-16 — Live Supabase: apply missing SITE00 migrations (post PRODUCTION1R1)
 
 Founder asked to find and apply any repo migrations not yet on project `hyycomvcaqxxvyrfupes` (FS Website / SITE 00).
@@ -10109,13 +9431,11 @@ Founder asked to find and apply any repo migrations not yet on project `hyycomvc
 - **Founder next:** Redeploy Railway API so design-workspace-production routes use live Supabase; no cPanel ZIP needed for this task.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGN-INTEGRATION1 — Promote twin to production DESIGN workspace
 
 Sprint promoted approved `twin-opus-direct` UX to **`/projects/:projectSlug/design`** (e.g. `/projects/ndxbook/design`) with child routes (`references`, `assets`, `pages`, `skins`, `history`, `more`), wired primary/bottom nav, MOVE TO BUILD + readiness actions, page-target switching via PAGES + sessionStorage, Opus dock entry as compact header **OPUS** button (drawer + backdrop + close/ESC, diagnostics under ADVANCED). **`/design/twin-opus-direct`** remains QA reference with banner + link to production. **`resolveLegacyProjectDesignRedirect`**: ndxbook stays on per-project route; `/projects/site00/design?project=ndxbook` redirects to `/projects/ndxbook/design`. Opus surface registry aliases production route to `twin-opus-direct` authority. Tests: `tests/p0vrDesignIntegration1.test.ts`. Production DESIGN route has no account guard (same public QA posture as twin route).
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGN-INHERITANCE1 — child surfaces inherit DESIGN shell
 
 Founder correction: secondary DESIGN surfaces must not render as full-screen black debug pages; they inherit parent workspace grammar and keep project/nav context visible.
@@ -10127,7 +9447,6 @@ Founder correction: secondary DESIGN surfaces must not render as full-screen bla
 - **Founder next:** Deploy new cPanel ZIP from GitHub Release after merge.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGN-INTERACTION-COVERAGE1 — wire all DESIGN workspace controls
 
 Element-level interaction audit + wiring so visible controls map to real behavior (inheritance1 shell preserved).
@@ -10139,7 +9458,6 @@ Element-level interaction audit + wiring so visible controls map to real behavio
 - **Founder next:** Full functional walkthrough on v523 ZIP; Railway redeploy if using server authority sync.
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGN-TWIN-FUNCTIONALITY1 — twin route functional parity restored
 
 **Root cause:** Twin used `surface="reference"` after INTEGRATION1; `TwinOpusDirectScreen` gated bottom nav, primary nav sections, and in-shell children on `surface === 'production'` only. Twin had no nested section routes or shared core with production.
@@ -10147,7 +9465,6 @@ Element-level interaction audit + wiring so visible controls map to real behavio
 **Fix:** `DesignWorkspaceCore` for twin + production; roles `twin-founder-review` / `production-provisional`; `functionalWorkspace` enables all interactions on both routes; twin nested section routes; `DesignTwinReviewBanner`; `twinLifecycle.ts` promotion guard; navigation `site00ProjectDesignTwinSectionPath`. Tests: `p0vrDesignTwinFunctionality1.test.ts`. Verify on cPanel ZIP (cloud dev loader blocked click QA).
 
 ---
-
 ## 2026-09-16 — P0.VR.DESIGN-ROUTE-AUTHORITY1 — forensic route ownership + NDXBOOK entry correction
 
 Founder saw legacy **DESIGN RECONSTRUCTION / BATCH 2 · LIVE FAL GALLERY** on DESIGN instead of promoted twin-opus-direct workspace.
@@ -10158,7 +9475,6 @@ Founder saw legacy **DESIGN RECONSTRUCTION / BATCH 2 · LIVE FAL GALLERY** on DE
 - **Routes:** Production `/projects/ndxbook/design`; twin `/projects/ndxbook/design/twin-opus-direct`; native `/projects/ndxbook/design/opus-native`; lab `/projects/ndxbook/design/reconstruction-lab`.
 
 ---
-
 ## 2026-09-17 — CI test alignment after DESIGN-ROUTE-AUTHORITY1
 
 Full `npm test` on GitHub Actions failed on four files whose string assertions still described pre–INTEGRATION1 / pre–TWIN-FUNCTIONALITY1 wiring.
@@ -10170,7 +9486,6 @@ Full `npm test` on GitHub Actions failed on four files whose string assertions s
 - **Branch:** `cursor/ci-design-test-fixes-2da5`; test-only diff, no product route changes.
 
 ---
-
 ## 2026-09-18 — CI fix DESIGN-PRODUCTION1R1 (BOTH_VIEWPORTS_MUST_BE_PROMOTED)
 
 GitHub Actions failed `tests/p0vrDesignProduction1R1.test.ts` (4 tests) after AUTHORITY-WORKFLOW2 tightened `transitionOpenPairReview` to require both viewports **PROMOTED** before `START_PAIR_REVIEW`.
@@ -10180,7 +9495,6 @@ GitHub Actions failed `tests/p0vrDesignProduction1R1.test.ts` (4 tests) after AU
 - **Branch:** `cursor/ci-design-production1r1-fix-2da5`. Railway redeploy recommended for API lock path; no cPanel ZIP unless UI changed.
 
 ---
-
 ## 2026-09-18 — Design workspace typography (+2px, all uppercase)
 
 Founder requested larger, all-caps copy across production/twin DESIGN workspace (shell, drawers, pop-ups, Opus/Grok rails).
@@ -10190,7 +9504,6 @@ Founder requested larger, all-caps copy across production/twin DESIGN workspace 
 - **Tests:** updated `p0vrDesignBenchOpusDirect` clamp/viewrow expectations.
 
 ---
-
 ## 2026-09-17 — DESIGN bare `/design` index route boot fix
 
 Founder: cloud tunnel URLs for `/projects/ndxbook/design` and `/design/twin-opus-direct` showed blank page (React mounted, `#root` empty).
@@ -10201,7 +9514,6 @@ Founder: cloud tunnel URLs for `/projects/ndxbook/design` and `/design/twin-opus
 - **Founder next:** Upload fresh cPanel ZIP after merge for site00.com; tunnel dev server picks up fix immediately.
 
 ---
-
 ## 2026-09-17 — DESIGN viewport desktop icon −10%
 
 Founder asked to shrink **desktop only** viewport device icon in twin-opus-direct DESIGN band (canonical + list view).
@@ -10210,7 +9522,6 @@ Founder asked to shrink **desktop only** viewport device icon in twin-opus-direc
 - **Founder next:** cPanel ZIP after merge for site00.com; tunnel dev reflects CSS immediately.
 
 ---
-
 ## 2026-09-17 — P0.VR.DESIGN-PROJECT-BINDING1R1 — PROJECTS > DESIGN > active project
 
 Composer sprint: DESIGN module hierarchy, NDXBOOK project intelligence, page registry binding, project overview vs page workspace.
@@ -10222,7 +9533,6 @@ Composer sprint: DESIGN module hierarchy, NDXBOOK project intelligence, page reg
 - **Founder next:** cPanel ZIP after merge; QA `/projects/design/ndxbook` → overview → PAGES → pick page → verify TARGET/context.
 
 ---
-
 ## 2026-09-17 — P0.VR.DESIGN-PROJECT-BINDING1R2 — restore twin visual shell + keep binding
 
 Urgent visual rollback after R1 (#980/#981) replaced approved twin composition with stacked `DesignProjectOverviewPanel` cards and dominant AUTHORITY toast.
@@ -10235,7 +9545,6 @@ Urgent visual rollback after R1 (#980/#981) replaced approved twin composition w
 - **Founder next:** cPanel ZIP v530+; tunnel `/projects/design/ndxbook` — twin hero/gallery, page map only under PAGES.
 
 ---
-
 ## 2026-09-17 — P0.VR.DESIGN-VIEWPORT-AUTHORITY1 — page-scoped hero viewport binding
 
 Founder: MOBILE/TABLET/DESKTOP toggles all showed the same mobile hero (misleading).
@@ -10247,7 +9556,6 @@ Founder: MOBILE/TABLET/DESKTOP toggles all showed the same mobile hero (misleadi
 - **Next:** Create first Desktop authority for Entry Cover → verify tablet derivation.
 
 ---
-
 ## 2026-09-17 — P0.VR.DESIGN-OPUS-LAUNCHER1 — header OPUS opens embedded agent
 
 Founder: header OPUS control was a no-op on `/projects/design/:slug`.
@@ -10258,7 +9566,6 @@ Founder: header OPUS control was a no-op on `/projects/design/:slug`.
 - **Next:** Founder Opus module UX review (dispatch still $0 until founder confirms spend in panel).
 
 ---
-
 ## 2026-09-17 — P0.VR.DESIGN-PAGE-NAV1 — context bar page-tree navigator
 
 Founder: black context bar wasted on “PROJECT CREATIVE CONTEXT” CTA; needed fast in-project page navigation.
@@ -10269,7 +9576,6 @@ Founder: black context bar wasted on “PROJECT CREATIVE CONTEXT” CTA; needed 
 - **Tests:** `p0vrDesignPageNav1.test.ts`.
 
 ---
-
 ## 2026-09-17 — P0.VR.DESIGN-PAGE-CONCEPT-MODEL1 — site pages vs campaigns + page-scoped concepts
 
 Founder sprint: Entry 001 was incorrectly acting as the active SITE page; DESIGN must target real pages (default NDXBOOK Overview) with campaigns as provenance only.
@@ -10284,7 +9590,6 @@ Founder sprint: Entry 001 was incorrectly acting as the active SITE page; DESIGN
 - **Next:** Run GPT2 page-concept generation for NDXBOOK Overview → founder select → Opus page framework.
 
 ---
-
 ## 2026-09-17 — P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 — CURRENT|CONCEPT hero + view-row agents + Grok fixture panel
 
 Founder sprint: hero must compare **current implementation capture** vs **selected page concept**; embed Grok as page-asset agent (fixture pipeline, no live spend unless founder authorizes); move Opus + Grok to view row (remove redundant VIEW label and header OPUS).
@@ -10299,7 +9604,6 @@ Founder sprint: hero must compare **current implementation capture** vs **select
 - **Next:** Founder hero/agent-row review → Grok panel UX → one cost-controlled Grok live smoke when authorized.
 
 ---
-
 ## 2026-09-17 — P0.VR.DESIGN-AUTHORITY-WORKFLOW2 — rail semantics + CGPT authority + Composer handoff
 
 Founder sprint: authority rail conflated concept preference, upstream references, promotion, and handoff. Rebuilt workflow: CGPT authority refs → GPT2 concepts → independent mobile/desktop **preferred** → **promote** (final) → pair review (promoted designs) → review twin page → lock + Composer package.
@@ -10312,7 +9616,6 @@ Founder sprint: authority rail conflated concept preference, upstream references
 - **Next:** Founder authority workflow review → define first real mobile/desktop authority pair → GPT2 page concepts.
 
 ---
-
 ## 2026-09-18 — P0.VR.DESIGN-GROK-GATING1 — downstream Grok asset generation gates
 
 Founder sprint (follow-up correction): Grok must not generate production/page-specific assets until upstream DESIGN workflow completes, twin route is reachable and reviewable, and a current page capture exists for the active viewport.
@@ -10325,7 +9628,6 @@ Founder sprint (follow-up correction): Grok must not generate production/page-sp
 - **Next:** Founder reviews twin → CAPTURE SCREEN → decide if Grok asset work needed → cost-controlled generation only when ELIGIBLE.
 
 ---
-
 ## 2026-09-18 — P0.VR.DESIGN-PAGE-SYSTEM-REVIEW1 — PAGE SYSTEM REVIEW replaces structured output
 
 Founder sprint: retire GROUNDING/BLUEPRINT/OVERLAY/Entry001 evidence FUNCTION strip from primary DESIGN workflow; replace with descendant audit, batch inheritance, Grok manifest assets, interaction inspector.
@@ -10338,7 +9640,6 @@ Founder sprint: retire GROUNDING/BLUEPRINT/OVERLAY/Entry001 evidence FUNCTION st
 - **Next:** Founder page-system-review UX → test batch edit on one real page family.
 
 ---
-
 ## 2026-09-18 — P0.VR.DESIGN-PIPELINE-READINESS2 — page pipeline workflow controller
 
 Founder sprint: rebuild PIPELINE / READINESS as real page workflow controller with distinct action surfaces (not all opening Readiness Receipt).
@@ -10351,7 +9652,6 @@ Founder sprint: rebuild PIPELINE / READINESS as real page workflow controller wi
 - **Next:** Founder pipeline/readiness UX review on NDXBOOK Overview.
 
 ---
-
 ## 2026-09-19 — CI fix after PAGE-SYSTEM-REVIEW1 + PIPELINE-READINESS2
 
 Production release test run failed (6 tests): view-mode boundary tests still expected inline `tod-out` / `tod-pipe` in `TwinOpusDirectCanonicalView` and `tod-lv-out` / `tod-lv-pipe` in list view after panels moved to `DesignPageSystemReviewSection` + `DesignPipelineReadinessPanel`. `p0vrOpusAssetPersistence1` blanket `/asset/i` ban on workspace hook broke on `openPageAssetInspect`.
@@ -10360,7 +9660,6 @@ Production release test run failed (6 tests): view-mode boundary tests still exp
 - **No app code changes** — CI green only.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-HERO-ASSEMBLY-ACTIONS1 — hero CREATE FRAMEWORK + GENERATE ASSETS
 
 Founder sprint: hero compare toolbar gets CAPTURE SCREEN + CREATE FRAMEWORK + GENERATE ASSETS on one row; Opus framework handoff after mobile+desktop promoted; Grok asset production after twin reviewable + capture; no live Opus/Grok invoke.
@@ -10372,7 +9671,6 @@ Founder sprint: hero compare toolbar gets CAPTURE SCREEN + CREATE FRAMEWORK + GE
 - **Next:** Founder full flow CREATE FRAMEWORK → review twin → CAPTURE → GENERATE ASSETS.
 
 ---
-
 ## 2026-09-19 — CI Grok gating + interaction coverage (Production Release test)
 
 Founder screenshot: Production Release **test** job — 2 failures (`DesignGrokDock` / `openStructuredArtifact`).
@@ -10382,7 +9680,6 @@ Founder screenshot: Production Release **test** job — 2 failures (`DesignGrokD
 - **PR:** `cursor/ci-grok-pipeline-test-fix-2da5`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-ASSET-MANAGEMENT1 (PAGE ASSETS inspector)
 
 Sprint: SELECT / REGENERATE / REPLACE on active page assets in PAGE SYSTEM REVIEW — fixture Grok only (no live model).
@@ -10394,7 +9691,6 @@ Sprint: SELECT / REGENERATE / REPLACE on active page assets in PAGE SYSTEM REVIE
 - **Branch:** `cursor/design-asset-management1-2da5`.
 
 ---
-
 ## 2026-09-19 — CI fix GROK1R1 hero compare test after HERO-ASSEMBLY-ACTIONS1
 
 Production Release test: `p0vrDesignVisualCompareGrok1R1` expected literal `CAPTURE SCREEN` in `DesignHeroComparePanel.tsx`; labels now come from `designHeroAssemblyActions` model bindings.
@@ -10403,7 +9699,6 @@ Production Release test: `p0vrDesignVisualCompareGrok1R1` expected literal `CAPT
 - **Also:** Removed stray `<<<<<<<` conflict markers in `MEMORY.md`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 (overlay visual system rebuild)
 
 Founder sprint with four visual references as design authority: keep every DESIGN function, rebuild the look of **every** secondary surface so popups/drawers/docks belong to the same premium product as the main workspace. Main workspace structure (breadcrumb, module nav, project bar, control band, hero, gallery, page system review, pipeline/readiness, record dock, bottom nav) preserved; the reference mobile artboard choreography and the artboard scaling model were left untouched by design.
@@ -10419,7 +9714,6 @@ Founder sprint with four visual references as design authority: keep every DESIG
 - **Convention:** overlay bodies compose kit components only; a panel reaching for its own layout CSS is a panel that will drift. Never let a status chip resolve a negative state to the positive colour.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1 + prior OPUS-AI-CONSOLES1
 
 Full conversation: founder first requested a high-fidelity rebuild of the three DESIGN AI consoles (OPUS / GROK / VIEWPORT AUTHORITY) against desktop + mobile authority attachments; that work landed as `AiConsoleShell` + presentation model (PR #1005). This follow-up sprint is an **iconography / visual micro-asset pass only**.
@@ -10431,7 +9725,6 @@ Full conversation: founder first requested a high-fidelity rebuild of the three 
 - **Branch:** `cursor/design-grok-ai-console-assets1-2dd8`.
 
 ---
-
 ## 2026-09-19 — Hero CAPTURE SCREEN fix (Twin Opus Direct)
 
 Founder report: **CAPTURE SCREEN** in hero CURRENT vs CONCEPT did nothing — no CURRENT image for mobile/desktop compare.
@@ -10442,7 +9735,6 @@ Founder report: **CAPTURE SCREEN** in hero CURRENT vs CONCEPT did nothing — no
 - **Branch:** `cursor/fix-hero-capture-screen-2dd8`.
 
 ---
-
 ## 2026-09-19 — P0.EXPERIENCE.MODULE-WIRING1
 
 Full conversation: founder sprint to make **EXPERIENCE** a first-class PROJECTS module (separate from DESIGN): routing, fixture-backed entities, `/projects` Design + Experience cards, module availability per project, production workspace (tabs, overview, pipeline, tools registry, Build-A-Wig + Astréa fixtures), tests, browser QA.
@@ -10456,7 +9748,6 @@ Full conversation: founder sprint to make **EXPERIENCE** a first-class PROJECTS 
 - **Branch:** `cursor/experience-module-wiring1-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN.OPUS-PROJECT-TABS1 (project-level tab surfaces)
 
 Founder sprint with 14 mobile + desktop reference images as design authority: the seven top-row destinations (hamburger, references, assets, pages, skins, history, more) had to stop being page-local receipts and become **project-wide** workspace surfaces, on both formats, without touching routing or the page shell.
@@ -10473,7 +9764,6 @@ Founder sprint with 14 mobile + desktop reference images as design authority: th
 - **Branch:** `cursor/opus-project-tabs1-e65d` · PR #1009.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN.GROK-PROJECT-TAB-ASSETS1 (visual support pack)
 
 Full conversation: founder first had Opus rebuild the seven project-level Design Workspace tabs (hamburger, references, assets, pages, skins, history, more) as project-wide surfaces. This follow-up is **Grok visual support only** — generate/curate/stage the asset layer those live surfaces need so they feel editorial rather than empty. Do not redesign layout, routing, or shell.
@@ -10486,7 +9776,6 @@ Full conversation: founder first had Opus rebuild the seven project-level Design
 - **Branch:** `cursor/grok-project-tab-assets-e65d` · PR #1010.
 
 ---
-
 ## 2026-09-19 — P0.DESIGN.IN-SHELL-DOCK-POSITIONING-FIX1
 
 Founder bug: project-level tab action dock (HISTORY, SKINS, etc.) floated mid-viewport while content scrolled — caused by `position: sticky` on `.tod-ps-actionbar` plus `zoom` on the inline frame breaking overflow/flex.
@@ -10496,7 +9785,6 @@ Founder bug: project-level tab action dock (HISTORY, SKINS, etc.) floated mid-vi
 - **Branch:** `cursor/in-shell-dock-positioning-fix1-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-REGRESSION-RECOVERY1
 
 Founder sprint: after **EXPERIENCE.MODULE-WIRING1** (PR #1008 @ `3986143e`), DESIGN looked like an older implementation — overlay-only tab sections and deleted project surface kit/CSS on the merge commit.
@@ -10508,7 +9796,6 @@ Founder sprint: after **EXPERIENCE.MODULE-WIRING1** (PR #1008 @ `3986143e`), DES
 - **Branch:** `cursor/design-regression-recovery1-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-VIEWMODE-ICON-REAPPLY1
 
 Micro follow-up after DESIGN regression recovery: Canonical/List view-mode controls showed visible **CANONICAL** / **LIST** text and placeholder 16×16 SVGs instead of approved Grok marks.
@@ -10520,7 +9807,6 @@ Micro follow-up after DESIGN regression recovery: Canonical/List view-mode contr
 - **Branch:** `cursor/design-viewmode-icon-reapply1-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.DESIGN.IN-SHELL-TAB-SCROLL-FIX1 (follow-up to dock fix)
 
 Founder: in-shell project tabs lost scroll after dock positioning fix — content clipped, action bar pinned but main area would not scroll.
@@ -10530,7 +9816,6 @@ Founder: in-shell project tabs lost scroll after dock positioning fix — conten
 - **Branch:** `cursor/in-shell-tab-scroll-fix1-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-MORNING-GOOD-STATE-RECOVERY1
 
 Founder sprint: recovered DESIGN must match **this morning immediately before dock + Canonical/List icon work**, not an older pre-EXPERIENCE snapshot.
@@ -10542,7 +9827,6 @@ Founder sprint: recovered DESIGN must match **this morning immediately before do
 - **Branch:** `cursor/design-morning-good-state-recovery1-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-RELEASE429-EXACT-RESTORE1
 
 Founder sprint: **exact** DESIGN authority = production release **#429** / commit **441ae433** (GROK seven project tabs pack), without whole-repo rollback; keep EXPERIENCE + in-shell dock fix + Grok Canonical/List icons only.
@@ -10555,7 +9839,6 @@ Founder sprint: **exact** DESIGN authority = production release **#429** / commi
 - **Branch:** `cursor/design-release429-exact-restore1-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-PROJECT-TABS-RELEASE429-RESTORE1
 
 Founder: six project-level tabs (References…More) showed empty white panel + dock only after dock/scroll split.
@@ -10566,7 +9849,6 @@ Founder: six project-level tabs (References…More) showed empty white panel + d
 - **Branch:** `cursor/design-project-tabs-release429-restore1-9f72`.
 
 ---
-
 ## 2026-09-19 — CI fix: release #429 git guards
 
 GitHub Actions shallow checkout lacks commit `441ae433`, so `p0vrDesignRelease429ExactRestore1` / project-tabs restore tests failed with `fatal: bad revision`.
@@ -10575,7 +9857,6 @@ GitHub Actions shallow checkout lacks commit `441ae433`, so `p0vrDesignRelease42
 - **Branch:** `cursor/design-release429-ci-test-fix-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT1
 
 Wired isolated **WORKSPACE_SELF** concept workflow so SITE 00 DESIGN can later concept itself via NBP → Opus shell → Composer without mutating live workspace.
@@ -10588,7 +9869,6 @@ Wired isolated **WORKSPACE_SELF** concept workflow so SITE 00 DESIGN can later c
 - **Branch:** `cursor/design-workspace-self-concept1-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1
 
 Closed WORKSPACE_SELF gap: real Playwright capture of live DESIGN workspace for NBP source authority.
@@ -10600,7 +9880,6 @@ Closed WORKSPACE_SELF gap: real Playwright capture of live DESIGN workspace for 
 - **Branch:** `cursor/design-workspace-self-capture1-9f72`.
 
 ---
-
 ## 2026-09-19 — CAPTURE SCREEN Safari / site00.com API routing fix
 
 Founder **CAPTURE SCREEN** (hero compare / `useDesignPageCapture`) failed on production with Safari message **"The string did not match the expected pattern."** — root cause: relative `fetch('/api/site00/implementation-snapshots')` hit **GoDaddy SPA HTML**, and `Response.json()` on WebKit throws that opaque error.
@@ -10610,7 +9889,6 @@ Founder **CAPTURE SCREEN** (hero compare / `useDesignPageCapture`) failed on pro
 - **Branch:** `cursor/design-capture-screen-api-routing-9f72`.
 
 ---
-
 ## 2026-09-19 — Projects index “SESSION EXPIRED” (Safari auth desync)
 
 Founder saw **PROJECT INDEX UNAVAILABLE** / **SESSION EXPIRED OR NOT SIGNED IN** on `/projects` while DESIGN/EXPERIENCE cards still rendered — not a capture regression.
@@ -10620,7 +9898,6 @@ Founder saw **PROJECT INDEX UNAVAILABLE** / **SESSION EXPIRED OR NOT SIGNED IN**
 - **Branch:** `cursor/projects-index-session-reauth-9f72`.
 
 ---
-
 ## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-NBP-INTEGRATION-AUDIT1
 
 Forensic: `/system/design/workspace-concepts` had **no provider pipeline** — only manual STAGE SLOT + `requestConceptGeneration` flag; DESIGN bench **GENERATE PAGE CONCEPTS** remains a **PAGE no-op stub** in `twinOpusDirectWorkspace.ts`.
@@ -10632,7 +9909,6 @@ Forensic: `/system/design/workspace-concepts` had **no provider pipeline** — o
 - **Branch:** `cursor/design-workspace-self-nbp-integration-audit1-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CREATIVE-PIPELINE-AUDIT2
 
 Sprint corrected WORKSPACE_SELF creative cardinality before founder spend: **CGPT → GPT2 (1 concept/call) → NBP (2 jobs/concept)** — not Anthropic **3 territories in one call** (`generateWorkspaceTerritories.ts` removed).
@@ -10647,7 +9923,6 @@ Sprint corrected WORKSPACE_SELF creative cardinality before founder spend: **CGP
 - **Branch:** `cursor/design-workspace-self-creative-pipeline-audit2-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-AUTHORITY-PAIR-BINDING1
 
 Authority Pair rail on `/system/design/workspace-concepts` now binds to **GPT2/NBP generation jobs** + selection/promotion/lock state — not design-bench CGPT authority fixtures.
@@ -10659,7 +9934,6 @@ Authority Pair rail on `/system/design/workspace-concepts` now binds to **GPT2/N
 - **Branch:** `cursor/design-workspace-self-authority-pair-binding1-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CREATIVE-PIPELINE-R3
 
 Architectural correction: WORKSPACE_SELF generation is **1 CGPT creative context → 1 GPT2 authority concept → 3 NBP renditions (A/B/C) × Mobile + Desktop = 6 outputs** — not three independent CGPT/GPT2 concept chains.
@@ -10671,7 +9945,6 @@ Architectural correction: WORKSPACE_SELF generation is **1 CGPT creative context
 - **Branch:** `cursor/design-workspace-self-creative-pipeline-r3-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT-SELECTION-SYNC1
 
 Unified WORKSPACE_SELF review UX on `/system/design/workspace-concepts`: one persisted `reviewUi` + shared selection/promotion state across gallery, authority rail, Compare Concepts overlay, Inspect, and Fullscreen.
@@ -10684,7 +9957,6 @@ Unified WORKSPACE_SELF review UX on `/system/design/workspace-concepts`: one per
 - **Branch:** `cursor/design-workspace-self-concept-selection-sync1-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1
 
 Wired **GENERATE PAGE CONCEPTS** in normal DESIGN workspace (PROJECT → DESIGN → active page) to **PAGE-only** pipeline **1 CGPT → 1 GPT2 → 3 NBP renditions (6 outputs)** — isolated from WORKSPACE_SELF.
@@ -10699,7 +9971,6 @@ Wired **GENERATE PAGE CONCEPTS** in normal DESIGN workspace (PROJECT → DESIGN 
 - **Branch:** `cursor/design-page-concept-pipeline-wiring1-9f72`. **READY_FOR_FIRST_PAGE_GENERATION:** YES (confirm wiring; spend only after GENERATE).
 
 ---
-
 ## 2026-09-20 — PAGE concept GENERATE transport fix (production UNKNOWN_TRANSPORT_ERROR)
 
 Founder screenshot on **site00.com**: progress overlay after **GENERATE** showed **`UNKNOWN_TRANSPORT_ERROR`**.
@@ -10710,7 +9981,6 @@ Founder screenshot on **site00.com**: progress overlay after **GENERATE** showed
 - **Branch:** `cursor/page-concept-generate-transport-fix-9f72`. **Requires Railway redeploy** + cPanel ZIP for client URL path.
 
 ---
-
 ## 2026-09-20 — DESIGN capture CURRENT pane broken image fix
 
 Founder: **capture screens showing broken** in CURRENT vs CONCEPT after recent deploys.
@@ -10720,7 +9990,6 @@ Founder: **capture screens showing broken** in CURRENT vs CONCEPT after recent d
 - **Branch:** `cursor/capture-display-fix-9f72`.
 
 ---
-
 ## 2026-09-20 — CAPTURE SCREEN auth redirect (CAPTURE_ANCHOR_MISSING + WRONG_ROUTE + AUTH_REDIRECT)
 
 Founder on **site00.com** mobile: **CAPTURE SCREEN** failed with **`CAPTURE_ANCHOR_MISSING, WRONG_ROUTE, AUTH_REDIRECT`** on NDXBOOK DESIGN overview.
@@ -10730,7 +9999,6 @@ Founder on **site00.com** mobile: **CAPTURE SCREEN** failed with **`CAPTURE_ANCH
 - **Branch:** `cursor/design-capture-designpreview-auth-9f72`. **Railway redeploy** for capture engine QA tweak + **cPanel ZIP** for guard fix.
 
 ---
-
 ## 2026-09-20 — Desktop CAPTURE_ANCHOR_MISSING (overview POV vs legacy board)
 
 Founder after v569: **MOBILE capture OK**, **DESKTOP** still **`CAPTURE_ANCHOR_MISSING`** on overview.
@@ -10740,7 +10008,6 @@ Founder after v569: **MOBILE capture OK**, **DESKTOP** still **`CAPTURE_ANCHOR_M
 - **Branch:** `cursor/capture-desktop-overview-anchor-9f72`. **Both** Railway (wait selector) **and** cPanel (DOM markers) required.
 
 ---
-
 ## 2026-09-20 — Desktop capture live smoke (agent-verified)
 
 - **Verified:** Real Playwright `captureImplementationSnapshot` for `ndxbook` / `overview` / **desktop** against Vite — `qaPassed: true`, empty `qaIssues`, `anchorFound: true`, 1440×900, `designPreview=1` URL.
@@ -10748,7 +10015,6 @@ Founder after v569: **MOBILE capture OK**, **DESKTOP** still **`CAPTURE_ANCHOR_M
 - **PR:** #1034 merged. Production still requires **v570 cPanel + Railway** for founder device.
 
 ---
-
 ## 2026-09-20 — Page concept pipeline BLOCKED_NO_SOURCE_CAPTURE + founder review smoke
 
 Founder: overlay reached step 06 but **`BLOCKED_NO_SOURCE_CAPTURE`** — mobile capture in CURRENT, **DESKTOP NEEDED**.
@@ -10759,7 +10025,6 @@ Founder: overlay reached step 06 but **`BLOCKED_NO_SOURCE_CAPTURE`** — mobile 
 - **Branch:** `cursor/page-concept-pipeline-founder-review-9f72`. Founder: **CAPTURE SCREEN on DESKTOP viewport** then GENERATE; deploy v571+.
 
 ---
-
 ## 2026-09-20 — Page concept GENERATE UNAUTHORIZED on fsbw-dev tunnel
 
 Founder on **site00.fsbw-dev.com** (Vite tunnel): pipeline overlay showed **UNAUTHORIZED** at step 06.
@@ -10769,7 +10034,6 @@ Founder on **site00.fsbw-dev.com** (Vite tunnel): pipeline overlay showed **UNAU
 - **Branch:** `cursor/page-concept-api-auth-9f72`. Founder: sign in on the **same tab** before GENERATE, or use **production ZIP** on site00.com; still need **Mobile + Desktop** captures.
 
 ---
-
 ## 2026-09-20 — Page capture Supabase hydrate (tunnel vs prod localStorage leak)
 
 Founder: **both screenshots exist** but **GENERATE PAGE CONCEPTS** still disabled; **DESKTOP NEEDED** / **DESKTOP AUTHORITY** blocker after refresh; re-capture on every reload.
@@ -10780,7 +10044,6 @@ Founder: **both screenshots exist** but **GENERATE PAGE CONCEPTS** still disable
 - **Branch:** `cursor/design-page-capture-supabase-hydrate-9f72`.
 
 ---
-
 ## 2026-09-20 — Page concept “success” benchmark vs founder tunnel
 
 Founder still saw **GENERATE** disabled with **`BLOCKED_NO_SOURCE_CAPTURE`** while viewport band showed **MOBILE OK / DESKTOP OK** and CURRENT had a capture.
@@ -10792,7 +10055,6 @@ Founder still saw **GENERATE** disabled with **`BLOCKED_NO_SOURCE_CAPTURE`** whi
 - **Branch:** `cursor/page-concept-capture-preflight-9f72`.
 
 ---
-
 ## 2026-09-20 — Tunnel showed older Design than GoDaddy (dev vs production dist)
 
 Founder: cloud **preview tunnel** regressed to an **older Design** than **site00.com**.
@@ -10803,7 +10065,6 @@ Founder: cloud **preview tunnel** regressed to an **older Design** than **site00
 - **Branch:** `cursor/tunnel-production-parity-9f72`.
 
 ---
-
 ## 2026-09-20 — Tunnel still wrong Design despite same commitSha (CI artifact vs VM build)
 
 Founder: CI **#462** deploy **2f78b3b** succeeded; preview tunnel still looked **older** than site00.com.
@@ -10813,7 +10074,6 @@ Founder: CI **#462** deploy **2f78b3b** succeeded; preview tunnel still looked *
 - **Branch:** `cursor/tunnel-ci-artifact-sync-9f72`.
 
 ---
-
 ## 2026-09-20 — Restore Release #455 Design UX (11736da) vs #1039 viewport CAPTURE band
 
 Founder: agent sent **links not images**; tunnel/preview did not match **site00.com** reference (COMPILER **READY**, MOBILE/TABLET DERIVED/DESKTOP **OK**, filled **CURRENT**, authority **UNDER REVIEW**, concept **ENTRY001_v1.3**). Pointed to **Production Release #455** / commit **`11736da`** (PR #1032).
@@ -10825,7 +10085,6 @@ Founder: agent sent **links not images**; tunnel/preview did not match **site00.
 - **Branch:** `cursor/design-restore-release455-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1 (GENERATE PAGE CONCEPTS shell)
 
 Chat started with the hero **CAPTURE SCREEN** bug fix (registry bootstrap + surfaced capture errors, merged as PR #1007), then moved to a design-shell sprint: rebuild the **GENERATE PAGE CONCEPTS** pop-up to match an approved mobile reference, visual shell only.
@@ -10838,7 +10097,6 @@ Chat started with the hero **CAPTURE SCREEN** bug fix (registry bootstrap + surf
 - **Branch:** `cursor/design-page-concept-generator-shell1-2dd8`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-COMPOSER-INTEGRATION1 (Opus shell → live pipeline)
 
 Follow-on to **PAGE-CONCEPT-GENERATOR-OPUS-SHELL1** (merged PR #1044): wire the locked Opus **GENERATE PAGE CONCEPTS** shell to the existing page-concept pipeline (1× CGPT → 1× GPT2 → 3× NBP → 6 viewport outputs) without redesigning typography, layout, or stage geometry.
@@ -10849,7 +10107,6 @@ Follow-on to **PAGE-CONCEPT-GENERATOR-OPUS-SHELL1** (merged PR #1044): wire the 
 - **Branch:** `cursor/page-concept-generator-composer-integration1-2dd8`.
 
 ---
-
 ## 2026-09-20 — GENERATE confirm BLOCKED_NO_SOURCE_CAPTURE on site00.com (route URL false capture)
 
 Founder: **GENERATE PAGE CONCEPTS** overlay (Opus shell) shows plan + red **`BLOCKED_NO_SOURCE_CAPTURE`** on confirm despite **CAPTURED** in CURRENT and viewport **OK**.
@@ -10861,7 +10118,6 @@ Founder: **GENERATE PAGE CONCEPTS** overlay (Opus shell) shows plan + red **`BLO
 - **Branch:** `cursor/page-concept-generate-capture-confirm-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.OPUS-NATIVE-SHELL-SERVICE1 (Anthropic staged visual shell)
 
 Sprint: native **claude-opus-5** workflow for DESIGN **visual shell only** (not production implementation).
@@ -10874,7 +10130,6 @@ Sprint: native **claude-opus-5** workflow for DESIGN **visual shell only** (not 
 - **Branch:** `cursor/opus-native-shell-service1-9f72`.
 
 ---
-
 ## 2026-09-20 — P1 PAGE-CONCEPT-GENERATOR-VISUAL-FIDELITY-CLEANUP1
 
 Sprint: **GENERATE PAGE CONCEPTS** Opus shell — CSS/presentation only (reference screenshot authority); no CGPT/GPT2/NBP pipeline changes.
@@ -10885,7 +10140,6 @@ Sprint: **GENERATE PAGE CONCEPTS** Opus shell — CSS/presentation only (referen
 - **Branch:** `cursor/page-concept-generator-visual-fidelity-cleanup1-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-CLEANUP1 (staged)
 
 Sprint: icon-system refinement for **GENERATE PAGE CONCEPTS** only. Live shell/geometry/pipeline untouched. Founder approval required before Composer wiring.
@@ -10897,7 +10151,6 @@ Sprint: icon-system refinement for **GENERATE PAGE CONCEPTS** only. Live shell/g
 - **Branch:** `cursor/page-concept-generator-grok-icon-cleanup1-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-MOBILE-OVERFLOW-FIX1
 
 Sprint: **GENERATE PAGE CONCEPTS** modal — mobile responsive containment only (no pipeline/provider changes).
@@ -10908,7 +10161,6 @@ Sprint: **GENERATE PAGE CONCEPTS** modal — mobile responsive containment only 
 - **Branch:** `cursor/page-concept-generator-mobile-overflow-fix1-9f72`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-ROLLBACK-OVERFLOW-FIX2
 
 Sprint: rollback **FIX1** layout overcorrection on GENERATE PAGE CONCEPTS; surgical text containment only.
@@ -10920,7 +10172,6 @@ Sprint: rollback **FIX1** layout overcorrection on GENERATE PAGE CONCEPTS; surgi
 - **Branch:** `cursor/page-concept-generator-rollback-overflow-fix2-9f72`.
 
 ---
-
 ## 2026-09-20 — CI: Opus console tabs test (SHELL tab)
 
 - **Issue:** `p0vrDesignOpusAiConsoles1.test.ts` expected `OPUS_CONSOLE_TABS` ids `DESIGN/REVIEW/CONTEXT`; production model adds **SHELL** first (`OpusDesignShellPanel` in `DesignAgentDock`).
@@ -10928,7 +10179,6 @@ Sprint: rollback **FIX1** layout overcorrection on GENERATE PAGE CONCEPTS; surgi
 - **Branch:** `cursor/fix-opus-console-tabs-shell-test-b747`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-SOURCE-CAPTURE-RESOLUTION-FIX1
 
 Sprint: **BLOCKED_NO_SOURCE_CAPTURE** while CURRENT showed a capture — unify CAPTURE SCREEN write path with GENERATE readiness read path.
@@ -10939,7 +10189,6 @@ Sprint: **BLOCKED_NO_SOURCE_CAPTURE** while CURRENT showed a capture — unify C
 - **Branch:** `cursor/page-concept-source-capture-resolution-fix1-b747`.
 
 ---
-
 ## 2026-09-20 — P0.PROD.PROJECTS-ROUTE-RELIABILITY1 (403 /projects)
 
 Recurring raw **403 Forbidden** on `/projects` (Apache, before React).
@@ -10950,7 +10199,6 @@ Recurring raw **403 Forbidden** on `/projects` (Apache, before React).
 - **Branch:** `cursor/projects-route-reliability1-b747`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-CAPTURE-READINESS-UNIFICATION1
 
 Sprint: GENERATE PAGE CONCEPTS showed **MOBILE/DESKTOP · READY** while footer still **BLOCKED · SOURCE CAPTURE REQUIRED** (stale confirm `error` vs live SOURCE strip).
@@ -10961,7 +10209,6 @@ Sprint: GENERATE PAGE CONCEPTS showed **MOBILE/DESKTOP · READY** while footer s
 - **Branch:** `cursor/page-concept-capture-readiness-unification1-b747`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATION-GATE-SINGLE-SOURCE1
 
 Sprint: Concept Candidate Gallery showed **Capture the current Mobile and Desktop…** with GENERATE disabled while Pipeline said **GENERATE PAGE CONCEPTS** (duplicate gates).
@@ -10972,7 +10219,6 @@ Sprint: Concept Candidate Gallery showed **Capture the current Mobile and Deskto
 - **Branch:** `cursor/page-concept-generation-gate-single-source1-b747`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-RUNTIME-BLOCKER-FORENSICS1
 
 Production modal: SOURCE **READY/READY** + red **BLOCKED · SOURCE CAPTURE REQUIRED** simultaneously.
@@ -10984,7 +10230,6 @@ Production modal: SOURCE **READY/READY** + red **BLOCKED · SOURCE CAPTURE REQUI
 - **Branch:** `cursor/page-concept-runtime-blocker-forensics1-b747`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-IMPOSSIBLE-BLOCKER-ERADICATION1
 
 Impossible modal: SOURCE **READY/READY** + red **SOURCE CAPTURE REQUIRED** (production v587).
@@ -10995,7 +10240,6 @@ Impossible modal: SOURCE **READY/READY** + red **SOURCE CAPTURE REQUIRED** (prod
 - **Branch:** `cursor/page-concept-impossible-blocker-eradication1-b747`.
 
 ---
-
 ## 2026-09-20 — Opus shell CI: release-manifest fetch out of overlay
 
 CI **SITE 00 Production Release** failed `p0vrPageConceptGeneratorOpusShell1` — overlay firewall must not contain `fetch(` (shell design authority).
@@ -11005,7 +10249,6 @@ CI **SITE 00 Production Release** failed `p0vrPageConceptGeneratorOpusShell1` �
 - **Branch:** `cursor/opus-shell-release-manifest-hook-b747`.
 
 ---
-
 ## 2026-09-20 — P0.VR.PAGE-CONCEPT-PANEL-WIDTH-AND-ERROR-RECOVERY1
 
 Production: narrow left GENERATE PAGE CONCEPTS modal + silent generation failures.
@@ -11016,7 +10259,6 @@ Production: narrow left GENERATE PAGE CONCEPTS modal + silent generation failure
 - **Branch:** `cursor/page-concept-panel-width-error-recovery1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-GENERATE-CLICK-DEADPATH1
 
 GENERATE visually enabled but dead on tap (iPhone Safari production).
@@ -11029,7 +10271,6 @@ GENERATE visually enabled but dead on tap (iPhone Safari production).
 - **Branch:** `cursor/page-concept-generate-click-deadpath1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-LIVE-PRODUCTION-TRACE1
 
 Founder: GENERATE still no visible change on live site00.com despite v592 receipt.
@@ -11042,7 +10283,6 @@ Founder: GENERATE still no visible change on live site00.com despite v592 receip
 - **Branch:** `cursor/page-concept-live-production-trace1-b747`.
 
 ---
-
 ## 2026-09-20 — Tunnel GENERATE auth + GROK icon passes (CLEANUP2 then ICONS-ONLY3)
 
 Chat started with founder on **site00.fsbw-dev.com** unable to generate page concepts despite mobile + desktop captures. Screenshot showed **SIGN IN REQUIRED — GENERATE calls api.site00.com**.
@@ -11054,7 +10294,6 @@ Chat started with founder on **site00.fsbw-dev.com** unable to generate page con
 - **Branch:** `cursor/page-concept-generator-grok-icons-only3-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-FETCH-ABORT-ASYNC-RUN1
 
 Production after v594 capture fix: **GENERATION COULD NOT START · FETCH IS ABORTED** (Safari message from client `AbortController` timeout).
@@ -11067,13 +10306,11 @@ Production after v594 capture fix: **GENERATION COULD NOT START · FETCH IS ABOR
 - **Branch:** `cursor/page-concept-fetch-abort-async-run1-b747`.
 
 ---
-
 ## 2026-09-21 — CI: GROK icon tests expect async generation hook
 
 After FETCH-ABORT async run, `usePageConceptGeneration` uses `startPageConceptGenerationRunApi` + poll (no `runPageConceptGenerationApi`). Updated `p0vrPageConceptGeneratorGrokIconsOnly3.test.ts` and `p0vrPageConceptGeneratorGrokIconCleanup1.test.ts` firewall expectations.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-SNAPSHOT-DURABILITY-FIX1
 
 Production **BLOCKED_CAPTURE_SNAPSHOT_UNREADABLE**: generation received valid `snapshotId` but Railway could not load bytes.
@@ -11084,7 +10321,6 @@ Production **BLOCKED_CAPTURE_SNAPSHOT_UNREADABLE**: generation received valid `s
 - **Branch:** `cursor/page-concept-snapshot-durability-fix1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-CGPT-429-RESILIENCE1
 
 Live page-concept runs reached CGPT then failed with opaque **`CGPT_INJECTION_FAILED: 429`** (Anthropic throttling). Upstream capture/snapshot/async run left unchanged; **CGPT stage only**.
@@ -11097,7 +10333,6 @@ Live page-concept runs reached CGPT then failed with opaque **`CGPT_INJECTION_FA
 - **Branch:** `cursor/page-concept-cgpt-429-resilience1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-LIVE-STAGE-PROGRESSION1
 
 Panel felt frozen on **CREATIVE DIRECTION** (lime `data-lead`) during CGPT even while async run progressed.
@@ -11109,7 +10344,6 @@ Panel felt frozen on **CREATIVE DIRECTION** (lime `data-lead`) during CGPT even 
 - **Branch:** `cursor/page-concept-live-stage-progression1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-CGPT-REAL-SUBSTEP-EMISSION1
 
 UI had `liveProgress` bindings but CGPT prep emitted all substeps in one synchronous tick (wrong order: creative-direction first).
@@ -11121,7 +10355,6 @@ UI had `liveProgress` bindings but CGPT prep emitted all substeps in one synchro
 - **Branch:** `cursor/page-concept-cgpt-real-substep-emission1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-FOUNDER-START-AND-PROGRESS-EVENTS1
 
 Two production issues: panel **auto-entered RUNNING** on open (stale `localStorage` run + mount `pollPageConceptGenerationRunUntilTerminal` + persisted `CGPT_RUNNING`); **2.5s poll** missed fast CGPT substep transitions.
@@ -11132,7 +10365,6 @@ Two production issues: panel **auto-entered RUNNING** on open (stale `localStora
 - **Branch:** `cursor/page-concept-founder-start-and-progress-events1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-RUN-TRUTH-AND-CREATIVE-GROUNDING1
 
 Panel showed **GENERATION COULD NOT START · BLOCKED_MOBILE_SNAPSHOT_MISSING** while CGPT/GPT2/NBP were running; GPT2 authority drifted to generic beige dashboard (capture-weighted, weak NDXBOOK identity).
@@ -11144,7 +10376,6 @@ Panel showed **GENERATION COULD NOT START · BLOCKED_MOBILE_SNAPSHOT_MISSING** w
 - **Branch:** `cursor/page-concept-run-truth-and-creative-grounding1-b747`.
 
 ---
-
 ## 2026-09-21 — CI fix: GPT2 review gate + cgptContract join
 
 Production Release CI: 5 failures from GPT2 founder review gate (NBP spy 0 calls) and `immutableRequirements.join` on undefined injection in tests.
@@ -11152,7 +10383,6 @@ Production Release CI: 5 failures from GPT2 founder review gate (NBP spy 0 calls
 - **Fix:** Safe `immutableRequirements ?? []` in `cgptContractFromInjection`; `retryFailedOnly` bypasses GPT2 review gate; vitest default `SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW=false` via `tests/setup/pageConceptTestDefaults.ts` (run-truth suite opts into `true`).
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-NBP-AUTHORITY-FIRST-RECONSTRUCTION1
 
 NBP (`fal-ai/nano-banana-pro/edit`) was sending **only the current implementation capture** as `image_urls[0]`; GPT2 authority was text-only → restyle-not-reconstruct behavior.
@@ -11165,7 +10395,6 @@ NBP (`fal-ai/nano-banana-pro/edit`) was sending **only the current implementatio
 - **Branch:** `cursor/page-concept-nbp-authority-first-reconstruction1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-CGPT-BRIEF-INSPECTOR1
 
 Founder needed inspectable **real CGPT creative direction** before GPT2/NBP to diagnose leakage (CGPT vs handoff vs GPT2 vs NBP).
@@ -11178,7 +10407,6 @@ Founder needed inspectable **real CGPT creative direction** before GPT2/NBP to d
 - **Branch:** `cursor/page-concept-cgpt-brief-inspector1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-CGPT-CREATIVE-SYNTHESIS-LEAK-FIX1
 
 CGPT was compiling brand inventory but leaving synthesis fields empty; GPT2 handoff reported **CONTEXT_LOSS** and system/implementation terms leaked into creative briefs.
@@ -11192,7 +10420,6 @@ CGPT was compiling brand inventory but leaving synthesis fields empty; GPT2 hand
 - **CI hotfix:** `synthesisText`/`fieldValue` safe on undefined; NBP `retryFailedOnly` skips synthesis/handoff re-gates (`cursor/page-concept-cgpt-synthesis-ci-fix-b747`).
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-POST-RUN-RESTART-CONTROLS1
 
 **READY FOR REVIEW** was a dead primary CTA with no rerun/restart path.
@@ -11206,7 +10433,6 @@ CGPT was compiling brand inventory but leaving synthesis fields empty; GPT2 hand
 - **Branch:** `cursor/page-concept-post-run-restart-controls1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-DUAL-RENDER-ENGINE-TEST1
 
 Founder A/B experiment: same approved GPT2 authority → **GPT2 direct render** (mobile + desktop) vs **NBP render** (mobile + desktop) — four outputs max, no six-concept fanout.
@@ -11221,7 +10447,6 @@ Founder A/B experiment: same approved GPT2 authority → **GPT2 direct render** 
 - **Branch:** `cursor/page-concept-dual-render-engine-test1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-NEW-GENERATION-BLANK-NAVIGATION-FIX1
 
 Founder **NEW GENERATION** confirm on iPhone Safari → blank white site00.com (SPA gone, no CGPT).
@@ -11232,7 +10457,6 @@ Founder **NEW GENERATION** confirm on iPhone Safari → blank white site00.com (
 - **Branch:** `cursor/page-concept-new-generation-blank-nav-fix1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-CONCEPT-GPT2-CANONICAL-VIEWPORT-FAMILY1R1
 
 Canonical page-concept pipeline is **GPT2 viewport family → twin-first**; **DUAL_RENDER_TEST removed**; canonical orchestration no longer runs NBP (legacy behind `SITE00_PAGE_CONCEPT_LEGACY_NBP=true`).
@@ -11245,7 +10469,6 @@ Canonical page-concept pipeline is **GPT2 viewport family → twin-first**; **DU
 - **Branch:** `cursor/page-concept-gpt2-canonical-viewport-family1r1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1
 
 Functional orchestration from **mobile selection → experience expression → GPT2 tablet/desktop → viewport family approve/lock → TwinImplementationPackage** (no live promotion).
@@ -11260,7 +10483,6 @@ Functional orchestration from **mobile selection → experience expression → G
 - **Branch:** `cursor/gpt2-viewport-family-twin-orchestration1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.PAGE-FAMILY-SKIN-BEHAVIOR-CONTRACT1
 
 After **viewport family approval**, pipeline compiles **PageFamilySkinBehaviorContract** + **PageFamilyComponentExpressionMap** + **OpusRepresentativeShellSet** (9 twin shells) before Opus/Composer twin work.
@@ -11273,7 +10495,6 @@ After **viewport family approval**, pipeline compiles **PageFamilySkinBehaviorCo
 - **Branch:** `cursor/page-family-skin-behavior-contract1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.CGPT-GPT2-HANDOFF-MOBILE-TRIPLE-CONCEPT1
 
 Surgical CGPT→GPT2 handoff copy fix (no CGPT synthesis changes): canonical task is **3 distinct Mobile concepts**, not one authority.
@@ -11284,7 +10505,6 @@ Surgical CGPT→GPT2 handoff copy fix (no CGPT synthesis changes): canonical tas
 - **Branch:** `cursor/cgpt-gpt2-handoff-mobile-triple-concept1-b747`.
 
 ---
-
 ## 2026-09-21 — P0.VR.GPT2-MOBILE-FAL-PROVIDER-WIRING1
 
 Production blocker fix: canonical **3 GPT2 Mobile concepts** now dispatch through **FAL** (`fal-ai/nano-banana-pro/edit`, same as NBP) instead of throwing `GPT2_MOBILE_CONCEPT_PROVIDER_NOT_CONFIGURED`.
@@ -11299,7 +10519,6 @@ Production blocker fix: canonical **3 GPT2 Mobile concepts** now dispatch throug
 - **Founder:** Apply Supabase migration `20260921120000_site00_page_concept_generation_runs.sql`; Railway redeploy API; GoDaddy ZIP after merge for client recovery params.
 
 ---
-
 ## 2026-09-21 — P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1
 
 Step 2 decoupling: GPT2 mobile concepts must be **website page authorities**, not NBP-style full-screenshot remixes or poster graphics.
@@ -11313,7 +10532,6 @@ Step 2 decoupling: GPT2 mobile concepts must be **website page authorities**, no
 - **Branch:** `cursor/gpt2-mobile-page-authority-decoupling-fix1-b747`.
 
 ---
-
 ## 2026-09-22 — P0.VR.PAGE-CONCEPT-GENERATOR-FOUNDER-REVIEW-UX-REFINEMENT1
 
 Founder review UX for canonical page-concept pipeline (presentation only — no provider/run logic changes).
@@ -11325,7 +10543,6 @@ Founder review UX for canonical page-concept pipeline (presentation only — no 
 - **Branch:** `cursor/page-concept-generator-founder-review-ux-refinement1-b747`.
 
 ---
-
 ## 2026-09-22 — P0.VR.PAGE-CONCEPT-MOBILE-IMAGE-CONTAINMENT-UX1
 
 GPT2 mobile concept images were expanding to natural page height inside the generator panel.
@@ -11337,7 +10554,6 @@ GPT2 mobile concept images were expanding to natural page height inside the gene
 - **Branch:** `cursor/page-concept-mobile-image-containment-ux1-b747`.
 
 ---
-
 ## 2026-09-22 — P0.VR.GPT2-CONCEPT-CANDIDATE-GALLERY-SURFACING1
 
 Wire canonical GPT2 mobile page concepts A/B/C into Design workspace Concept Candidate Gallery (same artifact records as generator).
@@ -11350,7 +10566,6 @@ Wire canonical GPT2 mobile page concepts A/B/C into Design workspace Concept Can
 - **Branch:** `cursor/gpt2-concept-candidate-gallery-surfacing1-b747`.
 
 ---
-
 ## 2026-09-22 — P0.VR.CONCEPT-GALLERY-SYNC-AND-MOBILE-PANEL-COMPRESSION1
 
 Gallery empty while generator had concepts: in-memory gallery store was not hydrated from persisted `loadPageConceptGenerationState`.
@@ -11362,13 +10577,11 @@ Gallery empty while generator had concepts: in-memory gallery store was not hydr
 - **Branch:** `cursor/concept-gallery-sync-mobile-panel-compression1-b747`.
 
 ---
-
 ## 2026-09-22 — CI fix: Opus shell mobile slot labels
 
 `p0vrPageConceptGeneratorOpusShell1.test.ts` expected GPT2 shell slot labels `A/B/C`; canonical shell in `designPageConceptGeneratorShell.ts` uses `PAGE A` / `PAGE B` / `PAGE C`. Test aligned to shell authority (PR fix branch).
 
 ---
-
 ## 2026-09-22 — P0.VR.DESIGN-WORKSPACE-CONCEPT-GALLERY-AND-GENERATOR-ENTRY-FIX1
 
 Founder gallery empty + no generator on compare header: persisted generation state often keyed by **canonical page id** (`ndxbook:/projects/ndxbook`) while DESIGN queries **registry** `ndxbook:overview`.
@@ -11383,7 +10596,6 @@ Founder gallery empty + no generator on compare header: persisted generation sta
 - **Branch:** `cursor/design-workspace-concept-gallery-and-generator-entry-fix1-b747`.
 
 ---
-
 ## 2026-09-22 — P0.VR.DESIGN-WORKSPACE-VIEWPORT-GALLERIES-CORRECTION1
 
 Corrective: keep **MOBILE / TABLET / DESKTOP** toggles; **one gallery per viewport** (no mixed A/B/C + tablet + desktop in one rail).
@@ -11395,7 +10607,6 @@ Corrective: keep **MOBILE / TABLET / DESKTOP** toggles; **one gallery per viewpo
 - **Branch:** `cursor/design-workspace-viewport-galleries-correction1-b747`.
 
 ---
-
 ## 2026-09-22 — CI fix: Spark list tod-rail namespace firewall
 
 Production release failed `p0vrDesignBenchOpusDirect.test.ts`: list view must not contain substring `tod-rail` (Spark vs canonical class firewall). Viewport-family authority rail in **`TwinOpusDirectListView.tsx`** used `tod-rail__viewportFamily*` (matches `.toContain('tod-rail')`).
@@ -11405,7 +10616,6 @@ Production release failed `p0vrDesignBenchOpusDirect.test.ts`: list view must no
 - **Branch:** `cursor/fix-spark-list-tod-rail-firewall-b747`.
 
 ---
-
 ## 2026-09-22 — P0.VR.DESIGN-WORKSPACE-ARTIFACT-SYNC-REGEN-PANEL-FINALIZATION1
 
 Production regression: gallery empty despite GPT2 mobile jobs; regen wired to legacy production path; generator multi-stage wall + document scroll.
@@ -11418,7 +10628,6 @@ Production regression: gallery empty despite GPT2 mobile jobs; regen wired to le
 - **Branch:** `cursor/design-workspace-artifact-sync-regen-panel-finalization1-b747`.
 
 ---
-
 ## 2026-09-22 — Gallery empty despite “3 READY” (lineage + artifact URLs)
 
 Founder live: hero GENERATION CONSOLE showed **3 READY** but Concept Candidate Gallery gray/empty; generator CONCEPT A preview blank; regen unchanged on old bundle.
@@ -11428,7 +10637,6 @@ Founder live: hero GENERATION CONSOLE showed **3 READY** but Concept Candidate G
 - **Deploy:** Requires new frontend ZIP (v625+) on GoDaddy; mobile regen still needs Railway API from artifact-sync merge.
 
 ---
-
 ## 2026-09-22 — Generator defaulted to legacy NBP UI (GPT2-only product)
 
 Confirm/review overlay used `pageConceptCanonicalGpt2MobileActive` which was false on idle confirm (no jobs yet) → `stageMode='NBP'`, legacy ProgressionRail, CONTINUE (LEGACY NBP).
@@ -11437,7 +10645,6 @@ Confirm/review overlay used `pageConceptCanonicalGpt2MobileActive` which was fal
 - **Branch:** `cursor/fix-gpt2-only-generator-model-b747`.
 
 ---
-
 ## 2026-09-23 — GENERATE never disabled on prior review run
 
 Founder stuck on previous GPT2 mobile review: modal GENERATE disabled (`GPT2_MOBILE_AWAITING_SELECTION` treated as in-flight; review mode hard-blocked press).
@@ -11446,7 +10653,6 @@ Founder stuck on previous GPT2 mobile review: modal GENERATE disabled (`GPT2_MOB
 - **Branch:** `cursor/page-concept-generate-always-enabled-b747`.
 
 ---
-
 ## 2026-09-23 — NEW GENERATION no-op on mobile review
 
 **NEW GENERATION** appeared enabled but did nothing: `requestNewPageConceptGeneration` called `confirmPostRunAction('new_generation')` while `postRunActions` is empty for `GPT2_MOBILE_AWAITING_SELECTION` (post-run footer excluded) → confirm returned false immediately with no UI.
@@ -11456,7 +10662,6 @@ Founder stuck on previous GPT2 mobile review: modal GENERATE disabled (`GPT2_MOB
 - **Branch:** `cursor/fix-new-generation-confirm-mobile-review-b747`.
 
 ---
-
 ## 2026-09-23 — CGPT stage hang (no GPT2 mobile concepts)
 
 Founder on site00.com: generator rail stuck **CGPT RUNNING** with brief digest visible; GPT2 **LOCKED UNTIL CGPT**; no mobile concept images.
@@ -11467,7 +10672,6 @@ Founder on site00.com: generator rail stuck **CGPT RUNNING** with brief digest v
 - **Branch:** `cursor/fix-cgpt-auto-gpt2-progression-b747`.
 
 ---
-
 ## 2026-09-23 — GPT2 mobile Fal model → GPT Image 2 (not nano-banana / NBP)
 
 Founder Fal dashboard showed **`nano-banana-pro/edit`** for GPT2 mobile page concepts; wanted **GPT2 image model**, not NBP transport.
@@ -11476,7 +10680,6 @@ Founder Fal dashboard showed **`nano-banana-pro/edit`** for GPT2 mobile page con
 - **Branch:** `cursor/gpt2-mobile-gpt-image2-fal-b747`.
 
 ---
-
 ## 2026-09-23 — P0.VR.CGPT-PAGE-ARCHITECTURE-HANDOFF1
 
 GPT2 mobile concepts were NDXBOOK-on-brand but structurally poster-like — CGPT handoff lacked surgical **page architecture** (SITE 00 shell, navigation, regions, scroll, bottom continuity).
@@ -11488,7 +10691,6 @@ GPT2 mobile concepts were NDXBOOK-on-brand but structurally poster-like — CGPT
 - **Branch:** `cursor/page-concept-cgpt-page-architecture-handoff1-b747`.
 
 ---
-
 ## 2026-09-23 — P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1
 
 GPT Image 2 `/edit` rejected GPT2 mobile dispatch: **String should have at most 32000 characters** — v3 architecture handoff + raw JSON authority payload duplicated contracts in provider prompt.
@@ -11500,7 +10702,6 @@ GPT Image 2 `/edit` rejected GPT2 mobile dispatch: **String should have at most 
 - **Branch:** `cursor/gpt2-prompt-compaction-compiler1-b747`.
 
 ---
-
 ## 2026-09-23 — P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1
 
 GPT2 mobile Fal jobs showed tiny input previews (~390×186) and over-indexed on continuity/support imagery — only bottom strip was attached, not full page capture.
@@ -11513,7 +10714,6 @@ GPT2 mobile Fal jobs showed tiny input previews (~390×186) and over-indexed on 
 - **Branch:** `cursor/gpt2-mobile-dual-reference-authority-wiring-fix1-b747`.
 
 ---
-
 ## 2026-09-23 — Concept gallery not showing latest GPT2 mobile Fal screens
 
 Gallery does not read Fal directly — it hydrates from **persisted page-concept generation state** → `syncPageConceptGalleryFromGenerationState` → in-memory candidates → `buildPageConceptGallerySections`.
@@ -11527,7 +10727,6 @@ Root causes addressed:
 - **Branch:** `cursor/fix-concept-gallery-latest-mobile-b747`.
 
 ---
-
 ## 2026-09-23 — P0.VR.GPT2-MOBILE-CONCEPT-DISTINCTION-AND-FUNCTIONAL-CONTINUITY-FIX1
 
 GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing, and reinvented bottom nav.
@@ -11539,7 +10738,6 @@ GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing,
 - **Branch:** `cursor/gpt2-mobile-concept-distinction-fix1-b747`.
 
 ---
-
 ## 2026-09-23 — Gallery “CURRENT GENERATION” only (Fal cards clipped)
 
 **Cause:** `.tod-gallery__groupLabel { flex: 0 0 100% }` lived inside `.tod-gallery__rail` (`overflow: hidden`, `flex-wrap: nowrap`). Label consumed full row width; A/B/C cards sat off-screen to the right — looked like empty gallery with only “CURRENT GENERATION” text.
@@ -11549,7 +10747,6 @@ GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing,
 **Branch:** `cursor/fix-gallery-mobile-concept-cards-clipped-b747`.
 
 ---
-
 ## 2026-09-23 — CI: double `artifact=` query on gallery preview URLs
 
 `mapPageConceptToGalleryCard` re-applied cache-bust on URLs already busted in `buildMobileCandidatesFromGenerationJobs` → `?artifact=job-1&artifact=pcga-...`. Reverted redundant gallery map bust; `resolvePageConceptArtifactDisplayUrl` strips existing `artifact` param before applying a new key.
@@ -11557,7 +10754,6 @@ GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing,
 **Branch:** `cursor/fix-ci-artifact-url-double-bust-b747`.
 
 ---
-
 ## 2026-09-23 — Gallery thumbs black + hero concept letterbox + STALE toast
 
 Gallery used `size="mobile"` (220px min) inside 72px rail + `object-fit: contain` on dark concepts → black thumbs. Switched gallery to `thumb` + `cover`, light preview ground, fixed thumb height. Hero CONCEPT pane uses `cover` fill. `STALE_STATE` now hydrates + applies local fallback without persistent error toast. Hero/gallery URLs use `resolvePageConceptArtifactDisplayUrl`.
@@ -11565,7 +10761,6 @@ Gallery used `size="mobile"` (220px min) inside 72px rail + `object-fit: contain
 **Branch:** `cursor/fix-gallery-concept-preview-fit-b747`.
 
 ---
-
 ## 2026-09-23 — P0.VR.GPT2-MOBILE-FULL-PAGE-CONTINUITY-AND-BOTTOM-NAV-LOCK1
 
 GPT2 mobile now sends **3 capture authorities** to Fal: full-page (A), lower-half (B), bottom-nav crop (C). Prompt adds bottom nav lock, full-page output requirement, region map, continuity contract. Debug shows manifest + `BOTTOM NAV CONTINUITY VALIDATION`. Influence mode `FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK`. Provider prompt v4-full-page-continuity.
@@ -11573,7 +10768,6 @@ GPT2 mobile now sends **3 capture authorities** to Fal: full-page (A), lower-hal
 **Branch:** `cursor/gpt2-mobile-full-page-continuity-bottom-nav-lock1-b747`.
 
 ---
-
 ## 2026-09-23 — P0.VR.GPT2-MOBILE-FUNCTIONAL-REFERENCE-ONLY-AND-FULL-PAGE-CAPTURE-FIX1
 
 Replaced GPT2 mobile Fal reference package with **GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1**: exactly three disjoint vertical slices (**TOP / MIDDLE / BOTTOM** structural captures), not full-page + lower-half + bottom-nav strip. **`validateMobileStructuralCaptureCoverage()`** blocks dispatch on missing bottom, redundancy, or invalid package. **`SCREENSHOT_AUTHORITY_MODE: FUNCTIONAL_REFERENCE_ONLY`** + **`assertScreenshotDesignAuthorityForbidden()`** — CGPT + page architecture = design authority; captures are functional context only (no styling mimicry). Prompt **`page-gpt2-mobile-page-authority-v4-functional-reference-only`**, provider compiler **v5-functional-reference-only**. Technical details expose capture package version, A/B/C roles, coverage PASS/FAIL, redundancy check. UI debug lines label **TOP STRUCTURE / MIDDLE STRUCTURE / BOTTOM STRUCTURE**. Legacy provider roles (`FULL_PAGE_SOURCE`, `BOTTOM_HALF`, `BOTTOM_NAV`) rejected at order time.
@@ -11581,7 +10775,6 @@ Replaced GPT2 mobile Fal reference package with **GPT2_FUNCTIONAL_REFERENCE_PACK
 **Branch:** `cursor/gpt2-mobile-functional-reference-only-full-page-capture-fix1-b747`. **Railway:** redeploy API after merge. **GoDaddy:** deploy new ZIP when UI overlay strings changed.
 
 ---
-
 ## 2026-09-23 — P0.VR.SCREENSHOT-FUNCTION-MAP-INTELLIGENCE-LAYER1
 
 New **`ScreenshotFunctionalPageMap`** layer between Page Architecture Brief and GPT2: **`interpretScreenshotFunctionality()`** enriches from implementation registry + Page System Review + architecture regions (top/middle/bottom capture roles). **`validateScreenshotFunctionMapForGpt2Dispatch()`** blocks GPT2 with `SCREENSHOT_FUNCTION_MAP_INCOMPLETE` when critical context missing. Provider prompt compiles **`compileGpt2MobileScreenshotFunctionBlock()`** (v6-screenshot-function-map). Pipeline stores map on `pipelineSet.screenshotFunctionalPageMap`; debug receipt + functional fidelity scorecard; Concept Inspector shows FUNCTIONAL SOURCE / regions / bottom nav lock. Source fingerprint invalidates stale maps on capture/architecture change.
@@ -11589,7 +10782,6 @@ New **`ScreenshotFunctionalPageMap`** layer between Page Architecture Brief and 
 **Branch:** `cursor/screenshot-function-map-intelligence-layer1-b747`. **Railway** + **GoDaddy v640** after merge.
 
 ---
-
 ## 2026-09-23 — Fix screenshotFunctionalPageMap TDZ in GPT2 mobile progress
 
 CI failed with **`ReferenceError: Cannot access 'screenshotFunctionalPageMap' before initialization`** in `executePageConceptCanonicalMobileStage.ts` because `onSlotUpdate` closed over the destructured `screenshotFunctionalPageMap` while `executePageConceptGpt2MobileConcepts` was still awaiting (callback runs mid-await → temporal dead zone).
@@ -11599,7 +10791,6 @@ CI failed with **`ReferenceError: Cannot access 'screenshotFunctionalPageMap' be
 - **Branch:** `cursor/fix-screenshot-function-map-tdz-b747`. **Railway** redeploy API after merge (API-only; no new GoDaddy ZIP required).
 
 ---
-
 ## 2026-09-23 — Page concept GENERATE dead click (session race) + GPT2 map brief fallback
 
 Founder: **Generate not working / no Fal jobs** after screenshot function-map layer.
@@ -11610,7 +10801,6 @@ Founder: **Generate not working / no Fal jobs** after screenshot function-map la
 - **Branch:** `cursor/fix-page-concept-generate-session-race-b747`. **Railway** + **GoDaddy** (frontend `usePageConceptGeneration.ts`).
 
 ---
-
 ## 2026-09-24 — Page concept CGPT stuck on PAGE INTELLIGENCE (step 1)
 
 Founder: Generate modal shows CGPT RUNNING / PAGE INTELLIGENCE but never advances (no Fal).
@@ -11620,13 +10810,11 @@ Founder: Generate modal shows CGPT RUNNING / PAGE INTELLIGENCE but never advance
 - **Branch:** `cursor/fix-page-concept-cgpt-stuck-progress-b747`. **Railway redeploy required.** GoDaddy ZIP for client capture inline change.
 
 ---
-
 ## 2026-09-24 — P0.VR.DESIGN-WORKSPACE-LIST-GRID-SYNC-AND-GALLERY-THUMBNAIL-REFINEMENT1
 
 Grid and List Design workspace now share **`DesignConceptCandidateGalleryRail`** + **`DesignConceptCandidateGalleryCard`** over the same `useTwinOpusDirectWorkspace` `candidateSections` (current + history), viewport badges, and selection actions. List dropped stale `data.candidates` placeholder **`LvCandidateSurface`** gallery cards. Concept gallery uses **`s00-design-concept-gallery-grid`** (`repeat(3, minmax(0, 1fr))`) for equal A/B/C width. Thumbnails: **`headerThumb`** 16:9 landscape header crop via CSS (`pageConceptConceptHeaderThumbnail.ts` metadata on gallery cards; full portrait unchanged for hero / inspect / fullscreen). Tests: `p0vrDesignWorkspaceListGridSyncAndGalleryThumbnailRefinement1.test.ts`. **Branch:** `cursor/design-workspace-list-grid-sync-gallery-b747`. **GoDaddy:** new ZIP after merge.
 
 ---
-
 ## 2026-09-24 — Generate still dead: capture preflight + durable run patches
 
 Founder: Generate still not reaching Fal after session-race fix.
@@ -11636,7 +10824,6 @@ Founder: Generate still not reaching Fal after session-race fix.
 - **Branch:** `cursor/fix-page-concept-generate-preflight-captures-b747`. **Railway** redeploy + **GoDaddy** ZIP + confirm Supabase migration on prod project.
 
 ---
-
 ## 2026-09-24 — P0.VR.DESIGN-WORKSPACE-PREVIEW-FIT-LATEST-RUN-AND-HERO-RAIL-RESTORE1
 
 Founder sprint: gallery card geometry locked; thumbnail header crop too zoomed; CURRENT GENERATION stale vs latest Fal/GPT2 run; hero CONCEPT white letterboxing (cover); missing right-side workflow rail under canonical viewport-family pipeline.
@@ -11648,7 +10835,6 @@ Founder sprint: gallery card geometry locked; thumbnail header crop too zoomed; 
 - **Tests:** `p0vrDesignWorkspacePreviewFitLatestRunAndHeroRailRestore1.test.ts`. **Branch:** `cursor/design-workspace-preview-fit-latest-run-hero-rail-b747`. **GoDaddy:** v645 ZIP after merge.
 
 ---
-
 ## 2026-09-24 — P0.VR.NDXBOOK-WEB-EXPRESSION-TERRITORIES-AND-ROUTE-CONTEXT-FIX1
 
 GPT2 mobile concepts were structurally better but still framed as Design workspace pages and A/B/C felt like palette/layout variants.
@@ -11660,7 +10846,6 @@ GPT2 mobile concepts were structurally better but still framed as Design workspa
 - **Tests:** `p0vrNdxbookWebExpressionTerritoriesAndRouteContextFix1.test.ts`. **Railway:** redeploy API. **GoDaddy:** v647+ ZIP (UI inspect + gallery labels).
 
 ---
-
 ## 2026-09-24 — P0.VR.HERO-RIGHT-RAIL-FULL-VERTICAL-RESTORE1
 
 Founder corrective: prior canonical rail was compact rows + bottom actions; wanted **full vertical** hero-right workflow stack like legacy placement (not accordion/drawer).
@@ -11671,7 +10856,6 @@ Founder corrective: prior canonical rail was compact rows + bottom actions; want
 - **Tests:** `p0vrHeroRightRailFullVerticalRestore1.test.ts`. **Branch:** `cursor/hero-right-rail-full-vertical-restore1-b747`. **GoDaddy:** v646 after merge.
 
 ---
-
 ## 2026-09-24 — P0.VR.DESIGN-WORKSPACE-V646-VISUAL-RESTORE-AND-LATEST-RUN-RECOVERY1
 
 Founder regression after v647: tiny hero concept, gallery left-clustered, **CURRENT GENERATION COULD NOT BE RESOLVED** despite visible FAL artifacts.
@@ -11682,7 +10866,6 @@ Founder regression after v647: tiny hero concept, gallery left-clustered, **CURR
 - **Tests:** `p0vrDesignWorkspaceV646VisualRestoreAndLatestRunRecovery1.test.ts`. **v647 intelligence preserved** (territories, route context, prompts untouched).
 
 ---
-
 ## 2026-09-24 — SITE 00 Production Release deploy_frontend FTP/SSH failure (PR #1137 CI)
 
 Founder GitHub mobile screenshots: **SITE 00 Production Release** `deploy_frontend` failed — FTP `Timeout (control socket)`, confirm step `FRONTEND_DEPLOY_FAILED`.
@@ -11693,7 +10876,6 @@ Founder GitHub mobile screenshots: **SITE 00 Production Release** `deploy_fronte
 - **Follow-up:** CI test job failed because vitest inherited `GITHUB_ACTIONS=true` — local-case tests now set `GITHUB_ACTIONS: ''` (PR #1139).
 
 ---
-
 ## 2026-09-25 — Design workspace visual fix2 (founder: “nothing changed” after #1137)
 
 Founder mobile screenshot (site00.com, LIST view): CONCEPT hero postage-stamp in black box; gallery A/B/C left-clustered small thumbs. Production manifest **was** on `2560c9d` (#1137 live) — resolution fix shipped; **presentation wiring incomplete**.
@@ -11703,7 +10885,6 @@ Founder mobile screenshot (site00.com, LIST view): CONCEPT hero postage-stamp in
 - **Deploy:** v649 ZIP after merge; hard refresh site00.com to bust Safari cache.
 
 ---
-
 ## 2026-09-25 — Design workspace hero/gallery/rail polish (founder follow-up)
 
 Founder: recover **right rail** lime/ghost button backgrounds; keep **3-column gallery** full panel width but **less zoom** into page; hero **CONCEPT** same container as CURRENT (centered contain), not top-pinned letterboxing.
@@ -11714,7 +10895,6 @@ Founder: recover **right rail** lime/ghost button backgrounds; keep **3-column g
 - **Tests:** updated `p0vrDesignWorkspaceV646VisualRestoreAndLatestRunRecovery1.test.ts` (crop 0.56, rail + heroReview assertions). **Branch:** `cursor/design-workspace-hero-gallery-visual-fix2-87ed`.
 
 ---
-
 ## 2026-09-25 — Canonical (grid) view gallery fix — not LIST
 
 Founder: agents were polishing **LIST** (`tod-lv-*` / `site00-twin-opus-list.css`) while the broken UX is **Canonical view** (view-mode grid icon = `TwinOpusDirectCanonicalView`, gallery `variant="grid"` → `tod-gallery_*` in `site00-twin-opus-direct.css`). PR #1140 commit literally scoped gallery body/card fixes to list only; canonical gallery body stayed **130px** fixed height → clustered/zoomed thumbs.
@@ -11723,7 +10903,6 @@ Founder: agents were polishing **LIST** (`tod-lv-*` / `site00-twin-opus-list.css
 - **QA:** validate **Canonical view** (not List) at golden artboard width.
 
 ---
-
 ## 2026-09-25 — Hero stale FAL images + capture-matched framing
 
 Founder: hero CONCEPT showed **old** mobile artifacts (not latest generation) and different aspect than CAPTURE SCREEN; must **look identical** in pane.
@@ -11734,7 +10913,6 @@ Founder: hero CONCEPT showed **old** mobile artifacts (not latest generation) an
 - **Tests:** `tests/designHeroComparePresentation.test.ts`.
 
 ---
-
 ## 2026-09-25 — Hero CONCEPT letterbox + gallery left-cluster (founder screenshots)
 
 Founder canonical/grid mobile: CONCEPT hero **postage-stamp centered** with side letterboxing vs CURRENT fill; gallery thumbs **clustered left** not 3-col full width.
@@ -11743,7 +10921,6 @@ Founder canonical/grid mobile: CONCEPT hero **postage-stamp centered** with side
 - **Gallery root cause:** grid rules lacked full-width stretch on rail + concept **buttons** in canonical CSS. **Fix:** `width: 100%`, `justify-self: stretch`, headerThumb `width: 100%` under grid.
 
 ---
-
 ## 2026-09-25 — Tunnel concept gallery parity (server hydration)
 
 Founder: cloud preview tunnel showed stale/missing FAL concept gallery vs **site00.com** (different origin `localStorage`; old boot skipped server fetch when any READY mobile existed locally).
@@ -11754,7 +10931,6 @@ Founder: cloud preview tunnel showed stale/missing FAL concept gallery vs **site
 - **Founder:** Redeploy **Railway API** from `main` after merge; tunnel/GoDaddy need fresh frontend bundle; sign in as founder on tunnel origin.
 
 ---
-
 ## 2026-09-25 — Tunnel gallery trace + mount (latest server concepts)
 
 Founder: tunnel must show **most recent** FAL concepts like deploy, not stale per-origin localStorage.
@@ -11765,7 +10941,6 @@ Founder: tunnel must show **most recent** FAL concepts like deploy, not stale pe
 - **Workspace:** listens for mount trace event to bump gallery revision.
 
 ---
-
 ## 2026-09-25 — Tunnel design page 404 (preview dist wipe + node inject)
 
 Founder: design page would not boot on tunnel — preview returned **404** (empty `/workspace/dist`).
@@ -11775,7 +10950,6 @@ Founder: design page would not boot on tunnel — preview returned **404** (empt
 - **Fix:** skip wipe/copy when source dist equals repo dist; inject meta via `SITE00_PREVIEW_INDEX` env + stdin heredoc only.
 
 ---
-
 ## 2026-09-25 — Tunnel still “generate” not gallery (stale CI dist + auth timing)
 
 Founder screenshot: Canonical overview, captures OK, but **NO MOBILE CONCEPTS YET** / generate CTAs on **site00.fsbw-dev.com**.
@@ -11787,7 +10961,6 @@ Founder screenshot: Canonical overview, captures OK, but **NO MOBILE CONCEPTS YE
 - **Still required:** Founder **sign in on tunnel origin** (not site00.com cookies); **Railway API** redeploy for `latestForPage` GET.
 
 ---
-
 ## 2026-09-25 — Gallery mount overwritten immediately (root cause)
 
 Founder: tunnel still empty after mount fixes — concepts **applied then wiped**.
@@ -11797,7 +10970,6 @@ Founder: tunnel still empty after mount fixes — concepts **applied then wiped*
 - **Also:** preview tunnel skip `clearPageConceptActiveServerRunId` on panel mount; bootstrap builds local dist when CI behind HEAD.
 
 ---
-
 ## 2026-09-26 — Page concept gallery sync all origins (site00.com = tunnel)
 
 Founder: gallery must match across browsers/tunnel/deploy — not tunnel-only server authority.
@@ -11808,7 +10980,6 @@ Founder: gallery must match across browsers/tunnel/deploy — not tunnel-only se
 - **Still requires:** founder sign-in per origin + Railway `latestForPage` API + GoDaddy deploy of new bundle.
 
 ---
-
 ## 2026-09-26 — Deploy gallery still stale (LOCAL_ALREADY_CURRENT + empty pre-sync)
 
 Founder: site00.com still not matching tunnel — same overwrite class as tunnel bug.
@@ -11819,7 +10990,6 @@ Founder: site00.com still not matching tunnel — same overwrite class as tunnel
 - **Apply base:** `applyMountedServerRunToClient` reloads state from storage immediately before merge (no stale `loaded` snapshot).
 
 ---
-
 ## 2026-09-26 — CI SPA htaccess activate (GoDaddy no shell)
 
 GitHub Actions **Activate SPA htaccess** failed: SSH backup prints "Shell access is not enabled"; verify failed on deep link.
@@ -11827,7 +10997,6 @@ GitHub Actions **Activate SPA htaccess** failed: SSH backup prints "Shell access
 - **Fix:** FTP **RNFR/RNTO** rename `htaccess-deploy.txt` → `.htaccess` (and nested) as primary; **skip SSH activate in CI** unless `GODADDY_SSH_ACTIVATE_ENABLED=true`; deep-link verify retries + probe `/projects/ndxbook/design`.
 
 ---
-
 ## 2026-09-26 — Gallery deploy sync + grid fix (duplicate storage overwrite)
 
 Founder: site00.com Design still showed **stale current generation** and **gallery thumbnails pinned left** (tunnel-class layout).
@@ -11837,7 +11006,6 @@ Founder: site00.com Design still showed **stale current generation** and **galle
 - **Layout:** CSS fallback grid on `[data-testid=page-concept-candidate-gallery] .tod-lv-gallery__rail--current` + hide carousel next; list/canonical body `--pageConceptGrid` class.
 
 ---
-
 ## 2026-09-26 — P0.VR NDXBOOK web expression art-direction amplification
 
 Sprint **P0.VR.NDXBOOK-WEB-EXPRESSION-ART-DIRECTION-AMPLIFICATION1**: strengthen WEB EXPRESSION TERRITORY before GPT2 without changing Function Map / bottom-nav locks.
@@ -11851,7 +11019,6 @@ Sprint **P0.VR.NDXBOOK-WEB-EXPRESSION-ART-DIRECTION-AMPLIFICATION1**: strengthen
 - **Regenerate concept** still reuses persisted `webExpressionTerritorySet` (`executePageConceptRegenerateMobile` unchanged).
 
 ---
-
 ## 2026-09-27 — Server-first gallery mount follow-up (authed always apply)
 
 Founder follow-up: tunnel vs deploy diverges when production keeps a **stale local snapshot** instead of re-mounting the durable server run (not FAL/tunnel-only).
@@ -11863,7 +11030,6 @@ Founder follow-up: tunnel vs deploy diverges when production keeps a **stale loc
 - **Tests:** `pageConceptGalleryServerMountClient` same-run fresher-local still applies; `pageConceptGalleryMountDebug.test.ts`.
 
 ---
-
 ## 2026-09-27 — P0.VR NDXBOOK brand familiarity layer 1
 
 Sprint **P0.VR.NDXBOOK-BRAND-FAMILIARITY-LAYER1**: upstream **NDX_BRAND_FAMILIARITY_BRIEF** before GPT2 mobile prompt — NDX graphic intelligence (temperament, image behavior, device vocabulary, type/composition rules, distinction vs generic editorial, function respect).
@@ -11875,7 +11041,6 @@ Sprint **P0.VR.NDXBOOK-BRAND-FAMILIARITY-LAYER1**: upstream **NDX_BRAND_FAMILIAR
 - **Tests:** `p0vrNdxbookBrandFamiliarityLayer1.test.ts`; art-direction test expects `NDX BRAND FAMILIARITY` in prompt.
 
 ---
-
 ## 2026-09-27 — NDXBOOK A/B brand familiarity amplify (corrective)
 
 Founder: Concept C strongest; A/B still read generic editorial — do **not** default all outputs to C.
@@ -11886,7 +11051,6 @@ Founder: Concept C strongest; A/B still read generic editorial — do **not** de
 - **Brief version:** `ndx-brand-familiarity-brief-v2-ab-amplify`.
 
 ---
-
 ## 2026-09-27 — P0.VR Design workspace Concept Intelligence Dock 1
 
 Sprint **P0.VR.DESIGN-WORKSPACE-CONCEPT-INTELLIGENCE-DOCK1**: replaced legacy bottom **CONCEPT DATA / ENTRY001 / Signal cover** panel with **Concept Intelligence Dock** (tabs CONCEPT · EXPRESSION · FUNCTION · LINEAGE · HISTORY · HANDOFF).
@@ -11897,37 +11061,31 @@ Sprint **P0.VR.DESIGN-WORKSPACE-CONCEPT-INTELLIGENCE-DOCK1**: replaced legacy bo
 - **Tests:** `p0vrDesignWorkspaceConceptIntelligenceDock1.test.ts`; opus-direct tab expectations updated.
 
 ---
-
 ## 2026-09-27 — Mobile gallery A/B/C row coalesce
 
 Founder: normal Safari/Chrome showed stale bundle (incognito fresh); incognito gallery **1-over-2** layout. Cause: only Concept B in `current`, A/C in `history` rail below. **`coalesceMobileConceptGalleryAbcRow`** in `pageConceptGalleryPresentation.ts` merges MOBILE slot cards into ordered A/B/C current row; grid `display: grid !important` reinforced. Production manifest may lag until GoDaddy ZIP deploy (v665+ Concept Intelligence Dock, v666+ gallery fix).
 
 ---
-
 ## 2026-09-27 — CI: Spark tabs + gallery history dedupe
 
 GitHub **SITE 00 Production Release / test** failed: Spark responsive still exported legacy `TWIN_SPARK_RESPONSIVE_CONCEPT_TABS` (`CONCEPT DATA` …) vs Opus dock tabs; GPT2 gallery test lost history when coalesce deduped by `conceptId` instead of `artifactId`. Fixed Spark tabs to CONCEPT/EXPRESSION/FUNCTION/LINEAGE/HISTORY/HANDOFF; **`galleryCardIdentity`** uses `artifactId ?? id` when removing picked cards from history rail.
 
 ---
-
 ## 2026-09-27 — Gallery coalesce: active-run guard
 
 CI **`p0vrDesignWorkspacePreviewFitLatestRunAndHeroRailRestore1`**: coalesce promoted run1 `art-b-r1` into CURRENT when run2 only had `art-a-r2`. **`coalesceMobileConceptGalleryAbcRow`** now takes `currentRunId` and only pulls history into the A/B/C row when `card.runId` matches the active run (or a card already in CURRENT). Same-run mis-bucket (B current, A/C history) still coalesces; cross-run partial regen does not.
 
 ---
-
 ## 2026-09-27 — Concept gallery fixed A/B/C slot grid
 
 Founder: after each new concept generation, gallery thumbnails **shrunk/clustered left** instead of spanning the panel. Cause: CURRENT rail rendered N flex/auto-placed cards (1–2 items → narrow first columns). **`pageConceptGalleryMobileSlotGrid`** + **`DesignConceptCandidateGalleryRail`** always render **three grid cells** (A/B/C) with empty placeholders; candidates pin to slot by `slotLabel` / `CONCEPT A` version string.
 
 ---
-
 ## 2026-09-27 — Gallery tap lag / preview jump
 
 Founder: tapping gallery thumbnails **lagged** and **preview jumped**. Causes: (1) `selectCandidate` called **`viewportFamilyHandlers.selectMobile`** (full API + `setGenerating`) on every tap; (2) MOBILE **`useEffect`** forced `candidateId` back to **`selectedMobileConceptId`** whenever they differed; (3) **`selectGalleryCandidate`** waited on network before UI; (4) per-candidate **`headerThumbnailCrop`** changed scale between cards. Fix: preview-only **`selectCandidate`**; authority sync only when `candidateId` not in gallery; optimistic **`applyLocalState`** on gallery select; uniform gallery header crop; stable transparent selection ring on concept cards.
 
 ---
-
 ## 2026-09-27 — P0.VR promoted project visual authority + capture sanitation 1
 
 Sprint **P0.VR.PROMOTED-PROJECT-VISUAL-AUTHORITY-AND-CAPTURE-SANITATION1**: stop phone/browser screenshot chrome from becoming design authority; lock mobile A/B/C to canonical **780×1688** canvas; **ProjectVisualAuthority** on explicit **PROMOTE PROJECT VISUAL AUTHORITY** (not gallery tap alone).
@@ -11941,7 +11099,6 @@ Sprint **P0.VR.PROMOTED-PROJECT-VISUAL-AUTHORITY-AND-CAPTURE-SANITATION1**: stop
 - **Not fully wired this sprint:** deep pixel letterbox analysis; full Opus twin request package injection (compile block exists); PageFamilySkin cascade beyond contract fields.
 
 ---
-
 ## 2026-09-27 — P0.VR project-in-SITE-00 expression authority scope correction 1
 
 Corrective sprint: **`ProjectVisualAuthority`** reframed as **`Site00ProjectExpressionAuthority`** — promoted Concepts define **SITE 00 × project fusion** inside **Projects**, not standalone brand website authority.
@@ -11954,7 +11111,6 @@ Corrective sprint: **`ProjectVisualAuthority`** reframed as **`Site00ProjectExpr
 - **Tests:** `p0vrProjectInSite00ExpressionAuthorityScopeCorrection1.test.ts` (8).
 
 ---
-
 ## 2026-09-27 — P0.VR concept A sanitize before promotion 1
 
 Sprint **P0.VR.CONCEPT-A-AUTHORITY-SANITIZE-BEFORE-PROMOTION1**: structural cleanup of selected concept artifact **before** **PROMOTE SITE 00 PROJECT EXPRESSION** — no redesign.
@@ -11965,19 +11121,16 @@ Sprint **P0.VR.CONCEPT-A-AUTHORITY-SANITIZE-BEFORE-PROMOTION1**: structural clea
 - **Tests:** `p0vrConceptAAuthoritySanitizeBeforePromotion1.test.ts` (4).
 
 ---
-
 ## 2026-09-27 — CI: GPT2 mobile package prompt 18k ceiling
 
 **SITE 00 Production Release / test** failed: `p0vrGpt2MobileProviderPromptCompaction1` — request package prompt **18077** chars (> **18_000**) after scope/sanitation blocks. Compacted capture guard, scope guard, canvas lock, founder preference; added `packagePromptCompressionPass` + `GPT2_MOBILE_REQUEST_PACKAGE_PROMPT_CEILING`.
 
 ---
-
 ## 2026-09-27 — CI deploy: SPA htaccess verify soft-fail
 
 **deploy_frontend** failed **SPA_HTACCESS_ACTIVATE_FAILED** when deep-link probe returned HTTP 200 but `spaShell:false` (GoDaddy propagation / dotfile lag after FTP RNFR). **`isSpaShellHtml`** expanded (boot shell + bundle markers); verify tries multiple canonical routes; **`SPA_HTACCESS_VERIFY_STRICT=false`** default — FTP activation success no longer fails job; **`verify_release`** still smoke-tests routes.
 
 ---
-
 ## 2026-09-27 — P0.VR mobile authority confirm + experience expression stage fix 1
 
 Sprint **P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1**: separate **Mobile Authority confirmation** from gallery selection; real **Experience Expression** artifact + dedicated review surface; gate Tablet/Desktop until experience **approved**.
@@ -11989,13 +11142,11 @@ Sprint **P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1**: 
 - **Tests:** `p0vrMobileAuthorityConfirmAndExperienceExpressionStageFix1.test.ts`; orchestration/page-family tests updated for confirm→generate→approve path.
 
 ---
-
 ## 2026-09-27 — P0.VR hero right rail button surface cleanup 1
 
 Sprint **P0.VR.HERO-RIGHT-RAIL-BUTTON-SURFACE-CLEANUP1** (styling only): restored SITE 00 hero workflow rail button surfaces — primary lime/black text, secondary black/lime text, tertiary white+border, disabled muted gray; **`data-action-surface`** on rail buttons; REVIEW* actions use **ink** not floating lime; **`designGpt2ViewportFamilyRailButtonSurface.ts`** + `p0vrHeroRightRailButtonSurfaceCleanup1.test.ts`.
 
 ---
-
 ## 2026-09-27 — P0.VR experience expression FAL generation review and handoff 1
 
 Sprint **P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1**: after **Mobile Authority** confirm, **Experience** generates **2–4 FAL edit images** anchored on the approved mobile concept (menu/drawer/overlay/combined per function map); **BASE PAGE** inherits mobile image; review/approve gates Tablet/Desktop.
@@ -12006,25 +11157,21 @@ Sprint **P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1**: after
 - **Tests:** `p0vrExperienceExpressionFalGenerationReviewAndHandoff1.test.ts` + existing mobile/experience stage tests pass.
 
 ---
-
 ## 2026-09-27 — Experience FAL fix: HTTPS mobile authority anchor
 
 Production FAL **`gpt-image-2/edit`** failed **“Failed to load the image”** because GPT2 mobile concepts store **`persisted.publicUrl` (HTTPS)**, but experience generation treated non–data-URI strings as raw base64 → corrupt upload. **`resolvePageConceptAuthorityImageForFal`** fetches HTTP(S) or parses data/base64 before **`fal.storage.upload`**. **CREATE EXPERIENCE** opens **experience-review** overlay and clears stale **`liveProgress`** so Step 3 is not stuck RUNNING in the generic panel.
 
 ---
-
 ## 2026-09-27 — P0.VR experience expression prompt orchestration and packaging 1
 
 Sprint **P0.VR.EXPERIENCE-EXPRESSION-PROMPT-ORCHESTRATION-AND-PACKAGING1**: modular **ExperienceExpressionPrompt** per state (BASE/MENU/PANEL/OVERLAY/COMBINED) with shared inheritance block; **ExperiencePackagingPlan** planner (prompt count ≠ output count, 2–5 total with BASE inherit); FAL v2 **`page-experience-expression-fal-v2-modular`**; **`assertModularPromptContract`** rejects legacy broad essay prompts; authority stores **packagingPlan**, **expressionPrompts**, **outputLineage**; review UI shows planned outputs + SINGLE/COMBINED labels; tablet/desktop handoff via enriched **overlayPatterns**.
 
 ---
-
 ## 2026-09-27 — P0.VR NDXBOOK Overview experience content spec 1
 
 **P0.VR.NDXBOOK-OVERVIEW-EXPRESSION-CONTENT-SPEC1:** **`ndxbookOverviewExperienceExpressionContentSpec.ts`** — page-specific prompts (BASE, MENU, ENTRY DETAIL / PANEL, PROJECT ACCESS / OVERLAY) with state-specific interaction language + visual inheritance from territory; packaging **3 FAL + 1 inherited BASE = 4 visuals**; **`validateNdxbookOverviewExperiencePackage`**; **`experiencePackageMetadata`**; **`regenerateExperienceExpressionState`** API + **REGENERATE THIS STATE** in review UI.
 
 ---
-
 ## 2026-09-27 — P0.VR page family blueprint before Opus 1
 
 Sprint **P0.VR.PAGE-FAMILY-BLUEPRINT-BEFORE-OPUS1**: formal **Page Family Blueprint** stage between **viewport family approved** and **Opus twin shells** — parent/child/grandchild nodes from Page System Review, function roles, inheritance buckets, child/grandchild directives, responsive shell archetypes, experience-package inheritance, founder **APPROVE PAGE FAMILY BLUEPRINT**, then **`OpusPageFamilyHandoff`**; gates Opus/twin on blueprint approval.
@@ -12037,7 +11184,6 @@ Sprint **P0.VR.PAGE-FAMILY-BLUEPRINT-BEFORE-OPUS1**: formal **Page Family Bluepr
 - **Tests:** `p0vrPageFamilyBlueprintBeforeOpus1.test.ts`; page-family skin contract tests updated for blueprint approve step.
 
 ---
-
 ## 2026-09-27 — P0.VR page family blueprint resolution and coverage proof 1
 
 Corrective sprint **P0.VR.PAGE-FAMILY-BLUEPRINT-RESOLUTION-AND-COVERAGE-PROOF1**: machine-resolved **PageFamilyCoverageMatrix** on every compiled blueprint (no placeholder receipt counts); **`buildPageFamilyCoverageReceipt`**; skin lifecycle **`READY_FOR_FOUNDER_APPROVAL`** vs **`FINALIZED`**; Opus handoff preview + **100% coverage** gate (**`OPUS_PAGE_FAMILY_HANDOFF_INCOMPLETE`**); removed phantom CHILD/GRANDCHILD Opus shells when no mapped pages; founder UI shows TOTAL/COVERED/UNDEFINED + handoff preview.
@@ -12046,7 +11192,6 @@ Corrective sprint **P0.VR.PAGE-FAMILY-BLUEPRINT-RESOLUTION-AND-COVERAGE-PROOF1**
 - **Tests:** `p0vrPageFamilyBlueprintResolutionAndCoverageProof1.test.ts`.
 
 ---
-
 ## 2026-09-27 — P0.VR page system review family expansion and experience review panel 1
 
 Sprint **P0.VR.PAGE-SYSTEM-REVIEW-FAMILY-EXPANSION-AND-EXPERIENCE-REVIEW-PANEL1**: interactive **Page System Review** (blueprint-backed counts, tappable CHILDREN/GRANDCHILDREN/FAMILY COVERAGE drill-down, **Page Family Inspector** tabs FUNCTION/DESIGN/EXPERIENCE/RESPONSIVE/LINEAGE) + dedicated **Experience Expression** overlay (`s00-pcg-layer--experience`) with visual cards, fullscreen inspect, package summary, **APPROVE EXPERIENCE PACKAGE**.
@@ -12056,7 +11201,6 @@ Sprint **P0.VR.PAGE-SYSTEM-REVIEW-FAMILY-EXPANSION-AND-EXPERIENCE-REVIEW-PANEL1*
 - **Tests:** `p0vrPageSystemReviewFamilyExpansionExperiencePanel1.test.ts`.
 
 ---
-
 ## 2026-09-27 — P0.VR page family interaction map and handoff gate 1
 
 Sprint **P0.VR.PAGE-FAMILY-INTERACTION-MAP-AND-HANDOFF-GATE1**: formal **Interaction Map** stage after page family blueprint — family-wide **`PageFamilyInteractionRecord`** inventory from **`DESIGN_INTERACTION_REGISTRY`** (excludes readonly decoration), **`PageFamilyInteractionCoverageMatrix`**, **`PageFamilyBuildReadiness`**, founder **`approvePageFamilyInteractionMap`** before **`OpusPageFamilyHandoff`**.
@@ -12067,13 +11211,11 @@ Sprint **P0.VR.PAGE-FAMILY-INTERACTION-MAP-AND-HANDOFF-GATE1**: formal **Interac
 - **Tests:** `p0vrPageFamilyInteractionMapAndHandoffGate1.test.ts`; blueprint/skin/PSR tests updated for interaction approve step.
 
 ---
-
 ## 2026-09-27 — P0.VR NDXBOOK page family hierarchy discovery fix 1
 
 Corrective **P0.VR.NDXBOOK-PAGE-FAMILY-HIERARCHY-DISCOVERY-AND-INGESTION-FIX1**: Page Family Blueprint + Page System Review now share **`discoverProjectPageFamilyLayout`** (canonical design registry + route/nav cross-check + parent resolution). NDXBOOK Overview anchor yields **7** canonical pages (**5** children, **1** grandchild Campaign Board under Content Ops), not 1/1 false complete. **`hierarchyReceipt`** on blueprint; guards **`PAGE_FAMILY_HIERARCHY_MISMATCH`**, **`PAGE_FAMILY_SOURCE_DIVERGENCE`**; Opus/interaction gates require **`HIERARCHY_DISCOVERY_STATUS = RESOLVED`**. PSR hierarchy diagnostic row in UI. **Tests:** `p0vrNdxbookPageFamilyHierarchyDiscoveryFix1.test.ts`.
 
 ---
-
 ## 2026-09-27 — P0.VR post-hierarchy family interaction coverage rebuild proof 1
 
 Sprint **P0.VR.POST-HIERARCHY-FAMILY-INTERACTION-COVERAGE-REBUILD-PROOF1**: prove rebuilt Interaction Map covers full **7-page** NDXBOOK family after v684 hierarchy fix (not stale **44** one-page totals).
@@ -12085,19 +11227,16 @@ Sprint **P0.VR.POST-HIERARCHY-FAMILY-INTERACTION-COVERAGE-REBUILD-PROOF1**: prov
 - **Tests:** `p0vrPostHierarchyFamilyInteractionCoverageRebuildProof1.test.ts`; hierarchy test expects **7/5/1** counts.
 
 ---
-
 ## 2026-09-27 — CI fix: PSR anchor subtree + twin orchestration gates
 
 Production **test** job failed: Content Ops PSR showed **2** direct children (Overview incorrectly included); GPT2 twin tests missing **approvePageFamilyBlueprint** / **approvePageFamilyInteractionMap** and expected obsolete **PAGE_FAMILY_CONTRACT** gate before lock (skin contract now approved with blueprint). **Fix:** `isDescendantOfAnchor` parent-walk in **`projectPageFamilyHierarchyDiscovery.ts`**; **`p0vrGpt2ViewportFamilyTwinOrchestration1.test.ts`** updated gate sequence.
 
 ---
-
 ## 2026-09-27 — CREATE EXPERIENCE parallel FAL generation
 
 Founder request: **CREATE EXPERIENCE** should generate all expression outputs **in parallel**, not sequentially. **`executePageConceptExperienceExpressionGeneration`** now uses **`Promise.all`** over **`renderExperienceExpressionFalTarget`** for each packaging-plan target (single API action; Railway FAL jobs fire together). Test: concurrent render proof in **`p0vrExperienceExpressionFalGenerationReviewAndHandoff1.test.ts`**. **Railway redeploy** required for live parallel behavior.
 
 ---
-
 ## 2026-09-27 — P0.VR experience package multi-output dispatch and review fix 1
 
 **Root cause:** live **`functionContract.route`** is **`/projects/ndxbook`** (no `overview` substring) → generic packaging collapsed to **one** FAL output (**`NDXBOOK_ROUTE_NOT_RECOGNIZED`** / **`ONLY_FIRST_PROMPT_ENQUEUED`**).
@@ -12105,55 +11244,46 @@ Founder request: **CREATE EXPERIENCE** should generate all expression outputs **
 **Fix:** broaden **`isNdxbookOverviewExperiencePage`**; **`validateExperiencePackagePlan`** + **`validateExperiencePackageMaterialization`**; per-state **`ExperienceGenerationJob`**; dispatch preserves existing MENU, skips FAL regen, **`Promise.allSettled`** for missing states; all FAL jobs use **approved mobile authority** URI; review panel **4/4 READY** + per-card status + **RETRY THIS STATE**. Tests: **`p0vrExperiencePackageMultiOutputDispatchAndReviewFix1.test.ts`**. **Railway + cPanel** deploy for API + review UI.
 
 ---
-
 ## 2026-09-27 — P0.VR experience content provenance and canonical content lock 1
 
 FAL may design interaction **look** but not invent product **taxonomy**. **`experienceContentManifest.ts`** + **`ndxbookExperienceContentManifest.ts`**: per-state manifests from page family hierarchy + entry model; prompts include **CANONICAL CONTENT — USE EXACTLY**; legacy labels (ENTRIES/EVIDENCE/PRODUCTION, ALL ENTRIES, KEY SIGNALS, etc.) audited as **INVENTED**; **`EXPERIENCE_CONTENT_INVENTED` / `UNDEFINED` / `INCOMPLETE`** block Experience approve; review cards show CONTENT VERIFIED/REVIEW/BLOCKED + inspector counts; tablet/desktop handoff + **COMPOSER_EXPERIENCE_CONTENT_GUARD** on contract. Tests: **`p0vrExperienceContentProvenanceAndCanonicalContentLock1.test.ts`**. **Railway + cPanel** deploy.
 
 ---
-
 ## 2026-09-27 — Mobile authority select/confirm persist across refresh
 
 Founder mobile concept **select + confirm** was lost on page refresh/navigation because authenticated **server gallery mount** always replaced localStorage with the Supabase run snapshot (no `viewportAuthorityFamily` founder progress). **Fix:** `pageConceptViewportAuthorityFamilyPersistence.ts` preserves local family progress after `applyPageConceptServerRunSnapshotForGalleryMount`; discovery scoring prefers confirmed authority; viewport-family API actions **`persistPageConceptStateToActiveServerRun`** patch durable run `pipelineSet`. Tests: `p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`. **Railway + cPanel** deploy.
 
 ---
-
 ## 2026-09-27 — P0.VR experience theme continuity and intentional contrast guard 1
 
 Light NDXBOOK Mobile Authority vs dark MENU ambiguity removed: **`experienceThemeContinuity.ts`** classifies **`authorityTheme`** (Overview → **LIGHT**), defaults prompts **`INHERIT_AUTHORITY`**, validates **`validateExperienceThemeContinuity`** (`THEME_MATCH` / `INTENTIONAL_CONTRAST_PENDING_FOUNDER_REVIEW` / `UNJUSTIFIED_THEME_DRIFT`). MENU **MIXED** localized contrast → pending founder review with archival-index rationale; global dark under inherit → **`EXPERIENCE_THEME_DRIFT`** blocks approve. Review cards show **THEME: INHERITED / INTENTIONAL CONTRAST**, founder **THEME MATCH ✓** vs **CONTRAST · REVIEW REQUIRED**, **REGENERATE WITH AUTHORITY THEME** (single-state `forceInheritAuthorityTheme`). Tablet/desktop handoff via contract **`overlayPatterns`** + **`experiencePackageMetadata`** theme fields. Tests: **`p0vrExperienceThemeContinuityAndIntentionalContrastGuard1.test.ts`**. **Railway + cPanel v687** for API + review UI.
 
 ---
-
 ## 2026-09-27 — CI fix: EXPERIENCE_CONTENT_INVENTED false positives on approve
 
 Vitest viewport-family suites failed **`approveExperienceExpression`** with **`EXPERIENCE_CONTENT_INVENTED`** because **`auditNdxbookLegacyPromptInventedLabels`** matched **`PRODUCTION`** inside prose (`in-production`) and did not exempt manifest-canonical labels. **Fix:** token regex `(?<![A-Za-z0-9-])…(?![A-Za-z0-9-])` + filter invented hits that appear in manifest destinations/fields/actions. Tests extended in **`p0vrExperienceContentProvenanceAndCanonicalContentLock1.test.ts`**.
 
 ---
-
 ## 2026-09-27 — P0.VR experience review panel design system alignment and readability 1
 
 Experience Review overlay rebuilt as **Generation Panel sibling**: opaque `s00-pcg` shell (`ExperienceReviewPanel` + section components), dark status strip, output nav, framed preview stage, details, filled action bar (black/white/lime). Empty/loading/error states live inside shell (not floating text). Overlay uses `s00-pcg-layer__scrollBody` + stronger scrim. Shared **`experienceReviewPresentation.ts`** for package status counts. Tests: **`p0vrExperienceReviewPanelDesignSystemAlignmentAndReadability1.test.ts`**. **cPanel v691**.
 
 ---
-
 ## 2026-09-27 — P0.VR existing truth plus functional expansion intelligence 1
 
 Three-layer model for NDXBOOK page-family intelligence: **ExistingPageTruth** → **ProposedFunctionalExpansion** (PROPOSED until Founder APPROVE/REJECT/DEFER) → approved content may enter FAL via **`approvedExpansionPromptBlock`** only. **`pageFunctionalExpansionIntelligence.ts`** + **`ndxbookFunctionalExpansionIntelligence.ts`**: capability analysis, FAL discovery audit (RECENT ACTIVITY, PROJECT ARCHIVE, etc. as candidates not trash), **`ExperienceStatePlan`**, Opus/Composer handoff helpers. Wired on **`confirmMobileAuthority`** + experience generation (**`injectApprovedFunctionalExpansionsIntoAuthority`**); **`decideFunctionalExpansion`** API/orchestration propagates approved items to blueprint **`expansionNotes`** + proposed interaction map additions. Page System Review **FUNCTIONAL EXPANSIONS** panel in **`DesignPageSystemReviewSection.tsx`**. Tests: **`p0vrExistingTruthPlusFunctionalExpansionIntelligence1.test.ts`**. **Railway + cPanel v690** for API + PSR UI.
 
 ---
-
 ## 2026-09-27 — P0.VR functional expansion upstream of authority concepts 1
 
 Moved NDXBOOK functional expansion **before GPT2 mobile A/B/C**: **`pageConceptPreConceptFunctionalExpansion.ts`** builds **`ApprovedFuturePageTruth`**, gates generation on **`FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW`** when PROPOSED expansions remain (**`continueGpt2AfterFunctionalExpansionReview`** to resume), recompiles **page architecture** + **screenshot function map**, injects same approved functional set into all three GPT2 prompts (visibility: MUST / RECESSED / INTERACTION_ONLY), lineage on pipeline set, post-concept **`PostConceptExpansionCandidate`** + major invalidation helper. Generation panel stage **FUNCTIONAL INTELLIGENCE** (4-step wizard). **`confirmMobileAuthority`** preserves pre-concept intelligence instead of rebuilding. Tests: **`p0vrFunctionalExpansionUpstreamOfAuthorityConcepts1.test.ts`**. **Railway + cPanel v692**.
 
 ---
-
 ## 2026-09-27 — CI fix: pre-concept expansion gate blocked Vitest GPT2 triple-concept runs
 
 **Root cause:** **`preConceptFunctionalExpansionGateEnabled`** stopped NDXBOOK **`runPageConceptGeneration`** in Vitest at **`FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW`** (0 jobs / 0 **`mobileConcepts`**) because integration tests do not founder-review PROPOSED expansions. **Fix:** skip live gate when **`VITEST=true`** unless **`SITE00_PAGE_CONCEPT_FORCE_PRECONCEPT_EXPANSION_GATE=1`**; gate logic still unit-tested. **Railway redeploy** for API.
 
 ---
-
 ## 2026-09-27 — FAL experience VIEW rail + review panel mount (no re-generate on view)
 
 Founder: after FAL generates experience expressions, outputs must appear in the **Experience Review** panel; hero rail should switch **CREATE EXPERIENCE** → **VIEW EXPERIENCE** and open the panel without firing a new full-package generation.
@@ -12166,7 +11296,6 @@ Founder: after FAL generates experience expressions, outputs must appear in the 
 - **Tests:** **`p0vrExperienceExpressionViewPanelMount1.test.ts`** + rail assertion in FAL handoff suite. **cPanel deploy** for SPA; no Railway change required (client/shared only).
 
 ---
-
 ## 2026-09-27 — Experience panel as generate/refine hub (rail opens only)
 
 Founder: **Experience Review** panel (not hero rail) is where FAL packages are generated and refined; rail **OPEN EXPERIENCE** / **VIEW EXPERIENCE** only expands the overlay.
@@ -12177,7 +11306,6 @@ Founder: **Experience Review** panel (not hero rail) is where FAL packages are g
 - **Tests:** **`p0vrExperiencePanelGenerateRefineHub1.test.ts`**. **cPanel v694+**.
 
 ---
-
 ## 2026-09-27 — P0.VR expanded nav hierarchy refinement 1 (MENU only)
 
 Founder sprint: refine **MENU / EXPANDED NAV** only — preserve approved light panel design; correct flat sibling nav so **Campaign Board** nests under **Content Ops** per Page Family Blueprint.
@@ -12190,7 +11318,6 @@ Founder sprint: refine **MENU / EXPANDED NAV** only — preserve approved light 
 - **Tests:** **`p0vrExpandedNavHierarchyRefinement1.test.ts`**. **Railway + cPanel** (API prompt dispatch).
 
 ---
-
 ## 2026-09-27 — P0.VR NDXBOOK Overview full expression coverage + expanded nav state
 
 Sprint: **ExperienceExpressionCoverageMap** for Overview — interactions → visual patterns → shared outputs (≤5 images); MENU demonstrates **PRIMARY_NAV_EXPANSION + NESTED_NAV_EXPANSION** (Content Ops expanded, Campaign Board nested); approval blocked when **`undefinedVisualPatterns > 0`**.
@@ -12203,7 +11330,6 @@ Sprint: **ExperienceExpressionCoverageMap** for Overview — interactions → vi
 - **Tests:** **`p0vrNdxbookOverviewFullExpressionCoverage1.test.ts`**. **Railway + cPanel v697+**.
 
 ---
-
 ## 2026-09-27 — P0.VR Experience Review hydration + single-state regeneration UX
 
 Founder sprint: Experience Review must **hydrate persisted FAL package** before showing NOT GENERATED; accurate package counts; per-output **INSPECT / REGENERATE**; **GENERATE MISSING OUTPUTS** when partial; stale package when mobile authority changes.
@@ -12217,7 +11343,6 @@ Founder sprint: Experience Review must **hydrate persisted FAL package** before 
 - **Tests:** **`p0vrExperienceReviewHydrationAndSingleStateRegenerationUx1.test.ts`**. **cPanel v698+** (UI).
 
 ---
-
 ## 2026-09-28 — P0.VR Experience legacy FAL artifact reconciliation + review UX fix
 
 Follow-up to v698: exhaustive **legacy FAL** recovery (route aliases `ndxbook:overview`, cross pageId buckets, expression label normalization), **`legacyReconciliationReceipt`** on authority, package status **PARTIAL** (not NOT_STARTED) when 1/4 materialized, mobile **output tabs**, selected-output action bar, technical lineage collapsed, **GENERATE N MISSING OUTPUTS** scoped after reconciliation.
@@ -12226,7 +11351,6 @@ Follow-up to v698: exhaustive **legacy FAL** recovery (route aliases `ndxbook:ov
 - **Tests:** **`p0vrExperienceLegacyFalArtifactReconciliation1.test.ts`**. **cPanel v699+**.
 
 ---
-
 ## 2026-09-28 — P0.VR Menu regen materialization + Experience Review output nav layout
 
 Sprint: MENU single-state regen must apply **NESTED_NAV_REFINEMENT** (Content Ops expanded, Campaign Board nested), **new artifact id** replaces active slot with **cache-bust** preview; legacy recovery cannot overwrite newer regen; Experience Review **sticky label tabs** (no preview overlap), state-specific actions (removed always-visible REGENERATE MENU), pending output card.
@@ -12237,7 +11361,6 @@ Sprint: MENU single-state regen must apply **NESTED_NAV_REFINEMENT** (Content Op
 - **Tests:** **`p0vrExperienceMenuRegenMaterializationAndReviewTabLayoutFix1.test.tsx`**, updated hierarchy + hydration tests. **Railway + cPanel v700+**.
 
 ---
-
 ## 2026-09-28 — P0.VR Experience output write-back slot mount + panel sync
 
 FAL success was not always reflected in Experience Review tabs (MENU **MISSING**, **0 FAL READY**) because package **output slots** were not the canonical write-back target — only loose `visualStates` / `generationJobs` with pageId bucket mismatches.
@@ -12248,7 +11371,6 @@ FAL success was not always reflected in Experience Review tabs (MENU **MISSING**
 - **Tests:** **`p0vrExperienceOutputWritebackSlotMountAndPanelSync1.test.ts`**. **Railway + cPanel v701+**.
 
 ---
-
 ## 2026-09-28 — Mobile authority rehydrate after browser data clear
 
 Founder cleared site data on NDXBOOK Overview (OPUS): gallery still showed Concept C selected but state table **MOBILE AUTHORITY PENDING**, **SELECT MOBILE CONCEPT** rail stayed active, **EXPERIENCE** disabled — `viewportAuthorityFamily` missing on cold load while durable `pipelineSet.selectedMobileConceptId` / `experienceExpressionAuthority` remained on Supabase run.
@@ -12259,7 +11381,6 @@ Founder cleared site data on NDXBOOK Overview (OPUS): gallery still showed Conce
 - **Tests:** extended **`p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`**. **cPanel v702+** (SPA only).
 
 ---
-
 ## 2026-09-28 — GPT2 mobile concept catalog + select alias fix
 
 Follow-up: **SELECT MOBILE CONCEPT** appeared dead after browser clear — gallery `conceptId` often comes from **`gpt2AuthorityConceptId`** on jobs while `pipelineSet.mobileConcepts` was empty or used different ids; **`CGPT_BRIEF_REQUIRED`** when only `creativeInjection` persisted on Supabase run.
@@ -12270,7 +11391,6 @@ Follow-up: **SELECT MOBILE CONCEPT** appeared dead after browser clear — galle
 - **Tests:** **`p0vrGpt2MobileConceptCatalogSelect1.test.ts`**. **cPanel v703+**.
 
 ---
-
 ## 2026-09-28 — Server run merge was clobbering viewport authority (poll + mount)
 
 Founder still saw **SELECT MOBILE AUTHORITY** after v703: **`applyServerRunSnapshotToState`** (generation run poll/reconnect) applied `run.pipelineSet` with a raw spread — **no** `preserveLocalViewportAuthorityFamilyProgressAfterServerMerge` / rehydrate — wiping `viewportAuthorityFamily` whenever Supabase run lacked founder fields. Tab visibility also re-ran **`preferServerGallery`** mount blindly.
@@ -12282,7 +11402,6 @@ Founder still saw **SELECT MOBILE AUTHORITY** after v703: **`applyServerRunSnaps
 - **Tests:** poll-merge case in **`p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`**. **cPanel v704+**.
 
 ---
-
 ## 2026-09-28 — Restore ready mobile gallery + stop GENERATE clobber + unstuck CGPT
 
 Founder pressed **GENERATE** to bring concepts back → stuck **RUNNING PAGE INTELLIGENCE** (`CGPT_RUNNING` without founder session). Remaining overwrites: **terminal run** handlers (`mergeTerminalRunResultIntoState`, CGPT retry, GPT2/NBP continue) used raw `applyPageConceptPipelineSet`; **experience review** spread `{...prev,...loaded}`; mount skip blocked server restore when local family ahead but gallery empty.
@@ -12293,7 +11412,6 @@ Founder pressed **GENERATE** to bring concepts back → stuck **RUNNING PAGE INT
 - **Cancel** clears stuck `generating` + recovers state. **Tests:** **`p0vrPageConceptInFlightRecoveryAndRestore1.test.ts`**. **cPanel v705+**.
 
 ---
-
 ## 2026-09-28 — Restore mobile gallery server-first (fix GENERATE trap v705 gap)
 
 Founder still stuck **RUNNING PAGE INTELLIGENCE** after pressing GENERATE to bring concepts back — restore only ran when **local** already had READY mobile (wiped after new-branch reset), and server/poll merge re-applied stale **`CGPT_RUNNING`** + **`PAGE_INTELLIGENCE`** from durable run snapshot.
@@ -12304,7 +11422,6 @@ Founder still stuck **RUNNING PAGE INTELLIGENCE** after pressing GENERATE to bri
 - **`pageConceptInFlightRecovery`** — idle/PLANNED + READY mobile → **`GPT2_MOBILE_AWAITING_SELECTION`**. **Tests:** **`p0vrPageConceptMobileGalleryRestore1.test.ts`**. **cPanel v706+**.
 
 ---
-
 ## 2026-09-28 — Empty gallery + disabled GENERATE/SELECT (stale CGPT UI gate)
 
 Founder on NDXBOOK Overview: **NO MOBILE CONCEPTS YET**, **SELECT MOBILE CONCEPT** disabled (no gallery selection), gallery **GENERATE** disabled when persisted **`CGPT_RUNNING`** without active founder session.
@@ -12313,7 +11430,6 @@ Founder on NDXBOOK Overview: **NO MOBILE CONCEPTS YET**, **SELECT MOBILE CONCEPT
 - **Workspace:** auto server restore when mobile gallery empty + signed in; reconcile orphan jobs; auto-select first mobile candidate when gallery repopulates; empty-state CTA **RESTORE PAGE CONCEPTS**. **cPanel v707+**.
 
 ---
-
 ## 2026-09-28 — Restore still no-op: project-wide Supabase gallery scan + run-id retry
 
 Founder tapped **RESTORE PAGE CONCEPTS** — modal stayed empty (Step 3 placeholders). Root cause: **latest-for-page** missed durable runs when **`page_id`** alias ≠ registry id; restore success ignored **gallery candidate** visibility; no feedback when server had nothing.
@@ -12323,7 +11439,6 @@ Founder tapped **RESTORE PAGE CONCEPTS** — modal stayed empty (Step 3 placehol
 - **Railway redeploy required** (API). **cPanel v708+** (SPA).
 
 ---
-
 ## 2026-09-28 — CI test timeouts (Production Release #1217)
 
 **SITE 00 Production Release** failed: 12 tests timed out at 60s — `clientProjectRoomP0Client2A`, `intakeService`, `orchestrationEnrichment`, `projectsIndexContract` (Supabase + heavy imports under parallel CI load, not gallery restore logic).
@@ -12333,7 +11448,6 @@ Founder tapped **RESTORE PAGE CONCEPTS** — modal stayed empty (Step 3 placehol
 - **orchestrationEnrichment:** static import. **intakeService:** 120s on production-mode probe.
 
 ---
-
 ## 2026-09-28 — Durable NDXBOOK mobile concepts exist; mount without regen
 
 Founder asked whether agent can **retrieve latest FAL/mobile outputs** and mount instead of wasting credits. **Supabase (FS Website)** confirms **3 READY `GPT2_MOBILE`** jobs on run **`pcgr-1790520287592-55ipmm8`** (`GPT2_MOBILE_AWAITING_SELECTION`, PNGs in public storage); newer **`pcgr-1790565884617-obzrrwh`** is empty **`CGPT_RUNNING`** (0 jobs) and was blocking restore/poll. No **`FAL_EXPERIENCE`** jobs on overview page-concept runs — mobile gallery is GPT2 mobile, not Experience FAL.
@@ -12343,7 +11457,6 @@ Founder asked whether agent can **retrieve latest FAL/mobile outputs** and mount
 - **Client latest-for-page:** only considers runs with READY mobile gallery. **Railway + cPanel** redeploy for founder **RESTORE PAGE CONCEPTS**.
 
 ---
-
 ## 2026-09-28 — RESTORE PAGE CONCEPTS opened empty GENERATE modal (fix)
 
 Founder on **site00.fsbw-dev.com**: **RESTORE PAGE CONCEPTS** opened **GENERATE PAGE CONCEPTS** panel (all PENDING) instead of mounting Supabase gallery.
@@ -12352,7 +11465,6 @@ Founder on **site00.fsbw-dev.com**: **RESTORE PAGE CONCEPTS** opened **GENERATE 
 - **Fix:** **`restorePageConceptsFromGallery`** — restore-only, no modal; empty gallery button uses it. Restore uses live **`ensurePageConceptApiAccessToken()`** not React session flag. **`fetchLatestPageConceptGenerationRunForPageApi`** 401 retry. Gallery empty secondary line shows **`executionError`**. **cPanel v710+**; **Railway** if API not on #1219 yet.
 
 ---
-
 ## 2026-09-28 — CI client review tests flaky (Production Release)
 
 **SITE 00 Production Release / test** — 2 failures: **`clientProjectRoomP0Client2`** comment not found; **`clientProjectRoomP0Client2A`** approval expected APPROVED got DECLINED. Shared Supabase preview fixture **`review-identity-direction-02`** mutated across parallel test **files** (decline vs approve).
@@ -12362,7 +11474,6 @@ Founder on **site00.fsbw-dev.com**: **RESTORE PAGE CONCEPTS** opened **GENERATE 
 - **`vitest.config.ts`** — CI **`fileParallelism: false`**.
 
 ---
-
 ## 2026-09-28 — Generate vs restore both dead; panel would not open (fix)
 
 Founder: **GENERATE** and **RESTORE PAGE CONCEPTS** produced no results; **page concepts panel stopped opening** on Generate.
@@ -12372,7 +11483,6 @@ Founder: **GENERATE** and **RESTORE PAGE CONCEPTS** produced no results; **page 
 - **Deploy:** cPanel ZIP after merge; Railway if not on #1219+ for server mount.
 
 ---
-
 ## 2026-09-28 — RESTORE still empty after #1222 (Supabase scan depth)
 
 Founder on **fsbw-dev** still saw **NO MOBILE CONCEPTS YET** + restore error after panel fix.
@@ -12381,7 +11491,6 @@ Founder on **fsbw-dev** still saw **NO MOBILE CONCEPTS YET** + restore error aft
 - **Fix:** API **paginated scan** (600 rows) for gallery-ready runs; overview legacy page_id without route; **screenId/route** on server expand; client clears bad pinned run; clearer **NO_SERVER_RUN** message. **Railway redeploy required** for API half; cPanel for client.
 
 ---
-
 ## 2026-09-28 — Tunnel sign-in page hang (no redirect)
 
 Founder: **site00.fsbw-dev.com** sign-in **hangs** — no redirect after password.
@@ -12390,7 +11499,6 @@ Founder: **site00.fsbw-dev.com** sign-in **hangs** — no redirect after passwor
 - **Fix:** Single **`useSite00SignInBootstrap`** on `Site00AuthShell`; **preview fast path** (minimal user + 4s profile timeout); **promiseWithTimeout** on profile sync; **8s** timeouts on session-restore/cookie fetches. Magic links still need Supabase redirect allow for the **cloud preview hostname** (same host as tunnel).
 
 ---
-
 ## 2026-09-28 — Auto-mount page concept gallery (no RESTORE button)
 
 Founder asked to **patch the FAL/generate vs mount break** so durable **GPT2_MOBILE** (FAL-backed) concepts mount automatically — no manual RESTORE.
@@ -12399,7 +11507,6 @@ Founder asked to **patch the FAL/generate vs mount break** so durable **GPT2_MOB
 - **`designPageMobileConceptGalleryIsEmpty`** helper; UI **SYNCING PAGE CONCEPTS…** during auto sync; **CORE.md** documents GPT2_MOBILE vs FAL_EXPERIENCE split.
 
 ---
-
 ## 2026-09-28 — SELECT MOBILE CONCEPT blocked by production sync + API gate
 
 Founder on **site00.com**: gallery A/B/C visible, **SELECT MOBILE CONCEPT** did not advance **MOBILE AUTHORITY** / **OPEN EXPERIENCE**; **AUTHORITY STATE UNAVAILABLE** banner after tap.
@@ -12409,7 +11516,6 @@ Founder on **site00.com**: gallery A/B/C visible, **SELECT MOBILE CONCEPT** did 
 - **Founder flow after deploy:** Tap gallery **SELECT MOBILE CONCEPT** → hero **CONFIRM MOBILE AUTHORITY** → **OPEN EXPERIENCE** (expression). Dismiss stale error banner if shown; hard refresh after cPanel ZIP.
 
 ---
-
 ## 2026-09-28 — Design page crash after concept gallery sync (post-v715)
 
 Founder: concepts **sync on deploy** then **page crashes** (white / React max update depth).
@@ -12419,7 +11525,6 @@ Founder: concepts **sync on deploy** then **page crashes** (white / React max up
 - **Deploy:** cPanel ZIP after merge; hard refresh NDXBOOK design overview after sync completes.
 
 ---
-
 ## 2026-09-28 — Tunnel SELECT MOBILE CONCEPT dead after gallery sync
 
 Founder: **SELECT MOBILE CONCEPT** dead on **preview tunnel** (concepts sync OK).
@@ -12428,7 +11533,6 @@ Founder: **SELECT MOBILE CONCEPT** dead on **preview tunnel** (concepts sync OK)
 - **Fix:** Sync **`localState`** to storage before API; merge remote with **`preserveLocalViewportAuthorityFamilyProgressAfterServerMerge`**; **`resolveCgptBriefIdsForViewportFamily`** job-id fallback; canonical GPT2 **select-mobile** without strict row gate. For tunnel testing latest JS: **`SITE00_CLOUD_PREVIEW_MODE=local`** + restart preview tunnel (or wait for CI dist).
 
 ---
-
 ## 2026-09-28 — P0.VR.RIGHT-RAIL-VISUAL-BUTTON-SYSTEM-RESTORE1
 
 Founder sprint: hero **right rail** looked unfinished — inactive actions nearly invisible.
@@ -12439,7 +11543,6 @@ Founder sprint: hero **right rail** looked unfinished — inactive actions nearl
 - **Tests:** `p0vrRightRailVisualButtonSystemRestore1.test.ts` + updated mobile authority / surface cleanup tests.
 
 ---
-
 ## 2026-09-28 — P0.VR.RIGHT-RAIL-CANONICAL-WORKFLOW-RESTORE2
 
 Corrective sprint after RESTORE1 over-expanded the hero rail into a scrolling multi-action debugger.
@@ -12452,7 +11555,6 @@ Corrective sprint after RESTORE1 over-expanded the hero rail into a scrolling mu
 - **Tests:** `p0vrRightRailCanonicalWorkflowRestore2.test.ts`; updated hero rail / experience / mobile authority tests.
 
 ---
-
 ## 2026-09-28 — P0.VR.RIGHT-RAIL-CONFIRMED-AUTHORITY-DOWNSTREAM-GATE1
 
 Formalized **SELECT → CONFIRM → downstream unlock** on canonical hero rail.
@@ -12462,7 +11564,6 @@ Formalized **SELECT → CONFIRM → downstream unlock** on canonical hero rail.
 - **Tests:** `p0vrRightRailConfirmedAuthorityDownstreamGate1.test.ts`.
 
 ---
-
 ## 2026-09-28 — P0.VR.RESPONSIVE-VIEWPORT-GENERATION-THEN-EXPRESSION-WORKFLOW1
 
 Split Desktop/Tablet into **base viewport screen generation** then **viewport expression packages** (distinct from mobile experience).
@@ -12474,7 +11575,6 @@ Split Desktop/Tablet into **base viewport screen generation** then **viewport ex
 - **Tests:** `p0vrResponsiveViewportGenerationThenExpressionWorkflow1.test.ts`.
 
 ---
-
 ## 2026-09-28 — P0.VR.DESIGN-WORKSPACE-PIPELINE-REACTIVITY-AND-STALE-STATE-ELIMINATION1
 
 Canonical **DesignWorkspacePipelineState** + shared selectors/hooks so GPT2 Design Workspace surfaces react from one compiled pipeline (not per-panel legacy inference).
@@ -12488,7 +11588,6 @@ Canonical **DesignWorkspacePipelineState** + shared selectors/hooks so GPT2 Desi
 - **Tests:** `p0vrDesignWorkspacePipelineReactivity1.test.ts`.
 
 ---
-
 ## 2026-09-28 — P0.NDX.NARRATIVE-MOMENTUM-ENGINE1
 
 Story architecture layer between **Creative Concept Territory** and **Format / Storyboard** execution.
@@ -12500,7 +11599,6 @@ Story architecture layer between **Creative Concept Territory** and **Format / S
 - **Tests:** `p0ndxNarrativeMomentumEngine1.test.ts`; journey tests updated for 12 stages.
 
 ---
-
 ## 2026-09-28 — Tunnel sign-in autofill + post-auth redirect
 
 Cloud preview tunnel sign-in failed when password managers autofilled: **two** `Site00SignInForm` instances (desktop + mobile) stayed mounted; autofill often filled hidden desktop fields while submit read empty mobile state → **PASSWORD IS REQUIRED** / no `returnTo` redirect.
@@ -12510,7 +11608,6 @@ Cloud preview tunnel sign-in failed when password managers autofilled: **two** `
 - **Tests:** `fixTunnelSignInAutofillRedirect1.test.ts`.
 
 ---
-
 ## 2026-09-28 — Tunnel sign-in still stuck (bootstrap / preview detection)
 
 Founder: sign-in on tunnel **still stuck** after autofill fix — something else blocking load/redirect.
@@ -12520,7 +11617,6 @@ Founder: sign-in on tunnel **still stuck** after autofill fix — something else
 - **Branch:** `cursor/fix-tunnel-sign-in-bootstrap-loading-b747`.
 
 ---
-
 ## 2026-09-29 — Narrative Momentum missing on tunnel / mobile Expression Engine
 
 Founder could not see **Narrative Momentum** on Expression Engine page (tunnel / phone).
@@ -12530,7 +11626,6 @@ Founder could not see **Narrative Momentum** on Expression Engine page (tunnel /
 - **Branch:** `cursor/nme-mobile-workspace-visibility-87ed` (PR #1240).
 
 ---
-
 ## 2026-09-29 — CI test timeouts (countPreviewFixtures + site00Projects)
 
 Production Release CI: **35 failures** — `Test timed out in 120000ms`; stack at **`countPreviewFixtures`** (client review preview seed) and **`site00Projects.test`** / **`aioProjectIndex.test`** (`listSite00FounderProjects` → astral-world Supabase).
@@ -12540,7 +11635,6 @@ Production Release CI: **35 failures** — `Test timed out in 120000ms`; stack a
 - **Tests:** `fixCiPreviewFixturesMemory1.test.ts`; client room + projects suites green locally.
 
 ---
-
 ## 2026-09-29 — Expression Engine stuck on “Loading Expression Engine…”
 
 Founder: tunnel/mobile hung on loading spinner for Expression Engine Entry 002.
@@ -12550,7 +11644,6 @@ Founder: tunnel/mobile hung on loading spinner for Expression Engine Entry 002.
 - **Branch:** `cursor/fix-expression-engine-load-stuck-87ed`.
 
 ---
-
 ## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-PRECISION-AND-REVIEW-UX1
 
 Sprint refined Narrative Momentum Engine intelligence + founder review UX without rebuilding grammar library / Cultural Glitch / Entry 002 retroactive ingest.
@@ -12561,19 +11654,16 @@ Sprint refined Narrative Momentum Engine intelligence + founder review UX withou
 - **Branch:** `cursor/nme-precision-review-ux1-87ed`.
 
 ---
-
 ## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-COMPACT-WIZARD-WORKSPACE1
 
 Founder review migrated from scroll document to **6-step wizard** (shift → beats → tension/proof → reframe/loop → formats → review): `ExpressionEngineNarrativeMomentumPanel`, `site00-narrative-momentum-wizard.css`, inspectors (beat/proof/flag/reel/carousel), sticky action bar, localStorage step persistence, step-6 approval blockers from primary `SOURCE_REQUIRED` proof. Intelligence compile unchanged. Tests `p0ndxNarrativeMomentumCompactWizard1.test.ts`. PR **#1244**.
 
 ---
-
 ## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-NDXBOOK-ART-DIRECTION-REBUILD1
 
 Rebuilt NME wizard **visual expression** (architecture unchanged): editorial chapter index rail, paper/black evidence/archival plate surfaces, thesis spread, beat ledger, tension graph on black field, proof ledger, cultural glitch block, filmstrip/contact-sheet formats, review board + black founder sign-off field, dossier inspectors. Derived content mobile cards aligned (`site00-ee-ref-derived--ndx-index`). Tests `p0ndxNarrativeMomentumArtDirection1.test.ts`. PR **#1245**.
 
 ---
-
 ## 2026-09-29 — P0.STUDIO-WORLD-ACTOR-CATALOGUE-CASTING-AND-CHARACTER-AUTHORITY1
 
 Built cross-project **Studio World Acting Catalogue** and formal **CAST** stage before treatment/storyboard.
@@ -12584,7 +11674,6 @@ Built cross-project **Studio World Acting Catalogue** and formal **CAST** stage 
 - **Entry 002:** Retroactive map SW-017 same woman 2016/2026 temporal looks; no approved asset regen. PR **#1246**.
 
 ---
-
 ## 2026-09-29 — P0.SW.MODULAR-PRODUCTION-ENGINE1
 
 Formalized Studio World as a **modular reusable production engine** (Phase 1: schema + architecture, no new UI).
@@ -12594,17 +11683,13 @@ Formalized Studio World as a **modular reusable production engine** (Phase 1: sc
 - **Tests:** `p0SwModularProductionEngine1.test.ts` (9).
 
 ---
-
 ## 2026-09-29 — P0.SW.MODULAR-PRODUCTION-ENGINE-MISSING-LAYERS-AND-OPERATIONALIZATION1
 
 Augmented modular engine (does not replace MODULAR-PRODUCTION-ENGINE1) with operational layers in `modular-production-engine/operational/`: role-first casting + catalogue match outcomes, staged Actor Genesis (3 face max), performance/wardrobe/hair/makeup/environment/set/scene assembly types, ungrounded asset guard, client entitlements/ledger, cost guards, Entry 002 operational migration. Doc: `MODULAR-PRODUCTION-ENGINE-OPERATIONAL-LAYERS1.md`. Tests: `p0SwModularProductionEngineMissingLayers1.test.ts` (17).
 
 ---
-
 ## 2026-09-29 — P0.SW.MARKETING-WEBSITE-TO-STUDIO-WORLD-COMMERCIAL-PIPELINE-INTEGRATION1
-
 ## 2026-09-29 — P0.SITE00.ALL-SERVICES-COMMERCIAL-WIRING-AUDIT1
-
 ## 2026-09-29 — P0.SITE00-COMMERCIAL-CANON-AND-FULFILLMENT-SPINE1
 
 Established `shared/site00-commercial-canon/`: Site00ServiceCatalog, dual-tree resolution (evolve-commercial canonical, evolve-pricing legacy display), legacy aliases, 8 fulfillment families, ServiceFulfillmentAdapter registry (Marketing reuses PR #1249), shared entitlement/deliverable/bootstrap contracts, FulfillmentStatus, payment readiness selector (gate BLOCKED), founder decision register (12), orphan/duplicate resolutions, mock surface classification, wiring matrix v2. Doc: `docs/SITE_00_COMMERCIAL_CANON_AND_FULFILLMENT_SPINE1.md`. Tests: `p0Site00CommercialCanonAndFulfillmentSpine1.test.ts` (20). **0 PAYMENT_READY** — architecture only.
@@ -12618,7 +11703,6 @@ Forensic audit of all customer-facing monetizable services: inventory (25 rows),
 Wired modular-engine commercial model to **real** EVOLVE Marketing (no parallel routes): audit in `shared/site00-marketing-commercial/auditConstants.ts`; service-category → `MarketingEntitlementTemplate`; payment `confirmMarketingPayment` → `ensureCommercialOnPayment`; provision → `ensureCommercialOnProvision` + `commercial_state` jsonb migration; API `commercial-production-action` / `commercial-test-addon`; engagement workspace allowance UI. Doc: `docs/studio-world/MARKETING-COMMERCIAL-PIPELINE-INTEGRATION1.md`. Tests: `p0SwMarketingCommercialPipelineIntegration1.test.ts` (11). Full signed-in browser E2E (casting/add-on/resume) still needs Supabase migration applied + post-deploy QA on engagement workspace.
 
 ---
-
 ## 2026-09-29 — P0.SITE00-IDENTITY-COMMERCIAL-FULFILLMENT-INTEGRATION1
 
 First service-family wave: wire IDENTITY offers through commercial canon spine (no Stripe).
@@ -12632,7 +11716,6 @@ First service-family wave: wire IDENTITY offers through commercial canon spine (
 - **Honest status:** **NOT FULLY_WIRED** — `FD-IDNTY-TIER-PURCHASE` remains; `isServicePaymentReady` still false (custom quote + quote flow gaps); numeric entitlement enforcement not defined in canon; full intake→authorize→project→workspace→deliverable E2E requires Supabase migration + founder QA.
 
 ---
-
 ## 2026-09-29 — P0.SITE00-IDENTITY-COMMERCIAL-FULFILLMENT-CLOSEOUT1
 
 Surgical closeout on integration PR #1253 baseline (release v732). **Merged PR #1254.**
@@ -12647,7 +11730,6 @@ Surgical closeout on integration PR #1253 baseline (release v732). **Merged PR #
 - **FULLY_WIRED:** NO. **READY_FOR_FOUNDER-IDENTITY-COMMERCIAL-QA:** NO until migration + Railway + live E2E.
 
 ---
-
 ## 2026-09-29 — P0.SITE00-PRODUCTION-WORKSPACE-RELOCATION-AND-ADMIN-BOUNDARY1
 
 Relocate Design off Projects; admin-only **Production Workspace** with three pillars (DESIGN / EXPERIENCE / EXPRESSION).
@@ -12660,7 +11742,6 @@ Relocate Design off Projects; admin-only **Production Workspace** with three pil
 - **Browser QA:** admin hub + design/experience/expression + legacy redirect PASS; client production block PASS (local preview + cloud preview partial).
 
 ---
-
 ## 2026-09-29 — Narrative Momentum widget rebuild + Production/Projects mobile visual reconstruction
 
 Two sprints in one chat, both UX/UI only (no routing, auth, data or schema changes beyond small additive items).
@@ -12672,7 +11753,6 @@ Two sprints in one chat, both UX/UI only (no routing, auth, data or schema chang
 - **Conventions:** Host shell owns red + near-black; project palettes (NDXBOOK lime) stay inside project content (the embedded Narrative Momentum surface). Imagery in `public/site00/production-mobile/` are low-res stand-in plates cropped from the founder reference pack — replace with approved authority imagery. Character/actor/look plates use monograms, never stand-in faces. No data exists yet for Entry 002 sets, performance skins or non-actor libraries; those screens show honest empty states.
 
 ---
-
 ## 2026-09-29 — Production Hub authority reconstruction (Sonnet machine + Grok asset handoff)
 
 Across this chat: NME widget rebuild, Projects/Production mobile reconstruction, tunnel QA (no access), then the Production Hub sprint (P0.PRODUCTION-HUB.AUTHORITY-RECONSTRUCTION-AND-HANDOFF1).
@@ -12684,7 +11764,6 @@ Across this chat: NME widget rebuild, Projects/Production mobile reconstruction,
 - **Conventions:** images only via `HubImage` slots + receipts; regenerate the manifest after adding receipts; earlier-sprint stand-in crops in `public/site00/production-mobile/` are not used by the Hub and should be removed.
 
 ---
-
 ## 2026-09-30 — Production Hub immersive design refinery (visual layer only)
 
 Sprint P0.PRODUCTION-HUB.OPUS-IMMERSIVE-DESIGN-REFINERY1 on top of Sonnet's hub (78fc0e8 → d35de9c).
@@ -12695,7 +11774,6 @@ Sprint P0.PRODUCTION-HUB.OPUS-IMMERSIVE-DESIGN-REFINERY1 on top of Sonnet's hub 
 - **Conventions:** Material tokens are `--pm-*` and z-layers are `--pz-*`. Red is reserved for live, selected, beam, founder attention and hot routing. Every piece of decorative machinery is `aria-hidden` with `pointer-events: none`. No raster was used and no Grok assets were generated.
 
 ---
-
 ## 2026-09-30 — Production Hub pixel-fidelity convergence (supersedes refinery CSS)
 
 Sprint P0.PRODUCTION-HUB.OPUS-PIXEL-FIDELITY-CONVERGENCE1.
@@ -12711,7 +11789,6 @@ Sprint P0.PRODUCTION-HUB.OPUS-PIXEL-FIDELITY-CONVERGENCE1.
 - **Conventions:** Chamber-relative y = authority page y − 75. Keep the `CHAMBER_HEIGHT` values in sync with the CSS heights (LIVE 690 / FLOW 1050 / DEPS 715 / expanded 980).
 
 ---
-
 ## 2026-09-30 — Authority photographs and nav icons mounted on Hub and Character Fabrication
 
 Founder sent all 31 authority screens (Production Hub 00–14 and Character Fabrication 5414–5429) and required the live machines to use those images, assets, and icons.
@@ -12728,7 +11805,6 @@ Founder sent all 31 authority screens (Production Hub 00–14 and Character Fabr
 - **Conventions:** New photographs enter only as receipt URLs under `public/site00/production-hub/` or `public/site00/character-fabrication/` (slot id, dots as slashes, `.webp`). Regenerate the fabrication manifest after receipt edits. Do not bake brackets, badges, captions, or selection chrome into the crop.
 
 ---
-
 ## 2026-09-30 — Shared production chrome and authority nav glyphs
 
 Founder asked why the bottom-panel icons still did not match the authority, and required the top and bottom bars on Production, Character Fabrication, and the other production workspaces to be the same chrome and to line up.
@@ -12744,7 +11820,6 @@ Founder asked why the bottom-panel icons still did not match the authority, and 
 - **Conventions:** Production header and bottom nav are the hub 864 bar. New production surfaces use `ProductionChromeStrip`, not a second icon set or a dark `.pw-nav`.
 
 ---
-
 ## 2026-09-30 — Authority environment family (three worlds, not 31 backgrounds)
 
 Founder required a forensic environment family for Production Hub and Character Fabrication from the 31 authority screens, then reconstruction of only the worlds those screens actually use. Prior “one background per workspace” is superseded. Plates are not wired.
@@ -12760,7 +11835,6 @@ Founder required a forensic environment family for Production Hub and Character 
 - **Conventions:** Do not add an environment plate for a modal, a player frame, or a photograph that already lives in a foreground slot. New production/fabrication worlds go in semantic `environments/` paths only when forensics show a different physical space.
 
 ---
-
 ## 2026-09-30 — Authority environment family live integration (tunnel review)
 
 Founder sprint wired the three Grok environment plates into Production Hub and Character Fabrication so the authority worlds replace Sonnet SVG/CSS scenery while keeping functional machine + foreground assets.
@@ -12775,7 +11849,6 @@ Founder sprint wired the three Grok environment plates into Production Hub and C
 - **Conventions:** Environment swap follows `STATE-TO-ENVIRONMENT.json`, not “simulation station selected”. Opus still owns typography/geometry convergence after founder approves worlds.
 
 ---
-
 ## 2026-09-30 — P0 unified Grok + environment review tunnel
 
 - **Sprint:** `P0.SITE00.GROK-PLUS-ENVIRONMENT-UNIFIED-REVIEW-TUNNEL1`. Forensics: Grok live remote = `cursor/authority-pixel-assets-1b86` @ `4fdf9efc`; Composer env integration = `cursor/authority-environment-family-live-integration-87ed` @ `24e2db58` (merge-base = Grok HEAD — unified at git level, not two divergent products). Stale local Grok worktree `.worktrees/grok-authority-pixel-assets-review` @ `9cfc20f5` preserved (not deleted).
@@ -12783,7 +11856,6 @@ Founder sprint wired the three Grok environment plates into Production Hub and C
 - **Stack:** Grok foreground assets (96+ webps) + 3 authority environment plates + Composer wiring/suppression unchanged. Tests 48 pass on unified worktree.
 
 ---
-
 ## 2026-09-30 — Compact chrome moved onto the unified review branch
 
 Founder asked to move every chrome change from this chat onto `cursor/grok-plus-environment-unified-review-87ed` and to keep all future edits there until a merge to main. PR #1262 stays review-only.
@@ -12795,7 +11867,6 @@ Founder asked to move every chrome change from this chat onto `cursor/grok-plus-
 - **Conventions:** Do not commit an auth-guard bypass. Do not drop the authority environment plate CSS when editing chrome. Compare the named tunnel only after a full reload. Hard-refresh; an open phone tab can stay on an older bundle.
 
 ---
-
 ## 2026-09-30 — Inbox quick view: one-line labels, centered actions
 
 Founder looked at the attention popover on site00.fsbw-dev.com and asked for four layout fixes. Work stays on `cursor/grok-plus-environment-unified-review-87ed` until a merge to main. PR #1262 stays review-only.
@@ -12806,7 +11877,6 @@ Founder looked at the attention popover on site00.fsbw-dev.com and asked for fou
 - **Conventions:** Attention titles and state labels do not wrap. Popover actions are centered in the card. Do not put the quick-view heading back unless the founder asks.
 
 ---
-
 ## 2026-09-30 — P0 authority compositing + fixed panel convergence (partial)
 
 Sprint `P0.SITE00.AUTHORITY-ASSET-COMPOSITING-AND-FIXED-PANEL-CONVERGENCE1` on unified review branch `cursor/grok-plus-environment-unified-review-87ed` (PR #1262, **no main**).
@@ -12819,7 +11889,6 @@ Sprint `P0.SITE00.AUTHORITY-ASSET-COMPOSITING-AND-FIXED-PANEL-CONVERGENCE1` on u
 - **Conventions:** Machine panels never grow on select — swap face only. Transparent human = zero alpha outside silhouette, not faded rectangle.
 
 ---
-
 ## 2026-09-30 — Shared chrome captions were clipping on iPhone
 
 Founder viewed site00.fsbw-dev.com Production Hub and Character Fabrication and the header still read `STUDIO WO` / `ITEMS NEED Y`. The compact rules were in the bundle. Nested `zoom: 0.74` sat inside `overflow: hidden`, so iOS clipped the line before the smaller type could show.
@@ -12828,7 +11897,6 @@ Founder viewed site00.fsbw-dev.com Production Hub and Character Fabrication and 
 - **Conventions:** Do not put `zoom` on `.ph-top__copy` while the header cell is `overflow: hidden`.
 
 ---
-
 ## 2026-09-30 — P0 live character runtime architecture (PARTIAL)
 
 Sprint `P0.STUDIO-WORLD.LIVE-CHARACTER-RUNTIME-ARCHITECTURE-AND-PROTOTYPE1`. Isolated branch `cursor/live-character-runtime-architecture-1b86` / worktree `.worktrees/live-character-runtime` from unified baseline `60fec0b0` — **did not mutate** `cursor/grok-plus-environment-unified-review-87ed`.
@@ -12839,7 +11907,6 @@ Sprint `P0.STUDIO-WORLD.LIVE-CHARACTER-RUNTIME-ARCHITECTURE-AND-PROTOTYPE1`. Iso
 - **Conventions:** Do not report mock tests as UNREAL-PROVEN. Do not merge to main / site00.com for this sprint without founder gate.
 
 ---
-
 ## 2026-09-30 — Chrome type collapsed because of the 864px zoom
 
 Founder on site00.fsbw-dev.com: bottom-nav icons looked unchanged, and header/nav text went from readable to about 2px after a small CSS reduction.
@@ -12849,7 +11916,6 @@ Founder on site00.fsbw-dev.com: bottom-nav icons looked unchanged, and header/na
 - **Conventions:** Do not set single-digit font sizes on `.ph--hub` chrome. 20px in this file is ~9px on a phone. Glyphs stay the authority set in `productionHub/icons.tsx`. Review branch only — do not upload over site00.com.
 
 ---
-
 ## 2026-09-30 — Integration squash conflicts were the older snapshot
 
 Fetched `origin/cursor/authority-environment-family-live-integration-87ed`. It was one commit ahead: squash `9b325ab3` (PR #1262). This review branch was 12 commits ahead of that squash, including the iOS chrome fix, live character runtime, and the 864px zoom type fix.
@@ -12858,7 +11924,6 @@ Fetched `origin/cursor/authority-environment-family-live-integration-87ed`. It w
 - **Resolution:** Kept this branch. `CharacterViewport` still paints `SubjectFigure` unless live runtime is requested. Chrome stays at title 20px / nav 15px / no nested `zoom: 0.74`. Merge `ecc64145`. PR #1264 mergeable. No preview rebuild.
 
 ---
-
 ## 2026-09-30 — Pixel-assets conflicts were the older environment snapshot
 
 Fetched `origin/cursor/authority-pixel-assets-1b86` (`200c6538`, PR #1259 squash onto `4fdf9efc`). This review branch was 19 commits ahead. That commit’s environment plates, receipts, and suppression are already in this branch.
@@ -12867,13 +11932,11 @@ Fetched `origin/cursor/authority-pixel-assets-1b86` (`200c6538`, PR #1259 squash
 - **Not a second product:** pixel-assets `machine.tsx`, hub CSS, and the preview script are the pre-chrome, pre-runtime versions. No parallel intent left open.
 
 ---
-
 ## 2026-10-01 — Pixel-assets recheck had nothing left to merge
 
 Fetched `origin/cursor/authority-pixel-assets-1b86` again. Tip still `200c6538`. It is an ancestor of `cursor/grok-plus-environment-unified-review-87ed` (20 commits ahead, 0 behind). `git merge` reports already up to date. No conflict markers, no file changes, no intent clash.
 
 ---
-
 ## 2026-10-02 — Production review nav uses the keyed bottom-nav icons
 
 Founder approved the seven high-quality bottom-nav renders and asked for them on the working production-review branch, on the tunnel, with sign-in paused while Supabase is down.
@@ -12884,7 +11947,6 @@ Founder approved the seven high-quality bottom-nav renders and asked for them on
 - **Conventions:** Turn sign-in back on by removing the preview-host pause when Supabase is up. Do not bake that pause into a GoDaddy upload.
 
 ---
-
 ## 2026-10-02 — Production authority alignment (SONNET1R1) on the PR #1266 review branch
 
 Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1`. Base corrected to `cursor/grok-plus-environment-unified-review-87ed` @ `4dc9f839` (PR #1266, draft, not merged). Work lives on `cursor/production-authority-alignment-sonnet1r1` (draft PR #1295). No deploy, no auth changes.
@@ -12895,7 +11957,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1`. Base corrected to
 - **Residual:** Imagery reuses existing plates; design chamber has no 3D atrium; pixel polish (tilt, glass density, internal type) is left for Opus.
 
 ---
-
 ## 2026-10-02 — Production authority convergence (OPUS1) on the SONNET1R1 branch
 
 Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-authority-alignment-sonnet1r1` @ `029e5e14` (draft PR #1295). Work on `cursor/production-authority-convergence-opus1`. No deploy, no merge, no auth or route changes.
@@ -12907,7 +11968,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/produc
 - **Proof:** `artifacts/production-authority-opus/` (36 final JPGs + 36 authority|live compares + `PROOF_MATRIX.md` + `matrix.json`). All 36 structurally pass; all 36 are RESIDUAL on missing authority artwork (atrium crowds, world / stage / canon renders, board art).
 
 ---
-
 ## 2026-10-02 — Production authority asset render (GROK1)
 
 Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ASSET-RENDER.GROK1`. Base verified as `cursor/production-authority-convergence-opus1` @ `0a6be266`. Work on `cursor/production-authority-asset-render-grok1`. No deploy, no merge, no auth, route, or chrome changes.
@@ -12919,7 +11979,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ASSET-RENDER.GROK1`. Base verified as `
 - **QA:** structural capture 36/36. Sonnet suite 14/14. Opus suite 12/12. Build and verify-production-dist pass.
 
 ---
-
 ## 2026-10-02 — Production authority convergence (OPUS2) after GROK1
 
 Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2`. Base `cursor/production-authority-asset-render-grok1` @ `85fe6848`. Work on `cursor/production-authority-convergence-opus2`. No deploy, no merge, no auth/route/state/data changes.
@@ -12934,7 +11993,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2`. Base `cursor/produc
 - **Tests:** `tests/productionAuthorityConvergenceOpus2.test.ts`. Full suite in this env: base 101 failing tests / 130 files, final identical (delta 0).
 
 ---
-
 ## 2026-10-03 — Production authority tree (COMPOSER1)
 
 Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-TREE.COMPOSER1`. Forensic map only — no redesign, no reconstruction, no runtime/UI changes. Base `cursor/production-authority-convergence-opus2` @ `269f2af5`. Branch `cursor/production-authority-tree-composer1-0daf`.
@@ -12945,7 +12003,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-TREE.COMPOSER1`. Forensic map only — 
 - **QA:** `tests/productionAuthorityConvergenceOpus2.test.ts` 18/18 pass (audit did not touch runtime).
 
 ---
-
 ## 2026-10-03 — HUB reconstruction (OPUS1), reference-locked
 
 Sprint `P0.STUDIOOS.PRODUCTION.HUB.RECONSTRUCTION.OPUS1`. Work in `yoteenz/SITE00` (the brief said `fsbw`, but all HUB code lives here and AGENTS.md forbids fsbw). Base `cursor/production-authority-tree-composer1-0daf` @ `0b65e430`. Branch `cursor/production-hub-reconstruction-opus1`. No merge, no deploy.
@@ -12956,7 +12013,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.HUB.RECONSTRUCTION.OPUS1`. Work in `yoteenz/SITE0
 - **Proof:** `artifacts/production-hub-reconstruction-opus1/` (PARITY_REPORT.md, compare/, before/, after/, devices/). The hub machine route is untouched.
 
 ---
-
 ## 2026-10-03 — HUB descendants and interactions (OPUS1)
 
 Sprint `P0.STUDIOOS.PRODUCTION.HUB.DESCENDANTS-INTERACTIONS.OPUS1`. Repo `yoteenz/SITE00` (the brief said fsbw). Base `cursor/production-hub-reconstruction-opus1` @ `f47629d7`. Branch `cursor/production-hub-descendants-opus1`. No merge, no deploy.
@@ -12966,7 +12022,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.HUB.DESCENDANTS-INTERACTIONS.OPUS1`. Repo `yoteen
 - **Audit:** 22 actions × 3 families resolve to existing routes with no stale fallback. The hub machine stays LEGACY_LOCKED. Project switching, the NEW ENTRY creation flow and the error state are UNMOUNTED (not invented). Proof is in `artifacts/production-hub-descendants-opus1/`.
 
 ---
-
 ## 2026-10-03 — INBOX + ACTIVITY three-viewport reconstruction (OPUS1)
 
 Sprint `P0.STUDIOOS.PRODUCTION.INBOX-ACTIVITY.THREE-VIEWPORT-RECONSTRUCTION.OPUS1`. Base `cursor/production-hub-descendants-opus1` @ `c508fc3d`. Branch `cursor/production-inbox-activity-threeviewport-opus1`. No merge, no deploy.
@@ -12984,7 +12039,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX-ACTIVITY.THREE-VIEWPORT-RECONSTRUCTION.OPUS
 - **Proof:** `artifacts/production-inbox-activity-threeviewport-opus1/`.
 
 ---
-
 ## 2026-10-03 — Master PNG nav icons on INBOX/ACTIVITY branch (no label row)
 
 Founder wanted preview on `cursor/production-inbox-activity-threeviewport-opus1` with founder master PNG bottom-nav icons from the descendants work, but **not** the descendants unscaled label row below the bar (`ProductionNavLabelRow` / `prod-nav-dock`). Commit `43611fd8`: `ProductionNavIcon` + `bottom-nav/masters/*.png`; labels stay under each icon inside the zoomed `.ph-nav`. Preview tunnel serves this branch. PR #1305.
@@ -12992,13 +12046,11 @@ Founder wanted preview on `cursor/production-inbox-activity-threeviewport-opus1`
 Also ported descendants chrome fix: drop duplicate CURRENT WORKSPACE readout from production top header (mobile `ph-top__sel--prod`, host `pxh-top__loc`); 4-column mobile top grid in host CSS. Bottom nav owns tab identity.
 
 ---
-
 ## 2026-10-04 — Design asset OPUS3 cherry-picked onto INBOX/ACTIVITY branch
 
 Cherry-picked `afb22c27` (design pack extract, chamber stand-in removal, no-scroll Design parent) onto `cursor/production-inbox-activity-threeviewport-opus1` without switching the preview branch. **Kept:** `ProductionNavIcon` + `masters/*.png` (HUB master from pack `nav-hub.png`), header trim. **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
 
 ---
-
 ## 2026-10-04 — Inbox OPUS2 + Activity OPUS1 on tunnel branch
 
 Cherry-picked `37d19680` (Inbox authority family) onto `cursor/production-inbox-activity-threeviewport-opus1` for preview — not a branch switch. **Inbox:** `inboxModel.ts`, `InboxBody`, `site00-production-inbox-family.css`, no-scroll inbox contract; OPUS1 lens links still resolve. **Activity:** OPUS1 three-viewport `ActivityBody` + `iaKit` unchanged. **Still kept:** master PNG nav, header trim, design pack OPUS3. **Proof:** `artifacts/production-inbox-authority-opus2/`.
@@ -13006,7 +12058,6 @@ Cherry-picked `37d19680` (Inbox authority family) onto `cursor/production-inbox-
 **Inbox + Activity tab sources (founder confirmed):** **Inbox** = `cursor/production-inbox-authority-opus2` @ **`37d19680`** (PR **#1307**). **Activity** = `cursor/production-inbox-activity-threeviewport-opus1` @ **`7dcf37de`** (`ActivityBody.tsx` OPUS1 three-viewport — PR **#1305**). Preview tunnel branch **`cursor/production-inbox-activity-threeviewport-opus1`** cherry-picks both onto one line (plus nav, design pack, header trim). Descendants ACTIVITY LOG (`1ca88e20`) is not the target for Activity tab.
 
 ---
-
 ## 2026-10-04 — Expression responsive authority convergence (OPUS1)
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. Branch `cursor/production-expression-authority-opus1`. No merge, no deploy.
@@ -13027,7 +12078,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1
 - **Proof:** `artifacts/production-expression-authority-opus1/`.
 
 ---
-
 ## 2026-09-30 — Origin expanded panel forensics (IDNTY / BLDR / EVOLVE)
 
 Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero product code/CSS/React/copy changes. Full implementation receipt for creative director / ChatGPT redesign of expanded states.
@@ -13039,7 +12089,6 @@ Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero pro
 - **Conventions:** Expanded IDNTY title copy is `IDENTITY` (not card label `IDNTY`). EVOLVE collapsed copy differs mobile vs desktop (`evolve.ts`). EVOLVE expanded secondary CTA `HOW IT WORKS` → `/evolve` mobile only.
 
 ---
-
 ## 2026-09-29 — CI fix: production design route test drift (post #1255)
 
 Production Release workflow failed after #1255: tests still expected `/projects/design/:slug` and embedded `ProjectIndexDesignCard` on Projects index.
@@ -13049,7 +12098,6 @@ Production Release workflow failed after #1255: tests still expected `/projects/
 - **Ship:** PR merge to `main` — no new cPanel bundle required (test/API metadata only).
 
 ---
-
 ## 2026-10-01 — STUDIO OS Experience Compiler MAP1 (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP1)
 
 Forensic inventory + authority inheritance + batch planning for SITE 00 public redesign — no visual redesign, no route/UI production changes.
@@ -13061,7 +12109,6 @@ Forensic inventory + authority inheritance + batch planning for SITE 00 public r
 - **Conventions:** Superseded authority IDs never inherit; WAITING_FOR_AUTHORITY routes from manifest drive gates; composite derivation = family environment + IDNTY working-panel grammar where explicit in compiler rules.
 
 ---
-
 ## 2026-10-01 — Existing Location service architecture (P0.SITE00.EXISTING-LOCATION.SERVICE-ARCHITECTURE1)
 
 Formalized **EXISTING LOCATION** — work on client’s existing Shopify/WordPress/etc. property without full rebuild.
@@ -13072,7 +12119,6 @@ Formalized **EXISTING LOCATION** — work on client’s existing Shopify/WordPre
 - **Gaps:** No live Shopify OAuth/API; diagnosis/findings UI founder-populated; paid checkout throws PAYMENT_REQUIRED until payment integration; Supabase persistence wired migration-only (runtime still memory in VITEST/production until supabase store adapter added).
 
 ---
-
 ## 2026-10-01 — STUDIO OS Experience Compiler MAP2 creative architecture (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-CREATIVE-ARCHITECTURE1)
 
 Extended MAP1 with greenfield creative pipeline, multi-surface families, authority planning foundation — no mass OpenArt, no public SITE 00 redesign.
@@ -13083,7 +12129,6 @@ Extended MAP1 with greenfield creative pipeline, multi-surface families, authori
 - **Conventions:** SITE 00 validates as INGEST via `buildSite00IngestFixture()` wrapping `runExperienceCompiler()` — no replacement concept directions for product truth.
 
 ---
-
 ## 2026-10-01 — Experience Compiler MAP2 workspace UI (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-WORKSPACE-UI1)
 
 Founder-operable Experience Compiler workspace: gates, authority review, OpenArt emit/ingest, pack + Sonnet emit — no public redesign, no mass OpenArt jobs.
@@ -13093,7 +12138,6 @@ Founder-operable Experience Compiler workspace: gates, authority review, OpenArt
 - **Conventions:** Browser bundle must not import MAP1 `pageDiscovery` fs — use `bootstrapBrowser.ts` + `MAP2_SITE00_INGEST_FIXTURE.json` for SITE 00 ingest UI; Node tests use `bootstrap.ts` + live compiler.
 
 ---
-
 ## 2026-10-01 — MAP2 icon + micro-asset expression (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-ICON-EXPRESSION1)
 
 Extended MAP2 pipeline with project-wide icon requirement compiler, icon family authority before page authorities, Grok/Sonnet handoff manifests — no mass Grok generation, no SITE 00 public redesign.
@@ -13103,7 +12147,6 @@ Extended MAP2 pipeline with project-wide icon requirement compiler, icon family 
 - **Conventions:** Global semantics reusable; per-project icon family visual isolation; LIVE_CODE_SVG for utility chevrons; SITE 00 ingest classifies only.
 
 ---
-
 ## 2026-10-01 — MAP2 visual asset surgery (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-VISUAL-ASSET-SURGERY1)
 
 Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry and Grok fabrication — manifests/specs only, no mass Grok generation, no public SITE 00 redesign.
@@ -13113,7 +12156,6 @@ Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry a
 - **Conventions:** Bboxes are normalized heuristics until Opus live geometry probes land; reference crops/safe-zone overlays are metadata paths only in MAP2 sprints; Grok receives per-asset specs not full screenshots.
 
 ---
-
 ## 2026-10-01 — Public redesign surgical fabrication (P0.SITE00.PUBLIC-REDESIGN.GROK-SURGICAL-FABRICATION1)
 
 Full conversation: production-hub chrome readability on the review branch, two already-contained merge snapshots, then Grok-only fabrication of the 52 surgery specs.
@@ -13132,7 +12174,6 @@ Founder: sign-in / authorization stuck on tunnel (Experience Compiler path).
 - **Founder:** Restore Supabase project health in dashboard; redeploy cPanel/tunnel CI dist after merge for tunnel bundle.
 
 ---
-
 ## 2026-10-02 — Experience Compiler preview guest bypass (Supabase down)
 
 Founder: compiler route sent to sign-in / origin flow on tunnel while Supabase Auth unhealthy — needed MAP2 workspace view only, temporarily.
@@ -13143,7 +12184,6 @@ Founder: compiler route sent to sign-in / origin flow on tunnel while Supabase A
 - **Remove when healthy:** Drop bypass or gate behind explicit env when Supabase Auth is stable again.
 
 ---
-
 ## 2026-10-02 — PREVIEW_GUEST shell fix (P0.STUDIOOS.EXPERIENCE-COMPILER.PREVIEW-GUEST-SHELL-FIX1)
 
 Preview guest route worked but shell/nav/auth-state was inconsistent.
@@ -13156,11 +12196,9 @@ Preview guest route worked but shell/nav/auth-state was inconsistent.
 - **PRs #1282, #1283** → `main`.
 
 ---
-
 ## 2026-10-02 — Founder creative workspace (CREATIVE-WORKSPACE-EXPERIENCE1)
 
 Branch `cursor/creative-workspace-experience1-87ed`: merged CGPT creative director backend + visual **ExperienceCompilerCreativeWorkspace** (`?tab=creative`). Territory boards, journey rail, founder director, conversation dock secondary, run details collapsed. Empty states when no live model output. Browser proof on tunnel (desktop/mobile/tablet screenshots). Live CONCEPT_TERRITORIES run still needs API deploy + OpenAI key.
-
 ## 2026-10-01 — CGPT Creative Director loop (Experience Compiler MAP2)
 
 Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch `cursor/cgpt-creative-director-loop1-87ed`.
@@ -13171,7 +12209,6 @@ Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch 
 - **Not done:** No production deploy; no merge; live 3-territory proof requires configured server key.
 
 ---
-
 ## 2026-10-02 — CGPT live runtime + durable persistence (P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-LIVE-RUNTIME-PERSISTENCE1)
 
 Continuation on `cursor/cgpt-creative-director-loop1-87ed` (HEAD `c72efe6c`).
@@ -13183,7 +12220,6 @@ Continuation on `cursor/cgpt-creative-director-loop1-87ed` (HEAD `c72efe6c`).
 - **Next:** Merge/deploy API branch; apply migration; run `tsx scripts/studioos/run-creative-director-live-proof.ts` with key; set `SITE00_CREATIVE_DIRECTOR_STRICT_PERSISTENCE=1` in prod when tables verified.
 
 ---
-
 ## 2026-10-02 — Supabase apply-all-migrations (blocked from cloud VM)
 
 Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`.
@@ -13193,7 +12229,6 @@ Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`
 - **Founder apply:** When dashboard health is green, run `bash scripts/supabase/apply-pending-site00-migrations.sh` (Supabase CLI) or paste SQL from `supabase/migrations/` in order.
 
 ---
-
 ## 2026-10-02 — Remove Mobile/Desktop layout preview switcher (Shadow PC)
 
 Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile / Desktop** debug switcher.
@@ -13202,7 +12237,6 @@ Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile 
 - **Branch:** `cursor/remove-layout-preview-switch-87ed`.
 
 ---
-
 ## 2026-10-02 — Cloud preview tunnel pinned to 6c85fbcb
 
 Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (`cursor/design-unified-workspace-sonnet-structure2` — unified design workspace).
@@ -13212,7 +12246,6 @@ Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (
 - **Revert to main CI preview:** `rm /tmp/site00-cloud-preview-pinned-ref`, `git checkout main`, restart `site00-vite` terminal (or `restart-site00-cloud-preview-full.sh`).
 
 ---
-
 ## 2026-10-02 — Client app mobile QA audit (P0.SITE00.CLIENT-APP.COMPOSER-RUNTIME-AUDIT1)
 
 Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Expo/Capacitor; no `android/`/`ios/`). Mobile QA path = **BrowserStack Live** (mobile browser) + cloud preview tunnel; **not** App Live/APK.
@@ -13222,7 +12255,6 @@ Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Ex
 - **Blocker for APK:** No native project — Capacitor wrapper deferred.
 
 ---
-
 ## 2026-10-02 — Production authority handoff v2: attachment review (pre-implementation)
 
 Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus three authority archives (Desktop 16:9 / Tablet 4:3 / Mobile 9:16, 12 images each = 36) and said "review all attachments before implementing." This entry records the review only; no product code was changed.
@@ -13236,7 +12268,6 @@ Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus thr
 - **Convention:** Authority images are QA inputs only (never shipped as runtime assets); build a typed registry (workspace, designMode, viewportFamily, authorityFile, route/state selector) in code/tests.
 
 ---
-
 ## 2026-10-04 — Merge `main` into inbox-activity tunnel branch (3 conflicts)
 
 Fetched `origin/main` and merged into `cursor/production-inbox-activity-threeviewport-opus1` (commit `9bfc7faa`).
@@ -13249,7 +12280,6 @@ Fetched `origin/main` and merged into `cursor/production-inbox-activity-threevie
 - **Convention:** When merging main into this tunnel branch, preserve both sign-in pause and EC preview-guest shell auth.
 
 ---
-
 ## 2026-10-04 — Inbox root convergence 2 on tunnel + all-tabs forensic
 
 - **INBOX root:** ported the Inbox part of `ffc7f7c0` (from `cursor/production-expression-authority-opus1`) onto this branch. The NEEDS YOU root now follows PARENT_3VIEW 01_INBOX. The OPUS2 model, routing and gate are unchanged. The BLOCKERS count links to `?view=blockers` on OPUS1 Activity. Live 45/45 with no scroll. Proof: `artifacts/production-inbox-root-convergence2/`.
@@ -13257,7 +12287,6 @@ Fetched `origin/main` and merged into `cursor/production-inbox-activity-threevie
 - **All-tabs forensic truth table:** `artifacts/production-all-tabs-forensic1/README.md`.
 
 ---
-
 ## 2026-10-04 — Production OpenArt asset forensics mount (GROK)
 
 Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/production-openart-asset-forensics-mount1-0daf` (draft PR, no merge, no deploy, no new generations).
@@ -13268,7 +12297,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/produc
 - **Conventions:** Do not generate replacements for `MISSING_SOURCE_ASSET`. Do not treat OpenArt authority boards as the underlying asset.
 
 ---
-
 ## 2026-10-04 — OpenArt asset recovery 2 (same draft PR #1310)
 
 - **History:** Design project `Q7IHYCEK3RPn2c1ConEG` list exhausted (`hasMore: false`), 462 unique histories. Resident portraits recovered from separate Studio World OpenArt projects, not from composition boards.
@@ -13277,7 +12305,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/produc
 - **Build:** `npm run build` passed. No merge, no deploy, no new generations.
 
 ---
-
 ## 2026-10-04 — Resident recovery 3 from founder SW team pack (PR #1310)
 
 Same chat also shipped the 242-file production authority downloader on `cursor/production-openart-downloader-recovery2-0daf` (merged PR #1311). This entry is the resident ingest on draft PR #1310.
@@ -13286,7 +12313,6 @@ Same chat also shipped the 242-file production authority downloader on `cursor/p
 - **Clusters (visual, before names):** 8 people. Anchors locked to mounted portraits: Etta (06/20/23), Zuri candidate (04/15/18 exact), Caspian (16/17/22), Iona (02/07/24/27, 24 exact). Remaining: East Asian man (01/09/13/19/25) = Noa; older sun-earring man (03/05/12) = Marlowe; burgundy shorter-wave man (10/11/21) = Elio. Locs cluster (08/14/26) is only a probable Jules match (hair differs from the mounted portrait) and was not swapped in.
 - **Mounted:** `studio-world-noa-kline-portrait.jpg`, `studio-world-marlowe-saint-portrait.jpg`, `studio-world-elio-vahn-portrait.jpg`, `studio-world-zuri-xu-portrait.jpg` plus full-body variants. Status `IDENTITY_CONFIRMED`, source `USER_SUPPLIED`, `UNKNOWN_OPENART_PROVENANCE`. Original `SW Team(1).zip` was not in the workspace, so these are lite interim masters (`HIGH_RES_SOURCE_REQUIRED_FOR_FINAL_RUNTIME_MOUNT`).
 - **Changes:** registry, expression manifest (missing slot cleared), Opus handoff, forensics test. `tsc --noEmit` and `npm run build` passed. Draft PR #1310 stays draft. No merge, no deploy.
-
 ## 2026-10-04 — Activity one-viewport convergence (canonical DOMAIN × TIME project memory)
 
 Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL. It supersedes the earlier "Activity stays OPUS1" decision for presentation only.
@@ -13311,7 +12337,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked 
 - **Proof:** `artifacts/production-activity-one-viewport-opus1/`, covering 14 viewports × 5 states = 70/70. Document and frame scroll are both 0 and nothing is clipped. Test: `tests/productionActivityOneViewportOpus1.test.ts`.
 
 ---
-
 ## 2026-10-04 — Inbox one-viewport family convergence (children → rail · rows · inspector)
 
 Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL.
@@ -13333,7 +12358,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, mar
 - **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
 
 ---
-
 ## 2026-10-04 — Experience + Library convergence applied to live preview tunnel branch
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMPOSER1`.
@@ -13344,7 +12368,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMP
 - **Proof:** `tests/productionExperienceLibraryConvergenceOpus1.test.ts` (136) + inbox/activity regression suites on rebased branch.
 
 ---
-
 ## 2026-10-04 — Resident geometry fabrication batch (OpenArt) — infrastructure + partial gen
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
@@ -13356,7 +12379,6 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
 - **Gen progress at commit:** SW-001 frames 01–02 completed; background agent queued SW-001–005. No performance/wardrobe batches. Draft PR only — no merge/deploy.
 
 ---
-
 ## 2026-10-04 — RECOVERY4 white-tee/red-collar fabrication source authority
 
 Sprint `P0.STUDIOWORLD.RESIDENT-AUTHORITY.RECOVERY4-WHITE-TEE-RED-COLLAR`.
@@ -13366,7 +12388,6 @@ Sprint `P0.STUDIOWORLD.RESIDENT-AUTHORITY.RECOVERY4-WHITE-TEE-RED-COLLAR`.
 - **Branch:** `cursor/studio-world-resident-authority-recovery4`; halted OpenArt; invalidated SW-001 generated frames (16) as `SUPERSEDED_OUTPUT_WRONG_SOURCE`; pending 112 frames `NOT_GENERATED`. Review ZIPs `STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW*.zip`. Next: founder review → 16-frame validation gen before full 128 resume.
 
 ---
-
 ## 2026-10-04 — Resident fabrication authority validation OpenArt (16-frame pack)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.OPENART1` on branch `cursor/studio-world-resident-fabrication-validation-openart1`.
@@ -13376,7 +12397,6 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.OPENART1` on br
 - **Credits recorded:** 2432 (16 × ~152). Draft PR on `cursor/studio-world-resident-fabrication-validation-openart1` links #1314 + #1313.
 
 ---
-
 ## 2026-10-04 — Validation source-binding recovery (RECOVERY1)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1`.
@@ -13386,7 +12406,6 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1`
 - **Canary:** 1× Etta work portrait (`VBxhMWHBMtT6R63sRCnW`) using new upload `fujq0PYW5H3SwY15Oq35` (sha256 matches casting thumbnail); superseded geometry id `h5j5eTZfam3mnxVql57l`. Branch `cursor/studio-world-resident-fabrication-validation-source-binding-recovery1`. Tests: `residentFabricationValidationSourceBinding.test.ts`.
 
 ---
-
 ## 2026-10-04 — Production authority downloader (RECOVERY2)
 
 Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.RECOVERY2` — forensic retrieval only (OpenArt project `Q7IHYCEK3RPn2c1ConEG`, zero generations).
@@ -13396,7 +12415,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.RECOVERY2` — forensic r
 - **Run (Windows Shadow PC):** `powershell -ExecutionPolicy Bypass -File ".\download_production_authorities.ps1"` → `PRODUCTION_AUTHORITY_EXPORT/` + four ZIPs beside script.
 
 ---
-
 ## 2026-10-04 — JURNL F01 Entry full family production (OpenArt)
 
 Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent run.
@@ -13408,7 +12426,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Conventions:** JURNL UI copy **UPPERCASE**; **square-rounded** interactive controls only; logo **small/integrated**; child screens must **descend** from parent materials without duplicating full welcome hero.
 
 ---
-
 ## 2026-10-04 — Founder: direct ZIP as clickable link (always)
 
 - **Request:** After JURNL F01 review package, founder asked agents to **always** send the direct ZIP as a **clickable link** (mobile review), not only paths or bare URLs in prose.
@@ -13416,7 +12433,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **JURNL F01 review ZIP:** [JURNL-F01-ENTRY-REVIEW-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-entry-review-2026-10-04/JURNL-F01-ENTRY-REVIEW-2026-10-04.zip)
 
 ---
-
 ## 2026-10-04 — JURNL F01 asset harvest recovery (zero regen)
 
 - **Sprint:** P0.JURNL.F01-ASSET-HARVEST-RECOVERY1 — re-extract from existing `F01.00_WELCOME_GENERATED.png` only; **0** OpenArt credit spend.
@@ -13424,7 +12440,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Review ZIP:** [JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-asset-harvest-recovery-2026-10-04/JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip)
 
 ---
-
 ## 2026-10-04 — JURNL F01 parent harvest proof1 (FAIL @ 50%)
 
 - **Sprint:** P0.JURNL.F01-PARENT-ASSET-HARVEST-PROOF1 — **1** new F01.00 parent (`z6y0GkA8kNuu8Egnk22P`), immediate harvest, **0** asset regen credits.
@@ -13433,14 +12448,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Proof ZIP:** [JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-parent-harvest-proof1-2026-10-04/JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip)
 
 ---
-
 ## 2026-10-04 — JURNL F01 interaction authority complete
 
 - **Sprint:** P0.JURNL.F01-INTERACTION-AUTHORITY-COMPLETE1 — **0** child screen regen; **10** interaction authority PNGs in `INTERACTIONS/`; **74** rows in `F01_INTERACTION_MANIFEST.json`; `interactionPrimitives` in component manifest; Family 02+ pipeline adds mandatory interaction audit step.
 - **ZIP:** [JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-interaction-authority-2026-10-04/JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip)
 
 ---
-
 ## 2026-10-04 — JURNL F01 interaction authority uppercase regen
 
 - **Task:** Regenerate all **10** `JURNL/F01_ENTRY/INTERACTIONS/*.png` with **strict ALL-CAPS** user-facing text (founder requirement); same interaction content as INTERACTION-AUTHORITY-COMPLETE1.
@@ -13449,7 +12462,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Result:** **10/10** COMPLETED generations downloaded and overwritten in repo.
 
 ---
-
 ## 2026-10-05 — Single-angle Etta source test (OpenArt)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` on `cursor/studio-world-resident-single-angle-source-test-openart1` (from #1316).
@@ -13458,7 +12470,6 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` o
 - **Artifacts:** `SW-001_ETTA_SINGLE_TEST_SOURCE_PROOF.jpg`, `SW-001_ETTA_SINGLE_TEST_REVIEW.jpg`, `SW-001_ETTA_SINGLE_TEST_README.txt`, `artifacts/studio-world-resident-fabrication-validation/single-angle-source-test.json`. Classification **PASS**. No validation/geometry batch resume.
 
 ---
-
 ## 2026-10-05 — RESUME16 validation batch (OpenArt2, sha256 registry)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2` (from #1324 lineage).
@@ -13466,7 +12477,6 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENAR
 - **16/16** frames regenerated via `source-binding-registry.json` (SW-002–SW-008 fresh uploads; casting-thumbnails-v1 work look + season1 body). **0 retries**, **2432** credits. Review ZIPs refreshed. All `FOUNDER_REVIEW_REQUIRED` / `IN_REVIEW`. **128 geometry not resumed.**
 
 ---
-
 ## 2026-10-05 — Full-body uniform regen (OpenArt1)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.FULL-BODY-UNIFORM-REGEN.OPENART1` on `cursor/studio-world-resident-full-body-uniform-regen-openart1`.
@@ -13474,7 +12484,6 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.FULL-BODY-UNIFORM-REGEN.OPENART1` on
 - **8/8** full-body-only regens with identity registry + founder uniform authorities (`uniform-authority-v1/` women leggings / men compression shorts, white-red toe shoes). **0 retries**, **1216** credits. Portraits unchanged. Review ZIPs `STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN_REVIEW*.zip`. All `IN_REVIEW`.
 
 ---
-
 ## 2026-10-05 — Actor Catalogue resident authority convergence (Expression / Character Fabrication)
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.ACTOR-CATALOGUE.RESIDENT-AUTHORITY-CONVERGENCE1` on `cursor/expression-actor-catalogue-resident-authority1` (from full-body-uniform-regen tunnel).
@@ -13483,7 +12492,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.ACTOR-CATALOGUE.RESIDENT-AUTHORITY-CON
 - **Fix:** `productionCastingCatalogue.ts` + `projectAllResidentsToActors()` wired into fabrication + Production Expression casting; casting-thumbnails-v1 via `characterAssetUrl` / `portraitUrl`; legacy seed kept for Entry 002 fixtures only (`findFabricationActor` fallback). Actor cards show resident name + SW-001…SW-008 + provenance. Draft PR only — no merge/deploy.
 
 ---
-
 ## 2026-10-05 — Library Character Detail media hierarchy + image inspector
 
 Sprint `P0.STUDIOOS.PRODUCTION.LIBRARY.CHARACTER-DETAIL.MEDIA-HIERARCHY-INSPECTOR1` on `cursor/library-character-detail-media-hierarchy-inspector1`.
@@ -13492,7 +12500,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.LIBRARY.CHARACTER-DETAIL.MEDIA-HIERARCHY-INSPECTO
 - **Fix:** `CharacterDetail` route with `lbf--char-focus` compact category/subfilter rails, large `lbf-char-media` (4:5-style), `LibraryCharacterImageInspector` overlay, `RelatedCharacterTile` split image inspect vs card nav; `lbf--char-browse` taller tiles on index/residents/project/talent. Draft PR only.
 
 ---
-
 ## 2026-10-05 — Resident geometry complete + production injection (OpenArt1, in progress)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-COMPLETE-PRODUCTION-INJECTION.OPENART1` on `cursor/studio-world-resident-geometry-complete-production-injection1` (from Library Character Detail lineage).
@@ -13503,7 +12510,6 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-COMPLETE-PRODUCTION-INJECTI
 - **OpenArt batch:** 112 remaining geometry frames generating resident-by-resident (background agent); review ZIPs on finalize. Draft PR only — no merge/deploy.
 
 ---
-
 ## 2026-10-05 — Character Fabrication end-to-end resident wiring (Expression)
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CHARACTER-FABRICATION.END-TO-END-RESIDENT-WIRING1` on `cursor/expression-character-fabrication-end-to-end-resident-wiring1`.
@@ -13514,7 +12520,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CHARACTER-FABRICATION.END-TO-END-RESID
 - **Tests:** `p0CharacterFabricationEndToEndResidentWiring1.test.ts`. Merged to tunnel branch `cursor/studio-world-resident-geometry-complete-production-injection1` for preview. Draft PR only.
 
 ---
-
 ## 2026-10-05 — Expression media hierarchy one-viewport convergence
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.MEDIA-HIERARCHY.ONE-VIEWPORT-CONVERGENCE1` on `cursor/expression-media-hierarchy-one-viewport-convergence1` (from geometry-complete tunnel).
@@ -13525,7 +12530,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.MEDIA-HIERARCHY.ONE-VIEWPORT-CONVERGEN
 
 
 ---
-
 ## 2026-10-05 — Production full-authority forensic audit + pixel refinement (OPUS2)
 
 Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2` on `cursor/production-full-authority-forensic-pixel-refinement-opus2`. The base is the tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `09378e0a`.
@@ -13572,7 +12576,6 @@ Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFIN
 - Draft PR only. Not merged, not deployed.
 
 ---
-
 ## 2026-10-05 — Production workspace Grok handoff audit + lite pack (LITEPACK1)
 
 Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus handoff between pipeline step 02 and step 03 (Grok asset / environment / icon pass). No generation, no OpenArt, no visual or functional change, no deploy.
@@ -13606,7 +12609,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Docs:** `docs/jurnl/` (audit A–V, defect log, decisions + claims register, contract, asset-first, budget, live QA). Proof: `artifacts/jurnl-f01-live-qa/` (live QA 103/103).
 
 ---
-
 ## 2026-10-05 — JURNL F01 live viewport delivery (follow-up DELIVERY1)
 
 - **Follow-up:** P0.JURNL.SITE00-F01-LIVE-VIEWPORT-DELIVERY1 — JURNL F01 must be live, mounted, clickable and inspectable inside DESIGN → VIEWPORT.
@@ -13616,7 +12618,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Hosting:** canonical = GoDaddy via `site00-production-deploy.yml` (auto-promote ON) — blocked: `test` job red on every `main` run since ≥ #696 (pre-existing). Legacy `deploy-godaddy.yml` dispatch deploys `main` without the test gate (founder decision).
 
 ---
-
 ## 2026-10-05 — JURNL monetization foundation (structure only)
 
 - **Sprint:** P0.JURNL.MONETIZATION-FOUNDATION1 — plans FREE / PLUS / PRO / BUSINESS + ADD_ON class (all DRAFT), semantic capability registry mapped to the 16-family tree, entitlement resolver (fail closed to FREE + safety floors), server authorization boundary, honest unconfigured BillingProvider, central pricing (all TBD), disclosure + verdict-independence rules, data-use prohibitions (no sale, no ad targeting, no ads), analytics without financial data, 8 runtime primitives (not mounted in F01), optional `monetization` on the family contract.
@@ -13625,7 +12626,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Open:** billing rail (App Store / Google Play vs web), JURNL backend + DB, past-due grace, BUSINESS composition, household model, usage numbers, regulated referrals compliance.
 
 ---
-
 ## 2026-10-05 — JURNL F01 visual-semantic decomposition (whole chat)
 
 - **Context:** Founder ran Family 1 from full entry production through harvest, interaction boards, then asset-first page assembly. The lasting correction is that a reference is a set of implementation roles, not a pile of objects.
@@ -13635,7 +12635,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Always send review ZIPs as a direct clickable markdown link. Interaction boards are 100% uppercase. Future Family 1 generation uses the layer map and the minimized asset count (2 images) before any new generation.
 
 ---
-
 ## 2026-10-05 — JURNL F01 environment plate 2K vs 4K test
 
 - **Request:** Generate the post-audit environment plate from the parent, once at 2K and once at 4K, for comparison. The prior sprint had classified the page and had not generated this plate.
@@ -13644,14 +12643,12 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Files:** `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/RESOLUTION_COMPARE/`.
 
 ---
-
 ## 2026-10-05 — JURNL environment plates render at the 3K/4K setting
 
 - **Decision:** Environment plates and generated image assets use OpenArt `resolutionTier: 4k`. For 9:16 that delivers **2016×3584**, which the gallery labels **3K**.
 - **Render:** The existing 4k-tier plate (`omTTAjRt3LgV0RB2lC5I`) is now the mounted `ENTRY.ENVIRONMENT.PLATE.001` on `/jurnl/f01/parent-assembly`. The logo stays the reused mark. No new generation. Isolated leaves, stones, books, and textures stay unmounted.
 
 ---
-
 ## 2026-10-05 — Project switcher dropdown on the phone DESIGN header
 
 - **Founder:** The PROJECT chip on the production DESIGN tab does not open a project list. They need a way to open the JURNL app.
@@ -13659,7 +12656,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Fix:** The panel spans the full header and hangs underneath. Direct app routes stay `/production/jurnl/design?mode=viewport&family=F01` and `/production/jurnl/runtime/entry`.
 
 ---
-
 ## 2026-10-05 — Cloud preview tunnel was still on yesterday’s dist
 
 - **Founder:** The tunnel was showing an outdated production DESIGN workspace. Asked whether the tunnel branch had been switched.
@@ -13667,7 +12663,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Now:** Preview restarted onto `origin/main` `4d340947` / `index.4cz58TFm.js`, which includes the phone PROJECTS dropdown. Hard refresh the tunnel.
 
 ---
-
 ## 2026-10-05 — F01 canonical plates injected into the live runtime
 
 - **Sprint:** P0.JURNL.F01-GROK-CANONICAL-ASSET-REGEN-INJECTION1. Step 03. Do not rebuild the app. Do not deploy site00.com. Do not change the 60,000 credit ceiling.
@@ -13683,7 +12678,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Gaps:** Biometric face-id stone, device-trust journal, and security padlock are table props on the shared atrium, not separate files. The create-account footer line still sits close to the table.
 
 ---
-
 ## 2026-10-05 — Each F01 child screen keeps its own plate
 
 - **Context:** Founder rejected the first injection. Create Account was a scaled crop of the welcome atrium (curtain and sofa) while the approved Create Account is a different room (travertine arch, vase, olive, books). The instruction: almost every child screen has a unique plate, so do not conflate or flatten them.
@@ -13694,7 +12688,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** A child authority that is its own composition gets its own plate. Do not object-position or scale the welcome plate to imitate a child. Live UI stays code above the plate.
 
 ---
-
 ## 2026-10-05 — F01 mobile viewport fit
 
 - **Context:** This chat started as the canonical plate injection, then the founder rejected flattening child screens onto the welcome atrium. Each of the 14 F01 screens got its own clean plate (nine new generations after the first four). The tunnel was restarted onto that build. The founder then confirmed the backgrounds load and the pipeline works, and asked for the live panels to be condensed because they overflow the phone.
@@ -13704,7 +12697,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Fit F01 by density tokens and screen-specific overrides. A child plate stays the child’s own file. The design viewport (DESIGN → JURNL → VIEWPORT) is the review surface, and the direct runtime must use the same CSS.
 
 ---
-
 ## 2026-10-05 — F01 app canvas boundary
 
 - **Context:** This chat covered canonical plate injection, the founder’s rejection of flattening child screens onto the welcome atrium, a unique plate per F01 screen, the mobile density pass, and then this boundary lock. Plates and density were already working. The remaining defect was live text leaving the plate. Create Account’s “ALREADY HAVE AN ACCOUNT? SIGN IN.” sat past the bottom of the environment on a shorter visible canvas.
@@ -13714,7 +12706,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** `JURNL_APP_CANVAS_CONTAINMENT`. Fit the column, then let the stage stop accidental escape. Do not hide a too-tall footer with clipping alone. Do not position JURNL controls against the host page.
 
 ---
-
 ## 2026-10-05 — F02 SETUP visual package
 
 - **Context:** This chat produced the F02 visual authority package. Earlier F01 work in the motherboard (unique plates, density, canvas boundary) stays as it was. The sprint was P0.JURNL.F02-SETUP-FULL-FAMILY-SCREEN-PLUS-LINKED-ASSET-SIDEKICK1.
@@ -13725,7 +12716,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** SETUP collects. Later families manage. Share a plate when the room is the same. Generate a plate from the screen by removing UI, not by cropping the screen. If a surface is flat bone or solid emerald, keep it in code.
 
 ---
-
 ## 2026-10-05 — F02 image ZIP
 
 - **Context:** After the F02 SETUP visual package landed, the founder asked for a ZIP of the generated F02 images.
@@ -13733,7 +12723,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Changes:** GitHub release `jurnl-f02-setup-images-2026-10-05`. No app code changed.
 
 ---
-
 ## 2026-10-05 — F02 botanical brand asset repair
 
 - **Context:** The F02 SETUP package had screens and plates, and the founder asked for a ZIP of those images. This follow-up sprint isolates the top-left floral marks that sit above the rooms.
@@ -13743,7 +12732,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** A floral mark beside the wordmark is an isolated asset when it changes by screen. Do not bake it into the plate.
 
 ---
-
 ## 2026-10-05 — F02 canonical mount for Sonnet
 
 - **Context:** This chat produced the F02 SETUP visual package, a review ZIP of those images, a botanical and brand-lockup repair, and then the source mount Sonnet implements from. The family name is SETUP (`F02_SETUP`), not FINANCE. F01 was not changed. site00.com was not deployed.
@@ -13753,7 +12741,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Sonnet builds the live skeleton from the mounted folder. Opus refines structure and fit after that. Grok does a final visual pass only if the live screens drift. Do not use a screen authority as a background. Do not crop a screen into an asset.
 
 ---
-
 ## 2026-10-05 — F02 botanical repair bound into the Sonnet mount
 
 - **Context:** This chat built the F02 SETUP visual package, packaged a review ZIP, isolated the header florals, mounted the canonical sources for Sonnet, and then bound the completed botanical repair into that mount. Family name remains SETUP (`F02_SETUP`). F01 was not changed. site00.com was not deployed.
@@ -13763,7 +12750,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Header marks are mounted PNGs. Do not redraw them in CSS, type, emoji, or a generic icon, and do not bake them into the plate.
 
 ---
-
 ## 2026-10-05 — One OpenArt project per family
 
 - **Context:** Founder confirmed F03 and F04 stay in their own projects, and asked that every future family be categorized the same way.
@@ -13772,7 +12758,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Do not generate F05 (or any later family) inside F01, F02, F03, or F04. Create the project, register it, then dispatch.
 
 ---
-
 ## 2026-10-05 — F03 and F04 OpenArt projects and image ZIP
 
 - **Context:** Founder asked to put JURNL F03 and F04 outputs in their own OpenArt projects, the same way F01 and F02 already have separate projects, and to send a ZIP of those images. The screenshot was the OpenArt project switcher.
@@ -13781,7 +12766,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Future F03 generations target project `Aa0fKSPeX0SJ4DICt0aI`. Future F04 generations target `KUfyzoatdwpaYBkq2Mf8`. To finish moving the original gallery history, use OpenArt Move to Project from the F02 project.
 
 ---
-
 ## 2026-10-05 — Reference binding cost guard (SITE 00 production methodology)
 
 - **Context:** Follow-up to F03/F04 Grok production where initial F03/F04 parents used OpenArt text2image while `REFERENCE_F01.00_WELCOME_APPROVED` existed. Founder corrected to image2image like F02. Sprint `P0.SITE00.PRODUCTION-METHODOLOGY.REFERENCE-BINDING-COST-GUARD1` formalizes pre-dispatch blocking across SITE 00 projects (not JURNL-only).
@@ -13790,7 +12774,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Paid jobs classify → resolve → validate → budget → dispatch. Sidekick plates/botanicals/lockups derive from screen authority reference. Historical ledger rows stay valid with nullable reference fields; only mark `INVALID_GENERATION_POSTMORTEM` when a reference was actually required.
 
 ---
-
 ## 2026-10-05 — F02 SETUP live family
 
 - **Context:** This chat built the F02 SETUP visual package, a review ZIP, the botanical repair, the canonical mount, the repair binding, and then the live family. The family name is SETUP (`F02_SETUP`), not FINANCE. Sonnet is skipped. Grok owns the live pass. Opus gets one family-wide structural audit afterward.
@@ -13800,7 +12783,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Preserve the live Grok visuals in the Opus audit. Do not rebuild the family. Do not use a screen authority as the runtime background. A lockup is the only header mark on its screen.
 
 ---
-
 ## 2026-10-05 — F03 and F04 parent composition repair
 
 - **Context:** This chat first locked the reference-binding cost guard, then moved F03 and F04 images into their own OpenArt projects, then required one provider project per family. The founder then stopped child production and asked for a parent correction of F03 TODAY and F04 ACTIVITY before any more child authorities.
@@ -13810,7 +12792,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Future families inherit `JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json` and `JURNL_CURRENCY_CONTRACT.json`. Do not resume F03 or F04 child generation until the founder passes the parents. Do not invent an exchange rate.
 
 ---
-
 ## 2026-10-05 — F02 SETUP OPUS final audit
 
 - **Context:** Final family-wide structural, visual-correction, interaction, responsive and accessibility audit of Grok's live F02 SETUP. Founder directives:
@@ -13867,7 +12848,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
   - Pick-several groups use `multi`.
 
 ---
-
 ## 2026-10-05 — Family environment distinctness
 
 - **Context:** After the reference-binding guard, the one-project-per-family rule, and the F03/F04 parent composition repair, the founder required that JURNL families share a world without sharing rooms.
@@ -13877,7 +12857,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Same world is not the same room. Do not generate a replacement for F03 until the founder asks. Do not copy the previous family's plate into the next family.
 
 ---
-
 ## 2026-10-05 — Family expression briefs
 
 - **Context:** After the room rule, the founder required a family expression stage before any paid picture: same world, different room, different moment, different job.
@@ -13887,7 +12866,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Do not picture a family before its brief and founder gate. Do not invent a new logo, type family, palette, or control shape for a family. Do not regenerate the Today plate until the founder asks.
 
 ---
-
 ## 2026-10-05 — Hierarchical expression cascade
 
 - **Context:** This chat locked reference binding, one OpenArt project per family, the F03/F04 parent repair, family-room distinctness, and family expression briefs. The founder then required expression to continue below the family: parent, child, grandchild, state, interaction, panel, and control.
@@ -13897,7 +12875,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Read the expression tree before building a child. Do not flatten a family into one generic sheet. Do not add a component variant for a single screen. Do not generate a plate unless the tree’s environment policy and repetition audit say the metaphor changed, and do not regenerate Today until the founder asks.
 
 ---
-
 ## 2026-10-05 — F05–F16 parent authorities
 
 - **Context:** This chat locked reference binding, one OpenArt project per family, the F03/F04 parent repair, family-room distinctness, expression briefs, and the hierarchical cascade. The founder then asked for F05–F16 parent authorities only, in their own project folders, under every prior rule, and then stopped text-to-image: a real image reference is required.
@@ -13907,7 +12884,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Do not call text-to-image for JURNL. Bind the actual file. Define the left rail before approving a plate. Do not explode these families until the founder marks LOVE_IT. Do not mark that status automatically.
 
 ---
-
 ## 2026-10-05 — F03 authority-first plate
 
 - **Context:** After the F05–F16 parent mount, the founder stopped text-to-image and then required the F03 correction to start from a full page. The environment plate is derived from that page. A background by itself is not an authority.
@@ -13917,7 +12893,6 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus hando
 - **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
 
 ---
-
 ## 2026-10-05 — Real display currency conversion
 
 - **Context:** This chat first shipped the F03 authority-first plate (full page, then a derived day plate, founder still unreviewed, no children). The founder then required the currency control to convert numbers, not only the symbol, and to keep a three-row scrolling list.
