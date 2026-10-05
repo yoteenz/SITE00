@@ -259,3 +259,5 @@ The JURNL runtime root is the app stage (`data-jrn-app-stage="canvas"`, `JURNL_A
 F02 is SETUP. The visual package for founder review is `JURNL/F02_SETUP/`. It is not mounted in the runtime and it does not change F01. Four shared plates cover the family: ENV.ARRIVAL, ENV.DESK, ENV.EDIT, and ENV.QUIET. Flat bone cards, sheets, fields, and the solid emerald button stay live code. Busts, books, trays, and olives stay inside the plate. Do not crop a finished screen into a runtime asset.
 
 F02 header florals are floating assets, not part of the environment plate. The repair set is `JURNL/F02_SETUP/ASSETS/BOTANICALS/` and `JURNL/F02_SETUP/ASSETS/LOCKUPS/`. Progress squares stay live code. The screens and plates were not regenerated for that repair.
+
+The F02 implementation source for Sonnet is `src/projects/jurnl/families/F02_SETUP/`. Authorities there are reference only. Plates, botanicals, and brand lockups are the runtime images. That folder is not wired into the live app. Start at `HANDOFF/SONNET_START_HERE.txt`. Do not search OpenArt to implement F02.

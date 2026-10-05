@@ -13470,3 +13470,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `JURNL/F02_SETUP/ASSETS/BOTANICALS/`, `JURNL/F02_SETUP/ASSETS/LOCKUPS/`, the botanical map, and updates to the visual manifest, component map, sidekick report, and generation ledger.
 - **Credits:** OpenArt balance 37,088 → 35,063. Fifteen jobs. The 2k quote was 132 credits. The account moved 2,025, which is 135 each. Delivered size is 1360×1360 for the square emblems.
 - **Conventions:** A floral mark beside the wordmark is an isolated asset when it changes by screen. Do not bake it into the plate.
+
+---
+
+## 2026-10-05 — F02 canonical mount for Sonnet
+
+- **Context:** This chat produced the F02 SETUP visual package, a review ZIP of those images, a botanical and brand-lockup repair, and then the source mount Sonnet implements from. The family name is SETUP (`F02_SETUP`), not FINANCE. F01 was not changed. site00.com was not deployed.
+- **Topics covered:** Screen tree before generation. Same-session linked-asset sidekick. Four shared plates. Code-only bone cards and emerald buttons. Header florals isolated as transparent assets after the first package baked them into the screens. Canonical mount into the repo so the next agent does not search OpenArt.
+- **Decisions / outcomes:** Implementation source is `src/projects/jurnl/families/F02_SETUP/`. Seventeen authorities are reference only. Four plates, thirteen emblems, and two lockups are the runtime images, copied byte-for-byte. Twelve icons stay in `icons.tsx` and are not duplicated. Panels, buttons, controls, objects, and materials stay code or inside the plates. F02.07 winner is `vrLuWNd4riH8JNGuJLVP`. F02.08 winner is `TivHik6Gd0eSXloheqG7`. The circular-progress and stray-mark attempts are excluded. Visual status stays `IN_REVIEW`. Structural implementation may start. No F02 routes or components were created. No new generations.
+- **Changes:** Family source root, source map, icon map, component map with `CODE_ONLY` / `CODE_PLUS_ASSET`, readiness file, Sonnet README, start-here file, Opus follow-on note, mount report.
+- **Conventions:** Sonnet builds the live skeleton from the mounted folder. Opus refines structure and fit after that. Grok does a final visual pass only if the live screens drift. Do not use a screen authority as a background. Do not crop a screen into an asset.
