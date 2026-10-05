@@ -13442,6 +13442,14 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` o
 
 ---
 
+## 2026-10-05 — RESUME16 validation batch (OpenArt2, sha256 registry)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2` (from #1324 lineage).
+
+- **16/16** frames regenerated via `source-binding-registry.json` (SW-002–SW-008 fresh uploads; casting-thumbnails-v1 work look + season1 body). **0 retries**, **2432** credits. Review ZIPs refreshed. All `FOUNDER_REVIEW_REQUIRED` / `IN_REVIEW`. **128 geometry not resumed.**
+
+---
+
 ## 2026-10-05 — RESUME16 OpenArt2 validation (16 frames, sha256 registry)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2`.
