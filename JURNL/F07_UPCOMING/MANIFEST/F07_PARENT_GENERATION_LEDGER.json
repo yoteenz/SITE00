@@ -1,0 +1,50 @@
+{
+  "family_id": "F07",
+  "mounted": {
+    "generation_id": "bBcJ3Cl46oHCqyrA0hht",
+    "provider": "OpenArt",
+    "model": "gpt-image-2-5-sunburst",
+    "settings": {
+      "mode": "image2image",
+      "resolutionTier": "4k",
+      "aspectRatio": "9:16",
+      "quality": "high",
+      "autoEnhancePrompt": false
+    },
+    "reference_mode": "REFERENCE_GUIDED",
+    "reference_id": "M6fTA8mW0avcPeHCuxBw",
+    "reference_attached": true,
+    "generation_class": "SCREEN_PARENT",
+    "estimated_credits": 324,
+    "actual_credits": 324,
+    "retry_count": 0,
+    "repair_count": 1,
+    "status": "READY_FOR_FOUNDER_REVIEW",
+    "resource_id": "fKH5w5vnZ1eGTAT6CASi",
+    "provider_project_id": "OQSZBlCKnjwwdIR9GVTZ"
+  },
+  "prior_text_to_image": {
+    "generation_id": "lKM7qRdGxSLEbn7LE7wf",
+    "provider": "OpenArt",
+    "model": "gpt-image-2-5-sunburst",
+    "settings": {
+      "mode": "text2image",
+      "resolutionTier": "4k",
+      "aspectRatio": "9:16",
+      "quality": "high",
+      "autoEnhancePrompt": false
+    },
+    "reference_mode": "TEXT_TO_IMAGE_NET_NEW",
+    "reference_id": null,
+    "reference_attached": false,
+    "generation_class": "SCREEN_PARENT",
+    "estimated_credits": 315,
+    "actual_credits": 315,
+    "retry_count": 0,
+    "repair_count": 0,
+    "status": "INVALID_GENERATION_POSTMORTEM",
+    "resource_id": "rVCOS2DkYJAAuROeMJRE",
+    "note": "Text-to-image is forbidden for JURNL. This row is the postmortem."
+  },
+  "child_generation": "NONE"
+}

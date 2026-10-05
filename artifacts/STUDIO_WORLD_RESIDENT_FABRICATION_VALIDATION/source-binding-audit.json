@@ -1,0 +1,219 @@
+{
+  "sprint": "P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1",
+  "generated_at": "2026-10-05T00:31:41.952Z",
+  "all_pass": true,
+  "entries": [
+    {
+      "resident": "SW-001",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-001_ETTA_VALE.jpg",
+      "sha256": "4095c61c5c5e03396567e939f513c0e76fe35188eb1ed0f98b9d690c4ec560d1",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-001",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-001__etta-vale/01-natural-authority/etta-vale__natural-full-body__sophisticated-fashionista.jpg",
+      "sha256": "35a4ec47c32769d20b9129ea4e00b00e417ad3a1ac2b2efd73e7ef8052751fb8",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-002",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-002_ZURI_XU.jpg",
+      "sha256": "ea9f8a6ee37da595bc2d4fa509ee217fd9b6fee6b92a28050f591f44bd87931b",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-002",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-002__zuri-xu/01-natural-authority/zuri-xu__natural-full-body__architectural-fashion-strategist.jpg",
+      "sha256": "6deaa462820ee313a14ffcda3b3e1f1ab57b097ef2f48e76c9c249f164855881",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-003",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-003_JULES_MERCER.jpg",
+      "sha256": "4e61ad0fdc90a80ae144d7bc2787a9cd5a53a7ffb6d124f6ff22ac6d20ad9640",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-003",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-003__jules-mercer/01-natural-authority/jules-mercer__natural-full-body__relaxed-romantic.jpg",
+      "sha256": "79455346245daa45ebbaa6da8caa3562cc89c627691ea4c05cad56aa3a91f400",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-004",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-004_NOA_KLINE.jpg",
+      "sha256": "a0dfbb2fd3158d88d0d114a43f6baf4eea01a669470b0fb2b5e84e9e73e0c362",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-004",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-004__noa-kline/01-natural-authority/noa-kline__natural-full-body__understated-systems-dad.jpg",
+      "sha256": "431357a7ec648a0411ea0d104f3db5bd19d10185b4a1b6b3ee130d8a9942a166",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-005",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-005_CASPIAN_REED.jpg",
+      "sha256": "b28df53d74ad02e2481107efc6c42c940f41920260f0d53c0c3917232bc4a680",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-005",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-005__caspian-reed/01-natural-authority/caspian-reed__natural-full-body__decadent-bohemian-aristocrat.jpg",
+      "sha256": "60fbb7584f2d4965e6f2102260d359b3bb122530009e19d3b3096455c0c68c09",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-006",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-006_IONA_WELLS.jpg",
+      "sha256": "313a5f16e86c4eb26a206ee15f4d11de8a25e59a9d7ba02bb7bfb178923bc55b",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-006",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/01-natural-authority/iona-wells__natural-full-body__precision-utilitarian.jpg",
+      "sha256": "fab89b42ed7a3931f9bdee564dc9456a28a96bc580747f023e31ad3c9f84563e",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-007",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-007_MARLOWE_SAINT.jpg",
+      "sha256": "47ca8ac4698d3bc504890f1f29eaa69d669406480258754dd73eaf4c565c6ef5",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-007",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-007__marlowe-saint/01-natural-authority/marlowe-saint__natural-full-body__off-duty-cultural-icon.jpg",
+      "sha256": "e51d4d2cc4a3cce9ece61d6729164d16f86e5ed91e4fae1034da042b9bfb91d4",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-008",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-008_ELIO_EV_VAHN.jpg",
+      "sha256": "86fe54c8b0f26494e985aaba2946ec1c9edc79a9846d7334a86767ee3763af04",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-008",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-008__elio-vahn/01-natural-authority/elio-vahn__natural-full-body__private-club-strategist.jpg",
+      "sha256": "4ce6990b48dab0937ec3c5f9f8d9bed9b47f8af425518a825337770cf4b65fae",
+      "uploaded_reference_id": null
+    },
+    {
+      "resident": "SW-005",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-005_CASPIAN_REED.jpg",
+      "sha256": "b28df53d74ad02e2481107efc6c42c940f41920260f0d53c0c3917232bc4a680",
+      "uploaded_reference_id": "isbIqB5ykRBuOJ6YV7EE",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-005_CASPIAN_REED_1791159962965_c0664810.jpg",
+      "at": "2026-10-05T00:31:42.553Z"
+    },
+    {
+      "resident": "SW-005",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-005__caspian-reed/01-natural-authority/caspian-reed__natural-full-body__decadent-bohemian-aristocrat.jpg",
+      "sha256": "60fbb7584f2d4965e6f2102260d359b3bb122530009e19d3b3096455c0c68c09",
+      "uploaded_reference_id": "EXq5LBUxgh1Kfq1HuwOw",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/caspian-reed__natural-full-body__decadent-bohemian-aristocrat_1791159963503_af387443.jpg",
+      "at": "2026-10-05T00:31:42.553Z"
+    },
+    {
+      "resident": "SW-006",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-006_IONA_WELLS.jpg",
+      "sha256": "313a5f16e86c4eb26a206ee15f4d11de8a25e59a9d7ba02bb7bfb178923bc55b",
+      "uploaded_reference_id": "Ytgk8zeUuu3LI30JtRnU",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-006_IONA_WELLS_1791159971825_7e52d1e8.jpg",
+      "at": "2026-10-05T00:31:43.516Z"
+    },
+    {
+      "resident": "SW-006",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-006_IONA_WELLS.jpg",
+      "sha256": "313a5f16e86c4eb26a206ee15f4d11de8a25e59a9d7ba02bb7bfb178923bc55b",
+      "uploaded_reference_id": "Ytgk8zeUuu3LI30JtRnU",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-006_IONA_WELLS_1791159971825_7e52d1e8.jpg",
+      "at": "2026-10-05T00:31:44.408Z"
+    },
+    {
+      "resident": "SW-006",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-006__iona-wells/01-natural-authority/iona-wells__natural-full-body__precision-utilitarian.jpg",
+      "sha256": "fab89b42ed7a3931f9bdee564dc9456a28a96bc580747f023e31ad3c9f84563e",
+      "uploaded_reference_id": "4vNk4lE7LX1BxZt3qk23",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/iona-wells__natural-full-body__precision-utilitarian_1791159972297_e4b28480.jpg",
+      "at": "2026-10-05T00:31:44.410Z"
+    },
+    {
+      "resident": "SW-007",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-007_MARLOWE_SAINT.jpg",
+      "sha256": "47ca8ac4698d3bc504890f1f29eaa69d669406480258754dd73eaf4c565c6ef5",
+      "uploaded_reference_id": "NJnJaF2wvfKS60WYyykX",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-007_MARLOWE_SAINT_1791159972795_1790a19a.jpg",
+      "at": "2026-10-05T00:31:45.308Z"
+    },
+    {
+      "resident": "SW-007",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-007_MARLOWE_SAINT.jpg",
+      "sha256": "47ca8ac4698d3bc504890f1f29eaa69d669406480258754dd73eaf4c565c6ef5",
+      "uploaded_reference_id": "NJnJaF2wvfKS60WYyykX",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-007_MARLOWE_SAINT_1791159972795_1790a19a.jpg",
+      "at": "2026-10-05T00:31:46.200Z"
+    },
+    {
+      "resident": "SW-007",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-007__marlowe-saint/01-natural-authority/marlowe-saint__natural-full-body__off-duty-cultural-icon.jpg",
+      "sha256": "e51d4d2cc4a3cce9ece61d6729164d16f86e5ed91e4fae1034da042b9bfb91d4",
+      "uploaded_reference_id": "MqS8qc6HmSDvb5Vve1Nm",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/marlowe-saint__natural-full-body__off-duty-cultural-icon_1791159973776_4eb22cb6.jpg",
+      "at": "2026-10-05T00:31:46.200Z"
+    },
+    {
+      "resident": "SW-008",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-008_ELIO_EV_VAHN.jpg",
+      "sha256": "86fe54c8b0f26494e985aaba2946ec1c9edc79a9846d7334a86767ee3763af04",
+      "uploaded_reference_id": "8IyCz2KvKRyNfTVOuWpz",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-008_ELIO_EV_VAHN_1791159974263_a207b18c.jpg",
+      "at": "2026-10-05T00:31:47.381Z"
+    },
+    {
+      "resident": "SW-008",
+      "reference_role": "WORK_LOOK",
+      "local_source_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-008_ELIO_EV_VAHN.jpg",
+      "sha256": "86fe54c8b0f26494e985aaba2946ec1c9edc79a9846d7334a86767ee3763af04",
+      "uploaded_reference_id": "8IyCz2KvKRyNfTVOuWpz",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-008_ELIO_EV_VAHN_1791159974263_a207b18c.jpg",
+      "at": "2026-10-05T00:31:48.309Z"
+    },
+    {
+      "resident": "SW-008",
+      "reference_role": "BODY_GEOMETRY",
+      "local_source_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-008__elio-vahn/01-natural-authority/elio-vahn__natural-full-body__private-club-strategist.jpg",
+      "sha256": "4ce6990b48dab0937ec3c5f9f8d9bed9b47f8af425518a825337770cf4b65fae",
+      "uploaded_reference_id": "CP2XbUbo8JVLV0IEvsXj",
+      "openart_url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/elio-vahn__natural-full-body__private-club-strategist_1791159974793_d87824a6.jpg",
+      "at": "2026-10-05T00:31:48.309Z"
+    }
+  ],
+  "note": "openart_reference_upload_id filled after sha256-verified re-upload via source-binding-registry.json"
+}

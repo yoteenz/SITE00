@@ -13,13 +13,29 @@ Canonical reference for stack, design, and main flows. Keep this updated when th
 
 ---
 
+## Agent output contract (every session — founder must NOT re-prompt)
+
+Founder formalized this once. **Do not tell the founder to paste session-close instructions into sprint prompts.**
+
+**Cloud Agents:** `AGENTS.md` § Session close mirrors this contract and is read at cloud session start — handoff-safe.
+
+Before any final message that completes work: follow **`.cursor/rules/session-close.mdc`** (always-applied):
+
+1. Prose summary  
+2. Sprint `CONCLUSION` (if any) inside **one fenced code block** — not markdown headings  
+3. Deploy links **each on its own line** after the box (ZIP · release · README · verify · upload)
+
+Sprint prompts may include their own `FINAL CONCLUSION FORMAT` — that content goes **inside part 2**. It does not replace parts 1 or 3.
+
+---
+
 ## Stack & repo
 
 - **Frontend:** React 19, TypeScript, Vite 5, React Router 6. Styles in `src/site00/styles/`. No Tailwind in standalone SITE 00.
 - **Backend / Auth / DB:** Supabase (shared Frontal Slayer project `hyycomvcaqxxvyrfupes` during migration; target = dedicated SITE 00 project). Migrations: `supabase/migrations/*site00*`.
 - **API:** Vercel-style serverless handlers under `api/` (admin site00 production, ASSTS, etc.). **Do not run on cPanel static hosting alone** — host separately or use Supabase Edge Functions; see `docs/DEPLOYMENT.md`.
 - **Env (browser):** `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_API_BASE`, `VITE_ADMIN_EMAILS`. `VITE_SITE00_ROOT=1` set at build time in `vite.config.ts`.
-- **Env (server only):** `SUPABASE_SERVICE_ROLE_KEY`, `FAL_KEY`, `ADMIN_EMAILS`, ASSTS bucket secrets — never `VITE_*`.
+- **Env (server only):** `SUPABASE_SERVICE_ROLE_KEY`, `FAL_KEY`, `XAI_API_KEY` (Railway `site00-api` / twin-testA), `ADMIN_EMAILS`, ASSTS bucket secrets — never `VITE_*`.
 - **Local dev:** `npm run dev` → port **5174**. ASSTS local API plugin in dev via `scripts/vite-site00-assts-local-api.mjs`.
 
 ---
@@ -35,6 +51,10 @@ Canonical reference for stack, design, and main flows. Keep this updated when th
 | `/evolve/state` | Evolve path selector |
 | `/assts` | Asset factory / vault |
 | `/control` | Client control panel |
+| `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (GROK1–GROK1F5). Hard-bound to **xAI grok-4.6** on `POST /v1/responses` — no model fallback. **Does not sit behind CTRL ROOM sign-in** (preview/phone must boot the bench). READY requires key + team model access + smoke. **F4:** 10-min provider timeout, 5-min stall watchdog, ETA correction, cancel, `GROK_RUNTIME_HEALTH` gate before founder golden. **F5:** HTTP 503 is `PROVIDER_SERVICE_UNAVAILABLE` / `PROVIDER_TRANSIENT_FAILURE`, not `MODEL_REJECTED`; bounded 2 automatic retries (3 attempts) for 429/500/502/503/504 inside the 10-min budget; Retry-After honored; retry updates lastStateChangeAt so the stall watchdog does not false-fire. Secret-backed calls prefer Railway `https://api.site00.com`. |
+| `/projects/:slug/design/twin-grok-direct` | Isolated Grok **direct reconstruction** of the founder golden (P0.VR.DESIGNBENCH.GROK-DIRECT1). Real DOM/CSS only — no Figma package, no provider API, no raster cheat. Does not sit behind CTRL ROOM sign-in. Existing Twin / DESIGN routes stay untouched. |
+| `/projects/:slug/design/twin-opus-direct` | Isolated **Claude Opus 5** direct reconstruction of the founder golden (P0.VR.DESIGNBENCH.OPUS-DIRECT1, refined by **OPUS-DIRECT1R1**). 768×1376 reference artboard, **full-bleed — no rounded outer frame**; geometry measured off `public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg` (the golden master). All 14 sections land within 2.0px of the golden. Forensic harness: `scripts/design-bench/opus-direct/audit.mjs`. Real DOM/CSS only — no raster cheat, no provider API. Boots without CTRL ROOM sign-in. |
+| `/projects/:slug/design/twin-sol-direct` | Isolated Sol **structural** reconstruction of the same golden (SOL-DIRECT1 / R1). **GROK-ASSET1** plates; **GROK-ASSET1R1** icon style; **GROK-ASSET1R2** slot-by-slot icon presence (45 tagged slots). Sol geometry frozen. Real DOM/CSS; no raster cheat; no CTRL ROOM guard. |
 
 Desktop preview paths use `/desktop` suffix (artboard preview mode).
 
@@ -94,6 +114,11 @@ Clone path on cloud VM: `/home/ubuntu/SITE00` (may mirror `/workspace` checkout)
 - **Build:** `npm ci && npm run build` → upload **contents of `dist/`** only.
 - **Founder often on mobile:** Build in cloud agent → ZIP `dist/` → upload/extract via mobile cPanel File Manager; do not assume local machine access.
 - **API on cPanel static:** Not supported without separate Node/API host (`VITE_API_BASE`).
+- **Agent session close (required format — three parts):** When wrapping a session (or when the founder needs production updated), deliver **all three** — never omit one:
+  1. **Text summary** — normal prose: what changed, why, what to do next (Railway redeploy, etc.).
+  2. **Structured conclusion code box** — one fenced code block containing the sprint's `CONCLUSION` template (STATUS blocks, preflight booleans, FINAL line, `STOP.`). This is for founder copy-paste on mobile; **do not** put deploy URLs inside this box.
+  3. **Deploy links** — immediately after the code box, each copy-paste item **on its own line** (plain markdown links or bare URLs): ZIP download · release page · verify bundle path · one-line upload reminder. Founder copies links **one at a time** on mobile.
+- **Not:** prose-only close with no conclusion code box; conclusion-only with no prose; deploy URLs bundled inside the conclusion code box; deploy links omitted when frontend/API changed.
 
 ---
 
@@ -119,7 +144,7 @@ Privileged admin surface at `/admin/site00/*` (guarded by `AdminGuard` / `canAcc
 ## Email system (transactional + lifecycle)
 
 - **Shared module:** `shared/site00-email/` — art-direction system (`art-direction/`: primitives, families, contracts, reference-render), 13 visual archetypes (incl. `intake-lifecycle`, placeholder only), 84-template registry, real QR for access templates, debug fixtures (preview only).
-- **Typography:** Martian Mono (matches product `site00-fonts.css`) — not Futura/serif in email HTML.
+- **Typography provenance (HOST UI vs client brand):** Martian Mono is **SITE 00 host/interface typography** (`src/site00/styles/site00-fonts.css`, admin UI, questionnaires, validation screens). It is **NOT** client brand canon. Client creative payloads use `shared/site00-brand-lore/typographyProvenance.ts` — replay starts with `TYPOGRAPHY_IDENTITY_STATUS = UNRESOLVED`; uppercase is a **casing behavior**, not a font-family decision. Invariant: **HOST_UI typography cannot automatically become CLIENT_BRAND typography.** Production envelope injects `typographyProvenance`; `PERSONALITY_REPLAY_PRODUCTION_READY` gates include typography separation preflight flags.
 - **Debug gallery:** `/admin/site00/debug/email-pack` (AdminGuard) — gallery with visual-family + fidelity filters, per-template REFERENCE / IMPLEMENTATION / COMPARE modes, mobile/desktop + light/dark inbox framing, composition contracts, text fallback, localStorage approval state.
 - **Production sends:** `api/_lib/email/sendEmail.ts` renders from registry; provider not configured until `EMAIL_PROVIDER` env set. Idempotency via in-memory send log stub. Legacy `welcome` → `access-credential-issued`.
 - **Auth emails:** Supabase Auth owns verification/reset — SITE 00 templates exist for gallery parity; document provider limitations.
@@ -150,12 +175,17 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 
 Multi-project orchestration foundation at `api/_lib/site00Orchestration/`. Debug: `/admin/site00/debug/orchestration`. API: `/api/admin/site00-orchestration`. Docs: `docs/site00/`. Launch readiness calculated against **approved active manifest only** — not universal checklist. Studio World = `PRODUCTION_INFRASTRUCTURE`, not client brand. Evidence ≠ completion.
 
+## Parent–Child Experience Inheritance (P0.PCI.1 + P0.PCI.2)
+
+Reusable engine at `shared/site00-studio-world-production/parentChildExperienceInheritance/`. **Parent landing = experience authority; child = function authority.** PCI.1: route graph → grammar extraction → convergence plan → branch QA. **PCI.2:** navigation linkage audit — parent actions wired to child/grandchild surfaces, return paths, orphan/dead/miswire detection, `ChildExperienceReadiness` (CURRENT = visual + wiring). UI: Design → MORE → Child Experience Matrix. Complements P0.VR.7 page completion (`PAGE_CHILD_LINK_MISSING`). Docs: `docs/architecture/SITE00_PARENT_CHILD_EXPERIENCE_P0PCI1.md`, `P0PCI2.md`.
+
 ---
 
 - **Default:** Feature branch → open PR → **merge to `main` immediately** in the same agent run (see `.cursor/rules/shipping.mdc`).
 - **PR purpose:** History and post-merge review for the founder (mobile GitHub app); not a manual merge gate.
 - **Opt-out phrases:** "draft PR", "don't merge yet", "wait for my review".
-- **`main` ≠ live site:** Merging to `main` updates GitHub (and Railway if connected); **site00.com** still needs GoDaddy deploy.
+- **`main` ≠ live site:** Merging to `main` updates GitHub (and Railway if auto-deploy is on); **site00.com** / **fsbw-dev** still need cPanel deploy for frontend changes.
+- **Deploy checklist:** Agents must classify each sprint as `FRONTEND` · `API` · `BOTH` · `NONE` — see `docs/DEPLOYMENT.md` § Deploy checklist. Do not ask for Railway redeploy on frontend-only merges.
 
 ---
 
@@ -171,6 +201,37 @@ Fourth complementary EVOLVE capability (alongside REFINE, INSTALL, TRANSFORM): o
 
 ---
 
+## Studio World — Creative Intelligence Hierarchy
+
+Canonical upstream-to-downstream layers (methodology v20+):
+
+| Layer | Question |
+|-------|----------|
+| **Brand Lore** | What does the brand believe / world context? |
+| **Brand Personality** | How does the brand behave? |
+| **Primary Expression Context** | Where does the brand primarily live? |
+| **Founder Creative Appetite** | How far may creative exploration push? |
+| **Concept Territory** | What is the big creative idea? |
+| **World Expression System** | What is the persistent visual/verbal universe? |
+| **Medium Expression** | How does the same concept express in a given medium? |
+| **Experience Expression** | How does concept + world become interactive product behavior (Experiment E)? |
+| **World Readiness Intake** | Guest discovery + WorldReadinessProfile — capture intelligence now, form world later |
+| **Sequence Creative System** | What is the post-level art-direction contract for one multi-frame execution? |
+| **Frame / Asset** | Individual generated expression |
+
+**Rules:** Founder Creative Appetite ≠ Brand Personality ≠ visual canon. Brand wins on conflict. Frozen NDXBOOK concept experiment excludes appetite from serialized production payloads (`assertCreativeAppetiteNotInjectedIntoFrozenExperiment`). Sequence Creative System preserves palette usage hierarchy and Slide 01 anchor — cohesion ≠ sameness. **Experience Expression** (Experiment E) consumes Concept Territory + World Expression downstream; requires founder-selected territory (`EXPERIMENT_E_ONLY`); intelligence snapshot v2; no auto-implement; SITE 00 host canon (Martian Mono) ≠ client canon.
+
+---
+
+## Design workspace — page concept gallery vs FAL
+
+- **Concept Candidate Gallery (A/B/C mobile)** uses durable run jobs with provider **`GPT2_MOBILE`** (images rendered on Railway via **`FAL_KEY`** / `@fal-ai/client`, then stored in Supabase + public URLs on the run).
+- **Experience expression images** use provider **`FAL_EXPERIENCE`** — mounted in **Experience review**, not the A/B/C gallery grid.
+- **Cross-origin parity:** tunnel, site00.com, and phone do not share `localStorage`. When signed in, the design bench **auto-mounts** the latest Supabase gallery run on load, sign-in, and tab focus (`runAutoPageConceptGalleryMount` — same path as RESTORE, `galleryRestore: true`). Manual **RESTORE PAGE CONCEPTS** remains a retry only.
+- **Server lookup** must resolve page_id aliases and skip empty in-flight CGPT runs so READY mobile galleries are not hidden behind orphan runs (Railway API on `main`).
+
+---
+
 ## Docs
 
 | Path | Purpose |
@@ -179,4 +240,46 @@ Fourth complementary EVOLVE capability (alongside REFINE, INSTALL, TRANSFORM): o
 | `docs/MOTHERBOARD_COMMANDS.md` | Quick agent command reference |
 | `docs/SITE_00_EVOLVE_MARKETING.md` | EVOLVE Marketing service architecture, lifecycle, adapter |
 | `docs/STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md` | Studio World REST + webhook contract v1 |
+| `docs/studio-world/MODULAR-PRODUCTION-ENGINE1.md` | Studio World modular production engine — layers, libraries, pipelines, monetization (Phase 1) |
+| `docs/studio-world/MODULAR-PRODUCTION-ENGINE-OPERATIONAL-LAYERS1.md` | Operational augmentation — role-first casting, Actor Genesis stages, departments, entitlements |
 | `README.md` | Local dev, env vars, routing |
+
+---
+
+## JURNL Family 1 asset method
+
+Permanent method: asset-first, visual-semantic decomposition, minimum necessary assets, live UI separation, layer-aware compositing.
+
+Classify every region into one role before generating an image: live text, live control, structural UI, panel or surface, thumbnail or media slot, environment plate, independent visual asset, layered decorative asset, interactive stateful asset, effect, or not an asset. A static room (plants, books, stone, fabric, sunlight) is one environment plate unless a piece must move, change state, be reused alone, or overlap live UI on its own layer. Parent assembly proof: `/jurnl/f01/parent-assembly`. Layer map: `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/FAMILY1_PARENT_LAYER_MAP.json`. Environment plates render at OpenArt `resolutionTier: 4k`, which delivers 2016×3584 and shows in the gallery as 3K. The F01 live runtime mounts those plates: the atrium plate is reused, and verify, forgot-password, reset-sent, and privacy each have their own clean plate. Failed harvest crops stay unmounted. A verified 4k image-to-image generation at this setting costs 317 credits. Each of the 14 F01 screens mounts its own clean plate. The welcome atrium plate stays on welcome and the F02 boundary. A child screen is not a crop of that plate.
+
+F01 mobile density is token-driven (`--jrn-btn-h`, `--jrn-field-h`, `--jrn-row-h`, `--jrn-row-gap`, `--jrn-tile`, `--jrn-form-gap`, `--jrn-stack-gap`, `--jrn-cta-gap`, `--jrn-heading-gap`). Under 600px those tokens are compact so a 393×852 screen fits without host-page scroll. Tablet (600px) and desktop restore the taller rhythm. A short desktop (1100px wide and under 960px tall, including 1440×900) uses a shorter column. Error panels on a full form use a mobile-only `:has(.jrn-error)` tightening so validation does not push the page. Do not fit F01 by scaling the screen or clipping a too-tall stack.
+
+The JURNL runtime root is the app stage (`data-jrn-app-stage="canvas"`, `JURNL_APP_CANVAS_CONTAINMENT`). It is `100dvh` and `overflow: hidden`. The environment plate is pinned to that stage. The live column is positioned inside the same stage, so text and controls cannot paint onto the SITE 00 page. Fit the column first. The stage boundary only stops accidental escape.
+
+F02 is SETUP. The visual package for founder review is `JURNL/F02_SETUP/`. It is not mounted in the runtime and it does not change F01. Four shared plates cover the family: ENV.ARRIVAL, ENV.DESK, ENV.EDIT, and ENV.QUIET. Flat bone cards, sheets, fields, and the solid emerald button stay live code. Busts, books, trays, and olives stay inside the plate. Do not crop a finished screen into a runtime asset.
+
+F02 header florals are floating assets, not part of the environment plate. The repair set is `JURNL/F02_SETUP/ASSETS/BOTANICALS/` and `JURNL/F02_SETUP/ASSETS/LOCKUPS/`. Progress squares stay live code. The screens and plates were not regenerated for that repair.
+
+The F02 implementation source for Sonnet is `src/projects/jurnl/families/F02_SETUP/`. Authorities there are reference only. Plates, botanicals, and brand lockups are the runtime images. That folder is not wired into the live app. Start at `HANDOFF/SONNET_START_HERE.txt`. Do not search OpenArt to implement F02.
+
+F02 header marks layer above the plate and under live UI: environment, then the botanical emblem, then a full brand lockup when that screen uses one. A lockup that already contains the wordmark and the flower is the only header mark on that screen. Do not redraw those assets in CSS, type, emoji, or a generic icon.
+
+F02 SETUP is a live runtime family. Route `setup` is F02.00. The eleven screens, three state groups, and three interaction groups are wired from `src/projects/jurnl/data/f02/`. Plates and header assets come from `src/projects/jurnl/families/F02_SETUP/`. Authorities are reference files for the design viewport. F02.08 opens the F03 TODAY boundary at `today`. Founder visual approval is still pending. Sonnet is skipped for this family. Opus does one family-wide structural audit and preserves the live visuals.
+
+**Reference binding (paid generation guard):** If a visual reference exists, production must use **REFERENCE_GUIDED** generation with the image attached — not text-only. True net-new authorities may use **TEXT_TO_IMAGE_NET_NEW** only when no canonical/approved reference applies. Missing or unattached references **block before provider dispatch** (zero credits). Enforced in `shared/site00-production-guardrails/` (`validateGenerationReferenceBinding`, `precheckGenerationDispatch`). Policy docs: `docs/production/reference-binding/`. Default `reference_binding_policy = REQUIRED_WHEN_AVAILABLE` for SITE 00 managed projects. No silent fallback to text2image.
+
+**One provider project per family:** JURNL F01, F02, F03, and F04 each have their own OpenArt project. A new family gets a new project and a new repo folder before the first paid generation. `precheckGenerationDispatch()` blocks `FAMILY_PROJECT_REQUIRED` and `FAMILY_PROJECT_MISMATCH`. Registry: `shared/site00-production-guardrails/familyOutputProjects.ts`.
+
+**JURNL expression:** Before a family is pictured, it needs `F##_FAMILY_EXPRESSION_BRIEF.json` and the matching markdown. The order is product definition, expression brief, founder gate, parent, sidekick, children, live implementation. The matrix of occupied rooms is `JURNL/MANIFEST/JURNL_FAMILY_EXPRESSION_MATRIX.json`. A missing brief blocks dispatch at zero credits. Families stay one brand: same voice, type, palette, and square-rounded controls. F03's written brief is a daily room. Its mounted plate still repeats the entry doorway and is not replaced until the founder asks.
+
+**JURNL expression cascade:** Expression continues under the family. Each family has `F##_EXPRESSION_TREE.json`. The cross-family record is `JURNL/MANIFEST/JURNL_EXPRESSION_MATRIX.json`. A child is direct inheritance, modulated inheritance, or a distinct sub-expression. A new plate is only for a material change of job, emotion, or spatial metaphor. States and interactions are directed. `JurnlPanel`, `JurnlButton`, and `JurnlDrawer` use repeatable roles. A missing tree blocks dispatch as `HIERARCHICAL_EXPRESSION_REQUIRED` at zero credits. F03 and F04 child production stays blocked.
+
+**JURNL parent plates:** JURNL visual generation is reference-guided. Text-to-image is `INVALID_GENERATION_MODE`. A parent plate is environment-dependent: the left rail needs a quiet field and the architectural weight sits on the right. The occupancy map is `F##_PLATE_OCCUPANCY.json`. A missing map is `PLATE_OCCUPANCY_REQUIRED`. Do not hide a collision with a scrim. F05–F16 parents are mounted for review and are not approved. Child explosion stays off.
+
+**JURNL authority-first plates:** The full page is the creative authority. The environment plate is derived from that page after the composition passes, with the full page attached as the reference. A standalone background is `AUTHORITY_FIRST_REQUIRED` and spends zero credits. This applies to F03 and to F05–F16. Text-to-image stays forbidden. The arrival-copy F03 plate is not the correction authority.
+
+**JURNL rooms:** Families share one world and do not share plates by default. A new family gets a new environment group. Related screens inside a family should share a plate. Cross-family reuse needs a written reason on the environment manifest and on the generation job, or dispatch blocks as `CROSS_FAMILY_PLATE_REUSE_UNJUSTIFIED` with zero credits. F03 `ENV.DAY` is a unique file that still looks like F02 arrival and is marked `SHOULD_REPLACE`. Do not regenerate it unless the founder asks. Contracts: `JURNL/MANIFEST/JURNL_FAMILY_ENVIRONMENT_DISTINCTNESS.json` and `JURNL_PLATE_REUSE_AUDIT.json`.
+
+**JURNL composition and money (F03 onward):** Family titles start below the chrome, not against it. Primary content stays in a left rail. The right side of an environment plate stays open. The bottom nav is centered in the app canvas. Interactive text stays compact, and an icon sits beside its label. User-facing money goes through `formatMoney` in `src/projects/jurnl/data/home/currency.ts`. The display currency defaults to USD and is a user preference (`jurnl.currency`). Changing it changes the symbol and grouping. It does not convert historical amounts. There is no foreign-exchange rate. Change currency lives in the Ask Jurnl sheet. Contracts: `JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json`, `JURNL_CURRENCY_CONTRACT.json`, `JURNL_QUICK_ADD_CONTRACT.json`. F03 and F04 child production stays blocked until the founder passes the parents.
+
+**JURNL display conversion:** Base currency stays USD. Stored ledger amounts stay canonical USD. `formatMoney` multiplies that canonical amount by a fetched USD rate and formats with `Intl.NumberFormat`. The rate comes from `https://open.er-api.com/v6/latest/USD`, is cached in `jurnl.exchangeRate`, and is never invented. A failed fetch keeps the prior display currency. The Ask Jurnl list shows three rows and scrolls. Quick add stores the entered amount and currency plus the canonical USD equivalent. Contracts: `JURNL_CURRENCY_CATALOG.json`, `JURNL_EXCHANGE_RATE_CONTRACT.json`, `JURNL_CURRENCY_SELECTOR_QA.json`.

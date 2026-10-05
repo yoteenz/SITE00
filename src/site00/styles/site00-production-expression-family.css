@@ -1,0 +1,2323 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1
+ *
+ * ONE Expression family system (10 families, 40 routes) inside the shared Production authority frame.
+ * 1. NO-SCROLL CONTRACT — the family body fills the space between the shared host header and the bottom nav.
+ *    Hero + status + tabs keep their height; the panel grid takes the rest as fractional rows. Long lists scroll
+ *    inside their own pane ([data-scroll='internal']); the page / frame never scrolls.
+ * 2. RESPONSIVE GRID — 12 columns (desktop ≥1120, tablet 700–1119) or 6 columns (mobile <700). Panels declare
+ *    their span per family (--dc/--dr, --tc/--tr, --mc/--mr); each viewport is its own composition, never a scaled
+ *    copy of another.
+ * 3. PRIMITIVES — panel, row, kv, chip, buttons, empty states, meters, bars, curve, donut, frames, flow.
+ * Body only: no host chrome selectors, no zoom / transform scale.
+ */
+
+/* ── 1. frame contract ───────────────────────────────────────────────────────────────────────────── */
+.pxa[data-screen^='expression-'] .pxa-scroll {
+  overflow: hidden;
+}
+.pxa[data-screen^='expression-'] .pxa-body {
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+}
+.pxa .exf {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  --exf-gut: 40px;
+  --exf-gap: 10px;
+  --exf-fs: 11px;
+  --exf-fs-s: 9.5px;
+  --exf-fs-xs: 8.5px;
+  --exf-fs-h: 12.5px;
+  --exf-btn-h: 30px;
+  --exf-face: 34px;
+}
+.pxa .exf > .pxa-hero,
+.pxa .exf > .pxa-status,
+.pxa .exf > .exf-tabs {
+  flex: none;
+}
+.pxa .exf-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 10px var(--exf-gut) 12px;
+  overflow: hidden;
+}
+
+/* hero band: EXPRESSION · FAMILY / ROUTE (shared atmosphere plate) */
+.pxa .exf-hero {
+  height: 150px;
+}
+.pxa .exf-hero .pxa-hero__copy {
+  gap: 2px;
+}
+.pxa .exf-hero .pxa-hero__copy h1 {
+  font-size: 32px;
+  line-height: 1;
+}
+.pxa .exf-hero__family {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  color: var(--pxa-ink);
+}
+.pxa .exf-hero .pxa-hero__copy p {
+  margin: 2px 0 0;
+  font-size: 10.5px;
+}
+.pxa .exf-hero .pxa-hero__side {
+  font-size: 10.5px;
+}
+.pxa .exf-hero .pxa-hero__side b {
+  font-weight: 600;
+  color: var(--pxa-ink);
+}
+.pxa .exf-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 6px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--pxa-ink-2);
+}
+.pxa .exf-crumbs a {
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .exf-crumbs a:hover {
+  color: var(--pxa-red);
+}
+.pxa .exf-crumbs > span {
+  color: var(--pxa-red);
+}
+.pxa .exf-crumbs b {
+  font-weight: 600;
+  color: var(--pxa-red);
+}
+
+/* family tabs (children) / downstream flow tabs */
+.pxa .exf-tabs {
+  display: flex;
+  margin: 8px var(--exf-gut) 0;
+  border-bottom: 1px solid var(--pxa-line);
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 6px 6px 0 0;
+}
+.pxa .exf-tabs a {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px 4px 7px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--pxa-ink-2);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.pxa .exf-tabs a:hover {
+  color: var(--pxa-ink);
+}
+.pxa .exf-tabs a.is-active {
+  color: var(--pxa-red);
+  border-bottom-color: var(--pxa-red);
+  font-weight: 600;
+}
+.pxa .exf-tabs--flow a em {
+  font-style: normal;
+  color: var(--pxa-red);
+  margin-right: 4px;
+}
+.pxa .exf-tabs--flow a span {
+  color: var(--pxa-mute);
+}
+
+/* ── 2. responsive panel grid ────────────────────────────────────────────────────────────────────── */
+.pxa .exf-grid,
+.pxa .exf-stage > .exf-empty {
+  height: 100%;
+}
+.pxa .exf-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: var(--exf-rows-d);
+  grid-auto-flow: row dense;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: var(--exf-gap);
+  min-height: 0;
+}
+.pxa .exf-panel {
+  grid-column: span var(--dc);
+  grid-row: span var(--dr);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: 10px 14px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(252, 252, 253, 0.9));
+  box-shadow: 0 0 0 1px rgba(20, 20, 26, 0.04), 0 12px 26px -18px rgba(20, 20, 26, 0.35);
+}
+@media (min-width: 1120px) {
+  .pxa .exf-panel[data-hide~='d'] {
+    display: none;
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .exf {
+    --exf-gut: 28px;
+  }
+  .pxa .exf-grid {
+    grid-template-rows: var(--exf-rows-t);
+  }
+  .pxa .exf-panel {
+    grid-column: span var(--tc);
+    grid-row: span var(--tr);
+  }
+  .pxa .exf-panel[data-hide~='t'] {
+    display: none;
+  }
+  .pxa .exf-hero {
+    height: 150px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa .exf {
+    --exf-gut: 8px;
+    --exf-gap: 6px;
+    --exf-fs: 10px;
+    --exf-fs-s: 9px;
+    --exf-fs-xs: 8.5px;
+    --exf-fs-h: 10.5px;
+    --exf-btn-h: 22px;
+    --exf-face: 24px;
+  }
+  .pxa .exf-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: var(--exf-rows-m);
+  }
+  .pxa .exf-panel {
+    grid-column: span var(--mc);
+    grid-row: span var(--mr);
+    padding: 7px 8px 8px;
+    border-radius: 6px;
+  }
+  .pxa .exf-panel[data-hide~='m'] {
+    display: none;
+  }
+  .pxa .exf-stage {
+    padding: 6px var(--exf-gut) 8px;
+  }
+  .pxa .exf-hero {
+    height: 112px;
+  }
+  .pxa .exf-hero .pxa-hero__copy h1 {
+    font-size: 19px;
+  }
+  .pxa .exf-hero__family {
+    font-size: 10.5px;
+  }
+  .pxa .exf-hero .pxa-hero__copy p,
+  .pxa .exf-hero .pxa-hero__side {
+    font-size: 8.5px;
+  }
+  .pxa .exf-crumbs {
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+  }
+  .pxa .exf-tabs {
+    margin-top: 6px;
+  }
+  .pxa .exf-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  .pxa .exf-tabs a {
+    flex: 1 0 auto;
+    padding: 6px 5px 5px;
+    font-size: 8.5px;
+    letter-spacing: 0.03em;
+  }
+}
+
+/* ── 3. panel anatomy ────────────────────────────────────────────────────────────────────────────── */
+.pxa .exf-panel__head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex: none;
+  margin-bottom: 7px;
+  min-width: 0;
+}
+.pxa .exf-panel__head h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  min-width: 0;
+  font-size: var(--exf-fs-h);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pxa .exf-panel__head h3 i {
+  flex: none;
+  width: 2px;
+  height: 1em;
+  background: var(--pxa-red);
+}
+.pxa .exf-panel__head small {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #8a8a92;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pxa .exf-panel__all {
+  flex: none;
+  margin-left: auto;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.14em;
+  color: #6d6d73;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pxa .exf-panel__all span {
+  color: var(--pxa-red);
+}
+.pxa .exf-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.pxa .exf-panel__body > * {
+  flex-shrink: 0;
+}
+.pxa .exf-panel__body > .exf-fill,
+.pxa .exf-panel__body > .exf-media-primary,
+.pxa .exf-panel__body > .exf-storyboard-stage,
+.pxa .exf-panel__body > .exf-empty,
+.pxa .exf-panel__body > .exf-curve,
+.pxa .exf-panel__body > .exf-bars,
+.pxa .exf-panel__body > .exf-list,
+.pxa .exf-panel__body > .exf-overview {
+  flex-shrink: 1;
+}
+.pxa .exf [data-scroll='internal'] {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(20, 20, 26, 0.2) transparent;
+}
+.pxa .exf-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ── 4. primitives ───────────────────────────────────────────────────────────────────────────────── */
+.pxa .exf-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  width: 100%;
+  padding: 5px 6px;
+  border: 0;
+  border-bottom: 1px solid var(--pxa-line-2);
+  border-left: 2px solid transparent;
+  background: transparent;
+  color: var(--pxa-ink);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: default;
+}
+.pxa a.exf-row,
+.pxa button.exf-row {
+  cursor: pointer;
+}
+.pxa a.exf-row:hover,
+.pxa button.exf-row:hover {
+  background: rgba(20, 20, 26, 0.03);
+}
+.pxa .exf-row.is-active {
+  border-left-color: var(--pxa-red);
+  background: rgba(229, 35, 27, 0.05);
+}
+.pxa .exf-row > * {
+  flex: none;
+}
+.pxa .exf-row > .exf-row__text {
+  flex: 1 1 auto;
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.pxa .exf-row__text b {
+  font-size: var(--exf-fs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pxa .exf-row__text small {
+  font-size: var(--exf-fs-s);
+  color: var(--pxa-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pxa .exf-row__go {
+  color: var(--pxa-red);
+  font-size: 1.2em;
+}
+.pxa .exf-num {
+  font-style: normal;
+  font-weight: 600;
+  font-size: var(--exf-fs);
+  color: var(--pxa-red);
+  font-variant-numeric: tabular-nums;
+}
+
+.pxa .exf-kv {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  min-width: 0;
+}
+.pxa .exf-kv[data-cols='2'] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+}
+.pxa .exf-kv > div {
+  display: grid;
+  grid-template-columns: minmax(64px, 34%) minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+.pxa .exf-kv dt {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #8a8a92;
+  padding-top: 1px;
+}
+.pxa .exf-kv dd {
+  margin: 0;
+  min-width: 0;
+  font-size: var(--exf-fs);
+  line-height: 1.3;
+  color: var(--pxa-ink);
+  overflow-wrap: anywhere;
+}
+
+.pxa .exf-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 1.8em;
+  padding: 0 0.6em;
+  border-radius: 3px;
+  font-size: var(--exf-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  border: 1px solid currentColor;
+}
+.pxa .exf-chip--red {
+  color: var(--pxa-red);
+  background: rgba(229, 35, 27, 0.06);
+}
+.pxa .exf-chip--green {
+  color: #1f9d55;
+  background: rgba(31, 157, 85, 0.07);
+}
+.pxa .exf-chip--amber {
+  color: #c27a06;
+  background: rgba(194, 122, 6, 0.07);
+}
+.pxa .exf-chip--gray {
+  color: #7a7a82;
+  background: rgba(20, 20, 26, 0.03);
+}
+.pxa .exf-chip--ink {
+  color: #fff;
+  background: var(--pxa-ink);
+  border-color: var(--pxa-ink);
+}
+.pxa .exf-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: none;
+}
+.pxa .exf-red {
+  color: var(--pxa-red);
+}
+.pxa .exf-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a6a6ad;
+}
+.pxa .exf-dot--red {
+  background: var(--pxa-red);
+}
+.pxa .exf-dot--green {
+  background: #1f9d55;
+}
+.pxa .exf-dot--amber {
+  background: #d48a0c;
+}
+.pxa .exf-check {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #1f9d55;
+  color: #fff;
+  font-size: 10px;
+}
+.pxa .exf-check.is-todo {
+  background: #d8d8dc;
+  color: #6d6d73;
+}
+.pxa .exf-check.is-warn {
+  background: var(--pxa-red);
+}
+
+/* buttons + approval controls */
+.pxa .exf-actions {
+  display: grid;
+  gap: 5px;
+  flex: none;
+}
+.pxa .exf-actions__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.pxa .exf-actions__note {
+  margin: 0;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.08em;
+  color: var(--pxa-mute);
+}
+.pxa .exf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: var(--exf-btn-h);
+  padding: 0 12px;
+  border: 1px solid var(--pxa-red);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--pxa-red);
+  font: inherit;
+  font-size: var(--exf-fs-s);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pxa .exf-btn--red {
+  background: var(--pxa-red);
+  color: #fff;
+}
+.pxa .exf-btn--ink {
+  background: var(--pxa-ink);
+  border-color: var(--pxa-ink);
+  color: #fff;
+}
+.pxa .exf-btn--ghost {
+  border-color: var(--pxa-line);
+  color: var(--pxa-ink-2);
+}
+.pxa .exf-btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+.pxa .exf-select,
+.pxa .exf-search input,
+.pxa .exf-note {
+  width: 100%;
+  min-width: 0;
+  height: var(--exf-btn-h);
+  padding: 0 8px;
+  border: 1px solid var(--pxa-line);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--pxa-ink);
+  font: inherit;
+  font-size: var(--exf-fs);
+}
+.pxa .exf-note {
+  flex: 1 1 140px;
+  width: auto;
+}
+.pxa .exf-search {
+  display: grid;
+  gap: 3px;
+  flex: none;
+  margin-bottom: 4px;
+}
+.pxa .exf-search span {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.14em;
+  color: #8a8a92;
+}
+.pxa .exf-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: none;
+}
+.pxa .exf-picker .exf-select {
+  flex: 1 1 140px;
+  width: auto;
+}
+.pxa .exf-seg {
+  display: inline-flex;
+  flex: none;
+  border: 1px solid var(--pxa-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.pxa .exf-seg button {
+  flex: 1 1 auto;
+  padding: 0 10px;
+  height: calc(var(--exf-btn-h) - 2px);
+  border: 0;
+  border-left: 1px solid var(--pxa-line);
+  background: #fff;
+  color: var(--pxa-ink-2);
+  font: inherit;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.pxa .exf-seg button:first-child {
+  border-left: 0;
+}
+.pxa .exf-seg button.is-active {
+  background: var(--pxa-ink);
+  color: #fff;
+}
+
+/* empty / unmounted */
+.pxa .exf-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 10px;
+  border: 1px dashed #c9c9cf;
+  border-radius: 6px;
+  text-align: center;
+  background: repeating-linear-gradient(135deg, rgba(20, 20, 26, 0.015) 0 6px, transparent 6px 12px);
+}
+.pxa .exf-empty b {
+  font-size: var(--exf-fs);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+.pxa .exf-empty span {
+  max-width: 44ch;
+  font-size: var(--exf-fs-s);
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  color: var(--pxa-mute);
+}
+.pxa .exf-empty em {
+  font-style: normal;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.16em;
+  color: #9a9aa1;
+}
+.pxa .exf-empty[data-state='UNMOUNTED'] em {
+  color: var(--pxa-red);
+}
+
+/* imagery */
+.pxa .exf-img {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #e7e7ea;
+}
+.pxa .exf-img .ph-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.pxa .exf-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.pxa .exf-fill {
+  flex: 1 1 auto;
+  min-height: 40px;
+  width: 100%;
+}
+.pxa .exf-face,
+.pxa .exf-mono {
+  flex: none;
+  width: var(--exf-face);
+  height: var(--exf-face);
+  border-radius: 4px;
+}
+.pxa .exf-mono {
+  display: inline-grid;
+  place-items: center;
+  background: linear-gradient(160deg, #f4f4f6, #dcdce0);
+  color: var(--pxa-ink-2);
+  font-size: calc(var(--exf-face) * 0.36);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.pxa .exf-face--char {
+  background: linear-gradient(160deg, #2a2a30, #121214);
+  color: #fff;
+}
+
+/* stats, meters, bars, donut */
+.pxa .exf-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  flex: none;
+}
+.pxa .exf-stats--col {
+  flex-direction: column;
+  gap: 6px;
+}
+.pxa .exf-stat {
+  display: grid;
+  gap: 1px;
+}
+.pxa .exf-stat b {
+  font-size: calc(var(--exf-fs) * 1.7);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--pxa-ink);
+  font-variant-numeric: tabular-nums;
+}
+.pxa .exf-stat small {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #8a8a92;
+}
+.pxa .exf-stat--red b {
+  color: var(--pxa-red);
+}
+.pxa .exf-stat--green b {
+  color: #1f9d55;
+}
+.pxa .exf-stat--amber b {
+  color: #c27a06;
+}
+.pxa .exf-meter {
+  display: block;
+  flex: none;
+  height: 5px;
+  border-radius: 3px;
+  background: #ececef;
+  overflow: hidden;
+}
+.pxa .exf-meter i {
+  display: block;
+  height: 100%;
+  background: var(--pxa-red);
+}
+.pxa .exf-meter--green i {
+  background: #1f9d55;
+}
+.pxa .exf-bars {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  flex: 1 1 auto;
+  min-height: 40px;
+}
+.pxa .exf-bars__col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.pxa .exf-bars__col i {
+  display: block;
+  width: 70%;
+  max-width: 18px;
+  border-radius: 2px 2px 0 0;
+  background: var(--pxa-red);
+}
+.pxa .exf-bars__col--green i {
+  background: #1f9d55;
+}
+.pxa .exf-bars__col--gray i {
+  background: #9a9aa1;
+}
+.pxa .exf-bars__col small {
+  font-size: var(--exf-fs-xs);
+  color: #8a8a92;
+}
+.pxa .exf-caption {
+  flex: none;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #8a8a92;
+}
+.pxa .exf-overview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .exf-overview > .exf-kv {
+  flex: 1 1 auto;
+}
+.pxa .exf-donut {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 92px;
+  height: 92px;
+}
+.pxa .exf-donut svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.pxa .exf-donut__track {
+  fill: none;
+  stroke: #ececef;
+  stroke-width: 9;
+}
+.pxa .exf-donut__bar {
+  fill: none;
+  stroke: var(--pxa-red);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+.pxa .exf-donut > span {
+  display: grid;
+  text-align: center;
+}
+.pxa .exf-donut b {
+  font-size: 18px;
+  font-weight: 500;
+}
+.pxa .exf-donut small {
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  color: #8a8a92;
+}
+
+/* momentum curve */
+.pxa .exf-curve {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 60px;
+  margin-top: 12px;
+}
+.pxa .exf-curve svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.pxa .exf-curve__grid {
+  stroke: #e6e6ea;
+  stroke-width: 1;
+}
+.pxa .exf-curve__area {
+  fill: rgba(229, 35, 27, 0.1);
+}
+.pxa .exf-curve__line {
+  fill: none;
+  stroke: var(--pxa-red);
+  stroke-width: 2;
+}
+.pxa .exf-curve__pt {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border: 1.5px solid #3c3c42;
+  border-radius: 50%;
+  background: #fff;
+}
+.pxa .exf-curve__pt.is-mark {
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border: 2px solid var(--pxa-red);
+}
+.pxa .exf-curve__pt small {
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.08em;
+  color: var(--pxa-ink-2);
+  white-space: nowrap;
+}
+.pxa .exf-curve__pt[data-edge='first'] small {
+  left: 0;
+  transform: none;
+}
+.pxa .exf-curve__pt[data-edge='last'] small {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+/* text blocks */
+.pxa .exf-text {
+  margin: 0;
+  font-size: var(--exf-fs);
+  line-height: 1.4;
+  color: var(--pxa-ink-2);
+}
+.pxa .exf-quote {
+  margin: 0;
+  font-size: calc(var(--exf-fs) * 1.15);
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--pxa-ink);
+}
+.pxa .exf-bullets {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding-left: 14px;
+  font-size: var(--exf-fs);
+  line-height: 1.35;
+  color: var(--pxa-ink-2);
+}
+.pxa .exf-shift {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+}
+.pxa .exf-shift > span {
+  display: grid;
+  gap: 4px;
+}
+.pxa .exf-shift small {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.14em;
+  color: #8a8a92;
+}
+.pxa .exf-shift b {
+  font-size: var(--exf-fs);
+  font-weight: 500;
+  line-height: 1.35;
+}
+.pxa .exf-shift > i {
+  font-style: normal;
+  color: var(--pxa-red);
+  font-size: 18px;
+}
+
+/* sequences: arc, steps, moments, chain, flow */
+.pxa .exf-arc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .exf-arc li {
+  display: grid;
+  gap: 1px;
+  padding: 5px 9px;
+  border: 1px solid var(--pxa-line);
+  border-radius: 4px;
+  background: #fff;
+}
+.pxa .exf-arc li[data-stage='PEAK'] {
+  border-color: var(--pxa-red);
+}
+.pxa .exf-arc b {
+  font-size: var(--exf-fs-s);
+  letter-spacing: 0.08em;
+}
+.pxa .exf-arc small {
+  font-size: var(--exf-fs-xs);
+  color: #8a8a92;
+}
+.pxa .exf-steps,
+.pxa .exf-moments {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .exf-steps li,
+.pxa .exf-moments li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--pxa-line-2);
+}
+.pxa .exf-steps em,
+.pxa .exf-moments em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--pxa-red);
+  font-size: var(--exf-fs);
+}
+.pxa .exf-steps b,
+.pxa .exf-moments b {
+  font-size: var(--exf-fs);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pxa .exf-moments small {
+  font-size: var(--exf-fs-xs);
+  color: #8a8a92;
+  white-space: nowrap;
+}
+.pxa .exf-moments li[data-stage='PEAK'] b {
+  color: var(--pxa-red);
+}
+.pxa .exf-chain {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .exf-chain > li {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+.pxa .exf-chain--h {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.pxa .exf-chain--h > li {
+  grid-template-columns: 1fr;
+}
+.pxa .exf-chain span {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  padding: 5px 7px;
+  border: 1px solid var(--pxa-line);
+  border-radius: 4px;
+  background: #fff;
+}
+.pxa .exf-chain span[data-entity='actor'],
+.pxa .exf-chain span[data-entity='set'] {
+  border-color: #b9b9c0;
+}
+.pxa .exf-chain span[data-entity='character'],
+.pxa .exf-chain span[data-entity='zone'] {
+  border-color: var(--pxa-red);
+}
+.pxa .exf-chain small {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.14em;
+  color: #8a8a92;
+}
+.pxa .exf-chain b {
+  font-size: var(--exf-fs-s);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pxa .exf-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+}
+.pxa .exf-flow li + li::before {
+  content: '→';
+  margin-right: 6px;
+  color: var(--pxa-red);
+}
+.pxa .exf-flow a {
+  color: var(--pxa-ink-2);
+  text-decoration: none;
+}
+.pxa .exf-flow--states {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  flex: 1 1 auto;
+}
+.pxa .exf-flow--states li {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid var(--pxa-line);
+  border-radius: 4px;
+  background: #fff;
+}
+.pxa .exf-flow--states li + li::before {
+  content: none;
+}
+.pxa .exf-flow--states li.is-here {
+  border-color: var(--pxa-red);
+  box-shadow: inset 0 -2px 0 var(--pxa-red);
+}
+.pxa .exf-flow--states b {
+  font-size: var(--exf-fs-xs);
+  font-weight: 600;
+}
+.pxa .exf-flow--states .exf-chip {
+  justify-self: start;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* rails, tiles, frames, formats, deliverables */
+.pxa .exf-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(84px, 1fr);
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.pxa .exf-tile {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  min-width: 0;
+  padding: 4px;
+  border: 1px solid var(--pxa-line-2);
+  border-radius: 4px;
+  color: var(--pxa-ink);
+  text-decoration: none;
+  background: #fff;
+}
+.pxa .exf-tile.is-active {
+  border-color: var(--pxa-red);
+}
+.pxa .exf-tile .exf-face,
+.pxa .exf-tile .exf-mono {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+.pxa .exf-tile b {
+  font-size: var(--exf-fs-s);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pxa .exf-tile small {
+  font-size: var(--exf-fs-xs);
+  color: #8a8a92;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pxa .exf-rail--looks .exf-tile {
+  align-content: center;
+}
+.pxa .exf-frames {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 6px;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-content: start;
+}
+.pxa .exf-frame {
+  display: grid;
+  gap: 2px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.pxa .exf-frame.is-active {
+  border-color: var(--pxa-red);
+}
+.pxa .exf-frame .exf-img {
+  aspect-ratio: 16 / 10;
+}
+.pxa .exf-frame small {
+  font-size: var(--exf-fs-xs);
+  color: #6d6d73;
+  letter-spacing: 0.1em;
+}
+.pxa .exf-formats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 6px;
+}
+.pxa .exf-formats button {
+  display: grid;
+  gap: 2px;
+  padding: 8px 6px;
+  border: 1px solid var(--pxa-line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--pxa-ink);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+.pxa .exf-formats button.is-active {
+  border-color: var(--pxa-red);
+  color: var(--pxa-red);
+  box-shadow: inset 0 0 0 1px var(--pxa-red);
+}
+.pxa .exf-formats b {
+  font-size: var(--exf-fs);
+  letter-spacing: 0.1em;
+}
+.pxa .exf-formats small {
+  font-size: var(--exf-fs-xs);
+  color: #8a8a92;
+}
+.pxa .exf-deliverables {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+.pxa .exf-deliverable {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid var(--pxa-line);
+  border-radius: 6px;
+  background: repeating-linear-gradient(135deg, rgba(20, 20, 26, 0.015) 0 6px, transparent 6px 12px), #fff;
+}
+.pxa .exf-deliverable b {
+  font-size: var(--exf-fs);
+  letter-spacing: 0.12em;
+}
+.pxa .exf-deliverable small {
+  font-size: var(--exf-fs-xs);
+  color: #8a8a92;
+}
+.pxa .exf-deliverable .exf-chip {
+  justify-self: start;
+}
+.pxa .exf-checks {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .exf-checks li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--exf-fs-s);
+  letter-spacing: 0.08em;
+}
+.pxa .exf-checks small {
+  font-size: var(--exf-fs-xs);
+  color: #8a8a92;
+}
+
+/* records (detail heroes), fittings, takes */
+.pxa .exf-record__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+}
+.pxa .exf-record__media .exf-face,
+.pxa .exf-record__media .exf-mono {
+  width: 100%;
+  height: auto;
+  max-height: 120px;
+  aspect-ratio: 4 / 3;
+}
+.pxa .exf-fit {
+  display: grid;
+  gap: 5px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--pxa-line-2);
+}
+.pxa .exf-fit header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--exf-fs);
+}
+.pxa .exf-fit ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.1em;
+}
+.pxa .exf-fit li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #8a8a92;
+}
+.pxa .exf-fit li i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+}
+.pxa .exf-fit li[data-state='filled'] {
+  color: #1f9d55;
+}
+.pxa .exf-fit li[data-state='filled'] i {
+  background: currentColor;
+}
+.pxa .exf-take {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--pxa-line-2);
+}
+.pxa .exf-take > b {
+  font-size: var(--exf-fs-s);
+  letter-spacing: 0.12em;
+  color: var(--pxa-red);
+}
+.pxa .exf-progress {
+  display: grid;
+  gap: 6px;
+}
+
+/* ── 5. mobile primitive density ─────────────────────────────────────────────────────────────────── */
+@media (max-width: 699px) {
+  .pxa .exf-row {
+    gap: 5px;
+    padding: 3px 4px;
+  }
+  .pxa .exf-panel__head {
+    margin-bottom: 4px;
+    gap: 5px;
+  }
+  .pxa .exf-panel__head h3 {
+    gap: 5px;
+  }
+  .pxa .exf-panel__body {
+    gap: 4px;
+  }
+  .pxa .exf-kv {
+    gap: 2px;
+  }
+  .pxa .exf-kv > div {
+    grid-template-columns: minmax(44px, 34%) minmax(0, 1fr);
+    gap: 5px;
+  }
+  .pxa .exf-btn {
+    padding: 0 7px;
+    letter-spacing: 0.08em;
+  }
+  .pxa .exf-donut {
+    width: 58px;
+    height: 58px;
+  }
+  .pxa .exf-donut b {
+    font-size: 11px;
+  }
+  .pxa .exf-donut small {
+    font-size: 8.5px;
+  }
+  .pxa .exf-overview {
+    gap: 8px;
+  }
+  .pxa .exf-record__title {
+    font-size: 14px;
+  }
+  .pxa .exf-check {
+    width: 12px;
+    height: 12px;
+    font-size: 8.5px;
+  }
+  .pxa .exf-frames {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .pxa .exf-formats {
+    grid-template-columns: repeat(auto-fill, minmax(54px, 1fr));
+    gap: 4px;
+  }
+  .pxa .exf-formats button {
+    padding: 4px 2px;
+  }
+  .pxa .exf-deliverables {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .pxa .exf-deliverable {
+    padding: 5px;
+  }
+  .pxa .exf-flow--states {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3px;
+  }
+  .pxa .exf-flow--states li {
+    padding: 3px;
+  }
+  .pxa .exf-rail {
+    grid-auto-columns: minmax(56px, 1fr);
+    gap: 4px;
+  }
+  .pxa .exf-shift {
+    gap: 5px;
+  }
+  .pxa .exf-seg button {
+    padding: 0 5px;
+  }
+}
+
+/* ── 6. short viewports: compact hero instead of growing the page ────────────────────────────────── */
+@media (max-width: 699px) and (max-height: 700px) {
+  .pxa .exf-hero {
+    height: 74px;
+  }
+  .pxa .exf-hero .pxa-hero__copy p,
+  .pxa .exf-hero .pxa-hero__side {
+    display: none;
+  }
+  .pxa .exf-hero .pxa-hero__copy h1 {
+    font-size: 15px;
+  }
+}
+@media (min-width: 700px) and (max-height: 760px) {
+  .pxa .exf-hero {
+    height: 120px;
+  }
+  .pxa .exf-hero .pxa-hero__copy h1 {
+    font-size: 26px;
+  }
+  .pxa .exf-tabs a {
+    padding: 6px 4px 5px;
+  }
+}
+
+/* ── 7. media hierarchy (P0 EXPRESSION MEDIA ONE-VIEWPORT CONVERGENCE) ───────────────────────────── */
+.pxa .exf--media-focus .exf-hero {
+  height: 118px;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+  font-size: 24px;
+}
+.pxa .exf--media-focus .exf-hero .pxa-hero__copy p,
+.pxa .exf--media-focus .exf-hero .pxa-hero__side {
+  display: none;
+}
+.pxa .exf--media-focus > .pxa-status--compact {
+  margin: 0 var(--exf-gut);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell {
+  padding: 4px 6px;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell b {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell small,
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell a {
+  display: none;
+}
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(3),
+.pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(4) {
+  display: none;
+}
+@media (max-width: 699px) {
+  .pxa .exf--media-focus .exf-hero {
+    height: 86px;
+  }
+}
+/* short phones (≤700px tall): the family hero band yields its height to the primary media (FA.OPUS2) */
+@media (max-width: 699px) and (max-height: 700px) {
+  .pxa .exf--media-focus .exf-hero {
+    height: 64px;
+  }
+  .pxa .exf[data-family='storyboard'][data-route='root'] .exf-grid {
+    grid-template-rows: minmax(0, 1.7fr) minmax(0, 0.34fr) minmax(0, 0.4fr);
+  }
+}
+@media (max-width: 699px) {
+  .pxa .exf--media-focus .exf-hero .pxa-hero__copy h1 {
+    font-size: 16px;
+  }
+  .pxa .exf--media-focus .exf-hero__family {
+    font-size: 9px;
+  }
+  .pxa .exf--media-focus > .pxa-status--compact .pxa-status__cell:nth-child(2) {
+    display: none;
+  }
+}
+
+.pxa .exf-panel--media .exf-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+}
+.pxa .exf-panel--media .exf-panel__body > .exf-media-primary,
+.pxa .exf-panel--media .exf-panel__body > .exf-fill {
+  flex: 1 1 auto;
+  min-height: 88px;
+}
+.pxa .exf-panel--media .exf-panel__body > .exf-kv,
+.pxa .exf-panel--media .exf-panel__body > .exf-tags,
+.pxa .exf-panel--media .exf-panel__body > .exf-picker,
+.pxa .exf-panel--compact .exf-panel__head {
+  flex: none;
+}
+.pxa .exf-panel--compact .exf-panel__head {
+  margin-bottom: 3px;
+}
+.pxa .exf-panel--compact .exf-panel__body {
+  gap: 3px;
+  font-size: var(--exf-fs-s);
+}
+.pxa .exf-panel--rail .exf-panel__body {
+  overflow: hidden;
+}
+
+.pxa .exf-media-primary {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: #e7e7ea;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.pxa .exf-media-primary:disabled {
+  cursor: default;
+}
+.pxa .exf-media-primary__img {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  border-radius: 6px;
+}
+.pxa .exf-media-primary--contain .exf-media-primary__img img {
+  object-fit: contain;
+  background: #0e0e12;
+}
+.pxa .exf-media-primary--cover .exf-media-primary__img img {
+  object-fit: cover;
+}
+.pxa .exf-media-primary__hint {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #fff;
+  background: rgba(8, 8, 12, 0.55);
+  pointer-events: none;
+}
+
+.pxa .exf-rail--talent {
+  grid-auto-columns: minmax(92px, 120px);
+  align-items: stretch;
+}
+.pxa .exf-rail--talent .exf-tile .exf-face,
+.pxa .exf-rail--talent .exf-tile .exf-mono {
+  aspect-ratio: 3 / 4;
+  max-height: none;
+  width: 100%;
+  height: auto;
+}
+.pxa .exf-face--portrait {
+  --exf-face: 52px;
+  width: var(--exf-face);
+  height: calc(var(--exf-face) * 1.25);
+  border-radius: 4px;
+}
+@media (max-width: 699px) {
+  .pxa .exf-face--portrait {
+    --exf-face: 40px;
+  }
+}
+.pxa .exf-record__media .exf-media-primary,
+.pxa .exf-record__media .exf-face,
+.pxa .exf-record__media .exf-mono {
+  width: 100%;
+  max-height: none;
+  min-height: 120px;
+  aspect-ratio: auto;
+  flex: 1 1 auto;
+}
+.pxa .exf-record__media {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 100px;
+  margin-bottom: 6px;
+}
+
+.pxa .exf-frames--rail {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+  scrollbar-width: thin;
+  padding-bottom: 2px;
+}
+.pxa .exf-frames--rail .exf-frame {
+  flex: 0 0 auto;
+  width: clamp(72px, 22vw, 120px);
+}
+.pxa .exf-frames--rail .exf-frame .exf-img {
+  aspect-ratio: 16 / 10;
+  height: auto;
+  min-height: 48px;
+}
+.pxa .exf-storyboard-stage {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+.pxa .exf-storyboard-stage__hero {
+  min-height: 0;
+}
+.pxa .exf-look-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  flex: none;
+}
+.pxa .exf-look-compare figure {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  min-height: 0;
+}
+.pxa .exf-look-compare figcaption {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #8a8a92;
+}
+
+.pxa .exf-inspect {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+.pxa .exf-inspect__scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(8, 8, 12, 0.72);
+  cursor: pointer;
+}
+.pxa .exf-inspect__panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(960px, 100%);
+  max-height: min(92vh, 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f0f12;
+  color: #fff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+.pxa .exf-inspect__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pxa .exf-inspect__head small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.65);
+}
+.pxa .exf-inspect__head b {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+.pxa .exf-inspect__x {
+  border: 0;
+  background: none;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pxa .exf-inspect__figure {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  margin: 0;
+  padding: 8px;
+}
+.pxa .exf-inspect__figure img {
+  max-width: 100%;
+  max-height: min(72vh, 820px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.pxa .exf-inspect__figure figcaption {
+  margin: 6px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+}
+.pxa .exf-inspect__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 12px 12px;
+}
+.pxa .exf-inspect__foot button {
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.pxa .exf-inspect__foot button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+@media (max-width: 699px) {
+  .pxa .exf-inspect {
+    padding: 0;
+  }
+  .pxa .exf-inspect__panel {
+    width: 100%;
+    max-height: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+}
+
+/* ── 8. media-first kit (P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2) ──
+ * The creative asset is the flexible part: cards, galleries and heroes give their images whatever the grid row
+ * provides (flex: 1, min-height floors, never a fixed strip); copy is a compact fixed block under / beside it.
+ * Internal rails scroll sideways ([data-scroll='internal-x']); the page never scrolls. */
+.pxa .exm-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #e7e7ea;
+  font: inherit;
+  cursor: zoom-in;
+}
+.pxa span.exm-frame {
+  cursor: default;
+}
+.pxa .exm-frame > .ph-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.pxa .exm-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--exm-focus, 50% 22%);
+}
+.pxa .exm-frame--contain img {
+  object-fit: contain;
+  background: #0e0e12;
+}
+.pxa .exm-frame:focus-visible {
+  outline: 2px solid var(--pxa-red);
+  outline-offset: 2px;
+}
+.pxa .exm-frame__badge {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: var(--exf-fs-s);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--pxa-red);
+}
+
+.pxa .exm-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--exm-cd), minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 8px;
+  height: 100%;
+  min-height: 0;
+}
+.pxa .exm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px;
+  border: 1px solid rgba(20, 20, 26, 0.07);
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 8px 18px -14px rgba(20, 20, 26, 0.4);
+}
+.pxa .exm-card.is-active {
+  border-color: var(--pxa-red);
+  box-shadow: 0 0 0 1px var(--pxa-red), 0 8px 18px -14px rgba(20, 20, 26, 0.4);
+}
+.pxa .exm-card__media {
+  flex: 1 1 auto;
+  min-height: 56px;
+}
+.pxa .exm-card__copy {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pxa .exm-card--h {
+  flex-direction: row;
+}
+.pxa .exm-card--h .exm-card__media {
+  flex: 0 0 44%;
+  min-height: 0;
+}
+.pxa .exm-card--h .exm-card__copy {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+.pxa .exm-card__kicker {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.14em;
+  color: var(--pxa-ink-2);
+}
+.pxa .exm-card__title {
+  overflow: hidden;
+  font-size: var(--exf-fs-h);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  color: var(--pxa-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pxa a.exm-card__title:hover {
+  color: var(--pxa-red);
+}
+.pxa .exm-card__sub {
+  overflow: hidden;
+  font-size: var(--exf-fs-s);
+  letter-spacing: 0.06em;
+  color: var(--pxa-ink-2);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pxa .exm-card__chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  overflow: hidden;
+}
+.pxa .exm-card__open {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border: 1px dashed rgba(20, 20, 26, 0.22);
+  border-radius: 6px;
+  background: repeating-linear-gradient(135deg, #f6f6f8 0 8px, #efeff2 8px 16px);
+  text-align: center;
+}
+
+.pxa .exm-gallery {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 6px;
+  height: 100%;
+  min-height: 0;
+}
+.pxa .exm-gallery__primary {
+  position: relative;
+  min-height: 0;
+}
+.pxa .exm-gallery__cap {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  max-width: calc(100% - 12px);
+  padding: 2px 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: rgba(8, 8, 12, 0.62);
+  pointer-events: none;
+}
+.pxa .exm-gallery__thumbs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.pxa .exm-gallery__thumbs button {
+  position: relative;
+  flex: 0 0 auto;
+  width: 52px;
+  height: 62px;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background: #e7e7ea;
+  cursor: pointer;
+}
+.pxa .exm-gallery__thumbs button.is-active {
+  border-color: var(--pxa-red);
+}
+.pxa .exm-gallery__thumbs .ph-img,
+.pxa .exm-gallery__thumbs img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+}
+
+.pxa .exm-hero {
+  display: grid;
+  grid-template-areas: 'copy media';
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
+}
+.pxa .exm-hero__media {
+  grid-area: media;
+  min-height: 0;
+}
+.pxa .exm-hero__copy {
+  grid-area: copy;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+}
+.pxa .exm-hero__kicker {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.16em;
+  color: var(--pxa-red);
+}
+.pxa .exm-hero__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.02;
+  color: var(--pxa-ink);
+}
+.pxa .exm-hero__sub {
+  font-size: var(--exf-fs);
+  letter-spacing: 0.08em;
+  color: var(--pxa-ink-2);
+}
+.pxa .exm-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pxa .exm-hero__facts {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .exm-hero__actions {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pxa .exm-faces {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  height: 100%;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.pxa .exm-face {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 3px;
+  width: clamp(66px, 8.4vw, 112px);
+  min-height: 0;
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .exm-face .exm-frame {
+  flex: 1 1 auto;
+  min-height: 40px;
+}
+.pxa .exm-face b,
+.pxa .exm-face small {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pxa .exm-face b {
+  font-size: var(--exf-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.pxa .exm-face small {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.06em;
+  color: var(--pxa-ink-2);
+}
+.pxa a.exm-face:hover b {
+  color: var(--pxa-red);
+}
+
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .exm-grid {
+    grid-template-columns: repeat(var(--exm-ct), minmax(0, 1fr));
+  }
+  .pxa .exm-hero__title {
+    font-size: 21px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa .exm-grid {
+    grid-template-columns: repeat(var(--exm-cm), minmax(0, 1fr));
+    gap: 6px;
+  }
+  .pxa .exm-card {
+    gap: 4px;
+    padding: 4px;
+  }
+  .pxa .exm-card__media {
+    min-height: 48px;
+  }
+  .pxa .exm-hero {
+    gap: 8px;
+  }
+  .pxa .exm-hero__title {
+    font-size: 17px;
+  }
+  .pxa .exm-gallery__thumbs button {
+    width: 42px;
+    height: 50px;
+  }
+  .pxa .exm-face {
+    width: 62px;
+  }
+}
+
+/* media panes: the media container takes the panel body's full height (grid rows divide it, never a strip) */
+.pxa .exc-pane .exf-panel__body > .exm-grid,
+.pxa .exc-pane .exf-panel__body > .exm-gallery,
+.pxa .exc-pane .exf-panel__body > .exm-faces,
+.pxa .exc-pane .exf-panel__body > .exm-hero,
+.pxa .exc-pane .exf-panel__body > .exm-card {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .exc-pane .exf-panel__body > .exc-filter {
+  flex: none;
+}
+.pxa .exc-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+.pxa .exc-filter .exf-search {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+.pxa .exc-find {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+  color: var(--pxa-ink-2);
+  text-decoration: none;
+}
+.pxa .exc-find span {
+  font-size: 26px;
+  line-height: 1;
+  color: var(--pxa-ink);
+}
+.pxa .exc-find b {
+  font-size: var(--exf-fs-s);
+  letter-spacing: 0.14em;
+  color: var(--pxa-ink);
+}
+.pxa .exc-find small {
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+}
+.pxa .exc-find:hover b {
+  color: var(--pxa-red);
+}
+.pxa .exm-hero__actions .exf-row {
+  flex: 1 1 140px;
+  min-width: 0;
+}
+.pxa .exl-pick {
+  padding: 2px 8px;
+  border: 1px solid var(--pxa-line);
+  border-radius: 999px;
+  background: #fff;
+  font: inherit;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.12em;
+  color: var(--pxa-ink-2);
+  cursor: pointer;
+}
+.pxa .exl-pick[aria-pressed='true'] {
+  border-color: var(--pxa-red);
+  color: var(--pxa-red);
+}
+
+/* the shared .pxa .ph-img is absolutely positioned: every media host must be a positioning context */
+.pxa .exm-card__media,
+.pxa .exm-gallery__primary,
+.pxa .exm-hero__media {
+  position: relative;
+}
+@media (max-width: 699px) {
+  .pxa .exm-gallery__thumbs button {
+    width: 34px;
+    height: 40px;
+  }
+  .pxa .exc-pane .exf-picker {
+    flex-wrap: nowrap;
+  }
+}
+
+/* storyboard: the stage grows to fill its media pane (it collapsed to the filmstrip before) */
+.pxa .exf-panel--media .exf-panel__body > .exf-storyboard-stage {
+  flex: 1 1 auto;
+  min-height: 140px;
+}
+.pxa .exf-storyboard-stage__hero {
+  display: flex;
+  min-height: 0;
+}
+.pxa .exf-storyboard-stage__hero > .exf-media-primary {
+  flex: 1 1 auto;
+}
+.pxa .exs-boards .exm-card__media {
+  min-height: 40px;
+}
+.pxa .exs-pick {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: inherit;
+  cursor: pointer;
+}
+.pxa .exs-pick[aria-pressed='true'] {
+  color: var(--pxa-red);
+}
+
+/* cover framing keeps faces / upper bodies in view (portrait and full-length media in wider boxes) */
+.pxa .exf-media-primary--cover .exf-media-primary__img img {
+  object-position: 50% 18%;
+}
+.pxa .exp-take__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pxa .exp-take__head .exf-face--portrait {
+  position: relative;
+}
+.pxa .exm-hero__facts > .exf-picker,
+.pxa .exm-hero__facts > .exf-seg {
+  margin-bottom: 4px;
+}
+.pxa .exf-record.exc-pane .exf-panel__body > .exf-kv {
+  flex: none;
+}
+
+/* ── 9. residual strips (FA.OPUS2 full-route QA) ─────────────────────────────────────────────────── */
+/* a button never runs past its pane: long labels wrap to a second line instead of overflowing the viewport */
+.pxa .exf-actions__row .exf-btn {
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: var(--exf-btn-h);
+  white-space: normal;
+  text-align: center;
+  line-height: 1.15;
+}
+/* phones: where a record hero already leads with the image, the secondary gallery becomes a full-height
+   rail of portrait thumbs (each opens the inspector) instead of a duplicate primary squeezed into a strip */
+@media (max-width: 699px) {
+  .pxa .exm-gallery--rail-m {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .pxa .exm-gallery--rail-m .exm-gallery__primary {
+    display: none;
+  }
+  .pxa .exm-gallery--rail-m .exm-gallery__thumbs {
+    height: 100%;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .pxa .exm-gallery--rail-m .exm-gallery__thumbs button {
+    width: auto;
+    height: 100%;
+    max-height: 160px;
+    aspect-ratio: 3 / 4;
+  }
+}
+/* short phones (≤700px tall): primary media rows take the height the compact hero gave back */
+@media (max-width: 699px) and (max-height: 700px) {
+  .pxa .exf[data-family='storyboard'][data-route='sequence-detail'] .exf-grid {
+    grid-template-rows: minmax(0, 1.6fr) minmax(0, 0.42fr) minmax(0, 0.34fr);
+  }
+  .pxa .exf[data-family='storyboard'][data-route='keyframes'] .exf-grid {
+    grid-template-rows: minmax(0, 0.56fr) minmax(0, 1.3fr) minmax(0, 0.3fr);
+  }
+  .pxa .exf[data-family='look'][data-route='outfits'] .exf-grid,
+  .pxa .exf[data-family='look'][data-route='hair'] .exf-grid,
+  .pxa .exf[data-family='look'][data-route='makeup'] .exf-grid,
+  .pxa .exf[data-family='look'][data-route='accessories'] .exf-grid {
+    grid-template-rows: minmax(0, 0.5fr) minmax(0, 1.35fr) minmax(0, 0.32fr);
+  }
+}
+/* phones: the cast gate rides beside the role pool as the mobile authority's TOTAL / CAST / OPEN summary */
+@media (max-width: 699px) {
+  .pxa [data-testid='casting-gate'] .exf-kv,
+  .pxa [data-testid='casting-gate'] .exf-actions {
+    display: none;
+  }
+  .pxa [data-testid='casting-gate'] .exf-stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}

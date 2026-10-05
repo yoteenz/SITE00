@@ -1,0 +1,137 @@
+{
+  "sprint": "P0.JURNL.F01-ASSET-HARVEST-RECOVERY1",
+  "completedAt": "2026-10-04T22:21:47.537318+00:00",
+  "parentFile": "PARENT/F01.00_WELCOME_GENERATED.png",
+  "parentRegenerated": 0,
+  "openArtCreditSpendGenerations": 0,
+  "screenshotCropAssetsFound": 17,
+  "assetsAudited": 20,
+  "assetsReExtracted": 14,
+  "assetsReclassifiedAsComponentReferences": 3,
+  "assetsRequiringIsolatedRegen": 0,
+  "recoveryRows": [
+    {
+      "assetId": "ENTRY.ARCH.ARCHWAY.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_crop",
+      "classification": "CLEAN_SCENIC_CROP",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.ARCH.COAST.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_crop",
+      "classification": "CLEAN_SCENIC_CROP",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.PLASTER.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_crop",
+      "classification": "MATERIAL_TEXTURE_CROP",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.TRAVERTINE.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_crop",
+      "classification": "MATERIAL_TEXTURE_CROP",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.TEXTILE.ROSE.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_crop",
+      "classification": "MATERIAL_TEXTURE_CROP",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.CURTAIN.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_crop",
+      "classification": "MATERIAL_TEXTURE_CROP",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.MATERIAL.PAPER.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_crop",
+      "classification": "MATERIAL_TEXTURE_CROP",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.OBJECT.BUST.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_isolated",
+      "classification": "TRUE_ISOLATED_ASSET",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.OBJECT.BOWL.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_isolated",
+      "classification": "TRUE_ISOLATED_ASSET",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.OBJECT.BOOKS.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_isolated",
+      "classification": "TRUE_ISOLATED_ASSET",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.OBJECT.JURNLBOOK.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_isolated",
+      "classification": "TRUE_ISOLATED_ASSET",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.BOTANICAL.FOREGROUND.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_isolated",
+      "classification": "TRUE_ISOLATED_ASSET",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.BOTANICAL.ACCENT.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_isolated",
+      "classification": "TRUE_ISOLATED_ASSET",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.LIGHT.SUN.001",
+      "prior": "SCREENSHOT_CROP",
+      "action": "re-extracted_overlay",
+      "classification": "REUSABLE_OVERLAY",
+      "openArtRegen": false
+    },
+    {
+      "assetId": "ENTRY.BUTTON.PRIMARY.001",
+      "prior": "SCREENSHOT_CROP_IN_ASSETS",
+      "action": "reclassified_component_reference",
+      "classification": "IMPLEMENTATION_COMPONENT_REFERENCE",
+      "openArtRegen": false,
+      "referenceFile": "MANIFEST/COMPONENT_REFERENCES/ENTRY.BUTTON.PRIMARY.001.png"
+    },
+    {
+      "assetId": "ENTRY.BUTTON.SECONDARY.001",
+      "prior": "SCREENSHOT_CROP_IN_ASSETS",
+      "action": "reclassified_component_reference",
+      "classification": "IMPLEMENTATION_COMPONENT_REFERENCE",
+      "openArtRegen": false,
+      "referenceFile": "MANIFEST/COMPONENT_REFERENCES/ENTRY.BUTTON.SECONDARY.001.png"
+    },
+    {
+      "assetId": "ENTRY.LOGO.PLACEMENT.001",
+      "prior": "SCREENSHOT_CROP_IN_ASSETS",
+      "action": "reclassified_to_official_logo",
+      "classification": "IMPLEMENTATION_COMPONENT_REFERENCE",
+      "openArtRegen": false,
+      "canonicalLogo": "ASSETS/REFERENCE_JURNL_LOGO_OFFICIAL.jpg"
+    }
+  ],
+  "archivedPriorCrops": "ASSETS/_ARCHIVE_SCREENSHOT_CROPS_v1"
+}

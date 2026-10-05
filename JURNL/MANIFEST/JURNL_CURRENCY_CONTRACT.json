@@ -1,0 +1,38 @@
+{
+  "contract": "JURNL_CURRENCY",
+  "base_currency": "USD",
+  "display_currency": "USER_SELECTED_PREFERENCE",
+  "supported_currencies": "JURNL/MANIFEST/JURNL_CURRENCY_CATALOG.json",
+  "exchange_rate_provider": "https://open.er-api.com/v6/latest/USD",
+  "exchange_rate": "RESOLVED_AT_RUNTIME_FROM_PROVIDER_OR_ALLOWED_CACHE",
+  "exchange_rate_timestamp": "ISO-8601 retrieved_at ON THE CACHED BOOK",
+  "exchange_rate_source_currency": "USD",
+  "exchange_rate_target_currency": "CURRENT_DISPLAY_CURRENCY",
+  "conversion_status": "ready | stale | unavailable",
+  "conversion_error": "EXCHANGE RATE UNAVAILABLE. TRY AGAIN SHORTLY.",
+  "stale_rate_policy": {
+    "fresh_window_hours": 24,
+    "max_cache_age_hours": 168,
+    "within_fresh_window": "USE_CACHE_WITHOUT_A_NEW_FETCH",
+    "within_max_cache_after_fetch_failure": "USE_LAST_VALID_CACHE_AND_MARK_STALE",
+    "beyond_max_or_no_cache": "KEEP_PRIOR_DISPLAY_CURRENCY_AND_DO_NOT_INVENT_A_RATE"
+  },
+  "fallback_behavior": "DO_NOT_INVENT_A_RATE. DO_NOT_SWAP_THE_SYMBOL_ON_AN_UNCONVERTED_NUMBER. IF_NO_RATE_EXISTS_FORMAT_THE_CANONICAL_USD_AMOUNT.",
+  "money_format_locale": "PER_CURRENCY_LOCALE_IN_THE_CATALOG",
+  "formatter": "src/projects/jurnl/data/home/currency.ts#formatMoney",
+  "persistence": "localStorage key jurnl.currency for the display preference. localStorage key jurnl.exchangeRate for the rate book. Neither key is scoped to a route or a family.",
+  "change_currency_action": "setCurrency",
+  "change_currency_entry_point": "Info control on Today and Activity opens ASK JURNL. DISPLAY CURRENCY lives in that global sheet.",
+  "fx_conversion_supported": true,
+  "storage_rule": "Stored transaction amounts stay in canonical USD. Display conversion multiplies that canonical amount by the USD-to-display rate. It never multiplies an already converted display number.",
+  "historical_rule": "A quick-add row keeps original_amount and original_currency for what was entered. The ledger amount used by cash and safe-to-spend is the canonical USD amount.",
+  "quick_add_entry": "The amount field uses the current display currency. On save, JURNL stores entered_amount, entered_currency, canonical_amount, canonical_currency, conversion_rate_used, and conversion_timestamp.",
+  "parent_review_rule": "F05–F16 parent rows are preview composition labels, not ledger money. formatMoney is not applied to those strings.",
+  "selector": {
+    "visible_rows": 3,
+    "internal_scroll": true,
+    "search": false,
+    "search_reason": "The practical catalog is twenty codes. The three-row window is the navigation. Search is not required."
+  },
+  "behavior": "Changing display currency converts every formatMoney surface from the canonical USD amount and formats with Intl.NumberFormat. Returning to USD restores the original base value."
+}

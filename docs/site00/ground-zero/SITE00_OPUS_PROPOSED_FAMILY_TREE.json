@@ -1,0 +1,847 @@
+{
+ "artifact": "SITE00_OPUS_PROPOSED_FAMILY_TREE",
+ "status": "PROPOSED_BY_OPUS",
+ "founder_approved": false,
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "family_changes_vs_current": [
+  "MERGE CLIENT_APP + CLIENT_PROJECT_ROOM + STUDIO_CLIENT (client parts) \u2192 F06 CLIENT APP",
+  "MERGE AUTH + ACCOUNT_INTAKE + CTRL_ROOM \u2192 F05 ACCESS & CTRL ROOM",
+  "SPLIT PROJECTS_STUDIO_OS: founder modules \u2192 F07; client views \u2192 F06; setup/provisioning \u2192 F08",
+  "MERGE LEGACY_FOUNDER_WORKSPACE \u2192 F07 EXPRESSION (or F10 LAB per route)",
+  "CREATE F10 STUDIO OS LAB from DESIGN_BENCH + EXPERIMENT_LAB + DEV_DEBUG",
+  "MERGE PUBLIC_ORIGIN + PUBLIC_INFO \u2192 F01 PUBLIC LOCATION (SYSTEM/GUIDE/SOUND demoted into it \u2014 too thin for a family)",
+  "MOVE ASSET_VAULT \u2192 F08 (host operator tool)",
+  "CREATE F11 STUDIO WORLD (reserved, no surface)",
+  "PROMOTE Project Registry / Membership / Review / Events / Notifications / Messaging / Files / Pulse to cross-cutting SYSTEM CAPABILITIES (not page families)"
+ ],
+ "families": [
+  {
+   "family_id": "F01",
+   "family_name": "PUBLIC LOCATION",
+   "audience": "PUBLIC",
+   "business_purpose": "Present SITE 00 as a digital location; orient visitors and route them into IDNTY / BLDR / EVOLVE.",
+   "primary_user": [
+    "POTENTIAL_CLIENT",
+    "PUBLIC_VISITOR"
+   ],
+   "parent": [
+    "PUB.ORIGIN"
+   ],
+   "children": [
+    "PUB.WAITING_ROOM",
+    "PUB.ORIGIN_STORY",
+    "PUB.SYSTEM",
+    "PUB.SITES",
+    "PUB.JOURNAL",
+    "PUB.SERVICES",
+    "PUB.SUPPORT",
+    "PUB.LEGAL"
+   ],
+   "grandchildren": [],
+   "states": [
+    "ARRIVAL",
+    "BOOK_DISCOVERY",
+    "CARD_EXPANDED(IDNTY|BLDR|EVOLVE)",
+    "CONTACT",
+    "GUIDE section (absorbs /guide)",
+    "HELP (FAQ)",
+    "LIST",
+    "MAP (absorbs /origin/locations)",
+    "SIGNED_IN (YOUR SPACE 08\u201311)",
+    "SOUND_ON/OFF (global setting)"
+   ],
+   "interactions": [
+    "EXIT 00 \u2192 /",
+    "NEED GUIDANCE \u2192 GUIDE (currently dead)",
+    "book discovery call",
+    "submit contact"
+   ],
+   "routes": [
+    "/",
+    "/enter",
+    "/origin/story",
+    "/system",
+    "/sites",
+    "/journal",
+    "/services",
+    "/support",
+    "/legal/:doc"
+   ],
+   "data_dependencies": [
+    "static content"
+   ],
+   "auth_requirements": "none (draft gate removed for launched pages)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "host",
+   "shared_components": [
+    "Site00PublicRouteShell",
+    "MobileSiteNavigation",
+    "FastTravelPanel",
+    "DirectoryPanel"
+   ],
+   "visual_authority_status": [
+    "CANONICAL",
+    "CANONICAL for LOCATIONS map",
+    "NONE"
+   ],
+   "responsive_status": "mobile authorities only",
+   "implementation_status": {
+    "REPAIR": 1,
+    "REDESIGN": 4,
+    "REBUILD": 4
+   },
+   "production_disposition": {
+    "REPAIR": 1,
+    "REDESIGN": 4,
+    "REBUILD": 4
+   },
+   "launch_priority": "MVP",
+   "node_count": 9
+  },
+  {
+   "family_id": "F02",
+   "family_name": "IDNTY",
+   "audience": "PUBLIC",
+   "business_purpose": "Locked product: diagnose identity state 00\u201303 and capture identity intake.",
+   "primary_user": [
+    "POTENTIAL_CLIENT"
+   ],
+   "parent": [
+    "IDNTY.HUB"
+   ],
+   "children": [
+    "IDNTY.STATE",
+    "IDNTY.ASSESS"
+   ],
+   "grandchildren": [],
+   "states": [
+    "COMPLETE",
+    "GUEST ACCESS CAPTURE",
+    "SAVE STATUS",
+    "STEP n"
+   ],
+   "interactions": [
+    "save & resume",
+    "sign in to save"
+   ],
+   "routes": [
+    "/idnty",
+    "/idnty/state",
+    "/idnty/:state/*",
+    "/idnty/sign-in-security"
+   ],
+   "data_dependencies": [
+    "intakes"
+   ],
+   "auth_requirements": "none (draft gate removed for launched pages)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "host",
+   "shared_components": [],
+   "visual_authority_status": [
+    "CANONICAL",
+    "NONE"
+   ],
+   "responsive_status": "mobile authorities only",
+   "implementation_status": {
+    "KEEP": 3,
+    "CONNECT": 1
+   },
+   "production_disposition": {
+    "KEEP": 3,
+    "CONNECT": 1
+   },
+   "launch_priority": "MVP",
+   "node_count": 4
+  },
+  {
+   "family_id": "F03",
+   "family_name": "BLDR",
+   "audience": "PUBLIC",
+   "business_purpose": "Locked product: classify the build (SITE / WORLD / SYSTEMS / EXTENSIONS) and capture build intake.",
+   "primary_user": [
+    "POTENTIAL_CLIENT"
+   ],
+   "parent": [
+    "BLDR.HUB"
+   ],
+   "children": [
+    "BLDR.STATE",
+    "BLDR.ASSESS",
+    "BLDR.TEMPLATES"
+   ],
+   "grandchildren": [],
+   "states": [
+    "COMPLETE",
+    "STEP n"
+   ],
+   "interactions": [],
+   "routes": [
+    "/bldr",
+    "/bldr/state",
+    "/bldr/:class/*",
+    "/bldr/templates"
+   ],
+   "data_dependencies": [
+    "intakes"
+   ],
+   "auth_requirements": "none (draft gate removed for launched pages)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "host",
+   "shared_components": [],
+   "visual_authority_status": [
+    "CANONICAL",
+    "NONE",
+    "NONE for steps"
+   ],
+   "responsive_status": "mobile only",
+   "implementation_status": {
+    "REPAIR": 2,
+    "CONNECT": 1,
+    "REBUILD": 1
+   },
+   "production_disposition": {
+    "REPAIR": 2,
+    "CONNECT": 1,
+    "REBUILD": 1
+   },
+   "launch_priority": "MVP",
+   "node_count": 4
+  },
+  {
+   "family_id": "F04",
+   "family_name": "EVOLVE",
+   "audience": "PUBLIC",
+   "business_purpose": "Locked product: evolve an existing property (REFINE / INSTALL / TRANSFORM) + marketing capability.",
+   "primary_user": [
+    "POTENTIAL_CLIENT"
+   ],
+   "parent": [
+    "EVOLVE.HUB"
+   ],
+   "children": [
+    "EVOLVE.STATE",
+    "EVOLVE.ASSESS",
+    "EVOLVE.PLANS",
+    "EVOLVE.MARKETING"
+   ],
+   "grandchildren": [],
+   "states": [
+    "BRIEF",
+    "COMPLETE",
+    "DIAGNOSIS",
+    "ENGAGEMENT",
+    "INTAKE",
+    "QUOTE",
+    "SERVICES",
+    "STEP n"
+   ],
+   "interactions": [],
+   "routes": [
+    "/evolve",
+    "/evolve/state",
+    "/evolve/:path/*",
+    "/evolve/plans",
+    "/evolve/marketing"
+   ],
+   "data_dependencies": [
+    "intakes",
+    "marketing engagements"
+   ],
+   "auth_requirements": "none (draft gate removed for launched pages)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "host",
+   "shared_components": [],
+   "visual_authority_status": [
+    "CANONICAL",
+    "NONE",
+    "NONE for steps"
+   ],
+   "responsive_status": "mobile only",
+   "implementation_status": {
+    "KEEP": 3,
+    "CONNECT": 2
+   },
+   "production_disposition": {
+    "KEEP": 3,
+    "CONNECT": 2
+   },
+   "launch_priority": "MVP",
+   "node_count": 5
+  },
+  {
+   "family_id": "F05",
+   "family_name": "ACCESS & CTRL ROOM",
+   "audience": "CLIENT",
+   "business_purpose": "Identity of the person: auth, invite acceptance, account (CTRL ROOM), intakes, projects list.",
+   "primary_user": [
+    "NEW_CLIENT",
+    "RETURNING_CLIENT"
+   ],
+   "parent": [
+    "ACCESS.SIGNIN",
+    "ACCESS.CREATE",
+    "ACCESS.RECOVER",
+    "ACCESS.INVITE",
+    "ACCESS.GUEST_TOKEN",
+    "CTRL.HOME"
+   ],
+   "children": [
+    "CTRL.PROJECTS",
+    "CTRL.INTAKES",
+    "CTRL.SITES",
+    "CTRL.SETTINGS"
+   ],
+   "grandchildren": [],
+   "states": [
+    "ALREADY_ACCEPTED",
+    "BILLING",
+    "DOMAINS",
+    "ERROR",
+    "EXPIRED",
+    "MAGIC_LINK",
+    "MANY_PROJECTS",
+    "NO_PROJECTS",
+    "ONE_PROJECT",
+    "PASSWORD",
+    "PROFILE",
+    "REQUEST",
+    "RESET (from email)",
+    "SECURITY",
+    "TEAM",
+    "VALID",
+    "WRONG_ACCOUNT"
+   ],
+   "interactions": [],
+   "routes": [
+    "/origin/sign-in",
+    "/origin/create-account",
+    "/origin/forgot-password",
+    "/invite/:token",
+    "/intake/access/:token",
+    "/control",
+    "/control/projects",
+    "/control/intakes",
+    "/control/sites",
+    "/control/settings"
+   ],
+   "data_dependencies": [
+    "auth",
+    "SYS.MEMBERSHIP",
+    "intakes"
+   ],
+   "auth_requirements": "signed-in + project membership (server-enforced)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "host",
+   "shared_components": [],
+   "visual_authority_status": [
+    "NONE"
+   ],
+   "responsive_status": "n/a",
+   "implementation_status": {
+    "REPAIR": 2,
+    "KEEP": 4,
+    "REBUILD": 3,
+    "REDESIGN": 1
+   },
+   "production_disposition": {
+    "REPAIR": 2,
+    "KEEP": 4,
+    "REBUILD": 3,
+    "REDESIGN": 1
+   },
+   "launch_priority": "MVP",
+   "node_count": 10
+  },
+  {
+   "family_id": "F06",
+   "family_name": "CLIENT APP (PROJECT ROOM)",
+   "audience": "CLIENT",
+   "business_purpose": "One project room per project: HOME / PROJECT / REVIEWS / INBOX / LIBRARY.",
+   "primary_user": [
+    "ACTIVE_CLIENT",
+    "FOUNDER"
+   ],
+   "parent": [
+    "APP.ENTRY",
+    "APP.PREVIEW"
+   ],
+   "children": [
+    "APP.PROJECT",
+    "APP.REVIEWS",
+    "APP.INBOX",
+    "APP.LIBRARY"
+   ],
+   "grandchildren": [
+    "APP.REVIEW",
+    "APP.THREAD",
+    "APP.FILE"
+   ],
+   "states": [
+    "ACTIVITY (curated section)",
+    "APPROVED",
+    "APPROVED_CONFIRMATION",
+    "COMPARE",
+    "COMPLETE",
+    "EMPTY",
+    "FAMILY_DETAIL (sheet)",
+    "HISTORY",
+    "IN_PRODUCTION",
+    "JOURNEY",
+    "NEEDS_YOU",
+    "NO_ACCESS",
+    "PHASE_DETAIL (sheet)",
+    "PROJECT_PICK (\u22652 projects)",
+    "REVISION_IN_PROGRESS",
+    "REVISION_SUBMITTED",
+    "SECTION(IDENTITY|APPROVED|DELIVERABLES|REFERENCES|UPLOADS|FINAL)",
+    "SPLASH",
+    "SUPERSEDED",
+    "UNREAD",
+    "VIEWING",
+    "WAITING_ON_FOUNDER"
+   ],
+   "interactions": [
+    "ANNOTATE",
+    "COMMENT",
+    "answer decision",
+    "download",
+    "reply",
+    "upload reference",
+    "upload requested file",
+    "\u00d7 NEEDS REVISION (mandatory feedback)",
+    "\u2665 APPROVE (optional note)"
+   ],
+   "routes": [
+    "/app",
+    "/app/:projectSlug",
+    "/app/:projectSlug/project",
+    "/app/:projectSlug/reviews",
+    "/app/:projectSlug/reviews/:reviewId",
+    "/app/:projectSlug/inbox",
+    "/app/:projectSlug/inbox/:threadId",
+    "/app/:projectSlug/library",
+    "/app/:projectSlug/library/:section/:fileId",
+    "/app/preview/:projectSlug/*"
+   ],
+   "data_dependencies": [
+    "SYS.REGISTRY",
+    "SYS.MEMBERSHIP",
+    "SYS.REVIEW",
+    "SYS.MESSAGES",
+    "SYS.FILES",
+    "SYS.NOTIFY",
+    "SYS.PULSE"
+   ],
+   "auth_requirements": "signed-in + project membership (server-enforced)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "URL project slug + membership",
+   "shared_components": [
+    "Site00ClientAppShell",
+    "review decision controls",
+    "project marker"
+   ],
+   "visual_authority_status": [
+    "INCOMPLETE",
+    "n/a"
+   ],
+   "responsive_status": "no authority; CSS 430px column",
+   "implementation_status": {
+    "REPAIR": 3,
+    "REDESIGN": 2,
+    "REBUILD": 4,
+    "CONNECT": 2,
+    "KEEP": 1
+   },
+   "production_disposition": {
+    "REPAIR": 3,
+    "REDESIGN": 2,
+    "REBUILD": 4,
+    "CONNECT": 2,
+    "KEEP": 1
+   },
+   "launch_priority": "MVP",
+   "node_count": 12
+  },
+  {
+   "family_id": "F07",
+   "family_name": "PRODUCTION WORKSPACE",
+   "audience": "INTERNAL",
+   "business_purpose": "Founder production per project: HUB / INBOX / DESIGN / EXPERIENCE / EXPRESSION / LIBRARY / ACTIVITY.",
+   "primary_user": [
+    "FOUNDER"
+   ],
+   "parent": [
+    "PW.ROOT"
+   ],
+   "children": [
+    "PW.HUB",
+    "PW.INBOX",
+    "PW.DESIGN",
+    "PW.EXPERIENCE",
+    "PW.EXPRESSION",
+    "PW.LIBRARY",
+    "PW.ACTIVITY"
+   ],
+   "grandchildren": [
+    "PW.CLIENT",
+    "PW.DESIGN.SECTIONS",
+    "PW.EXPERIENCE.CHILD",
+    "PW.EXPRESSION.FAMILY"
+   ],
+   "states": [
+    "ACTORS",
+    "ALL",
+    "ALL_PROJECTS",
+    "ASSETS",
+    "CANON",
+    "CLIENT_REVIEWS (lens, new)",
+    "DEFAULT",
+    "LIVE (runtime preview; absorbs /runtime/*)",
+    "MACHINE (legacy ?view=machine \u2014 founder decision C10)",
+    "MESSAGES",
+    "MILESTONE",
+    "MODE(BRAND|EXPERIENCE|SURFACES|COMPILER|ASSETS|VIEWPORT)",
+    "NEEDS (lens)",
+    "PROJECT_PICKER",
+    "REFERENCES",
+    "RESOLVED",
+    "SYSTEM",
+    "VIEW(...)",
+    "WATCHING (lens; incl. AWAITING_CLIENT)"
+   ],
+   "interactions": [
+    "SEND TO CLIENT",
+    "SEND TO CLIENT (review + handoff step)"
+   ],
+   "routes": [
+    "/production",
+    "/production/:projectSlug",
+    "/production/:projectSlug/client",
+    "/production/:projectSlug/inbox",
+    "/production/:projectSlug/design",
+    "/production/:projectSlug/design/:section",
+    "/production/:projectSlug/experience",
+    "/production/:projectSlug/experience/:area",
+    "/production/:projectSlug/expression",
+    "/production/:projectSlug/expression/:family/*",
+    "/production/:projectSlug/library",
+    "/production/:projectSlug/activity"
+   ],
+   "data_dependencies": [
+    "expression-engine API",
+    "SYS.REVIEW",
+    "SYS.EVENTS",
+    "SYS.PULSE"
+   ],
+   "auth_requirements": "admin role (server-enforced; client guards are UX only)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "URL project slug (all tabs)",
+   "shared_components": [
+    "ProductionAuthorityFrame",
+    "nav.tsx",
+    "DesignChamber"
+   ],
+   "visual_authority_status": [
+    "CANONICAL",
+    "CANONICAL root",
+    "CONFLICTING",
+    "IN_REVIEW",
+    "NONE"
+   ],
+   "responsive_status": "3-viewport parent pack",
+   "implementation_status": {
+    "REPAIR": 7,
+    "REBUILD": 2,
+    "REDESIGN": 2,
+    "KEEP": 1
+   },
+   "production_disposition": {
+    "REPAIR": 7,
+    "REBUILD": 2,
+    "REDESIGN": 2,
+    "KEEP": 1
+   },
+   "launch_priority": "MVP",
+   "node_count": 12
+  },
+  {
+   "family_id": "F08",
+   "family_name": "00 / CONTROL (OPERATIONS)",
+   "audience": "INTERNAL",
+   "business_purpose": "Run the business: project registry, clients, intakes, leads, finance, team, asset vault, email, settings.",
+   "primary_user": [
+    "FOUNDER"
+   ],
+   "parent": [
+    "CTL.COMMAND"
+   ],
+   "children": [
+    "CTL.PROJECTS",
+    "CTL.REVIEWS",
+    "CTL.CLIENTS",
+    "CTL.BUSINESS",
+    "CTL.EVOLVE_OPS",
+    "CTL.VAULT",
+    "CTL.ACCESS",
+    "CTL.SETTINGS"
+   ],
+   "grandchildren": [],
+   "states": [
+    "DETAIL",
+    "LIST",
+    "PROVISIONING"
+   ],
+   "interactions": [
+    "OPEN PRODUCTION \u2192 /production/:slug",
+    "VIEW AS CLIENT \u2192 /app/:slug",
+    "create project",
+    "invite client"
+   ],
+   "routes": [
+    "/admin/site00",
+    "/admin/site00/projects",
+    "/admin/site00/approvals",
+    "/admin/site00/identities",
+    "/admin/site00/finance",
+    "/admin/site00/evolve",
+    "/assts",
+    "/admin/site00/access-credentials",
+    "/admin/site00/settings"
+   ],
+   "data_dependencies": [
+    "Supabase admin APIs",
+    "SYS.REGISTRY"
+   ],
+   "auth_requirements": "admin role (server-enforced; client guards are UX only)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "cross-project",
+   "shared_components": [
+    "Site00AdminShell",
+    "site00-control.css"
+   ],
+   "visual_authority_status": [
+    "CORE.md: from approved references",
+    "NONE",
+    "NONE located"
+   ],
+   "responsive_status": "desktop+mobile from approved refs (not in repo)",
+   "implementation_status": {
+    "KEEP": 7,
+    "REPAIR": 1,
+    "CONNECT": 1
+   },
+   "production_disposition": {
+    "KEEP": 7,
+    "REPAIR": 1,
+    "CONNECT": 1
+   },
+   "launch_priority": "MVP",
+   "node_count": 9
+  },
+  {
+   "family_id": "F09",
+   "family_name": "PROJECT RUNTIMES",
+   "audience": "PROJECT",
+   "business_purpose": "Project-owned deliverable runtimes (JURNL runtime, ASTRAL WORLD reader). Outside host chrome; firewalled.",
+   "primary_user": [
+    "FOUNDER"
+   ],
+   "parent": [
+    "RT.RUNTIME",
+    "RT.WORLD"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "states": [],
+   "interactions": [],
+   "routes": [
+    "/production/:projectSlug/runtime/*",
+    "/projects/:projectSlug/reader/*"
+   ],
+   "data_dependencies": [
+    "static content"
+   ],
+   "auth_requirements": "per project runtime",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "fixed per runtime",
+   "shared_components": [],
+   "visual_authority_status": [
+    "CANONICAL"
+   ],
+   "responsive_status": "n/a",
+   "implementation_status": {
+    "KEEP": 2
+   },
+   "production_disposition": {
+    "KEEP": 2
+   },
+   "launch_priority": "MVP",
+   "node_count": 2
+  },
+  {
+   "family_id": "F10",
+   "family_name": "STUDIO OS LAB",
+   "audience": "INTERNAL",
+   "business_purpose": "Benches, experiments and debug harnesses. Internal machinery; NOT part of the product tree; one guarded namespace.",
+   "primary_user": [
+    "AGENT / DEVELOPER",
+    "FOUNDER"
+   ],
+   "parent": [
+    "LAB.ROOT"
+   ],
+   "children": [
+    "LAB.BENCH",
+    "LAB.EXPERIMENTS",
+    "LAB.DEV"
+   ],
+   "grandchildren": [],
+   "states": [],
+   "interactions": [],
+   "routes": [
+    "/lab",
+    "/lab/:projectSlug/bench/:bench",
+    "/lab/:projectSlug/:experiment",
+    "/lab/dev/:harness"
+   ],
+   "data_dependencies": [
+    "static content"
+   ],
+   "auth_requirements": "admin role (server-enforced; client guards are UX only)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "host",
+   "shared_components": [],
+   "visual_authority_status": [
+    "REFERENCE_ONLY",
+    "n/a"
+   ],
+   "responsive_status": "n/a",
+   "implementation_status": {
+    "REBUILD": 1,
+    "KEEP": 3
+   },
+   "production_disposition": {
+    "REBUILD": 1,
+    "KEEP": 3
+   },
+   "launch_priority": "MVP",
+   "node_count": 4
+  },
+  {
+   "family_id": "F11",
+   "family_name": "STUDIO WORLD",
+   "audience": "INTERNAL",
+   "business_purpose": "Locked concept (digital office / spatial world / resident system). No surface today; reserved family for post-MVP.",
+   "primary_user": [
+    "FOUNDER"
+   ],
+   "parent": [
+    "SW.RESERVED"
+   ],
+   "children": [],
+   "grandchildren": [],
+   "states": [],
+   "interactions": [],
+   "routes": [],
+   "data_dependencies": [
+    "static content"
+   ],
+   "auth_requirements": "admin role (server-enforced; client guards are UX only)",
+   "permissions": "see SITE00_AUTH_PERMISSION_MAP.json",
+   "project_context": "host",
+   "shared_components": [],
+   "visual_authority_status": [
+    "none"
+   ],
+   "responsive_status": "n/a",
+   "implementation_status": {
+    "REBUILD": 1
+   },
+   "production_disposition": {
+    "REBUILD": 1
+   },
+   "launch_priority": "FUTURE",
+   "node_count": 1
+  }
+ ],
+ "system_capabilities_not_pages": [
+  {
+   "id": "SYS.REGISTRY",
+   "name": "Project Registry",
+   "serves": [
+    "F05",
+    "F06",
+    "F07",
+    "F08"
+   ],
+   "note": "Single DB-backed registry (type FOUNDER/PERSONAL/CLIENT/INTERNAL_SITE00). Replaces \u22657 hard-coded lists."
+  },
+  {
+   "id": "SYS.MEMBERSHIP",
+   "name": "Project Membership & Roles",
+   "serves": [
+    "F05",
+    "F06",
+    "F08"
+   ],
+   "note": "project_members table + server-side permission check; replaces single client_email match."
+  },
+  {
+   "id": "SYS.REVIEW",
+   "name": "Review / Approval Engine",
+   "serves": [
+    "F06",
+    "F07",
+    "F08"
+   ],
+   "note": "One review object model (extend site00_client_review_*); bridges site00_approval_requests; emits gate events."
+  },
+  {
+   "id": "SYS.EVENTS",
+   "name": "Project Event Stream",
+   "serves": [
+    "F06",
+    "F07",
+    "F08"
+   ],
+   "note": "One server event log (site00_project_activity) with internal + client-curated projections."
+  },
+  {
+   "id": "SYS.NOTIFY",
+   "name": "Notifications",
+   "serves": [
+    "F06",
+    "F07"
+   ],
+   "note": "Attention signals derived from events; client sees curated subset."
+  },
+  {
+   "id": "SYS.MESSAGES",
+   "name": "Messaging",
+   "serves": [
+    "F06",
+    "F07"
+   ],
+   "note": "Project-scoped founder\u2194client threads; no agent chat."
+  },
+  {
+   "id": "SYS.FILES",
+   "name": "Project Files & Library",
+   "serves": [
+    "F06",
+    "F07"
+   ],
+   "note": "Project-scoped storage (per-project bucket paths + policies); approved deliverables + client uploads."
+  },
+  {
+   "id": "SYS.PULSE",
+   "name": "Project Pulse (derived status)",
+   "serves": [
+    "F06",
+    "F07",
+    "F08"
+   ],
+   "note": "Derived read model: phase, family, blocker, next-action owner. Detailed in the client-room sprint."
+  }
+ ]
+}

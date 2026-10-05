@@ -1,0 +1,470 @@
+{
+  "family_id": "F02_SETUP",
+  "sprint": "P0.JURNL.F02-OPUS-FINAL-FAMILY-STRUCTURAL-VISUAL-INTERACTION-RESPONSIVE-AUDIT1",
+  "rule": "[ ICON ] [ LABEL ] [ CONTROL ]: icon column auto, label minmax(0,1fr), trailing control auto. A wrapped label never starts under the icon.",
+  "rows": [
+    {
+      "screen_id": "F02.02",
+      "component": "JurnlChoice (LIVE_SELECTION_ROW)",
+      "icon": "link",
+      "label": "CONNECT AN ACCOUNT",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 245, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.02",
+      "component": "JurnlChoice (LIVE_SELECTION_ROW)",
+      "icon": "account",
+      "label": "NAME AN ACCOUNT",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 245, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.03",
+      "component": "JurnlChoice (LIVE_SELECTION_ROW)",
+      "icon": "clock",
+      "label": "WEEKLY",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 245, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.03",
+      "component": "JurnlChoice (LIVE_SELECTION_ROW)",
+      "icon": "clock",
+      "label": "EVERY TWO WEEKS",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 245, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.03",
+      "component": "JurnlChoice (LIVE_SELECTION_ROW)",
+      "icon": "clock",
+      "label": "MONTHLY",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 245, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.03",
+      "component": "JurnlChoice (LIVE_SELECTION_ROW)",
+      "icon": "clock",
+      "label": "IRREGULAR",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 245, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.04.ADD",
+      "component": "JurnlChoice in JurnlDrawer (LIVE_PAPER_SHEET)",
+      "icon": "clock",
+      "label": "WEEKLY",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 360, centred on row \u00b10 px",
+        "tablet": "right edge 664, centred on row \u00b10 px",
+        "desktop": "right edge 947, centred on row \u00b10 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.04.ADD",
+      "component": "JurnlChoice in JurnlDrawer (LIVE_PAPER_SHEET)",
+      "icon": "clock",
+      "label": "EVERY TWO WEEKS",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 360, centred on row \u00b10 px",
+        "tablet": "right edge 664, centred on row \u00b10 px",
+        "desktop": "right edge 947, centred on row \u00b10 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.04.ADD",
+      "component": "JurnlChoice in JurnlDrawer (LIVE_PAPER_SHEET)",
+      "icon": "clock",
+      "label": "MONTHLY",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 360, centred on row \u00b10 px",
+        "tablet": "right edge 664, centred on row \u00b10 px",
+        "desktop": "right edge 947, centred on row \u00b10 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.04.ADD",
+      "component": "JurnlChoice in JurnlDrawer (LIVE_PAPER_SHEET)",
+      "icon": "clock",
+      "label": "IRREGULAR",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 360, centred on row \u00b10 px",
+        "tablet": "right edge 664, centred on row \u00b10 px",
+        "desktop": "right edge 947, centred on row \u00b10 px"
+      },
+      "before": "LABEL_UNDER_ICON (icon stacked above the label inside .jrn-row__copy)",
+      "repair_applied": "JurnlChoice icon prop \u2192 grid [auto | minmax(0,1fr) | auto]; 11 px / 0.12 em label; 15 px ink-3 icon"
+    },
+    {
+      "screen_id": "F02.07",
+      "component": "Consent row + JurnlToggle",
+      "icon": "shield",
+      "label": "REMEMBER THIS SETUP",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 242, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "ICON_CENTRED_ON_LABEL_PLUS_NOTE",
+      "repair_applied": "Consent grid [auto | minmax(0,1fr) | auto]; icon on the label first line; label 10 px / note 9 px balanced; toggle centred"
+    },
+    {
+      "screen_id": "F02.07",
+      "component": "Consent row + JurnlToggle",
+      "icon": "privacy",
+      "label": "LINKED ACCOUNTS STAY OPTIONAL",
+      "single_line_expected": false,
+      "actual_wrap": {
+        "mobile": 2,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 242, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "ICON_CENTRED_ON_LABEL_PLUS_NOTE",
+      "repair_applied": "Consent grid [auto | minmax(0,1fr) | auto]; icon on the label first line; label 10 px / note 9 px balanced; toggle centred"
+    },
+    {
+      "screen_id": "F02.07",
+      "component": "Consent row + JurnlToggle",
+      "icon": "info",
+      "label": "NOTHING IS SOLD",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "FIRST_LINE",
+        "tablet": "FIRST_LINE",
+        "desktop": "FIRST_LINE"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON",
+        "tablet": "BESIDE_ICON",
+        "desktop": "BESIDE_ICON"
+      },
+      "trailing_control_alignment": {
+        "mobile": "right edge 242, centred on row \u00b10.0 px",
+        "tablet": "right edge 463, centred on row \u00b10.0 px",
+        "desktop": "right edge 483, centred on row \u00b10.0 px"
+      },
+      "before": "ICON_CENTRED_ON_LABEL_PLUS_NOTE",
+      "repair_applied": "Consent grid [auto | minmax(0,1fr) | auto]; icon on the label first line; label 10 px / note 9 px balanced; toggle centred"
+    },
+    {
+      "screen_id": "F02.04",
+      "component": "JurnlButton secondary",
+      "icon": "plus",
+      "label": "ADD ANOTHER",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "LEADING, centre \u0394 0.3 px",
+        "tablet": "LEADING, centre \u0394 0.3 px",
+        "desktop": "LEADING, centre \u0394 0.3 px"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON (gap 8 px)",
+        "tablet": "BESIDE_ICON (gap 8 px)",
+        "desktop": "BESIDE_ICON (gap 8 px)"
+      },
+      "trailing_control_alignment": "n/a",
+      "before": "ICON_TOUCHING_LABEL (plus passed as a child of the label span; 0 px gap)",
+      "repair_applied": "Plus moved to the JurnlButton icon slot; 8 px gap; 15 px icon"
+    },
+    {
+      "screen_id": "F02.07",
+      "component": "Disclosure row (aria-expanded / aria-controls)",
+      "icon": "chevron",
+      "label": "READ THE BOUNDARY",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": 1,
+        "tablet": 1,
+        "desktop": 1
+      },
+      "icon_alignment": {
+        "mobile": "TRAILING, centre \u0394 0 px",
+        "tablet": "TRAILING, centre \u0394 0 px",
+        "desktop": "TRAILING, centre \u0394 0 px"
+      },
+      "label_column_behavior": {
+        "mobile": "BESIDE_ICON (gap 59 px)",
+        "tablet": "BESIDE_ICON (gap 242 px)",
+        "desktop": "BESIDE_ICON (gap 262 px)"
+      },
+      "trailing_control_alignment": "chevron at the row end",
+      "before": "MATCH",
+      "repair_applied": "aria-controls added; panel hidden, not unmounted; stray row shadow removed"
+    },
+    {
+      "screen_id": "F02.08",
+      "component": "JurnlChoice (LIVE_SELECTION_ROW)",
+      "icon": "check (removed)",
+      "label": "GUIDED / QUIET",
+      "single_line_expected": true,
+      "actual_wrap": {
+        "mobile": [
+          1,
+          1
+        ],
+        "tablet": [
+          1,
+          1
+        ],
+        "desktop": [
+          1,
+          1
+        ]
+      },
+      "icon_alignment": "n/a",
+      "label_column_behavior": "stable: no glyph inserted on selection",
+      "trailing_control_alignment": {
+        "mobile": [
+          193
+        ],
+        "tablet": [
+          412
+        ],
+        "desktop": [
+          481
+        ]
+      },
+      "before": "A check glyph was prepended only to the selected voice, shifting that label sideways and double-encoding selection.",
+      "repair_applied": "Leading check removed; selection reads from the trailing mark like every other F02 selection row."
+    }
+  ]
+}

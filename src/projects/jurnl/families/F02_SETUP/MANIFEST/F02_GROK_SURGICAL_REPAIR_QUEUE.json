@@ -1,0 +1,8 @@
+{
+  "family_id": "F02_SETUP",
+  "sprint": "P0.JURNL.F02-OPUS-FINAL-FAMILY-STRUCTURAL-VISUAL-INTERACTION-RESPONSIVE-AUDIT1",
+  "queue": [],
+  "reason": "No asset defect found. 4/4 plates, 13/13 botanicals, 2/2 lockups and 12/12 inherited icons load on their own layers, at the right screen, without clipping or duplication. Every defect was layout, typography, contrast or interaction and was repaired in shared code by OPUS.",
+  "openart_generations": 0,
+  "paid_image_credits": 0
+}

@@ -1,4 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  dispatchSite00ForceRevealLoader,
+  shouldBypassImmersiveColdStartGate,
+  SITE00_FORCE_REVEAL_LOADER_EVENT,
+} from '../../components/loader/site00ForceRevealAfterMount';
 import { createPortal } from 'react-dom';
 import { Outlet } from 'react-router-dom';
 import { acquireLoadingScreenDocumentLock } from '../../../platform-stabilization/loadingScreenLock';
@@ -13,6 +18,7 @@ import {
 } from '../../components/loader/site00LoaderPreload';
 import {
   markSite00ImmersiveComplete,
+  purgeSite00ImmersiveLoaderDomAfterGateReveal,
   shouldShowSite00ImmersiveLoader,
 } from '../../components/loader/site00LoaderSession';
 import { useSite00LoaderProgress } from '../../components/loader/useSite00LoaderProgress';
@@ -27,6 +33,8 @@ import { ASSTS_ENVIRONMENT_SLOTS } from '../config/slots';
 import { fetchAsstsLibrary, primeAsstsLibraryCache, resolveAsstsSlot } from '../services/asstsApi';
 
 const COMPLETE_HOLD_MS = 680;
+const LOADER_WALL_CLOCK_FAILSAFE_MS = 6_000;
+const LOADER_EXIT_BACKUP_MS = 900;
 
 initSite00ImmersiveLoaderBoot();
 
@@ -59,7 +67,8 @@ const BOOTSTRAP_API_TIMEOUT_MS = 10000;
  * Loader media is boot-critical (same-origin) and does NOT wait on ASSTS API resolution.
  */
 export function AsstsColdStartGate() {
-  const immersive = shouldShowSite00ImmersiveLoader();
+  const bypassColdStart = shouldBypassImmersiveColdStartGate();
+  const immersive = !bypassColdStart && shouldShowSite00ImmersiveLoader();
   const [phase, setPhase] = useState<Site00ImmersiveLoaderPhase>(immersive ? 'loading' : 'exiting');
   const [revealed, setRevealed] = useState(!immersive);
   const [pageUnderlayReady, setPageUnderlayReady] = useState(!immersive);
@@ -84,6 +93,30 @@ export function AsstsColdStartGate() {
     openingHoldRef.current = true;
     openingHoldAt.current = Date.now();
   }, []);
+
+  const forceRevealApp = useCallback((_reason: string) => {
+    markSite00ImmersiveComplete();
+    releaseSite00ImmersiveBootRoot();
+    teardownSite00ImmersiveBootShell();
+    setPageUnderlayReady(true);
+    setPhase('exiting');
+    setRevealed(true);
+  }, []);
+
+  const handleExitComplete = useCallback(() => {
+    forceRevealApp('exit-animation');
+  }, [forceRevealApp]);
+
+  useLayoutEffect(() => {
+    if (bypassColdStart) {
+      forceRevealApp('preview-tunnel-bypass');
+    }
+  }, [bypassColdStart, forceRevealApp]);
+
+  useLayoutEffect(() => {
+    if (!revealed) return;
+    purgeSite00ImmersiveLoaderDomAfterGateReveal('gate-revealed');
+  }, [revealed]);
 
   useEffect(() => {
     if (!immersive || revealed) return;
@@ -155,12 +188,10 @@ export function AsstsColdStartGate() {
         await sleep(COMPLETE_HOLD_MS);
         if (cancelled) return;
 
-        releaseSite00ImmersiveBootRoot();
-        setPageUnderlayReady(true);
         await waitForLoaderExitPaint();
         if (cancelled) return;
 
-        setPhase('exiting');
+        forceRevealApp('bootstrap-complete');
       } catch {
         if (cancelled) return;
         completeStage('ready');
@@ -168,11 +199,9 @@ export function AsstsColdStartGate() {
         setPhase('complete-hold');
         await sleep(COMPLETE_HOLD_MS);
         if (cancelled) return;
-        releaseSite00ImmersiveBootRoot();
-        setPageUnderlayReady(true);
         await waitForLoaderExitPaint();
         if (cancelled) return;
-        setPhase('exiting');
+        forceRevealApp('bootstrap-error');
       }
     }
 
@@ -180,13 +209,33 @@ export function AsstsColdStartGate() {
     return () => {
       cancelled = true;
     };
-  }, [immersive, completeStage, forceComplete]);
+  }, [immersive, completeStage, forceComplete, forceRevealApp]);
 
-  const handleExitComplete = () => {
-    markSite00ImmersiveComplete();
-    teardownSite00ImmersiveBootShell();
-    setRevealed(true);
-  };
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const onForce = (ev: Event) => {
+      const reason =
+        (ev as CustomEvent<{ reason?: string }>).detail?.reason ?? 'external-force-reveal';
+      forceRevealApp(reason);
+    };
+    window.addEventListener(SITE00_FORCE_REVEAL_LOADER_EVENT, onForce);
+    return () => window.removeEventListener(SITE00_FORCE_REVEAL_LOADER_EVENT, onForce);
+  }, [forceRevealApp]);
+
+  useEffect(() => {
+    if (phase !== 'exiting' || revealed) return;
+    const backup = window.setTimeout(() => forceRevealApp('exit-backup-timer'), LOADER_EXIT_BACKUP_MS);
+    return () => window.clearTimeout(backup);
+  }, [phase, revealed, forceRevealApp]);
+
+  useEffect(() => {
+    if (!immersive || revealed) return;
+    const failsafe = window.setTimeout(() => {
+      dispatchSite00ForceRevealLoader('wall-clock-failsafe');
+      forceRevealApp('wall-clock-failsafe');
+    }, LOADER_WALL_CLOCK_FAILSAFE_MS);
+    return () => window.clearTimeout(failsafe);
+  }, [immersive, revealed, forceRevealApp]);
 
   if (revealed) {
     return (

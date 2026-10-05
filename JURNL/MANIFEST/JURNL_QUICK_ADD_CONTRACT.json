@@ -1,0 +1,16 @@
+{
+  "contract": "JURNL_QUICK_ADD",
+  "fields": {
+    "name": "required string, stored uppercase",
+    "amount": "required positive number entered in the current display currency. The field shows that currency's symbol. The ledger amount is the canonical USD equivalent.",
+    "currency": "The field uses the display currency. Save stores entered_amount, entered_currency, canonical_amount, canonical_currency USD, conversion_rate_used, and conversion_timestamp. Original entered values stay on the row.",
+    "type": "EXPENSE or INCOME. Mutually exclusive. Default EXPENSE.",
+    "account_or_source": "CHECKING or CARD. Mutually exclusive. Default CHECKING."
+  },
+  "validation": "SAVE stays disabled until name, amount, type, and account are present and the amount is a positive number.",
+  "selected_states": "aria-pressed and emerald fill on the active type and account.",
+  "save_enabled_condition": "name.trim && amount matches digits with optional cents && amount > 0 && type && account",
+  "submission_target": "addLedgerEntry",
+  "activity_update": "The new row is prepended to the shared ledger and appears on Activity.",
+  "today_update": "Today reads the same ledger. Cash and safe-to-spend move with the added amount. Moved shows the newest rows."
+}

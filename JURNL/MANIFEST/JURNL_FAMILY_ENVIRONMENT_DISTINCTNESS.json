@@ -1,0 +1,43 @@
+{
+  "contract": "JURNL_FAMILY_ENVIRONMENT_DISTINCTNESS",
+  "principle": "SAME WORLD IS NOT THE SAME ROOM",
+  "default": "NEW_FAMILY_GETS_A_NEW_ENVIRONMENT_GROUP",
+  "within_family_reuse": "ENCOURAGED for a parent, its related children, and related states in the same spatial group",
+  "one_plate_per_screen": false,
+  "cross_family_reuse": "EXCEPTIONAL",
+  "cross_family_reuse_allowed_when": [
+    "STRONG_PRODUCT_OR_NARRATIVE_REASON",
+    "DIRECT_CONTINUATION_OF_THE_SAME_SPACE",
+    "BUDGET_OR_PRODUCTION_CONSTRAINT"
+  ],
+  "cross_family_reuse_also_requires": "THE FAMILIES STAY VISUALLY DISTINGUISHABLE WITH THE UI REMOVED",
+  "distinctness_test": "If all UI were removed, the founder could still tell which family the plate belongs to.",
+  "world": [
+    "MEDITERRANEAN_COASTAL_LUXURY",
+    "PLASTER_STONE_TRAVERTINE_PAPER",
+    "BURGUNDY_EMERALD_BONE_TAUPE_CHAMPAGNE",
+    "EDITORIAL_RESTRAINT",
+    "SCULPTURAL_OBJECTS",
+    "BOTANICAL_LANGUAGE",
+    "NATURAL_LIGHT",
+    "CALM_EXPENSIVE_MATERIAL"
+  ],
+  "forbidden_departures": ["FUTURISTIC_TECH", "INDUSTRIAL_LOFT", "DARK_BANK_VAULT"],
+  "future_families": "F05 and later may not reuse another family's plate unless CROSS_FAMILY_REUSE_JUSTIFICATION is recorded on the environment manifest and passed as crossFamilyReuseJustification.",
+  "dispatch_gate": "ENVIRONMENT_PLATE jobs that set sourcePlateFamilyId to a different family block as CROSS_FAMILY_PLATE_REUSE_UNJUSTIFIED when the justification is missing. Credits spent stay 0.",
+  "world_reference_is_not_plate_reuse": "Image-to-image from a world reference may still be required by the reference-binding rule. That does not authorize copying the previous family's room.",
+  "brief_required_before_parent": [
+    "family_id",
+    "family_name",
+    "emotional_role",
+    "spatial_role",
+    "architectural_character",
+    "lighting_character",
+    "material_emphasis",
+    "hero_object_or_focal_point",
+    "negative_space_strategy",
+    "relationship_to_previous_family",
+    "cross_family_reuse_allowed",
+    "reason_if_yes"
+  ]
+}

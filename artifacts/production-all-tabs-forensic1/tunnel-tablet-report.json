@@ -1,0 +1,203 @@
+[
+ {
+  "key": "01-hub",
+  "path": "/production",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 16,
+  "docOverflow": 0,
+  "navActive": "nav-hub",
+  "clipped": [
+   "hub-overview:",
+   "hub-components:",
+   "hub-entries:"
+  ],
+  "errs": []
+ },
+ {
+  "key": "02-inbox",
+  "path": "/production/queue",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "03-design-brand",
+  "path": "/production/ndxbook/design?mode=brand",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-panel-04:pxa-panel",
+   "design-panel-05:pxa-panel"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-experience",
+  "path": "/production/ndxbook/design?mode=experience",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-overview:pxa-overview-panel__art",
+   "design-panel-05:pxa-vis"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-surfaces",
+  "path": "/production/ndxbook/design?mode=surfaces",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-panel-04:pxa-panel",
+   "design-panel-05:pxa-panel"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-compiler",
+  "path": "/production/ndxbook/design?mode=compiler",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-panel-03:pxa-vis",
+   "design-panel-04:pxa-panel",
+   "design-panel-05:pxa-panel"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-assets",
+  "path": "/production/ndxbook/design?mode=assets",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber",
+   "design-overview:pxa-overview-panel",
+   "design-panel-04:pxa-panel",
+   "design-panel-05:pxa-panel"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-viewport",
+  "path": "/production/ndxbook/design?mode=viewport",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber"
+  ],
+  "errs": []
+ },
+ {
+  "key": "04-experience",
+  "path": "/production/ndxbook/experience",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-experience",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "05-expression",
+  "path": "/production/ndxbook/expression",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 186,
+  "docOverflow": 0,
+  "navActive": "nav-expression",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "05-expression-cf",
+  "path": "/production/ndxbook/expression/character-fabrication",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": null,
+  "docOverflow": 0,
+  "navActive": "nav-expression",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "06-library",
+  "path": "/production/libraries",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 383,
+  "docOverflow": 0,
+  "navActive": "nav-library",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "07-activity",
+  "path": "/production/activity",
+  "fam": "tablet",
+  "w": 1024,
+  "h": 768,
+  "clamped": [],
+  "overflow": 439,
+  "docOverflow": 0,
+  "navActive": "nav-activity",
+  "clipped": [],
+  "errs": []
+ }
+]
