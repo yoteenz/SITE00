@@ -13646,7 +13646,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
 
 ---
-
 ## 2026-10-05 — Real display currency conversion
 
 - **Context:** This chat first shipped the F03 authority-first plate (full page, then a derived day plate, founder still unreviewed, no children). The founder then required the currency control to convert numbers, not only the symbol, and to keep a three-row scrolling list.
@@ -13659,11 +13658,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ## 2026-10-05 — Undo stale squashed production-workspace PRs
 
-- **Context:** After the currency merge, a burst of old pull requests was squash-merged onto main and rolled the production workspace back to earlier copies.
-- **Topics covered:** Which squashes did it, and restoring the workspace that was on main before that burst without dropping the currency conversion.
-- **Decisions / outcomes:** The stale squashes were #1275, #15, #1341, #107, #106, #105, #100, #99, #98, #97, #96, #95, #93, #91, #90, #1331, #1291, #1290, #1289, #1277, and the next wave #1267, #92, #30, and #4. #1341 had been marked do not merge and deleted `ExperienceBody.tsx`, `LibraryBody.tsx`, and the inbox activity stylesheet. #1291 replayed about eleven hundred older files, including August and 1 Oct copies of production and public site sources. #30 was an August loading-shell branch. #1267 was marked draft, do not merge, and only rewrote memory. Those commits were reverted. The currency conversion stays. The provider gateway commit stays. JURNL plates were not regenerated.
+- **Context:** After the currency merge, a burst of old pull requests was squash-merged onto main and rolled the production workspace back to earlier copies. PR #1374 later rewrote memory only and left that product code on main.
+- **Topics covered:** Which squashes did it, and restoring the workspace that was on main before that burst without dropping the currency conversion or the provider gateway.
+- **Decisions / outcomes:** The stale squashes were #1275, #15, #1341, #107, #106, #105, #100, #99, #98, #97, #96, #95, #93, #91, #90, #1331, #1291, #1290, #1289, #1277, and the next wave #1267, #92, #30, and #4. #1341 had been marked do not merge and deleted `ExperienceBody.tsx`, `LibraryBody.tsx`, and the inbox activity stylesheet. #1291 replayed about eleven hundred older files, including August and 1 Oct copies of production and public site sources. #30 was an August loading-shell branch. #1267 was marked draft, do not merge, and only rewrote memory. Those commits were reverted. The currency conversion stays. The provider gateway commit stays. JURNL plates were not regenerated. Separately, `cursor/public-redesign-composer-asset-injection1-1b86` was force-reset to `a05cfb39` so it no longer carries the unintentional main merge.
 - **Changes:** Inverse of those squash commits on main. Production workspace sources match the tree from before the burst.
-- **Conventions:** Do not squash-merge an old branch onto current main when its tree still carries stale production-workspace files. A draft that says do not merge stays unmerged.
+- **Conventions:** Do not squash-merge an old branch onto current main when its tree still carries stale production-workspace files. A draft that says do not merge stays unmerged. Do not merge main into the public-redesign injection branch without explicit founder approval.
 
 ---
 
