@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Navigate, Outlet, useParams, useSearchParams } from 'react-router-dom';
 
 import { DesignWorkspaceCore } from '../components/designBench/production/DesignWorkspaceCore';
+import '../styles/site00-production-design-workspace-opus2.css';
 import { resolveLegacyProjectDesignRedirect } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 function DesignProductionBodyEffects() {
   useEffect(() => {
@@ -15,7 +16,7 @@ function DesignProductionBodyEffects() {
     const previousBackground = body.style.background;
     body.style.overflow = 'hidden';
     documentElement.style.overflow = 'hidden';
-    body.style.background = '#050505';
+    body.style.background = '#eef0f3';
     return () => {
       body.style.overflow = previousBodyOverflow;
       documentElement.style.overflow = previousHtmlOverflow;

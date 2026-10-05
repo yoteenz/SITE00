@@ -4,7 +4,12 @@
 # Override: SITE00_CLOUD_PREVIEW_MODE=dev (HMR) | local (npm run build on VM).
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+SCRIPT_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+if [[ -n "${SITE00_CLOUD_PREVIEW_ROOT:-}" ]]; then
+  ROOT="$(cd "$SITE00_CLOUD_PREVIEW_ROOT" && pwd)"
+else
+  ROOT="$SCRIPT_REPO"
+fi
 cd "$ROOT"
 
 PIN_FILE="/tmp/site00-cloud-preview-pinned-ref"
@@ -31,6 +36,10 @@ if [[ -n "${SITE00_PREVIEW_PIN_REF:-}" ]]; then
   }
   SYNC=0
   MODE="${SITE00_CLOUD_PREVIEW_MODE:-local}"
+fi
+
+if [[ -n "${SITE00_CLOUD_PREVIEW_ROOT:-}" ]]; then
+  log "SITE00_CLOUD_PREVIEW_ROOT=$ROOT (preview scripts from $SCRIPT_REPO)"
 fi
 
 if [[ "$MODE" == "dev" ]]; then

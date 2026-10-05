@@ -1,0 +1,60 @@
+---
+description: JURNL families share a world and do not share rooms by default
+alwaysApply: true
+---
+
+# JURNL family environments
+
+Same world is not the same room. A new family gets a new environment group. Do not reuse the previous family's plate by default.
+
+Within one family, a parent and its related children and states should share a plate. Do not generate one plate per screen.
+
+Cross-family plate reuse is allowed only for a narrative reason, a direct continuation of the same space, or a real budget constraint, and only if the families still look different with the UI removed. Record that reason on the family environment manifest as `cross_family_reuse_reason`, and pass `sourcePlateFamilyId` plus `crossFamilyReuseJustification` on the generation job.
+
+`precheckGenerationDispatch()` blocks an environment plate that names another family and has no justification. The block is `CROSS_FAMILY_PLATE_REUSE_UNJUSTIFIED`. Credits spent stay 0.
+
+A world reference for image-to-image is not permission to copy the previous room. F03 `ENV.DAY` fails that test against F02 `ENV.ARRIVAL`. The founder asked for an authority-first replacement. Do not generate a background first.
+
+## Expression brief
+
+Paid generation follows this order: product definition, family expression brief, founder gate, parent authority, sidekick, children, live implementation.
+
+No JURNL family starts paid generation without `F##_FAMILY_EXPRESSION_BRIEF.json` and the matching markdown. The matrix is `JURNL/MANIFEST/JURNL_FAMILY_EXPRESSION_MATRIX.json`. Read the occupied territories before writing a prompt. The arch, curtain, bust, bowl, and books belong to entry. The travertine desk belongs to setup. The safe-to-spend figure belongs to today. The paper ledger belongs to activity.
+
+`precheckGenerationDispatch()` blocks a missing or unready brief as `FAMILY_EXPRESSION_BRIEF_REQUIRED` or `FAMILY_EXPRESSION_GATE_FAILED`. Credits spent stay 0.
+
+Same world. Different room. Different moment. Different job. A family is a dialect of JURNL, not a new brand.
+
+## Expression cascade
+
+Expression continues below the family: parent, child, grandchild, state, interaction, panel, and control. The tree is `JURNL/<FAMILY>/MANIFEST/F##_EXPRESSION_TREE.json`. The cross-family record is `JURNL/MANIFEST/JURNL_EXPRESSION_MATRIX.json`.
+
+A child is direct inheritance, modulated inheritance, or a distinct sub-expression. That decision follows the product job. A distinct job does not require a new plate. Use a new plate only when the job, the emotional role, or the spatial metaphor materially changes.
+
+Grandchildren are usually a state or an interaction. Only a material sub-surface normally needs its own authority.
+
+States and interactions are directed. They are not generic messages, spinners, or one sheet with different copy. `JurnlPanel`, `JurnlButton`, and `JurnlDrawer` carry repeatable roles. Do not invent a variant for a single screen, and do not invent a new icon language.
+
+`precheckGenerationDispatch()` requires the expression tree after the family brief. A missing tree is `HIERARCHICAL_EXPRESSION_REQUIRED`. An incomplete tree or a failed repetition audit is `FAMILY_EXPRESSION_GATE_FAILED`. Credits spent stay 0.
+
+F03's mounted day plate is the derived daily room and is in review. F03 and F04 child production stays blocked.
+
+## Plate occupancy
+
+Define the UI occupancy before a parent plate. Parents are environment-dependent. The left rail needs a quiet, low-contrast, low-edge field. Architectural weight sits on the right. A beautiful plate that cuts through the rail is `PLATE_UI_INTERFERENCE` and is not a valid runtime plate.
+
+Do not hide a collision with a scrim, a white gradient, a blur, or a heavy panel. Reposition, reframe, or regenerate from a bound reference.
+
+`precheckGenerationDispatch()` requires `F##_PLATE_OCCUPANCY.json` once the family matrix lists `plate_occupancy`. A missing map is `PLATE_OCCUPANCY_REQUIRED`. Credits spent stay 0.
+
+## Reference, not text-to-image
+
+JURNL visual generation is reference-guided. Text-to-image is forbidden, including when a family has no parent yet. Bind the actual image. Do not describe a reference and regenerate from text. `TEXT_TO_IMAGE_NET_NEW` on a JURNL job is `INVALID_GENERATION_MODE`.
+
+## Authority first
+
+The full completed page is the creative authority. The environment plate is a derived runtime asset. Do not generate an empty room, a background, or a plate as the primary step.
+
+Order: live UI, family expression, composition contract, attached reference, full page authority, validation, clean plate derived from that authority, live React mounted on the plate, comparison.
+
+`precheckGenerationDispatch()` blocks a JURNL environment plate that is not derived from a registered full page. The block is `AUTHORITY_FIRST_REQUIRED`. Credits spent stay 0. This applies to F03 and to F05–F16. A standalone background is not a parent authority.

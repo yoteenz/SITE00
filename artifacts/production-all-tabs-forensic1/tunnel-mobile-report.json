@@ -1,0 +1,186 @@
+[
+ {
+  "key": "01-hub",
+  "path": "/production",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-hub",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "02-inbox",
+  "path": "/production/queue",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-inbox",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "03-design-brand",
+  "path": "/production/ndxbook/design?mode=brand",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-experience",
+  "path": "/production/ndxbook/design?mode=experience",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-surfaces",
+  "path": "/production/ndxbook/design?mode=surfaces",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-compiler",
+  "path": "/production/ndxbook/design?mode=compiler",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-assets",
+  "path": "/production/ndxbook/design?mode=assets",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber"
+  ],
+  "errs": []
+ },
+ {
+  "key": "03-design-viewport",
+  "path": "/production/ndxbook/design?mode=viewport",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 0,
+  "docOverflow": 0,
+  "navActive": "nav-design",
+  "clipped": [
+   "design-chamber:pxa-chamber"
+  ],
+  "errs": []
+ },
+ {
+  "key": "04-experience",
+  "path": "/production/ndxbook/experience",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 188,
+  "docOverflow": 0,
+  "navActive": "nav-experience",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "05-expression",
+  "path": "/production/ndxbook/expression",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 811,
+  "docOverflow": 0,
+  "navActive": "nav-expression",
+  "clipped": [
+   "authority-status-bar:pxa-red",
+   "authority-status-bar:pxa-red"
+  ],
+  "errs": []
+ },
+ {
+  "key": "05-expression-cf",
+  "path": "/production/ndxbook/expression/character-fabrication",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": null,
+  "docOverflow": 0,
+  "navActive": "nav-expression",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "06-library",
+  "path": "/production/libraries",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 838,
+  "docOverflow": 0,
+  "navActive": "nav-library",
+  "clipped": [],
+  "errs": []
+ },
+ {
+  "key": "07-activity",
+  "path": "/production/activity",
+  "fam": "mobile",
+  "w": 390,
+  "h": 844,
+  "clamped": [],
+  "overflow": 903,
+  "docOverflow": 0,
+  "navActive": "nav-activity",
+  "clipped": [],
+  "errs": []
+ }
+]

@@ -1,0 +1,127 @@
+/* F05–F16 parent review. The rail stays in the quiet half. No scrim.
+   Anchor the plate to the left so a center crop does not eat the quiet field. */
+
+.jrn .jrn-screen[data-jrn-review='parent'] .jrn-plate {
+  object-position: left center;
+}
+
+.jrn .jrn-screen[data-jrn-review='parent'] .jrn-col {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  right: 0;
+  padding-top: calc(16px + env(safe-area-inset-top, 0px));
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
+}
+
+.jrn .jrn-parent__rail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(168px, 46%);
+  max-width: 168px;
+}
+
+.jrn .jrn-parent .jrn-home__h,
+.jrn .jrn-parent .jrn-home__sub,
+.jrn .jrn-parent .jrn-home__num,
+.jrn .jrn-parent .jrn-home__hint {
+  max-width: 11rem;
+}
+
+.jrn .jrn-parent__rows {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.jrn .jrn-parent__rows li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+  border-top: 1px solid var(--jrn-panel-line, rgba(203, 189, 171, 0.85));
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.jrn .jrn-viz {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  min-height: 8px;
+}
+
+.jrn .jrn-viz span {
+  display: block;
+  height: 8px;
+  flex: 1;
+  background: var(--jrn-taupe, #cbbdab);
+  border-radius: 2px;
+}
+
+.jrn .jrn-viz--flow span:nth-child(1) { flex: 3; }
+.jrn .jrn-viz--flow span:nth-child(2) { flex: 2; background: var(--jrn-emerald, #1f4a3a); }
+.jrn .jrn-viz--sequence { flex-direction: column; }
+.jrn .jrn-viz--sequence span { width: 100%; height: 4px; }
+.jrn .jrn-viz--sequence span:nth-child(2) { width: 72%; }
+.jrn .jrn-viz--sequence span:nth-child(3) { width: 40%; }
+.jrn .jrn-viz--trajectory span:nth-child(1) { flex: 3; }
+.jrn .jrn-viz--trajectory span:nth-child(2) { flex: 1; }
+.jrn .jrn-viz--accumulation span:nth-child(1) { flex: 1; }
+.jrn .jrn-viz--accumulation span:nth-child(2) { flex: 2; background: var(--jrn-emerald, #1f4a3a); }
+.jrn .jrn-viz--signal span { max-width: 28px; background: var(--jrn-emerald, #1f4a3a); }
+.jrn .jrn-viz--archive span { background: transparent; border: 1px solid var(--jrn-ink-2, #5c5348); height: 10px; }
+
+.jrn .jrn-board__list {
+  list-style: none;
+  margin: 12px 0 80px;
+  padding: 0;
+  overflow: auto;
+  max-height: calc(100% - 120px);
+}
+
+.jrn .jrn-board__list li {
+  padding: 10px 0;
+  border-top: 1px solid var(--jrn-line, rgba(203, 189, 171, 0.85));
+}
+
+.jrn .jrn-board__list p {
+  margin: 4px 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.jrn .jrn-board__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.jrn .jrn-board {
+  overflow: hidden;
+  min-height: 0;
+}
+
+@media (min-width: 600px) {
+  .jrn .jrn-screen[data-jrn-review='parent'] .jrn-plate {
+    object-position: left center;
+  }
+  .jrn .jrn-parent__rail {
+    width: 240px;
+    max-width: 240px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .jrn .jrn-screen[data-jrn-review='parent'] .jrn-plate {
+    object-position: left center;
+  }
+  .jrn .jrn-parent__rail {
+    width: 300px;
+    max-width: 300px;
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "family_id": "F09",
+  "family_name": "SAFE TO SPEND",
+  "product_job": "Give a clear signal after obligations and intentions.",
+  "user_question_answered": "What can I actually spend without undermining my plans?",
+  "primary_signal": "One open answer.",
+  "emotional_role": "Clarity, relief, confidence.",
+  "spatial_metaphor": "An open loggia.",
+  "architectural_character": "A tall arch and the sea on the right. One bench. Left plaster is blank.",
+  "lighting_character": "High even daylight.",
+  "material_emphasis": "Plaster and pale stone.",
+  "environmental_focal_point": "The arch and the sea, right of the rail.",
+  "object_language": "One stone bench. No salon clutter.",
+  "botanical_role": "A little olive at the right edge.",
+  "negative_space_strategy": "The left half is blank plaster. The room stays open, not unfinished.",
+  "composition_bias": "Left signal, right opening.",
+  "information_density": "One signal. Almost no secondary matter.",
+  "panel_behavior": "A signal, not a journal.",
+  "button_behavior": "The explanation stays closed.",
+  "data_visualization_character": "A single mark.",
+  "interaction_character": "The answer is the parent. Why stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "One word or figure. Wide tracking. Short.",
+  "relationship_to_previous_family": "Plan arranges. This room is the breath after that.",
+  "relationship_to_next_family": "Purchases asks about one object inside that breath.",
+  "relationship_to_other_families": "Today previews the figure inside a journal. This room is only the signal.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Loggia",
+    "One signal",
+    "More air"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "Looking empty",
+    "Copying today's journal"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

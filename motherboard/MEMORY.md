@@ -12977,3 +12977,983 @@ Sprint: live **Viewport Lab** at `/production/:projectSlug/viewport-lab` — ifr
 ## 2026-10-02 — Production nav typography fix (P0.STUDIOOS.PRODUCTION.NAV-TYPOGRAPHY-FIX1)
 
 Root cause: `.ph--hub { zoom: var(--phz) }` compounded all header/footer `font-size` values (~deviceWidth/864). Fix: **zoom only on `.ph--hub > .ph-scroll`** (chamber); **top/bottom nav + `prod-chrome-strip` use `ph--system-chrome` with `zoom:1`** and explicit px sizes in `site00-production-system-chrome-typography.css`. Forensics: `scripts/production-nav-typography-forensics.mjs` (`zoomProduct:1`, 1px font delta = 1px). Branch: `cursor/nav-typography-fix-production-87ed`.
+
+## 2026-09-30 — P0 unified Grok + environment review tunnel
+
+- **Sprint:** `P0.SITE00.GROK-PLUS-ENVIRONMENT-UNIFIED-REVIEW-TUNNEL1`. Forensics: Grok live remote = `cursor/authority-pixel-assets-1b86` @ `4fdf9efc`; Composer env integration = `cursor/authority-environment-family-live-integration-87ed` @ `24e2db58` (merge-base = Grok HEAD — unified at git level, not two divergent products). Stale local Grok worktree `.worktrees/grok-authority-pixel-assets-review` @ `9cfc20f5` preserved (not deleted).
+- **Unified review:** branch/worktree `cursor/grok-plus-environment-unified-review-87ed` @ `.worktrees/grok-environment-unified-review`; canonical tunnel via `SITE00_CLOUD_PREVIEW_ROOT` + `ensure-grok-environment-unified-preview.sh` → `site00.fsbw-dev.com` → `:5174` → unified dist (`index.Ddmx0m0x.js`, commit `24e2db587d06`). PR #1262 (review only, no main).
+- **Stack:** Grok foreground assets (96+ webps) + 3 authority environment plates + Composer wiring/suppression unchanged. Tests 48 pass on unified worktree.
+
+---
+## 2026-09-30 — Compact chrome moved onto the unified review branch
+
+Founder asked to move every chrome change from this chat onto `cursor/grok-plus-environment-unified-review-87ed` and to keep all future edits there until a merge to main. PR #1262 stays review-only.
+
+- **Context:** Whole chat: Production Hub and Character Fabrication visual sprints; 31 authority photographs and nav glyphs (`9cfc20f5`); shared 864 chrome (`4fdf9efc`, PR #1258, not merged); three environment worlds then live integration (PR #1259 and `cursor/authority-environment-family-live-integration-87ed`). Compact chrome was built on `cursor/chrome-compact-text-1b86` (PR #1261, not merged) through `5b730eb5`: production type matched fabrication, nav labels moved 10 → 8 → 9 → 8.5 → 8.8 → 9.3px, top subtext +3 then −1, header text box `.ph-top__copy` at `zoom: 0.74`, Martian Mono tried on the bars and reverted to Saira Semi Condensed. A local auth-guard bypass existed only on the chrome checkout for a quick tunnel and was not moved. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Send tunnel links on every close. Review surface is `site00.fsbw-dev.com` → cloudflared → port 5174 → vite preview whose cwd is `.worktrees/grok-environment-unified-review`.
+- **Topics covered:** Shared header and bottom nav only. Icons, thumbs, chevrons, the red brand tick, and the steps dial stay outside the scaled box. Chamber type, catalogue copy, and the three environment plates stay. Fabrication canvas stays Barlow Condensed. Hub chamber stays Saira.
+- **Decisions / outcomes:** Net source diff from `4fdf9efc` to `5b730eb5` is on the unified branch. Header font sizes stay (brand title 15px, brand subtitle 10.5px, selector title 12.5px, selector label 9.5px, selector detail 9px, red count 20px, attention caption 9.5px) inside `.ph-top__copy` at `zoom: 0.74`. Bottom-nav labels are 9.3px with label line-height 1.15. Chrome face is Saira Semi Condensed. `.ph-chamber.has-authority-env` rules stay. Future chrome and text edits in this thread land on this branch until the founder says merge to main. PR #1258, #1259, #1261, and #1262 stay unmerged.
+- **Changes:** `ProductionHub.tsx`, `productionHub/chrome.tsx`, `characterFabrication/primitives.tsx`, `site00-production-hub-authority.css`, this MEMORY entry.
+- **Conventions:** Do not commit an auth-guard bypass. Do not drop the authority environment plate CSS when editing chrome. Compare the named tunnel only after a full reload. Hard-refresh; an open phone tab can stay on an older bundle.
+
+---
+## 2026-09-30 — Inbox quick view: one-line labels, centered actions
+
+Founder looked at the attention popover on site00.fsbw-dev.com and asked for four layout fixes. Work stays on `cursor/grok-plus-environment-unified-review-87ed` until a merge to main. PR #1262 stays review-only.
+
+- **Context:** Whole chat mounted authority photographs and nav glyphs, aligned shared chrome, rebuilt three environment worlds, then compacted production chrome to match fabrication (header copy zoom 0.74, nav labels 9.3px, Saira Semi Condensed). That chrome was moved onto this unified review branch. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Hard-refresh the named tunnel.
+- **Decisions / outcomes:** In the attention popover, the title and the state (`NARRATIVE APPROVAL`, `AWAITING DECISION`) stay on one row (`white-space: nowrap`, slightly wider text column). `VIEW ALL IN INBOX` is centered. REVIEW and CHOOSE span the card and their label is centered inside the button. The `ATTENTION / INBOX QUICK VIEW` heading is removed. CLOSE stays at the top right. Environment plates and chrome type are unchanged.
+- **Changes:** `productionHub/overlays.tsx`, `site00-production-hub-authority.css`.
+- **Conventions:** Attention titles and state labels do not wrap. Popover actions are centered in the card. Do not put the quick-view heading back unless the founder asks.
+
+---
+## 2026-09-30 — P0 authority compositing + fixed panel convergence (partial)
+
+Sprint `P0.SITE00.AUTHORITY-ASSET-COMPOSITING-AND-FIXED-PANEL-CONVERGENCE1` on unified review branch `cursor/grok-plus-environment-unified-review-87ed` (PR #1262, **no main**).
+
+- **Production Hub:** Suspended modules fixed at **113px** outer shell; `selectedNodePanelFace` + `NODE_PANEL_BACK`; detail swaps inside face (BACK + status + in-shell `ph-qa`). Flow/dep nodes follow same face model. Playwright: outer box unchanged on PERFORMANCE select (`PANEL_BOX same: true`).
+- **Character:** `characterViewportAnchor.ts`, `CharacterRenderer` / `cf-character-viewport`, bottom-grounded `object-fit`; **`figure.webp`** rembg repair (~22.6% transparent pixels, corner alpha 0). Identity uses `figureAnchor` grounding.
+- **Environment audit:** Plates present at 1296×2304 (production atmosphere, fabrication chamber, simulation volume). No founder authority PNGs in repo for pixel diff — side-by-side deferred; **no regen** this pass.
+- **Alpha audit:** Figure PASS; node narrative plate opaque (expected ENVIRONMENT-style). Full 27-slot Grok sweep not automated yet.
+- **QA:** `scripts/qa-authority-compositing-capture.mjs`; artifacts under `/opt/cursor/artifacts/authority-compositing-qa/`. Preview local build on `:5174` with `designPreview=1` + `baw_auth_backup` seed.
+- **Conventions:** Machine panels never grow on select — swap face only. Transparent human = zero alpha outside silhouette, not faded rectangle.
+
+---
+## 2026-09-30 — Shared chrome captions were clipping on iPhone
+
+Founder viewed site00.fsbw-dev.com Production Hub and Character Fabrication and the header still read `STUDIO WO` / `ITEMS NEED Y`. The compact rules were in the bundle. Nested `zoom: 0.74` sat inside `overflow: hidden`, so iOS clipped the line before the smaller type could show.
+
+- **Fix:** `548e123b` on `cursor/grok-plus-environment-unified-review-87ed`. Header and bottom-nav labels are sized to the 864px cells with overflow visible. No nested zoom. Preview `index.BwxM3rCH.js`.
+- **Conventions:** Do not put `zoom` on `.ph-top__copy` while the header cell is `overflow: hidden`.
+
+---
+## 2026-09-30 — P0 live character runtime architecture (PARTIAL)
+
+Sprint `P0.STUDIO-WORLD.LIVE-CHARACTER-RUNTIME-ARCHITECTURE-AND-PROTOTYPE1`. Isolated branch `cursor/live-character-runtime-architecture-1b86` / worktree `.worktrees/live-character-runtime` from unified baseline `60fec0b0` — **did not mutate** `cursor/grok-plus-environment-unified-review-87ed`.
+
+- **Local PC:** Cloud Linux VM — **NOT ACCESSIBLE** founder Windows UE 5.8.2. Unreal half **BLOCKED — founder local execution required**. Docs: `docs/studio-world/live-character-runtime/LOCAL-UNREAL-SETUP.md`.
+- **SITE00:** `shared/studio-world-live-character-runtime/` (manifest, protocol, mock/unreal adapters, capture rig), `CharacterViewport` providers (default STATIC_AUTHORITY; `?liveRuntime=1`, mock via `runtimeMock=1`), `buildWorkingAssemblyManifest` bridge. Mock ACKs always `mock: true`. No fake Unreal connect badge when WS missing.
+- **Tests:** `liveCharacterRuntimeP0.test.ts` + CF/compositing regression pass. Dev route `/__dev/live-character-runtime`.
+- **Conventions:** Do not report mock tests as UNREAL-PROVEN. Do not merge to main / site00.com for this sprint without founder gate.
+
+---
+## 2026-09-30 — Chrome type collapsed because of the 864px zoom
+
+Founder on site00.fsbw-dev.com: bottom-nav icons looked unchanged, and header/nav text went from readable to about 2px after a small CSS reduction.
+
+- **Cause:** `.ph--hub` sets `zoom: width/864` (~0.45 on a 390px phone). Font sizes in `site00-production-hub-authority.css` are pre-zoom. The fit pass set nav labels to 6px and the title to 10px, which render at ~3px and ~4.5px. Icons went from 18px to 14px in that same canvas (~8px to ~6px on screen), so the glyphs looked the same.
+- **Fix:** Title 20px, section values 16px, nav labels 15px, icons back to the authority 26px box. Grid `278px 190px 188px`. No nested zoom. Measured at 390px on the preview: no clipped strings, icons 12px on screen, bundle `index.BTR7ydLx.js`.
+- **Conventions:** Do not set single-digit font sizes on `.ph--hub` chrome. 20px in this file is ~9px on a phone. Glyphs stay the authority set in `productionHub/icons.tsx`. Review branch only — do not upload over site00.com.
+
+---
+## 2026-09-30 — Integration squash conflicts were the older snapshot
+
+Fetched `origin/cursor/authority-environment-family-live-integration-87ed`. It was one commit ahead: squash `9b325ab3` (PR #1262). This review branch was 12 commits ahead of that squash, including the iOS chrome fix, live character runtime, and the 864px zoom type fix.
+
+- **Conflicts:** `MEMORY.md`, `chamber.tsx`, `site00-character-fabrication-authority.css`, `site00-production-hub-authority.css`. No second feature on the integration side. Each theirs-side is the pre-follow-up snapshot.
+- **Resolution:** Kept this branch. `CharacterViewport` still paints `SubjectFigure` unless live runtime is requested. Chrome stays at title 20px / nav 15px / no nested `zoom: 0.74`. Merge `ecc64145`. PR #1264 mergeable. No preview rebuild.
+
+---
+## 2026-09-30 — Pixel-assets conflicts were the older environment snapshot
+
+Fetched `origin/cursor/authority-pixel-assets-1b86` (`200c6538`, PR #1259 squash onto `4fdf9efc`). This review branch was 19 commits ahead. That commit’s environment plates, receipts, and suppression are already in this branch.
+
+- **Conflicts:** `MEMORY.md` (later entries only on this branch), `shared/site00-character-fabrication/index.ts` (keep `characterViewportAnchor` export), `chamber.tsx` (keep `CharacterRenderer`; environment plate stays). Auto-merge of `vite.config.ts` took a pixel-assets type with one extra `)` — restored the balanced signature from this branch.
+- **Not a second product:** pixel-assets `machine.tsx`, hub CSS, and the preview script are the pre-chrome, pre-runtime versions. No parallel intent left open.
+
+---
+## 2026-10-01 — Pixel-assets recheck had nothing left to merge
+
+Fetched `origin/cursor/authority-pixel-assets-1b86` again. Tip still `200c6538`. It is an ancestor of `cursor/grok-plus-environment-unified-review-87ed` (20 commits ahead, 0 behind). `git merge` reports already up to date. No conflict markers, no file changes, no intent clash.
+
+---
+## 2026-10-02 — Production review nav uses the keyed bottom-nav icons
+
+Founder approved the seven high-quality bottom-nav renders and asked for them on the working production-review branch, on the tunnel, with sign-in paused while Supabase is down.
+
+- **Context:** The keyed masters live on `cursor/bottom-nav-icon-family-v1-1b86` (draft PR 1293, not merged). This review branch is the tunnel’s production hub. Order stays HUB, INBOX, DESIGN, EXPERIENCE, EXPRESSION, LIBRARY, ACTIVITY. Do not upload over site00.com.
+- **Decisions / outcomes:** The production bottom nav masks those PNGs. Inactive ink is charcoal. The active item uses the host red. Sign-in is skipped only on `site00.fsbw-dev.com` and localhost. site00.com still requires sign-in.
+- **Changes:** `productionHub/nav.tsx`, `productionHub/bottom-nav/*.png`, `signInPaused.ts`, the production and account guards, and the sign-in shell. Draft PR 1266 stays unmerged.
+- **Conventions:** Turn sign-in back on by removing the preview-host pause when Supabase is up. Do not bake that pause into a GoDaddy upload.
+
+---
+## 2026-10-02 — Production authority alignment (SONNET1R1) on the PR #1266 review branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1`. Base corrected to `cursor/grok-plus-environment-unified-review-87ed` @ `4dc9f839` (PR #1266, draft, not merged). Work lives on `cursor/production-authority-alignment-sonnet1r1` (draft PR #1295). No deploy, no auth changes.
+
+- **Shell:** Tablet/desktop use a scale-free `.pxh-*` host chrome (left cluster LOCATION / PROJECT NDXBOOK / ITEMS NEED YOU, hamburger far right, horizontal icon-left bottom nav). Mobile keeps the approved legacy top and icon-above nav. Host chrome must not use zoom, `transform: scale`, vw/cqw, rem scaling or clamp.
+- **Bodies:** `src/site00/components/productionAuthority/` holds Hub, Inbox, Activity (`/production/activity`), Experience, Expression (Character Fabrication first), Library (full width) and the Design chamber (six `?mode=` modes). Registry of all 36 authority screens: `src/site00/config/production-authority-registry.ts`. Legacy machine stays at `/production?view=machine`; old design workspace at `design/workspace`.
+- **QA:** `scripts/production-authority/capture-matrix.mjs` renders all 36 states and asserts structure (36/36 pass). Proof matrix and screenshots were written to the agent artifacts dir. Full `npm test` has 57 failing files / 80 tests, identical on the base commit (pre-existing).
+- **Residual:** Imagery reuses existing plates; design chamber has no 3D atrium; pixel polish (tilt, glass density, internal type) is left for Opus.
+
+---
+## 2026-10-02 — Production authority convergence (OPUS1) on the SONNET1R1 branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-authority-alignment-sonnet1r1` @ `029e5e14` (draft PR #1295). Work on `cursor/production-authority-convergence-opus1`. No deploy, no merge, no auth or route changes.
+
+- **Layer:** all visual convergence lives in `src/site00/styles/site00-production-authority-opus.css`, loaded after the Sonnet sheet by `ProductionAuthorityFrame`. It never selects host chrome (`.pxh-*`, `.ph-nav`); transforms / container units only inside the chamber and body sections (test-enforced in `tests/productionAuthorityConvergenceOpus1.test.ts`).
+- **Design chamber:** boards are absolutely placed at authority % coordinates per family with mirrored `rotateY(--tilt)` perspective, glass + red edge glow, CSS atrium (rings, red column, floor ring) and the canonical `production.hub.chamber.atmosphere` plate as the core. Board rows / subtitles / overview copy transcribed into `designChamberConfig.ts`.
+- **Viewport:** the device now renders the live client app in an iframe (DEV: `/app/preview/fixture-app-ndxbook`, prod: `/app/projects/:slug`), scaled to fit the preset.
+- **Host chrome fix:** a body-level `.pxa .ph-img { position: absolute }` rule had pinned the project mark to the page corner; static overrides in `site00-production-host-chrome.css` put it back inside the PROJECT group (no scaling).
+- **Proof:** `artifacts/production-authority-opus/` (36 final JPGs + 36 authority|live compares + `PROOF_MATRIX.md` + `matrix.json`). All 36 structurally pass; all 36 are RESIDUAL on missing authority artwork (atrium crowds, world / stage / canon renders, board art).
+
+---
+## 2026-10-02 — Production authority asset render (GROK1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ASSET-RENDER.GROK1`. Base verified as `cursor/production-authority-convergence-opus1` @ `0a6be266`. Work on `cursor/production-authority-asset-render-grok1`. No deploy, no merge, no auth, route, or chrome changes.
+
+- **Context:** Sonnet aligned the 36 screens and Opus converged geometry. The remaining gap was missing artwork: atrium, project core, six design-board plates, hub crystal, experience world, expression stage, library canon, red-geometry plates, viewport corridor.
+- **Discovery:** `atmosphere.webp` is a glass cylinder and does not satisfy those targets. It still feeds Activity. Production-mobile thumbs are tiny stand-ins. Storyboard frames have faces and were not reused.
+- **Generation:** OpenArt GPT Image 2, 16 plates in `public/site00/production-authority-assets/`. The project core is a transparent PNG. Provenance is `SOURCE.md` in that folder.
+- **Integration:** plates drop into existing hero, atrium, overview-mark, panel, vault, and corridor slots. Live hub URLs, counts, routes, and the viewport iframe stay. Character Fabrication stays first.
+- **QA:** structural capture 36/36. Sonnet suite 14/14. Opus suite 12/12. Build and verify-production-dist pass.
+
+---
+## 2026-10-02 — Production authority convergence (OPUS2) after GROK1
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2`. Base `cursor/production-authority-asset-render-grok1` @ `85fe6848`. Work on `cursor/production-authority-convergence-opus2`. No deploy, no merge, no auth/route/state/data changes.
+
+- **Viewport:** `productionAuthority/viewportTargets.ts` owns the target geometry. DESKTOP is always a 1440×900 landscape canvas with orientation locked; the old chamber swapped it to 900×1440 in a phone bezel. The iframe is laid out at the target size and then scaled to fit (FIT / 50 / 75 / 100, with stage scroll for inspection). Host × target matrix is 16/16.
+- **Descendants:** every `PwFrame variant="production"` page carries `.pw--authority` and is re-skinned by `site00-production-descendants-opus2.css`: light glass, Saira, red pipe heads, workspace atmosphere band, 1180–1320 desktop width. The NME (Narrative Momentum) grandchild is remapped only inside `.pw.pw--authority`, so the founder expression engine is untouched.
+- **Experience children:** capsule row from `EXPERIENCE_CAPSULES` plus the Grok1 world plate. The dead MODULES → `build-a-wig` legacy link was removed.
+- **Assets:** Expression floors read live hub node art. Library collections use live cast art plus red-geometry plates. Activity hero uses the crystal chamber. Each ON YOUR TABLE card shows a distinct plate.
+- **Design workspace** (`design/workspace` + in-shell sections): palette and type are remapped for `data-workspace-role="production-provisional"` only, in `site00-production-design-workspace-opus2.css`.
+- **Character Fabrication:** wide hosts get the authority host nav and a stage atmosphere. Phones are unchanged.
+- **Residuals:** the mobile host strip height (34px vs ≈57px) is preserved because the 864-space strip is shared with the hub machine, CF popovers and the design overlay. The design workspace on phones is a fixed 768 canvas. The hub machine and the expression-engine content-ops route stay legacy.
+- **Tests:** `tests/productionAuthorityConvergenceOpus2.test.ts`. Full suite in this env: base 101 failing tests / 130 files, final identical (delta 0).
+
+---
+## 2026-10-03 — Production authority tree (COMPOSER1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-TREE.COMPOSER1`. Forensic map only — no redesign, no reconstruction, no runtime/UI changes. Base `cursor/production-authority-convergence-opus2` @ `269f2af5`. Branch `cursor/production-authority-tree-composer1-0daf`.
+
+- **Deliverables:** `artifacts/production-authority-tree/` — MASTER_TREE, seven tab trees, NODE_MATRIX (161 nodes), INHERITANCE_MATRIX, INTERACTION_INVENTORY, RESPONSIVE_TREE, STALE_FALLBACK_MAP, RECONSTRUCTION_ORDER, AUTHORITY_SOURCE_INDEX; `nodes.manifest.json` + generator scripts under `scripts/`.
+- **Method:** Routes (`Site00Routes`, production shells), registry canon vs `EXPERIENCE_CAPSULES`, Opus2 crawl cross-check; experience children labeled **UNMOUNTED** honestly; hub machine + expression-engine route **LEGACY_LOCKED**; design workspace mobile 768 scale flagged **RESPONSIVE_AUTHORITY_FAILURE**.
+- **Counts:** 37 route-equivalent surfaces; 23 interaction nodes; 5 temporary surfaces; 44 responsive-variant records; 4 genericization risks; 5 stale fallbacks; 2 authority conflicts.
+- **QA:** `tests/productionAuthorityConvergenceOpus2.test.ts` 18/18 pass (audit did not touch runtime).
+
+---
+## 2026-10-03 — HUB reconstruction (OPUS1), reference-locked
+
+Sprint `P0.STUDIOOS.PRODUCTION.HUB.RECONSTRUCTION.OPUS1`. Work in `yoteenz/SITE00` (the brief said `fsbw`, but all HUB code lives here and AGENTS.md forbids fsbw). Base `cursor/production-authority-tree-composer1-0daf` @ `0b65e430`. Branch `cursor/production-hub-reconstruction-opus1`. No merge, no deploy.
+
+- **Body:** `HubBody` now renders the approved HUB authority grammar with live data only: hero, status strip, overview, entries, icon components, operations and timeline. Geometry lives in `site00-production-hub-reconstruction.css`, authored per family on its own artboard (`--u` = 100cqi / 2000, 1792 or 1125), with a mobile micro-type floor. `AuthorityHero` / `LiveStatusBar` are unchanged for the other tabs.
+- **Hero plates:** `AUTHORITY_ASSETS.hubHero.{mobile,tablet,desktop}` are cropped from the approved HUB references, with the baked copy removed by OpenCV inpainting (see SOURCE.md).
+- **Shell:** the mobile host strip height is converged inside `.pxa` only (top 120 / nav 112 hub units). Desktop / tablet anatomy stays per the founder's canonical shell override (left cluster, icon-left nav), even though the new renders show a centred switcher and a stacked nav. This needs a founder decision.
+- **Proof:** `artifacts/production-hub-reconstruction-opus1/` (PARITY_REPORT.md, compare/, before/, after/, devices/). The hub machine route is untouched.
+
+---
+## 2026-10-03 — HUB descendants and interactions (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.HUB.DESCENDANTS-INTERACTIONS.OPUS1`. Repo `yoteenz/SITE00` (the brief said fsbw). Base `cursor/production-hub-reconstruction-opus1` @ `f47629d7`. Branch `cursor/production-hub-descendants-opus1`. No merge, no deploy.
+
+- **Menu:** one authored `ProductionMenuPanel` (in `chrome.tsx`) now serves both the phone strip and the tablet / desktop host top: red-pipe MENU head, indexed rows, current-route marker. Escape and an outside press close it. Destinations are unchanged. Styles are in `site00-production-host-chrome.css` (`.pxm`), px only.
+- **HUB states:** hover / focus / pressed states for every HUB action. Loading shows "SYNCING LIVE STATE". A no-production project now shows an honest dashed NO ENTRY slot instead of stale entry art. Empty states use a dashed inset with a red ring marker. `ProductionAuthorityDataContext` is exported for render tests and QA.
+- **Audit:** 22 actions × 3 families resolve to existing routes with no stale fallback. The hub machine stays LEGACY_LOCKED. Project switching, the NEW ENTRY creation flow and the error state are UNMOUNTED (not invented). Proof is in `artifacts/production-hub-descendants-opus1/`.
+
+---
+## 2026-10-03 — INBOX + ACTIVITY three-viewport reconstruction (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX-ACTIVITY.THREE-VIEWPORT-RECONSTRUCTION.OPUS1`. Base `cursor/production-hub-descendants-opus1` @ `c508fc3d`. Branch `cursor/production-inbox-activity-threeviewport-opus1`. No merge, no deploy.
+
+- **Routes unchanged:** reference children are same-route query lenses.
+  - Inbox: `/production/queue?view=priority|approvals|direct|system` and `&item=<id>` for the approval detail.
+  - Activity: `/production/activity?view=approvals|updates|comments|blockers` and `?milestone=<node>`.
+  - Publish has no route or data, so it is NOT PRESENT and was not invented.
+- **Kit:** `iaKit.tsx` provides the hero, lens bar (search + filter popover), stats, panel, chip and empty/UNMOUNTED states. Styles are in `site00-production-inbox-activity.css`: body only, with desktop / tablet / mobile recompositions and no zoom or scale.
+- **Gate:** Approve / Revise are enabled only when the founder gate is open, `decidableInHub`, and on the item's node. Direct and Comments are honest UNMOUNTED shells.
+- **Lessons:**
+  - The triptychs hide narrow-phone overflow: the 360px matrix caught the lens row widening the body.
+  - An earlier OPUS2 test pins the Activity hero to `hubCrystal`.
+  - The Activity frames carry a DESIGN mode bar artifact.
+- **Proof:** `artifacts/production-inbox-activity-threeviewport-opus1/`.
+
+---
+## 2026-10-03 — Master PNG nav icons on INBOX/ACTIVITY branch (no label row)
+
+Founder wanted preview on `cursor/production-inbox-activity-threeviewport-opus1` with founder master PNG bottom-nav icons from the descendants work, but **not** the descendants unscaled label row below the bar (`ProductionNavLabelRow` / `prod-nav-dock`). Commit `43611fd8`: `ProductionNavIcon` + `bottom-nav/masters/*.png`; labels stay under each icon inside the zoomed `.ph-nav`. Preview tunnel serves this branch. PR #1305.
+
+Also ported descendants chrome fix: drop duplicate CURRENT WORKSPACE readout from production top header (mobile `ph-top__sel--prod`, host `pxh-top__loc`); 4-column mobile top grid in host CSS. Bottom nav owns tab identity.
+
+---
+## 2026-10-04 — Design asset OPUS3 cherry-picked onto INBOX/ACTIVITY branch
+
+Cherry-picked `afb22c27` (design pack extract, chamber stand-in removal, no-scroll Design parent) onto `cursor/production-inbox-activity-threeviewport-opus1` without switching the preview branch. **Kept:** `ProductionNavIcon` + `masters/*.png` (HUB master from pack `nav-hub.png`), header trim. **Proof:** `artifacts/production-design-asset-convergence-opus3/`.
+
+---
+## 2026-10-04 — Inbox OPUS2 + Activity OPUS1 on tunnel branch
+
+Cherry-picked `37d19680` (Inbox authority family) onto `cursor/production-inbox-activity-threeviewport-opus1` for preview — not a branch switch. **Inbox:** `inboxModel.ts`, `InboxBody`, `site00-production-inbox-family.css`, no-scroll inbox contract; OPUS1 lens links still resolve. **Activity:** OPUS1 three-viewport `ActivityBody` + `iaKit` unchanged. **Still kept:** master PNG nav, header trim, design pack OPUS3. **Proof:** `artifacts/production-inbox-authority-opus2/`.
+
+**Inbox + Activity tab sources (founder confirmed):** **Inbox** = `cursor/production-inbox-authority-opus2` @ **`37d19680`** (PR **#1307**). **Activity** = `cursor/production-inbox-activity-threeviewport-opus1` @ **`7dcf37de`** (`ActivityBody.tsx` OPUS1 three-viewport — PR **#1305**). Preview tunnel branch **`cursor/production-inbox-activity-threeviewport-opus1`** cherry-picks both onto one line (plus nav, design pack, header trim). Descendants ACTIVITY LOG (`1ca88e20`) is not the target for Activity tab.
+
+---
+## 2026-10-04 — Expression responsive authority convergence (OPUS1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESPONSIVE-AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-design-asset-convergence-opus3` @ `afb22c27`. Branch `cursor/production-expression-authority-opus1`. No merge, no deploy.
+
+- **One family system.** There are 10 families and 40 routes.
+  - Families: Narrative, Casting, Look + Wardrobe, Cast + Performance, Sets + Scenes, Storyboard, Review + Handoff, Format Studio, Content Package, Campaign Board.
+  - All routes live under the existing `expression/*` wildcard, resolved by `productionAuthority/expression/expressionRoutes.ts`. The router is unchanged.
+  - Family segments reuse the old sub-workspace ids: `wardrobe` = LOOK + WARDROBE, `performance` = CAST + PERFORMANCE. New segments: `format-studio`, `content-package`, `campaign-board`.
+- **Shell.** Family routes mount in `ProductionAuthorityFrame screen="expression-<family>"` (shared host plus bottom nav with EXPRESSION active).
+  - `ExpressionFamilyShell` = hero (breadcrumb · EXPRESSION · FAMILY / ROUTE) → `LiveStatusBar` (new optional `context`) → routed family tabs → 12/6-column panel grid with fractional rows.
+  - Panels declare spans per viewport; every panel body is a bounded internal pane.
+  - Measured 200/200 (40 routes × 5 viewports) with no page or frame scroll and nothing clipped.
+- **Data.** `expressionData.ts` keeps ROLE (`CastingRequirement`), ACTOR (catalogue) and CHARACTER (`ProductionCharacter`) separate. Each has its own route: `casting/roles/:id`, `casting/actors/:id`, `casting/characters/:id`.
+- **Downstream.** Format adaptations become PLANNED deliverables. Nothing is assembled, so Finalize and Send are disabled and the Campaign Board holds 0 completed packages.
+- **Sets** is NOT STARTED: environment, set and zone are honest empties.
+- **Actions.** Existing actions only: narrative judgment and recompile; storyboard approve/revise via `decideStoryboard` (gated); lock and handoff (gated). The old `expression-sub-screen-*` ids and picker test ids are kept.
+- **Residual:** the Expression root (Production Floor) still overflows its frame. It was out of scope.
+- **Proof:** `artifacts/production-expression-authority-opus1/`.
+
+---
+## 2026-10-02 — Production authority handoff v2: attachment review (pre-implementation)
+
+Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus three authority archives (Desktop 16:9 / Tablet 4:3 / Mobile 9:16, 12 images each = 36) and said "review all attachments before implementing." This entry records the review only; no product code was changed.
+
+- **Context:** Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1` — align the live Production workspace to 12 logical screens (6 global tabs HUB/INBOX/EXPERIENCE/EXPRESSION/LIBRARY/ACTIVITY + 6 DESIGN modes BRAND/EXPERIENCE/SURFACES/COMPILER/ASSETS/VIEWPORT) x 3 viewport families. Opus pixel pass follows (queue in file 06).
+- **Manifest (body authority; files arrive as `.jpg`, manifest says `.png`/`.PNG`):** Mobile 5922 HUB, 5924 INBOX, 5925 EXPERIENCE, 5957 EXPRESSION, 5979 LIBRARY, 5936 ACTIVITY, 5968 BRAND, 5963 D-EXPERIENCE, 5969 SURFACES, 5970 COMPILER, 5974 ASSETS, 5975 VIEWPORT. Desktop 5981/5982/5988/5989/5990/5991 (global, same order) and 5983 BRAND, 5992 D-EXPERIENCE, 5984 SURFACES, 5985 COMPILER, 5986 ASSETS, 5987 VIEWPORT. Tablet 6004/6005/6006/6007/6008/6009 (global) and 6010 BRAND, 6019 D-EXPERIENCE, 6011 SURFACES, 6012 COMPILER, 6013 ASSETS, 6014 VIEWPORT. Sizes: mobile 720x1280, desktop 1280x720, tablet 1200x900.
+- **Shell canon (overrides hallucinated desktop/tablet chrome):** tablet+desktop top = one full-width panel, LEFT cluster [LOCATION/WORKSPACE][PROJECT NDXBOOK][ITEMS NEED YOU], hamburger alone far right; bottom nav = horizontal icon-LEFT/label-RIGHT. Mobile keeps icon-above-text. Several desktop/tablet images show the project selector centered and attention near the right; those are NOT literal. No `zoom`, transform-scale, vw/rem/cqw scaling in top/bottom nav (explicit px per viewport).
+- **BASELINE FINDING (important):** On `main` @ `355c4adc`, `.ph--hub { zoom: var(--phz) }` is still present in `site00-production-hub-authority.css` and the Production hub is a mobile-only 864px authority canvas capped at 520 CSS px (`chrome.tsx` `productionChromeScale`). The handoff assumes the nav-typography fix (zoom removed from chrome), the unified Design workspace cutover and Viewport Lab — these exist only on unmerged `origin/cursor/nav-typography-fix-production-87ed` (HEAD `ff361d78`, 30 commits ahead of main, 0 behind, linear stack incl. `site00-production-system-chrome-typography.css` and `tests/productionNavTypographyFix1.test.ts`). Implementing on bare `main` would start from the wrong baseline; branch from that stack (or merge it first) and record start SHA.
+- **Existing Production code map:** `src/site00/components/productionHub/{chrome,nav,ProductionHub,panels,machine,overlays}.tsx`, `src/site00/components/production/PwFrame.tsx`, `src/site00/pages/production/*`, routes `/production`, `/production/queue` (INBOX), `/production/libraries` (LIBRARY), `/production?panel=activity` (ACTIVITY), `/production/:slug/{design,experience,expression}`; Design workspace `src/site00/components/designWorkspace/`. No tablet/desktop families, no LIBRARY full-width vault, no standalone ACTIVITY page on main.
+- **Review limits:** image review in this session was via textual descriptions only; pixel-level geometry claims need browser capture at 390x844 / 768x1024 (4:3) / 1440x810 and a PASS/FAIL 36-row proof matrix (file 05).
+- **Convention:** Authority images are QA inputs only (never shipped as runtime assets); build a typed registry (workspace, designMode, viewportFamily, authorityFile, route/state selector) in code/tests.
+
+---
+## 2026-10-04 — Merge `main` into inbox-activity tunnel branch (3 conflicts)
+
+Fetched `origin/main` and merged into `cursor/production-inbox-activity-threeviewport-opus1` (commit `9bfc7faa`).
+
+- **Conflicts (3 files):** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `Site00AccountRouteGuard.tsx`, `motherboard/MEMORY.md`. All **simple / compatible** — no opposing product intents.
+- **Preview script:** Combined `SITE00_PREVIEW_PIN_REF` checkout (main) with `SITE00_CLOUD_PREVIEW_ROOT` worktree logging (branch) as separate `if` blocks.
+- **Guard:** Kept branch `isSite00SignInPaused()` plus main `Site00ShellAuthProvider` / preview-guest allowlist; API-token skip effect includes both pause and `previewGuestRoute`.
+- **MEMORY:** Union timeline — branch production/inbox/activity/expression entries plus main-only EC/preview-guest/origin forensics entries (skipped duplicate design-pack bullets already in 2026-10-04 design cherry-pick entry).
+- **Tests:** inbox OPUS2 + activity OPUS1 + expression OPUS1 suites 116/116 pass post-merge.
+- **Convention:** When merging main into this tunnel branch, preserve both sign-in pause and EC preview-guest shell auth.
+
+---
+## 2026-10-04 — Inbox root convergence 2 on tunnel + all-tabs forensic
+
+- **INBOX root:** ported the Inbox part of `ffc7f7c0` (from `cursor/production-expression-authority-opus1`) onto this branch. The NEEDS YOU root now follows PARENT_3VIEW 01_INBOX. The OPUS2 model, routing and gate are unchanged. The BLOCKERS count links to `?view=blockers` on OPUS1 Activity. Live 45/45 with no scroll. Proof: `artifacts/production-inbox-root-convergence2/`.
+- **ACTIVITY:** stays OPUS1 (founder decision). The ACTIVITY LOG was not ported.
+- **All-tabs forensic truth table:** `artifacts/production-all-tabs-forensic1/README.md`.
+
+---
+## 2026-10-04 — Production OpenArt asset forensics mount (GROK)
+
+Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/production-openart-asset-forensics-mount1-0daf` (draft PR, no merge, no deploy, no new generations).
+
+- **Context:** Stop recreating Production visuals from flattened screens. Reference screen = composition; OpenArt/repo = source; registry = runtime.
+- **Decisions:** Reused mounted GROK1 plates + hub hero crops + design pack + nav masters. Recent OpenArt history on `Q7IHYCEK3RPn2c1ConEG` is LIBRARY composition boards, not discrete plates. Resident portraits and experience zone/portal files flagged missing/uncertain.
+- **Changes:** `src/site00/productionAssets/*`, `authorityAssets.ts` now re-exports registry paths, docs handoff, vitest `productionOpenartAssetForensicsMount1`.
+- **Conventions:** Do not generate replacements for `MISSING_SOURCE_ASSET`. Do not treat OpenArt authority boards as the underlying asset.
+
+---
+## 2026-10-04 — OpenArt asset recovery 2 (same draft PR #1310)
+
+- **History:** Design project `Q7IHYCEK3RPn2c1ConEG` list exhausted (`hasMore: false`), 462 unique histories. Resident portraits recovered from separate Studio World OpenArt projects, not from composition boards.
+- **Mounted:** approved portraits for Etta Vale, Jules Mercer, Caspian Reed, Iona Wells; Zuri Xu kept as candidate. Noa, Marlowe, Elio still missing (no project).
+- **Inbox:** project thumbnail slot reclassified `NO_SOURCE_ASSET_REQUIRED`. Nav PNGs stay canonical with `UNKNOWN_OPENART_PROVENANCE`.
+- **Build:** `npm run build` passed. No merge, no deploy, no new generations.
+
+---
+## 2026-10-04 — Resident recovery 3 from founder SW team pack (PR #1310)
+
+Same chat also shipped the 242-file production authority downloader on `cursor/production-openart-downloader-recovery2-0daf` (merged PR #1311). This entry is the resident ingest on draft PR #1310.
+
+- **Context:** Founder supplied `STUDIO_WORLD_TEAM_LITE_FORENSIC_REFERENCE.zip` (27 images). RECOVERY2 had marked Noa, Marlowe, and Elio `MISSING_SOURCE_ASSET` and Zuri as candidate only. No new OpenArt search. No generation.
+- **Clusters (visual, before names):** 8 people. Anchors locked to mounted portraits: Etta (06/20/23), Zuri candidate (04/15/18 exact), Caspian (16/17/22), Iona (02/07/24/27, 24 exact). Remaining: East Asian man (01/09/13/19/25) = Noa; older sun-earring man (03/05/12) = Marlowe; burgundy shorter-wave man (10/11/21) = Elio. Locs cluster (08/14/26) is only a probable Jules match (hair differs from the mounted portrait) and was not swapped in.
+- **Mounted:** `studio-world-noa-kline-portrait.jpg`, `studio-world-marlowe-saint-portrait.jpg`, `studio-world-elio-vahn-portrait.jpg`, `studio-world-zuri-xu-portrait.jpg` plus full-body variants. Status `IDENTITY_CONFIRMED`, source `USER_SUPPLIED`, `UNKNOWN_OPENART_PROVENANCE`. Original `SW Team(1).zip` was not in the workspace, so these are lite interim masters (`HIGH_RES_SOURCE_REQUIRED_FOR_FINAL_RUNTIME_MOUNT`).
+- **Changes:** registry, expression manifest (missing slot cleared), Opus handoff, forensics test. `tsc --noEmit` and `npm run build` passed. Draft PR #1310 stays draft. No merge, no deploy.
+## 2026-10-04 — Activity one-viewport convergence (canonical DOMAIN × TIME project memory)
+
+Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL. It supersedes the earlier "Activity stays OPUS1" decision for presentation only.
+
+- **Root cause:** `/production/activity` still mounted the OPUS1 tree (7dcf37de, restored by 319ae2ff).
+  - It used the iaKit hero, the ALL/APPROVALS/UPDATES/COMMENTS/BLOCKERS lens bar, the search strip, KPI stats and stacked FEED / MILESTONES / ATTENTION panels.
+  - There was no `.pxa[data-screen='activity'] .pxa-scroll` lock, so the frame pane scrolled 435–903px.
+  - The canonical model lived only on other branches, unmounted.
+- **Now:**
+  - `activityLog.ts` provides `buildActivityMemory`, built from the entry, narrative, cast, authority sheets, storyboard, graph blockers/unlocks and recorded hub activity.
+  - `ActivityBody.tsx` is the `.amx` workspace.
+    - Primary filters are DOMAIN (ALL…SYSTEM) and TIME (TODAY…FULL HISTORY).
+    - CHANGE (verbs) is a secondary select.
+    - The timeline feeds an inspector with WHEN / BY / PROJECT / ENTRY / AREA / VERSION / STATE / AFFECTS / DOWNSTREAM / CAUSE, BEFORE/AFTER lineage and an OPEN source link.
+  - `buildActivityRows` is kept for the Hub.
+- **Height contract:** in `site00-production-activity-memory.css`:
+  - an activity-scoped frame lock, plus `100dvh` under `@supports`;
+  - only `.amx-events` and `.amx-insp__scroll` scroll;
+  - compositions: desktop rail | timeline | inspector, tablet band plus 62/38, mobile band plus timeline plus a drawer (`display:none` when closed).
+- **Retired:** the iaKit components except `IaIcon` (Inbox only uses icons), and `site00-production-inbox-activity.css`.
+- **Links:** legacy `?view=blockers|approvals` maps to CHANGE BLOCKED/APPROVED on FULL HISTORY, so Inbox's blockers link still works.
+- **Proof:** `artifacts/production-activity-one-viewport-opus1/`, covering 14 viewports × 5 states = 70/70. Document and frame scroll are both 0 and nothing is clipped. Test: `tests/productionActivityOneViewportOpus1.test.ts`.
+
+---
+## 2026-10-04 — Inbox one-viewport family convergence (children → rail · rows · inspector)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL.
+
+- **Root cause:** the OPUS2 children (WATCHING / RESOLVED / ALL INBOX / SYSTEM / MESSAGES in `InboxBody.tsx`) kept the stale stacked mobile presentation from `SW_INBOX_AUTHORITY_LITE_v2`:
+  - a `.ibx-stats` block, then a search plus menus row, then `.ibx-row--watch` cards;
+  - each card had a 150px art column, a facts list and a permanent `.ibx-row__side` column (status pill + OPEN + STOP WATCHING, all `nowrap`);
+  - at 390px the side column's minimum width exceeded its track, and the list pane (`overflow-y:auto`, which forces `overflow-x:auto`) silently clipped the pill and the buttons;
+  - cards were about 260px tall, so on the iPhone they ran past the pane edge under the fixed nav.
+- **iOS:** the frame had no dvh contract.
+- **Now:** a shared `ListWorkspace`:
+  - rail: title + project/entry line, compact summary, search, FILTER / SORT sheet, menus on desktop, type views;
+  - compact `ObjectRow`s with no action column;
+  - an inspector at `?sel=` holding the actions (OPEN / STOP WATCHING / APPROVE behind the gate / REVIEW / ACKNOWLEDGE);
+  - compositions: desktop rail | list | inspector, tablet band + 60/40, mobile band + list + drawer.
+- **Styles:** in `site00-production-inbox-workspace.css`, with `100dvh` on the inbox frame under `@supports`.
+- **Unchanged:** NEEDS YOU keeps the parent-authority composition. Grandchildren (decision detail, thread, notice detail) and temporary sheets are unchanged apart from marking the attachment rail `data-scroll="internal-x"`.
+- **Cleanup:** 116 dead child rules were pruned from `site00-production-inbox-family.css` (postcss), and the unused `Attention` component was removed.
+- **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
+
+---
+## 2026-10-04 — Experience + Library convergence applied to live preview tunnel branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMPOSER1`.
+
+- **Tunnel:** Vite dev on `:5174` serves `/workspace` checkout. Branch `cursor/production-openart-asset-forensics-mount1-0daf`; rebased convergence onto remote merge `433a7622` (Inbox `ec6211f0` + Activity one-viewport retained).
+- **Method:** cherry-pick `e989bcdcb58d9699afd47c64b3e7e3c911f54817` (Experience + Library realm screens, routes, CSS, tests, QA artifacts) — not a full merge of PR #1312 branch history.
+- **Result:** `ExperienceScreen` / `LibraryScreen` under `productionAuthority/realm/`; 46 + 75 routes; retired `ExperienceBody` / `LibraryBody`. Minimal exports added to `productionNavIcon` / `iaKit` for Library icon reads. `100dvh` frame contract scoped for realm one-viewport.
+- **Proof:** `tests/productionExperienceLibraryConvergenceOpus1.test.ts` (136) + inbox/activity regression suites on rebased branch.
+
+---
+## 2026-10-04 — Resident geometry fabrication batch (OpenArt) — infrastructure + partial gen
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
+
+- **Branch:** `cursor/studio-world-resident-fabrication-geometry-openart1` from PR #1310 / asset-forensics lineage.
+- **Canon:** 8 residents, 16-frame geometry spec (`shared/site00-studio-world/resident-fabrication/`), identity from mounted portraits; **SW Team(1).zip not in workspace** → `LITE_ONLY`; Jules locs + Iona glam excluded as identity authority.
+- **OpenArt:** project `Q7IHYCEK3RPn2c1ConEG`, `gpt-image-2-5-sunburst` image2image HIGH 2K; all 8 identity refs uploaded (`openart_identity_references.json`). Credit math ~152×128 ≈ 19.5k vs ~12.7k balance → full 128 frames needs top-up or phased runs.
+- **Repo:** `FABRICATION_IN_REVIEW` status, `residentFabricationManifest.ts` / registry, pack + runner scripts, manifest JSON (128 scaffold rows), audit + README under `artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/`; PNG masters gitignored; review ZIPs via `studio-world-resident-fabrication-pack.mjs finalize`.
+- **Gen progress at commit:** SW-001 frames 01–02 completed; background agent queued SW-001–005. No performance/wardrobe batches. Draft PR only — no merge/deploy.
+
+---
+## 2026-10-04 — RECOVERY4 white-tee/red-collar fabrication source authority
+
+Sprint `P0.STUDIOWORLD.RESIDENT-AUTHORITY.RECOVERY4-WHITE-TEE-RED-COLLAR`.
+
+- **Problem:** PR #1313 geometry batch anchored OpenArt on `production-authority-assets/shared/residents/*-portrait.jpg` (forensics/black tee / outdated). Founder: correct set is **white T-shirt + red collar** already in repo history.
+- **Recovery:** `casting-thumbnails-v1/` (commit `4cdac10c`, PR #1303) = work look + fabrication portrait; `season1-v1/01-natural-authority/` (PR #1302 `a59131ef`) = full-body. Bundle on `cursor/production-hub-descendants-opus1` (not current `main`). Ivory `*-uniform.jpg` / season1 `03-work-uniform-candidates` are **not** white-tee authority.
+- **Branch:** `cursor/studio-world-resident-authority-recovery4`; halted OpenArt; invalidated SW-001 generated frames (16) as `SUPERSEDED_OUTPUT_WRONG_SOURCE`; pending 112 frames `NOT_GENERATED`. Review ZIPs `STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW*.zip`. Next: founder review → 16-frame validation gen before full 128 resume.
+
+---
+## 2026-10-04 — Resident fabrication authority validation OpenArt (16-frame pack)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.OPENART1` on branch `cursor/studio-world-resident-fabrication-validation-openart1`.
+
+- **Scope:** 8 residents × 2 frames (work portrait + work full-body front) using casting-thumbnails-v1 + season1 natural full-body refs uploaded to OpenArt project `Q7IHYCEK3RPn2c1ConEG`; `gpt-image-2-5-sunburst` image2image HIGH 2K (~152 credits/frame).
+- **Completed:** All **16/16** validation PNGs (8× portrait + 8× full-body) via OpenArt MCP + recovery4 casting-thumbnails-v1 / season1 full-body refs (`openart_visual_references.json`). Contact sheets, master overview, `failure_retry_report.json`, review ZIPs refreshed. Classifications: agent spot-check **PASS** on SW-001; all frames remain `approval_status: FABRICATION_VALIDATION_IN_REVIEW` / mostly `FOUNDER_REVIEW_REQUIRED` until founder sign-off. **128 geometry batch not resumed.**
+- **Credits recorded:** 2432 (16 × ~152). Draft PR on `cursor/studio-world-resident-fabrication-validation-openart1` links #1314 + #1313.
+
+---
+## 2026-10-04 — Validation source-binding recovery (RECOVERY1)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1`.
+
+- **Root cause:** Geometry OpenArt runner (`studio-world-resident-fabrication-openart-runner.mjs` `plan()`) binds `visualReference` from `openart_identity_references.json` → `production-authority-assets/shared/residents/*-portrait.jpg` (black-tee mounts). Validation had a parallel unverified cache (`openart_visual_references.json`) with no sha256 gate — ambiguous vs geometry identity uploads.
+- **Fix:** `validationSourceBinding.ts` (explicit identityFace / workLook / bodyGeometry roles, throws on superseded paths); `source-binding-registry.json` sha256 ↔ OpenArt upload IDs; `studio-world-validation-openart-run-one.mjs` refuses stale refs; proof script + 8 `SW-00X_SOURCE_BINDING_PROOF.jpg` sheets. Prior 16 validation PNGs marked `SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING`.
+- **Canary:** 1× Etta work portrait (`VBxhMWHBMtT6R63sRCnW`) using new upload `fujq0PYW5H3SwY15Oq35` (sha256 matches casting thumbnail); superseded geometry id `h5j5eTZfam3mnxVql57l`. Branch `cursor/studio-world-resident-fabrication-validation-source-binding-recovery1`. Tests: `residentFabricationValidationSourceBinding.test.ts`.
+
+---
+## 2026-10-04 — Production authority downloader (RECOVERY2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.RECOVERY2` — forensic retrieval only (OpenArt project `Q7IHYCEK3RPn2c1ConEG`, zero generations).
+
+- **Delivered:** `download_production_authorities.ps1` at repo root with embedded **242** CDN URLs (Experience 46 mobile + 46 desktop/tablet hybrid, Library 75 + 75). Regenerator: `scripts/build-download-production-authorities.ps1.py`. Manifest: `artifacts/production-openart-recovery2/AUTHORITY_DOWNLOADER_MANIFEST.json`.
+- **Identification:** Broad prompt matching (IMAGE-TO-IMAGE library/experience mobile, `ROUTE:` hybrid boards); library hybrid duplicates resolved to newest `EXACTLY TWO` batch (75 routes × 2 histories).
+- **Run (Windows Shadow PC):** `powershell -ExecutionPolicy Bypass -File ".\download_production_authorities.ps1"` → `PRODUCTION_AUTHORITY_EXPORT/` + four ZIPs beside script.
+
+---
+## 2026-10-04 — JURNL F01 Entry full family production (OpenArt)
+
+Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent run.
+
+- **Context:** Founder sprint to expand **approved F01 Welcome parent** into complete JURNL Family 01 Entry visual authorities via **OpenArt GPT Image 2.5 Sunburst**, 2K, 9:16 flat mobile screens (no device frames)—plus harvest, manifests, state/interaction/icon sheets. Product **JURNL** is separate from SITE 00 SPA; assets live under repo `JURNL/F01_ENTRY/`.
+- **Delivered:** Parent recreation (`F01.00`), 13 child screens (`F01.01`–`F01.13`), 4 composite **state authority** sheets, interaction authority sheet (drawers/modals/social transition), F01 icon pack sheet, **17** forensic parent asset crops (`ENTRY.*`), Sheet A (canonical harvest from real crops), Sheet B (child lineage), manifests (screen tree, components, interactions, asset lineage, implementation mapping, OpenArt log). OpenArt project **`TToQavm9coU1QGPRfEzU`**. ~**20** generations (~**3,484** credits).
+- **Status:** All generated PNGs are **`GENERATED` / `IN REVIEW`** until founder marks **`APPROVED` / `CANONICAL`**. Harvest crops are from production parent PNG—not speculative replacements.
+- **Scripts:** `scripts/jurnl-f01-harvest-parent.py`, `jurnl-f01-build-asset-sheet-a.py`, `jurnl-f01-build-sheet-b.py`.
+- **Conventions:** JURNL UI copy **UPPERCASE**; **square-rounded** interactive controls only; logo **small/integrated**; child screens must **descend** from parent materials without duplicating full welcome hero.
+
+---
+## 2026-10-04 — Founder: direct ZIP as clickable link (always)
+
+- **Request:** After JURNL F01 review package, founder asked agents to **always** send the direct ZIP as a **clickable link** (mobile review), not only paths or bare URLs in prose.
+- **Rule:** `AGENTS.md` + `.cursor/rules/session-close.mdc` — Part 3 line 1: markdown link to `releases/download/…/*.zip` on its own line; review/asset ZIPs via GitHub Release + same link format.
+- **JURNL F01 review ZIP:** [JURNL-F01-ENTRY-REVIEW-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-entry-review-2026-10-04/JURNL-F01-ENTRY-REVIEW-2026-10-04.zip)
+
+---
+## 2026-10-04 — JURNL F01 asset harvest recovery (zero regen)
+
+- **Sprint:** P0.JURNL.F01-ASSET-HARVEST-RECOVERY1 — re-extract from existing `F01.00_WELCOME_GENERATED.png` only; **0** OpenArt credit spend.
+- **Done:** rembg isolation for objects/botanical; clean arch/material crops; light → `OVERLAYS/`; buttons + logo placement → `MANIFEST/COMPONENT_REFERENCES/` + `F01_COMPONENT_MANIFEST.json`; v1 crops → `ASSETS/_ARCHIVE_SCREENSHOT_CROPS_v1/`; Sheet A rebuilt; `scripts/jurnl-f01-recover-harvest.py`.
+- **Review ZIP:** [JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-asset-harvest-recovery-2026-10-04/JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip)
+
+---
+## 2026-10-04 — JURNL F01 parent harvest proof1 (FAIL @ 50%)
+
+- **Sprint:** P0.JURNL.F01-PARENT-ASSET-HARVEST-PROOF1 — **1** new F01.00 parent (`z6y0GkA8kNuu8Egnk22P`), immediate harvest, **0** asset regen credits.
+- **Result:** **FAIL** — 7/14 assets usable (50%) &lt; 80% bar; hypothesis (fresh parent fixes extraction) **not supported**.
+- **Next method:** **ASSET-FIRST GENERATION PIPELINE** for future families; F01 repair without child regen **not** viable via extraction alone.
+- **Proof ZIP:** [JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-parent-harvest-proof1-2026-10-04/JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip)
+
+---
+## 2026-10-04 — JURNL F01 interaction authority complete
+
+- **Sprint:** P0.JURNL.F01-INTERACTION-AUTHORITY-COMPLETE1 — **0** child screen regen; **10** interaction authority PNGs in `INTERACTIONS/`; **74** rows in `F01_INTERACTION_MANIFEST.json`; `interactionPrimitives` in component manifest; Family 02+ pipeline adds mandatory interaction audit step.
+- **ZIP:** [JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-interaction-authority-2026-10-04/JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip)
+
+---
+## 2026-10-04 — JURNL F01 interaction authority uppercase regen
+
+- **Task:** Regenerate all **10** `JURNL/F01_ENTRY/INTERACTIONS/*.png` with **strict ALL-CAPS** user-facing text (founder requirement); same interaction content as INTERACTION-AUTHORITY-COMPLETE1.
+- **OpenArt:** `gpt-image-2-5-sunburst` image2image, project `TToQavm9coU1QGPRfEzU`, 2K 9:16 high, `autoEnhancePrompt: false`; every prompt prefixed with CRITICAL TYPOGRAPHY RULE (100% uppercase, zero lowercase on board).
+- **Log:** `openart_interaction_log.json` — `note: "uppercase-only regen 2026-10-04"`, new historyIds/urls; helper script `scripts/jurnl-f01-regen-interactions-uppercase.py` for prompt text + download workflow.
+- **Result:** **10/10** COMPLETED generations downloaded and overwritten in repo.
+
+---
+## 2026-10-05 — Single-angle Etta source test (OpenArt)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` on `cursor/studio-world-resident-single-angle-source-test-openart1` (from #1316).
+
+- **One image:** Etta left three-quarter work portrait (`ODqcr3zgDJwpZfFwElmQ`); ref upload `fujq0PYW5H3SwY15Oq35`; inputImages URL verified = casting white-tee/red-collar sha256.
+- **Artifacts:** `SW-001_ETTA_SINGLE_TEST_SOURCE_PROOF.jpg`, `SW-001_ETTA_SINGLE_TEST_REVIEW.jpg`, `SW-001_ETTA_SINGLE_TEST_README.txt`, `artifacts/studio-world-resident-fabrication-validation/single-angle-source-test.json`. Classification **PASS**. No validation/geometry batch resume.
+
+---
+## 2026-10-05 — RESUME16 validation batch (OpenArt2, sha256 registry)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2` (from #1324 lineage).
+
+- **16/16** frames regenerated via `source-binding-registry.json` (SW-002–SW-008 fresh uploads; casting-thumbnails-v1 work look + season1 body). **0 retries**, **2432** credits. Review ZIPs refreshed. All `FOUNDER_REVIEW_REQUIRED` / `IN_REVIEW`. **128 geometry not resumed.**
+
+---
+## 2026-10-05 — Full-body uniform regen (OpenArt1)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.FULL-BODY-UNIFORM-REGEN.OPENART1` on `cursor/studio-world-resident-full-body-uniform-regen-openart1`.
+
+- **8/8** full-body-only regens with identity registry + founder uniform authorities (`uniform-authority-v1/` women leggings / men compression shorts, white-red toe shoes). **0 retries**, **1216** credits. Portraits unchanged. Review ZIPs `STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN_REVIEW*.zip`. All `IN_REVIEW`.
+
+---
+## 2026-10-05 — Actor Catalogue resident authority convergence (Expression / Character Fabrication)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.ACTOR-CATALOGUE.RESIDENT-AUTHORITY-CONVERGENCE1` on `cursor/expression-actor-catalogue-resident-authority1` (from full-body-uniform-regen tunnel).
+
+- **Root cause:** Character Fabrication `listFabricationActors()` read `seedCatalogue.ts` (stock SW-017/SW-044 mock roster) instead of Season 1 resident projections.
+- **Fix:** `productionCastingCatalogue.ts` + `projectAllResidentsToActors()` wired into fabrication + Production Expression casting; casting-thumbnails-v1 via `characterAssetUrl` / `portraitUrl`; legacy seed kept for Entry 002 fixtures only (`findFabricationActor` fallback). Actor cards show resident name + SW-001…SW-008 + provenance. Draft PR only — no merge/deploy.
+
+---
+## 2026-10-05 — Library Character Detail media hierarchy + image inspector
+
+Sprint `P0.STUDIOOS.PRODUCTION.LIBRARY.CHARACTER-DETAIL.MEDIA-HIERARCHY-INSPECTOR1` on `cursor/library-character-detail-media-hierarchy-inspector1`.
+
+- **Root cause:** Generic Library layout stacked lifecycle + 10-family grid + subfilter pills above a short 16:9 hero banner on Character Detail.
+- **Fix:** `CharacterDetail` route with `lbf--char-focus` compact category/subfilter rails, large `lbf-char-media` (4:5-style), `LibraryCharacterImageInspector` overlay, `RelatedCharacterTile` split image inspect vs card nav; `lbf--char-browse` taller tiles on index/residents/project/talent. Draft PR only.
+
+---
+## 2026-10-05 — Resident geometry complete + production injection (OpenArt1, in progress)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-COMPLETE-PRODUCTION-INJECTION.OPENART1` on `cursor/studio-world-resident-geometry-complete-production-injection1` (from Library Character Detail lineage).
+
+- **Pipeline:** `residentGeometryCompletePack/Registry`, uniform-aware `geometryPrompts`, `fabricationSourceAuthority` now binds **casting-thumbnails-v1 portrait + uniform regen full-body** (not season1 natural for fabrication body anchor). `validationSourceBinding` accepts uniform regen paths.
+- **OpenArt:** `scripts/studio-world-resident-geometry-complete-openart.mjs` scaffold/queue/record/finalize; 112-job queue; refs in `geometry_complete_openart_refs.json` (portrait upload + uniform output resource ids). Anchors copied to `public/site00/studio-world-residents/geometry-complete-v1/` and `artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/`.
+- **Production injection:** `residentFabricationManifest` resolves 16 frames/resident via geometry-complete registry; `libraryCharacterMedia` surfaces geometry categories; batch status `GEOMETRY_COMPLETE_IN_REVIEW`. Tests `p0StudioWorldGeometryCompleteProductionInjection1.test.ts`.
+- **OpenArt batch:** 112 remaining geometry frames generating resident-by-resident (background agent); review ZIPs on finalize. Draft PR only — no merge/deploy.
+
+---
+## 2026-10-05 — Character Fabrication end-to-end resident wiring (Expression)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CHARACTER-FABRICATION.END-TO-END-RESIDENT-WIRING1` on `cursor/expression-character-fabrication-end-to-end-resident-wiring1`.
+
+- **Root cause (View Full Profile):** Actor Catalogue button dispatched `SET_SURFACE` → in-app `ACTOR_PROFILE` (reads as leaving catalogue / advancing), not Library Character Detail.
+- **Fix:** `fabricationLibraryNav` + navigate to `/production/libraries/characters/detail/SW-00N?returnTo=expression-character-fabrication`; session return context + `RESTORE_AFTER_LIBRARY`; Library Character Detail return link.
+- **Subject authority:** `fabricationSubject` on `CONFIRM_ACTOR`; `fabricationSubjectResolver` blocks SW-017/stock slot fallbacks for resident-backed actors; dynamic chamber/side cards via `subjectChamberUrl` + resident portrait/uniform public paths.
+- **Tests:** `p0CharacterFabricationEndToEndResidentWiring1.test.ts`. Merged to tunnel branch `cursor/studio-world-resident-geometry-complete-production-injection1` for preview. Draft PR only.
+## 2026-08-19 — Enter menu: remove trailing row dividers (desktop)
+
+- **Request:** Remove extra gray lines below JOURNAL and SUPPORT on Enter menu desktop page only.
+- **Root cause:** Each `.site00-enter-row` has `border-bottom`; last row in EXPLORE (Journal) and YOUR SPACE (Support) showed redundant rules above the diamond section divider / panel bottom.
+- **Fix:** Desktop-scoped CSS — trailing row dividers removed; section headings +4px below; welcome block positioning + overflow fix; body copy `white-space: nowrap`; menu panel `transform: translate(202px, -48px)`; EXPLORE row numbers red (`--site-red`).
+- **Branch:** `cursor/enter-menu-row-dividers-796f`.
+
+---
+## 2026-08-19 — ENTER 00 desktop hero wall perspective plane (reverted)
+
+- **Request:** Align desktop ENTER hero copy to architectural wall angle via single perspective plane.
+- **Outcome:** User rejected result ("looks weird") — **reverted** on `cursor/enter-wall-perspective-796f`. Removed `.site00-enter-welcome__plane`, `EnterWallPerspectiveCalibrator`, `enter-wall-perspective.ts`, and all perspective/skew CSS. Hero copy restored to flat `translate(-240px, -120px)` desktop layout.
+- **Branch:** `cursor/enter-wall-perspective-796f` (PR #91 updated to revert).
+## 2026-08-19 — Evolve state subhead single line (desktop)
+
+- **Request:** Keep “REFINE WHAT EXISTS, INSTALL NEW CAPABILITIES, OR TRANSFORM THE FOUNDATION.” on one row on Evolve state page (no wrap).
+- **Fix:** Removed inline `maxWidth: 560` on EvolveStatePage subhead; `@media (min-width: 768px)` + desktop artboard CSS apply `white-space: nowrap` and `max-width: none` for `.site00-state-page--evolve .site00-state-page__subhead`.
+- **Branch:** `cursor/evolve-state-subhead-nowrap-796f`.
+
+---
+## 2026-08-19 — Assessment complete secondary links row layout
+
+- **Request:** On IDNTY (and BLDR) assessment complete panels, put “SIGN IN TO SAVE” on the same row as “RETURN TO IDNTY”, opposite side — not stacked below.
+- **Fix:** Wrapped secondary links in `.site00-idnty-complete-actions__secondary-row` with `display: flex; justify-content: space-between` in `IdntyAssessmentCompletePage.tsx`, `BldrAssessmentCompletePage.tsx`, `site00-idnty-assessment.css`.
+- **Branch:** `cursor/idnty-complete-secondary-row-796f`.
+
+---
+## 2026-08-19 — Sign-in password input width match
+
+- **Request:** Password field on sign-in page was too wide vs email field above it.
+- **Cause:** Auth shell lacked `box-sizing: border-box`; password `width: 100%` + extra `padding-right` for SHOW overflowed the form column.
+- **Fix:** Added border-box on `.site00-auth-shell *`; constrained `.site00-signin-form__password-wrap` and `--password` input to `width/max-width: 100%`.
+- **Branch:** `cursor/signin-password-width-match-796f`.
+
+---
+## 2026-08-19 — Origin desktop coordinate line +4px
+
+- **Request:** Move “YOU ARE AT 00.00 ORIGIN POINT” down 4px on Origin desktop only.
+- **Fix:** `heroCoordinateOffsetYPx: 4` in `origin-home-composition.ts` (desktop artboard token via `--site00-origin-hero-coordinate-offset-y`).
+- **Branch:** `cursor/origin-coordinate-nudge-down-4-796f`.
+
+---
+## 2026-08-19 — IDNTY state subhead line break before WE'LL
+
+- **Request:** On IDNTY state page, wrap subhead so “WE'LL DETERMINE…” starts on line 2 instead of “WE'LL” hanging at end of line 1.
+- **Fix:** Split `IDNTY_STATE_COPY` into `subheadLine1` / `subheadLine2`; render with `<br />` in `IdntyStatePage.tsx`.
+- **Branch:** `cursor/idnty-state-subhead-wrap-796f`.
+
+---
+## 2026-08-19 — IDNTY investment duplicate icons (mobile + desktop)
+
+- **Request:** Remove duplicate brand-state icons from IDNTY / INVESTMENT section; user reported icons still visible on mobile (prior PR #99 not merged to main).
+- **Fix:** Stop passing `brandStateId` to `InvestmentColumn` on `IdntyStatePage`; removed `brandStateId` from `InvestmentTier` config. Same component serves mobile and desktop — no viewport-specific icon path.
+- **Branch:** `cursor/idnty-investment-remove-icons-796f`.
+
+---
+## 2026-08-19 — Mobile nav PNG icons (Supabase NAV assets)
+
+- **Request:** Update mobile bottom-nav icons to approved Supabase PNGs for ORIGIN, IDNTY, LOCATIONS, PROJECTS, CTRL ROOM.
+- **Fix:** `mobile-nav-icons.ts` + `Site00MobileNavAssetIcon`; `MobileSiteNavigation` renders PNGs via `resolveSite00PublicAsset` (`live-preview/site00/NAV/*.png`). Legacy SVG components retained but unused in nav.
+- **Branch:** `cursor/mobile-nav-png-icons-796f`.
+
+---
+## 2026-08-19 — Origin mobile tagline +4px
+
+- **Request:** Move red “WHERE DIGITAL PLACES BEGIN.” down on Origin mobile (follow-up: 4px total, not 2px).
+- **Fix:** `.site00-origin-page--mobile-layout .site00-home-hero__tagline` `translateY(8px)` (+4px from base 4px).
+- **Branch:** `cursor/origin-mobile-tagline-nudge-2-796f`.
+
+---
+## 2026-08-20 — Locations subtitle weight restored to 800
+
+- **Request:** Restore “WHERE DO YOU NEED TO GO?” to font weight 800 (`--site00-weight-display`).
+- **Fix:** `.site00-locations-directory-header__subtitle` in `site00-fast-travel.css` — `font-weight: var(--site00-weight-display)`.
+- **Branch:** `cursor/locations-subtitle-weight-796f`.
+
+---
+## 2026-08-19 — Locations directory spine through journal + my sites dots
+
+- **Request:** Gray spine line should reach middle of JOURNAL card with red dot; MY SITES missing red dot in YOUR SPACE section.
+- **Fix:** `DirectorySpine` now measures first/last card centers from the DOM (`ResizeObserver`) so the gray line and red dots align with JOURNAL and MY SITES regardless of card height (auth rows, max-height). Red nodes at section start + last card midline. Node CSS uses `translate(-50%, -50%)`.
+- **Branch:** `cursor/locations-spine-journal-mysites-796f`.
+
+---
+## 2026-08-19 — Origin desktop hero copy spacing (desktop only)
+
+- **Request:** Desktop Origin — (1) SITE 00 header text down 2px, (2) “STARTS HERE.” same line as line above, (3) origin point line down 6px.
+- **Changes:** `site00-desktop-artboard.css` — logo mark `margin-top: 2px`; coordinate `margin-top: 26px` (was 20px). `OriginPage.tsx` — desktop merges description2+3 into one line; mobile unchanged.
+- **PR #15:** `cursor/origin-desktop-hero-copy-796f`
+
+---
+## 2026-08-24 — Founder calibration closed-loop progress panel
+
+---
+
+---
+## 2026-09-29 — P0.SW.MARKETING-WEBSITE-TO-STUDIO-WORLD-COMMERCIAL-PIPELINE-INTEGRATION1
+## 2026-09-29 — P0.SITE00.ALL-SERVICES-COMMERCIAL-WIRING-AUDIT1
+## 2026-10-01 — Public redesign surgical fabrication (P0.SITE00.PUBLIC-REDESIGN.GROK-SURGICAL-FABRICATION1)
+
+Full conversation: production-hub chrome readability on the review branch, two already-contained merge snapshots, then Grok-only fabrication of the 52 surgery specs.
+
+- **Context:** Founder on site00.fsbw-dev.com reported microscopic hub chrome after a compact CSS pass. Separate requests asked for conflict review of `cursor/authority-environment-family-live-integration-87ed` and `cursor/authority-pixel-assets-1b86` (fetch first). Both unique commits were already squashed into the review line; pixel-assets tip `200c6538` was an ancestor. This sprint then fabricated visual assets only.
+- **Topics covered:** Hub zoom makes pre-zoom CSS px tiny on phone; do not nest zoom on `.ph-top__copy`; nav glyphs stay the authority set at the 26px box. Fabrication authority is the surgery pack (52 specs), not page design.
+- **Decisions / outcomes:** Fabricate on `cursor/public-redesign-grok-fabrication-1b86` from origin/main. No React, CSS, routes, or API edits. Masters before children. Compiler cycles (EVOLVE refine/install, BLDR overview→extensions) were broken by parenting to the family master. Chroma-green generations were keyed to real PNG alpha. First BLDR factory, first locations hall, white IDNTY stand-ins, and the capsule tower were superseded.
+- **Changes:** `docs/site00/public-redesign/GROK_ASSET_PACK/` (manifests, 52 outputs, `ASSET_REGISTRY.json`, QA, Composer handoff, family contact sheets). Icons and micro-assets: none in the pack.
+- **Conventions:** Canonical names come from `canonical_name`. `ENV.LOCATIONS.ARCH` is pale stone pending founder REFINE (spec asked warm marble). `ENV.BLDR.PATH.SYSTEMS` is a module column pending REFINE. Safe-zone overlay pixels were not in the repo. Do not upload this pack over site00.com; Composer injects into existing Opus slots.
+## 2026-10-05 — Expression media hierarchy one-viewport convergence
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.MEDIA-HIERARCHY.ONE-VIEWPORT-CONVERGENCE1` on `cursor/expression-media-hierarchy-one-viewport-convergence1` (from geometry-complete tunnel).
+
+- **Root cause:** One-viewport grid obeyed height budget by shrinking creative imagery into shallow strips/banners while metadata/status panels stayed large.
+- **Fix:** `MediaImg` + `ExpressionMediaInspector`; `exf-panel--media` / `--compact` / `--rail`; storyboard `exf-storyboard-stage` + `exf-frames--rail`; casting talent `exf-rail--talent`; compact `exf--media-focus` hero/status on media-heavy families. Layout updates in Casting, Look, Storyboard, Performance, Review families.
+- **Tests:** `productionExpressionMediaHierarchyOneViewportConvergence1.test.ts`. Merged to tunnel `cursor/studio-world-resident-geometry-complete-production-injection1`. Draft PR #1331 to `main` (not auto-merged).
+
+
+---
+## 2026-10-05 — Production full-authority forensic audit + pixel refinement (OPUS2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2` on `cursor/production-full-authority-forensic-pixel-refinement-opus2`. The base is the tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `09378e0a`.
+
+- **Forensics** (`artifacts/production-full-authority-forensics/`).
+  - Scope: 4,024 files inspected; 605 visual authorities (430 canonical, 53 superseded, 0 in review, 0 unknown); 165 duplicate groups; 13 conflicting.
+  - Route map: 200 routes.
+  - Unresolved: U-01 to U-13 are authority questions. U-14 to U-18 are refinement decisions:
+    - U-14: Design chamber micro-type.
+    - U-15: Character Fabrication tablet/desktop composition.
+    - U-16: Production Floor at the 1280×720 authority proportion.
+    - U-17: SW-017 subject identity.
+    - U-18: hero bands.
+- **QA.** The tunnel SHA (own dev server) and the branch were captured at 185 routes × 14 viewports with the same detector. Before → after:
+  - page scroll 24 → 10;
+  - media strips 146 → 4;
+  - type below 8.5px 389 → 89;
+  - horizontal overflow 0 → 0;
+  - undeclared panes 19 → 0;
+  - interaction authorities 51/51.
+  - Outputs: `visual-diff-report.json`, `before-after-sheets/` (21).
+- **HUB.** One viewport at every size. The world panel flexes and carries the chamber link. Portrait tablets use the 9:16 composition with `cqb`. Phone floor is 8.5px. File: `site00-production-hub-one-viewport.css`.
+- **EXPRESSION.**
+  - `expressionMedia.ts` resolver: Entry 002 board crops, resident media and CF receipts, all with provenance.
+  - `ExpressionMediaKit.tsx` holds the shared media components.
+  - Casting, Look, Storyboard, Performance and Review are media-first.
+  - Production Floor follows the T12 one-viewport composition: six floors in one row on phones, full-width travel and table rows elsewhere.
+  - Phone modules that the EXPR2 mobile boards show were restored.
+- **Assets.** 30 `entry002.*` crops registered PROJECT_CANON. Script: `scripts/production-authority/derive-entry002-media.py`.
+- **INBOX / ACTIVITY / LIBRARY / DESIGN.**
+  - Inbox: incoming cards fill their pane; detail views stack on portrait tablets.
+  - Inbox and Activity: 8.5px floors.
+  - Library: `.rk-scroll` panes only.
+  - Design: the chamber takes the slack.
+- **Detector notes.**
+  - Wide-but-short media are no longer skipped as icons.
+  - Edge clipping of a scroll pane is not counted as a strip.
+  - Overflow-hidden containers clip decorative layers; that is not counted as horizontal overflow.
+  - CF scroll is measured through `cf-scroll`.
+- **Tests.** `productionFullAuthorityForensicPixelRefinementOpus2.test.ts`. The stale Expression convergence assertions were fixed: attribute order and resident actor ids.
+  - The full suite carried 131 failures inherited from the tunnel, identical before and after.
+  - 91 remain; every one was already failing at the tunnel SHA.
+  - Two of them sit near Production: the hub-machine raster-import firewall and the API orchestration severity map. Neither is touched by this sprint.
+- Draft PR only. Not merged, not deployed.
+
+---
+## 2026-10-05 — Production workspace Grok handoff audit + lite pack (LITEPACK1)
+
+Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus handoff between pipeline step 02 and step 03 (Grok asset / environment / icon pass). No generation, no OpenArt, no visual or functional change, no deploy.
+
+- **Outputs.**
+  - Audit: `docs/production-workspace/GROK_HANDOFF_AUDIT.md`.
+  - Manifests, NOTES and README_FIRST: `docs/production-workspace/grok-handoff/` (+ `PACK_INDEX.json`).
+  - ZIP: `artifacts/production-workspace-grok-handoff/SITE00_PRODUCTION_WORKSPACE_GROK_LITEPACK1.zip` (86 files, 7.03 MB).
+  - Builder: `scripts/production-workspace/grok-handoff/` (`runtime-model.tsx` reads the live route / icon / asset tables, `capture-runtime.mjs`, `build_handoff.py`).
+  - Guard test: `tests/productionWorkspaceGrokHandoffLitepack1.test.ts`.
+- **Map.** 235 surfaces (12 parents incl. six parent-level Design modes, 39 children, 137 grandchildren, 47 states / overlays); 52 distinct visual authorities; everything else inherits.
+- **Credit plan.** 11 environment groups, 8 new plates for the whole pass (atrium master, viewport corridor, production floor, five project-keyed NDXBOOK world plates). 95 surfaces take crops of those; 88 reuse CF chamber / canon vault as-is.
+- **Findings for Composer / Grok.**
+  - HUB nav glyph regression: `94831d12` (cherry-pick of `afb22c27`) replaced the founder pavilion master `masters/01_HUB.png` (git `43611fd8`, 384×284) with the 48 px design-pack house. No founder decision; pack restores the master; runtime untouched.
+  - `expression.stageHero` (dark faceted stage) contradicts every authority (white production floor).
+  - `hub.hero.*` are crops of the authority screenshot (core + screens baked in) → empty-pedestal atrium + separate project core.
+  - FIREWALL-01: host selector thumbnail hard-coded to `project.ndxbook.cover`.
+  - Design pack crops (stages 76 px, icons 48–64 px, swatches 41 px tall, plates 90–278 px) are unusable at size.
+  - `hub.crystal` is unused (Activity hero retired by D-ACTIVITY-FINAL).
+  - Inbox NEAR / MID / FAR is not canonical anywhere.
+- **Open founder decisions (explicit priority given in the manifests):** U-07 Experience tab root, U-08 Library tab root, U-17 Entry 002 subject identity.
+- Draft PR only. Not merged, not deployed.
+## 2026-10-05 — JURNL ingested into SITE 00 + F01 ENTRY live in DESIGN (PROOF1)
+
+- **Sprint:** P0.JURNL.SITE00-INGEST-F01-DESIGN-WORKSPACE-PROOF1 — implementation only; **0** OpenArt access; failed F01 harvest **not** used (excluded + test-enforced).
+- **Project:** JURNL registered as **PERSONAL / FOUNDER** (managed registry `ownership` / `relationship` / `projectRuntime` + `shared/site00-project-ingestion/`). Host PROJECT chip is now a real switcher (keeps workspace + mode, drops stale query state).
+- **Runtime:** `/production/jurnl/runtime/*` (registry `src/site00/projectRuntime/`), rendered in DESIGN → VIEWPORT iframe at project sizes (393×852 / 834×1194 / 1440×900) with SAFE AREA / GRID / BOUNDS / REFERENCE. 14/14 screens, 27 state authorities (+6 runtime states), 74/74 manifest interactions bound. All copy UPPERCASE; circular tappable controls 0.
+- **Contracts (project-agnostic):** `shared/site00-product-families/` — family production contract, family gate (SCREEN_COMPLETE ≠ FAMILY_COMPLETE), asset-first policy (`ASSET_FIRST_REQUIRED = TRUE`, F01 = LEGACY_EXCEPTION), budget contract (F02+ TRACKED).
+- **Auth:** design-preview adapter in workspace only; production path = unconfigured adapter (never fakes success). JURNL end-user auth provider + Apple/Google **unresolved** (founder decision).
+- **Open platform gap:** JURNL has no `site00_organizations` row → not in server `FOUNDER_PROJECTS` / `/projects` index.
+- **Docs:** `docs/jurnl/` (audit A–V, defect log, decisions + claims register, contract, asset-first, budget, live QA). Proof: `artifacts/jurnl-f01-live-qa/` (live QA 103/103).
+
+---
+## 2026-10-05 — JURNL F01 live viewport delivery (follow-up DELIVERY1)
+
+- **Follow-up:** P0.JURNL.SITE00-F01-LIVE-VIEWPORT-DELIVERY1 — JURNL F01 must be live, mounted, clickable and inspectable inside DESIGN → VIEWPORT.
+- **Open it:** `/production/jurnl/design?mode=viewport&family=F01` (primary) · direct preview `/production/jurnl/runtime/entry` (same runtime; OPEN DIRECT PREVIEW ↗ in the viewport panel). BRAND → FAMILY RUNTIME · OPEN LIVE and SURFACES → MOBILE / TABLET / DESKTOP REVIEW open the live viewport.
+- **SITE 00 repairs:** viewport FAMILY control (no longer hard-wired to first family) · controls follow live navigation (no reload) · review cards open the live runtime, not the inspector · direct-preview link · runtime overlays pinned to the device viewport (were anchoring to scrolled content) · inspection query switches honoured in design-preview only.
+- **Proof:** `npx tsx scripts/jurnl/viewport-delivery-qa.ts` → 163/163 (42/42 screen×preset, 17/17 interaction types, 74/74 manifest interactions triggered inside the viewport, same runtime module for viewport + direct preview) → `artifacts/jurnl-f01-live-viewport/`.
+- **Hosting:** canonical = GoDaddy via `site00-production-deploy.yml` (auto-promote ON) — blocked: `test` job red on every `main` run since ≥ #696 (pre-existing). Legacy `deploy-godaddy.yml` dispatch deploys `main` without the test gate (founder decision).
+
+---
+## 2026-10-05 — JURNL monetization foundation (structure only)
+
+- **Sprint:** P0.JURNL.MONETIZATION-FOUNDATION1 — plans FREE / PLUS / PRO / BUSINESS + ADD_ON class (all DRAFT), semantic capability registry mapped to the 16-family tree, entitlement resolver (fail closed to FREE + safety floors), server authorization boundary, honest unconfigured BillingProvider, central pricing (all TBD), disclosure + verdict-independence rules, data-use prohibitions (no sale, no ad targeting, no ads), analytics without financial data, 8 runtime primitives (not mounted in F01), optional `monetization` on the family contract.
+- **Paths:** `shared/site00-monetization/` · `src/projects/jurnl/data/monetization/` · `src/projects/jurnl/runtime/monetization/` · `src/projects/monetization.ts` · docs `docs/jurnl/monetization/` (incl. DRAFT 16-family map + DRAFT_SCHEMA.sql — not applied; JURNL DB unresolved).
+- **F01:** 42/42 captures pixel-identical to baseline; viewport QA 163/163. No checkout, no prices, no Stripe.
+- **Open:** billing rail (App Store / Google Play vs web), JURNL backend + DB, past-due grace, BUSINESS composition, household model, usage numbers, regulated referrals compliance.
+
+---
+## 2026-10-05 — JURNL F01 visual-semantic decomposition (whole chat)
+
+- **Context:** Founder ran Family 1 from full entry production through harvest, interaction boards, then asset-first page assembly. The lasting correction is that a reference is a set of implementation roles, not a pile of objects.
+- **Topics covered:** F01 parent recreation and family production; review ZIP as a clickable link; harvest recovery with zero screen regen; harvest proof1 FAIL at 50% usable; interaction authority (74 rows, then strict uppercase regen); parent asset-first assembly; semantic isolation correction; visual-semantic decomposition correction2.
+- **Decisions / outcomes:** Naive crops of leaves, stones, books, textures, and glow are unnecessary isolations and stay archived. The welcome page is one environment plate, the reused official logo, live uppercase type, and live buttons. No panel, thumbnail, layered branch, or stateful prop on this screen. Sunlight stays inside the plate. No new image generation in correction2; classification comes first.
+- **Changes:** `FAMILY1_PARENT_LAYER_MAP.json`, prior-asset audit, methodology rewrite, semantic manifest, `/jurnl/f01/parent-assembly` (plate + logo + live headline, tagline, GET STARTED, SIGN IN). Mounted assets only: `ENTRY.ENVIRONMENT.PLATE.001`, `ENTRY.LOGO.OFFICIAL.001`. Live render confirmed on port 5175.
+- **Conventions:** Always send review ZIPs as a direct clickable markdown link. Interaction boards are 100% uppercase. Future Family 1 generation uses the layer map and the minimized asset count (2 images) before any new generation.
+
+---
+## 2026-10-05 — JURNL F01 environment plate 2K vs 4K test
+
+- **Request:** Generate the post-audit environment plate from the parent, once at 2K and once at 4K, for comparison. The prior sprint had classified the page and had not generated this plate.
+- **Generation:** GPT Image 2.5 Sunburst image2image, project `TToQavm9coU1QGPRfEzU`, 9:16, quality high, `autoEnhancePrompt: false`. Parent reference uploaded. Credits: 172 (2k) + 317 (4k) = 489. Balance before spend: 52123.
+- **Results:** 2k history `X3tvgwAUtOyQ29Al5vBz` is 1296×2304 (same pixels as the parent). 4k history `omTTAjRt3LgV0RB2lC5I` is 2016×3584. Both plates keep the room and remove headline, tagline, buttons, and logo. Live assembly plate was not replaced.
+- **Files:** `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/RESOLUTION_COMPARE/`.
+
+---
+## 2026-10-05 — JURNL environment plates render at the 3K/4K setting
+
+- **Decision:** Environment plates and generated image assets use OpenArt `resolutionTier: 4k`. For 9:16 that delivers **2016×3584**, which the gallery labels **3K**.
+- **Render:** The existing 4k-tier plate (`omTTAjRt3LgV0RB2lC5I`) is now the mounted `ENTRY.ENVIRONMENT.PLATE.001` on `/jurnl/f01/parent-assembly`. The logo stays the reused mark. No new generation. Isolated leaves, stones, books, and textures stay unmounted.
+
+---
+## 2026-10-05 — Project switcher dropdown on the phone DESIGN header
+
+- **Founder:** The PROJECT chip on the production DESIGN tab does not open a project list. They need a way to open the JURNL app.
+- **Cause:** On the phone header the PROJECTS panel was the next CSS grid cell, the 48px menu column, so the list collapsed.
+- **Fix:** The panel spans the full header and hangs underneath. Direct app routes stay `/production/jurnl/design?mode=viewport&family=F01` and `/production/jurnl/runtime/entry`.
+
+---
+## 2026-10-05 — Cloud preview tunnel was still on yesterday’s dist
+
+- **Founder:** The tunnel was showing an outdated production DESIGN workspace. Asked whether the tunnel branch had been switched.
+- **Answer:** The hostname stays `site00.fsbw-dev.com` → port 5174. It had not been restarted, so it was still serving `c0cc47d` / `index.BiG_RmhR.js` (2026-10-04).
+- **Now:** Preview restarted onto `origin/main` `4d340947` / `index.4cz58TFm.js`, which includes the phone PROJECTS dropdown. Hard refresh the tunnel.
+
+---
+## 2026-10-05 — F01 canonical plates injected into the live runtime
+
+- **Sprint:** P0.JURNL.F01-GROK-CANONICAL-ASSET-REGEN-INJECTION1. Step 03. Do not rebuild the app. Do not deploy site00.com. Do not change the 60,000 credit ceiling.
+- **Method:** Approved screens are references, not crop sources. The failed harvest library stays out.
+- **Reuse:** `ENTRY.ENVIRONMENT.PLATE.001` (2016×3584, history `omTTAjRt3LgV0RB2lC5I`) is the atrium for welcome, sign-in, unlock, new password, success, biometric, trust, security, complete, and the F02 boundary. Create and sign-in use a tighter mobile crop of that same plate so the form sits on plaster.
+- **Generated:** Four clean plates, one attempt each, GPT Image 2.5 Sunburst image-to-image, 4k tier, 9:16, quality high, auto-enhance off. Each delivered 2016×3584 (gallery 3K) and cost 317 credits. Total spend 1,268. Balance 51,630 → 50,362.
+  - `ENTRY.ENVIRONMENT.VERIFY.001` — `zrmnyPzh2o8hiSImFwT5`
+  - `ENTRY.ENVIRONMENT.FORGOT.001` — `e8tkgJ5BhWrsKGq5XJjE`
+  - `ENTRY.ENVIRONMENT.RESET_SENT.001` — `7h17j8WkPY48zdMyjI5k`
+  - `ENTRY.ENVIRONMENT.PRIVACY.001` — `mrYewK2YnNDwIXQy1iWH`
+- **Not generated:** Isolated objects, botanicals, materials, and icons. Those stay inside the plates or in the existing SVG icon pack. Apple and Google stay brand marks.
+- **Runtime:** Live text, forms, and controls stay above the plate. No full-screen static UI. Ledger: `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/F01_GROK_GENERATION_LEDGER.json`.
+- **Gaps:** Biometric face-id stone, device-trust journal, and security padlock are table props on the shared atrium, not separate files. The create-account footer line still sits close to the table.
+
+---
+## 2026-10-05 — Each F01 child screen keeps its own plate
+
+- **Context:** Founder rejected the first injection. Create Account was a scaled crop of the welcome atrium (curtain and sofa) while the approved Create Account is a different room (travertine arch, vase, olive, books). The instruction: almost every child screen has a unique plate, so do not conflate or flatten them.
+- **Topics covered:** Canonical plate injection, then the child-plate correction. OpenArt image-to-image from each child authority. No site00.com deploy. Credit ceiling stays 60,000.
+- **Decisions / outcomes:** Welcome keeps `ENTRY.ENVIRONMENT.PLATE.001`. Verify, forgot, reset-sent, and privacy keep the plates already generated. Nine more clean plates were generated, one attempt each, no corrections. F02 boundary still uses the atrium plate because it has no separate authority. The mobile scale/offset crop is gone.
+- **Changes:** `environmentPlates.ts`, `Environment.tsx`, `jurnl-environment.css`, F01 contract note, runtime plate test, coverage report, generation ledger. New files under `public/jurnl/f01-asset-first/assets/`: CREATE_ACCOUNT, SIGN_IN, UNLOCK, NEW_PASSWORD, RESET_SUCCESS, BIOMETRIC, DEVICE_TRUST, SECURITY, COMPLETE.
+- **Credits:** Quote and charge were 317 each (4k, 9:16, high). Nine jobs = 2,853. Balance 50,362 → 47,509. Earlier sprint spend of 1,268 is unchanged.
+- **Conventions:** A child authority that is its own composition gets its own plate. Do not object-position or scale the welcome plate to imitate a child. Live UI stays code above the plate.
+
+---
+## 2026-10-05 — F01 mobile viewport fit
+
+- **Context:** This chat started as the canonical plate injection, then the founder rejected flattening child screens onto the welcome atrium. Each of the 14 F01 screens got its own clean plate (nine new generations after the first four). The tunnel was restarted onto that build. The founder then confirmed the backgrounds load and the pipeline works, and asked for the live panels to be condensed because they overflow the phone.
+- **Topics covered:** OpenArt image-to-image plates (4k tier, 317 credits each, ceiling unchanged at 60,000). Child-plate correction. Preview tunnel restart. Sprint P0.JURNL.F01-MOBILE-VIEWPORT-FIT-COMPRESSION1.
+- **Decisions / outcomes:** Do not redesign F01, do not change plates, copy, routes, or flow. Condense spacing, row height, button height, and panel padding. Mobile 393×852 is compact. Tablet and desktop stay more open. No `transform: scale` on the screen and no root `overflow: hidden` to hide a too-tall stack. Error states on Create Account tighten only while an error panel is present. site00.com was not deployed. Paid generations this density pass: 0.
+- **Changes:** `jurnl-runtime.css`, `jurnl-screens.css`, privacy/security spacing in `SecurityScreens.tsx`. Fit report: `artifacts/jurnl-f01-mobile-fit/VIEWPORT_FIT_REPORT.json`. Before compression, Create Account overflowed by 38px and Privacy by 2px inside the 852 frame. After, all 14 primary screens, tablet, and 1440×900 desktop measure overflow 0 with host scroll 0. Privacy and Security keep both actions on screen.
+- **Conventions:** Fit F01 by density tokens and screen-specific overrides. A child plate stays the child’s own file. The design viewport (DESIGN → JURNL → VIEWPORT) is the review surface, and the direct runtime must use the same CSS.
+
+---
+## 2026-10-05 — F01 app canvas boundary
+
+- **Context:** This chat covered canonical plate injection, the founder’s rejection of flattening child screens onto the welcome atrium, a unique plate per F01 screen, the mobile density pass, and then this boundary lock. Plates and density were already working. The remaining defect was live text leaving the plate. Create Account’s “ALREADY HAVE AN ACCOUNT? SIGN IN.” sat past the bottom of the environment on a shorter visible canvas.
+- **Topics covered:** OpenArt plates (4k tier, 317 credits each, ceiling 60,000 unchanged). Child-plate correction. Density tokens. App-stage containment.
+- **Decisions / outcomes:** The runtime root is the app stage. The plate is pinned to that stage. The live column is positioned inside it and sized to `100dvh`, so content cannot anchor to the SITE 00 page. The form was tightened so the footer fits the plate. No negative-margin patches. No new plates. No paid generations. site00.com was not uploaded by the agent.
+- **Changes:** `jurnl-runtime.css`, `jurnl-screens.css`, `JurnlRuntimeRoot.tsx` (`data-jrn-app-stage="canvas"`), runtime containment test.
+- **Conventions:** `JURNL_APP_CANVAS_CONTAINMENT`. Fit the column, then let the stage stop accidental escape. Do not hide a too-tall footer with clipping alone. Do not position JURNL controls against the host page.
+
+---
+## 2026-10-05 — F02 SETUP visual package
+
+- **Context:** This chat produced the F02 visual authority package. Earlier F01 work in the motherboard (unique plates, density, canvas boundary) stays as it was. The sprint was P0.JURNL.F02-SETUP-FULL-FAMILY-SCREEN-PLUS-LINKED-ASSET-SIDEKICK1.
+- **Topics covered:** The product tree names F02 SETUP and leaves it NOT_STARTED. There was no screen tree, so the tree was written from the setup job only: configure household, accounts, income rhythm, repeating obligations, priorities, one goal when chosen, a protected amount, consent, and a handoff to Today. Downstream families were not redesigned. Screen authorities and linked plates were made in the same session with GPT Image 2.5 Sunburst at resolution tier 4k, 9:16, auto-enhance off. Delivered size 2016×3584, gallery label 3K.
+- **Decisions / outcomes:** One parent, eight children, two grandchildren, three states, three interaction sheets. Four plates, reused across the screens that share a room. Bone paper cards and the emerald button stay live code, so no panel or button image was generated and no label was baked into a skin. Objects and botanicals stay in the plates. F01 icons are inherited. No new icon was generated. Nothing was auto-approved. F01 files were not changed. The runtime was not rewritten. site00.com was not deployed.
+- **Changes:** `JURNL/F02_SETUP/` authorities, plates, review sheets, and manifests. Motherboard note that the package is in review and unmounted.
+- **Credits:** OpenArt balance 44,534 → 37,088 (delta 7,446) across 23 jobs. Quoted rate 317 credits for image-to-image 4k high 9:16. The first job's balance delta was 318. The provider does not return a per-job receipt, so 155 credits above 23×317 stay unallocated. Ceiling remains 60,000.
+- **Conventions:** SETUP collects. Later families manage. Share a plate when the room is the same. Generate a plate from the screen by removing UI, not by cropping the screen. If a surface is flat bone or solid emerald, keep it in code.
+
+---
+## 2026-10-05 — F02 image ZIP
+
+- **Context:** After the F02 SETUP visual package landed, the founder asked for a ZIP of the generated F02 images.
+- **Decisions / outcomes:** The pack is the review images only: parent, children, grandchildren, states, interactions, environment plates, and contact sheets. It is not a site00.com deploy and must not be uploaded to public_html.
+- **Changes:** GitHub release `jurnl-f02-setup-images-2026-10-05`. No app code changed.
+
+---
+## 2026-10-05 — F02 botanical brand asset repair
+
+- **Context:** The F02 SETUP package had screens and plates, and the founder asked for a ZIP of those images. This follow-up sprint isolates the top-left floral marks that sit above the rooms.
+- **Decisions / outcomes:** Seventeen surfaces were audited. Fourteen have a header botanical. Three interaction sheets do not. Thirteen distinct emblems were generated, and F02.04 reuses the same white spray as F02.03. Two full lockups were generated: the parent rose JURNL mark, and the burgundy JURNL. SETUP. mark. Other screens keep JURNL as live type beside the emblem. Progress squares stay live code. Screens, plates, and the icon pack were not regenerated. Assets are transparent PNGs, made on a flat magenta field and keyed, not cropped out of the screens.
+- **Changes:** `JURNL/F02_SETUP/ASSETS/BOTANICALS/`, `JURNL/F02_SETUP/ASSETS/LOCKUPS/`, the botanical map, and updates to the visual manifest, component map, sidekick report, and generation ledger.
+- **Credits:** OpenArt balance 37,088 → 35,063. Fifteen jobs. The 2k quote was 132 credits. The account moved 2,025, which is 135 each. Delivered size is 1360×1360 for the square emblems.
+- **Conventions:** A floral mark beside the wordmark is an isolated asset when it changes by screen. Do not bake it into the plate.
+
+---
+## 2026-10-05 — F02 canonical mount for Sonnet
+
+- **Context:** This chat produced the F02 SETUP visual package, a review ZIP of those images, a botanical and brand-lockup repair, and then the source mount Sonnet implements from. The family name is SETUP (`F02_SETUP`), not FINANCE. F01 was not changed. site00.com was not deployed.
+- **Topics covered:** Screen tree before generation. Same-session linked-asset sidekick. Four shared plates. Code-only bone cards and emerald buttons. Header florals isolated as transparent assets after the first package baked them into the screens. Canonical mount into the repo so the next agent does not search OpenArt.
+- **Decisions / outcomes:** Implementation source is `src/projects/jurnl/families/F02_SETUP/`. Seventeen authorities are reference only. Four plates, thirteen emblems, and two lockups are the runtime images, copied byte-for-byte. Twelve icons stay in `icons.tsx` and are not duplicated. Panels, buttons, controls, objects, and materials stay code or inside the plates. F02.07 winner is `vrLuWNd4riH8JNGuJLVP`. F02.08 winner is `TivHik6Gd0eSXloheqG7`. The circular-progress and stray-mark attempts are excluded. Visual status stays `IN_REVIEW`. Structural implementation may start. No F02 routes or components were created. No new generations.
+- **Changes:** Family source root, source map, icon map, component map with `CODE_ONLY` / `CODE_PLUS_ASSET`, readiness file, Sonnet README, start-here file, Opus follow-on note, mount report.
+- **Conventions:** Sonnet builds the live skeleton from the mounted folder. Opus refines structure and fit after that. Grok does a final visual pass only if the live screens drift. Do not use a screen authority as a background. Do not crop a screen into an asset.
+
+---
+## 2026-10-05 — F02 botanical repair bound into the Sonnet mount
+
+- **Context:** This chat built the F02 SETUP visual package, packaged a review ZIP, isolated the header florals, mounted the canonical sources for Sonnet, and then bound the completed botanical repair into that mount. Family name remains SETUP (`F02_SETUP`). F01 was not changed. site00.com was not deployed.
+- **Topics covered:** Screen authorities versus runtime plates. Code-only panels and buttons. Thirteen transparent emblems and two full lockups. Superseded F02.07 and F02.08 attempts left out. This follow-up checks that the mount uses the post-repair manifests.
+- **Decisions / outcomes:** The mounted files match the repair outputs byte-for-byte. Fourteen screens resolve to an emblem or a lockup. `F02.04` reuses emblem 004. Interaction sheets have no header mark. A lockup is the only header on `F02.00` and `F02.ST.VALIDATION`. Layer order is plate, botanical, lockup, live UI, interactions. Repair spend stays 15 generations and 2025 credits at 135 each. That rate is the repair class only. Visual status stays `IN_REVIEW`. No new generations.
+- **Changes:** Sonnet README, start-here file, implementation source map, component map, readiness file, mount report, and a ledger binding note. Canonical root remains `src/projects/jurnl/families/F02_SETUP/`.
+- **Conventions:** Header marks are mounted PNGs. Do not redraw them in CSS, type, emoji, or a generic icon, and do not bake them into the plate.
+
+---
+## 2026-10-05 — One OpenArt project per family
+
+- **Context:** Founder confirmed F03 and F04 stay in their own projects, and asked that every future family be categorized the same way.
+- **Decisions / outcomes:** Paid dispatch must target the family's registered provider project. Missing project blocks as `FAMILY_PROJECT_REQUIRED`. A job aimed at another family's project blocks as `FAMILY_PROJECT_MISMATCH`. Credits stay 0. F01–F04 are registered. A new family is created in OpenArt and added to the registry before the first generation.
+- **Changes:** `shared/site00-production-guardrails/familyOutputProjects.ts`, precheck gate, `docs/production/reference-binding/FAMILY_OUTPUT_PROJECTS.json`, sprint template, `.cursor/rules/family-output-project.mdc`.
+- **Conventions:** Do not generate F05 (or any later family) inside F01, F02, F03, or F04. Create the project, register it, then dispatch.
+
+---
+## 2026-10-05 — F03 and F04 OpenArt projects and image ZIP
+
+- **Context:** Founder asked to put JURNL F03 and F04 outputs in their own OpenArt projects, the same way F01 and F02 already have separate projects, and to send a ZIP of those images. The screenshot was the OpenArt project switcher.
+- **Decisions / outcomes:** Created OpenArt projects `JURNL F03 Today Family Production` (`Aa0fKSPeX0SJ4DICt0aI`) and `JURNL F04 Activity Family Production` (`KUfyzoatdwpaYBkq2Mf8`). Filed the four canonical images into those projects as assets. The original generation history still sits in `JURNL F02 Setup Family Production` because the connected OpenArt tools cannot reassign an existing generation to another project. No new paid generations. Review ZIP is a GitHub release, not a site00.com deploy.
+- **Changes:** Review copies under `JURNL/F03_TODAY/` and `JURNL/F04_ACTIVITY/` (parent + plate). Ledger `openart_project_id` fields. Release `jurnl-f03-f04-images-2026-10-05`.
+- **Conventions:** Future F03 generations target project `Aa0fKSPeX0SJ4DICt0aI`. Future F04 generations target `KUfyzoatdwpaYBkq2Mf8`. To finish moving the original gallery history, use OpenArt Move to Project from the F02 project.
+
+---
+## 2026-10-05 — Reference binding cost guard (SITE 00 production methodology)
+
+- **Context:** Follow-up to F03/F04 Grok production where initial F03/F04 parents used OpenArt text2image while `REFERENCE_F01.00_WELCOME_APPROVED` existed. Founder corrected to image2image like F02. Sprint `P0.SITE00.PRODUCTION-METHODOLOGY.REFERENCE-BINDING-COST-GUARD1` formalizes pre-dispatch blocking across SITE 00 projects (not JURNL-only).
+- **Decisions / outcomes:** Reference exists → `REFERENCE_GUIDED` with image attached. No reference and true net-new → `TEXT_TO_IMAGE_NET_NEW`. Required reference missing or not attached → block before dispatch (`credits_spent = 0`). No prompt-from-memory. No silent fallback to text2image. Project firewall on reference resolution. Default policy `REQUIRED_WHEN_AVAILABLE`. F03/F04 ledgers v2.0.0 tag postmortem rows for superseded text2image parents. Zero new paid generations.
+- **Changes:** `shared/site00-production-guardrails/` (`validateGenerationReferenceBinding`, `precheckGenerationDispatch`, `runPrecheckedProviderDispatch`, resolver, sidekick rules, ledger metrics). Contracts under `docs/production/reference-binding/`. Incident `incidents/REFERENCE_BINDING_FAILURE_F02_F03.json`. Tests `tests/referenceBindingGuard.test.ts`.
+- **Conventions:** Paid jobs classify → resolve → validate → budget → dispatch. Sidekick plates/botanicals/lockups derive from screen authority reference. Historical ledger rows stay valid with nullable reference fields; only mark `INVALID_GENERATION_POSTMORTEM` when a reference was actually required.
+
+---
+## 2026-10-05 — F02 SETUP live family
+
+- **Context:** This chat built the F02 SETUP visual package, a review ZIP, the botanical repair, the canonical mount, the repair binding, and then the live family. The family name is SETUP (`F02_SETUP`), not FINANCE. Sonnet is skipped. Grok owns the live pass. Opus gets one family-wide structural audit afterward.
+- **Topics covered:** Screen authorities as visual targets. Four shared plates. Thirteen emblems and two lockups. Twelve inherited icons. Code-only panels and buttons. Uppercase copy. Square-rounded controls. F01.13 continues into F02. F02.08 opens the F03 TODAY boundary only.
+- **Decisions / outcomes:** Route `setup` is now F02.00, THE SHAPE OF YOUR LIFE, on the arrival plate with the JURNL lockup. The old F02.BOUNDARY placeholder is gone. Eleven live routes cover the parent, eight children, and two grandchildren. Resume, connected, and validation are behaviors. Permission, add, and skip are paper sheets. The design viewport family control says F02 SETUP and lists every F02 route. Reference mode points at the authority files. Measured at 393×852, 834×1194, and 1440×900 with no page scroll and no horizontal overflow. Founder visual approval stays open. No new image generations. site00.com was not deployed.
+- **Changes:** `src/projects/jurnl/data/f02/`, `src/projects/jurnl/runtime/screens/SetupScreens.tsx`, `jurnl-setup.css`, the F02 contract in `src/projects/families.ts`, `F02_LIVE_ROUTE_MATRIX.json`, and `HANDOFF/README_OPUS_FOLLOWON.md`.
+- **Conventions:** Preserve the live Grok visuals in the Opus audit. Do not rebuild the family. Do not use a screen authority as the runtime background. A lockup is the only header mark on its screen.
+
+---
+## 2026-10-05 — F03 and F04 parent composition repair
+
+- **Context:** This chat first locked the reference-binding cost guard, then moved F03 and F04 images into their own OpenArt projects, then required one provider project per family. The founder then stopped child production and asked for a parent correction of F03 TODAY and F04 ACTIVITY before any more child authorities.
+- **Topics covered:** Header breathing, content rail versus environment breathing, bottom-nav centering, an activity material ledger, search and no-matches hierarchy, a global money formatter, a change-currency preference with no foreign exchange, and a working Quick Add.
+- **Decisions / outcomes:** Parents stay `READY_FOR_FOUNDER_REVIEW` and are not approved. Child production stays blocked. No new paid generations and no credits spent. The existing plates were kept. The repair is live CSS, type, and interaction. F01 and F02 were audited only: entry titles sit high, F02 actions are not a centered dock, and the F02 amount field has no currency symbol. Those stay registered for a later surgical pass. Display currency is USD, EUR, or GBP. Changing it changes the symbol and grouping. Stored amounts stay numeric. Quick Add expense/income and checking/card are mutually exclusive, save is gated, and a saved row updates Today and Activity.
+- **Changes:** `src/projects/jurnl/data/home/currency.ts`, `money.ts`, `HomeScreens.tsx`, `jurnl-home.css`, primitives, product nav, transaction row, `tests/jurnlF03F04Runtime.test.tsx`. Contracts in `JURNL/MANIFEST/`. Child production files under `JURNL/F03_TODAY/MANIFEST/` and `JURNL/F04_ACTIVITY/MANIFEST/`.
+- **Conventions:** Future families inherit `JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json` and `JURNL_CURRENCY_CONTRACT.json`. Do not resume F03 or F04 child generation until the founder passes the parents. Do not invent an exchange rate.
+
+---
+## 2026-10-05 — F02 SETUP OPUS final audit
+
+- **Context:** Final family-wide structural, visual-correction, interaction, responsive and accessibility audit of Grok's live F02 SETUP. Founder directives:
+  - dark text losing legibility on the photograph
+  - awkward wraps
+  - panels running into the curtain
+  - content kept left so the plate breathes
+  - icon labels dropping under the icon
+
+  The family was not rebuilt. Sonnet was not used. Asset spend was 0.
+- **Topics covered:**
+  - per-plate left rail mapped from the plate
+  - curtain edges
+  - mobile CTA exception
+  - icon-row grid
+  - SKIP FOR NOW legibility
+  - the JurnlDrawer decision
+  - lockups for emblems 001 and 012
+  - tablet reflow
+  - deep-link overlay focus
+  - resume bug
+  - multi-select semantics
+  - F01 regression
+- **Decisions / outcomes:**
+  - **Left rail:** `.jrn-screen[data-jrn-family='F02']` is a size container. Each plate sets `--f02-edge-f` (ARRIVAL .545, DESK .649, EDIT .666, QUIET .643). The rail is the plate edge mapped through cover plus object-position, minus a gap.
+  - **Rail widths:** mobile 170–228 px. Tablet starts at 72 px, is 351–400 px wide, and never centres. Desktop keeps the 420 px column.
+  - **CTA:** the mobile primary CTA stays bottom and near full width, as the founder allowed. On tablet it is rail width.
+  - **Secondary actions:** SKIP FOR NOW is a left-grid paper chip. It measured 1.23:1 before, and now at least 8.4:1.
+  - **Icon rows:** `JurnlChoice` has an `icon` prop that renders the grid `[ICON][LABEL][MARK]`. Its `multi` prop gives checkbox semantics.
+  - **Overlay focus:** `useOverlayFocus` now uses a callback ref, so deep-linked sheets get focus, Tab containment and Escape.
+  - **Resume:** CONTINUE SETUP keeps the saved place.
+  - **Validation lockup:** it no longer has a duplicate SETUP label, and is 52 px tall.
+  - **JurnlDrawer:** PRESERVE_SHARED. PERMISSION, ADD and SKIP are all LIVE_PAPER_SHEET.
+  - **Grok queue:** empty.
+  - **QA:** 63/63 route checks (19/63 before), 18/18 journey steps, 12/12 icons.
+  - **F01:** pixel parity 40/42, with the remaining 2 being noise that `main` reproduces. The F01 viewport QA was updated for the raster plates and live F02, and is now 163/163.
+  - **Status:** READY_FOR_FOUNDER_VISUAL_REVIEW. site00.com was not deployed.
+- **Changes:**
+  - `jurnl-setup.css`
+  - `SetupScreens.tsx`
+  - `JurnlScreen.tsx` (`data-jrn-plate`)
+  - `primitives.tsx`: `JurnlChoice`, `useOverlayFocus`, input `aria-describedby`
+  - `jurnl-runtime.css`
+  - `scripts/jurnl/capture-f02.mjs`
+  - `scripts/jurnl/f02-final-audit-qa.mjs`
+  - `scripts/jurnl/viewport-delivery-qa.ts`
+  - the 5 `F02_*` maps in MANIFEST
+  - `HANDOFF/F02_OPUS_ARCHITECTURE_DECISIONS.md`
+  - `artifacts/jurnl-f02-opus-audit/`
+- **Conventions:**
+  - Bound content per plate. Never use one global width.
+  - Fix contrast in this order: reposition, width or wrap, spacing, then the existing paper material. Never use a scrim or text-shadow.
+  - Pass icons to `JurnlChoice` through `icon`, never as children.
+  - Pick-several groups use `multi`.
+
+---
+## 2026-10-05 — Family environment distinctness
+
+- **Context:** After the reference-binding guard, the one-project-per-family rule, and the F03/F04 parent composition repair, the founder required that JURNL families share a world without sharing rooms.
+- **Topics covered:** Family visual identity, within-family plate reuse, cross-family reuse as an exception, environment briefs, and an audit of the F01–F04 plates.
+- **Decisions / outcomes:** Fourteen F01 files and four F02 files are unique. No two families mount the same bytes. F02 arrival and F03 day are different files of the same room (arch, curtain, bust, bowl, books), so F03 is `SHOULD_REPLACE` and was not regenerated. F04 is a quieter wall with no bust and is distinct from F03. Within-family reuse stays encouraged. F05 and later must record a cross-family reason or the dispatch blocks at zero credits.
+- **Changes:** `JURNL/MANIFEST/JURNL_FAMILY_ENVIRONMENT_DISTINCTNESS.json`, `JURNL_ENVIRONMENT_BRIEFS.json`, `JURNL_PLATE_REUSE_AUDIT.json`, family environment manifests, `.cursor/rules/jurnl-family-environment.mdc`, and `validateCrossFamilyPlateReuse`.
+- **Conventions:** Same world is not the same room. Do not generate a replacement for F03 until the founder asks. Do not copy the previous family's plate into the next family.
+
+---
+## 2026-10-05 — Family expression briefs
+
+- **Context:** After the room rule, the founder required a family expression stage before any paid picture: same world, different room, different moment, different job.
+- **Topics covered:** Expression briefs for F01 through F04, a cross-family matrix of occupied visual territory, and a dispatch gate.
+- **Decisions / outcomes:** Entry owns the arch, curtain, bust, bowl, and books. Setup may keep that only as the continued doorway, then uses the travertine desk. Today's written brief is a brighter daily room, but the mounted plate still repeats the doorway and stays `SHOULD_REPLACE`. Activity is the reading wall and passes. A family with no brief cannot start paid generation. No new images were made.
+- **Changes:** `F##_FAMILY_EXPRESSION_BRIEF.json` and `.md` for F01–F04, `JURNL/MANIFEST/JURNL_FAMILY_EXPRESSION_MATRIX.json`, `familyExpressionBrief.ts`, and the family-environment rule.
+- **Conventions:** Do not picture a family before its brief and founder gate. Do not invent a new logo, type family, palette, or control shape for a family. Do not regenerate the Today plate until the founder asks.
+
+---
+## 2026-10-05 — Hierarchical expression cascade
+
+- **Context:** This chat locked reference binding, one OpenArt project per family, the F03/F04 parent repair, family-room distinctness, and family expression briefs. The founder then required expression to continue below the family: parent, child, grandchild, state, interaction, panel, and control.
+- **Topics covered:** Direct, modulated, and distinct child expression. Plate decisions that do not mean one plate per screen. Creative direction for states and interactions. Repeatable panel, button, and drawer roles. A generation gate and a live audit.
+- **Decisions / outcomes:** F01–F04 each have an expression tree. Today’s parent is a daily salon; see why is intimate analysis; upcoming is a sequence on the same room. Activity’s parent is a personal ledger; search veils that wall; detail is a receipt with no new plate; no matches is an empty archive. Grandchildren in setup are interaction-like and do not get new territory. The mounted Today plate still repeats the entry doorway and was not regenerated. No paid generation. Child production stays blocked. Parents are not approved.
+- **Changes:** `F##_EXPRESSION_TREE.json` for F01–F04, `JURNL_EXPRESSION_MATRIX.json`, `JURNL_EXPRESSION_LIVE_QA.json`, `hierarchicalExpression.ts`, drawer and panel roles in the live Today and Activity runtime, and the family-environment rule.
+- **Conventions:** Read the expression tree before building a child. Do not flatten a family into one generic sheet. Do not add a component variant for a single screen. Do not generate a plate unless the tree’s environment policy and repetition audit say the metaphor changed, and do not regenerate Today until the founder asks.
+
+---
+## 2026-10-05 — F05–F16 parent authorities
+
+- **Context:** This chat locked reference binding, one OpenArt project per family, the F03/F04 parent repair, family-room distinctness, expression briefs, and the hierarchical cascade. The founder then asked for F05–F16 parent authorities only, in their own project folders, under every prior rule, and then stopped text-to-image: a real image reference is required.
+- **Topics covered:** Money, income, upcoming, plan, safe to spend, purchases, trips, credit, paydown, goals, ahead, and records. Parent-only live review. Plate occupancy before a plate is valid. No children, no sidekick, no approval.
+- **Decisions / outcomes:** Each family has its own OpenArt project, brief, expression tree, occupancy map, and one mounted parent. The first twelve pictures were text-to-image and are recorded as an invalid postmortem. Ten of them were reframed with the plate file itself bound as the reference. That reframe did not clear the rail for plan, safe to spend, purchases, trips, paydown, goals, ahead, or records. Money, income, upcoming, and credit keep a quiet left field. Founder status stays UNREVIEWED. Child explosion is not authorized. F03 was not regenerated.
+- **Changes:** F05–F16 parent plates, briefs, trees, ledgers, the review board at `parents`, live routes for each parent, `JURNL_ENVIRONMENT_REUSE_MATRIX.json`, and a dispatch block on JURNL text-to-image plus missing occupancy maps.
+- **Conventions:** Do not call text-to-image for JURNL. Bind the actual file. Define the left rail before approving a plate. Do not explode these families until the founder marks LOVE_IT. Do not mark that status automatically.
+
+---
+## 2026-10-05 — F03 authority-first plate
+
+- **Context:** After the F05–F16 parent mount, the founder stopped text-to-image and then required the F03 correction to start from a full page. The environment plate is derived from that page. A background by itself is not an authority.
+- **Topics covered:** The invalid arrival-copy plate and the earlier text-to-image page. Live Today as the structural reference. Occupancy before generation. One full page, then one clean plate. Live React stays the UI. The same rule for F05–F16.
+- **Decisions / outcomes:** Text-to-image was not used. The live structure file was attached. The full page is a daily room with quiet plaster on the left and daylight, a cup, and a cloth on the right. It does not repeat the arrival arch, curtain, bust, bowl, or books. The clean plate was derived from that page with the page attached. It is mounted under the existing Today UI at 393, 834, and 1440. Founder status stays UNREVIEWED. Child production stays off. Two paid generations, 644 credits.
+- **Changes:** `authorityFirstPlate.ts`, `JURNL_AUTHORITY_FIRST.json`, the F03 occupancy map, the full-page authority, the derived day plate, and `F03_AUTHORITY_FIRST_PLATE_DERIVATION_QA.json`.
+- **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
+
+---
+## 2026-10-05 — Real display currency conversion
+
+- **Context:** This chat first shipped the F03 authority-first plate (full page, then a derived day plate, founder still unreviewed, no children). The founder then required the currency control to convert numbers, not only the symbol, and to keep a three-row scrolling list.
+- **Topics covered:** Base USD versus display currency. A live USD rate. Catalog beyond USD, EUR, and GBP. Exact three visible rows. Quick-add provenance. Ask Jurnl copy that no longer says there is no exchange.
+- **Decisions / outcomes:** Stored amounts stay canonical USD. `formatMoney` multiplies that amount by a fetched rate and formats with `Intl.NumberFormat`. The provider is the open ExchangeRate-API USD endpoint. A missing rate is not replaced with 1. A fresh cache is used for 24 hours. A cache up to 7 days may be used if a new fetch fails. Older than that, the switch is refused. Returning to USD restores the original base value. The Ask sheet shows three rows and scrolls. JPY opens already inside that window. F05–F16 parent strings are composition labels and are not converted. A live check turned $6,500 into €5,777.79, £4,912.23, and ¥1,025,247, then back to $6,500.
+- **Changes:** `currency.ts`, the Ask sheet, quick-add provenance, `JURNL_CURRENCY_CONTRACT.json`, `JURNL_CURRENCY_CATALOG.json`, `JURNL_EXCHANGE_RATE_CONTRACT.json`, `JURNL_CURRENCY_SELECTOR_QA.json`.
+- **Conventions:** Do not swap a currency symbol onto an unconverted number. Do not hardcode a rate. Convert only from the canonical USD amount. Do not let the currency list grow the sheet.

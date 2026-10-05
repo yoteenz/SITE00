@@ -1,0 +1,2943 @@
+{
+ "artifact": "SITE00_MATURE_ENDPOINT_RECONCILIATION_MATRIX",
+ "sprint": "P0.SITE00.GROUND-ZERO-MATURE-CAPABILITY-GENOME-RECONCILIATION1",
+ "status": "RECONCILIATION EVIDENCE + PROPOSAL (0 code changes, 0 database changes, 0 paid generations)",
+ "current_main_sha": "6f63aaaa439cc4c996a734e3cec5abbf586f2e61",
+ "mature_endpoint": "IDEA → BUSINESS UNDERSTANDING → IDENTITY → OFFER → CUSTOMER JOURNEY → DIGITAL LOCATION/WORLD → PRODUCT SYSTEM → MARKETING SYSTEM → LIVE OPERATIONS → MEASUREMENT → MAINTENANCE → EVOLUTION (+ PLATFORM_FOUNDATION, which cuts across every stage)",
+ "reading": "For each stage: what SITE 00 has (EXISTS_*), what it only thinks it has (CONCEPT_ONLY / DUPLICATED_COMPETING), and what is missing. verdict_today is the one-line reconciliation.",
+ "stages": [
+  {
+   "stage": "IDEA",
+   "definition": "A person arrives with an idea and SITE 00 captures it: entry, assessments, intake, lead.",
+   "verdict_today": "MOSTLY THERE — entry, assessments and IDNTY/BLDR intake persistence work. EVOLVE and creative intakes are localStorage-only, there is no contact form, and lead/booking tables are only written by the demo seed.",
+   "mean_maturity": 2.75,
+   "status_counts": {
+    "EXISTS_DISCONNECTED": 3,
+    "EXISTS_CONNECTED": 3,
+    "MISSING": 1,
+    "EXISTS_PARTIAL": 1
+   },
+   "client_ready_blockers": [],
+   "foundations": [
+    "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE",
+    "CAP.BIZ.WORLD_INTAKE_INVITE",
+    "CAP.JOURNEY.PUBLIC_ORIGIN_ENTRY"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.BIZ.CREATIVE_INTAKE_ENGINE",
+     "name": "EVOLVE creative intake engine (per-service drafts)",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.BIZ.EVOLVE_ASSESSMENT_INTAKE",
+     "name": "EVOLVE assessment intake",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.BIZ.IDNTY_BLDR_INTAKE_PERSISTENCE",
+     "name": "IDNTY + BLDR intake persistence & lifecycle",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.BIZ.WORLD_INTAKE_INVITE",
+     "name": "World intake (founder-invited guest business intake)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "EXPAND",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.CRM.CONTACT_INQUIRY",
+     "name": "Contact form and inquiry intake",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.CRM.LEAD_CAPTURE",
+     "name": "Public lead capture",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.JOURNEY.PATHWAY_ASSESSMENTS",
+     "name": "IDNTY / BLDR / EVOLVE state assessments",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.JOURNEY.PUBLIC_ORIGIN_ENTRY",
+     "name": "ORIGIN public entry",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    }
+   ]
+  },
+  {
+   "stage": "BUSINESS_UNDERSTANDING",
+   "definition": "SITE 00 understands the business: model, audience, market, positioning, client truth.",
+   "verdict_today": "FRAGMENTED — there are six intake mechanisms and six or more profile stores, but no unified business profile, and no competitor research.",
+   "mean_maturity": 2.33,
+   "status_counts": {
+    "EXISTS_PARTIAL": 6,
+    "MISSING": 2,
+    "DUPLICATED_COMPETING": 1
+   },
+   "client_ready_blockers": [],
+   "foundations": [
+    "CAP.BIZ.ORIGIN_INGESTION_CLIENT_TRUTH",
+    "CAP.BIZ.UNIFIED_BUSINESS_PROFILE"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.BIZ.DISCOVERY_RECOMMENDATION",
+     "name": "Discovery recommendation compiler",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.BIZ.ORIGIN_INGESTION_CLIENT_TRUTH",
+     "name": "Origin ingestion + client truth records",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "PROJECT_RUNTIME_LAYER"
+    },
+    {
+     "capability_id": "CAP.BIZ.PROJECT_INTELLIGENCE_MANIFEST",
+     "name": "Project intelligence manifest compiler",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PROJECT_RUNTIME_LAYER"
+    },
+    {
+     "capability_id": "CAP.BIZ.UNIFIED_BUSINESS_PROFILE",
+     "name": "Unified per-client business profile / strategy record",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.MKT_INTEL.AUDIENCE_PERSONA_CAPTURE",
+     "name": "Audience / persona capture",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.MKT_INTEL.COMPETITOR_RESEARCH",
+     "name": "Competitor / reference research",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.MKT_INTEL.CULTURAL_TREND_INTELLIGENCE",
+     "name": "Live cultural / trend intelligence",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "RECLASSIFY",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.MKT_INTEL.MARKETING_ASSESSMENT",
+     "name": "Marketing health assessment",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.MKT_INTEL.POSITIONING",
+     "name": "Positioning capture",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_IDNTY"
+    }
+   ]
+  },
+  {
+   "stage": "IDENTITY",
+   "definition": "IDNTY: brand state, lore, brief, territories, canon promotion.",
+   "verdict_today": "PARTIAL — IDNTY 00–03 exists as config, and identity phase/canon promotion code exists. Founder-only; not wired to client review.",
+   "mean_maturity": 3.14,
+   "status_counts": {
+    "EXISTS_PARTIAL": 5,
+    "EXISTS_CONNECTED": 2
+   },
+   "client_ready_blockers": [],
+   "foundations": [
+    "CAP.BIZ.BRAND_CREATIVE_CONTEXT_PROFILE",
+    "CAP.EXPRESSION.BRAND_LORE_CREATIVE_CONTEXT"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.BIZ.BRAND_CREATIVE_CONTEXT_PROFILE",
+     "name": "Brand Creative Context (brand/business profile assembler)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.BIZ.BRAND_LORE_PERSONALITY_CAPTURE",
+     "name": "Brand lore + personality capture (post-activation)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_IDNTY"
+    },
+    {
+     "capability_id": "CAP.BIZ.IDENTITY_BRIEF_STRATEGY",
+     "name": "Identity phase / brief / territories (per-client strategy doc)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_IDNTY"
+    },
+    {
+     "capability_id": "CAP.CANON.IDENTITY_CANON_PROMOTION",
+     "name": "Identity canon promotion + versioning",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_IDNTY"
+    },
+    {
+     "capability_id": "CAP.EXPRESSION.BRAND_LORE_CREATIVE_CONTEXT",
+     "name": "Brand lore / brand creative context / brand family skins",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.PRODUCT.IDNTY_DELIVERY_PHASE_ENGINE",
+     "name": "IDNTY delivery: identity phase, judgment, canon promotion, project bible",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PRODUCT.IDNTY_STATE_MODEL",
+     "name": "IDNTY 00-03 brand-state product definition",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_IDNTY"
+    }
+   ]
+  },
+  {
+   "stage": "OFFER",
+   "definition": "What the client buys: catalog, tiers, quotes, agreements, payment, commercial controls.",
+   "verdict_today": "NOT SELLABLE — no payments; clients can self-mark paid through three paths; pricing is duplicated and undecided (12 open founder decisions); courtesy codes are in memory only.",
+   "mean_maturity": 2.1,
+   "status_counts": {
+    "MISSING": 6,
+    "EXISTS_PARTIAL": 15,
+    "CONCEPT_ONLY": 2,
+    "DUPLICATED_COMPETING": 4,
+    "EXISTS_DISCONNECTED": 2,
+    "EXISTS_CONNECTED": 2
+   },
+   "client_ready_blockers": [
+    "CAP.COMMERCIAL.SIMULATED_ACTIVATION_PATHS"
+   ],
+   "foundations": [
+    "CAP.COMMERCIAL.PAYMENT_READINESS_AUDIT",
+    "CAP.SALES.PRIMARY_CTAS"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.COMMERCIAL.CLIENT_SPECIFIC_PRICING",
+     "name": "Client-specific pricing",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.COMP",
+     "name": "COMP (complimentary) control",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.COURTESY_CODE_ENGINE",
+     "name": "Courtesy code engine (create / validate / redeem)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.DEPOSITS_MILESTONES",
+     "name": "Deposits & milestone payments",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.DISCOUNT_FIXED",
+     "name": "DISCOUNT_FIXED control",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.DISCOUNT_PERCENT",
+     "name": "DISCOUNT_PERCENT control",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.ENTITLEMENT_STATE",
+     "name": "Commercial entitlement state per engagement/project",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.INVOICES",
+     "name": "Invoices",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.PAYMENT_CHECKOUT",
+     "name": "Payment provider / checkout (Stripe)",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 2,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.PAYMENT_READINESS_AUDIT",
+     "name": "Payment readiness & commercial wiring audit",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.PRICE_OVERRIDE",
+     "name": "PRICE_OVERRIDE control",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.PROJECT_CREDIT",
+     "name": "PROJECT_CREDIT control",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.REDEMPTION_AUDIT",
+     "name": "Redemption audit trail",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.SIMULATED_ACTIVATION_PATHS",
+     "name": "Simulated payment / commercial activation paths",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.STACKING_RULES",
+     "name": "Discount stacking rules",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.USAGE_LIMIT_OVERRIDE",
+     "name": "USAGE_LIMIT_OVERRIDE control",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COMMERCIAL.VALIDITY_WINDOWS",
+     "name": "Validity windows for codes/offers",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.MARKETING.EVOLVE_PUBLIC_OFFER_PAGES",
+     "name": "EVOLVE public offer / pricing / hub pages",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.OFFER.BLDR_BUILD_CLASSES",
+     "name": "BLDR build classes & investment guide",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_BLDR"
+    },
+    {
+     "capability_id": "CAP.OFFER.CLIENT_AGREEMENTS",
+     "name": "Client agreements / contracts / e-signature",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.OFFER.EVOLVE_PLANS",
+     "name": "EVOLVE plans & project services",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.OFFER.HOSTED_PRODUCT_MONETIZATION",
+     "name": "Hosted-product monetization contract (plans/add-ons/usage limits)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.OFFER.IDNTY_TIERS",
+     "name": "IDNTY investment tiers",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_IDNTY"
+    },
+    {
+     "capability_id": "CAP.OFFER.MARKETING_PACKAGES",
+     "name": "Marketing service categories & allowances",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.OFFER.QUOTES_PROPOSALS",
+     "name": "Quotes / estimates / proposals",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.OFFER.SCOPE_FULFILLMENT_CONTRACTS",
+     "name": "Scope / fulfillment contracts per package",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.OFFER.SERVICE_CATALOG_CANON",
+     "name": "Canonical service catalog (Site00ServiceCatalog)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SALES.CONVERSION_TRACKING",
+     "name": "Conversion analytics and attribution",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SALES.PRICING_PLANS",
+     "name": "Public pricing and plans",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.SALES.PRIMARY_CTAS",
+     "name": "Conversion CTA graph",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.SALES.UPSELL_OPPORTUNITIES",
+     "name": "In-app upsell / opportunity engine",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    }
+   ]
+  },
+  {
+   "stage": "CUSTOMER_JOURNEY",
+   "definition": "How the client moves: public location → account → project room → movement layer, CRM.",
+   "verdict_today": "BROKEN AT THE HANDOFF — the public journey and the movement layer work. Account → project room has three competing surfaces, no membership/invites, and role tamper.",
+   "mean_maturity": 2.57,
+   "status_counts": {
+    "EXISTS_PARTIAL": 9,
+    "CONCEPT_ONLY": 1,
+    "DUPLICATED_COMPETING": 6,
+    "EXISTS_DISCONNECTED": 2,
+    "EXISTS_CONNECTED": 3
+   },
+   "client_ready_blockers": [
+    "CAP.CRM.INTAKE_TO_PROJECT_CONVERSION",
+    "CAP.JOURNEY.CLIENT_ONBOARDING",
+    "CAP.JOURNEY.CLIENT_PROJECT_ROOM_SURFACE"
+   ],
+   "foundations": [
+    "CAP.CRM.CONTACT_IDENTITY_RECORD",
+    "CAP.JOURNEY.LIFECYCLE_STAGE_MODEL",
+    "CAP.MOVEMENT.PROJECT_SWITCHER",
+    "CAP.MOVEMENT.ROLE_AWARE_NAV",
+    "CAP.MOVEMENT.ROUTE_LINK_INTEGRITY"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.CRM.CLIENT_ACCOUNT_ORG",
+     "name": "Client account / organization",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "RECLASSIFY",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CRM.CLIENT_MESSAGING",
+     "name": "Client ↔ founder messaging / inbox",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.CRM.CONTACT_IDENTITY_RECORD",
+     "name": "Contact / person record",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.CRM.INTAKE_TO_PROJECT_CONVERSION",
+     "name": "Intake → project conversion",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CRM.LEAD_PIPELINE_ADMIN",
+     "name": "Founder lead and discovery pipeline views",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CRM.NOTES_HISTORY",
+     "name": "Relationship notes and admin activity history",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.JOURNEY.CLIENT_ONBOARDING",
+     "name": "Client project onboarding and activation",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.JOURNEY.CLIENT_PROJECT_ROOM_SURFACE",
+     "name": "Canonical client project room surface",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.JOURNEY.EXISTING_LOCATION_FLOW",
+     "name": "Existing Location case flow",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "RECLASSIFY",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.JOURNEY.LIFECYCLE_STAGE_MODEL",
+     "name": "Unified client lifecycle stage model",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.JOURNEY.POST_INTAKE_HANDOFF",
+     "name": "Post-intake handoff to account, intake, and project",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.ENTER_00_WAITING_ROOM",
+     "name": "ENTER 00 / WAITING ROOM portal",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.EXIT_00",
+     "name": "EXIT 00 return to ORIGIN",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.FAST_TRAVEL",
+     "name": "FAST TRAVEL contextual switcher",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.LOCATIONS_DIRECTORY",
+     "name": "LOCATIONS directory (mobile)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.PROJECT_SWITCHER",
+     "name": "Project context switcher",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.ROLE_AWARE_NAV",
+     "name": "Role-aware navigation (founder vs client)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.ROUTE_LINK_INTEGRITY",
+     "name": "Route and link integrity (draft-gated and dead links)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "ADD",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.SHELL_CHROME_SYSTEMS",
+     "name": "Global nav and shell chrome systems",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.SWIPE_UP_TRANSITION",
+     "name": "ORIGIN swipe-up transition",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    },
+    {
+     "capability_id": "CAP.MOVEMENT.WORLD_TRANSITIONS",
+     "name": "World cold-start gates and loaders",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "MOVEMENT_LAYER"
+    }
+   ]
+  },
+  {
+   "stage": "DIGITAL_LOCATION_WORLD",
+   "definition": "BLDR: the client site/world as a runtime, its site record, hosting, domain, launch.",
+   "verdict_today": "CANNOT LAUNCH — runtimes render only inside site00.com in design-preview. There is no client hosting, domain, LAUNCHED state or site record at launch.",
+   "mean_maturity": 2.15,
+   "status_counts": {
+    "CONCEPT_ONLY": 3,
+    "MISSING": 4,
+    "EXISTS_CONNECTED": 3,
+    "EXISTS_PARTIAL": 8,
+    "EXISTS_DISCONNECTED": 1,
+    "DUPLICATED_COMPETING": 1
+   },
+   "client_ready_blockers": [
+    "CAP.LAUNCH.CLIENT_LAUNCH_FLOW",
+    "CAP.LAUNCH.CLIENT_SITE_HOSTING",
+    "CAP.SITES.CLIENT_SITES_VIEW",
+    "CAP.SITES.SITE_ENTITY"
+   ],
+   "foundations": [
+    "CAP.RUNTIME.PROJECT_RUNTIME_REGISTRY",
+    "CAP.TREES.SITE00_PAGE_TREE"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.LAUNCH.CLIENT_LAUNCH_FLOW",
+     "name": "Client approval → launch flow",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.LAUNCH.CLIENT_SITE_HOSTING",
+     "name": "Client site build & hosting",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.LAUNCH.DOMAIN_DNS",
+     "name": "Domain & DNS management",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.PRODUCT.BLDR_CLASS_MODEL",
+     "name": "BLDR build classes (SITE / WORLD / ENTERPRISE / NOT-SURE)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "RECLASSIFY",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_BLDR"
+    },
+    {
+     "capability_id": "CAP.PRODUCT.BLDR_EXTENSIONS_CLASS",
+     "name": "BLDR EXTENSIONS class",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "MERGE",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "PRODUCTS_BLDR"
+    },
+    {
+     "capability_id": "CAP.PRODUCT.JURNL_FAMILY_RUNTIME",
+     "name": "JURNL F01–F04 live family runtime",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.PRODUCT.STUDIO_WORLD_ADAPTER",
+     "name": "Studio World production service adapter (mock/live)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.RUNTIME.PROJECT_BACKEND_ADAPTERS",
+     "name": "Per-project backend/auth adapters",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PROJECT_RUNTIME_LAYER"
+    },
+    {
+     "capability_id": "CAP.RUNTIME.PROJECT_ENV_SECRETS",
+     "name": "Per-project environments & secrets",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PROJECT_RUNTIME_LAYER"
+    },
+    {
+     "capability_id": "CAP.RUNTIME.PROJECT_RUNTIME_REGISTRY",
+     "name": "Project runtime registry",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 4,
+     "disposition": "EXPAND",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "PROJECT_RUNTIME_LAYER"
+    },
+    {
+     "capability_id": "CAP.SITES.ADMIN_SITES_OPS",
+     "name": "Founder sites operations",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.SITES.CLIENT_SITES_VIEW",
+     "name": "Client MY SITES view",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 1,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.SITES.PUBLIC_SHOWCASE",
+     "name": "Public SITES showcase",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 1,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.SITES.SITE00_RELEASE_ENGINE",
+     "name": "SITE 00 self-release engine",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "RECLASSIFY",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.SITES.SITE_ENTITY",
+     "name": "Site entity (digital location record)",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.SITES.SITE_PROJECT_LINKAGE",
+     "name": "Site ↔ project ↔ managed-project linkage",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PROJECT_RUNTIME_LAYER"
+    },
+    {
+     "capability_id": "CAP.TREES.JURNL_SCREEN_TREE",
+     "name": "Family / screen tree manifests (JURNL)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.TREES.PAGE_FAMILY_WORKSPACE",
+     "name": "Page family workspace (hierarchy, root target, readiness dims, approvals)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.TREES.PROJECT_GRAPH",
+     "name": "Project graph / working tree across artifacts (unified)",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.TREES.SITE00_PAGE_TREE",
+     "name": "SITE 00 page tree (discovered + proposed canonical)",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    }
+   ]
+  },
+  {
+   "stage": "PRODUCT_SYSTEM",
+   "definition": "How SITE 00 produces: workspace, expression pipeline, assets, trees, review/approval loop.",
+   "verdict_today": "STRONGEST AREA, BUT A CLOSED LOOP WITH THE CLIENT IS MISSING — the workspace, the JURNL expression pipeline and the asset factory are real. The review loop has no send and no return, and the dispatch guards are not called by any API.",
+   "mean_maturity": 2.66,
+   "status_counts": {
+    "EXISTS_CONNECTED": 3,
+    "EXISTS_PARTIAL": 18,
+    "DUPLICATED_COMPETING": 8,
+    "EXISTS_DISCONNECTED": 3,
+    "MISSING": 2,
+    "SUPERSEDED": 1
+   },
+   "client_ready_blockers": [
+    "CAP.ASSET.STORAGE_BUCKETS",
+    "CAP.OPS.CLIENT_REVIEW_ENGINE",
+    "CAP.OPS.REVIEW_RETURN_LOOP",
+    "CAP.OPS.SEND_TO_CLIENT_REVIEW"
+   ],
+   "foundations": [
+    "CAP.ASSET.GENERATION_LEDGER",
+    "CAP.DEPGRAPH.INVALIDATION_GRAPH",
+    "CAP.PRODUCT.ROUTE_SURFACE_SPRAWL",
+    "CAP.PROJECT.BENCH_ROUTE_GUARDING",
+    "CAP.PROJECT.INBOX",
+    "CAP.PROJECT.WORKSPACE_PROJECT_SCOPING",
+    "CAP.PROJECT.WORKSPACE_SHELL"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.ASSET.ASSTS_ASSET_FACTORY",
+     "name": "ASSTS asset factory (slots, batches, logical assets, versions, review events, generation jobs)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ASSET.ASTRAL_WORLD_ASSETS",
+     "name": "Astral World asset records / reader avatar library",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.ASSET.CREATIVE_LINEAGE",
+     "name": "Creative lineage records (assets, concepts, franchises, canon traits, launch seeds)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ASSET.GENERATION_LEDGER",
+     "name": "Generation records / cost ledgers",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ASSET.JURNL_REPO_AUTHORITIES",
+     "name": "JURNL family authorities/environments/botanicals as repo files",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.ASSET.PRODUCT_ASSET_FACTORY",
+     "name": "Product asset factory (Frontal Slayer master heroes / variants)",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "PRODUCTS_BLDR"
+    },
+    {
+     "capability_id": "CAP.ASSET.STORAGE_BUCKETS",
+     "name": "Storage buckets",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ASSET.VISUAL_AUTHORITY_REGISTRY",
+     "name": "Visual authority registry (host + projects)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.DEPGRAPH.DELIVERABLE_DEPENDENCIES",
+     "name": "Deliverable readiness dependency engine (production OS)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.DEPGRAPH.DESIGN_CHANGE_BLAST_RADIUS",
+     "name": "Design control plane change requests + blast radius + shell propagation",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.DEPGRAPH.INVALIDATION_GRAPH",
+     "name": "Canonical dependency edges + invalidation resolver",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.EXPRESSION.ENVIRONMENT_DISTINCTNESS",
+     "name": "Family environment distinctness + cross-family plate reuse guard (#1363)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.EXPRESSION.EXPERIENCE_COMPILER_MAP2",
+     "name": "StudioOS Experience Compiler (MAP2) + creative director",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.EXPRESSION.FAMILY_EXPRESSION_BRIEF_GATE",
+     "name": "Family expression brief + founder gate (#1364)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.EXPRESSION.FAMILY_OUTPUT_PROJECTS",
+     "name": "One provider project per family (#1359)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.EXPRESSION.FAMILY_PRODUCTION_CONTRACT",
+     "name": "Family production contract, implementation gate, asset-first policy, production budget",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.EXPRESSION.JURNL_FAMILY_PIPELINE",
+     "name": "JURNL family expression pipeline (definition → brief → founder gate → parent → sidekick → children → live)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.EXPRESSION.REFERENCE_REGISTRY",
+     "name": "Project reference registry + resolver + project firewall",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.OPS.CLIENT_REVIEW_ENGINE",
+     "name": "Client review engine (comment, annotate, approve, revise)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.OPS.REVIEW_RETURN_LOOP",
+     "name": "Client decision return loop",
+     "current_status": "MISSING",
+     "implementation_maturity": 2,
+     "disposition": "ADD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.OPS.REVISION_MANAGEMENT",
+     "name": "Revision handling",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.OPS.SEND_TO_CLIENT_REVIEW",
+     "name": "Send to client review",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PRODUCT.ROUTE_SURFACE_SPRAWL",
+     "name": "Product route map (public products + founder project room + production workspace + studio + client)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.PROJECT.ACTIVITY",
+     "name": "Workspace ACTIVITY",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.BENCH_ROUTE_GUARDING",
+     "name": "Bench / experiment route containment",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.PROJECT.DESIGN",
+     "name": "Workspace DESIGN chamber",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.EXPERIENCE",
+     "name": "Workspace EXPERIENCE",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.EXPRESSION",
+     "name": "Workspace EXPRESSION",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.HUB",
+     "name": "Workspace HUB",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.INBOX",
+     "name": "Workspace INBOX (founder decisions)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.LEGACY_FOUNDER_SURFACES",
+     "name": "Legacy founder project surfaces (STUDIO, /projects/:slug, admin project workspace)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.LIBRARY",
+     "name": "Workspace LIBRARY",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.WORKSPACE_PROJECT_SCOPING",
+     "name": "Workspace project scoping",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PROJECT.WORKSPACE_SHELL",
+     "name": "Production workspace shell (7 tabs)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.STUDIO.CLIENT_STUDIO_ROUTES",
+     "name": "Client Studio operating environment (/studio/:projectSlug)",
+     "current_status": "SUPERSEDED",
+     "implementation_maturity": 3,
+     "disposition": "DEPRECATE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    }
+   ]
+  },
+  {
+   "stage": "MARKETING_SYSTEM",
+   "definition": "EVOLVE marketing, content, distribution, SEO — for clients and for SITE 00 itself.",
+   "verdict_today": "FOUNDER-ONLY PROTOTYPE — the EVOLVE marketing OS works for five hard-coded orgs; publishing is off, analytics adapters return empty, and SEO is essentially absent.",
+   "mean_maturity": 1.7,
+   "status_counts": {
+    "EXISTS_PARTIAL": 13,
+    "MISSING": 8,
+    "EXISTS_DISCONNECTED": 2,
+    "EXISTS_CONNECTED": 1,
+    "DUPLICATED_COMPETING": 2,
+    "CONCEPT_ONLY": 1
+   },
+   "client_ready_blockers": [],
+   "foundations": [
+    "CAP.CONTENT.CAMPAIGN_PACKAGE_STORE",
+    "CAP.CONTENT.EXPRESSION_ENGINE",
+    "CAP.SEO.ROBOTS_TXT"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.CONTENT.CAMPAIGN_PACKAGE_STORE",
+     "name": "Campaign package (assets/deliverables/captions/sequence)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.CONTENT.CMS",
+     "name": "CMS / editable content models",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.CONTENT.CONTENT_BRAIN",
+     "name": "Content Brain (IDEA/CANON knowledge entries)",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.CONTENT.CONTENT_OPERATIONS_LIBRARY",
+     "name": "Content operations / content library / performance",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.CONTENT.COPYWRITING_BRAND_VOICE",
+     "name": "Campaign copy director + brand language / voice QA",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.CONTENT.EXPRESSION_ENGINE",
+     "name": "Expression Engine (creative entries, chapters, storyboards, campaign narrative)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.CONTENT.I18N",
+     "name": "Internationalization",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.CONTENT.PAGE_COPY_SOURCES",
+     "name": "Public page copy sources (seed configs)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.DISTRIBUTION.CHANNEL_STRATEGY",
+     "name": "Channel strategy / assessment / manifest",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.DISTRIBUTION.PROVIDER_CONNECTIONS_OAUTH",
+     "name": "Provider connections + OAuth (Meta/Instagram, GA, GSC)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.DISTRIBUTION.SCHEDULING_CADENCE",
+     "name": "Content scheduling / daily publishing cadence",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.DISTRIBUTION.SOCIAL_PUBLISHING",
+     "name": "Social publishing / dispatch",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.MARKETING.AD_CREATIVE",
+     "name": "Paid ad creative + paid promotion",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.MARKETING.CAMPAIGN_PRODUCTION_DIRECTOR",
+     "name": "Campaign director / flavor / marketing campaign production",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.MARKETING.CLIENT_MARKETING_ENGAGEMENTS",
+     "name": "Client EVOLVE Marketing engagement funnel (intake→scope→authorize→pay→provision→sync→review)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 4,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.MARKETING.EMAIL_MARKETING",
+     "name": "Email marketing (campaign emails / newsletters)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 1,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.MARKETING.EVOLVE_MARKETING_OS",
+     "name": "EVOLVE Marketing OS (profiles/objectives/channels/campaigns/calendar/approvals/plans)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.MARKETING.MARKETING_COMMERCIAL_PIPELINE",
+     "name": "Marketing commercial pipeline + entitlements",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.MARKETING.SITE00_SELF_MARKETING",
+     "name": "Marketing for SITE 00 itself",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 1,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.SEO.CLIENT_SITE_SEO",
+     "name": "Per-client site SEO",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.SEO.HEAD_META_BASELINE",
+     "name": "Static head meta (title/description/canonical)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.SEO.OG_SOCIAL_PREVIEW",
+     "name": "Open Graph / social share images",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.SEO.PER_ROUTE_TITLE",
+     "name": "Per-route document.title",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SEO.ROBOTS_TXT",
+     "name": "robots.txt",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.SEO.SITEMAP",
+     "name": "sitemap.xml generation",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.SEO.SPA_PRERENDER",
+     "name": "SSR / prerender for crawlable SPA",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SEO.STRUCTURED_DATA",
+     "name": "Structured data (JSON-LD)",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    }
+   ]
+  },
+  {
+   "stage": "LIVE_OPERATIONS",
+   "definition": "Running the studio day to day: registry, ops, control room, integrations, cost.",
+   "verdict_today": "DEMO-CONTAMINATED — the operator console and approval queue work. There are 7+ registries, the demo seed writes to production reads, and there is no cost ledger table.",
+   "mean_maturity": 2.21,
+   "status_counts": {
+    "EXISTS_CONNECTED": 10,
+    "MISSING": 6,
+    "EXISTS_PARTIAL": 14,
+    "EXISTS_DISCONNECTED": 4,
+    "CONCEPT_ONLY": 3,
+    "DUPLICATED_COMPETING": 5
+   },
+   "client_ready_blockers": [
+    "CAP.CONTROL_ROOM.CLIENT_OVERVIEW",
+    "CAP.INTEGRATION.EMAIL_PROVIDER",
+    "CAP.OPS.DELIVERABLE_HANDOFF_LIBRARY",
+    "CAP.OPS.DEMO_SEED_ISOLATION"
+   ],
+   "foundations": [
+    "CAP.CONTROL_ROOM.EVOLVE_OPS_ACCESS_GATE",
+    "CAP.CONTROL_ROOM.OPERATOR_CONSOLE",
+    "CAP.COST.OPENART_MANUAL_LEDGER",
+    "CAP.COST.UNIFIED_COST_LEDGER",
+    "CAP.INTEGRATION.AI_PROVIDERS",
+    "CAP.INTEGRATION.RAILWAY_API_HOST",
+    "CAP.INTEGRATION.SERVICE_CONNECTIONS",
+    "CAP.INTEGRATION.SUPABASE",
+    "CAP.OPS.DELIVERABLES_TRACKING",
+    "CAP.OPS.INTERNAL_APPROVAL_QUEUE",
+    "CAP.OPS.PROJECT_LIFECYCLE_STATUS",
+    "CAP.OPS.PROJECT_REGISTRY"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.CONTROL_ROOM.ACCESS_CREDENTIALS",
+     "name": "Access credentials (private-access codes)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.CONTROL_ROOM.ADMIN_ATTENTION_CENTER",
+     "name": "Admin attention center (/admin/site00/ctrl-room)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "RECLASSIFY",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CONTROL_ROOM.CLIENT_BILLING",
+     "name": "Client billing",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CONTROL_ROOM.CLIENT_OVERVIEW",
+     "name": "Client CTRL ROOM overview",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CONTROL_ROOM.CLIENT_PROFILE_SECURITY",
+     "name": "Client profile, settings, and security",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CONTROL_ROOM.CLIENT_TEAM",
+     "name": "Client team management",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CONTROL_ROOM.EVOLVE_OPS_ACCESS_GATE",
+     "name": "EVOLVE operations page access",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "RECLASSIFY",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CONTROL_ROOM.FOUNDER_CONTROL_ROOM",
+     "name": "Founder Control Room",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CONTROL_ROOM.OPERATOR_CONSOLE",
+     "name": "00 / CONTROL operator console",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COST.ANTHROPIC_COST_METER",
+     "name": "Anthropic / Opus token cost meter & receipts",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.COST.CLIENT_COST_TRANSPARENCY",
+     "name": "Cost transparency to client",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.COST.CLIENT_CREDITS_ALLOWANCE",
+     "name": "Client credit allowance / burn projection",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COST.CLIENT_FUNDED_PRODUCTION",
+     "name": "Client-funded production (payer / BYOK / provider connections)",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.COST.FAL_COST_TRACKING",
+     "name": "fal.ai cost tracking",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.COST.MARGIN_INTELLIGENCE",
+     "name": "Margin intelligence",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "RECLASSIFY",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.COST.OPENART_MANUAL_LEDGER",
+     "name": "OpenArt manual generation ledgers + family budget contract",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.COST.PER_PROJECT_COST_ROLLUP",
+     "name": "Per-project cost rollup & budget ceiling",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.COST.UNIFIED_COST_LEDGER",
+     "name": "Unified provider cost ledger (DB)",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.INTEGRATION.AI_PROVIDERS",
+     "name": "AI generation providers (fal, Anthropic, OpenAI, xAI)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.INTEGRATION.CLOUDFLARE_PREVIEW_TUNNEL",
+     "name": "Cloud preview tunnel (Cloudflare)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.INTEGRATION.EMAIL_PROVIDER",
+     "name": "Transactional email delivery",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.INTEGRATION.GITHUB",
+     "name": "GitHub repository access",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.INTEGRATION.OPENART_MANUAL",
+     "name": "OpenArt (manual provider projects)",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "RECLASSIFY",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PROJECT_RUNTIME_LAYER"
+    },
+    {
+     "capability_id": "CAP.INTEGRATION.RAILWAY_API_HOST",
+     "name": "Railway API hosting",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.INTEGRATION.SERVICE_CONNECTIONS",
+     "name": "Per-project service connection records",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.INTEGRATION.SUPABASE",
+     "name": "Supabase (DB/Auth/Storage)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.OPS.DELIVERABLES_TRACKING",
+     "name": "Project deliverables from recipes",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.OPS.DELIVERABLE_HANDOFF_LIBRARY",
+     "name": "Deliverable handoff, library, and downloads",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.OPS.DEMO_SEED_ISOLATION",
+     "name": "Demo seed and fixture isolation from production",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 1,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.OPS.INTERNAL_APPROVAL_QUEUE",
+     "name": "Founder internal approval queue",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+     "name": "Launch readiness manifests and overrides",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.OPS.PROJECT_HEALTH_READINESS",
+     "name": "Project health and readiness evaluation",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.OPS.PROJECT_LIFECYCLE_STATUS",
+     "name": "Project status and phases",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.OPS.PROJECT_REGISTRY",
+     "name": "Canonical project registry",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.OPS.PROVISIONING",
+     "name": "Project provisioning and service connections",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.OPS.TASKS_NEXT_ACTIONS",
+     "name": "Tasks, next actions, and blockers",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.SUPPORT.EMAIL_TEMPLATE_SYSTEM",
+     "name": "Email template and art-direction system",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SUPPORT.HELP_CENTER",
+     "name": "Help / support / FAQ surface",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.SUPPORT.IN_APP_NOTIFICATIONS",
+     "name": "In-app notifications",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SUPPORT.NOTIFICATION_PREFERENCES",
+     "name": "Notification preferences",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 1,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.SUPPORT.SLA_TRACKING",
+     "name": "Response SLAs",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.SUPPORT.TICKETING",
+     "name": "Support tickets",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    }
+   ]
+  },
+  {
+   "stage": "MEASUREMENT",
+   "definition": "Analytics, experiments, quality scoring.",
+   "verdict_today": "ALMOST NONE — no page analytics, no error monitoring, 11 competing event tables, and no client-facing reports.",
+   "mean_maturity": 2.12,
+   "status_counts": {
+    "EXISTS_PARTIAL": 8,
+    "MISSING": 3,
+    "EXISTS_CONNECTED": 2,
+    "DUPLICATED_COMPETING": 2,
+    "EXISTS_DISCONNECTED": 1
+   },
+   "client_ready_blockers": [
+    "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER"
+   ],
+   "foundations": [
+    "CAP.ANALYTICS.ADMIN_AUDIT_LOG",
+    "CAP.QUALITY.PRODUCTION_BUILD_GUARDS"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.ANALYTICS.ADMIN_AUDIT_LOG",
+     "name": "Admin/profile audit log",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ANALYTICS.CLIENT_FACING_REPORTS",
+     "name": "Client-facing performance reports",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.ANALYTICS.CONTENT_PERFORMANCE_MANUAL",
+     "name": "Content operations performance (manual metrics)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.ANALYTICS.EVOLVE_PROVIDER_METRICS",
+     "name": "EVOLVE external metrics ingestion (GA/GSC/Meta)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.ANALYTICS.FOUNDER_PIPELINE_REPORTS",
+     "name": "Founder pipeline KPIs / Reports page",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.ANALYTICS.PROJECT_EVENTS_LEDGER",
+     "name": "Project events ledger (site00_project_events)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ANALYTICS.PUBLIC_PAGE_ANALYTICS",
+     "name": "Public site / client site page analytics",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ANALYTICS.USER_ACTIVITY_TRACKING",
+     "name": "User activity event tracking",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.EXPERIMENT.AB_TESTING",
+     "name": "A/B testing of client-facing variants",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.EXPERIMENT.FEATURE_FLAGS",
+     "name": "Feature flags / kill switches",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.EXPERIMENT.METHODOLOGY_VALIDATION_RUNS",
+     "name": "Creative methodology validation runs (shadow replay)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.QUALITY.FAMILY_IMPLEMENTATION_GATE",
+     "name": "Product family implementation gate (JURNL)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.QUALITY.FOUNDER_JUDGMENT_CAPTURE",
+     "name": "Founder creative judgment & preference evidence",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.QUALITY.LIVE_RUNTIME_QA_SCRIPTS",
+     "name": "Live runtime visual/interaction QA scripts",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.QUALITY.LLM_CREATIVE_JUDGES",
+     "name": "LLM creative quality gates / judges",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.QUALITY.PRODUCTION_BUILD_GUARDS",
+     "name": "Release/regression guards in deploy pipeline",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    }
+   ]
+  },
+  {
+   "stage": "MAINTENANCE",
+   "definition": "Release, incidents, post-launch care, backups, change requests.",
+   "verdict_today": "FRAGILE — CI has been red since 2026-09-28; frontend deploys run through manual ZIPs; no staging, backups, or rollback wiring.",
+   "mean_maturity": 1.94,
+   "status_counts": {
+    "EXISTS_PARTIAL": 6,
+    "MISSING": 4,
+    "CONCEPT_ONLY": 2,
+    "EXISTS_CONNECTED": 2,
+    "DUPLICATED_COMPETING": 1,
+    "EXISTS_DISCONNECTED": 1
+   },
+   "client_ready_blockers": [
+    "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+    "CAP.RELEASE.CI_HEALTH"
+   ],
+   "foundations": [
+    "CAP.INCIDENT.MEMORY_LOG_INCIDENTS",
+    "CAP.RELEASE.MANUAL_ZIP_DEPLOY",
+    "CAP.RELEASE.PRODUCTION_PIPELINE"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.INCIDENT.MEMORY_LOG_INCIDENTS",
+     "name": "Incident records in motherboard MEMORY.md",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "RECLASSIFY",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.INCIDENT.REGRESSION_GUARD_TESTS",
+     "name": "Incident-derived regression guard tests",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.INCIDENT.RUNTIME_ERROR_MONITORING",
+     "name": "Runtime error monitoring / alerting",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.INCIDENT.STRUCTURED_INCIDENT_RECORDS",
+     "name": "Structured incident/postmortem records + runbooks",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.JOURNEY.POST_LAUNCH_LIFECYCLE",
+     "name": "Post-launch care, maintenance, and EVOLVE re-entry",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_SITES"
+    },
+    {
+     "capability_id": "CAP.MAINTAIN.BACKUPS",
+     "name": "Database & asset backups",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.MAINTAIN.CLIENT_CHANGE_REQUESTS",
+     "name": "Client change requests post-launch",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.MAINTAIN.DEPENDENCY_UPDATES",
+     "name": "Dependency & platform updates",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.MAINTAIN.RETAINERS",
+     "name": "Retainer / care plans",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.POSTLAUNCH.HEALTH_ENDPOINTS",
+     "name": "Health endpoints & release verification",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.RELEASE.CI_HEALTH",
+     "name": "CI test health",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.RELEASE.MANUAL_ZIP_DEPLOY",
+     "name": "Manual cPanel ZIP deploy (GitHub Releases)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "DEPRECATE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.RELEASE.PRODUCTION_PIPELINE",
+     "name": "GitHub Actions production release pipeline",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 4,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.RELEASE.RELEASE_MANIFEST",
+     "name": "Release manifest & release IDs",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.RELEASE.ROLLBACK",
+     "name": "Release rollback",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 1,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.RELEASE.STAGING_ENVIRONMENT",
+     "name": "Staging / preview environments",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CONTROL_PLANE"
+    }
+   ]
+  },
+  {
+   "stage": "EVOLUTION",
+   "definition": "EVOLVE REFINE/INSTALL/TRANSFORM and signals that drive the next cycle.",
+   "verdict_today": "INTAKE ONLY — REFINE/INSTALL/TRANSFORM are page copy plus a localStorage assessment, with no delivery workflow.",
+   "mean_maturity": 2.67,
+   "status_counts": {
+    "EXISTS_PARTIAL": 2,
+    "EXISTS_DISCONNECTED": 1
+   },
+   "client_ready_blockers": [],
+   "foundations": [],
+   "capabilities": [
+    {
+     "capability_id": "CAP.EVOLUTION.EXTERNAL_RECONCILIATION",
+     "name": "External evidence & reconciliation (evolution signals)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.EVOLVE.OPERATIONS_INTELLIGENCE",
+     "name": "EVOLVE operations intelligence (portfolio health, margin, nudges)",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.PRODUCT.EVOLVE_PATHS",
+     "name": "EVOLVE paths (REFINE / INSTALL / TRANSFORM) + existing-location service",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    }
+   ]
+  },
+  {
+   "stage": "PLATFORM_FOUNDATION",
+   "definition": "Cross-cutting: security, privacy, a11y, performance, data, canon, risk, routing, control plane.",
+   "verdict_today": "UNSAFE FOR EXTERNAL CLIENTS — no API auth layer, CORS open, RLS gaps, a public asset bucket, and guards that are honour-system or test-only. Canon is in docs only.",
+   "mean_maturity": 2.36,
+   "status_counts": {
+    "EXISTS_DISCONNECTED": 3,
+    "EXISTS_PARTIAL": 28,
+    "MISSING": 8,
+    "EXISTS_CONNECTED": 7,
+    "CONCEPT_ONLY": 4,
+    "DUPLICATED_COMPETING": 5
+   },
+   "client_ready_blockers": [
+    "CAP.CONTROL_PLANE.MIGRATION_MANAGEMENT",
+    "CAP.DECISION.COMMERCIAL_FOUNDER_DECISIONS",
+    "CAP.PRIVACY.CLIENT_DATA_FIREWALL",
+    "CAP.PRIVACY.LEGAL_PAGES",
+    "CAP.RISK.SPEND_CONFIRMATION_GUARDS",
+    "CAP.SECURITY.ADMIN_GATING",
+    "CAP.SECURITY.API_AUTH_MIDDLEWARE",
+    "CAP.SECURITY.CLIENT_ROLE_ENFORCEMENT",
+    "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+    "CAP.SECURITY.RLS_POLICIES",
+    "CAP.SECURITY.SERVICE_ROLE_CLIENT",
+    "CAP.SECURITY.SUPABASE_AUTH_SESSION"
+   ],
+   "foundations": [
+    "CAP.AGENT.AGENT_GOVERNANCE_RULES",
+    "CAP.CANON.MOTHERBOARD_CONTEXT",
+    "CAP.CONTROL_PLANE.INFRA_CONTROL_PLANE",
+    "CAP.DATA.SCHEMA_INVENTORY",
+    "CAP.DATA.UNUSED_TABLES",
+    "CAP.DECISION.DOC_DECISION_LOGS",
+    "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD",
+    "CAP.ROUTER.PROVIDER_CALL_SITES",
+    "CAP.ROUTER.TASK_CLASS_PROVIDER_ROUTING",
+    "CAP.SECURITY.SECRETS_HANDLING"
+   ],
+   "capabilities": [
+    {
+     "capability_id": "CAP.A11Y.A11Y_MVP_GATE",
+     "name": "Accessibility MVP approval gate",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.A11Y.ARIA_SEMANTICS",
+     "name": "ARIA labelling & roles in UI",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.A11Y.AUTOMATED_A11Y_TESTS",
+     "name": "Automated accessibility test suite (axe)",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.A11Y.CONTRAST_CHECKS",
+     "name": "Contrast evaluation tooling",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.A11Y.REDUCED_MOTION",
+     "name": "Reduced-motion support",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.AGENT.AGENT_GOVERNANCE_RULES",
+     "name": "Agent governance rules (.cursor/rules + AGENTS.md)",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.AGENT.MODEL_ROLE_PIPELINE",
+     "name": "Multi-model agent role pipeline (Founder/Sonnet/Opus/Grok/Composer)",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "RECLASSIFY",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.AGENT.OPUS_NATIVE_RUNTIME",
+     "name": "Opus-native in-app design agent runtime",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.AGENT.PRODUCTION_ORCHESTRATION_QUEUE",
+     "name": "Production orchestration command queue / next actions",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.CANON.DESIGN_LANGUAGE_CANON",
+     "name": "SITE 00 design language canon + authority registries",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.CANON.JURNL_FAMILY_CONTRACTS",
+     "name": "JURNL family manifests & canon contracts",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.CANON.LOCKED_ONTOLOGY_ENFORCEMENT",
+     "name": "Locked ontology / page-tree lock enforcement",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.CANON.MOTHERBOARD_CONTEXT",
+     "name": "Motherboard agent context store",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.CONTROL_PLANE.DESIGN_CONTROL_PLANE",
+     "name": "Design control plane (repo change bridge)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "RECLASSIFY",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.CONTROL_PLANE.INFRA_CONTROL_PLANE",
+     "name": "Infrastructure control plane",
+     "current_status": "CONCEPT_ONLY",
+     "implementation_maturity": 1,
+     "disposition": "RECLASSIFY",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.CONTROL_PLANE.MIGRATION_MANAGEMENT",
+     "name": "Database migration management",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.DATA.METHODOLOGY_RUNS_BLOB_STORE",
+     "name": "site00_methodology_validation_runs as generic JSON store",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.DATA.SCHEMA_INVENTORY",
+     "name": "Supabase schema (57 migrations, ~216 tables)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.DATA.UNUSED_TABLES",
+     "name": "Unused / orphan tables",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 2,
+     "disposition": "CONNECT",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.DECISION.COMMERCIAL_FOUNDER_DECISIONS",
+     "name": "Commercial founder decision register",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.DECISION.DOC_DECISION_LOGS",
+     "name": "Decision records in docs/motherboard (ADR-like)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 1,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.DECISION.FOUNDER_GATES_IN_PIPELINE",
+     "name": "Founder approval gates in production pipelines",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.DEVICE_QA.CLIENT_APP_SCREEN_MATRIX",
+     "name": "Client app 25-screen QA capture",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.DEVICE_QA.DEVICE_MATRIX",
+     "name": "Canonical device/viewport matrix",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 2,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.DEVICE_QA.MOBILE_RESPONSIVE_SURFACES",
+     "name": "Mobile-specific surfaces & responsive rules",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.DEVICE_QA.PRODUCTION_ROUTE_SMOKE",
+     "name": "Production SPA route smoke",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.DEVICE_QA.VISUAL_REGRESSION",
+     "name": "Pixel-diff visual comparison",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "FOUNDER_PRODUCTION_WORKSPACE"
+    },
+    {
+     "capability_id": "CAP.PERF.BUNDLE_BUDGET",
+     "name": "Bundle budget & dist verification",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.PERF.CACHING",
+     "name": "HTTP caching strategy",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.PERF.IMAGE_OPTIMIZATION",
+     "name": "Image/asset optimization",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.PERF.ROUTE_CODE_SPLITTING",
+     "name": "Lazy route code splitting",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.PRIVACY.CLIENT_DATA_FIREWALL",
+     "name": "Client data isolation (internal field stripping)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.PRIVACY.COOKIE_CONSENT",
+     "name": "Cookie / tracking consent",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.PRIVACY.DATA_EXPORT_DELETION",
+     "name": "Account data export & deletion",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "CLIENT_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.PRIVACY.LEGAL_PAGES",
+     "name": "Privacy policy & terms pages",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "PUBLIC_LOCATION"
+    },
+    {
+     "capability_id": "CAP.RISK.OPUS_NATIVE_COST_CEILING",
+     "name": "Opus-native per-run cost ceiling + receipts",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 4,
+     "disposition": "MERGE",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.RISK.PUBLISHING_FENCE",
+     "name": "External publishing fence",
+     "current_status": "EXISTS_CONNECTED",
+     "implementation_maturity": 4,
+     "disposition": "KEEP",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "PRODUCTS_EVOLVE"
+    },
+    {
+     "capability_id": "CAP.RISK.REFERENCE_BINDING_PREDISPATCH_GUARD",
+     "name": "Reference-binding pre-dispatch guard (#1357/#1359/#1363/#1364)",
+     "current_status": "EXISTS_DISCONNECTED",
+     "implementation_maturity": 3,
+     "disposition": "CONNECT",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.RISK.RISK_REGISTER",
+     "name": "Studio / project risk register",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "FUTURE_OPTIONAL",
+     "correct_product_layer": "FOUNDER_CONTROL_ROOM"
+    },
+    {
+     "capability_id": "CAP.RISK.SPEND_CONFIRMATION_GUARDS",
+     "name": "founderConfirmedSpend spend guards",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REBUILD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ROUTER.COMPLEXITY_ROUTER",
+     "name": "Pipeline complexity router (work routed by complexity)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "EXPAND",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "STUDIO_OS"
+    },
+    {
+     "capability_id": "CAP.ROUTER.PROVIDER_CALL_SITES",
+     "name": "Direct provider call sites (no gateway)",
+     "current_status": "DUPLICATED_COMPETING",
+     "implementation_maturity": 3,
+     "disposition": "MERGE",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.ROUTER.TASK_CLASS_PROVIDER_ROUTING",
+     "name": "Expression Engine task-class provider routing",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.ADMIN_GATING",
+     "name": "Founder/admin gating via ADMIN_EMAILS",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.API_AUTH_MIDDLEWARE",
+     "name": "API route auth policy / middleware",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.CLIENT_ROLE_ENFORCEMENT",
+     "name": "Server-derived client role (review permissions)",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "CLIENT_PROJECT_ROOM"
+    },
+    {
+     "capability_id": "CAP.SECURITY.CORS_POLICY",
+     "name": "CORS origin policy",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 2,
+     "disposition": "REPAIR",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.HTTP_SECURITY_HEADERS",
+     "name": "HTTP security headers (CSP/HSTS/frame)",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+     "name": "Project membership + invite acceptance",
+     "current_status": "MISSING",
+     "implementation_maturity": 1,
+     "disposition": "ADD",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.RATE_LIMITING",
+     "name": "API rate limiting / abuse protection",
+     "current_status": "MISSING",
+     "implementation_maturity": 0,
+     "disposition": "ADD",
+     "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.RLS_POLICIES",
+     "name": "Row Level Security coverage",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.SECRETS_HANDLING",
+     "name": "Server secrets handling & provider credential vault",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "EXPAND",
+     "priority": "GROUND_ZERO_FOUNDATION",
+     "correct_product_layer": "CONTROL_PLANE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.SERVICE_ROLE_CLIENT",
+     "name": "Server Supabase admin client hardening",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.SUPABASE_AUTH_SESSION",
+     "name": "Supabase auth + session restore",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "CLIENT_READY_BLOCKER",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    },
+    {
+     "capability_id": "CAP.SECURITY.WEBHOOK_SIGNATURES",
+     "name": "Inbound webhook verification",
+     "current_status": "EXISTS_PARTIAL",
+     "implementation_maturity": 3,
+     "disposition": "REPAIR",
+     "priority": "MATURE_PLATFORM",
+     "correct_product_layer": "SHARED_PLATFORM_SERVICE"
+    }
+   ]
+  }
+ ]
+}

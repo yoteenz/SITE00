@@ -1,0 +1,47 @@
+{
+  "family_id": "F07",
+  "screen_id": "F07.00",
+  "screen_class": "ENVIRONMENT_DEPENDENT",
+  "ui_weight": "LEFT",
+  "environmental_weight": "RIGHT",
+  "scrim_fix_forbidden": true,
+  "mobile": {
+    "primary_ui_zone": "Left rail, below the top chrome and above the nav.",
+    "secondary_ui_zone": "Left rail, under the signal.",
+    "environment_focal_zone": "The far coastal opening.",
+    "protected_negative_space": "Left half. Quiet plaster or stone. Low edge.",
+    "occlusion_allowed_zone": "Future sheets cover the lower half. Not built.",
+    "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+    "text_density_zone": "Left rail. Short lines."
+  },
+  "tablet": {
+    "primary_ui_zone": "Left rail, below the top chrome and above the nav.",
+    "secondary_ui_zone": "Left rail, under the signal.",
+    "environment_focal_zone": "The far coastal opening.",
+    "protected_negative_space": "Left half. Quiet plaster or stone. Low edge.",
+    "occlusion_allowed_zone": "Future sheets cover the lower half. Not built.",
+    "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+    "text_density_zone": "Left rail. Short lines."
+  },
+  "desktop": {
+    "primary_ui_zone": "Left rail, below the top chrome and above the nav.",
+    "secondary_ui_zone": "Left rail, under the signal.",
+    "environment_focal_zone": "The far coastal opening.",
+    "protected_negative_space": "Left half. Quiet plaster or stone. Low edge.",
+    "occlusion_allowed_zone": "Future sheets cover the lower half. Not built.",
+    "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+    "text_density_zone": "Left rail. Short lines."
+  },
+  "plate_ui_interference": "PASS",
+  "qa": {
+    "ui_occupancy_fit": "PASS",
+    "negative_space_quality": "PASS",
+    "visual_noise_in_ui_zone": "LOW",
+    "edge_density_in_ui_zone": "LOW",
+    "salience_conflict": "PASS",
+    "panel_material_compatibility": "PASS",
+    "responsive_fit": "PASS",
+    "drawer_occlusion_exception": "NOT_USED",
+    "plate_ui_interference": "PASS"
+  }
+}

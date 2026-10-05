@@ -1,0 +1,97 @@
+{
+ "artifact": "SITE00_CAPABILITY_REGISTRY_PROPOSAL",
+ "sprint": "P0.SITE00.GROUND-ZERO-MATURE-CAPABILITY-GENOME-RECONCILIATION1",
+ "status": "RECONCILIATION EVIDENCE + PROPOSAL (0 code changes, 0 database changes, 0 paid generations)",
+ "current_main_sha": "6f63aaaa439cc4c996a734e3cec5abbf586f2e61",
+ "answer_does_site00_have_a_capability_registry": "NO (no platform capability registry exists).",
+ "closest_existing": [
+  {
+   "path": "src/site00/config/capability-registry.ts",
+   "what": "SITE00_CAPABILITY_REGISTRY: a 14-entry catalog of installable EVOLVE/BLDR client offerings (UI/UX enhancement, responsive systems, …). It is used by EvolveStepFields (assessment) and its type is imported by evolve-hub-mobile.",
+   "verdict": "This is an OFFER catalog, not a platform capability registry. Keep it, and rename it to SITE00_INSTALLABLE_OFFERING_CATALOG when the platform registry lands so the two names do not collide."
+  },
+  {
+   "path": "Site00ServiceCatalog / commercial canon",
+   "what": "Service catalog with prices in cents for EVOLVE only.",
+   "verdict": "Feeds the OFFER stage of the registry; it is not a registry itself."
+  },
+  {
+   "path": "launch readiness manifests (CAP.OPS.LAUNCH_READINESS_MANIFEST)",
+   "what": "Requirement and dependency manifests per launch.",
+   "verdict": "The closest working dependency model; the registry should reuse its edge shape."
+  },
+  {
+   "path": "JURNL product-families index + family contracts",
+   "what": "Machine-readable contracts per family.",
+   "verdict": "Pattern to copy: typed records + contract tests."
+  }
+ ],
+ "proposal": {
+  "name": "SITE00 Platform Capability Registry",
+  "phase_1": {
+   "what": "Check this genome in as data: src/site00/platform/capabilities.registry.json (or docs/site00/capability-genome/SITE00_CAPABILITY_GENOME.json promoted to canon), with a TypeScript type and loader.",
+   "effort_days": 1.5,
+   "priority": "GROUND_ZERO_FOUNDATION"
+  },
+  "phase_2": {
+   "what": "CI contract test: every capability marked EXISTS_* must have its current_locations resolve to real files. Every API handler must map to a capability with a declared security_class (this is the same check as the WP02 route-policy declaration). Every table must be claimed by a capability (this catches the 41 orphan tables).",
+   "effort_days": 2,
+   "priority": "POST_FIRST_CLIENT_HIGH_PRIORITY"
+  },
+  "phase_3": {
+   "what": "Founder CONTROL ROOM view (read-only): heatmap, blockers and engine status from the registry, so the next sprint starts from data.",
+   "effort_days": 2,
+   "priority": "MATURE_PLATFORM"
+  },
+  "record_fields": [
+   "capability_id",
+   "name",
+   "description",
+   "mature_endpoint_role",
+   "mature_endpoint_stage",
+   "current_status",
+   "implementation_maturity",
+   "current_locations",
+   "routes",
+   "components",
+   "shared_modules",
+   "services",
+   "apis",
+   "database_tables",
+   "docs",
+   "tests",
+   "visual_surfaces",
+   "current_owner",
+   "correct_product_layer",
+   "audience",
+   "dependencies",
+   "upstream_dependencies",
+   "downstream_dependencies",
+   "client_visible",
+   "founder_visible",
+   "runtime_required",
+   "data_required",
+   "security_class",
+   "commercial_relevance",
+   "metrics_required",
+   "existing_duplicates",
+   "conflicts",
+   "original_intent",
+   "current_truth",
+   "gap",
+   "disposition",
+   "priority",
+   "client_ready_mvp_required",
+   "post_client_allowed",
+   "evidence",
+   "confidence",
+   "effort_days_estimate",
+   "root_engine",
+   "reconciled_aliases",
+   "reconciliation_note",
+   "audit_track"
+  ],
+  "governance": "The registry is CANON_REGISTRY data. A sprint that changes a capability updates its record in the same PR. Status changes need evidence (file:line), the same rule this audit used.",
+  "not_now": "No database table for the registry before client #1. Repo data plus a CI check is enough and avoids another unmaintained store."
+ }
+}

@@ -1,0 +1,907 @@
+{
+ "artifact": "SITE00_CONCEPT_GRAVEYARD_AUDIT",
+ "sprint": "P0.SITE00.GROUND-ZERO-MATURE-CAPABILITY-GENOME-RECONCILIATION1",
+ "status": "RECONCILIATION EVIDENCE + PROPOSAL (0 code changes, 0 database changes, 0 paid generations)",
+ "current_main_sha": "6f63aaaa439cc4c996a734e3cec5abbf586f2e61",
+ "rule": "Ideas found in docs, motherboard memory or code comments that were never built, were abandoned, or exist only as copy. REVIVE means build it on the named capability. MERGE means fold it into an existing capability. DEPRECATE means remove the concept or its dead code. IGNORE means it is out of scope for now.",
+ "counts": {
+  "audit_track_entries": 68,
+  "concept_only_capabilities": 16,
+  "by_recommendation": {
+   "MERGE": 16,
+   "REVIVE": 47,
+   "DEPRECATE": 12,
+   "IGNORE": 9
+  }
+ },
+ "entries": [
+  {
+   "concept": "site00_evolve_intakes table (EVOLVE intake persistence)",
+   "where": [
+    "supabase/migrations/20260818190000_site00_evolve_service.sql"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Table never referenced; EVOLVE assessment is localStorage-only. Extend shared intake persistence with an EVOLVE type instead.",
+   "merge_into": "CAP.BIZ.EVOLVE_ASSESSMENT_INTAKE",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "site00_courtesy_codes / site00_courtesy_redemptions / site00_existing_location_* tables",
+   "where": [
+    "supabase/migrations/20261001150000_site00_existing_location_service.sql"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Schema matches the memory-store records exactly; wire the store adapter to them.",
+   "merge_into": "CAP.COMMERCIAL.COURTESY_CODE_ENGINE",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "EvolveCommercialPage (Tree A pricing UI)",
+   "where": [
+    "src/site00/pages/evolve/EvolveCommercialPage.tsx",
+    "shared/site00-commercial-canon/dualPricingTrees.ts"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Unrouted page renders canonical EVOLVE cents; public /evolve/plans shows legacy Tree B prices.",
+   "merge_into": "CAP.OFFER.EVOLVE_PLANS",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "Legacy EVOLVE pricing catalog (Tree B: $39/MO, project-pass, discovery-sprint…)",
+   "where": [
+    "shared/site00-evolve-pricing/catalog.ts"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Marked LEGACY_PUBLIC_DISPLAY_ONLY; contradicts canonical catalog.",
+   "merge_into": "CAP.OFFER.EVOLVE_PLANS",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "Stripe checkout + webhook (activate-project when payment lands)",
+   "where": [
+    "motherboard/MEMORY.md:1537",
+    "motherboard/MEMORY.md:1642",
+    "shared/site00-commercial-audit/paymentAbstraction.ts"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Repeatedly deferred; types exist; required to retire simulated activation.",
+   "merge_into": "CAP.COMMERCIAL.PAYMENT_CHECKOUT",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "Price book editor / discount-promotion manager / client-specific pricing in control room",
+   "where": [
+    "docs/site00/ground-zero/navigation/SITE00_CONTROL_ROOM_MAP.json:310"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Planned founder commercial admin; nothing built.",
+   "merge_into": "CAP.COMMERCIAL.CLIENT_SPECIFIC_PRICING",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "Client cost transparency + client funding model",
+   "where": [
+    "docs/site00/client-project-room/SITE00_CLIENT_COST_TRANSPARENCY_MODEL.json",
+    "docs/site00/client-project-room/SITE00_CLIENT_FUNDING_MODEL.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Well-specified docs; blocked on founder decision + cost ledger.",
+   "merge_into": "CAP.COST.CLIENT_COST_TRANSPARENCY",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "Generation ledger schema as DB table",
+   "where": [
+    "docs/production/reference-binding/GENERATION_LEDGER_SCHEMA.json",
+    "docs/jurnl/BUDGET_CONTRACT.md"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Row shape ready; only repo JSON implementations.",
+   "merge_into": "CAP.COST.UNIFIED_COST_LEDGER",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "Demo NORTHQUARTER admin ops seed (identity/lead/booking/invoices)",
+   "where": [
+    "api/_lib/site00Production/adminOperations.ts:117"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Auto-seeds fake leads/invoices into production tables whenever site00_identities is empty; pollutes finance data.",
+   "merge_into": null,
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "SelfDirectedOpsSignals invented credit numbers",
+   "where": [
+    "src/site00/components/selfDirected/SelfDirectedOpsSignals.tsx:25"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "usedCredits = reviewCount*5 shown to clients.",
+   "merge_into": "CAP.COST.CLIENT_CREDITS_ALLOWANCE",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "Competitor / reference intelligence (EVOLVE catalog promise)",
+   "where": [
+    "shared/site00-evolve-commercial/catalog.ts:50"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Marketing copy only; defer until post-first-client.",
+   "merge_into": "CAP.MKT_INTEL.COMPETITOR_RESEARCH",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "Deposit / milestone payment structure",
+   "where": [
+    "shared/site00-commercial-canon/founderDecisions.ts:81",
+    "src/site00/components/evolve-assessment/EvolveStepFields.tsx:221"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Promised in EVOLVE copy; decision open.",
+   "merge_into": "CAP.COMMERCIAL.DEPOSITS_MILESTONES",
+   "audit_track": "business_offer_commercial"
+  },
+  {
+   "concept": "WAITING ROOM / LOCATIONS merge (founder decision U2) and 'MENU = WAITING ROOM'",
+   "where": [
+    "docs/site00/ground-zero/SITE00_INDEPENDENT_TREE_REVIEW_PACKET.json",
+    "docs/site00/ground-zero/SITE00_OPUS_PROPOSED_SCREEN_TREE.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Two directories compete. The decision is undocumented in the repo, and the Opus proposal PUB.WAITING_ROOM with LIST/MAP states would resolve it.",
+   "merge_into": "CAP.MOVEMENT.ENTER_00_WAITING_ROOM",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "Site00PublicTopNav / Site00PublicSidebar / Site00MobileMenuDrawer / CtrlRoomSidebar / Site00EcosystemMobileNav (dead nav components)",
+   "where": [
+    "src/site00/components/"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Not rendered. Desktop LOCATIONS needs a rail, which should come from the unified directory config rather than these components.",
+   "merge_into": "CAP.MOVEMENT.SHELL_CHROME_SYSTEMS",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "Client app canon nav HOME/PROJECT/REVIEWS/INBOX/LIBRARY",
+   "where": [
+    "docs/site00/client-project-room/SITE00_CLIENT_APP_CANONICAL_IA.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "The implemented nav drifted (PROJECTS/PROFILE), and the drift is locked by a test.",
+   "merge_into": "CAP.JOURNEY.CLIENT_PROJECT_ROOM_SURFACE",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "Client notification model",
+   "where": [
+    "docs/site00/client-project-room/SITE00_CLIENT_NOTIFICATION_MODEL.json",
+    "shared/site00-client-app/notificationContract.ts"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "A contract with no table or dispatcher.",
+   "merge_into": "CAP.SUPPORT.IN_APP_NOTIFICATIONS",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "Client funding / cost transparency models",
+   "where": [
+    "docs/site00/client-project-room/SITE00_CLIENT_FUNDING_MODEL.json",
+    "docs/site00/client-project-room/SITE00_CLIENT_COST_TRANSPARENCY_MODEL.json"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Docs only. Belongs with payments and commercial adjustments.",
+   "merge_into": "CAP.COMMERCIAL.PAYMENT_CHECKOUT",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "Client revision flow / approval gate model / final project review model",
+   "where": [
+    "docs/site00/client-project-room/SITE00_CLIENT_REVISION_FLOW.json",
+    "docs/site00/client-project-room/SITE00_CLIENT_APPROVAL_GATE_MODEL.json",
+    "docs/site00/client-project-room/SITE00_FINAL_PROJECT_REVIEW_MODEL.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "The design for the missing send and return loop already exists in docs.",
+   "merge_into": "CAP.OPS.REVIEW_RETURN_LOOP",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "site00_client_feedback + site00_feedback_interpretations (AI feedback → revision brief)",
+   "where": [
+    "supabase/migrations/20260818143000_site00_production_os.sql:307-324"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Seed-only, and superseded by the client_review_* tables. Keep the interpretation idea.",
+   "merge_into": "CAP.OPS.REVISION_MANAGEMENT",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "Existing Location courtesy-code persistence tables",
+   "where": [
+    "supabase/migrations/20261001150000_site00_existing_location_service.sql:68-100"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "The tables exist, but the code uses memory Maps.",
+   "merge_into": "CAP.COMMERCIAL.COURTESY_CODE_ENGINE",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "SITE00_LIFECYCLE_STAGES ('architecture only, not fully implemented')",
+   "where": [
+    "src/site00/config/status.ts:64"
+   ],
+   "recommendation": "MERGE",
+   "reason": "A lifecycle declared but never enforced.",
+   "merge_into": "CAP.JOURNEY.LIFECYCLE_STAGE_MODEL",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "/control/evolve-operations EVOLVE ops intelligence fixtures ('credits' signals)",
+   "where": [
+    "src/site00/pages/control/EvolveOperationsPage.tsx",
+    "shared/site00-evolve-operations"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Founder ops inside the client namespace, built on fixtures.",
+   "merge_into": "CAP.CONTROL_ROOM.EVOLVE_OPS_ACCESS_GATE",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "Layout preview switch (isSite00LayoutPreviewSwitchEnabled false; 3 portalled toggles)",
+   "where": [
+    "src/site00/config/preview-mode.ts:6-8"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Hard-disabled dead UI.",
+   "merge_into": null,
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "BLDR SYSTEMS / EXTENSIONS classes",
+   "where": [
+    "src/site00/authority/publicRedesignAuthorityManifest.ts:89-94"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Locked ontology not implemented (SYSTEMS maps to ENTERPRISE; EXTENSIONS has no route).",
+   "merge_into": "CAP.JOURNEY.PATHWAY_ASSESSMENTS",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "AIO client project room blueprint (founder→client AIO owner invite)",
+   "where": [
+    "docs/site00/client-project-room/AIO_CLIENT_PROJECT_ROOM_BLUEPRINT.md"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "AIO is a managed brand with no owner binding, which makes it the natural first client-room pilot.",
+   "merge_into": "CAP.SECURITY.PROJECT_MEMBERSHIP_INVITES",
+   "audit_track": "journey_crm_ops"
+  },
+  {
+   "concept": "site00_evolve_intakes table (EVOLVE intake persistence)",
+   "where": [
+    "supabase/migrations (site00_evolve_intakes)"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Table exists; EVOLVE path assessment writes only to localStorage.",
+   "merge_into": "CAP.PRODUCT.EVOLVE_PATHS",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "robots.txt / sitemap.xml as frontend-owned deploy files",
+   "where": [
+    "shared/site00-release-engine/frontendDeploymentManifest.ts:12-13"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Declared but never created.",
+   "merge_into": "CAP.SEO.ROBOTS_TXT",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "Marketing lifecycle emails (MARKETING_INTAKE_RECEIVED…CAMPAIGN_COMPLETE)",
+   "where": [
+    "docs/SITE_00_EVOLVE_MARKETING.md:140",
+    "shared/site00-email/registry/events.ts"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Defined, never sent.",
+   "merge_into": "CAP.INTEGRATION.EMAIL_PROVIDER",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "Stripe checkout for marketing engagements",
+   "where": [
+    "docs/SITE_00_EVOLVE_MARKETING.md:74,176",
+    "api/_lib/marketingEngagements/service.ts:207"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Simulated payment stands in; self-confirmable.",
+   "merge_into": "CAP.MARKETING.CLIENT_MARKETING_ENGAGEMENTS",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "Autonomous publishing / cross-platform distribution / paid promotion",
+   "where": [
+    "api/_lib/site00Evolve/providers/commandConnections.ts:220"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Explicitly fenced; post-client.",
+   "merge_into": "CAP.DISTRIBUTION.SOCIAL_PUBLISHING",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "TikTok provider adapter",
+   "where": [
+    "api/_lib/site00Evolve/providers/adapters/index.ts:96"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Slot reuses MetaInstagramAdapter — misleading.",
+   "merge_into": null,
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "Content Brain IDEA→CANON governance",
+   "where": [
+    "api/_lib/site00Evolve/contentBrain.ts:1"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Memory-only; overlaps canon registry.",
+   "merge_into": "CAP.CONTENT.CONTENT_BRAIN",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "EXPRESSION_ENGINE_SELF_APPLICATION (engine designs its own operator UI)",
+   "where": [
+    "docs/EXPRESSION_ENGINE_SELF_APPLICATION.md"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Methodology doc only, not a capability.",
+   "merge_into": null,
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "Live cultural intelligence sources",
+   "where": [
+    "api/_lib/site00Evolve/liveCulturalIntelligence/"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Memory-only Ndxbook experiment, no real sources.",
+   "merge_into": "CAP.MKT_INTEL.CULTURAL_TREND_INTELLIGENCE",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "SITE 00 Journal articles",
+   "where": [
+    "src/site00/config/seed/site00-page-seed.ts:53"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Route live but seed empty.",
+   "merge_into": "CAP.MARKETING.SITE00_SELF_MARKETING",
+   "audit_track": "marketing_content_seo"
+  },
+  {
+   "concept": "site00_automation_rules (rule-driven automation)",
+   "where": [
+    "supabase/migrations/20260818143000_site00_production_os.sql:233"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Table created, zero code references.",
+   "merge_into": null,
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "site00_production_dependency_edges",
+   "where": [
+    "supabase/migrations/20260823210000_site00_production_invalidation.sql:28"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Zero code refs; orchestration dependencyGraph covers dependencies.",
+   "merge_into": "CAP.OPS.LAUNCH_READINESS_MANIFEST",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "Ground-zero design language canon enforcement",
+   "where": [
+    "docs/site00/ground-zero/SITE00_DESIGN_LANGUAGE_CANON.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Extracted rules never wired into lint/tests.",
+   "merge_into": "CAP.CANON.DESIGN_LANGUAGE_CANON",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "Motherboard 'Snapshot codebase' refresh",
+   "where": [
+    "motherboard/README.md",
+    "motherboard/CODEBASE.md:3"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Never re-run since 2026-08-18.",
+   "merge_into": "CAP.CANON.MOTHERBOARD_CONTEXT",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "GA/GSC/Meta live metrics + insight engine",
+   "where": [
+    "api/_lib/site00Evolve/providers/adapters/index.ts",
+    "api/_lib/site00Evolve/providers/insightEngine.ts"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Architecture slots return empty data.",
+   "merge_into": "CAP.ANALYTICS.EVOLVE_PROVIDER_METRICS",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "Lab tree consolidation (/lab/*)",
+   "where": [
+    "/tmp/claude-0/gz/findings/workspace_notes.md §5",
+    "docs/site00/ground-zero/navigation/SITE00_TREE_REVIEW_CORRECTION_EVIDENCE.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Recommended, not done; STUDIO OS LAB ontology only in docs.",
+   "merge_into": "CAP.PROJECT.BENCH_ROUTE_GUARDING",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "Board inspector V2/V3 and marked-up copy pilots V2/V3",
+   "where": [
+    "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Superseded by V4 variants; kept alive.",
+   "merge_into": "CAP.QUALITY.LLM_CREATIVE_JUDGES",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "Parallel execution tracks A–G with collision rules",
+   "where": [
+    "docs/site00/ground-zero/SITE00_PARALLEL_EXECUTION_PLAN.json"
+   ],
+   "recommendation": "MERGE",
+   "reason": "PROPOSED_BY_OPUS plan with no tracking system.",
+   "merge_into": "CAP.AGENT.MODEL_ROLE_PIPELINE",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "Client cost transparency model",
+   "where": [
+    "docs/site00/client-project-room/SITE00_CLIENT_COST_TRANSPARENCY_MODEL.json"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Needs real cost ledger first.",
+   "merge_into": "CAP.ASSET.GENERATION_LEDGER",
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "Experiment C supersession kill switch",
+   "where": [
+    "api/_lib/site00Evolve/creativeDirection/canonicalCarouselExpansion/"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Only toggled in tests.",
+   "merge_into": null,
+   "audit_track": "measurement_governance"
+  },
+  {
+   "concept": "Release rollback policy / last-known-good release",
+   "where": [
+    "shared/site00-release-engine/releaseRollbackPolicy.ts",
+    "shared/site00-release-engine/releaseHistory.ts",
+    "docs/DEPLOYMENT.md#Rollback"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Code exists but no workflow action or runbook uses it.",
+   "merge_into": "CAP.RELEASE.ROLLBACK",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "productionDeploymentLock",
+   "where": [
+    "shared/site00-release-engine/productionDeploymentLock.ts"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Only exported from index; GitHub concurrency group already serializes production.",
+   "merge_into": "CAP.RELEASE.PRODUCTION_PIPELINE",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "Legacy GoDaddy FTP workflow",
+   "where": [
+    ".github/workflows/deploy-godaddy.yml"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Self-labelled DEPRECATED, superseded by site00-production-deploy.yml; uploads artifact with same name causing confusion.",
+   "merge_into": null,
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "audit_logs table",
+   "where": [
+    "api/_lib/auditLog.ts"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Writer exists, table never migrated; merge into unified event ledger.",
+   "merge_into": "CAP.ANALYTICS.ADMIN_AUDIT_LOG",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "Accessibility MVP checklist",
+   "where": [
+    "shared/site00-studio-world-production/p1/accessibilityMvp.ts"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Useful gate never connected to a live DOM check.",
+   "merge_into": "CAP.A11Y.A11Y_MVP_GATE",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "Email provider dispatch (resend in catalog)",
+   "where": [
+    "api/_lib/email/sendEmail.ts",
+    "shared/site00-email/registry/events.ts"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Templates and send log built; provider never called.",
+   "merge_into": "CAP.INTEGRATION.EMAIL_PROVIDER",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "Service provisioning sessions (client provisions own accounts)",
+   "where": [
+    "supabase/migrations/20260818143000_site00_production_os.sql:294",
+    "api/_lib/site00Production/service.ts"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Provisioning step machine exists without secrets or verification.",
+   "merge_into": "CAP.INTEGRATION.SERVICE_CONNECTIONS",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "site00_sites last_deploy_at / health",
+   "where": [
+    "supabase/migrations/20260818180000_site00_admin_operations.sql:98-111"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Schema anticipates client site hosting that was never built.",
+   "merge_into": "CAP.LAUNCH.CLIENT_SITE_HOSTING",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "EVOLVE provider adapters (GA, GSC, TikTok…)",
+   "where": [
+    "api/_lib/site00Evolve/providers/adapters/index.ts"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Architecture slots only; one real adapter would unlock measurement.",
+   "merge_into": "CAP.ANALYTICS.EVOLVE_PROVIDER_METRICS",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW",
+   "where": [
+    "src/components/AdminGuard.tsx:10"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Temporary bypass still true; must not ship to client-facing builds.",
+   "merge_into": "CAP.SECURITY.ADMIN_GATING",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "Per-session emergency ZIP release mandate",
+   "where": [
+    "AGENTS.md",
+    "scripts/package-cpanel-deploy.sh"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Contradicts pipeline's own 'do not upload ZIP' rule; exists because CI is red.",
+   "merge_into": "CAP.RELEASE.PRODUCTION_PIPELINE",
+   "audit_track": "platform_security_release"
+  },
+  {
+   "concept": "BLDR SYSTEMS / BLDR EXTENSIONS classes",
+   "where": [
+    "docs/site00/ground-zero/SITE00_GROUND_ZERO_MASTER_BRIEF.md",
+    "docs/site00/ground-zero/SITE00_OPUS_TREE_RECOMMENDATION.md"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Code has ENTERPRISE (≈SYSTEMS); EXTENSIONS overlaps EVOLVE INSTALL.",
+   "merge_into": "CAP.PRODUCT.BLDR_CLASS_MODEL",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "Design control plane bridge DB schema (design_pages, design_families, shared_shells, page_design_versions, *_bindings, token overrides)",
+   "where": [
+    "supabase/migrations/20260826123000_site00_design_control_plane_bridge.sql"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Exactly the page/family/shell tree tables a unified ASSET_GRAPH needs; never wired (memory store).",
+   "merge_into": "CAP.TREES.PROJECT_GRAPH",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "Production invalidation tables (dependency edges, invalidation events)",
+   "where": [
+    "supabase/migrations/20260823210000_site00_production_invalidation.sql"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Resolver exists in shared/; tables unused and missing RLS.",
+   "merge_into": "CAP.DEPGRAPH.INVALIDATION_GRAPH",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "References / reference families tables (orchestration)",
+   "where": [
+    "supabase/migrations/20260820180000_site00_production_orchestration.sql"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Unused; reference registry lives as TS constant in guardrails.",
+   "merge_into": "CAP.EXPRESSION.REFERENCE_REGISTRY",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "Production templates / instances / methodology stages",
+   "where": [
+    "supabase/migrations/20260820180000_site00_production_orchestration.sql"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Never referenced; superseded by JURNL family pipeline + MAP2 stages.",
+   "merge_into": null,
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "Expression engine DB persistence (creative_entries, generation_receipts, chapters, argument grammars)",
+   "where": [
+    "supabase/migrations/20260907160000_site00_expression_engine_v0.sql",
+    "supabase/migrations/20260907180000_site00_chapter_argument_grammar_b2.sql"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Engine runs on in-process Maps; tables ready.",
+   "merge_into": "CAP.CONTENT.EXPRESSION_ENGINE",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "Existing-location + courtesy code persistence",
+   "where": [
+    "supabase/migrations/20261001150000_site00_existing_location_service.sql"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Service is memory-only; tables exist.",
+   "merge_into": "CAP.PRODUCT.EVOLVE_PATHS",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "site00_evolve_intakes",
+   "where": [
+    "supabase/migrations/20260818190000_site00_evolve_service.sql"
+   ],
+   "recommendation": "DEPRECATE",
+   "reason": "Superseded by existing-location cases and marketing engagements.",
+   "merge_into": null,
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "Deliverable versions / deliverable dependencies / feedback interpretations / automation rules",
+   "where": [
+    "supabase/migrations/20260818143000_site00_production_os.sql"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Unused; deliverable deps via blocked_by array; versioning needed for review loop.",
+   "merge_into": "CAP.DEPGRAPH.DELIVERABLE_DEPENDENCIES",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "Frontal Slayer product visual asset tables",
+   "where": [
+    "supabase/migrations/20260826031500_fs_product_visual_assets.sql"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Belongs to fsbw product; factory simulated.",
+   "merge_into": "CAP.ASSET.PRODUCT_ASSET_FACTORY",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "SITE 00 canonical page/family/screen tree",
+   "where": [
+    "docs/site00/ground-zero/SITE00_OPUS_RECOMMENDED_CANONICAL_PAGE_TREE.json",
+    "docs/site00/ground-zero/SITE00_OPUS_PROPOSED_SCREEN_TREE.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Docs-only; no code registry.",
+   "merge_into": "CAP.TREES.SITE00_PAGE_TREE",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "MAP2 OpenArt batch dispatch",
+   "where": [
+    "src/studioos/experience-compiler/map2/openartBatchPlanner.ts",
+    "docs/studioos/experience-compiler/SITE00_PRODUCTION_BATCHES.json"
+   ],
+   "recommendation": "MERGE",
+   "reason": "Plans batches but no dispatch; JURNL pipeline is the live method.",
+   "merge_into": "CAP.EXPRESSION.JURNL_FAMILY_PIPELINE",
+   "audit_track": "product_expression_data"
+  },
+  {
+   "concept": "Multi-model agent role pipeline (Founder/Sonnet/Opus/Grok/Composer)",
+   "capability_id": "CAP.AGENT.MODEL_ROLE_PIPELINE",
+   "where": [
+    "docs/studioos/experience-compiler/MODEL_PRODUCTION_PIPELINE.md",
+    "src/projects/jurnl/families/F02_SETUP/HANDOFF/README_SONNET_FIRST.md",
+    "motherboard/CORE.md"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Sprint registry (id, track, model, status, PR) — could reuse orchestration command queue.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "SITE 00 design language canon + authority registries",
+   "capability_id": "CAP.CANON.DESIGN_LANGUAGE_CANON",
+   "where": [
+    "docs/site00/ground-zero/SITE00_DESIGN_LANGUAGE_CANON.json",
+    "docs/site00/ground-zero/SITE00_VISUAL_AUTHORITY_REGISTRY.json",
+    "docs/site00/ground-zero/SITE00_COMPONENT_VISUAL_RULES.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Lint/contract tests reading canon (e.g. no viewport units in host chrome CSS).",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Locked ontology / page-tree lock enforcement",
+   "capability_id": "CAP.CANON.LOCKED_ONTOLOGY_ENFORCEMENT",
+   "where": [
+    "docs/site00/ground-zero/navigation/SITE00_TREE_REVIEW_CORRECTION_EVIDENCE.json",
+    "docs/site00/ground-zero/SITE00_OPUS_RECOMMENDED_CANONICAL_PAGE_TREE.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "After founder lock: route-tree contract test generated from canonical tree JSON.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Deposits & milestone payments",
+   "capability_id": "CAP.COMMERCIAL.DEPOSITS_MILESTONES",
+   "where": [
+    "shared/site00-commercial-canon/founderDecisions.ts:81",
+    "api/_lib/site00Production/adminOperations.ts:245"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Milestone schedule on quote → invoices.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Payment provider / checkout (Stripe)",
+   "capability_id": "CAP.COMMERCIAL.PAYMENT_CHECKOUT",
+   "where": [
+    "shared/site00-commercial-audit/paymentAbstraction.ts:1",
+    "shared/site00-commercial-canon/paymentReadiness.ts:66",
+    "api/_lib/site00Evolve/commercial/commercialState.ts:29"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Stripe checkout + webhook → CommercialActivationEvent; replace simulated activation paths. || From CAP.SALES.PAYMENT_CHECKOUT: For client 1, invoice off-platform and have the founder set payment_state. Later, add a Stripe checkout plus webhook. || From CAP.INTEGRATION.PAYMENTS: Stripe payment links/invoices minimum (can be manual for first client).",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Infrastructure control plane",
+   "capability_id": "CAP.CONTROL_PLANE.INFRA_CONTROL_PLANE",
+   "where": [],
+   "recommendation": "REVIVE",
+   "reason": "Define CONTROL_PLANE as: project registry + environment records + connection/secret vault + deploy jobs; reuse release engine and orchestration tables.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Founder Control Room",
+   "capability_id": "CAP.CONTROL_ROOM.FOUNDER_CONTROL_ROOM",
+   "where": [],
+   "recommendation": "REVIVE",
+   "reason": "Create the founder control room section under /admin/site00 with commercial settings first.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Cost transparency to client",
+   "capability_id": "CAP.COST.CLIENT_COST_TRANSPARENCY",
+   "where": [
+    "shared/site00-evolve-operations/clientFirewall.ts:16"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Founder decision on client-safe fields, then a ledger-backed client view.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Client-funded production (payer / BYOK / provider connections)",
+   "capability_id": "CAP.COST.CLIENT_FUNDED_PRODUCTION",
+   "where": [
+    "docs/site00/client-project-room/SITE00_CLIENT_FUNDING_MODEL.json",
+    "docs/site00/client-project-room/SITE00_PROJECT_PROVIDER_CONNECTION_MODEL.json",
+    "api/site00/client-production.ts:73"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Payer field on cost ledger; project-scoped provider connections.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Client ↔ founder messaging / inbox",
+   "capability_id": "CAP.CRM.CLIENT_MESSAGING",
+   "where": [],
+   "recommendation": "REVIVE",
+   "reason": "Add thread and message tables plus client and founder APIs, and fold revision receipts into threads. Until then, hide the fixture inbox (see CAP.OPS.DEMO_SEED_ISOLATION).",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Post-launch care, maintenance, and EVOLVE re-entry",
+   "capability_id": "CAP.JOURNEY.POST_LAUNCH_LIFECYCLE",
+   "where": [
+    "docs/site00/PRODUCTION_METHODOLOGY.md"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Model post-launch states plus a site → EVOLVE entry. Persist opportunity interest as leads.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Client approval → launch flow",
+   "capability_id": "CAP.LAUNCH.CLIENT_LAUNCH_FLOW",
+   "where": [],
+   "recommendation": "REVIVE",
+   "reason": "Minimal state machine: APPROVED → LAUNCH_READY → LIVE (url) with email + event. || From CAP.JOURNEY.LAUNCH_TRANSITION: Add LAUNCHED/LIVE lifecycle states and a founder 'mark launched' action that records live_url, creates a site row, and shows LIVE in the client room. || From CAP.OPS.LAUNCH_HANDOFF: Minimum for client 1: a founder 'LAUNCH' action writing status LAUNCHED, live_url, and a site00_sites row, plus a client-room LIVE card.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Retainer / care plans",
+   "capability_id": "CAP.MAINTAIN.RETAINERS",
+   "where": [],
+   "recommendation": "REVIVE",
+   "reason": "After payments, link retainer entitlement to project + monthly work log.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "BLDR EXTENSIONS class",
+   "capability_id": "CAP.PRODUCT.BLDR_EXTENSIONS_CLASS",
+   "where": [
+    "docs/site00/ground-zero/SITE00_GROUND_ZERO_MASTER_BRIEF.md:107",
+    "docs/site00/ground-zero/SITE00_OPUS_TREE_RECOMMENDATION.md:69"
+   ],
+   "recommendation": "IGNORE",
+   "reason": "Decide whether EXTENSIONS is BLDR class or alias of EVOLVE INSTALL before building.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "Per-client site SEO",
+   "capability_id": "CAP.SEO.CLIENT_SITE_SEO",
+   "where": [
+    "shared/site00-evolve-service/serviceConfig.ts:57",
+    "api/_lib/site00Evolve/manifest.ts:35",
+    "api/_lib/site00Evolve/seedFixtures.ts:90"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "SEO fields on design pages (site00_design_pages) + launch checklist item.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  },
+  {
+   "concept": "SITE 00 page tree (discovered + proposed canonical)",
+   "capability_id": "CAP.TREES.SITE00_PAGE_TREE",
+   "where": [
+    "docs/site00/ground-zero/SITE00_PAGE_TREE_CHANGELOG.json",
+    "docs/site00/ground-zero/SITE00_CURRENT_DISCOVERED_PAGE_TREE.json",
+    "docs/site00/ground-zero/SITE00_OPUS_RECOMMENDED_CANONICAL_PAGE_TREE.json",
+    "docs/site00/ground-zero/SITE00_OPUS_PROPOSED_FAMILY_TREE.json"
+   ],
+   "recommendation": "REVIVE",
+   "reason": "Make a code-level page-tree registry that routes, nav and authority registry derive from.",
+   "merge_into": null,
+   "origin": "CONCEPT_ONLY capability record"
+  }
+ ]
+}

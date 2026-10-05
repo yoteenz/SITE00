@@ -1,0 +1,44 @@
+{
+  "sprint": "P0.SITE00.FAMILY1.ASSET-FIRST.SEMANTIC-ISOLATION-INTELLIGENCE.CORRECTION1",
+  "methodology": "ASSET-FIRST + VISUAL-SEMANTIC DECOMPOSITION + MINIMUM NECESSARY ASSETS + LIVE-UI SEPARATION + LAYER-AWARE COMPOSITING",
+  "layerMap": "JURNL/F01_ENTRY/ASSET_FIRST_TEST1/FAMILY1_PARENT_LAYER_MAP.json",
+  "generationThisSprint": 0,
+  "parentAuthority": "JURNL/F01_ENTRY/PARENT/F01.00_WELCOME_GENERATED.png",
+  "pageRoute": "/jurnl/f01/parent-assembly",
+  "environmentPlate": {
+    "required": true,
+    "asset_id": "ENTRY.ENVIRONMENT.PLATE.001",
+    "runtime_path": "/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png",
+    "openart_resolution_tier": "4k",
+    "gallery_label": "3K",
+    "pixels": "2016x3584",
+    "contains": [
+      "room",
+      "arch",
+      "coast",
+      "curtain",
+      "sunlight",
+      "foliage",
+      "books",
+      "bowl",
+      "bust",
+      "textiles",
+      "travertine",
+      "shadows",
+      "decor"
+    ],
+    "mustNotContain": ["headline", "tagline", "GET STARTED", "SIGN IN", "logo mark"]
+  },
+  "independentAssets": [
+    {
+      "asset_id": "ENTRY.LOGO.OFFICIAL.001",
+      "class": "REUSABLE_BRAND_ASSET",
+      "classification": "EXISTS_ALREADY",
+      "runtime_path": "/jurnl/f01-asset-first/assets/ENTRY.LOGO.OFFICIAL.001.jpg",
+      "reason": "Recurring brand mark overlaid on the plate. Not regenerated."
+    }
+  ],
+  "liveText": ["A CALMER, RICHER, MORE INTENTIONAL YOU.", "PLAN TODAY. GROW FREELY."],
+  "liveUI": ["GET STARTED", "SIGN IN"],
+  "finalRequiredAssetCount": 2
+}
