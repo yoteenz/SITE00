@@ -13362,3 +13362,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Naive crops of leaves, stones, books, textures, and glow are unnecessary isolations and stay archived. The welcome page is one environment plate, the reused official logo, live uppercase type, and live buttons. No panel, thumbnail, layered branch, or stateful prop on this screen. Sunlight stays inside the plate. No new image generation in correction2; classification comes first.
 - **Changes:** `FAMILY1_PARENT_LAYER_MAP.json`, prior-asset audit, methodology rewrite, semantic manifest, `/jurnl/f01/parent-assembly` (plate + logo + live headline, tagline, GET STARTED, SIGN IN). Mounted assets only: `ENTRY.ENVIRONMENT.PLATE.001`, `ENTRY.LOGO.OFFICIAL.001`. Live render confirmed on port 5175.
 - **Conventions:** Always send review ZIPs as a direct clickable markdown link. Interaction boards are 100% uppercase. Future Family 1 generation uses the layer map and the minimized asset count (2 images) before any new generation.
+
+---
+
+## 2026-10-05 — JURNL F01 environment plate 2K vs 4K test
+
+- **Request:** Generate the post-audit environment plate from the parent, once at 2K and once at 4K, for comparison. The prior sprint had classified the page and had not generated this plate.
+- **Generation:** GPT Image 2.5 Sunburst image2image, project `TToQavm9coU1QGPRfEzU`, 9:16, quality high, `autoEnhancePrompt: false`. Parent reference uploaded. Credits: 172 (2k) + 317 (4k) = 489. Balance before spend: 52123.
+- **Results:** 2k history `X3tvgwAUtOyQ29Al5vBz` is 1296×2304 (same pixels as the parent). 4k history `omTTAjRt3LgV0RB2lC5I` is 2016×3584. Both plates keep the room and remove headline, tagline, buttons, and logo. Live assembly plate was not replaced.
+- **Files:** `JURNL/F01_ENTRY/ASSET_FIRST_TEST1/RESOLUTION_COMPARE/`.
