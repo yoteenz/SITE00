@@ -13352,3 +13352,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Paths:** `shared/site00-monetization/` · `src/projects/jurnl/data/monetization/` · `src/projects/jurnl/runtime/monetization/` · `src/projects/monetization.ts` · docs `docs/jurnl/monetization/` (incl. DRAFT 16-family map + DRAFT_SCHEMA.sql — not applied; JURNL DB unresolved).
 - **F01:** 42/42 captures pixel-identical to baseline; viewport QA 163/163. No checkout, no prices, no Stripe.
 - **Open:** billing rail (App Store / Google Play vs web), JURNL backend + DB, past-due grace, BUSINESS composition, household model, usage numbers, regulated referrals compliance.
+
+---
+
+## 2026-10-05 — JURNL F01 visual-semantic decomposition (whole chat)
+
+- **Context:** Founder ran Family 1 from full entry production through harvest, interaction boards, then asset-first page assembly. The lasting correction is that a reference is a set of implementation roles, not a pile of objects.
+- **Topics covered:** F01 parent recreation and family production; review ZIP as a clickable link; harvest recovery with zero screen regen; harvest proof1 FAIL at 50% usable; interaction authority (74 rows, then strict uppercase regen); parent asset-first assembly; semantic isolation correction; visual-semantic decomposition correction2.
+- **Decisions / outcomes:** Naive crops of leaves, stones, books, textures, and glow are unnecessary isolations and stay archived. The welcome page is one environment plate, the reused official logo, live uppercase type, and live buttons. No panel, thumbnail, layered branch, or stateful prop on this screen. Sunlight stays inside the plate. No new image generation in correction2; classification comes first.
+- **Changes:** `FAMILY1_PARENT_LAYER_MAP.json`, prior-asset audit, methodology rewrite, semantic manifest, `/jurnl/f01/parent-assembly` (plate + logo + live headline, tagline, GET STARTED, SIGN IN). Mounted assets only: `ENTRY.ENVIRONMENT.PLATE.001`, `ENTRY.LOGO.OFFICIAL.001`. Live render confirmed on port 5175.
+- **Conventions:** Always send review ZIPs as a direct clickable markdown link. Interaction boards are 100% uppercase. Future Family 1 generation uses the layer map and the minimized asset count (2 images) before any new generation.

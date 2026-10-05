@@ -68,6 +68,9 @@ import '../site00/astral-world/styles/astral-world.css';
 import '../site00/styles/site00-twin-test-a.css';
 
 const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
+const JurnlF01ParentAssemblyPage = lazy(
+  () => import('../site00/pages/jurnl/JurnlF01ParentAssemblyPage'),
+);
 const Site00LocationsPage = lazy(() => import('../site00/pages/LocationsPage'));
 const Site00EnterPage = lazy(() => import('../site00/pages/EnterPage'));
 const Site00IdntyPage = lazy(() => import('../site00/pages/IdntyPage'));
@@ -575,6 +578,16 @@ export function Site00Routes() {
           <Site00LoaderPreviewLayout>
             <Site00Suspense>
               <LoaderPreviewPage />
+            </Site00Suspense>
+          </Site00LoaderPreviewLayout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.jurnlF01ParentAssembly}
+        element={
+          <Site00LoaderPreviewLayout>
+            <Site00Suspense>
+              <JurnlF01ParentAssemblyPage />
             </Site00Suspense>
           </Site00LoaderPreviewLayout>
         }
