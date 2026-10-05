@@ -9,9 +9,15 @@ import {
   addLedgerEntry,
   applyActivityFilter,
   filterIsActive,
+  filterSummary,
+  formatAmountInput,
   formatMoney,
   ledgerEntries,
+  useCurrency,
+  parseAmountInput,
   safeToSpend,
+  setCurrency,
+  CURRENCIES,
   todayModeFromQuery,
   upcomingFor,
   useAddedEntries,
@@ -38,6 +44,7 @@ function useHomeOverlay() {
 export function TodayScreen() {
   const { go, openOverlay, closeOverlay, overlay, forcedState } = useHomeOverlay();
   useAddedEntries();
+  useCurrency();
   const draft = useSetup();
   const mode: TodayMode = todayModeFromQuery(forcedState, draft);
   const signal = safeToSpend(draft);
@@ -54,13 +61,16 @@ export function TodayScreen() {
   return (
     <JurnlScreen screenId="F03.00" familyPlate={F03_DAY_PLATE} family>
       <div className="jrn-home" data-jrn-state={mode.toLowerCase()} data-jrn-signal="safe-to-spend">
-        <div className="jrn-home__top">
+        <div className="jrn-home__top" data-jrn-zone="chrome">
           <JurnlIconButton icon="back" label="BACK TO SETUP" trigger="today-back" onClick={() => go('F02.08')} />
           <span className="jrn-home__mark">JURNL</span>
           <JurnlIconButton icon="info" label="ASK JURNL" trigger="today-ask" onClick={() => openOverlay('ask')} />
         </div>
-        <h1 className="jrn-home__h">TODAY</h1>
-        <p className="jrn-home__sub">WHAT IS TRUE.</p>
+        <div className="jrn-home__intro" data-jrn-zone="intro">
+          <h1 className="jrn-home__h">TODAY</h1>
+          <p className="jrn-home__sub">WHAT IS TRUE.</p>
+        </div>
+        <div className="jrn-home__rail" data-jrn-zone="content-rail">
         {mode === 'LOADING' ? <p className="jrn-home__wait">READING TODAY</p> : null}
         {mode === 'ERROR' ? (
           <JurnlErrorPanel
@@ -146,6 +156,7 @@ export function TodayScreen() {
             {draft.priorities[0] ? <p className="jrn-home__goal">{draft.priorities[0]} FIRST</p> : null}
           </div>
         ) : null}
+        </div>
         <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
       </div>
       {overlay === 'see-why' ? <SeeWhySheet onClose={closeOverlay} /> : null}
@@ -183,7 +194,10 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
   const [amount, setAmount] = useState('');
   const [direction, setDirection] = useState<'EXPENSE' | 'INCOME'>('EXPENSE');
   const [account, setAccount] = useState('CHECKING');
-  const valid = name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim());
+  const [keyboard, setKeyboard] = useState(false);
+  const symbol = useCurrency().symbol;
+  const numeric = Number(amount);
+  const valid = name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim()) && numeric > 0 && (direction === 'EXPENSE' || direction === 'INCOME') && account.length > 0;
   return (
     <JurnlDrawer
       size="long"
@@ -191,6 +205,7 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
       title="QUICK ADD"
       lead="A MOVEMENT YOU ARE WRITING DOWN. IT JOINS THE PREVIEW LEDGER."
       onClose={onClose}
+      keyboard={keyboard}
       footer={
         <JurnlButton
           trigger="quick-add-save"
@@ -198,7 +213,7 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
           onClick={() => {
             addLedgerEntry({
               merchant: name.trim().toUpperCase(),
-              amount: Number(amount),
+              amount: numeric,
               direction,
               when: 'TODAY',
               account,
@@ -212,17 +227,32 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
       }
     >
       <JurnlInput label="NAME" value={name} onValue={setName} trigger="quick-add-name" />
-      <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="quick-add-amount" inputMode="decimal" />
+      <JurnlInput
+        label="AMOUNT"
+        value={formatAmountInput(amount)}
+        prefix={symbol}
+        onValue={(next) => setAmount(parseAmountInput(next))}
+        trigger="quick-add-amount"
+        inputMode="decimal"
+        autoComplete="off"
+        onFocusChange={(focused) => {
+          setKeyboard(focused);
+          if (focused && typeof document !== 'undefined') {
+            const field = document.querySelector('[data-jrn-trigger="quick-add-amount"]');
+            field?.scrollIntoView({ block: 'nearest' });
+          }
+        }}
+      />
       <div className="jrn-home__choices" role="radiogroup" aria-label="DIRECTION">
         {(['EXPENSE', 'INCOME'] as const).map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={direction === item} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setDirection(item)}>
+          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={direction === item} data-active={direction === item ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setDirection(item)}>
             {item}
           </button>
         ))}
       </div>
       <div className="jrn-home__choices" role="radiogroup" aria-label="ACCOUNT">
         {['CHECKING', 'CARD'].map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setAccount(item)}>
+          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item} data-active={account === item ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setAccount(item)}>
             {item}
           </button>
         ))}
@@ -233,9 +263,29 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
 
 export function AskSheet({ onClose }: { onClose: () => void }) {
   const signal = safeToSpend();
+  const currency = useCurrency();
   return (
-    <JurnlDrawer size="short" testId="ask" title="ASK JURNL" lead="JURNL READS THE PREVIEW CASH, WHAT IS COMING, AND WHAT YOU PROTECTED." onClose={onClose}>
+    <JurnlDrawer size="long" testId="ask" title="ASK JURNL" lead="JURNL READS THE PREVIEW CASH, WHAT IS COMING, AND WHAT YOU PROTECTED." onClose={onClose}>
       <p className="jrn-home__ask">SAFE TO SPEND IS {formatMoney(signal.value)}. THIS IS NOT A PLAN AND NOT A BALANCE.</p>
+      <div className="jrn-currency" data-jrn-trigger="change-currency">
+        <p className="jrn-currency__label">DISPLAY CURRENCY</p>
+        <p className="jrn-currency__note">AMOUNTS STAY AS WRITTEN. NO EXCHANGE.</p>
+        <div className="jrn-home__choices" role="radiogroup" aria-label="CURRENCY">
+          {CURRENCIES.map((item) => (
+            <button
+              key={item.code}
+              type="button"
+              className="jrn-btn jrn-btn--secondary"
+              aria-pressed={currency.code === item.code}
+              data-active={currency.code === item.code ? 'true' : 'false'}
+              data-jrn-trigger={`currency-${item.code.toLowerCase()}`}
+              onClick={() => setCurrency(item.code)}
+            >
+              {item.code}
+            </button>
+          ))}
+        </div>
+      </div>
     </JurnlDrawer>
   );
 }
@@ -243,6 +293,7 @@ export function AskSheet({ onClose }: { onClose: () => void }) {
 export function ActivityScreen() {
   const { go, openOverlay, closeOverlay, overlay, forcedState } = useHomeOverlay();
   const added = useAddedEntries();
+  useCurrency();
   const [query, setQuery] = useState('');
   const [debounced, setDebounced] = useState('');
   const [filter, setFilter] = useState<ActivityFilter>(EMPTY_FILTER);
@@ -255,37 +306,38 @@ export function ActivityScreen() {
   const entries = useMemo(() => ledgerEntries(), [added]);
   const active = { ...filter, query: mode === 'no_results' ? 'ZZZZ' : debounced };
   const shown = mode === 'empty' ? [] : applyActivityFilter(entries, active);
-  const filtering = filterIsActive(filter) || debounced.trim().length > 0;
+  const summary = filterSummary(filter);
 
   return (
     <JurnlScreen screenId="F04.00" familyPlate={F04_LEDGER_PLATE}>
       <div className="jrn-act" data-jrn-state={mode || 'connected'}>
-        <div className="jrn-home__top">
+        <div className="jrn-home__top" data-jrn-zone="chrome">
           <JurnlIconButton icon="back" label="BACK TO TODAY" trigger="activity-back" onClick={() => go('F03')} />
           <span className="jrn-home__mark">JURNL</span>
           <JurnlIconButton icon="info" label="ASK JURNL" trigger="activity-ask" onClick={() => openOverlay('ask')} />
         </div>
-        <h1 className="jrn-home__h jrn-home__h--act">ACTIVITY</h1>
-        <p className="jrn-home__sub">WHAT MOVED.</p>
+        <div className="jrn-home__intro" data-jrn-zone="intro">
+          <h1 className="jrn-home__h jrn-home__h--act">ACTIVITY</h1>
+          <p className="jrn-home__sub">WHAT MOVED.</p>
+        </div>
+        <div className="jrn-act__stage" data-jrn-zone="content-rail">
         <div className="jrn-act__tools">
           <JurnlInput label="SEARCH" value={query} onValue={setQuery} icon="search" trigger="activity-search" />
           <JurnlButton variant="secondary" trigger="activity-filter" onClick={() => openOverlay('filter')}>
             <JurnlIcon name="filter" size={14} /> FILTER
           </JurnlButton>
-          {query ? (
-            <button type="button" className="jrn-btn jrn-btn--quiet" data-jrn-trigger="activity-clear-search" onClick={() => setQuery('')}>
-              CLEAR
-            </button>
-          ) : null}
         </div>
-        {filtering ? (
+        {query ? (
+          <p className="jrn-act__query" data-jrn-trigger="activity-query">
+            <span>LOOKING FOR {query.toUpperCase()}</span>
+            <button type="button" className="jrn-btn jrn-btn--quiet" data-jrn-trigger="activity-clear-search" onClick={() => setQuery('')}>
+              CLEAR SEARCH
+            </button>
+          </p>
+        ) : null}
+        {summary ? (
           <p className="jrn-act__filters" data-jrn-trigger="activity-filter-state">
-            {filter.account !== 'ALL' ? filter.account : 'ALL ACCOUNTS'}
-            {' · '}
-            {filter.direction}
-            {' · '}
-            {filter.status}
-            {filter.when !== 'ALL' ? ` · ${filter.when}` : ''}
+            <span>{summary}</span>
             <button type="button" className="jrn-btn jrn-btn--quiet" data-jrn-trigger="activity-clear-filter" onClick={() => setFilter(EMPTY_FILTER)}>
               CLEAR FILTERS
             </button>
@@ -296,23 +348,45 @@ export function ActivityScreen() {
           <JurnlErrorPanel block testId="activity-error" title="COULD NOT READ ACTIVITY" body="THE LEDGER IS STILL HERE." action={{ label: 'RETRY', trigger: 'activity-retry', onClick: () => go('F04') }} />
         ) : null}
         {mode !== 'loading' && mode !== 'error' ? (
-          <div className="jrn-act__list" role="list" aria-label="ACTIVITY">
-            {mode === 'empty' ? <p className="jrn-home__quiet" data-jrn-trigger="activity-empty">NO MOVEMENT YET</p> : null}
-            {mode !== 'empty' && shown.length === 0 ? (
-              <p className="jrn-home__quiet" data-jrn-trigger="activity-none">NO MATCHES</p>
-            ) : null}
-            {shown.map((entry) => (
-              <JurnlTransactionRow
-                key={entry.id}
-                entry={entry}
-                onOpen={(item) => {
-                  setSelected(item);
-                  openOverlay('detail');
-                }}
-              />
-            ))}
+          <div className="jrn-ledger" data-jrn-zone="ledger">
+            {mode !== 'empty' && shown.length > 0 ? <p className="jrn-ledger__count">{shown.length} MOVEMENTS</p> : null}
+            <div className="jrn-act__list" role="list" aria-label="ACTIVITY">
+              {mode === 'empty' ? (
+                <div className="jrn-ledger__empty" data-jrn-trigger="activity-empty">
+                  <b>NO MOVEMENT YET</b>
+                  <p>THE LEDGER IS QUIET.</p>
+                </div>
+              ) : null}
+              {mode !== 'empty' && shown.length === 0 ? (
+                <div className="jrn-ledger__empty" data-jrn-trigger="activity-none">
+                  <b>NO MATCHES</b>
+                  <p>NOTHING IN THIS LEDGER FITS.</p>
+                  {query ? (
+                    <button type="button" className="jrn-btn jrn-btn--secondary" data-jrn-trigger="activity-clear-search-empty" onClick={() => setQuery('')}>
+                      CLEAR SEARCH
+                    </button>
+                  ) : null}
+                  {filterIsActive(filter) ? (
+                    <button type="button" className="jrn-btn jrn-btn--secondary" data-jrn-trigger="activity-clear-filter-empty" onClick={() => setFilter(EMPTY_FILTER)}>
+                      CLEAR FILTERS
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
+              {shown.map((entry) => (
+                <JurnlTransactionRow
+                  key={entry.id}
+                  entry={entry}
+                  onOpen={(item) => {
+                    setSelected(item);
+                    openOverlay('detail');
+                  }}
+                />
+              ))}
+            </div>
           </div>
         ) : null}
+        </div>
         <JurnlProductNav current="ACTIVITY" onGo={go} onAdd={() => openOverlay('quick-add')} />
       </div>
       {overlay === 'filter' ? <FilterSheet filter={filter} onChange={setFilter} onClose={closeOverlay} /> : null}
@@ -344,7 +418,7 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
       <fieldset className="jrn-filter">
         <legend>ACCOUNT</legend>
         {accounts.map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={filter.account === item} onClick={() => onChange({ ...filter, account: item })}>
+          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={filter.account === item} data-active={filter.account === item ? 'true' : 'false'} onClick={() => onChange({ ...filter, account: item })}>
             {item}
           </button>
         ))}
@@ -352,7 +426,7 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
       <fieldset className="jrn-filter">
         <legend>DIRECTION</legend>
         {directions.map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={filter.direction === item} onClick={() => onChange({ ...filter, direction: item })}>
+          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={filter.direction === item} data-active={filter.direction === item ? 'true' : 'false'} onClick={() => onChange({ ...filter, direction: item })}>
             {item}
           </button>
         ))}
@@ -360,7 +434,7 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
       <fieldset className="jrn-filter">
         <legend>STATUS</legend>
         {statuses.map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={filter.status === item} onClick={() => onChange({ ...filter, status: item })}>
+          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={filter.status === item} data-active={filter.status === item ? 'true' : 'false'} onClick={() => onChange({ ...filter, status: item })}>
             {item}
           </button>
         ))}
@@ -368,7 +442,7 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
       <fieldset className="jrn-filter">
         <legend>WHEN</legend>
         {whens.map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={filter.when === item} onClick={() => onChange({ ...filter, when: item })}>
+          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={filter.when === item} data-active={filter.when === item ? 'true' : 'false'} onClick={() => onChange({ ...filter, when: item })}>
             {item}
           </button>
         ))}

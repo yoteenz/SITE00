@@ -13,7 +13,8 @@ import { JURNL_F03_CONTRACT } from '../src/projects/jurnl/data/f03/contract';
 import { JURNL_F03_COVERAGE } from '../src/projects/jurnl/data/f03/coverage';
 import { JURNL_F04_CONTRACT } from '../src/projects/jurnl/data/f04/contract';
 import { JURNL_F04_COVERAGE } from '../src/projects/jurnl/data/f04/coverage';
-import { formatMoney, safeToSpend } from '../src/projects/jurnl/data/home/money';
+import { currencyByCode, formatAmountInput, formatMoney, resetCurrency } from '../src/projects/jurnl/data/home/currency';
+import { safeToSpend } from '../src/projects/jurnl/data/home/money';
 import JurnlRuntimeRoot from '../src/projects/jurnl/runtime/JurnlRuntimeRoot';
 import { resolveJurnlRoute } from '../src/projects/jurnl/runtime/state/store';
 import { projectFamilies } from '../src/projects/families';
@@ -33,6 +34,19 @@ function renderRuntime(route: string, query = '') {
 const visibleText = (html: string) => html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ');
 
 describe('F03 and F04 live routes', () => {
+  it('formats money with the active currency symbol', () => {
+    resetCurrency();
+    expect(formatMoney(86)).toBe('$86');
+    expect(formatMoney(1800)).toBe('$1,800');
+    expect(formatMoney(6500)).toBe('$6,500');
+    expect(formatMoney(3200, true)).toBe('+$3,200');
+    expect(formatMoney(-86)).toBe('-$86');
+    expect(formatMoney(1800, false, currencyByCode('EUR'))).toBe('€1.800');
+    expect(formatMoney(86, false, currencyByCode('GBP'))).toBe('£86');
+    expect(formatAmountInput('58885')).toBe('58,885');
+    expect(formatAmountInput('12.5')).toBe('12.5');
+  });
+
   it('keeps F01 and F02 ahead of the new families', () => {
     const families = projectFamilies('jurnl');
     expect(families.map((f) => f.contract.familyId)).toEqual(['F01', 'F02', 'F03', 'F04']);
@@ -58,6 +72,9 @@ describe('F03 and F04 live routes', () => {
     expect(html).toContain('A COMPUTED SIGNAL');
     expect(html).toContain('PREVIEW');
     expect(html).toContain(formatMoney(signal.value));
+    expect(html).toContain('data-jrn-zone="intro"');
+    expect(html).toContain('data-jrn-zone="content-rail"');
+    expect(html).toContain('data-jrn-zone="bottom-nav"');
     expect(html).not.toContain('F03.00_TODAY_PARENT');
     expect(html).not.toContain('AUTHORITIES');
     expect(visibleText(html).match(/[a-z]/g)).toBeNull();
@@ -88,7 +105,9 @@ describe('F03 and F04 live routes', () => {
     expect(html).not.toContain('F04.00_ACTIVITY_PARENT');
     expect(visibleText(html).match(/[a-z]/g)).toBeNull();
     expect(renderRuntime('activity', 'state=empty')).toContain('NO MOVEMENT YET');
+    expect(html).not.toContain('ALL ACCOUNTS');
     expect(renderRuntime('activity', 'state=no_results')).toContain('NO MATCHES');
+    expect(renderRuntime('activity', 'state=no_results')).toContain('NOTHING IN THIS LEDGER FITS');
     expect(renderRuntime('activity', 'state=error')).toContain('COULD NOT READ ACTIVITY');
     const filter = renderRuntime('activity', 'overlay=filter');
     expect(filter).toContain('data-jrn-overlay="activity-filter-sheet"');
@@ -100,6 +119,23 @@ describe('F03 and F04 live routes', () => {
     expect(renderRuntime('money')).toContain('NOT OPEN YET');
     expect(renderRuntime('plan')).toContain('data-jrn-screen="F08.BOUNDARY"');
     expect(renderRuntime('credit')).toContain('data-jrn-screen="F12.BOUNDARY"');
+  });
+
+  it('makes quick add selection real and shows the currency mark', () => {
+    resetCurrency();
+    const html = renderRuntime('today', 'overlay=quick-add');
+    expect(html).toContain('data-jrn-trigger="quick-add-expense"');
+    expect(html).toContain('aria-pressed="true"');
+    expect(html).toContain('jrn-field__prefix');
+    expect(html).toContain('disabled');
+  });
+
+  it('offers display currency from the global ask sheet without exchange', () => {
+    const html = renderRuntime('activity', 'overlay=ask');
+    expect(html).toContain('DISPLAY CURRENCY');
+    expect(html).toContain('NO EXCHANGE');
+    expect(html).toContain('data-jrn-trigger="currency-usd"');
+    expect(html).toContain('data-jrn-trigger="currency-eur"');
   });
 
   it('does not mount a screen authority from the live screens', () => {
