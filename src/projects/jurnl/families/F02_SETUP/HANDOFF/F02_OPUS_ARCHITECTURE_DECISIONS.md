@@ -118,6 +118,7 @@ Other row fixes:
   - every recap line
 - **Consents:** same grid. The icon aligns to the label's first line, and the toggle centres on the row. The label is 10 px and the note is 9 px, both balanced. LINKED ACCOUNTS STAY OPTIONAL breaks into two intentional lines inside its column. Below 393 px, REMEMBER THIS SETUP also takes two lines, still beside its icon.
 - **F02.08 voice:** a check glyph used to be prepended only to the selected row, which shifted that label sideways. It is removed; selection reads from the trailing mark, as on every other F02 selection row. The check icon stays on F02.ST.CONNECTED.
+- **ADD ANOTHER:** the plus was passed as a child of the label span, so it touched the text with a 0 px gap. It now uses the `JurnlButton` icon slot: `[ + ] [ ADD ANOTHER ]` with an 8 px gap.
 - **Icon size:** 15 px in `--jrn-ink-3`, so icons stay subordinate to the label.
 
 ## 7. JurnlDrawer decision: `PRESERVE_SHARED`

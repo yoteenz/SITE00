@@ -402,8 +402,8 @@
         "desktop": "BESIDE_ICON (gap 8 px)"
       },
       "trailing_control_alignment": "n/a",
-      "before": "MATCH",
-      "repair_applied": "none (already horizontal)"
+      "before": "ICON_TOUCHING_LABEL (plus passed as a child of the label span; 0 px gap)",
+      "repair_applied": "Plus moved to the JurnlButton icon slot; 8 px gap; 15 px icon"
     },
     {
       "screen_id": "F02.07",

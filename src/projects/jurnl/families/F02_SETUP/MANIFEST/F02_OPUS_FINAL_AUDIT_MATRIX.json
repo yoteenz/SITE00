@@ -22,7 +22,7 @@
     "TYPOGRAPHIC_DRIFT": 3,
     "CONTRAST_DRIFT": 3,
     "COMPOSITION_DRIFT": 12,
-    "ICON_ROW_DRIFT": 6
+    "ICON_ROW_DRIFT": 7
   },
   "drift_after_repair": {
     "MATCH": 17
@@ -195,11 +195,12 @@
       "drift_class": "CONTRAST_DRIFT",
       "drift_classes_found": [
         "CONTRAST_DRIFT",
+        "ICON_ROW_DRIFT",
         "COMPOSITION_DRIFT",
         "RESPONSIVE_DRIFT"
       ],
       "drift_after_repair": "MATCH",
-      "repair_applied": "SKIP FOR NOW paper chip; rail; tablet left rail.",
+      "repair_applied": "SKIP FOR NOW paper chip; ADD ANOTHER plus in the button icon slot (was touching the label); rail; tablet left rail.",
       "remaining_issue": "Founder visual review pending."
     },
     {
