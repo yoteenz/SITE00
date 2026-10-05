@@ -88,5 +88,26 @@
       "credits_spent_this_sprint": 0,
       "result": "REUSED"
     }
-  ]
+  ],
+  "childPlateCorrection": {
+    "reason": "Each F01 child screen has its own plate. The welcome plate is not cropped onto a child.",
+    "creditsBefore": 50362,
+    "creditsAfter": 47509,
+    "paidGenerations": 9,
+    "creditsSpent": 2853,
+    "verifiedRateCredits": 317,
+    "corrections": 0,
+    "projectCeilingUnchanged": 60000,
+    "generations": [
+      { "generation_id": "tihr4cvOBHwIlczcaMNw", "resource_id": "S0VeLF9TQ3IMUZg57KPH", "asset_id": "ENTRY.ENVIRONMENT.CREATE_ACCOUNT.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" },
+      { "generation_id": "KyBknhSX5vz7o5t8090o", "resource_id": "cJ3CpxbbqWgO79678J16", "asset_id": "ENTRY.ENVIRONMENT.SIGN_IN.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" },
+      { "generation_id": "Wx8ZtNnuLKzbkQLk2oOm", "resource_id": "h5HeCumAEy56xUHhf1Q3", "asset_id": "ENTRY.ENVIRONMENT.UNLOCK.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" },
+      { "generation_id": "JxtQmvNs5YtyAjLFWYGd", "resource_id": "irIvK9Nv4LzGfmiXQgyV", "asset_id": "ENTRY.ENVIRONMENT.NEW_PASSWORD.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" },
+      { "generation_id": "69YwJIuw3bL72L9rsVKw", "resource_id": "oLQzMUjISm7CGRc2jcpf", "asset_id": "ENTRY.ENVIRONMENT.RESET_SUCCESS.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" },
+      { "generation_id": "fgo5YNpMlR02Q3KQmHMe", "resource_id": "XA7KBCAlRrWabZ6vOUMs", "asset_id": "ENTRY.ENVIRONMENT.BIOMETRIC.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" },
+      { "generation_id": "UXlv36VgbylJFIE7YMu7", "resource_id": "TQlqevOqmvkFvM8POZc0", "asset_id": "ENTRY.ENVIRONMENT.DEVICE_TRUST.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" },
+      { "generation_id": "qa1Tc2bvg5Enrczzlnf2", "resource_id": "NkEWxiYe11G0mmR5l35a", "asset_id": "ENTRY.ENVIRONMENT.SECURITY.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" },
+      { "generation_id": "eFfwcdsjY7QFWCQdeguf", "resource_id": "YpBGbYYXNLLTpMd4f3AW", "asset_id": "ENTRY.ENVIRONMENT.COMPLETE.001", "credits_spent": 317, "delivered_width": 2016, "delivered_height": 3584, "result": "PASS" }
+    ]
+  }
 }

@@ -408,19 +408,19 @@ describe('assets + OpenArt restrictions', () => {
     const logo = '/site00/projects/jurnl/brand/jurnl-logo-official.png';
     const plateFor: Record<string, string> = {
       'F01.00': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
-      'F01.01': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.01': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.CREATE_ACCOUNT.001.png',
       'F01.02': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.VERIFY.001.png',
-      'F01.03': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
-      'F01.04': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.03': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.SIGN_IN.001.png',
+      'F01.04': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.UNLOCK.001.png',
       'F01.05': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.FORGOT.001.png',
       'F01.06': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.RESET_SENT.001.png',
-      'F01.07': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
-      'F01.08': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
-      'F01.09': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
-      'F01.10': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.07': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.NEW_PASSWORD.001.png',
+      'F01.08': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.RESET_SUCCESS.001.png',
+      'F01.09': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.BIOMETRIC.001.png',
+      'F01.10': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.DEVICE_TRUST.001.png',
       'F01.11': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PRIVACY.001.png',
-      'F01.12': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
-      'F01.13': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
+      'F01.12': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.SECURITY.001.png',
+      'F01.13': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.COMPLETE.001.png',
     };
     for (const s of F01_SCREENS) {
       const html = renderRuntime(s.route);
@@ -429,8 +429,11 @@ describe('assets + OpenArt restrictions', () => {
       expect(html, s.id).toContain('data-testid="jurnl-environment"');
       expect(html, s.id).not.toMatch(/archive-unnecessary-isolation|ASSET_HARVEST|_ARCHIVE_SCREENSHOT_CROPS/);
     }
-    expect(renderRuntime('entry/create')).toContain('data-env="TRANSFORMED_EXISTING_PLATE"');
+    expect(renderRuntime('entry/create')).toContain('data-env="CHILD_PLATE"');
+    expect(renderRuntime('entry/create')).toContain('ENTRY.ENVIRONMENT.CREATE_ACCOUNT.001');
+    expect(renderRuntime('entry/create')).not.toContain('ENTRY.ENVIRONMENT.PLATE.001');
     expect(renderRuntime('entry')).toContain('data-env="SHARED_EXISTING_PLATE"');
+    expect(new Set(Object.values(plateFor)).size).toBe(14);
   });
   it('no OpenArt access anywhere in the ingestion / runtime code', () => {
     for (const f of projectCode) expect(read(f), f).not.toMatch(/openart/i);
