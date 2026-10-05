@@ -1,0 +1,168 @@
+{
+  "per_project": {
+    "site00": {
+      "data": "Host. Tables keyed by project_id/organization_id (159/232 parsed tables carry project_id/organization_id/brand_id). site00 itself is not a site00_projects row; brand context uses 'site-00'.",
+      "assets": "Shared bucket SITE00_ASSETS_BUCKET='live-preview' default (api/_lib/site00Assts/storage.ts:3); host assets under public/site00/**.",
+      "canon": "Brand firewall phrase list forbids client canon as host (shared/site00-brand-lore/brandCreativeContext/projectFirewall.ts:11).",
+      "routes": "Host owns all routes (src/routes/Site00Routes.tsx).",
+      "styles": "Host CSS under .site00-* classes; project runtimes mounted outside Site00Layout (Site00Routes.tsx:1511-1520).",
+      "isolation_status": "PARTIAL",
+      "evidence": "src/projects/README.md firewall table; ProjectRuntimeRoute.tsx:1-4 'No SITE 00 layout, chrome, fonts or tokens wrap the project body'; tests/jurnlF01Runtime.test.tsx:358-385",
+      "risks": [
+        "Host is protected from project CSS by convention+tests, but host-to-client data separation relies on per-endpoint checks, many missing."
+      ]
+    },
+    "jurnl": {
+      "data": "Static TS records only (src/projects/jurnl/data/**); no DB rows; runtime state in localStorage keys 'jurnl.runtime.v1.*' (setup, session, device, preview-accounts) \u2014 namespaced.",
+      "assets": "public/site00/projects/jurnl/** and public/jurnl/** (static, public); raw authorities in repo JURNL/ dir. Project-scoped paths, but all public and unauthenticated.",
+      "canon": "jurnlProject.ts holds palette/brand/voice; host reads data only.",
+      "routes": "/production/:projectSlug/runtime/* via lazy registry (projectRuntimeRegistry.ts:26-28), guarded only by client-side Site00InternalProductionGuard (Site00Routes.tsx:1511-1520). Same-origin iframe postMessage to host (store.tsx:142, origin-restricted).",
+      "styles": "Scoped under .jrn root class; project-named @font-face families ('JURNL Display','JURNL Sans'); test enforces no :root/html/body/host classes (tests/jurnlF01Runtime.test.tsx:385).",
+      "isolation_status": "PASS",
+      "evidence": "src/projects/README.md; tests/jurnlF01Runtime.test.tsx:358 (runtime imports nothing from host except type-only contract), :378 (host never imports runtime directly), :385 (CSS scoped); JurnlRuntimeRoot.tsx:9 type-only import",
+      "risks": [
+        "Same-origin runtime: JURNL code can read host localStorage (currentUser, baw_auth_backup, Supabase session) \u2014 isolation is by discipline, not by origin.",
+        "Assets are publicly served; no auth on JURNL static authority images.",
+        "Design-preview auth adapter stores plaintext preview passwords in localStorage (adapters.ts ACCOUNTS_KEY) \u2014 preview only, but must never ship as production adapter."
+      ]
+    },
+    "aio": {
+      "data": "No dedicated tables; uses shared site00_* tables keyed by organization/project; Evolve adapter (shared/site00-projects/evolve/adapters/aioEvolveAdapter.ts); regression QA checks 'AIO EVOLVE CONTAINS NDXBOOK ENTRIES' (evolveModuleRegressionQA.ts:128).",
+      "assets": "Brand family skin GOLD #c9a227 (brandFamily/constants.ts:29); designContextLeakDetector flags AIO using Studio World gold (p0vr3m/designContextLeakDetector.ts:94).",
+      "canon": "Bootstrap catalog offers (projectBootstrapCatalog.ts:272-290); firewall forbids ndxbook editorial / frontal slayer beauty / astral magical (projectFirewall.ts:12).",
+      "routes": "Generic /projects/:slug surfaces (admin-only via canAccessFounderProjectAsOwner).",
+      "styles": "Skin tokens only; no runtime.",
+      "isolation_status": "PARTIAL",
+      "evidence": "grep -i '\\baio\\b' => ~30 files in shared/** only; slug 'all-in-one-enterprises' in api/_lib/site00Projects/projectRegistry.ts:47-55",
+      "risks": [
+        "Slug aliasing ('aio' vs 'all-in-one-enterprises', substring match in projectBinding.ts:82 slug.includes('aio')) \u2014 any slug containing 'aio' binds AIO skin.",
+        "Firewall is a phrase blacklist on serialized context (projectFirewall.ts:29-34), not a data boundary."
+      ]
+    },
+    "frontal_slayer": {
+      "data": "Founder project in FOUNDER_PROJECTS; product visual canon in separate fs_* tables (20260826031500_fs_product_visual_assets.sql:4-120) with public-read RLS on CANON/APPROVED/ACTIVE rows.",
+      "assets": "Cross-repo contract shared/frontal-slayer-product-assets/** (Studio World writes, FS website reads ACTIVE bindings).",
+      "canon": "fs_product_* canon; brand firewall forbids ndxbook grammar / site-00 host expression / aio grammar (projectFirewall.ts:9).",
+      "routes": "Legacy /projects/frontal-slayer/design/reconstruction-lab (managedProjectRegistry.ts:35); admin-only project surfaces.",
+      "styles": "Brand-family skin; no ingested runtime under src/projects/.",
+      "isolation_status": "PARTIAL",
+      "evidence": "172 source files reference frontal; site00-supabase-env.ts:1 'standalone SITE 00 (no Frontal Slayer immune-system import)'; client adminAuth default emails include admin@frontalslayer.com (api/_lib/adminAuth.ts:11)",
+      "risks": [
+        "FS staff emails are global SITE 00 admins by default allowlist \u2014 FS authority = SITE 00 authority.",
+        "fs_* tables live in the SITE 00 Supabase project; public SELECT policies apply to anon."
+      ]
+    }
+  },
+  "host_chrome_protection": {
+    "status": "PARTIAL",
+    "mechanisms": [
+      "Project runtime mounted outside Site00Layout with no host loader (src/routes/Site00Routes.tsx:1511-1520; ProjectRuntimeRoute.tsx:1-4)",
+      "Project CSS scoped to .jrn; test-enforced (tests/jurnlF01Runtime.test.tsx:385)",
+      "Host never imports runtime directly (test :378)",
+      "designContextLeakDetector / brand family distinctiveness QA (p0vr3m/designContextLeakDetector.ts; brandFamily/qa.ts)"
+    ],
+    "gaps": [
+      "Only JURNL has a runtime + tests; no generic lint/test for future projects' CSS.",
+      "Same-origin iframe => project JS can mutate parent document (window.parent is same origin). No sandbox attribute isolation / separate origin.",
+      "Brand-skin tokens for managed brands are applied inside host workspaces \u2014 protection relies on QA heuristics, not structural scoping."
+    ]
+  },
+  "scoping_mechanisms": [
+    {
+      "mechanism": "project_id / organization_id columns",
+      "evidence": "159/232 tables carry project_id/organization_id/brand_id; e.g. site00_client_review_* project_id FK (20260826160000_site00_client_reviews.sql:5,39,57,73,85)",
+      "enforced_by": "application code using service role; RLS policies are service_role_all only (no per-project RLS)"
+    },
+    {
+      "mechanism": "Server ownership check",
+      "evidence": "clientOwnsProject (api/_lib/site00Production/clientStudio.ts:152-157), canAccessProjectAsOwner (accessModel.ts:31-44)",
+      "enforced_by": "per endpoint; absent on ~20 endpoints"
+    },
+    {
+      "mechanism": "Per-slug capability map",
+      "evidence": "shared/site00-projects/capabilities.ts:122-138; projectCapabilityGuard.ts:24-66",
+      "enforced_by": "feature gating per project, not user authorization"
+    },
+    {
+      "mechanism": "Storage path prefixes",
+      "evidence": "projectAssetStoragePath -> projects/{projectId}/... (shared/site00-projects/storagePaths.ts:5-13), used only in originIngestionService.ts:224 and castingFalDispatch.ts:42; design-assets/{projectId}/{pageId}/... (p0vr4/supabaseStorage.ts:23)",
+      "enforced_by": "naming convention; single shared bucket 'live-preview' with public URLs (site00Assts/storage.ts:25, service.ts:497); no storage.objects policies in migrations"
+    },
+    {
+      "mechanism": "Client-side storage keys",
+      "evidence": "Many keys global with projectId embedded in value (e.g. site00:design-page-v3-authority:v1, site00.production.requests.v1 filtered by projectSlug in productionRequestStore.ts:67); others prefixed per project (site00_project_lore_calibration_v3_)",
+      "enforced_by": "convention"
+    },
+    {
+      "mechanism": "Brand-context phrase firewall",
+      "evidence": "shared/site00-brand-lore/brandCreativeContext/projectFirewall.ts:16-37",
+      "enforced_by": "content heuristic on generated context"
+    }
+  ],
+  "leakage_risks": [
+    {
+      "risk": "Unauthenticated generation/mutation endpoints accept arbitrary projectId/brandId/packageKey \u2014 any caller can read or alter any project's creative data or delete campaign assets",
+      "evidence": "api/site00/expression-engine.ts:319-330 (brandId/projectId from query/body, no auth); api/site00/campaign-package.ts:25-110 (delete_asset_permanent); api/site00/master-skin.ts:141; api/site00/page-mirror.ts; api/site00/design-asset-reconstruction.ts",
+      "severity": "CRITICAL"
+    },
+    {
+      "risk": "RLS policy USING(true) WITH CHECK(true) without TO service_role \u2014 anon key can read/write via PostgREST",
+      "evidence": "supabase/migrations/20260910180000_site00_brand_creative_context.sql:31-32; 20260921120000_site00_page_concept_generation_runs.sql:26-27",
+      "severity": "CRITICAL"
+    },
+    {
+      "risk": "Client role escalation inside a project via request-supplied role",
+      "evidence": "api/site00/client-reviews.ts:69-76,122,139,155,174,189 -> api/_lib/site00ClientReviews/reviewService.ts:148,242,287,347,422,492",
+      "severity": "HIGH"
+    },
+    {
+      "risk": "getSupabaseAdmin falls back to anon key; behavior silently changes from bypass-RLS to anon",
+      "evidence": "api/_lib/supabase.ts:28-35",
+      "severity": "HIGH"
+    },
+    {
+      "risk": "Single shared public bucket for all projects; public URLs guessable by path convention",
+      "evidence": "api/_lib/site00Assts/storage.ts:3,25; no storage.objects policies in supabase/migrations",
+      "severity": "HIGH"
+    },
+    {
+      "risk": "Ownership by email string: whoever registers the client_email (open signUp / magic link shouldCreateUser:true) gets the project once email is confirmed; email change on a project row re-routes ownership",
+      "evidence": "clientStudio.ts:152-157; site00SignInActions.ts:177",
+      "severity": "MEDIUM"
+    },
+    {
+      "risk": "Admin email allowlist is global across all projects (no per-project founder/staff scoping); Frontal Slayer domain emails are SITE 00 admins",
+      "evidence": "api/_lib/adminAuth.ts:10-14; accessModel.ts:20-28",
+      "severity": "MEDIUM"
+    },
+    {
+      "risk": "Project runtime is same-origin with host: can read host auth localStorage/cookies-accessible state",
+      "evidence": "projectRuntimeRegistry.ts:48-58 (same-origin iframe), adminAuth.ts:14 baw_auth_backup in localStorage",
+      "severity": "MEDIUM"
+    },
+    {
+      "risk": "Client-side UI guards bypassable via query params / preview hosts",
+      "evidence": "Site00AccountRouteGuard.tsx:87-95,281 (?designPreview=1, ?goldenDiffCapture=1); AdminGuard.tsx:10,20-26; signInPaused.ts:6-10",
+      "severity": "MEDIUM (UI exposure; data depends on API enforcement)"
+    },
+    {
+      "risk": "CORS Access-Control-Allow-Origin '*' on every API route",
+      "evidence": "server/index.ts:49-56",
+      "severity": "LOW (bearer auth, no cookies on most routes) / MEDIUM for cookie routes"
+    },
+    {
+      "risk": "Global client stores keyed without project prefix rely on in-value projectId filtering",
+      "evidence": "site00.production.requests.v1 (src/site00/state/productionRequestStore.ts:53-67); site00:design-grok-staged:v1",
+      "severity": "LOW"
+    },
+    {
+      "risk": "Slug alias substring matching binds AIO skin to any slug containing 'aio'",
+      "evidence": "shared/site00-brand-lore/projectSkin/brandFamily/projectBinding.ts:82",
+      "severity": "LOW"
+    }
+  ],
+  "verdict": {
+    "client_project_firewall": "FAIL",
+    "reason": "Host/project UI separation is well built for JURNL (scoped CSS, lazy registry, tests). But the data firewall is not enforced: RLS is service_role-only (no per-project/member policies) and two tables are open to anon. ~20 API endpoints take a project id from the caller with no auth. Client roles are request-spoofable, and all projects share one public storage bucket. Project data and canon can be read or changed across projects by an unauthenticated caller."
+  }
+}

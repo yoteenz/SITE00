@@ -1,0 +1,139 @@
+{
+ "artifact": "SITE00_CLIENT_WORKING_TREE_MODEL",
+ "follow_up": "P0.SITE00.CLIENT-PROJECT-ROOM-LIVE-VIEWPORT-WORKING-TREE-REVIEW1",
+ "applies_to": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": {
+  "working_product_tree": "PASS",
+  "family_grouping": "PASS",
+  "child_grandchild_model": "PASS",
+  "dependency_visualization": "PASS",
+  "interaction_connection_model": "PASS",
+  "tree_to_live": "PASS",
+  "live_to_tree": "PASS",
+  "nonlinear": "PASS",
+  "mobile_tree": "PASS",
+  "derived_from_canon": "YES",
+  "duplicate_manual_tree": "NO"
+ },
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "what_it_is": "A living blueprint of the client's digital location \u2014 product architecture, not a sitemap; derived from the project graph.",
+ "content": [
+  "PROJECT",
+  "PHASES (where relevant)",
+  "FAMILIES",
+  "PARENTS",
+  "MATERIAL CHILDREN",
+  "IMPORTANT GRANDCHILDREN",
+  "KEY INTERACTIONS",
+  "DEPENDENCIES",
+  "CROSS-FAMILY CONNECTIONS",
+  "APPROVAL STATUS",
+  "IMPLEMENTATION STATUS"
+ ],
+ "node_states": [
+  "UPCOMING",
+  "IN PRODUCTION",
+  "READY FOR YOU",
+  "REVISION IN PROGRESS",
+  "APPROVED",
+  "CONNECTED",
+  "COMPLETE",
+  "BLOCKED"
+ ],
+ "evolution": "Exists from day one (planned nodes in outline) and fills in as families advance: F01 APPROVED \u00b7 F02 APPROVED \u00b7 F03 READY FOR YOU \u00b7 F04 IN PRODUCTION \u00b7 F05 UPCOMING.",
+ "nonlinear": "Two layers: a JOURNEY SPINE (linear onboarding, e.g. ENTRY \u2192 SETUP \u2192 TODAY) and a HUB RING (nonlinear app families reachable from a hub, e.g. TODAY \u2194 ACTIVITY, MONEY, PLAN\u2026). Families are never forced into one line.",
+ "mobile": {
+  "not": "a shrunk desktop graph",
+  "pattern": [
+   "FOCUSED FAMILY VIEW (one family on screen)",
+   "VERTICAL JOURNEY spine",
+   "EXPAND / COLLAPSE family branches",
+   "CURRENT NODE highlight",
+   "NEXT / PREVIOUS connection chips at the bottom",
+   "hub families as a ring list under the hub node"
+  ]
+ },
+ "tablet_desktop": {
+  "pattern": "Full plan: spine left-to-right, hub ring around its hub, families as grouped plots with their parent/children; edges drawn as calm architectural lines (solid = navigates, dashed = depends/unlocks).",
+  "preserve": [
+   "readability",
+   "spatial clarity",
+   "family grouping",
+   "edge clarity"
+  ]
+ },
+ "interactions": [
+  "TAP FAMILY",
+  "EXPAND / COLLAPSE FAMILY",
+  "VIEW PURPOSE",
+  "VIEW STATUS",
+  "VIEW LIVE",
+  "VIEW APPROVAL",
+  "VIEW NEXT CONNECTION",
+  "select edge \u2192 what action connects them, is it live"
+ ],
+ "node_detail_sheet": [
+  "WHAT THIS PAGE DOES",
+  "WHERE IT COMES FROM",
+  "WHERE IT GOES",
+  "WHAT ACTION CONNECTS THEM",
+  "LIVE? (VIEW LIVE)",
+  "APPROVAL (version, history link)",
+  "family cost line (optional)"
+ ],
+ "no_editor_controls": "No drag, connect, create, delete, layout editing, zoom-to-debug. The client views, understands, navigates and reviews.",
+ "tree_to_live": "Node sheet \u2192 VIEW LIVE \u2192 /app/:slug/live/:nodeId opens that screen / family entry in the client viewport (scenario auto-selected).",
+ "live_to_tree": "Live viewer \u2192 VIEW IN TREE \u2192 /app/:slug/project/tree?node=<current node> locates the screen inside the full architecture (highlighted, branch expanded).",
+ "approval_history": "Per node (and in FINAL): approved families, current approved version, revision history \u2014 behind a HISTORY toggle, never in the primary view.",
+ "post_launch": "Stays in the client project archive (LIBRARY \u2192 FINAL FILES link + PROJECT) as the human-readable map of what was built \u2014 for EVOLVE work, maintenance, new families, extensions, handoff.",
+ "examples": {
+  "JURNL": {
+   "spine": [
+    "ENTRY",
+    "SETUP",
+    "TODAY"
+   ],
+   "hub_ring_from_TODAY": [
+    "ACTIVITY",
+    "MONEY",
+    "INCOME",
+    "UPCOMING",
+    "PLAN",
+    "SAFE TO SPEND",
+    "PURCHASES",
+    "TRIPS",
+    "CREDIT",
+    "PAYDOWN",
+    "GOALS",
+    "AHEAD",
+    "RECORDS"
+   ],
+   "status_now": "F01 ENTRY canonical/live; F02 SETUP in review",
+   "note": "Ring families are illustrative from the founder brief; only F01/F02 exist in repo."
+  },
+  "AIO": {
+   "illustrative_only": true,
+   "locked": false,
+   "reason": "Do not lock until AIO forensic family audit completes.",
+   "journeys": [
+    [
+     "PUBLIC SITE",
+     "SERVICE DISCOVERY",
+     "SMART INTAKE",
+     "CLIENT ACCOUNT",
+     "SERVICE WORKFLOW",
+     "CLIENT PORTAL"
+    ],
+    [
+     "BROKERAGE REQUEST",
+     "AIO BROKER",
+     "PRIVATE LOAD BOARD",
+     "CARRIER",
+     "DISPATCH",
+     "DELIVERY",
+     "RECORD / CLOSEOUT"
+    ]
+   ]
+  }
+ }
+}
