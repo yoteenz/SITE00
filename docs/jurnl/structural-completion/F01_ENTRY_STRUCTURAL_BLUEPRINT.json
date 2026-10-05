@@ -1,0 +1,930 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F01",
+  "name": "ENTRY",
+  "purpose": "WELCOME THE PERSON INTO THE HOUSE.",
+  "product_job": "WELCOME THE PERSON INTO THE HOUSE.",
+  "parent": {
+    "family_id": "F01",
+    "parent_id": null,
+    "route": "entry",
+    "route_status": "LIVE",
+    "implementation_status": "IMPLEMENTED",
+    "functional_status": "COMPLETE_FUNCTIONAL",
+    "visual_status": "VISUALLY_IMPLEMENTED",
+    "approval_status": "FOUNDER_APPROVED",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [],
+    "interaction_dependencies": [],
+    "auth_requirements": "PRE_AUTH (PUBLIC ENTRY)",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (FOUNDER-APPROVED)",
+    "generation_requirement": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACCOUNT",
+      "ICON.APPLE",
+      "ICON.BACK",
+      "ICON.CHIP",
+      "ICON.DATABASE",
+      "ICON.DEVICE",
+      "ICON.FACE_ID",
+      "ICON.FINGERPRINT",
+      "ICON.GOOGLE",
+      "ICON.INFO",
+      "ICON.LAPTOP",
+      "ICON.PRIVACY",
+      "ICON.SHIELD",
+      "ICON.SWITCH_ACCOUNT"
+    ],
+    "reusable_capability_candidate": "RC.BP.ENTRY_TRUST",
+    "notes": [],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "FUNCTIONAL",
+      "visual": "VISUALLY_IMPLEMENTED",
+      "release": "APPROVED"
+    },
+    "functional_criteria": "R1 U1 D- I1 S1 V- E- M- L- P1 A1 N-",
+    "functional_score": 1,
+    "target_wave": 5,
+    "evidence": [
+      "src/projects/jurnl/data/f01/contract.ts",
+      "src/projects/jurnl/runtime/screens/{Entry,Recovery,Security}Screens.tsx"
+    ],
+    "opens": null,
+    "node_id": "F01.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "WELCOME",
+    "purpose": "WELCOME THE PERSON INTO THE HOUSE."
+  },
+  "children": [
+    {
+      "id": "F01.01",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "entry/create",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.02",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "entry/verify-email",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.03",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "entry/sign-in",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.04",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "entry/unlock",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.05",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "entry/forgot-password",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.06",
+      "form": "ROUTE",
+      "inheritance": "DIRECT_INHERITANCE",
+      "route": "entry/reset-sent",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.07",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "entry/new-password",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.08",
+      "form": "ROUTE",
+      "inheritance": "DIRECT_INHERITANCE",
+      "route": "entry/reset-success",
+      "status": "COMPLETE_FUNCTIONAL"
+    },
+    {
+      "id": "F01.09",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "entry/biometric",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.10",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "entry/device-trust",
+      "status": "COMPLETE_FUNCTIONAL"
+    },
+    {
+      "id": "F01.11",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "entry/privacy",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.12",
+      "form": "ROUTE",
+      "inheritance": "DIRECT_INHERITANCE",
+      "route": "entry/security",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.13",
+      "form": "ROUTE",
+      "inheritance": "DIRECT_INHERITANCE",
+      "route": "entry/complete",
+      "status": "COMPLETE_FUNCTIONAL"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [
+    "F01.01.DR.TERMS_OF_SERVICE",
+    "F01.01.DR.PRIVACY_POLICY",
+    "F01.02.DR.CHANGE_EMAIL",
+    "F01.03.DR.TEMPORARILY_LOCKED",
+    "F01.04.DR.SWITCH_ACCOUNT",
+    "F01.09.DR.PERMISSION_DENIED",
+    "F01.10.DR.LEARN_WHAT_THIS_MEANS",
+    "F01.11.DR.YOUR_DATA",
+    "F01.11.DR.CONNECTED_ACCOUNTS",
+    "F01.11.DR.AI_ACCESS",
+    "F01.11.DR.DATA_EXPORT",
+    "F01.11.DR.REMOVE_ACCESS",
+    "F01.12.DR.BIOMETRIC_SIGN_IN",
+    "F01.12.DR.DEVICE_SECURITY",
+    "F01.12.DR.CONNECTED_ACCOUNT_CONTROL",
+    "F01.12.DR.SECURE_DATA_HANDLING",
+    "F01.12.DR.SESSION_MANAGEMENT"
+  ],
+  "sheets": [
+    "F01.04.SH.USE_PASSWORD"
+  ],
+  "modals": [
+    "F01.04.MD.SIGN_OUT",
+    "F01.11.MD.DELETE_ACCOUNT",
+    "F01.12.MD.REVOKE_SESSION",
+    "F01.OV.MAIL_HANDOFF",
+    "F01.03.OV.SUPPORT_HANDOFF",
+    "F01.OV.SOCIAL_APPLE",
+    "F01.OV.SOCIAL_GOOGLE",
+    "F01.04.OV.FACEID_UNLOCK",
+    "F01.09.OV.FACEID_ENABLE"
+  ],
+  "states": [
+    {
+      "id": "F01.01.DEFAULT",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.01.FOCUSED",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.01.VALIDATION_ERROR",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.01.EMAIL_IN_USE",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.01.PASSWORD_SATISFIED",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.01.LOADING",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.03.DEFAULT",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.03.INCORRECT_PASSWORD",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.03.ACCOUNT_NOT_FOUND",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.03.LOCKED",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.03.LOADING",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.02.VERIFICATION_PENDING",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.02.RESENT",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.02.EXPIRED_LINK",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.02.VERIFICATION_SUCCESS",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.06.RESET_EMAIL_SENT",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.07.INVALID_RESET_LINK",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.08.RESET_SUCCESS",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.09.BIOMETRIC_PROMPT",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.09.BIOMETRIC_ENABLED",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.09.BIOMETRIC_DECLINED",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.09.BIOMETRIC_UNAVAILABLE",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.10.DEVICE_TRUSTED",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.10.DEVICE_VERIFY_REQUIRED",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.03.OFFLINE",
+      "status": "LIVE"
+    },
+    {
+      "id": "F01.04.SESSION_EXPIRED",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F01.04.REAUTHENTICATION",
+      "status": "SIMULATED"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F01.00.ROUTE.GET_STARTED",
+      "status": "WORKING",
+      "opens": "F01.01"
+    },
+    {
+      "id": "F01.00.ROUTE.SIGN_IN",
+      "status": "WORKING",
+      "opens": "F01.03"
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.DRAWER.SHORT",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.DRAWER.LONG",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.SHEET.FULL",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.MODAL.CONFIRM",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.INLINE.EXPAND",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.ERROR.PANEL",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.BANNER.SUCCESS",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.BUTTON.LOADING",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.INPUT.FOCUS",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.HANDOFF.EXTERNAL",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.HANDOFF.NATIVE",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.ROUTE.TRANSITION",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.01.INPUT.FOCUS",
+      "status": "WORKING",
+      "opens": "F01.01"
+    },
+    {
+      "id": "F01.01.PASSWORD.REQS",
+      "status": "WORKING",
+      "opens": "F01.01"
+    },
+    {
+      "id": "F01.01.DRAWER.TERMS",
+      "status": "WORKING",
+      "opens": "F01.01.DR.TERMS_OF_SERVICE"
+    },
+    {
+      "id": "F01.01.DRAWER.PRIVACY",
+      "status": "WORKING",
+      "opens": "F01.01.DR.PRIVACY_POLICY"
+    },
+    {
+      "id": "F01.01.SOCIAL.APPLE",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.01.SOCIAL.GOOGLE",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.01.SUBMIT.LOADING",
+      "status": "WORKING",
+      "opens": "F01.01"
+    },
+    {
+      "id": "F01.01.ERROR.EMAIL_IN_USE",
+      "status": "WORKING",
+      "opens": "F01.03"
+    },
+    {
+      "id": "F01.01.ERROR.VALIDATION",
+      "status": "WORKING",
+      "opens": "F01.01"
+    },
+    {
+      "id": "F01.02.HANDOFF.MAIL",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.02.RESEND.SUCCESS",
+      "status": "PARTIAL",
+      "opens": "F01.02"
+    },
+    {
+      "id": "F01.02.CHANGE.EMAIL",
+      "status": "PARTIAL",
+      "opens": "F01.02.DR.CHANGE_EMAIL"
+    },
+    {
+      "id": "F01.02.ERROR.EXPIRED",
+      "status": "PARTIAL",
+      "opens": "F01.02"
+    },
+    {
+      "id": "F01.02.SUCCESS.VERIFY",
+      "status": "PARTIAL",
+      "opens": "F01.09"
+    },
+    {
+      "id": "F01.03.INPUT.FOCUS",
+      "status": "WORKING",
+      "opens": "F01.03"
+    },
+    {
+      "id": "F01.03.PASSWORD.TOGGLE",
+      "status": "WORKING",
+      "opens": "F01.03"
+    },
+    {
+      "id": "F01.03.CHECKBOX.REMEMBER",
+      "status": "WORKING",
+      "opens": "F01.03"
+    },
+    {
+      "id": "F01.03.ROUTE.FORGOT",
+      "status": "WORKING",
+      "opens": "F01.05"
+    },
+    {
+      "id": "F01.03.SOCIAL.APPLE",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.03.SOCIAL.GOOGLE",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.03.ERROR.PASSWORD",
+      "status": "WORKING",
+      "opens": "F01.03"
+    },
+    {
+      "id": "F01.03.ERROR.NOT_FOUND",
+      "status": "WORKING",
+      "opens": "F01.01"
+    },
+    {
+      "id": "F01.03.LOCKED.PANEL",
+      "status": "WORKING",
+      "opens": "F01.03.DR.TEMPORARILY_LOCKED"
+    },
+    {
+      "id": "F01.03.SUBMIT.LOADING",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.04.HANDOFF.FACEID",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.04.ERROR.FACEID",
+      "status": "PARTIAL",
+      "opens": "F01.04"
+    },
+    {
+      "id": "F01.04.SHEET.PASSWORD",
+      "status": "WORKING",
+      "opens": "F01.04.SH.USE_PASSWORD"
+    },
+    {
+      "id": "F01.04.SHEET.SWITCH",
+      "status": "WORKING",
+      "opens": "F01.04.DR.SWITCH_ACCOUNT"
+    },
+    {
+      "id": "F01.04.MODAL.SIGNOUT",
+      "status": "WORKING",
+      "opens": "F01.04.MD.SIGN_OUT"
+    },
+    {
+      "id": "F01.05.INPUT.FOCUS",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.05.SUBMIT.LOADING",
+      "status": "PARTIAL",
+      "opens": "F01.06"
+    },
+    {
+      "id": "F01.05.ERROR.EMAIL",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.06.HANDOFF.MAIL",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.06.RESEND.TOAST",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.06.ERROR.EXPIRED",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.07.INPUT.FOCUS",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.07.PASSWORD.REQS",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.07.ERROR.MISMATCH",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.07.SUBMIT.LOADING",
+      "status": "PARTIAL",
+      "opens": "F01.08"
+    },
+    {
+      "id": "F01.08.ROUTE.SIGNIN",
+      "status": "WORKING",
+      "opens": "F01.03"
+    },
+    {
+      "id": "F01.09.HANDOFF.ENABLE",
+      "status": "PARTIAL",
+      "opens": null
+    },
+    {
+      "id": "F01.09.SUCCESS.ENABLED",
+      "status": "PARTIAL",
+      "opens": "F01.10"
+    },
+    {
+      "id": "F01.09.DENIED.SHEET",
+      "status": "PARTIAL",
+      "opens": "F01.09.DR.PERMISSION_DENIED"
+    },
+    {
+      "id": "F01.09.UNSUPPORTED.PANEL",
+      "status": "PARTIAL",
+      "opens": "F01.10"
+    },
+    {
+      "id": "F01.09.SKIP.CONTINUE",
+      "status": "WORKING",
+      "opens": "F01.10"
+    },
+    {
+      "id": "F01.10.TRUST.CONFIRM",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F01.10.DRAWER.LEARN",
+      "status": "WORKING",
+      "opens": "F01.10.DR.LEARN_WHAT_THIS_MEANS"
+    },
+    {
+      "id": "F01.11.DRAWER.YOUR_DATA",
+      "status": "WORKING",
+      "opens": "F01.11.DR.YOUR_DATA"
+    },
+    {
+      "id": "F01.11.DRAWER.CONNECTED_ACCOUNTS",
+      "status": "WORKING",
+      "opens": "F01.11.DR.CONNECTED_ACCOUNTS"
+    },
+    {
+      "id": "F01.11.DRAWER.AI_ACCESS",
+      "status": "WORKING",
+      "opens": "F01.11.DR.AI_ACCESS"
+    },
+    {
+      "id": "F01.11.DRAWER.DATA_EXPORT",
+      "status": "PARTIAL",
+      "opens": "F01.11.DR.DATA_EXPORT"
+    },
+    {
+      "id": "F01.11.DRAWER.REMOVE_ACCESS",
+      "status": "WORKING",
+      "opens": "F01.11.DR.REMOVE_ACCESS"
+    },
+    {
+      "id": "F01.11.ROUTE.CONTINUE",
+      "status": "WORKING",
+      "opens": "F01.12"
+    },
+    {
+      "id": "F01.12.SURFACE.BIOMETRIC_SIGN_IN",
+      "status": "WORKING",
+      "opens": "F01.12.DR.BIOMETRIC_SIGN_IN"
+    },
+    {
+      "id": "F01.12.SURFACE.DEVICE_SECURITY",
+      "status": "WORKING",
+      "opens": "F01.12.DR.DEVICE_SECURITY"
+    },
+    {
+      "id": "F01.12.SURFACE.CONNECTED_ACCOUNT_CONTRO",
+      "status": "WORKING",
+      "opens": "F01.12.DR.CONNECTED_ACCOUNT_CONTROL"
+    },
+    {
+      "id": "F01.12.SURFACE.SECURE_DATA_HANDLING",
+      "status": "WORKING",
+      "opens": "F01.12.DR.SECURE_DATA_HANDLING"
+    },
+    {
+      "id": "F01.12.SURFACE.SESSION_MANAGEMENT",
+      "status": "PARTIAL",
+      "opens": "F01.12.DR.SESSION_MANAGEMENT"
+    },
+    {
+      "id": "F01.12.ROUTE.CONTINUE",
+      "status": "WORKING",
+      "opens": "F01.13"
+    },
+    {
+      "id": "F01.13.ROUTE.SETUP",
+      "status": "WORKING",
+      "opens": "F02.00"
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F01.00",
+      "route": "entry",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.01",
+      "route": "entry/create",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.02",
+      "route": "entry/verify-email",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.03",
+      "route": "entry/sign-in",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.04",
+      "route": "entry/unlock",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.05",
+      "route": "entry/forgot-password",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.06",
+      "route": "entry/reset-sent",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.07",
+      "route": "entry/new-password",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.08",
+      "route": "entry/reset-success",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.09",
+      "route": "entry/biometric",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.10",
+      "route": "entry/device-trust",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.11",
+      "route": "entry/privacy",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.12",
+      "route": "entry/security",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.13",
+      "route": "entry/complete",
+      "status": "LIVE"
+    }
+  ],
+  "global_dependencies": [],
+  "data_dependencies": [
+    "DD.IDENTITY",
+    "DD.SESSION_DEVICE"
+  ],
+  "owned_data": [
+    "DD.IDENTITY",
+    "DD.SESSION_DEVICE"
+  ],
+  "read_data": [],
+  "write_data": [
+    "DD.IDENTITY",
+    "DD.SESSION_DEVICE"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlTextLink",
+    "JurnlInput",
+    "JurnlCheckbox",
+    "JurnlToggle",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlInlineExpansion",
+    "JurnlErrorPanel",
+    "JurnlSuccessPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlExternalHandoff",
+    "JurnlNativeHandoff",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlIcon",
+    "JurnlStateBlock",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "NO PREVIEW-ACCOUNT STORAGE IN PRODUCTION BUILDS",
+    "PROVIDER-BACKED AUTH BEFORE LAUNCH",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_ACCOUNT_SECURITY (CORE)",
+    "CORE_PERSONAL_DATA_CONTROL (CORE)"
+  ],
+  "functional_status": {
+    "score": 86.7,
+    "strict": 59,
+    "gap_counts": {
+      "COMPLETE_FUNCTIONAL": 85,
+      "PARTIAL_FUNCTIONAL": 57,
+      "STRUCTURE_ONLY": 2
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 41,
+    "visually_implemented": 41,
+    "parent": "VISUALLY_IMPLEMENTED"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F01.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F01.01": "MODULATE_PARENT_PLATE",
+    "F01.02": "MODULATE_PARENT_PLATE",
+    "F01.03": "MODULATE_PARENT_PLATE",
+    "F01.04": "MODULATE_PARENT_PLATE",
+    "F01.05": "MODULATE_PARENT_PLATE",
+    "F01.06": "REUSE_PARENT_PLATE",
+    "F01.07": "MODULATE_PARENT_PLATE",
+    "F01.08": "NO_PLATE_REQUIRED",
+    "F01.09": "MODULATE_PARENT_PLATE",
+    "F01.10": "REUSE_PARENT_PLATE",
+    "F01.11": "MODULATE_PARENT_PLATE",
+    "F01.12": "REUSE_PARENT_PLATE",
+    "F01.13": "REUSE_PARENT_PLATE",
+    "F01.01.DR.TERMS_OF_SERVICE": "NO_PLATE_REQUIRED",
+    "F01.01.DR.PRIVACY_POLICY": "NO_PLATE_REQUIRED",
+    "F01.02.DR.CHANGE_EMAIL": "NO_PLATE_REQUIRED",
+    "F01.03.DR.TEMPORARILY_LOCKED": "NO_PLATE_REQUIRED",
+    "F01.04.SH.USE_PASSWORD": "NO_PLATE_REQUIRED",
+    "F01.04.DR.SWITCH_ACCOUNT": "NO_PLATE_REQUIRED",
+    "F01.04.MD.SIGN_OUT": "NO_PLATE_REQUIRED",
+    "F01.09.DR.PERMISSION_DENIED": "NO_PLATE_REQUIRED",
+    "F01.10.DR.LEARN_WHAT_THIS_MEANS": "NO_PLATE_REQUIRED",
+    "F01.11.DR.YOUR_DATA": "NO_PLATE_REQUIRED",
+    "F01.11.DR.CONNECTED_ACCOUNTS": "NO_PLATE_REQUIRED",
+    "F01.11.DR.AI_ACCESS": "NO_PLATE_REQUIRED",
+    "F01.11.DR.DATA_EXPORT": "NO_PLATE_REQUIRED",
+    "F01.11.DR.REMOVE_ACCESS": "NO_PLATE_REQUIRED",
+    "F01.12.DR.BIOMETRIC_SIGN_IN": "NO_PLATE_REQUIRED",
+    "F01.12.DR.DEVICE_SECURITY": "NO_PLATE_REQUIRED",
+    "F01.12.DR.CONNECTED_ACCOUNT_CONTROL": "NO_PLATE_REQUIRED",
+    "F01.12.DR.SECURE_DATA_HANDLING": "NO_PLATE_REQUIRED",
+    "F01.12.DR.SESSION_MANAGEMENT": "NO_PLATE_REQUIRED",
+    "F01.11.MD.DELETE_ACCOUNT": "NO_PLATE_REQUIRED",
+    "F01.12.MD.REVOKE_SESSION": "NO_PLATE_REQUIRED",
+    "F01.OV.MAIL_HANDOFF": "NO_PLATE_REQUIRED",
+    "F01.03.OV.SUPPORT_HANDOFF": "NO_PLATE_REQUIRED",
+    "F01.OV.SOCIAL_APPLE": "NO_PLATE_REQUIRED",
+    "F01.OV.SOCIAL_GOOGLE": "NO_PLATE_REQUIRED",
+    "F01.04.OV.FACEID_UNLOCK": "NO_PLATE_REQUIRED",
+    "F01.09.OV.FACEID_ENABLE": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACCOUNT",
+    "ICON.APPLE",
+    "ICON.BACK",
+    "ICON.CHIP",
+    "ICON.DATABASE",
+    "ICON.DEVICE",
+    "ICON.FACE_ID",
+    "ICON.FINGERPRINT",
+    "ICON.GOOGLE",
+    "ICON.INFO",
+    "ICON.LAPTOP",
+    "ICON.PRIVACY",
+    "ICON.SHIELD",
+    "ICON.SWITCH_ACCOUNT"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (FOUNDER-APPROVED)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "FOUNDER_APPROVED",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B18 NO PRODUCTION AUTH PROVIDER (PREVIEW STORES PLAINTEXT PASSWORDS) — GATES F01 FUNCTIONAL AND LAUNCH",
+    "B20 EMAIL, SOCIAL AND NATIVE BIOMETRIC PROVIDERS ARE SIMULATED"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT"
+  ],
+  "implementation_dependencies": [
+    "W5.1",
+    "W5.5"
+  ],
+  "boundaries": [],
+  "extension": null,
+  "founder_flags": [],
+  "reusable_capability_candidates": [
+    "RC.BP.ENTRY_TRUST"
+  ]
+}

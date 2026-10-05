@@ -69,6 +69,7 @@ SITE00/
 | Firewall rules | `src/projects/README.md` | `data/` = data only (host may import); `runtime/` = lazy via `src/site00/projectRuntime/` only, CSS scoped to the project root |
 | Registry | `src/projects/registry.ts`, `families.ts` | Ingested project records + family contracts for the DESIGN workspace |
 | JURNL | `src/projects/jurnl/` | PERSONAL / FOUNDER; F01 ENTRY live runtime (`.jrn` scope); docs `docs/jurnl/` |
+| JURNL structural blueprint | `scripts/jurnl/structural-blueprint/` | Canonical F01–F16 product graph + functional / visual / approval / launch metrics → `docs/jurnl/structural-completion/` (`--check` for drift). 2026-10-05 |
 | Shared contracts | `shared/site00-product-families/`, `shared/site00-project-ingestion/` | Project-agnostic family production contract, family gate, asset-first policy, budget contract |
 
 ### Production guardrails & provider gateway (`shared/site00-production-guardrails/`)

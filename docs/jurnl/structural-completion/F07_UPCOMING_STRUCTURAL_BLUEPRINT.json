@@ -1,0 +1,374 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F07",
+  "name": "UPCOMING",
+  "purpose": "SHOW WHAT IS APPROACHING, AND WHEN.",
+  "product_job": "SHOW WHAT IS APPROACHING, AND WHEN.",
+  "parent": {
+    "family_id": "F07",
+    "parent_id": null,
+    "route": "upcoming",
+    "route_status": "PLACEHOLDER",
+    "implementation_status": "PLACEHOLDER",
+    "functional_status": "PLACEHOLDER",
+    "visual_status": "VISUALLY_IMPLEMENTED",
+    "approval_status": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.OBLIGATIONS",
+      "DD.ACCOUNTS",
+      "DD.TRANSACTIONS",
+      "DD.SETUP_PROFILE"
+    ],
+    "interaction_dependencies": [
+      "GS.BOTTOM_NAV",
+      "GS.TOP_CHROME",
+      "GS.QUICK_ADD",
+      "GS.ASK_JURNL",
+      "GS.MONEY_FORMAT",
+      "GS.DATE_MODEL",
+      "GS.FORM_SYSTEM",
+      "GS.STATE_PATTERNS",
+      "GS.FAMILY_DISCOVERY"
+    ],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+    "generation_requirement": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_ADD",
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.ACTION_MARK_PAID",
+      "ICON.BACK",
+      "ICON.CAT_HOUSING",
+      "ICON.CAT_MEMBERSHIP",
+      "ICON.CAT_UTILITIES",
+      "ICON.F07_DUE",
+      "ICON.INFO",
+      "ICON.STATUS_RECURRING"
+    ],
+    "reusable_capability_candidate": null,
+    "notes": [
+      "STATIC PREVIEW SPEC: \"WHAT IS COMING, AND WHEN?\" · SIGNAL \"NEXT, THEN, LATER\" · CTA \"OPEN THE NEXT\" DISABLED (NOT OPEN YET).",
+      "PLATE INTERFERENCE PASS; 639 CREDITS SPENT ON THE PARENT AUTHORITY.",
+      "NOT REACHABLE FROM THE PRODUCT TODAY (REVIEW BOARD OR TYPED URL ONLY)."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "VISUALLY_IMPLEMENTED",
+      "release": "NONE"
+    },
+    "functional_criteria": "R1 Uh D0 I0 S0 V- E0 M0 L0 P1 A1 N1",
+    "functional_score": 0.409,
+    "target_wave": 2,
+    "evidence": [
+      "src/projects/jurnl/data/parents/catalog.ts",
+      "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+      "JURNL/F07_*/MANIFEST/F07_EXPRESSION_TREE.json"
+    ],
+    "opens": null,
+    "node_id": "F07.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "UPCOMING",
+    "purpose": "SHOW WHAT IS APPROACHING, AND WHEN."
+  },
+  "children": [
+    {
+      "id": "F07.SEQUENCE",
+      "form": "EXPANDED_STATE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": null,
+      "status": "MISSING"
+    },
+    {
+      "id": "F07.ITEM",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "upcoming/:itemId",
+      "status": "MISSING"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [],
+  "sheets": [
+    "F07.SH.ADD_ITEM",
+    "F07.SH.EDIT_ITEM",
+    "F07.SH.WHEN"
+  ],
+  "modals": [
+    "F07.MD.REMOVE_ITEM"
+  ],
+  "states": [
+    {
+      "id": "F07.ST.LOADING",
+      "status": "MISSING"
+    },
+    {
+      "id": "F07.ST.CLEAR",
+      "status": "MISSING"
+    },
+    {
+      "id": "F07.ST.ERROR",
+      "status": "MISSING"
+    },
+    {
+      "id": "F07.ST.OVERDUE",
+      "status": "MISSING"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F07.IN.PRIMARY",
+      "status": "NO_OP",
+      "opens": "F07.ITEM"
+    },
+    {
+      "id": "F07.IN.ADD",
+      "status": "MISSING",
+      "opens": "F07.SH.ADD_ITEM"
+    },
+    {
+      "id": "F07.IN.EDIT",
+      "status": "MISSING",
+      "opens": "F07.SH.EDIT_ITEM"
+    },
+    {
+      "id": "F07.IN.REMOVE",
+      "status": "MISSING",
+      "opens": "F07.MD.REMOVE_ITEM"
+    },
+    {
+      "id": "F07.IN.MARK_PAID",
+      "status": "MISSING",
+      "opens": null
+    },
+    {
+      "id": "F07.IX.WHEN",
+      "status": "MISSING",
+      "opens": "F07.SH.WHEN"
+    },
+    {
+      "id": "F07.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F07.IN.ASK",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F07.NAV.TODAY",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F07.REVIEW.BOARD",
+      "status": "LEGACY",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F07.00",
+      "route": "upcoming",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "node_id": "F07.ITEM",
+      "route": "upcoming/:itemId",
+      "status": "MISSING"
+    }
+  ],
+  "global_dependencies": [
+    "GS.BOTTOM_NAV",
+    "GS.TOP_CHROME",
+    "GS.QUICK_ADD",
+    "GS.ASK_JURNL",
+    "GS.MONEY_FORMAT",
+    "GS.DATE_MODEL",
+    "GS.FORM_SYSTEM",
+    "GS.STATE_PATTERNS",
+    "GS.FAMILY_DISCOVERY"
+  ],
+  "data_dependencies": [
+    "DD.OBLIGATIONS",
+    "DD.ACCOUNTS",
+    "DD.TRANSACTIONS",
+    "DD.SETUP_PROFILE"
+  ],
+  "owned_data": [
+    "DD.OBLIGATIONS"
+  ],
+  "read_data": [
+    "DD.ACCOUNTS",
+    "DD.TRANSACTIONS",
+    "DD.SETUP_PROFILE"
+  ],
+  "write_data": [
+    "DD.OBLIGATIONS",
+    "DD.TRANSACTIONS"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlInlineExpansion",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlAmountField",
+    "JurnlDateField",
+    "JurnlCadencePicker",
+    "JurnlAccountPicker",
+    "JurnlSignal",
+    "JurnlRecordList",
+    "JurnlFieldRows",
+    "JurnlStateBlock",
+    "JurnlSequence",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_UPCOMING_BILLS (CORE)",
+    "ADVANCED_AUTOMATION (ADVANCED)"
+  ],
+  "functional_status": {
+    "score": 12.4,
+    "strict": 9.5,
+    "gap_counts": {
+      "PLACEHOLDER": 2,
+      "MISSING": 16,
+      "COMPLETE_FUNCTIONAL": 2,
+      "LEGACY": 1,
+      "PARTIAL_FUNCTIONAL": 1
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 7,
+    "visually_implemented": 1,
+    "parent": "VISUALLY_IMPLEMENTED"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F07.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F07.SEQUENCE": "REUSE_PARENT_PLATE",
+    "F07.ITEM": "NO_PLATE_REQUIRED",
+    "F07.SH.ADD_ITEM": "NO_PLATE_REQUIRED",
+    "F07.SH.EDIT_ITEM": "NO_PLATE_REQUIRED",
+    "F07.MD.REMOVE_ITEM": "NO_PLATE_REQUIRED",
+    "F07.SH.WHEN": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_ADD",
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.ACTION_MARK_PAID",
+    "ICON.BACK",
+    "ICON.CAT_HOUSING",
+    "ICON.CAT_MEMBERSHIP",
+    "ICON.CAT_UTILITIES",
+    "ICON.F07_DUE",
+    "ICON.INFO",
+    "ICON.STATUS_RECURRING"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B02 NO DATE MODEL",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B06 NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT",
+    "B11 F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+    "B14 ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT",
+    "B24 REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME"
+  ],
+  "implementation_dependencies": [
+    "W0.1",
+    "W0.3",
+    "W0.8",
+    "W1.4"
+  ],
+  "boundaries": [
+    "F07 IS NEAR-TERM AND ITEM-LEVEL (WHAT IS DUE, WHEN). IT IS NOT A GENERIC CALENDAR AND NOT A FORECAST.",
+    "F15 OWNS THE LONG PROJECTION; IT READS F07 OBLIGATIONS AS INPUTS.",
+    "F03 SHOWS THE NEXT TWO ITEMS (COMING); DEPTH LIVES IN F07.",
+    "F04 HOLDS THE PAYMENT MOVEMENT; A BILL OR SUBSCRIPTION STAYS RELATED CONTEXT ON THE MOVEMENT (F04_SCREEN_TREE).",
+    "F02.04 SEEDS NAME + CADENCE ONLY. F07 MUST CAPTURE THE AMOUNT AND DUE DATE (FIXES THE $0 OBLIGATION DEFECT)."
+  ],
+  "extension": null,
+  "founder_flags": [
+    "FF.NOTIFICATIONS"
+  ],
+  "reusable_capability_candidates": []
+}

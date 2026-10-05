@@ -1,0 +1,580 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "primitives": [
+    {
+      "id": "JurnlButton",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "BUTTON: PRIMARY / SECONDARY / QUIET / DESTRUCTIVE / SOCIAL",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlIconButton",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "BUTTON: UTILITY (ICON + aria-label)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlInlineAction",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "BUTTON: PANEL_HEADER_ACTION (EDITORIAL UTILITY, TEXT + CHEVRON)",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05–F16"
+      ],
+      "wave": 0,
+      "notes": "F03 LEARNING: SECONDARY PANEL-HEADER ACTIONS MAY NEED THIS EDITORIAL UTILITY TREATMENT INSTEAD OF A BOXED CTA. APPLY PER PANEL, NOT BLINDLY."
+    },
+    {
+      "id": "JurnlTextLink",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "BUTTON: INLINE",
+      "consumers": [
+        "F01",
+        "F02"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlInput",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "FORM FIELD",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlCheckbox",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "FORM CONTROL",
+      "consumers": [
+        "F01",
+        "F02"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlToggle",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "FORM CONTROL",
+      "consumers": [
+        "F01",
+        "GS.SETTINGS"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlChoice",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "SELECTION",
+      "consumers": [
+        "F02",
+        "GS.QUICK_ADD",
+        "F04"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlTile",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "ICON TILE",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlRow",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "LIST ROW (SELECTION / DETAIL)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlPanel",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "PANEL: SIGNAL / EDITORIAL / SELECTION / DETAIL (catalog.ts panelRole)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlInlineExpansion",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "EXPANDED_STATE CONTAINER",
+      "consumers": [
+        "F01",
+        "F03",
+        "F06",
+        "F07",
+        "F08",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlErrorPanel",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "ERROR STATE (role=alert)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlSuccessPanel",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "SUCCESS STATE",
+      "consumers": [
+        "F01",
+        "F02"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlSuccessBanner",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "TOAST (role=status, aria-live)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlDrawer",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "DRAWER (SHORT / LONG, dialog, focus trap, Escape)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlSheet",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "FULL SHEET (dialog, aria-modal)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlModal",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "MODAL / DESTRUCTIVE CONFIRM (alertdialog)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlExternalHandoff",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "EXTERNAL APP BOUNDARY",
+      "consumers": [
+        "F01"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlNativeHandoff",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "NATIVE OS BOUNDARY",
+      "consumers": [
+        "F01"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlScreen",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/screens/JurnlScreen.tsx",
+      "role": "SCREEN SHELL (PLATE / FAMILY PLATE / BONE FIELD)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0,
+      "notes": "field='bone' IS THE ZERO-GENERATION FALLBACK FOR NO_PLATE NODES."
+    },
+    {
+      "id": "JurnlHeadline",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "TITLE (h1, compact fit)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "useCompactFit",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/primitives.tsx",
+      "role": "TYPOGRAPHIC CONTAINMENT (GLOBAL RULE)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlProductNav",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/ProductNav.tsx",
+      "role": "GLOBAL NAV DOCK",
+      "consumers": [
+        "F03–F16"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlTransactionRow",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/TransactionRow.tsx",
+      "role": "LEDGER ROW",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06"
+      ],
+      "wave": 0,
+      "notes": "markFor() category glyphs are placeholders until the category catalog exists."
+    },
+    {
+      "id": "JurnlIcon",
+      "status": "EXISTING",
+      "file": "src/projects/jurnl/runtime/components/icons.tsx",
+      "role": "ICON (35 code-drawn names)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlTopChrome",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "TOP CHROME: BACK / TITLE / ASK / ACCOUNT",
+      "consumers": [
+        "F03–F16"
+      ],
+      "wave": 0,
+      "notes": "Replaces three per-screen compositions."
+    },
+    {
+      "id": "JurnlAmountField",
+      "status": "EXTRACT",
+      "file": "src/projects/jurnl/runtime/screens/HomeScreens.tsx (QuickAddSheet)",
+      "role": "FORM FIELD: AMOUNT WITH CURRENCY AFFIX, KEYBOARD RAISE",
+      "consumers": [
+        "GS.QUICK_ADD",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlDateField",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "FORM FIELD: DATE (ISO STORAGE, RELATIVE DISPLAY)",
+      "consumers": [
+        "GS.QUICK_ADD",
+        "F05",
+        "F06",
+        "F07",
+        "F11",
+        "F14",
+        "F16"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlCadencePicker",
+      "status": "EXTRACT",
+      "file": "src/projects/jurnl/runtime/screens/SetupScreens.tsx (F02_CADENCES)",
+      "role": "SELECTION: CADENCE",
+      "consumers": [
+        "F02",
+        "F06",
+        "F07",
+        "F08",
+        "F14"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlAccountPicker",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "SELECTION: PLACE (REGISTRY-BACKED)",
+      "consumers": [
+        "GS.QUICK_ADD",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F12"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlCategoryPicker",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "SELECTION: CATEGORY (CLOSED CATALOG)",
+      "consumers": [
+        "GS.QUICK_ADD",
+        "F04",
+        "F16"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlSignal",
+      "status": "EXTRACT",
+      "file": "src/projects/jurnl/runtime/screens/HomeScreens.tsx (Today signal) + ParentScreens.tsx",
+      "role": "PANEL: SIGNAL (ONE FIGURE + LABEL + SOURCE)",
+      "consumers": [
+        "F03",
+        "F05–F16"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlRecordList",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "PANEL: LEDGER / SELECTION LIST WITH EMPTY / LOADING / ERROR SLOTS",
+      "consumers": [
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F10",
+        "F11",
+        "F12",
+        "F14",
+        "F16"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlFieldRows",
+      "status": "EXTRACT",
+      "file": "src/projects/jurnl/runtime/screens/HomeScreens.tsx (DetailSheet / SeeWhySheet rows)",
+      "role": "PANEL: DETAIL (LABEL / VALUE / SOURCE ROWS)",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F09",
+        "F12",
+        "F16"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlStateBlock",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "PANEL: EMPTY / LOADING / STALE / OFFLINE / GATED, REPOSITORY-DRIVEN",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlProgress",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "PANEL: ANALYSIS — QUIET PROPORTION (GOAL, UTILIZATION, PATH). NOT GAMIFIED, NOT A DIAL.",
+      "consumers": [
+        "F12",
+        "F13",
+        "F14"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlComparePair",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "PANEL: ANALYSIS — BEFORE / AFTER PAIR (WHAT CHANGES)",
+      "consumers": [
+        "F10",
+        "F13",
+        "F15"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlSequence",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "PANEL: LEDGER — NEXT / THEN / LATER SEQUENCE",
+      "consumers": [
+        "F03",
+        "F07"
+      ],
+      "wave": 0
+    },
+    {
+      "id": "JurnlFileField",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "FORM FIELD: FILE ATTACH + PREVIEW",
+      "consumers": [
+        "F16"
+      ],
+      "wave": 4
+    },
+    {
+      "id": "JurnlDocumentViewer",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "PANEL: DETAIL — DOCUMENT VIEW",
+      "consumers": [
+        "F16"
+      ],
+      "wave": 4
+    },
+    {
+      "id": "JurnlRepository",
+      "status": "PROPOSED",
+      "file": null,
+      "role": "DATA: DOMAIN REPOSITORY INTERFACE + DEVICE ADAPTER (+ SERVER ADAPTER AT LAUNCH)",
+      "consumers": [
+        "ALL"
+      ],
+      "wave": 0
+    }
+  ],
+  "role_map": {
+    "panels": {
+      "SIGNAL": {
+        "primitive": "JurnlSignal + JurnlPanel(panelRole=signal)",
+        "examples": [
+          "F03 SAFE TO SPEND",
+          "F09 SIGNAL",
+          "F05 FOUR PLACES"
+        ]
+      },
+      "LEDGER": {
+        "primitive": "JurnlRecordList + JurnlTransactionRow / JurnlSequence",
+        "examples": [
+          "F04 LEDGER",
+          "F03 COMING / MOVED",
+          "F07 SEQUENCE"
+        ]
+      },
+      "EDITORIAL": {
+        "primitive": "JurnlPanel(panelRole=editorial)",
+        "examples": [
+          "F05 HOW IT SITS",
+          "F14 MEANING"
+        ]
+      },
+      "SELECTION": {
+        "primitive": "JurnlRecordList + JurnlRow / JurnlChoice",
+        "examples": [
+          "F05.ACCOUNTS",
+          "F06.SOURCES",
+          "F12.ACCOUNTS"
+        ]
+      },
+      "DETAIL": {
+        "primitive": "JurnlFieldRows + JurnlPanel(panelRole=detail)",
+        "examples": [
+          "F04 DETAIL",
+          "F07.ITEM",
+          "F12.ACCOUNT",
+          "F16.DOCUMENT"
+        ]
+      },
+      "FORM": {
+        "primitive": "JurnlSheet + JurnlInput / JurnlAmountField / JurnlDateField / pickers",
+        "examples": [
+          "QUICK ADD",
+          "F05.SH.ADD_PLACE",
+          "F14.SH.NAME_GOAL"
+        ]
+      },
+      "EMPTY": {
+        "primitive": "JurnlStateBlock",
+        "examples": [
+          "F07.ST.CLEAR",
+          "F10.ST.NONE",
+          "F15.ST.THIN"
+        ]
+      },
+      "ANALYSIS": {
+        "primitive": "JurnlComparePair / JurnlProgress",
+        "examples": [
+          "F10.DECISION",
+          "F13.WHAT_IF",
+          "F15.BRANCH",
+          "F12 UTILIZATION"
+        ]
+      }
+    },
+    "buttons": {
+      "PRIMARY": "JurnlButton variant=primary — ONE PER SCREEN (THE PARENT CONTRACT PRIMARY ACTION).",
+      "SECONDARY": "JurnlButton variant=secondary.",
+      "UTILITY": "JurnlIconButton — TOP CHROME, CLOSE, FILTER.",
+      "APPROVAL": "JurnlButton variant=primary INSIDE A CONFIRM (SAVE, KEEP THIS PATH).",
+      "DESTRUCTIVE": "JurnlButton variant=destructive INSIDE JurnlModal (REMOVE / DELETE / SIGN OUT).",
+      "INLINE": "JurnlTextLink.",
+      "PANEL_HEADER_ACTION": "JurnlInlineAction — EDITORIAL UTILITY (F03 MORE / ACTIVITY). F03 LEARNING: SECONDARY PANEL-HEADER ACTIONS MAY NEED THIS INSTEAD OF A BOXED CTA; DECIDE PER PANEL."
+    }
+  }
+}

@@ -1,0 +1,274 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "ontology_status": "EMERGING — IDENTIFIED ONLY. NOT FORMALIZED IN CODE. NOTHING EXTRACTED OR BRAND-NEUTRALIZED.",
+  "kinds": {
+    "BLUEPRINT": "A whole product or family shape (tree + contracts).",
+    "SYSTEM": "A cross-family capability with its own contract.",
+    "EXTENSION": "An optional, separately-entitled capability set.",
+    "PRIMITIVE": "A reusable component or behaviour."
+  },
+  "counts": {
+    "BLUEPRINT": 5,
+    "SYSTEM": 9,
+    "EXTENSION": 4,
+    "PRIMITIVE": 7
+  },
+  "candidates": [
+    {
+      "id": "RC.BP.PERSONAL_FINANCE_16",
+      "kind": "BLUEPRINT",
+      "name": "PERSONAL FINANCE PRODUCT TREE (16 FAMILIES)",
+      "source": [
+        "docs/jurnl/structural-completion/"
+      ],
+      "evidence": "This blueprint: families, ownership map, waves, functional contract.",
+      "maturity": "PARTIAL"
+    },
+    {
+      "id": "RC.BP.ENTRY_TRUST",
+      "kind": "BLUEPRINT",
+      "name": "ENTRY + TRUST FAMILY (ACCOUNT, VERIFY, RESET, BIOMETRIC, DEVICE, PRIVACY, SECURITY)",
+      "source": [
+        "src/projects/jurnl/data/f01/",
+        "JURNL/F01_ENTRY/"
+      ],
+      "evidence": "14 routes, 27 states, 74 interactions, LIVE_QA_PASSED.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.BP.GUIDED_SETUP",
+      "kind": "BLUEPRINT",
+      "name": "GUIDED SETUP THAT SEEDS OWNER FAMILIES",
+      "source": [
+        "src/projects/jurnl/data/f02/"
+      ],
+      "evidence": "11 routes, resume, validation; seeds F05 / F06 / F07 / F08 / F09 / F14.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.BP.DAILY_SIGNAL_HOME",
+      "kind": "BLUEPRINT",
+      "name": "DAILY SIGNAL HOME (ONE NUMBER, COMING, MOVED)",
+      "source": [
+        "src/projects/jurnl/runtime/screens/HomeScreens.tsx"
+      ],
+      "evidence": "F03 with 8 states.",
+      "maturity": "PARTIAL"
+    },
+    {
+      "id": "RC.BP.LEDGER",
+      "kind": "BLUEPRINT",
+      "name": "SEARCHABLE LEDGER WITH DETAIL",
+      "source": [
+        "src/projects/jurnl/runtime/screens/HomeScreens.tsx"
+      ],
+      "evidence": "F04 search / filter / detail.",
+      "maturity": "PARTIAL"
+    },
+    {
+      "id": "RC.SYS.CURRENCY",
+      "kind": "SYSTEM",
+      "name": "BASE ≠ DISPLAY CURRENCY SYSTEM",
+      "source": [
+        "src/projects/jurnl/data/home/currency.ts",
+        "JURNL/MANIFEST/JURNL_CURRENCY_CONTRACT.json"
+      ],
+      "evidence": "Canonical USD storage, no chain conversion, 3-row selector, stale policy.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.SYS.QUICK_ADD",
+      "kind": "SYSTEM",
+      "name": "GLOBAL QUICK ADD",
+      "source": [
+        "JURNL/MANIFEST/JURNL_QUICK_ADD_CONTRACT.json"
+      ],
+      "evidence": "Shared sheet with provenance quote.",
+      "maturity": "PARTIAL"
+    },
+    {
+      "id": "RC.SYS.AUTH_ADAPTER",
+      "kind": "SYSTEM",
+      "name": "AUTH ADAPTER WITH DESIGN-PREVIEW IMPLEMENTATION",
+      "source": [
+        "src/projects/jurnl/runtime/state/adapters.ts"
+      ],
+      "evidence": "One interface, preview + unconfigured kinds, typed error codes.",
+      "maturity": "PARTIAL"
+    },
+    {
+      "id": "RC.SYS.ENTITLEMENTS",
+      "kind": "SYSTEM",
+      "name": "CAPABILITY-BASED ENTITLEMENTS",
+      "source": [
+        "shared/site00-monetization/",
+        "src/projects/jurnl/data/monetization/"
+      ],
+      "evidence": "Already shared; safety floors.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.SYS.CONTAINMENT",
+      "kind": "SYSTEM",
+      "name": "INTERACTIVE TEXT CONTAINMENT (useCompactFit + QA SCRIPT)",
+      "source": [
+        "src/projects/jurnl/runtime/components/primitives.tsx",
+        "scripts/jurnl/interactive-text-qa.mjs"
+      ],
+      "evidence": "Global rule, 0 drift.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.SYS.PREVIEW_SWITCHES",
+      "kind": "SYSTEM",
+      "name": "DESIGN-PREVIEW INSPECTION SWITCHES (?state / ?overlay / ?scenario / ?os / ?reset)",
+      "source": [
+        "src/projects/jurnl/runtime/state/store.tsx"
+      ],
+      "evidence": "Every state and overlay addressable by URL.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.SYS.FAMILY_CONTRACT",
+      "kind": "SYSTEM",
+      "name": "FAMILY PRODUCTION CONTRACT + GATE",
+      "source": [
+        "shared/site00-product-families/"
+      ],
+      "evidence": "Already shared across projects.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.SYS.STRUCTURAL_BLUEPRINT",
+      "kind": "SYSTEM",
+      "name": "STRUCTURAL BLUEPRINT GENERATOR + PROGRESS METRICS",
+      "source": [
+        "scripts/jurnl/structural-blueprint/"
+      ],
+      "evidence": "This sprint: graph, criteria scoring, waves, validation.",
+      "maturity": "PARTIAL"
+    },
+    {
+      "id": "RC.SYS.REPOSITORY",
+      "kind": "SYSTEM",
+      "name": "DOMAIN REPOSITORY WITH DEVICE → SERVER ADAPTERS",
+      "source": [],
+      "evidence": "Proposed W0.3.",
+      "maturity": "PROPOSED"
+    },
+    {
+      "id": "RC.EXT.BUSINESS",
+      "kind": "EXTENSION",
+      "name": "JURNL BUSINESS EXTENSION (RECEIPTS, MILEAGE, P&L, TAX, ACCOUNTANT EXPORT)",
+      "source": [
+        "src/projects/jurnl/data/monetization/capabilities.ts"
+      ],
+      "evidence": "BUSINESS_* capabilities anchored in F16, reading F05 / F15 / F04.",
+      "maturity": "PROPOSED"
+    },
+    {
+      "id": "RC.EXT.TRAVEL",
+      "kind": "EXTENSION",
+      "name": "TRAVEL ADD-ON",
+      "source": [
+        "src/projects/jurnl/data/monetization/addOns.ts"
+      ],
+      "evidence": "F11 advanced trip planning.",
+      "maturity": "PROPOSED"
+    },
+    {
+      "id": "RC.EXT.MAJOR_PURCHASE",
+      "kind": "EXTENSION",
+      "name": "MAJOR PURCHASE PREP ADD-ON",
+      "source": [
+        "src/projects/jurnl/data/monetization/addOns.ts"
+      ],
+      "evidence": "F10 purchase analysis.",
+      "maturity": "PROPOSED"
+    },
+    {
+      "id": "RC.EXT.PREMIUM_CREDIT",
+      "kind": "EXTENSION",
+      "name": "PREMIUM CREDIT ADD-ON",
+      "source": [
+        "src/projects/jurnl/data/monetization/addOns.ts"
+      ],
+      "evidence": "F12 / F13 strategy.",
+      "maturity": "PROPOSED"
+    },
+    {
+      "id": "RC.PR.OVERLAYS",
+      "kind": "PRIMITIVE",
+      "name": "DRAWER / SHEET / MODAL WITH FOCUS TRAP + ESCAPE",
+      "source": [
+        "src/projects/jurnl/runtime/components/primitives.tsx"
+      ],
+      "evidence": "dialog / alertdialog, aria-modal, focus loop.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.PR.HANDOFFS",
+      "kind": "PRIMITIVE",
+      "name": "EXTERNAL + NATIVE HANDOFF BOUNDARIES",
+      "source": [
+        "src/projects/jurnl/runtime/components/primitives.tsx"
+      ],
+      "evidence": "Mail, provider and biometric boundaries.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.PR.TRANSACTION_ROW",
+      "kind": "PRIMITIVE",
+      "name": "LEDGER ROW",
+      "source": [
+        "src/projects/jurnl/runtime/components/TransactionRow.tsx"
+      ],
+      "evidence": "F03 + F04.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.PR.AMOUNT_FIELD",
+      "kind": "PRIMITIVE",
+      "name": "AMOUNT FIELD WITH CURRENCY AFFIX",
+      "source": [
+        "src/projects/jurnl/runtime/screens/HomeScreens.tsx"
+      ],
+      "evidence": "Inside QuickAddSheet; extract in W0.8.",
+      "maturity": "PARTIAL"
+    },
+    {
+      "id": "RC.PR.NAV_DOCK",
+      "kind": "PRIMITIVE",
+      "name": "CENTERED NAV DOCK WITH CENTER ACTION",
+      "source": [
+        "src/projects/jurnl/runtime/components/ProductNav.tsx"
+      ],
+      "evidence": "HOME / MONEY / + / PLAN / CREDIT.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.PR.PASSWORD_REQS",
+      "kind": "PRIMITIVE",
+      "name": "PASSWORD REQUIREMENTS",
+      "source": [
+        "src/projects/jurnl/runtime/components/primitives.tsx"
+      ],
+      "evidence": "F01.01 / F01.07.",
+      "maturity": "PROVEN"
+    },
+    {
+      "id": "RC.PR.INLINE_ACTION",
+      "kind": "PRIMITIVE",
+      "name": "PANEL-HEADER EDITORIAL ACTION",
+      "source": [
+        "src/projects/jurnl/runtime/components/primitives.tsx"
+      ],
+      "evidence": "F03 learning.",
+      "maturity": "PROVEN"
+    }
+  ]
+}

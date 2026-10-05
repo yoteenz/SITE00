@@ -1,0 +1,97 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "definition": "A node is FUNCTIONAL when every applicable criterion is met. A static placeholder is never FUNCTIONAL. A neutral structural presentation can be FUNCTIONAL; it is not VISUALLY_IMPLEMENTED.",
+  "criteria": [
+    {
+      "key": "R",
+      "id": "route_or_invocation",
+      "rule": "The node is reachable: a route mounts it, or a named interaction opens it."
+    },
+    {
+      "key": "U",
+      "id": "ui_shell",
+      "rule": "The intended layout and regions exist and bind data (a static spec counts half)."
+    },
+    {
+      "key": "D",
+      "id": "data_contract",
+      "rule": "A typed contract with a working persistent adapter for the person’s own data. Device persistence counts; mock constants, memory and session-only storage count half."
+    },
+    {
+      "key": "I",
+      "id": "core_interaction",
+      "rule": "The node’s job can be done end to end. Provider-simulated flows count half."
+    },
+    {
+      "key": "S",
+      "id": "state_transitions",
+      "rule": "States are driven by real data or user action. Preview-forced (?state=) only counts half."
+    },
+    {
+      "key": "V",
+      "id": "validation",
+      "rule": "Inputs are validated before writes, with field-level feedback."
+    },
+    {
+      "key": "E",
+      "id": "error",
+      "rule": "A failure renders a recoverable error, never a dead end."
+    },
+    {
+      "key": "M",
+      "id": "empty",
+      "rule": "No data renders a purposeful empty state."
+    },
+    {
+      "key": "L",
+      "id": "loading",
+      "rule": "Pending reads render a loading state."
+    },
+    {
+      "key": "P",
+      "id": "responsive",
+      "rule": "Holds at 393×852, 834×1194 and 1440×900 under the global composition + containment rules."
+    },
+    {
+      "key": "A",
+      "id": "accessibility_semantics",
+      "rule": "Roles, labels, focus management and live regions are present."
+    },
+    {
+      "key": "N",
+      "id": "navigation_return_path",
+      "rule": "There is a way back to where the person came from."
+    }
+  ],
+  "scoring": {
+    "met": 1,
+    "partial": 0.5,
+    "missing": 0,
+    "not_applicable": "excluded from the node denominator"
+  },
+  "applicability": {
+    "ROUTE_PAGE": "R U D I S E M L P A N (+V when the page takes input)",
+    "SHEET_FORM": "R U D I S V E L P A N",
+    "MODAL": "R U D I S E L P A N",
+    "EXPANDED_OR_INLINE_STATE": "R U D I S M P A",
+    "INTERACTION": "STATUS: WORKING 1 · PARTIAL 0.5 · NO_OP / VISUAL_ONLY / MISSING / BROKEN 0 · LEGACY excluded",
+    "STATE": "STATUS: LIVE 1 · SIMULATED / FORCED_ONLY 0.5 · MISSING 0",
+    "GLOBAL_SYSTEM_AND_DATA_DOMAIN": "APPLICABLE SUBSET LISTED PER NODE"
+  },
+  "persistence_rule": "FUNCTIONAL needs a working persistent adapter for the person’s own data. Device persistence satisfies FUNCTIONAL for financial data. Identity is the exception: sign-up, verification, reset, sessions and social sign-in need the auth / email provider (B18, B20), so F01 reaches 100% only in wave 5. Server persistence and RLS are LAUNCH gates (G03).",
+  "responsive_standard": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_standard": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "seo_rule": "Every JURNL route is authenticated → NOINDEX. No public or shareable route is evidenced.",
+  "analytics_rule": "Map to existing infrastructure only: trackActivity (src/utils/activity.ts) for jurnl_screen_view / jurnl_interaction with no financial payload; buildMonetizationEvent for gate + upgrade events; postToHost route events remain design-chamber only.",
+  "security_rule": "Production security is NOT claimed. Required before launch: provider-backed auth, server persistence with RLS + isolation tests, no preview-account storage in production builds, FX proxy, no financial data in analytics.",
+  "pass_evidence": [
+    "Unit tests for data + derived values",
+    "Runtime route + overlay smoke at 393 / 834 / 1440",
+    "interactive-text-qa.mjs 0 drift",
+    "Graph validation: target_unreachable = 0, dangling_opens = 0"
+  ]
+}

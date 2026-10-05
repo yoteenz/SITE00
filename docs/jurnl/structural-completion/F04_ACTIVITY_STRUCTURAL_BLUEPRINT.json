@@ -1,0 +1,344 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F04",
+  "name": "ACTIVITY",
+  "purpose": "A CALM SEARCHABLE LEDGER OF MONEY MOVEMENT.",
+  "product_job": "A CALM SEARCHABLE LEDGER OF MONEY MOVEMENT.",
+  "parent": {
+    "family_id": "F04",
+    "parent_id": null,
+    "route": "activity",
+    "route_status": "PARTIAL",
+    "implementation_status": "PARTIAL",
+    "functional_status": "PARTIAL_FUNCTIONAL",
+    "visual_status": "VISUALLY_IMPLEMENTED",
+    "approval_status": "IN_REVIEW",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.TRANSACTIONS",
+      "DD.ACCOUNTS",
+      "DD.CATEGORIES"
+    ],
+    "interaction_dependencies": [],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (UNREVIEWED)",
+    "generation_requirement": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.BACK",
+      "ICON.CAT_CLOTHING",
+      "ICON.CAT_DEBT",
+      "ICON.CAT_FOOD",
+      "ICON.CAT_HEALTH",
+      "ICON.CAT_HOUSING",
+      "ICON.CAT_INCOME",
+      "ICON.CAT_MEMBERSHIP",
+      "ICON.CAT_OTHER",
+      "ICON.CAT_TRANSFER",
+      "ICON.CAT_TRANSPORT",
+      "ICON.CAT_TRAVEL",
+      "ICON.CAT_UTILITIES",
+      "ICON.INFO",
+      "ICON.STATUS_ADDED",
+      "ICON.STATUS_PENDING",
+      "ICON.STATUS_RECURRING"
+    ],
+    "reusable_capability_candidate": "RC.BP.LEDGER",
+    "notes": [
+      "LEDGER = MOCK_ENTRIES + IN-MEMORY ADDS; NO DATES; NO EDIT / DELETE."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "VISUALLY_IMPLEMENTED",
+      "release": "QA_READY"
+    },
+    "functional_criteria": "R1 U1 Dh I1 S1 V- Eh Mh Lh P1 A1 N1",
+    "functional_score": 0.818,
+    "target_wave": 1,
+    "evidence": [
+      "HomeScreens.tsx ActivityScreen"
+    ],
+    "opens": null,
+    "node_id": "F04.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "ACTIVITY",
+    "purpose": "A CALM SEARCHABLE LEDGER OF MONEY MOVEMENT."
+  },
+  "children": [
+    {
+      "id": "F04.SEARCH",
+      "form": "INLINE_STATE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": null,
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F04.DETAIL",
+      "form": "DRAWER",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": null,
+      "status": "PARTIAL_FUNCTIONAL"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [
+    "F04.DR.FILTER"
+  ],
+  "sheets": [
+    "F04.SH.EDIT_MOVEMENT"
+  ],
+  "modals": [
+    "F04.MD.DELETE_MOVEMENT"
+  ],
+  "states": [
+    {
+      "id": "F04.00.LOADING",
+      "status": "FORCED_ONLY"
+    },
+    {
+      "id": "F04.00.EMPTY",
+      "status": "FORCED_ONLY"
+    },
+    {
+      "id": "F04.00.NO_RESULTS",
+      "status": "LIVE"
+    },
+    {
+      "id": "F04.00.FILTERED",
+      "status": "LIVE"
+    },
+    {
+      "id": "F04.00.ERROR",
+      "status": "FORCED_ONLY"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F04.IN.SEARCH",
+      "status": "WORKING",
+      "opens": "F04.SEARCH"
+    },
+    {
+      "id": "F04.IN.FILTER",
+      "status": "PARTIAL",
+      "opens": "F04.DR.FILTER"
+    },
+    {
+      "id": "F04.IN.DETAIL",
+      "status": "WORKING",
+      "opens": "F04.DETAIL"
+    },
+    {
+      "id": "F04.NAV.BACK",
+      "status": "WORKING",
+      "opens": "F03.00"
+    },
+    {
+      "id": "F04.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F04.IN.ASK",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F04.IN.EDIT",
+      "status": "MISSING",
+      "opens": "F04.SH.EDIT_MOVEMENT"
+    },
+    {
+      "id": "F04.IN.DELETE",
+      "status": "MISSING",
+      "opens": "F04.MD.DELETE_MOVEMENT"
+    },
+    {
+      "id": "F04.IN.RELATED",
+      "status": "MISSING",
+      "opens": "F07.ITEM"
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F04.00",
+      "route": "activity",
+      "status": "PARTIAL"
+    }
+  ],
+  "global_dependencies": [],
+  "data_dependencies": [
+    "DD.TRANSACTIONS",
+    "DD.ACCOUNTS",
+    "DD.CATEGORIES"
+  ],
+  "owned_data": [
+    "DD.TRANSACTIONS"
+  ],
+  "read_data": [
+    "DD.ACCOUNTS",
+    "DD.CATEGORIES"
+  ],
+  "write_data": [
+    "DD.TRANSACTIONS"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlChoice",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlTransactionRow",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlAccountPicker",
+    "JurnlCategoryPicker",
+    "JurnlFieldRows",
+    "JurnlStateBlock",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_TRANSACTION_TRACKING (CORE)",
+    "BUSINESS_CATEGORIZATION (BUSINESS)"
+  ],
+  "functional_status": {
+    "score": 62.7,
+    "strict": 33.3,
+    "gap_counts": {
+      "PARTIAL_FUNCTIONAL": 9,
+      "COMPLETE_FUNCTIONAL": 7,
+      "MISSING": 5
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 6,
+    "visually_implemented": 4,
+    "parent": "VISUALLY_IMPLEMENTED"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F04.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F04.SEARCH": "MODULATE_PARENT_PLATE",
+    "F04.DETAIL": "NO_PLATE_REQUIRED",
+    "F04.DR.FILTER": "NO_PLATE_REQUIRED",
+    "F04.SH.EDIT_MOVEMENT": "NO_PLATE_REQUIRED",
+    "F04.MD.DELETE_MOVEMENT": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.BACK",
+    "ICON.CAT_CLOTHING",
+    "ICON.CAT_DEBT",
+    "ICON.CAT_FOOD",
+    "ICON.CAT_HEALTH",
+    "ICON.CAT_HOUSING",
+    "ICON.CAT_INCOME",
+    "ICON.CAT_MEMBERSHIP",
+    "ICON.CAT_OTHER",
+    "ICON.CAT_TRANSFER",
+    "ICON.CAT_TRANSPORT",
+    "ICON.CAT_TRAVEL",
+    "ICON.CAT_UTILITIES",
+    "ICON.INFO",
+    "ICON.STATUS_ADDED",
+    "ICON.STATUS_PENDING",
+    "ICON.STATUS_RECURRING"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (UNREVIEWED)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "IN_REVIEW",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B02 NO DATE MODEL",
+    "B03 NO ACCOUNT REGISTRY",
+    "B08 NO CATEGORY TAXONOMY",
+    "B09 MOVEMENTS CANNOT BE EDITED OR DELETED",
+    "B10 LOADING / EMPTY / ERROR / STALE ARE PREVIEW-FORCED ONLY",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT"
+  ],
+  "implementation_dependencies": [
+    "W0.1",
+    "W0.2",
+    "W0.3",
+    "W0.4",
+    "W0.5",
+    "W1.4"
+  ],
+  "boundaries": [],
+  "extension": null,
+  "founder_flags": [],
+  "reusable_capability_candidates": [
+    "RC.BP.LEDGER"
+  ]
+}

@@ -1,0 +1,923 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "classification": [
+    "GLOBAL",
+    "FAMILY_OWNED",
+    "DUPLICATED"
+  ],
+  "nav_mapping": {
+    "HOME": "F03",
+    "MONEY": "F05",
+    "+": "QUICK ADD (GLOBAL)",
+    "PLAN": "F08",
+    "CREDIT": "F12",
+    "non_nav_discovery_proposed": {
+      "HOME": [
+        "F04",
+        "F07",
+        "F09"
+      ],
+      "MONEY": [
+        "F06",
+        "F16"
+      ],
+      "PLAN": [
+        "F09",
+        "F10",
+        "F11",
+        "F14",
+        "F15"
+      ],
+      "CREDIT": [
+        "F13"
+      ]
+    }
+  },
+  "ask_jurnl": {
+    "entry_points_today": [
+      "F03 top chrome info",
+      "F04 top chrome info"
+    ],
+    "context": "NONE (STATIC LINE)",
+    "permissions": "AI ACCESS PREFERENCE DEFAULTS OFF",
+    "read_write": "READ-ONLY",
+    "actions": "NONE",
+    "required": "EVERY FAMILY, FAMILY CONTEXT FROM DERIVED VALUES, READ-ONLY, NO ACTIONS. NO LLM WITHOUT A FOUNDER DECISION."
+  },
+  "quick_add": {
+    "types": [
+      "EXPENSE",
+      "INCOME"
+    ],
+    "required_additions": [
+      "DATE",
+      "CATEGORY",
+      "ACCOUNT FROM REGISTRY",
+      "PERSISTENCE",
+      "EDIT + DELETE (VIA F04 DETAIL)"
+    ],
+    "not_required": [
+      "RECURRENCE (AN F07 OBLIGATION)",
+      "MEMO ON ENTRY (EDITABLE IN DETAIL)",
+      "TRANSFER (F05 MOVE)"
+    ]
+  },
+  "currency": {
+    "status": "CLASSIFIED ONLY — NO CHANGE",
+    "base": "USD",
+    "display": "USER PREFERENCE",
+    "rules": [
+      "BASE ≠ DISPLAY",
+      "NO SYMBOL SWAP",
+      "NO CHAIN CONVERSION",
+      "THREE VISIBLE OPTIONS"
+    ],
+    "move_selector_to": "GS.SETTINGS"
+  },
+  "systems": [
+    {
+      "id": "GS.BOTTOM_NAV",
+      "type": "GLOBAL_NAV",
+      "name": "BOTTOM NAV (HOME / MONEY / + / PLAN / CREDIT)",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "IMPLEMENTED",
+      "criteria": "R1 U1 D- I1 S1 V- E- M- L- P1 A1 N1",
+      "evidence": "ProductNav.tsx ITEMS → F03 / F05 / quick add / F08 / F12; <nav aria-label=\"PRIMARY\">; centered dock.",
+      "required": "HOLD. NO SIXTH ITEM.",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "interactions": [
+        {
+          "id": "GS.NAV.HOME",
+          "name": "HOME",
+          "status": "WORKING",
+          "wave": 0,
+          "evidence": "ProductNav.tsx → F03.",
+          "opens": "F03.00"
+        },
+        {
+          "id": "GS.NAV.MONEY",
+          "name": "MONEY",
+          "status": "WORKING",
+          "wave": 0,
+          "evidence": "ProductNav.tsx → F05.",
+          "opens": "F05.00"
+        },
+        {
+          "id": "GS.NAV.ADD",
+          "name": "+ (QUICK ADD)",
+          "status": "WORKING",
+          "wave": 0,
+          "evidence": "ProductNav.tsx ADD → quick-add overlay.",
+          "opens": "GLOBAL.SH.QUICK_ADD"
+        },
+        {
+          "id": "GS.NAV.PLAN",
+          "name": "PLAN",
+          "status": "WORKING",
+          "wave": 0,
+          "evidence": "ProductNav.tsx → F08.",
+          "opens": "F08.00"
+        },
+        {
+          "id": "GS.NAV.CREDIT",
+          "name": "CREDIT",
+          "status": "WORKING",
+          "wave": 0,
+          "evidence": "ProductNav.tsx → F12.",
+          "opens": "F12.00"
+        }
+      ],
+      "functional_score": 1
+    },
+    {
+      "id": "GS.TOP_CHROME",
+      "type": "GLOBAL_SYSTEM",
+      "name": "TOP CHROME (BACK / INFO / UTILITY)",
+      "scope": "DUPLICATED",
+      "ownerFamily": null,
+      "current": "PARTIAL",
+      "gapOverride": "DUPLICATED",
+      "criteria": "R1 U1 D- I1 S- V- E- M- L- P1 A1 Nh",
+      "evidence": "Composed per screen (HomeScreens back+ASK, ParentScreens BOARD/TODAY, SetupScreens back). No shared component; three variants.",
+      "required": "ONE SHARED TOP-CHROME PRIMITIVE: BACK (RETURN PATH), TITLE SLOT, ASK, ACCOUNT ENTRY.",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 0.917
+    },
+    {
+      "id": "GS.QUICK_ADD",
+      "type": "GLOBAL_SYSTEM",
+      "name": "QUICK ADD",
+      "scope": "GLOBAL",
+      "ownerFamily": "F04",
+      "current": "PARTIAL",
+      "criteria": "R1 U1 Dh Ih S1 V1 E1 M- L- P1 A1 N1",
+      "evidence": "HomeScreens.tsx QuickAddSheet; JURNL_QUICK_ADD_CONTRACT.json. Writes in memory only (money.ts added[]), accounts hard-coded CHECKING/CARD, date fixed TODAY, category INCOME|OTHER, no edit/delete.",
+      "required": "PERSIST THROUGH THE LEDGER REPOSITORY; DATE (DEFAULT TODAY); CATEGORY; ACCOUNT FROM THE REGISTRY; EDIT/DELETE VIA F04 DETAIL. NO RECURRENCE (RECURRENCE IS AN F07 OBLIGATION).",
+      "wave": 1,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "surfaces": [
+        {
+          "id": "GLOBAL.SH.QUICK_ADD",
+          "type": "SHEET",
+          "name": "QUICK ADD SHEET",
+          "current": "IMPLEMENTED",
+          "criteria": "R1 U1 Dh Ih S1 V1 E1 M- L- P1 A1 N1",
+          "wave": 1,
+          "evidence": "QuickAddSheet (exported, shared by F03/F04/F05–F16)."
+        }
+      ],
+      "interactions": [
+        {
+          "id": "GS.QA.VALIDATE",
+          "name": "VALIDATE",
+          "status": "WORKING",
+          "wave": 0,
+          "evidence": "SAVE disabled until name + amount regex + type + account."
+        },
+        {
+          "id": "GS.QA.CURRENCY_ENTRY",
+          "name": "ENTER IN DISPLAY CURRENCY",
+          "status": "WORKING",
+          "wave": 0,
+          "evidence": "quoteQuickAdd stores entered + canonical USD + rate + timestamp."
+        },
+        {
+          "id": "GS.QA.SAVE",
+          "name": "SAVE",
+          "status": "PARTIAL",
+          "wave": 1,
+          "evidence": "addLedgerEntry writes to an in-memory array; lost on reload."
+        }
+      ],
+      "functional_score": 0.9
+    },
+    {
+      "id": "GS.ASK_JURNL",
+      "type": "AI_SURFACE",
+      "name": "ASK JURNL",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "PARTIAL",
+      "criteria": "R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1",
+      "evidence": "HomeScreens.tsx AskSheet: one static line + display currency selector. Mounted on F03/F04 only. No LLM wiring anywhere (server sweep). AI access preference defaults OFF.",
+      "required": "EXPLANATION-ONLY SURFACE ON EVERY FAMILY, CONTEXT = CURRENT FAMILY + ITS DERIVED VALUES, READ-ONLY. NO WRITES, NO ACTIONS. LLM PROVIDER IS A FOUNDER DECISION (AI_EXPLAIN_BASIC IS A SAFETY FLOOR). CURRENCY SELECTOR MOVES TO SETTINGS.",
+      "wave": 1,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "surfaces": [
+        {
+          "id": "GLOBAL.SH.ASK",
+          "type": "SHEET",
+          "name": "ASK SHEET",
+          "current": "IMPLEMENTED",
+          "criteria": "R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1",
+          "wave": 1,
+          "evidence": "AskSheet (F03/F04)."
+        }
+      ],
+      "interactions": [
+        {
+          "id": "GS.ASK.EXPLAIN",
+          "name": "EXPLAIN",
+          "status": "PARTIAL",
+          "wave": 1,
+          "evidence": "Static sentence; not family-aware."
+        },
+        {
+          "id": "GS.ASK.CURRENCY_SELECT",
+          "name": "DISPLAY CURRENCY",
+          "status": "WORKING",
+          "wave": 1,
+          "evidence": "setCurrency; 3 visible rows; persisted jurnl.currency. Misplaced inside ASK."
+        }
+      ],
+      "functional_score": 0.875
+    },
+    {
+      "id": "GS.CURRENCY",
+      "type": "GLOBAL_SYSTEM",
+      "name": "CURRENCY (BASE USD ≠ DISPLAY)",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "IMPLEMENTED",
+      "criteria": "R1 U1 D1 I1 S1 V1 E1 M- L1 P1 A1 N1",
+      "evidence": "currency.ts + JURNL_CURRENCY_CONTRACT / EXCHANGE_RATE_CONTRACT: 20 codes, base USD, conversion only from canonical USD (no chain), no symbol swap, 3 visible rows, 24h fresh / 7d stale, never invents a rate.",
+      "required": "CLASSIFY ONLY (NO CHANGE THIS SPRINT). MOVE THE SELECTOR TO SETTINGS. RECONCILE DOC DRIFT (GLOBAL_COMPOSITION_RULES + CORE.md:297 STILL SAY NO FX).",
+      "wave": 1,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 1
+    },
+    {
+      "id": "GS.MONEY_FORMAT",
+      "type": "GLOBAL_SYSTEM",
+      "name": "MONEY FORMATTER",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "IMPLEMENTED",
+      "criteria": "R- U- D1 I1 S- V1 E1 M- L- P- A- N-",
+      "evidence": "formatMoney falls back to USD, never swaps a symbol.",
+      "required": "HOLD. F05–F16 PREVIEW ROWS ARE NOT FORMATTED TODAY BECAUSE THEY ARE LABELS; REAL VALUES MUST USE formatMoney.",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 1
+    },
+    {
+      "id": "GS.DATE_MODEL",
+      "type": "GLOBAL_SYSTEM",
+      "name": "DATE MODEL + DATE FORMATTER",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "criteria": "R- U- D0 I0 S- V0 E0 M- L- P- A- N-",
+      "evidence": "money.ts LedgerEntry.when is a string ('YESTERDAY', 'FRIDAY'); FilterSheet WHEN options are hard-coded weekday names; quick add writes 'TODAY'.",
+      "required": "ISO DATE STORAGE, RELATIVE DISPLAY (TODAY / YESTERDAY / WEEKDAY / DATE), CADENCE MATH (WEEKLY, EVERY TWO WEEKS, MONTHLY, IRREGULAR — F02_CADENCES), NEXT-OCCURRENCE.",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F06",
+        "F07",
+        "F09",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.CATEGORIES",
+      "type": "GLOBAL_SYSTEM",
+      "name": "CATEGORY TAXONOMY",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "criteria": "R- U- D0 I0 S- V0 E- M- L- P- A- N-",
+      "evidence": "category is a free string; mock uses CLOTHING / FOOD / INCOME / HOUSING / MEMBERSHIP; quick add writes INCOME | OTHER; TransactionRow.markFor maps three categories to placeholder glyphs.",
+      "required": "ONE CLOSED CATEGORY LIST WITH ICON BINDINGS; CATEGORY PICKER PRIMITIVE. BUSINESS_CATEGORIZATION IS A SERVER-ENFORCED EXTENSION ON TOP.",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F08",
+        "F16"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.ACCOUNT_REGISTRY",
+      "type": "GLOBAL_SYSTEM",
+      "name": "ACCOUNT PICKER (REGISTRY-BACKED)",
+      "scope": "DUPLICATED",
+      "ownerFamily": "F05",
+      "current": "MISSING",
+      "gapOverride": "DUPLICATED",
+      "criteria": "R- U1 D0 I0 S- V0 E- M- L- P1 A1 N-",
+      "evidence": "QuickAddSheet ACCOUNT and FilterSheet ACCOUNT each hard-code CHECKING / CARD; F02 keeps one accountName/accountKind; MOCK_ENTRIES use CHECKING / CARD.",
+      "required": "ONE PICKER READING DD.ACCOUNTS (OWNED BY F05). REMOVE BOTH HARD-CODED LISTS.",
+      "wave": 0,
+      "consumers": [
+        "F04",
+        "F05",
+        "F07",
+        "F12",
+        "F13",
+        "GS.QUICK_ADD"
+      ],
+      "functional_score": 0.5
+    },
+    {
+      "id": "GS.TRANSACTION_DETAIL",
+      "type": "GLOBAL_SYSTEM",
+      "name": "TRANSACTION DETAIL",
+      "scope": "FAMILY_OWNED",
+      "ownerFamily": "F04",
+      "current": "PARTIAL",
+      "criteria": "R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1",
+      "evidence": "F04 DetailSheet: 11 read-only fields. No edit, no delete, RELATED is text.",
+      "required": "EDIT / DELETE FOR HAND-ADDED MOVEMENTS; RELATED OPENS F07.ITEM; REUSED BY F05.ACCOUNT AND F06.SOURCE ARRIVALS.",
+      "wave": 1,
+      "consumers": [
+        "F04",
+        "F05",
+        "F06",
+        "F03"
+      ],
+      "functional_score": 0.875
+    },
+    {
+      "id": "GS.SEARCH",
+      "type": "GLOBAL_SYSTEM",
+      "name": "SEARCH",
+      "scope": "FAMILY_OWNED",
+      "ownerFamily": "F04",
+      "current": "IMPLEMENTED",
+      "criteria": "R1 U1 D1 I1 S1 V- E- M1 L- P1 A1 N1",
+      "evidence": "F04 search, 160ms debounce, query summary + CLEAR, NO_RESULTS. F16 IX.FIND is the only other search in the tree.",
+      "required": "NO GLOBAL SEARCH (NO EVIDENCE). F16 REUSES THE F04 SEARCH PRIMITIVE.",
+      "wave": 0,
+      "consumers": [
+        "F04",
+        "F16"
+      ],
+      "functional_score": 1
+    },
+    {
+      "id": "GS.FILTERING",
+      "type": "GLOBAL_SYSTEM",
+      "name": "FILTERING",
+      "scope": "FAMILY_OWNED",
+      "ownerFamily": "F04",
+      "current": "PARTIAL",
+      "criteria": "R1 U1 Dh I1 S1 V- E- M- L- P1 A1 N1",
+      "evidence": "F04 FilterSheet: ACCOUNT / DIRECTION / STATUS / WHEN, CLEAR. Options hard-coded, not data-driven.",
+      "required": "OPTIONS FROM THE ACCOUNT REGISTRY AND THE DATE MODEL. F16 INDEX REUSES THE PATTERN.",
+      "wave": 1,
+      "consumers": [
+        "F04",
+        "F16"
+      ],
+      "functional_score": 0.938
+    },
+    {
+      "id": "GS.FORM_SYSTEM",
+      "type": "GLOBAL_SYSTEM",
+      "name": "FORM SYSTEM",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "IMPLEMENTED",
+      "criteria": "R- U1 D- I1 S1 V1 E1 M- L1 P1 A1 N-",
+      "evidence": "primitives.tsx JurnlInput (role=alert errors), JurnlChoice (aria-pressed), JurnlCheckbox (role=checkbox), JurnlToggle (role=switch), JurnlPasswordRequirements; useCompactFit containment.",
+      "required": "ADD AMOUNT, DATE, CADENCE, ACCOUNT AND CATEGORY FIELDS AS SHARED PRIMITIVES (SEE SHARED PRIMITIVES).",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 1
+    },
+    {
+      "id": "GS.STATE_PATTERNS",
+      "type": "GLOBAL_SYSTEM",
+      "name": "GLOBAL ERROR / EMPTY / LOADING / OFFLINE",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "PARTIAL",
+      "criteria": "R- U1 D0 Ih Sh V- E1 M1 L1 P1 A1 N-",
+      "evidence": "JurnlErrorPanel / JurnlSuccessPanel / toasts exist. F03/F04 LOADING, EMPTY, ERROR, STALE are reachable only through ?state= (design-preview switch). Offline exists only on F01.03.",
+      "required": "STATES DRIVEN BY REPOSITORY STATUS (pending / error / empty / stale), GLOBAL OFFLINE BANNER, RETRY. KEEP ?state= AS A PREVIEW SWITCH ONLY.",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 0.778
+    },
+    {
+      "id": "GS.PERSISTENCE",
+      "type": "BACKGROUND_PROCESS",
+      "name": "USER-SCOPED DATA PERSISTENCE",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "criteria": "R- U- D0 I0 S0 V- E0 M- L- P- A- N-",
+      "evidence": "No JURNL tables (57 migrations, none JURNL). DRAFT_SCHEMA.sql NOT APPLIED. Setup = sessionStorage; quick add = memory; ledger/cash/upcoming = MOCK constants.",
+      "required": "A REPOSITORY CONTRACT PER DATA DOMAIN WITH A DEVICE ADAPTER NOW (FUNCTIONAL) AND A SERVER ADAPTER LATER (LAUNCH). ONE INTERFACE, SWAPPABLE.",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.AUTH",
+      "type": "GLOBAL_SYSTEM",
+      "name": "AUTH",
+      "scope": "FAMILY_OWNED",
+      "ownerFamily": "F01",
+      "current": "PARTIAL",
+      "criteria": "R1 U1 Dh Ih S1 V1 E1 M- L1 P1 A1 N1",
+      "evidence": "adapters.ts DESIGN_PREVIEW (localStorage accounts, plaintext passwords) / UNCONFIGURED. jurnlProject.ts authNote: provider unresolved; SITE 00 Supabase is not reused. D-17 / D-18.",
+      "required": "PRODUCTION ADAPTER BEHIND THE EXISTING JurnlAuthAdapter INTERFACE (EMAIL VERIFY, RESET, SESSIONS, DELETE, SOCIAL). PROVIDER = FOUNDER DECISION.",
+      "wave": 5,
+      "consumers": [
+        "F01",
+        "GS.SETTINGS"
+      ],
+      "functional_score": 0.909
+    },
+    {
+      "id": "GS.SETTINGS",
+      "type": "GLOBAL_SYSTEM",
+      "name": "ACCOUNT / PROFILE / SETTINGS",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "route": "account",
+      "criteria": "R0 U0 D0 I0 S0 V0 E0 M- L0 P0 A0 N0",
+      "evidence": "F01.11 / F01.12 hold privacy, AI access, export, delete, sessions — reachable only during entry. Sign out exists only on F01.04 switch sheet. Currency lives inside ASK.",
+      "required": "ONE POST-ENTRY SURFACE: PROFILE, DISPLAY CURRENCY, AI ACCESS, CONSENTS, DATA EXPORT, DELETE ACCOUNT, SESSIONS, SIGN OUT. REUSES F01.11 / F01.12 DRAWER CONTENT. ENTRY FROM TOP CHROME ON HOME (NO SIXTH NAV ITEM) — FOUNDER DECISION.",
+      "wave": 1,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "surfaces": [
+        {
+          "id": "GS.SETTINGS.DR.CURRENCY",
+          "type": "DRAWER",
+          "name": "DISPLAY CURRENCY",
+          "current": "MISSING",
+          "criteria": "R0 U0 D1 I1 S1 V- E1 M- L1 P0 A0 N0",
+          "wave": 1,
+          "evidence": "Selector exists inside ASK; needs a home here."
+        },
+        {
+          "id": "GS.SETTINGS.DR.PRIVACY",
+          "type": "DRAWER",
+          "name": "PRIVACY + AI ACCESS",
+          "current": "MISSING",
+          "criteria": "R0 U0 D1 I0 S0 V- E0 M- L- P0 A0 N0",
+          "wave": 1,
+          "evidence": "F01.11 drawers reusable."
+        },
+        {
+          "id": "GS.SETTINGS.DR.SECURITY",
+          "type": "DRAWER",
+          "name": "SECURITY + SESSIONS",
+          "current": "MISSING",
+          "criteria": "R0 U0 Dh I0 S0 V- E0 M- L- P0 A0 N0",
+          "wave": 1,
+          "evidence": "F01.12 drawers reusable."
+        },
+        {
+          "id": "GS.SETTINGS.SH.EXPORT",
+          "type": "SHEET",
+          "name": "EXPORT MY DATA",
+          "current": "MISSING",
+          "criteria": "R0 U0 D0 I0 S0 V- E0 M- L0 P0 A0 N0",
+          "wave": 1,
+          "evidence": "F01.11 records exportRequested only."
+        },
+        {
+          "id": "GS.SETTINGS.MD.SIGN_OUT",
+          "type": "MODAL",
+          "name": "SIGN OUT",
+          "current": "MISSING",
+          "criteria": "R0 U0 D1 I0 S0 V- E- M- L- P0 A0 N0",
+          "wave": 1,
+          "evidence": "sign-out modal exists on F01.04 only."
+        },
+        {
+          "id": "GS.SETTINGS.MD.DELETE_ACCOUNT",
+          "type": "MODAL",
+          "name": "DELETE ACCOUNT",
+          "current": "MISSING",
+          "criteria": "R0 U0 Dh I0 S0 V- E0 M- L0 P0 A0 N0",
+          "wave": 1,
+          "evidence": "delete-account modal exists on F01.11 only."
+        }
+      ],
+      "interactions": [
+        {
+          "id": "GS.SETTINGS.OPEN",
+          "name": "OPEN ACCOUNT",
+          "status": "MISSING",
+          "wave": 1,
+          "evidence": "No entry point after F01.13."
+        },
+        {
+          "id": "GS.SETTINGS.SIGN_OUT",
+          "name": "SIGN OUT",
+          "status": "MISSING",
+          "wave": 1,
+          "evidence": "Post-entry sign out does not exist."
+        },
+        {
+          "id": "GS.SETTINGS.EXPORT",
+          "name": "EXPORT MY DATA",
+          "status": "MISSING",
+          "wave": 1,
+          "evidence": "Safety floor CORE_PERSONAL_DATA_CONTROL."
+        },
+        {
+          "id": "GS.SETTINGS.DELETE",
+          "name": "DELETE ACCOUNT",
+          "status": "MISSING",
+          "wave": 1,
+          "evidence": "Only reachable during entry."
+        }
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.FAMILY_DISCOVERY",
+      "type": "GLOBAL_SYSTEM",
+      "name": "FAMILY DISCOVERY (NON-NAV FAMILIES)",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "criteria": "R0 U0 D- I0 S- V- E- M- L- P0 A0 N0",
+      "evidence": "In-product reach today: F03→F04 (ACTIVITY), nav → F05 / F08 / F12. F06, F07, F09, F10, F11, F13, F14, F15, F16 are reachable only through the review board (/parents) or a typed URL.",
+      "required": "HUB LINKS (PROPOSED): HOME→F04 F07 F09 · MONEY→F06 F16 · PLAN→F09 F10 F11 F14 F15 · CREDIT→F13. FOUNDER DECISION ON THE MAPPING.",
+      "wave": 1,
+      "consumers": [
+        "F03",
+        "F05",
+        "F08",
+        "F12"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.ENTITLEMENTS",
+      "type": "GLOBAL_SYSTEM",
+      "name": "ENTITLEMENTS / CAPABILITY GATES",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "PARTIAL",
+      "criteria": "R- U1 Dh I1 S1 V- E1 M- L- P1 A1 N-",
+      "evidence": "JurnlEntitlementsProvider + capabilities.ts (CLIENT_PRESENTATION vs SERVER_ENFORCED). No server to enforce. DRAFT_16_FAMILY_ENTITLEMENT_MAP founderApproved:false.",
+      "required": "GATE STATE PATTERN (FEATURE_GATE_SEEN) ON ADVANCED NODES; SAFETY FLOORS NEVER GATED. SERVER ENFORCEMENT AT LAUNCH.",
+      "wave": 1,
+      "consumers": [
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 0.929
+    },
+    {
+      "id": "GS.EXCHANGE_RATES",
+      "type": "BACKGROUND_PROCESS",
+      "name": "EXCHANGE RATE REFRESH",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "IMPLEMENTED",
+      "criteria": "R- U- D1 I1 S1 V1 E1 M- L1 P- A- N-",
+      "evidence": "Client fetch open.er-api.com, memory + localStorage cache, stale fallback, never invents a rate.",
+      "required": "HOLD. A SERVER PROXY IS A LAUNCH CONCERN (RATE LIMITS, PRIVACY).",
+      "wave": 0,
+      "consumers": [
+        "GS.CURRENCY"
+      ],
+      "functional_score": 1
+    },
+    {
+      "id": "GS.DATA_REFRESH",
+      "type": "BACKGROUND_PROCESS",
+      "name": "DATA REFRESH / STALENESS",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "criteria": "R- U- D0 I0 S0 V- E0 M- L0 P- A- N-",
+      "evidence": "Today REFRESH calls go('F03') (re-render, clears the forced state). Nothing is fetched.",
+      "required": "REPOSITORY RE-READ + AS-OF TIMESTAMPS PER DOMAIN; STALE = AS-OF OLDER THAN THE DOMAIN WINDOW. BANK SYNC ONLY IF FOUNDER APPROVES AGGREGATION.",
+      "wave": 0,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.BANK_CONNECTION",
+      "type": "BACKGROUND_PROCESS",
+      "name": "BANK CONNECTION (AGGREGATION)",
+      "scope": "GLOBAL",
+      "ownerFamily": "F02",
+      "current": "MISSING",
+      "gapOverride": "VISUAL_ONLY",
+      "criteria": "R1 U1 D0 I0 S- V- E0 M- L0 P1 A1 N1",
+      "evidence": "No Plaid / MX / Teller / Finicity / Yodlee. F02.02 connect patches the draft to CONNECTED. F03_SCREEN_TREE: \"No live bank connection exists.\"",
+      "required": "FOUNDER DECISION: MANUAL-FIRST AT LAUNCH (RELABEL F02.02 CONNECT AS NAMING A PLACE, NO PRETEND CONNECTION) OR A PROVIDER. NOT REQUIRED FOR 100% FUNCTIONAL IF MANUAL-FIRST.",
+      "wave": 1,
+      "consumers": [
+        "F02",
+        "F05",
+        "F04"
+      ],
+      "functional_score": 0.556
+    },
+    {
+      "id": "GS.FILE_STORAGE",
+      "type": "BACKGROUND_PROCESS",
+      "name": "DOCUMENT FILE STORAGE",
+      "scope": "FAMILY_OWNED",
+      "ownerFamily": "F16",
+      "current": "MISSING",
+      "criteria": "R- U- D0 I0 S0 V0 E0 M- L0 P- A- N-",
+      "evidence": "No storage path for JURNL documents.",
+      "required": "DEVICE ADAPTER (IndexedDB BLOBS) FOR FUNCTIONAL; PRIVATE BUCKET + RLS AT LAUNCH.",
+      "wave": 4,
+      "consumers": [
+        "F16"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.NOTIFICATIONS",
+      "type": "GLOBAL_SYSTEM",
+      "name": "NOTIFICATIONS",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "gapOverride": "MISSING",
+      "criteria": "R- U- D- I0 S- V- E- M- L- P- A- N-",
+      "evidence": "No notification system or preference. No family names one as required.",
+      "required": "OUT OF FUNCTIONAL SCOPE UNTIL THE FOUNDER SCOPES IT (DUE-SOON FOR F07 IS THE ONLY EVIDENCED CANDIDATE).",
+      "wave": 5,
+      "consumers": [
+        "F07"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.ANALYTICS",
+      "type": "GLOBAL_SYSTEM",
+      "name": "ANALYTICS",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "criteria": "R- U- D0 I0 S- V- E- M- L- P- A- N-",
+      "evidence": "trackActivity → /api/activity → user_activity (no migration). buildMonetizationEvent allow-list is never sent. postToHost('route') feeds DesignChamber only. No GA / PostHog.",
+      "required": "REUSE trackActivity WITH A JURNL PREFIX FOR SCREEN + INTERACTION EVENTS (NO FINANCIAL PAYLOADS); SEND MONETIZATION EVENTS THROUGH buildMonetizationEvent. NO NEW EVENT SYSTEM.",
+      "wave": 5,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.SEO_NOINDEX",
+      "type": "GLOBAL_SYSTEM",
+      "name": "SEO / NOINDEX",
+      "scope": "GLOBAL",
+      "ownerFamily": null,
+      "current": "MISSING",
+      "criteria": "R- U- D- I0 S- V- E- M- L- P- A- N-",
+      "evidence": "No noindex, robots.txt or X-Robots-Tag. Site00InternalProductionGuard is skipped on localhost and fsbw-dev hosts.",
+      "required": "EVERY JURNL ROUTE IS AUTHENTICATED → NOINDEX. NO PUBLIC OR SHAREABLE ROUTE IS EVIDENCED.",
+      "wave": 5,
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "functional_score": 0
+    },
+    {
+      "id": "GS.NATIVE_BRIDGE",
+      "type": "BACKGROUND_PROCESS",
+      "name": "NATIVE BRIDGE (BIOMETRIC / DEVICE)",
+      "scope": "FAMILY_OWNED",
+      "ownerFamily": "F01",
+      "current": "PARTIAL",
+      "criteria": "R- U- Dh Ih S1 V- E1 M- L- P- A- N-",
+      "evidence": "createDesignPreviewNativeBridge simulates biometric outcomes and external targets.",
+      "required": "REAL BRIDGE IN THE NATIVE SHELL. LAUNCH CONCERN.",
+      "wave": 5,
+      "consumers": [
+        "F01"
+      ],
+      "functional_score": 0.75
+    },
+    {
+      "id": "GS.CONSENT",
+      "type": "GLOBAL_SYSTEM",
+      "name": "CONSENT + AI ACCESS",
+      "scope": "DUPLICATED",
+      "ownerFamily": null,
+      "current": "PARTIAL",
+      "gapOverride": "DUPLICATED",
+      "criteria": "R1 U1 Dh I1 S1 V- E- M- L- P1 A1 N1",
+      "evidence": "F01.11 AI ACCESS toggles → device PRIVACY_PREFERENCES; F02.07 consentRemember / consentLinks / consentSale → setup draft. Two stores for overlapping consent.",
+      "required": "ONE CONSENT RECORD; F01.11 AND F02.07 BOTH WRITE IT; SETTINGS READS IT.",
+      "wave": 1,
+      "consumers": [
+        "F01",
+        "F02",
+        "GS.SETTINGS",
+        "GS.ASK_JURNL"
+      ],
+      "functional_score": 0.938
+    }
+  ]
+}

@@ -1,0 +1,657 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "rule": "A → B when family A reads (or F02 seeds) a domain owned by family B.",
+  "edges": [
+    {
+      "from": "F02",
+      "to": "F05",
+      "kind": "SEEDS"
+    },
+    {
+      "from": "F02",
+      "to": "F06",
+      "kind": "SEEDS"
+    },
+    {
+      "from": "F02",
+      "to": "F07",
+      "kind": "SEEDS"
+    },
+    {
+      "from": "F02",
+      "to": "F08",
+      "kind": "SEEDS"
+    },
+    {
+      "from": "F02",
+      "to": "F09",
+      "kind": "SEEDS"
+    },
+    {
+      "from": "F02",
+      "to": "F14",
+      "kind": "SEEDS"
+    },
+    {
+      "from": "F03",
+      "to": "F02",
+      "kind": "READS"
+    },
+    {
+      "from": "F03",
+      "to": "F04",
+      "kind": "READS"
+    },
+    {
+      "from": "F03",
+      "to": "F07",
+      "kind": "READS"
+    },
+    {
+      "from": "F03",
+      "to": "F09",
+      "kind": "READS"
+    },
+    {
+      "from": "F04",
+      "to": "F05",
+      "kind": "READS"
+    },
+    {
+      "from": "F04",
+      "to": "F07",
+      "kind": "READS"
+    },
+    {
+      "from": "F05",
+      "to": "F04",
+      "kind": "READS"
+    },
+    {
+      "from": "F05",
+      "to": "F12",
+      "kind": "READS"
+    },
+    {
+      "from": "F06",
+      "to": "F02",
+      "kind": "READS"
+    },
+    {
+      "from": "F06",
+      "to": "F04",
+      "kind": "READS"
+    },
+    {
+      "from": "F06",
+      "to": "F05",
+      "kind": "READS"
+    },
+    {
+      "from": "F07",
+      "to": "F02",
+      "kind": "READS"
+    },
+    {
+      "from": "F07",
+      "to": "F04",
+      "kind": "READS"
+    },
+    {
+      "from": "F07",
+      "to": "F05",
+      "kind": "READS"
+    },
+    {
+      "from": "F08",
+      "to": "F02",
+      "kind": "READS"
+    },
+    {
+      "from": "F08",
+      "to": "F06",
+      "kind": "READS"
+    },
+    {
+      "from": "F08",
+      "to": "F07",
+      "kind": "READS"
+    },
+    {
+      "from": "F08",
+      "to": "F09",
+      "kind": "READS"
+    },
+    {
+      "from": "F08",
+      "to": "F14",
+      "kind": "READS"
+    },
+    {
+      "from": "F09",
+      "to": "F04",
+      "kind": "READS"
+    },
+    {
+      "from": "F09",
+      "to": "F05",
+      "kind": "READS"
+    },
+    {
+      "from": "F09",
+      "to": "F06",
+      "kind": "READS"
+    },
+    {
+      "from": "F09",
+      "to": "F07",
+      "kind": "READS"
+    },
+    {
+      "from": "F09",
+      "to": "F08",
+      "kind": "READS"
+    },
+    {
+      "from": "F10",
+      "to": "F07",
+      "kind": "READS"
+    },
+    {
+      "from": "F10",
+      "to": "F08",
+      "kind": "READS"
+    },
+    {
+      "from": "F10",
+      "to": "F09",
+      "kind": "READS"
+    },
+    {
+      "from": "F10",
+      "to": "F14",
+      "kind": "READS"
+    },
+    {
+      "from": "F11",
+      "to": "F08",
+      "kind": "READS"
+    },
+    {
+      "from": "F11",
+      "to": "F09",
+      "kind": "READS"
+    },
+    {
+      "from": "F11",
+      "to": "F14",
+      "kind": "READS"
+    },
+    {
+      "from": "F12",
+      "to": "F04",
+      "kind": "READS"
+    },
+    {
+      "from": "F12",
+      "to": "F05",
+      "kind": "READS"
+    },
+    {
+      "from": "F12",
+      "to": "F07",
+      "kind": "READS"
+    },
+    {
+      "from": "F13",
+      "to": "F05",
+      "kind": "READS"
+    },
+    {
+      "from": "F13",
+      "to": "F08",
+      "kind": "READS"
+    },
+    {
+      "from": "F13",
+      "to": "F12",
+      "kind": "READS"
+    },
+    {
+      "from": "F14",
+      "to": "F02",
+      "kind": "READS"
+    },
+    {
+      "from": "F14",
+      "to": "F05",
+      "kind": "READS"
+    },
+    {
+      "from": "F14",
+      "to": "F08",
+      "kind": "READS"
+    },
+    {
+      "from": "F15",
+      "to": "F04",
+      "kind": "READS"
+    },
+    {
+      "from": "F15",
+      "to": "F05",
+      "kind": "READS"
+    },
+    {
+      "from": "F15",
+      "to": "F06",
+      "kind": "READS"
+    },
+    {
+      "from": "F15",
+      "to": "F07",
+      "kind": "READS"
+    },
+    {
+      "from": "F15",
+      "to": "F08",
+      "kind": "READS"
+    },
+    {
+      "from": "F15",
+      "to": "F13",
+      "kind": "READS"
+    },
+    {
+      "from": "F15",
+      "to": "F14",
+      "kind": "READS"
+    },
+    {
+      "from": "F16",
+      "to": "F04",
+      "kind": "READS"
+    },
+    {
+      "from": "F16",
+      "to": "F05",
+      "kind": "READS"
+    }
+  ],
+  "global_system_consumers": [
+    {
+      "system": "GS.BOTTOM_NAV",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.TOP_CHROME",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.QUICK_ADD",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.ASK_JURNL",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.CURRENCY",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.MONEY_FORMAT",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.DATE_MODEL",
+      "consumers": [
+        "F03",
+        "F04",
+        "F06",
+        "F07",
+        "F09",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.CATEGORIES",
+      "consumers": [
+        "F03",
+        "F04",
+        "F08",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.ACCOUNT_REGISTRY",
+      "consumers": [
+        "F04",
+        "F05",
+        "F07",
+        "F12",
+        "F13",
+        "GS.QUICK_ADD"
+      ]
+    },
+    {
+      "system": "GS.TRANSACTION_DETAIL",
+      "consumers": [
+        "F04",
+        "F05",
+        "F06",
+        "F03"
+      ]
+    },
+    {
+      "system": "GS.SEARCH",
+      "consumers": [
+        "F04",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.FILTERING",
+      "consumers": [
+        "F04",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.FORM_SYSTEM",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.STATE_PATTERNS",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.PERSISTENCE",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.AUTH",
+      "consumers": [
+        "F01",
+        "GS.SETTINGS"
+      ]
+    },
+    {
+      "system": "GS.SETTINGS",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.FAMILY_DISCOVERY",
+      "consumers": [
+        "F03",
+        "F05",
+        "F08",
+        "F12"
+      ]
+    },
+    {
+      "system": "GS.ENTITLEMENTS",
+      "consumers": [
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.EXCHANGE_RATES",
+      "consumers": [
+        "GS.CURRENCY"
+      ]
+    },
+    {
+      "system": "GS.DATA_REFRESH",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05"
+      ]
+    },
+    {
+      "system": "GS.BANK_CONNECTION",
+      "consumers": [
+        "F02",
+        "F05",
+        "F04"
+      ]
+    },
+    {
+      "system": "GS.FILE_STORAGE",
+      "consumers": [
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.NOTIFICATIONS",
+      "consumers": [
+        "F07"
+      ]
+    },
+    {
+      "system": "GS.ANALYTICS",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.SEO_NOINDEX",
+      "consumers": [
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F11",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ]
+    },
+    {
+      "system": "GS.NATIVE_BRIDGE",
+      "consumers": [
+        "F01"
+      ]
+    },
+    {
+      "system": "GS.CONSENT",
+      "consumers": [
+        "F01",
+        "F02",
+        "GS.SETTINGS",
+        "GS.ASK_JURNL"
+      ]
+    }
+  ],
+  "build_order_implied": [
+    "F05 · F06 · F07 (sources)",
+    "F08 · F09 · F12 · F14 (derived + planning)",
+    "F10 · F11 · F13 · F15 · F16 (decisions + projection + archive)"
+  ]
+}

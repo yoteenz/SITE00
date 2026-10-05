@@ -1,0 +1,904 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "canon": "F01–F16 FIXED. NOTHING ADDED, REMOVED, MERGED OR RENAMED.",
+  "orphan_product_capabilities": [
+    {
+      "capability": "ACCOUNT / SETTINGS",
+      "classification": "GLOBAL_SYSTEM",
+      "node": "GS.SETTINGS"
+    },
+    {
+      "capability": "BUSINESS / TAX (RECEIPTS, MILEAGE, P&L, TAX PREP, ACCOUNTANT EXPORT)",
+      "classification": "GLOBAL_SYSTEM → JURNL BUSINESS EXTENSION ANCHORED IN F16",
+      "node": "RC.EXT.BUSINESS"
+    },
+    {
+      "capability": "NOTIFICATIONS",
+      "classification": "GLOBAL_SYSTEM (UNSCOPED)",
+      "node": "GS.NOTIFICATIONS"
+    },
+    {
+      "capability": "BANK AGGREGATION",
+      "classification": "GLOBAL_SYSTEM (FOUNDER DECISION)",
+      "node": "GS.BANK_CONNECTION"
+    }
+  ],
+  "family_reconciliation_required": [
+    {
+      "topic": "F05.ACCOUNTS vs F12.ACCOUNTS",
+      "resolution": "ONE REGISTRY (F05) + CREDIT ATTRIBUTES (F12). NO NEW FAMILY."
+    },
+    {
+      "topic": "F03 SEE WHY vs F09 WHY",
+      "resolution": "ONE FORMULA OWNED BY F09; FOUNDER FLAG FF.SEE_WHY_VS_F09."
+    }
+  ],
+  "families": [
+    {
+      "family_id": "F01",
+      "name": "ENTRY",
+      "parent": "F01.00",
+      "route": "entry",
+      "children": [
+        {
+          "id": "F01.01",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.02",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.03",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.04",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.05",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.06",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.07",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.08",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.09",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.10",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.11",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.12",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F01.13",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [
+        "F01.01.DR.TERMS_OF_SERVICE",
+        "F01.01.DR.PRIVACY_POLICY",
+        "F01.02.DR.CHANGE_EMAIL",
+        "F01.03.DR.TEMPORARILY_LOCKED",
+        "F01.04.DR.SWITCH_ACCOUNT",
+        "F01.09.DR.PERMISSION_DENIED",
+        "F01.10.DR.LEARN_WHAT_THIS_MEANS",
+        "F01.11.DR.YOUR_DATA",
+        "F01.11.DR.CONNECTED_ACCOUNTS",
+        "F01.11.DR.AI_ACCESS",
+        "F01.11.DR.DATA_EXPORT",
+        "F01.11.DR.REMOVE_ACCESS",
+        "F01.12.DR.BIOMETRIC_SIGN_IN",
+        "F01.12.DR.DEVICE_SECURITY",
+        "F01.12.DR.CONNECTED_ACCOUNT_CONTROL",
+        "F01.12.DR.SECURE_DATA_HANDLING",
+        "F01.12.DR.SESSION_MANAGEMENT"
+      ],
+      "sheets": [
+        "F01.04.SH.USE_PASSWORD"
+      ],
+      "modals": [
+        "F01.04.MD.SIGN_OUT",
+        "F01.11.MD.DELETE_ACCOUNT",
+        "F01.12.MD.REVOKE_SESSION"
+      ],
+      "overlays": [
+        "F01.OV.MAIL_HANDOFF",
+        "F01.03.OV.SUPPORT_HANDOFF",
+        "F01.OV.SOCIAL_APPLE",
+        "F01.OV.SOCIAL_GOOGLE",
+        "F01.04.OV.FACEID_UNLOCK",
+        "F01.09.OV.FACEID_ENABLE"
+      ],
+      "states": [
+        "F01.01.DEFAULT",
+        "F01.01.FOCUSED",
+        "F01.01.VALIDATION_ERROR",
+        "F01.01.EMAIL_IN_USE",
+        "F01.01.PASSWORD_SATISFIED",
+        "F01.01.LOADING",
+        "F01.03.DEFAULT",
+        "F01.03.INCORRECT_PASSWORD",
+        "F01.03.ACCOUNT_NOT_FOUND",
+        "F01.03.LOCKED",
+        "F01.03.LOADING",
+        "F01.02.VERIFICATION_PENDING",
+        "F01.02.RESENT",
+        "F01.02.EXPIRED_LINK",
+        "F01.02.VERIFICATION_SUCCESS",
+        "F01.06.RESET_EMAIL_SENT",
+        "F01.07.INVALID_RESET_LINK",
+        "F01.08.RESET_SUCCESS",
+        "F01.09.BIOMETRIC_PROMPT",
+        "F01.09.BIOMETRIC_ENABLED",
+        "F01.09.BIOMETRIC_DECLINED",
+        "F01.09.BIOMETRIC_UNAVAILABLE",
+        "F01.10.DEVICE_TRUSTED",
+        "F01.10.DEVICE_VERIFY_REQUIRED",
+        "F01.03.OFFLINE",
+        "F01.04.SESSION_EXPIRED",
+        "F01.04.REAUTHENTICATION"
+      ],
+      "interactions": [
+        "F01.00.ROUTE.GET_STARTED",
+        "F01.00.ROUTE.SIGN_IN",
+        "F01.GLOBAL.PRIM.DRAWER.SHORT",
+        "F01.GLOBAL.PRIM.DRAWER.LONG",
+        "F01.GLOBAL.PRIM.SHEET.FULL",
+        "F01.GLOBAL.PRIM.MODAL.CONFIRM",
+        "F01.GLOBAL.PRIM.INLINE.EXPAND",
+        "F01.GLOBAL.PRIM.ERROR.PANEL",
+        "F01.GLOBAL.PRIM.BANNER.SUCCESS",
+        "F01.GLOBAL.PRIM.BUTTON.LOADING",
+        "F01.GLOBAL.PRIM.INPUT.FOCUS",
+        "F01.GLOBAL.PRIM.HANDOFF.EXTERNAL",
+        "F01.GLOBAL.PRIM.HANDOFF.NATIVE",
+        "F01.GLOBAL.PRIM.ROUTE.TRANSITION",
+        "F01.01.INPUT.FOCUS",
+        "F01.01.PASSWORD.REQS",
+        "F01.01.DRAWER.TERMS",
+        "F01.01.DRAWER.PRIVACY",
+        "F01.01.SOCIAL.APPLE",
+        "F01.01.SOCIAL.GOOGLE",
+        "F01.01.SUBMIT.LOADING",
+        "F01.01.ERROR.EMAIL_IN_USE",
+        "F01.01.ERROR.VALIDATION",
+        "F01.02.HANDOFF.MAIL",
+        "F01.02.RESEND.SUCCESS",
+        "F01.02.CHANGE.EMAIL",
+        "F01.02.ERROR.EXPIRED",
+        "F01.02.SUCCESS.VERIFY",
+        "F01.03.INPUT.FOCUS",
+        "F01.03.PASSWORD.TOGGLE",
+        "F01.03.CHECKBOX.REMEMBER",
+        "F01.03.ROUTE.FORGOT",
+        "F01.03.SOCIAL.APPLE",
+        "F01.03.SOCIAL.GOOGLE",
+        "F01.03.ERROR.PASSWORD",
+        "F01.03.ERROR.NOT_FOUND",
+        "F01.03.LOCKED.PANEL",
+        "F01.03.SUBMIT.LOADING",
+        "F01.04.HANDOFF.FACEID",
+        "F01.04.ERROR.FACEID",
+        "F01.04.SHEET.PASSWORD",
+        "F01.04.SHEET.SWITCH",
+        "F01.04.MODAL.SIGNOUT",
+        "F01.05.INPUT.FOCUS",
+        "F01.05.SUBMIT.LOADING",
+        "F01.05.ERROR.EMAIL",
+        "F01.06.HANDOFF.MAIL",
+        "F01.06.RESEND.TOAST",
+        "F01.06.ERROR.EXPIRED",
+        "F01.07.INPUT.FOCUS",
+        "F01.07.PASSWORD.REQS",
+        "F01.07.ERROR.MISMATCH",
+        "F01.07.SUBMIT.LOADING",
+        "F01.08.ROUTE.SIGNIN",
+        "F01.09.HANDOFF.ENABLE",
+        "F01.09.SUCCESS.ENABLED",
+        "F01.09.DENIED.SHEET",
+        "F01.09.UNSUPPORTED.PANEL",
+        "F01.09.SKIP.CONTINUE",
+        "F01.10.TRUST.CONFIRM",
+        "F01.10.DRAWER.LEARN",
+        "F01.11.DRAWER.YOUR_DATA",
+        "F01.11.DRAWER.CONNECTED_ACCOUNTS",
+        "F01.11.DRAWER.AI_ACCESS",
+        "F01.11.DRAWER.DATA_EXPORT",
+        "F01.11.DRAWER.REMOVE_ACCESS",
+        "F01.11.ROUTE.CONTINUE",
+        "F01.12.SURFACE.BIOMETRIC_SIGN_IN",
+        "F01.12.SURFACE.DEVICE_SECURITY",
+        "F01.12.SURFACE.CONNECTED_ACCOUNT_CONTRO",
+        "F01.12.SURFACE.SECURE_DATA_HANDLING",
+        "F01.12.SURFACE.SESSION_MANAGEMENT",
+        "F01.12.ROUTE.CONTINUE",
+        "F01.13.ROUTE.SETUP"
+      ]
+    },
+    {
+      "family_id": "F02",
+      "name": "SETUP",
+      "parent": "F02.00",
+      "route": "setup",
+      "children": [
+        {
+          "id": "F02.01",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F02.02",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F02.03",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F02.04",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F02.05",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F02.06",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F02.07",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F02.08",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [
+        "F02.02.1",
+        "F02.05.1"
+      ],
+      "drawers": [
+        "F02.DR.PERMISSION",
+        "F02.DR.SKIP",
+        "F02.DR.ADD"
+      ],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "states": [
+        "F02.00.RESUME",
+        "F02.02.CONNECTED",
+        "F02.02.1.VALIDATION",
+        "F02.03.VALIDATION",
+        "F02.04.VALIDATION",
+        "F02.05.1.VALIDATION",
+        "F02.06.VALIDATION"
+      ],
+      "interactions": [
+        "F02.IN.PERMISSION",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.NAV.BACK",
+        "F02.NAV.CONTINUE"
+      ]
+    },
+    {
+      "family_id": "F03",
+      "name": "TODAY",
+      "parent": "F03.00",
+      "route": "today",
+      "children": [
+        {
+          "id": "F03.SEE_WHY",
+          "form": "DRAWER"
+        },
+        {
+          "id": "F03.UPCOMING_DETAIL",
+          "form": "EXPANDED_STATE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [],
+      "overlays": [],
+      "states": [
+        "F03.00.LOADING",
+        "F03.00.EMPTY",
+        "F03.00.PARTIAL",
+        "F03.00.CONNECTED",
+        "F03.00.ERROR",
+        "F03.00.CAUGHT_UP",
+        "F03.00.ATTENTION",
+        "F03.00.STALE"
+      ],
+      "interactions": [
+        "F03.IN.SEE_WHY",
+        "F03.IN.QUICK_ADD",
+        "F03.IN.ASK",
+        "F03.IN.UPCOMING",
+        "F03.IN.ACTIVITY",
+        "F03.NAV.BACK",
+        "F03.IN.OPEN_UPCOMING",
+        "F03.IN.OPEN_SAFE",
+        "F03.IN.ACCOUNT"
+      ]
+    },
+    {
+      "family_id": "F04",
+      "name": "ACTIVITY",
+      "parent": "F04.00",
+      "route": "activity",
+      "children": [
+        {
+          "id": "F04.SEARCH",
+          "form": "INLINE_STATE"
+        },
+        {
+          "id": "F04.DETAIL",
+          "form": "DRAWER"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [
+        "F04.DR.FILTER"
+      ],
+      "sheets": [
+        "F04.SH.EDIT_MOVEMENT"
+      ],
+      "modals": [
+        "F04.MD.DELETE_MOVEMENT"
+      ],
+      "overlays": [],
+      "states": [
+        "F04.00.LOADING",
+        "F04.00.EMPTY",
+        "F04.00.NO_RESULTS",
+        "F04.00.FILTERED",
+        "F04.00.ERROR"
+      ],
+      "interactions": [
+        "F04.IN.SEARCH",
+        "F04.IN.FILTER",
+        "F04.IN.DETAIL",
+        "F04.NAV.BACK",
+        "F04.IN.QUICK_ADD",
+        "F04.IN.ASK",
+        "F04.IN.EDIT",
+        "F04.IN.DELETE",
+        "F04.IN.RELATED"
+      ]
+    },
+    {
+      "family_id": "F05",
+      "name": "MONEY",
+      "parent": "F05.00",
+      "route": "money",
+      "children": [
+        {
+          "id": "F05.ACCOUNTS",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F05.ACCOUNT",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F05.SH.ADD_PLACE",
+        "F05.SH.EDIT_PLACE",
+        "F05.SH.MOVE"
+      ],
+      "modals": [
+        "F05.MD.REMOVE_PLACE"
+      ],
+      "overlays": [],
+      "states": [
+        "F05.ST.LOADING",
+        "F05.ST.EMPTY",
+        "F05.ST.ERROR",
+        "F05.ST.STALE"
+      ],
+      "interactions": [
+        "F05.IN.PRIMARY",
+        "F05.IN.OPEN_PLACE",
+        "F05.IN.ADD",
+        "F05.IN.EDIT",
+        "F05.IN.REMOVE",
+        "F05.IX.MOVE",
+        "F05.IN.OPEN_INCOME",
+        "F05.IN.OPEN_RECORDS",
+        "F05.IN.QUICK_ADD",
+        "F05.IN.ASK",
+        "F05.NAV.TODAY",
+        "F05.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F06",
+      "name": "INCOME",
+      "parent": "F06.00",
+      "route": "income",
+      "children": [
+        {
+          "id": "F06.SOURCES",
+          "form": "EXPANDED_STATE"
+        },
+        {
+          "id": "F06.SOURCE",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F06.SH.ADD_SOURCE",
+        "F06.SH.EDIT_SOURCE",
+        "F06.SH.PATTERN"
+      ],
+      "modals": [
+        "F06.MD.REMOVE_SOURCE"
+      ],
+      "overlays": [],
+      "states": [
+        "F06.ST.LOADING",
+        "F06.ST.EMPTY",
+        "F06.ST.ERROR"
+      ],
+      "interactions": [
+        "F06.IN.PRIMARY",
+        "F06.IN.ADD",
+        "F06.IN.EDIT",
+        "F06.IN.REMOVE",
+        "F06.IX.PATTERN",
+        "F06.IN.QUICK_ADD",
+        "F06.IN.ASK",
+        "F06.NAV.TODAY",
+        "F06.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F07",
+      "name": "UPCOMING",
+      "parent": "F07.00",
+      "route": "upcoming",
+      "children": [
+        {
+          "id": "F07.SEQUENCE",
+          "form": "EXPANDED_STATE"
+        },
+        {
+          "id": "F07.ITEM",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F07.SH.ADD_ITEM",
+        "F07.SH.EDIT_ITEM",
+        "F07.SH.WHEN"
+      ],
+      "modals": [
+        "F07.MD.REMOVE_ITEM"
+      ],
+      "overlays": [],
+      "states": [
+        "F07.ST.LOADING",
+        "F07.ST.CLEAR",
+        "F07.ST.ERROR",
+        "F07.ST.OVERDUE"
+      ],
+      "interactions": [
+        "F07.IN.PRIMARY",
+        "F07.IN.ADD",
+        "F07.IN.EDIT",
+        "F07.IN.REMOVE",
+        "F07.IN.MARK_PAID",
+        "F07.IX.WHEN",
+        "F07.IN.QUICK_ADD",
+        "F07.IN.ASK",
+        "F07.NAV.TODAY",
+        "F07.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F08",
+      "name": "PLAN",
+      "parent": "F08.00",
+      "route": "plan",
+      "children": [
+        {
+          "id": "F08.ARRANGE",
+          "form": "EXPANDED_STATE"
+        },
+        {
+          "id": "F08.ITEM",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F08.SH.ASSIGN",
+        "F08.SH.ADD_INTENTION"
+      ],
+      "modals": [
+        "F08.MD.REMOVE_INTENTION"
+      ],
+      "overlays": [],
+      "states": [
+        "F08.ST.LOADING",
+        "F08.ST.EMPTY",
+        "F08.ST.ERROR",
+        "F08.ST.OVER_ASSIGNED"
+      ],
+      "interactions": [
+        "F08.IN.PRIMARY",
+        "F08.IN.ADD",
+        "F08.IN.REMOVE",
+        "F08.IN.REORDER",
+        "F08.IX.ASSIGN",
+        "F08.IN.OPEN_SAFE",
+        "F08.IN.OPEN_PURCHASES",
+        "F08.IN.OPEN_TRIPS",
+        "F08.IN.OPEN_GOALS",
+        "F08.IN.OPEN_AHEAD",
+        "F08.IN.QUICK_ADD",
+        "F08.IN.ASK",
+        "F08.NAV.TODAY",
+        "F08.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F09",
+      "name": "SAFE TO SPEND",
+      "parent": "F09.00",
+      "route": "safe",
+      "children": [
+        {
+          "id": "F09.WHY",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F09.HOLD",
+          "form": "SHEET"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [],
+      "modals": [
+        "F09.MD.HOLD_CONFIRM"
+      ],
+      "overlays": [],
+      "states": [
+        "F09.ST.LOADING",
+        "F09.ST.UNSTATED",
+        "F09.ST.ERROR",
+        "F09.ST.BELOW_ZERO"
+      ],
+      "interactions": [
+        "F09.IN.PRIMARY",
+        "F09.IN.OPEN_HOLD",
+        "F09.IX.HOLD",
+        "F09.IN.QUICK_ADD",
+        "F09.IN.ASK",
+        "F09.NAV.TODAY",
+        "F09.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F10",
+      "name": "PURCHASES",
+      "parent": "F10.00",
+      "route": "purchases",
+      "children": [
+        {
+          "id": "F10.OBJECT",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F10.DECISION",
+          "form": "SHEET"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F10.SH.CONSIDER"
+      ],
+      "modals": [
+        "F10.MD.REMOVE_OBJECT"
+      ],
+      "overlays": [],
+      "states": [
+        "F10.ST.LOADING",
+        "F10.ST.NONE",
+        "F10.ST.ERROR"
+      ],
+      "interactions": [
+        "F10.IN.PRIMARY",
+        "F10.IN.OPEN_OBJECT",
+        "F10.IX.CONSIDER",
+        "F10.IN.REMOVE",
+        "F10.IN.BOUGHT",
+        "F10.IN.QUICK_ADD",
+        "F10.IN.ASK",
+        "F10.NAV.TODAY",
+        "F10.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F11",
+      "name": "TRIPS",
+      "parent": "F11.00",
+      "route": "trips",
+      "children": [
+        {
+          "id": "F11.TRIP",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F11.FUNDING",
+          "form": "SHEET"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F11.SH.TRIP_EDIT"
+      ],
+      "modals": [
+        "F11.MD.REMOVE_TRIP"
+      ],
+      "overlays": [],
+      "states": [
+        "F11.ST.LOADING",
+        "F11.ST.NONE",
+        "F11.ST.ERROR"
+      ],
+      "interactions": [
+        "F11.IN.PRIMARY",
+        "F11.IN.OPEN_TRIP",
+        "F11.IN.ADD",
+        "F11.IN.REMOVE",
+        "F11.IX.ALLOCATE",
+        "F11.IN.QUICK_ADD",
+        "F11.IN.ASK",
+        "F11.NAV.TODAY",
+        "F11.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F12",
+      "name": "CREDIT",
+      "parent": "F12.00",
+      "route": "credit",
+      "children": [
+        {
+          "id": "F12.ACCOUNTS",
+          "form": "EXPANDED_STATE"
+        },
+        {
+          "id": "F12.ACCOUNT",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F12.SH.UTILIZATION",
+        "F12.SH.EDIT_TERMS"
+      ],
+      "modals": [],
+      "overlays": [],
+      "states": [
+        "F12.ST.LOADING",
+        "F12.ST.QUIET",
+        "F12.ST.ERROR",
+        "F12.ST.ATTENTION"
+      ],
+      "interactions": [
+        "F12.IN.PRIMARY",
+        "F12.IN.EDIT",
+        "F12.IN.ADD_ACCOUNT",
+        "F12.IX.UTILIZATION",
+        "F12.IN.OPEN_PAYDOWN",
+        "F12.IN.QUICK_ADD",
+        "F12.IN.ASK",
+        "F12.NAV.TODAY",
+        "F12.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F13",
+      "name": "PAYDOWN",
+      "parent": "F13.00",
+      "route": "paydown",
+      "children": [
+        {
+          "id": "F13.PATH",
+          "form": "EXPANDED_STATE"
+        },
+        {
+          "id": "F13.WHAT_IF",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F13.SH.CHANGE"
+      ],
+      "modals": [],
+      "overlays": [],
+      "states": [
+        "F13.ST.LOADING",
+        "F13.ST.NONE",
+        "F13.ST.ERROR",
+        "F13.ST.NO_DEBT"
+      ],
+      "interactions": [
+        "F13.IN.PRIMARY",
+        "F13.IX.CHANGE",
+        "F13.IN.KEEP",
+        "F13.IN.QUICK_ADD",
+        "F13.IN.ASK",
+        "F13.NAV.TODAY",
+        "F13.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F14",
+      "name": "GOALS",
+      "parent": "F14.00",
+      "route": "goals",
+      "children": [
+        {
+          "id": "F14.GOAL",
+          "form": "ROUTE"
+        },
+        {
+          "id": "F14.MEANING",
+          "form": "EXPANDED_STATE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F14.SH.NAME_GOAL",
+        "F14.SH.EDIT_GOAL",
+        "F14.SH.SET_ASIDE"
+      ],
+      "modals": [
+        "F14.MD.REMOVE_GOAL"
+      ],
+      "overlays": [],
+      "states": [
+        "F14.ST.LOADING",
+        "F14.ST.NONE",
+        "F14.ST.ERROR",
+        "F14.ST.REACHED"
+      ],
+      "interactions": [
+        "F14.IN.PRIMARY",
+        "F14.IX.ADD",
+        "F14.IN.EDIT",
+        "F14.IN.SET_ASIDE",
+        "F14.IN.REMOVE",
+        "F14.IN.QUICK_ADD",
+        "F14.IN.ASK",
+        "F14.NAV.TODAY",
+        "F14.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F15",
+      "name": "AHEAD",
+      "parent": "F15.00",
+      "route": "ahead",
+      "children": [
+        {
+          "id": "F15.SCENARIO",
+          "form": "EXPANDED_STATE"
+        },
+        {
+          "id": "F15.BRANCH",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F15.SH.ASSUMPTION"
+      ],
+      "modals": [],
+      "overlays": [],
+      "states": [
+        "F15.ST.LOADING",
+        "F15.ST.THIN",
+        "F15.ST.ERROR"
+      ],
+      "interactions": [
+        "F15.IN.PRIMARY",
+        "F15.IX.ASSUMPTION",
+        "F15.IN.DISCARD",
+        "F15.IN.QUICK_ADD",
+        "F15.IN.ASK",
+        "F15.NAV.TODAY",
+        "F15.REVIEW.BOARD"
+      ]
+    },
+    {
+      "family_id": "F16",
+      "name": "RECORDS",
+      "parent": "F16.00",
+      "route": "records",
+      "children": [
+        {
+          "id": "F16.INDEX",
+          "form": "EXPANDED_STATE"
+        },
+        {
+          "id": "F16.DOCUMENT",
+          "form": "ROUTE"
+        }
+      ],
+      "grandchildren": [],
+      "drawers": [],
+      "sheets": [
+        "F16.SH.ADD_DOCUMENT",
+        "F16.SH.EXPORT"
+      ],
+      "modals": [
+        "F16.MD.DELETE_DOCUMENT"
+      ],
+      "overlays": [],
+      "states": [
+        "F16.ST.LOADING",
+        "F16.ST.EMPTY",
+        "F16.ST.ERROR",
+        "F16.ST.NO_RESULTS"
+      ],
+      "interactions": [
+        "F16.IN.PRIMARY",
+        "F16.IX.FIND",
+        "F16.IN.ADD",
+        "F16.IN.REMOVE",
+        "F16.IN.EXPORT",
+        "F16.IN.QUICK_ADD",
+        "F16.IN.ASK",
+        "F16.NAV.TODAY",
+        "F16.REVIEW.BOARD"
+      ]
+    }
+  ]
+}

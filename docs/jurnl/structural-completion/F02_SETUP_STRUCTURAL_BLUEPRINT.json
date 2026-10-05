@@ -1,0 +1,377 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F02",
+  "name": "SETUP",
+  "purpose": "OPEN SETUP. SHOW THE SHORT PATH AHEAD.",
+  "product_job": "OPEN SETUP. SHOW THE SHORT PATH AHEAD.",
+  "parent": {
+    "family_id": "F02",
+    "parent_id": null,
+    "route": "setup",
+    "route_status": "LIVE",
+    "implementation_status": "IMPLEMENTED",
+    "functional_status": "PARTIAL_FUNCTIONAL",
+    "visual_status": "VISUALLY_IMPLEMENTED",
+    "approval_status": "IN_REVIEW",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.SETUP_PROFILE"
+    ],
+    "interaction_dependencies": [],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY",
+    "generation_requirement": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.BACK",
+      "ICON.INFO"
+    ],
+    "reusable_capability_candidate": "RC.BP.GUIDED_SETUP",
+    "notes": [
+      "SETUP DRAFT IS SESSION-ONLY (B01)."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "VISUALLY_IMPLEMENTED",
+      "release": "QA_READY"
+    },
+    "functional_criteria": "R1 U1 Dh I1 S1 V- E- M- L- P1 A1 N1",
+    "functional_score": 0.938,
+    "target_wave": 0,
+    "evidence": [
+      "src/projects/jurnl/data/f02/contract.ts",
+      "src/projects/jurnl/runtime/screens/SetupScreens.tsx"
+    ],
+    "opens": null,
+    "node_id": "F02.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "THE SHAPE OF YOUR LIFE",
+    "purpose": "OPEN SETUP. SHOW THE SHORT PATH AHEAD."
+  },
+  "children": [
+    {
+      "id": "F02.01",
+      "form": "ROUTE",
+      "inheritance": "DIRECT_INHERITANCE",
+      "route": "setup/household",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F02.02",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "setup/accounts",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F02.03",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "setup/income",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F02.04",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "setup/commitments",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F02.05",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "setup/priorities",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F02.06",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "setup/protected",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F02.07",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "setup/boundaries",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F02.08",
+      "form": "ROUTE",
+      "inheritance": "DIRECT_INHERITANCE",
+      "route": "setup/ready",
+      "status": "PARTIAL_FUNCTIONAL"
+    }
+  ],
+  "grandchildren": [
+    "F02.02.1",
+    "F02.05.1"
+  ],
+  "drawers": [
+    "F02.DR.PERMISSION",
+    "F02.DR.SKIP",
+    "F02.DR.ADD"
+  ],
+  "sheets": [],
+  "modals": [],
+  "states": [
+    {
+      "id": "F02.00.RESUME",
+      "status": "LIVE"
+    },
+    {
+      "id": "F02.02.CONNECTED",
+      "status": "SIMULATED"
+    },
+    {
+      "id": "F02.02.1.VALIDATION",
+      "status": "LIVE"
+    },
+    {
+      "id": "F02.03.VALIDATION",
+      "status": "LIVE"
+    },
+    {
+      "id": "F02.04.VALIDATION",
+      "status": "LIVE"
+    },
+    {
+      "id": "F02.05.1.VALIDATION",
+      "status": "LIVE"
+    },
+    {
+      "id": "F02.06.VALIDATION",
+      "status": "LIVE"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F02.IN.PERMISSION",
+      "status": "PARTIAL",
+      "opens": "F02.DR.PERMISSION"
+    },
+    {
+      "id": "F02.IN.ADD",
+      "status": "WORKING",
+      "opens": "F02.DR.ADD"
+    },
+    {
+      "id": "F02.IN.SKIP",
+      "status": "WORKING",
+      "opens": "F02.DR.SKIP"
+    },
+    {
+      "id": "F02.NAV.BACK",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F02.NAV.CONTINUE",
+      "status": "WORKING",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F02.00",
+      "route": "setup",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.01",
+      "route": "setup/household",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.02",
+      "route": "setup/accounts",
+      "status": "PARTIAL"
+    },
+    {
+      "node_id": "F02.03",
+      "route": "setup/income",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.04",
+      "route": "setup/commitments",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.05",
+      "route": "setup/priorities",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.06",
+      "route": "setup/protected",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.07",
+      "route": "setup/boundaries",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.08",
+      "route": "setup/ready",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.02.1",
+      "route": "setup/accounts/name",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F02.05.1",
+      "route": "setup/priorities/goal",
+      "status": "LIVE"
+    }
+  ],
+  "global_dependencies": [],
+  "data_dependencies": [
+    "DD.SETUP_PROFILE"
+  ],
+  "owned_data": [
+    "DD.SETUP_PROFILE"
+  ],
+  "read_data": [],
+  "write_data": [
+    "DD.SETUP_PROFILE"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlTextLink",
+    "JurnlInput",
+    "JurnlCheckbox",
+    "JurnlChoice",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlErrorPanel",
+    "JurnlSuccessPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlIcon",
+    "JurnlCadencePicker",
+    "JurnlStateBlock",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_GUIDED_SETUP (CORE)"
+  ],
+  "functional_status": {
+    "score": 92.9,
+    "strict": 40.7,
+    "gap_counts": {
+      "PARTIAL_FUNCTIONAL": 16,
+      "COMPLETE_FUNCTIONAL": 11
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 14,
+    "visually_implemented": 14,
+    "parent": "VISUALLY_IMPLEMENTED"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F02.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F02.01": "REUSE_PARENT_PLATE",
+    "F02.02": "NEW_PLATE_WITHIN_FAMILY",
+    "F02.03": "REUSE_PARENT_PLATE",
+    "F02.04": "REUSE_PARENT_PLATE",
+    "F02.05": "NEW_PLATE_WITHIN_FAMILY",
+    "F02.06": "REUSE_PARENT_PLATE",
+    "F02.07": "NEW_PLATE_WITHIN_FAMILY",
+    "F02.08": "REUSE_PARENT_PLATE",
+    "F02.02.1": "REUSE_PARENT_PLATE",
+    "F02.05.1": "REUSE_PARENT_PLATE",
+    "F02.DR.PERMISSION": "NO_PLATE_REQUIRED",
+    "F02.DR.SKIP": "NO_PLATE_REQUIRED",
+    "F02.DR.ADD": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.BACK",
+    "ICON.INFO"
+  ],
+  "reference_requirements": "OWN_AUTHORITY",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "IN_REVIEW",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B12 BANK CONNECTION IS SIMULATED BUT SHOWN AS CONNECTED"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT"
+  ],
+  "implementation_dependencies": [
+    "W0.3",
+    "W0.4",
+    "W1.5",
+    "W1.6"
+  ],
+  "boundaries": [],
+  "extension": null,
+  "founder_flags": [],
+  "reusable_capability_candidates": [
+    "RC.BP.GUIDED_SETUP"
+  ]
+}

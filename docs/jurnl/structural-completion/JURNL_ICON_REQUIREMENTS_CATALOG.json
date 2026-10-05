@@ -1,0 +1,849 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "classes": [
+    "GLOBAL_NAV",
+    "GLOBAL_UTILITY",
+    "FINANCIAL_CATEGORY",
+    "FAMILY_SPECIFIC",
+    "DATA_STATUS",
+    "ACTION",
+    "OTHER"
+  ],
+  "runtime_icon_names": [
+    "back",
+    "close",
+    "email",
+    "lock",
+    "eye",
+    "eye-off",
+    "check",
+    "alert",
+    "info",
+    "apple",
+    "google",
+    "face-id",
+    "fingerprint",
+    "device",
+    "laptop",
+    "shield",
+    "privacy",
+    "account",
+    "switch-account",
+    "resend",
+    "external",
+    "offline",
+    "chevron",
+    "link",
+    "chip",
+    "document",
+    "trash",
+    "database",
+    "gear",
+    "plus",
+    "download",
+    "clock",
+    "search",
+    "filter",
+    "money"
+  ],
+  "source_sheet": "JURNL/F01_ENTRY/ICONS/F01_ICON_PACK_SHEET.png (single sheet; F02 inherits 12, adds 0)",
+  "counts": {
+    "PLACEHOLDER": 8,
+    "EXISTING_CANONICAL": 29,
+    "DUPLICATED": 4,
+    "REUSABLE": 9,
+    "MISSING": 23
+  },
+  "recommendation": {
+    "GLOBAL_ICON_SYSTEM_RECOMMENDED": "YES",
+    "why": "The F01 sheet covers entry + trust only. Nav (home, money, plan, credit), every category, account kinds, data status and family marks are placeholders or missing; three glyphs carry two meanings each (clock, document, download).",
+    "structure": {
+      "JURNL.ICON.GLOBAL": "NAV + UTILITY + ACTION + DATA_STATUS (one sheet, all families)",
+      "JURNL.ICON.CATEGORY": "CLOSED CATEGORY + ACCOUNT KIND SET (after FF.CATEGORY_SET)",
+      "JURNL.ICON.FAMILY.Fxx": "ONE MARK PER FAMILY JOB WHERE A ROW NEEDS IT (F06, F07, F09–F16)"
+    },
+    "functional_fallback": "Placeholders stay mounted with ICON_AUTHORITY_MISSING recorded; no icon is invented or generated for functional completion."
+  },
+  "icons": [
+    {
+      "id": "ICON.NAV_HOME",
+      "class": "GLOBAL_NAV",
+      "meaning": "HOME (F03)",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "PLACEHOLDER",
+      "current": "account",
+      "notes": "F03_PARENT_REFINEMENT_QA: ICON_AUTHORITY_MISSING. Uses the account glyph."
+    },
+    {
+      "id": "ICON.NAV_MONEY",
+      "class": "GLOBAL_NAV",
+      "meaning": "MONEY (F05)",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "PLACEHOLDER",
+      "current": "money",
+      "notes": "Code-drawn; not on the F01 sheet (ICON_AUTHORITY_MISSING)."
+    },
+    {
+      "id": "ICON.NAV_ADD",
+      "class": "GLOBAL_NAV",
+      "meaning": "QUICK ADD",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "plus",
+      "notes": "Double plus fixed in F03 refinement."
+    },
+    {
+      "id": "ICON.NAV_PLAN",
+      "class": "GLOBAL_NAV",
+      "meaning": "PLAN (F08)",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "DUPLICATED",
+      "current": "clock",
+      "notes": "Same glyph as RECURRING. ICON_AUTHORITY_MISSING."
+    },
+    {
+      "id": "ICON.NAV_CREDIT",
+      "class": "GLOBAL_NAV",
+      "meaning": "CREDIT (F12)",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "DUPLICATED",
+      "current": "document",
+      "notes": "Same glyph as DOCUMENT and the default category. ICON_AUTHORITY_MISSING."
+    },
+    {
+      "id": "ICON.BACK",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "BACK",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "back"
+    },
+    {
+      "id": "ICON.CLOSE",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "CLOSE",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "close"
+    },
+    {
+      "id": "ICON.INFO",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "INFO",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "info"
+    },
+    {
+      "id": "ICON.CHEVRON",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "CHEVRON",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "chevron"
+    },
+    {
+      "id": "ICON.SEARCH",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "SEARCH",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "search"
+    },
+    {
+      "id": "ICON.FILTER",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "FILTER",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "filter"
+    },
+    {
+      "id": "ICON.EXTERNAL",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "EXTERNAL",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "external"
+    },
+    {
+      "id": "ICON.LINK",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "LINK",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "link"
+    },
+    {
+      "id": "ICON.CHECK",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "CHECK",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "check"
+    },
+    {
+      "id": "ICON.ALERT",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "ALERT",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "alert"
+    },
+    {
+      "id": "ICON.OFFLINE",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "OFFLINE",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "offline"
+    },
+    {
+      "id": "ICON.RESEND",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "RESEND",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "resend"
+    },
+    {
+      "id": "ICON.LOCK",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "LOCK",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "lock"
+    },
+    {
+      "id": "ICON.EYE",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "EYE",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "eye"
+    },
+    {
+      "id": "ICON.EYE_OFF",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "EYE OFF",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "eye-off"
+    },
+    {
+      "id": "ICON.EMAIL",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "EMAIL",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "email"
+    },
+    {
+      "id": "ICON.SETTINGS",
+      "class": "GLOBAL_UTILITY",
+      "meaning": "ACCOUNT / SETTINGS ENTRY",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "REUSABLE",
+      "current": "gear",
+      "notes": "gear exists (F01.12 sessions row)."
+    },
+    {
+      "id": "ICON.APPLE",
+      "class": "OTHER",
+      "meaning": "APPLE",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "apple"
+    },
+    {
+      "id": "ICON.GOOGLE",
+      "class": "OTHER",
+      "meaning": "GOOGLE",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "google"
+    },
+    {
+      "id": "ICON.FACE_ID",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "FACE ID",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "face-id"
+    },
+    {
+      "id": "ICON.FINGERPRINT",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "FINGERPRINT",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "fingerprint"
+    },
+    {
+      "id": "ICON.DEVICE",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "DEVICE",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "device"
+    },
+    {
+      "id": "ICON.LAPTOP",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "LAPTOP",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "laptop"
+    },
+    {
+      "id": "ICON.SHIELD",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "SHIELD",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "shield"
+    },
+    {
+      "id": "ICON.PRIVACY",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "PRIVACY",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "privacy"
+    },
+    {
+      "id": "ICON.ACCOUNT",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "ACCOUNT",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "account"
+    },
+    {
+      "id": "ICON.SWITCH_ACCOUNT",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "SWITCH ACCOUNT",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "switch-account"
+    },
+    {
+      "id": "ICON.CHIP",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "CHIP",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "chip"
+    },
+    {
+      "id": "ICON.DATABASE",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "DATABASE",
+      "families": [
+        "F01"
+      ],
+      "status": "EXISTING_CANONICAL",
+      "current": "database"
+    },
+    {
+      "id": "ICON.CAT_HOUSING",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "HOUSING / RENT",
+      "families": [
+        "F03",
+        "F04",
+        "F07",
+        "F08"
+      ],
+      "status": "PLACEHOLDER",
+      "current": "account",
+      "notes": "markFor HOUSING → account. F03 QA rent_row ICON_AUTHORITY_MISSING."
+    },
+    {
+      "id": "ICON.CAT_FOOD",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "FOOD / GROCERIES",
+      "families": [
+        "F03",
+        "F04",
+        "F08"
+      ],
+      "status": "PLACEHOLDER",
+      "current": "money",
+      "notes": "markFor FOOD → money. groceries_row / market_row missing."
+    },
+    {
+      "id": "ICON.CAT_CLOTHING",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "CLOTHING",
+      "families": [
+        "F03",
+        "F04"
+      ],
+      "status": "PLACEHOLDER",
+      "current": "document",
+      "notes": "atelier_row missing; falls to default."
+    },
+    {
+      "id": "ICON.CAT_MEMBERSHIP",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "MEMBERSHIP / SUBSCRIPTION",
+      "families": [
+        "F04",
+        "F07"
+      ],
+      "status": "PLACEHOLDER",
+      "current": "clock",
+      "notes": "recurring → clock."
+    },
+    {
+      "id": "ICON.CAT_INCOME",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "INCOME / PAY",
+      "families": [
+        "F03",
+        "F04",
+        "F06"
+      ],
+      "status": "PLACEHOLDER",
+      "current": "download",
+      "notes": "income → download."
+    },
+    {
+      "id": "ICON.CAT_OTHER",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "OTHER",
+      "families": [
+        "F04"
+      ],
+      "status": "PLACEHOLDER",
+      "current": "document"
+    },
+    {
+      "id": "ICON.CAT_TRANSPORT",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "TRANSPORT",
+      "families": [
+        "F04",
+        "F08"
+      ],
+      "status": "MISSING",
+      "current": null,
+      "notes": "PROPOSED; pending the category catalog decision."
+    },
+    {
+      "id": "ICON.CAT_UTILITIES",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "UTILITIES",
+      "families": [
+        "F04",
+        "F07"
+      ],
+      "status": "MISSING",
+      "current": null,
+      "notes": "PROPOSED."
+    },
+    {
+      "id": "ICON.CAT_HEALTH",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "HEALTH",
+      "families": [
+        "F04",
+        "F08"
+      ],
+      "status": "MISSING",
+      "current": null,
+      "notes": "PROPOSED."
+    },
+    {
+      "id": "ICON.CAT_TRAVEL",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "TRAVEL",
+      "families": [
+        "F04",
+        "F08",
+        "F11"
+      ],
+      "status": "MISSING",
+      "current": null,
+      "notes": "F02 priority TRAVEL."
+    },
+    {
+      "id": "ICON.CAT_DEBT",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "DEBT PAYMENT",
+      "families": [
+        "F04",
+        "F08",
+        "F13"
+      ],
+      "status": "MISSING",
+      "current": null,
+      "notes": "F02 priority DEBT."
+    },
+    {
+      "id": "ICON.CAT_TRANSFER",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "TRANSFER BETWEEN PLACES",
+      "families": [
+        "F04",
+        "F05"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.KIND_CASH",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "PLACE KIND: CASH / CHECKING",
+      "families": [
+        "F05",
+        "GS.QUICK_ADD"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.KIND_SAVINGS",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "PLACE KIND: SAVINGS",
+      "families": [
+        "F05"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.KIND_CARD",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "PLACE KIND: CARD",
+      "families": [
+        "F05",
+        "F12"
+      ],
+      "status": "REUSABLE",
+      "current": "chip",
+      "notes": "chip exists (F01 sheet); reuse needs founder sign-off."
+    },
+    {
+      "id": "ICON.KIND_LOAN",
+      "class": "FINANCIAL_CATEGORY",
+      "meaning": "PLACE KIND: LOAN",
+      "families": [
+        "F05",
+        "F12",
+        "F13"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.STATUS_PENDING",
+      "class": "DATA_STATUS",
+      "meaning": "PENDING / STILL MOVING",
+      "families": [
+        "F04"
+      ],
+      "status": "MISSING",
+      "current": null,
+      "notes": "Text-only today."
+    },
+    {
+      "id": "ICON.STATUS_RECURRING",
+      "class": "DATA_STATUS",
+      "meaning": "RECURRING",
+      "families": [
+        "F04",
+        "F07"
+      ],
+      "status": "DUPLICATED",
+      "current": "clock",
+      "notes": "Shares the PLAN nav glyph."
+    },
+    {
+      "id": "ICON.STATUS_STALE",
+      "class": "DATA_STATUS",
+      "meaning": "STALE / AS OF",
+      "families": [
+        "F03",
+        "F05"
+      ],
+      "status": "REUSABLE",
+      "current": "resend"
+    },
+    {
+      "id": "ICON.STATUS_OFFLINE",
+      "class": "DATA_STATUS",
+      "meaning": "OFFLINE",
+      "families": [
+        "GLOBAL"
+      ],
+      "status": "REUSABLE",
+      "current": "offline"
+    },
+    {
+      "id": "ICON.STATUS_ADDED",
+      "class": "DATA_STATUS",
+      "meaning": "ADDED BY HAND",
+      "families": [
+        "F04"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.ACTION_ADD",
+      "class": "ACTION",
+      "meaning": "ADD",
+      "families": [
+        "F05–F16"
+      ],
+      "status": "REUSABLE",
+      "current": "plus"
+    },
+    {
+      "id": "ICON.ACTION_EDIT",
+      "class": "ACTION",
+      "meaning": "EDIT",
+      "families": [
+        "F04–F16"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.ACTION_DELETE",
+      "class": "ACTION",
+      "meaning": "DELETE / REMOVE",
+      "families": [
+        "F04–F16",
+        "GS.SETTINGS"
+      ],
+      "status": "REUSABLE",
+      "current": "trash"
+    },
+    {
+      "id": "ICON.ACTION_EXPORT",
+      "class": "ACTION",
+      "meaning": "EXPORT",
+      "families": [
+        "F16",
+        "GS.SETTINGS"
+      ],
+      "status": "REUSABLE",
+      "current": "download",
+      "notes": "download also marks INCOME rows; resolve when the category catalog lands."
+    },
+    {
+      "id": "ICON.ACTION_UPLOAD",
+      "class": "ACTION",
+      "meaning": "FILE / ATTACH",
+      "families": [
+        "F16"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.ACTION_MOVE",
+      "class": "ACTION",
+      "meaning": "MOVE BETWEEN PLACES",
+      "families": [
+        "F05"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.ACTION_MARK_PAID",
+      "class": "ACTION",
+      "meaning": "MARK PAID",
+      "families": [
+        "F07"
+      ],
+      "status": "REUSABLE",
+      "current": "check"
+    },
+    {
+      "id": "ICON.ACTION_REORDER",
+      "class": "ACTION",
+      "meaning": "REORDER",
+      "families": [
+        "F08"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F06_SOURCE",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "INCOME SOURCE",
+      "families": [
+        "F06"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F07_DUE",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "DUE DATE",
+      "families": [
+        "F07"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F09_HOLD",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "PROTECTED HOLD",
+      "families": [
+        "F09"
+      ],
+      "status": "REUSABLE",
+      "current": "shield"
+    },
+    {
+      "id": "ICON.F10_OBJECT",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "OBJECT UNDER CONSIDERATION",
+      "families": [
+        "F10"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F11_TRIP",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "TRIP / DESTINATION",
+      "families": [
+        "F11"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F12_UTILIZATION",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "UTILIZATION",
+      "families": [
+        "F12"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F13_PATH",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "PAYDOWN PATH",
+      "families": [
+        "F13"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F14_GOAL",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "GOAL",
+      "families": [
+        "F14"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F15_BRANCH",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "FORECAST BRANCH",
+      "families": [
+        "F15"
+      ],
+      "status": "MISSING",
+      "current": null
+    },
+    {
+      "id": "ICON.F16_DOCUMENT",
+      "class": "FAMILY_SPECIFIC",
+      "meaning": "DOCUMENT",
+      "families": [
+        "F16"
+      ],
+      "status": "DUPLICATED",
+      "current": "document",
+      "notes": "Shares the CREDIT nav glyph and the default category."
+    }
+  ]
+}

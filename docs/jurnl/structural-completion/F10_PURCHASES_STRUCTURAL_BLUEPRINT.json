@@ -1,0 +1,350 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F10",
+  "name": "PURCHASES",
+  "purpose": "HELP THE USER THINK ABOUT A SPECIFIC THING THEY WANT TO BUY.",
+  "product_job": "HELP THE USER THINK ABOUT A SPECIFIC THING THEY WANT TO BUY.",
+  "parent": {
+    "family_id": "F10",
+    "parent_id": null,
+    "route": "purchases",
+    "route_status": "PLACEHOLDER",
+    "implementation_status": "PLACEHOLDER",
+    "functional_status": "PLACEHOLDER",
+    "visual_status": "INVALID_EXPRESSION",
+    "approval_status": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.PURCHASE_CONSIDERATIONS",
+      "DD.SAFE_TO_SPEND",
+      "DD.PLAN_ALLOCATIONS",
+      "DD.GOALS",
+      "DD.OBLIGATIONS"
+    ],
+    "interaction_dependencies": [
+      "GS.BOTTOM_NAV",
+      "GS.TOP_CHROME",
+      "GS.QUICK_ADD",
+      "GS.ASK_JURNL",
+      "GS.MONEY_FORMAT",
+      "GS.DATE_MODEL",
+      "GS.FORM_SYSTEM",
+      "GS.STATE_PATTERNS",
+      "GS.FAMILY_DISCOVERY",
+      "GS.ENTITLEMENTS"
+    ],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+    "generation_requirement": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_ADD",
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.BACK",
+      "ICON.F10_OBJECT",
+      "ICON.INFO"
+    ],
+    "reusable_capability_candidate": null,
+    "notes": [
+      "STATIC PREVIEW SPEC: \"CAN I BUY THIS, AND WHAT CHANGES?\" · SIGNAL \"ONE OBJECT\" · CTA \"DECIDE\" DISABLED (NOT OPEN YET).",
+      "PLATE INTERFERENCE FAIL; 639 CREDITS SPENT ON THE PARENT AUTHORITY.",
+      "NOT REACHABLE FROM THE PRODUCT TODAY (REVIEW BOARD OR TYPED URL ONLY)."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "EXPRESSION_READY (AUTHORITY INVALID: INTERFERENCE FAIL)",
+      "release": "NONE"
+    },
+    "functional_criteria": "R1 Uh D0 I0 S0 V- E0 M0 L0 P1 A1 N1",
+    "functional_score": 0.409,
+    "target_wave": 4,
+    "evidence": [
+      "src/projects/jurnl/data/parents/catalog.ts",
+      "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+      "JURNL/F10_*/MANIFEST/F10_EXPRESSION_TREE.json"
+    ],
+    "opens": null,
+    "node_id": "F10.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "PURCHASES",
+    "purpose": "HELP THE USER THINK ABOUT A SPECIFIC THING THEY WANT TO BUY."
+  },
+  "children": [
+    {
+      "id": "F10.OBJECT",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "purchases/:purchaseId",
+      "status": "MISSING"
+    },
+    {
+      "id": "F10.DECISION",
+      "form": "SHEET",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": null,
+      "status": "MISSING"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [],
+  "sheets": [
+    "F10.SH.CONSIDER"
+  ],
+  "modals": [
+    "F10.MD.REMOVE_OBJECT"
+  ],
+  "states": [
+    {
+      "id": "F10.ST.LOADING",
+      "status": "MISSING"
+    },
+    {
+      "id": "F10.ST.NONE",
+      "status": "MISSING"
+    },
+    {
+      "id": "F10.ST.ERROR",
+      "status": "MISSING"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F10.IN.PRIMARY",
+      "status": "NO_OP",
+      "opens": "F10.DECISION"
+    },
+    {
+      "id": "F10.IN.OPEN_OBJECT",
+      "status": "MISSING",
+      "opens": "F10.OBJECT"
+    },
+    {
+      "id": "F10.IX.CONSIDER",
+      "status": "MISSING",
+      "opens": "F10.SH.CONSIDER"
+    },
+    {
+      "id": "F10.IN.REMOVE",
+      "status": "MISSING",
+      "opens": "F10.MD.REMOVE_OBJECT"
+    },
+    {
+      "id": "F10.IN.BOUGHT",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F10.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F10.IN.ASK",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F10.NAV.TODAY",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F10.REVIEW.BOARD",
+      "status": "LEGACY",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F10.00",
+      "route": "purchases",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "node_id": "F10.OBJECT",
+      "route": "purchases/:purchaseId",
+      "status": "MISSING"
+    }
+  ],
+  "global_dependencies": [
+    "GS.BOTTOM_NAV",
+    "GS.TOP_CHROME",
+    "GS.QUICK_ADD",
+    "GS.ASK_JURNL",
+    "GS.MONEY_FORMAT",
+    "GS.DATE_MODEL",
+    "GS.FORM_SYSTEM",
+    "GS.STATE_PATTERNS",
+    "GS.FAMILY_DISCOVERY",
+    "GS.ENTITLEMENTS"
+  ],
+  "data_dependencies": [
+    "DD.PURCHASE_CONSIDERATIONS",
+    "DD.SAFE_TO_SPEND",
+    "DD.PLAN_ALLOCATIONS",
+    "DD.GOALS",
+    "DD.OBLIGATIONS"
+  ],
+  "owned_data": [
+    "DD.PURCHASE_CONSIDERATIONS"
+  ],
+  "read_data": [
+    "DD.SAFE_TO_SPEND",
+    "DD.PLAN_ALLOCATIONS",
+    "DD.GOALS",
+    "DD.OBLIGATIONS"
+  ],
+  "write_data": [
+    "DD.PURCHASE_CONSIDERATIONS"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlAmountField",
+    "JurnlSignal",
+    "JurnlRecordList",
+    "JurnlStateBlock",
+    "JurnlComparePair",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_PURCHASE_CHECK (CORE)",
+    "ADVANCED_SCENARIOS (ADVANCED)",
+    "ADVANCED_PURCHASE_ANALYSIS (ADVANCED)",
+    "AI_EXPLAIN_BASIC (AI)",
+    "AI_PLANNING_GUIDANCE (AI)",
+    "AI_MULTI_SCENARIO_ANALYSIS (AI)",
+    "AI_HIGHER_USAGE (AI)",
+    "COMMERCE_PRICE_COMPARISON (COMMERCE, DISABLED)",
+    "COMMERCE_MERCHANT_OPTIONS (COMMERCE, DISABLED)"
+  ],
+  "functional_status": {
+    "score": 14.2,
+    "strict": 11.8,
+    "gap_counts": {
+      "PLACEHOLDER": 2,
+      "MISSING": 13,
+      "COMPLETE_FUNCTIONAL": 2,
+      "LEGACY": 1
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 5,
+    "visually_implemented": 0,
+    "parent": "INVALID_EXPRESSION"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F10.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F10.OBJECT": "REUSE_PARENT_PLATE",
+    "F10.DECISION": "NO_PLATE_REQUIRED",
+    "F10.SH.CONSIDER": "NO_PLATE_REQUIRED",
+    "F10.MD.REMOVE_OBJECT": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_ADD",
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.BACK",
+    "ICON.F10_OBJECT",
+    "ICON.INFO"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B06 NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT",
+    "B11 F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+    "B14 ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT",
+    "B24 REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME"
+  ],
+  "implementation_dependencies": [
+    "W3.F09",
+    "W3.F14"
+  ],
+  "boundaries": [
+    "F10 IS NOT ECOMMERCE: NO CART, NO MERCHANT, NO PRICE COMPARISON (COMMERCE_* CAPABILITIES ARE DISABLED).",
+    "THE VERDICT READS F09 (WHAT CHANGES) AND F14 (WHAT IT DELAYS); IT NEVER RECOMPUTES SAFE TO SPEND.",
+    "A LARGE PURCHASE SAVED TOWARD OVER TIME IS AN F14 GOAL BY REFERENCE, NOT A SECOND SAVINGS SYSTEM.",
+    "F11 OWNS TRIPS; A TRIP IS NEVER A PURCHASE."
+  ],
+  "extension": "MAJOR PURCHASE PREP ADD-ON (ADVANCED_PURCHASE_ANALYSIS, SERVER-ENFORCED).",
+  "founder_flags": [],
+  "reusable_capability_candidates": []
+}

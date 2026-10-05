@@ -1,0 +1,739 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "statuses": [
+    "LIVE",
+    "PARTIAL",
+    "STUB",
+    "PLACEHOLDER",
+    "MISSING",
+    "LEGACY",
+    "DUPLICATED",
+    "UNREACHABLE"
+  ],
+  "rule": "route_status describes the mounted surface. reachable_in_product_today is separate: a LIVE or PLACEHOLDER route can still be unreachable without the review board.",
+  "counts": {
+    "total_product_routes": 53,
+    "by_status": {
+      "LIVE": 24,
+      "PARTIAL": 3,
+      "PLACEHOLDER": 12,
+      "MISSING": 14
+    },
+    "unreachable_in_product_today": [
+      "F06.00",
+      "F07.00",
+      "F09.00",
+      "F10.00",
+      "F11.00",
+      "F13.00",
+      "F14.00",
+      "F15.00",
+      "F16.00"
+    ],
+    "non_product": 3
+  },
+  "product_routes": [
+    {
+      "route": "/production/jurnl/runtime/entry",
+      "node_id": "F01.00",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.04"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/create",
+      "node_id": "F01.01",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.01",
+        "F01.03",
+        "F01.04"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/verify-email",
+      "node_id": "F01.02",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.01",
+        "F01.02",
+        "F01.03"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/sign-in",
+      "node_id": "F01.03",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.01",
+        "F01.03",
+        "F01.04",
+        "F01.08"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/unlock",
+      "node_id": "F01.04",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.04"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/forgot-password",
+      "node_id": "F01.05",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.03"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/reset-sent",
+      "node_id": "F01.06",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.05"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/new-password",
+      "node_id": "F01.07",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.06"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/reset-success",
+      "node_id": "F01.08",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.07"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/biometric",
+      "node_id": "F01.09",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.02",
+        "F01.03"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/device-trust",
+      "node_id": "F01.10",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.03",
+        "F01.09"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/privacy",
+      "node_id": "F01.11",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.02",
+        "F01.10",
+        "F01.11"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/security",
+      "node_id": "F01.12",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.11",
+        "F01.12"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/complete",
+      "node_id": "F01.13",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.03",
+        "F01.12"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/setup",
+      "node_id": "F02.00",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.13"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/household",
+      "node_id": "F02.01",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/accounts",
+      "node_id": "F02.02",
+      "family_id": "F02",
+      "status": "PARTIAL",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.00",
+        "F02.01"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 1
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/income",
+      "node_id": "F02.03",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.00",
+        "F02.02"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/commitments",
+      "node_id": "F02.04",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.00",
+        "F02.03"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/priorities",
+      "node_id": "F02.05",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.00",
+        "F02.04"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/protected",
+      "node_id": "F02.06",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.00",
+        "F02.05"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/boundaries",
+      "node_id": "F02.07",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.00",
+        "F02.06"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/ready",
+      "node_id": "F02.08",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.00",
+        "F02.07",
+        "F03.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/accounts/name",
+      "node_id": "F02.02.1",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.02"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/setup/priorities/goal",
+      "node_id": "F02.05.1",
+      "family_id": "F02",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.05"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 0
+    },
+    {
+      "route": "/production/jurnl/runtime/today",
+      "node_id": "F03.00",
+      "family_id": "F03",
+      "status": "PARTIAL",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F02.08",
+        "F04.00",
+        "GS.BOTTOM_NAV"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/activity",
+      "node_id": "F04.00",
+      "family_id": "F04",
+      "status": "PARTIAL",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F03.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 1
+    },
+    {
+      "route": "/production/jurnl/runtime/money",
+      "node_id": "F05.00",
+      "family_id": "F05",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "GS.BOTTOM_NAV"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 2
+    },
+    {
+      "route": "/production/jurnl/runtime/money/places",
+      "node_id": "F05.ACCOUNTS",
+      "family_id": "F05",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F05.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 2
+    },
+    {
+      "route": "/production/jurnl/runtime/money/places/:placeId",
+      "node_id": "F05.ACCOUNT",
+      "family_id": "F05",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F05.00",
+        "F05.ACCOUNTS"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 2
+    },
+    {
+      "route": "/production/jurnl/runtime/income",
+      "node_id": "F06.00",
+      "family_id": "F06",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F05.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 2
+    },
+    {
+      "route": "/production/jurnl/runtime/income/:sourceId",
+      "node_id": "F06.SOURCE",
+      "family_id": "F06",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F06.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 2
+    },
+    {
+      "route": "/production/jurnl/runtime/upcoming",
+      "node_id": "F07.00",
+      "family_id": "F07",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F03.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 2
+    },
+    {
+      "route": "/production/jurnl/runtime/upcoming/:itemId",
+      "node_id": "F07.ITEM",
+      "family_id": "F07",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F03.00",
+        "F04.00",
+        "F07.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 2
+    },
+    {
+      "route": "/production/jurnl/runtime/plan",
+      "node_id": "F08.00",
+      "family_id": "F08",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "GS.BOTTOM_NAV"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/plan/:intentionId",
+      "node_id": "F08.ITEM",
+      "family_id": "F08",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F08.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/safe",
+      "node_id": "F09.00",
+      "family_id": "F09",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F03.00",
+        "F08.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/safe/why",
+      "node_id": "F09.WHY",
+      "family_id": "F09",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F03.SEE_WHY",
+        "F09.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/purchases",
+      "node_id": "F10.00",
+      "family_id": "F10",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F08.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/purchases/:purchaseId",
+      "node_id": "F10.OBJECT",
+      "family_id": "F10",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F10.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/trips",
+      "node_id": "F11.00",
+      "family_id": "F11",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F08.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/trips/:tripId",
+      "node_id": "F11.TRIP",
+      "family_id": "F11",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F11.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/credit",
+      "node_id": "F12.00",
+      "family_id": "F12",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "GS.BOTTOM_NAV"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/credit/:accountId",
+      "node_id": "F12.ACCOUNT",
+      "family_id": "F12",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F12.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/paydown",
+      "node_id": "F13.00",
+      "family_id": "F13",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F12.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/paydown/what-if",
+      "node_id": "F13.WHAT_IF",
+      "family_id": "F13",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F13.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/goals",
+      "node_id": "F14.00",
+      "family_id": "F14",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F08.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/goals/:goalId",
+      "node_id": "F14.GOAL",
+      "family_id": "F14",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F14.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 3
+    },
+    {
+      "route": "/production/jurnl/runtime/ahead",
+      "node_id": "F15.00",
+      "family_id": "F15",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F08.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/ahead/:branchId",
+      "node_id": "F15.BRANCH",
+      "family_id": "F15",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F15.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/records",
+      "node_id": "F16.00",
+      "family_id": "F16",
+      "status": "PLACEHOLDER",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F05.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/records/:documentId",
+      "node_id": "F16.DOCUMENT",
+      "family_id": "F16",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F16.00"
+      ],
+      "backend_dependency": "REPOSITORY (W0.3)",
+      "wave": 4
+    },
+    {
+      "route": "/production/jurnl/runtime/account",
+      "node_id": "GS.SETTINGS",
+      "family_id": "GLOBAL",
+      "status": "MISSING",
+      "reachable_in_product_today": false,
+      "reached_from_target": [
+        "F03.00",
+        "F03.IN.ACCOUNT"
+      ],
+      "backend_dependency": "REPOSITORY",
+      "wave": 1
+    }
+  ],
+  "non_product_routes": [
+    {
+      "route": "/production/jurnl/runtime/",
+      "node_id": "EntryIndex",
+      "status": "LIVE",
+      "note": "Routes to entry / unlock / complete by session state."
+    },
+    {
+      "route": "/production/jurnl/runtime/parents",
+      "node_id": "F05_F16.BOARD",
+      "status": "LEGACY",
+      "note": "Parent review board. Review tooling, not product. Keep in design-preview only (B24)."
+    },
+    {
+      "route": "/production/jurnl/runtime/*",
+      "node_id": "EntryIndex",
+      "status": "LIVE",
+      "note": "Fallback to EntryIndex."
+    }
+  ]
+}
