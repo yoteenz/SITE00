@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BLDR_FRAMEWORK_PILLARS, BLDR_HOMEPAGE_EXPANDED } from '../../config/builder';
 import { EVOLVE_FRAMEWORK_PILLARS, EVOLVE_HOMEPAGE_EXPANDED } from '../../config/evolve';
 import { IDNTY_FRAMEWORK_PILLARS, IDNTY_HOMEPAGE_EXPANDED } from '../../config/identity';
-import { resolveOriginBackgroundByViewport } from '../../config/origin-background-assets';
 import {
   BUILDER_PANELS,
   ORIGIN_EXPANDED_TITLES,
@@ -12,14 +11,13 @@ import { SITE00_ROUTES } from '../../config/routes';
 import { SITE00_ORIGIN_COPY } from '../../config/status';
 import type { useOriginLocationsTransition } from '../../hooks/useOriginLocationsTransition';
 import type { HomeMode } from '../../state/types';
-import { BldrFrameworkIcon } from '../homepage/BldrFrameworkIcon';
 import { EvolveFrameworkIcon } from '../homepage/EvolveFrameworkIcon';
-import { IdntyFrameworkIcon } from '../homepage/IdntyFrameworkIcon';
+import { OriginBldrFrameworkIcon, OriginIdntyFrameworkIcon } from './OriginFrameworkGlyphs';
+import { OriginDualEnvironment } from './OriginDualEnvironment';
 import { OriginPanelIcon } from '../homepage/OriginPanelIcon';
 import { AssetSlot } from './AssetSlot';
 import { PublicDiamond } from './IdentityDiagnosticChrome';
 import { PublicRedesignShell } from './PublicRedesignShell';
-import { SpatialEnvironmentFrame } from './SpatialEnvironmentFrame';
 import { StateNumeral } from './StateNumeral';
 
 type OriginPanelId = 'idnty' | 'bldr' | 'evolve';
@@ -80,17 +78,12 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
       hideBottomNav
       authorityId={AUTHORITY_ID[homeMode]}
       className={`s00pr-shell--origin ${expanded ? 's00pr-shell--origin-expanded' : ''}`.trim()}
-      environment={
-        <SpatialEnvironmentFrame
-          slotId={expanded ? 'ENV.ORIGIN.EXPANDED' : 'ENV.ORIGIN.COLLAPSED'}
-          tone="daylight"
-          // The approved CLEAN landmark plate (existing asset) stays mounted for both states; the old
-          // WITH_PANELS image has panels baked in and is intentionally not used.
-          fallbackImageUrl={resolveOriginBackgroundByViewport('mobile', 'CLEAN')}
-        />
-      }
+      environment={<OriginDualEnvironment expanded={expanded} />}
     >
       <div className="s00pr-origin" data-origin-mode={homeMode}>
+        {!expanded ? (
+          <div className="s00pr-origin-swipe-surface" aria-hidden="true" {...swipeHandlers} />
+        ) : null}
         <section className="s00pr-originhero" aria-label="ORIGIN MESSAGING">
           <p className="s00pr-originhero__eyebrow">{SITE00_ORIGIN_COPY.headlineLine1}</p>
           <h1 className="s00pr-originhero__title">{SITE00_ORIGIN_COPY.headlineLine2}</h1>
@@ -130,7 +123,12 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
               </ul>
             </section>
 
-            <section className="s00pr-originswipe" aria-label="SWIPE UP TO OPEN SITE 00 LOCATIONS DIRECTORY" {...swipeHandlers}>
+            <section
+              className="s00pr-originswipe"
+              aria-label="SWIPE UP TO OPEN SITE 00 LOCATIONS DIRECTORY"
+              data-swipe-up-zone
+              {...swipeHandlers}
+            >
               <span className="s00pr-originswipe__connector" aria-hidden="true">
                 <i />
                 <b />
@@ -138,7 +136,7 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
               <svg className="s00pr-originswipe__chev" viewBox="0 0 24 12" width="24" height="12" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
                 <path d="m2 11 10-9 10 9" />
               </svg>
-              <button type="button" className="s00pr-originswipe__btn" onClick={goToLocations}>
+              <button type="button" className="s00pr-originswipe__btn" data-swipe-up-zone onClick={goToLocations}>
                 SWIPE UP TO ENTER
               </button>
             </section>
@@ -250,7 +248,7 @@ export function PublicOriginExpandedPanel({ panel, onCollapse }: PublicOriginExp
               {IDNTY_FRAMEWORK_PILLARS.map((pillar, index) => (
                 <li key={pillar.id}>
                   <span className="s00pr-framework__n">0{index + 1}</span>
-                  <IdntyFrameworkIcon id={pillar.icon} title={pillar.title} className="s00pr-framework__icon" />
+                  <OriginIdntyFrameworkIcon id={pillar.icon} className="s00pr-framework__icon" />
                   <span className="s00pr-framework__title">{pillar.title}</span>
                   <span className="s00pr-framework__desc">{pillar.description}</span>
                 </li>
@@ -282,7 +280,7 @@ export function PublicOriginExpandedPanel({ panel, onCollapse }: PublicOriginExp
               {BLDR_FRAMEWORK_PILLARS.map((pillar, index) => (
                 <li key={pillar.id}>
                   <span className="s00pr-framework__n">0{index + 1}</span>
-                  <BldrFrameworkIcon id={pillar.icon} title={pillar.title} className="s00pr-framework__icon" />
+                  <OriginBldrFrameworkIcon id={pillar.icon} className="s00pr-framework__icon" />
                   <span className="s00pr-framework__title">{pillar.title}</span>
                   <span className="s00pr-framework__desc">{pillar.description}</span>
                 </li>

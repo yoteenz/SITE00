@@ -1,0 +1,1026 @@
+{
+  "family_id": "F02_SETUP",
+  "family_name": "SETUP",
+  "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-SONNET-HANDOFF1",
+  "canonical_root": "src/projects/jurnl/families/F02_SETUP",
+  "production_package": "JURNL/F02_SETUP",
+  "runtime_wired": true,
+  "rule": "Screen authorities are visual targets. Environment plates, botanicals, and brand lockups are the runtime images. Do not search OpenArt.",
+  "botanical_repair_binding": {
+    "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-BOTANICAL-REPAIR-BINDING1",
+    "repair_sprint": "P0.JURNL.F02-BOTANICAL-BRAND-ASSET-REPAIR1",
+    "repair_status": "COMPLETE",
+    "approval_status": "IN_REVIEW",
+    "pre_repair_manifests_used": false,
+    "source_manifests": [
+      "JURNL/F02_SETUP/MANIFEST/F02_VISUAL_ASSET_MANIFEST.json",
+      "JURNL/F02_SETUP/MANIFEST/F02_COMPONENT_ASSET_MAP.json",
+      "JURNL/F02_SETUP/MANIFEST/F02_SCREEN_TO_LINKED_ASSET_REPORT.json",
+      "JURNL/F02_SETUP/MANIFEST/GENERATION_LEDGER.json",
+      "JURNL/F02_SETUP/MANIFEST/F02_BOTANICAL_ASSET_MAP.json"
+    ],
+    "contact_sheet": "JURNL/F02_SETUP/SHEETS/J_BOTANICAL_LOCKUP_REPAIR.jpg",
+    "emblems_mounted": 13,
+    "full_lockups_mounted": 2,
+    "screens_mapped": 14,
+    "duplicate_collapsed": "F02.04 reuses F02.BOTANICAL.EMBLEM.004",
+    "stored_as_environment_plates": 0,
+    "transparency": "PASS",
+    "screenshot_crop_contamination": "NONE",
+    "layering": [
+      "ENVIRONMENT",
+      "BOTANICAL",
+      "BRAND_LOCKUP",
+      "LIVE_UI",
+      "INTERACTIONS"
+    ],
+    "ledger": {
+      "path": "JURNL/F02_SETUP/MANIFEST/GENERATION_LEDGER.json",
+      "generation_class": "BOTANICAL / BRAND_LOCKUP",
+      "paid_generations": 15,
+      "credits_spent": 2025,
+      "observed_rate": 135,
+      "rate_scope": "This 135-credit rate is the repair class only. Screen, environment, state, and interaction generations keep their own observed costs."
+    },
+    "mapped_screens": [
+      {
+        "screen_id": "F02.00",
+        "environment_id": "ENV.ARRIVAL",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.001"
+        ],
+        "brand_lockups": [
+          "F02.BRANDLOCKUP.JURNL.001"
+        ],
+        "header_paint": "LOCKUP"
+      },
+      {
+        "screen_id": "F02.01",
+        "environment_id": "ENV.ARRIVAL",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.002"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.02",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.003"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.02.1",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.009"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.03",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.004"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.04",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.004"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.05",
+        "environment_id": "ENV.EDIT",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_EDIT.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.005"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.05.1",
+        "environment_id": "ENV.EDIT",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_EDIT.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.010"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.06",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.006"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.07",
+        "environment_id": "ENV.QUIET",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_QUIET.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.007"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.08",
+        "environment_id": "ENV.ARRIVAL",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.008"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.ST.VALIDATION",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.012"
+        ],
+        "brand_lockups": [
+          "F02.BRANDLOCKUP.JURNL_SETUP.001"
+        ],
+        "header_paint": "LOCKUP"
+      },
+      {
+        "screen_id": "F02.ST.CONNECTED",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.013"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.ST.RESUME",
+        "environment_id": "ENV.ARRIVAL",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.011"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      }
+    ]
+  },
+  "screens": [
+    {
+      "screen_id": "F02.00",
+      "name": "THE SHAPE OF YOUR LIFE",
+      "role": "PARENT",
+      "route": "setup",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.00_SETUP_PARENT.jpg",
+      "authority_source": "JURNL/F02_SETUP/PARENT/F02.00_SETUP_PARENT.jpg",
+      "authority_generation_id": "6EV7AGeqRBJr2fWxzItW",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.ARRIVAL",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.001",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_001.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [
+        {
+          "asset_id": "F02.BRANDLOCKUP.JURNL.001",
+          "file": "src/projects/jurnl/families/F02_SETUP/BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_001.png",
+          "runtime_use": true
+        }
+      ],
+      "header_paint": "LOCKUP",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.RESUME",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.RESUME.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "No stored data. Show progress and the path ahead. Header paint is the JURNL lockup only. Emblem 001 is the sprig inside that lockup and must not be stacked on top of it. Continue opens F02.01. Copy is uppercase.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.01",
+      "name": "WHO THIS IS FOR",
+      "role": "CHILD",
+      "route": "setup/household",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.01_CONTEXT.jpg",
+      "authority_source": "JURNL/F02_SETUP/CHILDREN/F02.01_CONTEXT.jpg",
+      "authority_generation_id": "H51ptXweLUjcqpR3bhRp",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.ARRIVAL",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.002",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_002.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Single select JUST ME or SHARED. Live JURNL wordmark beside emblem 002. Continue requires a selection.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.02",
+      "name": "WHERE IT LIVES",
+      "role": "CHILD",
+      "route": "setup/accounts",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.02_ACCOUNTS.jpg",
+      "authority_source": "JURNL/F02_SETUP/CHILDREN/F02.02_ACCOUNTS.jpg",
+      "authority_generation_id": "uZ449Fb4y11byRXhntQG",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.003",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_003.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.CONNECTED",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.CONNECTED.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [
+        {
+          "screen_id": "F02.IN.PERMISSION",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.PERMISSION.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        },
+        {
+          "screen_id": "F02.IN.SKIP",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.SKIP.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Connect, name, or skip. Connect opens the permission sheet. Name opens F02.02.1. Skip opens the shared skip sheet. Success state is F02.ST.CONNECTED. No bank logos.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.02.1",
+      "name": "NAME AN ACCOUNT",
+      "role": "GRANDCHILD",
+      "route": "setup/accounts/name",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.02.1_NAME_ACCOUNT.jpg",
+      "authority_source": "JURNL/F02_SETUP/GRANDCHILDREN/F02.02.1_NAME_ACCOUNT.jpg",
+      "authority_generation_id": "CHEdBiRAN9A9lrXIzFos",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.009",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_009.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.VALIDATION",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.VALIDATION.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Label plus kind CHECKING, SAVINGS, or CARD. Save returns to F02.02. Validation uses F02.ST.VALIDATION. No balances.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.03",
+      "name": "WHAT ARRIVES",
+      "role": "CHILD",
+      "route": "setup/income",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.03_INCOME.jpg",
+      "authority_source": "JURNL/F02_SETUP/CHILDREN/F02.03_INCOME.jpg",
+      "authority_generation_id": "nhV9YcjHnhBfHb8OYfBC",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.004",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_004.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.VALIDATION",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.VALIDATION.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Cadence select plus one approximate amount. Validation uses F02.ST.VALIDATION. Live wordmark beside emblem 004.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.04",
+      "name": "WHAT REPEATS",
+      "role": "CHILD",
+      "route": "setup/commitments",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.04_COMMITMENTS.jpg",
+      "authority_source": "JURNL/F02_SETUP/CHILDREN/F02.04_COMMITMENTS.jpg",
+      "authority_generation_id": "g5uVSOMvEVhMf73cDDuv",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.004",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_004.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.VALIDATION",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.VALIDATION.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [
+        {
+          "screen_id": "F02.IN.ADD",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.ADD.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        },
+        {
+          "screen_id": "F02.IN.SKIP",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.SKIP.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Obligation seeds. Add opens F02.IN.ADD. Skip opens the shared skip sheet. Reuse emblem 004. Do not generate a second spray.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.05",
+      "name": "WHAT MATTERS FIRST",
+      "role": "CHILD",
+      "route": "setup/priorities",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.05_PRIORITIES.jpg",
+      "authority_source": "JURNL/F02_SETUP/CHILDREN/F02.05_PRIORITIES.jpg",
+      "authority_generation_id": "pjL1ALlhTcNNxK8dJRmm",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.EDIT",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_EDIT.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.005",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_005.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Multi-select, maximum three, from HOUSING, DAILY LIFE, A GOAL, DEBT, TRAVEL, A BUFFER. If A GOAL is chosen, continue opens F02.05.1. Otherwise continue opens F02.06.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.05.1",
+      "name": "NAME A GOAL",
+      "role": "GRANDCHILD",
+      "route": "setup/priorities/goal",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.05.1_NAME_GOAL.jpg",
+      "authority_source": "JURNL/F02_SETUP/GRANDCHILDREN/F02.05.1_NAME_GOAL.jpg",
+      "authority_generation_id": "Qz75qjWGrTu62ZGTLi8V",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.EDIT",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_EDIT.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.010",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_010.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.VALIDATION",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.VALIDATION.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Goal name and horizon THIS SEASON, THIS YEAR, or LATER. Save continues to F02.06. Not the Goals family.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.06",
+      "name": "WHAT SHOULD STAY",
+      "role": "CHILD",
+      "route": "setup/protected",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.06_AVAILABLE.jpg",
+      "authority_source": "JURNL/F02_SETUP/CHILDREN/F02.06_AVAILABLE.jpg",
+      "authority_generation_id": "2KMj9YeYU50QF2FLu7go",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.006",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_006.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.VALIDATION",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.VALIDATION.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [
+        {
+          "screen_id": "F02.IN.SKIP",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.SKIP.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "One protected amount, or skip. Validation uses F02.ST.VALIDATION. This does not open Safe to Spend.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.07",
+      "name": "WHAT JURNL MAY KEEP",
+      "role": "CHILD",
+      "route": "setup/boundaries",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.07_BOUNDARIES.jpg",
+      "authority_source": "JURNL/F02_SETUP/CHILDREN/F02.07_BOUNDARIES.jpg",
+      "authority_generation_id": "vrLuWNd4riH8JNGuJLVP",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.QUIET",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_QUIET.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.007",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_007.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Consent toggles and a disclosure. Use the corrected authority (generation vrLuWNd4riH8JNGuJLVP). The superseded attempt 8QeXrJ1VUU3REvZqxff9 is excluded.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.08",
+      "name": "JURNL IS READY",
+      "role": "CHILD",
+      "route": "setup/ready",
+      "route_status": "PROPOSED_NOT_REGISTERED",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.08_READY.jpg",
+      "authority_source": "JURNL/F02_SETUP/CHILDREN/F02.08_READY.jpg",
+      "authority_generation_id": "TivHik6Gd0eSXloheqG7",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.ARRIVAL",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.008",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_008.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Voice preference GUIDED or QUIET. Summary of prior answers is live text. Complete hands off to F03 TODAY. Use the corrected authority (generation TivHik6Gd0eSXloheqG7). Square-rounded progress only. The superseded attempt PZC0QVXJzfqWSTXgSlEh is excluded.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.ST.VALIDATION",
+      "name": "FIELD NEEDS A NUMBER",
+      "role": "STATE",
+      "route": null,
+      "route_status": "OVERLAY_NOT_A_ROUTE",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.VALIDATION.jpg",
+      "authority_source": "JURNL/F02_SETUP/STATES/F02.ST.VALIDATION.jpg",
+      "authority_generation_id": "kSPWp1uPe6sSlT3pGwrW",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.012",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_012.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [
+        {
+          "asset_id": "F02.BRANDLOCKUP.JURNL_SETUP.001",
+          "file": "src/projects/jurnl/families/F02_SETUP/BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_SETUP_001.png",
+          "runtime_use": true
+        }
+      ],
+      "header_paint": "LOCKUP",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.VALIDATION",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.VALIDATION.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Grouped field-error authority for F02.03, F02.06, F02.02.1, F02.05.1, and the add sheet. Wine treatment. Header paint is the JURNL SETUP lockup. Emblem 012 is the rose inside that lockup and must not be stacked on it. Square-rounded alert. No circular badge.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.ST.CONNECTED",
+      "name": "ACCOUNT LINKED",
+      "role": "STATE",
+      "route": null,
+      "route_status": "OVERLAY_NOT_A_ROUTE",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.CONNECTED.jpg",
+      "authority_source": "JURNL/F02_SETUP/STATES/F02.ST.CONNECTED.jpg",
+      "authority_generation_id": "2Sqi2VXMv0uKShbmmxei",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.013",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_013.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.CONNECTED",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.CONNECTED.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Success after an optional link on F02.02. Emerald confirmation. No confetti and no bank logo.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.ST.RESUME",
+      "name": "CONTINUE SETUP",
+      "role": "STATE",
+      "route": null,
+      "route_status": "OVERLAY_NOT_A_ROUTE",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.RESUME.jpg",
+      "authority_source": "JURNL/F02_SETUP/STATES/F02.ST.RESUME.jpg",
+      "authority_generation_id": "j0efLCA01W7HJm6tYInO",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.ARRIVAL",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [
+        {
+          "asset_id": "F02.BOTANICAL.EMBLEM.011",
+          "file": "src/projects/jurnl/families/F02_SETUP/BOTANICALS/F02_BOTANICAL_EMBLEM_011.png",
+          "runtime_use": true
+        }
+      ],
+      "brand_lockups": [],
+      "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [
+        {
+          "screen_id": "F02.ST.RESUME",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.ST.RESUME.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "interaction_authority": [],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Return state for an unfinished setup. Same arrival plate as the parent. Progress is partially filled and drawn in code.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.IN.PERMISSION",
+      "name": "CONNECTION PERMISSION",
+      "role": "INTERACTION",
+      "route": null,
+      "route_status": "OVERLAY_NOT_A_ROUTE",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.PERMISSION.jpg",
+      "authority_source": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.PERMISSION.jpg",
+      "authority_generation_id": "sDpw4IOScQCG1axIhEDv",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.QUIET",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_QUIET.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [],
+      "brand_lockups": [],
+      "header_paint": "NONE",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [],
+      "interaction_authority": [
+        {
+          "screen_id": "F02.IN.PERMISSION",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.PERMISSION.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Sheet from F02.02 before any provider handoff. No header botanical. Quiet plate behind the live sheet. Dismiss does not connect.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.IN.ADD",
+      "name": "ADD A COMMITMENT",
+      "role": "INTERACTION",
+      "route": null,
+      "route_status": "OVERLAY_NOT_A_ROUTE",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.ADD.jpg",
+      "authority_source": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.ADD.jpg",
+      "authority_generation_id": "mzl5dkFISXxPMoBASEZo",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [],
+      "brand_lockups": [],
+      "header_paint": "NONE",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [],
+      "interaction_authority": [
+        {
+          "screen_id": "F02.IN.ADD",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.ADD.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Sheet from F02.04. One obligation name and cadence. Amount is optional. Empty name keeps save quiet. No header botanical.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    },
+    {
+      "screen_id": "F02.IN.SKIP",
+      "name": "ADD THIS LATER",
+      "role": "INTERACTION",
+      "route": null,
+      "route_status": "OVERLAY_NOT_A_ROUTE",
+      "authority_file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.SKIP.jpg",
+      "authority_source": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.SKIP.jpg",
+      "authority_generation_id": "PEgXsajaRactnWRTqjYO",
+      "runtime_use": false,
+      "reference_only": true,
+      "environment_id": "ENV.DESK",
+      "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "environment_runtime_use": true,
+      "botanical_assets": [],
+      "brand_lockups": [],
+      "header_paint": "NONE",
+      "panel_assets": [],
+      "panel_decision": "CODE_ONLY",
+      "button_assets": [],
+      "button_decision": "CODE_ONLY",
+      "control_assets": [],
+      "control_decision": "CODE_ONLY",
+      "object_assets": [],
+      "object_decision": "BAKED_INTO_ENVIRONMENT",
+      "material_assets": [],
+      "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
+      "icons": "INHERIT_F01_SVG",
+      "icon_map": "src/projects/jurnl/families/F02_SETUP/MANIFEST/F02_IMPLEMENTATION_ICON_MAP.json",
+      "state_authority": [],
+      "interaction_authority": [
+        {
+          "screen_id": "F02.IN.SKIP",
+          "file": "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.IN.SKIP.jpg",
+          "runtime_use": false,
+          "reference_only": true
+        }
+      ],
+      "responsive_notes": "Build mobile first at 393\u00d7852. Tablet 834\u00d71194 keeps the same plate, wider margins, and one editorial column. Desktop 1440\u00d7900 centers that column on the same plate. Do not scale the mobile screen to fill tablet or desktop. Contain the project stage. Keep a safe top and a safe bottom. Live content stays inside the app canvas unless this screen is explicitly scrollable.",
+      "implementation_notes": "Shared sheet for F02.02, F02.04, and F02.06. Continue advances the step. Go back closes the sheet. No header botanical.",
+      "approval_status": "IN_REVIEW",
+      "visual_approval": false
+    }
+  ]
+}

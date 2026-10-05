@@ -24,6 +24,7 @@ export const CANONICAL_DESIGN_PROJECT_SELECTOR_ORDER = [
   'ndxbook',
   'all-in-one-enterprises',
   'astral-world',
+  'jurnl',
 ] as const;
 
 export type DesignProjectSelectorAccent = {
@@ -38,6 +39,7 @@ const ACCENT_BY_PROJECT: Record<string, DesignProjectSelectorAccent> = {
   ndxbook: { dotColor: '#B7D236', accentKey: 'NDX_LIME' },
   'all-in-one-enterprises': { dotColor: '#C9A227', accentKey: 'AIO_GOLD' },
   'astral-world': { dotColor: '#7B5EA7', accentKey: 'ASTRAL_PURPLE' },
+  jurnl: { dotColor: '#C9949A', accentKey: 'JURNL_MUTED_ROSE' },
 };
 
 export function resolveDesignProjectSelectorAccent(projectId: string): DesignProjectSelectorAccent {

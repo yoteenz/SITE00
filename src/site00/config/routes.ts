@@ -29,6 +29,17 @@ export const SITE00_ROUTES = {
   evolveMarketingEngagement: '/evolve/marketing/engagement/:engagementId',
   evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
   evolvePlans: '/evolve/plans',
+  /** P0.SITE00.EXISTING-LOCATION.SERVICE-ARCHITECTURE1 — work on an existing digital property */
+  existingLocation: '/existing-location',
+  existingLocationStart: '/existing-location/start',
+  existingLocationCase: '/existing-location/case/:caseId',
+  existingLocationCaseAccess: '/existing-location/case/:caseId/access',
+  existingLocationCaseStatus: '/existing-location/case/:caseId/status',
+  existingLocationCaseDiagnosis: '/existing-location/case/:caseId/diagnosis',
+  existingLocationCaseQuote: '/existing-location/case/:caseId/quote',
+  existingLocationCaseCheckout: '/existing-location/case/:caseId/checkout',
+  existingLocationCaseComplete: '/existing-location/case/:caseId/complete',
+  existingLocationAdmin: '/admin/site00/existing-location',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',
@@ -42,6 +53,8 @@ export const SITE00_ROUTES = {
   signIn: '/origin/sign-in',
   createAccount: '/origin/create-account',
   loaderPreview: '/loader-preview',
+  /** P0.SITE00.FAMILY1.PARENT-ASSET-FIRST.PAGE-ASSEMBLY.TEST1 */
+  jurnlF01ParentAssembly: '/jurnl/f01/parent-assembly',
   accessDebug: '/access/debug',
   access: '/access',
   accessCredential: (code: string) => `/access/${code}`,
@@ -144,8 +157,15 @@ export const SITE00_ROUTES = {
   productionLibraries: '/production/libraries',
   /** Production queue — structured work received from projects and services. */
   productionQueue: '/production/queue',
+  /** Production → ACTIVITY (project history). */
+  productionActivity: '/production/activity',
   productionProject: '/production/:projectSlug',
+  /** P0.JURNL.SITE00-INGEST-F01 — ingested project runtime (project body, no host chrome). */
+  productionProjectRuntime: '/production/:projectSlug/runtime/*',
   productionDesign: '/production/:projectSlug/design',
+  productionDesignWorkspace: '/production/:projectSlug/design-workspace',
+  /** Live client app viewport QA (iframe); internal production tooling. */
+  productionViewportLab: '/production/:projectSlug/viewport-lab',
   productionExperience: '/production/:projectSlug/experience',
   productionExpression: '/production/:projectSlug/expression',
   /** Legacy PROJECTS → DESIGN paths (redirect to /production). */
@@ -214,6 +234,9 @@ export const SITE00_ROUTES = {
   studioReviewDetail: '/studio/:projectSlug/reviews/:reviewId',
   studioMilestones: '/studio/:projectSlug/milestones',
   studioActivity: '/studio/:projectSlug/activity',
+  studioExperienceCompiler: '/studio/:projectSlug/experience-compiler',
+  /** Cloud preview guest — minimal Studio parent (no protected API). */
+  studioPreviewGuest: '/studio/:projectSlug/preview-guest',
   /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
   accountIntakes: '/account/intakes',
   accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
@@ -559,6 +582,10 @@ export function site00ProductionDesignPath(projectSlug: string): string {
   return `/production/${projectSlug.toLowerCase()}/design`;
 }
 
+export function site00ProductionViewportLabPath(projectSlug: string): string {
+  return `/production/${projectSlug.toLowerCase()}/viewport-lab`;
+}
+
 export function site00ProjectsDesignModulePath(): string {
   return SITE00_ROUTES.productionWorkspace;
 }
@@ -722,6 +749,15 @@ export function site00CreateAccountLinkTarget(location: {
 export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {
   const base = `/studio/${projectSlug}`;
   return section ? `${base}/${section}` : base;
+}
+
+export function site00ExperienceCompilerPath(projectSlug: string, tab?: string): string {
+  const base = `/studio/${projectSlug}/experience-compiler`;
+  return tab ? `${base}?tab=${encodeURIComponent(tab)}` : base;
+}
+
+export function site00StudioPreviewGuestPath(projectSlug: string): string {
+  return `/studio/${projectSlug}/preview-guest`;
 }
 
 export function site00ClientProjectRoomPath(
@@ -893,6 +929,17 @@ export function site00EvolveMarketingBrief(engagementId: string): string {
 }
 export function site00EvolveMarketingEngagement(engagementId: string): string {
   return evolveMarketingEngagementPath(engagementId);
+}
+
+export function site00ExistingLocationCasePath(caseId: string): string {
+  return `/existing-location/case/${encodeURIComponent(caseId)}`;
+}
+
+export function site00ExistingLocationCaseStepPath(
+  caseId: string,
+  step: 'access' | 'status' | 'diagnosis' | 'quote' | 'checkout' | 'complete',
+): string {
+  return `${site00ExistingLocationCasePath(caseId)}/${step}`;
 }
 
 export function isSite00OriginDesktopPath(pathname: string): boolean {

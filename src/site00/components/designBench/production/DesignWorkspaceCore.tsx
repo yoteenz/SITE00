@@ -43,7 +43,7 @@ function DesignWorkspaceDevMarker() {
 
 export function DesignWorkspaceCore({ projectSlug, role, banner }: Props) {
   return (
-    <div className="site00-design-workspace" data-design-workspace-typography="uppercase-plus-2px">
+    <div className="site00-design-workspace" data-design-workspace-typography="uppercase-plus-2px" data-workspace-role={role}>
       <DesignAgentDockProvider>
         <DesignGrokDockProvider>
           <DesignWorkspaceDevMarker />

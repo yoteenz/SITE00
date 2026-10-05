@@ -1,0 +1,444 @@
+{
+ "artifact": "SITE00_AUTHORITY_REUSE_MATRIX",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "matrix": [
+  {
+   "surface": "ORIGIN STORY (absorbs ABOUT/BRAND)",
+   "route": "/origin/story",
+   "inherit_from": "PUBLIC ORIGIN pack + IDNTY 00 framing",
+   "authority_ids": [
+    "public.redesign.origin"
+   ],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "LEGAL (privacy, terms)",
+   "route": "/legal/:doc",
+   "inherit_from": "Public text shell",
+   "authority_ids": [],
+   "classification": "DIRECT_REUSE"
+  },
+  {
+   "surface": "SUPPORT (help, contact, book discovery)",
+   "route": "/support",
+   "inherit_from": "Public shell + EVOLVE hub FAQ pattern + auth form inputs",
+   "authority_ids": [],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "SERVICES (product map)",
+   "route": "/services",
+   "inherit_from": "ORIGIN cards + expanded panels",
+   "authority_ids": [
+    "public.redesign.origin"
+   ],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "SYSTEM (+ GUIDE)",
+   "route": "/system",
+   "inherit_from": "ORIGIN plate + LOCATIONS directory grammar",
+   "authority_ids": [
+    "public.redesign.origin",
+    "public.redesign.locations"
+   ],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "SITES (built locations)",
+   "route": "/sites",
+   "inherit_from": "Projects index reference (orbital core, location tiles)",
+   "authority_ids": [
+    "dw.founder.projects_index"
+   ],
+   "classification": "PARTIAL_REUSE"
+  },
+  {
+   "surface": "JOURNAL",
+   "route": "/journal",
+   "inherit_from": "Public shell editorial",
+   "authority_ids": [],
+   "classification": "DIRECT_REUSE"
+  },
+  {
+   "surface": "WAITING ROOM with MAP state",
+   "route": "/enter",
+   "inherit_from": "LOCATIONS authority + enter00 DirectoryPanel",
+   "authority_ids": [
+    "public.redesign.locations"
+   ],
+   "classification": "DIRECT_REUSE"
+  },
+  {
+   "surface": "BLDR SYSTEMS + EXTENSIONS classes",
+   "route": "/bldr/state",
+   "inherit_from": "public.redesign.bldr (has systems|extensions paths)",
+   "authority_ids": [
+    "public.redesign.bldr"
+   ],
+   "classification": "DIRECT_REUSE"
+  },
+  {
+   "surface": "BLDR hub / EVOLVE hub / assessment steps",
+   "route": "/bldr, /evolve, /:x/:y/*",
+   "inherit_from": "IDNTY assessment grammar",
+   "authority_ids": [
+    "public.redesign.idnty"
+   ],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "Sign-in / create / recover / invite accept",
+   "route": "/origin/*, /invite/:token",
+   "inherit_from": "Existing Site00AuthShell",
+   "authority_ids": [],
+   "classification": "DIRECT_REUSE"
+  },
+  {
+   "surface": "CTRL ROOM home + MY PROJECTS + settings",
+   "route": "/control/*",
+   "inherit_from": "Operating World shell + projects-index tile grammar",
+   "authority_ids": [
+    "dw.founder.projects_index"
+   ],
+   "classification": "PARTIAL_REUSE"
+  },
+  {
+   "surface": "CLIENT APP HOME (current moment)",
+   "route": "/app/:slug",
+   "inherit_from": "P0.APP.1 CSS + design-pack review cards + production HUB pulse grammar",
+   "authority_ids": [],
+   "classification": "NEW_AUTHORITY_REQUIRED"
+  },
+  {
+   "surface": "CLIENT APP PROJECT (journey)",
+   "route": "/app/:slug/project",
+   "inherit_from": "Production pipeline tiles + HUB status rail",
+   "authority_ids": [],
+   "classification": "NEW_AUTHORITY_REQUIRED"
+  },
+  {
+   "surface": "CLIENT APP FAMILY REVIEW mode",
+   "route": "/app/:slug/reviews/:id",
+   "inherit_from": "Existing ClientAppReviewDetailView + design-pack review cards",
+   "authority_ids": [],
+   "classification": "NEW_AUTHORITY_REQUIRED"
+  },
+  {
+   "surface": "CLIENT APP REVIEWS list",
+   "route": "/app/:slug/reviews",
+   "inherit_from": "Existing SelfDirectedReviewsView",
+   "authority_ids": [],
+   "classification": "PARTIAL_REUSE"
+  },
+  {
+   "surface": "CLIENT APP INBOX + THREAD",
+   "route": "/app/:slug/inbox",
+   "inherit_from": "Existing inbox views + production INBOX thread grammar",
+   "authority_ids": [],
+   "classification": "PARTIAL_REUSE"
+  },
+  {
+   "surface": "CLIENT APP LIBRARY + FILE",
+   "route": "/app/:slug/library",
+   "inherit_from": "Production LIBRARY grammar (light variant) + existing category list",
+   "authority_ids": [],
+   "classification": "PARTIAL_REUSE"
+  },
+  {
+   "surface": "CLIENT APP NOTIFICATIONS drawer",
+   "route": "(drawer)",
+   "inherit_from": "Design-pack drawer shell",
+   "authority_ids": [],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "CLIENT APP MENU drawer",
+   "route": "(drawer)",
+   "inherit_from": "Design-pack drawer shell",
+   "authority_ids": [],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "PRODUCTION CLIENT RELATIONSHIP",
+   "route": "/production/:slug/client",
+   "inherit_from": "HUB descendants (prod.hub.descendants.opus1)",
+   "authority_ids": [
+    "prod.hub.descendants.opus1",
+    "prod.parent3view.forensic1"
+   ],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "SEND TO CLIENT sheet",
+   "route": "(sheet)",
+   "inherit_from": "INBOX decision-detail overlay grammar",
+   "authority_ids": [
+    "prod.inbox.root.convergence2"
+   ],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "INBOX CLIENT REVIEWS lens",
+   "route": "/production/:slug/inbox?view=client",
+   "inherit_from": "INBOX lenses",
+   "authority_ids": [
+    "prod.inbox.root.convergence2"
+   ],
+   "classification": "DIRECT_REUSE"
+  },
+  {
+   "surface": "EXPERIENCE children (7)",
+   "route": "/production/:slug/experience/:area",
+   "inherit_from": "92 OpenArt boards (IN_REVIEW, remote)",
+   "authority_ids": [
+    "prod.openart.export.242"
+   ],
+   "classification": "PARTIAL_REUSE"
+  },
+  {
+   "surface": "LIBRARY descendants",
+   "route": "/production/:slug/library",
+   "inherit_from": "150 OpenArt boards (IN_REVIEW, remote)",
+   "authority_ids": [
+    "prod.openart.export.242"
+   ],
+   "classification": "PARTIAL_REUSE"
+  },
+  {
+   "surface": "DESIGN section children",
+   "route": "/production/:slug/design/:section",
+   "inherit_from": "Design pack + chamber",
+   "authority_ids": [
+    "prod.design.assetpack.opus3"
+   ],
+   "classification": "DERIVED_REUSE"
+  },
+  {
+   "surface": "Character Fabrication tablet/desktop",
+   "route": "/production/:slug/expression/character-fabrication",
+   "inherit_from": "CF mobile authority",
+   "authority_ids": [
+    "prod.characterfab.media"
+   ],
+   "classification": "NEW_AUTHORITY_REQUIRED"
+  },
+  {
+   "surface": "NOT FOUND",
+   "route": "*",
+   "inherit_from": "Public shell",
+   "authority_ids": [],
+   "classification": "DIRECT_REUSE"
+  },
+  {
+   "surface": "LAB index",
+   "route": "/lab",
+   "inherit_from": "CONTROL shell",
+   "authority_ids": [],
+   "classification": "DIRECT_REUSE"
+  },
+  {
+   "surface": "STUDIO WORLD",
+   "route": "(reserved)",
+   "inherit_from": "Production environments",
+   "authority_ids": [],
+   "classification": "NEW_AUTHORITY_REQUIRED"
+  }
+ ],
+ "reusable_authority_families": [
+  {
+   "authority_id": "prod.parent3view.forensic1",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": [
+    "INC.PW_CLIENT"
+   ]
+  },
+  {
+   "authority_id": "prod.root36.opus2",
+   "status": "LEGACY_VALID",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "prod.hub.reconstruction.opus1",
+   "status": "LEGACY_VALID",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "prod.inbox.root.convergence2",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": [
+    "INC.PW_SEND",
+    "INC.PW_CLIENT_LENS"
+   ]
+  },
+  {
+   "authority_id": "prod.expression.lite.opus1",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "prod.design.assetpack.opus3",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": [
+    "INC.PW_DESIGN_CHILDREN"
+   ]
+  },
+  {
+   "authority_id": "prod.openart.export.242",
+   "status": "IN_REVIEW",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": [
+    "INC.PW_EXPERIENCE",
+    "INC.PW_LIBRARY"
+   ]
+  },
+  {
+   "authority_id": "prod.assets.grok1_and_hubhero",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "prod.assets.designpack",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "prod.designpack.sources",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "prod.bottomnav.icons",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "prod.hub.legacy_media",
+   "status": "LEGACY_VALID",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "prod.characterfab.media",
+   "status": "CANONICAL",
+   "family": "PRODUCTION WORKSPACE",
+   "reused_by": [
+    "INC.CF_RESPONSIVE"
+   ]
+  },
+  {
+   "authority_id": "dw.founder.site00.design_reconstruction",
+   "status": "LEGACY_VALID",
+   "family": "DESIGN WORKSPACE (project design page)",
+   "reused_by": []
+  },
+  {
+   "authority_id": "dw.founder.projects_index",
+   "status": "CANONICAL",
+   "family": "PUBLIC SITE / PROJECTS",
+   "reused_by": [
+    "INC.SITES",
+    "INC.CTRL"
+   ]
+  },
+  {
+   "authority_id": "proj.astralworld.screen_masters",
+   "status": "CANONICAL",
+   "family": "PROJECT EXPERIENCE (ASTRAL WORLD client)",
+   "reused_by": []
+  },
+  {
+   "authority_id": "proj.jurnl.f01",
+   "status": "CANONICAL",
+   "family": "PROJECT EXPERIENCE (JURNL client)",
+   "reused_by": []
+  },
+  {
+   "authority_id": "proj.jurnl.f02",
+   "status": "IN_REVIEW",
+   "family": "PROJECT EXPERIENCE (JURNL client)",
+   "reused_by": []
+  },
+  {
+   "authority_id": "icons.ndx.v3",
+   "status": "CANONICAL",
+   "family": "INTERNAL SYSTEM (icons)",
+   "reused_by": []
+  },
+  {
+   "authority_id": "icons.evolve",
+   "status": "CANONICAL",
+   "family": "EVOLVE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "icons.ai_consoles.staged",
+   "status": "IN_REVIEW",
+   "family": "DESIGN WORKSPACE (project design page)",
+   "reused_by": []
+  },
+  {
+   "authority_id": "icons.project_tabs.staged",
+   "status": "IN_REVIEW",
+   "family": "DESIGN WORKSPACE (project design page)",
+   "reused_by": []
+  },
+  {
+   "authority_id": "loader.v1",
+   "status": "CANONICAL",
+   "family": "INTERNAL SYSTEM (icons)",
+   "reused_by": []
+  },
+  {
+   "authority_id": "public.redesign.origin",
+   "status": "CANONICAL",
+   "family": "PUBLIC SITE / ORIGIN",
+   "reused_by": [
+    "INC.ORIGIN_STORY",
+    "INC.SERVICES",
+    "INC.SYSTEM"
+   ]
+  },
+  {
+   "authority_id": "public.redesign.idnty",
+   "status": "CANONICAL",
+   "family": "IDNTY",
+   "reused_by": [
+    "INC.BLDR_HUB"
+   ]
+  },
+  {
+   "authority_id": "public.redesign.bldr",
+   "status": "CANONICAL",
+   "family": "BLDR",
+   "reused_by": [
+    "INC.BLDR_CLASSES"
+   ]
+  },
+  {
+   "authority_id": "public.redesign.evolve",
+   "status": "CANONICAL",
+   "family": "EVOLVE",
+   "reused_by": []
+  },
+  {
+   "authority_id": "public.redesign.locations",
+   "status": "CANONICAL",
+   "family": "PUBLIC SITE / LOCATIONS",
+   "reused_by": [
+    "INC.SYSTEM",
+    "INC.WAITING_ROOM"
+   ]
+  }
+ ]
+}

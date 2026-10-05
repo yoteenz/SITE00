@@ -95,8 +95,22 @@ describe('asset slots (Grok contract)', () => {
     }
   });
 
-  it('ships NO final raster during the Sonnet pass', () => {
-    expect(PUBLIC_REDESIGN_ASSET_URLS).toEqual({});
+  it('registers production-eligible Grok assets only (47 injected, 5 live-code excluded)', () => {
+    expect(Object.keys(PUBLIC_REDESIGN_ASSET_URLS)).toHaveLength(47);
+    const quarantine = [
+      'MACHINE.IDNTY.FOUNDATION.ORB',
+      'MACHINE.IDNTY.PARTIAL.LATTICE',
+      'MACHINE.IDNTY.EVOLUTION.WAVES',
+      'MACHINE.IDNTY.AUTHORITY.STAR',
+      'ILLUSTRATION.BLDR.FRAMEWORK.STEP',
+    ];
+    for (const id of quarantine) {
+      expect(PUBLIC_REDESIGN_ASSET_URLS[id]).toBeUndefined();
+    }
+    for (const [slotId, url] of Object.entries(PUBLIC_REDESIGN_ASSET_URLS)) {
+      expect(url).toMatch(/^\/site00\/public-redesign\/grok\//);
+      expect(slotId).toMatch(/^[A-Z0-9_.]+$/);
+    }
   });
 
   it('never bakes UI text into a slot description or uses authority crops', () => {

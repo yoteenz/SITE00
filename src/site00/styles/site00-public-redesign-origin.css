@@ -13,6 +13,41 @@
   padding-bottom: 0;
 }
 
+/* Dual collapsed + expanded origin plates — crossfade tracks panel lifecycle (no mid-transition swap). */
+.s00pr-origin-env {
+  isolation: isolate;
+}
+
+.s00pr-origin-env-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+  will-change: opacity;
+}
+
+.s00pr-origin-env-layer--active {
+  z-index: 1;
+  opacity: 1;
+}
+
+.s00pr-origin-env-layer--inactive {
+  z-index: 0;
+  opacity: 0;
+}
+
+.s00pr-origin-env-layer .s00pr-asset-slot,
+.s00pr-origin-env-layer .s00pr-env__plate {
+  position: absolute;
+  inset: 0;
+}
+
+.s00pr-origin-env-layer .s00pr-asset-slot__img {
+  object-fit: cover;
+  object-position: center;
+}
+
 /* Wordmark header (Origin / path panels): 00 mark · links · | · scan · SIGN IN pill. */
 .s00pr-header--wordmark {
   gap: calc(9 * var(--u));
@@ -77,6 +112,60 @@
   flex-direction: column;
   min-height: calc(100dvh - 36 * var(--uv));
   padding: 0 calc(18 * var(--u)) calc(8 * var(--u));
+}
+
+/* Full-bleed swipe-up capture (legacy site00-origin-swipe-surface parity). */
+.s00pr-origin-swipe-surface {
+  position: fixed;
+  top: calc(34 * var(--uv) + env(safe-area-inset-top, 0px));
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  touch-action: none;
+  pointer-events: auto;
+  background: transparent;
+}
+
+.site00-mobile-artboard .s00pr-origin-swipe-surface {
+  position: absolute;
+}
+
+.s00pr-originhero,
+.s00pr-origincards,
+.s00pr-originswipe,
+.s00pr-originfoot {
+  position: relative;
+  z-index: 3;
+}
+
+/* Decorative copy sits above the plate but must not block the swipe capture layer. */
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originhero,
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originnote {
+  pointer-events: none;
+}
+
+/* Cards + CTA above swipe surface; only buttons/links receive taps. */
+.s00pr-origin[data-origin-mode='origin'] .s00pr-origincards,
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originswipe {
+  z-index: 6;
+}
+
+.s00pr-origin[data-origin-mode='origin'] .s00pr-origincards {
+  pointer-events: none;
+}
+
+.s00pr-origin[data-origin-mode='origin'] .s00pr-origincard {
+  pointer-events: auto;
+}
+
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originfoot {
+  z-index: 6;
+  pointer-events: none;
+}
+
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originfoot a {
+  pointer-events: auto;
 }
 
 /* Hero — centred on the landmark axis (authority: WELCOME TO y≈52, SITE 00 y≈66→88, tagline y≈110). */
@@ -310,6 +399,8 @@
   font-size: calc(5.4 * var(--u));
   letter-spacing: 0.2em;
   color: #333;
+  touch-action: manipulation;
+  cursor: pointer;
 }
 
 .s00pr-origin-transition {

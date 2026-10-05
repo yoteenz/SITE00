@@ -7,3 +7,7 @@ export * from './simulation.js';
 export * from './reducer.js';
 export * from './assets.js';
 export * from './environment.js';
+export * from './characterViewportAnchor.js';
+export * from './fabricationSubjectResolver.js';
+export * from './fabricationLibraryNav.js';
+export { publicResidentCatalogueId } from '../site00-studio-world/resident-intelligence/season1-ensemble/projectToActor.js';

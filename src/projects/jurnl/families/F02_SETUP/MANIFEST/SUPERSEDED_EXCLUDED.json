@@ -1,0 +1,24 @@
+{
+  "family_id": "F02_SETUP",
+  "excluded": [
+    {
+      "screen_id": "F02.08",
+      "generation_id": "PZC0QVXJzfqWSTXgSlEh",
+      "resource_id": "qh8eMTZ26tCLNVIx0mhO",
+      "reason": "Progress marks read as circles. One correction followed.",
+      "mounted": false
+    },
+    {
+      "screen_id": "F02.07",
+      "generation_id": "8QeXrJ1VUU3REvZqxff9",
+      "resource_id": "pVHfOcQzjdL0430NLAJu",
+      "reason": "Stray mark left of SETUP. One correction followed. The quiet plate was derived from this frame after UI removal.",
+      "mounted": false
+    }
+  ],
+  "winners": {
+    "F02.07": "vrLuWNd4riH8JNGuJLVP",
+    "F02.08": "TivHik6Gd0eSXloheqG7"
+  },
+  "note": "These generation ids are not copied into the implementation root. The files in AUTHORITIES for F02.07 and F02.08 are the corrected JPEGs from the production package."
+}
