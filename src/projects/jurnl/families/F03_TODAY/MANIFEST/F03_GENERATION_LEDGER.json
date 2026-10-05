@@ -15,7 +15,9 @@
   "screenshot_crop_harvest": false,
   "credits_before_sprint": 35063,
   "credits_after_sprint": 32501,
-  "note": "The first parent was text2image and is superseded. The canonical parent and plate are image2image, the same method as F02.",
+  "openart_project_id": "Aa0fKSPeX0SJ4DICt0aI",
+  "openart_project_name": "JURNL F03 Today Family Production",
+  "note": "The first parent was text2image and is superseded. The canonical parent and plate are image2image, the same method as F02. Canonical files are filed in the F03 OpenArt project. Original generation history was created inside JURNL F02 Setup Family Production.",
   "generations": [
     {
       "generation_id": "R7v2u8iMYCWa2EFCshuQ",
