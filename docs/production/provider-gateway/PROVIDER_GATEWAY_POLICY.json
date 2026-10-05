@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "canonicalGatewayFunction": "runProductionProviderRequest",
+  "canonicalModule": "shared/site00-production-guardrails/providerGateway/runProductionProviderRequest.ts",
+  "enforcement": {
+    "referencePrecheck": "precheckGenerationDispatch",
+    "authorityFirstPlate": "validateAuthorityFirstPlatePolicy",
+    "spendAuthorization": "issueSpendAuthorization + validateSpendAuthorization",
+    "failClosed": true,
+    "noSilentTextToImageFallback": true
+  },
+  "projects": ["SITE00", "JURNL", "AIO", "FRONTAL_SLAYER", "ASTRAL_WORLD", "NDXBOOK", "STUDIO_WORLD"]
+}

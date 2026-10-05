@@ -246,4 +246,4 @@ Labels that already fit are left untouched.
 
 **Underlines:** link underlines are now `text-decoration`, so the rule follows the words on every line. Before, a `border-bottom` on a flex-item span drew a full-width rule under a wrapped label.
 
-**Results:** the full audit is `scripts/jurnl/interactive-text-qa.mjs`, with its report in `JURNL/MANIFEST/JURNL_INTERACTIVE_TEXT_QA.json`. 1,128 labels across F01–F16 at all three viewports pass, with INTERACTIVE_TEXT_CONTAINMENT_DRIFT = 0. The F02 typography map carries the `interactive_text_*` fields.
+**Results:** the full audit is `scripts/jurnl/interactive-text-qa.mjs`, with its report in `JURNL/MANIFEST/JURNL_INTERACTIVE_TEXT_QA.json`. 1,134 labels across F01–F16 at all three viewports pass, with INTERACTIVE_TEXT_CONTAINMENT_DRIFT = 0. The F02 typography map carries the `interactive_text_*` fields.

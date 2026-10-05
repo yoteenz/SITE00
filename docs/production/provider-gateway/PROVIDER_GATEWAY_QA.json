@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "sprint": "P0.SITE00.PRODUCTION-GATEWAY.JURNL-LIVE-CALLSITE-MIGRATION1",
+  "automatedTests": [
+    "tests/providerGateway.test.ts",
+    "tests/providerDirectBypassAudit.test.ts",
+    "tests/referenceBindingGuard.test.ts",
+    "tests/jurnlGatewayMigration.test.ts"
+  ],
+  "manualPaidGeneration": 0,
+  "expectedCreditsSpent": 0,
+  "scenarios": [
+    { "id": "jurnl_t2i_blocked", "expected": "INVALID_GENERATION_MODE" },
+    { "id": "jurnl_plate_first_blocked", "expected": "AUTHORITY_FIRST_REQUIRED" },
+    { "id": "jurnl_plate_derived_pass", "expected": "PASS with mock dispatch" },
+    { "id": "caller_spend_blocked", "expected": "UNAUTHORIZED_SPEND" },
+    { "id": "cross_project_blocked", "expected": "CROSS_PROJECT_REFERENCE_DENIED" },
+    { "id": "fal_bypass_audit", "expected": "no unallowlisted @fal-ai/client imports" }
+  ]
+}

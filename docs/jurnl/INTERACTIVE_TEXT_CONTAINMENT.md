@@ -43,4 +43,4 @@ The audit covers 79 views (F01, F02, F03, F04 and F05–F16 parents, plus their 
 
 Environment overlap uses traced plate edges for F02. For every other family it probes the bare plate for sheer-white pixels just right of each bare label.
 
-**Current result:** 1,128 / 1,128 labels pass. INTERACTIVE_TEXT_CONTAINMENT_DRIFT = 0.
+**Current result:** 1,134 / 1,134 labels pass. INTERACTIVE_TEXT_CONTAINMENT_DRIFT = 0.

@@ -144,6 +144,16 @@ export function JurnlPanel({
   );
 }
 
+/** Secondary panel-header navigation. Text and the canonical chevron, not a boxed button. */
+export function JurnlInlineAction({ trigger, children, onClick, expanded }: { trigger?: string; children: ReactNode; onClick?: () => void; expanded?: boolean }) {
+  return (
+    <button type="button" className="jrn-inline-action" data-jrn-role="panel_header_action" data-jrn-trigger={trigger} data-expanded={expanded ? 'true' : undefined} onClick={onClick}>
+      <span>{children}</span>
+      <JurnlIcon name="chevron" size={11} />
+    </button>
+  );
+}
+
 export function JurnlTextLink({ trigger, children, strong, underline, onClick, inline }: { trigger?: string; children: ReactNode; strong?: boolean; underline?: boolean; inline?: boolean; onClick?: () => void }) {
   const label = useCompactFit<HTMLSpanElement>();
   return (
@@ -182,6 +192,7 @@ export function JurnlInput({
   onFocusChange,
   autoFocus,
   prefix,
+  suffix,
   ...rest
 }: {
   invalid?: boolean;
@@ -197,6 +208,8 @@ export function JurnlInput({
   onFocusChange?: (focused: boolean) => void;
   /** Display-only mark. The stored value stays numeric when this is a currency symbol. */
   prefix?: string;
+  /** Display-only mark when the currency symbol follows the number. */
+  suffix?: string;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'>) {
   const id = useId();
   const errorId = `${id}-error`;
@@ -207,7 +220,7 @@ export function JurnlInput({
   const inputType = type === 'password' && revealed ? 'text' : type;
   return (
     <div
-      className={`jrn-field${icon ? '' : ' jrn-field--plain'}${prefix ? ' jrn-field--prefix' : ''}`}
+      className={`jrn-field${icon ? '' : ' jrn-field--plain'}${prefix ? ' jrn-field--prefix' : ''}${suffix ? ' jrn-field--suffix' : ''}`}
       data-focused={isFocused ? 'true' : 'false'}
       data-raised={raised ? 'true' : 'false'}
       data-invalid={error || invalid ? 'true' : 'false'}
@@ -226,6 +239,11 @@ export function JurnlInput({
           {prefix ? (
             <span className="jrn-field__prefix" aria-hidden>
               {prefix}
+            </span>
+          ) : null}
+          {suffix ? (
+            <span className="jrn-field__suffix" aria-hidden>
+              {suffix}
             </span>
           ) : null}
           <input

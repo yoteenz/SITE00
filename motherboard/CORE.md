@@ -175,6 +175,18 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 
 Multi-project orchestration foundation at `api/_lib/site00Orchestration/`. Debug: `/admin/site00/debug/orchestration`. API: `/api/admin/site00-orchestration`. Docs: `docs/site00/`. Launch readiness calculated against **approved active manifest only** — not universal checklist. Studio World = `PRODUCTION_INFRASTRUCTURE`, not client brand. Evidence ≠ completion.
 
+## Production Provider Gateway (P0 gateway sync — 2026-10-05)
+
+**Why:** Reference-binding guardrails lived in `precheckGenerationDispatch()` but most paid provider paths still called FAL/OpenAI/xAI directly — including plate-first JURNL failures despite “locked” policy in docs/tests.
+
+**Canonical runtime entry:** `runProductionProviderRequest()` → `shared/site00-production-guardrails/providerGateway/runProductionProviderRequest.ts`
+
+**Enforces (fail-closed):** server-issued spend authorization (not `founderConfirmedSpend` body alone) · project firewall · reference binding · expression / occupancy gates · **JURNL authority-first plate derivation** · cost receipt adapter · incident hooks.
+
+**Docs:** `docs/production/provider-gateway/PROVIDER_GATEWAY_ARCHITECTURE.md` · static bypass audit `tests/providerDirectBypassAudit.test.ts` (legacy paths explicitly allowlisted in `PROVIDER_BYPASS_ALLOWLIST.json` until migrated).
+
+**Strategy:** Reconciliation / connection before invention (capability genome). Prefer root engines (`PROVIDER_GATEWAY`, `PROJECT_REGISTRY`, `EVENT_LEDGER`, `COST_LEDGER`) over feature patches.
+
 ## Parent–Child Experience Inheritance (P0.PCI.1 + P0.PCI.2)
 
 Reusable engine at `shared/site00-studio-world-production/parentChildExperienceInheritance/`. **Parent landing = experience authority; child = function authority.** PCI.1: route graph → grammar extraction → convergence plan → branch QA. **PCI.2:** navigation linkage audit — parent actions wired to child/grandchild surfaces, return paths, orphan/dead/miswire detection, `ChildExperienceReadiness` (CURRENT = visual + wiring). UI: Design → MORE → Child Experience Matrix. Complements P0.VR.7 page completion (`PAGE_CHILD_LINK_MISSING`). Docs: `docs/architecture/SITE00_PARENT_CHILD_EXPERIENCE_P0PCI1.md`, `P0PCI2.md`.
@@ -276,6 +288,12 @@ F02 SETUP is a live runtime family. Route `setup` is F02.00. The eleven screens,
 
 **JURNL parent plates:** JURNL visual generation is reference-guided. Text-to-image is `INVALID_GENERATION_MODE`. A parent plate is environment-dependent: the left rail needs a quiet field and the architectural weight sits on the right. The occupancy map is `F##_PLATE_OCCUPANCY.json`. A missing map is `PLATE_OCCUPANCY_REQUIRED`. Do not hide a collision with a scrim. F05–F16 parents are mounted for review and are not approved. Child explosion stays off.
 
+**JURNL authority-first plates:** The full page is the creative authority. The environment plate is derived from that page after the composition passes, with the full page attached as the reference. A standalone background is `AUTHORITY_FIRST_REQUIRED` and spends zero credits. This applies to F03 and to F05–F16. Text-to-image stays forbidden. The arrival-copy F03 plate is not the correction authority.
+
 **JURNL rooms:** Families share one world and do not share plates by default. A new family gets a new environment group. Related screens inside a family should share a plate. Cross-family reuse needs a written reason on the environment manifest and on the generation job, or dispatch blocks as `CROSS_FAMILY_PLATE_REUSE_UNJUSTIFIED` with zero credits. F03 `ENV.DAY` is a unique file that still looks like F02 arrival and is marked `SHOULD_REPLACE`. Do not regenerate it unless the founder asks. Contracts: `JURNL/MANIFEST/JURNL_FAMILY_ENVIRONMENT_DISTINCTNESS.json` and `JURNL_PLATE_REUSE_AUDIT.json`.
 
 **JURNL composition and money (F03 onward):** Family titles start below the chrome, not against it. Primary content stays in a left rail. The right side of an environment plate stays open. The bottom nav is centered in the app canvas. Interactive text stays compact, and an icon sits beside its label. User-facing money goes through `formatMoney` in `src/projects/jurnl/data/home/currency.ts`. The display currency defaults to USD and is a user preference (`jurnl.currency`). Changing it changes the symbol and grouping. It does not convert historical amounts. There is no foreign-exchange rate. Change currency lives in the Ask Jurnl sheet. Contracts: `JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json`, `JURNL_CURRENCY_CONTRACT.json`, `JURNL_QUICK_ADD_CONTRACT.json`. F03 and F04 child production stays blocked until the founder passes the parents.
+
+**JURNL display conversion:** Base currency stays USD. Stored ledger amounts stay canonical USD. `formatMoney` multiplies that canonical amount by a fetched USD rate and formats with `Intl.NumberFormat`. The rate comes from `https://open.er-api.com/v6/latest/USD`, is cached in `jurnl.exchangeRate`, and is never invented. A failed fetch keeps the prior display currency. The Ask Jurnl list shows three rows and scrolls. Quick add stores the entered amount and currency plus the canonical USD equivalent. Contracts: `JURNL_CURRENCY_CATALOG.json`, `JURNL_EXCHANGE_RATE_CONTRACT.json`, `JURNL_CURRENCY_SELECTOR_QA.json`.
+
+**JURNL control expression:** A control's form follows its product role. Secondary panel-header actions that only navigate or expand use `JurnlInlineAction` (`panel_header_action`): label, fine rule, and the canonical chevron. They do not default to a filled or outlined button. `SEE WHY` stays the primary button. The center nav mark is one `JurnlIcon` plus. Do not add a text plus beside it. The icon sheet is `JURNL/F01_ENTRY/ICONS/F01_ICON_PACK_SHEET.png`, drawn in `src/projects/jurnl/runtime/components/icons.tsx`. If that sheet has no matching glyph, record `ICON_AUTHORITY_MISSING` and do not invent a substitute. Do not apply the editorial header treatment to every action.

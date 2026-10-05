@@ -43,7 +43,7 @@
       "relationship_to_previous_family": "After setup. Same house, a more active room.",
       "cross_family_reuse_allowed": "NO",
       "reason_if_yes": null,
-      "current_plate_status": "SHOULD_REPLACE. TODAY.ENVIRONMENT.DAY.001 is a different file from SETUP.ENVIRONMENT.ARRIVAL.001 and still reads as that same room."
+      "current_plate_status": "MOUNTED_FOR_REVIEW. TODAY.ENVIRONMENT.DAY.001 is now the plate derived from F03.00_TODAY_AUTHORITY_FIRST. It is not the arrival room. Founder status is UNREVIEWED."
     },
     {
       "family_id": "F04",

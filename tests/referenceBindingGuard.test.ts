@@ -66,14 +66,14 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
   it('REFERENCE REQUIRED + FOUND BUT NOT ATTACHED → BLOCK', () => {
     const pre = precheckGenerationDispatch(
       {
-        visualId: 'F03.00',
+        visualId: 'F03.01',
         projectId: 'JURNL',
         familyId: 'F03',
         providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
-        generationClass: 'ENVIRONMENT_PLATE',
+        generationClass: 'SCREEN_CHILD',
         generationIntent: 'DERIVED',
         generationMode: 'REFERENCE_GUIDED',
-        referenceAuthorityIdHint: 'F03.00_TODAY_PARENT',
+        referenceAuthorityIdHint: 'F03.00_LIVE_STRUCTURE',
         referenceInputAttached: false,
         provider: 'OpenArt',
         model: 'gpt-image-2-5-sunburst',
@@ -413,5 +413,77 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
     expect(pre.blockedReason).toBe('HIERARCHICAL_EXPRESSION_REQUIRED');
     expect(pre.creditsSpent).toBe(0);
     expect(pre.dispatchAllowed).toBe(false);
+  });
+
+  it('a JURNL environment plate without a full page source is blocked', () => {
+    const pre = precheckGenerationDispatch(
+      {
+        visualId: 'F03.ENV',
+        projectId: 'JURNL',
+        familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
+        screenId: 'F03.00',
+        generationClass: 'ENVIRONMENT_PLATE',
+        generationIntent: 'DERIVED',
+        generationMode: 'REFERENCE_GUIDED',
+        referenceAuthorityIdHint: 'F03.00_TODAY_PARENT',
+        referenceInputAttached: true,
+        provider: 'OpenArt',
+        model: 'gpt-image-2-5-sunburst',
+      },
+      { resolverContext: ctx },
+    );
+    expect(pre.status).toBe('BLOCKED');
+    expect(pre.blockedReason).toBe('AUTHORITY_FIRST_REQUIRED');
+    expect(pre.creditsSpent).toBe(0);
+  });
+
+  it('a plate derived from the arrival-copy F03 page is blocked', () => {
+    const pre = precheckGenerationDispatch(
+      {
+        visualId: 'F03.ENV',
+        projectId: 'JURNL',
+        familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
+        screenId: 'F03.00',
+        generationClass: 'ENVIRONMENT_PLATE',
+        generationIntent: 'DERIVED',
+        generationMode: 'REFERENCE_GUIDED',
+        derivationSourceType: 'FULL_PAGE',
+        referenceAuthorityIdHint: 'F03.00_TODAY_PARENT',
+        referenceInputAttached: true,
+        provider: 'OpenArt',
+        model: 'gpt-image-2-5-sunburst',
+      },
+      { resolverContext: ctx },
+    );
+    expect(pre.status).toBe('BLOCKED');
+    expect(pre.blockedReason).toBe('AUTHORITY_FIRST_REQUIRED');
+    expect(pre.creditsSpent).toBe(0);
+  });
+
+  it('a plate derived from the passing F03 full page is allowed', () => {
+    const pre = precheckGenerationDispatch(
+      {
+        visualId: 'F03.ENV',
+        projectId: 'JURNL',
+        familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
+        screenId: 'F03.00',
+        generationClass: 'ENVIRONMENT_PLATE',
+        generationIntent: 'DERIVED',
+        generationMode: 'REFERENCE_GUIDED',
+        derivationSourceType: 'FULL_PAGE',
+        referenceAuthorityIdHint: 'F03.00_TODAY_AUTHORITY_FIRST',
+        referenceInputAttached: true,
+        provider: 'OpenArt',
+        model: 'gpt-image-2-5-sunburst',
+      },
+      { resolverContext: ctx },
+    );
+    expect(pre.status).toBe('PASS');
+    expect(pre.generationMode).toBe('REFERENCE_GUIDED');
+    expect(pre.referenceAttached).toBe(true);
+    expect(pre.creditsSpent).toBe(0);
   });
 });

@@ -6,9 +6,24 @@
 
 import { useSyncExternalStore } from 'react';
 import { getSetupDraft, type SetupDraft } from '../f02/setupDraft';
+import type { QuickAddQuote } from './currency';
 
-export { formatAmountInput, formatMoney, useCurrency, setCurrency, getCurrency, parseAmountInput, CURRENCIES } from './currency';
-export type { CurrencyCode, CurrencyPreference } from './currency';
+export {
+  formatAmountInput,
+  formatMoney,
+  useCurrency,
+  useExchangeState,
+  setCurrency,
+  getCurrency,
+  getExchangeState,
+  parseAmountInput,
+  quoteQuickAdd,
+  CURRENCIES,
+  CURRENCY_ROW_PX,
+  VISIBLE_CURRENCY_ROWS,
+  scrollTopToReveal,
+} from './currency';
+export type { CurrencyCode, CurrencyPreference, QuickAddQuote } from './currency';
 
 export type MoneySource = 'MOCK' | 'ADDED' | 'SETUP' | 'DERIVED';
 export type Direction = 'INCOME' | 'EXPENSE';
@@ -37,6 +52,8 @@ export type LedgerEntry = {
   memo: string;
   source: 'MOCK' | 'ADDED';
   related: { kind: ObligationKind; name: string } | null;
+  /** Present on rows written through quick add. The amount field stays canonical USD. */
+  provenance?: QuickAddQuote;
 };
 
 export const MOCK_CASH = 8420;
@@ -64,7 +81,7 @@ export function addedEntries(): LedgerEntry[] {
   return added;
 }
 
-export function addLedgerEntry(entry: Omit<LedgerEntry, 'id' | 'source' | 'status' | 'related' | 'recurring' | 'memo'> & { memo?: string }): LedgerEntry {
+export function addLedgerEntry(entry: Omit<LedgerEntry, 'id' | 'source' | 'status' | 'related' | 'recurring' | 'memo'> & { memo?: string; provenance?: QuickAddQuote }): LedgerEntry {
   const next: LedgerEntry = {
     ...entry,
     id: `tx-add-${added.length + 1}`,

@@ -1,6 +1,6 @@
 # Codebase Snapshot — SITE 00
 
-**Last updated:** 2026-08-18 (initial motherboard setup). Refresh with **"Snapshot codebase to motherboard"**.
+**Last updated:** 2026-10-05 (provider gateway + ingested projects). Refresh with **"Snapshot codebase to motherboard"**.
 
 ---
 
@@ -13,7 +13,10 @@ SITE00/
 │   └── _lib/               # site00Production, site00Assts shared libs
 ├── docs/
 │   ├── DEPLOYMENT.md
-│   └── MOTHERBOARD_COMMANDS.md
+│   ├── MOTHERBOARD_COMMANDS.md
+│   └── production/
+│       ├── reference-binding/     # Reference binding policy + precheck contract
+│       └── provider-gateway/      # Gateway architecture, inventory, allowlist, QA
 ├── motherboard/            # Agent persistent context (this folder)
 ├── public/
 │   ├── .htaccess           # SPA rewrites (copied to dist/ on build)
@@ -68,6 +71,21 @@ SITE00/
 | JURNL | `src/projects/jurnl/` | PERSONAL / FOUNDER; F01 ENTRY live runtime (`.jrn` scope); docs `docs/jurnl/` |
 | Shared contracts | `shared/site00-product-families/`, `shared/site00-project-ingestion/` | Project-agnostic family production contract, family gate, asset-first policy, budget contract |
 
+### Production guardrails & provider gateway (`shared/site00-production-guardrails/`)
+
+| Module | Role |
+|--------|------|
+| `precheckGenerationDispatch.ts` | Reference binding + expression + plate occupancy pre-dispatch |
+| `providerGateway/runProductionProviderRequest.ts` | **Canonical paid generative dispatch** (spend auth → precheck → authority-first → adapter → receipt) |
+| `authorityFirstPlate.ts` | Blocks JURNL standalone plate-first; requires registry-approved full-page authority for `ENVIRONMENT_PLATE` |
+| `providerGateway/spendAuthorization.ts` | Server-held one-shot spend authorization records |
+| `providerGateway/costReceipt.ts` | Receipt writer (memory + JSONL adapter) |
+| `shared/site00-visual-generation/falImageViaProductionGateway.ts` | FAL reference image path wrapped by gateway (migration adapter) |
+| `shared/site00-jurnl-production/dispatchJurnlProductionRequest.ts` | **JURNL canonical live path** → gateway; dry-run + OpenArt manual ticket + lineage/receipt writers |
+| `api/admin/jurnl-production.ts` | Admin: issue spend auth, dispatch dry-run, register manual OpenArt output |
+
+Audit: `scripts/production/build-provider-call-inventory.mjs` · `tests/providerDirectBypassAudit.test.ts` · `tests/jurnlGatewayMigration.test.ts`
+
 ---
 
 ## Key config files
@@ -87,6 +105,7 @@ SITE00/
 | Route area | Purpose |
 |------------|---------|
 | `api/admin/site00-production.ts` | Production OS admin API |
+| `api/admin/jurnl-production.ts` | JURNL gateway (dry-run + manual output registration) |
 | `api/admin/site00-assts.ts` | ASSTS admin |
 | `api/_lib/site00Production/` | Seed, operations, readiness |
 | `api/_lib/site00Assts/` | Asset generation, post-process |

@@ -7,8 +7,8 @@
     "834x1194",
     "1440x900"
   ],
-  "labels_audited": 1128,
-  "labels_pass": 1128,
+  "labels_audited": 1134,
+  "labels_pass": 1134,
   "INTERACTIVE_TEXT_CONTAINMENT_DRIFT": 0,
   "drift_found_before_repair": {
     "labels": 233,
@@ -115,9 +115,9 @@
     },
     "F03": {
       "views_audited": 3,
-      "labels_audited": 54,
+      "labels_audited": 102,
       "interactive_text_status": "PASS",
-      "interactive_text_labels": 54,
+      "interactive_text_labels": 102,
       "interactive_text_line_count": {
         "max": 1,
         "multi_line_labels": []
@@ -125,17 +125,17 @@
       "interactive_text_fit_strategy": [
         "NATURAL"
       ],
-      "interactive_rule_width_status": "NO_RULE",
+      "interactive_rule_width_status": "FIT_CONTENT",
       "environment_overlap": "NONE",
-      "min_tap_target_px": 32,
+      "min_tap_target_px": 44,
       "compact_fits": [],
       "drift": 0
     },
     "F04": {
       "views_audited": 3,
-      "labels_audited": 120,
+      "labels_audited": 114,
       "interactive_text_status": "PASS",
-      "interactive_text_labels": 120,
+      "interactive_text_labels": 114,
       "interactive_text_line_count": {
         "max": 1,
         "multi_line_labels": []
@@ -151,9 +151,9 @@
     },
     "F05_F16_PARENTS": {
       "views_audited": 13,
-      "labels_audited": 468,
+      "labels_audited": 432,
       "interactive_text_status": "PASS",
-      "interactive_text_labels": 468,
+      "interactive_text_labels": 432,
       "interactive_text_line_count": {
         "max": 1,
         "multi_line_labels": []

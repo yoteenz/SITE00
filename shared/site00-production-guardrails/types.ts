@@ -38,6 +38,8 @@ export const BLOCKED_REASONS = [
   'FAMILY_EXPRESSION_GATE_FAILED',
   'HIERARCHICAL_EXPRESSION_REQUIRED',
   'PLATE_OCCUPANCY_REQUIRED',
+  'AUTHORITY_FIRST_REQUIRED',
+  'UNAUTHORIZED_SPEND',
 ] as const;
 export type BlockedReason = (typeof BLOCKED_REASONS)[number];
 
@@ -107,6 +109,11 @@ export type GenerationRequest = {
   sourcePlateFamilyId?: string | null;
   /** Required when sourcePlateFamilyId names a different family. Narrative, continuation, or budget. */
   crossFamilyReuseJustification?: string | null;
+  /**
+   * Environment plates are derived from a full page. A plate with no full-page
+   * source is a standalone background and is blocked.
+   */
+  derivationSourceType?: 'FULL_PAGE' | null;
 };
 
 export type SessionReferenceOutput = {

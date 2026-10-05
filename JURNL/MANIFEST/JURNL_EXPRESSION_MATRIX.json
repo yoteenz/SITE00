@@ -60,6 +60,9 @@
       "destructive",
       "inline"
     ],
+    "JurnlInlineAction": [
+      "panel_header_action"
+    ],
     "JurnlDrawer": [
       "form",
       "detail",
@@ -103,7 +106,7 @@
       "expression_tree": "JURNL/F03_TODAY/MANIFEST/F03_EXPRESSION_TREE.json",
       "parent_concept": "Daily financial salon",
       "panel_language": "Primary signal and one journal",
-      "plate": "Written plate is a daily room. Mounted ENV.DAY fails and is not regenerated until the founder asks.",
+      "plate": "Mounted ENV.DAY is the daily room derived from the full page. In review. Not approved.",
       "interaction_treatment": "Analysis sheet, tactile quick-add form, confirmation ask, sequenced upcoming"
     },
     "F04": {
@@ -229,7 +232,8 @@
         "id": "ATRIUM_STILL_LIFE",
         "owner": "F01",
         "also": "F02 arrival as the doorway",
-        "failing": "F03 ENV.DAY"
+        "failing": null,
+        "note": "The previous F03 day file copied this still life and is an invalid method output. The mounted file does not."
       },
       {
         "id": "TRAVERTINE_DESK",

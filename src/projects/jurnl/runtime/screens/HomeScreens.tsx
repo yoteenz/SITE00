@@ -3,7 +3,7 @@
  * Authorities are reference files. These screens paint the plates plus live type, rows, and sheets.
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   EMPTY_FILTER,
   addLedgerEntry,
@@ -14,10 +14,15 @@ import {
   formatMoney,
   ledgerEntries,
   useCurrency,
+  useExchangeState,
   parseAmountInput,
+  quoteQuickAdd,
   safeToSpend,
   setCurrency,
   CURRENCIES,
+  CURRENCY_ROW_PX,
+  VISIBLE_CURRENCY_ROWS,
+  scrollTopToReveal,
   todayModeFromQuery,
   upcomingFor,
   useAddedEntries,
@@ -31,7 +36,7 @@ import { useSetup } from '../../data/f02/setupDraft';
 import { JurnlIcon } from '../components/icons';
 import { JurnlProductNav } from '../components/ProductNav';
 import { JurnlTransactionRow } from '../components/TransactionRow';
-import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInput, JurnlPanel } from '../components/primitives';
+import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
 
@@ -117,9 +122,9 @@ export function TodayScreen() {
           <JurnlPanel role="editorial" className="jrn-home__panel" data-jrn-rhythm={openUpcoming ? 'sequence' : 'rest'}>
             <div className="jrn-home__sec">
               <span>COMING</span>
-              <JurnlButton variant="inline" trigger="today-upcoming" onClick={() => setOpenUpcoming((v) => !v)}>
+              <JurnlInlineAction trigger="today-upcoming" expanded={openUpcoming} onClick={() => setOpenUpcoming((v) => !v)}>
                 {openUpcoming ? 'LESS' : 'MORE'}
-              </JurnlButton>
+              </JurnlInlineAction>
             </div>
             <ul className="jrn-home__list">
               {(openUpcoming ? upcomingFor(draft) : upcoming).map((item) => (
@@ -142,9 +147,9 @@ export function TodayScreen() {
               <>
                 <div className="jrn-home__sec">
                   <span>MOVED</span>
-                  <JurnlButton variant="inline" trigger="today-activity" onClick={() => go('F04')}>
+                  <JurnlInlineAction trigger="today-activity" onClick={() => go('F04')}>
                     ACTIVITY
-                  </JurnlButton>
+                  </JurnlInlineAction>
                 </div>
                 <div role="list" className="jrn-home__list">
                   {recent.map((entry) => (
@@ -195,9 +200,10 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
   const [direction, setDirection] = useState<'EXPENSE' | 'INCOME'>('EXPENSE');
   const [account, setAccount] = useState('CHECKING');
   const [keyboard, setKeyboard] = useState(false);
-  const symbol = useCurrency().symbol;
+  const currency = useCurrency();
   const numeric = Number(amount);
-  const valid = name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim()) && numeric > 0 && (direction === 'EXPENSE' || direction === 'INCOME') && account.length > 0;
+  const quote = /^\d+(\.\d{1,2})?$/.test(amount.trim()) && numeric > 0 ? quoteQuickAdd(numeric, currency.code) : null;
+  const valid = name.trim().length > 0 && quote != null && (direction === 'EXPENSE' || direction === 'INCOME') && account.length > 0;
   return (
     <JurnlDrawer
       expression="form"
@@ -212,13 +218,15 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
           trigger="quick-add-save"
           disabled={!valid}
           onClick={() => {
+            if (!quote) return;
             addLedgerEntry({
               merchant: name.trim().toUpperCase(),
-              amount: numeric,
+              amount: quote.canonicalAmount,
               direction,
               when: 'TODAY',
               account,
               category: direction === 'INCOME' ? 'INCOME' : 'OTHER',
+              provenance: quote,
             });
             onClose();
           }}
@@ -231,7 +239,8 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
       <JurnlInput
         label="AMOUNT"
         value={formatAmountInput(amount)}
-        prefix={symbol}
+        prefix={currency.symbolPosition === 'prefix' ? currency.symbol : undefined}
+        suffix={currency.symbolPosition === 'suffix' ? currency.symbol : undefined}
         onValue={(next) => setAmount(parseAmountInput(next))}
         trigger="quick-add-amount"
         inputMode="decimal"
@@ -244,6 +253,7 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
           }
         }}
       />
+      <p className="jrn-currency__note">{currency.code === 'USD' ? 'AMOUNT IS IN USD.' : `AMOUNT IS IN ${currency.code}. JURNL STORES THE USD EQUIVALENT.`}</p>
       <div className="jrn-home__choices" role="radiogroup" aria-label="DIRECTION">
         {(['EXPENSE', 'INCOME'] as const).map((item) => (
           <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={direction === item} data-active={direction === item ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setDirection(item)}>
@@ -265,24 +275,60 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
 export function AskSheet({ onClose }: { onClose: () => void }) {
   const signal = safeToSpend();
   const currency = useCurrency();
+  const fx = useExchangeState();
+  const listRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const apply = () => {
+      const list = listRef.current;
+      if (!list) return;
+      const index = CURRENCIES.findIndex((item) => item.code === currency.code);
+      const next = scrollTopToReveal(index, CURRENCY_ROW_PX, VISIBLE_CURRENCY_ROWS, 0);
+      list.scrollTop = next;
+      list.dataset.currencyScroll = String(next);
+    };
+    apply();
+    const frame = window.requestAnimationFrame(apply);
+    const timer = window.setTimeout(apply, 380);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+    };
+  }, [currency.code]);
   return (
     <JurnlDrawer expression="confirmation" size="long" testId="ask" title="ASK JURNL" lead="JURNL READS THE PREVIEW CASH, WHAT IS COMING, AND WHAT YOU PROTECTED." onClose={onClose}>
       <p className="jrn-home__ask">SAFE TO SPEND IS {formatMoney(signal.value)}. THIS IS NOT A PLAN AND NOT A BALANCE.</p>
       <div className="jrn-currency" data-jrn-trigger="change-currency">
         <p className="jrn-currency__label">DISPLAY CURRENCY</p>
-        <p className="jrn-currency__note">AMOUNTS STAY AS WRITTEN. NO EXCHANGE.</p>
-        <div className="jrn-home__choices" role="radiogroup" aria-label="CURRENCY">
+        <p className="jrn-currency__note">JURNL CONVERTS DISPLAYED AMOUNTS USING THE LATEST AVAILABLE EXCHANGE RATE. ORIGINAL VALUES STAY PRESERVED.</p>
+        {fx.error ? (
+          <p className="jrn-currency__note" role="status">
+            {fx.error}
+          </p>
+        ) : null}
+        {fx.disclosure ? <p className="jrn-currency__rate">{fx.disclosure}</p> : null}
+        <div
+          ref={listRef}
+          className="jrn-currency__list"
+          role="group"
+          aria-label="CURRENCY"
+          data-visible-rows={VISIBLE_CURRENCY_ROWS}
+          onWheel={(event) => event.stopPropagation()}
+          onTouchMove={(event) => event.stopPropagation()}
+        >
           {CURRENCIES.map((item) => (
             <button
               key={item.code}
               type="button"
-              className="jrn-btn jrn-btn--secondary"
+              className="jrn-btn jrn-btn--secondary jrn-currency__row"
               aria-pressed={currency.code === item.code}
               data-active={currency.code === item.code ? 'true' : 'false'}
               data-jrn-trigger={`currency-${item.code.toLowerCase()}`}
-              onClick={() => setCurrency(item.code)}
+              onClick={() => {
+                void setCurrency(item.code);
+              }}
             >
-              {item.code}
+              <span className="jrn-currency__code">{item.code}</span>
+              <span className="jrn-currency__name">{item.name}</span>
             </button>
           ))}
         </div>
@@ -454,6 +500,7 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
 }
 
 function DetailSheet({ entry, onClose }: { entry: LedgerEntry; onClose: () => void }) {
+  useCurrency();
   const rows: [string, string][] = [
     ['MERCHANT', entry.merchant],
     ['AMOUNT', formatMoney(entry.amount, entry.direction === 'INCOME')],

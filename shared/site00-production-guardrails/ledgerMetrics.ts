@@ -38,6 +38,7 @@ const BLOCKED_REASONS_AVOID: readonly BlockedReason[] = [
   'PROVIDER_REFERENCE_UNSUPPORTED',
   'REFERENCE_FILE_CORRUPT',
   'REFERENCE_RESOLUTION_FAILED',
+  'AUTHORITY_FIRST_REQUIRED',
 ];
 
 function modeOf(row: LedgerGenerationRow): string {

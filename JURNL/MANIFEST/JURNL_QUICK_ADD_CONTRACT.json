@@ -2,8 +2,8 @@
   "contract": "JURNL_QUICK_ADD",
   "fields": {
     "name": "required string, stored uppercase",
-    "amount": "required positive number. The field shows the active currency symbol and grouped digits. The stored value is numeric.",
-    "currency": "display only, from the global preference. Not stored on the row.",
+    "amount": "required positive number entered in the current display currency. The field shows that currency's symbol. The ledger amount is the canonical USD equivalent.",
+    "currency": "The field uses the display currency. Save stores entered_amount, entered_currency, canonical_amount, canonical_currency USD, conversion_rate_used, and conversion_timestamp. Original entered values stay on the row.",
     "type": "EXPENSE or INCOME. Mutually exclusive. Default EXPENSE.",
     "account_or_source": "CHECKING or CARD. Mutually exclusive. Default CHECKING."
   },

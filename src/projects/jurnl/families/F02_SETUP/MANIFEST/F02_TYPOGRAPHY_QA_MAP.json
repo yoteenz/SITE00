@@ -42,6 +42,8 @@
         "Foot moved from under the bottom CTA into the content, left grid, ink-2.",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "ARRIVAL phone crop opens on the plaster wall (0% 50%)."
       ],
       "interactive_text_status": "PASS",
@@ -122,6 +124,8 @@
         "One-word last line removed (balanced break).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "ARRIVAL phone crop opens on the plaster wall (0% 50%)."
       ],
       "interactive_text_status": "PASS",
@@ -201,6 +205,7 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -280,6 +285,7 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -358,6 +364,7 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -437,6 +444,7 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -515,6 +523,7 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -593,6 +602,7 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -673,6 +683,7 @@
         "One-word last line removed (balanced break).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -751,6 +762,7 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -829,6 +841,8 @@
       "repair_applied": [
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%).",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "ARRIVAL phone crop opens on the plaster wall (0% 50%)."
       ],
@@ -909,6 +923,8 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
+        "ARRIVAL phone crop opens on the plaster wall (0% 50%).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "ARRIVAL phone crop opens on the plaster wall (0% 50%)."
       ],
       "interactive_text_status": "PASS",
@@ -988,6 +1004,7 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -1067,6 +1084,7 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -1146,6 +1164,7 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -1225,6 +1244,7 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -1304,6 +1324,7 @@
         "Helper copy balanced inside the left rail (11.5 px mobile / 12.5 px tablet+desktop, 0.18 em).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",
@@ -1385,6 +1406,7 @@
         "SKIP FOR NOW: left-grid paper chip (was transparent text over the cushion, 1.23:1 on mobile).",
         "Duplicate SETUP label beside the JURNL. SETUP. lockup removed.",
         "SETUP label ink-3 → ink-2 (was 4.0–4.4:1 on the shadowed plaster).",
+        "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px.",
         "Head rail clears the curtain / leaves / column where it leans furthest left (32 px phone, 48 px tablet); phone headline 34 → 32 px."
       ],
       "interactive_text_status": "PASS",

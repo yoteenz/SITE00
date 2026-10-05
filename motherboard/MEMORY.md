@@ -13637,6 +13637,86 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — F03 authority-first plate
+
+- **Context:** After the F05–F16 parent mount, the founder stopped text-to-image and then required the F03 correction to start from a full page. The environment plate is derived from that page. A background by itself is not an authority.
+- **Topics covered:** The invalid arrival-copy plate and the earlier text-to-image page. Live Today as the structural reference. Occupancy before generation. One full page, then one clean plate. Live React stays the UI. The same rule for F05–F16.
+- **Decisions / outcomes:** Text-to-image was not used. The live structure file was attached. The full page is a daily room with quiet plaster on the left and daylight, a cup, and a cloth on the right. It does not repeat the arrival arch, curtain, bust, bowl, or books. The clean plate was derived from that page with the page attached. It is mounted under the existing Today UI at 393, 834, and 1440. Founder status stays UNREVIEWED. Child production stays off. Two paid generations, 644 credits.
+- **Changes:** `authorityFirstPlate.ts`, `JURNL_AUTHORITY_FIRST.json`, the F03 occupancy map, the full-page authority, the derived day plate, and `F03_AUTHORITY_FIRST_PLATE_DERIVATION_QA.json`.
+- **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
+
+---
+
+## 2026-10-05 — Real display currency conversion
+
+- **Context:** This chat first shipped the F03 authority-first plate (full page, then a derived day plate, founder still unreviewed, no children). The founder then required the currency control to convert numbers, not only the symbol, and to keep a three-row scrolling list.
+- **Topics covered:** Base USD versus display currency. A live USD rate. Catalog beyond USD, EUR, and GBP. Exact three visible rows. Quick-add provenance. Ask Jurnl copy that no longer says there is no exchange.
+- **Decisions / outcomes:** Stored amounts stay canonical USD. `formatMoney` multiplies that amount by a fetched rate and formats with `Intl.NumberFormat`. The provider is the open ExchangeRate-API USD endpoint. A missing rate is not replaced with 1. A fresh cache is used for 24 hours. A cache up to 7 days may be used if a new fetch fails. Older than that, the switch is refused. Returning to USD restores the original base value. The Ask sheet shows three rows and scrolls. JPY opens already inside that window. F05–F16 parent strings are composition labels and are not converted. A live check turned $6,500 into €5,777.79, £4,912.23, and ¥1,025,247, then back to $6,500.
+- **Changes:** `currency.ts`, the Ask sheet, quick-add provenance, `JURNL_CURRENCY_CONTRACT.json`, `JURNL_CURRENCY_CATALOG.json`, `JURNL_EXCHANGE_RATE_CONTRACT.json`, `JURNL_CURRENCY_SELECTOR_QA.json`.
+- **Conventions:** Do not swap a currency symbol onto an unconverted number. Do not hardcode a rate. Convert only from the canonical USD amount. Do not let the currency list grow the sheet.
+
+---
+
+## 2026-10-05 — Undo stale squashed production-workspace PRs
+
+- **Context:** After the currency merge, a burst of old pull requests was squash-merged onto main and rolled the production workspace back to earlier copies. PR #1374 later rewrote memory only and left that product code on main. A parallel restore then landed on main as `b2767886`.
+- **Topics covered:** Which squashes did it, and restoring the workspace that was on main before that burst without dropping the currency conversion or the provider gateway.
+- **Decisions / outcomes:** The stale squashes were #1275, #15, #1341, #107, #106, #105, #100, #99, #98, #97, #96, #95, #93, #91, #90, #1331, #1291, #1290, #1289, #1277, and the next wave #1267, #92, #30, and #4. #1341 had been marked do not merge and deleted `ExperienceBody.tsx`, `LibraryBody.tsx`, and the inbox activity stylesheet. #1291 replayed about eleven hundred older files, including August and 1 Oct copies of production and public site sources. #30 was an August loading-shell branch. #1267 was marked draft, do not merge, and only rewrote memory. Those commits were reverted. The currency conversion stays. The provider gateway commit stays. JURNL plates were not regenerated. Separately, `cursor/public-redesign-composer-asset-injection1-1b86` was force-reset to `a05cfb39` so it no longer carries the unintentional main merge. When the restore was made, site00.com was still `index.D8Jaygrd.js` from 2026-09-28. The currency ZIP `index.CmfAJ4DQ.js` was built from a tree that already included #1341, so that bundle is not the restored workspace.
+- **Changes:** Inverse of those squash commits on main. Production workspace sources match the tree from before the burst. Studio-world fabrication png and review zips stay gitignored.
+- **Conventions:** Do not squash-merge an old branch onto current main when its tree still carries stale production-workspace files. A draft that says do not merge stays unmerged. Do not merge main into the public-redesign injection branch without explicit founder approval. Do not upload the squash wave.
+
+---
+
+## 2026-10-05 — Production provider gateway + motherboard context sync (P0 gateway sync1)
+
+- **Context:** Capability-genome / ground-zero forensics showed reference-binding precheck existed in tests and docs but was not the universal paid dispatch path — direct FAL/OpenAI/xAI calls remained. F03 plate-first failure confirmed the architectural gap. Sprint transferred ChatGPT project context into `motherboard/PROJECT_CONTEXT_2026-10-05.md` and implemented the first enforced PROVIDER_GATEWAY root engine.
+- **Why gateway exists:** Because policy implemented without runtime enforcement allowed text-to-image and plate-first generation despite locked canon; downstream agents followed the path of least resistance (direct SDK imports).
+- **Delivered:** `runProductionProviderRequest()` (spend auth → precheck → authority-first plate → dispatch → cost receipt); `validateAuthorityFirstPlatePolicy`; server spend authorization (rejects caller-only `founderConfirmedSpend`); FAL adapter `falImageViaProductionGateway.ts`; provider call inventory + bypass allowlist + CI audit test; docs under `docs/production/provider-gateway/`; CORE/CODEBASE updated; reference methodology points to gateway.
+- **Not claimed:** Full migration of all inventoried files (legacy allowlisted); unified DB cost ledger (JSONL adapter only); CI green; AIO client-ready.
+- **Conventions:** New paid generative paths MUST use `runProductionProviderRequest`; do not add unallowlisted `@fal-ai/client` imports; JURNL ENVIRONMENT_PLATE requires parent authority-first derivation; record sprint why in motherboard, not only what was implemented.
+
+---
+
+## 2026-10-05 — JURNL live callsite migration (P0 JURNL-LIVE-CALLSITE-MIGRATION1)
+
+- **Context:** Prior gateway sprint built `runProductionProviderRequest` but inventoried 15 paid call sites with 0 migrated; JURNL had no in-repo OpenArt SDK path yet active production could still bypass guards via legacy FAL elsewhere. Founder sprint required moving **active JURNL** paid generation through the shared gateway without paid generation in CI.
+- **Why this sprint:** A gateway unused by live JURNL production is not a governor; F03/F05–F16 resume depends on enforced reference, authority-first, expression brief, occupancy, spend, and lineage on the real dispatch path.
+- **Delivered:** `shared/site00-jurnl-production/` (`dispatchJurnlProductionRequest`, occupancy load, budget precheck, distinctness gate, idempotency, family ledger receipt/lineage writers, manual output registration); `api/admin/jurnl-production.ts` + Railway route; precheck reorder (authority-first before sidekick attachment for plates); tests `jurnlGatewayMigration.test.ts`; docs `JURNL_*` QA/readiness/dry-run JSON; inventory/migration report updates; readiness gate `READY_FOR_JURNL_F05_F16_PARENT_GENERATION: true` (dry-run evidence only).
+- **Not claimed:** Full 207-callsite migration; non-JURNL allowlisted FAL paths; DB cost ledger; child explosion (founder parent approval still required); F03/F05 actual OpenArt spend.
+- **Conventions:** JURNL agents use `dispatchJurnlProductionRequest` or admin API — not parallel JURNL gateway; JURNL `TEXT_TO_IMAGE_NET_NEW` remains blocked at binding layer; F05+ parent dry-run uses `REFERENCE_GUIDED` with resolved world/structure reference when registry requires attachment.
+
+---
+
+## 2026-10-05 — Restore pre-wave surgical assets after the squash undo
+
+- **Context:** The accidental squash-merge wave was taken off `main`. That revert also deleted `docs/site00/public-redesign/GROK_ASSET_PACK` from PR #1275, which had already landed at `d9b6e4ca` before the wave. Those files are the pre-wave tree, not the outdated squashes the founder rejected.
+- **Topics covered:** Production post-injection reconciliation. Draft PRs marked ready. Unintentional squash-merge of the open set, including outdated branches and PR #1267. Undo of that wave on `main` and on the production branch stack.
+- **Decisions / outcomes:** `main` keeps currency conversion (#1371) and the provider gateway (#1372). The squash commits stay reverted. Feature branches whose tips were those squash commits are reset to the commit before the squash. site00.com was still `index.D8Jaygrd.js` from 2026-09-28. Do not upload a bundle built from the squash wave.
+- **Changes:** `docs/site00/public-redesign/GROK_ASSET_PACK` restored from `d9b6e4ca`.
+- **Conventions:** Do not squash-merge a stack of old PRs unless the founder names them. Do not treat #1275 as part of that wave.
+
+---
+
+## 2026-10-05 — Preview tunnel pointed at current main
+
+- **Context:** After the squash undo, the preview tunnel was still serving an older checkout that did not include the JURNL parent pages. The public hostname is also answered by other preview machines, including a 1 October build with no parent routes.
+- **Topics covered:** Tunnel target. JURNL F05–F16 parent board and parent screens. Current main versus the old production-injection checkout.
+- **Decisions / outcomes:** This machine’s preview on port 5174 serves current `origin/main` in dev mode, including the JURNL parent pages. Parent board is `/production/jurnl/runtime/parents`. Money is `/production/jurnl/runtime/money`. Future boots use `serve-site00-preview-from-main.sh` instead of the old Grok-review pin. A conflict marker left in the gateway memory entry on main was removed so both the JURNL callsite note and the surgical-asset restore note stay.
+- **Changes:** `.cursor/scripts/serve-site00-preview-from-main.sh`, `.cursor/environment.json`, `motherboard/MEMORY.md`.
+- **Conventions:** The preview tunnel should track current `main` when the founder asks for the latest design. A CI production artifact from September is not that design.
+
+---
+
+## 2026-10-05 — F03 icon authority and editorial header actions
+
+- **Context:** This chat first restored the production workspace after a burst of stale squash-merges, then the founder reviewed live F03 TODAY. The page still mixed the icon sheet, showed a double plus in the center nav, and treated MORE and ACTIVITY as chunky buttons beside COMING and MOVED.
+- **Topics covered:** Which squashes rolled the workspace back, and which later work stayed. Then the F03 icon sheet, the center plus, and the Coming / Moved action hierarchy.
+- **Decisions / outcomes:** The icon sheet is `JURNL/F01_ENTRY/ICONS/F01_ICON_PACK_SHEET.png`, implemented in `icons.tsx`. Back and info already match it. Home, money, plan, credit, and the rent, groceries, atelier, and market marks have no matching sheet glyph, so they stay reported as missing rather than redrawn. The double plus was a drawn plus plus a text plus in `JurnlProductNav`. The text plus is gone. MORE and ACTIVITY are `JurnlInlineAction` header utilities with the canonical chevron. SEE WHY stays the filled primary. More still expands Coming. Activity still opens F04. Quick add still opens from the single plus. No new image was generated. F03 stays ready for founder review, not approved, and child production stays off.
+- **Changes:** `ProductNav.tsx`, `JurnlInlineAction`, F03 home CSS, the F03 contract and coverage, `JURNL_EXPRESSION_MATRIX.json`, `JURNL/MANIFEST/F03_PARENT_REFINEMENT_QA.json`.
+- **Conventions:** Secondary panel-header actions that navigate or expand should read as lightweight editorial utilities, not default buttons. Do not apply that treatment to every control. Do not place a text glyph on top of an icon. If the icon sheet has no asset, record `ICON_AUTHORITY_MISSING`.
+
+---
+
 ## 2026-10-05 — F02 curtain clearance + global JURNL interactive-text containment
 
 - **Context:** The founder said text on some F02 child screens came too close to the white curtain: it may not touch, brush or crowd it, and a header-size reduction is acceptable. They also issued the GLOBAL JURNL TYPOGRAPHIC CONTAINMENT RULE for all clickable text: compact fit before wrap, rule fits the text, no environment invasion, readable floor, and tap targets separate from type size.
@@ -13665,7 +13745,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
     - CONNECTED ACCOUNT CONTROL is one line at 9.5 px / 0.08 em, with an 8 px phone gap.
     - Nav labels went from 8 px to 10 px.
     - Inline links have a 32 px hit area.
-  - **Audit:** 1,128 / 1,128 labels across 79 views × 3 viewports pass, with drift 0.
+  - **Audit:** 1,134 / 1,134 labels across 79 views × 3 viewports pass, with drift 0.
   - **F01 pixels:** unchanged except the two intended phone fixes. Every other underlined link is within 2 px.
 - **Changes:**
   - `jurnl-setup.css`
