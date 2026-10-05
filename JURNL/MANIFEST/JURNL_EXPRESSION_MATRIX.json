@@ -60,6 +60,9 @@
       "destructive",
       "inline"
     ],
+    "JurnlInlineAction": [
+      "panel_header_action"
+    ],
     "JurnlDrawer": [
       "form",
       "detail",

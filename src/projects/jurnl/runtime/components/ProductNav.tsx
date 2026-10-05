@@ -20,15 +20,15 @@ export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'M
           <button
             key={item.id}
             type="button"
-            className="jrn-btn jrn-nav__btn"
+            className={`jrn-btn jrn-nav__btn${item.id === 'ADD' ? ' jrn-nav__btn--mark' : ''}`}
             data-active={active ? 'true' : 'false'}
             aria-label={label}
             aria-current={active ? 'page' : undefined}
             data-jrn-trigger={`nav-${item.id.toLowerCase()}`}
             onClick={() => (item.id === 'ADD' ? onAdd() : onGo(item.target))}
           >
-            <JurnlIcon name={item.icon} size={16} />
-            <span>{item.id === 'ADD' ? '+' : item.id}</span>
+            <JurnlIcon name={item.icon} size={item.id === 'ADD' ? 18 : 16} />
+            {item.id === 'ADD' ? null : <span>{item.id}</span>}
           </button>
         );
       })}
