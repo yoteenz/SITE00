@@ -6,8 +6,8 @@
   "terminals": [
     {
       "name": "site00-vite",
-      "command": "bash .cursor/scripts/ensure-grok-environment-unified-preview.sh",
-      "description": "Unified Grok+environment review dist on :5174 (.worktrees/grok-environment-unified-review). Override SITE00_CLOUD_PREVIEW_MODE=dev for HMR."
+      "command": "bash .cursor/scripts/serve-site00-preview-from-main.sh",
+      "description": "Current origin/main on :5174, including JURNL parent pages. Override SITE00_CLOUD_PREVIEW_MODE=local for a production build."
     },
     {
       "name": "site00-preview-tunnel",
