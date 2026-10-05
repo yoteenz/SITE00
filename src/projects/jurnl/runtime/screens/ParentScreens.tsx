@@ -11,6 +11,7 @@ import { JurnlButton, JurnlPanel } from '../components/primitives';
 import { useJurnl } from '../state/store';
 import { QuickAddSheet } from './HomeScreens';
 import { JurnlScreen } from './JurnlScreen';
+import { FamilyDiscoveryLinks } from '../components/FamilyDiscovery';
 
 const STATUS_KEY = 'jurnl.parentReview';
 const STATUSES = ['UNREVIEWED', 'LOVE_IT', 'REVISE', 'REJECT'] as const;
@@ -78,6 +79,9 @@ export function ParentAuthorityScreen({ id }: { id: string }) {
           <JurnlButton variant="secondary" trigger={`${spec.route}-child`} disabled data-future-target={spec.futureTarget}>
             NOT OPEN YET
           </JurnlButton>
+          {spec.id === 'F05' || spec.id === 'F08' || spec.id === 'F12' ? (
+            <FamilyDiscoveryLinks hubFamily={spec.id} onGo={go} />
+          ) : null}
         </div>
         <JurnlProductNav current={spec.nav} onGo={go} onAdd={() => openOverlay('quick-add')} />
       </div>

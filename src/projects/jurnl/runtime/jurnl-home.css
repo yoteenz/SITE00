@@ -569,3 +569,10 @@
     width: 460px;
   }
 }
+
+.jrn-discovery__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  align-items: center;
+}

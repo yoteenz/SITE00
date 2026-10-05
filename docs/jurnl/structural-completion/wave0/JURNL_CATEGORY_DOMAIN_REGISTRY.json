@@ -1,0 +1,76 @@
+{
+  "categories": [
+    {
+      "id": "HOUSING",
+      "label": "HOUSING",
+      "domain": "BILL",
+      "iconMark": "account"
+    },
+    {
+      "id": "FOOD",
+      "label": "FOOD",
+      "domain": "TRANSACTION",
+      "iconMark": "money"
+    },
+    {
+      "id": "CLOTHING",
+      "label": "CLOTHING",
+      "domain": "TRANSACTION",
+      "iconMark": "document"
+    },
+    {
+      "id": "MEMBERSHIP",
+      "label": "MEMBERSHIP",
+      "domain": "SUBSCRIPTION",
+      "iconMark": "clock"
+    },
+    {
+      "id": "INCOME",
+      "label": "INCOME",
+      "domain": "INCOME",
+      "iconMark": "download"
+    },
+    {
+      "id": "TRANSPORT",
+      "label": "TRANSPORT",
+      "domain": "TRANSACTION",
+      "iconMark": "money"
+    },
+    {
+      "id": "UTILITIES",
+      "label": "UTILITIES",
+      "domain": "BILL",
+      "iconMark": "document"
+    },
+    {
+      "id": "HEALTH",
+      "label": "HEALTH",
+      "domain": "TRANSACTION",
+      "iconMark": "document"
+    },
+    {
+      "id": "TRAVEL",
+      "label": "TRAVEL",
+      "domain": "TRIP",
+      "iconMark": "document"
+    },
+    {
+      "id": "DEBT_PAYMENT",
+      "label": "DEBT PAYMENT",
+      "domain": "DEBT",
+      "iconMark": "account"
+    },
+    {
+      "id": "TRANSFER",
+      "label": "TRANSFER",
+      "domain": "TRANSFER",
+      "iconMark": "account"
+    },
+    {
+      "id": "OTHER",
+      "label": "OTHER",
+      "domain": "OTHER",
+      "iconMark": "document"
+    }
+  ]
+}

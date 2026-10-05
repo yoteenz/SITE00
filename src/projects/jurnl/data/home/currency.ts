@@ -395,7 +395,7 @@ function buildExchangeState(): ExchangeState {
   if (code !== BASE_CURRENCY && rate != null && stamp) {
     const when = formatStamp(stamp);
     const prefix = stale ? 'CACHED RATE' : 'RATE UPDATED';
-    disclosure = `${prefix} ${when} · 1 USD = ${formatRateFigure(rate)} ${code}`;
+    disclosure = `${prefix} ${when} · USD ${formatRateFigure(rate)} ${code}`;
   }
   return {
     status,

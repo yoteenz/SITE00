@@ -1,0 +1,355 @@
+{
+  "families": [
+    {
+      "family_id": "F01",
+      "name": "ENTRY",
+      "route": "entry",
+      "parent_component": "EntryScreens",
+      "status": "LIVE",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": false,
+      "requires_auth": false,
+      "dependencies": [],
+      "expression_status": "PASS",
+      "visual_status": "LIVE",
+      "functional_status": "PARTIAL",
+      "approval_status": "IN_REVIEW",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F02",
+      "name": "SETUP",
+      "route": "setup",
+      "parent_component": "EntryScreens",
+      "status": "LIVE",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": false,
+      "requires_auth": true,
+      "dependencies": [
+        "F01"
+      ],
+      "expression_status": "FROZEN",
+      "visual_status": "LIVE",
+      "functional_status": "PARTIAL",
+      "approval_status": "IN_REVIEW",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F03",
+      "name": "TODAY",
+      "route": "today",
+      "parent_component": "TodayScreen",
+      "status": "LIVE",
+      "enabled": true,
+      "navigation_visibility": "HOME",
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F02"
+      ],
+      "expression_status": "FROZEN",
+      "visual_status": "LIVE",
+      "functional_status": "PARTIAL",
+      "approval_status": "IN_REVIEW",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F04",
+      "name": "ACTIVITY",
+      "route": "activity",
+      "parent_component": "ActivityScreen",
+      "status": "LIVE",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F03"
+      ],
+      "expression_status": "FROZEN",
+      "visual_status": "LIVE",
+      "functional_status": "PARTIAL",
+      "approval_status": "IN_REVIEW",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F05",
+      "name": "MONEY",
+      "route": "money",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": "MONEY",
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F02"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F06",
+      "name": "INCOME",
+      "route": "income",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F05"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F07",
+      "name": "UPCOMING",
+      "route": "upcoming",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F02"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F08",
+      "name": "PLAN",
+      "route": "plan",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": "PLAN",
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F06",
+        "F07"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F09",
+      "name": "SAFE TO SPEND",
+      "route": "safe",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F05",
+        "F07"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F10",
+      "name": "PURCHASES",
+      "route": "purchases",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F09"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F11",
+      "name": "TRIPS",
+      "route": "trips",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F08"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F12",
+      "name": "CREDIT",
+      "route": "credit",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": "CREDIT",
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F05"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F13",
+      "name": "PAYDOWN",
+      "route": "paydown",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F12"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F14",
+      "name": "GOALS",
+      "route": "goals",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F08"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F15",
+      "name": "AHEAD",
+      "route": "ahead",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F06",
+        "F14"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    },
+    {
+      "family_id": "F16",
+      "name": "RECORDS",
+      "route": "records",
+      "parent_component": "ParentAuthorityScreen",
+      "status": "PLACEHOLDER",
+      "enabled": true,
+      "navigation_visibility": null,
+      "requires_setup": true,
+      "requires_auth": true,
+      "dependencies": [
+        "F05"
+      ],
+      "expression_status": "PASS",
+      "visual_status": "PARENT_PLACEHOLDER",
+      "functional_status": "PLACEHOLDER",
+      "approval_status": "UNREVIEWED",
+      "launch_status": "NOT_READY"
+    }
+  ],
+  "discovery_edges": [
+    {
+      "from": "F03.00",
+      "to": "F04.00"
+    },
+    {
+      "from": "F03.00",
+      "to": "F07.00"
+    },
+    {
+      "from": "F03.00",
+      "to": "F09.00"
+    },
+    {
+      "from": "F05.00",
+      "to": "F06.00"
+    },
+    {
+      "from": "F05.00",
+      "to": "F16.00"
+    },
+    {
+      "from": "F08.00",
+      "to": "F09.00"
+    },
+    {
+      "from": "F08.00",
+      "to": "F10.00"
+    },
+    {
+      "from": "F08.00",
+      "to": "F11.00"
+    },
+    {
+      "from": "F08.00",
+      "to": "F14.00"
+    },
+    {
+      "from": "F08.00",
+      "to": "F15.00"
+    },
+    {
+      "from": "F12.00",
+      "to": "F13.00"
+    }
+  ]
+}

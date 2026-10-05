@@ -20,6 +20,7 @@ import { F01_STATES } from '../../../src/projects/jurnl/data/f01/screens';
 import { F02_NEXT, F02_SCREENS } from '../../../src/projects/jurnl/data/f02/screens';
 import { F02_OVERLAYS } from '../../../src/projects/jurnl/data/f02/interactionBindings';
 import { PARENTS } from '../../../src/projects/jurnl/data/parents/catalog';
+import { JURNL_PRODUCT_DISCOVERY_EDGES } from '../../../src/projects/jurnl/data/foundation/familyRegistry';
 import { JURNL_CAPABILITIES } from '../../../src/projects/jurnl/data/monetization/capabilities';
 import {
   AUTHORED_FAMILIES,
@@ -729,6 +730,9 @@ export function buildBlueprint() {
   for (const [from, to] of Object.entries(F02_NEXT)) edges.push({ from, to, current: true, via: 'F02_NEXT' });
   for (const s of F02_SCREENS) if (s.back) edges.push({ from: s.back, to: s.id, current: true, via: 'F02 back-link parent' });
   edges.push({ from: 'F02.08', to: 'F03.00', current: true, via: 'F02 → F03 hand-off' });
+  for (const { from, to } of JURNL_PRODUCT_DISCOVERY_EDGES) {
+    edges.push({ from, to, current: true, via: 'GS.FAMILY_DISCOVERY' });
+  }
   for (const s of c1.screens) if (s.role !== 'PARENT') edges.push({ from: 'F01.00', to: s.id, current: false, via: 'F01 family tree (target)' });
 
   const reach = (current: boolean) => {

@@ -39,6 +39,8 @@ import { JurnlTransactionRow } from '../components/TransactionRow';
 import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
+import { FamilyDiscoveryLinks } from '../components/FamilyDiscovery';
+import { accountDisplayOptions } from '../../data/foundation/accounts';
 
 function useHomeOverlay() {
   const j = useJurnl();
@@ -159,6 +161,7 @@ export function TodayScreen() {
               </>
             ) : null}
             {draft.priorities[0] ? <p className="jrn-home__goal">{draft.priorities[0]} FIRST</p> : null}
+            <FamilyDiscoveryLinks hubFamily="F03" onGo={go} />
           </JurnlPanel>
         ) : null}
         </div>
@@ -198,7 +201,8 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [direction, setDirection] = useState<'EXPENSE' | 'INCOME'>('EXPENSE');
-  const [account, setAccount] = useState('CHECKING');
+  const accountOptions = useMemo(() => accountDisplayOptions(), []);
+  const [account, setAccount] = useState(() => accountOptions[0]?.id ?? 'CHECKING');
   const [keyboard, setKeyboard] = useState(false);
   const currency = useCurrency();
   const numeric = Number(amount);
@@ -262,9 +266,9 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
         ))}
       </div>
       <div className="jrn-home__choices" role="radiogroup" aria-label="ACCOUNT">
-        {['CHECKING', 'CARD'].map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item} data-active={account === item ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setAccount(item)}>
-            {item}
+        {accountOptions.map((item) => (
+          <button key={item.id} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item.id} data-active={account === item.id ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.id.toLowerCase().replace(/\s+/g, '-')}`} onClick={() => setAccount(item.id)}>
+            {item.label}
           </button>
         ))}
       </div>
@@ -445,7 +449,7 @@ export function ActivityScreen() {
 }
 
 function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; onChange: (next: ActivityFilter) => void; onClose: () => void }) {
-  const accounts = ['ALL', 'CHECKING', 'CARD'];
+  const accounts = useMemo(() => ['ALL', ...accountDisplayOptions().map((a) => a.id)], []);
   const directions = ['ALL', 'INCOME', 'EXPENSE'] as const;
   const statuses = ['ALL', 'PENDING', 'CLEARED'] as const;
   const whens = ['ALL', 'YESTERDAY', 'FRIDAY', 'THURSDAY', 'MONDAY', 'TODAY'];

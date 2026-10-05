@@ -312,7 +312,7 @@
           "parallelGroup": "W1-A"
         }
       ],
-      "nodes_completed": 59
+      "nodes_completed": 58
     },
     {
       "wave": 2,
@@ -747,16 +747,16 @@
   "simulation": [
     {
       "after_wave": 0,
-      "functional_completion": 34,
-      "node_weighted": 51.1,
+      "functional_completion": 34.2,
+      "node_weighted": 51.3,
       "nodes_completed_in_wave": 32,
-      "strict": 26.5
+      "strict": 26.6
     },
     {
       "after_wave": 1,
       "functional_completion": 44,
       "node_weighted": 59.9,
-      "nodes_completed_in_wave": 59,
+      "nodes_completed_in_wave": 58,
       "strict": 39.1
     },
     {

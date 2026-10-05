@@ -10,6 +10,8 @@ import { f03ScreenForRoute } from '../../data/f03/screens';
 import { f04ScreenForRoute } from '../../data/f04/screens';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
 import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
+import { resolveFamilyRoute } from '../../data/foundation/familyRegistry';
+import { setRepositoryUserId } from '../../data/repository/deviceRepository';
 import {
   browserKV,
   createDesignPreviewAuthAdapter,
@@ -104,20 +106,7 @@ function readJson<T>(raw: string | null, fallback: T): T {
 /** Resolve a screen id (`F01.03`, `F02.01`), a family handoff (`F02`, `F03`) or a raw route. */
 export function resolveJurnlRoute(target: string): string {
   if (target === 'F02') return F01_FAMILY_BOUNDARY.route;
-  if (target === 'F03') return 'today';
-  if (target === 'F04') return 'activity';
-  if (target === 'F05') return 'money';
-  if (target === 'F06') return 'income';
-  if (target === 'F07') return 'upcoming';
-  if (target === 'F08') return 'plan';
-  if (target === 'F09') return 'safe';
-  if (target === 'F10') return 'purchases';
-  if (target === 'F11') return 'trips';
-  if (target === 'F12') return 'credit';
-  if (target === 'F13') return 'paydown';
-  if (target === 'F14') return 'goals';
-  if (target === 'F15') return 'ahead';
-  if (target === 'F16') return 'records';
+  if (/^F\d{2}$/.test(target)) return resolveFamilyRoute(target);
   if (target === 'parents') return 'parents';
   return F01_SCREENS.find((s) => s.id === target)?.route ?? F02_SCREENS.find((s) => s.id === target)?.route ?? target.replace(/^\/+/, '');
 }
@@ -247,6 +236,11 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   useEffect(() => {
     if (overlayParam) setOverlay(overlayParam);
   }, [overlayParam, location.pathname]);
+
+  useEffect(() => {
+    const uid = session.account?.email?.trim().toUpperCase() || 'preview-guest';
+    setRepositoryUserId(uid);
+  }, [session.account?.email]);
 
   const value = useMemo<Ctx>(
     () => ({

@@ -1,8 +1,9 @@
 /**
- * F02 draft. Device storage for this runtime only. F01 session state is untouched.
+ * F02 setup profile — persisted through the repository device adapter (W0.3).
  */
 
 import { useSyncExternalStore } from 'react';
+import { getRepository } from '../repository/deviceRepository';
 
 export type SetupDraft = {
   started: boolean;
@@ -48,53 +49,20 @@ export const EMPTY_SETUP: SetupDraft = {
   voice: null,
 };
 
-const KEY = 'jurnl.runtime.v1.setup';
-const listeners = new Set<() => void>();
-let draft: SetupDraft = EMPTY_SETUP;
-let hydrated = false;
-
-function readStored(): SetupDraft {
-  if (typeof sessionStorage === 'undefined') return EMPTY_SETUP;
-  try {
-    const raw = sessionStorage.getItem(KEY);
-    if (!raw) return EMPTY_SETUP;
-    return { ...EMPTY_SETUP, ...(JSON.parse(raw) as SetupDraft) };
-  } catch {
-    return EMPTY_SETUP;
-  }
-}
-
-function hydrate() {
-  if (hydrated || typeof sessionStorage === 'undefined') return;
-  draft = readStored();
-  hydrated = true;
-}
-
-function emit() {
-  if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(KEY, JSON.stringify(draft));
-  listeners.forEach((l) => l());
-}
-
 export function getSetupDraft(): SetupDraft {
-  hydrate();
-  return draft;
+  return getRepository().getSnapshot().setup;
 }
 
 export function patchSetup(patch: Partial<SetupDraft>) {
-  hydrate();
-  draft = { ...draft, ...patch, started: patch.started ?? true };
-  emit();
+  getRepository().patchSetup(patch);
 }
 
 export function resetSetup() {
-  draft = EMPTY_SETUP;
-  if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem(KEY);
-  listeners.forEach((l) => l());
+  getRepository().resetSetup();
 }
 
 function subscribe(listener: () => void) {
-  listeners.add(listener);
-  return () => listeners.delete(listener);
+  return getRepository().subscribe(listener);
 }
 
 export function useSetup(): SetupDraft {
