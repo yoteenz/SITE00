@@ -12972,12 +12972,9 @@ Sprint: live **Viewport Lab** at `/production/:projectSlug/viewport-lab` — ifr
 
 - **Registry:** `shared/site00-viewport-lab/`; Hub menu **VIEWPORT LAB**; QA `node scripts/viewport-lab-qa-proof.mjs`.
 
----
-
 ## 2026-10-02 — Production nav typography fix (P0.STUDIOOS.PRODUCTION.NAV-TYPOGRAPHY-FIX1)
 
 Root cause: `.ph--hub { zoom: var(--phz) }` compounded all header/footer `font-size` values (~deviceWidth/864). Fix: **zoom only on `.ph--hub > .ph-scroll`** (chamber); **top/bottom nav + `prod-chrome-strip` use `ph--system-chrome` with `zoom:1`** and explicit px sizes in `site00-production-system-chrome-typography.css`. Forensics: `scripts/production-nav-typography-forensics.mjs` (`zoomProduct:1`, 1px font delta = 1px). Branch: `cursor/nav-typography-fix-production-87ed`.
-
 ## 2026-09-30 — P0 unified Grok + environment review tunnel
 
 - **Sprint:** `P0.SITE00.GROK-PLUS-ENVIRONMENT-UNIFIED-REVIEW-TUNNEL1`. Forensics: Grok live remote = `cursor/authority-pixel-assets-1b86` @ `4fdf9efc`; Composer env integration = `cursor/authority-environment-family-live-integration-87ed` @ `24e2db58` (merge-base = Grok HEAD — unified at git level, not two divergent products). Stale local Grok worktree `.worktrees/grok-authority-pixel-assets-review` @ `9cfc20f5` preserved (not deleted).
