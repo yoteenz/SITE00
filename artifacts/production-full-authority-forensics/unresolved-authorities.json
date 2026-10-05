@@ -54,7 +54,7 @@
    "id": "U-02",
    "kind": "MASTERS_NOT_PRESENT",
    "family": "EXPERIENCE+LIBRARY",
-   "detail": "EL 00_README: the original EXPERIENCE/LIBRARY *_AUTHORITY.zip masters remain the masters; only the compressed LITE copies (242) are present. Masters are listed as 242 OpenArt CDN URLs in artifacts/production-openart-recovery2 (download_production_authorities.ps1) \u2014 CDN blocked here.",
+   "detail": "EL 00_README: the original EXPERIENCE/LIBRARY *_AUTHORITY.zip masters remain the masters; only the compressed LITE copies (242) are present. Masters are listed as 242 OpenArt CDN URLs in artifacts/production-openart-recovery2 (download_production_authorities.ps1) — CDN blocked here.",
    "effect": "LITE copies used for all comparisons."
   },
   {
@@ -68,7 +68,7 @@
    "id": "U-04",
    "kind": "LOW_CONFIDENCE_MAPPING",
    "family": "DESIGN",
-   "detail": "DWS 02_TABLET CC27801B\u2026: active mode tab not legible; mapped to SURFACES by elimination.",
+   "detail": "DWS 02_TABLET CC27801B…: active mode tab not legible; mapped to SURFACES by elimination.",
    "effect": "Superseded anyway by T12."
   },
   {
@@ -89,14 +89,14 @@
    "id": "U-07",
    "kind": "AUTHORITY_CONFLICT",
    "family": "EXPERIENCE",
-   "detail": "/production/:slug/experience \u2014 T12/PAR3V 08 parent landing vs EL 01_World root.",
+   "detail": "/production/:slug/experience — T12/PAR3V 08 parent landing vs EL 01_World root.",
    "effect": "EL governs (rules 3+5); founder decision required."
   },
   {
    "id": "U-08",
    "kind": "AUTHORITY_CONFLICT",
    "family": "LIBRARY",
-   "detail": "/production/libraries \u2014 T12/PAR3V 10 canon-vault landing vs EL 01_Authorities root.",
+   "detail": "/production/libraries — T12/PAR3V 10 canon-vault landing vs EL 01_Authorities root.",
    "effect": "EL governs (rules 3+5); founder decision required."
   },
   {
@@ -131,8 +131,43 @@
    "id": "U-13",
    "kind": "NOT_AUTHORITY_DESPITE_NAME",
    "family": "ALL",
-   "detail": "artifacts/production-authority-opus/{desktop,mobile,tablet}/NN-*.jpg are OPUS1 live captures, not authority copies (dHash 68\u2013111 vs T12).",
+   "detail": "artifacts/production-authority-opus/{desktop,mobile,tablet}/NN-*.jpg are OPUS1 live captures, not authority copies (dHash 68–111 vs T12).",
    "effect": "Classified LIVE_CAPTURE."
+  },
+  {
+   "id": "U-14",
+   "kind": "REFINEMENT_DECISION_REQUIRED",
+   "family": "DESIGN",
+   "detail": "Design chamber boards (6 modes) reproduce the T12 / DWS authority's miniature spatial panels: panel list and caption text renders at 3.6–6.3px (phones 3.6px, desktop ~6px), which is the authority's own scale (≈4px at 390px in T12 Mobile IMG_5968).",
+   "effect": "Chamber geometry now fills the frame (the 74–85px empty bands are gone), but panel micro-type stays below the 8.5px floor. Raising it requires converting the spatial boards into legible cards or adding a panel inspector. Founder decision: keep the authority miniature boards, or trade them for legible cards."
+  },
+  {
+   "id": "U-15",
+   "kind": "NO_RECOVERED_AUTHORITY",
+   "family": "EXPRESSION",
+   "detail": "Character Fabrication tablet/desktop: there is no recovered authority (Phase 5 keeps the live presentation). The live 432px authority canvas is zoomed ×1.6 and scrolls 165–356px inside its own cf-scroll frame. Phones reproduce the 9:16 CF authority (IMG_5414/5415) with its 4.4–7px micro-type.",
+   "effect": "Fixing this needs a tablet/desktop CF authority before the surface can become one-viewport and legible at the 8.5px floor. Only the actor strip was marked as a declared horizontal rail."
+  },
+  {
+   "id": "U-16",
+   "kind": "AUTHORITY_PROPORTION_FLAGGED",
+   "family": "EXPRESSION",
+   "detail": "Production Floor at 1280×720, the T12 desktop artboard: the floor tiles are 195×58 (3.4:1). This matches the authority's own 185×55 tiles at that size, but the strip heuristic (w/h ≥ 3.2 and h < 20% of the body) still flags them.",
+   "effect": "Reported, not hidden. Larger tiles at 1280×720 would need slimmer host chrome (D-SHELL-CANON is out of scope) or a smaller CURRENTLY MAKING row than the authority's."
+  },
+  {
+   "id": "U-17",
+   "kind": "CONTENT_CONFLICT",
+   "family": "EXPRESSION",
+   "detail": "Entry 002 subject imagery conflicts. The pre-storyboard authority boards show a dark-haired subject. The seed actor SW-017 Character Fabrication receipt shows a blonde subject.",
+   "effect": "Characters use the authority-board crops and actors keep their own receipts. Each image carries its provenance in the inspector. Founder decision: which identity is canon for SW-017 / Subject Woman."
+  },
+  {
+   "id": "U-18",
+   "kind": "BANNER_BY_AUTHORITY",
+   "family": "EXPRESSION+HUB",
+   "detail": "Family and root heroes (Hub world panel, Production Floor, Expression family heroes) are wide atmospheric bands in every authority, e.g. 3.6:1 at 390px in EXPR2 mobile.",
+   "effect": "They are listed separately from media-strip failures (category BANNER) in visual-diff-report.json. They are never counted as primary media."
   }
  ]
 }

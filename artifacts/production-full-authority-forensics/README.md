@@ -118,10 +118,85 @@ Committed authority material found in history:
 - `authority-inventory.json`: every authority-class and content-class file, with all required fields (id, file, path, branch, commit, date, PR, family, route, state, viewport, type, lineage, approval, status, supersession, live route, duplicate group).
 - `authority-lineage.json`: directives, pack chronology, supersession chains, the git authority commits, and per-entry supersession evidence.
 - `duplicate-groups.json`: 165 groups.
-- `unresolved-authorities.json`: U-01 to U-13.
+- `unresolved-authorities.json`: U-01 to U-13 (authority questions) and U-14 to U-18 (refinement decisions, added after QA).
 - `route-authority-map.json`: 200 routes and states.
 - `files-inspected.json`: all 4,024 inspected files, including live captures and out-of-scope files.
 - `contact-sheets/`: 47 sheets by family, route and viewport.
   - Candidates sit side by side.
   - Labels give source, date and viewport.
   - Borders and badges are coloured by status: green CANONICAL, grey SUPERSEDED, red CONFLICTING.
+
+# Refinement and QA (Phases 7–27)
+
+Implementation started only after the record above existed. Refinement followed the order the brief set: geometry, composition, primary media scale, columns, navigation, controls, density, typography, spacing, crop, materials, micro styling.
+
+## How before and after were measured
+
+- **Scope.** The same 185 mapped routes were captured at all 14 viewports: 390×844, 393×852, 430×932, 390×664, 360×640, 768×1024, 820×1180, 1024×1366, 1024×768, 1440×900, 1680×1050, 1920×1080, 1440×810 and 1280×720. That gives 2,590 states per side.
+- **Before and after.** BEFORE is the tunnel SHA `09378e0a` served on its own dev server. AFTER is the working branch. Both use one detector (`scripts/visual_diff.py` documents it).
+- **Checks per state:**
+  - frame and document scroll;
+  - horizontal overflow;
+  - primary media crushed into strips (hero bands are listed separately, see U-18);
+  - clipping outside declared panes;
+  - type under 8.5px;
+  - full-width empty bands;
+  - undeclared scroll panes and page errors.
+- **Not captured as pages (15 of 200 mapped states):**
+  - the legacy Hub machine view, which is LEGACY_LOCKED (its link is checked as an interaction);
+  - the 5 Inbox temporary sheets, exercised as interactions instead;
+  - the 6 `design/*` workspace sections, a separate workspace surface outside the Production frame;
+  - 3 Activity parameter patterns, represented by their concrete states.
+
+| Family | Routes | States | Page scroll | Media strips | Type < 8.5px | Empty band > 48px | Undeclared panes / errors |
+|---|---|---|---|---|---|---|---|
+| HUB | 1 | 14 | 5 → 0 | 0 → 0 | 9 → 0 | 8 → 0 | 0 → 0 |
+| INBOX | 9 | 126 | 0 → 0 | 1 → 0 | 30 → 0 | 39 → 24 | 0 → 0 |
+| DESIGN | 6 | 84 | 0 → 0 | 24 → 3 | 75 → 75 | 56 → 15 | 0 → 0 |
+| EXPERIENCE | 47 | 658 | 0 → 0 | 0 → 0 | 0 → 0 | 33 → 33 | 0 → 0 |
+| EXPRESSION | 42 | 588 | 19 → 10 | 55 → 1 | 255 → 14 | 7 → 3 | 19 → 0 |
+| LIBRARY | 76 | 1,064 | 0 → 0 | 66 → 0 | 0 → 0 | 39 → 22 | 0 → 0 |
+| ACTIVITY | 4 | 56 | 0 → 0 | 0 → 0 | 20 → 0 | 2 → 2 | 0 → 0 |
+| **All** | 185 | 2,590 | **24 → 10** | **146 → 4** | **389 → 89** | 184 → 99 | 19 → 0 |
+
+- **Horizontal overflow: 0 → 0.** No route scrolls sideways. The detector ignores layers that an overflow-hidden container inside the viewport already clips, such as the Design chamber's floor ellipse. That container check was confirmed against the Design chamber at 390, 1024, 1440 and 1280 widths.
+- **Interaction authorities: 51 of 51 checks pass** (17 surfaces × 390 / 1024×768 / 1440). The surfaces are:
+  - the Expression media inspector on 8 routes (D-EXPR-MEDIA);
+  - the Library character image inspector and the index inspector drawer;
+  - the Inbox inspector, request revision, attachment preview and filter sheets;
+  - the Inbox approval confirmation, which is gated: it stays disabled until the founder gate opens;
+  - the Design viewport toggle;
+  - the Hub chamber link.
+- **Remaining states map to the decisions recorded as U-14 to U-16:**
+  - page scroll: Character Fabrication on tablet and desktop;
+  - type: Design chamber miniatures and Character Fabrication;
+  - media strips: three Design chamber panels on short frames, and the 1280×720 Production Floor tiles at the authority's own proportion.
+- **Empty bands** are partly content volume: lists with few live records.
+
+## What changed
+
+- **HUB (D-PARENT-NOSCROLL).**
+  - The body is a column that fills the frame. The world panel flexes around its authority height and carries the legacy chamber link.
+  - Portrait tablets take the 9:16 composition, scaled to the frame height (`cqb`). Before, 45% of the frame was empty and type was 6px.
+  - Phone type floor is 8.5px. On phones the components sit in two rows of whole-label tiles.
+- **EXPRESSION.**
+  - New media resolver: Entry 002 authority-board crops, resident media and CF receipts, each with its provenance.
+  - New media kit: cards, gallery, record hero, face rail, inspector.
+  - Casting, Look, Storyboard, Performance and Review were rebuilt media-first, following the media-priority table.
+  - The Production Floor follows the T12 one-viewport composition: phones show six floors in one row; tablets and desktops show full-width MAKE IT TRAVEL and ON YOUR TABLE rows; short frames get a compact hero.
+  - Hidden phone modules that the EXPR2 mobile boards do show were restored.
+- **LIBRARY.** The character detail is portrait-led. Detail heroes and inspector media keep real height. Long blocks scroll as declared `.rk-scroll` panes.
+- **INBOX.**
+  - Incoming objects fill their pane: 207×134 at 1280×720, up from 54px bands.
+  - The decision and notice detail stack on portrait tablets. Related materials fill their column.
+  - Card titles, status and empties hold the 8.5px floor.
+- **ACTIVITY.** Meta labels and range counts hold the 8.5px floor.
+- **DESIGN.** The chamber takes the slack (no empty bands). ON YOUR TABLE cards keep a real image.
+- **Assets.** 30 Entry 002 crops are registered as PROJECT_CANON (`entry002.*`). See `public/site00/production-authority-assets/entry-002/SOURCE.md`. Nothing was generated.
+
+## Refinement files
+
+- `visual-diff-report.json`: per route × viewport BEFORE / AFTER metrics, plus a status for each category (geometry, media_scale, spacing, crop, type, interaction). It also holds the interaction-authority checks.
+- `before-after-sheets/`: AUTHORITY / BEFORE / AFTER per family × {mobile 390, tablet 1024×768, desktop 1440}, 21 sheets.
+- `scripts/visual_diff.py` and `scripts/before_after_sheets.py`: how both were produced.
+
