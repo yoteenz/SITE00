@@ -10,15 +10,24 @@ import {
   IDNTY_LEGACY_NEEDS_COHESION_SLUG,
   migrateLegacyNeedsCohesionSlug,
   migrateLegacyNeedsCohesionStep,
+  getIdntyAssessmentState,
 } from '../../../config/idnty-assessment';
 import IdntyAssessmentLandingPage from './IdntyAssessmentLandingPage';
 import IdntyAssessmentStepPage from './IdntyAssessmentStepPage';
 import IdntyAssessmentReviewPage from './IdntyAssessmentReviewPage';
 import IdntyAssessmentCompletePage from './IdntyAssessmentCompletePage';
+import IdntyDiscoveryResultPage from './IdntyDiscoveryResultPage';
+import { PostPurchaseIntelligenceRedirect } from '../../../components/discovery/PostPurchaseIntelligenceRedirect';
+import { IdntyAssessmentShell } from '../../../components/idnty-assessment/IdntyAssessmentShell';
 
 function isValidSlug(slug: string | undefined): slug is IdntyAssessmentStateId {
   return Boolean(slug && IDNTY_ASSESSMENT_STATE_SLUGS.includes(slug as IdntyAssessmentRouteSlug));
 }
+
+const RESERVED_IDNTY_ROUTE_SLUGS: Record<string, string> = {
+  state: SITE00_ROUTES.idntyState,
+  'sign-in-security': SITE00_ROUTES.idntySignInSecurity,
+};
 
 function parseAssessmentSegments(pathname: string, stateSlug: string): string | null {
   const prefix = `/idnty/${stateSlug}`;
@@ -37,6 +46,10 @@ function parseAssessmentSegments(pathname: string, stateSlug: string): string | 
 export default function IdntyAssessmentRouterPage() {
   const { stateSlug } = useParams<{ stateSlug: string }>();
   const { pathname } = useLocation();
+
+  if (stateSlug && RESERVED_IDNTY_ROUTE_SLUGS[stateSlug]) {
+    return <Navigate to={RESERVED_IDNTY_ROUTE_SLUGS[stateSlug]} replace />;
+  }
 
   if (!isValidSlug(stateSlug)) {
     const migratedSlug = migrateLegacyNeedsCohesionSlug(stateSlug ?? '');
@@ -65,6 +78,54 @@ export default function IdntyAssessmentRouterPage() {
 
   if (stepSegment === 'complete') {
     return <IdntyAssessmentCompletePage stateSlug={stateSlug} />;
+  }
+
+  if (stepSegment === 'discovery-result') {
+    return <IdntyDiscoveryResultPage stateSlug={stateSlug} />;
+  }
+
+  if (stepSegment === 'world-review' || stepSegment === 'personality-review') {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND LORE & PERSONALITY" />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  const loreWorldMatch = pathname.match(/\/world\/([^/]+)/);
+  if (loreWorldMatch?.[1]) {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND LORE" />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  const calibrateMatch = pathname.match(/\/calibrate\/([^/]+)/);
+  if (calibrateMatch?.[1]) {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND LORE CALIBRATION" />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  const personalityMatch = pathname.match(/\/personality\/([^/]+)/);
+  if (personalityMatch?.[1]) {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND PERSONALITY" />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  const calibratePersonalityMatch = pathname.match(/\/calibrate-personality\/([^/]+)/);
+  if (calibratePersonalityMatch?.[1]) {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND PERSONALITY CALIBRATION" />
+      </IdntyAssessmentShell>
+    );
   }
 
   if (stepSegment === 'desktop') {

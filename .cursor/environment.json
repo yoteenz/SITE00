@@ -1,0 +1,18 @@
+{
+  "name": "SITE 00",
+  "user": "ubuntu",
+  "install": "npm ci && bash .cursor/scripts/install-cloudflared.sh",
+  "start": "bash .cursor/scripts/bootstrap-cloud-preview-from-ci.sh && bash .cursor/scripts/ensure-site00-preview-url.sh",
+  "terminals": [
+    {
+      "name": "site00-vite",
+      "command": "bash .cursor/scripts/ensure-grok-environment-unified-preview.sh",
+      "description": "Unified Grok+environment review dist on :5174 (.worktrees/grok-environment-unified-review). Override SITE00_CLOUD_PREVIEW_MODE=dev for HMR."
+    },
+    {
+      "name": "site00-preview-tunnel",
+      "command": "bash .cursor/scripts/run-site00-preview-tunnel.sh",
+      "description": "Cloudflare tunnel to localhost:5174. Auto-restarts on exit; hostname from SITE00_CLOUDFLARE_TUNNEL_HOSTNAME."
+    }
+  ]
+}

@@ -1,21 +1,30 @@
 import { Link } from 'react-router-dom';
 import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
-import { SITE00_SIGNIN_DESKTOP_BG_FILE } from '../../config/site00-auth-assets';
+import { SITE00_SIGNIN_DESKTOP_BG_FILE, SITE00_SIGNIN_ICON_PATH, SITE00_SIGNIN_ICON_VERSION } from '../../config/site00-auth-assets';
 import { SITE00_ROUTES } from '../../config/routes';
+import { isSite00SignInPaused } from '../../config/signInPaused';
 import { Site00AuthIntro } from './Site00AuthIntro';
 import { Site00OrbitalMark } from './Site00OrbitalMark';
 import { Site00SignInForm } from './Site00SignInForm';
+import { useSite00SignInBootstrap } from './useSite00SignInBootstrap';
+import { useSite00AuthLayout } from './useSite00AuthLayout';
+import { Site00CreateAccountForm } from './Site00CreateAccountForm';
 import { Site00MobileHeader } from '../mobile/Site00MobileHeader';
 import { FastTravelPanel } from '../fast-travel/FastTravelPanel';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 type Site00AuthShellProps = {
   children?: ReactNode;
+  /** Which auth surface to render when children are omitted. */
+  variant?: 'sign-in' | 'create-account';
 };
 
 const signInBgUrl = resolveSite00PublicAsset(SITE00_SIGNIN_DESKTOP_BG_FILE);
+const signInIconUrl = `${resolveSite00PublicAsset(SITE00_SIGNIN_ICON_PATH)}?v=${SITE00_SIGNIN_ICON_VERSION}`;
 
-export function Site00AuthShell({ children }: Site00AuthShellProps) {
+export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShellProps) {
+  useSite00SignInBootstrap();
+  const authLayout = useSite00AuthLayout();
   const [fastTravelOpen, setFastTravelOpen] = useState(false);
   const fastTravelTriggerRef = useRef<HTMLButtonElement>(null);
 
@@ -29,19 +38,44 @@ export function Site00AuthShell({ children }: Site00AuthShellProps) {
   }, [fastTravelOpen]);
 
   useEffect(() => {
-    if (!signInBgUrl) return;
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = signInBgUrl;
-    document.head.appendChild(link);
+    if (!signInBgUrl && !signInIconUrl) return;
+    const links: HTMLLinkElement[] = [];
+    if (signInBgUrl) {
+      const bg = document.createElement('link');
+      bg.rel = 'preload';
+      bg.as = 'image';
+      bg.href = signInBgUrl;
+      document.head.appendChild(bg);
+      links.push(bg);
+    }
+    if (signInIconUrl) {
+      const icon = document.createElement('link');
+      icon.rel = 'preload';
+      icon.as = 'image';
+      icon.href = signInIconUrl;
+      document.head.appendChild(icon);
+      links.push(icon);
+    }
     return () => {
-      document.head.removeChild(link);
+      links.forEach((link) => {
+        document.head.removeChild(link);
+      });
     };
   }, []);
 
+  const sharedForm =
+    children ??
+    (isSite00SignInPaused() ?
+      <p className="site00-auth-shell__paused" role="status">
+        SIGN IN IS PAUSED WHILE SUPABASE IS DOWN.{' '}
+        <Link to={SITE00_ROUTES.productionWorkspace}>CONTINUE TO PRODUCTION →</Link>
+      </p>
+    : variant === 'create-account' ?
+      <Site00CreateAccountForm layout={authLayout} />
+    : <Site00SignInForm layout={authLayout} />);
+
   return (
-    <div className="site00-auth-shell">
+    <div className="site00-auth-shell" data-site00-surface="sign-in">
       <div className="site00-auth-shell__desktop">
         <aside
           className="site00-auth-shell__brand"
@@ -66,7 +100,7 @@ export function Site00AuthShell({ children }: Site00AuthShellProps) {
           </div>
         </aside>
         <section className="site00-auth-shell__form-panel">
-          {children ?? <Site00SignInForm layout="desktop" />}
+          {authLayout === 'desktop' ? sharedForm : null}
         </section>
       </div>
 
@@ -78,7 +112,7 @@ export function Site00AuthShell({ children }: Site00AuthShellProps) {
         />
         <main className="site00-auth-shell__mobile-main">
           <Site00AuthIntro variant="mobile" />
-          {children ?? <Site00SignInForm layout="mobile" />}
+          {authLayout === 'mobile' ? sharedForm : null}
         </main>
         <FastTravelPanel
           open={fastTravelOpen}

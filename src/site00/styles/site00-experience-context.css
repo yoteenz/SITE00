@@ -1,0 +1,135 @@
+/* SITE 00 dual-context experience bar — subtle system control, not SaaS role switcher */
+
+.site00-experience-context {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.site00-experience-context--admin {
+  border-bottom-color: rgba(255, 60, 60, 0.2);
+}
+
+.site00-experience-context__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  max-width: 100%;
+  padding: 0.45rem 1rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site00-experience-context__label {
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+}
+
+.site00-experience-context__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.site00-experience-context__link {
+  color: #ff3c3c;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site00-experience-context__link:hover {
+  text-decoration: underline;
+}
+
+.site00-experience-context__qa {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0.2rem 0.5rem;
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.site00-experience-context__qa--active {
+  border-color: rgba(255, 60, 60, 0.5);
+  color: #ff3c3c;
+}
+
+.site00-project-privileged {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.site00-project-privileged__kicker {
+  margin: 0 0 0.5rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.site00-project-privileged__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+
+.site00-project-privileged__list a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+}
+
+.site00-project-privileged__list a:hover {
+  color: #ff3c3c;
+}
+
+.site00-project-privileged__uuid {
+  margin: 0.75rem 0 0;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.6rem;
+}
+
+.site00-cd__back {
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.site00-cd__back a {
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+}
+
+.site00-cd__back a:hover {
+  color: #ff3c3c;
+}
+
+@media (max-width: 640px) {
+  .site00-experience-context__inner {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.6rem;
+  }
+
+  .site00-experience-context__actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 375px) {
+  .site00-experience-context__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

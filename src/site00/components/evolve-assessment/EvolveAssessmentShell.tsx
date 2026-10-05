@@ -6,10 +6,10 @@ import { Site00MobileShell } from '../mobile/Site00MobileShell';
 import { Site00PageFooter } from '../shell/Site00PageFooter';
 import { Site00OriginLayoutSwitch } from '../shell/Site00OriginLayoutSwitch';
 import { useSite00DesktopArtboardPreview } from '../shell/Site00DesktopArtboardContext';
-import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
-import { SITE00_IDNTY_ASSESSMENT_MOBILE_BG } from '../../config/idnty-assessment-env';
 import type { EvolvePathAssessmentConfig } from '../../config/evolve-assessment';
 import { EvolvePathIcon } from '../evolve/EvolvePathIcon';
+import { EvolveHeroArtwork } from '../evolve/mobile/EvolveHeroArtwork';
+import { Site00ThreeCornerMark } from '../mark/Site00ThreeCornerMark';
 import type { EvolvePathId } from '../../config/evolve';
 
 type EvolveAssessmentShellProps = {
@@ -19,20 +19,9 @@ type EvolveAssessmentShellProps = {
   panel?: ReactNode;
 };
 
-function EvolveAssessmentMobileBackground() {
-  const assetUrl = resolveSite00PublicAsset(SITE00_IDNTY_ASSESSMENT_MOBILE_BG);
-  return (
-    <div
-      className="site00-idnty-assessment-mobile-bg"
-      aria-hidden="true"
-      style={{ backgroundImage: `url("${assetUrl.replace(/"/g, '\\"')}")` }}
-    />
-  );
-}
-
 export function EvolveAssessmentBreadcrumb({ label }: { label: string }) {
   return (
-    <nav className="site00-idnty-assessment__breadcrumb" aria-label="BREADCRUMB">
+    <nav className="site00-evolve-assessment__breadcrumb" aria-label="BREADCRUMB">
       {label}
     </nav>
   );
@@ -50,12 +39,12 @@ export function EvolveAssessmentActions({
   onSecondary?: () => void;
 }) {
   return (
-    <div className="site00-idnty-assessment__actions">
-      <button type="button" className="site00-btn-primary" onClick={onPrimary}>
+    <div className="site00-evolve-assessment__actions">
+      <button type="button" className="site00-evolve-assessment__cta-primary" onClick={onPrimary}>
         {primaryLabel}
       </button>
       {secondaryLabel && onSecondary ? (
-        <button type="button" className="site00-btn-ghost" onClick={onSecondary}>
+        <button type="button" className="site00-evolve-assessment__cta-secondary" onClick={onSecondary}>
           {secondaryLabel}
         </button>
       ) : null}
@@ -68,25 +57,30 @@ export function EvolveAssessmentShell({ state, pathId, children, panel }: Evolve
 
   const hero = (
     <>
-      <div className="site00-idnty-assessment__icon site00-idnty-assessment__icon--mobile">
-        <EvolvePathIcon id={pathId} title={state.title} size={72} />
+      <div className="site00-evolve-assessment__icon">
+        <EvolvePathIcon id={pathId} title={state.title} size={64} />
       </div>
-      <p className="site00-idnty-assessment__marker">{state.stageMarker}</p>
-      <h1 className="site00-idnty-assessment__title">{state.title}</h1>
-      <p className="site00-idnty-assessment__declaration">{state.declaration}</p>
-      <p className="site00-idnty-assessment__body">{state.editorialBody}</p>
+      <p className="site00-evolve-assessment__marker">{state.stageMarker}</p>
+      <h1 className="site00-evolve-assessment__title">{state.title}</h1>
+      <p className="site00-evolve-assessment__declaration">{state.declaration}</p>
+      <p className="site00-evolve-assessment__body">{state.editorialBody}</p>
     </>
   );
 
   if (!isDesktopArtboard) {
     return (
-      <div className="site00-idnty-assessment site00-idnty-assessment--mobile">
-        <EvolveAssessmentMobileBackground />
-        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
-          <div className="site00-idnty-assessment__mobile-content">
-            <EvolveAssessmentBreadcrumb label={state.breadcrumb} />
-            <header className="site00-idnty-assessment__mobile-hero">{hero}</header>
-            {panel ? <div className="site00-idnty-assessment__panel">{panel}</div> : null}
+      <div className="site00-evolve-assessment site00-evolve-assessment--mobile">
+        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-evolve-assessment-mobile-shell">
+          <div className="site00-evolve-assessment__mobile-content">
+            <header className="site00-evolve-assessment__mobile-hero">
+              <Site00ThreeCornerMark className="site00-evolve-assessment__mark" />
+              <EvolveAssessmentBreadcrumb label={state.breadcrumb} />
+              <div className="site00-evolve-assessment__hero-grid">
+                <div className="site00-evolve-assessment__hero-copy">{hero}</div>
+                <EvolveHeroArtwork className="site00-evolve-assessment__hero-art" />
+              </div>
+            </header>
+            {panel ? <div className="site00-evolve-assessment__panel">{panel}</div> : null}
             {children}
             <Site00PageFooter />
           </div>
@@ -104,11 +98,16 @@ export function EvolveAssessmentShell({ state, pathId, children, panel }: Evolve
               <div className="site00-idnty-assessment__icon">
                 <EvolvePathIcon id={pathId} title={state.title} size={88} />
               </div>
-              {hero}
+              <p className="site00-idnty-assessment__marker">{state.stageMarker}</p>
+              <h1 className="site00-idnty-assessment__title">{state.title}</h1>
+              <p className="site00-idnty-assessment__declaration">{state.declaration}</p>
+              <p className="site00-idnty-assessment__body">{state.editorialBody}</p>
             </div>
           </aside>
           <div className="site00-idnty-assessment__main">
-            <EvolveAssessmentBreadcrumb label={state.breadcrumb} />
+            <nav className="site00-idnty-assessment__breadcrumb" aria-label="BREADCRUMB">
+              {state.breadcrumb}
+            </nav>
             {panel}
             {children}
           </div>
@@ -129,7 +128,7 @@ export function EvolveAssessmentCompletePanel({
   href: string;
 }) {
   return (
-    <div className="site00-idnty-assessment__complete">
+    <div className="site00-evolve-assessment__complete">
       <p className="site00-label-red">{title}</p>
       <p className="site00-body">{subtitle}</p>
       <Link to={href} className="site00-link-red">

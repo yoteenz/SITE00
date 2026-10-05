@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { AdminKpiCard } from '../../components/operations/AdminKpiCard';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
@@ -42,12 +43,11 @@ export default function ReportsPage() {
 
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ REPORTS ]</h1>
-          <p className="site00-admin-page-subtitle">ECOSYSTEM KPIs AND PIPELINE INSIGHTS.</p>
-        </div>
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="REPORTS / SIGNALS"
+        subtitle="WHAT IS SITE 00 LEARNING?"
+      />
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 

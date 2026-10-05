@@ -1,0 +1,22 @@
+{
+  "contract": "JURNL_EXCHANGE_RATE",
+  "provider": "https://open.er-api.com/v6/latest/USD",
+  "provider_name": "ExchangeRate-API open access",
+  "source_currency": "USD",
+  "authentication": "NONE",
+  "hardcoded_rates": false,
+  "invent_on_failure": false,
+  "cache_key": "jurnl.exchangeRate",
+  "stored_fields": ["provider", "retrievedAt", "providerUpdatedAt", "sourceCurrency", "rates"],
+  "rate_meaning": "One unit of USD equals rates[target] units of the target currency.",
+  "conversion": "display_amount = canonical_usd_amount * rates[display_currency]",
+  "inverse_for_entry": "canonical_usd_amount = entered_display_amount / rates[entered_currency]",
+  "chain_rule": "Each switch reads the canonical USD amount. A previous display number is never the next input.",
+  "identity": "USD uses rate 1 because it is the base currency, not because a cross rate was invented.",
+  "fresh_window_hours": 24,
+  "max_cache_age_hours": 168,
+  "on_fetch_failure": "Use a cached book only when its age is within max_cache_age_hours. Otherwise keep the prior display currency and surface EXCHANGE RATE UNAVAILABLE. TRY AGAIN SHORTLY.",
+  "missing_code": "A missing or non-positive rate is omitted. It is not replaced with 1.",
+  "precision": "The cached rate stays at provider precision. Intl rounding applies only to the displayed string.",
+  "disclosure": "The Ask Jurnl sheet may show RATE UPDATED and 1 USD = X TARGET. The main Today and Activity surfaces do not."
+}

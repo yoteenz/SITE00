@@ -1,0 +1,11 @@
+{
+  "sprint": "P0.JURNL.F01-ASSET-HARVEST-RECOVERY1",
+  "parentGeneration": "WjkVD1jNeggB0iWBABM6",
+  "parentFile": "PARENT/F01.00_WELCOME_GENERATED.png",
+  "canonicalHarvest": "MANIFEST/asset_lineage_harvest.json",
+  "recoveryReport": "MANIFEST/F01_ASSET_RECOVERY_REPORT.json",
+  "componentReferences": "MANIFEST/COMPONENT_REFERENCES/",
+  "priorCropsArchive": "ASSETS/_ARCHIVE_SCREENSHOT_CROPS_v1/",
+  "newChildAssetsFromOpenArt": [],
+  "notes": "Post-recovery: raster ASSETS exclude buttons and logo placement; see F01_COMPONENT_MANIFEST.json."
+}

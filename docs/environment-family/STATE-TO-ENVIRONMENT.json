@@ -1,0 +1,75 @@
+{
+  "sprint": "P0.SITE00.GROK-AUTHORITY-ENVIRONMENT-FAMILY-RECONSTRUCTION1",
+  "wired": true,
+  "environments": [
+    {
+      "id": "ph.environment.chamber.base",
+      "workspace": "production-hub",
+      "kind": "BASE",
+      "file": "public/site00/production-hub/production/hub/chamber/atmosphere.webp",
+      "assetId": "grok.site00.production-hub.production.hub.chamber.atmosphere.v1",
+      "width": 1296,
+      "height": 2304,
+      "swapWith": []
+    },
+    {
+      "id": "cf.environment.fabrication.base",
+      "workspace": "character-fabrication",
+      "kind": "BASE",
+      "file": "public/site00/character-fabrication/fabrication/machine/chamber.webp",
+      "assetId": "grok.site00.character-fabrication.fabrication.machine.chamber.v1",
+      "width": 1296,
+      "height": 2304,
+      "swapWith": ["cf.environment.simulation.volume"]
+    },
+    {
+      "id": "cf.environment.simulation.volume",
+      "workspace": "character-fabrication",
+      "kind": "DISTINCT",
+      "file": "public/site00/character-fabrication/fabrication/environments/simulation-volume.webp",
+      "assetId": "grok.site00.character-fabrication.fabrication.environments.simulation-volume.v1",
+      "width": 1296,
+      "height": 2304,
+      "swapWith": ["cf.environment.fabrication.base"]
+    }
+  ],
+  "states": [
+    {"workspace": "production-hub", "stateId": "hub.live", "station": "live", "expanded": null, "authorityId": "PH-14", "environmentId": "ph.environment.chamber.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "production-hub", "stateId": "hub.live.activity-list", "station": "live", "expanded": "recent-activity-list", "authorityId": "PH-00", "environmentId": "ph.environment.chamber.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "production-hub", "stateId": "hub.lightbox", "station": "live", "expanded": "frame-lightbox", "authorityId": "PH-01", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "production-hub", "stateId": "hub.flow", "station": "flow", "expanded": null, "authorityId": "PH-02", "environmentId": "ph.environment.chamber.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "production-hub", "stateId": "hub.artifact", "station": "live", "expanded": "central-artifact", "authorityId": "PH-03", "environmentId": "ph.environment.chamber.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "production-hub", "stateId": "hub.founder-decision", "station": "live", "expanded": "founder-decision", "authorityId": "PH-04", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "production-hub", "stateId": "hub.inbox", "station": "live", "expanded": "inbox", "authorityId": "PH-05", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "production-hub", "stateId": "hub.scene-selector", "station": "live", "expanded": "scene-selector", "authorityId": "PH-06", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "production-hub", "stateId": "hub.dependencies", "station": "dependencies", "expanded": null, "authorityId": "PH-07", "environmentId": "ph.environment.chamber.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "production-hub", "stateId": "hub.storyboard", "station": "live", "expanded": "storyboard-authority", "authorityId": "PH-08", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "production-hub", "stateId": "hub.compare", "station": "live", "expanded": "compare", "authorityId": "PH-09", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "production-hub", "stateId": "hub.node-selected", "station": "live", "expanded": null, "authorityId": "PH-10", "environmentId": "ph.environment.chamber.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "production-hub", "stateId": "hub.table", "station": "live", "expanded": "on-your-table", "authorityId": "PH-11", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "production-hub", "stateId": "hub.inspector", "station": "live", "expanded": "node-inspector", "authorityId": "PH-12", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "production-hub", "stateId": "hub.project-selector", "station": "live", "expanded": "project-selector", "authorityId": "PH-13", "environmentId": "ph.environment.chamber.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.look", "station": "look", "expanded": null, "authorityId": "CF-15", "environmentId": "cf.environment.fabrication.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "character-fabrication", "stateId": "cf.continuity", "station": "body", "expanded": "continuity-inspector", "authorityId": "CF-16", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.behavior", "station": "character", "expanded": null, "authorityId": "CF-17", "environmentId": "cf.environment.fabrication.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "character-fabrication", "stateId": "cf.simulation.running", "station": "simulation", "expanded": null, "authorityId": "CF-18", "environmentId": "cf.environment.simulation.volume", "class": "DISTINCT_ENVIRONMENT", "swapRequired": true, "crossfade": true, "transition": "CROSSFADE", "from": "cf.environment.fabrication.base"},
+    {"workspace": "character-fabrication", "stateId": "cf.authority", "station": "authority", "expanded": null, "authorityId": "CF-19", "environmentId": "cf.environment.fabrication.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "character-fabrication", "stateId": "cf.body.lock", "station": "body", "expanded": "body-lock", "authorityId": "CF-20", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.profile", "station": "identity", "expanded": "actor-profile", "authorityId": "CF-21", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.hair", "station": "hair-makeup", "expanded": null, "authorityId": "CF-22", "environmentId": "cf.environment.fabrication.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "character-fabrication", "stateId": "cf.wardrobe-compare", "station": "look", "expanded": "wardrobe-compare", "authorityId": "CF-23", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.behavior.sheet", "station": "character", "expanded": "add-behavioral-skin", "authorityId": "CF-24", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.performance", "station": "performance", "expanded": "motion-player", "authorityId": "CF-25", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.appearance-compare", "station": "hair-makeup", "expanded": "appearance-compare", "authorityId": "CF-26", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.testing-ground", "station": "performance", "expanded": null, "authorityId": "CF-27", "environmentId": "cf.environment.fabrication.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"},
+    {"workspace": "character-fabrication", "stateId": "cf.motion-request", "station": "performance", "expanded": "motion-request", "authorityId": "CF-28", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.simulation.result", "station": "simulation", "expanded": "simulation-result", "authorityId": "CF-29", "environmentId": "cf.environment.fabrication.base", "class": "NO_ENVIRONMENT_CHANGE", "swapRequired": false, "crossfade": false, "transition": "LAYER_REVEAL"},
+    {"workspace": "character-fabrication", "stateId": "cf.catalogue", "station": "identity", "expanded": "actor-catalogue", "authorityId": "CF-30", "environmentId": "cf.environment.fabrication.base", "class": "SAME_ENVIRONMENT", "swapRequired": false, "crossfade": false, "transition": "PERSIST"}
+  ],
+  "suppressWhenPlateMounted": {
+    "ph.environment.chamber.base": ["ChamberGeometry drum", "glass column", "plinth", "second red core"],
+    "cf.environment.fabrication.base": ["SVG walls", "light strips", "arms", "cylinder", "pedestal"],
+    "cf.environment.simulation.volume": ["fabrication cylinder", "fabrication arms", "fabrication pedestal"]
+  },
+  "keepLive": ["header", "bottom nav", "nodes", "artifact", "filmstrip", "mode tabs", "station rail", "side cards", "telemetry", "figure composite"]
+}

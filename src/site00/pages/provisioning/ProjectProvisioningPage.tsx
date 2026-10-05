@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
 import { BracketHeading, PageIntro } from '../../components/pages/Site00PagePrimitives';
 import { site00ClientProductionApi } from '../../services/clientProductionApi';
+import { site00StudioPath } from '../../config/routes';
 
 type ProvisioningService = {
   provider_key: string;
@@ -127,9 +128,14 @@ export default function ProjectProvisioningPage() {
             MAINTAIN YOUR PROJECT. WE NEVER ASK FOR PLAINTEXT PASSWORDS.
           </p>
           {data?.project.slug ? (
-            <Link className="site00-btn-ghost-sm" to="/control">
-              BACK TO CTRL ROOM →
-            </Link>
+            <>
+              <Link className="site00-btn-ghost-sm" to={site00StudioPath(data.project.slug)}>
+                ENTER STUDIO →
+              </Link>
+              <Link className="site00-btn-ghost-sm" to="/control" style={{ marginLeft: 12 }}>
+                BACK TO CTRL ROOM →
+              </Link>
+            </>
           ) : null}
         </section>
       </div>

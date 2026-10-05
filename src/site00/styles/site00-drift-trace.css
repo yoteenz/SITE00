@@ -1,0 +1,76 @@
+.site00-drift-trace {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.site00-drift-trace__head h4 {
+  margin: 0 0 6px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.site00-drift-trace__promo {
+  color: #8a4b00;
+  font-size: 11px;
+}
+
+.site00-drift-trace__pipeline ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+}
+
+.site00-drift-trace__stage {
+  display: grid;
+  grid-template-columns: 72px 56px 1fr;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.site00-drift-trace__stage--drift span:nth-child(2) {
+  color: #b45309;
+}
+
+.site00-drift-trace__stage--fail span:nth-child(2) {
+  color: #b91c1c;
+}
+
+.site00-drift-trace__stage-summary {
+  opacity: 0.85;
+}
+
+.site00-drift-trace__literal dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.site00-drift-trace__literal dt {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.site00-drift-trace__json {
+  max-height: 240px;
+  overflow: auto;
+  font-size: 10px;
+  margin-top: 8px;
+}
+
+.site00-drift-trace__region-select {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 10px 0;
+  font-size: 11px;
+}
+
+.site00-drift-trace__empty {
+  font-size: 12px;
+  opacity: 0.8;
+}

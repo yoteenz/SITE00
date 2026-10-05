@@ -1,0 +1,413 @@
+{
+  "contract": "JURNL_HIERARCHICAL_EXPRESSION",
+  "cascade": [
+    "GLOBAL_JURNL_DNA",
+    "FAMILY",
+    "PARENT",
+    "CHILD",
+    "GRANDCHILD",
+    "STATE",
+    "INTERACTION",
+    "PANEL",
+    "CONTROL",
+    "LIVE_IMPLEMENTATION"
+  ],
+  "global_dna": [
+    "BRAND_VOICE",
+    "TYPOGRAPHY_SYSTEM",
+    "CORE_PALETTE",
+    "MEDITERRANEAN_COASTAL_LUXURY",
+    "EDITORIAL_RESTRAINT",
+    "NATURAL_LIGHT",
+    "MATERIAL_QUALITY",
+    "ICONOGRAPHY_FAMILY",
+    "CONTROL_GEOMETRY",
+    "ENVIRONMENT_BREATHING",
+    "NO_CIRCULAR_TAP_TARGETS",
+    "ACCESSIBILITY",
+    "RESPONSIVE_QUALITY"
+  ],
+  "expression_parent_rule": "parent_expression_inherited names the expression parent. That may be the family parent or a prior room in the same family.",
+  "plate_rule": "A distinct product job does not require a new plate. NEW_PLATE_WITHIN_FAMILY only when the job, emotional role, or spatial metaphor materially changes.",
+  "child_production": "AUTHORITIES_EXIST_DO_NOT_REGENERATE",
+  "paid_generation": "DO_NOT_GENERATE_FROM_THIS_TREE_UNTIL_THE_FOUNDER_ASKS",
+  "downstream_consumers": [
+    "GROK",
+    "OPUS",
+    "COMPOSER"
+  ],
+  "founder_review": {
+    "review": [
+      "FAMILY_EXPRESSION",
+      "PARENT_EXPRESSION",
+      "KEY_CHILD_SUB_EXPRESSIONS"
+    ],
+    "skip": [
+      "EVERY_MICROSTATE"
+    ],
+    "status": "NOT_APPROVED"
+  },
+  "repetition_audit": {
+    "status": "PASS",
+    "compared_against": [
+      "CURRENT_FAMILY",
+      "F01",
+      "JURNL_EXPRESSION_MATRIX"
+    ],
+    "reuse_reason": "CORRECT",
+    "notes": [
+      "Arrival repeats the entry still life as the continued doorway. That reason is JUSTIFIED_THRESHOLD_CONTINUATION.",
+      "Desk, edit, and quiet are distinct because the metaphor changes. They already exist.",
+      "Grandchildren are naming forms. They do not get new plates."
+    ]
+  },
+  "generation_gate": {
+    "product_tree_locked_enough": true,
+    "family_expression_defined": true,
+    "parent_expression_defined": true,
+    "material_child_expressions_defined": true,
+    "environment_policies_defined": true,
+    "panel_control_policies_defined": true,
+    "repetition_audit": "PASS"
+  },
+  "family_expression": {
+    "product_role": "Configure the life. Do not analyze it.",
+    "emotional_role": "Considered. Unhurried.",
+    "spatial_metaphor": "Doorway, then desk, then quiet pier.",
+    "architectural_character": "Arrival continues entry. Desk is travertine. Edit is a ledge. Quiet is lower.",
+    "lighting_character": "Morning side light. Quiet drops warmer.",
+    "material_emphasis": "Travertine, closed book, brass, linen.",
+    "information_density": "One fact group per screen.",
+    "panel_language": "Live bone sheets and fields.",
+    "interaction_character": "Continue or skip.",
+    "motion_character": "Rooms change only when the metaphor changes.",
+    "typographic_emphasis": "Display question.",
+    "data_visualization": "Typed amounts. No charts."
+  },
+  "nodes": [
+    {
+      "node_id": "F02",
+      "node_type": "FAMILY",
+      "product_job": "Set the shape of a life: household, money facts, obligations, and permission.",
+      "expression_class": "FAMILY",
+      "expression_concept": "From the doorway, to the desk, to a quieter pier.",
+      "parent_expression_inherited": "GLOBAL_JURNL_DNA",
+      "expression_changes": [
+        "Four rooms. Arrival continues the entry doorway. Desk, edit, and quiet are setup."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "FORM",
+      "button_policy": "primary continue, quiet skip",
+      "typography_policy": "Display question, then a short line",
+      "interaction_policy": "Step forward, or skip. Permission is a sheet.",
+      "motion_policy": "Room changes only when the job changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.00",
+      "node_type": "PARENT",
+      "product_job": "Open setup. Show the short path ahead.",
+      "expression_class": "PARENT",
+      "expression_concept": "The life-shape room. The doorway, with progress visible.",
+      "parent_expression_inherited": "F02 doorway, desk, quiet pier",
+      "expression_changes": [
+        "Strongest setup concept is the path, not a form. Arrival repeats the entry still life only as the continued doorway."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "SUMMARY",
+      "button_policy": "primary continue",
+      "typography_policy": "Display question",
+      "interaction_policy": "Continue, with progress visible",
+      "motion_policy": "Still room.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.01",
+      "node_type": "CHILD",
+      "product_job": "Set who this money is for.",
+      "expression_class": "DIRECT_INHERITANCE",
+      "expression_concept": "The same doorway. One household choice.",
+      "parent_expression_inherited": "F02.00",
+      "expression_changes": [
+        "Natural continuation. Same room."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "SELECTION",
+      "button_policy": "primary continue, quiet skip where the step can wait",
+      "typography_policy": "Display question, one fact group",
+      "interaction_policy": "Back, the step, continue",
+      "motion_policy": "Stay in the room unless the metaphor changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.02",
+      "node_type": "CHILD",
+      "product_job": "Say where money lives, without becoming the Money family.",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "The configuration desk. Travertine, a closed book, a brass tray.",
+      "parent_expression_inherited": "F02.00",
+      "expression_changes": [
+        "The spatial metaphor changes from doorway to work surface. The desk plate already exists. Do not generate another."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "SELECTION",
+      "button_policy": "primary continue, quiet skip where the step can wait",
+      "typography_policy": "Display question, one fact group",
+      "interaction_policy": "Back, the step, continue",
+      "motion_policy": "Stay in the room unless the metaphor changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.03",
+      "node_type": "CHILD",
+      "product_job": "Capture how income arrives.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "The same desk, with one amount and a cadence.",
+      "parent_expression_inherited": "F02.02",
+      "expression_changes": [
+        "More form. Same room. No chart."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "FORM",
+      "button_policy": "primary continue, quiet skip where the step can wait",
+      "typography_policy": "Display question, one fact group",
+      "interaction_policy": "Back, the step, continue",
+      "motion_policy": "Stay in the room unless the metaphor changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.04",
+      "node_type": "CHILD",
+      "product_job": "Seed a few repeating obligations.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "The same desk, as a short list.",
+      "parent_expression_inherited": "F02.02",
+      "expression_changes": [
+        "List density. Same travertine."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "DATA_LEDGER",
+      "button_policy": "primary continue, quiet skip where the step can wait",
+      "typography_policy": "Display question, one fact group",
+      "interaction_policy": "Back, the step, continue",
+      "motion_policy": "Stay in the room unless the metaphor changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.05",
+      "node_type": "CHILD",
+      "product_job": "Choose up to three priorities.",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "The selection wall. A few material choices, not a settings list.",
+      "parent_expression_inherited": "F02.02",
+      "expression_changes": [
+        "The metaphor changes from desk to a stone ledge of choices. The edit plate already exists."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "SELECTION",
+      "button_policy": "primary continue, quiet skip where the step can wait",
+      "typography_policy": "Display question, one fact group",
+      "interaction_policy": "Back, the step, continue",
+      "motion_policy": "Stay in the room unless the metaphor changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.06",
+      "node_type": "CHILD",
+      "product_job": "Name one protected amount.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Back at the desk. One protected figure, not the Today signal.",
+      "parent_expression_inherited": "F02.02",
+      "expression_changes": [
+        "Single amount. Same desk. Do not preview the safe-to-spend salon."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "FORM",
+      "button_policy": "primary continue, quiet skip where the step can wait",
+      "typography_policy": "Display question, one fact group",
+      "interaction_policy": "Back, the step, continue",
+      "motion_policy": "Stay in the room unless the metaphor changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.07",
+      "node_type": "CHILD",
+      "product_job": "Set what JURNL may keep.",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "The private pier. Lower light. Consent, not a form about money.",
+      "parent_expression_inherited": "F02.00",
+      "expression_changes": [
+        "Emotional role changes to permission. The quiet plate already exists."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "FORM",
+      "button_policy": "primary continue, quiet skip where the step can wait",
+      "typography_policy": "Display question, one fact group",
+      "interaction_policy": "Back, the step, continue",
+      "motion_policy": "Stay in the room unless the metaphor changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.08",
+      "node_type": "CHILD",
+      "product_job": "Confirm the shape and hand off to Today.",
+      "expression_class": "DIRECT_INHERITANCE",
+      "expression_concept": "The doorway again. The path is complete.",
+      "parent_expression_inherited": "F02.00",
+      "expression_changes": [
+        "Return. Summary is live type, not a new room."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "SUMMARY",
+      "button_policy": "primary continue, quiet skip where the step can wait",
+      "typography_policy": "Display question, one fact group",
+      "interaction_policy": "Back, the step, continue",
+      "motion_policy": "Stay in the room unless the metaphor changes.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.02.1",
+      "node_type": "GRANDCHILD",
+      "product_job": "Name an account. No balance.",
+      "expression_class": "INTERACTION_LIKE",
+      "expression_concept": "A naming form on the desk. Not a new visual territory.",
+      "parent_expression_inherited": "F02.02",
+      "expression_changes": [
+        "Interaction-like. Reuse the desk. An older authority file is not a reason to generate another plate."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "FORM",
+      "button_policy": "primary save",
+      "typography_policy": "Field labels, no display hero",
+      "interaction_policy": "Name, kind, save",
+      "motion_policy": "Sheet or focused form. The room stays.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.05.1",
+      "node_type": "GRANDCHILD",
+      "product_job": "Name one goal and a loose horizon.",
+      "expression_class": "INTERACTION_LIKE",
+      "expression_concept": "A naming moment on the selection wall. Not the Goals family.",
+      "parent_expression_inherited": "F02.05",
+      "expression_changes": [
+        "Interaction-like. No new plate."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "FORM",
+      "button_policy": "primary save",
+      "typography_policy": "Short question, one field",
+      "interaction_policy": "Name, horizon, save",
+      "motion_policy": "The wall stays.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.ST.VALIDATION",
+      "node_type": "STATE",
+      "product_job": "The field needs a number. Wine square alert on the desk.",
+      "expression_class": "STATE",
+      "expression_concept": "The field needs a number. Wine square alert on the desk.",
+      "parent_expression_inherited": "F02.02",
+      "expression_changes": [
+        "State expresses the room it sits in."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "ALERT",
+      "button_policy": "primary continue",
+      "typography_policy": "One line of news, then the action",
+      "interaction_policy": "Stay in the step",
+      "motion_policy": "The alert or confirmation sits in the form. The plate does not change.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.ST.CONNECTED",
+      "node_type": "STATE",
+      "product_job": "An account linked. Emerald confirmation. No confetti, no bank logo.",
+      "expression_class": "STATE",
+      "expression_concept": "An account linked. Emerald confirmation. No confetti, no bank logo.",
+      "parent_expression_inherited": "F02.02",
+      "expression_changes": [
+        "State expresses the room it sits in."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "APPROVAL",
+      "button_policy": "primary continue",
+      "typography_policy": "One line of news, then the action",
+      "interaction_policy": "Stay in the step",
+      "motion_policy": "The alert or confirmation sits in the form. The plate does not change.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.ST.RESUME",
+      "node_type": "STATE",
+      "product_job": "Continue an unfinished setup. Progress visible in the doorway.",
+      "expression_class": "STATE",
+      "expression_concept": "Continue an unfinished setup. Progress visible in the doorway.",
+      "parent_expression_inherited": "F02.00",
+      "expression_changes": [
+        "State expresses the room it sits in."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "SUMMARY",
+      "button_policy": "primary continue",
+      "typography_policy": "One line of news, then the action",
+      "interaction_policy": "Stay in the step",
+      "motion_policy": "The alert or confirmation sits in the form. The plate does not change.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.IN.PERMISSION",
+      "node_type": "INTERACTION",
+      "product_job": "What a connection may read, before any handoff.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "What a connection may read, before any handoff.",
+      "parent_expression_inherited": "F02.07",
+      "expression_changes": [
+        "JurnlDrawer confirmation variant. No new plate."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "APPROVAL",
+      "button_policy": "primary confirm, secondary back",
+      "typography_policy": "Drawer title, short lead",
+      "interaction_policy": "Sheet over the current room",
+      "motion_policy": "Sheet rises.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.IN.ADD",
+      "node_type": "INTERACTION",
+      "product_job": "Add one repeating obligation. A tactile form.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Add one repeating obligation. A tactile form.",
+      "parent_expression_inherited": "F02.04",
+      "expression_changes": [
+        "JurnlDrawer form variant. No new plate."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "FORM",
+      "button_policy": "primary save",
+      "typography_policy": "Drawer title, short lead",
+      "interaction_policy": "Sheet over the current room",
+      "motion_policy": "Sheet rises.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F02.IN.SKIP",
+      "node_type": "INTERACTION",
+      "product_job": "Confirm that this step can wait.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Confirm that this step can wait.",
+      "parent_expression_inherited": "F02.02",
+      "expression_changes": [
+        "JurnlDrawer confirmation variant. No new plate."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "SUMMARY",
+      "button_policy": "primary confirm, secondary back",
+      "typography_policy": "Drawer title, short lead",
+      "interaction_policy": "Sheet over the current room",
+      "motion_policy": "Sheet rises.",
+      "distinct_authority_required": false
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "plan": [
+    {
+      "authority_id": "01_EDITORIAL_CONTENT_APP",
+      "experience_unit": "CONTENT",
+      "family_id": "EDITORIAL_CONTENT",
+      "archetype": "MOBILE_FIRST",
+      "surface": "APP",
+      "screen_or_state": "APP_HOME",
+      "routes_unlocked": 1,
+      "states_unlocked": 2,
+      "surfaces_unlocked": [
+        "APP"
+      ],
+      "inheritance": {
+        "HOST_SHELL": "GLOBAL"
+      },
+      "new_grammar": false,
+      "visual_objective": "Representative Editorial Content on APP",
+      "interaction_objective": "Chapter spine + story spread",
+      "generation_prompt": "[OpenArt GPT Image 2] Editorial Content APP_HOME APP — brand-specific, not generic template",
+      "approval_status": "PLANNED"
+    },
+    {
+      "authority_id": "02_TRANSACTION_FLOW_APP",
+      "experience_unit": "TRANSACTION_FLOW",
+      "family_id": "TRANSACTION_FLOW",
+      "archetype": "MOBILE_FIRST",
+      "surface": "APP",
+      "screen_or_state": "APP_HOME",
+      "routes_unlocked": 1,
+      "states_unlocked": 2,
+      "surfaces_unlocked": [
+        "APP"
+      ],
+      "inheritance": {
+        "HOST_SHELL": "GLOBAL"
+      },
+      "new_grammar": false,
+      "visual_objective": "Representative Transaction Flow on APP",
+      "interaction_objective": "Review + checkout adjacency",
+      "generation_prompt": "[OpenArt GPT Image 2] Transaction Flow APP_HOME APP — brand-specific, not generic template",
+      "approval_status": "PLANNED"
+    },
+    {
+      "authority_id": "03_PRODUCT_ASSEMBLY_CONFIGURATOR_MOBILE_WEB",
+      "experience_unit": "CONFIGURATOR",
+      "family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "archetype": "MOBILE_FIRST",
+      "surface": "MOBILE_WEB",
+      "screen_or_state": "ENTRY",
+      "routes_unlocked": 1,
+      "states_unlocked": 4,
+      "surfaces_unlocked": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "inheritance": {
+        "HOST_SHELL": "FRONTAL_SLAYER",
+        "WORKING_SURFACE": "MULTI_STEP_CONFIGURATION",
+        "PREVIEW": "LIVE_PRODUCT_ASSEMBLY"
+      },
+      "new_grammar": true,
+      "visual_objective": "Representative Product Assembly Configurator on MOBILE_WEB",
+      "interaction_objective": "Step machine + live preview",
+      "generation_prompt": "[OpenArt GPT Image 2] Product Assembly Configurator ENTRY MOBILE_WEB — brand-specific, not generic template",
+      "approval_status": "PLANNED"
+    },
+    {
+      "authority_id": "04_PRODUCT_ASSEMBLY_CONFIGURATOR_DESKTOP_WEB",
+      "experience_unit": "CONFIGURATOR",
+      "family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "archetype": "DESKTOP_WORKSPACE",
+      "surface": "DESKTOP_WEB",
+      "screen_or_state": "WORKSPACE",
+      "routes_unlocked": 1,
+      "states_unlocked": 4,
+      "surfaces_unlocked": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "inheritance": {
+        "HOST_SHELL": "FRONTAL_SLAYER",
+        "WORKING_SURFACE": "MULTI_STEP_CONFIGURATION",
+        "PREVIEW": "LIVE_PRODUCT_ASSEMBLY"
+      },
+      "new_grammar": true,
+      "visual_objective": "Representative Product Assembly Configurator on DESKTOP_WEB",
+      "interaction_objective": "Step machine + live preview",
+      "generation_prompt": "[OpenArt GPT Image 2] Product Assembly Configurator WORKSPACE DESKTOP_WEB — brand-specific, not generic template",
+      "approval_status": "PLANNED"
+    },
+    {
+      "authority_id": "05_PRODUCT_ASSEMBLY_CONFIGURATOR_APP",
+      "experience_unit": "CONFIGURATOR",
+      "family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "archetype": "MOBILE_FIRST",
+      "surface": "APP",
+      "screen_or_state": "APP_HOME",
+      "routes_unlocked": 1,
+      "states_unlocked": 4,
+      "surfaces_unlocked": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "inheritance": {
+        "HOST_SHELL": "FRONTAL_SLAYER",
+        "WORKING_SURFACE": "MULTI_STEP_CONFIGURATION",
+        "PREVIEW": "LIVE_PRODUCT_ASSEMBLY"
+      },
+      "new_grammar": true,
+      "visual_objective": "Representative Product Assembly Configurator on APP",
+      "interaction_objective": "Step machine + live preview",
+      "generation_prompt": "[OpenArt GPT Image 2] Product Assembly Configurator APP_HOME APP — brand-specific, not generic template",
+      "approval_status": "PLANNED"
+    }
+  ]
+}

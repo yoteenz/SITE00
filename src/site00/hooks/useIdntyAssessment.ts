@@ -6,6 +6,11 @@ import {
   type IdntyAssessmentStateId,
   getIdntyAssessmentState,
 } from '../config/idnty-assessment';
+import { useIntakeSync } from './useIntakeSync';
+import {
+  mergeCommercialIntoDraftPayload,
+  parseIdentityCommercialSearchParams,
+} from '../lib/identityCommercialContext';
 
 export type IdntyStepAnswers = Record<string, string | string[]>;
 
@@ -14,6 +19,12 @@ export type IdntyAssessmentRecord = {
   currentStep: string | null;
   completedSteps: string[];
   answers: Record<string, IdntyStepAnswers>;
+  /** Brand World / Lore layer — shared across all identity states. */
+  loreAnswers: Record<string, string | string[]>;
+  loreCompletedSteps: string[];
+  /** Brand Personality layer — behavioral canon upstream of Creative Direction. */
+  personalityAnswers: Record<string, string | string[]>;
+  personalityCompletedSteps: string[];
   freeformNotes: string;
   submissionStatus: 'draft' | 'complete';
   updatedAt: string;
@@ -25,6 +36,10 @@ const EMPTY: IdntyAssessmentRecord = {
   currentStep: null,
   completedSteps: [],
   answers: {},
+  loreAnswers: {},
+  loreCompletedSteps: [],
+  personalityAnswers: {},
+  personalityCompletedSteps: [],
   freeformNotes: '',
   submissionStatus: 'draft',
   updatedAt: new Date().toISOString(),
@@ -82,8 +97,15 @@ function readRecord(): IdntyAssessmentRecord {
   }
 }
 
+function readCommercialSelectionFromLocation() {
+  if (typeof window === 'undefined') return parseIdentityCommercialSearchParams('');
+  return parseIdentityCommercialSearchParams(window.location.search);
+}
+
 export function useIdntyAssessment() {
   const [record, setRecord] = useState<IdntyAssessmentRecord>(() => readRecord());
+  const [commercialSelection] = useState(() => readCommercialSelectionFromLocation());
+  const intakeSync = useIntakeSync('IDENTITY', 'site00-idnty');
 
   useEffect(() => {
     const refresh = () => setRecord(readRecord());
@@ -110,27 +132,42 @@ export function useIdntyAssessment() {
         startedAt: new Date().toISOString(),
         submissionStatus: 'draft',
       });
+      const sourceRoute = typeof window !== 'undefined' ? window.location.pathname : undefined;
+      const selection = {
+        ...commercialSelection,
+        sourceRoute: sourceRoute ?? commercialSelection.sourceRoute ?? null,
+      };
+      void intakeSync.ensureStarted({
+        domainLabel: stateId,
+        sourceRoute,
+        draftPayload: mergeCommercialIntoDraftPayload({}, selection, sourceRoute),
+      });
     },
-    [persist],
+    [persist, intakeSync, commercialSelection],
   );
 
   const setStepAnswers = useCallback(
     (stateId: IdntyAssessmentStateId, stepId: string, answers: IdntyStepAnswers) => {
       const current = readRecord();
+      const mergedForState = { ...(current.answers[stateId] ?? {}), ...answers };
       persist({
         ...current,
         identityState: stateId,
         currentStep: stepId,
         answers: {
           ...current.answers,
-          [stateId]: {
-            ...(current.answers[stateId] ?? {}),
-            ...answers,
-          },
+          [stateId]: mergedForState,
         },
       });
+      intakeSync.autosave({
+        currentStep: stepId,
+        draftPayload: mergeCommercialIntoDraftPayload(
+          { identityState: stateId, answers: mergedForState },
+          commercialSelection,
+        ),
+      });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const markStepComplete = useCallback(
@@ -143,29 +180,111 @@ export function useIdntyAssessment() {
         completedSteps: Array.from(completed),
         currentStep: stepId,
       });
+      intakeSync.autosave({ currentStep: stepId, draftPayload: { completedSteps: Array.from(completed) } });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const setCurrentStep = useCallback(
     (stateId: IdntyAssessmentStateId, stepId: string | null) => {
       persist({ ...readRecord(), identityState: stateId, currentStep: stepId });
+      intakeSync.autosave({ currentStep: stepId });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const completeAssessment = useCallback(
     (stateId: IdntyAssessmentStateId) => {
       persist({ ...readRecord(), identityState: stateId, submissionStatus: 'complete', currentStep: 'complete' });
+      void intakeSync.submit();
     },
-    [persist],
+    [persist, intakeSync],
   );
+
+  const setLoreAnswers = useCallback(
+    (stepId: string, value: string | string[]) => {
+      const current = readRecord();
+      const loreAnswers = { ...current.loreAnswers, [stepId]: value };
+      persist({ ...current, loreAnswers, currentStep: `world:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `world:${stepId}`,
+        draftPayload: {
+          identityState: current.identityState,
+          answers: current.identityState ? current.answers[current.identityState] ?? {} : {},
+          loreAnswers,
+          loreCompletedSteps: current.loreCompletedSteps,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const markLoreStepComplete = useCallback(
+    (stepId: string) => {
+      const current = readRecord();
+      const loreCompletedSteps = Array.from(new Set([...current.loreCompletedSteps, stepId]));
+      persist({ ...current, loreCompletedSteps, currentStep: `world:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `world:${stepId}`,
+        draftPayload: {
+          loreCompletedSteps,
+          loreAnswers: current.loreAnswers,
+          personalityAnswers: current.personalityAnswers,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const setPersonalityAnswers = useCallback(
+    (stepId: string, value: string | string[]) => {
+      const current = readRecord();
+      const personalityAnswers = { ...current.personalityAnswers, [stepId]: value };
+      persist({ ...current, personalityAnswers, currentStep: `personality:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `personality:${stepId}`,
+        draftPayload: {
+          identityState: current.identityState,
+          answers: current.identityState ? current.answers[current.identityState] ?? {} : {},
+          loreAnswers: current.loreAnswers,
+          personalityAnswers,
+          personalityCompletedSteps: current.personalityCompletedSteps,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const markPersonalityStepComplete = useCallback(
+    (stepId: string) => {
+      const current = readRecord();
+      const personalityCompletedSteps = Array.from(new Set([...current.personalityCompletedSteps, stepId]));
+      persist({ ...current, personalityCompletedSteps, currentStep: `personality:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `personality:${stepId}`,
+        draftPayload: {
+          personalityCompletedSteps,
+          personalityAnswers: current.personalityAnswers,
+          loreAnswers: current.loreAnswers,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const getPersonalityAnswers = useCallback(
+    (): Record<string, string | string[]> => record.personalityAnswers ?? {},
+    [record.personalityAnswers],
+  );
+
+  const getLoreAnswers = useCallback((): Record<string, string | string[]> => record.loreAnswers ?? {}, [record.loreAnswers]);
 
   const clearAssessment = useCallback(() => {
     if (typeof window === 'undefined') return;
     localStorage.removeItem(IDNTY_ASSESSMENT_STORAGE_KEY);
     setRecord(EMPTY);
-  }, []);
+    intakeSync.reset();
+  }, [intakeSync]);
 
   const getAnswersForState = useCallback(
     (stateId: IdntyAssessmentStateId): IdntyStepAnswers => record.answers[stateId] ?? {},
@@ -191,7 +310,20 @@ export function useIdntyAssessment() {
     completeAssessment,
     clearAssessment,
     getAnswersForState,
+    getLoreAnswers,
+    setLoreAnswers,
+    markLoreStepComplete,
+    getPersonalityAnswers,
+    setPersonalityAnswers,
+    markPersonalityStepComplete,
     resumeTarget,
     hasResume: Boolean(resumeTarget),
+    /** Canonical server persistence state — truthful save state for the UI (IX). */
+    serverSaveState: intakeSync.saveState,
+    serverLastSavedAt: intakeSync.lastSavedAt,
+    serverSaveError: intakeSync.errorMessage,
+    serverIntake: intakeSync.serverIntake,
+    serverIntakeId: intakeSync.serverIntakeId,
+    requestGuestAccess: intakeSync.requestGuestAccess,
   };
 }

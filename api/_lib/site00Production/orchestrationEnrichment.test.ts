@@ -1,0 +1,28 @@
+import { describe, expect, it } from 'vitest';
+
+import { enrichControlCommandWithOrchestration } from './orchestrationEnrichment.js';
+
+describe('orchestration enrichment mapping', () => {
+  it('maps NEEDS_YOU category to CRITICAL severity', async () => {
+    process.env.ORCHESTRATION_USE_MEMORY = '1';
+    const base = {
+      operator: { displayName: 'TEST', role: 'ADMIN' },
+      previewTunnel: { url: null, hostname: null, source: 'unavailable' as const, label: 'SITE 00 CLOUD PREVIEW' },
+      metrics: [],
+      priorityQueue: [],
+      matrixStages: [],
+      productionMatrix: [],
+      activity: [],
+      upcomingReviews: [],
+      launchQueue: [],
+      systemHealth: { overall: 'UNKNOWN' as const, summary: 'TEST', systems: [] },
+      alertCount: 0,
+      productionSpineSummary: [],
+    };
+    const enriched = await enrichControlCommandWithOrchestration(base);
+    if (enriched.orchestration) {
+      expect(enriched.metrics.some((m) => m.id === 'needs-you')).toBe(true);
+      expect(enriched.orchestration.portfolio.length).toBeGreaterThan(0);
+    }
+  });
+});

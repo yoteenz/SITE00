@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { getAuthUser } from './_lib/auth.js';
+import { createServerSupabaseUserClient } from './_lib/serverSupabase.js';
 import { fromProfileRow } from './_lib/profileMapping.js';
 import { stripPrivilegedProfileBody } from './_lib/profilePrivilegedFields.js';
 
@@ -48,9 +49,7 @@ function createUserSupabase(accessToken: string): SupabaseClient | null {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
   if (!url || !key) return null;
-  return createClient(url, key, {
-    global: { headers: { Authorization: `Bearer ${accessToken}` } },
-  });
+  return createServerSupabaseUserClient(url, key, accessToken);
 }
 
 function parseJsonBody(req: VercelRequest): Record<string, unknown> {

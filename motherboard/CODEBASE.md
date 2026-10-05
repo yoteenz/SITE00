@@ -57,6 +57,16 @@ SITE00/
 | ASSTS | `assts/` | Asset factory UI |
 | State | `state/` | Site00Context (preview mode, selections) |
 | Styles | `styles/` | site00.css, typography, idnty-assessment |
+| Project runtimes | `projectRuntime/` | Registry-driven mount of an ingested project's live UI at `/production/:projectSlug/runtime/*` (isolated iframe in DESIGN → VIEWPORT). 2026-10-05 |
+
+### Ingested product projects (`src/projects/`) — 2026-10-05
+
+| Area | Path | Notes |
+|------|------|-------|
+| Firewall rules | `src/projects/README.md` | `data/` = data only (host may import); `runtime/` = lazy via `src/site00/projectRuntime/` only, CSS scoped to the project root |
+| Registry | `src/projects/registry.ts`, `families.ts` | Ingested project records + family contracts for the DESIGN workspace |
+| JURNL | `src/projects/jurnl/` | PERSONAL / FOUNDER; F01 ENTRY live runtime (`.jrn` scope); docs `docs/jurnl/` |
+| Shared contracts | `shared/site00-product-families/`, `shared/site00-project-ingestion/` | Project-agnostic family production contract, family gate, asset-first policy, budget contract |
 
 ---
 

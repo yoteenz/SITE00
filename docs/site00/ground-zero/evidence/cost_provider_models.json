@@ -1,0 +1,890 @@
+{
+ "audit_meta": {
+  "repo": "/home/claude/site00",
+  "date": "2026-10-05",
+  "method": "static read-only; no secret values read; .env.example inspected for key NAMES only"
+ },
+ "models": [
+  {
+   "name": "site00_projects",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260818143000_site00_production_os.sql:5",
+    "20260818190000 (service_line)",
+    "20260820180000 (organization_id, orchestration_state, project_classification)",
+    "20260825180000 (project_type, experience_class, status CHECK)"
+   ],
+   "fields": [
+    "id",
+    "slug",
+    "name",
+    "client_user_id",
+    "client_email",
+    "build_class",
+    "build_type",
+    "identity_state",
+    "current_phase (default DISCOVERY)",
+    "project_health",
+    "payment_state (default PENDING)",
+    "provisioning_state",
+    "production_readiness_pct",
+    "environment_readiness_pct",
+    "recipe_id",
+    "automation_level",
+    "status",
+    "metadata jsonb",
+    "service_line",
+    "organization_id",
+    "project_type",
+    "experience_class"
+   ],
+   "live": true,
+   "reuse_for": [
+    "project funding model (add funding_mode, labor_pricing, production_expense_owner, generation_budget_credits/usd, provider_connection_id) \u2014 or a 1:1 site00_project_funding table",
+    "project pulse root"
+   ],
+   "notes": "payment_state exists but only set by simulated activation (client-production activate). Single-owner model. Phase is a free-text column; client phases come from static templates."
+  },
+  {
+   "name": "site00_invoices",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260818180000_site00_admin_operations.sql:116",
+    "api/_lib/site00Production/adminOperations.ts:233-323",
+    "src/site00/admin/pages/operations/FinancePage.tsx"
+   ],
+   "fields": [
+    "id",
+    "project_id",
+    "identity_id",
+    "invoice_number",
+    "client_name",
+    "client_email",
+    "amount numeric(12,2)",
+    "tax_amount",
+    "status (DRAFT..PAID/SENT)",
+    "due_date",
+    "paid_at",
+    "line_items jsonb",
+    "metadata jsonb"
+   ],
+   "live": true,
+   "reuse_for": [
+    "labor billing / invoices",
+    "pass-through generation expense invoicing (line_items with ledger refs)"
+   ],
+   "notes": "Written only by demo seed (INV-NQ-001/002 NORTHQUARTER); read by admin FinancePage revenue summary. No client view, no payment provider."
+  },
+  {
+   "name": "site00_service_catalog + site00_service_connections",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260818143000_site00_production_os.sql:247,277,395-403",
+    "api/_lib/site00Production/service.ts (updateServiceConnectionState)",
+    "api/site00/client-production.ts:62-76 (connect-service)"
+   ],
+   "fields": [
+    "catalog: provider_key, display_name, category, connection_method (oauth|delegated|api_token), ownership_default CLIENT, supported_build_classes, required_for_features, setup_url",
+    "connections: project_id, service_id, connection_state (default CLIENT_ACTION_REQUIRED), owner_type, connected_account_label, permission_level, secret_ref, last_verified_at, expires_at, metadata, unique(project_id, service_id)"
+   ],
+   "live": true,
+   "reuse_for": [
+    "provider connection (per-project scope already!)",
+    "authorization authorized_at/revoked_at via metadata or new columns"
+   ],
+   "notes": "Seeded providers: vercel, supabase, godaddy, github, stripe, resend, shopify \u2014 no generation providers (fal/openart/openai/xai/anthropic). Client POST sets connection_state to any string (default CONNECTED) with no OAuth/secret; secret_ref never populated."
+  },
+  {
+   "name": "site00_external_connections + site00_provider_secrets + site00_oauth_states + site00_connection_events",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260820180000_site00_production_orchestration.sql:170",
+    "20260820220000_site00_evolve_external_intelligence.sql:45 (+provider columns)",
+    "20260820230000_site00_evolve_sprint04_ndxbook_pilot.sql:4,22",
+    "api/_lib/site00Evolve/providers/providerSecretStore.ts",
+    "api/_lib/site00Evolve/providers/connectionStore.ts",
+    "api/_lib/site00Evolve/providers/oauthService.ts"
+   ],
+   "fields": [
+    "external_connections: organization_id, project_id (nullable), external_system_id, logical_name, connection_state, environment, sync_state, health_state, secret_ref, provider_key, provider_category, connection_type, external_account_id/name, granted_scopes, granted/supported_capabilities, status, health, connected_at, last_verified_at, last_error_*, credential_state, verification_status, account_confirmed_at/by, token_expires_at, publishing/analytics_capability, pilot fields",
+    "provider_secrets: organization_id, provider_key, secret_type (OAUTH_TOKEN), encrypted_payload (AES-256-GCM), key_version, expires_at, unique(org, provider, type)",
+    "oauth_states: state_token, provider_key, connection_id, redirect_uri, expires_at, consumed_at",
+    "connection_events: connection_id, event_type, actor_email, summary, before_state, after_state"
+   ],
+   "live": true,
+   "reuse_for": [
+    "provider connection (closest full model: status, connected_at, verified, credential_state, encrypted secret, audit events)",
+    "safe balance metadata (metadata jsonb)",
+    "authorized_at/revoked_at (add, or reuse account_confirmed_at + connection_events)"
+   ],
+   "notes": "Org-scoped (not project-scoped) and built for EVOLVE marketing OAuth (meta_instagram). Encryption requires server env EVOLVE_PROVIDER_SECRET_KEY; memory store under VITEST/EVOLVE_USE_MEMORY. Best foundation for client-owned generation provider credentials."
+  },
+  {
+   "name": "site00_generation_jobs",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260817103000_site00_assts_asset_factory.sql:80",
+    "api/_lib/site00Assts/generation.ts",
+    "api/_lib/site00Assts/vaultLineage.ts"
+   ],
+   "fields": [
+    "asset_id",
+    "asset_version_id",
+    "batch_id",
+    "provider (default 'fal')",
+    "provider_job_id",
+    "provider_model",
+    "status",
+    "attempt",
+    "idempotency_key",
+    "request_snapshot",
+    "response_snapshot",
+    "error",
+    "started_at",
+    "completed_at"
+   ],
+   "live": true,
+   "reuse_for": [
+    "cost ledger source rows (job-level provider/model/attempt) \u2014 lacks cost/credits/family/project/payer columns"
+   ],
+   "notes": "ASSTS asset factory only (FAL). No cost column."
+  },
+  {
+   "name": "site00_post_process_jobs.cost_usd",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260817180000_site00_post_process_derivatives.sql:3-26",
+    "api/_lib/site00Assts/postProcess/pipeline.ts:211-256"
+   ],
+   "fields": [
+    "processor (fal)",
+    "processor_model",
+    "derivative_type",
+    "status",
+    "provider_job_id",
+    "cost_usd numeric(10,4) (estimateVideoBgRemovalCost)",
+    "processing_duration_ms"
+   ],
+   "live": true,
+   "reuse_for": [
+    "precedent for per-job cost_usd estimate"
+   ],
+   "notes": "Only persisted per-job USD cost column in the schema; value is an estimate, not a provider receipt."
+  },
+  {
+   "name": "cost_metadata / cost_summary / token_usage jsonb columns",
+   "kind": "table",
+   "paths": [
+    "20260822140000_site00_core_direction_formations.sql:43 (token_usage, cost_metadata)",
+    "20260823200000_site00_studio_world_execution.sql:31 (site00_studio_world_runs.provider_summary, cost_summary)",
+    "20260826220000_site00_astral_reader_accounts.sql:59-60 (regeneration_credits_remaining, cost_metadata)"
+   ],
+   "fields": [
+    "jsonb blobs; studio_world_runs.cost_summary written as {} by runService.ts:73"
+   ],
+   "live": true,
+   "reuse_for": [
+    "back-fill source for ledger; not queryable as ledger"
+   ],
+   "notes": "Scattered, unstructured; studio_world_runs has run lineage (parent/root, idempotency) useful for ledger linkage."
+  },
+  {
+   "name": "site00_studio_production_requests.estimated_cost/actual_cost",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260820200000_site00_evolve_marketing_os.sql:270-297",
+    "20260820210000_site00_evolve_marketing_os_completion.sql:130-146",
+    "api/_lib/site00Evolve/supabaseStore.ts"
+   ],
+   "fields": [
+    "organization_id",
+    "production_type",
+    "deliverables",
+    "approval_state",
+    "production_state",
+    "external_production_id",
+    "estimated_cost numeric",
+    "actual_cost numeric",
+    "approved_by"
+   ],
+   "live": true,
+   "reuse_for": [
+    "estimated vs actual at request level (EVOLVE marketing only)"
+   ],
+   "notes": "Org-scoped EVOLVE\u2192Studio World bridge; units undefined (no currency/credits column)."
+  },
+  {
+   "name": "Opus Native cost ledger (RunCostMeter + OpusNativeCostReceipt)",
+   "kind": "type+file-store",
+   "paths": [
+    "api/_lib/site00OpusNative/costLedger.ts",
+    "shared/site00-opus-native/pricing.ts",
+    "shared/site00-opus-native/modeContracts.ts:78-131",
+    "shared/site00-opus-native/contracts.ts:105-172",
+    "api/_lib/site00OpusNative/runtime.ts:100"
+   ],
+   "fields": [
+    "receipt: runId, model, mode, input/output/cacheWrite/cacheRead tokens, estimatedUsd, actualUsd, toolCalls, iterations, projectId, pageId, taskType, cacheSavingsUsd, rateTableVersion",
+    "guard: maxRunCostUsd (0.75/6/25 by mode), warnAtCostUsd, hardStop, maxIterations, token ceilings",
+    "summary: totalUsd, costPerPage, costPerProject, costPerRefinementUsd"
+   ],
+   "live": true,
+   "reuse_for": [
+    "cost ledger row shape (estimated vs actual, rate table version)",
+    "pre-dispatch spend guard pattern",
+    "founderConfirmedSpend gate"
+   ],
+   "notes": "Persists JSON files to SITE00_OPUS_NATIVE_WORKDIR (default /tmp/site00-opus-native/ledger) \u2014 ephemeral on Railway. Rates are config (OPUS_NATIVE_DEFAULT_RATES input 15/output 75 USD per Mtok, overridable by SITE00_OPUS_NATIVE_RATES)."
+  },
+  {
+   "name": "founderConfirmedSpend spend guard",
+   "kind": "type",
+   "paths": [
+    "api/_lib/site00OpusNative/runtime.ts:100",
+    "api/_lib/site00PageConcept/runPageConceptGeneration.ts:106",
+    "api/_lib/site00PageConcept/startPageConceptGenerationRun.ts:34",
+    "api/_lib/site00WorkspaceSelfConcept/runWorkspaceSelfGeneration.ts:56",
+    "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinFalPipeline.ts:73"
+   ],
+   "fields": [
+    "boolean founderConfirmedSpend on request"
+   ],
+   "live": true,
+   "reuse_for": [
+    "client cost-approval gate (generalize to payer-confirmed spend with estimate + approval event)"
+   ],
+   "notes": "Several client helpers default it to true (requestDesignPageAuthorityGeneration.ts:29, requestMobileTwinFal.ts:46, runGenerate*.ts) \u2014 the guard is advisory, not an audited approval."
+  },
+  {
+   "name": "ProjectBudgetBaseline / FamilyBudgetRecord",
+   "kind": "type",
+   "paths": [
+    "shared/site00-product-families/productionBudget.ts",
+    "src/projects/jurnl/data/f01/contract.ts:18-45",
+    "src/projects/jurnl/data/f02/contract.ts:16-27",
+    "docs/jurnl/BUDGET_CONTRACT.md",
+    "tests/jurnlF01ProjectIngestion.test.ts:171-179"
+   ],
+   "fields": [
+    "baseline: projectId, generation{model,resolution,aspect,autoEnhance,creditsPerGeneration}, creditPriceUsd, purchaseUnit{credits,usd}, baseEstimateCredits, realisticRangeCredits, safeCeilingCredits",
+    "family: familyId, tracking TRACKED|LEGACY_PARTIAL, creditsBefore, creditsAfter, familyCredits, asset/screen/interaction/recoveryGenerations, cumulativeCredits, safeCeilingRemaining, notes",
+    "helpers: generationCostUsd, creditsToUsd, buildFamilyBudgetRecord (TRACKED requires before/after)"
+   ],
+   "live": true,
+   "reuse_for": [
+    "generation_budget + family rollup of cost ledger",
+    "project funding model baseline",
+    "family roadmap budget column"
+   ],
+   "notes": "Code-only data contract (no table). Doc says: 'When a server-side ledger exists, the same shape is the row schema.' Shown in DESIGN inspector /production/jurnl/design?mode=compiler&inspect=budget."
+  },
+  {
+   "name": "FamilyProductionContract + evaluateFamilyGate",
+   "kind": "type",
+   "paths": [
+    "shared/site00-product-families/familyProductionContract.ts:18-200",
+    "shared/site00-product-families/familyGate.ts",
+    "shared/site00-product-families/assetFirstPolicy.ts",
+    "src/projects/jurnl/data/f01/contract.ts",
+    "src/projects/jurnl/data/f02/contract.ts"
+   ],
+   "fields": [
+    "familyId, familyName, projectId, purpose, parentScreen, screens[] (role PARENT/CHILD/GRANDCHILD, approvalStatus, implementationStatus, authorityFile), states, interactions, dataObjects, components, assets, icons, responsive, generationSettings, generationBudget, assetPolicy, approvalStatus (NOT_STARTED..GENERATED..IN_REVIEW..FOUNDER_APPROVED..CANONICAL..SUPERSEDED..REJECTED), implementationStatus, qaStatus, founderApproval{approved,approvedAt,note}, lineage, supersession, journeys[], monetization?",
+    "gate keys: SCREENS/STATES/INTERACTIONS/COMPONENTS/RESPONSIVE_READY, ASSET_POLICY_RESOLVED, QA_READY; familyComplete = implementationReady && founderApproval.approved"
+   ],
+   "live": true,
+   "reuse_for": [
+    "family roadmap (ordered families + gate status + approval)",
+    "approval events (approvalStatus transitions, authority file ids)",
+    "cost ledger family_id + generation_class"
+   ],
+   "notes": "Code-resident per project (JURNL only). founderApproval only \u2014 no client approval slot. No DB persistence."
+  },
+  {
+   "name": "site00_creative_families / site00_design_families / site00_reference_families",
+   "kind": "table",
+   "paths": [
+    "20260823120000_site00_creative_lineage.sql:106",
+    "20260826123000_site00_design_control_plane_bridge.sql:57",
+    "20260820180000_site00_production_orchestration.sql:266"
+   ],
+   "fields": [
+    "creative_families: family_id text unique, organization_id, brand_slug, topic_id, direction_id, world_id, name, record jsonb",
+    "design_families: project_id -> site00_managed_projects, family_key, display_name, version, metadata",
+    "reference_families: organization_id, family_key, title, description"
+   ],
+   "live": true,
+   "reuse_for": [
+    "candidate persistence for families (design_families is project-keyed with version) \u2014 but unused in code"
+   ],
+   "notes": "creative_families used by EVOLVE creative lineage (marketing worlds, not product families). design_families has zero code references. None model JURNL F01/F02 product families."
+  },
+  {
+   "name": "site00_approval_requests / site00_project_deliverables / site00_deliverable_versions",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260818143000_site00_production_os.sql:108,180,200",
+    "api/_lib/site00Production/service.ts:366-382",
+    "api/_lib/site00Production/clientStudio.ts:419-423",
+    "api/_lib/site00Production/controlCommand.ts:256-283",
+    "api/_lib/site00Production/dependencyEngine.ts:10-13"
+   ],
+   "fields": [
+    "approval_requests: project_id, deliverable_id, version_id, brief_id, title, category, approval_type (ADMIN_REVIEW), status (AI_DRAFT..CLIENT_REVIEW..CLIENT_APPROVED), priority, submitted_at, decided_at, decided_by, decision, notes, metadata",
+    "deliverables: deliverable_key, category, type, title, status, approval_required, client_review_required, blocked_by, metadata",
+    "deliverable_versions: version_number, option_label, status, preview_url, generation_metadata jsonb, parent_version_id"
+   ],
+   "live": true,
+   "reuse_for": [
+    "approval events (has decision/decided_by/decided_at but no previous/new status, client_id, revision_reason)",
+    "family/authority as deliverable (deliverable_key = authority id)",
+    "generation_metadata -> cost link"
+   ],
+   "notes": "Founder side only writes APPROVED_INTERNALLY|REVISION; nothing writes CLIENT_REVIEW/CLIENT_APPROVED (see review_loop.json)."
+  },
+  {
+   "name": "site00_client_review_* (objects, versions, comments, annotations, events, receipts)",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20260826160000_site00_client_reviews.sql",
+    "20260826180000_site00_client_reviews_p0client2a.sql",
+    "api/_lib/site00ClientReviews/reviewService.ts",
+    "api/_lib/site00ClientReviews/reviewRepository.ts"
+   ],
+   "fields": [
+    "receipts: project_id, review_id, version_id, actor_user_id, actor_role, decision_type (APPROVE|REVISION|DECLINE|REVISIT), request_id, payload{summary, category, commentIds, annotationIds}, created_at, unique(review_id, decision_type, request_id)",
+    "events: project_id, review_id, event_type, actor_user_id, actor_role, payload, client_visible",
+    "objects: project_slug, phase_id, phase_label, object_type, internal_status, client_status, current_version_id, metadata"
+   ],
+   "live": true,
+   "reuse_for": [
+    "approval events \u2014 receipts are ~80% of the requested shape: add family_id, authority_id, version label, previous_status, new_status, revision_reason column (instead of payload.summary)"
+   ],
+   "notes": "Durable and idempotent; RLS service-role only; no production writer for objects. See review_loop.json."
+  },
+  {
+   "name": "site00_project_activity / site00_project_events / site00_next_actions / site00_studio_pipeline_state / site00_project_signals",
+   "kind": "table",
+   "paths": [
+    "20260818143000_site00_production_os.sql:219,326,337",
+    "20260820180000_site00_production_orchestration.sql:191",
+    "api/_lib/site00Production/nextActionEngine.ts",
+    "api/_lib/site00ClientProjectRoom/roomService.ts:119-136"
+   ],
+   "fields": [
+    "project_activity: project_id, event_type, actor_type, actor_id, summary, metadata, created_at",
+    "next_actions: project_id, action_type, priority, title, reason, dependency, destination, metadata, resolved_at",
+    "studio_pipeline_state: interpret/direct/produce/approve_status",
+    "project_signals: org/project/workstream, source, event_type, processed_state (unused in code)",
+    "site00_project_events: NO MIGRATION (read/written by client room/app code \u2014 inserts fail silently)"
+   ],
+   "live": true,
+   "reuse_for": [
+    "project pulse (next_actions = next action; pipeline_state = coarse phase; activity = feed)",
+    "notifications source"
+   ],
+   "notes": "Client room reads site00_project_events (nonexistent) while production writes site00_project_activity. No notifications table exists anywhere in migrations."
+  },
+  {
+   "name": "site00_identity_phases / site00_evolve_roadmap_items / launch manifests",
+   "kind": "table",
+   "paths": [
+    "20260825220000_site00_identity_phase.sql:31",
+    "20260820180000_site00_production_orchestration.sql:335",
+    "api/_lib/site00Orchestration/seedFixtures.ts:100-180"
+   ],
+   "fields": [
+    "identity_phases: project_id, status NOT_STARTED..AWAITING_FOUNDER_JUDGMENT..COMPLETE",
+    "evolve_roadmap_items: organization_id, manifest_id, deferred_requirement_id, title, category, priority, status PLANNED",
+    "manifest_requirements: key, title, classification REQUIRED_FOR_LAUNCH|DEFERRED_BY_OWNER, execution_status"
+   ],
+   "live": true,
+   "reuse_for": [
+    "phase/journey + roadmap (org-level launch manifest is a real roadmap model for AIO)"
+   ],
+   "notes": "Roadmap is org/launch oriented, not family oriented."
+  },
+  {
+   "name": "ClientProjectManifest / ClientAppManifest (pulse, phases, milestones, decisions, badges, notification contract)",
+   "kind": "type",
+   "paths": [
+    "shared/site00-client-app/types.ts:75-275",
+    "shared/site00-client-project-room/manifestTemplates.ts",
+    "shared/site00-client-app/manifestBuilder.ts",
+    "shared/site00-client-app/notificationContract.ts"
+   ],
+   "fields": [
+    "ClientProjectPulse: status, statusKey, currentMoment, nextForYou, todayUpdates, nextMilestone, projectSignal, activeOpportunity, isPostLaunch, liveDays",
+    "ClientAppDecision, ClientAppMilestone, ClientBuildProgress, ClientNotificationCategory/Preferences"
+   ],
+   "live": true,
+   "reuse_for": [
+    "project pulse view-model (add budgetHealth, pendingCostApprovals, currentFamily)"
+   ],
+   "notes": "Template-filled today."
+  },
+  {
+   "name": "Commercial canon + payment abstraction",
+   "kind": "type/config",
+   "paths": [
+    "docs/SITE_00_COMMERCIAL_CANON_AND_FULFILLMENT_SPINE1.md",
+    "shared/site00-commercial-canon/*",
+    "shared/site00-commercial-audit/paymentAbstraction.ts",
+    "shared/site00-commercial-canon/paymentReadiness.ts:69 (PAYMENT_PROVIDER_GATE='BLOCKED')"
+   ],
+   "fields": [
+    "Site00ServiceCatalog (25 serviceId/packageId), fulfillment families IDENTITY/BUILDER_SIMPLE/BUILDER_CUSTOM_WORLD/MARKETING_CAMPAIGN/RECURRING_RETAINER/ADD_ON/CUSTOM_QUOTE/EVOLVE_PLATFORM, priceMode (CANONICAL_CENTS|DISPLAY_ONLY|FOUNDER_PRICING_REQUIRED), commercialMode, entitlementTemplateId",
+    "PaymentProviderId STRIPE|PAYPAL|INVOICE|MANUAL|UNKNOWN; CheckoutSession; PaymentRecord; SubscriptionRecord; CommercialActivationEvent"
+   ],
+   "live": false,
+   "reuse_for": [
+    "labor_pricing source (canonical package -> labor price)",
+    "payer/provider enums"
+   ],
+   "notes": "Types only; 'No Stripe. No new prices.'; 12 COMMERCIAL_FOUNDER_DECISIONS open."
+  },
+  {
+   "name": "EVOLVE canonical pricing (Tree A) + legacy display pricing (Tree B)",
+   "kind": "config",
+   "paths": [
+    "shared/site00-evolve-commercial/catalog.ts",
+    "shared/site00-evolve-pricing/catalog.ts",
+    "api/_lib/site00Evolve/commercial/commercialState.ts:29-30"
+   ],
+   "fields": [
+    "Tree A cents: evolve_foundation 150000 one-time; plans essential 125000, growth 250000, studio 450000, private 750000; services creative_direction_intensive 150000, content_sprint 125000, launch_campaign 250000, campaign_world 400000, visual_dna_refresh 75000; paid_media_management; stripeProductId/PriceId null",
+    "Tree B display: evolve-solo $39/MO, studio $89/MO, pro $179/MO, project-pass $99, discovery-sprint $750, directed-build $2,500/MO, growth-partner $4,800/MO+, marketing-retainer FROM $1,200/MO (billing blocked)"
+   ],
+   "live": false,
+   "reuse_for": [
+    "labor_pricing reference"
+   ],
+   "notes": "stripeReady:false; 'No billing integration exists yet'."
+  },
+  {
+   "name": "IDNTY investment tiers",
+   "kind": "config",
+   "paths": [
+    "src/site00/config/identity.ts:95-125",
+    "shared/site00-identity-commercial/inventory.ts:18-60",
+    "shared/site00-identity-commercial/contract.ts"
+   ],
+   "fields": [
+    "foundation FROM $2,500; refine FROM $1,750; evolve FROM $3,500; build-ready-tier NO IDNTY PURCHASE REQUIRED"
+   ],
+   "live": false,
+   "reuse_for": [
+    "labor_pricing for identity projects"
+   ],
+   "notes": "Display strings (priceLabel), not cents."
+  },
+  {
+   "name": "Marketing commercial entitlements + EVOLVE operations spend model",
+   "kind": "type",
+   "paths": [
+    "shared/site00-marketing-commercial/types.ts",
+    "supabase/migrations/20260929153000_site00_marketing_commercial_state.sql (commercial_state jsonb)",
+    "shared/site00-evolve-operations/types.ts:120-200",
+    "shared/site00-evolve-operations/clientFirewall.ts",
+    "shared/site00-projects/clientControlRoom.ts:16-25 (PROVIDER_SPEND firewalled)"
+   ],
+   "fields": [
+    "MarketingEntitlementTemplate allowances + generationAllowance; ClientMarketingEntitlement usage + credits; events ALLOWANCE_CONSUMED/CREDIT_ADDED/CREDIT_USED/ADD_ON_REQUIRED",
+    "EvolveSpendSnapshot: included/purchased/remaining/usedCredits, providerCostCents, productive/failed/regeneration/retrySpendCents, projectedBurn, approvedPendingSpend, blockedSpend, hard/softLimitCredits; EvolveFailureBudget; EvolveRetryGuardResult",
+    "firewall strips providerCostCents, margin*; client control room firewall lists PROVIDER_SPEND"
+   ],
+   "live": false,
+   "reuse_for": [
+    "generation_spend breakdown (productive vs failed vs regeneration)",
+    "client-safe vs internal cost view split"
+   ],
+   "notes": "IMPORTANT policy conflict: existing firewall treats provider spend as founder-internal. A client cost-transparency feature must explicitly redefine what is client-safe."
+  },
+  {
+   "name": "JURNL monetization foundation",
+   "kind": "type/config",
+   "paths": [
+    "docs/jurnl/monetization/MONETIZATION_FOUNDATION.md",
+    "src/projects/jurnl/data/monetization/*",
+    "shared/site00-monetization/contract.ts"
+   ],
+   "fields": [
+    "BillingProvider interface (createCheckoutSession, portal, subscription, entitlements, billing history) \u2014 only createUnconfiguredBillingProvider (BILLING_NOT_CONFIGURED)",
+    "pricing.ts all UNSET"
+   ],
+   "live": false,
+   "reuse_for": [
+    "pattern for billing boundary"
+   ],
+   "notes": "End-product (JURNL app) monetization, not SITE 00 client billing."
+  },
+  {
+   "name": "Existing-location quotes + courtesy codes",
+   "kind": "table",
+   "paths": [
+    "supabase/migrations/20261001150000_site00_existing_location_service.sql:42-100",
+    "api/_lib/existingLocation/service.ts (uses memoryStore)"
+   ],
+   "fields": [
+    "quotes: case_id, currency USD, line_items, subtotal/discount/total/diagnosis_fee cents, locked",
+    "courtesy_codes: code_hash, discount_type/value, eligibility, redemptions",
+    "courtesy_redemptions"
+   ],
+   "live": false,
+   "reuse_for": [
+    "quote/estimate line-item pattern in cents"
+   ],
+   "notes": "Tables migrated, service code runs on in-memory store (no supabase .from() calls found)."
+  }
+ ],
+ "payments_foundation": {
+  "exists": false,
+  "provider": "none (Stripe referenced only as types, catalog seed row, readiness blocker, profile field mapping)",
+  "status": "BLOCKED \u2014 PAYMENT_PROVIDER_GATE='BLOCKED' (shared/site00-commercial-canon/paymentReadiness.ts:69); commercialState stripeReady:false; no stripe package in package.json; payments simulated via client-production activate / marketing confirm-payment",
+  "evidence": [
+   "package.json (no stripe dep)",
+   "shared/site00-commercial-audit/paymentAbstraction.ts:1-60 ('types only; no provider SDK wiring')",
+   "api/_lib/site00Evolve/commercial/commercialState.ts:29-30",
+   "api/_lib/profileMapping.ts:19-26 (stripe_customer_id etc. mapped from profile rows if present)",
+   "supabase/migrations/20260818143000_site00_production_os.sql:401 (stripe in service catalog as CLIENT-owned connection)",
+   "supabase/migrations/20260818180000_site00_admin_operations.sql:116 (site00_invoices, demo-seeded)",
+   "motherboard/MEMORY.md:1537 ('Stripe webhook (use activate-project when payment lands)' deferred)",
+   "site00_projects.payment_state default PENDING"
+  ]
+ },
+ "provider_secret_handling": {
+  "mechanism": "Generation providers: server process env only \u2014 FAL_KEY (~137 reads across api/_lib/site00Evolve, site00ExpressionEngine, site00PageConcept, site00Assts, shared/site00-visual-generation, shared/site00-studio-world-production), ANTHROPIC_API_KEY (~33), OPENAI_API_KEY (~9), XAI_API_KEY (2; SITE00_GROK_API_BASE). No OpenArt API integration exists \u2014 OpenArt usage is manual/off-repo (ledgers record OpenArt credits; openartBatchPlanner only plans filenames; productionRouting lists 'openart' as allowed route). No VITE_-prefixed provider keys found (not exposed to browser). Marketing OAuth credentials: AES-256-GCM encrypted rows in site00_provider_secrets keyed by organization_id+provider_key, key from EVOLVE_PROVIDER_SECRET_KEY, refs via secret_ref.",
+  "per_project_support": "Partial. site00_service_connections is per-project (unique project_id+service_id, secret_ref column) but no generation providers seeded and no secret is ever stored. site00_external_connections has nullable project_id but secrets are org-scoped. No concept of 'client-owned FAL/OpenArt account' or BYOK; grep for byok/funding_mode/production_expense finds nothing.",
+  "risks": [
+   "Single SITE 00-owned key per provider: all client generation spend lands on SITE 00 account with no per-project attribution except optional jsonb cost_metadata",
+   "Client connect-service POST lets the client set arbitrary connection_state with no verification (api/site00/client-production.ts:62-76)",
+   "founderConfirmedSpend defaults to true in several shared callers -> guard is advisory",
+   "Opus cost ledger writes to /tmp (ephemeral) by default",
+   "Existing firewall marks PROVIDER_SPEND / providerCostCents as founder-internal \u2014 conflicts with client cost transparency unless policy changes",
+   "EVOLVE_PROVIDER_SECRET_KEY derived via plain sha256 (no KDF/rotation beyond key_version label)",
+   "tests/p0vrOpusNative1.test.ts:105 contains a string shaped like an OpenAI key (fake fixture, value not reproduced)",
+   ".env.example lists FAL_KEY/OPENAI_API_KEY/XAI_API_KEY/SESSION_COOKIE_SECRET names with empty values (no committed .env)"
+  ],
+  "evidence": [
+   "api/_lib/site00Evolve/providers/providerSecretStore.ts:1-80",
+   "supabase/migrations/20260820230000_site00_evolve_sprint04_ndxbook_pilot.sql:4-35",
+   "api/_lib/experienceCompilerCreativeDirector/config.ts:24-52",
+   "shared/site00-visual-generation/falReferenceImageJob.ts",
+   "src/studioos/experience-compiler/map2/openartBatchPlanner.ts",
+   "api/_lib/site00ExpressionEngine/productionRouting.ts:14"
+  ]
+ },
+ "family_models": [
+  {
+   "name": "FamilyProductionContract (JURNL F01 ENTRY, F02 SETUP)",
+   "paths": [
+    "shared/site00-product-families/*",
+    "src/projects/jurnl/data/f01/contract.ts",
+    "src/projects/jurnl/data/f02/contract.ts",
+    "JURNL/F01_ENTRY, JURNL/F02_SETUP (authorities, manifests, ledgers)",
+    "src/projects/jurnl/families/F02_SETUP/HANDOFF/*"
+   ],
+   "persistence": "code + repo files",
+   "gates": "FAMILY_IMPLEMENTATION_GATE_KEYS + 16-point FAMILY_COMPLETENESS_CONTRACT; familyComplete requires founderApproval",
+   "budget": "generationBudget: FamilyBudgetRecord",
+   "client_visible": false
+  },
+  {
+   "name": "site00_design_families",
+   "paths": [
+    "supabase/migrations/20260826123000_site00_design_control_plane_bridge.sql:57"
+   ],
+   "persistence": "table, unused in code",
+   "client_visible": false
+  },
+  {
+   "name": "site00_creative_families (EVOLVE creative lineage)",
+   "paths": [
+    "20260823120000_site00_creative_lineage.sql:106",
+    "api/_lib/site00Evolve/creativeLineage/supabaseStore.ts"
+   ],
+   "persistence": "table, live",
+   "client_visible": false
+  },
+  {
+   "name": "Brand families / skins (BrandFamilySkin, AIO_BRAND_FAMILY)",
+   "paths": [
+    "shared/site00-brand-lore/projectSkin/brandFamily/registry.ts"
+   ],
+   "persistence": "code",
+   "note": "visual skin families, not production families"
+  },
+  {
+   "name": "Commercial fulfillment families",
+   "paths": [
+    "shared/site00-commercial-canon/familyClassification.ts"
+   ],
+   "note": "service families (IDENTITY, BUILDER_*, MARKETING_CAMPAIGN...), not production families"
+  }
+ ],
+ "real_cost_data": [
+  {
+   "path": "JURNL/F02_SETUP/MANIFEST/GENERATION_LEDGER.json",
+   "provider": "OpenArt",
+   "model": "gpt-image-2-5-sunburst",
+   "numbers": {
+    "rate_4k_9x16_image2image_credits": 317,
+    "first_job_balance_delta": 318,
+    "family_package": {
+     "jobs": 23,
+     "credits_before": 44534,
+     "credits_after": 37088,
+     "balance_delta": 7446,
+     "quoted_sum": 7291,
+     "unallocated": 155
+    },
+    "class_credits_at_quote": {
+     "SCREEN_PARENT": 317,
+     "ENVIRONMENT_PLATE": 1268,
+     "SCREEN_CHILD": 2536,
+     "STATE": 951,
+     "RECOVERY": 634,
+     "SCREEN_GRANDCHILD": 634,
+     "INTERACTION": 951
+    },
+    "botanical_repair_2k": {
+     "jobs": 15,
+     "quoted_unit": 132,
+     "measured_unit": 135,
+     "credits_before": 37088,
+     "credits_after": 35063,
+     "spent": 2025
+    },
+    "rows": 38,
+    "rows_by_class": {
+     "BOTANICAL": 15,
+     "SCREEN_CHILD": 8,
+     "ENVIRONMENT_PLATE": 4,
+     "STATE": 3,
+     "INTERACTION": 3,
+     "RECOVERY": 2,
+     "SCREEN_GRANDCHILD": 2,
+     "SCREEN_PARENT": 1
+    }
+   },
+   "row_fields": [
+    "project_id",
+    "family_id",
+    "provider",
+    "model",
+    "configured_resolution_tier",
+    "delivered_width/height",
+    "aspect_ratio",
+    "credits_spent",
+    "credit_note",
+    "qa_status",
+    "approval_status",
+    "timestamp",
+    "generation_id",
+    "screen_id",
+    "asset_id",
+    "generation_class",
+    "attempt_number",
+    "lineage",
+    "resource_id"
+   ],
+   "note": "This row shape is already almost exactly the requested cost-ledger row (missing payer, estimated vs actual split, usd)."
+  },
+  {
+   "path": "JURNL/F01_ENTRY/ASSET_FIRST_TEST1/F01_GROK_GENERATION_LEDGER.json",
+   "provider": "OpenArt",
+   "numbers": {
+    "sprint_paid_generations": 4,
+    "credits_before": 51630,
+    "credits_after": 50362,
+    "spent": 1268,
+    "verified_4k_rate": 317,
+    "child_plate_correction": {
+     "paid_generations": 9,
+     "credits_before": 50362,
+     "credits_after": 47509,
+     "spent": 2853
+    },
+    "project_ceiling": 60000,
+    "reused_assets_credits": 0
+   },
+   "note": "Prior 2K baseline 170 credits explicitly does not apply at 4K."
+  },
+  {
+   "path": "src/projects/jurnl/data/f01/contract.ts:18-45 + docs/jurnl/BUDGET_CONTRACT.md",
+   "numbers": {
+    "credit_price_usd": 0.003,
+    "purchase_unit": "5000 credits = $15",
+    "credits_per_generation_2k": 170,
+    "std_generation_usd_2k": 0.51,
+    "base_estimate_credits": 42331,
+    "realistic_range_credits": [
+     52000,
+     53100
+    ],
+    "safe_ceiling_credits": 60000,
+    "safe_ceiling_usd": 180,
+    "F01_legacy_partial_credits": 7054,
+    "F01_screen_gens": 15,
+    "F01_interaction_gens": 21
+   }
+  },
+  {
+   "path": "src/projects/jurnl/data/f02/contract.ts:16-27",
+   "numbers": {
+    "F02_tracked_credits": 9471,
+    "credits_before": 44534,
+    "credits_after": 35063,
+    "asset_gens": 19,
+    "screen_gens": 14,
+    "interaction_gens": 3,
+    "recovery_gens": 2,
+    "live_implementation_pass_generations": 0
+   }
+  },
+  {
+   "path": "derived (this audit, credit_price 0.003)",
+   "numbers": {
+    "usd_per_4k_generation": 0.951,
+    "usd_per_2k_generation": 0.51,
+    "usd_per_2k_repair_measured": 0.405,
+    "F02_total_usd": 28.41,
+    "F01_legacy_usd": 21.16,
+    "F01_grok_regen_plus_child_plates_usd": 12.36,
+    "unexplained_gap_between_ledgers_credits": "47509 (end F01 ledger) -> 44534 (start F02) = 2975 credits not attributed in repo ledgers"
+   }
+  },
+  {
+   "path": "shared/site00-design-workspace-production/designPageActiveAssetManifest.ts:549",
+   "numbers": {
+    "PAGE_ASSET_REGENERATE_ESTIMATED_COST_USD": 0.42
+   }
+  },
+  {
+   "path": "shared/site00-opus-native/pricing.ts + modeContracts.ts",
+   "numbers": {
+    "opus_rates_usd_per_mtok": {
+     "input": 15,
+     "output": 75,
+     "cacheWrite": 18.75,
+     "cacheRead": 1.5
+    },
+    "mode_max_run_usd": [
+     0.75,
+     6,
+     25
+    ],
+    "mode_warn_usd": [
+     0.4,
+     3,
+     12
+    ]
+   }
+  },
+  {
+   "path": "api/_lib/site00Assts/postProcess/pipeline.ts:211-256",
+   "numbers": "estimateVideoBgRemovalCost(model, durationSeconds) -> site00_post_process_jobs.cost_usd"
+  }
+ ],
+ "aio_known": {
+  "slug": "all-in-one-enterprises",
+  "aliases": [
+   "aio"
+  ],
+  "display_name": "ALL IN ONE ENTERPRISES",
+  "uuid_in_code": "AIO_UUID constant in api/_lib/site00Projects/projectResolver.ts:37 (project id, not secret)",
+  "classification": "MANAGED_BRAND; currentSystem EVOLVE; project_type SITE / experience_class SITE; lifecycle BUILD; tagline 'TRUCKING AND LOGISTICS MANAGED BRAND'",
+  "product": "Trucking business services / logistics; woman-owned professional services \u2014 permitting, brokerage, dispatching, compliance, bookkeeping, insurance/factoring. Hero offers: Permitting, Dispatching (ACTIVE); Social Marketing DEFERRED_BY_OWNER. Audience: trucking operators and fleet owners needing back-office support (LOW confidence).",
+  "identity_starting_state": "Existing operating brand, not identity-from-scratch: brand bootstrap fields MEDIUM/LOW confidence from registry; AIO_BRAND_FAMILY skin status NEW_SKIN_TO_DESIGN, visualAuthorityStatus NOT_STARTED; palette hint #1f4fd6 + 'gold family distinct from Studio World' (LOW); tone Professional/Relatable/Documentary; avoid luxury editorial, beauty/hair, art-house; master skin TECHNICAL_OPERATIONS. pricePositioning and priceTier unknown.",
+  "phases_launch_manifest": {
+   "target": "Core Service Operations \u2014 'Launch core trucking service operations without social or native app' (APPROVED, ACTIVE)",
+   "complete": [
+    "public_website",
+    "mobile_responsive",
+    "authentication",
+    "smart_intake",
+    "legal_essentials"
+   ],
+   "in_progress": [
+    "load_board",
+    "permitting",
+    "brokerage",
+    "client_portal"
+   ],
+   "not_started": [
+    "payments",
+    "production_validation"
+   ],
+   "deferred_by_owner": [
+    "social_marketing",
+    "native_app",
+    "load_board_intelligence"
+   ]
+  },
+  "repo": "UNRESOLVED \u2014 'REQUIRES FOUNDER REPOSITORY SELECTION'; org external_repository 'TO_BE_CONNECTED_IN_SPRINT_02'; managed_projects row source_repo yoteenz/fsbw (FSBW_WEBSITE)",
+  "client_visible_modules": [
+   "OVERVIEW",
+   "IDENTITY",
+   "BUILDER",
+   "PRODUCTION",
+   "REVIEWS",
+   "LIBRARY",
+   "MORE"
+  ],
+  "sources": [
+   "api/_lib/site00Projects/projectRegistry.ts:47-55",
+   "shared/site00-projects/adapters/aioProjectAdapter.ts",
+   "shared/site00-brand-lore/brandCreativeContext/projectBootstrapCatalog.ts:267-300",
+   "shared/site00-brand-lore/projectSkin/brandFamily/registry.ts:79-88",
+   "api/_lib/site00Orchestration/seedFixtures.ts:44-56,100-180",
+   "shared/site00-projects/technical/projectRepositoryRegistry.ts:49-58",
+   "supabase/migrations/20260826123000_site00_design_control_plane_bridge.sql:282",
+   "docs/site00/LAUNCH_BASELINE_ESTABLISHMENT.md:11,36-38"
+  ],
+  "note": "Launch manifest statuses come from seed fixtures (seedFixtures.ts), not verified live data. No AIO generation spend, families, invoices or client user binding exist in repo."
+ },
+ "recommendations_extend_vs_new": [
+  {
+   "need": "Project funding model (funding_mode, labor_pricing, production_expense_owner, provider_connection, generation_budget, generation_spend)",
+   "extend_existing": "site00_projects (payment_state, metadata) + ProjectBudgetBaseline type + canonical package ids from Site00ServiceCatalog",
+   "new_required": "YES \u2014 new table site00_project_funding (1:1 project_id) with funding_mode enum, labor_package_id/labor_price_cents, production_expense_owner (SITE00|CLIENT|SPLIT), provider_connection_id FK, budget ceiling credits/usd, credit_price_usd, purchase_unit, cached spend totals",
+   "reason": "site00_projects already overloaded with jsonb; ProjectBudgetBaseline gives the exact fields; keep spend totals derived from ledger."
+  },
+  {
+   "need": "Cost ledger (family_id, generation_class, estimated/actual credits & cost, payer, provider, status)",
+   "extend_existing": "Row shape = JURNL GENERATION_LEDGER.json rows + OpusNativeCostReceipt (estimated/actual/rateTableVersion) + EvolveSpendSnapshot categories",
+   "new_required": "YES \u2014 site00_generation_cost_ledger (project_id, family_id, authority/asset_id, generation_class, provider, model, settings, estimated_credits, actual_credits, credit_price_usd, estimated_usd, actual_usd, payer, provider_connection_id, status ESTIMATED/APPROVED/SPENT/FAILED/REFUNDED/UNALLOCATED, spend_kind productive/retry/regeneration/repair, generation_job_id/run_id refs, approval_event_id, idempotency_key, created_at)",
+   "reason": "No existing table has project+family+credits+payer; generation_jobs/post_process_jobs lack project/family; jsonb cost blobs not queryable. Backfill JURNL F01/F02 ledgers (incl. 'unallocated' rows)."
+  },
+  {
+   "need": "Approval events (review_id, project_id, family_id, authority_id, version, decision, client_id, timestamp, comment, revision_reason, previous_status, new_status)",
+   "extend_existing": "site00_client_review_receipts (+events) \u2014 add columns family_id, authority_id, version_label, previous_status, new_status, revision_reason, comment; enforce reason server-side",
+   "new_required": "NO new table needed if receipts are extended (or a thin site00_approval_events view unioning receipts + approval_requests decisions)",
+   "reason": "Receipts already idempotent, versioned and actor-stamped; avoid a third review store."
+  },
+  {
+   "need": "Family roadmap",
+   "extend_existing": "FamilyProductionContract + evaluateFamilyGate (code) ; site00_design_families (table, unused, project-keyed, versioned)",
+   "new_required": "PARTIAL \u2014 persist families: extend site00_design_families (or new site00_project_families) with order, status, gate snapshot, approval status, budget estimate, client_visible; FK project to site00_projects (currently points to site00_managed_projects)",
+   "reason": "Families exist only for JURNL in code; client needs DB-backed per-project roadmap."
+  },
+  {
+   "need": "Project pulse",
+   "extend_existing": "ClientProjectPulse type + site00_next_actions + site00_project_activity + studio payload (clientStudio.ts)",
+   "new_required": "NO table \u2014 derived view-model; but fix site00_project_events (no migration) vs site00_project_activity split and add a notifications table",
+   "reason": "All inputs exist; the missing piece is real bindings and a client-safe event/notification stream."
+  },
+  {
+   "need": "Provider connection (provider, connection_status, connected_at, project_scope, safe balance metadata, authorized_at/revoked_at)",
+   "extend_existing": "site00_external_connections + site00_provider_secrets + site00_connection_events (encrypted, statusful) or site00_service_connections (project-scoped)",
+   "new_required": "EXTEND \u2014 add generation providers to site00_service_catalog (fal, openart, openai, xai, anthropic), add project_id scoping to provider_secrets (or link via service_connections.secret_ref), add authorized_at/revoked_at + balance_snapshot jsonb (credits, observed_at; never raw keys)",
+   "reason": "Encryption + audit log already built; only scope and provider set are missing. OpenArt has no API integration \u2014 balance would be manually attested."
+  },
+  {
+   "need": "Payments / labor billing",
+   "extend_existing": "site00_invoices + PaymentRecord/CheckoutSession types + PAYMENT_PROVIDER_GATE",
+   "new_required": "YES when Stripe is chosen (webhook + payments table); not required to ship cost transparency",
+   "reason": "Gate is BLOCKED by founder decision; invoices table can carry manual labor + pass-through expense lines meanwhile."
+  }
+ ]
+}

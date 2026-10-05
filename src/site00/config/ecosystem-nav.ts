@@ -3,7 +3,7 @@
  * Public routes (Services, Journal, public Sites, etc.) do NOT belong here.
  */
 
-import { SITE00_ROUTES } from './routes';
+import { SITE00_ROUTES, site00StudioPreviewGuestPath } from './routes';
 
 export type EcosystemNavId = 'control' | 'projects' | 'sites' | 'idnty';
 
@@ -11,12 +11,15 @@ export type OperatingWorldNavItem = {
   id: string;
   label: string;
   href: string;
+  adminOnly?: boolean;
 };
 
 /** Desktop top navigation — Operating World board canon. */
 export const OPERATING_WORLD_TOP_NAV: OperatingWorldNavItem[] = [
   { id: 'control', label: 'CTRL ROOM', href: SITE00_ROUTES.control },
   { id: 'projects', label: 'PROJECTS', href: SITE00_ROUTES.projects },
+  { id: 'production', label: 'PRODUCTION', href: SITE00_ROUTES.productionWorkspace, adminOnly: true },
+  { id: 'intakes', label: 'INTAKES', href: SITE00_ROUTES.accountIntakes },
   { id: 'sites', label: 'SITES', href: SITE00_ROUTES.controlSites },
   { id: 'studio', label: 'STUDIO', href: '/admin/site00/studio' },
   { id: 'approvals', label: 'APPROVALS', href: '/admin/site00/approvals' },
@@ -57,13 +60,23 @@ export function isOperatingWorldNavActive(pathname: string, item: OperatingWorld
     return pathname === SITE00_ROUTES.control;
   }
   if (item.id === 'projects') {
-    return pathname.startsWith(SITE00_ROUTES.projects);
+    return pathname.startsWith(SITE00_ROUTES.projects) && !pathname.startsWith(SITE00_ROUTES.productionWorkspace);
+  }
+  if (item.id === 'production') {
+    return pathname.startsWith(SITE00_ROUTES.productionWorkspace);
+  }
+  if (item.id === 'intakes') {
+    return pathname.startsWith(SITE00_ROUTES.accountIntakes);
   }
   if (item.id === 'sites') {
     return pathname.startsWith(SITE00_ROUTES.controlSites);
   }
   if (item.id === 'studio') {
-    return pathname.startsWith('/admin/site00/studio');
+    return (
+      pathname.startsWith('/admin/site00/studio') ||
+      pathname.includes('/experience-compiler') ||
+      pathname.includes('/preview-guest')
+    );
   }
   if (item.id === 'approvals') {
     return pathname.startsWith('/admin/site00/approvals');
@@ -75,6 +88,17 @@ export function isOperatingWorldNavActive(pathname: string, item: OperatingWorld
     return pathname.startsWith(SITE00_ROUTES.controlBilling);
   }
   return pathname === item.href || pathname.startsWith(`${item.href}/`);
+}
+
+/** Preview guest: only Studio nav may reach preview landing; other hrefs unchanged (guard blocks). */
+export function resolveOperatingWorldNavHref(
+  item: OperatingWorldNavItem,
+  options: { previewGuest: boolean; projectSlug: string },
+): string {
+  if (options.previewGuest && item.id === 'studio') {
+    return site00StudioPreviewGuestPath(options.projectSlug || 'site00');
+  }
+  return item.href;
 }
 
 /** @deprecated Use isOperatingWorldNavActive */
@@ -92,6 +116,9 @@ export type EcosystemPageMeta = {
 };
 
 export function ecosystemPageMeta(pathname: string): EcosystemPageMeta {
+  if (pathname.startsWith(SITE00_ROUTES.accountIntakes)) {
+    return { title: 'INTAKES', subtitle: 'YOUR IDENTITY + BUILDER INTAKE HISTORY.' };
+  }
   if (pathname.startsWith(SITE00_ROUTES.projects)) {
     return { title: 'PROJECTS', subtitle: 'WHAT ARE WE WORKING ON?' };
   }

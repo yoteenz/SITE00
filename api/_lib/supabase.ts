@@ -2,7 +2,8 @@
  * Supabase server client for API routes.
  * Use getSupabaseAdmin() for service-role (bypass RLS) or getSupabaseUser(token) for user-scoped RLS.
  */
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { createServerSupabaseClient, createServerSupabaseUserClient } from './serverSupabase.js';
 
 let adminClient: SupabaseClient | null = null;
 
@@ -19,7 +20,7 @@ export function getSupabaseAdminServiceRole(): SupabaseClient {
     const url = process.env.SUPABASE_URL;
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (!url || !key) throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY (required for admin clients list)');
-    serviceRoleClient = createClient(url, key);
+    serviceRoleClient = createServerSupabaseClient(url, key);
   }
   return serviceRoleClient;
 }
@@ -29,7 +30,7 @@ export function getSupabaseAdmin(): SupabaseClient {
     const url = process.env.SUPABASE_URL;
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
     if (!url || !key) throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY/SUPABASE_ANON_KEY');
-    adminClient = createClient(url, key);
+    adminClient = createServerSupabaseClient(url, key);
   }
   return adminClient;
 }
@@ -39,7 +40,5 @@ export function getSupabaseUser(accessToken: string): SupabaseClient {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
   if (!url || !key) throw new Error('Missing SUPABASE_URL or SUPABASE_ANON_KEY');
-  return createClient(url, key, {
-    global: { headers: { Authorization: `Bearer ${accessToken}` } },
-  });
+  return createServerSupabaseUserClient(url, key, accessToken);
 }

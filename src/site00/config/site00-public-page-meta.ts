@@ -39,6 +39,9 @@ export function site00PublicPageMeta(pathname: string): Site00PublicPageMeta {
   if (base === SITE00_ROUTES.enter) {
     return { locationLabel: 'INTERIOR DIRECTORY' };
   }
+  if (base.startsWith('/intake/access/')) {
+    return { locationLabel: 'SECURE INTAKE ACCESS' };
+  }
 
   return { locationLabel: 'SITE 00' };
 }

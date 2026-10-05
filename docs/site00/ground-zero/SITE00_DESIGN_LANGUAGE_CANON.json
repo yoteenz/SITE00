@@ -1,0 +1,895 @@
+{
+ "artifact": "SITE00_DESIGN_LANGUAGE_CANON",
+ "status": "EXTRACTED_FROM_EXISTING_AUTHORITIES (not invented)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "principle": "DISCOVER \u2192 CONSOLIDATE \u2192 RESOLVE \u2192 FORMALIZE \u2192 COMPLETE. Rules below were extracted from ~25 visually inspected authority/proof images plus host CSS tokens. Nothing here is a new visual territory.",
+ "known_principles_validation": {
+  "bright white / off-white minimal environments": "VALIDATED",
+  "red accents": "VALIDATED (signal only, never a field)",
+  "red illumination": "VALIDATED (rings, shafts, floor circles)",
+  "luminous production spaces": "VALIDATED",
+  "black/red central core": "VALIDATED (crystal pyramid / red-glass core / orb)",
+  "suspended boards/surfaces": "VALIDATED (DESIGN tilted glass boards; floating status rail)",
+  "spatial/architectural composition": "VALIDATED",
+  "clean host chrome": "VALIDATED (off-white gradient, 1px rules)",
+  "project personality inside host": "VALIDATED (thumbnail, hero media, boards only)",
+  "no generic SaaS drift / no card walls / no agency drift / no overdecorated client portal": "VALIDATED as anti-patterns with concrete repo examples",
+  "EXPANSION": [
+   "LIBRARY is the sanctioned dark exception (black mountains + red geometry)",
+   "All visible text uppercase (brand law)",
+   "Counts are red numerals",
+   "Pipeline stage markers are rendered 3D objects, not flat icons",
+   "Host chrome never scales (no zoom/vw/clamp)"
+  ]
+ },
+ "rules": {
+  "spatial_composition": [
+   {
+    "rule": "Workspace roots are staged as an architectural chamber/world: a luminous white atrium or plaza with a single central core object, and UI floating over it.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "artifacts/production-all-tabs-forensic1/02-design-brand-authority-vs-tunnel.jpg",
+     "artifacts/production-all-tabs-forensic1/08-experience-authority-vs-tunnel.jpg",
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Center-axis symmetry: core object at horizontal center, frequently with a vertical red light line or ring descending onto it.",
+    "evidence": [
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "DESIGN modes: boards arranged around the core \u2014 left pair, flat centre overview, right stack of three \u2014 with perspective tilt (rotateY \u00b118\u201321\u00b0, perspective 520\u2013860px).",
+    "evidence": [
+     "src/site00/styles/site00-production-authority-opus.css",
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "EXPERIENCE: full-bleed world fills the body between host bars; capsules + status + ENTER WORLD/PREVIEW at foot of world.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/08-experience-authority-vs-tunnel.jpg",
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "page_geometry": [
+   {
+    "rule": "Production page = fixed host top + body + fixed bottom nav; body must not scroll at parent level (no-scroll frame contract), internal panes scroll only.",
+    "evidence": [
+     "src/site00/styles/site00-production-inbox-family.css",
+     "artifacts/production-design-asset-convergence-opus3/README.md",
+     "artifacts/production-inbox-authority-opus2/NO_SCROLL_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Hero band then floating status rail overlapping hero foot (5 cells), then sectioned body. Hero heights: 172px desktop / 214px tablet / 150px for other roots.",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Gutters: 20px mobile/tablet, 40px desktop; full width (no max-width) for Library vault.",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Public mobile shell: symmetric gutter, phone artboard; desktop crops the 9:19.5 plate.",
+    "evidence": [
+     "src/site00/styles/site00-mobile-shell.css",
+     "src/site00/authority/publicRedesignAssetSlots.ts"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   }
+  ],
+  "panel_geometry": [
+   {
+    "rule": "Radii are small: 4px (most common), 6px, 8px, 10px; Inbox --ibx-radius 6px; tokens --site-radius-sm/md/lg/xl 4/8/16/24.",
+    "evidence": [
+     "src/site00/styles/site00-production-*.css (grep counts 4px:91, 6px:66, 8px:55)",
+     "src/site00/styles/tokens.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Panels: white/near-white glass (rgba(255,255,255,0.84\u20130.95)) with 1px light-grey line (#d8d8dc/#dedee2) and soft low shadow; red-framed variant for selected/priority item.",
+    "evidence": [
+     "src/site00/styles/site00-production-authority-opus.css (--glass, --glass-edge)",
+     "src/site00/styles/site00-production-descendants-opus2.css (--pwa-glass, --pwa-shadow)",
+     "artifacts/production-inbox-authority-opus2/root-needs-you/mobile/authority-vs-live.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Corner-bracket framed tiles (L-shaped corner marks) on stat tiles in public/projects surfaces.",
+    "evidence": [
+     "public/visual-references/founder/site00/projects-index-approved-reference.jpg"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   }
+  ],
+  "type_hierarchy": [
+   {
+    "rule": "ALL visible text uppercase (brand uppercase law); only password fields exempt.",
+    "evidence": [
+     "src/site00/styles/site00-typography.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Hero: PROJECT micro-label (red bar left) -> very large condensed project name (NDXBOOK) -> sub-title (ENTRY 002 / EXPERIENCE) -> two-line tagline; right side ambient stacked words (IDEAS / PEOPLE / WORLDS / IN MOTION) with short red rule.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "artifacts/production-all-tabs-forensic1/08-experience-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Section heads: 15px condensed caps with 3px red vertical bar, VIEW ALL -> at right.",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Counts as large red numerals with small caps label (03 ITEMS NEED YOU, 01 BLOCKERS; inbox 44px red numerals).",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md",
+     "artifacts/production-inbox-authority-opus2/root-needs-you/mobile/authority-vs-live.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Inbox scale tokens: title 17px, text 12px, small 10px; Host chrome uses explicit px per viewport class, never clamp/vw/zoom.",
+    "evidence": [
+     "src/site00/styles/site00-production-inbox-family.css",
+     "src/site00/styles/site00-production-host-chrome.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "typography": [
+   {
+    "rule": "SITE 00 host typography (public site, design reconstruction, client app, tokens): Martian Mono via Google Fonts (wdth 75\u2013112.5, wght 100\u2013800), default width 87.5 semi-condensed; weights label 600, heading 700, display 800, numeric 650.",
+    "evidence": [
+     "src/site00/styles/tokens.css",
+     "src/site00/styles/site00-fonts.css",
+     "motherboard/CORE.md (Typography provenance)"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Production workspace host (pxh/pxa/pw/ibx/a-): Saira Semi Condensed self-hosted woff2 300\u2013700, Martian Mono only as fallback.",
+    "evidence": [
+     "src/site00/assets/fonts/saira-semi-condensed/*.woff2",
+     "src/site00/styles/site00-production-host-chrome.css --pxh-font",
+     "src/site00/styles/site00-production-authority.css --pxa-font",
+     "src/site00/styles/site00-production-hub-authority.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": false
+   },
+   {
+    "rule": "Character Fabrication: \"SITE00 Fab Condensed\"/Barlow Condensed (declared specialization).",
+    "evidence": [
+     "src/site00/styles/site00-character-fabrication-authority.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Martian Mono is host-only; never client brand canon (HOST_UI cannot become CLIENT_BRAND). JURNL uses Barlow Semi Condensed + Instrument Serif; NDXBOOK uses its own editorial faces.",
+    "evidence": [
+     "motherboard/CORE.md",
+     "shared/site00-brand-lore/typographyProvenance.ts",
+     "public/site00/projects/jurnl/fonts/"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Tracking restrained (display 0, label 0.06em, nav 0.04em); Production chrome letter-spacing 0.04em.",
+    "evidence": [
+     "src/site00/styles/tokens.css",
+     "src/site00/styles/site00-production-host-chrome.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "color_tokens": {
+   "public_and_client": [
+    {
+     "rule": "--site-bg #f5f5f4; --site-text #0a0a0a; --site-text-muted #6b6b6b; --site-red #e8192c; --site-red-dim rgba(232,25,44,0.15); --site-charcoal #2a2a2a; --site-border rgba(0,0,0,0.08); --site-line rgba(0,0,0,0.12); --site-success #22c55e; surfaces rgba(255,255,255,0.72/0.85/0.92).",
+     "evidence": [
+      "src/site00/styles/tokens.css"
+     ],
+     "confidence": "HIGH",
+     "validated_known_principle": null
+    },
+    {
+     "rule": "Client app: accent #e8192c, bg #ffffff, off-white #fafafa, text #111111, muted rgba(0,0,0,0.45).",
+     "evidence": [
+      "src/site00/styles/site00-client-app.css"
+     ],
+     "confidence": "HIGH",
+     "validated_known_principle": null
+    }
+   ],
+   "production": [
+    {
+     "rule": "Red #e5231b (all production layers), hot #ff3b30, deep #b3141a, pink #f7dcda / soft #fde4e3; ink #121214, ink-2 #3c3c42, mute #6d6d73, faint #9c9ca3; line #d8d8dc / #ececef; bg #eeeef0 / #f5f5f7; card #ffffff; green #1f9d55; amber #e8912d/#c97a12; blue #2f7fc0 (status only).",
+     "evidence": [
+      "src/site00/styles/site00-production-authority.css",
+      "src/site00/styles/site00-production-hub-authority.css",
+      "src/site00/styles/site00-production-inbox-family.css",
+      "src/site00/styles/site00-production-descendants-opus2.css"
+     ],
+     "confidence": "HIGH",
+     "validated_known_principle": null
+    },
+    {
+     "rule": "Red glow: rgba(229,35,27,0.22) ambient; box-shadow 0 0 10\u201314px rgba(229,35,27,0.45\u20130.75).",
+     "evidence": [
+      "src/site00/styles/site00-production-authority-opus.css"
+     ],
+     "confidence": "HIGH",
+     "validated_known_principle": true
+    }
+   ],
+   "note": "Two near-identical reds coexist (#e8192c public/client vs #e5231b production)."
+  },
+  "red_accent_behavior": [
+   {
+    "rule": "Red is a signal color only: active tab underline (2px), active nav icon, 3px vertical bar before section/project titles, counts, primary CTA fill, priority frame, notification dot (6px). Never a background field on host chrome.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Red illumination in environments: light rings, floor circles, vertical light shafts, red-lit floor grids converging on the core.",
+    "evidence": [
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg",
+     "artifacts/production-all-tabs-forensic1/08-experience-authority-vs-tunnel.jpg",
+     "src/site00/styles/site00-production-authority-opus.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Buttons: primary = solid red w/ white text + arrow; secondary = white w/ red outline + red text; ghost = white grey outline.",
+    "evidence": [
+     "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg",
+     "artifacts/production-inbox-authority-opus2/root-needs-you/mobile/authority-vs-live.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "white_surface_behavior": [
+   {
+    "rule": "Host chrome is off-white gradient (#fbfbfc -> #f2f2f4 top, #f8f8f9 -> #f0f0f2 nav) with 1px #d8d8dc rule; body bg #eeeef0\u2013#f5f5f7; cards pure white.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "src/site00/styles/site00-production-authority.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Environments are white marble/glass/chrome architecture with daylight and white light coves.",
+    "evidence": [
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg",
+     "public/site00/production-authority-assets/design-pack/swatches/"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Public asset slots fall back to \"NEUTRAL LUMINOUS WHITE GRADIENT (CSS)\".",
+    "evidence": [
+     "src/site00/authority/publicRedesignAssetSlots.ts"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "black_red_core": [
+   {
+    "rule": "Central core object = black/red crystal pyramid (HUB, EXPERIENCE, LIBRARY canon) or red-glass faceted core (DESIGN project core) or red-glass orb with orbit rings (projects/design reconstruction emblem).",
+    "evidence": [
+     "public/site00/production-authority-assets/production-hub-crystal-core-v1.jpg",
+     "public/site00/production-authority-assets/production-design-project-core-v1.png",
+     "public/site00/production-authority-assets/production-library-canon-hero-v1.jpg",
+     "public/visual-references/founder/site00/projects-index-approved-reference.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Host status uses a black disc with red core ring next to attention count (top bar).",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "artifacts/production-inbox-authority-opus2/root-needs-you/mobile/authority-vs-live.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "LIBRARY is the dark exception: black mountain range with red geometry/light beams as canon hero.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/10-library-authority-vs-tunnel.jpg",
+     "public/site00/production-authority-assets/production-library-red-geometry-0*-v1.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "lighting": [
+   {
+    "rule": "Bright high-key daylight + white light coves; red emissive accents (rings, beams, edges); reflective floors.",
+    "evidence": [
+     "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "materiality": [
+   {
+    "rule": "Material vocabulary: white acrylic, matte white, chrome, smoked glass, clear glass, red glow glass, graphite, neutral paper.",
+    "evidence": [
+     "public/site00/production-authority-assets/design-pack/swatches/",
+     "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "UI glass: backdrop-filter blur(6\u20138px) on chamber overlays; translucent white panels.",
+    "evidence": [
+     "src/site00/styles/site00-production-authority-opus.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "borders": [
+   {
+    "rule": "1px hairlines in light grey (#d8d8dc, rgba(18,18,20,0.09\u20130.16)); red border only for selected/priority.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "src/site00/styles/site00-production-descendants-opus2.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "dividers": [
+   {
+    "rule": "Vertical 1px dividers between top cluster items and between bottom-nav items; horizontal row dividers in lists (Activity log).",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "artifacts/production-authority-opus/PROOF_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "navigation": [
+   {
+    "rule": "Production bottom nav: 7 fixed tabs HUB INBOX DESIGN EXPERIENCE EXPRESSION LIBRARY ACTIVITY; 56px mobile (+safe-area), 58px desktop; 11px labels; 22\u201328px icons; active = red icon + 2px red underline; notification 6px red dot.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "src/site00/config/production-authority-registry.ts",
+     "src/site00/components/productionHub/bottom-nav/masters/"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Icon position: icon ABOVE label in PARENT_3VIEW authority at all viewports; live tablet/desktop code places icon LEFT (conflict C1).",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/README.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "DESIGN secondary mode bar: BRAND EXPERIENCE SURFACES COMPILER ASSETS VIEWPORT, red underline on active; inline in header on desktop/tablet, row below header on mobile.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/02-design-brand-authority-vs-tunnel.jpg",
+     "src/site00/config/production-authority-registry.ts"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Public/design-reconstruction bottom nav: ORIGIN IDNTY LOCATIONS PROJECTS CTRL ROOM with outline icons, red active.",
+    "evidence": [
+     "public/visual-references/founder/site00/calibration-p0vr6r1/09-pages.jpg"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   }
+  ],
+  "header_systems": [
+   {
+    "rule": "Production host top: [red bar + TAB TITLE / SITE 00 / STUDIO WORLD] [project thumb + PROJECT NDXBOOK v] [black-red core + red count ITEMS NEED YOU] ........ [hamburger]. 58px tablet / 62px desktop; ~31px mobile measured; red 3px bar at first cluster item.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "artifacts/production-authority-opus2/root/matrix.json"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Design-reconstruction header: crosshair logo + SITE 00, bell + kebab square buttons, breadcrumb PROJECTS > SITE 00 > DESIGN, project selector chip.",
+    "evidence": [
+     "public/visual-references/founder/site00/calibration-p0vr6r1/09-pages.jpg",
+     "public/visual-references/founder/site00/skins-authority-mobile.jpg"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   }
+  ],
+  "footer_systems": [
+   {
+    "rule": "No marketing footer in workspace; the bottom nav is the footer. Public shell uses a 36px bottom status panel (--site00-bottom-panel-height).",
+    "evidence": [
+     "src/site00/styles/tokens.css",
+     "src/site00/styles/site00.css"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   }
+  ],
+  "buttons": [
+   {
+    "rule": "Primary solid red; secondary red outline; ghost grey outline; 42px action buttons in Inbox priority card; CTA text uppercase with -> arrow.",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md",
+     "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "inputs": [
+   {
+    "rule": "Search field: white, 1px grey border, magnifier left, uppercase placeholder; chips/pills rounded with red selected state; red toggle.",
+    "evidence": [
+     "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg",
+     "public/visual-references/founder/site00/calibration-p0vr6r1/09-pages.jpg"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   }
+  ],
+  "project_selectors": [
+   {
+    "rule": "Project selector = square project thumbnail + micro \"PROJECT\" label + bold project name + chevron, inside host top bar; project personality enters only through the thumbnail and hero media.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "src/site00/styles/site00-production-host-chrome.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "cards_boards": [
+   {
+    "rule": "Suspended boards: white glass boards with numbered heading (01 BRAND ESSENCE\u2026), dots menu, mixed media, floating in the atrium at tilt; centre board flat and larger.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/02-design-brand-authority-vs-tunnel.jpg",
+     "docs/site00/design-pack/sources/02_ASSET_PACK_AUTHORITY.jpg (01 PANEL SHELLS & PRESENTATION BOARDS)"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Review cards (ON YOUR TABLE): media thumbnail + title/meta + outlined red action (REVIEW > / CHOOSE > / APPROVE >).",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/02-design-brand-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Data tiles are sparse and instrumented (progress ring 62%, legend list with percentages) \u2014 not uniform card grids.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": true
+   }
+  ],
+  "suspended_surfaces": [
+   {
+    "rule": "Status rail floats over hero foot; boards hover in atrium; chamber overlays use glass + blur; HUB modules \"suspended\" fixed 113px outer shell (legacy hub).",
+    "evidence": [
+     "artifacts/production-authority-opus/PROOF_MATRIX.md",
+     "motherboard/MEMORY.md",
+     "src/site00/styles/site00-production-authority-opus.css"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": true
+   }
+  ],
+  "spatial_world_elements": [
+   {
+    "rule": "Recurring: circular light-ring ceiling, glass column pillars, mezzanine balconies with tiny human figures for scale, red floor ring, city/plaza world with red pyramid, device chamber with platform ring (VIEWPORT), white review corridor, film stage (EXPRESSION), fabrication chamber cylinder (CF).",
+    "evidence": [
+     "public/site00/production-authority-assets/",
+     "public/site00/character-fabrication/fabrication/machine/chamber.webp",
+     "artifacts/production-all-tabs-forensic1/cf-authority-vs-tunnel-vs-narrative-branch.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "motion": [
+   {
+    "rule": "framer-motion ^11.18.2 is a dependency but has zero imports in src/shared (unused). Motion is CSS: tokens 150/280/450ms, ease cubic-bezier(0.16,1,0.3,1); most transitions 0.15s\u20130.2s, 180ms, 360ms; ~30 @keyframes; prefers-reduced-motion zeroes tokens (36 media blocks).",
+    "evidence": [
+     "package.json",
+     "src/site00/styles/tokens.css",
+     "src/site00/styles/*.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "iconography": [
+   {
+    "rule": "Thin line icons (stroke 1.5\u20131.75), monochrome ink, red when active; 24 viewBox for staged line families.",
+    "evidence": [
+     "src/site00/styles/tokens.css --site00-icon-stroke",
+     "public/site00/ai-consoles/staged/manifest.json"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Icon dirs: design-pack/icons (nav-*, object-*), design-pack/stages (rendered 3D pipeline objects), bottom-nav/masters, icons/ndx/v3, shared/site00-studio-world-ui/icons/p0ui3a-e, src/site00/icons/mobile-nav, ai-consoles/staged (136), project-tabs/staged (113 svg + 8 raster), page-concept-generator/staged, assets/evolve.",
+    "evidence": [
+     "see asset_library.json"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Pipeline stage markers are rendered 3D objects (chrome sphere, black monolith, red crystal, cube system, orbital) not flat icons.",
+    "evidence": [
+     "public/site00/production-authority-assets/design-pack/stages/"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "responsive": [
+   {
+    "rule": "Production families: mobile <700, tablet 700\u20131119, desktop >=1120 (production-authority-registry.ts + CSS @media 699/700/1119/1120). Each family is an independent recomposition, never a scaled copy; host chrome never uses zoom/transform scale/vw type.",
+    "evidence": [
+     "src/site00/config/production-authority-registry.ts",
+     "src/site00/styles/site00-production-host-chrome.css",
+     "src/site00/styles/site00-production-inbox-family.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Authority aspect families 9:16 (or 9:19.5) / 4:3 / 16:9; QA artboards 360x640@2x, 1024x768, 1280x720; real devices 390x844, 430x932, 834x1194, 1440x900, 1920x1080.",
+    "evidence": [
+     "src/site00/config/production-authority-registry.ts",
+     "artifacts/production-hub-reconstruction-opus1/devices/"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Viewport presets (DESIGN/VIEWPORT): MOBILE 390x844, MOBILE XL 430x932, TABLET 834x1194, DESKTOP 1440x900. 393x852 is used by JURNL contracts, not by host presets.",
+    "evidence": [
+     "src/site00/components/productionAuthority/viewportTargets.ts",
+     "src/projects/jurnl/data/f01/contract.ts"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Other legacy breakpoints in host CSS: 640, 768/767, 900, 1024/1023, 1100, 1200, 360, 420.",
+    "evidence": [
+     "src/site00/styles/*.css (@media counts)"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Public pack authorities are mobile only (941x1672, 850x1850, 1080x1920).",
+    "evidence": [
+     "src/site00/authority/publicRedesignAuthorityManifest.ts"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "density": [
+   {
+    "rule": "Production is dense and instrumented (many small caps labels 10\u201312px) but organized in few large zones; motherboard: \"Dense, instrumented, red/black/white \u2014 not generic SaaS admin.\"",
+    "evidence": [
+     "motherboard/CORE.md",
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "safe_areas": [
+   {
+    "rule": "env(safe-area-inset-bottom, 0px) used 80x, top 36x, left/right ~5x; bottom nav pads by bottom inset; client app header pads by top inset.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "src/site00/styles/site00-client-app.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "host_vs_project_rules": [
+   {
+    "rule": "Host chrome (top bar, bottom nav, mode bar, type, red) stays constant across projects; project identity appears via thumbnail, hero media, boards content, world imagery.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "src/site00/styles/site00-production-host-chrome.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "--site00-project-presence-accent defaults to host accent; project skins (NDXBOOK lime/black, JURNL bone/emerald) live inside project surfaces only.",
+    "evidence": [
+     "src/site00/styles/tokens.css",
+     "public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg",
+     "public/site00/projects/jurnl/f01/authorities/reference/REFERENCE_MASTER_VISUAL_AUTHORITY.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Do not crop finished screens into runtime assets; authority images are QA/reference only, never shipped as UI.",
+    "evidence": [
+     "src/site00/config/production-authority-registry.ts",
+     "src/site00/authority/publicRedesignAssetSlots.ts",
+     "motherboard/CORE.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "client_app_grammar": [
+   {
+    "rule": "/app: white bg, off-white #fafafa, max-width 430px centered, 1px rgba(0,0,0,0.08) header rule, Martian Mono, accent #e8192c; \"not admin, not generic SaaS, not website UI 1:1\". No image authority in repo.",
+    "evidence": [
+     "src/site00/styles/site00-client-app.css",
+     "motherboard/MEMORY.md"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": true
+   }
+  ],
+  "public_site_grammar": [
+   {
+    "rule": "Origin/IDNTY/BLDR/EVOLVE/LOCATIONS: mobile authority pack, full-bleed luminous environment plate (ENV.*), family machine illustration (orb, lattice, waves, star, tower), path cards, global uppercase Martian Mono; visual not inspected (pack not in repo).",
+    "evidence": [
+     "src/site00/authority/publicRedesignAuthorityManifest.ts",
+     "src/site00/authority/publicRedesignAssetSlots.ts"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Projects index: large Martian Mono headline with red kicker, red-glass orbital core, black/red FOUNDER VIEW plate vs ghost CLIENT VIEW, corner-bracket stat tiles, red ALL pill.",
+    "evidence": [
+     "public/visual-references/founder/site00/projects-index-approved-reference.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "workspace_grammar": [
+   {
+    "rule": "Seven lenses of one project shell (ProductionAuthorityFrame); parent -> child -> grandchild inheritance; descendants specialize function but may not drift to unrelated design systems or generic SaaS.",
+    "evidence": [
+     "artifacts/production-authority-tree/README.md",
+     "artifacts/production-authority-tree/INHERITANCE_MATRIX.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ],
+  "anti_patterns": [
+   {
+    "rule": "Generic SaaS / admin / CRM list / DAM card grid (genericization risks: design-child-workspace, inbox-queue-list, library-collections, expression-engine-legacy).",
+    "evidence": [
+     "artifacts/production-authority-tree/STALE_FALLBACK_MAP.md",
+     "motherboard/CORE.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Checkbox category lists instead of icon chips (Library), 2-col grids where authority has 4.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/README.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "CSS gradient orbs / hard-coded hex swatches / empty device boxes as stand-ins for pack assets.",
+    "evidence": [
+     "artifacts/production-design-asset-convergence-opus3/ASSET_SUBSTITUTION_AUDIT.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Re-importing retired production-mobile plates; lime NME literals outside .pw--authority; white-on-white twin rails.",
+    "evidence": [
+     "artifacts/production-authority-tree/STALE_FALLBACK_MAP.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Scaling host chrome (zoom/transform/vw/clamp type); page-level scroll in Production parents.",
+    "evidence": [
+     "src/site00/styles/site00-production-host-chrome.css",
+     "artifacts/production-design-asset-convergence-opus3/README.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Inventing data/sample names from screenshots; faking verification states (IDNTY build-ready deviations).",
+    "evidence": [
+     "src/site00/authority/publicRedesignAuthorityManifest.ts",
+     "artifacts/production-inbox-activity-threeviewport-opus1/README.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Promoting Martian Mono (host) into client brand typography.",
+    "evidence": [
+     "motherboard/CORE.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   }
+  ]
+ },
+ "unresolved_founder_decisions": [
+  {
+   "id": "C1",
+   "topic": "Production bottom-nav icon position (tablet/desktop)",
+   "options": [
+    "icon ABOVE label (PARENT_3VIEW authority)",
+    "icon LEFT of label (live code / OPUS1 check)"
+   ],
+   "opus_lean": "ABOVE (newest canonical authority)"
+  },
+  {
+   "id": "C2",
+   "topic": "Production host top-left title \"HUB \u00b7 SITE 00 / STUDIO WORLD\"",
+   "options": [
+    "restore (PARENT_3VIEW)",
+    "keep removed (77302d92)"
+   ],
+   "opus_lean": "none \u2014 founder taste"
+  },
+  {
+   "id": "C7",
+   "topic": "Host typography",
+   "options": [
+    "Martian Mono everywhere (stated canon; public, client app, design reconstruction)",
+    "Saira Semi Condensed in production workspace (all production CSS + authority renders)",
+    "Two host systems by surface: public/client = Martian Mono, production = Saira"
+   ],
+   "opus_lean": "Formalise the two-system split (it is what both authorities show); forbid either becoming client brand canon."
+  },
+  {
+   "id": "C8",
+   "topic": "Project design page",
+   "options": [
+    "Production DESIGN chamber (red/white, PARENT_3VIEW)",
+    "Founder golden twin-v3 r5f2 (black/lime NDXBOOK skin)",
+    "p0vr6r1 red design reconstruction tabs"
+   ],
+   "opus_lean": "Chamber is canonical host DESIGN; golden master is NDXBOOK project canon (REFERENCE_ONLY for host)."
+  },
+  {
+   "id": "C4",
+   "topic": "EXPERIENCE world plate",
+   "options": [
+    "regenerate to match authority (red-lit plaza + ring cylinder)",
+    "accept daylight white plate"
+   ],
+   "opus_lean": "Regenerate later (paid) \u2014 not MVP."
+  },
+  {
+   "id": "C5",
+   "topic": "EXPERIENCE child taxonomy",
+   "options": [
+    "authority labels WORLD/ZONES/PATHS/INTERACTIONS/INHABITANTS/STATES/ACCESS",
+    "route ids world/environments/modules/simulations/zones/assets/review"
+   ],
+   "opus_lean": "Authority labels."
+  },
+  {
+   "id": "C9",
+   "topic": "Host red token",
+   "options": [
+    "#e8192c (public/client)",
+    "#e5231b (production)"
+   ],
+   "opus_lean": "Single token #e8192c; production adopts it (minor)."
+  },
+  {
+   "id": "C10",
+   "topic": "HUB legacy machine view (?view=machine)",
+   "options": [
+    "keep as alternate state",
+    "converge into HUB root and retire"
+   ],
+   "opus_lean": "Retire after HUB root reaches parity."
+  },
+  {
+   "id": "C11",
+   "topic": "Mobile viewport preset",
+   "options": [
+    "393\u00d7852 (sprint brief, JURNL contracts)",
+    "390\u00d7844 + 430\u00d7932 (host DESIGN/VIEWPORT presets)"
+   ],
+   "opus_lean": "Use 393\u00d7852 as client-app QA primary (sprint canon) and keep 390/430 presets; document both."
+  }
+ ],
+ "limitations": [
+  "Most founder screen authorities are NOT stored in the repo (only as authority-vs-live proof halves, code manifests, or remote OpenArt URLs). Public pack + 36 original production screens + 242 OpenArt boards could not be visually inspected.",
+  "Viewport for 1,013 of 2,111 images inferred from path only."
+ ]
+}

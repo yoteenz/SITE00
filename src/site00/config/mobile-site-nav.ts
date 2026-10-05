@@ -65,7 +65,7 @@ export function resolveMobileSiteNavId(pathname: string): MobileSiteNavId | null
   if (isSite00CtrlRoomActive(normalized)) {
     return 'control';
   }
-  if (normalized.startsWith(SITE00_ROUTES.locations)) {
+  if (normalized.startsWith(SITE00_ROUTES.locations) || normalized.startsWith(SITE00_ROUTES.evolve)) {
     return 'locations';
   }
   if (normalized.startsWith(SITE00_ROUTES.idnty)) {

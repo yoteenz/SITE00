@@ -1,0 +1,55 @@
+{
+  "family_id": "F14",
+  "family_name": "GOALS",
+  "product_job": "Connect money to something the user wants to become, do, or have.",
+  "user_question_answered": "What am I building toward?",
+  "primary_signal": "Nothing named yet.",
+  "emotional_role": "Aspiration without cuteness.",
+  "spatial_metaphor": "A young olive and a partly laid course of stone.",
+  "architectural_character": "Quiet plaster on the left. Olive and unfinished stone on the right.",
+  "lighting_character": "Morning.",
+  "material_emphasis": "Plaster, young olive, new stone.",
+  "environmental_focal_point": "The olive and the course.",
+  "object_language": "A planter and a few laid stones. No jar.",
+  "botanical_role": "The olive is the subject, on the right.",
+  "negative_space_strategy": "Left half is plaster.",
+  "composition_bias": "Left question, building on the right.",
+  "information_density": "Named and laid.",
+  "panel_behavior": "Progress, not a savings jar.",
+  "button_behavior": "Naming a goal stays closed.",
+  "data_visualization_character": "Accumulation as a growing mark.",
+  "interaction_character": "The building is the parent. A goal dossier stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "The unnamed future leads.",
+  "relationship_to_previous_family": "Paydown lightens. Goals are what that lightness builds.",
+  "relationship_to_next_family": "Ahead is the likely future if nothing is renamed.",
+  "relationship_to_other_families": "Not a jar and not a cartoon.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Olive",
+    "Unfinished course",
+    "Aspiration"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "A piggy bank",
+    "The tree in the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

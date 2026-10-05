@@ -1,0 +1,309 @@
+{
+ "generated_from_commit": "eedc9c8",
+ "entries": [
+  {
+   "category": "environment_plates (host, production)",
+   "paths": [
+    "public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg",
+    "public/site00/production-authority-assets/production-experience-world-hero-v1.jpg",
+    "public/site00/production-authority-assets/production-expression-stage-hero-v1.jpg",
+    "public/site00/production-authority-assets/production-viewport-corridor-v1.jpg",
+    "public/site00/production-authority-assets/production-library-canon-hero-v1.jpg",
+    "public/site00/production-authority-assets/production-hub-crystal-core-v1.jpg"
+   ],
+   "count": 6,
+   "consumed_by": [
+    "src/site00/components/productionAuthority/ProductionAuthorityFrame.tsx",
+    "src/site00/components/productionAuthority/designPackAssets.ts",
+    "src/site00/productionAssets/productionAssetRegistry.ts",
+    "src/site00/productionAssets/routeAssetManifests.ts",
+    "src/site00/styles/site00-production-fabrication-opus2.css"
+   ],
+   "notes": "Grok1 GPT-Image-2 plates; atrium (white rotunda, red ring/axis), world plaza, film stage, review corridor, red canon pyramid, crystal chamber. EXPERIENCE plate mismatches authority world (conflict C4)."
+  },
+  {
+   "category": "hub hero plates (per viewport)",
+   "paths": [
+    "public/site00/production-authority-assets/production-hub-hero-mobile-v1.jpg",
+    "public/site00/production-authority-assets/production-hub-hero-tablet-v1.jpg",
+    "public/site00/production-authority-assets/production-hub-hero-desktop-v1.jpg"
+   ],
+   "count": 3,
+   "consumed_by": [
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "Cropped from founder-approved HUB authorities, baked copy inpainted out."
+  },
+  {
+   "category": "environment plate crops (design pack)",
+   "paths": [
+    "public/site00/production-authority-assets/design-pack/plates/"
+   ],
+   "count": 5,
+   "consumed_by": [
+    "src/site00/components/productionAuthority/designChamberConfig.ts",
+    "src/site00/components/productionAuthority/designPackAssets.ts",
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "Tiny native crops (90x73..278x168) of the ASSET PACK sheet; resolution-limited."
+  },
+  {
+   "category": "core objects",
+   "paths": [
+    "public/site00/production-authority-assets/production-design-project-core-v1.png",
+    "public/site00/production-authority-assets/production-library-red-geometry-01-v1.jpg",
+    "public/site00/production-authority-assets/production-library-red-geometry-02-v1.jpg",
+    "public/site00/production-authority-assets/production-library-red-geometry-03-v1.jpg",
+    "public/site00/production-authority-assets/design-pack/stages/"
+   ],
+   "count": 11,
+   "consumed_by": [
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "Transparent red-glass project core; red geometry plates; 7 rendered pipeline-stage objects (intelligence..production)."
+  },
+  {
+   "category": "materials / swatches",
+   "paths": [
+    "public/site00/production-authority-assets/design-pack/swatches/"
+   ],
+   "count": 8,
+   "consumed_by": [
+    "src/site00/components/productionAuthority/designChamberConfig.ts",
+    "src/site00/components/productionAuthority/designPackAssets.ts",
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "8 swatches: white acrylic, matte white, chrome, smoked glass, clear glass, red glow glass, graphite, neutral paper."
+  },
+  {
+   "category": "boards / frames",
+   "paths": [
+    "public/site00/production-authority-assets/production-design-board-brand-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-experience-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-surfaces-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-compiler-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-assets-v1.jpg",
+    "public/site00/production-authority-assets/production-design-board-viewport-v1.jpg",
+    "public/site00/production-authority-assets/design-pack/devices/"
+   ],
+   "count": 9,
+   "consumed_by": [
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "6 DESIGN mode board artworks (768x768) + 3 device frames (desktop/tablet/mobile)."
+  },
+  {
+   "category": "host chrome icons",
+   "paths": [
+    "public/site00/production-authority-assets/design-pack/icons/",
+    "src/site00/components/productionHub/bottom-nav/",
+    "src/site00/icons/"
+   ],
+   "count": 34,
+   "consumed_by": [
+    "src/site00/components/productionHub/productionNavIcon.tsx",
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "nav-* (hub, work, library, activity, search, settings, user, menu, dropdown, exit) + object-* glyphs; 7 bottom-nav masters + keyed copies; src/site00/icons mobile-nav/ndx svgs."
+  },
+  {
+   "category": "icon families (staged / generated)",
+   "paths": [
+    "public/site00/ai-consoles/",
+    "public/site00/project-tabs/",
+    "public/site00/page-concept-generator/",
+    "public/icons/",
+    "shared/site00-studio-world-ui/icons/",
+    "public/assets/evolve/"
+   ],
+   "count": 357,
+   "consumed_by": [
+    "shared/site00-projects/evolve/evolveSubshellTypes.ts",
+    "shared/site00-studio-world-ui/icons/p0ui3e/manifest.generated.json",
+    "shared/site00-studio-world-ui/icons/p0ui3e/v3AssetRegistry.generated.ts",
+    "src/site00/config/ndxBottomNavIconUrls.ts"
+   ],
+   "notes": "ai-consoles 136 (STAGED), project-tabs 121 (STAGED), page-concept-generator 57 (no runtime consumer), ndx v3, p0ui3a-e, evolve path icons."
+  },
+  {
+   "category": "founder system sheets",
+   "paths": [
+    "docs/site00/design-pack/sources/"
+   ],
+   "count": 2,
+   "consumed_by": [],
+   "notes": "ICON PACK + ASSET PACK authority sheets (1586x992) \u2014 the source of all design-pack crops."
+  },
+  {
+   "category": "residents / people",
+   "paths": [
+    "public/site00/production-authority-assets/shared/residents/"
+   ],
+   "count": 5,
+   "consumed_by": [
+    "src/site00/productionAssets/productionAssetRegistry.ts"
+   ],
+   "notes": "Studio World resident portraits (Caspian Reed, Etta Vale, Iona Wells, Jules Mercer, Zuri Xu candidate)."
+  },
+  {
+   "category": "character fabrication (project content)",
+   "paths": [
+    "public/site00/character-fabrication/"
+   ],
+   "count": 82,
+   "consumed_by": [
+    "shared/site00-character-fabrication/assets.ts",
+    "shared/studio-world-live-character-runtime/fabricationBridge.ts",
+    "src/site00/components/characterFabrication/CharacterFabrication.tsx",
+    "src/site00/components/characterFabrication/FabricationContext.tsx",
+    "src/site00/components/characterFabrication/chamber.tsx",
+    "src/site00/components/characterFabrication/primitives.tsx",
+    "src/site00/components/characterFabrication/stationAppearance.tsx",
+    "src/site00/components/characterFabrication/stationAuthority.tsx"
+   ],
+   "notes": "Actor SW-017 angles/movement/wardrobe/simulation evidence + fabrication chamber + simulation volume environment."
+  },
+  {
+   "category": "legacy production thumbnails (retired)",
+   "paths": [
+    "public/site00/production-mobile/"
+   ],
+   "count": 47,
+   "consumed_by": [
+    "src/site00/components/production/PwFrame.tsx",
+    "src/site00/components/production/productionImagery.ts",
+    "src/site00/components/productionAuthority/ExpressionBody.tsx",
+    "src/site00/components/productionAuthority/primitives.tsx",
+    "src/site00/pages/production/ProductionWorkspaceProjectHubPage.tsx"
+   ],
+   "notes": "Low-res pillar/library/expression thumbs; explicitly retired for authority roots."
+  },
+  {
+   "category": "legacy hub machine media",
+   "paths": [
+    "public/site00/production-hub/"
+   ],
+   "count": 17,
+   "consumed_by": [
+    "shared/site00-production-hub/assetReceipts.ts"
+   ],
+   "notes": "Entry-002 node + storyboard art, glass-cylinder chamber atmosphere."
+  },
+  {
+   "category": "logos / brand marks",
+   "paths": [
+    "public/site00/projects/jurnl/brand/",
+    "JURNL/F02_SETUP/ASSETS/LOCKUPS/",
+    "src/projects/jurnl/families/F02_SETUP/BRAND_LOCKUPS/"
+   ],
+   "count": 6,
+   "consumed_by": [
+    "src/projects/jurnl/data/f01/contract.ts",
+    "src/projects/jurnl/data/jurnlProject.ts",
+    "src/projects/jurnl/runtime/components/primitives.tsx"
+   ],
+   "notes": "Project logos only (JURNL). No raster SITE 00 host logo found: host mark (crosshair / SITE 00 wordmark) appears to be live code/SVG."
+  },
+  {
+   "category": "project-shell elements: skins & brand family art",
+   "paths": [
+    "public/site00/skins/"
+   ],
+   "count": 20,
+   "consumed_by": [
+    "shared/site00-studio-world-production/visualReconstruction/p0vr6/skinsCanonicalBindings.ts",
+    "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/canonicalAssetRebind.ts",
+    "shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/multiAssetReconstructionJob.ts"
+   ],
+   "notes": "Brand family crops (NDXBOOK, Frontal Slayer, AIO, Astral World, Studio World) + screen crops; manifest RECONSTRUCTION_PENDING, uiContaminationSuspected; 1 canonical reconstruction (ndxbook mobile)."
+  },
+  {
+   "category": "project environments (client)",
+   "paths": [
+    "public/jurnl/",
+    "JURNL/F01_ENTRY/ASSETS/",
+    "JURNL/F02_SETUP/ENVIRONMENTS/",
+    "JURNL/F02_SETUP/ASSETS/BOTANICALS/",
+    "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/",
+    "src/projects/jurnl/families/F02_SETUP/BOTANICALS/",
+    "public/astral-world/"
+   ],
+   "count": 92,
+   "consumed_by": [
+    "src/projects/jurnl/data/f01/environmentPlates.ts",
+    "src/site00/pages/jurnl/family1ParentAssetRegistry.ts"
+   ],
+   "notes": "JURNL F01/F02 plates + botanicals; Astral World world-entry backgrounds/masters. Project canon, not host."
+  },
+  {
+   "category": "project media (NDXBOOK)",
+   "paths": [
+    "public/assets/ndxbook/",
+    "public/assets/ndxbook-reconstruction/",
+    "public/assets/expression-engine/",
+    "public/site00/creative-direction/",
+    "assets/founder-storyboard/"
+   ],
+   "count": 51,
+   "consumed_by": [
+    "api/_lib/site00ExpressionEngine/entry002FounderSuppliedStoryboard.ts",
+    "api/_lib/site00ExpressionEngine/entry002PreStoryboardAuthorityAssets.ts",
+    "shared/site00-expression-engine/finalCinematicStoryboardIds.ts",
+    "shared/site00-production-hub/assets.ts"
+   ],
+   "notes": "Entry 001/002 artwork, storyboards, creative-direction crops."
+  },
+  {
+   "category": "design bench plates",
+   "paths": [
+    "public/site00/twin-opus-direct/",
+    "public/site00/twin-sol-direct/",
+    "public/site00/twin-grok-direct/",
+    "public/site00/twin-v3-design-page-authority/",
+    "src/site00/assets/twin-v3-design-page-authority/"
+   ],
+   "count": 34,
+   "consumed_by": [
+    "api/_lib/site00OpusDesignShell/runShellGeneration.ts",
+    "api/_lib/site00OpusNative/designSurfaceRegistry.ts",
+    "api/_lib/site00OpusNative/scriptedTranscripts.ts",
+    "api/_lib/site00WorkspaceSelfCapture/designWorkspaceCaptureService.ts",
+    "api/_lib/site00WorkspaceSelfConcept/runWorkspaceSelfGeneration.ts",
+    "shared/site00-design-workspace-production/childInheritanceContract.ts",
+    "shared/site00-design-workspace-production/designIntegrationLineage.ts",
+    "shared/site00-design-workspace-production/designProductionReceipt.ts"
+   ],
+   "notes": "Isolated bench/golden plates for twin reconstruction routes."
+  },
+  {
+   "category": "loader",
+   "paths": [
+    "public/site00/loader/"
+   ],
+   "count": 1,
+   "consumed_by": [
+    "api/_lib/site00Assts/postProcess/loaderGeometry.ts",
+    "api/_lib/site00Assts/postProcess/pipeline.ts",
+    "api/_lib/site00Assts/postProcess/types.ts"
+   ],
+   "notes": "ASSTS loader background."
+  },
+  {
+   "category": "fonts",
+   "paths": [
+    "src/site00/assets/fonts/",
+    "public/site00/projects/jurnl/fonts/"
+   ],
+   "count": 10,
+   "consumed_by": [],
+   "notes": "Not images; Saira Semi Condensed 300-700 woff2 (production host) + JURNL Barlow Semi Condensed/Instrument Serif. Martian Mono loaded from Google Fonts (not vendored)."
+  }
+ ],
+ "gaps": [
+  "No high-resolution environment crop set for design-pack plates (only thumbnails)",
+  "No EXPERIENCE world plate matching authority (red-lit city plaza with ring cylinder)",
+  "No HUB/INBOX tablet-desktop pack boards in repo",
+  "No public-site ENV.*/MACHINE.*/CARD.* assets in repo (slots defined, Grok assets pending)",
+  "No SITE 00 host logo raster/svg file found in public/"
+ ]
+}

@@ -1,0 +1,126 @@
+/**
+ * Bounded concept artifact preview — contained in panel; fullscreen is explicit.
+ */
+
+import type { CSSProperties, ReactNode } from 'react';
+
+import {
+  PAGE_CONCEPT_CONTAINED_PREVIEW_CLASS,
+  PAGE_CONCEPT_CONTAINED_PREVIEW_IMG_CLASS,
+  PAGE_CONCEPT_PREVIEW_OBJECT_FIT,
+  type PageConceptPreviewContainSize,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptImageContainment.js';
+import type { DesignHeroCaptureDimensions } from '../../../../../shared/site00-design-workspace-production/designHeroComparePresentation.js';
+import type { PageConceptHeaderThumbnailCrop } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
+import { PAGE_CONCEPT_HEADER_THUMBNAIL_CROP } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
+import { buildExperiencePreviewImageSrc } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceMenuRegeneration.js';
+import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
+
+export type PageConceptPreviewFrameStatus = 'PENDING' | 'GENERATING' | 'READY' | 'FAILED';
+
+export function PageConceptContainedPreviewFrame({
+  size = 'mobile',
+  viewportLabel,
+  status,
+  imageSrc,
+  failureReason,
+  onRetryLoad,
+  testId = 'page-concept-contained-preview',
+  objectFit = PAGE_CONCEPT_PREVIEW_OBJECT_FIT,
+  headerThumbnailCrop,
+  heroCaptureDimensions,
+  cacheBustArtifactId,
+}: {
+  size?: PageConceptPreviewContainSize;
+  viewportLabel?: string;
+  status: PageConceptPreviewFrameStatus;
+  imageSrc?: string | null;
+  /** Bust browser cache when artifact id changes after regeneration. */
+  cacheBustArtifactId?: string | null;
+  failureReason?: string | null;
+  onRetryLoad?: () => void;
+  testId?: string;
+  objectFit?: 'contain' | 'cover';
+  headerThumbnailCrop?: PageConceptHeaderThumbnailCrop;
+  /** Hero compare — lock both panes to capture viewport aspect (FIT_FULL_SCREEN). */
+  heroCaptureDimensions?: DesignHeroCaptureDimensions;
+}) {
+  const resolvedHeaderCrop = headerThumbnailCrop ?? PAGE_CONCEPT_HEADER_THUMBNAIL_CROP;
+  let inner: ReactNode;
+  const resolvedSrc = buildExperiencePreviewImageSrc(imageSrc, cacheBustArtifactId ?? null) ?? imageSrc;
+  if (status === 'READY' && resolvedSrc) {
+    inner = (
+      <img
+        key={cacheBustArtifactId ?? resolvedSrc}
+        src={resolvedSrc}
+        alt={viewportLabel ? `${viewportLabel} concept preview` : 'Concept preview'}
+        className={PAGE_CONCEPT_CONTAINED_PREVIEW_IMG_CLASS}
+        draggable={false}
+        decoding="async"
+      />
+    );
+  } else if (status === 'FAILED') {
+    inner = (
+      <div className="s00-pcg__containPreviewEmpty s00-pcg__containPreviewEmpty--failed">
+        <AiConsoleIcon name="status-error" size={16} />
+        <span>PREVIEW UNAVAILABLE</span>
+        {failureReason ? <span className="s00-pcg__containPreviewFailReason">{failureReason}</span> : null}
+        {onRetryLoad ?
+          <button type="button" className="s00-pcg__secAction" onClick={onRetryLoad}>
+            RETRY LOAD
+          </button>
+        : null}
+      </div>
+    );
+  } else if (status === 'GENERATING') {
+    inner = (
+      <div className="s00-pcg__containPreviewSkeleton" aria-hidden="true">
+        <AiConsoleIcon name="status-generating" size={16} />
+        <span>GENERATING</span>
+      </div>
+    );
+  } else {
+    inner = (
+      <div className="s00-pcg__containPreviewSkeleton" aria-hidden="true">
+        <AiConsoleIcon name="empty-concept" size={16} />
+        <span>PENDING</span>
+      </div>
+    );
+  }
+
+  const headerCropStyle =
+    size === 'headerThumb' ?
+      ({
+        ['--pcg-header-crop' as string]: String(resolvedHeaderCrop.heightFraction),
+        ['--pcg-header-scale' as string]: String(resolvedHeaderCrop.scale ?? 1 / resolvedHeaderCrop.heightFraction),
+      } as CSSProperties)
+    : undefined;
+
+  const heroCaptureStyle =
+    size === 'heroReview' && heroCaptureDimensions ?
+      ({
+        ['--tod-hero-capture-w' as string]: String(heroCaptureDimensions.width),
+        ['--tod-hero-capture-h' as string]: String(heroCaptureDimensions.height),
+      } as CSSProperties)
+    : undefined;
+
+  const resolvedObjectFit =
+    size === 'heroReview' && heroCaptureDimensions ? 'cover' : objectFit;
+
+  return (
+    <div
+      className={PAGE_CONCEPT_CONTAINED_PREVIEW_CLASS}
+      data-testid={testId}
+      data-contain-size={size}
+      data-preview-status={status}
+      data-object-fit={resolvedObjectFit}
+      data-hero-capture-framed={size === 'heroReview' && heroCaptureDimensions ? 'true' : undefined}
+      style={headerCropStyle ?? heroCaptureStyle}
+    >
+      {viewportLabel ?
+        <span className="s00-pcg__containPreviewLabel">{viewportLabel}</span>
+      : null}
+      <div className="s00-pcg__containPreviewStage">{inner}</div>
+    </div>
+  );
+}

@@ -1,0 +1,664 @@
+{
+ "artifact": "SITE00_CLIENT_READY_MVP",
+ "status": "PROPOSED_BY_OPUS",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "definition": "The smallest SITE 00 that can host ONE real external client project end-to-end: invite \u2192 account \u2192 project room \u2192 review \u2192 approve/revise \u2192 returns to workspace \u2192 gate unlocks, with messages, files and project firewall \u2014 and nothing else.",
+ "must_include": [
+  "CLIENT AUTH",
+  "CLIENT INVITE",
+  "PROJECT ACCESS",
+  "PROJECT ROOM",
+  "HOME",
+  "PROJECT",
+  "REVIEWS",
+  "INBOX",
+  "LIBRARY",
+  "COMMENT",
+  "APPROVE",
+  "REQUEST REVISION",
+  "UPLOAD REFERENCE",
+  "DOWNLOAD APPROVED FILE",
+  "WORKSPACE \u2194 CLIENT REVIEW RETURN LOOP",
+  "PROJECT FIREWALL",
+  "PROJECT REGISTRY",
+  "CLIENT ACTIVITY",
+  "NOTIFICATIONS / ATTENTION SIGNAL"
+ ],
+ "explicitly_not_required": [
+  "every public page (only LEGAL + SUPPORT + intake hand-off)",
+  "STUDIO WORLD",
+  "EXPERIENCE children",
+  "LIBRARY OpenArt descendants",
+  "future admin",
+  "EVOLVE extras",
+  "automation",
+  "creative-intelligence expansion",
+  "payments/checkout (client-funded model is defined, not built)"
+ ],
+ "gate_status_now": {
+  "SITE00 CLIENT AUTH": "FAIL",
+  "CLIENT PROJECT ROOM": "PARTIAL",
+  "PROJECT FIREWALL": "FAIL",
+  "REVIEWS": "FAIL (send) / PARTIAL (client actions)",
+  "APPROVAL RETURN LOOP": "FAIL",
+  "CLIENT INBOX": "FAIL",
+  "CLIENT LIBRARY": "FAIL",
+  "CLIENT PERMISSIONS": "FAIL",
+  "CLIENT INVITE": "FAIL"
+ },
+ "blockers": [
+  {
+   "id": "D01",
+   "track": "D",
+   "title": "Server auth wrapper on every API route + test that every route declares a policy; close ~20 unauthenticated endpoints",
+   "effort_engineer_days": 2,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": "SITE00 CLIENT AUTH",
+   "notes": ""
+  },
+  {
+   "id": "D02",
+   "track": "D",
+   "title": "Fix 2 anon-writable tables (TO service_role) + fail-closed when service-role key missing",
+   "effort_engineer_days": 0.5,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": "PROJECT FIREWALL",
+   "notes": ""
+  },
+  {
+   "id": "D03",
+   "track": "D",
+   "title": "Stop accepting client role from body/query; derive from membership",
+   "effort_engineer_days": 0.5,
+   "depends_on": [
+    "D05"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT PERMISSIONS",
+   "notes": ""
+  },
+  {
+   "id": "D04",
+   "track": "D",
+   "title": "Canonical project registry: site00_projects gains project_type (FOUNDER/PERSONAL/CLIENT/INTERNAL_SITE00) + canonical slugs; adapters for 7 static lists",
+   "effort_engineer_days": 4,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": "PROJECT REGISTRY",
+   "notes": ""
+  },
+  {
+   "id": "D05",
+   "track": "D",
+   "title": "project_members + roles (OWNER/COLLABORATOR/VIEWER, FOUNDER, INTERNAL) + one server permission check + RLS by membership",
+   "effort_engineer_days": 4,
+   "depends_on": [
+    "D04"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT PERMISSIONS",
+   "notes": ""
+  },
+  {
+   "id": "D06",
+   "track": "D",
+   "title": "Invites: tokens, email, /invite/:token accept, bind membership; magic link no longer auto-creates users for invite-only",
+   "effort_engineer_days": 4,
+   "depends_on": [
+    "D05"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT INVITE",
+   "notes": ""
+  },
+  {
+   "id": "D07",
+   "track": "D",
+   "title": "Password reset completion + reset email redirect fix",
+   "effort_engineer_days": 0.5,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": "SITE00 CLIENT AUTH",
+   "notes": ""
+  },
+  {
+   "id": "D08",
+   "track": "D",
+   "title": "Remove UI guard bypasses in production builds; guard 17 open bench/debug routes; move them under /lab",
+   "effort_engineer_days": 1,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": "PROJECT FIREWALL",
+   "notes": ""
+  },
+  {
+   "id": "D09",
+   "track": "D",
+   "title": "Per-project storage prefixes + bucket policies + signed URLs for client files",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D05"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT LIBRARY",
+   "notes": ""
+  },
+  {
+   "id": "D10",
+   "track": "D",
+   "title": "Review engine: publish action + canon fields (authority_id, family_id, phase, sent_by, sent_at, superseded_by) + one status machine + approve-state checks",
+   "effort_engineer_days": 4,
+   "depends_on": [
+    "D05"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "REVIEWS",
+   "notes": ""
+  },
+  {
+   "id": "D11",
+   "track": "D",
+   "title": "Approval bridge: receipts \u2192 deliverable CLIENT_APPROVED \u2192 dependencyEngine gates \u2192 project status",
+   "effort_engineer_days": 4,
+   "depends_on": [
+    "D10"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "APPROVAL RETURN LOOP",
+   "notes": ""
+  },
+  {
+   "id": "D12",
+   "track": "D",
+   "title": "Project event stream: migrate site00_project_events or unify on site00_project_activity; client-curated projection",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D05"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT ACTIVITY",
+   "notes": ""
+  },
+  {
+   "id": "D13",
+   "track": "D",
+   "title": "Messages table + API (project-scoped threads, decision/upload requests)",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D05"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT INBOX",
+   "notes": ""
+  },
+  {
+   "id": "D14",
+   "track": "D",
+   "title": "Notifications projection + API (needs-you, revision ready, approval received, file ready)",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D12"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "NOTIFICATIONS",
+   "notes": ""
+  },
+  {
+   "id": "D15",
+   "track": "D",
+   "title": "Files: library index, client reference upload, approved-file download",
+   "effort_engineer_days": 3,
+   "depends_on": [
+    "D09"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT LIBRARY",
+   "notes": ""
+  },
+  {
+   "id": "A01",
+   "track": "A",
+   "title": "Send auth token on all client fetches (useClientReviews, AppReviewsQueuePage, useClientProjectRoom)",
+   "effort_engineer_days": 0.5,
+   "depends_on": [
+    "D01"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT PROJECT ROOM",
+   "notes": ""
+  },
+  {
+   "id": "A02",
+   "track": "A",
+   "title": "Nav to canon HOME/PROJECT/REVIEWS/INBOX/LIBRARY; MENU + NOTIFICATIONS drawers; update tests locking old nav",
+   "effort_engineer_days": 1.5,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT PROJECT ROOM",
+   "notes": ""
+  },
+  {
+   "id": "A03",
+   "track": "A",
+   "title": "HOME from real project state (current moment, needs you, next) \u2014 remove fixture copy and fake credit signals",
+   "effort_engineer_days": 3,
+   "depends_on": [
+    "D11",
+    "D12"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT PROJECT ROOM",
+   "notes": ""
+  },
+  {
+   "id": "A04",
+   "track": "A",
+   "title": "PROJECT journey (phases, families, gates, deliverable status)",
+   "effort_engineer_days": 3,
+   "depends_on": [
+    "D11"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT PROJECT ROOM",
+   "notes": ""
+  },
+  {
+   "id": "A05",
+   "track": "A",
+   "title": "REVIEWS grouping + FAMILY REVIEW mode (\u2665 APPROVE / \u00d7 NEEDS REVISION with mandatory feedback)",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D10"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "REVIEWS",
+   "notes": ""
+  },
+  {
+   "id": "A06",
+   "track": "A",
+   "title": "INBOX + THREAD on real messages",
+   "effort_engineer_days": 3,
+   "depends_on": [
+    "D13"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT INBOX",
+   "notes": ""
+  },
+  {
+   "id": "A07",
+   "track": "A",
+   "title": "LIBRARY + FILE on real files (upload reference, download)",
+   "effort_engineer_days": 3,
+   "depends_on": [
+    "D15"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT LIBRARY",
+   "notes": ""
+  },
+  {
+   "id": "A08",
+   "track": "A",
+   "title": "Remove fixture leakage in production (fixture-app-*, ?fixture=multi, fake NDXBOOK card, unread=3)",
+   "effort_engineer_days": 1,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT PROJECT ROOM",
+   "notes": ""
+  },
+  {
+   "id": "A09",
+   "track": "A",
+   "title": "Merge /client/projects + studio client views into /app (redirects, desktop composition)",
+   "effort_engineer_days": 1.5,
+   "depends_on": [
+    "A02"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT PROJECT ROOM",
+   "notes": ""
+  },
+  {
+   "id": "A10",
+   "track": "A",
+   "title": "Curated client activity section in PROJECT",
+   "effort_engineer_days": 1,
+   "depends_on": [
+    "D12"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT ACTIVITY",
+   "notes": ""
+  },
+  {
+   "id": "A11",
+   "track": "A",
+   "title": "CTRL ROOM: MY PROJECTS, INTAKES, invite landing; move evolve-operations out of client space",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D05"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT INVITE",
+   "notes": ""
+  },
+  {
+   "id": "B01",
+   "track": "B",
+   "title": "Project-scope HUB/INBOX/LIBRARY/ACTIVITY (/production/:slug/*) + SITE 00 in switcher + stay-on-tab switching",
+   "effort_engineer_days": 2.5,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": "PROJECT FIREWALL",
+   "notes": ""
+  },
+  {
+   "id": "B02",
+   "track": "B",
+   "title": "SEND TO CLIENT sheet in EXPRESSION review/handoff, DESIGN, INBOX decision detail",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D10"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "REVIEWS",
+   "notes": ""
+  },
+  {
+   "id": "B03",
+   "track": "B",
+   "title": "Client status: INBOX client lens, per-project status chip, client events in ACTIVITY",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D11",
+    "D12"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "APPROVAL RETURN LOOP",
+   "notes": ""
+  },
+  {
+   "id": "B04",
+   "track": "B",
+   "title": "CLIENT RELATIONSHIP surface (members, invites, review status, messages)",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D05",
+    "D06"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT INVITE",
+   "notes": ""
+  },
+  {
+   "id": "B05",
+   "track": "B",
+   "title": "Persist production requests + activity server-side (replace localStorage)",
+   "effort_engineer_days": 2.5,
+   "depends_on": [
+    "D12"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "APPROVAL RETURN LOOP",
+   "notes": ""
+  },
+  {
+   "id": "B07",
+   "track": "B",
+   "title": "CONTROL PROJECTS: create project (typed), invite client, provisioning merged",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D04",
+    "D06"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "CLIENT INVITE",
+   "notes": ""
+  },
+  {
+   "id": "Q01",
+   "track": "Q",
+   "title": "End-to-end loop test: founder sends \u2192 client approves/revises \u2192 workspace sees \u2192 gate unlocks (real Supabase branch)",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "D11",
+    "A05",
+    "B02",
+    "B03"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "APPROVAL RETURN LOOP",
+   "notes": ""
+  },
+  {
+   "id": "Q03",
+   "track": "Q",
+   "title": "Security review: RLS, storage, role tamper, cross-project access tests (SITE 00 / JURNL / AIO / FRONTAL SLAYER)",
+   "effort_engineer_days": 1.5,
+   "depends_on": [
+    "D05",
+    "D09",
+    "D10"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": "PROJECT FIREWALL",
+   "notes": ""
+  }
+ ],
+ "nonblocking_mvp_items": [
+  {
+   "id": "B06",
+   "track": "B",
+   "title": "Fix cross-links (CONTROL PRODUCTION \u2192 /production; menu CONTROL \u2192 /admin/site00); VIEW AS CLIENT \u2192 /app/:slug",
+   "effort_engineer_days": 0.5,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "C01",
+   "track": "C",
+   "title": "LEGAL pages + fix footer/auth-footer links",
+   "effort_engineer_days": 1,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": null,
+   "notes": "Required before an external client signs in."
+  },
+  {
+   "id": "C02",
+   "track": "C",
+   "title": "SUPPORT with contact + book-discovery; retarget BOOK DISCOVERY / CONSULT / NEED GUIDANCE",
+   "effort_engineer_days": 1.5,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "C03",
+   "track": "C",
+   "title": "Post-intake hand-off (complete \u2192 sign in \u2192 intake \u2192 project)",
+   "effort_engineer_days": 1.5,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "Q02",
+   "track": "Q",
+   "title": "Client app responsive QA at 393\u00d7852 / 834\u00d71194 / 1440\u00d7900 (live captures)",
+   "effort_engineer_days": 2,
+   "depends_on": [
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07"
+   ],
+   "client_ready_mvp": true,
+   "unblocks_gate": null,
+   "notes": ""
+  },
+  {
+   "id": "Q04",
+   "track": "Q",
+   "title": "Restore CI to green on main (73 of last 100 main runs failed; last green 2026-09-28)",
+   "effort_engineer_days": 2,
+   "depends_on": [],
+   "client_ready_mvp": true,
+   "unblocks_gate": null,
+   "notes": "Build/deploy jobs are skipped while tests fail."
+  }
+ ],
+ "deferred_items": [
+  {
+   "id": "C04",
+   "track": "C",
+   "title": "Fix 8 blank /desktop aliases + add NOT FOUND page",
+   "effort_engineer_days": 1,
+   "depends_on": [],
+   "client_ready_mvp": false,
+   "unblocks_gate": null,
+   "notes": ""
+  }
+ ],
+ "effort": {
+  "total_engineer_days": 82.0,
+  "critical_path_days": 21,
+  "critical_path": [
+   "D04",
+   "D05",
+   "D10",
+   "D11",
+   "A03",
+   "Q02"
+  ]
+ },
+ "timeline": {
+  "method": "effort_engineer_days = focused implementation effort. Calendar = critical path effort + founder review latency, assuming 3\u20134 parallel agent tracks (this repo merges many agent PRs per day). FAST_PATH: critical path \u00d71.0 + 2 review days. EXPECTED: critical path \u00d71.5 + 4 review days. RISK_ADJUSTED: critical path \u00d72.2 + 6 review days (auth/RLS migrations against shared Supabase, CI currently red, data-model decisions pending).",
+  "FAST_PATH_working_days": 23,
+  "EXPECTED_working_days": 36,
+  "RISK_ADJUSTED_working_days": 52
+ },
+ "aio_onboarding_gate": {
+  "rule": "Create NO real AIO client account until every row is PASS/READY.",
+  "gates": [
+   {
+    "gate": "SITE00 CLIENT AUTH",
+    "now": "FAIL",
+    "items": [
+     "D01",
+     "D07"
+    ]
+   },
+   {
+    "gate": "CLIENT PROJECT ROOM",
+    "now": "PARTIAL",
+    "items": [
+     "A01",
+     "A02",
+     "A03",
+     "A04",
+     "A08",
+     "A09"
+    ]
+   },
+   {
+    "gate": "PROJECT FIREWALL",
+    "now": "FAIL",
+    "items": [
+     "D02",
+     "D08",
+     "B01",
+     "Q03"
+    ]
+   },
+   {
+    "gate": "REVIEWS",
+    "now": "FAIL (send) / PARTIAL (client actions)",
+    "items": [
+     "D10",
+     "A05",
+     "B02"
+    ]
+   },
+   {
+    "gate": "APPROVAL RETURN LOOP",
+    "now": "FAIL",
+    "items": [
+     "D11",
+     "B03",
+     "B05",
+     "Q01"
+    ]
+   },
+   {
+    "gate": "CLIENT INBOX",
+    "now": "FAIL",
+    "items": [
+     "D13",
+     "A06"
+    ]
+   },
+   {
+    "gate": "CLIENT LIBRARY",
+    "now": "FAIL",
+    "items": [
+     "D09",
+     "D15",
+     "A07"
+    ]
+   },
+   {
+    "gate": "CLIENT PERMISSIONS",
+    "now": "FAIL",
+    "items": [
+     "D03",
+     "D05"
+    ]
+   },
+   {
+    "gate": "CLIENT INVITE",
+    "now": "FAIL",
+    "items": [
+     "D06",
+     "A11",
+     "B04",
+     "B07"
+    ]
+   },
+   {
+    "gate": "AIO SCOPE",
+    "now": "NOT READY",
+    "items": [
+     "AIO forensics track F"
+    ]
+   },
+   {
+    "gate": "AIO BUDGET",
+    "now": "NOT READY",
+    "items": [
+     "track H"
+    ]
+   },
+   {
+    "gate": "AIO TIMELINE",
+    "now": "NOT READY",
+    "items": [
+     "track H"
+    ]
+   }
+  ],
+  "aio_may_begin_forensics": true,
+  "aio_may_begin_idnty_prep": true,
+  "aio_scope_budget_timeline_may_be_calculated": true,
+  "aio_real_client_may_be_onboarded": false
+ }
+}

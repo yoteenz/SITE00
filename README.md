@@ -38,9 +38,25 @@ On Cursor Cloud Agents, SITE 00 has its **own tunnel** on port **5174**:
 
 Secrets (optional persistent URL): `SITE00_CLOUDFLARE_TUNNEL_TOKEN`, `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`
 
-Setup guide in Frontal Slayer repo: `docs/cloud-agent/site00-preview-tunnel.md` (cloud agent scripts live there until moved).
+When `.cursor/environment.json` is active, both terminals start automatically on every Cloud Agent boot (tunnel script auto-restarts on exit). For preview that survives between agent sessions, deploy `dist/` to GoDaddy (see **GoDaddy deploy bundle** below) or run the tunnel on always-on infrastructure.
 
 Ephemeral URL file: `/tmp/site00-cloud-preview-url.txt`
+
+## GoDaddy deploy bundle (cPanel)
+
+Production SPA for **site00.com** — upload and extract into `public_html` (not the ZIP itself).
+
+| Item | Link |
+|------|------|
+| Latest production ZIP | [site00-production-dist-2026-08-22.zip](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-22/site00-production-dist-2026-08-22.zip) |
+| Deploy readme | [SITE00-DEPLOY-README.txt](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-22/SITE00-DEPLOY-README.txt) |
+| All releases | [GitHub Releases](https://github.com/yoteenz/SITE00/releases) |
+
+After upload: hard-refresh on mobile (Safari → pull to refresh or clear site data). Cloud preview tunnel reflects workspace code immediately; **site00.com** only updates after cPanel deploy.
+
+**Create account still goes to homepage?** View page source on site00.com. If the script tag still references `index.BT7zuSxb.js`, the old bundle is live — upload the latest release ZIP and extract in place.
+
+Setup guide in Frontal Slayer repo: `docs/cloud-agent/site00-preview-tunnel.md` (cloud agent scripts live there until moved).
 
 
 `VITE_SITE00_ROOT=1` is set at build time so `/` serves ORIGIN.

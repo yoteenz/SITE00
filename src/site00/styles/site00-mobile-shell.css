@@ -1,0 +1,39 @@
+/**
+ * SITE 00 — global mobile shell layout contract.
+ * Loaded after route-specific mobile CSS so symmetric gutter + box-sizing
+ * apply to every `.site00-mobile-shell` surface (IDNTY, BLDR, EVOLVE, CTRL ROOM, etc.).
+ */
+
+@media (max-width: 767px) {
+  .site00-mobile-shell,
+  .site00-mobile-shell *,
+  .site00-mobile-shell *::before,
+  .site00-mobile-shell *::after {
+    box-sizing: border-box;
+  }
+
+  .site00-mobile-shell {
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  .site00-mobile-shell__content,
+  .site00-mobile-shell__main {
+    overflow-x: clip;
+  }
+
+  /* Symmetric horizontal inset — keeps 2-col grids centered in the viewport */
+  .site00-mobile-shell__main {
+    padding-inline: clamp(16px, 5vw, 20px);
+  }
+
+  .site00-mobile-shell__main > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Grid / rail children must shrink inside padded main */
+  .site00-mobile-shell__main :is([class*='-grid'], [class*='__grid'], [class*='-rail'], [class*='__rail']) > * {
+    min-width: 0;
+  }
+}

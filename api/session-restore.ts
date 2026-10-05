@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createHmac, timingSafeEqual } from 'crypto';
-import { createClient } from '@supabase/supabase-js';
+import { createServerSupabaseClient } from './_lib/serverSupabase.js';
 import { useSecureSessionCookieAttribute } from './_lib/sessionCookieSecure.js';
 
 const COOKIE_NAME = 'baw_session_rt';
@@ -117,7 +117,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Invalid session cookie' });
   }
 
-  const supabase = createClient(supabaseUrl, supabaseAnon);
+  const supabase = createServerSupabaseClient(supabaseUrl, supabaseAnon);
   const { data, error } = await supabase.auth.refreshSession({ refresh_token: payload.rt });
   if (error || !data.session || !data.user) {
     clearRefreshCookie(res, secureCookie);

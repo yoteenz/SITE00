@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { AdminTable } from '../../components/operations/AdminTable';
 import { AdminStatusBadge } from '../../components/operations/AdminStatusBadge';
@@ -42,20 +43,21 @@ export default function IdentitiesPage() {
 
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ IDENTITIES ]</h1>
-          <p className="site00-admin-page-subtitle">ECOSYSTEM MEMBERS AND ONBOARDING STATE.</p>
-        </div>
-        <input
-          type="search"
-          className="site00-admin-search-input"
-          placeholder="SEARCH BY EMAIL OR NAME…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          aria-label="SEARCH IDENTITIES"
-        />
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="CLIENTS / NETWORK"
+        subtitle="WHO IS INSIDE SITE 00?"
+        actions={
+          <input
+            type="search"
+            className="site00-admin-search-input"
+            placeholder="SEARCH BY EMAIL OR NAME…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="SEARCH CLIENTS"
+          />
+        }
+      />
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 

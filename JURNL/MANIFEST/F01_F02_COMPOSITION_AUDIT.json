@@ -1,0 +1,22 @@
+{
+  "sprint": "P0.JURNL.F03-F04-GROK-PARENT-COMPOSITION-CREATIVE-DIRECTION-FUNCTIONAL-REPAIR1",
+  "action": "REGISTERED_FOR_LATER_SURGICAL_REPAIR",
+  "redesigned": false,
+  "findings": [
+    {
+      "family": "F01",
+      "rule": "VERTICAL_HEADER_BREATHING",
+      "note": "Entry titles sit in the form column near the top of each screen. Not changed in this sprint."
+    },
+    {
+      "family": "F02",
+      "rule": "BOTTOM_GROUP_CENTERING",
+      "note": "Setup actions live in the left content column. They are not a canvas-centered dock. Not changed in this sprint."
+    },
+    {
+      "family": "F02",
+      "rule": "MONEY_FORMATTING",
+      "note": "The approximate amount field stores a number and does not show a currency symbol. Not changed in this sprint."
+    }
+  ]
+}

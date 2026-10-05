@@ -1,0 +1,182 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "pipelines": {
+    "IDENTITY": {
+      "current": [
+        "Public discovery intake (gated from production profiles)",
+        "Post-purchase calibration",
+        "Deterministic Brand Lore synthesis",
+        "Brand Personality synthesis + readiness",
+        "Founder Creative Appetite (optional)",
+        "Core Direction Formation (Sonnet — 3 directions)",
+        "Visual production (ASSTS / creative range — separate path)"
+      ],
+      "recommended": [
+        "Business + brand intelligence",
+        "Identity Concept Territory formation (multiple distinct identity concepts)",
+        "Identity Concept distinctiveness gate",
+        "Identity Direction selection",
+        "Identity System compiler (verbal, visual, motion, sound where applicable)",
+        "Medium expression pilots (digital, print, environmental as scoped)",
+        "Founder judgment + guidelines compilation",
+        "Downstream handoff artifacts (not style-only exports)"
+      ],
+      "missingStages": ["Identity Concept Territory", "Identity System compiler", "Guidelines compilation gate"],
+      "misplacedStages": ["Core Direction Formation may be premature without identity concept layer for pure identity projects"],
+      "verdict": "MODIFY — add concept layer before direction; scope logic for identity-only vs full brand projects"
+    },
+    "CONTENT_CREATIVE": {
+      "current": [
+        "Brand Lore + Personality + Appetite",
+        "Concept Territory (Exp F) OR Core Direction",
+        "World Expression System",
+        "Format selection (carousel, hero, sequence)",
+        "Art direction + copy gates",
+        "FAL generation",
+        "Sequence cohesion gate",
+        "Founder judgment + surgical revision",
+        "Creative lineage"
+      ],
+      "recommended": [
+        "Brand intelligence",
+        "Topic strategy + editorial pillars",
+        "Content franchise / campaign concept",
+        "Creative concept (distinct from campaign)",
+        "Direction + World Expression",
+        "Format selection",
+        "Copy + art direction",
+        "Generation",
+        "Sequence / campaign assembly",
+        "Review + revision",
+        "Publication calendar",
+        "Performance evidence capture",
+        "Learning loop (evidence ≠ canon)"
+      ],
+      "missingStages": ["Topic strategy", "Editorial pillars", "Content calendar", "Campaign continuity", "Performance learning", "What to say next decision system"],
+      "misplacedStages": [],
+      "verdict": "ADD — content engine layer upstream of concept formation for ongoing brands"
+    },
+    "SITE": {
+      "current": [
+        "Project Intelligence manifest (module registry)",
+        "Commercial activation (pilot shortcuts)",
+        "Brand calibration",
+        "Experiment E experience formation (optional parallel path)",
+        "Functional canon extraction (per surface)",
+        "Visual reference capture",
+        "Design proof manifest (2 surfaces)",
+        "FAL asset generation + proof composition",
+        "Founder proof judgment",
+        "Implementation contract compilation",
+        "Composer orchestration (stub)",
+        "Fidelity evaluation (NOT_EVALUATED)"
+      ],
+      "recommended": [
+        "Project intelligence READY",
+        "Site strategy + business/conversion objectives",
+        "Site architecture + route inventory",
+        "Information architecture + content model",
+        "Page inventory + page families",
+        "Experience concept (site-level, not single hero)",
+        "Layout grammar + design tokens + component grammar",
+        "Surface-specific art direction briefs",
+        "Visual reference package per family",
+        "Visual development per surface family",
+        "Founder approval per family + site coherence gate",
+        "Implementation contract per family + site assembly contract",
+        "Composer dispatch with constraints",
+        "Implementation",
+        "Fidelity evaluation",
+        "Production promotion"
+      ],
+      "missingStages": ["Site architecture", "Page inventory", "Page families", "Layout/component grammar", "Site-wide coherence gate", "Multi-surface visual dev"],
+      "misplacedStages": ["Experience Expression asked to solve IA and site architecture via visual metaphor"],
+      "verdict": "SPLIT — separate Site Architecture from Experience Visual Development; bridge hero proof to page families"
+    },
+    "EXPERIENCE": {
+      "current": [
+        "Intelligence snapshot v2",
+        "Functional + Host + Client canon extraction",
+        "Deterministic 3 experience concepts",
+        "Distinctiveness gate",
+        "Founder concept judgment",
+        "Visual prompt compilation + FAL generation",
+        "Asset manifest + direction + production promotion",
+        "Implementation contract (concept-level)"
+      ],
+      "recommended": [
+        "Experience intent from project intelligence",
+        "Experience concept formation (generative, medium-native)",
+        "Interaction architecture",
+        "Information architecture within experience",
+        "Behavior model + conversion/business logic",
+        "Responsive translation strategy",
+        "Visual development (evidence-based, not metaphor-only)",
+        "Accessibility contract",
+        "Founder review",
+        "Implementation contract",
+        "Fidelity loop"
+      ],
+      "missingStages": ["Interaction architecture", "Behavior model", "Conversion logic", "Device-specific experience proof where mandatory"],
+      "misplacedStages": ["Visual metaphor carrying site architecture burden"],
+      "verdict": "MODIFY — reposition as experience behavior + interaction layer, not primary site IA solver"
+    },
+    "APPLICATION_PRODUCT": {
+      "current": [
+        "Project intelligence modules (APPLICATION_BEHAVIOR, USER_ROLES, WORKFLOW, PERSISTENT_STATE, NOTIFICATIONS) — intake only",
+        "No formation pipeline",
+        "No implementation path"
+      ],
+      "recommended": [
+        "Product strategy",
+        "User/role/job models",
+        "Core loop + workflow model",
+        "State + permission + notification models",
+        "Product experience concept",
+        "Product interaction system",
+        "Product information architecture",
+        "Responsive product behavior",
+        "Visual/UX development",
+        "Implementation contract",
+        "Product fidelity evaluation"
+      ],
+      "missingStages": ["Entire Product Expression methodology"],
+      "misplacedStages": [],
+      "verdict": "ADD — P2 architecture required before application production claims"
+    },
+    "MOTION": {
+      "current": ["MOTION_INTENT intelligence module", "MOTION sequence type in lineage", "Decorative references in canon fields"],
+      "recommended": ["Motion concept", "Timing/transition grammar", "Interaction relationship", "Reduced motion contract", "Motion asset production", "Motion evaluation"],
+      "missingStages": ["All production stages"],
+      "verdict": "DEFER — define methodology before implementation"
+    },
+    "PHYSICAL": {
+      "current": ["PHYSICAL_ARTIFACT lineage type", "Builder physical extensions mention"],
+      "recommended": ["Physical experience brief", "Material/environment spec", "Production vendor handoff", "Fidelity against brief"],
+      "missingStages": ["All"],
+      "verdict": "DEFER"
+    },
+    "WORLD": {
+      "current": [
+        "Guest world intake",
+        "World readiness profile (12 domains)",
+        "Future contracts (premise, bible, systems, fidelity)",
+        "WORLD_FORMATION_IMPLEMENTED=false"
+      ],
+      "recommended": [
+        "World intelligence (complete blocker domains)",
+        "World concept formation",
+        "World distinctiveness",
+        "World bible",
+        "World functional canon",
+        "World topology/systems",
+        "World asset direction",
+        "World visual development",
+        "World implementation",
+        "World fidelity"
+      ],
+      "missingStages": ["Presence/sync", "Economy", "Moderation", "UGC", "Session architecture", "All runtime stages"],
+      "verdict": "KEEP scaffolds — PREMATURE for runtime; ADD blocker domain research"
+    }
+  }
+}

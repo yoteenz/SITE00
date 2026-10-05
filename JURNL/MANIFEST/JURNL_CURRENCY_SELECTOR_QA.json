@@ -1,0 +1,61 @@
+{
+  "contract": "JURNL_CURRENCY_SELECTOR_QA",
+  "sprint": "P0.JURNL.CURRENCY-REAL-CONVERSION-CATALOG-SCROLL-REPAIR1",
+  "agent": "GROK",
+  "date": "2026-10-05",
+  "provider": "https://open.er-api.com/v6/latest/USD",
+  "provider_update": "2026-10-05T00:02:31Z",
+  "observed_rates_from_live_fetch": {
+    "note": "Captured during QA. Not hardcoded into the product.",
+    "EUR": 0.88889,
+    "GBP": 0.755727,
+    "JPY": 157.730309
+  },
+  "canonical_example_usd": 6500,
+  "display": {
+    "USD": "$6,500",
+    "EUR": "€5,777.79",
+    "GBP": "£4,912.23",
+    "JPY": "¥1,025,247",
+    "return_to_usd": "$6,500"
+  },
+  "activity_atelier": {
+    "USD": "$86",
+    "EUR": "€76.44"
+  },
+  "today_after_jpy_reload": {
+    "safe_to_spend": "¥1,025,247",
+    "rent": "¥283,915",
+    "groceries": "¥18,928",
+    "atelier": "¥13,565",
+    "market": "¥6,625"
+  },
+  "catalog_count": 20,
+  "visible_rows": 3,
+  "partial_fourth_row": 0,
+  "row_height_px": 52,
+  "list_height_px": 156,
+  "internal_scroll": {
+    "wheel_inside_scroll_top": 156,
+    "touch_inside_visible": ["JPY", "CHF", "CNY"],
+    "wheel_outside_does_not_move_list": true,
+    "programmatic_window": ["GBP", "CAD", "AUD"]
+  },
+  "jpy_open_window": ["CAD", "AUD", "JPY"],
+  "jpy_scroll_top": 156,
+  "active_treatment": "rgb(15, 61, 50)",
+  "search": false,
+  "ask_copy": "JURNL CONVERTS DISPLAYED AMOUNTS USING THE LATEST AVAILABLE EXCHANGE RATE. ORIGINAL VALUES STAY PRESERVED.",
+  "forbidden_copy_absent": "NO EXCHANGE",
+  "disclosure_example": "RATE UPDATED 5 OCT 2026 · 1 USD = 0.8889 EUR",
+  "viewports": {
+    "393x852": { "visible_rows": 3, "partial": 0, "page_scroll": 0, "horizontal_overflow": 0, "drawer_past_viewport": false },
+    "834x1194": { "visible_rows": 3, "partial": 0, "page_scroll": 0, "horizontal_overflow": 0, "drawer_past_viewport": false, "jpy_visible": true },
+    "1440x900": { "visible_rows": 3, "partial": 0, "page_scroll": 0, "horizontal_overflow": 0, "drawer_past_viewport": false, "jpy_visible": true }
+  },
+  "parent_families": "F05–F16 parent rows are preview composition labels, not ledger money. formatMoney is not applied to those strings. Today and Activity, including see-why, detail, and quick add, convert.",
+  "persistence_key": "jurnl.currency",
+  "rate_cache_key": "jurnl.exchangeRate",
+  "unintended_page_scroll": 0,
+  "horizontal_overflow": 0
+}

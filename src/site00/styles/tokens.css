@@ -12,6 +12,8 @@
   --site-text-muted: #6b6b6b;
   --site-red: #e8192c;
   --site-red-dim: rgba(232, 25, 44, 0.15);
+  --site00-host-accent: var(--site-red);
+  --site00-project-presence-accent: var(--site00-host-accent);
   --site00-icon-stroke: 1.75;
   /** Bottom status panel — shared height (Origin desktop + Enter). */
   --site00-bottom-panel-height: 36px;

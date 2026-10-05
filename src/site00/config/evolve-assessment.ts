@@ -149,12 +149,12 @@ export const EVOLVE_PATH_ASSESSMENT_CONFIG: Record<EvolvePathId, EvolvePathAsses
   refine: {
     id: 'refine',
     slug: 'refine',
-    stageMarker: 'PATH 01',
+    stageMarker: '01 / REFINE',
     title: 'REFINE',
-    declaration: 'IMPROVE WHAT YOU HAVE.',
+    declaration: 'OPTIMIZE WHAT EXISTS.',
     editorialBody:
       'ELEVATE DESIGN, UX, PERFORMANCE, ACCESSIBILITY, AND CONVERSION WITHOUT REBUILDING FROM ZERO.',
-    breadcrumb: 'SERVICES / EVOLVE / REFINE',
+    breadcrumb: 'EVOLVE / REFINE',
     primaryCta: 'CONTINUE →',
     completionTitle: 'EVOLVE INTAKE COMPLETE',
     completionSubtitle: 'YOUR REFINE ENGAGEMENT IS READY FOR SITE 00 ASSESSMENT.',
@@ -162,12 +162,12 @@ export const EVOLVE_PATH_ASSESSMENT_CONFIG: Record<EvolvePathId, EvolvePathAsses
   install: {
     id: 'install',
     slug: 'install',
-    stageMarker: 'PATH 02',
+    stageMarker: '02 / INSTALL',
     title: 'INSTALL',
-    declaration: 'ADD SITE 00 CAPABILITIES.',
+    declaration: 'EXPAND WHAT YOUR PROPERTY CAN DO.',
     editorialBody:
       'INTEGRATE PORTALS, AUTOMATION, AI, COMMERCE SYSTEMS, AND CUSTOM CONNECTIONS INTO YOUR EXISTING PROPERTY.',
-    breadcrumb: 'SERVICES / EVOLVE / INSTALL',
+    breadcrumb: 'EVOLVE / INSTALL',
     primaryCta: 'CONTINUE →',
     completionTitle: 'EVOLVE INTAKE COMPLETE',
     completionSubtitle: 'YOUR INSTALL ENGAGEMENT IS READY FOR SITE 00 ASSESSMENT.',
@@ -175,12 +175,12 @@ export const EVOLVE_PATH_ASSESSMENT_CONFIG: Record<EvolvePathId, EvolvePathAsses
   transform: {
     id: 'transform',
     slug: 'transform',
-    stageMarker: 'PATH 03',
+    stageMarker: '03 / TRANSFORM',
     title: 'TRANSFORM',
-    declaration: 'MODERNIZE AND REARCHITECT.',
+    declaration: 'REARCHITECT THE FOUNDATION.',
     editorialBody:
       'DEEPER MODERNIZATION — UX REDESIGN, STACK CHANGES, MIGRATIONS, AND PLATFORM EVOLUTION.',
-    breadcrumb: 'SERVICES / EVOLVE / TRANSFORM',
+    breadcrumb: 'EVOLVE / TRANSFORM',
     primaryCta: 'CONTINUE →',
     completionTitle: 'EVOLVE INTAKE COMPLETE',
     completionSubtitle: 'YOUR TRANSFORM ENGAGEMENT IS READY FOR SITE 00 ASSESSMENT.',

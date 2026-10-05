@@ -1,0 +1,159 @@
+{
+  "contract": "JURNL_HIERARCHICAL_EXPRESSION",
+  "cascade": [
+    "GLOBAL_JURNL_DNA",
+    "FAMILY",
+    "PARENT",
+    "CHILD",
+    "GRANDCHILD",
+    "STATE",
+    "INTERACTION",
+    "PANEL",
+    "CONTROL",
+    "LIVE_IMPLEMENTATION"
+  ],
+  "child_production": "BLOCKED_UNTIL_FOUNDER",
+  "paid_generation": "PARENT_ONLY",
+  "repetition_audit": {
+    "status": "PASS",
+    "compared_against": [
+      "F01",
+      "F02",
+      "F03",
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+      "F08",
+      "F09",
+      "F10",
+      "F11",
+      "F12"
+    ],
+    "notes": [
+      "Reference-guided reframe still leaves steps and plants in the rail.",
+      "No arch-bust-bowl-book still life.",
+      "No travertine desk.",
+      "No activity wall ledger."
+    ]
+  },
+  "generation_gate": {
+    "product_tree_locked_enough": true,
+    "family_expression_defined": true,
+    "parent_expression_defined": true,
+    "material_child_expressions_defined": true,
+    "environment_policies_defined": true,
+    "panel_control_policies_defined": true,
+    "repetition_audit": "PASS"
+  },
+  "nodes": [
+    {
+      "node_id": "F13",
+      "node_type": "FAMILY",
+      "product_job": "Turn debt reduction into a visible, controlled path.",
+      "expression_class": "FAMILY",
+      "expression_concept": "Steps descending toward a brighter garden.",
+      "parent_expression_inherited": "GLOBAL_JURNL_DNA",
+      "expression_changes": [
+        "A path, not a scolding."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "Descent",
+      "button_policy": "Global primitives",
+      "typography_policy": "The path leads. No punitive red.",
+      "interaction_policy": "The path is the parent. Changing it stays closed.",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F13.00",
+      "node_type": "PARENT",
+      "product_job": "Turn debt reduction into a visible, controlled path.",
+      "expression_class": "PARENT",
+      "expression_concept": "Steps descending toward a brighter garden.",
+      "parent_expression_inherited": "F13",
+      "expression_changes": [
+        "Reference-guided reframe still leaves steps and plants in the rail."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "Descent",
+      "button_policy": "Utility plus a closed child control",
+      "typography_policy": "The path leads. No punitive red.",
+      "interaction_policy": "Parent review only",
+      "motion_policy": "Still",
+      "distinct_authority_required": true
+    },
+    {
+      "node_id": "F13.PATH",
+      "node_type": "CHILD",
+      "product_job": "The longer path.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Same room. The longer path.",
+      "parent_expression_inherited": "F13.00",
+      "expression_changes": [
+        "Same plate. The job narrows."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "Descent",
+      "button_policy": "Inherited",
+      "typography_policy": "Inherited, slightly tighter",
+      "interaction_policy": "Not built",
+      "motion_policy": "Still",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F13.WHAT_IF",
+      "node_type": "CHILD",
+      "product_job": "A changed plan.",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "A dossier. The room steps back.",
+      "parent_expression_inherited": "F13.00",
+      "expression_changes": [
+        "No plate. A detail sheet."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "DETAIL",
+      "button_policy": "Quiet close",
+      "typography_policy": "Dossier labels",
+      "interaction_policy": "Not built",
+      "motion_policy": "Sheet rises",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F13.ST.NONE",
+      "node_type": "STATE",
+      "product_job": "No path is set.",
+      "expression_class": "STATE_LIKE",
+      "expression_concept": "No path is set.",
+      "parent_expression_inherited": "F13.00",
+      "expression_changes": [
+        "Same plate or none. Copy changes."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "EMPTY",
+      "button_policy": "One return",
+      "typography_policy": "Short",
+      "interaction_policy": "Not built",
+      "motion_policy": "Still",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F13.IX.CHANGE",
+      "node_type": "INTERACTION",
+      "product_job": "A change sheet. Closed.",
+      "expression_class": "INTERACTION_LIKE",
+      "expression_concept": "A change sheet. Closed.",
+      "parent_expression_inherited": "F13.00",
+      "expression_changes": [
+        "A sheet. No new plate."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "FORM",
+      "button_policy": "Global form or confirmation",
+      "typography_policy": "Inherited",
+      "interaction_policy": "Not built",
+      "motion_policy": "Sheet rises",
+      "distinct_authority_required": false
+    }
+  ]
+}

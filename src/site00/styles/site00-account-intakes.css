@@ -1,0 +1,125 @@
+/* SITE 00 — client Intake surface (Identity + Builder intake persistence infra) */
+
+.site00-account-intakes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.site00-account-intakes-card {
+  border: 1px solid #ddd;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.site00-account-intakes-card__body {
+  min-width: 0;
+  flex: 1 1 260px;
+}
+
+.site00-account-intakes-card__kicker {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: #eb1c24;
+  margin: 0 0 0.4rem;
+}
+
+.site00-account-intakes-card__status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.site00-account-intakes-card__project {
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: #555;
+}
+
+.site00-account-intakes-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+}
+
+.site00-account-intakes-card__meta dt {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin: 0;
+}
+
+.site00-account-intakes-card__meta dd {
+  font-size: 0.72rem;
+  margin: 0.1rem 0 0;
+}
+
+.site00-account-intakes-card__cta {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  color: #eb1c24;
+  text-decoration: none;
+}
+
+.site00-account-intakes-detail__next-step {
+  max-width: 52ch;
+  margin-top: 0.5rem;
+}
+
+.site00-account-intakes-detail__payload {
+  font-size: 0.68rem;
+  line-height: 1.5;
+  background: #f7f7f7;
+  border: 1px solid #e5e5e5;
+  padding: 0.75rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 360px;
+}
+
+/* Guest secure access/resume surface */
+.site00-intake-guest-access {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.site00-intake-guest-access__card {
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 1.5rem;
+}
+
+.site00-intake-guest-access__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .site00-account-intakes-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site00-account-intakes-card__cta {
+    align-self: flex-start;
+  }
+
+  .site00-intake-guest-access {
+    padding: 1.25rem 0.75rem;
+  }
+}
