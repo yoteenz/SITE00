@@ -121,7 +121,7 @@ export const JURNL_F02_CONTRACT: FamilyProductionContract = {
       trigger: 'CONTINUE',
       type: 'route_transition',
       componentRef: 'JURNL_BUTTON_PRIMARY',
-      navigationResult: 'NEXT STEP IN THE SCREEN TREE. F02.08 OPENS THE F03 TODAY BOUNDARY.',
+      navigationResult: 'NEXT STEP IN THE SCREEN TREE. F02.08 OPENS F03 TODAY.',
       authorityFile: `${AUTH_DIR}/F02.00_SETUP_PARENT.jpg`,
       sharing: 'shared',
     },

@@ -6,6 +6,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { f03ScreenForRoute } from '../../data/f03/screens';
+import { f04ScreenForRoute } from '../../data/f04/screens';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
 import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
 import {
@@ -103,6 +105,10 @@ function readJson<T>(raw: string | null, fallback: T): T {
 export function resolveJurnlRoute(target: string): string {
   if (target === 'F02') return F01_FAMILY_BOUNDARY.route;
   if (target === 'F03') return 'today';
+  if (target === 'F04') return 'activity';
+  if (target === 'F05') return 'money';
+  if (target === 'F08') return 'plan';
+  if (target === 'F12') return 'credit';
   return F01_SCREENS.find((s) => s.id === target)?.route ?? F02_SCREENS.find((s) => s.id === target)?.route ?? target.replace(/^\/+/, '');
 }
 
@@ -200,13 +206,16 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
     [basePath, navigate, params, inspect],
   );
 
-  // Route → host (screen tree highlight) + family boundary.
+  // Route → host. F02 → F03 posts only on the step from setup/ready into today.
+  const prevRel = useRef<string | null>(null);
   useEffect(() => {
     const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
-    const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel);
-    postToHost({ type: 'route', screenId: screen?.id ?? (rel === 'today' ? 'F03' : null), path: rel });
+    const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel) ?? f03ScreenForRoute(rel) ?? f04ScreenForRoute(rel);
+    const boundaryId = rel === 'money' ? 'F05.BOUNDARY' : rel === 'plan' ? 'F08.BOUNDARY' : rel === 'credit' ? 'F12.BOUNDARY' : null;
+    postToHost({ type: 'route', screenId: screen?.id ?? boundaryId, path: rel });
     if (rel === F01_FAMILY_BOUNDARY.route) postToHost({ type: 'family-boundary', from: F01_FAMILY_BOUNDARY.from, to: F01_FAMILY_BOUNDARY.to });
-    if (rel === 'today') postToHost({ type: 'family-boundary', from: 'F02', to: 'F03' });
+    if (rel === 'today' && prevRel.current === 'setup/ready') postToHost({ type: 'family-boundary', from: 'F02', to: 'F03' });
+    prevRel.current = rel;
   }, [location.pathname, basePath, postToHost]);
 
   // `?overlay=` deep links and overlay states (design-workspace inspection) re-open on param change.
