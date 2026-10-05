@@ -6,7 +6,10 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { apiFetch } from '../../../utils/api';
-import { listDesignEnabledManagedProjects } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
+import {
+  getSite00ManagedProject,
+  listDesignEnabledManagedProjects,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
 import { compileEntry002RetroactiveNarrativeMomentum } from '../../../../shared/site00-expression-engine/narrative-momentum/entry002RetroactiveIngest.js';
 import { buildEntry002ProductionCastState } from '../../../../shared/site00-studio-world/acting-catalogue/index.js';
 import {
@@ -44,6 +47,22 @@ const SLOT = (projectId: string) => `project.${projectId}.cover`;
 
 export type DecisionResult = { ok: true } | { ok: false; error: string };
 
+/**
+ * P0.JURNL.SITE00-INGEST-F01: never substitute another project's data. A project missing from the hub list
+ * (e.g. a newly ingested personal project) resolves from the managed registry, else as an empty project of its own.
+ */
+export function resolveHubProjectEntry(projects: readonly HubProjectEntry[], selectedProjectId: string): HubProjectEntry {
+  const found = projects.find((p) => p.projectId === selectedProjectId);
+  if (found) return found;
+  const managed = getSite00ManagedProject(selectedProjectId);
+  return {
+    projectId: selectedProjectId,
+    name: managed?.displayName ?? selectedProjectId.replace(/-/g, ' ').toUpperCase(),
+    productions: [],
+    slotId: SLOT(selectedProjectId),
+  };
+}
+
 export function useProductionHubData(selectedProjectId: string) {
   const engine = useExpressionEngineEntry002();
   const index = useSite00ProjectsIndex();
@@ -60,6 +79,11 @@ export function useProductionHubData(selectedProjectId: string) {
         : listDesignEnabledManagedProjects()
             .filter((p) => p.projectId !== 'site00')
             .map((p) => ({ projectId: p.projectId, name: p.displayName }));
+    // Founder PERSONAL projects ingested into SITE 00 (e.g. JURNL) are founder work even before the server index
+    // knows them (no org row yet) — list them instead of dropping them.
+    for (const m of listDesignEnabledManagedProjects()) {
+      if (m.relationship === 'PERSONAL' && !base.some((b) => b.projectId === m.projectId)) base.push({ projectId: m.projectId, name: m.displayName });
+    }
     return base.map((p) => ({
       ...p,
       slotId: SLOT(p.projectId),
@@ -70,7 +94,7 @@ export function useProductionHubData(selectedProjectId: string) {
     }));
   }, [index.projects, engine.phase2]);
 
-  const project = projects.find((p) => p.projectId === selectedProjectId) ?? projects[0]!;
+  const project: HubProjectEntry = useMemo(() => resolveHubProjectEntry(projects, selectedProjectId), [projects, selectedProjectId]);
   const production = project.productions[0] ?? null;
   const hasProduction = !!production;
   const isEntry002 = project.projectId === HUB_ENTRY002.projectId && hasProduction;

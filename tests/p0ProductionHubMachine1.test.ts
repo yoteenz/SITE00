@@ -133,9 +133,13 @@ describe('ui state machine', () => {
     expect(hubReducer(open, { type: 'SELECT_SCENE', sceneId: 'sc-2' }).overlay).toBe('NONE');
   });
 
-  it('node select toggles; inspector open/close; restore never reopens an overlay', () => {
+  it('node select toggles; panel face swaps inside fixed shell; inspector open/close', () => {
     const sel = hubReducer(s0, { type: 'SELECT_NODE', nodeId: 'cast' });
     expect(sel.selectedNodeId).toBe('cast');
+    expect(sel.selectedNodePanelFace).toBe('DETAIL');
+    const summary = hubReducer(sel, { type: 'NODE_PANEL_BACK' });
+    expect(summary.selectedNodePanelFace).toBe('SUMMARY');
+    expect(summary.selectedNodeId).toBe('cast');
     const ins = hubReducer(sel, { type: 'OPEN_INSPECTOR', nodeId: 'cast', tab: 'profile' });
     expect(ins.inspectionState).toEqual({ open: true, tab: 'profile' });
     expect(hubReducer(ins, { type: 'CLOSE_INSPECTOR' }).inspectionState.open).toBe(false);

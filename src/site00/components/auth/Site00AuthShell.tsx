@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
 import { SITE00_SIGNIN_DESKTOP_BG_FILE, SITE00_SIGNIN_ICON_PATH, SITE00_SIGNIN_ICON_VERSION } from '../../config/site00-auth-assets';
 import { SITE00_ROUTES } from '../../config/routes';
+import { isSite00SignInPaused } from '../../config/signInPaused';
 import { Site00AuthIntro } from './Site00AuthIntro';
 import { Site00OrbitalMark } from './Site00OrbitalMark';
 import { Site00SignInForm } from './Site00SignInForm';
@@ -64,7 +65,12 @@ export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShe
 
   const sharedForm =
     children ??
-    (variant === 'create-account' ?
+    (isSite00SignInPaused() ?
+      <p className="site00-auth-shell__paused" role="status">
+        SIGN IN IS PAUSED WHILE SUPABASE IS DOWN.{' '}
+        <Link to={SITE00_ROUTES.productionWorkspace}>CONTINUE TO PRODUCTION →</Link>
+      </p>
+    : variant === 'create-account' ?
       <Site00CreateAccountForm layout={authLayout} />
     : <Site00SignInForm layout={authLayout} />);
 

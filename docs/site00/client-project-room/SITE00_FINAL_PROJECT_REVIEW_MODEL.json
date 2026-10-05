@@ -1,0 +1,37 @@
+{
+ "artifact": "SITE00_FINAL_PROJECT_REVIEW_MODEL",
+ "follow_up": "P0.SITE00.CLIENT-PROJECT-ROOM-LIVE-VIEWPORT-WORKING-TREE-REVIEW1",
+ "applies_to": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PASS (defined)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "trigger": "All launch-critical families COMPLETE (from the gate model). Founder sends a review of kind FINAL.",
+ "location": "/app/:slug/reviews/:reviewId (kind FINAL) \u2014 surfaced as HOME NEEDS YOU: FINAL REVIEW.",
+ "segments": {
+  "SITE": "live end-to-end product in client viewports (all scenarios)",
+  "TREE": "complete connected architecture (all families APPROVED/CONNECTED)",
+  "SUMMARY": [
+   "SCOPE",
+   "APPROVALS",
+   "COMPLETION",
+   "DELIVERABLES",
+   "FINAL COSTS (actual)",
+   "DEFERRED ITEMS"
+  ]
+ },
+ "approval": {
+  "confirmation": "FINAL gate \u2192 explicit confirm (contractual) listing what becomes final",
+  "client_confirms": [
+   "I reviewed the live product",
+   "I reviewed the connected product structure"
+  ],
+  "not_required": "Re-approving every already-approved family.",
+  "evidence_recorded": [
+   "live_viewed",
+   "tree_viewed",
+   "viewports_viewed"
+  ],
+  "outcome": "PROJECT_COMPLETE event \u2192 LIBRARY FINAL FILES + archived working tree"
+ },
+ "needs_revision": "Allowed; feedback names the node(s) (tap a tree node or the live screen to attach). Classified IN_SCOPE vs SCOPE_CHANGE by founder.",
+ "history": "Families approved, current approved versions, revision history \u2014 available behind HISTORY."
+}

@@ -167,6 +167,12 @@ export default defineConfig(({ mode, command }) => {
       'import.meta.env.VITE_APP_VERSION': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_SITE00_ROOT': JSON.stringify('1'),
       'import.meta.env.VITE_SITE00_CLOUD_PREVIEW': JSON.stringify(cloudMobilePreview ? '1' : '0'),
+      'import.meta.env.VITE_SITE00_EC_PREVIEW_GUEST': JSON.stringify(
+        process.env.VITE_SITE00_EC_PREVIEW_GUEST === '1' ? '1' : '0',
+      ),
+      'import.meta.env.VITE_SITE00_CLIENT_APP_PREVIEW': JSON.stringify(
+        process.env.VITE_SITE00_CLIENT_APP_PREVIEW === '1' ? '1' : '0',
+      ),
     },
     resolve: {
       alias: [

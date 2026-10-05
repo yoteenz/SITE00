@@ -1,0 +1,56 @@
+{
+  "family_id": "F05",
+  "family_name": "MONEY",
+  "product_job": "Show the financial landscape: what is held, where it sits, and how it is organized.",
+  "user_question_answered": "What do I have, where is it, and how is my money organized?",
+  "primary_signal": "Organized places, not a balance costume.",
+  "emotional_role": "Substantial, composed, material.",
+  "spatial_metaphor": "A refined limestone cabinet.",
+  "architectural_character": "Straight-on pale stone cabinet. Open linen compartments on the right. Left plaster stays clear.",
+  "lighting_character": "Soft side light. No vault dark.",
+  "material_emphasis": "Limestone, linen, one ivory cloth.",
+  "environmental_focal_point": "The open cabinet on the right.",
+  "object_language": "Compartments and one folded cloth. No coins.",
+  "botanical_role": "A coastal glimpse at the far edge, not a plant in the rail.",
+  "negative_space_strategy": "Left half is quiet plaster.",
+  "composition_bias": "Left rail, right cabinet.",
+  "information_density": "One landscape, three shares.",
+  "panel_behavior": "Editorial compartments, not a glass card.",
+  "button_behavior": "Utility board and today. The child control is closed.",
+  "data_visualization_character": "Landscape shares.",
+  "interaction_character": "Review the parent. The account dossier stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "The place count leads. Labels stay small.",
+  "relationship_to_previous_family": "After activity's ledger. This is where money sits, not what moved.",
+  "relationship_to_next_family": "Income is the arrival, not the cabinet.",
+  "relationship_to_other_families": "Not today's figure and not the activity wall.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Cabinet",
+    "Distribution",
+    "Quiet left plaster"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "A dark vault",
+    "A fintech grid",
+    "The entry still life"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

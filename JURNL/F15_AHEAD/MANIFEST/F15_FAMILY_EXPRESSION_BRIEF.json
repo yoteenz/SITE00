@@ -1,0 +1,55 @@
+{
+  "family_id": "F15",
+  "family_name": "AHEAD",
+  "product_job": "Show the likely future.",
+  "user_question_answered": "Where am I headed if things continue like this?",
+  "primary_signal": "One continuing path.",
+  "emotional_role": "Foresight and distance.",
+  "spatial_metaphor": "A high overlook of layered headlands.",
+  "architectural_character": "Sky, sea, and headlands. The sea still occupies the left rail.",
+  "lighting_character": "Soft haze. Not sci-fi.",
+  "material_emphasis": "Stone overlook and distant coast.",
+  "environmental_focal_point": "The layered headlands.",
+  "object_language": "None. No hologram.",
+  "botanical_role": "A little green low on the right.",
+  "negative_space_strategy": "The left was meant to be empty sky. The sea remains.",
+  "composition_bias": "Left forecast, horizon right. The picture did not clear the left.",
+  "information_density": "Near and far.",
+  "panel_behavior": "A forecast pair, not a glowing chart.",
+  "button_behavior": "Another path stays closed.",
+  "data_visualization_character": "Two distances.",
+  "interaction_character": "The continuing path is the parent. A branch stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "Distance words. No sci-fi display.",
+  "relationship_to_previous_family": "Goals are chosen. Ahead is what happens if the present continues.",
+  "relationship_to_next_family": "Records are the proof of what already happened.",
+  "relationship_to_other_families": "Not science fiction and not the upcoming colonnade.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Overlook",
+    "Headlands",
+    "Distance"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "Sci-fi",
+    "The horizon through the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

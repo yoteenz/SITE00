@@ -71,15 +71,21 @@ async function hydrateSupabaseSessionFromStorageIfNeeded(
   }
 }
 
+const ACCESS_TOKEN_STEP_TIMEOUT_MS = 8_000;
+
 export async function getAccessToken(): Promise<string | null> {
   const supabase = (await import('./supabase')).getSupabase();
   if (!supabase) return readAccessTokenFromSupabaseStorage();
 
   await hydrateSupabaseSessionFromStorageIfNeeded(supabase);
 
+  const { promiseWithTimeout } = await import('./promiseWithTimeout');
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await promiseWithTimeout(supabase.auth.getSession(), ACCESS_TOKEN_STEP_TIMEOUT_MS, {
+    data: { session: null },
+    error: null,
+  });
   if (session?.access_token && !isAccessTokenLikelyExpired(session.access_token)) {
     return session.access_token;
   }
@@ -87,10 +93,17 @@ export async function getAccessToken(): Promise<string | null> {
   const blob = readSupabaseSessionBlobFromStorage();
   if (blob?.refresh_token) {
     try {
-      await supabase.auth.refreshSession({ refresh_token: blob.refresh_token });
+      await promiseWithTimeout(
+        supabase.auth.refreshSession({ refresh_token: blob.refresh_token }),
+        ACCESS_TOKEN_STEP_TIMEOUT_MS,
+        { data: { user: null, session: null }, error: null },
+      );
       const {
         data: { session: s2 },
-      } = await supabase.auth.getSession();
+      } = await promiseWithTimeout(supabase.auth.getSession(), ACCESS_TOKEN_STEP_TIMEOUT_MS, {
+        data: { session: null },
+        error: null,
+      });
       if (s2?.access_token) return s2.access_token;
     } catch {
       /* fall through */

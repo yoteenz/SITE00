@@ -17,6 +17,11 @@ export function isSite00CloudPreviewBuild(): boolean {
   return meta?.getAttribute('content') === '1';
 }
 
+/** @deprecated Use isSite00EcPreviewGuestFeatureActive() + route allowlist from site00ShellAuthState. */
+export function isSite00ExperienceCompilerPreviewGuestBypass(): boolean {
+  return isSite00CloudPreviewBuild() || isSite00PreviewTunnelHost();
+}
+
 export function isSite00PreviewTunnelHost(hostname?: string): boolean {
   const host = (hostname ?? (typeof window !== 'undefined' ? window.location.hostname : '')).toLowerCase();
   if (!host) return false;

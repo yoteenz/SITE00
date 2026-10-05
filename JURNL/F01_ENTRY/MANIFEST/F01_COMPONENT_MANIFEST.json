@@ -1,0 +1,156 @@
+{
+  "family": "F01_ENTRY",
+  "formSystem": {
+    "fieldGeometry": "square-rounded",
+    "fieldMaterial": "bone / soft ivory",
+    "border": "subtle neutral",
+    "focus": "deep emerald",
+    "error": "burgundy / wine",
+    "success": "deep emerald",
+    "labels": "UPPERCASE",
+    "placeholders": "UPPERCASE",
+    "checkboxes": "square-rounded (not circular)"
+  },
+  "buttons": {
+    "primary": {
+      "fill": "deep emerald",
+      "geometry": "square-rounded",
+      "label": "UPPERCASE"
+    },
+    "secondary": {
+      "fill": "bone/ivory",
+      "border": "subtle neutral",
+      "geometry": "square-rounded"
+    },
+    "tertiary": "text action or light square-rounded",
+    "destructive": {
+      "fill": "burgundy/wine",
+      "geometry": "square-rounded"
+    },
+    "prohibited": [
+      "circular tappable controls",
+      "capsule pills"
+    ]
+  },
+  "typography": {
+    "display": "fashion-condensed uppercase serif",
+    "functional": "clean condensed sans uppercase"
+  },
+  "logo": {
+    "mark": "muted rose botanical + vertical rule + stacked JURNL",
+    "integration": "small, embedded \u2014 never sticker hero",
+    "canonicalFile": "ASSETS/REFERENCE_JURNL_LOGO_OFFICIAL.jpg",
+    "welcomePlacement": {
+      "normalizedBox": [
+        0.03,
+        0.03,
+        0.16,
+        0.12
+      ],
+      "canonicalLogoFile": "ASSETS/REFERENCE_JURNL_LOGO_OFFICIAL.jpg",
+      "sourceScreen": "F01.00",
+      "notes": "Use official logo asset \u2014 not a raster crop from parent."
+    }
+  },
+  "buttonReferences": {
+    "sourceScreen": "F01.00",
+    "sourceGeneration": "WjkVD1jNeggB0iWBABM6",
+    "note": "Implementation components \u2014 not reusable raster ASSETS.",
+    "primary": {
+      "id": "ENTRY.BUTTON.PRIMARY.001",
+      "implementation": {
+        "fill": "deep emerald",
+        "geometry": "square-rounded",
+        "label": "UPPERCASE"
+      },
+      "parentNormalizedBox": [
+        0.1,
+        0.835,
+        0.9,
+        0.875
+      ],
+      "visualReference": "MANIFEST/COMPONENT_REFERENCES/ENTRY.BUTTON.PRIMARY.001.png"
+    },
+    "secondary": {
+      "id": "ENTRY.BUTTON.SECONDARY.001",
+      "implementation": {
+        "fill": "bone/ivory",
+        "border": "subtle neutral",
+        "geometry": "square-rounded"
+      },
+      "parentNormalizedBox": [
+        0.1,
+        0.895,
+        0.9,
+        0.935
+      ],
+      "visualReference": "MANIFEST/COMPONENT_REFERENCES/ENTRY.BUTTON.SECONDARY.001.png"
+    }
+  },
+  "lightOverlay": {
+    "id": "ENTRY.LIGHT.SUN.001",
+    "file": "OVERLAYS/ENTRY.LIGHT.SUN.001.png",
+    "implementationRecipe": "Multiply warm soft-light overlay over plaster regions; anchor upper-left."
+  },
+  "interactionPrimitives": {
+    "JURNL_DRAWER_SHORT": {
+      "geometry": "square-rounded top corners",
+      "maxHeight": "45vh mobile",
+      "material": "bone ivory + paper",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_DRAWER_LONG": {
+      "geometry": "square-rounded top corners",
+      "scroll": true,
+      "maxHeight": "85vh mobile",
+      "material": "bone ivory + paper + plaster hint",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_FULL_SCREEN_SHEET": {
+      "geometry": "square-rounded header bar",
+      "material": "bone ivory",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_CONFIRMATION_MODAL": {
+      "geometry": "square-rounded card",
+      "dimmedScrim": true,
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_INLINE_EXPANSION": {
+      "geometry": "square-rounded inset panel",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_ERROR_PANEL": {
+      "fill": "burgundy wine text on bone panel",
+      "geometry": "square-rounded",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_SUCCESS_BANNER": {
+      "fill": "deep emerald accent strip",
+      "geometry": "square-rounded",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_LOADING_BUTTON": {
+      "geometry": "square-rounded",
+      "spinner": "inline square pulse \u2014 NOT circular button",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_INPUT_FOCUSED": {
+      "border": "deep emerald",
+      "geometry": "square-rounded",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_EXTERNAL_HANDOFF": {
+      "description": "JURNL transition card before opening Mail/external app",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_NATIVE_HANDOFF_BOUNDARY": {
+      "description": "JURNL-branded hold screen \u2014 never fake system Face ID / Apple sheets",
+      "authority": "INTERACTIONS/F01_INTERACTION_MASTER_SHEET.png"
+    },
+    "JURNL_ROUTE_TRANSITION": {
+      "description": "Crossfade/push between F01 routes and F01\u2192F02 boundary",
+      "authority": "INTERACTIONS/F01_FAMILY_TRANSITION_AUTHORITY.png"
+    }
+  }
+}

@@ -1,0 +1,1210 @@
+{
+  "surfaces": [
+    {
+      "id": "origin",
+      "name": "ORIGIN / homepage",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "component": "OriginPage (Site00OriginRouteShell)",
+      "file": "src/site00/pages/OriginPage.tsx",
+      "family": "PUBLIC",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL_COPY (status strip metrics are hard-coded placeholders: ACTIVE SITES 047 / BUILDS 12, config/status.ts:13-20)",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Mobile-first; desktop via preview-mode state (native viewport on wide screens, scaled artboard on phones). '/' only mounts when VITE_SITE00_ROOT=1 (Site00Routes.tsx:547-574); otherwise '/' is unmatched and App '*' -> '/' loops back.",
+      "nav_sources": [
+        "public desktop logo (Site00LogoBlock.tsx:24)",
+        "mobile bottom nav ORIGIN (mobile-site-nav.ts:24-29)",
+        "fast travel RETURN 00 ORIGIN (fast-travel.ts:82)",
+        "EXIT 00 (DirectoryExitButton.tsx:8, EntryToggle.tsx:17)",
+        "auth BACK (Site00SignInForm.tsx:137)"
+      ],
+      "next_actions": [
+        "IDNTY card -> expanded panel -> /idnty/state (IdntyExpandedPanel.tsx:104)",
+        "BLDR card -> /bldr/state (BldrExpandedPanel.tsx:99)",
+        "EVOLVE card -> /evolve/state or /evolve (EvolveExpandedPanel.tsx:21,77)",
+        "ENTER 00 -> /enter (EntryToggle.tsx:29, OriginMobileSwipeUp.tsx:37)",
+        "swipe up -> /origin/locations (useOriginLocationsTransition.ts:21)"
+      ],
+      "back_path": "root",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/origin/desktop -> /origin (Site00OriginDesktopLegacyRedirect)"
+      ],
+      "notes": "'NEED GUIDANCE? TALK TO OUR BUILD GUIDE' status-strip button has no onClick (StatusStrip.tsx:48-50) - dead CTA. No separate inception/'origin story' page exists; /origin is an alias of '/'. /projects/:slug/origin is a project-scoped page, not a public origin page."
+    },
+    {
+      "id": "enter",
+      "name": "ENTER 00 / WAITING ROOM directory",
+      "routes": [
+        "/enter"
+      ],
+      "component": "EnterPage + DirectoryPanel",
+      "file": "src/site00/pages/EnterPage.tsx",
+      "family": "PUBLIC",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Uses Site00AppShell desktop header on all viewports inside OriginRouteShell; environmentId ENTER_00_WAITING_ROOM.",
+      "nav_sources": [
+        "EntryToggle ENTER 00 (public desktop header)",
+        "OriginMobileSwipeUp 'ENTER SITE 00'",
+        "GuidePage seed (draft-gated)"
+      ],
+      "next_actions": [
+        "EXPLORE: SITES/SERVICES/SYSTEM/ABOUT/JOURNAL",
+        "YOUR SPACE: BLDR STUDIO, PROJECTS*, ACCOUNT*(->/control), SUPPORT (directory.ts:30-117)"
+      ],
+      "back_path": "EXIT 00 -> /origin (EntryToggle.tsx:14-24)",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "'WAITING ROOM' exists only as environment id/asset naming; no user-visible 'WAITING ROOM' label except FAQ seed copy. Directory omits IDNTY and EVOLVE (YOUR SPACE has 'BLDR STUDIO' - 'STUDIO' term conflicts with STUDIO OS/STUDIO WORLD ontology). ACCOUNT row points to /control not /account."
+    },
+    {
+      "id": "locations",
+      "name": "LOCATIONS directory (fast-travel map)",
+      "routes": [
+        "/origin/locations"
+      ],
+      "component": "LocationsPage + LocationsDirectory",
+      "file": "src/site00/pages/LocationsPage.tsx",
+      "family": "PUBLIC",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "MOBILE-ONLY: viewport >767px is redirected to /origin (LocationsPage.tsx:37-39).",
+      "nav_sources": [
+        "mobile bottom nav center bay (mobile-site-nav.ts:37-41)",
+        "fast travel RETURN LOCATIONS",
+        "origin swipe-up",
+        "public rail nav (unused component)"
+      ],
+      "next_actions": [
+        "PUBLIC WORLD 01-07: BLDR, EVOLVE, SITES, SERVICES, SYSTEM, ABOUT, JOURNAL",
+        "YOUR SPACE 08-11: IDNTY, CTRL ROOM*, PROJECTS*, MY SITES* (locations-directory.ts:30-125)"
+      ],
+      "back_path": "EXIT 00 -> /origin (header variant 'directory')",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "Desktop users can never see LOCATIONS; desktop deep link silently bounces. Numbering differs from fast-travel indices (fast-travel: SITES=02, IDNTY=07, CTRL=08, PROJECTS=09)."
+    },
+    {
+      "id": "idnty-hub",
+      "name": "IDNTY hub / gateway",
+      "routes": [
+        "/idnty"
+      ],
+      "component": "IdntyHubPage (signed-out gateway / signed-in IdntyControlCenter in EcosystemShell)",
+      "file": "src/site00/pages/idnty/IdntyHubPage.tsx",
+      "family": "IDNTY",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Signed-out uses Site00PublicShell; signed-in swaps to EcosystemShell (operating world chrome) on same URL.",
+      "nav_sources": [
+        "public top nav IDNTY",
+        "mobile drawer (unused)",
+        "locations 08",
+        "fast travel MY SPACE",
+        "operating top nav profile (OperatingWorldTopNav.tsx:51)",
+        "ecosystem mobile nav (unused)",
+        "/identity alias"
+      ],
+      "next_actions": [
+        "SIGN IN -> /origin/sign-in?returnTo",
+        "CREATE IDNTY -> /idnty/state?serviceId=services-hub-branding... (IdntyHubPage.tsx:15-19)"
+      ],
+      "back_path": "logo -> /origin",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/idnty/desktop -> /idnty",
+        "/identity/* -> /idnty/*"
+      ],
+      "notes": "'CREATE IDNTY' goes to diagnostic, not account creation - conflates identity (brand) with identity (account). Mobile bottom-nav IDNTY bay goes to /idnty/state instead (mobile-site-nav.ts:33)."
+    },
+    {
+      "id": "idnty-state",
+      "name": "IDNTY state diagnostic (00/01/02/03)",
+      "routes": [
+        "/idnty/state"
+      ],
+      "component": "IdntyStatePage",
+      "file": "src/site00/pages/IdntyStatePage.tsx",
+      "family": "IDNTY",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL_COPY + pricing tiers (identity.ts:96-121)",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Mobile: Site00MobileShell + IdntyMobileDiagnostic; Desktop: Site00AppShell workflow environment.",
+      "nav_sources": [
+        "origin IDNTY expanded panel",
+        "mobile bottom nav IDNTY",
+        "fast travel CREATE IDENTITY",
+        "guide seed",
+        "brand page"
+      ],
+      "next_actions": [
+        "select state -> /idnty/{starting-at-zero|some-pieces-exist|ready-for-evolution|build-ready}",
+        "resume assessment"
+      ],
+      "back_path": "bottom nav / fast travel",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/idnty/state/desktop -> /idnty/state (+desktop preview)"
+      ],
+      "notes": "States map to locked ontology 00-03 (identity.ts:18-41; slugs routes.ts:815-820)."
+    },
+    {
+      "id": "idnty-assessment",
+      "name": "IDNTY assessment flows",
+      "routes": [
+        "/idnty/:stateSlug/*"
+      ],
+      "component": "IdntyAssessmentRouterPage",
+      "file": "src/site00/pages/idnty/assessment/IdntyAssessmentRouterPage.tsx",
+      "family": "IDNTY",
+      "status": "PARTIAL",
+      "content_completeness": "REAL_COPY; build-ready verification has no backend (authority manifest STRUCTURE_IMPLEMENTED_WITH_DEVIATION)",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Mobile calibration layout vs desktop card layout.",
+      "nav_sources": [
+        "/idnty/state"
+      ],
+      "next_actions": [
+        "complete -> CONTINUE TO BLDR (/bldr/state) or BOOK DISCOVERY CALL (/support) (idnty-assessment.ts:219-351)",
+        "SIGN IN TO SAVE (signed-out)",
+        "guest access email capture"
+      ],
+      "back_path": "IDNTY hub link on completion",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/idnty/:slug/desktop/* -> base"
+      ],
+      "notes": "'BOOK DISCOVERY CALL' lands on /support which has no booking - soft dead end. Server autosave via useIntakeSync('IDENTITY')."
+    },
+    {
+      "id": "idnty-signin-security",
+      "name": "IDNTY sign-in & security",
+      "routes": [
+        "/idnty/sign-in-security"
+      ],
+      "component": "IdntySignInSecurityPage",
+      "file": "src/site00/pages/idnty/IdntySignInSecurityPage.tsx",
+      "family": "ACCOUNT",
+      "status": "PARTIAL",
+      "content_completeness": "activity log empty state 'NOT YET EXPOSED'",
+      "language_fit": "MIXED",
+      "responsive": "Public shell, NOT auth-guarded.",
+      "nav_sources": [
+        "IDNTY control center",
+        "/account draft page"
+      ],
+      "next_actions": [
+        "back to IDNTY"
+      ],
+      "back_path": "back link",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/idnty/sign-in-security/desktop"
+      ],
+      "notes": "Account function living under IDNTY family without account guard."
+    },
+    {
+      "id": "bldr-hub",
+      "name": "BLDR hub",
+      "routes": [
+        "/bldr"
+      ],
+      "component": "BldrHubPage",
+      "file": "src/site00/pages/bldr/BldrHubPage.tsx",
+      "family": "BLDR",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL_COPY (hub stages)",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Separate mobile (BldrMobileExperience) and desktop (BldrDesktopHub) trees.",
+      "nav_sources": [
+        "public top nav BLDR / START BUILD",
+        "drawer",
+        "locations 01 (contextual href)",
+        "/enter BLDR STUDIO",
+        "services card",
+        "sites CTA"
+      ],
+      "next_actions": [
+        "START BUILDING -> /bldr/start (BldrHubPage.tsx:35)"
+      ],
+      "back_path": "top nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/bldr/desktop"
+      ],
+      "notes": "Authority pack marks /bldr WAITING_FOR_AUTHORITY."
+    },
+    {
+      "id": "bldr-start",
+      "name": "BLDR direction entry",
+      "routes": [
+        "/bldr/start"
+      ],
+      "component": "BldrStartPage -> BldrEntryPage",
+      "file": "src/site00/pages/bldr/BldrStartPage.tsx",
+      "family": "BLDR",
+      "status": "PARTIAL",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Mobile shell only (Site00MobileShell) even in desktop preview.",
+      "nav_sources": [
+        "BLDR hub",
+        "ProjectIndex empty CTA",
+        "IDNTY build-ready",
+        "BldrActivationCTA"
+      ],
+      "next_actions": [
+        "direction cards -> /bldr/state (bldr-entry.ts:41,51)"
+      ],
+      "back_path": "bottom nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/bldr/start/desktop"
+      ],
+      "notes": "Self-described 'Legacy BLDR direction entry'; redundant hop: /bldr -> /bldr/start -> /bldr/state."
+    },
+    {
+      "id": "bldr-state",
+      "name": "BLDR build-class selection",
+      "routes": [
+        "/bldr/state"
+      ],
+      "component": "BldrStatePage",
+      "file": "src/site00/pages/BldrStatePage.tsx",
+      "family": "BLDR",
+      "status": "PARTIAL",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "MIXED",
+      "responsive": "Mobile BldrClassificationMobile; desktop Site00AppShell.",
+      "nav_sources": [
+        "origin BLDR panel",
+        "fast travel FIND MY BUILD TYPE / BUILD SELECTION",
+        "IDNTY completion",
+        "new project card",
+        "templates"
+      ],
+      "next_actions": [
+        "class -> /bldr/{site|world|enterprise|not-sure}"
+      ],
+      "back_path": "bottom nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/bldr/state/desktop"
+      ],
+      "notes": "ONTOLOGY MISMATCH: code classes SITE/WORLD/ENTERPRISE/NOT SURE (bldr-classification.ts:32-34, routes.ts:846) vs locked SITE/WORLD/SYSTEMS/EXTENSIONS. No SYSTEMS or EXTENSIONS route; authority manifest notes EXTENSIONS WAITING_FOR_ROUTE."
+    },
+    {
+      "id": "bldr-assessment",
+      "name": "BLDR intake/assessment",
+      "routes": [
+        "/bldr/:classSlug/*"
+      ],
+      "component": "BldrAssessmentRouterPage",
+      "file": "src/site00/pages/bldr/assessment/BldrAssessmentRouterPage.tsx",
+      "family": "BLDR",
+      "status": "PARTIAL",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Mobile/desktop variants.",
+      "nav_sources": [
+        "/bldr/state"
+      ],
+      "next_actions": [
+        "complete -> CREATE PROJECT (/projects - auth-guarded index, no create action for clients) or BOOK DISCOVERY (/support) (bldr-assessment.ts:287-393)"
+      ],
+      "back_path": "BACK -> /bldr/state",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/bldr/:classSlug/desktop/*"
+      ],
+      "notes": "'CREATE PROJECT ->' does not create a project; /projects shows a FOUNDER view-mode index."
+    },
+    {
+      "id": "bldr-templates",
+      "name": "BLDR templates",
+      "routes": [
+        "/bldr/templates"
+      ],
+      "component": "BldrTemplatesPage",
+      "file": "src/site00/pages/bldr/BldrTemplatesPage.tsx",
+      "family": "BLDR",
+      "status": "PLACEHOLDER",
+      "content_completeness": "EMPTY seed (SITE00_TEMPLATES_SEED=[]) -> 'NO TEMPLATES YET'",
+      "language_fit": "GENERIC",
+      "responsive": "Public shell.",
+      "nav_sources": [
+        "/blueprints draft only"
+      ],
+      "next_actions": [
+        "CONTACT SUPPORT"
+      ],
+      "back_path": "<- BACK /bldr",
+      "dead_end": true,
+      "orphan": true,
+      "legacy_routes": [
+        "/bldr/templates/desktop"
+      ],
+      "notes": "Effectively orphan; only reachable from draft-gated /blueprints."
+    },
+    {
+      "id": "evolve-hub",
+      "name": "EVOLVE hub",
+      "routes": [
+        "/evolve"
+      ],
+      "component": "EvolveHubPage",
+      "file": "src/site00/pages/evolve/EvolveHubPage.tsx",
+      "family": "EVOLVE",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL_COPY (paths/process/systems/cases/FAQ)",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Separate mobile/desktop experiences.",
+      "nav_sources": [
+        "drawer (unused)",
+        "locations 02",
+        "origin EVOLVE panel ghost link",
+        "services card"
+      ],
+      "next_actions": [
+        "path card -> /evolve/{refine|install|transform}",
+        "final CTA"
+      ],
+      "back_path": "bottom nav (EVOLVE highlights LOCATIONS bay)",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/evolve/desktop"
+      ],
+      "notes": "Not in public desktop top nav or SITE00_GLOBAL_NAV - desktop users reach EVOLVE only via origin card/services."
+    },
+    {
+      "id": "evolve-state",
+      "name": "EVOLVE intervention center",
+      "routes": [
+        "/evolve/state"
+      ],
+      "component": "EvolveStatePage",
+      "file": "src/site00/pages/EvolveStatePage.tsx",
+      "family": "EVOLVE",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL_COPY + MarketingCapabilityCard",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Mobile/desktop.",
+      "nav_sources": [
+        "origin EVOLVE panel",
+        "guide seed"
+      ],
+      "next_actions": [
+        "REFINE/INSTALL/TRANSFORM -> /evolve/:path/property"
+      ],
+      "back_path": "bottom nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/evolve/state/desktop"
+      ],
+      "notes": "Ontology matches (evolve.ts:23-74)."
+    },
+    {
+      "id": "evolve-assessment",
+      "name": "EVOLVE assessment",
+      "routes": [
+        "/evolve/:pathSlug/*"
+      ],
+      "component": "EvolveAssessmentRouterPage",
+      "file": "src/site00/pages/evolve/assessment/EvolveAssessmentRouterPage.tsx",
+      "family": "EVOLVE",
+      "status": "PARTIAL",
+      "content_completeness": "REAL_COPY; ENTER STUDIO step claims 'AUTHORIZE, PAY' but no checkout",
+      "language_fit": "MIXED",
+      "responsive": "Mobile/desktop.",
+      "nav_sources": [
+        "/evolve, /evolve/state"
+      ],
+      "next_actions": [
+        "complete -> CTRL ROOM /control (EvolveAssessmentCompletePage.tsx:28)"
+      ],
+      "back_path": "/evolve/state",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/evolve/:slug/desktop/*"
+      ],
+      "notes": "Completion drops user in /control with no created project link; 'ENTER STUDIO' language exposes internal STUDIO naming."
+    },
+    {
+      "id": "evolve-plans",
+      "name": "EVOLVE plans / pricing",
+      "routes": [
+        "/evolve/plans"
+      ],
+      "component": "EvolvePricingPage",
+      "file": "src/site00/pages/evolve/EvolvePricingPage.tsx",
+      "family": "EVOLVE",
+      "status": "PARTIAL",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "GENERIC",
+      "responsive": "Mobile/desktop.",
+      "nav_sources": [
+        "SelfDirectedViews CHANGE PACKAGE (client app only)"
+      ],
+      "next_actions": [
+        "consult -> /contact?offer=consult (BROKEN: draft-gated -> redirects to /)"
+      ],
+      "back_path": "none",
+      "dead_end": true,
+      "orphan": true,
+      "legacy_routes": [
+        "/evolve/plans/desktop NOT handled (not in SITE00_PUBLIC_PAGE_BASES) -> Site00PublicDesktopLegacyRedirect returns null = blank page"
+      ],
+      "notes": "Not linked from any public nav."
+    },
+    {
+      "id": "evolve-marketing",
+      "name": "EVOLVE marketing capability",
+      "routes": [
+        "/evolve/marketing",
+        "/evolve/marketing/services",
+        "/evolve/marketing/intake/:serviceId",
+        "/evolve/marketing/brief/:id",
+        "/evolve/marketing/engagement/:id"
+      ],
+      "component": "MarketingLanding/Services/Intake/Brief/Engagement pages",
+      "file": "src/site00/pages/evolve/marketing/",
+      "family": "EVOLVE",
+      "status": "PARTIAL",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "GENERIC",
+      "responsive": "Public shell; intake/brief/engagement account-guarded.",
+      "nav_sources": [
+        "EvolveStatePage MarketingCapabilityCard",
+        "ProjectEvolvePage",
+        "CreativeIntakeEngine"
+      ],
+      "next_actions": [
+        "service -> intake -> brief -> engagement"
+      ],
+      "back_path": "internal links",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "Not in any public nav; 'marketing services' framing reads agency."
+    },
+    {
+      "id": "existing-location",
+      "name": "EXISTING LOCATION service architecture",
+      "routes": [
+        "/existing-location",
+        "/existing-location/start",
+        "/existing-location/case/:caseId/*"
+      ],
+      "component": "ExistingLocationEntryPage / ExistingLocationCasePage",
+      "file": "src/site00/pages/existing-location/",
+      "family": "EVOLVE",
+      "status": "PARTIAL",
+      "content_completeness": "REAL_COPY",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Public shell.",
+      "nav_sources": [],
+      "next_actions": [
+        "case steps access/status/diagnosis/quote/checkout/complete"
+      ],
+      "back_path": "none",
+      "dead_end": false,
+      "orphan": true,
+      "legacy_routes": [],
+      "notes": "ORPHAN: no nav, no inbound link. /existing-location and /existing-location/start render identical page (redundant). Overlaps EVOLVE intent."
+    },
+    {
+      "id": "sites",
+      "name": "SITES public portfolio",
+      "routes": [
+        "/sites"
+      ],
+      "component": "SitesPortfolioPage",
+      "file": "src/site00/pages/SitesPortfolioPage.tsx",
+      "family": "PUBLIC",
+      "status": "PLACEHOLDER",
+      "content_completeness": "EMPTY seed -> 'NO PUBLISHED PROJECTS YET'",
+      "language_fit": "MIXED",
+      "responsive": "Public shell.",
+      "nav_sources": [
+        "global nav",
+        "top nav (signed-in swaps to /control/sites)",
+        "enter directory",
+        "locations 03",
+        "fast travel"
+      ],
+      "next_actions": [
+        "START A PROJECT -> /bldr"
+      ],
+      "back_path": "nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/sites/desktop"
+      ],
+      "notes": "Signed-in users are force-redirected to /control/sites; 'WE DESIGN. WE BUILD. WE LAUNCH.' agency tone. Card links /sites/:id have no route."
+    },
+    {
+      "id": "services",
+      "name": "SERVICES",
+      "routes": [
+        "/services"
+      ],
+      "component": "ServicesPage",
+      "file": "src/site00/pages/ServicesPage.tsx",
+      "family": "PUBLIC",
+      "status": "PARTIAL",
+      "content_completeness": "seed copy; 'AI & AUTOMATION' -> /services#integrations and 'CONTENT' -> /services#forms anchors do not exist (ids are 'ai','content')",
+      "language_fit": "GENERIC",
+      "responsive": "Public shell.",
+      "nav_sources": [
+        "global nav",
+        "enter",
+        "locations 04",
+        "fast travel"
+      ],
+      "next_actions": [
+        "IDNTY / BLDR / EVOLVE / SYSTEM / SUPPORT"
+      ],
+      "back_path": "nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/services/desktop"
+      ],
+      "notes": "Agency service-menu framing (BRANDING & IDENTITY, WEB DESIGN & DEVELOPMENT); should route by IDNTY/BLDR/EVOLVE families. No individual service pages exist."
+    },
+    {
+      "id": "system",
+      "name": "SYSTEM",
+      "routes": [
+        "/system"
+      ],
+      "component": "SystemPage",
+      "file": "src/site00/pages/SystemPage.tsx",
+      "family": "SYSTEM",
+      "status": "PARTIAL",
+      "content_completeness": "4 seed layers IDNTY/BUILD/DEPLOY/INSIGHT, no CTAs",
+      "language_fit": "MIXED",
+      "responsive": "Public shell.",
+      "nav_sources": [
+        "global nav",
+        "enter",
+        "locations 05",
+        "fast travel"
+      ],
+      "next_actions": [],
+      "back_path": "nav",
+      "dead_end": true,
+      "orphan": false,
+      "legacy_routes": [
+        "/system/desktop"
+      ],
+      "notes": "No next action (dead end besides chrome). Layer model doesn't reflect STUDIO OS / STUDIO WORLD ontology."
+    },
+    {
+      "id": "system-design-concepts",
+      "name": "SYSTEM design workspace concepts (internal)",
+      "routes": [
+        "/system/design/workspace-concepts"
+      ],
+      "component": "SystemDesignWorkspaceConceptsPage",
+      "file": "src/site00/pages/SystemDesignWorkspaceConceptsPage.tsx",
+      "family": "SYSTEM",
+      "status": "PARTIAL",
+      "content_completeness": "internal review",
+      "language_fit": "GENERIC",
+      "responsive": "No shell.",
+      "nav_sources": [
+        "ProjectMoreSurface (internal)"
+      ],
+      "next_actions": [],
+      "back_path": "none",
+      "dead_end": true,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "Internal page publicly routable without guard under public /system namespace."
+    },
+    {
+      "id": "about",
+      "name": "ABOUT",
+      "routes": [
+        "/about"
+      ],
+      "component": "AboutPage",
+      "file": "src/site00/pages/AboutPage.tsx",
+      "family": "PUBLIC",
+      "status": "PARTIAL",
+      "content_completeness": "short real copy; generic principles ('BUILT FOR BUILDERS','PRIVACY FIRST'); 'LEARN MORE' -> empty journal",
+      "language_fit": "MIXED",
+      "responsive": "Public shell.",
+      "nav_sources": [
+        "global nav",
+        "enter",
+        "locations 06",
+        "fast travel"
+      ],
+      "next_actions": [
+        "LEARN MORE -> /journal",
+        "mailto hello@"
+      ],
+      "back_path": "nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/about/desktop"
+      ],
+      "notes": "Mission sentence is on-ontology ('spatial operating environment ... digital places'); principle cards generic SaaS."
+    },
+    {
+      "id": "journal",
+      "name": "JOURNAL",
+      "routes": [
+        "/journal"
+      ],
+      "component": "JournalPage",
+      "file": "src/site00/pages/JournalPage.tsx",
+      "family": "PUBLIC",
+      "status": "PLACEHOLDER",
+      "content_completeness": "EMPTY seed -> 'NO TRANSMISSIONS YET'",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Public shell.",
+      "nav_sources": [
+        "global nav",
+        "enter",
+        "locations 07",
+        "fast travel",
+        "about"
+      ],
+      "next_actions": [],
+      "back_path": "nav",
+      "dead_end": true,
+      "orphan": false,
+      "legacy_routes": [
+        "/journal/desktop"
+      ],
+      "notes": "Article links /journal/:id have no route (would fall to '*' -> '/')."
+    },
+    {
+      "id": "support",
+      "name": "SUPPORT",
+      "routes": [
+        "/support"
+      ],
+      "component": "SupportPage",
+      "file": "src/site00/pages/SupportPage.tsx",
+      "family": "PUBLIC",
+      "status": "PARTIAL",
+      "content_completeness": "topic list links to /support#anchors that don't exist; mailto only",
+      "language_fit": "GENERIC",
+      "responsive": "Public shell.",
+      "nav_sources": [
+        "enter YOUR SPACE",
+        "footer",
+        "services/templates banners",
+        "assessment 'BOOK DISCOVERY CALL'"
+      ],
+      "next_actions": [
+        "mailto support@"
+      ],
+      "back_path": "nav",
+      "dead_end": true,
+      "orphan": false,
+      "legacy_routes": [
+        "/support/desktop"
+      ],
+      "notes": "Absorbs 'BOOK DISCOVERY CALL' CTAs from IDNTY/BLDR completion but offers no booking."
+    },
+    {
+      "id": "guide",
+      "name": "GUIDE",
+      "routes": [
+        "/guide"
+      ],
+      "component": "GuidePage",
+      "file": "src/site00/pages/information/GuidePage.tsx",
+      "family": "SYSTEM",
+      "status": "PLACEHOLDER",
+      "content_completeness": "seed sections linking /enter,/idnty/state,/bldr/state,/evolve/state,/control",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Public shell + draft banner.",
+      "nav_sources": [],
+      "next_actions": [
+        "sections"
+      ],
+      "back_path": "chrome",
+      "dead_end": false,
+      "orphan": true,
+      "legacy_routes": [
+        "/guide/desktop -> handler returns null (not in public bases) = blank"
+      ],
+      "notes": "COMPOSER DRAFT: Site00ComposerDraftRouteGuard redirects to '/' unless ?preview=1 (draftRouteGuard.ts:34-37)."
+    },
+    {
+      "id": "sound",
+      "name": "SOUND",
+      "routes": [
+        "/sound"
+      ],
+      "component": "SoundPage",
+      "file": "src/site00/pages/information/SoundPage.tsx",
+      "family": "SYSTEM",
+      "status": "PLACEHOLDER",
+      "content_completeness": "explicit 'PLACEHOLDER UNTIL CANONICAL SOUND DESIGN'",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Public shell + draft banner.",
+      "nav_sources": [],
+      "next_actions": [],
+      "back_path": "chrome",
+      "dead_end": true,
+      "orphan": true,
+      "legacy_routes": [
+        "/sound/desktop blank"
+      ],
+      "notes": "Draft-gated. No audio implementation."
+    },
+    {
+      "id": "faq",
+      "name": "FAQ",
+      "routes": [
+        "/faq"
+      ],
+      "component": "FaqPage",
+      "file": "src/site00/pages/information/FaqPage.tsx",
+      "family": "PUBLIC",
+      "status": "PLACEHOLDER",
+      "content_completeness": "4 seed Q&A (mentions WAITING ROOM, raw '/origin/sign-in' paths in copy)",
+      "language_fit": "MIXED",
+      "responsive": "Public shell + draft banner.",
+      "nav_sources": [],
+      "next_actions": [],
+      "back_path": "chrome",
+      "dead_end": true,
+      "orphan": true,
+      "legacy_routes": [
+        "/faq/desktop blank"
+      ],
+      "notes": "Draft-gated. EVOLVE hub has its own in-page FAQ section."
+    },
+    {
+      "id": "contact",
+      "name": "CONTACT",
+      "routes": [
+        "/contact"
+      ],
+      "component": "ContactPage",
+      "file": "src/site00/pages/information/ContactPage.tsx",
+      "family": "PUBLIC",
+      "status": "PLACEHOLDER",
+      "content_completeness": "2 mailto channels",
+      "language_fit": "GENERIC",
+      "responsive": "Public shell + draft banner.",
+      "nav_sources": [
+        "EvolvePricing consult button (broken)"
+      ],
+      "next_actions": [
+        "SUPPORT link"
+      ],
+      "back_path": "chrome",
+      "dead_end": false,
+      "orphan": true,
+      "legacy_routes": [
+        "/contact/desktop blank"
+      ],
+      "notes": "Draft-gated: EVOLVE pricing navigate(contact?offer=consult) loses offer and lands on '/'."
+    },
+    {
+      "id": "brand",
+      "name": "BRAND",
+      "routes": [
+        "/brand"
+      ],
+      "component": "BrandPage",
+      "file": "src/site00/pages/complex/BrandPage.tsx",
+      "family": "PUBLIC",
+      "status": "PLACEHOLDER",
+      "content_completeness": "slot placeholders 'CREATIVE DIRECTION REQUIRED'",
+      "language_fit": "MIXED",
+      "responsive": "Complex page shell.",
+      "nav_sources": [],
+      "next_actions": [
+        "IDNTY STATE"
+      ],
+      "back_path": "chrome",
+      "dead_end": false,
+      "orphan": true,
+      "legacy_routes": [
+        "/brand/desktop blank"
+      ],
+      "notes": "Draft-gated. Footer/auth links to /brand/privacy, /brand/terms, /brand/contact - none exist (fall to '*' -> '/')."
+    },
+    {
+      "id": "blueprints",
+      "name": "BLUEPRINTS",
+      "routes": [
+        "/blueprints"
+      ],
+      "component": "BlueprintsPage",
+      "file": "src/site00/pages/complex/BlueprintsPage.tsx",
+      "family": "BLDR",
+      "status": "PLACEHOLDER",
+      "content_completeness": "placeholders",
+      "language_fit": "GENERIC",
+      "responsive": "Complex page shell.",
+      "nav_sources": [],
+      "next_actions": [
+        "/bldr/templates",
+        "/studio/site00/blueprint (account-guarded)"
+      ],
+      "back_path": "chrome",
+      "dead_end": false,
+      "orphan": true,
+      "legacy_routes": [
+        "/blueprints/desktop blank"
+      ],
+      "notes": "Draft-gated; future namespace /bluprint redirects to /origin."
+    },
+    {
+      "id": "account",
+      "name": "ACCOUNT profile",
+      "routes": [
+        "/account"
+      ],
+      "component": "AccountPage",
+      "file": "src/site00/pages/complex/AccountPage.tsx",
+      "family": "ACCOUNT",
+      "status": "PLACEHOLDER",
+      "content_completeness": "hub cards + 'DATA CONTRACT PLACEHOLDER'",
+      "language_fit": "MIXED",
+      "responsive": "Complex shell, account-guarded AND draft-gated.",
+      "nav_sources": [],
+      "next_actions": [
+        "/control",
+        "/account/intakes",
+        "/idnty/sign-in-security"
+      ],
+      "back_path": "chrome",
+      "dead_end": false,
+      "orphan": true,
+      "legacy_routes": [
+        "/account/desktop blank"
+      ],
+      "notes": "Canonical account is actually CTRL ROOM /control; every 'ACCOUNT' nav row points to /control. Password reset email redirects to /account/settings which has NO route (site00SignInActions.ts:207) -> '*' -> '/'."
+    },
+    {
+      "id": "account-intakes",
+      "name": "ACCOUNT intakes",
+      "routes": [
+        "/account/intakes",
+        "/account/intakes/:type/:id"
+      ],
+      "component": "AccountIntakesPage / AccountIntakeDetailPage",
+      "file": "src/site00/pages/account/",
+      "family": "ACCOUNT",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "REAL data via API",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Account guard, own layout.",
+      "nav_sources": [
+        "Operating world top nav INTAKES (ecosystem-nav.ts:22)",
+        "/account draft",
+        "guest intake access"
+      ],
+      "next_actions": [
+        "resume intake",
+        "view project /projects/:id"
+      ],
+      "back_path": "<- INTAKES",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "Not reachable from CTRL ROOM overview, mobile bottom nav, or fast travel; desktop top nav only."
+    },
+    {
+      "id": "ctrl-room",
+      "name": "CTRL ROOM (account environment)",
+      "routes": [
+        "/control",
+        "/control/sites",
+        "/control/domains",
+        "/control/billing",
+        "/control/team",
+        "/control/settings",
+        "/control/security",
+        "/control/evolve-operations"
+      ],
+      "component": "ControlOverviewPage / ControlSitesPage / ControlSectionPage / EvolveOperationsPage",
+      "file": "src/site00/pages/control/",
+      "family": "ACCOUNT",
+      "status": "PARTIAL",
+      "content_completeness": "overview + sites real; domains/billing/team/settings/security = ControlSectionPage stub 'MODULES WILL APPEAR HERE'",
+      "language_fit": "MIXED",
+      "responsive": "EcosystemShell (desktop top nav / mobile ecosystem shell).",
+      "nav_sources": [
+        "mobile bottom nav CTRL ROOM",
+        "public top nav CTRL ROOM",
+        "enter ACCOUNT",
+        "locations 09",
+        "fast travel",
+        "default post-sign-in destination (signInReturnTo.ts:5)"
+      ],
+      "next_actions": [
+        "projects",
+        "sites",
+        "billing",
+        "settings"
+      ],
+      "back_path": "logo -> /control",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "CTRL_ROOM_NAV sidebar (ctrl-room-nav.ts:13-21) is defined but CtrlRoomSidebar is never rendered -> /control/team orphan; settings/security reachable only via fast travel/top nav. IDNTY hub modules link to /control/settings#api-keys etc. that are stubs."
+    },
+    {
+      "id": "projects",
+      "name": "PROJECTS",
+      "routes": [
+        "/projects"
+      ],
+      "component": "ProjectsPage -> ProjectIndexPage",
+      "file": "src/site00/pages/ProjectsPage.tsx",
+      "family": "ACCOUNT",
+      "status": "PARTIAL",
+      "content_completeness": "real data; hardcoded ProjectViewModeProvider role=FOUNDER",
+      "language_fit": "MIXED",
+      "responsive": "EcosystemShell.",
+      "nav_sources": [
+        "mobile bottom nav",
+        "enter",
+        "locations 10",
+        "fast travel",
+        "operating top nav",
+        "BLDR completion 'CREATE PROJECT'"
+      ],
+      "next_actions": [
+        "project card -> /projects/:slug/overview or /client/projects/:slug/reviews",
+        "new project card -> /bldr/state",
+        "empty -> /bldr/start"
+      ],
+      "back_path": "nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/projects/desktop"
+      ],
+      "notes": "Same URL serves founder/internal STUDIO OS modules (/projects/:slug/* ~100 internal routes) and client view; clients are routed to /client/projects via card links."
+    },
+    {
+      "id": "client-project-room",
+      "name": "Client Project Room",
+      "routes": [
+        "/client/projects/:slug",
+        "/reviews",
+        "/library",
+        "/activity",
+        "/messages"
+      ],
+      "component": "ClientProjectRoom*Pages",
+      "file": "src/site00/pages/clientProjectRoom/",
+      "family": "ACCOUNT",
+      "status": "PARTIAL",
+      "content_completeness": "real",
+      "language_fit": "MIXED",
+      "responsive": "Own shell with sidebar.",
+      "nav_sources": [
+        "ProjectIndex cards (REVIEW DESIGN)"
+      ],
+      "next_actions": [
+        "CLIENT_PROJECT_ROOM_NAV"
+      ],
+      "back_path": "sidebar",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "Only reachable via review links; no nav entry from CTRL ROOM."
+    },
+    {
+      "id": "client-app",
+      "name": "Client mobile app",
+      "routes": [
+        "/app",
+        "/app/projects",
+        "/app/projects/:slug/*",
+        "/app/preview/*"
+      ],
+      "component": "AppSplash/AppProjectLayout/...",
+      "file": "src/site00/pages/clientApp/",
+      "family": "ACCOUNT",
+      "status": "PARTIAL",
+      "content_completeness": "real",
+      "language_fit": "MIXED",
+      "responsive": "Dedicated app shell, side nav desktop / bottom nav mobile.",
+      "nav_sources": [],
+      "next_actions": [
+        "CLIENT_APP_NAV HOME/PROJECTS/REVIEWS/INBOX/PROFILE"
+      ],
+      "back_path": "app nav",
+      "dead_end": false,
+      "orphan": true,
+      "legacy_routes": [],
+      "notes": "ORPHAN entry: no link to /app from site, CTRL ROOM or projects; parallel duplicate of client project room."
+    },
+    {
+      "id": "provisioning",
+      "name": "Project provisioning",
+      "routes": [
+        "/project/:slug/provisioning"
+      ],
+      "component": "ProjectProvisioningPage",
+      "file": "src/site00/pages/provisioning/ProjectProvisioningPage.tsx",
+      "family": "ACCOUNT",
+      "status": "PARTIAL",
+      "content_completeness": "real",
+      "language_fit": "MIXED",
+      "responsive": "Public shell + account guard.",
+      "nav_sources": [
+        "admin ProjectWorkspace (clientProvisioning helper)"
+      ],
+      "next_actions": [
+        "-> /studio/:slug"
+      ],
+      "back_path": "none",
+      "dead_end": false,
+      "orphan": true,
+      "legacy_routes": [],
+      "notes": "Singular '/project/' vs '/projects/' namespace; only admin can surface link."
+    },
+    {
+      "id": "guest-intake",
+      "name": "Guest intake access",
+      "routes": [
+        "/intake/access/:token",
+        "/intake/:token"
+      ],
+      "component": "IntakeGuestAccessPage / WorldIntakeGuestPage",
+      "file": "src/site00/pages/intake/",
+      "family": "ACCOUNT",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "real",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Public.",
+      "nav_sources": [
+        "emailed token links"
+      ],
+      "next_actions": [
+        "resume intake",
+        "sign in -> /account/intakes"
+      ],
+      "back_path": "none",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "Deep-link only by design."
+    },
+    {
+      "id": "auth",
+      "name": "Sign in / create account / password",
+      "routes": [
+        "/origin/sign-in",
+        "/origin/create-account",
+        "/origin/forgot-password",
+        "/origin/reset-password",
+        "/sign-in",
+        "/register",
+        "/create-account"
+      ],
+      "component": "Site00AuthShell / ForgotPassword / ResetPassword",
+      "file": "src/site00/components/auth/Site00AuthShell.tsx",
+      "family": "ACCOUNT",
+      "status": "PARTIAL",
+      "content_completeness": "sign-in/create real; forgot/reset pages draft-gated (unused - forgot is inline)",
+      "language_fit": "DIGITAL_LOCATION",
+      "responsive": "Auth shell.",
+      "nav_sources": [
+        "IDNTY gateway",
+        "every requiresAuth row",
+        "fast travel SIGN IN"
+      ],
+      "next_actions": [
+        "post-auth -> returnTo or /control"
+      ],
+      "back_path": "BACK -> /origin",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [
+        "/sign-in -> /origin/sign-in",
+        "/register,/create-account -> /origin/create-account"
+      ],
+      "notes": "Auth footer PRIVACY and TERMS both link /brand/terms; SUPPORT -> /brand/contact (non-existent)."
+    },
+    {
+      "id": "assts",
+      "name": "ASSET VAULT",
+      "routes": [
+        "/assts",
+        "/assts/*"
+      ],
+      "component": "Assts* pages",
+      "file": "src/site00/assts/",
+      "family": "SYSTEM",
+      "status": "LIVE_COMPLETE",
+      "content_completeness": "internal",
+      "language_fit": "GENERIC",
+      "responsive": "Own vault nav.",
+      "nav_sources": [
+        "admin control nav ASSETS / VAULT (control-nav.ts:18)"
+      ],
+      "next_actions": [
+        "library/batches/search/notifications/profile"
+      ],
+      "back_path": "vault nav",
+      "dead_end": false,
+      "orphan": false,
+      "legacy_routes": [],
+      "notes": "AdminGuard - internal STUDIO OS, not public. SITE00_ROUTES.assts constant unused."
+    }
+  ],
+  "counts": {
+    "total": 41,
+    "by_status": {
+      "LIVE_COMPLETE": 11,
+      "PARTIAL": 20,
+      "PLACEHOLDER": 10
+    },
+    "by_family": {
+      "PUBLIC": 11,
+      "IDNTY": 3,
+      "ACCOUNT": 10,
+      "BLDR": 6,
+      "EVOLVE": 6,
+      "SYSTEM": 5
+    },
+    "by_language_fit": {
+      "DIGITAL_LOCATION": 18,
+      "MIXED": 14,
+      "GENERIC": 9
+    },
+    "orphans": 12,
+    "dead_ends": 8
+  }
+}
