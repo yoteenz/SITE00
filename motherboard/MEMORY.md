@@ -13493,6 +13493,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — F03 and F04 OpenArt projects and image ZIP
+
+- **Context:** Founder asked to put JURNL F03 and F04 outputs in their own OpenArt projects, the same way F01 and F02 already have separate projects, and to send a ZIP of those images. The screenshot was the OpenArt project switcher.
+- **Decisions / outcomes:** Created OpenArt projects `JURNL F03 Today Family Production` (`Aa0fKSPeX0SJ4DICt0aI`) and `JURNL F04 Activity Family Production` (`KUfyzoatdwpaYBkq2Mf8`). Filed the four canonical images into those projects as assets. The original generation history still sits in `JURNL F02 Setup Family Production` because the connected OpenArt tools cannot reassign an existing generation to another project. No new paid generations. Review ZIP is a GitHub release, not a site00.com deploy.
+- **Changes:** Review copies under `JURNL/F03_TODAY/` and `JURNL/F04_ACTIVITY/` (parent + plate). Ledger `openart_project_id` fields. Release `jurnl-f03-f04-images-2026-10-05`.
+- **Conventions:** Future F03 generations target project `Aa0fKSPeX0SJ4DICt0aI`. Future F04 generations target `KUfyzoatdwpaYBkq2Mf8`. To finish moving the original gallery history, use OpenArt Move to Project from the F02 project.
+
+---
+
 ## 2026-10-05 — Reference binding cost guard (SITE 00 production methodology)
 
 - **Context:** Follow-up to F03/F04 Grok production where initial F03/F04 parents used OpenArt text2image while `REFERENCE_F01.00_WELCOME_APPROVED` existed. Founder corrected to image2image like F02. Sprint `P0.SITE00.PRODUCTION-METHODOLOGY.REFERENCE-BINDING-COST-GUARD1` formalizes pre-dispatch blocking across SITE 00 projects (not JURNL-only).
