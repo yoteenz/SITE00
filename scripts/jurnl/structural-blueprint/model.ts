@@ -581,16 +581,16 @@ export const F01_F04_ADDITIONS: {
     nodes: [
       { id: 'F03.IN.OPEN_UPCOMING', type: 'INTERACTION', form: 'ROUTE', name: 'COMING → UPCOMING', purpose: 'PANEL HEADER ACTION ON COMING OPENS F07 (DISCOVERY).', status: 'MISSING', opens: 'F07.00', wave: 1, evidence: 'HomeScreens.tsx COMING has MORE/LESS only.', current: 'MISSING' },
       { id: 'F03.IN.OPEN_SAFE', type: 'INTERACTION', form: 'ROUTE', name: 'SEE WHY → SAFE TO SPEND', purpose: 'SEE WHY SHEET FOOTER OPENS F09 (THE FULL READING).', status: 'MISSING', opens: 'F09.00', wave: 1, evidence: 'F03 contract: SEE WHY "DOES NOT OPEN F09" — relationship needs a founder decision.', current: 'MISSING' },
-      { id: 'F03.IN.ACCOUNT', type: 'INTERACTION', form: 'ROUTE', name: 'ACCOUNT', purpose: 'TOP-CHROME ENTRY TO THE ACCOUNT / SETTINGS SURFACE.', status: 'MISSING', opens: 'GS.SETTINGS', wave: 1, evidence: 'No post-entry account surface exists.', current: 'MISSING' },
+      { id: 'F03.IN.ACCOUNT', type: 'INTERACTION', form: 'ROUTE', name: 'ACCOUNT', purpose: 'TOP-CHROME ENTRY TO THE ACCOUNT / SETTINGS SURFACE.', status: 'WORKING', opens: 'GS.SETTINGS', wave: 1, evidence: 'HomeScreens gear → go(account); SettingsScreens.tsx route account.', current: 'IMPLEMENTED' },
     ],
   },
   {
     family: 'F04',
     nodes: [
-      { id: 'F04.SH.EDIT_MOVEMENT', type: 'SHEET', form: 'SHEET', name: 'EDIT A MOVEMENT', purpose: 'EDIT NAME, AMOUNT, DATE, CATEGORY, ACCOUNT, MEMO ON A HAND-ADDED MOVEMENT.', wave: 1, evidence: 'DetailSheet is read-only.', current: 'MISSING' },
-      { id: 'F04.MD.DELETE_MOVEMENT', type: 'MODAL', form: 'MODAL', name: 'DELETE A MOVEMENT', purpose: 'DESTRUCTIVE CONFIRM ON A HAND-ADDED MOVEMENT.', wave: 1, evidence: 'No delete exists.', current: 'MISSING' },
-      { id: 'F04.IN.EDIT', type: 'INTERACTION', form: 'SHEET', name: 'EDIT', purpose: 'FROM DETAIL, OPENS F04.SH.EDIT_MOVEMENT.', status: 'MISSING', opens: 'F04.SH.EDIT_MOVEMENT', wave: 1, evidence: 'DetailSheet is read-only.', current: 'MISSING' },
-      { id: 'F04.IN.DELETE', type: 'INTERACTION', form: 'MODAL', name: 'DELETE', purpose: 'FROM DETAIL, OPENS F04.MD.DELETE_MOVEMENT.', status: 'MISSING', opens: 'F04.MD.DELETE_MOVEMENT', wave: 1, evidence: 'No delete exists.', current: 'MISSING' },
+      { id: 'F04.SH.EDIT_MOVEMENT', type: 'SHEET', form: 'SHEET', name: 'EDIT A MOVEMENT', purpose: 'EDIT NAME, AMOUNT, DATE, CATEGORY, ACCOUNT, MEMO ON A HAND-ADDED MOVEMENT.', wave: 1, evidence: 'DetailSheet edit mode + repository updateTransaction (ADDED only).', current: 'IMPLEMENTED' },
+      { id: 'F04.MD.DELETE_MOVEMENT', type: 'MODAL', form: 'MODAL', name: 'DELETE A MOVEMENT', purpose: 'DESTRUCTIVE CONFIRM ON A HAND-ADDED MOVEMENT.', wave: 1, evidence: 'DetailSheet delete confirmation + repository deleteTransaction.', current: 'IMPLEMENTED' },
+      { id: 'F04.IN.EDIT', type: 'INTERACTION', form: 'SHEET', name: 'EDIT', purpose: 'FROM DETAIL, OPENS F04.SH.EDIT_MOVEMENT.', status: 'WORKING', opens: 'F04.SH.EDIT_MOVEMENT', wave: 1, evidence: 'activity-edit trigger on ADDED entries.', current: 'IMPLEMENTED' },
+      { id: 'F04.IN.DELETE', type: 'INTERACTION', form: 'MODAL', name: 'DELETE', purpose: 'FROM DETAIL, OPENS F04.MD.DELETE_MOVEMENT.', status: 'WORKING', opens: 'F04.MD.DELETE_MOVEMENT', wave: 1, evidence: 'activity-delete trigger on ADDED entries.', current: 'IMPLEMENTED' },
       { id: 'F04.IN.RELATED', type: 'INTERACTION', form: 'ROUTE', name: 'RELATED', purpose: 'A MOVEMENT RELATED TO A BILL OR SUBSCRIPTION OPENS F07.ITEM.', status: 'MISSING', opens: 'F07.ITEM', wave: 2, evidence: 'DetailSheet RELATED row is text only.', current: 'MISSING' },
     ],
   },
@@ -636,21 +636,21 @@ export const GLOBAL_SYSTEMS: GlobalSystem[] = [
   },
   {
     id: 'GS.QUICK_ADD', type: 'GLOBAL_SYSTEM', name: 'QUICK ADD', scope: 'GLOBAL', ownerFamily: 'F04', current: 'PARTIAL',
-    criteria: 'R1 U1 Dh Ih S1 V1 E1 M- L- P1 A1 N1', evidence: 'HomeScreens.tsx QuickAddSheet; JURNL_QUICK_ADD_CONTRACT.json. Writes in memory only (money.ts added[]), accounts hard-coded CHECKING/CARD, date fixed TODAY, category INCOME|OTHER, no edit/delete.', required: 'PERSIST THROUGH THE LEDGER REPOSITORY; DATE (DEFAULT TODAY); CATEGORY; ACCOUNT FROM THE REGISTRY; EDIT/DELETE VIA F04 DETAIL. NO RECURRENCE (RECURRENCE IS AN F07 OBLIGATION).', wave: 1, consumers: ALL,
-    surfaces: [{ id: 'GLOBAL.SH.QUICK_ADD', type: 'SHEET', name: 'QUICK ADD SHEET', current: 'IMPLEMENTED', criteria: 'R1 U1 Dh Ih S1 V1 E1 M- L- P1 A1 N1', wave: 1, evidence: 'QuickAddSheet (exported, shared by F03/F04/F05–F16).' }],
+    criteria: 'R1 U1 Dh Ih S1 V1 E1 M- L- P1 A1 N1', evidence: 'GlobalSheets QuickAddV2Sheet + quickAddRegistry.ts; appendTransaction via repository v2; accountDisplayOptions().', required: 'PERSIST THROUGH THE LEDGER REPOSITORY; DATE (DEFAULT TODAY); CATEGORY; ACCOUNT FROM THE REGISTRY; EDIT/DELETE VIA F04 DETAIL. NO RECURRENCE (RECURRENCE IS AN F07 OBLIGATION).', wave: 1, consumers: ALL,
+    surfaces: [{ id: 'GLOBAL.SH.QUICK_ADD', type: 'SHEET', name: 'QUICK ADD SHEET', current: 'IMPLEMENTED', criteria: 'R1 U1 Dh Ih S1 V1 E1 M- L- P1 A1 N1', wave: 1, evidence: 'QuickAddV2Sheet on F03/F04/F05–F16.' }],
     interactions: [
       { id: 'GS.QA.VALIDATE', name: 'VALIDATE', status: 'WORKING', wave: 0, evidence: 'SAVE disabled until name + amount regex + type + account.' },
       { id: 'GS.QA.CURRENCY_ENTRY', name: 'ENTER IN DISPLAY CURRENCY', status: 'WORKING', wave: 0, evidence: 'quoteQuickAdd stores entered + canonical USD + rate + timestamp.' },
-      { id: 'GS.QA.SAVE', name: 'SAVE', status: 'PARTIAL', wave: 1, evidence: 'addLedgerEntry writes to an in-memory array; lost on reload.' },
+      { id: 'GS.QA.SAVE', name: 'SAVE', status: 'WORKING', wave: 1, evidence: 'addLedgerEntry → repository appendTransaction (user-scoped device adapter).' },
     ],
   },
   {
     id: 'GS.ASK_JURNL', type: 'AI_SURFACE', name: 'ASK JURNL', scope: 'GLOBAL', ownerFamily: null, current: 'PARTIAL',
-    criteria: 'R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1', evidence: 'HomeScreens.tsx AskSheet: one static line + display currency selector. Mounted on F03/F04 only. No LLM wiring anywhere (server sweep). AI access preference defaults OFF.', required: 'EXPLANATION-ONLY SURFACE ON EVERY FAMILY, CONTEXT = CURRENT FAMILY + ITS DERIVED VALUES, READ-ONLY. NO WRITES, NO ACTIONS. LLM PROVIDER IS A FOUNDER DECISION (AI_EXPLAIN_BASIC IS A SAFETY FLOOR). CURRENCY SELECTOR MOVES TO SETTINGS.', wave: 1, consumers: ALL,
-    surfaces: [{ id: 'GLOBAL.SH.ASK', type: 'SHEET', name: 'ASK SHEET', current: 'IMPLEMENTED', criteria: 'R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1', wave: 1, evidence: 'AskSheet (F03/F04).' }],
+    criteria: 'R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1', evidence: 'GlobalSheets AskJurnlSheet + askJurnl.ts context boundary; mounted F03/F04 + ParentScreens F05–F16; no LLM.', required: 'EXPLANATION-ONLY SURFACE ON EVERY FAMILY, CONTEXT = CURRENT FAMILY + ITS DERIVED VALUES, READ-ONLY. NO WRITES, NO ACTIONS. LLM PROVIDER IS A FOUNDER DECISION (AI_EXPLAIN_BASIC IS A SAFETY FLOOR). CURRENCY SELECTOR MOVES TO SETTINGS.', wave: 1, consumers: ALL,
+    surfaces: [{ id: 'GLOBAL.SH.ASK', type: 'SHEET', name: 'ASK SHEET', current: 'IMPLEMENTED', criteria: 'R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1', wave: 1, evidence: 'AskJurnlSheet global.' }],
     interactions: [
-      { id: 'GS.ASK.EXPLAIN', name: 'EXPLAIN', status: 'PARTIAL', wave: 1, evidence: 'Static sentence; not family-aware.' },
-      { id: 'GS.ASK.CURRENCY_SELECT', name: 'DISPLAY CURRENCY', status: 'WORKING', wave: 1, evidence: 'setCurrency; 3 visible rows; persisted jurnl.currency. Misplaced inside ASK.' },
+      { id: 'GS.ASK.EXPLAIN', name: 'EXPLAIN', status: 'WORKING', wave: 1, evidence: 'explainFromContext uses family id + safe-to-spend; consent-gated.' },
+      { id: 'GS.ASK.CURRENCY_SELECT', name: 'DISPLAY CURRENCY', status: 'MISSING', wave: 1, evidence: 'Moved to GS.SETTINGS account route (Wave 1).' },
     ],
   },
   {
@@ -702,10 +702,10 @@ export const GLOBAL_SYSTEMS: GlobalSystem[] = [
     criteria: 'R1 U1 Dh Ih S1 V1 E1 M- L1 P1 A1 N1', evidence: 'adapters.ts DESIGN_PREVIEW (localStorage accounts, plaintext passwords) / UNCONFIGURED. jurnlProject.ts authNote: provider unresolved; SITE 00 Supabase is not reused. D-17 / D-18.', required: 'PRODUCTION ADAPTER BEHIND THE EXISTING JurnlAuthAdapter INTERFACE (EMAIL VERIFY, RESET, SESSIONS, DELETE, SOCIAL). PROVIDER = FOUNDER DECISION.', wave: 5, consumers: ['F01', 'GS.SETTINGS'],
   },
   {
-    id: 'GS.SETTINGS', type: 'GLOBAL_SYSTEM', name: 'ACCOUNT / PROFILE / SETTINGS', scope: 'GLOBAL', ownerFamily: null, current: 'MISSING', route: 'account',
+    id: 'GS.SETTINGS', type: 'GLOBAL_SYSTEM', name: 'ACCOUNT / PROFILE / SETTINGS', scope: 'GLOBAL', ownerFamily: null, current: 'PARTIAL', route: 'account',
     criteria: 'R0 U0 D0 I0 S0 V0 E0 M- L0 P0 A0 N0', evidence: 'F01.11 / F01.12 hold privacy, AI access, export, delete, sessions — reachable only during entry. Sign out exists only on F01.04 switch sheet. Currency lives inside ASK.', required: 'ONE POST-ENTRY SURFACE: PROFILE, DISPLAY CURRENCY, AI ACCESS, CONSENTS, DATA EXPORT, DELETE ACCOUNT, SESSIONS, SIGN OUT. REUSES F01.11 / F01.12 DRAWER CONTENT. ENTRY FROM TOP CHROME ON HOME (NO SIXTH NAV ITEM) — FOUNDER DECISION.', wave: 1, consumers: ALL,
     surfaces: [
-      { id: 'GS.SETTINGS.DR.CURRENCY', type: 'DRAWER', name: 'DISPLAY CURRENCY', current: 'MISSING', criteria: 'R0 U0 D1 I1 S1 V- E1 M- L1 P0 A0 N0', wave: 1, evidence: 'Selector exists inside ASK; needs a home here.' },
+      { id: 'GS.SETTINGS.DR.CURRENCY', type: 'DRAWER', name: 'DISPLAY CURRENCY', current: 'IMPLEMENTED', criteria: 'R0 U0 D1 I1 S1 V- E1 M- L1 P0 A0 N0', wave: 1, evidence: 'SettingsScreens currency drawer + repository displayCurrency.' },
       { id: 'GS.SETTINGS.DR.PRIVACY', type: 'DRAWER', name: 'PRIVACY + AI ACCESS', current: 'MISSING', criteria: 'R0 U0 D1 I0 S0 V- E0 M- L- P0 A0 N0', wave: 1, evidence: 'F01.11 drawers reusable.' },
       { id: 'GS.SETTINGS.DR.SECURITY', type: 'DRAWER', name: 'SECURITY + SESSIONS', current: 'MISSING', criteria: 'R0 U0 Dh I0 S0 V- E0 M- L- P0 A0 N0', wave: 1, evidence: 'F01.12 drawers reusable.' },
       { id: 'GS.SETTINGS.SH.EXPORT', type: 'SHEET', name: 'EXPORT MY DATA', current: 'MISSING', criteria: 'R0 U0 D0 I0 S0 V- E0 M- L0 P0 A0 N0', wave: 1, evidence: 'F01.11 records exportRequested only.' },
@@ -713,8 +713,8 @@ export const GLOBAL_SYSTEMS: GlobalSystem[] = [
       { id: 'GS.SETTINGS.MD.DELETE_ACCOUNT', type: 'MODAL', name: 'DELETE ACCOUNT', current: 'MISSING', criteria: 'R0 U0 Dh I0 S0 V- E0 M- L0 P0 A0 N0', wave: 1, evidence: 'delete-account modal exists on F01.11 only.' },
     ],
     interactions: [
-      { id: 'GS.SETTINGS.OPEN', name: 'OPEN ACCOUNT', status: 'MISSING', wave: 1, evidence: 'No entry point after F01.13.' },
-      { id: 'GS.SETTINGS.SIGN_OUT', name: 'SIGN OUT', status: 'MISSING', wave: 1, evidence: 'Post-entry sign out does not exist.' },
+      { id: 'GS.SETTINGS.OPEN', name: 'OPEN ACCOUNT', status: 'WORKING', wave: 1, evidence: 'Route account + top chrome gear on F03/F04/parents.' },
+      { id: 'GS.SETTINGS.SIGN_OUT', name: 'SIGN OUT', status: 'WORKING', wave: 1, evidence: 'SettingsScreens signOut().' },
       { id: 'GS.SETTINGS.EXPORT', name: 'EXPORT MY DATA', status: 'MISSING', wave: 1, evidence: 'Safety floor CORE_PERSONAL_DATA_CONTROL.' },
       { id: 'GS.SETTINGS.DELETE', name: 'DELETE ACCOUNT', status: 'MISSING', wave: 1, evidence: 'Only reachable during entry.' },
     ],
@@ -760,8 +760,8 @@ export const GLOBAL_SYSTEMS: GlobalSystem[] = [
     criteria: 'R- U- Dh Ih S1 V- E1 M- L- P- A- N-', evidence: 'createDesignPreviewNativeBridge simulates biometric outcomes and external targets.', required: 'REAL BRIDGE IN THE NATIVE SHELL. LAUNCH CONCERN.', wave: 5, consumers: ['F01'],
   },
   {
-    id: 'GS.CONSENT', type: 'GLOBAL_SYSTEM', name: 'CONSENT + AI ACCESS', scope: 'DUPLICATED', ownerFamily: null, current: 'PARTIAL', gapOverride: 'DUPLICATED',
-    criteria: 'R1 U1 Dh I1 S1 V- E- M- L- P1 A1 N1', evidence: 'F01.11 AI ACCESS toggles → device PRIVACY_PREFERENCES; F02.07 consentRemember / consentLinks / consentSale → setup draft. Two stores for overlapping consent.', required: 'ONE CONSENT RECORD; F01.11 AND F02.07 BOTH WRITE IT; SETTINGS READS IT.', wave: 1, consumers: ['F01', 'F02', 'GS.SETTINGS', 'GS.ASK_JURNL'],
+    id: 'GS.CONSENT', type: 'GLOBAL_SYSTEM', name: 'CONSENT + AI ACCESS', scope: 'GLOBAL', ownerFamily: null, current: 'PARTIAL',
+    criteria: 'R1 U1 Dh I1 S1 V- E- M- L- P1 A1 N1', evidence: 'repository consent[] + consentSync.ts (F01.11 AI + F02.07 setup consents); SettingsScreens reads/writes.', required: 'ONE CONSENT RECORD; F01.11 AND F02.07 BOTH WRITE IT; SETTINGS READS IT.', wave: 1, consumers: ['F01', 'F02', 'GS.SETTINGS', 'GS.ASK_JURNL'],
   },
 ];
 
@@ -786,10 +786,10 @@ export type DataDomain = {
 export const DATA_DOMAINS: DataDomain[] = [
   { id: 'DD.IDENTITY', name: 'ACCOUNT IDENTITY', owner: 'F01', readers: ['F01', 'GS.SETTINGS'], writers: ['F01', 'GS.SETTINGS'], derived: false, currentSource: 'adapters.ts preview accounts', currentPersistence: 'DEVICE_PREVIEW', targetPersistence: 'AUTH PROVIDER (LAUNCH)', criteria: 'R- U- Dh I1 S1 V1 E1 M- L- P- A- N-', conflicts: ['PREVIEW ACCOUNTS ARE STORED WITH PLAINTEXT PASSWORDS IN localStorage (jurnl.runtime.v1.preview-accounts) — PREVIEW ONLY, NEVER SHIPPABLE.'], wave: 5 },
   { id: 'DD.SESSION_DEVICE', name: 'SESSION + DEVICE TRUST + BIOMETRIC PREFERENCE', owner: 'F01', readers: ['F01', 'GS.SETTINGS'], writers: ['F01'], derived: false, currentSource: 'store.tsx', currentPersistence: 'DEVICE', targetPersistence: 'DEVICE + AUTH PROVIDER SESSIONS', criteria: 'R- U- D1 I1 S1 V- E1 M- L- P- A- N-', conflicts: [], wave: 0 },
-  { id: 'DD.CONSENT', name: 'CONSENT + AI ACCESS + PRIVACY PREFERENCES', owner: 'GS.CONSENT', readers: ['F01', 'F02', 'GS.SETTINGS', 'GS.ASK_JURNL'], writers: ['F01', 'F02'], derived: false, currentSource: 'device PRIVACY_PREFERENCES + setup draft consent*', currentPersistence: 'DEVICE', targetPersistence: 'REPOSITORY (USER-SCOPED)', criteria: 'R- U- Dh Ih S1 V- E- M- L- P- A- N-', conflicts: ['F01.11 AI ACCESS (DEVICE) VS F02.07 CONSENTS (SESSION DRAFT).', 'DATA EXPORT IS RECORDED AS A FLAG ONLY.'], wave: 1 },
+  { id: 'DD.CONSENT', name: 'CONSENT + AI ACCESS + PRIVACY PREFERENCES', owner: 'GS.CONSENT', readers: ['F01', 'F02', 'GS.SETTINGS', 'GS.ASK_JURNL'], writers: ['F01', 'F02', 'GS.SETTINGS'], derived: false, currentSource: 'repository snapshot consent[] (synced from device AI + setup draft)', currentPersistence: 'DEVICE', targetPersistence: 'REPOSITORY (USER-SCOPED)', criteria: 'R- U- Dh Ih S1 V- E- M- L- P- A- N-', conflicts: ['DEVICE AI STILL MIRRORS UI STATE; REPOSITORY IS CANONICAL FOR ASK + SETTINGS.', 'DATA EXPORT IS RECORDED AS A FLAG ONLY.'], wave: 1 },
   { id: 'DD.SETUP_PROFILE', name: 'SETUP PROFILE (HOUSEHOLD, PRIORITIES, VOICE, RESUME)', owner: 'F02', readers: ['F02', 'F03', 'F06', 'F07', 'F08', 'F09', 'F14'], writers: ['F02'], derived: false, currentSource: 'setupDraft.ts', currentPersistence: 'SESSION', targetPersistence: 'REPOSITORY; SEEDED DOMAINS MOVE TO THEIR OWNERS ON COMPLETE', criteria: 'R- U- Dh I1 S1 V1 E- M- L- P- A- N-', conflicts: ['SETUP DRAFT IS READ AS THE LIVE SOURCE FOR F03 (OBLIGATIONS, PROTECTED) INSTEAD OF HANDING OFF TO F07 / F09.'], wave: 0 },
   { id: 'DD.ACCOUNTS', name: 'ACCOUNTS (PLACES)', owner: 'F05', readers: ['F03', 'F04', 'F05', 'F06', 'F07', 'F09', 'F12', 'F13', 'F14', 'F15', 'F16', 'GS.QUICK_ADD'], writers: ['F05', 'F02'], derived: false, currentSource: 'F02 draft (one name + kind) + hard-coded CHECKING / CARD', currentPersistence: 'SESSION', targetPersistence: 'REPOSITORY', criteria: 'R- U- Dh I0 S0 Vh E0 M- L- P- A- N-', conflicts: ['THREE SOURCES: F02 draft accountName, QuickAdd/Filter hard-coded lists, MOCK entries.', 'F05.ACCOUNTS VS F12.ACCOUNTS: RESOLVED HERE AS ONE REGISTRY (F05) + CREDIT ATTRIBUTES (F12).'], wave: 0 },
-  { id: 'DD.TRANSACTIONS', name: 'MOVEMENTS (LEDGER)', owner: 'F04', readers: ['F03', 'F04', 'F05', 'F06', 'F07', 'F09', 'F12', 'F15', 'F16'], writers: ['GS.QUICK_ADD', 'F04', 'F05', 'F07', 'F10'], derived: false, currentSource: 'money.ts MOCK_ENTRIES + in-memory added[]', currentPersistence: 'MEMORY', targetPersistence: 'REPOSITORY', criteria: 'R- U- Dh Ih S1 V1 E0 M- L- P- A- N-', conflicts: ['MOCK + IN-MEMORY; NO DATE MODEL; NO EDIT / DELETE; NO TRANSFER DIRECTION.'], wave: 0 },
+  { id: 'DD.TRANSACTIONS', name: 'MOVEMENTS (LEDGER)', owner: 'F04', readers: ['F03', 'F04', 'F05', 'F06', 'F07', 'F09', 'F12', 'F15', 'F16'], writers: ['GS.QUICK_ADD', 'F04', 'F05', 'F07', 'F10'], derived: false, currentSource: 'repository transactions (MOCK seed + ADDED mutations)', currentPersistence: 'DEVICE', targetPersistence: 'REPOSITORY', criteria: 'R- U- Dh Ih S1 V1 E1 M- L- P- A- N-', conflicts: ['MOCK ENTRIES READ-ONLY; DATE STILL RELATIVE STRINGS FOR FILTER.', 'NO TRANSFER DIRECTION.'], wave: 0 },
   { id: 'DD.INCOME_SOURCES', name: 'INCOME SOURCES', owner: 'F06', readers: ['F03', 'F06', 'F08', 'F09', 'F15'], writers: ['F06', 'F02'], derived: false, currentSource: 'F02 draft cadence + amount; MOCK PAY row', currentPersistence: 'SESSION', targetPersistence: 'REPOSITORY', criteria: 'R- U- Dh I0 S0 Vh E0 M- L- P- A- N-', conflicts: ['DRAFT CADENCE/AMOUNT VS MOCK PAY MOVEMENT; F06 HAS NO RECORD TYPE.'], wave: 2 },
   { id: 'DD.OBLIGATIONS', name: 'OBLIGATIONS (BILLS + SUBSCRIPTIONS)', owner: 'F07', readers: ['F03', 'F04', 'F07', 'F08', 'F09', 'F10', 'F12', 'F15'], writers: ['F07', 'F02'], derived: false, currentSource: 'F02 draft obligations[{name,cadence}] OR MOCK_UPCOMING', currentPersistence: 'SESSION', targetPersistence: 'REPOSITORY', criteria: 'R- U- Dh I0 S0 Vh E0 M- L- P- A- N-', conflicts: ['upcomingFor() maps setup obligations with amount 0; safeToSpend() then uses [] → obligations contribute $0.', 'MOCK_UPCOMING VS SETUP OBLIGATIONS VS F07.'], wave: 2 },
   { id: 'DD.PLAN_ALLOCATIONS', name: 'PLAN INTENTIONS + ASSIGNMENTS', owner: 'F08', readers: ['F08', 'F09', 'F10', 'F11', 'F13', 'F14', 'F15'], writers: ['F08', 'F02', 'F11'], derived: false, currentSource: 'F02 draft priorities[] (names only)', currentPersistence: 'SESSION', targetPersistence: 'REPOSITORY', criteria: 'R- U- Dh I0 S0 V0 E0 M- L- P- A- N-', conflicts: ['PRIORITIES ARE NAMES WITHOUT AMOUNTS; F03 READS priorities[0] AS "FIRST".'], wave: 3 },

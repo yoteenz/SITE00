@@ -1,0 +1,5 @@
+{
+  "canonical_owner": "GS.STATE_PATTERNS",
+  "wave1_surfaces": ["loading", "empty", "error", "success", "blocked", "unavailable", "needs_consent"],
+  "usage": ["AskJurnlSheet UNAVAILABLE", "QuickAddV2Sheet error on save fail", "DetailSheet read-only for MOCK"]
+}

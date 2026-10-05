@@ -4,6 +4,7 @@
 
 import { useSyncExternalStore } from 'react';
 import { getRepository } from '../repository/deviceRepository';
+import { syncSetupConsentsToRepository } from '../repository/consentSync';
 
 export type SetupDraft = {
   started: boolean;
@@ -55,6 +56,9 @@ export function getSetupDraft(): SetupDraft {
 
 export function patchSetup(patch: Partial<SetupDraft>) {
   getRepository().patchSetup(patch);
+  if ('consentRemember' in patch || 'consentLinks' in patch || 'consentSale' in patch) {
+    syncSetupConsentsToRepository(getSetupDraft());
+  }
 }
 
 export function resetSetup() {

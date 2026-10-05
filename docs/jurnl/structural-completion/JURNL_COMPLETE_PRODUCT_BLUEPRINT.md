@@ -14,9 +14,9 @@ Paid generation is not on the structural critical path. Each node carries three 
 
 ## Where JURNL stands
 
-**31.7% FUNCTIONAL / 26.6% VISUALLY IMPLEMENTED / 0.1% APPROVED / 9.5% LAUNCH READY**
+**32.9% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 9.8% LAUNCH READY**
 
-- Functional is ESTIMATED, confidence MEDIUM. It is unit-balanced (F01–F16 + GLOBAL count once each); node-weighted 48.8%, strict 19.7%. Formulas: `JURNL_PROGRESS_METRIC_MODEL.json`.
+- Functional is ESTIMATED, confidence MEDIUM. It is unit-balanced (F01–F16 + GLOBAL count once each); node-weighted 49.9%, strict 20.9%. Formulas: `JURNL_PROGRESS_METRIC_MODEL.json`.
 - 543 material nodes: 16 parents, 34 child pages, 2 grandchild pages, 26 drawers, 30 sheets, 15 modals, 6 overlays, 101 states, 222 interactions, 28 global systems, 21 data domains, 42 shared primitives.
 - F01 and F02 are implemented and QA-passed but depend on simulated providers and session-only data. F03 and F04 run on mock data. F05–F16 are parent placeholders with disabled CTAs; their children do not exist.
 - Nine families () can only be reached through the review board or a typed URL.
@@ -27,8 +27,8 @@ Paid generation is not on the structural critical path. Each node carries three 
 |---|---|---|---|---|---|---|---|---|---|
 | F01 | ENTRY | entry | COMPLETE_FUNCTIONAL | 86.7% | 13 | 27 | 27 | 74 | YES |
 | F02 | SETUP | setup | PARTIAL_FUNCTIONAL | 92.9% | 8 | 3 | 7 | 5 | YES |
-| F03 | TODAY | today | PARTIAL_FUNCTIONAL | 67.4% | 0 | 1 | 9 | 9 | YES |
-| F04 | ACTIVITY | activity | PARTIAL_FUNCTIONAL | 62.7% | 0 | 4 | 6 | 9 | YES |
+| F03 | TODAY | today | PARTIAL_FUNCTIONAL | 72.4% | 0 | 1 | 9 | 9 | YES |
+| F04 | ACTIVITY | activity | PARTIAL_FUNCTIONAL | 73.1% | 0 | 4 | 6 | 9 | YES |
 | F05 | MONEY | money | PLACEHOLDER | 11.3% | 2 | 4 | 4 | 12 | YES |
 | F06 | INCOME | income | PLACEHOLDER | 13.7% | 1 | 4 | 4 | 9 | YES |
 | F07 | UPCOMING | upcoming | PLACEHOLDER | 12.4% | 1 | 4 | 5 | 10 | YES |
@@ -82,7 +82,7 @@ Per-family detail: `F01_ENTRY_STRUCTURAL_BLUEPRINT.json` … `F16_RECORDS_STRUCT
 | GLOBAL ERROR / EMPTY / LOADING / OFFLINE | GLOBAL | PARTIAL | 0 |
 | USER-SCOPED DATA PERSISTENCE | GLOBAL | MISSING | 0 |
 | AUTH | FAMILY_OWNED | PARTIAL | 5 |
-| ACCOUNT / PROFILE / SETTINGS | GLOBAL | MISSING | 1 |
+| ACCOUNT / PROFILE / SETTINGS | GLOBAL | PARTIAL | 1 |
 | FAMILY DISCOVERY (NON-NAV FAMILIES) | GLOBAL | PARTIAL | 0 |
 | ENTITLEMENTS / CAPABILITY GATES | GLOBAL | PARTIAL | 1 |
 | EXCHANGE RATE REFRESH | GLOBAL | IMPLEMENTED | 0 |
@@ -93,7 +93,7 @@ Per-family detail: `F01_ENTRY_STRUCTURAL_BLUEPRINT.json` … `F16_RECORDS_STRUCT
 | ANALYTICS | GLOBAL | MISSING | 5 |
 | SEO / NOINDEX | GLOBAL | MISSING | 5 |
 | NATIVE BRIDGE (BIOMETRIC / DEVICE) | FAMILY_OWNED | PARTIAL | 5 |
-| CONSENT + AI ACCESS | DUPLICATED | PARTIAL | 1 |
+| CONSENT + AI ACCESS | GLOBAL | PARTIAL | 1 |
 
 ## Blockers (critical path)
 
@@ -112,7 +112,7 @@ All 29 blockers: `JURNL_STRUCTURAL_BLOCKERS.json`.
 
 - Orphans: 0 · dangling opens: 0 · target-unreachable: 0
 - Family parents unreachable today: 0
-- Dead ends today: 0 · competing ownership: 14 domains · fake-completion claims: 7
+- Dead ends today: 1 · competing ownership: 14 domains · fake-completion claims: 7
 
 ## Founder decisions (real product judgment only)
 
@@ -130,4 +130,4 @@ All 29 blockers: `JURNL_STRUCTURAL_BLOCKERS.json`.
 ## Generation
 
 Generation required to reach 100% functional: **NO**. New paid generations: 0. Credits spent: 0.
-Visual track afterwards: 8 parent re-authorities (F08, F09, F10, F11, F13, F14, F15, F16), 0 required child authorities, 12 distinct sub-expressions to build, and 51 unbuilt no-plate nodes. Plate reuse or modulation is expected on 12 nodes.
+Visual track afterwards: 8 parent re-authorities (F08, F09, F10, F11, F13, F14, F15, F16), 0 required child authorities, 12 distinct sub-expressions to build, and 48 unbuilt no-plate nodes. Plate reuse or modulation is expected on 12 nodes.

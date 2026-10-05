@@ -18,6 +18,7 @@ import { BiometricSetupScreen, DeviceTrustScreen, EntryCompleteScreen, PrivacyPr
 import { JURNL_F02_SCREEN_COMPONENTS } from './screens/SetupScreens';
 import { PARENTS } from '../data/parents/catalog';
 import { ActivityScreen, TodayScreen } from './screens/HomeScreens';
+import { AccountSettingsScreen } from './screens/SettingsScreens';
 import { ParentAuthorityScreen, ParentReviewBoard } from './screens/ParentScreens';
 import './jurnl-runtime.css';
 import './jurnl-environment.css';
@@ -75,6 +76,7 @@ function JurnlRoutes() {
       })}
       <Route path="today" element={<TodayScreen />} />
       <Route path="activity" element={<ActivityScreen />} />
+      <Route path="account" element={<AccountSettingsScreen />} />
       <Route path="parents" element={<ParentReviewBoard />} />
       {PARENTS.map((parent) => (
         <Route key={parent.id} path={parent.route} element={<ParentAuthorityScreen id={parent.id} />} />

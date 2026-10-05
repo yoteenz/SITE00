@@ -1,0 +1,15 @@
+{
+  "owner": "GS.SETTINGS",
+  "persistence": "repository.snapshot.settings",
+  "schema_version": 2,
+  "fields": {
+    "displayCurrency": { "type": "CurrencyCode", "required": true },
+    "timezone": { "type": "string", "default": "UTC" },
+    "locale": { "type": "string", "default": "en-US" },
+    "safeToSpendBuffer": { "type": "string", "default": "" },
+    "defaultAccountDisplayName": { "type": "string|null" },
+    "notificationsEnabled": { "type": "boolean", "default": false }
+  },
+  "route": "account",
+  "source_files": ["src/projects/jurnl/data/foundation/settings.ts", "src/projects/jurnl/runtime/screens/SettingsScreens.tsx"]
+}

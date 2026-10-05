@@ -3,26 +3,18 @@
  * Authorities are reference files. These screens paint the plates plus live type, rows, and sheets.
  */
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   EMPTY_FILTER,
-  addLedgerEntry,
   applyActivityFilter,
+  deleteLedgerEntry,
+  updateLedgerEntry,
   filterIsActive,
   filterSummary,
-  formatAmountInput,
   formatMoney,
   ledgerEntries,
   useCurrency,
-  useExchangeState,
-  parseAmountInput,
-  quoteQuickAdd,
   safeToSpend,
-  setCurrency,
-  CURRENCIES,
-  CURRENCY_ROW_PX,
-  VISIBLE_CURRENCY_ROWS,
-  scrollTopToReveal,
   todayModeFromQuery,
   upcomingFor,
   useAddedEntries,
@@ -41,6 +33,7 @@ import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
 import { FamilyDiscoveryLinks } from '../components/FamilyDiscovery';
 import { accountDisplayOptions } from '../../data/foundation/accounts';
+import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 
 function useHomeOverlay() {
   const j = useJurnl();
@@ -71,6 +64,7 @@ export function TodayScreen() {
         <div className="jrn-home__top" data-jrn-zone="chrome">
           <JurnlIconButton icon="back" label="BACK TO SETUP" trigger="today-back" onClick={() => go('F02.08')} />
           <span className="jrn-home__mark">JURNL</span>
+          <JurnlIconButton icon="gear" label="ACCOUNT" trigger="today-account" onClick={() => go('account')} />
           <JurnlIconButton icon="info" label="ASK JURNL" trigger="today-ask" onClick={() => openOverlay('ask')} />
         </div>
         <div className="jrn-home__intro" data-jrn-zone="intro">
@@ -168,8 +162,8 @@ export function TodayScreen() {
         <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
       </div>
       {overlay === 'see-why' ? <SeeWhySheet onClose={closeOverlay} /> : null}
-      {overlay === 'quick-add' ? <QuickAddSheet onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskSheet onClose={closeOverlay} /> : null}
+      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F03" onClose={closeOverlay} /> : null}
+      {overlay === 'ask' ? <AskJurnlSheet familyId="F03" nodeId="F03.00" onClose={closeOverlay} /> : null}
     </JurnlScreen>
   );
 }
@@ -197,148 +191,13 @@ function SeeWhySheet({ onClose }: { onClose: () => void }) {
   );
 }
 
-export function QuickAddSheet({ onClose }: { onClose: () => void }) {
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
-  const [direction, setDirection] = useState<'EXPENSE' | 'INCOME'>('EXPENSE');
-  const accountOptions = useMemo(() => accountDisplayOptions(), []);
-  const [account, setAccount] = useState(() => accountOptions[0]?.id ?? 'CHECKING');
-  const [keyboard, setKeyboard] = useState(false);
-  const currency = useCurrency();
-  const numeric = Number(amount);
-  const quote = /^\d+(\.\d{1,2})?$/.test(amount.trim()) && numeric > 0 ? quoteQuickAdd(numeric, currency.code) : null;
-  const valid = name.trim().length > 0 && quote != null && (direction === 'EXPENSE' || direction === 'INCOME') && account.length > 0;
-  return (
-    <JurnlDrawer
-      expression="form"
-      size="long"
-      testId="quick-add"
-      title="QUICK ADD"
-      lead="A MOVEMENT YOU ARE WRITING DOWN. IT JOINS THE PREVIEW LEDGER."
-      onClose={onClose}
-      keyboard={keyboard}
-      footer={
-        <JurnlButton
-          trigger="quick-add-save"
-          disabled={!valid}
-          onClick={() => {
-            if (!quote) return;
-            addLedgerEntry({
-              merchant: name.trim().toUpperCase(),
-              amount: quote.canonicalAmount,
-              direction,
-              when: 'TODAY',
-              account,
-              category: direction === 'INCOME' ? 'INCOME' : 'OTHER',
-              provenance: quote,
-            });
-            onClose();
-          }}
-        >
-          SAVE
-        </JurnlButton>
-      }
-    >
-      <JurnlInput label="NAME" value={name} onValue={setName} trigger="quick-add-name" />
-      <JurnlInput
-        label="AMOUNT"
-        value={formatAmountInput(amount)}
-        prefix={currency.symbolPosition === 'prefix' ? currency.symbol : undefined}
-        suffix={currency.symbolPosition === 'suffix' ? currency.symbol : undefined}
-        onValue={(next) => setAmount(parseAmountInput(next))}
-        trigger="quick-add-amount"
-        inputMode="decimal"
-        autoComplete="off"
-        onFocusChange={(focused) => {
-          setKeyboard(focused);
-          if (focused && typeof document !== 'undefined') {
-            const field = document.querySelector('[data-jrn-trigger="quick-add-amount"]');
-            field?.scrollIntoView({ block: 'nearest' });
-          }
-        }}
-      />
-      <p className="jrn-currency__note">{currency.code === 'USD' ? 'AMOUNT IS IN USD.' : `AMOUNT IS IN ${currency.code}. JURNL STORES THE USD EQUIVALENT.`}</p>
-      <div className="jrn-home__choices" role="radiogroup" aria-label="DIRECTION">
-        {(['EXPENSE', 'INCOME'] as const).map((item) => (
-          <button key={item} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={direction === item} data-active={direction === item ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.toLowerCase()}`} onClick={() => setDirection(item)}>
-            {item}
-          </button>
-        ))}
-      </div>
-      <div className="jrn-home__choices" role="radiogroup" aria-label="ACCOUNT">
-        {accountOptions.map((item) => (
-          <button key={item.id} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item.id} data-active={account === item.id ? 'true' : 'false'} data-jrn-trigger={`quick-add-${item.id.toLowerCase().replace(/\s+/g, '-')}`} onClick={() => setAccount(item.id)}>
-            {item.label}
-          </button>
-        ))}
-      </div>
-    </JurnlDrawer>
-  );
+/** @deprecated import QuickAddV2Sheet — kept for parent imports during Wave 1. */
+export function QuickAddSheet({ onClose, familyId = 'F04' }: { onClose: () => void; familyId?: string }) {
+  return <QuickAddV2Sheet familyId={familyId} onClose={onClose} />;
 }
 
-export function AskSheet({ onClose }: { onClose: () => void }) {
-  const signal = safeToSpend();
-  const currency = useCurrency();
-  const fx = useExchangeState();
-  const listRef = useRef<HTMLDivElement>(null);
-  useLayoutEffect(() => {
-    const apply = () => {
-      const list = listRef.current;
-      if (!list) return;
-      const index = CURRENCIES.findIndex((item) => item.code === currency.code);
-      const next = scrollTopToReveal(index, CURRENCY_ROW_PX, VISIBLE_CURRENCY_ROWS, 0);
-      list.scrollTop = next;
-      list.dataset.currencyScroll = String(next);
-    };
-    apply();
-    const frame = window.requestAnimationFrame(apply);
-    const timer = window.setTimeout(apply, 380);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.clearTimeout(timer);
-    };
-  }, [currency.code]);
-  return (
-    <JurnlDrawer expression="confirmation" size="long" testId="ask" title="ASK JURNL" lead="JURNL READS THE PREVIEW CASH, WHAT IS COMING, AND WHAT YOU PROTECTED." onClose={onClose}>
-      <p className="jrn-home__ask">SAFE TO SPEND IS {formatMoney(signal.value)}. THIS IS NOT A PLAN AND NOT A BALANCE.</p>
-      <div className="jrn-currency" data-jrn-trigger="change-currency">
-        <p className="jrn-currency__label">DISPLAY CURRENCY</p>
-        <p className="jrn-currency__note">JURNL CONVERTS DISPLAYED AMOUNTS USING THE LATEST AVAILABLE EXCHANGE RATE. ORIGINAL VALUES STAY PRESERVED.</p>
-        {fx.error ? (
-          <p className="jrn-currency__note" role="status">
-            {fx.error}
-          </p>
-        ) : null}
-        {fx.disclosure ? <p className="jrn-currency__rate">{fx.disclosure}</p> : null}
-        <div
-          ref={listRef}
-          className="jrn-currency__list"
-          role="group"
-          aria-label="CURRENCY"
-          data-visible-rows={VISIBLE_CURRENCY_ROWS}
-          onWheel={(event) => event.stopPropagation()}
-          onTouchMove={(event) => event.stopPropagation()}
-        >
-          {CURRENCIES.map((item) => (
-            <button
-              key={item.code}
-              type="button"
-              className="jrn-btn jrn-btn--secondary jrn-currency__row"
-              aria-pressed={currency.code === item.code}
-              data-active={currency.code === item.code ? 'true' : 'false'}
-              data-jrn-trigger={`currency-${item.code.toLowerCase()}`}
-              onClick={() => {
-                void setCurrency(item.code);
-              }}
-            >
-              <span className="jrn-currency__code">{item.code}</span>
-              <span className="jrn-currency__name">{item.name}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-    </JurnlDrawer>
-  );
+export function AskSheet({ onClose, familyId = 'F03', nodeId = 'F03.00' }: { onClose: () => void; familyId?: string; nodeId?: string }) {
+  return <AskJurnlSheet familyId={familyId} nodeId={nodeId} onClose={onClose} />;
 }
 
 export function ActivityScreen() {
@@ -365,6 +224,7 @@ export function ActivityScreen() {
         <div className="jrn-home__top" data-jrn-zone="chrome">
           <JurnlIconButton icon="back" label="BACK TO TODAY" trigger="activity-back" onClick={() => go('F03')} />
           <span className="jrn-home__mark">JURNL</span>
+          <JurnlIconButton icon="gear" label="ACCOUNT" trigger="activity-account" onClick={() => go('account')} />
           <JurnlIconButton icon="info" label="ASK JURNL" trigger="activity-ask" onClick={() => openOverlay('ask')} />
         </div>
         <div className="jrn-home__intro" data-jrn-zone="intro">
@@ -441,9 +301,19 @@ export function ActivityScreen() {
         <JurnlProductNav current="ACTIVITY" onGo={go} onAdd={() => openOverlay('quick-add')} />
       </div>
       {overlay === 'filter' ? <FilterSheet filter={filter} onChange={setFilter} onClose={closeOverlay} /> : null}
-      {overlay === 'detail' && selected ? <DetailSheet entry={selected} onClose={closeOverlay} /> : null}
-      {overlay === 'quick-add' ? <QuickAddSheet onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskSheet onClose={closeOverlay} /> : null}
+      {overlay === 'detail' && selected ? (
+        <DetailSheet
+          entry={selected}
+          onClose={closeOverlay}
+          onUpdated={(next) => setSelected(next)}
+          onDeleted={() => {
+            setSelected(null);
+            closeOverlay();
+          }}
+        />
+      ) : null}
+      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F04" onClose={closeOverlay} /> : null}
+      {overlay === 'ask' ? <AskJurnlSheet familyId="F04" nodeId="F04.00" onClose={closeOverlay} /> : null}
     </JurnlScreen>
   );
 }
@@ -503,8 +373,24 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
   );
 }
 
-function DetailSheet({ entry, onClose }: { entry: LedgerEntry; onClose: () => void }) {
+function DetailSheet({
+  entry,
+  onClose,
+  onUpdated,
+  onDeleted,
+}: {
+  entry: LedgerEntry;
+  onClose: () => void;
+  onUpdated: (next: LedgerEntry) => void;
+  onDeleted: () => void;
+}) {
   useCurrency();
+  const editable = entry.source === 'ADDED';
+  const [mode, setMode] = useState<'view' | 'edit' | 'delete'>('view');
+  const [merchant, setMerchant] = useState(entry.merchant);
+  const [amount, setAmount] = useState(String(entry.amount));
+  const [account, setAccount] = useState(entry.account);
+  const accountOptions = useMemo(() => accountDisplayOptions(), []);
   const rows: [string, string][] = [
     ['MERCHANT', entry.merchant],
     ['AMOUNT', formatMoney(entry.amount, entry.direction === 'INCOME')],
@@ -517,8 +403,95 @@ function DetailSheet({ entry, onClose }: { entry: LedgerEntry; onClose: () => vo
   ];
   if (entry.memo) rows.push(['NOTE', entry.memo]);
   if (entry.recurring) rows.push(['RECURRING', 'YES']);
+
+  if (mode === 'delete') {
+    return (
+      <JurnlDrawer
+        expression="confirmation"
+        size="long"
+        testId="activity-delete"
+        title="DELETE MOVEMENT"
+        lead="THIS REMOVES YOUR ADDED ENTRY FROM THE REPOSITORY."
+        onClose={() => setMode('view')}
+        footer={
+          <>
+            <JurnlButton trigger="activity-delete-confirm" onClick={() => { if (deleteLedgerEntry(entry.id)) onDeleted(); }}>
+              DELETE
+            </JurnlButton>
+            <JurnlButton variant="secondary" trigger="activity-delete-cancel" onClick={() => setMode('view')}>
+              CANCEL
+            </JurnlButton>
+          </>
+        }
+      >
+        <p className="jrn-currency__note">{entry.merchant} · {formatMoney(entry.amount)}</p>
+      </JurnlDrawer>
+    );
+  }
+
+  if (mode === 'edit' && editable) {
+    return (
+      <JurnlDrawer
+        expression="form"
+        size="long"
+        testId="activity-edit"
+        title="EDIT MOVEMENT"
+        lead="ONLY ENTRIES YOU ADDED CAN CHANGE."
+        onClose={() => setMode('view')}
+        footer={
+          <JurnlButton
+            trigger="activity-edit-save"
+            disabled={merchant.trim().length === 0 || !/^\d+(\.\d{1,2})?$/.test(amount.trim())}
+            onClick={() => {
+              const next = updateLedgerEntry(entry.id, {
+                merchant: merchant.trim().toUpperCase(),
+                amount: Number(amount),
+                account,
+              });
+              if (next) {
+                onUpdated(next);
+                setMode('view');
+              }
+            }}
+          >
+            SAVE
+          </JurnlButton>
+        }
+      >
+        <JurnlInput label="MERCHANT" value={merchant} onValue={setMerchant} trigger="activity-edit-merchant" />
+        <JurnlInput label="AMOUNT USD" value={amount} onValue={setAmount} trigger="activity-edit-amount" inputMode="decimal" />
+        <div className="jrn-home__choices" role="radiogroup" aria-label="ACCOUNT">
+          {accountOptions.map((item) => (
+            <button key={item.id} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item.id} data-active={account === item.id ? 'true' : 'false'} onClick={() => setAccount(item.id)}>
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </JurnlDrawer>
+    );
+  }
+
   return (
-    <JurnlDrawer expression="detail" size="long" testId="activity-detail" title={entry.merchant} lead="A MOVEMENT. NOT A BILL, UNLESS A RELATED OBLIGATION IS NAMED." onClose={onClose}>
+    <JurnlDrawer
+      expression="detail"
+      size="long"
+      testId="activity-detail"
+      title={entry.merchant}
+      lead="A MOVEMENT. NOT A BILL, UNLESS A RELATED OBLIGATION IS NAMED."
+      onClose={onClose}
+      footer={
+        editable ?
+          <>
+            <JurnlButton variant="secondary" trigger="activity-edit" onClick={() => setMode('edit')}>
+              EDIT
+            </JurnlButton>
+            <JurnlButton variant="secondary" trigger="activity-delete" onClick={() => setMode('delete')}>
+              DELETE
+            </JurnlButton>
+          </>
+        : undefined
+      }
+    >
       <ul className="jrn-why">
         {rows.map(([label, value]) => (
           <li key={label}>
@@ -535,6 +508,7 @@ function DetailSheet({ entry, onClose }: { entry: LedgerEntry; onClose: () => vo
           </li>
         ) : null}
       </ul>
+      {!editable ? <p className="jrn-currency__note">PREVIEW ENTRIES ARE READ ONLY.</p> : null}
     </JurnlDrawer>
   );
 }

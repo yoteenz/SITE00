@@ -13803,6 +13803,22 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — JURNL Wave 1 shared global interactions (P0.JURNL.WAVE1-SHARED-GLOBAL-INTERACTIONS)
+
+- **Context:** After Wave 0 merge, Composer implemented the global interaction layer before F05–F16 child expansion. Zero generation; F01/F02 visuals frozen except honest F02 connect copy.
+- **Wave 1 landed:**
+  1. **Settings (GS.SETTINGS)** — route `account`, repository `settings` v2, display currency moved out of Ask
+  2. **Family links** — `familyLinks.ts` canonical cross-family model
+  3. **Ask JURNL global** — `GlobalSheets.tsx` + `askJurnl.ts` context boundary on F03/F04/F05–F16
+  4. **Quick Add V2** — `quickAddRegistry.ts` + `QuickAddV2Sheet` (TRANSACTION enabled)
+  5. **Ledger edit/delete** — repository `updateTransaction` / `deleteTransaction` for ADDED entries
+  6. **Honest connect** — `connectionProvider.ts`; F02 preview-only bank flag
+  7. **Consent** — repository `consent[]` + `consentSync.ts` (F01.11 + F02.07 → one record)
+- **Artifacts:** `docs/jurnl/structural-completion/wave1/`; blueprint regenerated (~32.6% functional estimated; interactions WORKING 105).
+- **Next:** Wave 2 F05/F06/F07 material surfaces — do not rebuild global interactions.
+
+---
+
 ## 2026-10-05 — JURNL Wave 0 foundations active (P0.JURNL.WAVE0-FOUNDATIONS)
 
 - **Context:** After forensic blueprint (#1382), Composer implemented shared foundations before F05–F16 child expansion. F01/F02 visuals frozen; zero generation.

@@ -1,0 +1,5 @@
+{
+  "gaps_before": 13,
+  "gaps_closed": ["settings", "consent", "ledger ADDED CRUD", "quick add repository save"],
+  "gaps_deferred": ["server RLS", "income/obligation quick-add types"]
+}

@@ -1,0 +1,5 @@
+{
+  "states": ["PROVIDER_UNAVAILABLE", "MANUAL_ONLY", "MOCK_DEV", "PREVIEW_FLAG_CONNECTED", "NAMED", "SKIPPED"],
+  "fake_success_removed": true,
+  "f02_connected_means": "PREVIEW ONLY — NO LIVE BANK LINK"
+}

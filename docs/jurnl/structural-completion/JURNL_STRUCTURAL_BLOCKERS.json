@@ -525,7 +525,9 @@
     "dangling_opens": [],
     "family_parents_unreachable_today": [],
     "target_unreachable": [],
-    "dead_ends_today": [],
+    "dead_ends_today": [
+      "GS.SETTINGS"
+    ],
     "missing_return_paths_target": [],
     "competing_ownership": 14,
     "fake_completion": 7,

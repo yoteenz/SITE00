@@ -232,10 +232,11 @@ export function SetupHouseholdScreen() {
 }
 
 export function SetupAccountsScreen() {
-  const { go, overlay, openOverlay, closeOverlay, forcedState } = useJurnl();
+  const { go, overlay, openOverlay, closeOverlay, forcedState, showToast } = useJurnl();
   const draft = useSetup();
   const s = screenOf('F02.02');
   const connected = forcedState === 'connected' || draft.accounts === 'CONNECTED';
+  const previewLinked = connected && draft.accounts === 'CONNECTED';
   return (
     <Frame
       screen={s}
@@ -254,9 +255,9 @@ export function SetupAccountsScreen() {
         </JurnlButton>
       }
     >
-      {connected ?
+      {previewLinked ?
         <div data-jrn-state="connected">
-          <JurnlSuccessPanel title="ACCOUNT LINKED" body="JURNL CAN SEE THE SHAPE. NOT THE LEDGER." testId="setup-connected" />
+          <JurnlSuccessPanel title="PREVIEW LINK ONLY" body="NO LIVE BANK PROVIDER IS CONNECTED. NAME AN ACCOUNT FOR A MANUAL LABEL." testId="setup-connected" />
         </div>
       : null}
       <div className="jrn-setup__choices" role="radiogroup" aria-label="ACCOUNT SOURCE">
@@ -282,6 +283,7 @@ export function SetupAccountsScreen() {
                 onClick={() => {
                   patchSetup({ accounts: 'CONNECTED' });
                   closeOverlay();
+                  showToast({ tone: 'success', title: 'PREVIEW LINK RECORDED', body: 'NO LIVE BANK SYNC. USE NAME AN ACCOUNT FOR MANUAL ENTRY.', testId: 'toast-connect-preview' });
                 }}
               >
                 CONTINUE
@@ -292,7 +294,7 @@ export function SetupAccountsScreen() {
             </>
           }
         >
-          <p className="jrn-body">NO PROVIDER IS OPENED UNTIL YOU CONTINUE.</p>
+          <p className="jrn-body">BANK AGGREGATION IS NOT LIVE IN THIS BUILD. CONTINUE RECORDS A PREVIEW FLAG ONLY — NOT A CONNECTED INSTITUTION.</p>
         </JurnlDrawer>
       : null}
       {overlay === 'skip' ? <SkipSheet next="F02.03" onSkip={() => patchSetup({ accounts: 'SKIPPED' })} /> : null}

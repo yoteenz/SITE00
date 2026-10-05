@@ -46,6 +46,14 @@ export function addLedgerEntry(entry: Omit<LedgerEntry, 'id' | 'source' | 'statu
   return getRepository().appendTransaction(entry);
 }
 
+export function updateLedgerEntry(id: string, patch: Partial<Pick<LedgerEntry, 'merchant' | 'amount' | 'direction' | 'when' | 'account' | 'category' | 'memo'>>): LedgerEntry | null {
+  return getRepository().updateTransaction(id, patch);
+}
+
+export function deleteLedgerEntry(id: string): boolean {
+  return getRepository().deleteTransaction(id);
+}
+
 export function clearAddedEntries() {
   getRepository().clearAddedTransactions();
 }

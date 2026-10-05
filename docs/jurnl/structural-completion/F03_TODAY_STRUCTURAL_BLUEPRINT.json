@@ -179,7 +179,7 @@
     },
     {
       "id": "F03.IN.ACCOUNT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "GS.SETTINGS"
     }
   ],
@@ -256,12 +256,12 @@
     "AI_HIGHER_USAGE (AI)"
   ],
   "functional_status": {
-    "score": 67.4,
-    "strict": 40,
+    "score": 72.4,
+    "strict": 45,
     "gap_counts": {
       "PARTIAL_FUNCTIONAL": 9,
-      "COMPLETE_FUNCTIONAL": 8,
-      "MISSING": 3
+      "COMPLETE_FUNCTIONAL": 9,
+      "MISSING": 2
     }
   },
   "visual_status": {

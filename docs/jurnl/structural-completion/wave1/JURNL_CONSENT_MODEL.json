@@ -1,0 +1,17 @@
+{
+  "owner": "GS.CONSENT",
+  "persistence": "repository.snapshot.consent",
+  "version": "2026-10-05",
+  "types": [
+    "DATA_REMEMBER",
+    "LINKED_ACCOUNTS",
+    "NO_DATA_SALE",
+    "AI_PERSONALIZED",
+    "AI_CATEGORIZATION",
+    "AI_BUDGET",
+    "AI_NATURAL_LANGUAGE",
+    "AI_MARKET_TRENDS",
+    "ASK_JURNL_CONTEXT"
+  ],
+  "writers": ["F01.11 via consentSync", "F02.07 via consentSync", "GS.SETTINGS"]
+}

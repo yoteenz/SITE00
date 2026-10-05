@@ -18,10 +18,10 @@
   "counts": {
     "total_product_routes": 53,
     "by_status": {
-      "LIVE": 24,
+      "LIVE": 25,
       "PARTIAL": 3,
       "PLACEHOLDER": 12,
-      "MISSING": 14
+      "MISSING": 13
     },
     "unreachable_in_product_today": [],
     "non_product": 3
@@ -696,8 +696,8 @@
       "route": "/production/jurnl/runtime/account",
       "node_id": "GS.SETTINGS",
       "family_id": "GLOBAL",
-      "status": "MISSING",
-      "reachable_in_product_today": false,
+      "status": "LIVE",
+      "reachable_in_product_today": true,
       "reached_from_target": [
         "F03.00",
         "F03.IN.ACCOUNT"
