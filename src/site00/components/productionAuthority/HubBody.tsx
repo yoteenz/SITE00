@@ -7,6 +7,7 @@ import { buildActivityRows } from './ActivityBody';
 import { AUTHORITY_ASSETS } from './authorityAssets';
 import { agoLabel, Dot, pad2, Priority, StatusCell, Thumb } from './primitives';
 import '../../styles/site00-production-hub-reconstruction.css';
+import '../../styles/site00-production-hub-one-viewport.css';
 
 export const NODE_SUB: Record<HubNodeId, string> = {
   narrative: 'narrative',
@@ -281,6 +282,12 @@ export function HubBody() {
           ))}
           <li className="hubx-hero__tick" />
         </ul>
+        {/* the legacy chamber link rides in the world panel's corner, so the body keeps one viewport */}
+        <p className="pxa-hub__machine">
+          <Link to="/production?view=machine" data-testid="hub-open-machine">
+            OPEN HUB MACHINE (CHAMBER) →
+          </Link>
+        </p>
       </div>
 
       {/* ── STATUS STRIP ── */}
@@ -404,7 +411,7 @@ export function HubBody() {
             <section className="hubx-card hubx-ops" data-testid="hub-operations">
               <HubHead title="CURRENT OPERATIONS" to="/production/queue" />
               {ops.length ?
-                <ol className="hubx-ops__list">
+                <ol className="hubx-ops__list" data-scroll="internal">
                   {ops.map((a, i) => {
                     const slot = a.assetSlotId ?? slotFor(a.nodeId);
                     return (
@@ -432,7 +439,7 @@ export function HubBody() {
             <section className="hubx-card hubx-feed" data-testid="hub-activity">
               <HubHead title="RECENT ACTIVITY" to="/production/activity" />
               {feed.length ?
-                <ol className="hubx-feed__list">
+                <ol className="hubx-feed__list" data-scroll="internal">
                   {feed.map((a) => {
                     const nodeId = a.id.startsWith('state.') ? (a.id.slice(6) as HubNodeId) : null;
                     const slot = slotFor(nodeId);
@@ -454,11 +461,6 @@ export function HubBody() {
           </div>
         </div>
       </div>
-      <p className="pxa-hub__machine">
-        <Link to="/production?view=machine" data-testid="hub-open-machine">
-          OPEN HUB MACHINE (CHAMBER) →
-        </Link>
-      </p>
     </div>
   );
 }

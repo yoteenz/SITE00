@@ -359,7 +359,7 @@ function CharacterDetail(c: Ctx) {
           </div>
         ) : null}
       </article>
-      <div className="lbf-char-identity" data-testid="library-character-identity">
+      <div className="lbf-char-identity rk-scroll" data-testid="library-character-identity" data-scroll="internal">
         <div className="lbf-char-identity__title">
           <h2>{x.title}</h2>
           <small>{x.kicker}</small>
@@ -445,7 +445,7 @@ function Detail(c: Ctx) {
           <small>{x.kicker}</small>
         </div>
       </article>
-      <div className="lbf-summary" data-testid="library-summary">
+      <div className="lbf-summary rk-scroll" data-testid="library-summary" data-scroll="internal">
         <span>
           <b>{x.title}</b>
           <Status r={x} />

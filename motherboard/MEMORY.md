@@ -13508,13 +13508,59 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.MEDIA-HIERARCHY.ONE-VIEWPORT-CONVERGEN
 
 ---
 
+## 2026-10-05 — Production full-authority forensic audit + pixel refinement (OPUS2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2` on `cursor/production-full-authority-forensic-pixel-refinement-opus2`. The base is the tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `09378e0a`.
+
+- **Forensics** (`artifacts/production-full-authority-forensics/`).
+  - Scope: 4,024 files inspected; 605 visual authorities (430 canonical, 53 superseded, 0 in review, 0 unknown); 165 duplicate groups; 13 conflicting.
+  - Route map: 200 routes.
+  - Unresolved: U-01 to U-13 are authority questions. U-14 to U-18 are refinement decisions:
+    - U-14: Design chamber micro-type.
+    - U-15: Character Fabrication tablet/desktop composition.
+    - U-16: Production Floor at the 1280×720 authority proportion.
+    - U-17: SW-017 subject identity.
+    - U-18: hero bands.
+- **QA.** The tunnel SHA (own dev server) and the branch were captured at 185 routes × 14 viewports with the same detector. Before → after:
+  - page scroll 24 → 10;
+  - media strips 146 → 4;
+  - type below 8.5px 389 → 89;
+  - horizontal overflow 0 → 0;
+  - undeclared panes 19 → 0;
+  - interaction authorities 51/51.
+  - Outputs: `visual-diff-report.json`, `before-after-sheets/` (21).
+- **HUB.** One viewport at every size. The world panel flexes and carries the chamber link. Portrait tablets use the 9:16 composition with `cqb`. Phone floor is 8.5px. File: `site00-production-hub-one-viewport.css`.
+- **EXPRESSION.**
+  - `expressionMedia.ts` resolver: Entry 002 board crops, resident media and CF receipts, all with provenance.
+  - `ExpressionMediaKit.tsx` holds the shared media components.
+  - Casting, Look, Storyboard, Performance and Review are media-first.
+  - Production Floor follows the T12 one-viewport composition: six floors in one row on phones, full-width travel and table rows elsewhere.
+  - Phone modules that the EXPR2 mobile boards show were restored.
+- **Assets.** 30 `entry002.*` crops registered PROJECT_CANON. Script: `scripts/production-authority/derive-entry002-media.py`.
+- **INBOX / ACTIVITY / LIBRARY / DESIGN.**
+  - Inbox: incoming cards fill their pane; detail views stack on portrait tablets.
+  - Inbox and Activity: 8.5px floors.
+  - Library: `.rk-scroll` panes only.
+  - Design: the chamber takes the slack.
+- **Detector notes.**
+  - Wide-but-short media are no longer skipped as icons.
+  - Edge clipping of a scroll pane is not counted as a strip.
+  - Overflow-hidden containers clip decorative layers; that is not counted as horizontal overflow.
+  - CF scroll is measured through `cf-scroll`.
+- **Tests.** `productionFullAuthorityForensicPixelRefinementOpus2.test.ts`. The stale Expression convergence assertions were fixed: attribute order and resident actor ids.
+  - The full suite carried 131 failures inherited from the tunnel, identical before and after.
+  - 91 remain; every one was already failing at the tunnel SHA.
+  - Two of them sit near Production: the hub-machine raster-import firewall and the API orchestration severity map. Neither is touched by this sprint.
+- Draft PR only. Not merged, not deployed.
+
+---
+
 ## 2026-10-05 — Production workspace Grok canonical asset injection
 
-Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-CANONICAL-ASSET-INJECTION1` on `cursor/production-workspace-grok-canonical-asset-injection1-0daf` from the geometry-complete tunnel.
+Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-CANONICAL-ASSET-INJECTION1` on `cursor/production-workspace-grok-canonical-asset-injection1-0daf`, merged onto the forensic tunnel.
 
-- **Handoff:** Ultrasonic lite pack ingested (environment groups, 8 new masters, U-07/U-08 frozen, U-17 out of scope).
-- **Generated:** 8 environment plates + NDX core + Design core via GPT Image 2.5 Sunburst 4k, auto-enhance off. Actual pixels recorded (16:9 delivered 3584×2016, not invented from the tier label). Ledger `artifacts/site00-workspace-asset-production/GENERATION_LEDGER.json` under budget `SITE00_WORKSPACE_ASSET_PRODUCTION` (not the Jurnl budget).
-- **Mounted:** Atrium master on Hub (focal crop) and Design chamber; white production floor replaces the dark Expression stage; viewport corridor; NDX experience child heroes only. Experience root and Library root plates unchanged.
-- **Icons:** Founder hub nav master restored (384×284) over the 48px substitute.
-- **Not generated:** 7 pipeline objects, portal, CF residual slots, materials. No site00.com deploy.
-
+- **Handoff:** Environment groups, 8 new masters, U-07/U-08 frozen, U-17 out of scope.
+- **Generated:** 8 environment plates + NDX core + Design core via GPT Image 2.5 Sunburst 4k, auto-enhance off. 16:9 delivered 3584×2016. Ledger `artifacts/site00-workspace-asset-production/GENERATION_LEDGER.json` under `SITE00_WORKSPACE_ASSET_PRODUCTION`.
+- **Mounted:** Atrium master on Hub and Design; white production floor on Expression; viewport corridor; NDX experience child heroes only. Experience root and Library root plates unchanged.
+- **Icons:** Founder hub nav master restored (384×284).
+- **Not generated:** pipeline objects, portal, CF residual slots, materials. No site00.com deploy.

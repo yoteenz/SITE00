@@ -92,6 +92,67 @@ const founderVariantRecords: ProductionAssetRecord[] = [
 }));
 
 
+/**
+ * Entry 002 authority-board crops (FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2): the Expression media
+ * resolver's character, look, wardrobe and beauty images. Each is a crop of a committed Entry 002 pre-storyboard
+ * authority board (the boards the production hub already uses as cast / look node art). Nothing generated; crop boxes
+ * live in entry-002/manifest.json (scripts/production-authority/derive-entry002-media.py).
+ */
+const ENTRY002_BOARDS = {
+  subject: ['ndx-entry-002-pre-sba-subject-dual-era-001.jpg', 'SUBJECT WOMAN · DUAL-ERA AUTHORITY'],
+  fashion: ['ndx-entry-002-pre-sba-fashion-continuity-001.jpg', 'SUBJECT FASHION · CONTINUITY AUTHORITY'],
+  ndx: ['ndx-entry-002-pre-sba-ndx-presence-001.jpg', 'NDX PRESENCE · PRE-STORYBOARD AUTHORITY 01'],
+} as const;
+
+const ENTRY002_CROPS: readonly (readonly [string, keyof typeof ENTRY002_BOARDS, string])[] = [
+  ['subject-2016-full', 'subject', 'CHARACTER_REFERENCE'],
+  ['subject-2016-portrait', 'subject', 'CHARACTER_REFERENCE'],
+  ['subject-2016-selfie', 'subject', 'CHARACTER_REFERENCE'],
+  ['subject-2026-full', 'subject', 'CHARACTER_REFERENCE'],
+  ['subject-2026-portrait', 'subject', 'CHARACTER_REFERENCE'],
+  ['subject-2026-audience', 'subject', 'CHARACTER_REFERENCE'],
+  ['subject-details', 'subject', 'CHARACTER_REFERENCE'],
+  ['subject-codes', 'subject', 'CHARACTER_REFERENCE'],
+  ['look-2016-full', 'fashion', 'LOOK_REFERENCE'],
+  ['look-2016-portrait', 'fashion', 'LOOK_REFERENCE'],
+  ['look-2016-mirror', 'fashion', 'LOOK_REFERENCE'],
+  ['look-2026-full', 'fashion', 'LOOK_REFERENCE'],
+  ['look-2026-portrait', 'fashion', 'LOOK_REFERENCE'],
+  ['look-2026-street', 'fashion', 'LOOK_REFERENCE'],
+  ['wardrobe-bodycon-dress', 'fashion', 'WARDROBE_REFERENCE'],
+  ['wardrobe-choker', 'fashion', 'WARDROBE_REFERENCE'],
+  ['wardrobe-bomber-jacket', 'fashion', 'WARDROBE_REFERENCE'],
+  ['wardrobe-thigh-high-boots', 'fashion', 'WARDROBE_REFERENCE'],
+  ['wardrobe-clear-heels', 'fashion', 'WARDROBE_REFERENCE'],
+  ['wardrobe-statement-bag', 'fashion', 'WARDROBE_REFERENCE'],
+  ['beauty-overlined-lips', 'fashion', 'BEAUTY_REFERENCE'],
+  ['beauty-french-nails', 'fashion', 'BEAUTY_REFERENCE'],
+  ['beauty-french-toes', 'fashion', 'BEAUTY_REFERENCE'],
+  ['hair-sleek-straight', 'fashion', 'BEAUTY_REFERENCE'],
+  ['ndx-over-shoulder', 'ndx', 'CHARACTER_REFERENCE'],
+  ['ndx-shadow', 'ndx', 'CHARACTER_REFERENCE'],
+  ['ndx-phone-interaction', 'ndx', 'CHARACTER_REFERENCE'],
+  ['ndx-partial-profile', 'ndx', 'CHARACTER_REFERENCE'],
+  ['ndx-reflection', 'ndx', 'CHARACTER_REFERENCE'],
+  ['ndx-observer', 'ndx', 'CHARACTER_REFERENCE'],
+];
+
+const entry002Records: ProductionAssetRecord[] = ENTRY002_CROPS.map(([id, board, role]) => ({
+  assetId: `entry002.${id}`,
+  canonicalName: `entry-002-${id}`,
+  sourceType: 'PROJECT_CANON',
+  repoPath: `public/site00/production-authority-assets/entry-002/${id}.jpg`,
+  publicPath: `${BASE}/entry-002/${id}.jpg`,
+  productionTab: 'expression',
+  assetRole: role,
+  authorityStatus: 'USED_BY_AUTHORITY',
+  usedByRoutes: ['/production/:slug/expression'],
+  variantOf: null,
+  confidence: 'high',
+  notes: `Crop of the Entry 002 ${ENTRY002_BOARDS[board][1]} board. Source: public/assets/expression-engine/entry-002/pre-storyboard-authority/${ENTRY002_BOARDS[board][0]}; crop box in entry-002/manifest.json (derive-entry002-media.py). Nothing generated.`,
+}));
+
+
 export const PRODUCTION_ASSETS: readonly ProductionAssetRecord[] = [
   plate(
     'grok.site00.production.plate-atrium-master.v1',
@@ -390,6 +451,7 @@ export const PRODUCTION_ASSETS: readonly ProductionAssetRecord[] = [
     notes: 'full_body_variant of Elio. Lite 11__589F06FC. Not a second person.',
   },
   ...founderVariantRecords,
+  ...entry002Records,
 ];
 
 const BY_ID = new Map(PRODUCTION_ASSETS.map((a) => [a.assetId, a]));

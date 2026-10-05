@@ -147,7 +147,7 @@
 .pxa .amx-domains a em,
 .pxa .amx-ranges a em {
   font-style: normal;
-  font-size: calc(var(--amx-f-tab) - 1px);
+  font-size: max(8.5px, calc(var(--amx-f-tab) - 1px));
   color: var(--amx-mute);
 }
 .pxa .amx-domains a:hover,
@@ -412,7 +412,7 @@
   border-bottom: 1px solid var(--amx-line);
 }
 .pxa .amx-facts dt {
-  font-size: calc(var(--amx-f-meta) - 1px);
+  font-size: max(8.5px, calc(var(--amx-f-meta) - 1px));
   letter-spacing: 0.14em;
   color: var(--amx-mute);
 }
@@ -439,7 +439,7 @@
   min-width: 0;
 }
 .pxa .amx-lineage small {
-  font-size: calc(var(--amx-f-meta) - 1px);
+  font-size: max(8.5px, calc(var(--amx-f-meta) - 1px));
   letter-spacing: 0.14em;
   color: var(--amx-mute);
 }
@@ -669,7 +669,7 @@
   }
   .pxa .amx-head small {
     margin-top: 1px;
-    font-size: 8px;
+    font-size: 8.5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -684,7 +684,8 @@
     text-align: center;
   }
   .pxa .amx-counters dt {
-    font-size: 7px;
+    font-size: 8.5px;
+    letter-spacing: 0.02em;
   }
   .pxa .amx-counters dd {
     font-size: 13px;
