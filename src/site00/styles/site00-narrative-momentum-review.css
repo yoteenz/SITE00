@@ -1,0 +1,222 @@
+.site00-nme-review {
+  --nme-lime: #c8f542;
+  --nme-ink: #0a0a0a;
+  --nme-muted: #5c5c5c;
+  --nme-rule: #d4d4d4;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  color: var(--nme-ink);
+  font-family: var(--site00-font-mono, ui-monospace, monospace);
+}
+
+.site00-nme-review__meta {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--nme-muted);
+  text-transform: uppercase;
+}
+
+.site00-nme-review__title {
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.site00-nme-review__snapshot {
+  display: grid;
+  gap: 0.75rem;
+  border: 1px solid var(--nme-ink);
+  padding: 1rem;
+}
+
+.site00-nme-review__snapshot dt {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--nme-muted);
+  margin: 0;
+}
+
+.site00-nme-review__snapshot dd {
+  margin: 0.15rem 0 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.site00-nme-review__card {
+  border: 1px solid var(--nme-rule);
+  padding: 1rem;
+}
+
+.site00-nme-review__card h3 {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.75rem;
+}
+
+.site00-nme-review__beat-map {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.site00-nme-review__beat-row {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--nme-rule);
+  cursor: pointer;
+}
+
+.site00-nme-review__beat-row--active {
+  background: #f7f7f4;
+  outline: 1px solid var(--nme-lime);
+}
+
+.site00-nme-review__beat-num {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.site00-nme-review__tension-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.site00-nme-review__tension-chip {
+  font-size: 0.6rem;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--nme-rule);
+  letter-spacing: 0.05em;
+}
+
+.site00-nme-review__tension-chip--active {
+  border-color: var(--nme-ink);
+  background: var(--nme-lime);
+}
+
+.site00-nme-review__proof-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.site00-nme-review__proof-card {
+  border-left: 3px solid var(--nme-ink);
+  padding-left: 0.75rem;
+}
+
+.site00-nme-review__status--required {
+  color: #8a4b00;
+}
+
+.site00-nme-review__reframe {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  text-align: center;
+}
+
+.site00-nme-review__reframe-arrow {
+  font-size: 1.25rem;
+}
+
+.site00-nme-review__tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.site00-nme-review__tab {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--nme-ink);
+  background: transparent;
+  font: inherit;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.site00-nme-review__tab--active {
+  background: var(--nme-ink);
+  color: #fff;
+}
+
+.site00-nme-review__flag {
+  border: 1px solid var(--nme-rule);
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-nme-review__flag--blocking {
+  border-color: #b00020;
+}
+
+.site00-nme-review__judgment {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .site00-nme-review__judgment {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.site00-nme-review__workflow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--nme-rule);
+}
+
+.site00-nme-review__btn {
+  min-height: 44px;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--nme-ink);
+  background: #fff;
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  white-space: normal;
+  text-align: center;
+}
+
+.site00-nme-review__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.site00-nme-review__btn--primary {
+  background: var(--nme-lime);
+}
+
+.site00-nme-review__layout-split {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .site00-nme-review__layout-split {
+    grid-template-columns: 1fr 12rem;
+  }
+}
+
+.site00-nme-review__grammar-actions,
+.site00-nme-review__flag-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+}
+
+@media (min-width: 640px) {
+  .site00-nme-review__workflow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

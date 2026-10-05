@@ -1,0 +1,1022 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>STAGED — GENERATE PAGE CONCEPTS ICONS-ONLY3</title>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root { --paper:#fdfdfd; --ink:#101010; --lime:#cdee30; --panel:#f7f7f7; --border:#e4e4e4; --muted:#77777d; }
+  html,body { margin:0; background:#0a0a0a; color:#f5f5f5; font:11px/1.4 "Martian Mono", ui-monospace, monospace; text-transform:uppercase; }
+  header { padding:28px 24px 16px; border-bottom:1px solid #333; }
+  h1,h2 { margin:0 0 8px; letter-spacing:.08em; }
+  h1 { font-size:15px; }
+  h2 { font-size:12px; padding:20px 24px 0; }
+  p { margin:0; color:#9a9a9a; max-width:90em; }
+  .meta { margin-top:10px; color:#cdee30; }
+  nav { display:flex; gap:16px; padding:12px 24px; flex-wrap:wrap; }
+  nav a { color:#cdee30; }
+  table { width:calc(100% - 48px); margin:16px 24px; border-collapse:collapse; font-size:10px; }
+  th,td { border:1px solid #333; padding:7px 8px; text-align:left; }
+  th { color:#cdee30; }
+  .grid, .pairs { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; padding:16px 24px 24px; }
+  .pairs { grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); }
+  .tile, .pair { margin:0; border:1px solid #333; background:#111; }
+  .swatch { display:flex; align-items:center; justify-content:center; height:72px; }
+  .swatch svg { width:28px; height:28px; }
+  .swatch-paper { background:var(--paper); color:var(--ink); }
+  .swatch-lime { background:var(--lime); color:#131a04; }
+  .swatch-ink { background:#0a0a0a; color:var(--lime); }
+  figcaption { padding:8px 10px 10px; display:flex; flex-direction:column; gap:3px; }
+  figcaption em { color:#888; font-style:normal; font-size:10px; }
+  figcaption span { color:#cdee30; font-size:10px; }
+  .pair { display:grid; grid-template-columns:1fr 1fr; }
+  .pair-col span { padding:8px 10px; font-size:9px; color:#aaa; display:block; }
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:18px; padding:16px 24px 48px; }
+  @media (max-width: 860px) { .compare { grid-template-columns:1fr; } }
+  .panel-label { margin:0 0 8px; color:#cdee30; }
+  .s00-pcg { background:var(--paper); color:var(--ink); border:1px solid #b8b8b8; max-width:390px; }
+  .s00-pcg * { box-sizing:border-box; font-family:inherit; text-transform:uppercase; }
+  .head { display:flex; align-items:center; justify-content:space-between; padding:16px 14px 8px; }
+  .title { font-size:14px; font-weight:700; }
+  .dismiss { display:inline-flex; align-items:center; gap:5px; min-height:28px; padding:0 9px; border:1px solid #cfcfcf; border-radius:999px; background:#fff; font:inherit; font-size:9px; }
+  .target { margin:0 14px 8px; font-size:9.5px; color:#77777d; }
+  .summary { display:flex; background:var(--panel); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .metric { flex:1; padding:7px 6px; border-right:1px solid var(--border); font-size:8px; }
+  .rail { display:grid; grid-template-columns:repeat(3,1fr); padding:10px 12px; text-align:center; gap:4px; font-size:8px; }
+  .chip { display:inline-flex; align-items:center; gap:3px; padding:2px 6px; border:1px solid #cfcfcf; border-radius:999px; font-size:7.5px; font-weight:700; }
+  .chip.ready { background:var(--lime); border-color:#0a0a0a; }
+  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:8px 12px 10px; }
+  .card { border:1px solid var(--border); background:var(--panel); padding:7px 6px; }
+  .cardHead { display:flex; align-items:center; gap:6px; font-size:7.5px; padding-bottom:4px; border-bottom:1px solid var(--border); }
+  .tag { display:inline-flex; align-items:center; gap:4px; margin-left:auto; padding:3px 5px; border:1px solid #b8b8b8; background:#f7f7f7; font-size:7px; font-weight:700; }
+  .card[data-ready] .tag { background:var(--lime); border-color:#0a0a0a; }
+  .row { display:flex; align-items:center; gap:4px; min-height:22px; padding:4px 5px; border:1px solid var(--border); background:#fff; font-size:6.5px; margin:4px 0 0; }
+  .row.lead { background:var(--lime); }
+  .frame { min-height:56px; margin-top:6px; border:1px solid var(--border); background:#f1f1f1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; font-size:6.5px; color:#77777d; }
+  .note { display:flex; align-items:center; gap:6px; font-size:7px; color:#77777d; margin:6px 0 0; }
+  .paging { display:flex; align-items:center; justify-content:center; gap:6px; padding-top:6px; }
+  .foot { padding:8px 14px 10px; background:var(--panel); border-top:1px solid var(--border); }
+  .actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .gen,.can { min-height:40px; border:1px solid #0a0a0a; font:inherit; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; }
+  .gen { background:var(--lime); }
+  .can { background:#fff; }
+</style>
+<header>
+  <h1>Staged GENERATE PAGE CONCEPTS — icons only 3</h1>
+  <p>Icon assets only. Layout, copy, chip/button geometry, and pipeline stay locked. Live pop-up still uses AiConsoleIcon until founder approval.</p>
+  <p class="meta">P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3 · SITE00_PCG_LINE_V3 · 29 SVG · LIVE MUTATION NONE</p>
+</header>
+<nav>
+  <a href="#manifest">manifest</a>
+  <a href="#sheet">icon sheet</a>
+  <a href="#compare">icon before / after</a>
+  <a href="#preview">panel before / after</a>
+</nav>
+<h2 id="manifest">1. Icon manifest</h2>
+<table>
+  <thead><tr><th>Semantic</th><th>Filename</th><th>Location</th><th>Role</th><th>Interactive</th><th>Size</th><th>currentColor</th></tr></thead>
+  <tbody>
+  <tr>
+    <td>SYSTEM / CONTEXT</td>
+    <td>site00-system.svg</td>
+    <td>Summary strip — leading glyph</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>LG / 22px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>CGPT</td>
+    <td>site00-cgpt.svg</td>
+    <td>Summary + STEP 1 tag</td>
+    <td>MODEL_TAG</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>GPT2</td>
+    <td>site00-gpt2.svg</td>
+    <td>Summary + STEP 2 tag</td>
+    <td>MODEL_TAG</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>NBP</td>
+    <td>site00-nbp.svg</td>
+    <td>Summary + STEP 3 tag</td>
+    <td>MODEL_TAG</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>CREATIVE DIRECTION</td>
+    <td>site00-creative-direction.svg</td>
+    <td>CGPT row</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>PAGE INTELLIGENCE</td>
+    <td>site00-page-intelligence.svg</td>
+    <td>CGPT row</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>BRAND CONTEXT</td>
+    <td>site00-brand-context.svg</td>
+    <td>CGPT row</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>KEY MESSAGES</td>
+    <td>site00-key-messages.svg</td>
+    <td>CGPT row</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>VISUAL MOODBOARD</td>
+    <td>site00-visual-moodboard.svg</td>
+    <td>CGPT row</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>AUTHORITY CONCEPT PENDING</td>
+    <td>site00-authority-placeholder.svg</td>
+    <td>GPT2 result frame</td>
+    <td>PLACEHOLDER</td>
+    <td>NO</td>
+    <td>MD / 18px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>RENDITION PENDING</td>
+    <td>site00-rendition-placeholder.svg</td>
+    <td>NBP empty slots</td>
+    <td>PLACEHOLDER</td>
+    <td>NO</td>
+    <td>MD / 18px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>CGPT OUTPUT</td>
+    <td>site00-output-brief.svg</td>
+    <td>CGPT card footer</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>GPT2 OUTPUT</td>
+    <td>site00-output-authority.svg</td>
+    <td>GPT2 card footer</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>NBP OUTPUT</td>
+    <td>site00-output-renditions.svg</td>
+    <td>NBP card footer</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>MOBILE</td>
+    <td>site00-mobile.svg</td>
+    <td>NBP group label</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>DESKTOP</td>
+    <td>site00-desktop.svg</td>
+    <td>NBP group label</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>READY</td>
+    <td>site00-status-ready.svg</td>
+    <td>Progression chip</td>
+    <td>STATUS</td>
+    <td>NO</td>
+    <td>XS / 12px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>PENDING</td>
+    <td>site00-status-pending.svg</td>
+    <td>Progression chip</td>
+    <td>STATUS</td>
+    <td>NO</td>
+    <td>XS / 12px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>RUNNING</td>
+    <td>site00-status-running.svg</td>
+    <td>Progression chip</td>
+    <td>STATUS</td>
+    <td>NO</td>
+    <td>XS / 12px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>COMPLETE</td>
+    <td>site00-status-complete.svg</td>
+    <td>Progression chip</td>
+    <td>STATUS</td>
+    <td>NO</td>
+    <td>XS / 12px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>FAILED</td>
+    <td>site00-status-failed.svg</td>
+    <td>Progression chip</td>
+    <td>STATUS</td>
+    <td>NO</td>
+    <td>XS / 12px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>PARTIAL</td>
+    <td>site00-status-partial.svg</td>
+    <td>Progression chip</td>
+    <td>STATUS</td>
+    <td>NO</td>
+    <td>XS / 12px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>GENERATE</td>
+    <td>site00-generate.svg</td>
+    <td>Footer primary action</td>
+    <td>ACTION</td>
+    <td>YES</td>
+    <td>LG / 22px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>CLOSE</td>
+    <td>site00-close.svg</td>
+    <td>Header dismiss / cancel glyph</td>
+    <td>ACTION</td>
+    <td>YES</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>CAROUSEL PREV</td>
+    <td>site00-chevron-left.svg</td>
+    <td>NBP paging</td>
+    <td>CAROUSEL</td>
+    <td>YES</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>CAROUSEL NEXT</td>
+    <td>site00-chevron-right.svg</td>
+    <td>NBP paging</td>
+    <td>CAROUSEL</td>
+    <td>YES</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>CAROUSEL DOT ACTIVE</td>
+    <td>site00-dot-active.svg</td>
+    <td>NBP paging</td>
+    <td>CAROUSEL</td>
+    <td>YES</td>
+    <td>XS / 12px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>CAROUSEL DOT INACTIVE</td>
+    <td>site00-dot-inactive.svg</td>
+    <td>NBP paging</td>
+    <td>CAROUSEL</td>
+    <td>YES</td>
+    <td>XS / 12px</td>
+    <td>YES</td>
+  </tr>
+  <tr>
+    <td>INFO / PROGRESSION</td>
+    <td>site00-info.svg</td>
+    <td>Footer note</td>
+    <td>ICON</td>
+    <td>NO</td>
+    <td>SM / 16px</td>
+    <td>YES</td>
+  </tr></tbody>
+</table>
+<h2 id="sheet">2. Icon sheet</h2>
+<section class="grid">
+    <figure class="tile" id="site00-system">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-system" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-system" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-system" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <figcaption>
+        <strong>site00-system.svg</strong>
+        <span>SYSTEM / CONTEXT · ICON · interactive NO</span>
+        <em>LG · 22px · Summary strip — leading glyph</em>
+        <em>Construction origin: corners around a synthesis node. Not a database stack.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-cgpt">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-cgpt" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="8" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="16" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="13.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="16.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-cgpt" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="8" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="16" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="13.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="16.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-cgpt" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="8" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="16" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="13.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="16.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-cgpt.svg</strong>
+        <span>CGPT · MODEL_TAG · interactive NO</span>
+        <em>SM · 16px · Summary + STEP 1 tag</em>
+        <em>Layered context signals synthesizing into one directional mark.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-gpt2">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-gpt2" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="9.5" width="2" height="2" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-gpt2" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="9.5" width="2" height="2" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-gpt2" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="9.5" width="2" height="2" fill="currentColor" stroke="none"/></svg></div>
+      <figcaption>
+        <strong>site00-gpt2.svg</strong>
+        <span>GPT2 · MODEL_TAG · interactive NO</span>
+        <em>SM · 16px · Summary + STEP 2 tag</em>
+        <em>One portrait composition with a single authority field.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-nbp">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-nbp" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="5" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="15.5" y="6" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="15" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-nbp" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="5" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="15.5" y="6" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="15" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-nbp" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="5" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="15.5" y="6" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="15" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <figcaption>
+        <strong>site00-nbp.svg</strong>
+        <span>NBP · MODEL_TAG · interactive NO</span>
+        <em>SM · 16px · Summary + STEP 3 tag</em>
+        <em>One source plate branching into three controlled outputs.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-creative-direction">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-creative-direction" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10" y1="7.5" x2="14" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-creative-direction" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10" y1="7.5" x2="14" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-creative-direction" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10" y1="7.5" x2="14" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <figcaption>
+        <strong>site00-creative-direction.svg</strong>
+        <span>CREATIVE DIRECTION · ICON · interactive NO</span>
+        <em>SM · 16px · CGPT row</em>
+        <em>Steering axis with a north tick. Not a light bulb.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-page-intelligence">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-page-intelligence" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6.5" y="4.5" width="11" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="6.5" y1="8.5" x2="17.5" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="8.5" x2="12" y2="19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-page-intelligence" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6.5" y="4.5" width="11" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="6.5" y1="8.5" x2="17.5" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="8.5" x2="12" y2="19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-page-intelligence" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6.5" y="4.5" width="11" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="6.5" y1="8.5" x2="17.5" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="8.5" x2="12" y2="19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-page-intelligence.svg</strong>
+        <span>PAGE INTELLIGENCE · ICON · interactive NO</span>
+        <em>SM · 16px · CGPT row</em>
+        <em>Page architecture: header band + column split. Not a generic document.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-brand-context">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-brand-context" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="3.4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="10.4" width="9" height="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="14.8" width="6" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.2" y="6.8" width="1.8" height="1.8" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-brand-context" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="3.4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="10.4" width="9" height="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="14.8" width="6" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.2" y="6.8" width="1.8" height="1.8" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-brand-context" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="3.4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="10.4" width="9" height="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="14.8" width="6" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.2" y="6.8" width="1.8" height="1.8" fill="currentColor" stroke="none"/></svg></div>
+      <figcaption>
+        <strong>site00-brand-context.svg</strong>
+        <span>BRAND CONTEXT · ICON · interactive NO</span>
+        <em>SM · 16px · CGPT row</em>
+        <em>Tapered identity stack with a core mark. Not stock layers.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-key-messages">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-key-messages" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.6" width="2" height="2" fill="currentColor" stroke="none"/><line x1="9.2" y1="7.6" x2="18" y2="7.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="16.4" x2="13.5" y2="16.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-key-messages" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.6" width="2" height="2" fill="currentColor" stroke="none"/><line x1="9.2" y1="7.6" x2="18" y2="7.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="16.4" x2="13.5" y2="16.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-key-messages" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.6" width="2" height="2" fill="currentColor" stroke="none"/><line x1="9.2" y1="7.6" x2="18" y2="7.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="16.4" x2="13.5" y2="16.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-key-messages.svg</strong>
+        <span>KEY MESSAGES · ICON · interactive NO</span>
+        <em>SM · 16px · CGPT row</em>
+        <em>Message hierarchy: lead mark + ranked lines. Not a speech bubble.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-visual-moodboard">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-visual-moodboard" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="6" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="11.2" width="4" height="6.8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.2" width="7" height="3.8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-visual-moodboard" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="6" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="11.2" width="4" height="6.8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.2" width="7" height="3.8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-visual-moodboard" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="6" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="11.2" width="4" height="6.8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.2" width="7" height="3.8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <figcaption>
+        <strong>site00-visual-moodboard.svg</strong>
+        <span>VISUAL MOODBOARD · ICON · interactive NO</span>
+        <em>SM · 16px · CGPT row</em>
+        <em>Uneven framed mosaic. Not a mountain-photo glyph.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-authority-placeholder">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-authority-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="8.5" y="8" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8.5" y1="15.6" x2="15.5" y2="15.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-authority-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="8.5" y="8" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8.5" y1="15.6" x2="15.5" y2="15.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-authority-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="8.5" y="8" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8.5" y1="15.6" x2="15.5" y2="15.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-authority-placeholder.svg</strong>
+        <span>AUTHORITY CONCEPT PENDING · PLACEHOLDER · interactive NO</span>
+        <em>MD · 18px · GPT2 result frame</em>
+        <em>Quiet framed field waiting for one authority plate.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-rendition-placeholder">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-rendition-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="7.2" width="12" height="9.6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="9.4" x2="12" y2="14.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.4" y1="12" x2="14.6" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-rendition-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="7.2" width="12" height="9.6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="9.4" x2="12" y2="14.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.4" y1="12" x2="14.6" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-rendition-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="7.2" width="12" height="9.6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="9.4" x2="12" y2="14.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.4" y1="12" x2="14.6" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-rendition-placeholder.svg</strong>
+        <span>RENDITION PENDING · PLACEHOLDER · interactive NO</span>
+        <em>MD · 18px · NBP empty slots</em>
+        <em>Landscape frame + technical crosshair. Same family as authority pending.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-output-brief">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-brief" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="7.5" x2="18" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16.5" x2="13" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="15" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-brief" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="7.5" x2="18" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16.5" x2="13" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="15" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-brief" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="7.5" x2="18" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16.5" x2="13" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="15" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <figcaption>
+        <strong>site00-output-brief.svg</strong>
+        <span>CGPT OUTPUT · ICON · interactive NO</span>
+        <em>SM · 16px · CGPT card footer</em>
+        <em>Structured brief: ranked rules + completion node.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-output-authority">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-authority" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-authority" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-authority" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+      <figcaption>
+        <strong>site00-output-authority.svg</strong>
+        <span>GPT2 OUTPUT · ICON · interactive NO</span>
+        <em>SM · 16px · GPT2 card footer</em>
+        <em>Single authority artifact — same portrait language as GPT2.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-output-renditions">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-renditions" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="4" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="6" width="3" height="5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="13" width="3" height="5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="8" width="3" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-renditions" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="4" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="6" width="3" height="5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="13" width="3" height="5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="8" width="3" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-renditions" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="4" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="6" width="3" height="5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="13" width="3" height="5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="8" width="3" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <figcaption>
+        <strong>site00-output-renditions.svg</strong>
+        <span>NBP OUTPUT · ICON · interactive NO</span>
+        <em>SM · 16px · NBP card footer</em>
+        <em>Rendition set: one source plus three sibling frames.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-mobile">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-mobile" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8" y="4.5" width="8" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10.5" y1="6.6" x2="13.5" y2="6.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10.5" y1="17.4" x2="13.5" y2="17.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-mobile" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8" y="4.5" width="8" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10.5" y1="6.6" x2="13.5" y2="6.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10.5" y1="17.4" x2="13.5" y2="17.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-mobile" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8" y="4.5" width="8" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10.5" y1="6.6" x2="13.5" y2="6.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10.5" y1="17.4" x2="13.5" y2="17.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-mobile.svg</strong>
+        <span>MOBILE · ICON · interactive NO</span>
+        <em>SM · 16px · NBP group label</em>
+        <em>Phone plate. Same stroke, scale, and baseline as desktop.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-desktop">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-desktop" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="5" y="6" width="14" height="9" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="15" x2="12" y2="17.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="17.2" x2="15" y2="17.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-desktop" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="5" y="6" width="14" height="9" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="15" x2="12" y2="17.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="17.2" x2="15" y2="17.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-desktop" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="5" y="6" width="14" height="9" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="15" x2="12" y2="17.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="17.2" x2="15" y2="17.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-desktop.svg</strong>
+        <span>DESKTOP · ICON · interactive NO</span>
+        <em>SM · 16px · NBP group label</em>
+        <em>Monitor plate + stand. Matched to mobile.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-status-ready">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-ready" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-ready" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-ready" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <figcaption>
+        <strong>site00-status-ready.svg</strong>
+        <span>READY · STATUS · interactive NO</span>
+        <em>XS · 12px · Progression chip</em>
+        <em>Available: compact check. Passive.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-status-pending">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-pending" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-pending" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-pending" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <figcaption>
+        <strong>site00-status-pending.svg</strong>
+        <span>PENDING · STATUS · interactive NO</span>
+        <em>XS · 12px · Progression chip</em>
+        <em>Waiting: incomplete construction corners.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-status-running">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-running" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="6" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-running" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="6" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-running" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="6" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-status-running.svg</strong>
+        <span>RUNNING · STATUS · interactive NO</span>
+        <em>XS · 12px · Progression chip</em>
+        <em>Active: orthogonal ticks around a node. No motion.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-status-complete">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-complete" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><line x1="8" y1="17.6" x2="16" y2="17.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-complete" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><line x1="8" y1="17.6" x2="16" y2="17.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-complete" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><line x1="8" y1="17.6" x2="16" y2="17.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-status-complete.svg</strong>
+        <span>COMPLETE · STATUS · interactive NO</span>
+        <em>XS · 12px · Progression chip</em>
+        <em>Finished: check plus a quiet baseline.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-status-failed">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-failed" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-failed" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-failed" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-status-failed.svg</strong>
+        <span>FAILED · STATUS · interactive NO</span>
+        <em>XS · 12px · Progression chip</em>
+        <em>Error: precise cross. Not a destructive button.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-status-partial">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-partial" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="9.2" x2="18" y2="9.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="14.8" x2="12.5" y2="14.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-partial" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="9.2" x2="18" y2="9.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="14.8" x2="12.5" y2="14.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-partial" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="9.2" x2="18" y2="9.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="14.8" x2="12.5" y2="14.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-status-partial.svg</strong>
+        <span>PARTIAL · STATUS · interactive NO</span>
+        <em>XS · 12px · Progression chip</em>
+        <em>Mixed: full rule over a shorter rule.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-generate">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-generate" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8.5" y="8.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="5.5" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="5.5" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-generate" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8.5" y="8.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="5.5" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="5.5" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-generate" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8.5" y="8.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="5.5" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="5.5" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-generate.svg</strong>
+        <span>GENERATE · ACTION · interactive YES</span>
+        <em>LG · 22px · Footer primary action</em>
+        <em>Node expansion: inner signal + outer frame + four ticks. Not a sparkle.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-close">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-close" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-close" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-close" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-close.svg</strong>
+        <span>CLOSE · ACTION · interactive YES</span>
+        <em>SM · 16px · Header dismiss / cancel glyph</em>
+        <em>Optically centered X. Same 1.5 stroke.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-chevron-left">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-left" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M14 8 9 12 14 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-left" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M14 8 9 12 14 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-left" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M14 8 9 12 14 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <figcaption>
+        <strong>site00-chevron-left.svg</strong>
+        <span>CAROUSEL PREV · CAROUSEL · interactive YES</span>
+        <em>SM · 16px · NBP paging</em>
+        <em>Quiet left chevron. Subordinate to thumbnails.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-chevron-right">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-right" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M10 8 15 12 10 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-right" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M10 8 15 12 10 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-right" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M10 8 15 12 10 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+      <figcaption>
+        <strong>site00-chevron-right.svg</strong>
+        <span>CAROUSEL NEXT · CAROUSEL · interactive YES</span>
+        <em>SM · 16px · NBP paging</em>
+        <em>Quiet right chevron. Subordinate to thumbnails.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-dot-active">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-dot-active" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-dot-active" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-dot-active" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/></svg></div>
+      <figcaption>
+        <strong>site00-dot-active.svg</strong>
+        <span>CAROUSEL DOT ACTIVE · CAROUSEL · interactive YES</span>
+        <em>XS · 12px · NBP paging</em>
+        <em>Filled technical square.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-dot-inactive">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-dot-inactive" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-dot-inactive" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-dot-inactive" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <figcaption>
+        <strong>site00-dot-inactive.svg</strong>
+        <span>CAROUSEL DOT INACTIVE · CAROUSEL · interactive YES</span>
+        <em>XS · 12px · NBP paging</em>
+        <em>Hollow technical square. Same optical size as active.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure>
+    <figure class="tile" id="site00-info">
+      <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-info" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="11.25" y="7.4" width="1.5" height="1.5" fill="currentColor" stroke="none"/><line x1="12" y1="10.2" x2="12" y2="16.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-lime"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-info" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="11.25" y="7.4" width="1.5" height="1.5" fill="currentColor" stroke="none"/><line x1="12" y1="10.2" x2="12" y2="16.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <div class="swatch swatch-ink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-info" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="11.25" y="7.4" width="1.5" height="1.5" fill="currentColor" stroke="none"/><line x1="12" y1="10.2" x2="12" y2="16.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+      <figcaption>
+        <strong>site00-info.svg</strong>
+        <span>INFO / PROGRESSION · ICON · interactive NO</span>
+        <em>SM · 16px · Footer note</em>
+        <em>Quiet corners plus an i-stem.</em>
+        <em>currentColor YES</em>
+      </figcaption>
+    </figure></section>
+<h2 id="compare">3. Before / after — live AIC vs ICONS-ONLY3</h2>
+<section class="pairs">
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="grok-library" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="6" width="14" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="5" y="11" width="14" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="5" y="16" width="14" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <span>BEFORE · grok-library</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-system" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+        <span>AFTER · site00-system.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="mark-cgpt" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 7.5 16 12 10 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>BEFORE · mark-cgpt</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-cgpt" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="8" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="16" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="13.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="16.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-cgpt.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="mark-authority" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="8" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <span>BEFORE · mark-authority</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-gpt2" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="9.5" width="2" height="2" fill="currentColor" stroke="none"/></svg></div>
+        <span>AFTER · site00-gpt2.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="mark-grok" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="10" y="10" width="4" height="4" fill="currentColor" stroke="none"/><rect x="10" y="4" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="16" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="16" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="14" x2="12" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="8" y1="12" x2="10" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="14" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>BEFORE · mark-grok</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-nbp" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="5" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="15.5" y="6" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="15" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <span>AFTER · site00-nbp.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="opus-explore" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <span>BEFORE · opus-explore</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-creative-direction" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10" y1="7.5" x2="14" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+        <span>AFTER · site00-creative-direction.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="opus-context" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="8" y1="12" x2="14" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>BEFORE · opus-context</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-page-intelligence" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6.5" y="4.5" width="11" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="6.5" y1="8.5" x2="17.5" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="8.5" x2="12" y2="19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-page-intelligence.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="attach-style" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="6" y1="8" x2="18" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16" x2="12" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>BEFORE · attach-style</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-brand-context" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="3.4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="10.4" width="9" height="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="14.8" width="6" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.2" y="6.8" width="1.8" height="1.8" fill="currentColor" stroke="none"/></svg></div>
+        <span>AFTER · site00-brand-context.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="auth-cgpt-message" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 7.5 16 12 10 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>BEFORE · auth-cgpt-message</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-key-messages" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.6" width="2" height="2" fill="currentColor" stroke="none"/><line x1="9.2" y1="7.6" x2="18" y2="7.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="16.4" x2="13.5" y2="16.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-key-messages.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="attach-image" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 16.5 10 12.5 13 15.5 16 11.5 18.5 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="8" y="8" width="2.2" height="2.2" fill="currentColor" stroke="none"/></svg></div>
+        <span>BEFORE · attach-image</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-visual-moodboard" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="6" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="11.2" width="4" height="6.8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.2" width="7" height="3.8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <span>AFTER · site00-visual-moodboard.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="grok-manifest" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="6" y1="8" x2="18" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16" x2="14" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="14.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+        <span>BEFORE · grok-manifest</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-brief" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="7.5" x2="18" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16.5" x2="13" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="15" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+        <span>AFTER · site00-output-brief.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="empty-concept" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 16.5 10 13 13 15.5 18 10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>BEFORE · empty-concept</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-authority-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="8.5" y="8" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8.5" y1="15.6" x2="15.5" y2="15.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-authority-placeholder.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="auth-mobile" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="8" y="4.5" width="8" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10.5" y1="6.5" x2="13.5" y2="6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10.5" y1="17.5" x2="13.5" y2="17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>BEFORE · auth-mobile</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-mobile" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8" y="4.5" width="8" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10.5" y1="6.6" x2="13.5" y2="6.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10.5" y1="17.4" x2="13.5" y2="17.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-mobile.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="auth-desktop" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="4.5" y="6" width="15" height="10" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="18" x2="15" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="16" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>BEFORE · auth-desktop</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-desktop" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="5" y="6" width="14" height="9" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="15" x2="12" y2="17.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="17.2" x2="15" y2="17.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-desktop.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="preview-prev" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><path d="M14 7.5 8 12 14 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>BEFORE · preview-prev</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-left" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M14 8 9 12 14 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>AFTER · site00-chevron-left.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="preview-next" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><path d="M10 7.5 16 12 10 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>BEFORE · preview-next</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-right" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M10 8 15 12 10 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>AFTER · site00-chevron-right.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-ready" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>BEFORE · status-ready</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-ready" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>AFTER · site00-status-ready.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-pending" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><path d="M5 9.5V5h4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14.5 5H19v4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M19 14.5V19h-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9.5 19H5v-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>BEFORE · status-pending</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-pending" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>AFTER · site00-status-pending.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-generating" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="5" x2="12" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="16" x2="12" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="5" y1="12" x2="8" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>BEFORE · status-generating</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-running" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="6" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-status-running.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-approved" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+        <span>BEFORE · status-approved</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-complete" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><line x1="8" y1="17.6" x2="16" y2="17.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-status-complete.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-error" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="11.25" y="16" width="1.5" height="1.5" fill="currentColor" stroke="none"/></svg></div>
+        <span>BEFORE · status-error</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-failed" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-status-failed.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-review" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="6" y="7" width="12" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="11" width="12" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <span>BEFORE · status-review</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-partial" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="9.2" x2="18" y2="9.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="14.8" x2="12.5" y2="14.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-status-partial.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="action-close" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>BEFORE · action-close</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-close" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-close.svg</span>
+      </div>
+    </figure>
+    <figure class="pair">
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="grok-generate" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="10" y="4.5" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="15.5" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="4.5" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <span>BEFORE · grok-generate</span>
+      </div>
+      <div class="pair-col">
+        <div class="swatch swatch-paper"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-generate" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8.5" y="8.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="5.5" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="5.5" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+        <span>AFTER · site00-generate.svg</span>
+      </div>
+    </figure></section>
+<h2 id="preview">4. Panel preview — icons swapped only</h2>
+<div class="compare">
+  <div>
+    <p class="panel-label">Before · current implemented icons</p>
+    <section class="s00-pcg" data-testid="pcg-icons-only3-before">
+      <div class="head"><div class="title">Generate page concepts</div><span class="dismiss"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="action-close" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> Cancel</span></div>
+      <p class="target">Target · ndxbook / overview</p>
+      <div class="summary">
+        <div class="metric"><svg width="13" height="13" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="grok-library" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="6" width="14" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="5" y="11" width="14" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="5" y="16" width="14" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <div class="metric">1 cgpt creative</div>
+        <div class="metric">1 gpt2 authority</div>
+        <div class="metric">3 nbp renditions</div>
+      </div>
+      <div class="rail">
+        <div>cgpt creative injection<br/><span class="chip ready"><svg width="9" height="9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-ready" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> ready</span></div>
+        <div>gpt2 authority concept<br/><span class="chip"><svg width="9" height="9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-pending" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><path d="M5 9.5V5h4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14.5 5H19v4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M19 14.5V19h-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9.5 19H5v-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> pending</span></div>
+        <div>nbp renditions<br/><span class="chip"><svg width="9" height="9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-pending" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><path d="M5 9.5V5h4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14.5 5H19v4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M19 14.5V19h-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9.5 19H5v-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> pending</span></div>
+      </div>
+      <div class="cards">
+        <article class="card" data-ready>
+          <div class="cardHead">step 1 <span class="tag"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="mark-cgpt" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 7.5 16 12 10 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> cgpt</span></div>
+          <div class="row lead"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="opus-explore" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> creative direction</div>
+          <div class="row"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="opus-context" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="8" y1="12" x2="14" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> page intelligence</div>
+          <div class="row"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="attach-style" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="6" y1="8" x2="18" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16" x2="12" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> brand context</div>
+          <div class="row"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="auth-cgpt-message" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 7.5 16 12 10 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> key messages</div>
+          <div class="row"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="attach-image" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 16.5 10 12.5 13 15.5 16 11.5 18.5 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="8" y="8" width="2.2" height="2.2" fill="currentColor" stroke="none"/></svg> visual moodboard</div>
+          <div class="note"><svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="grok-manifest" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="6" y1="8" x2="18" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16" x2="14" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="14.5" width="3" height="3" fill="currentColor" stroke="none"/></svg> output</div>
+        </article>
+        <article class="card">
+          <div class="cardHead">step 2 <span class="tag"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="mark-authority" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="8" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> gpt2</span></div>
+          <div class="frame"><svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="empty-concept" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 16.5 10 13 13 15.5 18 10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg><span>authority concept pending</span></div>
+          <div class="note"><svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="grok-manifest" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="6" y1="8" x2="18" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16" x2="14" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="14.5" width="3" height="3" fill="currentColor" stroke="none"/></svg> output</div>
+        </article>
+        <article class="card">
+          <div class="cardHead">step 3 <span class="tag"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="mark-grok" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="10" y="10" width="4" height="4" fill="currentColor" stroke="none"/><rect x="10" y="4" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="16" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="16" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="14" x2="12" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="8" y1="12" x2="10" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="14" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> nbp</span></div>
+          <div class="note"><svg width="11" height="11" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="auth-mobile" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="8" y="4.5" width="8" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10.5" y1="6.5" x2="13.5" y2="6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10.5" y1="17.5" x2="13.5" y2="17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> mobile (3)</div>
+          <div class="frame"><svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="empty-concept" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="5" y="5" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 16.5 10 13 13 15.5 18 10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+          <div class="paging"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="preview-prev" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><path d="M14 7.5 8 12 14 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> · <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="preview-next" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><path d="M10 7.5 16 12 10 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+          <div class="note"><svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="grok-manifest" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><line x1="6" y1="8" x2="18" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16" x2="14" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="14.5" width="3" height="3" fill="currentColor" stroke="none"/></svg> output</div>
+        </article>
+      </div>
+      <footer class="foot">
+        <p class="note"><svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="status-pending" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><path d="M5 9.5V5h4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14.5 5H19v4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M19 14.5V19h-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9.5 19H5v-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> outputs will populate below as each stage completes.</p>
+        <div class="actions">
+          <button class="gen" type="button"><svg width="13" height="13" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" data-aic-icon="grok-generate" data-aic-icon-status="STAGED" data-aic-icon-version="P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1"><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="10" y="4.5" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="15.5" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="4.5" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="10" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> generate</button>
+          <button class="can" type="button">cancel</button>
+        </div>
+      </footer>
+    </section>
+  </div>
+  <div>
+    <p class="panel-label">After · ICONS-ONLY3 (staged)</p>
+    <section class="s00-pcg" data-testid="pcg-icons-only3-after">
+      <div class="head"><div class="title">Generate page concepts</div><span class="dismiss"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-close" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="8" y1="8" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="16" y1="8" x2="8" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> Cancel</span></div>
+      <p class="target">Target · ndxbook / overview</p>
+      <div class="summary">
+        <div class="metric"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-system" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+        <div class="metric"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-cgpt" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="8" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="16" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="13.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="16.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> 1 cgpt creative</div>
+        <div class="metric"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-gpt2" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="9.5" width="2" height="2" fill="currentColor" stroke="none"/></svg> 1 gpt2 authority</div>
+        <div class="metric"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-nbp" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="5" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="15.5" y="6" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="15" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> 3 nbp renditions</div>
+      </div>
+      <div class="rail">
+        <div>cgpt creative injection<br/><span class="chip ready"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-ready" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M7.5 12.2 10.6 15.4 16.6 8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> ready</span></div>
+        <div>gpt2 authority concept<br/><span class="chip"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-pending" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> pending</span></div>
+        <div>nbp renditions<br/><span class="chip"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-status-pending" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> pending</span></div>
+      </div>
+      <div class="cards">
+        <article class="card" data-ready>
+          <div class="cardHead">step 1 <span class="tag"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-cgpt" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="8" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9" y1="16" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="13.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="16.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> cgpt</span></div>
+          <div class="row lead"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-creative-direction" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10" y1="7.5" x2="14" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg> creative direction</div>
+          <div class="row"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-page-intelligence" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6.5" y="4.5" width="11" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="6.5" y1="8.5" x2="17.5" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="8.5" x2="12" y2="19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> page intelligence</div>
+          <div class="row"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-brand-context" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="3.4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="10.4" width="9" height="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="14.8" width="6" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.2" y="6.8" width="1.8" height="1.8" fill="currentColor" stroke="none"/></svg> brand context</div>
+          <div class="row"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-key-messages" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6.6" width="2" height="2" fill="currentColor" stroke="none"/><line x1="9.2" y1="7.6" x2="18" y2="7.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.2" y1="16.4" x2="13.5" y2="16.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> key messages</div>
+          <div class="row"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-visual-moodboard" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="6" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="11.2" width="4" height="6.8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14.2" width="7" height="3.8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> visual moodboard</div>
+          <div class="note"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-brief" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><line x1="6" y1="7.5" x2="18" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="6" y1="16.5" x2="13" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="16" y="15" width="3" height="3" fill="currentColor" stroke="none"/></svg> output</div>
+        </article>
+        <article class="card">
+          <div class="cardHead">step 2 <span class="tag"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-gpt2" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="9.5" width="2" height="2" fill="currentColor" stroke="none"/></svg> gpt2</span></div>
+          <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-authority-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="6" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="8.5" y="8" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8.5" y1="15.6" x2="15.5" y2="15.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>authority concept pending</span></div>
+          <div class="note"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-authority" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="7" y="4.5" width="10" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="7" width="6" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg> output</div>
+        </article>
+        <article class="card">
+          <div class="cardHead">step 3 <span class="tag"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-nbp" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="5" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="12" x2="13.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="13.5" y1="12" x2="15.5" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><rect x="15.5" y="6" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="10.5" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="15" width="3" height="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> nbp</span></div>
+          <div class="note"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-mobile" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8" y="4.5" width="8" height="15" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10.5" y1="6.6" x2="13.5" y2="6.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="10.5" y1="17.4" x2="13.5" y2="17.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> mobile (3)</div>
+          <div class="frame"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-rendition-placeholder" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="7.2" width="12" height="9.6" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="9.4" x2="12" y2="14.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="9.4" y1="12" x2="14.6" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></div>
+          <div class="paging"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-left" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M14 8 9 12 14 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg> <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-dot-active" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/></svg> <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-dot-inactive" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-chevron-right" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M10 8 15 12 10 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/></svg></div>
+          <div class="note"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-output-renditions" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="6" y="8" width="4" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="6" width="3" height="5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="13" width="3" height="5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="15.5" y="8" width="3" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> output</div>
+        </article>
+      </div>
+      <footer class="foot">
+        <p class="note"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-info" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><path d="M6 10V6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M14 6h4v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M18 14v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M10 18H6v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"/><rect x="11.25" y="7.4" width="1.5" height="1.5" fill="currentColor" stroke="none"/><line x1="12" y1="10.2" x2="12" y2="16.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> outputs will populate below as each stage completes.</p>
+        <div class="actions">
+          <button class="gen" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" data-s00-pcg-icon="site00-generate" data-s00-pcg-icon-status="STAGED" data-s00-pcg-icon-version="P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3"><rect x="8.5" y="8.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/><line x1="12" y1="5.5" x2="12" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="12" y1="15.5" x2="12" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="5.5" y1="12" x2="8.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><line x1="15.5" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg> generate</button>
+          <button class="can" type="button">cancel</button>
+        </div>
+      </footer>
+    </section>
+  </div>
+</div>
+</html>

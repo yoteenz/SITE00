@@ -1,0 +1,144 @@
+import type { CreativeExperienceConcept, CreativeExperienceConceptSet, ProjectExperienceIntelligence } from './map2Types';
+
+/** Structural distinctness — reject cosmetic-only variation. */
+export function validateConceptDistinctness(concepts: CreativeExperienceConcept[]): { ok: boolean; violations: string[] } {
+  const violations: string[] = [];
+  if (concepts.length !== 3) violations.push(`Expected exactly 3 concepts, got ${concepts.length}`);
+  const keys = concepts.map((c) =>
+    [c.experience_thesis, c.journey_model, c.interaction_model, c.spatial_model].join('|').toLowerCase(),
+  );
+  for (let i = 0; i < keys.length; i++) {
+    for (let j = i + 1; j < keys.length; j++) {
+      if (keys[i] === keys[j]) violations.push(`Concepts ${concepts[i].concept_id} and ${concepts[j].concept_id} are structurally identical`);
+    }
+  }
+  const premises = concepts.map((c) => c.one_line_premise.toLowerCase());
+  if (new Set(premises).size !== premises.length) violations.push('One-line premises must be unique');
+  return { ok: violations.length === 0, violations };
+}
+
+export function buildGreenfieldConceptSet(intelligence: ProjectExperienceIntelligence): CreativeExperienceConceptSet {
+  const concepts: CreativeExperienceConcept[] = [
+    {
+      concept_id: 'DIR_A_EDITORIAL_HOUSE',
+      name: 'THE EDITORIAL HOUSE',
+      one_line_premise: 'A story-led digital atelier where the brand is a publishing house for beauty craft.',
+      experience_thesis: 'Editorial chapters drive discovery; commerce follows narrative immersion.',
+      customer_entry_model: 'Issue cover → chapter rail → story spreads',
+      journey_model: 'Browse stories → discover craft → configure offer → membership archive',
+      primary_zones: ['COVER', 'CHAPTERS', 'ATELIER STORIES', 'ARCHIVE', 'MEMBERS LOUNGE'],
+      proposed_routes_high_level: ['/', '/chapters', '/story/:slug', '/atelier', '/archive', '/account'],
+      custom_experiences: ['STORY-GUIDED LOOK BUILDER'],
+      commerce_model: 'Narrative bundles + limited drops embedded in chapters',
+      content_model: 'Editorial CMS with seasonal issues',
+      membership_model: 'Archive access + early chapter previews',
+      interaction_model: 'Scroll narrative + inline micro-configurators',
+      spatial_model: 'Vertical editorial spine with lateral story rooms',
+      mobile_premise: 'Serial reading + thumb chapter navigation',
+      tablet_premise: 'Split story + product context',
+      desktop_premise: 'Multi-column editorial spread',
+      app_premise: 'Push for new chapters + saved looks',
+      integration_opportunities: ['Shopify', 'Email', 'Membership'],
+      capability_opportunities: ['EDITORIAL_COMMERCE_BRIDGE'],
+      brand_alignment: intelligence.brand_name,
+      business_alignment: 'Premium storytelling differentiates commoditized wigs',
+      risks: ['Content production load'],
+      tradeoffs: ['Less tool-first immediacy'],
+      novelty: 'High — magazine metaphor',
+      future_expansion: ['Print-on-demand lookbooks'],
+      status: 'DRAFT',
+      lineage_parent_id: null,
+    },
+    {
+      concept_id: 'DIR_B_PRODUCT_LAB',
+      name: 'THE PRODUCT LAB',
+      one_line_premise: 'An interactive lab where customers engineer their look with transparent logic.',
+      experience_thesis: 'Tool-first configuration with visible rules and live assembly preview.',
+      customer_entry_model: 'Lab threshold → instrument panel → live build canvas',
+      journey_model: 'Select base → tune attributes → validate → quote/checkout',
+      primary_zones: ['LAB ENTRY', 'CONFIGURATOR', 'VALIDATION', 'PROJECT SAVED', 'EXPERT REVIEW'],
+      proposed_routes_high_level: ['/', '/lab', '/build', '/build/:step', '/review', '/projects'],
+      custom_experiences: ['BUILD-A-WIG CONFIGURATOR', 'LIVE ASSEMBLY PREVIEW'],
+      commerce_model: 'Configuration-driven SKU assembly + expert review upsell',
+      content_model: 'Spec sheets + tutorial snippets inside lab',
+      membership_model: 'Saved projects + revision history',
+      interaction_model: 'Step machine + persistent preview column',
+      spatial_model: 'Instrument grid + central preview stage',
+      mobile_premise: 'Sequential steps + sticky preview drawer',
+      tablet_premise: 'Side-by-side controls and preview',
+      desktop_premise: 'Simultaneous multi-panel lab workspace',
+      app_premise: 'Camera try-on + saved builds (companion)',
+      integration_opportunities: ['Shopify', 'Stripe', 'CRM'],
+      capability_opportunities: ['PRODUCT_ASSEMBLY_CONFIGURATOR'],
+      brand_alignment: intelligence.brand_name,
+      business_alignment: 'Supports high-consideration custom orders',
+      risks: ['Complex validation rules'],
+      tradeoffs: ['Less emotional brand immersion upfront'],
+      novelty: 'High — transparent engineering UX',
+      future_expansion: ['B2B salon portal'],
+      status: 'DRAFT',
+      lineage_parent_id: null,
+    },
+    {
+      concept_id: 'DIR_C_IMMERSIVE_DESTINATION',
+      name: 'THE IMMERSIVE DESTINATION',
+      one_line_premise: 'A spatial destination world where customers visit rooms instead of browsing pages.',
+      experience_thesis: 'World navigation replaces traditional sitemap; each room is a functional zone.',
+      customer_entry_model: 'Portal arrival → world map → enter room',
+      journey_model: 'Explore rooms → collect tokens → unlock atelier → commission piece',
+      primary_zones: ['ARRIVAL PLAZA', 'GALLERY ROOMS', 'ATELIER SANCTUM', 'TOKEN MARKET', 'CONCIERGE'],
+      proposed_routes_high_level: ['/', '/world', '/room/:id', '/atelier', '/concierge', '/wallet'],
+      custom_experiences: ['SPATIAL SHOWROOM', 'DIGITAL CONCIERGE'],
+      commerce_model: 'Token-gated commissions + concierge-assisted checkout',
+      content_model: 'Room-based lore and ambient media',
+      membership_model: 'Token wallet + room unlock progression',
+      interaction_model: 'Spatial hotspots + concierge chat overlay',
+      spatial_model: '3D-adjacent room graph (2.5D implementation)',
+      mobile_premise: 'Single-room focus + portal transitions',
+      tablet_premise: 'Mini-map + room split view',
+      desktop_premise: 'Persistent world map + multi-room context',
+      app_premise: 'Primary — notifications, wallet, room downloads',
+      integration_opportunities: ['Shopify', 'Auth', 'Push', 'Calendar'],
+      capability_opportunities: ['IMMERSIVE_ROOM_NAVIGATOR'],
+      brand_alignment: intelligence.brand_name,
+      business_alignment: 'Viral shareability + premium positioning',
+      risks: ['Higher build cost', 'Accessibility care'],
+      tradeoffs: ['Non-traditional SEO paths'],
+      novelty: 'Very high — destination metaphor',
+      future_expansion: ['Live events in rooms'],
+      status: 'DRAFT',
+      lineage_parent_id: null,
+    },
+  ];
+  const check = validateConceptDistinctness(concepts);
+  if (!check.ok) throw new Error(`Concept distinctness failed: ${check.violations.join('; ')}`);
+  return { project_id: intelligence.project_id, concepts, generated_at: new Date().toISOString() };
+}
+
+export function pushConceptConceptually(concept: CreativeExperienceConcept): CreativeExperienceConcept {
+  return {
+    ...concept,
+    concept_id: `${concept.concept_id}_PUSH_V2`,
+    name: `${concept.name} — PUSHED`,
+    experience_thesis: `${concept.experience_thesis} Amplified with deeper brand-specific world logic and fewer generic patterns.`,
+    custom_experiences: [...concept.custom_experiences, 'BRAND-SPECIFIC RITUAL ONBOARDING'],
+    status: 'PUSHED_V2',
+    lineage_parent_id: concept.concept_id,
+  };
+}
+
+export function hybridizeConcepts(
+  base: CreativeExperienceConcept,
+  borrowFrom: CreativeExperienceConcept,
+  borrowElements: string[],
+): CreativeExperienceConcept {
+  return {
+    ...base,
+    concept_id: `HYBRID_${base.concept_id}_${borrowFrom.concept_id}`,
+    name: `${base.name} × ${borrowFrom.name}`,
+    custom_experiences: [...new Set([...base.custom_experiences, ...borrowElements])],
+    spatial_model: `${base.spatial_model} + borrowed: ${borrowFrom.spatial_model}`,
+    status: 'HYBRID',
+    lineage_parent_id: base.concept_id,
+  };
+}

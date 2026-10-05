@@ -1,0 +1,18 @@
+{
+  "project_id": "lumina-atelier-greenfield",
+  "dimensionality": "2.5D",
+  "structure": "HYBRID",
+  "stroke_weight": "Medium-weight dimensional stroke",
+  "corner_language": "Soft geometric — aligned to brand atelier craft",
+  "geometric_language": "Instrument + lens motifs",
+  "depth": "Subtle bevel + material depth",
+  "materials": "Brushed metal + satin polymer accents",
+  "brand_color_use": "Primary brand accent on active/selected only",
+  "active_state": "Accent fill + increased contrast",
+  "selected_state": "Filled brand token + outline",
+  "disabled_state": "40% opacity neutral",
+  "alert_state": "Warm alert accent — never baked-in text labels",
+  "app_nav_expression": "Simplified silhouette — max 2 material reads at 24px",
+  "small_size_simplification": "Drop interior detail below 20px; preserve silhouette",
+  "derived_from_brand": "LUMINA ATELIER"
+}

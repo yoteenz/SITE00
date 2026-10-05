@@ -1,0 +1,162 @@
+{
+  "contract": "JURNL_HIERARCHICAL_EXPRESSION",
+  "cascade": [
+    "GLOBAL_JURNL_DNA",
+    "FAMILY",
+    "PARENT",
+    "CHILD",
+    "GRANDCHILD",
+    "STATE",
+    "INTERACTION",
+    "PANEL",
+    "CONTROL",
+    "LIVE_IMPLEMENTATION"
+  ],
+  "child_production": "BLOCKED_UNTIL_FOUNDER",
+  "paid_generation": "PARENT_ONLY",
+  "repetition_audit": {
+    "status": "PASS",
+    "compared_against": [
+      "F01",
+      "F02",
+      "F03",
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+      "F08",
+      "F09",
+      "F10",
+      "F11",
+      "F12",
+      "F13",
+      "F14",
+      "F15"
+    ],
+    "notes": [
+      "Reference-guided reframe. The drawer sits on the right.",
+      "No arch-bust-bowl-book still life.",
+      "No travertine desk.",
+      "No activity wall ledger."
+    ]
+  },
+  "generation_gate": {
+    "product_tree_locked_enough": true,
+    "family_expression_defined": true,
+    "parent_expression_defined": true,
+    "material_child_expressions_defined": true,
+    "environment_policies_defined": true,
+    "panel_control_policies_defined": true,
+    "repetition_audit": "PASS"
+  },
+  "nodes": [
+    {
+      "node_id": "F16",
+      "node_type": "FAMILY",
+      "product_job": "Organize the financial paper trail.",
+      "expression_class": "FAMILY",
+      "expression_concept": "An archival drawer.",
+      "parent_expression_inherited": "GLOBAL_JURNL_DNA",
+      "expression_changes": [
+        "No document is open."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "Index",
+      "button_policy": "Global primitives",
+      "typography_policy": "Index labels. No document title costume.",
+      "interaction_policy": "The drawer is the parent. A document stays closed.",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F16.00",
+      "node_type": "PARENT",
+      "product_job": "Organize the financial paper trail.",
+      "expression_class": "PARENT",
+      "expression_concept": "An archival drawer.",
+      "parent_expression_inherited": "F16",
+      "expression_changes": [
+        "Reference-guided reframe. The drawer sits on the right."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "Index",
+      "button_policy": "Utility plus a closed child control",
+      "typography_policy": "Index labels. No document title costume.",
+      "interaction_policy": "Parent review only",
+      "motion_policy": "Still",
+      "distinct_authority_required": true
+    },
+    {
+      "node_id": "F16.INDEX",
+      "node_type": "CHILD",
+      "product_job": "The index.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Same room. The index.",
+      "parent_expression_inherited": "F16.00",
+      "expression_changes": [
+        "Same plate. The job narrows."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "Index",
+      "button_policy": "Inherited",
+      "typography_policy": "Inherited, slightly tighter",
+      "interaction_policy": "Not built",
+      "motion_policy": "Still",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F16.DOCUMENT",
+      "node_type": "CHILD",
+      "product_job": "One document.",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "A dossier. The room steps back.",
+      "parent_expression_inherited": "F16.00",
+      "expression_changes": [
+        "No plate. A detail sheet."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "DETAIL",
+      "button_policy": "Quiet close",
+      "typography_policy": "Dossier labels",
+      "interaction_policy": "Not built",
+      "motion_policy": "Sheet rises",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F16.ST.EMPTY",
+      "node_type": "STATE",
+      "product_job": "The drawer is empty.",
+      "expression_class": "STATE_LIKE",
+      "expression_concept": "The drawer is empty.",
+      "parent_expression_inherited": "F16.00",
+      "expression_changes": [
+        "Same plate or none. Copy changes."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "EMPTY",
+      "button_policy": "One return",
+      "typography_policy": "Short",
+      "interaction_policy": "Not built",
+      "motion_policy": "Still",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F16.IX.FIND",
+      "node_type": "INTERACTION",
+      "product_job": "A find sheet. Closed.",
+      "expression_class": "INTERACTION_LIKE",
+      "expression_concept": "A find sheet. Closed.",
+      "parent_expression_inherited": "F16.00",
+      "expression_changes": [
+        "A sheet. No new plate."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "FORM",
+      "button_policy": "Global form or confirmation",
+      "typography_policy": "Inherited",
+      "interaction_policy": "Not built",
+      "motion_policy": "Sheet rises",
+      "distinct_authority_required": false
+    }
+  ]
+}

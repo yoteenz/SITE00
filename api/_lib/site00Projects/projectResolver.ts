@@ -10,6 +10,10 @@ import { getCreativeDirectionPayload } from '../site00Evolve/creativeDirection/e
 import { getPage001Candidate } from '../site00Evolve/providers/page001CandidateService.js';
 import { getExpandedPilotReadiness } from '../site00Evolve/providers/pilotReadinessSprint04.js';
 import { isMarketingClientOrg } from '../site00Evolve/seedFixtures.js';
+import { resolveEvolveCommercialState } from '../site00Evolve/commercial/commercialState.js';
+import { formatEvolvePrice } from '../../../shared/site00-evolve-commercial/catalog.js';
+import { site00ProjectCommercialRoute } from '../../../shared/site00-access/routes.js';
+import type { Site00ProjectCommercialSummary } from '../../../shared/site00-projects/types.js';
 import type {
   Site00FounderProjectSlug,
   Site00ProjectCommandItem,
@@ -17,7 +21,10 @@ import type {
   Site00ProjectIndexEntry,
   Site00ProjectsIndexPayload,
 } from '../../../shared/site00-projects/types.js';
+import { listClientRegisteredProjectIndexEntries, resolveClientProjectDetail, isClientRegisteredProjectSlug } from './clientProjectResolver.js';
 import { FOUNDER_PROJECTS, isFounderProjectSlug } from './projectRegistry.js';
+import { buildCanonicalDesignWorkspacePath } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/designRouteAuthority.js';
+import { getSite00ManagedProject } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
 import {
   site00ProjectCreativeDirectionRoute,
   site00ProjectConnectionsRoute,
@@ -80,6 +87,20 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
     { id: 'overview', label: 'OVERVIEW', route: detailRoute(slug), available: true },
   ];
 
+  const managed = getSite00ManagedProject(slug);
+  if (managed?.designEnabled) {
+    surfaces.push({
+      id: 'design',
+      label: 'DESIGN',
+      route: buildCanonicalDesignWorkspacePath({ project: slug }),
+      available: true,
+      description:
+        slug === 'studio-world'
+          ? 'SITE 00 Design — Studio World public website (platform pipelines remain separate)'
+          : 'SITE 00 Design workspace — website and marketing reconstruction',
+    });
+  }
+
   if (isClient) {
     surfaces.push(
       { id: 'evolve', label: 'EVOLVE', route: site00ProjectEvolveRoute(slug), adminRoute: site00AdminEvolveRoute(slug), available: true },
@@ -90,11 +111,25 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
   if (slug === 'ndxbook') {
     surfaces.push(
       {
+        id: 'experiments-hub',
+        label: 'EXPERIMENTS HUB',
+        route: '/projects/ndxbook/experiments',
+        available: true,
+        description: 'All methodology experiments and validation surfaces in one index',
+      },
+      {
         id: 'creative-direction',
         label: 'CREATIVE DIRECTION',
         route: site00ProjectCreativeDirectionRoute('ndxbook'),
         adminRoute: site00AdminEvolveRoute('ndxbook', 'creative-direction'),
         available: true,
+      },
+      {
+        id: 'experience-expression',
+        label: 'EXPERIMENT E — EXPERIENCE EXPRESSION',
+        route: '/projects/ndxbook/experience-expression',
+        available: true,
+        description: 'Concept Territory → interactive experience direction',
       },
       {
         id: 'pilot',
@@ -132,12 +167,15 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
   return surfaces;
 }
 
-async function resolveProjectPhase(slug: Site00FounderProjectSlug): Promise<string> {
+async function resolveProjectPhase(
+  slug: Site00FounderProjectSlug,
+  cdPayload?: Awaited<ReturnType<typeof getCreativeDirectionPayload>> | null,
+): Promise<string> {
   if (slug === 'ndxbook') {
     const importState = getNdxbookImportState();
     if (importState.state !== 'IMPORTED') return 'INTELLIGENCE IMPORT';
     try {
-      const cd = await getCreativeDirectionPayload('ndxbook');
+      const cd = cdPayload ?? (await getCreativeDirectionPayload('ndxbook', { runFormation: false }));
       if (cd.engagement.visualDna.status !== 'APPROVED') return 'CREATIVE DIRECTION REVIEW';
       return 'VISUAL DNA APPROVED';
     } catch {
@@ -159,7 +197,10 @@ async function resolveProjectPhase(slug: Site00FounderProjectSlug): Promise<stri
   return 'ACTIVE INFRASTRUCTURE';
 }
 
-async function buildActivity(slug: Site00FounderProjectSlug): Promise<Site00ProjectDetail['activity']> {
+async function buildActivity(
+  slug: Site00FounderProjectSlug,
+  cdPayload?: Awaited<ReturnType<typeof getCreativeDirectionPayload>> | null,
+): Promise<Site00ProjectDetail['activity']> {
   const events: Site00ProjectDetail['activity'] = [];
 
   if (slug === 'ndxbook') {
@@ -172,7 +213,7 @@ async function buildActivity(slug: Site00FounderProjectSlug): Promise<Site00Proj
       });
     }
     try {
-      const cd = await getCreativeDirectionPayload('ndxbook');
+      const cd = cdPayload ?? (await getCreativeDirectionPayload('ndxbook', { runFormation: false }));
       events.push({
         id: 'ndxbook-cd',
         summary: `CREATIVE DIRECTION TERRITORIES GENERATED — ${cd.engagement.founderDecision ? 'DECISION RECORDED' : 'AWAITING FOUNDER DECISION'}`,
@@ -221,7 +262,96 @@ async function buildActivity(slug: Site00FounderProjectSlug): Promise<Site00Proj
   return events;
 }
 
+async function buildCommercialSummary(slug: Site00FounderProjectSlug): Promise<Site00ProjectCommercialSummary> {
+  const commercial = await resolveEvolveCommercialState(slug);
+  return {
+    applicability: commercial.applicability,
+    applicabilityNote: commercial.applicabilityNote,
+    plan: commercial.plan
+      ? {
+          id: commercial.plan.id,
+          name: commercial.plan.name,
+          priceLabel: formatEvolvePrice(commercial.plan.priceCents, commercial.plan.priceQualifier, commercial.plan.billingInterval),
+          serviceModel: commercial.plan.serviceModel,
+        }
+      : null,
+    planStatus: commercial.planStatus,
+    foundation: commercial.foundation
+      ? {
+          status: commercial.foundation.status,
+          missing: commercial.foundation.missing,
+          explanation: commercial.foundation.explanation,
+        }
+      : null,
+    entitlements: commercial.entitlements
+      ? {
+          channelLimit: commercial.entitlements.channelLimit,
+          assetCapacityLabel: commercial.entitlements.assetCapacity
+            ? `${commercial.entitlements.assetCapacity.min}\u2013${commercial.entitlements.assetCapacity.max} / MONTH`
+            : null,
+          customScopeRequired: commercial.entitlements.customScopeRequired,
+        }
+      : null,
+    paidMediaStatus: commercial.paidMedia.status,
+    usageMetering: commercial.usageMetering,
+    billingIntegrated: commercial.billing.integrated,
+    route: site00ProjectCommercialRoute(slug),
+  };
+}
+
+export async function resolveSite00ProjectIndexEntry(
+  slug: Site00FounderProjectSlug,
+): Promise<Site00ProjectIndexEntry | null> {
+  await ensureEvolveSeeded();
+  const def = FOUNDER_PROJECTS.find((p) => p.slug === slug);
+  if (!def) return null;
+
+  const orgCtx = resolveOrgContext(slug);
+  const orgUuid = orgIdFromSlug(slug);
+  if (!orgUuid) return null;
+
+  const isClient = isMarketingClientOrg(orgCtx.classification);
+  let cdPayload: Awaited<ReturnType<typeof getCreativeDirectionPayload>> | null = null;
+  if (isClient) {
+    try {
+      cdPayload = await getCreativeDirectionPayload(slug, { runFormation: false });
+    } catch {
+      cdPayload = null;
+    }
+  }
+
+  let focusNow: string | null = null;
+  if (isClient) {
+    try {
+      const commandRaw = await buildConnectionCommandItems(slug, orgCtx.name);
+      focusNow = pickFocusNow(mapCommandItems(commandRaw));
+    } catch {
+      focusNow = null;
+    }
+  }
+
+  return {
+    slug,
+    name: def.name,
+    displayName: def.displayName,
+    internalLabel: def.internalLabel,
+    organizationSlug: slug,
+    organizationUuid: orgUuid,
+    classification: orgCtx.classification,
+    currentSystem: def.currentSystem,
+    currentPhase: await resolveProjectPhase(slug, cdPayload),
+    focusNow,
+    lastActivity: null,
+    surfaces: await buildSurfaces(slug, isClient),
+    detailRoute: detailRoute(slug),
+    enrichmentStatus: 'COMPLETE',
+  };
+}
+
 export async function resolveSite00Project(slug: string): Promise<Site00ProjectDetail | null> {
+  if (isClientRegisteredProjectSlug(slug)) {
+    return resolveClientProjectDetail(slug);
+  }
   if (!isFounderProjectSlug(slug)) return null;
 
   await ensureEvolveSeeded();
@@ -277,14 +407,22 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
     }
   }
   const commandItems = mapCommandItems(commandRaw);
-  const currentPhase = await resolveProjectPhase(slug);
+  let cdPayload: Awaited<ReturnType<typeof getCreativeDirectionPayload>> | null = null;
+  if (isClient) {
+    try {
+      cdPayload = await getCreativeDirectionPayload(slug, { runFormation: false });
+    } catch {
+      cdPayload = null;
+    }
+  }
+  const currentPhase = await resolveProjectPhase(slug, cdPayload);
   const profile = isClient ? await getProfileByOrgId(orgUuid) : null;
   const channels = isClient ? await getChannelsByOrgId(orgUuid) : [];
 
   let creativeDirection: Site00ProjectDetail['creativeDirection'] = null;
   if (isClient) {
     try {
-      const cd = await getCreativeDirectionPayload(slug);
+      const cd = cdPayload ?? (await getCreativeDirectionPayload(slug, { runFormation: false }));
       creativeDirection = {
         available: true,
         lifecycleState: cd.engagement.lifecycle_state,
@@ -377,7 +515,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
     currentSystem: def.currentSystem,
     currentPhase,
     focusNow: pickFocusNow(commandItems),
-    lastActivity: (await buildActivity(slug))[0]?.timestamp ?? null,
+    lastActivity: (await buildActivity(slug, cdPayload))[0]?.timestamp ?? null,
     surfaces: await buildSurfaces(slug, isClient),
     detailRoute: detailRoute(slug),
     enrichmentStatus: 'COMPLETE',
@@ -418,6 +556,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       needsApproval: overview.needsApproval ?? 0,
     },
     creativeDirection,
+    commercial: await buildCommercialSummary(slug),
     assets: {
       available: false,
       route: `/admin/site00/projects/${slug}`,
@@ -433,7 +572,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       upcoming: commandItems.filter((i) => i.category === 'UPCOMING'),
       deferred: commandItems.filter((i) => i.category === 'DEFERRED'),
     },
-    activity: await buildActivity(slug),
+    activity: await buildActivity(slug, cdPayload),
     activityNote: slug === 'studio-world' ? 'UNIFIED ACTIVITY TIMELINE NOT YET IMPLEMENTED — SHOWING TRUTHFUL INDEX EVENTS ONLY' : null,
   };
 }
@@ -480,19 +619,27 @@ export async function listSite00FounderProjects(): Promise<Site00ProjectIndexEnt
   const projects: Site00ProjectIndexEntry[] = [];
   for (const def of FOUNDER_PROJECTS) {
     try {
-      const detail = await resolveSite00Project(def.slug);
-      if (detail) projects.push(detail);
+      const entry = await resolveSite00ProjectIndexEntry(def.slug);
+      if (entry) projects.push(entry);
     } catch (err) {
       const fallback = await buildMinimalIndexEntry(def, err);
       if (fallback) projects.push(fallback);
     }
   }
+
+  try {
+    const clientEntries = await listClientRegisteredProjectIndexEntries();
+    projects.push(...clientEntries);
+  } catch {
+    /* client project rows may not exist until migration applied */
+  }
+
   return projects;
 }
 
 function buildIndexSummary(
   projects: Site00ProjectIndexEntry[],
-  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>,
+  clientProjects?: import('../../../shared/site00-projects/types.js').Site00ClientProjectIndexRef[],
 ): Site00ProjectsIndexPayload['summary'] {
   const clientCount = clientProjects?.length ?? 0;
   return {
@@ -504,7 +651,7 @@ function buildIndexSummary(
 }
 
 export async function getSite00ProjectsIndexPayload(
-  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>,
+  clientProjects?: import('../../../shared/site00-projects/types.js').Site00ClientProjectIndexRef[],
 ): Promise<Site00ProjectsIndexPayload> {
   const projects = await listSite00FounderProjects();
   return {

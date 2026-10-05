@@ -13,6 +13,10 @@ import {
   updateMarketingIntake,
   updateMarketingScope,
 } from '../_lib/marketingEngagements/service.js';
+import {
+  applyEngagementTestAddOn,
+  runEngagementProductionAction,
+} from '../_lib/marketingEngagements/commercialPipeline.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -73,6 +77,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json(await provisionMarketingEngagement(String(body.id)));
         case 'sync':
           return res.status(200).json(await syncMarketingEngagement(String(body.id), user.email));
+        case 'commercial-production-action':
+          return res.status(200).json(
+            await runEngagementProductionAction({
+              engagementId: String(body.id),
+              kind: String(body.kind ?? 'USE_EXISTING') as Parameters<
+                typeof runEngagementProductionAction
+              >[0]['kind'],
+              assetId: body.assetId ? String(body.assetId) : undefined,
+            }),
+          );
+        case 'commercial-test-addon':
+          return res.status(200).json(
+            await applyEngagementTestAddOn({
+              engagementId: String(body.id),
+              addOnType: (body.addOnType === 'NEW_ACTOR' ? 'NEW_ACTOR' : 'EXTRA_CHARACTER') as
+                | 'EXTRA_CHARACTER'
+                | 'NEW_ACTOR',
+              resume: body.resume !== false,
+            }),
+          );
         case 'review-action':
           return res.status(200).json(
             await submitMarketingReviewAction({

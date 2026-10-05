@@ -1,0 +1,81 @@
+{
+ "artifact": "SITE00_PROJECT_PROVIDER_CONNECTION_MODEL",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "critical_rules": {
+  "never_store_secrets_in": [
+   "client-side JavaScript",
+   "public env (VITE_*)",
+   "repo files",
+   "localStorage",
+   "client-page data",
+   "analytics",
+   "logs",
+   "comments",
+   "activity events"
+  ],
+  "store_only": "encrypted server-side secret (AES-256-GCM, existing site00_provider_secrets pattern) or a secure secret reference",
+  "ui_receives_only": [
+   "provider",
+   "connection_status",
+   "connected_at",
+   "project_scope",
+   "optional_safe_balance_metadata"
+  ]
+ },
+ "connection_methods": {
+  "API_KEY": "Providers with an API (fal, openai, xai, anthropic): client pastes key into a server-posted form once \u2192 encrypted \u2192 never displayed again; REPLACE / DISCONNECT / TEST CONNECTION.",
+  "DELEGATED_ACCOUNT (OpenArt today)": "OpenArt has NO API integration in this repo (usage is manual, ledgers are hand-recorded). SITE 00 must NOT collect the client's OpenArt password. Supported paths: (a) the provider's own team/workspace sharing if it offers one (verify before relying on it), or (b) fall back to CLIENT_REIMBURSED. Balance = MANUALLY ATTESTED snapshot (credits + observed_at + who attested).",
+  "NONE": "SITE 00 pays (SITE00_INCLUDED / CLIENT_REIMBURSED)."
+ },
+ "record": {
+  "storage": "EXTEND site00_external_connections + site00_provider_secrets + site00_connection_events; add project_id scope to secrets (or link via site00_service_connections.secret_ref); add generation providers to site00_service_catalog",
+  "fields": [
+   "id",
+   "project_id (or authorized project set)",
+   "provider",
+   "connection_method",
+   "connection_status NOT_CONNECTED|CONNECTED|NEEDS_ATTENTION|REVOKED",
+   "connected_at",
+   "secret_ref (server only)",
+   "provider_authorization {authorized_by, authorized_at, revoked_at, terms_version, spend_limit_usd?}",
+   "balance_snapshot {credits, usd_equiv, observed_at, source API|ATTESTED} (never keys)",
+   "payer"
+  ]
+ },
+ "project_firewall": "A client-funded connection belongs to ONE project or an explicitly authorized set. AIO credentials can never be used by JURNL, FRONTAL SLAYER, SITE 00 or other clients. Server checks project_id on every generation call; generation endpoints take the connection from the project record, never from the request.",
+ "authorization": "Client explicitly authorizes SITE 00 to use the provider for this project (checkbox + terms version). Stored: provider_authorization, project_scope, authorized_at, revoked_at.",
+ "revocation": "Client can DISCONNECT / REVOKE at any time; historical ledger rows stay; in-flight jobs stop; family goes AWAITING_PRODUCTION_FUNDING.",
+ "generation_authorization_check": [
+  "who is paying",
+  "which provider is authorized",
+  "which project may consume it",
+  "optional spend limit",
+  "current estimated balance (if available)"
+ ],
+ "client_ux": {
+  "title": "PRODUCTION CREDITS",
+  "rows": [
+   "PROVIDER \u00b7 OPENART",
+   "STATUS \u00b7 NOT CONNECTED / CONNECTED",
+   "PROJECT \u00b7 AIO",
+   "AVAILABLE PRODUCTION BALANCE \u00b7 [attested credits \u2248 $] (if known)",
+   "USED BY THIS PROJECT \u00b7 [ledger sum]"
+  ],
+  "action": "CONNECT / REPLACE / DISCONNECT / TEST",
+  "never": "API secret"
+ },
+ "founder_view": "CLIENT RELATIONSHIP shows project provider authorization status, last attested balance, spend vs limit.",
+ "existing_risks_to_fix_first": [
+  "client connect-service endpoint lets the client set any connection_state (api/site00/client-production.ts)",
+  "founderConfirmedSpend defaults to true in several shared callers",
+  "Opus cost ledger writes to /tmp",
+  "tests/p0vrOpusNative1.test.ts contains a fake key-shaped string (value not reproduced)"
+ ],
+ "secret_exposure_this_sprint": {
+  "client_exposed": "NO",
+  "repo_stored": "NO",
+  "real_credentials_requested_or_stored": 0
+ }
+}

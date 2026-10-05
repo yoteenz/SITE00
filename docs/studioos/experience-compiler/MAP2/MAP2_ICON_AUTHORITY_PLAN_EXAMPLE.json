@@ -1,0 +1,26 @@
+{
+  "authority_id": "ICON_FAMILY_1_ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+  "authority_type": "ICON_FAMILY_AUTHORITY",
+  "icon_family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+  "version": 1,
+  "representative_semantics": [
+    "SEM_CHECKOUT_DOMAIN",
+    "SEM_CONFIGURE",
+    "SEM_PREVIEW",
+    "SEM_CONFIRM",
+    "SEM_RESET",
+    "SEM_SELECT",
+    "SEM_ROTATE",
+    "SEM_MICRO_ASSEMBLY",
+    "SEM_EXT_CRM",
+    "SEM_SEARCH",
+    "SEM_SHARE"
+  ],
+  "surfaces_demonstrated": [
+    "MOBILE_WEB",
+    "DESKTOP_WEB",
+    "APP"
+  ],
+  "generation_prompt": "[OpenArt reference sheet] Icon family for LUMINA ATELIER Icon Family. 2.5D HYBRID. Sections: CORE, NAV, ACTIONS, STATUS, DOMAIN. Include state row (default/active/disabled). Do NOT bake text labels. Representatives: SEM_CHECKOUT_DOMAIN, SEM_CONFIGURE, SEM_PREVIEW, SEM_CONFIRM, SEM_RESET, SEM_SELECT, SEM_ROTATE, SEM_MICRO_ASSEMBLY, SEM_EXT_CRM, SEM_SEARCH, SEM_SHARE",
+  "approval_status": "PLANNED"
+}

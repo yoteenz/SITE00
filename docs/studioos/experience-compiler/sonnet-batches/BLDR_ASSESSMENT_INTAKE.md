@@ -1,0 +1,92 @@
+# Sonnet batch: BLDR_ASSESSMENT_INTAKE
+
+```json
+{
+  "batch_id": "BLDR_ASSESSMENT_INTAKE",
+  "routes": [
+    "/bldr/enterprise",
+    "/bldr/enterprise/data",
+    "/bldr/enterprise/integrations",
+    "/bldr/enterprise/review",
+    "/bldr/enterprise/scale",
+    "/bldr/enterprise/security",
+    "/bldr/enterprise/timeline",
+    "/bldr/enterprise/workflows",
+    "/bldr/not-sure",
+    "/bldr/not-sure/q2",
+    "/bldr/not-sure/q3",
+    "/bldr/not-sure/q4",
+    "/bldr/not-sure/q5",
+    "/bldr/not-sure/review",
+    "/bldr/site",
+    "/bldr/site/budget",
+    "/bldr/site/content",
+    "/bldr/site/features",
+    "/bldr/site/review",
+    "/bldr/site/technical",
+    "/bldr/site/timeline",
+    "/bldr/world",
+    "/bldr/world/budget",
+    "/bldr/world/experience",
+    "/bldr/world/integrations",
+    "/bldr/world/review",
+    "/bldr/world/roles",
+    "/bldr/world/scale",
+    "/bldr/world/timeline"
+  ],
+  "components": [
+    "BldrAssessmentLanding",
+    "BldrAssessmentStepPage",
+    "BldrAssessmentReviewPage"
+  ],
+  "archetypes": [
+    "HUB",
+    "MULTI_STEP_INTAKE",
+    "SINGLE_SELECT",
+    "REVIEW"
+  ],
+  "authority_lineage_by_layer": {
+    "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+    "ENVIRONMENT": "BLDR_SITE",
+    "WORKING_SURFACE": "IDNTY_WORKING_PANEL",
+    "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL"
+  },
+  "shared_components_to_reuse": [
+    "PublicRedesignShell",
+    "Site00MobileShell",
+    "IdentityDiagnosticFlow"
+  ],
+  "new_components_allowed": [
+    "Batch-local wrappers only — no new visual grammar"
+  ],
+  "interaction_rules": [
+    "Preserve existing data hooks",
+    "No new routes",
+    "Uppercase public UI"
+  ],
+  "state_rules": [
+    "Persist intake state to existing storage keys",
+    "No fake verification submit"
+  ],
+  "asset_slots": [
+    "Use manifest slot ids — placeholders until Grok"
+  ],
+  "backend_boundaries": [
+    "Do not add schema",
+    "Call existing APIs only"
+  ],
+  "responsive_rules": [
+    "Mobile authority viewport first",
+    "Keep desktop branches untouched unless batch says otherwise"
+  ],
+  "uppercase_contract": "All public labels uppercase per SITE 00 contract",
+  "do_not_invent_rules": [
+    "Do not invent checkout or payment UI",
+    "Do not blend IDNTY evolution with public EVOLVE",
+    "Do not treat Build Ready verification as BLDR intake"
+  ],
+  "proof_requirements": [
+    "Side-by-side authority vs render for representative screen per archetype"
+  ]
+}
+```

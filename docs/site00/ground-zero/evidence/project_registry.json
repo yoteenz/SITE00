@@ -1,0 +1,204 @@
+{
+  "sources": [
+    {
+      "name": "FOUNDER_PROJECTS (server static)",
+      "file": "api/_lib/site00Projects/projectRegistry.ts:17-56",
+      "kind": "STATIC_TS",
+      "slugs": [
+        "frontal-slayer",
+        "studio-world",
+        "ndxbook",
+        "all-in-one-enterprises"
+      ]
+    },
+    {
+      "name": "CLIENT_PROJECT_SLUGS (server static allowlist)",
+      "file": "api/_lib/site00Projects/clientProjectResolver.ts:22",
+      "kind": "STATIC_TS",
+      "slugs": [
+        "astral-world"
+      ]
+    },
+    {
+      "name": "site00_projects (DB)",
+      "file": "supabase/migrations/20260818143000_site00_production_os.sql:5-26; project_type added 20260825180000_site00_project_core_isolation.sql:5-30",
+      "kind": "DB",
+      "notes": "client_user_id/client_email single owner; project_type CHECK IN ('IDENTITY','SITE','PRODUCT','WORLD') \u2014 a deliverable-type axis, not ownership/type canon; astral-world row seeded in core_isolation migration :147-185"
+    },
+    {
+      "name": "Managed project registry (design/host)",
+      "file": "shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.ts:8-112",
+      "kind": "STATIC_TS",
+      "slugs": [
+        "site00",
+        "frontal-slayer",
+        "studio-world",
+        "ndxbook",
+        "all-in-one-enterprises",
+        "astral-world",
+        "jurnl"
+      ],
+      "notes": "projectType values: HOST_PLATFORM, MANAGED_BRAND, INFRASTRUCTURE?, PERSONAL_PRODUCT"
+    },
+    {
+      "name": "Ingested project registry",
+      "file": "shared/site00-project-ingestion/registry.ts:8-28 + src/projects/registry.ts:10",
+      "kind": "STATIC_TS in-memory Map",
+      "slugs": [
+        "jurnl"
+      ],
+      "notes": "IngestedProjectRecord.projectType 'PERSONAL'|'CLIENT'|'INTERNAL', ownership 'SITE00'|'FOUNDER'|'CLIENT' (types.ts:14,20,97)"
+    },
+    {
+      "name": "Project runtime registry",
+      "file": "src/site00/projectRuntime/projectRuntimeRegistry.ts:26-28",
+      "kind": "STATIC_TS",
+      "slugs": [
+        "jurnl"
+      ]
+    },
+    {
+      "name": "Capability-by-slug map",
+      "file": "shared/site00-projects/capabilities.ts:122-128",
+      "kind": "STATIC_TS",
+      "slugs": [
+        "ndxbook",
+        "astral-world",
+        "frontal-slayer",
+        "studio-world",
+        "all-in-one-enterprises"
+      ]
+    },
+    {
+      "name": "Brand creative context / bootstrap catalog",
+      "file": "shared/site00-brand-lore/brandCreativeContext/constants.ts:28-58; projectBootstrapCatalog.ts:272-361",
+      "kind": "STATIC_TS",
+      "slugs": [
+        "frontal-slayer",
+        "ndxbook",
+        "site-00",
+        "aio",
+        "astral-world"
+      ],
+      "notes": "uses 'aio' and 'site-00' aliases \u2014 different slug spelling from other registries"
+    },
+    {
+      "name": "Project adapters",
+      "file": "shared/site00-projects/adapters/{aio,astralWorld,frontalSlayer,ndxbook}ProjectAdapter.ts",
+      "kind": "STATIC_TS"
+    },
+    {
+      "name": "Brand family skins",
+      "file": "shared/site00-brand-lore/projectSkin/brandFamily/{constants,registry,projectBinding}.ts",
+      "kind": "STATIC_TS",
+      "notes": "projectBinding.ts:82 substring match slug.includes('aio')"
+    }
+  ],
+  "registry_fragmentation": "At least 7 independent static registries plus the DB table; slug aliases differ ('site00' vs 'site-00', 'aio' vs 'all-in-one-enterprises'). No single source of truth; no canonical FOUNDER_PROJECT/PERSONAL_PROJECT/CLIENT_PROJECT/INTERNAL_SITE00_PROJECT enum anywhere (grep returned no matches).",
+  "projects": [
+    {
+      "slug": "site00",
+      "name": "SITE 00",
+      "type_actual": "HOST_PLATFORM (managedProjectRegistry.ts:12); 'site-00' brand id in brandCreativeContext",
+      "type_required": "INTERNAL_SITE00_PROJECT",
+      "where_defined": "managedProjectRegistry.ts:9-22; brandCreativeContext/constants.ts:28,44-45",
+      "client_relationship": "none (host)",
+      "status": "PRESENT \u2014 host, not in FOUNDER_PROJECTS or site00_projects"
+    },
+    {
+      "slug": "jurnl",
+      "name": "JURNL",
+      "type_actual": "PERSONAL / FOUNDER (ingestion record) ; PERSONAL_PRODUCT (managed registry)",
+      "type_required": "PERSONAL_PROJECT (founder-owned)",
+      "where_defined": "src/projects/jurnl/data/jurnlProject.ts:24-34; managedProjectRegistry.ts:94-111; projectRuntimeRegistry.ts:27; JURNL/ (raw authority images F01_ENTRY, F02_SETUP); public/site00/projects/jurnl, public/jurnl",
+      "client_relationship": "none (personal)",
+      "status": "PRESENT \u2014 client-side static only; NOT in FOUNDER_PROJECTS, NOT in site00_projects DB, NO capability entry, NO server API awareness; runtime uses design-preview localStorage auth adapter"
+    },
+    {
+      "slug": "all-in-one-enterprises (aio)",
+      "name": "ALL IN ONE ENTERPRISES",
+      "type_actual": "MANAGED_BRAND (FOUNDER_PROJECTS classification)",
+      "type_required": "CLIENT_PROJECT (external owner's trucking business) \u2014 or FOUNDER_PROJECT if founder-managed; canon needs explicit decision",
+      "where_defined": "api/_lib/site00Projects/projectRegistry.ts:47-55; managedProjectRegistry.ts:66-79; capabilities.ts:127; shared/site00-projects/adapters/aioProjectAdapter.ts; evolve/adapters/aioEvolveAdapter.ts; brandCreativeContext/projectBootstrapCatalog.ts:272-290",
+      "client_relationship": "implied owner ('SOCIAL MARKETING DEFERRED BY OWNER') but no client_email/user binding; admin-only access via canAccessFounderProjectAsOwner",
+      "status": "PRESENT as config + adapters; no runtime, no client room access for the owner"
+    },
+    {
+      "slug": "frontal-slayer",
+      "name": "FRONTAL SLAYER",
+      "type_actual": "INTERNAL_BRAND (FOUNDER_PROJECTS) / MANAGED_BRAND (managed registry)",
+      "type_required": "FOUNDER_PROJECT",
+      "where_defined": "projectRegistry.ts:18-26; managedProjectRegistry.ts:23-36; shared/frontal-slayer-product-assets/** (cross-repo contract); supabase fs_* tables (20260826031500_fs_product_visual_assets.sql); 172 files reference it",
+      "client_relationship": "founder-owned; consumed by external Frontal Slayer website repo via public-read fs_* tables",
+      "status": "PRESENT as indexed founder project; product canon in separate fs_* schema; no ingested runtime"
+    },
+    {
+      "slug": "ndxbook",
+      "name": "NDXBOOK",
+      "type_actual": "MANAGED_BRAND",
+      "type_required": "(out of scope; likely FOUNDER_PROJECT or CLIENT_PROJECT)",
+      "where_defined": "projectRegistry.ts:37-46",
+      "client_relationship": "founder pilot",
+      "status": "PRESENT \u2014 richest capability set"
+    },
+    {
+      "slug": "studio-world",
+      "name": "STUDIO WORLD",
+      "type_actual": "PRODUCTION_INFRASTRUCTURE",
+      "type_required": "INTERNAL_SITE00_PROJECT (infra)",
+      "where_defined": "projectRegistry.ts:27-36",
+      "client_relationship": "none",
+      "status": "PRESENT"
+    },
+    {
+      "slug": "astral-world",
+      "name": "ASTRAL WORLD",
+      "type_actual": "client-registered DB project (MANAGED_BRAND label in index)",
+      "type_required": "CLIENT_PROJECT",
+      "where_defined": "clientProjectResolver.ts:22; site00_projects seed in 20260825180000_site00_project_core_isolation.sql:147-185",
+      "client_relationship": "listed in isFounderProjectSlug OR client slug => admin-only via canAccessFounderProjectAsOwner (accessModel.ts:25-28)",
+      "status": "PRESENT"
+    }
+  ],
+  "project_types_supported": {
+    "canonical_required": [
+      "FOUNDER_PROJECT",
+      "PERSONAL_PROJECT",
+      "CLIENT_PROJECT",
+      "INTERNAL_SITE00_PROJECT"
+    ],
+    "actual_in_code": {
+      "site00_projects.project_type": [
+        "IDENTITY",
+        "SITE",
+        "PRODUCT",
+        "WORLD"
+      ],
+      "FOUNDER_PROJECTS.classification": [
+        "INTERNAL_BRAND",
+        "PRODUCTION_INFRASTRUCTURE",
+        "MANAGED_BRAND"
+      ],
+      "managedProjectRegistry.projectType": [
+        "HOST_PLATFORM",
+        "MANAGED_BRAND",
+        "INFRASTRUCTURE",
+        "PERSONAL_PRODUCT"
+      ],
+      "IngestedProjectRecord.projectType/ownership": [
+        "PERSONAL|CLIENT|INTERNAL",
+        "SITE00|FOUNDER|CLIENT"
+      ]
+    },
+    "mapping_note": "The ingestion types (projectType x ownership) are the closest match to canon and could map 1:1 (FOUNDER+PERSONAL->PERSONAL_PROJECT, CLIENT->CLIENT_PROJECT, SITE00+INTERNAL->INTERNAL_SITE00_PROJECT) but only JURNL uses them and nothing server-side reads them."
+  },
+  "verdict": "FAIL",
+  "gaps": [
+    "No single authoritative registry; 7+ static TS lists and the DB disagree on membership, type vocabulary, and slug spelling.",
+    "Canonical project-type enum (FOUNDER/PERSONAL/CLIENT/INTERNAL_SITE00) does not exist anywhere.",
+    "JURNL exists only client-side (no DB row, no server capability, no API authorization path).",
+    "AIO is registered as a founder MANAGED_BRAND with no owner binding; its real owner cannot be invited.",
+    "Projects are created by founder intake conversion (adminOperations.ts:1010-1035) or post-payment activation (clientStudio.ts:553-605) \u2014 no 'founder creates project then invites client' flow.",
+    "Adding a project requires editing multiple code registries + capability map + (optionally) a migration seed."
+  ]
+}

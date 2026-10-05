@@ -1,6 +1,6 @@
 // SITE 00 — Intake Access Email Family — FAL asset generation (production pipeline stage 08).
 // One-off production script for the FAL-native visual pilot. Reads prompts from the manifest,
-// generates each asset via fal-ai/nano-banana-pro (text-to-image; no reference image file is
+// generates each asset via openai/gpt-image-2 (text-to-image; no reference image file is
 // available on this VM, so this is FAL_TEXT_TO_IMAGE not FAL_REFERENCE_CONDITIONED), and writes
 // raw PNGs to /tmp/site00-intake-assets/master for inspection before anything is committed or
 // uploaded. Safe to re-run — writes are idempotent by filename.
@@ -36,12 +36,14 @@ const JOBS = [
 async function generate(job) {
   console.log(`→ generating ${job.filename} (${job.aspectRatio})`);
   const started = Date.now();
-  const result = await fal.subscribe('fal-ai/nano-banana-pro', {
+  const imageSize =
+    job.aspectRatio === '1:1' ? 'square_hd' : job.aspectRatio === '4:3' ? 'landscape_4_3' : 'landscape_16_9';
+  const result = await fal.subscribe('openai/gpt-image-2', {
     input: {
       prompt: job.prompt,
-      aspect_ratio: job.aspectRatio,
+      image_size: imageSize,
+      quality: 'high',
       output_format: 'png',
-      resolution: '2K',
       num_images: 1,
     },
     logs: false,

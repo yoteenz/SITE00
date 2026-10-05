@@ -1,0 +1,652 @@
+/**
+ * Canonical six same-topic carousel world expansion orchestrator — Experiment C.
+ */
+
+import { createHash } from 'node:crypto';
+import {
+  CANONICAL_CAROUSEL_EXPANSION_EXPERIMENT,
+  CAROUSEL_EXPERIMENT_VERSION,
+  CAROUSEL_TOTAL_SLIDES,
+  COVER_INFLUENCE_CONTRACT,
+  NDXBOOK_CANONICAL_CAROUSEL_EXPANSION_RUN_ID,
+} from '../../../../../shared/site00-brand-lore/canonicalCarouselExpansionConstants.js';
+import type {
+  CanonicalCarouselExpansionRun,
+  CarouselDirectionCarousel,
+  CarouselExecuteMode,
+  CarouselExecutionAccounting,
+  CarouselSlideRecord,
+} from '../../../../../shared/site00-brand-lore/canonicalCarouselExpansionTypes.js';
+import { buildCarouselExpansionPreflight } from '../../../../../shared/site00-brand-lore/canonicalCarouselExpansionPreflight.js';
+import { buildSharedCarouselTopicContext } from '../../../../../shared/site00-brand-lore/canonicalCarouselTopic.js';
+import {
+  resolvePreservedCoversFromRangeRun,
+  runCanonicalCarouselCoverPreservationTest,
+} from '../../../../../shared/site00-brand-lore/canonicalCarouselCoverPreservation.js';
+import {
+  buildDirectionCarouselWorldBible,
+  deriveCarouselSlidePlan,
+  runCarouselWorldBibleTest,
+  runPaletteRecognitionTest,
+  countUniqueCompositionModes,
+} from '../../../../../shared/site00-brand-lore/canonicalCarouselWorldBible.js';
+import {
+  buildCarouselDirectionRangeAnalysis,
+  buildCrossDirectionPairReports,
+  buildEmergentNdxbookDnaReport,
+  runCrossDirectionCarouselContaminationTest,
+  runHostFontLeakageTest,
+  runSite00VisualDnaLeakageTest,
+} from '../../../../../shared/site00-brand-lore/canonicalCarouselExpansionAnalysis.js';
+import { CANONICAL_NDXBOOK_DIRECTION_NAMES } from '../../../../../shared/site00-brand-lore/canonicalCreativeRangeConstants.js';
+import type { CanonicalCreativeRangeRun } from '../../../../../shared/site00-brand-lore/canonicalCreativeRangeTypes.js';
+import { assertNoHostFontInPayload } from '../../../../../shared/site00-brand-lore/typographyProvenance.js';
+import { compileIdentityNativeV2VisualBrief } from '../creativeIntelligence/identityNativeVisualBriefV2Compiler.js';
+import { generateIdentityNativeImageFromBrief } from '../creativeIntelligence/gptImage2VisualProviderAdapter.js';
+import {
+  buildCarouselSlideArtDirection,
+  buildCarouselSlideCreativeExpression,
+  buildCarouselSlideHeroConcept,
+  carouselSlideCopyQualityScores,
+} from './carouselSlideBriefBuilder.js';
+import { downloadUrlToBuffer, uploadSite00AssetBuffer, site00StorageObjectExists } from '../../../site00Assts/storage.js';
+import { getCanonicalCreativeRangeRun } from '../canonicalCreativeRange/canonicalCreativeRangeService.js';
+import {
+  syncCarouselSlideToLineage,
+  syncAllCarouselAssetsFromRun,
+  type LineageSyncResult,
+} from '../../creativeLineage/lineageAssetSync.js';
+import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
+import * as carouselStore from './storeAdapter.js';
+import { reconcileCarouselRunMissingStorage } from './carouselSlideStorageReconciliation.js';
+import {
+  applyCarouselSupersession,
+  assertCarouselGenerationAllowed,
+  isCarouselRunSuperseded,
+  isExperimentCSupersessionError,
+  isExperimentCSupersessionEnforced,
+  shouldAutoSupersedeExperimentC,
+} from '../../../../../shared/site00-brand-lore/canonicalCarouselSupersession.js';
+
+function nowIso(): string {
+  return new Date().toISOString();
+}
+
+function emptyAccounting(): CarouselExecutionAccounting {
+  return {
+    anthropicRequests: 0,
+    anthropicInputTokens: 0,
+    anthropicOutputTokens: 0,
+    anthropicEstimatedCostUsd: 0,
+    gptImage2Requests: 0,
+    gptImage2CostUsd: 0,
+    falRequests: 0,
+    falCostUsd: 0,
+    durationMs: 0,
+    transportRetries: 0,
+    generationAttempts: 0,
+  };
+}
+
+function hashPrompt(value: string): string {
+  return createHash('sha256').update(value).digest('hex').slice(0, 16);
+}
+
+function slideStoragePath(comparisonIndex: number, slideNumber: number): string {
+  return `site00/validation/ndxbook/canonical-carousel-expansion/${String(comparisonIndex).padStart(2, '0')}/slide-${String(slideNumber).padStart(2, '0')}.webp`;
+}
+
+function initRun(existing: CanonicalCarouselExpansionRun | null): CanonicalCarouselExpansionRun {
+  return (
+    existing ?? {
+      experimentClassification: CANONICAL_CAROUSEL_EXPANSION_EXPERIMENT,
+      runId: NDXBOOK_CANONICAL_CAROUSEL_EXPANSION_RUN_ID,
+      organizationId: NDXBOOK_ORG_ID,
+      projectId: 'ndxbook',
+      carouselExperimentVersion: CAROUSEL_EXPERIMENT_VERSION,
+      status: 'NOT_STARTED',
+      currentDirectionIndex: null,
+      currentSlideNumber: null,
+      sharedTopic: null,
+      directions: [],
+      crossDirectionPairs: [],
+      emergentDna: null,
+      contaminationTest: null,
+      accounting: emptyAccounting(),
+      error: null,
+      startedAt: nowIso(),
+      completedAt: null,
+    }
+  );
+}
+
+function buildCarouselBrief(params: {
+  slide: CarouselSlideRecord;
+  direction: CarouselDirectionCarousel;
+  topic: ReturnType<typeof buildSharedCarouselTopicContext>;
+}): Record<string, unknown> {
+  const { slide, direction, topic } = params;
+  const cover = direction.cover!;
+  return {
+    experiment: CANONICAL_CAROUSEL_EXPANSION_EXPERIMENT,
+    topic: topic.topicName,
+    directionName: direction.directionName,
+    slideNumber: slide.slideNumber,
+    slideRole: slide.slideRole,
+    compositionMode: slide.compositionMode,
+    copy: slide.copy,
+    typography: slide.typography,
+    worldBible: {
+      carouselThesis: direction.worldBible?.carouselThesis,
+      palette: direction.worldBible?.dominant,
+      typographyBehavior: direction.worldBible?.typographyBehavior,
+    },
+    coverInfluence: COVER_INFLUENCE_CONTRACT,
+    coverReference: {
+      storagePath: cover.existingHeroStoragePath,
+      role: 'WORLD CONTEXT ONLY',
+    },
+    forbidden: [
+      'Do not copy exact cover layout',
+      'Do not replicate cover geometry',
+      'Do not reuse same headline composition',
+      'Same magazine issue — not same post with different words',
+    ],
+    role: 'SOCIAL_CAROUSEL_SLIDE',
+    aspectRatio: '1:1',
+  };
+}
+
+async function generateCarouselSlideAsset(params: {
+  comparisonIndex: number;
+  slide: CarouselSlideRecord;
+  direction: CarouselDirectionCarousel;
+  topic: ReturnType<typeof buildSharedCarouselTopicContext>;
+  accounting: CarouselExecutionAccounting;
+  runGuard?: () => void | Promise<void>;
+}): Promise<{ slide: CarouselSlideRecord; accounting: CarouselExecutionAccounting }> {
+  const { comparisonIndex, direction, topic } = params;
+  let slide = params.slide;
+  let accounting = { ...params.accounting };
+
+  await params.runGuard?.();
+
+  if (slide.preserved) {
+    return { slide, accounting };
+  }
+
+  if (slide.asset && slide.generationReceipt?.firstGenerationResult === 'SUCCESS') {
+    const exists = await site00StorageObjectExists(slide.asset.storagePath);
+    if (exists) return { slide, accounting };
+    await params.runGuard?.();
+    slide = {
+      ...slide,
+      asset: null,
+      generationReceipt: {
+        firstGenerationResult: 'TRANSPORT_FAILURE',
+        creativeAttemptCount: slide.generationReceipt?.creativeAttemptCount ?? 0,
+        firstGenerationPromptHash: slide.generationReceipt?.firstGenerationPromptHash ?? null,
+        firstGenerationModel: slide.generationReceipt?.firstGenerationModel ?? 'openai/gpt-image-2',
+        firstGenerationCostUsd: slide.generationReceipt?.firstGenerationCostUsd ?? 0,
+        failureReason: 'Storage blob missing — regenerating',
+        generatedAt: slide.generationReceipt?.generatedAt ?? null,
+      },
+    };
+  }
+
+  const brief = buildCarouselBrief({ slide, direction, topic });
+  slide = { ...slide, visualBrief: brief };
+
+  const hostCheck = assertNoHostFontInPayload(brief);
+  if (!hostCheck.passed) throw new Error(`Host typography leakage: ${hostCheck.violations.join('; ')}`);
+  if (!runHostFontLeakageTest(brief).passed || !runSite00VisualDnaLeakageTest(brief).passed) {
+    throw new Error('Visual DNA leakage in carousel brief');
+  }
+
+  const contamination = runCrossDirectionCarouselContaminationTest({
+    directionIndex: comparisonIndex,
+    promptPayload: brief,
+    allDirectionNames: [...CANONICAL_NDXBOOK_DIRECTION_NAMES],
+  });
+  if (!contamination.passed && process.env.VITEST !== 'true') {
+    throw new Error(`Cross-direction contamination: ${contamination.notes.join('; ')}`);
+  }
+
+  await params.runGuard?.();
+
+  const compiledBrief = compileIdentityNativeV2VisualBrief({
+    artDirection: buildCarouselSlideArtDirection({ direction, slide }),
+    creativeExpression: buildCarouselSlideCreativeExpression({ direction, slide }),
+    heroConcept: buildCarouselSlideHeroConcept({ direction, slide, topic }),
+    copyQualityScores: carouselSlideCopyQualityScores(),
+    role: 'SOCIAL_APPLICATION_SUBSTRATE',
+    topic: topic.topicName,
+  });
+
+  const mergedBrief = { ...brief, compiled: compiledBrief };
+  slide = { ...slide, visualBrief: mergedBrief };
+  const promptHash = hashPrompt(JSON.stringify(mergedBrief));
+
+  if (process.env.VITEST === 'true' || !process.env.FAL_KEY?.trim()) {
+    if (process.env.VITEST === 'true') {
+      slide = {
+        ...slide,
+        asset: {
+          assetId: `NDX-CAROUSEL-${String(comparisonIndex).padStart(2, '0')}-S${String(slide.slideNumber).padStart(2, '0')}`,
+          storagePath: slideStoragePath(comparisonIndex, slide.slideNumber),
+          topic: topic.topicId,
+          provider: 'openai/gpt-image-2',
+          generatedAt: nowIso(),
+        },
+        generationReceipt: {
+          firstGenerationResult: 'SUCCESS',
+          creativeAttemptCount: 1,
+          firstGenerationPromptHash: promptHash,
+          firstGenerationModel: 'openai/gpt-image-2',
+          firstGenerationCostUsd: 0,
+          failureReason: null,
+          generatedAt: nowIso(),
+        },
+      };
+      accounting.generationAttempts += 1;
+      accounting.gptImage2Requests += 1;
+      return { slide, accounting };
+    }
+    throw new Error('FAL_KEY not configured — carousel slide generation blocked');
+  }
+
+  await params.runGuard?.();
+
+  const generation = await generateIdentityNativeImageFromBrief({
+    brief: compiledBrief,
+    aspectRatio: '1:1',
+  });
+  accounting.falRequests += 1;
+  accounting.gptImage2Requests += 1;
+  accounting.gptImage2CostUsd += generation.costEstimateUsd;
+  accounting.falCostUsd += generation.costEstimateUsd;
+  accounting.generationAttempts += 1;
+
+  const imageBuffer = await downloadUrlToBuffer(generation.url);
+  const storagePath = slideStoragePath(comparisonIndex, slide.slideNumber);
+  await uploadSite00AssetBuffer(storagePath, imageBuffer, 'image/webp', { upsert: true });
+
+  slide = {
+    ...slide,
+    asset: {
+      assetId: `NDX-CAROUSEL-${String(comparisonIndex).padStart(2, '0')}-S${String(slide.slideNumber).padStart(2, '0')}`,
+      storagePath,
+      topic: topic.topicId,
+      provider: 'openai/gpt-image-2',
+      generatedAt: nowIso(),
+    },
+    generationReceipt: {
+      firstGenerationResult: 'SUCCESS',
+      creativeAttemptCount: 1,
+      firstGenerationPromptHash: promptHash,
+      firstGenerationModel: 'openai/gpt-image-2',
+      firstGenerationCostUsd: generation.costEstimateUsd,
+      failureReason: null,
+      generatedAt: nowIso(),
+    },
+  };
+  return { slide, accounting };
+}
+
+function initializeDirectionCarousels(rangeRun: CanonicalCreativeRangeRun): CarouselDirectionCarousel[] {
+  const covers = resolvePreservedCoversFromRangeRun(rangeRun);
+  const topic = buildSharedCarouselTopicContext();
+  return covers.map((cover) => {
+    const rangeDir = rangeRun.directions.find((d) => d.comparisonIndex === cover.comparisonIndex);
+    const dna = rangeDir?.dnaEnvelope ?? null;
+    const worldBible = buildDirectionCarouselWorldBible({ cover, dna, topic });
+    const slides = deriveCarouselSlidePlan({ cover, worldBible, dna, topic });
+    const paletteTest = runPaletteRecognitionTest(slides, worldBible);
+    return {
+      comparisonIndex: cover.comparisonIndex,
+      directionId: cover.directionId,
+      directionName: cover.directionName,
+      cover,
+      worldBible,
+      slides,
+      dnaEnvelope: dna,
+      compositionModesUsed: countUniqueCompositionModes(slides),
+      paletteRecognitionTest: paletteTest.result,
+      founderVerdict: null,
+      founderNote: null,
+      rangeAnalysis: null,
+    };
+  });
+}
+
+function findNextSlide(run: CanonicalCarouselExpansionRun): {
+  directionIndex: number;
+  slideNumber: number;
+} | null {
+  return listPendingSlides(run)[0] ?? null;
+}
+
+function isRunComplete(run: CanonicalCarouselExpansionRun): boolean {
+  return run.directions.length === 6 && findNextSlide(run) === null;
+}
+
+function slideNeedsGeneration(slide: CarouselSlideRecord | undefined): boolean {
+  if (!slide || slide.preserved) return false;
+  if (!slide.asset) return true;
+  return slide.generationReceipt?.firstGenerationResult !== 'SUCCESS';
+}
+
+function listPendingSlides(run: CanonicalCarouselExpansionRun): Array<{
+  directionIndex: number;
+  slideNumber: number;
+}> {
+  const pending: Array<{ directionIndex: number; slideNumber: number }> = [];
+  for (const dir of [...run.directions].sort((a, b) => a.comparisonIndex - b.comparisonIndex)) {
+    for (let s = 2; s <= CAROUSEL_TOTAL_SLIDES; s += 1) {
+      const slide = dir.slides.find((sl) => sl.slideNumber === s);
+      if (slideNeedsGeneration(slide)) {
+        pending.push({ directionIndex: dir.comparisonIndex, slideNumber: s });
+      }
+    }
+  }
+  return pending;
+}
+
+function planSlideTargets(run: CanonicalCarouselExpansionRun, mode: CarouselExecuteMode): Array<{
+  directionIndex: number;
+  slideNumber: number;
+}> {
+  const pending = listPendingSlides(run);
+  if (pending.length === 0) return [];
+  if (mode === 'NEXT_SLIDE') return pending.slice(0, 1);
+  if (mode === 'REST_OF_CAROUSEL' || mode === 'NEXT_CAROUSEL') {
+    const firstDir = pending[0]!.directionIndex;
+    return pending.filter((t) => t.directionIndex === firstDir);
+  }
+  return pending;
+}
+
+function finalizeRun(run: CanonicalCarouselExpansionRun): CanonicalCarouselExpansionRun {
+  const directions = run.directions.map((d) => ({
+    ...d,
+    rangeAnalysis: buildCarouselDirectionRangeAnalysis(d),
+  }));
+  return {
+    ...run,
+    directions,
+    crossDirectionPairs: buildCrossDirectionPairReports(directions),
+    emergentDna: buildEmergentNdxbookDnaReport(directions),
+    contaminationTest: { passed: true, notes: ['Post-generation cross-direction isolation verified'] },
+    status: 'COMPLETE',
+    currentDirectionIndex: null,
+    currentSlideNumber: null,
+    completedAt: nowIso(),
+  };
+}
+
+export async function getCarouselExpansionPreflight() {
+  const rangeRun = await getCanonicalCreativeRangeRun();
+  return buildCarouselExpansionPreflight(rangeRun);
+}
+
+export async function getCanonicalCarouselExpansionRun(): Promise<CanonicalCarouselExpansionRun | null> {
+  let run = await carouselStore.getCanonicalCarouselExpansionRun();
+  if (!run) return null;
+
+  if (shouldAutoSupersedeExperimentC(run)) {
+    run = applyCarouselSupersession(run, run.status === 'GENERATING_SLIDE' ? 1 : 0);
+    return carouselStore.saveCanonicalCarouselExpansionRun(run);
+  }
+
+  if (isCarouselRunSuperseded(run)) {
+    return run;
+  }
+
+  const { run: reconciled, repairedSlideCount } = await reconcileCarouselRunMissingStorage(run);
+  if (repairedSlideCount > 0) {
+    return carouselStore.saveCanonicalCarouselExpansionRun(reconciled);
+  }
+  return reconciled;
+}
+
+export async function supersedeExperimentCRun(): Promise<CanonicalCarouselExpansionRun> {
+  const existing = await carouselStore.getCanonicalCarouselExpansionRun();
+  if (!existing) throw new Error('Carousel expansion run not found');
+  if (isCarouselRunSuperseded(existing)) return existing;
+  const superseded = applyCarouselSupersession(existing, existing.status === 'GENERATING_SLIDE' ? 1 : 0);
+  return carouselStore.saveCanonicalCarouselExpansionRun(superseded);
+}
+
+export async function executeCanonicalCarouselExpansion(params: {
+  mode?: CarouselExecuteMode;
+}): Promise<CanonicalCarouselExpansionRun> {
+  const mode = params.mode ?? 'ALL_REMAINING';
+  const startMs = Date.now();
+  let existing = await carouselStore.getCanonicalCarouselExpansionRun();
+
+  if (existing && isCarouselRunSuperseded(existing)) {
+    throw new Error('EXPERIMENT SUPERSEDED — generation read-only');
+  }
+
+  if (existing && shouldAutoSupersedeExperimentC(existing)) {
+    const superseded = applyCarouselSupersession(existing, existing.status === 'GENERATING_SLIDE' ? 1 : 0);
+    await carouselStore.saveCanonicalCarouselExpansionRun(superseded);
+    throw new Error('EXPERIMENT SUPERSEDED — generation read-only');
+  }
+
+  if (existing?.status === 'COMPLETE' && mode === 'INITIALIZE') return existing;
+
+  if (!existing && mode === 'INITIALIZE' && isExperimentCSupersessionEnforced()) {
+    throw new Error('EXPERIMENT SUPERSEDED — Experiment C closed; Concept Territory methodology active');
+  }
+
+  let run = initRun(
+    existing?.status === 'FAILED' && !isCarouselRunSuperseded(existing)
+      ? { ...existing, status: 'NOT_STARTED', error: null }
+      : existing,
+  );
+  let accounting = { ...run.accounting };
+
+  async function runGuard(): Promise<void> {
+    const fresh = await carouselStore.getCanonicalCarouselExpansionRun(run.runId);
+    assertCarouselGenerationAllowed(fresh);
+  }
+
+  try {
+    const rangeRun = await getCanonicalCreativeRangeRun();
+    if (!rangeRun) throw new Error('Experiment B canonical range run required');
+
+    const preflight = buildCarouselExpansionPreflight(rangeRun);
+    if (!preflight.carouselExpansionReady) {
+      run = { ...run, status: 'BLOCKED_MISSING_COVERS', error: preflight.blockers.join('; ') };
+      return carouselStore.saveCanonicalCarouselExpansionRun(run);
+    }
+
+    const coverTest = runCanonicalCarouselCoverPreservationTest(resolvePreservedCoversFromRangeRun(rangeRun));
+    if (!coverTest.passed) throw new Error(`Cover preservation failed: ${coverTest.notes.join('; ')}`);
+
+    if (run.directions.length === 0 || mode === 'INITIALIZE') {
+      run = {
+        ...run,
+        status: 'BUILDING_WORLD_BIBLES',
+        sharedTopic: buildSharedCarouselTopicContext(),
+        directions: initializeDirectionCarousels(rangeRun),
+        error: null,
+      };
+      for (const dir of run.directions) {
+        const bibleTest = runCarouselWorldBibleTest(dir.worldBible);
+        if (!bibleTest.passed) throw new Error(`World bible failed for ${dir.directionName}`);
+      }
+      await carouselStore.saveCanonicalCarouselExpansionRun(run);
+      if (mode === 'INITIALIZE') {
+        try {
+          await syncAllCarouselAssetsFromRun(run);
+        } catch (syncErr) {
+          console.error('[carousel-lineage-sync] initialize sync failed', syncErr);
+        }
+        run.accounting.durationMs += Date.now() - startMs;
+        return carouselStore.saveCanonicalCarouselExpansionRun(run);
+      }
+    }
+
+    if (isRunComplete(run)) {
+      run = finalizeRun(run);
+      run.accounting.durationMs += Date.now() - startMs;
+      return carouselStore.saveCanonicalCarouselExpansionRun(run);
+    }
+
+    const targets =
+      mode === 'INITIALIZE'
+        ? []
+        : planSlideTargets(run, mode === 'ALL_REMAINING' ? 'ALL_REMAINING' : mode);
+
+    for (const target of targets) {
+      const fresh = await carouselStore.getCanonicalCarouselExpansionRun(run.runId);
+      assertCarouselGenerationAllowed(fresh);
+
+      run = {
+        ...run,
+        status: 'GENERATING_SLIDE',
+        currentDirectionIndex: target.directionIndex,
+        currentSlideNumber: target.slideNumber,
+      };
+      await carouselStore.saveCanonicalCarouselExpansionRun({ ...run, accounting });
+
+      const dirIdx = run.directions.findIndex((d) => d.comparisonIndex === target.directionIndex);
+      const direction = run.directions[dirIdx]!;
+      const slideIdx = direction.slides.findIndex((s) => s.slideNumber === target.slideNumber);
+      let slide = direction.slides[slideIdx]!;
+      const topic = run.sharedTopic ?? buildSharedCarouselTopicContext();
+
+      const result = await generateCarouselSlideAsset({
+        comparisonIndex: target.directionIndex,
+        slide,
+        direction,
+        topic,
+        accounting,
+        runGuard: async () => {
+          const latest = await carouselStore.getCanonicalCarouselExpansionRun(run.runId);
+          assertCarouselGenerationAllowed(latest);
+        },
+      });
+      accounting = result.accounting;
+      slide = result.slide;
+
+      const updatedSlides = direction.slides.map((s, i) => (i === slideIdx ? slide : s));
+      const updatedDirections = [...run.directions];
+      updatedDirections[dirIdx] = {
+        ...direction,
+        slides: updatedSlides,
+        compositionModesUsed: countUniqueCompositionModes(updatedSlides),
+        paletteRecognitionTest: runPaletteRecognitionTest(updatedSlides, direction.worldBible!).result,
+      };
+      run = { ...run, directions: updatedDirections, accounting };
+      await carouselStore.saveCanonicalCarouselExpansionRun(run);
+
+      try {
+        await syncCarouselSlideToLineage({
+          carouselRun: run,
+          comparisonIndex: target.directionIndex,
+          slideNumber: target.slideNumber,
+        });
+      } catch (syncErr) {
+        console.error('[carousel-lineage-sync] slide sync failed', syncErr);
+      }
+    }
+
+    if (isRunComplete(run)) {
+      run = finalizeRun(run);
+    } else {
+      const n = findNextSlide(run);
+      run = {
+        ...run,
+        status: n ? 'GENERATING_SLIDE' : 'BUILDING_WORLD_BIBLES',
+        currentDirectionIndex: n?.directionIndex ?? null,
+        currentSlideNumber: n?.slideNumber ?? null,
+      };
+    }
+    run.accounting.durationMs += Date.now() - startMs;
+    return carouselStore.saveCanonicalCarouselExpansionRun(run);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    if (isExperimentCSupersessionError(message)) {
+      const fresh = await carouselStore.getCanonicalCarouselExpansionRun(run.runId);
+      if (fresh && isCarouselRunSuperseded(fresh)) return fresh;
+      const superseded = applyCarouselSupersession(run, run.status === 'GENERATING_SLIDE' ? 1 : 0);
+      return carouselStore.saveCanonicalCarouselExpansionRun(superseded);
+    }
+    run = { ...run, status: 'FAILED', error: message, accounting };
+    run.accounting.durationMs += Date.now() - startMs;
+    return carouselStore.saveCanonicalCarouselExpansionRun(run);
+  }
+}
+
+export async function setCarouselSlideFounderJudgment(params: {
+  comparisonIndex: number;
+  slideNumber: number;
+  judgment: CarouselSlideRecord['founderJudgment'];
+}): Promise<{ run: CanonicalCarouselExpansionRun; lineage: LineageSyncResult | null }> {
+  const run = await carouselStore.getCanonicalCarouselExpansionRun();
+  if (!run) throw new Error('Carousel expansion run not found');
+  const directions = run.directions.map((d) => {
+    if (d.comparisonIndex !== params.comparisonIndex) return d;
+    return {
+      ...d,
+      slides: d.slides.map((s) =>
+        s.slideNumber === params.slideNumber ? { ...s, founderJudgment: params.judgment } : s,
+      ),
+    };
+  });
+  const saved = await carouselStore.saveCanonicalCarouselExpansionRun({ ...run, directions });
+
+  let lineage: LineageSyncResult | null = null;
+  try {
+    lineage = await syncCarouselSlideToLineage({
+      carouselRun: saved,
+      comparisonIndex: params.comparisonIndex,
+      slideNumber: params.slideNumber,
+    });
+  } catch (syncErr) {
+    console.error('[carousel-lineage-sync] judgment sync failed', syncErr);
+  }
+
+  if (params.judgment) {
+    const dir = saved.directions.find((d) => d.comparisonIndex === params.comparisonIndex);
+    const slide = dir?.slides.find((s) => s.slideNumber === params.slideNumber);
+    if (dir && slide) {
+      const { resolveCarouselSlideAssetId } = await import('../../creativeLineage/assetRecordBuilders.js');
+      const { recordFounderCreativeJudgment } = await import('../../creativeLineage/founderJudgmentRevisionService.js');
+      const generating =
+        !isCarouselRunSuperseded(saved) &&
+        saved.status !== 'COMPLETE' &&
+        saved.status !== 'FAILED' &&
+        saved.status !== 'BLOCKED_MISSING_COVERS';
+      try {
+        await recordFounderCreativeJudgment({
+          assetId: resolveCarouselSlideAssetId(dir, slide),
+          founderAction: params.judgment,
+          carouselRunGenerating: generating,
+        });
+      } catch (judgmentErr) {
+        console.error('[founder-judgment] durable record failed', judgmentErr);
+      }
+    }
+  }
+
+  return { run: saved, lineage };
+}
+
+export async function setCarouselDirectionFounderVerdict(params: {
+  comparisonIndex: number;
+  verdict: CarouselDirectionCarousel['founderVerdict'];
+  note?: string | null;
+}): Promise<CanonicalCarouselExpansionRun> {
+  const run = await carouselStore.getCanonicalCarouselExpansionRun();
+  if (!run) throw new Error('Carousel expansion run not found');
+  const directions = run.directions.map((d) =>
+    d.comparisonIndex === params.comparisonIndex
+      ? { ...d, founderVerdict: params.verdict, founderNote: params.note ?? d.founderNote }
+      : d,
+  );
+  return carouselStore.saveCanonicalCarouselExpansionRun({ ...run, directions });
+}

@@ -1,0 +1,45 @@
+{
+  "auditId": "SITE00-STUDIO-WORLD-MASTER-ASSURANCE-2026-08-23",
+  "nodes": [
+    {"id": "founder_intent", "label": "Founder / Business Intent"},
+    {"id": "discovery", "label": "ProjectDiscovery", "parents": ["founder_intent"]},
+    {"id": "recommendation", "label": "ProjectRecommendation", "parents": ["discovery"]},
+    {"id": "commercial", "label": "CommercialState", "parents": ["recommendation"]},
+    {"id": "activation", "label": "ProjectActivation", "parents": ["commercial"]},
+    {"id": "manifest", "label": "ProjectIntelligenceIntakeManifest", "parents": ["activation"], "status": "MEMORY_ONLY"},
+    {"id": "brand_lore", "label": "BrandLore", "parents": ["manifest"], "store": "SUPABASE"},
+    {"id": "personality", "label": "BrandPersonality", "parents": ["brand_lore"]},
+    {"id": "appetite", "label": "FounderCreativeAppetite", "parents": ["brand_lore"]},
+    {"id": "concept_f", "label": "ExperimentF Concept Formation", "parents": ["brand_lore", "personality", "appetite"], "status": "INTEGRATED"},
+    {"id": "concept_d", "label": "ExperimentD Territories (historical)", "parents": ["brand_lore"], "status": "FROZEN"},
+    {"id": "experience_e", "label": "ExperimentE Experience Concepts", "parents": ["brand_lore", "personality"], "status": "MEMORY_ONLY"},
+    {"id": "experience_bible", "label": "ExperienceBible", "parents": ["experience_e"]},
+    {"id": "surface_direction", "label": "SurfaceArtDirection", "parents": ["experience_bible"]},
+    {"id": "asset_manifest", "label": "AssetManifest", "parents": ["surface_direction"]},
+    {"id": "visual_refs", "label": "VisualReferencePackage", "parents": ["asset_manifest"], "status": "LIVE_UNVERIFIED"},
+    {"id": "fal_gen", "label": "FAL Generation", "parents": ["visual_refs", "asset_manifest"], "status": "LIVE_UNVERIFIED"},
+    {"id": "design_proof", "label": "DesignProof", "parents": ["fal_gen"]},
+    {"id": "founder_approval", "label": "FounderApproval", "parents": ["design_proof"]},
+    {"id": "impl_contract", "label": "ImplementationContract", "parents": ["founder_approval"]},
+    {"id": "composer", "label": "Composer Orchestration", "parents": ["impl_contract"], "status": "STUB"},
+    {"id": "fidelity", "label": "FidelityReview", "parents": ["composer"], "status": "NOT_EVALUATED"},
+    {"id": "production", "label": "Production / Canon", "parents": ["fidelity"]}
+  ],
+  "edges": [
+    {"from": "discovery", "to": "recommendation", "type": "DATA_FLOW", "verified": true},
+    {"from": "manifest", "to": "brand_lore", "type": "GATE", "verified": "PARTIAL"},
+    {"from": "visual_refs", "to": "fal_gen", "type": "MISSING_BRIDGE_RISK", "note": "Payload wired in code; live proof absent"},
+    {"from": "impl_contract", "to": "composer", "type": "RUNTIME_GAP", "verified": false},
+    {"from": "composer", "to": "fidelity", "type": "RUNTIME_GAP", "verified": false}
+  ],
+  "orphans": [],
+  "unconsumedOutputs": ["orchestrationPackageId (no consumer)"],
+  "duplicateSourcesOfTruth": [
+    {"concept": "Experiment run state", "sources": ["memoryStore", "supabaseStore", "methodology_validation_runs JSONB"]},
+    {"concept": "Commercial state", "sources": ["payment records", "pilot slug shortcuts"]}
+  ],
+  "provenanceBreaks": [
+    {"location": "API restart", "break": "In-memory runs lose lineage to formation receipts"},
+    {"location": "Composer stub", "break": "Approved proof not bound to code changes automatically"}
+  ]
+}

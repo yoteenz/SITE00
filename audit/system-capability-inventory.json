@@ -1,0 +1,34 @@
+{
+  "auditId": "SITE00-STUDIO-WORLD-MASTER-ASSURANCE-2026-08-23",
+  "generatedAt": "2026-08-23T19:00:00Z",
+  "repositoryStats": {
+    "implementationFilesSampled": 1351,
+    "testFiles": 112,
+    "testsPassing": 1508,
+    "supabaseMigrationsSite00": 29,
+    "projectsApiActionsApprox": 78
+  },
+  "inventoryNote": "Full machine-readable capability list in readiness-matrix.json; this file is the canonical index.",
+  "domains": [
+    "COMMERCIAL",
+    "INTELLIGENCE",
+    "CREATIVE_EXPRESSION",
+    "EXPERIENCE_EXPRESSION",
+    "VISUAL_REFERENCE",
+    "WORKSPACE",
+    "IMPLEMENTATION",
+    "EXPERIMENT",
+    "PROVIDER",
+    "PROVENANCE",
+    "OPERATIONS",
+    "WORLD",
+    "OBSERVABILITY",
+    "COST",
+    "SECURITY"
+  ],
+  "seeAlso": [
+    "audit/readiness-matrix.json",
+    "audit/findings.json",
+    "audit/system-dependency-graph.json"
+  ]
+}

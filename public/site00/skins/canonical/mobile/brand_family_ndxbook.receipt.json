@@ -1,0 +1,12 @@
+{
+  "sourceCropChecksum": "40a600def95e2dd7",
+  "provider": "fal",
+  "model": "openai/gpt-image-2/edit",
+  "prompt": "RECREATE ONLY THE NDXBOOK VISUAL OBJECT / ARTWORK SHOWN IN THE PROVIDED CROP.\nUSE THE CROP AS STRICT VISUAL AUTHORITY.\nREMOVE ALL SURROUNDING UI: CARD BORDER, PHONE / BROWSER FRAME, LABEL TEXT, OTHER PAGE ELEMENTS.\nPRESERVE: RED / BLACK PLANETARY ART, EXACT COMPOSITION, LIGHTING, TEXTURE, CROPPING INTENT.\nOUTPUT: CLEAN STANDALONE IMAGE ASSET FOR USE INSIDE THE BRAND FAMILY CARD.\nDO NOT REDESIGN.",
+  "requestId": null,
+  "inputAssetId": "crop-MOBILE-BRAND_FAMILY_NDXBOOK",
+  "outputAssetId": "can-ndxbook-mobile-v1",
+  "outputUrl": "/site00/skins/canonical/mobile/brand_family_ndxbook.webp",
+  "falOutputUrl": "https://v3b.fal.media/files/b/0aa9bdbc/Ajfr62RpzFId4OPB2wt_p_cKiXXnFV.webp",
+  "reconstructedAt": "2026-09-09T14:14:40.686Z"
+}

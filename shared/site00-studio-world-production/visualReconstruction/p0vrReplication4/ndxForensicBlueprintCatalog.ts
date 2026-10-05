@@ -1,0 +1,177 @@
+/**
+ * NDXBOOK mobile overview — forensic UI blueprint (objects 01–70).
+ * Coordinates: page content area 375×812 (device chrome excluded).
+ */
+
+import type { ForensicAuthorityBlueprint, ForensicBlueprintObject } from './types.js';
+import {
+  FORENSIC_CONTENT_HEIGHT_PX,
+  FORENSIC_CONTENT_WIDTH_PX,
+  NDXBOOK_FORENSIC_AUTHORITY_ASSET,
+  NDXBOOK_FORENSIC_BLUEPRINT_ASSET,
+  NDXBOOK_FORENSIC_PAGE_ID,
+  NDXBOOK_FORENSIC_VIEWPORT,
+} from './constants.js';
+
+type Raw = [
+  id: string,
+  label: string,
+  section: string,
+  type: ForensicBlueprintObject['objectType'],
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  opts?: Partial<ForensicBlueprintObject>,
+];
+
+function buildObject([id, label, section, objectType, x, y, width, height, opts]: Raw): ForensicBlueprintObject {
+  return {
+    objectId: id,
+    label,
+    parentSection: section,
+    objectType,
+    x,
+    y,
+    width,
+    height,
+    color: opts?.color ?? null,
+    fontFamily: opts?.fontFamily ?? null,
+    fontSize: opts?.fontSize ?? null,
+    fontWeight: opts?.fontWeight ?? null,
+    lineHeight: opts?.lineHeight ?? null,
+    letterSpacing: opts?.letterSpacing ?? null,
+    textTransform: opts?.textTransform ?? null,
+    border: opts?.border ?? null,
+    background: opts?.background ?? null,
+    assetRole: opts?.assetRole ?? null,
+    zIndex: opts?.zIndex ?? null,
+    notes: opts?.notes ?? null,
+    confidence: opts?.confidence ?? 'HIGH',
+    required: opts?.required ?? true,
+  };
+}
+
+const RAW_OBJECTS: Raw[] = [
+  ['01', 'SITE 00 wordmark', 'host-header', 'text', 24, 12, 72, 16, { fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#111111' }],
+  ['02', 'Red diamond', 'host-header', 'graphic', 98, 14, 10, 10, { background: '#E03E3E' }],
+  ['03', 'Menu icon', 'host-header', 'icon', 307, 10, 24, 20, { color: '#111111' }],
+  ['04', 'Avatar KA', 'host-header', 'graphic', 339, 8, 28, 28, { background: '#3A3A3A', border: '1px solid #111' }],
+  ['05', 'Breadcrumb PROJECTS > NDXBOOK', 'masthead', 'text', 24, 52, 200, 14, { fontSize: 10, fontWeight: 500, textTransform: 'uppercase', color: '#666666' }],
+  ['06', 'Page title NDXBOOK', 'masthead', 'text', 24, 72, 184, 32, { fontSize: 28, fontWeight: 800, textTransform: 'uppercase', color: '#111111' }],
+  ['07', 'Subtitle INDEX BOOK FOUNDER PILOT', 'masthead', 'text', 24, 108, 220, 16, { fontSize: 11, fontWeight: 500, textTransform: 'uppercase', color: '#444444' }],
+  ['08', 'FOUNDER OWNED badge', 'masthead', 'badge', 24, 128, 108, 22, { background: '#D8F5A0', color: '#1A3D00', fontSize: 9, fontWeight: 700, textTransform: 'uppercase' }],
+  ['09', 'Culture colophon block', 'masthead', 'text', 248, 72, 108, 72, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#111111', lineHeight: 1.35 }],
+  ['10', 'Ideas people patterns power', 'masthead', 'text', 248, 148, 108, 56, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#666666', lineHeight: 1.35 }],
+  ['11', 'Nav tab OVERVIEW active', 'section-nav', 'nav-item', 0, 196, 62, 32, { background: '#B7F75F', color: '#111111', fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }],
+  ['12', 'Nav tab IDENTITY', 'section-nav', 'nav-item', 62, 196, 62, 32, { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: '#444444' }],
+  ['13', 'Nav tab EVOLVE', 'section-nav', 'nav-item', 124, 196, 62, 32, { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: '#444444' }],
+  ['14', 'Nav tab PRODUCTION', 'section-nav', 'nav-item', 186, 196, 78, 32, { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: '#444444' }],
+  ['15', 'Nav tab REVIEWS', 'section-nav', 'nav-item', 264, 196, 62, 32, { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: '#444444' }],
+  ['16', 'Nav tab LIBRARY', 'section-nav', 'nav-item', 326, 196, 49, 32, { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: '#444444' }],
+  ['17', 'Hero entry label ENTRY 003', 'hero', 'text', 24, 240, 80, 14, { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: '#FFFFFF' }],
+  ['18', 'Hero headline', 'hero', 'text', 24, 256, 152, 80, { fontSize: 18, fontWeight: 800, textTransform: 'uppercase', color: '#FFFFFF', lineHeight: 1.1 }],
+  ['19', 'Hero supporting copy', 'hero', 'text', 24, 348, 160, 40, { fontSize: 10, fontWeight: 500, textTransform: 'uppercase', color: '#EEEEEE', lineHeight: 1.3 }],
+  ['20', 'Hero accent line', 'hero', 'line', 24, 338, 120, 2, { background: '#E6C200' }],
+  ['21', 'Hero CTA VIEW PROJECT', 'hero', 'button', 24, 396, 132, 32, { border: '1px solid #FFFFFF', color: '#FFFFFF', fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }],
+  ['22', 'Hero center media', 'hero', 'image', 0, 228, 375, 220, { assetRole: 'hero-architecture-photo', zIndex: 0 }],
+  ['23', 'Hero crosshair reticle', 'hero', 'graphic', 318, 248, 20, 20, { assetRole: 'crosshair-svg', zIndex: 3 }],
+  ['24', 'Hero 00 counter', 'hero', 'text', 328, 268, 28, 16, { fontSize: 12, fontWeight: 700, color: '#FFFFFF', zIndex: 3 }],
+  ['25', 'Hero NDX overlay', 'hero', 'text', 200, 360, 160, 48, { fontSize: 40, fontWeight: 800, color: 'transparent', border: '2px solid #B7F75F', zIndex: 2 }],
+  ['26', 'Project progress label', 'progress', 'text', 24, 468, 120, 14, { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: '#111111' }],
+  ['27', 'Progress percent 57%', 'progress', 'text', 24, 482, 64, 28, { fontSize: 24, fontWeight: 800, color: '#111111' }],
+  ['28', 'Progress fill', 'progress', 'bar', 80, 502, 160, 8, { background: '#B7F75F' }],
+  ['29', 'Progress track', 'progress', 'bar', 80, 502, 280, 8, { background: '#E0E0DC', zIndex: -1 }],
+  ['30', 'Current phase label', 'progress', 'text', 248, 468, 104, 14, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#666666' }],
+  ['31', 'Founder review entry 003', 'progress', 'text', 248, 484, 104, 32, { fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#111111' }],
+  ['32', 'Metric 1 icon', 'metrics', 'icon', 16, 528, 20, 20, { color: '#111111' }],
+  ['33', 'Metric 1 number 03', 'metrics', 'text', 16, 548, 40, 24, { fontSize: 18, fontWeight: 800, color: '#111111' }],
+  ['34', 'Metric 1 title', 'metrics', 'text', 16, 572, 72, 28, { fontSize: 8, fontWeight: 600, textTransform: 'uppercase', color: '#444444' }],
+  ['35', 'Metric 1 status IN PRODUCTION', 'metrics', 'text', 16, 600, 72, 14, { fontSize: 8, fontWeight: 700, textTransform: 'uppercase', color: '#2E7D32' }],
+  ['36', 'Metric 2 icon', 'metrics', 'icon', 104, 528, 20, 20, { color: '#111111' }],
+  ['37', 'Metric 2 number 01', 'metrics', 'text', 104, 548, 40, 24, { fontSize: 18, fontWeight: 800, color: '#111111' }],
+  ['38', 'Metric 2 title FOUNDER REVIEW', 'metrics', 'text', 104, 572, 72, 28, { fontSize: 8, fontWeight: 600, textTransform: 'uppercase', color: '#444444' }],
+  ['39', 'Metric 2 status ACTION NEEDED', 'metrics', 'text', 104, 600, 72, 14, { fontSize: 8, fontWeight: 700, textTransform: 'uppercase', color: '#E03E3E' }],
+  ['40', 'Metric 3 icon', 'metrics', 'icon', 192, 528, 20, 20, { color: '#111111' }],
+  ['41', 'Metric 3 code E001', 'metrics', 'text', 192, 548, 48, 24, { fontSize: 16, fontWeight: 800, color: '#111111' }],
+  ['42', 'Metric 3 title PACKAGE READINESS', 'metrics', 'text', 192, 572, 72, 28, { fontSize: 8, fontWeight: 600, textTransform: 'uppercase', color: '#444444' }],
+  ['43', 'Metric 3 status ASSEMBLY', 'metrics', 'text', 192, 600, 72, 14, { fontSize: 8, fontWeight: 700, textTransform: 'uppercase', color: '#1565C0' }],
+  ['44', 'Metric 4 icon', 'metrics', 'icon', 280, 528, 20, 20, { color: '#111111' }],
+  ['45', 'Metric 4 label CONNECTED', 'metrics', 'text', 280, 548, 72, 24, { fontSize: 12, fontWeight: 800, color: '#111111' }],
+  ['46', 'Metric 4 status PASSING', 'metrics', 'text', 280, 600, 72, 14, { fontSize: 8, fontWeight: 700, textTransform: 'uppercase', color: '#2E7D32' }],
+  ['47', 'Focus image stack', 'focus-milestone', 'image', 24, 628, 72, 72, { assetRole: 'focus-books-photo' }],
+  ['48', 'Current focus label', 'focus-milestone', 'text', 24, 704, 120, 12, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#666666' }],
+  ['49', 'Review entry 003 title', 'focus-milestone', 'text', 104, 636, 140, 40, { fontSize: 11, fontWeight: 800, textTransform: 'uppercase', color: '#111111' }],
+  ['50', 'Focus description', 'focus-milestone', 'text', 104, 676, 140, 48, { fontSize: 9, fontWeight: 500, color: '#444444', lineHeight: 1.35 }],
+  ['51', 'Focus arrow', 'focus-milestone', 'icon', 248, 648, 16, 16, { color: '#111111' }],
+  ['52', 'Next milestone label', 'focus-milestone', 'text', 272, 628, 80, 12, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#666666' }],
+  ['53', 'Calendar icon', 'focus-milestone', 'icon', 272, 644, 18, 18, { color: '#111111' }],
+  ['54', 'Entry 003 canon approval', 'focus-milestone', 'text', 272, 664, 96, 48, { fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#111111', lineHeight: 1.25 }],
+  ['55', 'Recent activity header', 'activity', 'text', 24, 728, 140, 14, { fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#111111' }],
+  ['56', 'View all link', 'activity', 'text', 280, 728, 72, 14, { fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: '#111111' }],
+  ['57', 'Activity row 1', 'activity', 'container', 24, 748, 327, 36, { notes: 'dot + timestamp + title + actor' }],
+  ['58', 'Activity row 2', 'activity', 'container', 24, 784, 327, 36, { notes: 'dot + timestamp + title + actor' }],
+  ['59', 'Activity row 3', 'activity', 'container', 24, 820, 327, 36, { required: false, notes: 'scroll clipped in viewport' }],
+  ['60', 'Bottom nav ORIGIN', 'bottom-host-nav', 'nav-item', 0, 748, 75, 52, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#CCCCCC' }],
+  ['61', 'Bottom nav IDNTY', 'bottom-host-nav', 'nav-item', 75, 748, 75, 52, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#CCCCCC' }],
+  ['62', 'Bottom nav LOCATIONS', 'bottom-host-nav', 'nav-item', 150, 748, 75, 52, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#CCCCCC' }],
+  ['63', 'Bottom nav PROJECTS active', 'bottom-host-nav', 'nav-item', 225, 748, 75, 52, { fontSize: 9, fontWeight: 700, textTransform: 'uppercase', color: '#E03E3E' }],
+  ['64', 'Bottom nav CTRL ROOM', 'bottom-host-nav', 'nav-item', 300, 748, 75, 52, { fontSize: 9, fontWeight: 600, textTransform: 'uppercase', color: '#CCCCCC' }],
+  ['65', 'Bottom nav origin icon', 'bottom-host-nav', 'icon', 26, 756, 24, 24, { color: '#CCCCCC' }],
+  ['66', 'Bottom nav idnty icon', 'bottom-host-nav', 'icon', 101, 756, 24, 24, { color: '#CCCCCC' }],
+  ['67', 'Bottom nav locations icon', 'bottom-host-nav', 'icon', 176, 756, 24, 24, { color: '#CCCCCC' }],
+  ['68', 'Bottom nav projects icon', 'bottom-host-nav', 'icon', 251, 756, 24, 24, { color: '#E03E3E' }],
+  ['69', 'Bottom nav ctrl room icon', 'bottom-host-nav', 'icon', 326, 756, 24, 24, { color: '#CCCCCC' }],
+  ['70', 'Home indicator (excluded)', 'device-chrome', 'line', 120, 798, 135, 4, { required: false, notes: 'Excluded from page rebuild per Part VI', confidence: 'HIGH' }],
+];
+
+export function getNdxbookMobileForensicBlueprint(input?: {
+  authorityId?: string;
+  authorityAsset?: string;
+}): ForensicAuthorityBlueprint {
+  const objects = RAW_OBJECTS.map(buildObject);
+  return {
+    authorityId: input?.authorityId ?? 'ndxbook-mobile-authority-v1',
+    pageId: NDXBOOK_FORENSIC_PAGE_ID,
+    viewport: NDXBOOK_FORENSIC_VIEWPORT,
+    sourceAuthorityAsset: input?.authorityAsset ?? NDXBOOK_FORENSIC_AUTHORITY_ASSET,
+    sourceBlueprintAsset: NDXBOOK_FORENSIC_BLUEPRINT_ASSET,
+    objects,
+    colorPalette: [
+      { token: 'black', hex: '#0B0B0B', role: 'primary dark' },
+      { token: 'text-primary', hex: '#111111', role: 'body text' },
+      { token: 'background', hex: '#F7F7F5', role: 'page background' },
+      { token: 'muted', hex: '#666666', role: 'secondary text' },
+      { token: 'lime', hex: '#B7F75F', role: 'accent / active tab' },
+      { token: 'green-status', hex: '#2E7D32', role: 'positive status' },
+      { token: 'red', hex: '#E03E3E', role: 'alert / active projects' },
+      { token: 'blue-status', hex: '#1565C0', role: 'in progress' },
+      { token: 'divider', hex: '#D8D8D4', role: '1px rules' },
+      { token: 'hero-dark', hex: '#1A1A1A', role: 'hero photo overlay base' },
+    ],
+    typographyKey: [
+      { token: 'display-xl', fontFamily: 'var(--fb-sans-cond)', fontSizePx: 28, fontWeight: 800, textCase: 'UPPER', lineHeight: 1.05, letterSpacingPx: 0.5 },
+      { token: 'display-l', fontFamily: 'var(--fb-sans-cond)', fontSizePx: 18, fontWeight: 800, textCase: 'UPPER', lineHeight: 1.1, letterSpacingPx: 0.4 },
+      { token: 'label-s', fontFamily: 'var(--fb-mono)', fontSizePx: 10, fontWeight: 600, textCase: 'UPPER', lineHeight: 1.2, letterSpacingPx: 0.8 },
+      { token: 'body-s', fontFamily: 'var(--fb-mono)', fontSizePx: 9, fontWeight: 500, textCase: 'UPPER', lineHeight: 1.35, letterSpacingPx: 0.6 },
+      { token: 'tab', fontFamily: 'var(--fb-mono)', fontSizePx: 10, fontWeight: 700, textCase: 'UPPER', lineHeight: 1, letterSpacingPx: 0.5 },
+      { token: 'metric-num', fontFamily: 'var(--fb-sans-cond)', fontSizePx: 18, fontWeight: 800, textCase: 'UPPER', lineHeight: 1, letterSpacingPx: 0 },
+    ],
+    lineSpecs: [
+      { token: 'section-divider', thicknessPx: 1, colorHex: '#D8D8D4', usage: 'band separators' },
+      { token: 'hero-accent', thicknessPx: 2, colorHex: '#E6C200', usage: 'hero headline separator' },
+      { token: 'button-outline', thicknessPx: 1, colorHex: '#FFFFFF', usage: 'hero CTA' },
+      { token: 'progress-track', thicknessPx: 8, colorHex: '#E0E0DC', usage: 'progress background' },
+      { token: 'progress-fill', thicknessPx: 8, colorHex: '#B7F75F', usage: 'progress value' },
+      { token: 'card-border', thicknessPx: 1, colorHex: '#D8D8D4', usage: 'metric cells' },
+    ],
+    spacingSpecs: [
+      { token: 'page-gutter', valuePx: 24, notes: 'Primary horizontal inset' },
+      { token: 'band-gap', valuePx: 8, notes: 'Vertical rhythm between bands' },
+    ],
+    contentViewport: { width: FORENSIC_CONTENT_WIDTH_PX, height: FORENSIC_CONTENT_HEIGHT_PX },
+    createdAt: new Date(0).toISOString(),
+  };
+}
+
+export const NDXBOOK_FORENSIC_OBJECT_COUNT = RAW_OBJECTS.length;

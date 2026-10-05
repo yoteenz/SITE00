@@ -17,6 +17,8 @@ import { brandStateToAssessmentSlug } from '../config/idnty-assessment-brand-map
 import { idntyAssessmentPath } from '../config/idnty-assessment';
 import { useSite00DesktopArtboardPreview } from '../components/shell/Site00DesktopArtboardContext';
 import { site00IdntyAssessmentDesktopPath } from '../config/routes';
+import { appendIdentityCommercialQuery, parseIdentityCommercialSearchParams } from '../lib/identityCommercialContext';
+import { useLocation } from 'react-router-dom';
 
 type IdntyStatePageBodyProps = {
   isDesktopArtboard: boolean;
@@ -94,6 +96,8 @@ function IdntyDesktopStatePageBody({
 export default function IdntyStatePage() {
   const { state, selectIdentityState } = useSite00();
   const navigate = useNavigate();
+  const location = useLocation();
+  const commercialSelection = parseIdentityCommercialSearchParams(location.search);
   const isDesktopArtboard = useSite00DesktopArtboardPreview();
   const { hasResume, resumeTarget, record } = useIdntyAssessment();
 
@@ -101,7 +105,7 @@ export default function IdntyStatePage() {
     selectIdentityState(stateId);
     const slug = brandStateToAssessmentSlug(stateId);
     if (!slug) return;
-    const path = idntyAssessmentPath(slug);
+    const path = appendIdentityCommercialQuery(idntyAssessmentPath(slug), commercialSelection);
     navigate(isDesktopArtboard ? site00IdntyAssessmentDesktopPath(path) : path);
   };
 

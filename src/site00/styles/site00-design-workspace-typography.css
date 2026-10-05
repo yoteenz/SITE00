@@ -1,0 +1,20 @@
+/**
+ * Design workspace — all visible copy uppercase (shell, drawers, modals, agent rails).
+ * Font sizes are +2px in the twin-opus / production / agent stylesheets.
+ */
+
+.site00-design-workspace,
+.site00-design-workspace * {
+  text-transform: uppercase;
+}
+
+.site00-design-workspace input,
+.site00-design-workspace textarea,
+.site00-design-workspace select,
+.site00-design-workspace option {
+  text-transform: uppercase;
+}
+
+.site00-design-workspace ::placeholder {
+  text-transform: uppercase;
+}

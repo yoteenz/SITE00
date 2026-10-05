@@ -1,0 +1,80 @@
+{
+ "artifact": "SITE00_PROJECT_GRAPH_SCHEMA",
+ "follow_up": "P0.SITE00.CLIENT-PROJECT-ROOM-LIVE-VIEWPORT-WORKING-TREE-REVIEW1",
+ "applies_to": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "purpose": "ONE canonical project graph per project; the founder tree and the client tree are filtered projections of it. Never two manual trees.",
+ "node": {
+  "fields": {
+   "node_id": "stable id (family-scoped, e.g. F02.S03)",
+   "project_id": "uuid",
+   "family_id": "nullable",
+   "parent_id": "nullable",
+   "node_type": "PROJECT | PHASE | FAMILY | PARENT_SCREEN | CHILD_SCREEN | GRANDCHILD_SCREEN | KEY_INTERACTION | STATE | SHARED_SYSTEM | EXTERNAL_HANDOFF | INTERNAL",
+   "label": "product language",
+   "description": "what this does, one sentence",
+   "route": "live entry route (nullable)",
+   "review_status": "NOT_SENT | READY_FOR_REVIEW | REVISION_REQUESTED | APPROVED | SUPERSEDED",
+   "implementation_status": "PLANNED | IN_PRODUCTION | IMPLEMENTED | LIVE | CONNECTED | COMPLETE | BLOCKED",
+   "approval_status": "from approval events",
+   "version": "current approved/review version",
+   "client_visible": "derived by filter rules + founder override",
+   "cost_summary": "{estimated_range_usd, actual_usd, funding_required} (FAMILY nodes only)",
+   "dependencies": "[node_id]",
+   "edges": "[edge_id]",
+   "importance": "MATERIAL | SUPPORTING | MICRO",
+   "live_reviewable": "bool",
+   "source_refs": "{family_manifest, route_matrix_id, authority_id}"
+  }
+ },
+ "edge": {
+  "fields": {
+   "edge_id": "id",
+   "from_node": "node_id",
+   "to_node": "node_id",
+   "relationship": "NAVIGATES_TO | OPENS | DEPENDS_ON | UNLOCKS | RETURNS_TO | SHARES_SYSTEM | REQUIRES_APPROVAL_BEFORE | DATA_FLOWS_TO | HANDS_OFF_TO",
+   "label": "human action (\"TAP START SETUP\")",
+   "client_visible": "bool",
+   "status": "PLANNED | LIVE | BROKEN"
+  }
+ },
+ "derivation_sources": {
+  "canonical_project_tree": "founder-approved tree (Ground Zero) \u2192 PROJECT/PHASE/FAMILY nodes",
+  "family_manifests": "FamilyProductionContract (shared/site00-product-families): screens role PARENT/CHILD/GRANDCHILD \u2192 screen nodes; interactions \u2192 KEY_INTERACTION nodes + edges; dataObjects \u2192 SHARED_SYSTEM nodes",
+  "live_route_matrix": "ParentChildRouteGraph (shared/site00-studio-world-production/parentChildExperienceInheritance/types.ts) \u2192 route + edge verification (LIVE vs BROKEN)",
+  "approval_events": "review receipts \u2192 review_status / approval_status / version",
+  "implementation_status": "FamilyImplementationStatus (NOT_STARTED\u2026FOUNDER_APPROVED) + live QA"
+ },
+ "mappings": {
+  "FamilyInteractionType\u2192edge/node": {
+   "route_transition": "NAVIGATES_TO edge",
+   "bottom_drawer": "OPENS edge (drawer)",
+   "full_screen_sheet": "OPENS edge (sheet)",
+   "modal": "OPENS edge (modal)",
+   "inline": "MICRO",
+   "inline_expansion": "MICRO unless founder marks KEY",
+   "toast_banner": "MICRO (never client node)",
+   "loading": "MICRO (never client node)",
+   "focus_input": "MICRO (never client node)",
+   "external_app_handoff": "HANDS_OFF_TO edge \u2192 EXTERNAL_HANDOFF node",
+   "native_os_handoff": "HANDS_OFF_TO edge \u2192 EXTERNAL_HANDOFF node"
+  },
+  "PCI RouteRelationshipType\u2192edge": {
+   "DIRECT_CHILD": "NAVIGATES_TO",
+   "GRANDCHILD": "NAVIGATES_TO",
+   "TAB_CHILD": "NAVIGATES_TO (tab)",
+   "MODAL_CHILD": "OPENS",
+   "DRAWER_CHILD": "OPENS",
+   "WORKFLOW_CHILD": "NAVIGATES_TO (step)",
+   "DETAIL_CHILD": "NAVIGATES_TO",
+   "EDITOR_CHILD": "NAVIGATES_TO",
+   "UTILITY_CHILD": "SUPPORTING",
+   "CROSS_LINKED_CHILD": "NAVIGATES_TO (cross-family)",
+   "EMBEDDED_CHILD": "SHARES_SYSTEM"
+  },
+  "gate_edges": "Approval gate model emits REQUIRES_APPROVAL_BEFORE / UNLOCKS between FAMILY nodes (e.g. F01 \u2192 F02)."
+ },
+ "persistence": "Derived and cached per project (materialised graph rows or JSON snapshot rebuilt on family manifest change, approval event, route-matrix run). Not hand-edited; founder overrides stored as a small override table (label, client_visible, importance).",
+ "realtime": "Rebuild + push on LIVE / APPROVED / SUPERSEDED / BLOCKED transitions (same event stream as pulse/notifications)."
+}
