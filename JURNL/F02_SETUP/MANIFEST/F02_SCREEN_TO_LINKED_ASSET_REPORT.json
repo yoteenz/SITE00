@@ -21,9 +21,15 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.001",
+        "F02.BRANDLOCKUP.JURNL.001"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.001",
+        "F02.BRANDLOCKUP.JURNL.001"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -51,9 +57,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.002"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.002"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -81,9 +91,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.003"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.003"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -111,9 +125,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.004"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.004"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -141,9 +159,11 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.004"
+      ],
       "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanical_decision": "REUSE F02.BOTANICAL.EMBLEM.004",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -171,9 +191,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.005"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.005"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -201,9 +225,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.006"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.006"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -231,9 +259,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.007"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.007"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -261,9 +293,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.008"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.008"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -291,9 +327,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.009"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.009"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -321,9 +361,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.010"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.010"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -351,9 +395,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.011"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.011"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -381,9 +429,15 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.012",
+        "F02.BRANDLOCKUP.JURNL_SETUP.001"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.012",
+        "F02.BRANDLOCKUP.JURNL_SETUP.001"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -411,9 +465,13 @@
       "objects_required": [],
       "objects_created": [],
       "object_decision": "BAKED_INTO_ENVIRONMENT",
-      "botanicals_required": [],
-      "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanicals_required": [
+        "F02.BOTANICAL.EMBLEM.013"
+      ],
+      "botanicals_created": [
+        "F02.BOTANICAL.EMBLEM.013"
+      ],
+      "botanical_decision": "ISOLATED_REPAIR_ASSET",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -443,7 +501,7 @@
       "object_decision": "BAKED_INTO_ENVIRONMENT",
       "botanicals_required": [],
       "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanical_decision": "NONE_ON_THIS_SURFACE",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -473,7 +531,7 @@
       "object_decision": "BAKED_INTO_ENVIRONMENT",
       "botanicals_required": [],
       "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanical_decision": "NONE_ON_THIS_SURFACE",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",
@@ -503,7 +561,7 @@
       "object_decision": "BAKED_INTO_ENVIRONMENT",
       "botanicals_required": [],
       "botanicals_created": [],
-      "botanical_decision": "BAKED_INTO_ENVIRONMENT",
+      "botanical_decision": "NONE_ON_THIS_SURFACE",
       "materials_required": [],
       "materials_created": [],
       "material_decision": "BAKED_INTO_ENVIRONMENT_OR_CODE",

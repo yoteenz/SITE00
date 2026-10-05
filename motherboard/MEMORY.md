@@ -13460,3 +13460,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Context:** After the F02 SETUP visual package landed, the founder asked for a ZIP of the generated F02 images.
 - **Decisions / outcomes:** The pack is the review images only: parent, children, grandchildren, states, interactions, environment plates, and contact sheets. It is not a site00.com deploy and must not be uploaded to public_html.
 - **Changes:** GitHub release `jurnl-f02-setup-images-2026-10-05`. No app code changed.
+
+---
+
+## 2026-10-05 — F02 botanical brand asset repair
+
+- **Context:** The F02 SETUP package had screens and plates, and the founder asked for a ZIP of those images. This follow-up sprint isolates the top-left floral marks that sit above the rooms.
+- **Decisions / outcomes:** Seventeen surfaces were audited. Fourteen have a header botanical. Three interaction sheets do not. Thirteen distinct emblems were generated, and F02.04 reuses the same white spray as F02.03. Two full lockups were generated: the parent rose JURNL mark, and the burgundy JURNL. SETUP. mark. Other screens keep JURNL as live type beside the emblem. Progress squares stay live code. Screens, plates, and the icon pack were not regenerated. Assets are transparent PNGs, made on a flat magenta field and keyed, not cropped out of the screens.
+- **Changes:** `JURNL/F02_SETUP/ASSETS/BOTANICALS/`, `JURNL/F02_SETUP/ASSETS/LOCKUPS/`, the botanical map, and updates to the visual manifest, component map, sidekick report, and generation ledger.
+- **Credits:** OpenArt balance 37,088 → 35,063. Fifteen jobs. The 2k quote was 132 credits. The account moved 2,025, which is 135 each. Delivered size is 1360×1360 for the square emblems.
+- **Conventions:** A floral mark beside the wordmark is an isolated asset when it changes by screen. Do not bake it into the plate.

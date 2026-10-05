@@ -278,6 +278,275 @@
         "DISABLED"
       ],
       "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.00"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.001",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_LOCKUP",
+      "component_type": "BRAND_LOCKUP",
+      "screen_ids": [
+        "F02.00"
+      ],
+      "asset_id": "F02.BRANDLOCKUP.JURNL.001",
+      "asset_role": "FLOATING_HEADER_SIGNATURE",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Replaces the separate emblem plus live wordmark on this screen."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.01"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.002",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.02"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.003",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.03"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.004",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.04"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.004",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.05"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.005",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.06"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.006",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.07"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.007",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.08"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.008",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.02.1"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.009",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.05.1"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.010",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.ST.RESUME"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.011",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.ST.VALIDATION"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.012",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_HEADER_LOCKUP",
+      "component_type": "BRAND_LOCKUP",
+      "screen_ids": [
+        "F02.ST.VALIDATION"
+      ],
+      "asset_id": "F02.BRANDLOCKUP.JURNL_SETUP.001",
+      "asset_role": "FLOATING_HEADER_SIGNATURE",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Replaces the separate emblem plus live wordmark on this screen."
+    },
+    {
+      "component_id": "LIVE_HEADER_EMBLEM",
+      "component_type": "BOTANICAL",
+      "screen_ids": [
+        "F02.ST.CONNECTED"
+      ],
+      "asset_id": "F02.BOTANICAL.EMBLEM.013",
+      "asset_role": "FLOATING_HEADER_MARK",
+      "content_layer": "ASSET",
+      "interaction_layer": "NONE",
+      "states": [
+        "DEFAULT"
+      ],
+      "responsive_behavior": "Scales with the header. Stays above the plate."
+    },
+    {
+      "component_id": "LIVE_PROGRESS_SEGMENTS",
+      "component_type": "PROGRESS",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.02.1",
+        "F02.05.1",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "PARTIAL",
+        "COMPLETE"
+      ],
+      "responsive_behavior": "Square-rounded segments drawn in code. Not an image asset."
     }
   ]
 }

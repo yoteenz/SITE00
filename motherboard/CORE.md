@@ -257,3 +257,5 @@ F01 mobile density is token-driven (`--jrn-btn-h`, `--jrn-field-h`, `--jrn-row-h
 The JURNL runtime root is the app stage (`data-jrn-app-stage="canvas"`, `JURNL_APP_CANVAS_CONTAINMENT`). It is `100dvh` and `overflow: hidden`. The environment plate is pinned to that stage. The live column is positioned inside the same stage, so text and controls cannot paint onto the SITE 00 page. Fit the column first. The stage boundary only stops accidental escape.
 
 F02 is SETUP. The visual package for founder review is `JURNL/F02_SETUP/`. It is not mounted in the runtime and it does not change F01. Four shared plates cover the family: ENV.ARRIVAL, ENV.DESK, ENV.EDIT, and ENV.QUIET. Flat bone cards, sheets, fields, and the solid emerald button stay live code. Busts, books, trays, and olives stay inside the plate. Do not crop a finished screen into a runtime asset.
+
+F02 header florals are floating assets, not part of the environment plate. The repair set is `JURNL/F02_SETUP/ASSETS/BOTANICALS/` and `JURNL/F02_SETUP/ASSETS/LOCKUPS/`. Progress squares stay live code. The screens and plates were not regenerated for that repair.
