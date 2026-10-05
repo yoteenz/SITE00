@@ -488,30 +488,3 @@ function DetailSheet({ entry, onClose }: { entry: LedgerEntry; onClose: () => vo
   );
 }
 
-export function MoneyBoundaryScreen() {
-  return <NavBoundary screenId="F05.BOUNDARY" title="MONEY" body="MONEY IS THE NEXT FAMILY. IT IS NOT OPEN YET." />;
-}
-export function PlanBoundaryScreen() {
-  return <NavBoundary screenId="F08.BOUNDARY" title="PLAN" body="PLAN IS NOT OPEN YET." />;
-}
-export function CreditBoundaryScreen() {
-  return <NavBoundary screenId="F12.BOUNDARY" title="CREDIT" body="CREDIT IS NOT OPEN YET." />;
-}
-
-function NavBoundary({ screenId, title, body }: { screenId: string; title: string; body: string }) {
-  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
-  const current = title === 'MONEY' ? 'MONEY' : title === 'PLAN' ? 'PLAN' : 'CREDIT';
-  return (
-    <JurnlScreen screenId={screenId} field="bone" family>
-      <div className="jrn-home">
-        <h1 className="jrn-home__h">{title}</h1>
-        <p className="jrn-home__sub">{body}</p>
-        <JurnlButton variant="secondary" trigger="boundary-today" onClick={() => go('F03')}>
-          BACK TO TODAY
-        </JurnlButton>
-        <JurnlProductNav current={current} onGo={go} onAdd={() => openOverlay('quick-add')} />
-      </div>
-      {overlay === 'quick-add' ? <QuickAddSheet onClose={closeOverlay} /> : null}
-    </JurnlScreen>
-  );
-}

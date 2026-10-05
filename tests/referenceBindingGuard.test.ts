@@ -309,9 +309,9 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
   it('a family with no expression brief cannot start paid generation', () => {
     const pre = precheckGenerationDispatch(
       {
-        visualId: 'F05.00',
+        visualId: 'F17.00',
         projectId: 'JURNL',
-        familyId: 'F05',
+        familyId: 'F17',
         generationClass: 'SCREEN_PARENT',
         generationIntent: 'NEW_AUTHORITY_REQUIRED',
         generationMode: 'TEXT_TO_IMAGE_NET_NEW',
@@ -326,12 +326,33 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
     expect(pre.dispatchAllowed).toBe(false);
   });
 
-  it('expression brief is required before a new family can reach the project gate', () => {
+  it('JURNL text-to-image is forbidden once the parent brief exists', () => {
     const pre = precheckGenerationDispatch(
       {
         visualId: 'F05.00',
         projectId: 'JURNL',
         familyId: 'F05',
+        providerProjectId: 'ga30cJVwkccjlXta8io5',
+        generationClass: 'SCREEN_PARENT',
+        generationIntent: 'NEW_AUTHORITY_REQUIRED',
+        generationMode: 'TEXT_TO_IMAGE_NET_NEW',
+        provider: 'OpenArt',
+        model: 'gpt-image-2-5-sunburst',
+      },
+      { resolverContext: ctx },
+    );
+    expect(pre.status).toBe('BLOCKED');
+    expect(pre.blockedReason).toBe('INVALID_GENERATION_MODE');
+    expect(pre.creditsSpent).toBe(0);
+    expect(pre.dispatchAllowed).toBe(false);
+  });
+
+  it('expression brief is required before a new family can reach the project gate', () => {
+    const pre = precheckGenerationDispatch(
+      {
+        visualId: 'F17.00',
+        projectId: 'JURNL',
+        familyId: 'F17',
         generationClass: 'NET_NEW_AUTHORITY',
         generationIntent: 'NEW_AUTHORITY_REQUIRED',
         generationMode: 'TEXT_TO_IMAGE_NET_NEW',

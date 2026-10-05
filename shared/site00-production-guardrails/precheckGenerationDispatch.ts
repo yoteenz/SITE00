@@ -1,6 +1,7 @@
 import { validateCrossFamilyPlateReuse } from './familyEnvironmentDistinctness.js';
 import { validateFamilyExpressionBrief } from './familyExpressionBrief.js';
 import { validateHierarchicalExpression } from './hierarchicalExpression.js';
+import { validatePlateOccupancy } from './plateOccupancy.js';
 import { validateFamilyOutputProject } from './familyOutputProjects.js';
 import { validateSidekickDerivationReference } from './sidekickReferenceBinding.js';
 import {
@@ -21,6 +22,24 @@ export function precheckGenerationDispatch(request: GenerationRequest, options: 
       status: 'BLOCKED',
       dispatchAllowed: false,
       blockedReason: hierarchy.blockedReason,
+      referenceRequired: classification.referenceRequired,
+      referenceFound: false,
+      referenceAttached: Boolean(classification.referenceInputAttached),
+      generationMode: classification.generationMode,
+      resolvedReference: null,
+      referencePath: null,
+      referenceAuthorityId: classification.referenceAuthorityIdHint ?? null,
+      referenceStatus: null,
+      creditsSpent: 0,
+    };
+  }
+  const occupancy = validatePlateOccupancy(classification, options.resolverContext.repoRoot);
+  if (occupancy.status === 'BLOCKED') {
+    return {
+      classification,
+      status: 'BLOCKED',
+      dispatchAllowed: false,
+      blockedReason: occupancy.blockedReason,
       referenceRequired: classification.referenceRequired,
       referenceFound: false,
       referenceAttached: Boolean(classification.referenceInputAttached),

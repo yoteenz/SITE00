@@ -16,13 +16,16 @@ import { CreateAccountScreen, ReturningUnlockScreen, SignInScreen, VerifyEmailSc
 import { ForgotPasswordScreen, NewPasswordScreen, ResetSentScreen, ResetSuccessScreen } from './screens/RecoveryScreens';
 import { BiometricSetupScreen, DeviceTrustScreen, EntryCompleteScreen, PrivacyPrimerScreen, SecurityPrimerScreen } from './screens/SecurityScreens';
 import { JURNL_F02_SCREEN_COMPONENTS } from './screens/SetupScreens';
-import { ActivityScreen, CreditBoundaryScreen, MoneyBoundaryScreen, PlanBoundaryScreen, TodayScreen } from './screens/HomeScreens';
+import { PARENTS } from '../data/parents/catalog';
+import { ActivityScreen, TodayScreen } from './screens/HomeScreens';
+import { ParentAuthorityScreen, ParentReviewBoard } from './screens/ParentScreens';
 import './jurnl-runtime.css';
 import './jurnl-environment.css';
 import './jurnl-screens.css';
 import './jurnl-setup.css';
 import './jurnl-home.css';
 import './jurnl-expression.css';
+import './jurnl-parents.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {
@@ -72,9 +75,10 @@ function JurnlRoutes() {
       })}
       <Route path="today" element={<TodayScreen />} />
       <Route path="activity" element={<ActivityScreen />} />
-      <Route path="money" element={<MoneyBoundaryScreen />} />
-      <Route path="plan" element={<PlanBoundaryScreen />} />
-      <Route path="credit" element={<CreditBoundaryScreen />} />
+      <Route path="parents" element={<ParentReviewBoard />} />
+      {PARENTS.map((parent) => (
+        <Route key={parent.id} path={parent.route} element={<ParentAuthorityScreen id={parent.id} />} />
+      ))}
       <Route path="*" element={<EntryIndex />} />
     </Routes>
   );
