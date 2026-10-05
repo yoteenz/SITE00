@@ -100,14 +100,17 @@ describe('Expression media hierarchy — primary media + inspector', () => {
     const html = renderRoute('casting', 'root');
     expect(html).toContain('exf-rail--talent');
     expect(html).toContain('data-testid="casting-lead-authority-media"');
-    expect(html).toContain('exf-face--portrait');
+    // FULL-AUTHORITY-FORENSIC-AUDIT.OPUS2: portraits ride the media kit's face rail (internal horizontal scroll)
+    expect(html).toMatch(/class="exm-faces" data-scroll="internal-x"/);
+    expect(html).toContain('class="exm-face"');
   });
 
   it('actor profile uses media-primary panel for portrait hero', () => {
     const html = renderRoute('casting', 'actor-profile');
     expect(html).toContain('data-testid="casting-actor-profile"');
-    expect(html).toContain('exf-record__media');
-    expect(html).toMatch(/casting-actor-hero-media|exf-face--portrait/);
+    // FULL-AUTHORITY-FORENSIC-AUDIT.OPUS2: record hero (portrait beside identity) + inspectable gallery
+    expect(html).toContain('exm-hero__media');
+    expect(html).toContain('data-testid="casting-actor-hero-media"');
   });
 
   it('media inspector module is present in shell exports path', () => {

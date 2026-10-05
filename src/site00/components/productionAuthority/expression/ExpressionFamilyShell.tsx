@@ -102,7 +102,7 @@ export function ExpressionFamilyShell({
       </header>
       <LiveStatusBar expressionMode compact={mediaFocus} context={{ title: 'EXPRESSION', sub: `${family.title}${routeLabel ? ` / ${routeLabel}` : ''}` }} />
       {family.downstream ?
-        <nav className="exf-tabs exf-tabs--flow" aria-label="Downstream flow" data-testid="expression-family-tabs" data-flow="format-package-campaign">
+        <nav className="exf-tabs exf-tabs--flow" aria-label="Downstream flow" data-testid="expression-family-tabs" data-flow="format-package-campaign" data-scroll="internal-x">
           {EXPRESSION_FAMILIES.filter((f) => f.downstream).map((f, i) => (
             <Link key={f.id} to={href(f.id)} className={f.id === family.id ? 'is-active' : undefined} aria-current={f.id === family.id ? 'page' : undefined} data-testid={`expression-tab-${f.id}`}>
               <em>{f.n}</em> {f.title}
@@ -111,7 +111,7 @@ export function ExpressionFamilyShell({
           ))}
         </nav>
       : tabs.length ?
-        <nav className="exf-tabs" aria-label={`${family.title} sections`} data-testid="expression-family-tabs">
+        <nav className="exf-tabs" aria-label={`${family.title} sections`} data-testid="expression-family-tabs" data-scroll="internal-x">
           {tabs.map((t) => (
             <Link key={t.id} to={href(family.id, t.id)} className={t.id === activeTab ? 'is-active' : undefined} aria-current={t.id === activeTab ? 'page' : undefined} data-testid={`expression-tab-${t.id}`}>
               {t.label}

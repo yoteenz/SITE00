@@ -2349,3 +2349,92 @@
     display: flex !important;
   }
 }
+
+/* ═══ LIBRARY · CHARACTER DETAIL — portrait leads (OPUS2 forensic refinement) ═════════════════════
+ * The resident portrait (960×1200) was cropped into a 94px band on phones and a ~180px band on tablet because
+ * the identity block (auto height) and the panels took the rows first. Now the portrait owns a tall column and
+ * the identity sits beside it (scrolling inside its own pane when long); panels share what is left. */
+/* .lbf-char-identity scrolls as an .rk-scroll pane (LibraryScreen) — the only declared vertical scroller */
+@media (max-width: 699px) {
+  .pxa .lbf-body--char-detail {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 0.62fr);
+    grid-template-areas: 'media identity' 'tabs tabs' 'panel panel';
+  }
+  .pxa .lbf-char-identity {
+    gap: 6px;
+    padding: 8px;
+  }
+  .pxa .lbf-char-identity__title h2 {
+    font-size: 15px;
+  }
+  .pxa .lbf-char-identity .rk-kv--2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (min-width: 700px) {
+  .pxa .lbf-body--char-detail {
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 0.7fr) minmax(0, 0.92fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 0.62fr);
+    grid-template-areas: 'media identity related' 'media details lineage';
+  }
+}
+
+/* ═══ LIBRARY · detail hero + inspector media (OPUS2) — the hero / inspector image is the subject, not a band ═══
+ * Before: detail hero 1000×87 on tablet (row 0.8fr vs panels 1.8fr), 16:9 inspector image capped at 32%
+ * (419×120). Now the hero row leads and the inspector image takes up to ~half of its pane. */
+.pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+  grid-template-rows: minmax(150px, 1.25fr) auto minmax(0, 1fr) minmax(0, 0.62fr);
+}
+.pxa .lbf-insp__media {
+  max-height: 48%;
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-rows: minmax(150px, 1.3fr) auto minmax(0, 1fr) minmax(0, 0.6fr);
+  }
+}
+@media (max-width: 699px) {
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-rows: minmax(118px, 1fr) auto auto minmax(0, 1fr);
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-rows: minmax(140px, 1fr) auto minmax(0, 1.15fr) minmax(0, 0.5fr);
+  }
+}
+/* character browse: the 3:4 portrait keeps its lead but leaves the inspector / featured copy in view */
+.pxa .lbf--char-browse .lbf-insp__media {
+  max-height: 56%;
+}
+@media (min-width: 700px) {
+  /* featured portrait fills its column (cover, face kept by object-position) — no 3:4 overflow, no band */
+  .pxa .lbf--char-browse .lbf-feature__media {
+    aspect-ratio: auto;
+    height: 100%;
+    max-height: none;
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-rows: minmax(130px, 0.95fr) auto minmax(0, 1fr) minmax(104px, 0.55fr);
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  /* tablet: the hero sits beside the summary (image keeps real height instead of a full-width band) */
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1.2fr) minmax(0, 1fr) minmax(104px, 0.55fr);
+    grid-template-areas: 'hero summary' 'details related' 'lineage lineage';
+  }
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) .lbf-summary {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-content: start;
+    min-height: 0;
+  }
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) .lbf-summary > :first-child,
+  .pxa .lbf-body--detail:not(.lbf-body--char-detail) .lbf-summary__actions {
+    grid-column: 1 / -1;
+  }
+}
