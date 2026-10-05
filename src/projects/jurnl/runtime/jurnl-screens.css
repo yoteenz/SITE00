@@ -3,6 +3,12 @@
 .jrn .jrn-col__head .jrn-logo {
   margin-bottom: clamp(34px, 9.5vh, 96px);
 }
+.jrn .jrn-col--form .jrn-col__head .jrn-logo {
+  margin-bottom: clamp(16px, 3.2vh, 28px);
+}
+.jrn .jrn-heading-gap {
+  margin-top: var(--jrn-heading-gap, 12px);
+}
 .jrn .jrn-col--center {
   align-items: center;
   text-align: center;
@@ -21,8 +27,8 @@
 .jrn .jrn-form {
   display: flex;
   flex-direction: column;
-  gap: 11px;
-  margin-top: 24px;
+  gap: var(--jrn-form-gap, 8px);
+  margin-top: 12px;
 }
 .jrn .jrn-form .jrn-btn--primary {
   margin-top: 4px;
@@ -88,10 +94,10 @@
 
 /* F01.07 travertine card */
 .jrn .jrn-newpw-card {
-  margin-top: 26px;
+  margin-top: 14px;
   margin-left: calc(var(--jrn-m) * -0.25);
   margin-right: calc(var(--jrn-m) * -0.25);
-  padding: 34px 22px 26px;
+  padding: 22px 18px 16px;
 }
 .jrn .jrn-newpw-card .jrn-h1 {
   margin-bottom: 22px;
@@ -113,28 +119,33 @@
 
 /* F01.11 privacy paper card */
 .jrn .jrn-privacy-card {
-  margin-top: 18px;
-  margin-left: calc(var(--jrn-m) * -0.45);
-  margin-right: calc(var(--jrn-m) * -0.3);
-  padding: 26px 22px 22px;
+  margin-top: 8px;
+  margin-left: calc(var(--jrn-m) * -0.35);
+  margin-right: calc(var(--jrn-m) * -0.2);
+  padding: 14px 14px 12px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 .jrn .jrn-privacy-card .jrn-h1 {
-  font-size: 40px;
-  line-height: 0.94;
-  margin-left: -6px;
-  margin-top: -4px;
+  font-size: 34px;
+  line-height: 0.92;
+  margin-left: -4px;
+  margin-top: 0;
 }
 .jrn .jrn-privacy-card .jrn-kicker {
-  font-size: 11px;
-  margin-bottom: 6px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  margin-bottom: 2px;
+}
+.jrn .jrn-privacy-card .jrn-stack {
+  margin-top: 2px;
 }
 .jrn .jrn-meta {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 .jrn .jrn-meta .jrn-logo {
   margin-bottom: 0;
@@ -151,15 +162,15 @@
   margin-top: 18px;
 }
 .jrn .jrn-security-rows .jrn-row {
-  min-height: 52px;
-  gap: 12px;
-  padding: 7px 8px 7px 8px;
+  min-height: 44px;
+  gap: 10px;
+  padding: 6px 8px;
   font-size: 9.5px;
   letter-spacing: 0.15em;
 }
 .jrn .jrn-security-rows .jrn-tile {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
 }
 
 /* F01.13 checklist */
@@ -182,6 +193,48 @@
 @media (min-width: 600px) {
   .jrn {
     --jrn-m: 72px;
+    --jrn-btn-h: 50px;
+    --jrn-field-h: 50px;
+    --jrn-row-h: 56px;
+    --jrn-row-gap: 8px;
+    --jrn-tile: 38px;
+    --jrn-form-gap: 12px;
+    --jrn-stack-gap: 12px;
+    --jrn-cta-gap: 12px;
+    --jrn-heading-gap: 24px;
+  }
+  .jrn .jrn-form {
+    margin-top: 24px;
+  }
+  .jrn .jrn-col--form .jrn-col__head .jrn-logo {
+    margin-bottom: clamp(28px, 5vh, 64px);
+  }
+  .jrn .jrn-cta {
+    padding-top: 24px;
+  }
+  .jrn .jrn-privacy-card {
+    margin-top: 18px;
+    padding: 26px 22px 22px;
+    gap: 10px;
+  }
+  .jrn .jrn-privacy-card .jrn-kicker {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    line-height: 1.5;
+  }
+  .jrn .jrn-newpw-card {
+    margin-top: 26px;
+    padding: 34px 22px 26px;
+  }
+  .jrn .jrn-security-rows .jrn-row {
+    min-height: 52px;
+  }
+  .jrn .jrn-security-rows .jrn-tile {
+    width: 34px;
+    height: 34px;
+  }
+  .jrn .jrn-sheet__body {
+    padding: 26px var(--jrn-m) 24px;
   }
   .jrn .jrn-col {
     max-width: calc(480px + 2 * var(--jrn-m));
@@ -324,9 +377,75 @@
   }
 }
 
-/* short desktop windows (e.g. 1440 × 900 with long forms) scroll inside the screen, never the host */
-@media (min-width: 1100px) and (max-height: 820px) {
+/* 1440 × 900 is shorter than the mobile authority. Keep the desktop column spacious, but clear both actions. */
+@media (min-width: 1100px) and (max-height: 960px) {
   .jrn .jrn-col {
-    padding-top: 120px;
+    padding-top: 88px;
+    padding-bottom: 20px;
+  }
+  .jrn .jrn-col__head .jrn-logo {
+    top: 24px;
+    height: 64px;
+  }
+  .jrn .jrn-col--form {
+    padding-top: 96px;
+  }
+  .jrn .jrn-privacy-card {
+    margin-top: 6px;
+    padding: 14px 22px 10px;
+    gap: 6px;
+  }
+  .jrn .jrn-privacy-card .jrn-h1 {
+    font-size: 44px;
+  }
+  .jrn .jrn-privacy-card .jrn-kicker {
+    line-height: 1.35;
+    margin-bottom: 0;
+  }
+  .jrn .jrn-cta,
+  .jrn .jrn-col--hero .jrn-cta {
+    margin-top: 20px;
+  }
+}
+
+/* Full forms already fill the phone. When an error panel is open, tighten only that state. */
+@media (max-width: 599px) {
+  .jrn .jrn-col--form:has(.jrn-error) {
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-logo {
+    height: 40px;
+    margin-bottom: 4px;
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-form {
+    margin-top: 0;
+    gap: 4px;
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-btn--primary {
+    margin-top: 0;
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-foot-note {
+    padding-top: 0;
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-error {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-error--block {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-error--block .jrn-tile {
+    width: 32px;
+    height: 32px;
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-reqs {
+    margin-top: 0;
+    padding: 2px 8px;
+    gap: 1px;
+  }
+  .jrn .jrn-col--form:has(.jrn-error) .jrn-field__error {
+    margin-top: 2px;
   }
 }

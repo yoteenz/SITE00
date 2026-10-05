@@ -56,6 +56,15 @@
   --jrn-r: 8px;
   --jrn-r-lg: 16px;
   --jrn-m: 34px;
+  --jrn-btn-h: 44px;
+  --jrn-field-h: 44px;
+  --jrn-row-h: 44px;
+  --jrn-row-gap: 6px;
+  --jrn-tile: 32px;
+  --jrn-form-gap: 8px;
+  --jrn-stack-gap: 8px;
+  --jrn-cta-gap: 8px;
+  --jrn-heading-gap: 12px;
   --jrn-col: 100%;
   --jrn-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .33 0 0 0 0 .24 0 0 0 .42 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --jrn-pores: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.045' numOctaves='2' seed='7'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 0 0 .55 .8'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .44 0 0 0 0 .33 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
@@ -189,7 +198,7 @@
   justify-content: center;
   gap: 12px;
   width: 100%;
-  min-height: 50px;
+  min-height: var(--jrn-btn-h, 44px);
   padding: 0 18px;
   border-radius: var(--jrn-r);
   font-size: 13.5px;
@@ -333,7 +342,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 50px;
+  min-height: var(--jrn-field-h, 44px);
   border-radius: var(--jrn-r);
   background: var(--jrn-field);
   border: 1px solid rgba(203, 189, 171, 0.95);
@@ -507,8 +516,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: var(--jrn-tile, 32px);
+  height: var(--jrn-tile, 32px);
   border-radius: 9px;
   background: rgba(225, 212, 196, 0.6);
   color: var(--jrn-ink-2);
@@ -535,8 +544,8 @@
   align-items: center;
   gap: 16px;
   width: 100%;
-  min-height: 58px;
-  padding: 9px 14px 9px 10px;
+  min-height: var(--jrn-row-h, 44px);
+  padding: 6px 12px 6px 8px;
   border-radius: 12px;
   background: rgba(252, 250, 245, 0.92);
   border: 1px solid rgba(214, 202, 186, 0.7);
@@ -583,7 +592,7 @@
 .jrn .jrn-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--jrn-row-gap, 6px);
 }
 
 /* ─── inline expansion / panels / toast ─── */
@@ -599,12 +608,12 @@
   overflow: hidden;
 }
 .jrn .jrn-reqs {
-  margin-top: 8px;
-  padding: 12px 14px;
+  margin-top: 2px;
+  padding: 6px 10px;
   border-radius: 10px;
   background: rgba(239, 230, 216, 0.92);
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 .jrn .jrn-req {
   display: flex;
@@ -616,8 +625,8 @@
 }
 .jrn .jrn-req__mark {
   flex: none;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 4px;
   border: 1.5px solid var(--jrn-taupe);
   display: inline-flex;
@@ -896,7 +905,7 @@
 .jrn .jrn-sheet__body {
   flex: 1 1 auto;
   overflow-y: auto;
-  padding: 26px var(--jrn-m) 24px;
+  padding: 18px var(--jrn-m) 16px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -997,7 +1006,7 @@
   flex-direction: column;
   min-height: 100%;
   width: 100%;
-  padding: calc(52px + env(safe-area-inset-top, 0px)) var(--jrn-m) calc(30px + env(safe-area-inset-bottom, 0px));
+  padding: calc(36px + env(safe-area-inset-top, 0px)) var(--jrn-m) calc(16px + env(safe-area-inset-bottom, 0px));
 }
 .jrn .jrn-col__head {
   display: flex;
@@ -1010,16 +1019,16 @@
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-top: 24px;
+  gap: var(--jrn-cta-gap, 8px);
+  padding-top: 16px;
 }
 .jrn .jrn-stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--jrn-stack-gap, 8px);
 }
 .jrn .jrn-stack--tight {
-  gap: 10px;
+  gap: 6px;
 }
 .jrn .jrn-center {
   text-align: center;

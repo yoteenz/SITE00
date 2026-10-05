@@ -230,7 +230,7 @@ export function PrivacyPrimerScreen() {
             <JurnlRow key={r.id} icon={r.icon} title={C.privacy.rows[r.id]} trigger={`privacy-row-${r.id}`} onClick={() => openOverlay(`privacy-${r.id}`)} />
           ))}
         </div>
-        <div className="jrn-stack jrn-stack--tight" style={{ marginTop: 8 }}>
+        <div className="jrn-stack jrn-stack--tight">
           <JurnlButton trigger="privacy-continue" onClick={() => go('F01.12')}>
             {C.privacy.continue}
           </JurnlButton>
@@ -451,7 +451,7 @@ export function SecurityPrimerScreen() {
           <JurnlLogo />
           <span className="jrn-eyebrow">{C.security.eyebrow}</span>
         </div>
-        <div style={{ marginTop: 24 }} />
+        <div className="jrn-heading-gap" />
         <JurnlHeadline lines={C.security.headline} />
       </div>
       <div className="jrn-list jrn-security-rows" data-runtime-bounds="rows">
