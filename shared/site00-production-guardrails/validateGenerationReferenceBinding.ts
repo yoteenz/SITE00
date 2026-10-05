@@ -19,6 +19,8 @@ export type ValidateOptions = {
   resolverContext: ReferenceResolverContext;
   /** When true, missing on-disk file blocks even if registry matched. */
   enforceFileHealth?: boolean;
+  /** When false, skip the one-project-per-family gate. Default is enforced. */
+  enforceFamilyOutputProject?: boolean;
 };
 
 function block(

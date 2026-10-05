@@ -22,6 +22,7 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
         visualId: 'F03.00',
         projectId: 'JURNL',
         familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
         screenId: 'F03.00',
         generationClass: 'SCREEN_PARENT',
         generationIntent: 'DERIVED',
@@ -43,9 +44,11 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
   it('REFERENCE REQUIRED + MISSING → BLOCK', () => {
     const pre = precheckGenerationDispatch(
       {
-        visualId: 'F99.00',
+        visualId: 'F03.99',
         projectId: 'JURNL',
-        familyId: 'F99',
+        familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
+        screenId: 'F03.99',
         generationClass: 'SCREEN_CHILD',
         generationIntent: 'DERIVED',
         generationMode: 'REFERENCE_GUIDED',
@@ -66,6 +69,7 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
         visualId: 'F03.00',
         projectId: 'JURNL',
         familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
         generationClass: 'ENVIRONMENT_PLATE',
         generationIntent: 'DERIVED',
         generationMode: 'REFERENCE_GUIDED',
@@ -86,6 +90,7 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
         visualId: 'F03.00',
         projectId: 'JURNL',
         familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
         generationClass: 'SCREEN_CHILD',
         generationIntent: 'DERIVED',
         generationMode: 'TEXT_TO_IMAGE_NET_NEW',
@@ -171,6 +176,7 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
         visualId: 'F03.00',
         projectId: 'JURNL',
         familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
         generationClass: 'SCREEN_PARENT',
         generationIntent: 'DERIVED',
         generationMode: 'REFERENCE_GUIDED',
@@ -192,6 +198,7 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
         visualId: 'F03.00',
         projectId: 'JURNL',
         familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
         generationClass: 'SCREEN_CHILD',
         generationIntent: 'DERIVED',
         generationMode: 'TEXT_TO_IMAGE_NET_NEW',
@@ -216,6 +223,7 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
         visualId: 'F03.00',
         projectId: 'JURNL',
         familyId: 'F03',
+        providerProjectId: 'Aa0fKSPeX0SJ4DICt0aI',
         generationClass: 'SCREEN_PARENT',
         generationIntent: 'DERIVED',
         generationMode: 'REFERENCE_GUIDED',
@@ -252,5 +260,45 @@ describe('reference binding guard (P0 reference-binding-cost-guard1)', () => {
     expect(metrics.invalidGenerationsPostmortem).toBe(1);
     expect(metrics.referenceGuidedGenerations).toBe(1);
     expect(metrics.invalidGenerationCredits).toBe(315);
+  });
+
+  it('F03 job aimed at the F02 project → BLOCK', () => {
+    const pre = precheckGenerationDispatch(
+      {
+        visualId: 'F03.00',
+        projectId: 'JURNL',
+        familyId: 'F03',
+        providerProjectId: 'rVShOWFblztGdIxRYHmL',
+        generationClass: 'SCREEN_PARENT',
+        generationIntent: 'DERIVED',
+        generationMode: 'REFERENCE_GUIDED',
+        referenceInputAttached: true,
+        provider: 'OpenArt',
+        model: 'gpt-image-2-5-sunburst',
+      },
+      { resolverContext: ctx },
+    );
+    expect(pre.status).toBe('BLOCKED');
+    expect(pre.blockedReason).toBe('FAMILY_PROJECT_MISMATCH');
+    expect(pre.creditsSpent).toBe(0);
+  });
+
+  it('new JURNL family with no project yet → BLOCK', () => {
+    const pre = precheckGenerationDispatch(
+      {
+        visualId: 'F05.00',
+        projectId: 'JURNL',
+        familyId: 'F05',
+        generationClass: 'NET_NEW_AUTHORITY',
+        generationIntent: 'NEW_AUTHORITY_REQUIRED',
+        generationMode: 'TEXT_TO_IMAGE_NET_NEW',
+        provider: 'OpenArt',
+        model: 'gpt-image-2-5-sunburst',
+      },
+      { resolverContext: ctx },
+    );
+    expect(pre.status).toBe('BLOCKED');
+    expect(pre.blockedReason).toBe('FAMILY_PROJECT_REQUIRED');
+    expect(pre.dispatchAllowed).toBe(false);
   });
 });

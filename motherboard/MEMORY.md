@@ -13493,6 +13493,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — One OpenArt project per family
+
+- **Context:** Founder confirmed F03 and F04 stay in their own projects, and asked that every future family be categorized the same way.
+- **Decisions / outcomes:** Paid dispatch must target the family's registered provider project. Missing project blocks as `FAMILY_PROJECT_REQUIRED`. A job aimed at another family's project blocks as `FAMILY_PROJECT_MISMATCH`. Credits stay 0. F01–F04 are registered. A new family is created in OpenArt and added to the registry before the first generation.
+- **Changes:** `shared/site00-production-guardrails/familyOutputProjects.ts`, precheck gate, `docs/production/reference-binding/FAMILY_OUTPUT_PROJECTS.json`, sprint template, `.cursor/rules/family-output-project.mdc`.
+- **Conventions:** Do not generate F05 (or any later family) inside F01, F02, F03, or F04. Create the project, register it, then dispatch.
+
+---
+
 ## 2026-10-05 — F03 and F04 OpenArt projects and image ZIP
 
 - **Context:** Founder asked to put JURNL F03 and F04 outputs in their own OpenArt projects, the same way F01 and F02 already have separate projects, and to send a ZIP of those images. The screenshot was the OpenArt project switcher.
