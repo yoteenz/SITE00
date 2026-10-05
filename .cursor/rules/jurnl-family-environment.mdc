@@ -1,0 +1,18 @@
+---
+description: JURNL families share a world and do not share rooms by default
+alwaysApply: true
+---
+
+# JURNL family environments
+
+Same world is not the same room. A new family gets a new environment group. Do not reuse the previous family's plate by default.
+
+Within one family, a parent and its related children and states should share a plate. Do not generate one plate per screen.
+
+Cross-family plate reuse is allowed only for a narrative reason, a direct continuation of the same space, or a real budget constraint, and only if the families still look different with the UI removed. Record that reason on the family environment manifest as `cross_family_reuse_reason`, and pass `sourcePlateFamilyId` plus `crossFamilyReuseJustification` on the generation job.
+
+`precheckGenerationDispatch()` blocks an environment plate that names another family and has no justification. The block is `CROSS_FAMILY_PLATE_REUSE_UNJUSTIFIED`. Credits spent stay 0.
+
+A world reference for image-to-image is not permission to copy the previous room. F03 `ENV.DAY` currently fails that test against F02 `ENV.ARRIVAL` and is marked `SHOULD_REPLACE`. Do not regenerate it unless the founder asks.
+
+Contracts: `JURNL/MANIFEST/JURNL_FAMILY_ENVIRONMENT_DISTINCTNESS.json`, `JURNL_ENVIRONMENT_BRIEFS.json`, `JURNL_PLATE_REUSE_AUDIT.json`.
