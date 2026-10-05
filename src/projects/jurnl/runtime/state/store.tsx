@@ -1,0 +1,243 @@
+/**
+ * JURNL runtime store — device + session state, overlay stack, toast, navigation.
+ * Device state persists per device (remembered accounts, Face ID, device trust, privacy choices); session state
+ * persists for the tab unless KEEP ME SIGNED IN.
+ */
+
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
+import {
+  browserKV,
+  createDesignPreviewAuthAdapter,
+  createDesignPreviewNativeBridge,
+  createUnconfiguredAuthAdapter,
+  createWebUnavailableNativeBridge,
+  readScenario,
+  type JurnlAccount,
+  type JurnlAuthAdapter,
+  type JurnlNativeBridge,
+  type JurnlScenario,
+} from './adapters';
+
+export type AiKey = 'personalizedInsights' | 'smartCategorization' | 'budgetRecommendations' | 'naturalLanguage' | 'marketTrends';
+
+export type RememberedAccount = { email: string; firstName: string; lastName: string };
+
+export type DeviceState = {
+  remembered: RememberedAccount[];
+  biometric: 'UNDECIDED' | 'ENABLED' | 'DECLINED' | 'UNAVAILABLE';
+  biometricMethod: 'FACE_ID' | 'TOUCH_ID';
+  deviceTrust: 'UNDECIDED' | 'TRUSTED' | 'NOT_NOW';
+  ai: Record<AiKey, boolean>;
+  exportRequested: boolean;
+};
+
+export type SessionState = {
+  account: JurnlAccount | null;
+  status: 'SIGNED_OUT' | 'ACTIVE';
+  keepSignedIn: boolean;
+  /** Email the latest verification / reset link was sent to. */
+  pendingEmail: string | null;
+};
+
+export type Toast = { id: number; tone: 'success' | 'error'; title: string; body?: string; testId?: string };
+
+export const DEFAULT_DEVICE: DeviceState = {
+  remembered: [],
+  biometric: 'UNDECIDED',
+  biometricMethod: 'FACE_ID',
+  deviceTrust: 'UNDECIDED',
+  // AI access defaults OFF (opt-in) — see docs/jurnl/F01_IMPLEMENTATION_DECISIONS.md.
+  ai: { personalizedInsights: false, smartCategorization: false, budgetRecommendations: false, naturalLanguage: false, marketTrends: false },
+  exportRequested: false,
+};
+export const DEFAULT_SESSION: SessionState = { account: null, status: 'SIGNED_OUT', keepSignedIn: false, pendingEmail: null };
+
+const DEVICE_KEY = 'jurnl.runtime.v1.device';
+const SESSION_KEY = 'jurnl.runtime.v1.session';
+const PREVIEW_ACCOUNTS_KEY = 'jurnl.runtime.v1.preview-accounts';
+
+type Ctx = {
+  basePath: string;
+  mode: 'design-preview' | 'production';
+  scenario: JurnlScenario;
+  auth: JurnlAuthAdapter;
+  bridge: JurnlNativeBridge;
+  device: DeviceState;
+  session: SessionState;
+  setDevice: (patch: Partial<DeviceState>) => void;
+  setSession: (patch: Partial<SessionState>) => void;
+  signOut: () => void;
+  overlay: string | null;
+  openOverlay: (id: string) => void;
+  closeOverlay: () => void;
+  toast: Toast | null;
+  showToast: (t: Omit<Toast, 'id'>) => void;
+  dismissToast: () => void;
+  go: (target: string, query?: Record<string, string>) => void;
+  /** Forced state from `?state=` (design-workspace inspection). */
+  forcedState: string | null;
+  postToHost: (message: Record<string, unknown>) => void;
+};
+
+const JurnlCtx = createContext<Ctx | null>(null);
+
+export function useJurnl(): Ctx {
+  const c = useContext(JurnlCtx);
+  if (!c) throw new Error('JURNL runtime store missing');
+  return c;
+}
+
+function readJson<T>(raw: string | null, fallback: T): T {
+  if (!raw) return fallback;
+  try {
+    return { ...fallback, ...(JSON.parse(raw) as T) };
+  } catch {
+    return fallback;
+  }
+}
+
+/** Resolve a screen id (`F01.03`), the F02 boundary (`F02`) or a raw route to a runtime-relative route. */
+export function resolveJurnlRoute(target: string): string {
+  if (target === 'F02') return F01_FAMILY_BOUNDARY.route;
+  return F01_SCREENS.find((s) => s.id === target)?.route ?? target.replace(/^\/+/, '');
+}
+
+export function JurnlStoreProvider({ basePath, mode, children }: { basePath: string; mode: 'design-preview' | 'production'; children: ReactNode }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [params] = useSearchParams();
+  const scenarioKey = `${params.get('scenario') ?? ''}|${params.get('os') ?? ''}`;
+  const scenario = useMemo(() => readScenario(params), [scenarioKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  const local = useMemo(() => browserKV('local'), []);
+  const tab = useMemo(() => browserKV('session'), []);
+  // `?reset=1` (design-preview "fresh device"): the runtime clears ONLY its own keys before reading them.
+  useMemo(() => {
+    if (mode !== 'design-preview' || params.get('reset') !== '1') return;
+    for (const k of [DEVICE_KEY, SESSION_KEY, PREVIEW_ACCOUNTS_KEY]) {
+      local.set(k, '');
+      tab.set(k, '');
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const [device, setDeviceState] = useState<DeviceState>(() => readJson(local.get(DEVICE_KEY), DEFAULT_DEVICE));
+  const [session, setSessionState] = useState<SessionState>(() =>
+    readJson(tab.get(SESSION_KEY) ?? local.get(SESSION_KEY), DEFAULT_SESSION),
+  );
+  const relPath = location.pathname.slice(basePath.length).replace(/^\/+/, '');
+  const stateOverlay = F01_STATE_OVERLAYS[`${f01ScreenForRoute(relPath)?.id ?? ''}:${params.get('state') ?? ''}`] ?? null;
+  const [overlay, setOverlay] = useState<string | null>(() => params.get('overlay') ?? stateOverlay);
+  const [toast, setToast] = useState<Toast | null>(null);
+  const toastSeq = useRef(0);
+
+  const postToHost = useCallback((message: Record<string, unknown>) => {
+    if (typeof window === 'undefined' || window.parent === window) return;
+    window.parent.postMessage({ source: 'site00-project-runtime', projectId: 'jurnl', ...message }, window.location.origin);
+  }, []);
+
+  const auth = useMemo(
+    () => (mode === 'design-preview' ? createDesignPreviewAuthAdapter({ kv: local, scenario }) : createUnconfiguredAuthAdapter()),
+    [mode, local, scenario],
+  );
+  const bridge = useMemo(
+    () =>
+      mode === 'design-preview' ?
+        createDesignPreviewNativeBridge({ scenario, notify: (target, boundary) => postToHost({ type: 'handoff', target, boundary }) })
+      : createWebUnavailableNativeBridge(),
+    [mode, scenario, postToHost],
+  );
+
+  const setDevice = useCallback(
+    (patch: Partial<DeviceState>) =>
+      setDeviceState((prev) => {
+        const next = { ...prev, ...patch };
+        local.set(DEVICE_KEY, JSON.stringify(next));
+        return next;
+      }),
+    [local],
+  );
+  const setSession = useCallback(
+    (patch: Partial<SessionState>) =>
+      setSessionState((prev) => {
+        const next = { ...prev, ...patch };
+        tab.set(SESSION_KEY, JSON.stringify(next));
+        local.set(SESSION_KEY, JSON.stringify(next.keepSignedIn ? next : DEFAULT_SESSION));
+        return next;
+      }),
+    [local, tab],
+  );
+  const signOut = useCallback(() => {
+    setSession({ ...DEFAULT_SESSION });
+  }, [setSession]);
+
+  const showToast = useCallback((t: Omit<Toast, 'id'>) => setToast({ ...t, id: ++toastSeq.current }), []);
+  const dismissToast = useCallback(() => setToast(null), []);
+  useEffect(() => {
+    if (!toast) return;
+    const id = window.setTimeout(() => setToast((cur) => (cur?.id === toast.id ? null : cur)), 4200);
+    return () => window.clearTimeout(id);
+  }, [toast]);
+
+  const go = useCallback(
+    (target: string, query?: Record<string, string>) => {
+      setOverlay(null);
+      const qs = new URLSearchParams(query ?? {});
+      // Scenario switches are host-owned; keep them across in-app navigation.
+      for (const k of ['scenario', 'os']) {
+        const v = params.get(k);
+        if (v && !qs.has(k)) qs.set(k, v);
+      }
+      const s = qs.toString();
+      navigate(`${basePath}/${resolveJurnlRoute(target)}${s ? `?${s}` : ''}`);
+    },
+    [basePath, navigate, params],
+  );
+
+  // Route → host (screen tree highlight) + family boundary.
+  useEffect(() => {
+    const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
+    const screen = f01ScreenForRoute(rel);
+    postToHost({ type: 'route', screenId: screen?.id ?? null, path: rel });
+    if (rel === F01_FAMILY_BOUNDARY.route) postToHost({ type: 'family-boundary', from: F01_FAMILY_BOUNDARY.from, to: F01_FAMILY_BOUNDARY.to });
+  }, [location.pathname, basePath, postToHost]);
+
+  // `?overlay=` deep links and overlay states (design-workspace inspection) re-open on param change.
+  const overlayParam = params.get('overlay') ?? stateOverlay;
+  useEffect(() => {
+    if (overlayParam) setOverlay(overlayParam);
+  }, [overlayParam, location.pathname]);
+
+  const value = useMemo<Ctx>(
+    () => ({
+      basePath,
+      mode,
+      scenario,
+      auth,
+      bridge,
+      device,
+      session,
+      setDevice,
+      setSession,
+      signOut,
+      overlay,
+      openOverlay: setOverlay,
+      closeOverlay: () => setOverlay(null),
+      toast,
+      showToast,
+      dismissToast,
+      go,
+      forcedState: params.get('state'),
+      postToHost,
+    }),
+    [basePath, mode, scenario, auth, bridge, device, session, setDevice, setSession, signOut, overlay, toast, showToast, dismissToast, go, params, postToHost],
+  );
+  return <JurnlCtx.Provider value={value}>{children}</JurnlCtx.Provider>;
+}
+
+export function rememberAccount(device: DeviceState, account: JurnlAccount): RememberedAccount[] {
+  const rest = device.remembered.filter((r) => r.email !== account.email);
+  return [{ email: account.email, firstName: account.firstName, lastName: account.lastName }, ...rest].slice(0, 4);
+}
+
+export const initialsOf = (a: { firstName: string; lastName: string }) => `${a.firstName[0] ?? ''}${a.lastName[0] ?? ''}`.toUpperCase() || 'J';

@@ -43,6 +43,14 @@ export type Site00ManagedProjectRecord = {
   routeAuthority: ManagedProjectRouteAuthority;
   status: ManagedProjectStatus;
   legacyDesignRoutes: string[];
+  /**
+   * Project ontology (P0.JURNL.SITE00-INGEST-F01). Optional so existing records keep their meaning;
+   * ingested product projects declare it explicitly. PERSONAL + FOUNDER = founder-owned product.
+   */
+  ownership?: 'SITE00' | 'FOUNDER' | 'CLIENT';
+  relationship?: 'PLATFORM' | 'PERSONAL' | 'CLIENT' | 'MANAGED_BRAND' | 'INFRASTRUCTURE';
+  /** Project has its own product runtime mounted at /production/:slug/runtime/*. */
+  projectRuntime?: boolean;
 };
 
 export type DesignRouteAuthorityRecord = {

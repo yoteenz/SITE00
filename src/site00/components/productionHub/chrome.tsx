@@ -6,7 +6,7 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
-import { hubAssetUrl } from '../../../../shared/site00-production-hub/assets.js';
+import { listHostProductionProjects, projectCoverUrl, projectSwitchPath } from '../../projectRuntime/projectHostProfile';
 import { useProductionRequests } from '../../state/productionRequestStore';
 import '../../styles/site00-production-hub.css';
 import '../../styles/site00-production-hub-authority.css';
@@ -120,20 +120,32 @@ export function useProductionWorkspaceChrome(): {
   return { brand, active, projectId, queued, sectionLabel, sectionValue };
 }
 
-type MenuItem = { to: string; title: string; sub: string };
+type MenuItem = { to: string; title: string; sub: string; thumb?: string | null; current?: boolean };
 
 /**
  * Host menu panel (HUB.DESCENDANTS-INTERACTIONS.OPUS1): one authored panel for the phone strip and the
  * tablet / desktop host top — red-pipe head, indexed rows, current-route marker, chevrons. Same three
  * destinations as before; Escape and an outside press close it.
  */
-function ProductionMenuPanel({ items, className, onClose }: { items: MenuItem[]; className: string; onClose: () => void }) {
+function ProductionMenuPanel({
+  items,
+  className,
+  onClose,
+  title = 'MENU',
+  testId = 'production-menu',
+}: {
+  items: MenuItem[];
+  className: string;
+  onClose: () => void;
+  title?: string;
+  testId?: string;
+}) {
   const { pathname } = useLocation();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     const onDown = (e: PointerEvent) => {
       const t = e.target as Element | null;
-      if (t && !t.closest('[data-production-menu], .pxh-top__menu, .ph-top__menu')) onClose();
+      if (t && !t.closest('[data-production-menu], .pxh-top__menu, .ph-top__menu, [data-production-project-trigger]')) onClose();
     };
     document.addEventListener('keydown', onKey);
     document.addEventListener('pointerdown', onDown);
@@ -143,20 +155,22 @@ function ProductionMenuPanel({ items, className, onClose }: { items: MenuItem[];
     };
   }, [onClose]);
   return (
-    <div className={`${className} pxm`} role="dialog" aria-label="Production menu" data-production-menu data-testid="production-menu">
+    <div className={`${className} pxm`} role="dialog" aria-label={`Production ${title.toLowerCase()}`} data-production-menu data-testid={testId}>
       <header className="pxm__head">
         <i aria-hidden />
-        <b>MENU</b>
-        <button type="button" className="pxm__close" aria-label="Close menu" onClick={onClose}>
+        <b>{title}</b>
+        <button type="button" className="pxm__close" aria-label={`Close ${title.toLowerCase()}`} onClick={onClose}>
           ×
         </button>
       </header>
       <nav className="pxm__list">
         {items.map((it, i) => {
-          const current = it.to === pathname;
+          const current = it.current ?? it.to === pathname;
           return (
-            <Link key={it.to} to={it.to} onClick={onClose} className={current ? 'is-current' : undefined} aria-current={current ? 'page' : undefined}>
-              <em>{String(i + 1).padStart(2, '0')}</em>
+            <Link key={it.to} to={it.to} onClick={onClose} className={current ? 'is-current' : undefined} aria-current={current ? 'page' : undefined} data-testid={`${testId}-item`}>
+              {it.thumb !== undefined ?
+                <HubImage slotId={null} url={it.thumb} label="" className="pxm__thumb" />
+              : <em>{String(i + 1).padStart(2, '0')}</em>}
               <span>
                 <b>{it.title}</b>
                 <small>{it.sub}</small>
@@ -181,12 +195,27 @@ const MENU_HOST: MenuItem[] = [
   { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
 ];
 
+/** Project switcher (P0.JURNL.SITE00-INGEST-F01): real project selection; lands on the same workspace + mode. */
+function useProjectSwitchItems(projectId: string): MenuItem[] {
+  const { pathname, search } = useLocation();
+  return listHostProductionProjects().map((p) => ({
+    to: projectSwitchPath(pathname, search, p.slug),
+    title: p.name,
+    sub: p.kind,
+    thumb: p.cover,
+    current: p.slug === projectId,
+  }));
+}
+
 /** Light authority header used by every production workspace that is not the hub or character fabrication. */
 export function ProductionWorkspaceHeader() {
   const { brand, projectId, queued } = useProductionWorkspaceChrome();
   const family = useProductionViewportFamily();
   const [menu, setMenu] = useState(false);
+  const [projects, setProjects] = useState(false);
   const closeMenu = useCallback(() => setMenu(false), []);
+  const closeProjects = useCallback(() => setProjects(false), []);
+  const projectItems = useProjectSwitchItems(projectId);
   if (family !== 'mobile') {
     return <ProductionHostTop projectId={projectId} queued={queued} />;
   }
@@ -199,14 +228,23 @@ export function ProductionWorkspaceHeader() {
           <small>SITE 00 / STUDIO WORLD</small>
         </span>
       </div>
-      <Link to="/production" className="ph-top__sel" data-testid="production-chrome-project">
-        <HubImage slotId="project.ndxbook.cover" url={hubAssetUrl('project.ndxbook.cover')} label="" className="ph-top__thumb" />
+      <button
+        type="button"
+        className="ph-top__sel"
+        data-testid="production-chrome-project"
+        data-production-project-trigger
+        data-project={projectId}
+        aria-haspopup="dialog"
+        aria-expanded={projects}
+        onClick={() => setProjects((v) => !v)}
+      >
+        <HubImage slotId={`project.${projectId}.cover`} url={projectCoverUrl(projectId)} label="" className="ph-top__thumb" />
         <span className="ph-top__copy">
           <small>PROJECT</small>
           <b>{projectId.toUpperCase()}</b>
         </span>
         <IcChevD width={14} height={14} />
-      </Link>
+      </button>
       <Link to="/production/queue" className="ph-top__attn" aria-label={`${queued} items need you`}>
         <Reticle size={46} />
         <span className="ph-top__copy">
@@ -218,6 +256,9 @@ export function ProductionWorkspaceHeader() {
         <IcMenu width={22} height={22} />
       </button>
       {menu ? <ProductionMenuPanel items={MENU_PHONE} className="prod-chrome-pop" onClose={closeMenu} /> : null}
+      {projects ?
+        <ProductionMenuPanel items={projectItems} title="PROJECTS" testId="production-project-menu" className="prod-chrome-pop pxm--projects" onClose={closeProjects} />
+      : null}
     </header>
   );
 }
@@ -228,18 +269,30 @@ export function ProductionWorkspaceHeader() {
  */
 function ProductionHostTop({ projectId, queued }: { projectId: string; queued: number }) {
   const [menu, setMenu] = useState(false);
+  const [projects, setProjects] = useState(false);
   const closeMenu = useCallback(() => setMenu(false), []);
+  const closeProjects = useCallback(() => setProjects(false), []);
+  const projectItems = useProjectSwitchItems(projectId);
   return (
     <header className="pxh-top" data-testid="production-workspace-header" data-shell="host-top">
       <div className="pxh-top__cluster" data-testid="production-host-cluster">
-        <Link to="/production" className="pxh-top__project" data-testid="production-chrome-project">
-          <HubImage slotId="project.ndxbook.cover" url={hubAssetUrl('project.ndxbook.cover')} label="" className="pxh-top__thumb" />
+        <button
+          type="button"
+          className="pxh-top__project"
+          data-testid="production-chrome-project"
+          data-production-project-trigger
+          data-project={projectId}
+          aria-haspopup="dialog"
+          aria-expanded={projects}
+          onClick={() => setProjects((v) => !v)}
+        >
+          <HubImage slotId={`project.${projectId}.cover`} url={projectCoverUrl(projectId)} label="" className="pxh-top__thumb" />
           <span>
             <small>PROJECT</small>
             <b>{projectId.toUpperCase()}</b>
           </span>
           <IcChevD width={14} height={14} />
-        </Link>
+        </button>
         <Link to="/production/queue" className="pxh-top__attn" aria-label={`${queued} items need you`} data-testid="production-host-attention">
           <Reticle size={34} />
           <span>
@@ -252,6 +305,9 @@ function ProductionHostTop({ projectId, queued }: { projectId: string; queued: n
         <IcMenu width={24} height={24} />
       </button>
       {menu ? <ProductionMenuPanel items={MENU_HOST} className="pxh-pop" onClose={closeMenu} /> : null}
+      {projects ?
+        <ProductionMenuPanel items={projectItems} title="PROJECTS" testId="production-project-menu" className="pxh-pop pxm--projects" onClose={closeProjects} />
+      : null}
     </header>
   );
 }

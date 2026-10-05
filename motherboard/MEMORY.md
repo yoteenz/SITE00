@@ -13321,3 +13321,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **OpenArt:** `gpt-image-2-5-sunburst` image2image, project `TToQavm9coU1QGPRfEzU`, 2K 9:16 high, `autoEnhancePrompt: false`; every prompt prefixed with CRITICAL TYPOGRAPHY RULE (100% uppercase, zero lowercase on board).
 - **Log:** `openart_interaction_log.json` — `note: "uppercase-only regen 2026-10-04"`, new historyIds/urls; helper script `scripts/jurnl-f01-regen-interactions-uppercase.py` for prompt text + download workflow.
 - **Result:** **10/10** COMPLETED generations downloaded and overwritten in repo.
+
+---
+
+## 2026-10-05 — JURNL ingested into SITE 00 + F01 ENTRY live in DESIGN (PROOF1)
+
+- **Sprint:** P0.JURNL.SITE00-INGEST-F01-DESIGN-WORKSPACE-PROOF1 — implementation only; **0** OpenArt access; failed F01 harvest **not** used (excluded + test-enforced).
+- **Project:** JURNL registered as **PERSONAL / FOUNDER** (managed registry `ownership` / `relationship` / `projectRuntime` + `shared/site00-project-ingestion/`). Host PROJECT chip is now a real switcher (keeps workspace + mode, drops stale query state).
+- **Runtime:** `/production/jurnl/runtime/*` (registry `src/site00/projectRuntime/`), rendered in DESIGN → VIEWPORT iframe at project sizes (393×852 / 834×1194 / 1440×900) with SAFE AREA / GRID / BOUNDS / REFERENCE. 14/14 screens, 27 state authorities (+6 runtime states), 74/74 manifest interactions bound. All copy UPPERCASE; circular tappable controls 0.
+- **Contracts (project-agnostic):** `shared/site00-product-families/` — family production contract, family gate (SCREEN_COMPLETE ≠ FAMILY_COMPLETE), asset-first policy (`ASSET_FIRST_REQUIRED = TRUE`, F01 = LEGACY_EXCEPTION), budget contract (F02+ TRACKED).
+- **Auth:** design-preview adapter in workspace only; production path = unconfigured adapter (never fakes success). JURNL end-user auth provider + Apple/Google **unresolved** (founder decision).
+- **Open platform gap:** JURNL has no `site00_organizations` row → not in server `FOUNDER_PROJECTS` / `/projects` index.
+- **Docs:** `docs/jurnl/` (audit A–V, defect log, decisions + claims register, contract, asset-first, budget, live QA). Proof: `artifacts/jurnl-f01-live-qa/` (live QA 103/103).

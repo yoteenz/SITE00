@@ -1,0 +1,27 @@
+JURNL OPENART PRODUCTION BUDGET BASELINE
+
+Observed / current planning assumptions:
+- GPT Image 2.5 Sunburst
+- 2K
+- 9:16
+- Auto-enhance off
+- 170 credits per standard generation shown in credit history
+- Add-on rate: 5,000 credits = $15
+- Credit value: $0.003
+- Standard generation: ~$0.51
+
+Working full-product budget:
+- Base production estimate: ~42,331 credits / ~$126.99
+- Realistic production budget: ~52,000–53,100 credits / ~$156–$159.30
+- Safe ceiling: 60,000 credits / $180
+
+From Family 02 onward, every family production record should track:
+CREDITS BEFORE
+CREDITS AFTER
+FAMILY SPEND
+ASSET GENERATIONS
+SCREEN GENERATIONS
+INTERACTION GENERATIONS
+RECOVERY GENERATIONS
+CUMULATIVE SPEND
+SAFE-CEILING REMAINING

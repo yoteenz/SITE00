@@ -91,6 +91,24 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     status: 'ACTIVE',
     legacyDesignRoutes: ['/projects/astral-world/design/reconstruction-lab'],
   },
+  {
+    // P0.JURNL.SITE00-INGEST-F01 — first ingested PERSONAL / FOUNDER product project.
+    projectId: 'jurnl',
+    displayName: 'JURNL',
+    projectType: 'PERSONAL_PRODUCT',
+    websiteDesignAuthority: 'SITE00',
+    platformRole: 'NONE',
+    managedWebsiteRole: 'NONE',
+    designEnabled: true,
+    marketingEnabled: false,
+    projectAccent: 'PROJECT_CANONICAL',
+    routeAuthority: 'SITE00',
+    status: 'ACTIVE',
+    legacyDesignRoutes: [],
+    ownership: 'FOUNDER',
+    relationship: 'PERSONAL',
+    projectRuntime: true,
+  },
 ];
 
 export function listSite00ManagedProjects(): Site00ManagedProjectRecord[] {
