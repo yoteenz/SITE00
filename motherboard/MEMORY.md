@@ -13644,3 +13644,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Text-to-image was not used. The live structure file was attached. The full page is a daily room with quiet plaster on the left and daylight, a cup, and a cloth on the right. It does not repeat the arrival arch, curtain, bust, bowl, or books. The clean plate was derived from that page with the page attached. It is mounted under the existing Today UI at 393, 834, and 1440. Founder status stays UNREVIEWED. Child production stays off. Two paid generations, 644 credits.
 - **Changes:** `authorityFirstPlate.ts`, `JURNL_AUTHORITY_FIRST.json`, the F03 occupancy map, the full-page authority, the derived day plate, and `F03_AUTHORITY_FIRST_PLATE_DERIVATION_QA.json`.
 - **Conventions:** Full page first. Derive the plate from that file. Do not generate an empty room as the parent. Do not call text-to-image. Do not promote the old background-only outputs.
+
+---
+
+## 2026-10-05 — Real display currency conversion
+
+- **Context:** This chat first shipped the F03 authority-first plate (full page, then a derived day plate, founder still unreviewed, no children). The founder then required the currency control to convert numbers, not only the symbol, and to keep a three-row scrolling list.
+- **Topics covered:** Base USD versus display currency. A live USD rate. Catalog beyond USD, EUR, and GBP. Exact three visible rows. Quick-add provenance. Ask Jurnl copy that no longer says there is no exchange.
+- **Decisions / outcomes:** Stored amounts stay canonical USD. `formatMoney` multiplies that amount by a fetched rate and formats with `Intl.NumberFormat`. The provider is the open ExchangeRate-API USD endpoint. A missing rate is not replaced with 1. A fresh cache is used for 24 hours. A cache up to 7 days may be used if a new fetch fails. Older than that, the switch is refused. Returning to USD restores the original base value. The Ask sheet shows three rows and scrolls. JPY opens already inside that window. F05–F16 parent strings are composition labels and are not converted. A live check turned $6,500 into €5,777.79, £4,912.23, and ¥1,025,247, then back to $6,500.
+- **Changes:** `currency.ts`, the Ask sheet, quick-add provenance, `JURNL_CURRENCY_CONTRACT.json`, `JURNL_CURRENCY_CATALOG.json`, `JURNL_EXCHANGE_RATE_CONTRACT.json`, `JURNL_CURRENCY_SELECTOR_QA.json`.
+- **Conventions:** Do not swap a currency symbol onto an unconverted number. Do not hardcode a rate. Convert only from the canonical USD amount. Do not let the currency list grow the sheet.
