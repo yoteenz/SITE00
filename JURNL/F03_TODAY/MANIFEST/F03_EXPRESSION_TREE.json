@@ -1,0 +1,349 @@
+{
+  "contract": "JURNL_HIERARCHICAL_EXPRESSION",
+  "cascade": [
+    "GLOBAL_JURNL_DNA",
+    "FAMILY",
+    "PARENT",
+    "CHILD",
+    "GRANDCHILD",
+    "STATE",
+    "INTERACTION",
+    "PANEL",
+    "CONTROL",
+    "LIVE_IMPLEMENTATION"
+  ],
+  "global_dna": [
+    "BRAND_VOICE",
+    "TYPOGRAPHY_SYSTEM",
+    "CORE_PALETTE",
+    "MEDITERRANEAN_COASTAL_LUXURY",
+    "EDITORIAL_RESTRAINT",
+    "NATURAL_LIGHT",
+    "MATERIAL_QUALITY",
+    "ICONOGRAPHY_FAMILY",
+    "CONTROL_GEOMETRY",
+    "ENVIRONMENT_BREATHING",
+    "NO_CIRCULAR_TAP_TARGETS",
+    "ACCESSIBILITY",
+    "RESPONSIVE_QUALITY"
+  ],
+  "expression_parent_rule": "parent_expression_inherited names the expression parent. That may be the family parent or a prior room in the same family.",
+  "plate_rule": "A distinct product job does not require a new plate. NEW_PLATE_WITHIN_FAMILY only when the job, emotional role, or spatial metaphor materially changes.",
+  "child_production": "BLOCKED_UNTIL_FOUNDER_PASSES_PARENT",
+  "paid_generation": "DO_NOT_GENERATE_FROM_THIS_TREE_UNTIL_THE_FOUNDER_ASKS",
+  "downstream_consumers": [
+    "GROK",
+    "OPUS",
+    "COMPOSER"
+  ],
+  "founder_review": {
+    "review": [
+      "FAMILY_EXPRESSION",
+      "PARENT_EXPRESSION",
+      "KEY_CHILD_SUB_EXPRESSIONS"
+    ],
+    "skip": [
+      "EVERY_MICROSTATE"
+    ],
+    "status": "NOT_APPROVED"
+  },
+  "repetition_audit": {
+    "status": "PASS",
+    "compared_against": [
+      "CURRENT_FAMILY",
+      "F01",
+      "F02",
+      "F04",
+      "JURNL_EXPRESSION_MATRIX"
+    ],
+    "reuse_reason": "CORRECT",
+    "notes": [
+      "The written Today room is not the entry doorway and not the activity wall.",
+      "The mounted ENV.DAY file still shows the arrival still life. That mount fails. Do not generate a replacement until the founder asks.",
+      "See why and upcoming stay in the day room. They do not get plates."
+    ]
+  },
+  "generation_gate": {
+    "product_tree_locked_enough": true,
+    "family_expression_defined": true,
+    "parent_expression_defined": true,
+    "material_child_expressions_defined": true,
+    "environment_policies_defined": true,
+    "panel_control_policies_defined": true,
+    "repetition_audit": "PASS"
+  },
+  "family_expression": {
+    "product_role": "Say what is true today.",
+    "emotional_role": "Open, sunlit, lived-in, daily, active.",
+    "spatial_metaphor": "A morning room already in use. Not the front door.",
+    "architectural_character": "A lived room with a wide day opening. Not the entry arch, bust, bowl, or book stack.",
+    "lighting_character": "Brighter, higher day light than the setup desk.",
+    "material_emphasis": "Warm plaster, a used textile, paper.",
+    "information_density": "One authoritative figure, then coming and moved.",
+    "panel_language": "A primary signal, then one journal surface.",
+    "interaction_character": "See why, add, ask. Depth belongs to later families.",
+    "motion_character": "The figure is still. Sheets rise.",
+    "typographic_emphasis": "The safe-to-spend figure.",
+    "data_visualization": "Signal, priority, daily snapshot. No chart."
+  },
+  "nodes": [
+    {
+      "node_id": "F03",
+      "node_type": "FAMILY",
+      "product_job": "Daily financial home. Summarize and prioritize.",
+      "expression_class": "FAMILY",
+      "expression_concept": "Open, sunlit, lived-in, daily, active.",
+      "parent_expression_inherited": "GLOBAL_JURNL_DNA",
+      "expression_changes": [
+        "Safe-to-spend is the signal. Coming and moved are one journal."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "PRIMARY_SIGNAL",
+      "button_policy": "primary see why",
+      "typography_policy": "The figure is the display moment",
+      "interaction_policy": "See why, quick add, ask",
+      "motion_policy": "Still figure. Sheets rise.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.00",
+      "node_type": "PARENT",
+      "product_job": "Show the one number that matters, then what is coming and what just moved.",
+      "expression_class": "PARENT",
+      "expression_concept": "Daily financial salon. A living space. Strong primary signal. Open environment.",
+      "parent_expression_inherited": "F03 open sunlit lived-in daily active",
+      "expression_changes": [
+        "Not a generic template.",
+        "The mounted plate still repeats the F01 and F02 arrival still life and is SHOULD_REPLACE.",
+        "Do not regenerate that plate until the founder asks."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "PRIMARY_SIGNAL",
+      "button_policy": "primary see why, inline activity",
+      "typography_policy": "Large numeric signal. Small labels. Short line length.",
+      "interaction_policy": "See why, upcoming more, activity, quick add",
+      "motion_policy": "The number does not count up.",
+      "distinct_authority_required": true
+    },
+    {
+      "node_id": "F03.SEE_WHY",
+      "node_type": "CHILD",
+      "product_job": "Explain the safe-to-spend factors. Not a model transcript.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Intimate analysis. Less environment. More explanatory material.",
+      "parent_expression_inherited": "F03.00 daily financial salon",
+      "expression_changes": [
+        "Same day. The room recedes. Factors lead. JurnlDrawer analysis variant."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "DETAIL",
+      "button_policy": "quiet close",
+      "typography_policy": "Labels small. Factor figures in display.",
+      "interaction_policy": "A reading sheet, not a form",
+      "motion_policy": "The sheet covers the room. No new plate.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.UPCOMING_DETAIL",
+      "node_type": "CHILD",
+      "product_job": "Look ahead at what is coming, on the parent.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Anticipatory and forward-looking. A sequenced panel rhythm.",
+      "parent_expression_inherited": "F03.00 daily financial salon",
+      "expression_changes": [
+        "Same journal. Rows gain sequence and more air when opened. Not a route and not a plate."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "SUMMARY",
+      "button_policy": "inline more",
+      "typography_policy": "Small labels, amount at the row end",
+      "interaction_policy": "Inline expansion",
+      "motion_policy": "The list lengthens. The room stays.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.ST.LOADING",
+      "node_type": "STATE",
+      "product_job": "The home is being read.",
+      "expression_class": "STATE",
+      "expression_concept": "Reading today. A quiet line, not a spinner.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "EMPTY_STATE",
+      "button_policy": "none",
+      "typography_policy": "One tracked line",
+      "interaction_policy": "Wait",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.ST.EMPTY",
+      "node_type": "STATE",
+      "product_job": "No money source yet.",
+      "expression_class": "STATE",
+      "expression_concept": "The salon is unfurnished. Invite a return to accounts.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "EMPTY_STATE",
+      "button_policy": "secondary return to accounts",
+      "typography_policy": "Display line, one sentence",
+      "interaction_policy": "Handoff toward setup",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.ST.PARTIAL",
+      "node_type": "STATE",
+      "product_job": "Some setup facts are missing.",
+      "expression_class": "STATE",
+      "expression_concept": "Still learning. The signal stays unstated.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "EDITORIAL_NOTE",
+      "button_policy": "none",
+      "typography_policy": "Short note",
+      "interaction_policy": "Read",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.ST.CONNECTED",
+      "node_type": "STATE",
+      "product_job": "Show the preview reading.",
+      "expression_class": "STATE",
+      "expression_concept": "The salon occupied. Labeled preview.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "PRIMARY_SIGNAL",
+      "button_policy": "primary see why",
+      "typography_policy": "The figure leads",
+      "interaction_policy": "See why",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.ST.ATTENTION",
+      "node_type": "STATE",
+      "product_job": "Name one close obligation.",
+      "expression_class": "STATE",
+      "expression_concept": "A single attention line in the salon. Not an alarm.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "ALERT",
+      "button_policy": "none",
+      "typography_policy": "One sentence under the signal",
+      "interaction_policy": "Read",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.ST.ERROR",
+      "node_type": "STATE",
+      "product_job": "The home could not be read.",
+      "expression_class": "STATE",
+      "expression_concept": "The room remains. The reading failed. Retry stays on today.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "ALERT",
+      "button_policy": "secondary retry",
+      "typography_policy": "Short title, one sentence",
+      "interaction_policy": "Retry",
+      "motion_policy": "No shake.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.ST.CAUGHT_UP",
+      "node_type": "STATE",
+      "product_job": "Nothing needs attention.",
+      "expression_class": "STATE",
+      "expression_concept": "A clear morning. The signal remains. No celebration.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "PRIMARY_SIGNAL",
+      "button_policy": "primary see why",
+      "typography_policy": "The figure stays primary",
+      "interaction_policy": "None added",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.IN.SEE_WHY",
+      "node_type": "INTERACTION",
+      "product_job": "Open the factor reading.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Analysis. The same concept as the see-why child.",
+      "parent_expression_inherited": "F03.SEE_WHY",
+      "expression_changes": [
+        "JurnlDrawer analysis variant."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "DETAIL",
+      "button_policy": "quiet close",
+      "typography_policy": "Factor figures in display",
+      "interaction_policy": "Sheet",
+      "motion_policy": "Sheet rises over a quieter room.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.IN.QUICK_ADD",
+      "node_type": "INTERACTION",
+      "product_job": "Write a movement into the journal.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Writing a movement. Tactile form. Clear active selection.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [
+        "JurnlDrawer form variant. Shared control, not an F03-only fork."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "FORM",
+      "button_policy": "primary save, secondary selection",
+      "typography_policy": "Title, then fields. Amount keeps the currency mark.",
+      "interaction_policy": "Name, amount, direction, account, save",
+      "motion_policy": "Sheet rises. Selection fills emerald. Keyboard keeps save in view.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.IN.ASK",
+      "node_type": "INTERACTION",
+      "product_job": "Ask what the preview means, and change display currency.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "A confirmation of the reading. Not an upgrade and not a second analysis.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [
+        "JurnlDrawer confirmation variant. Currency choices are selection, not a new page."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "EDITORIAL_NOTE",
+      "button_policy": "secondary selection",
+      "typography_policy": "One editorial sentence, then a choice row",
+      "interaction_policy": "Read, choose currency",
+      "motion_policy": "Sheet rises.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F03.IN.ACTIVITY",
+      "node_type": "INTERACTION",
+      "product_job": "Leave today for the ledger.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "A passage from the salon to the archive.",
+      "parent_expression_inherited": "F03.00",
+      "expression_changes": [
+        "Navigation, not a sheet. Activity has its own expression."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "NONE",
+      "button_policy": "inline activity",
+      "typography_policy": "Inline label",
+      "interaction_policy": "Route to F04",
+      "motion_policy": "Family transition.",
+      "distinct_authority_required": false
+    }
+  ]
+}

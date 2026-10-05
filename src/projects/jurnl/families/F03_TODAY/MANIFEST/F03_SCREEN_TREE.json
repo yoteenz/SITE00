@@ -27,10 +27,12 @@
   },
   "environment_groups": {
     "ENV.DAY": {
-      "classification": "DISTINCT_PARENT_ENVIRONMENT",
-      "purpose": "The locked JURNL world from REFERENCE_F01.00_WELCOME_APPROVED, the same image2image reference F02 used. Left plaster is the readable field. The curtain divides the content from the arch, coast, and bust.",
+      "classification": "SHOULD_REPLACE",
+      "purpose": "Meant to be a brighter daily room. The current file still shows the F02 arrival arrangement: arch, curtain, bust, bowl, and books.",
       "member_screens": ["F03.00"],
-      "reuse": "REFERENCE WORLD SHARED WITH F01 AND F02. THE PLATE ITSELF IS A NEW CLEAN EXTRACTION, NOT A COPY OF ENV.ARRIVAL."
+      "reuse": "UNIQUE FILE. NOT A MOUNT OF ENV.ARRIVAL. VISUAL NEAR-DUPLICATE. DO NOT REGENERATE UNTIL THE FOUNDER ASKS.",
+      "distinctness_status": "FAIL",
+      "cross_family_reuse": "NO"
     }
   },
   "parent": [

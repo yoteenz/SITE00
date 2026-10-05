@@ -1,3 +1,6 @@
+import { validateCrossFamilyPlateReuse } from './familyEnvironmentDistinctness.js';
+import { validateFamilyExpressionBrief } from './familyExpressionBrief.js';
+import { validateHierarchicalExpression } from './hierarchicalExpression.js';
 import { validateFamilyOutputProject } from './familyOutputProjects.js';
 import { validateSidekickDerivationReference } from './sidekickReferenceBinding.js';
 import {
@@ -9,6 +12,44 @@ import type { GenerationRequest, PrecheckResult } from './types.js';
 
 export function precheckGenerationDispatch(request: GenerationRequest, options: ValidateOptions): PrecheckResult {
   const classification = classifyGenerationRequest(request, options.resolverContext);
+  const expression = validateFamilyExpressionBrief(classification, options.resolverContext.repoRoot);
+  const hierarchy =
+    expression.status === 'PASS' ? validateHierarchicalExpression(classification, options.resolverContext.repoRoot) : expression;
+  if (hierarchy.status === 'BLOCKED') {
+    return {
+      classification,
+      status: 'BLOCKED',
+      dispatchAllowed: false,
+      blockedReason: hierarchy.blockedReason,
+      referenceRequired: classification.referenceRequired,
+      referenceFound: false,
+      referenceAttached: Boolean(classification.referenceInputAttached),
+      generationMode: classification.generationMode,
+      resolvedReference: null,
+      referencePath: null,
+      referenceAuthorityId: classification.referenceAuthorityIdHint ?? null,
+      referenceStatus: null,
+      creditsSpent: 0,
+    };
+  }
+  const plateReuse = validateCrossFamilyPlateReuse(classification);
+  if (plateReuse.status === 'BLOCKED') {
+    return {
+      classification,
+      status: 'BLOCKED',
+      dispatchAllowed: false,
+      blockedReason: plateReuse.blockedReason,
+      referenceRequired: classification.referenceRequired,
+      referenceFound: false,
+      referenceAttached: Boolean(classification.referenceInputAttached),
+      generationMode: classification.generationMode,
+      resolvedReference: null,
+      referencePath: null,
+      referenceAuthorityId: classification.referenceAuthorityIdHint ?? null,
+      referenceStatus: null,
+      creditsSpent: 0,
+    };
+  }
   if (options.enforceFamilyOutputProject !== false) {
     const folder = validateFamilyOutputProject(classification);
     if (folder.status === 'BLOCKED') {

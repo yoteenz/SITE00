@@ -3,7 +3,7 @@
  * One structural grammar, JURNL expression only (no SITE 00 styling reaches these). Square-rounded geometry only.
  */
 
-import { createContext, useContext, useEffect, useId, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, useState, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { F01_COPY } from '../../data/f01/copy';
 import { JurnlIcon, type JurnlIconName } from './icons';
@@ -32,7 +32,7 @@ export function JurnlButton({
   children,
   ...rest
 }: {
-  variant?: 'primary' | 'secondary' | 'destructive' | 'quiet' | 'social';
+  variant?: 'primary' | 'secondary' | 'destructive' | 'quiet' | 'social' | 'utility' | 'approval' | 'inline';
   loading?: boolean;
   loadingLabel?: string;
   icon?: ReactNode;
@@ -69,6 +69,24 @@ export function JurnlButton({
         </>
       }
     </button>
+  );
+}
+
+/** Repeatable panel roles. Geometry stays square-rounded. The role changes material, not the brand. */
+export function JurnlPanel({
+  role,
+  className,
+  children,
+  ...rest
+}: {
+  role: 'signal' | 'ledger' | 'editorial' | 'selection' | 'detail' | 'form' | 'empty';
+  className?: string;
+  children: ReactNode;
+} & HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={['jrn-panel', `jrn-panel--${role}`, className].filter(Boolean).join(' ')} data-jrn-panel={role} {...rest}>
+      {children}
+    </div>
   );
 }
 
@@ -303,7 +321,7 @@ export function JurnlErrorPanel({
   block?: boolean;
 }) {
   return (
-    <div className={`jrn-error${block ? ' jrn-error--block' : ''}`} role="alert" data-jrn-trigger={testId}>
+    <div className={`jrn-error${block ? ' jrn-error--block' : ''}`} role="alert" data-jrn-panel="alert" data-jrn-trigger={testId}>
       <JurnlTile icon="alert" tone="wine" size={block ? 22 : 14} />
       <div className="jrn-error__copy">
         {block ? <h3 className="jrn-h3">{title}</h3> : <b>{title}</b>}
@@ -398,6 +416,7 @@ export function JurnlDrawer({
   tone,
   testId,
   keyboard = false,
+  expression,
 }: {
   size: 'short' | 'long';
   title: string;
@@ -410,6 +429,8 @@ export function JurnlDrawer({
   testId: string;
   /** Raises the sheet while a field is focused so the keyboard does not cover save. */
   keyboard?: boolean;
+  /** Repeatable sheet role. Shared drawer, different expression. */
+  expression?: 'form' | 'detail' | 'analysis' | 'filter' | 'confirmation';
 }) {
   const { ref, el: sheet } = useOverlayFocus(onClose);
   const titleId = useId();
@@ -447,6 +468,7 @@ export function JurnlDrawer({
           aria-modal="true"
           aria-labelledby={titleId}
           className={`jrn-drawer jrn-drawer--${size}${tone ? ` jrn-drawer--${tone}` : ''}`}
+          data-jrn-expression={expression}
           data-keyboard={keyboard ? 'open' : 'closed'}
         >
           <span className="jrn-drawer__grab" aria-hidden />

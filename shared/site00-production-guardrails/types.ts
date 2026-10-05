@@ -33,6 +33,10 @@ export const BLOCKED_REASONS = [
   'SILENT_FALLBACK_ATTEMPT',
   'FAMILY_PROJECT_REQUIRED',
   'FAMILY_PROJECT_MISMATCH',
+  'CROSS_FAMILY_PLATE_REUSE_UNJUSTIFIED',
+  'FAMILY_EXPRESSION_BRIEF_REQUIRED',
+  'FAMILY_EXPRESSION_GATE_FAILED',
+  'HIERARCHICAL_EXPRESSION_REQUIRED',
 ] as const;
 export type BlockedReason = (typeof BLOCKED_REASONS)[number];
 
@@ -95,6 +99,13 @@ export type GenerationRequest = {
   estimatedCostCredits?: number | null;
   /** Same-session outputs that may bind as references after parent gate. */
   sessionReferences?: readonly SessionReferenceOutput[];
+  /**
+   * Set only when this environment plate is taken from another family.
+   * A new family defaults to a new plate and leaves this empty.
+   */
+  sourcePlateFamilyId?: string | null;
+  /** Required when sourcePlateFamilyId names a different family. Narrative, continuation, or budget. */
+  crossFamilyReuseJustification?: string | null;
 };
 
 export type SessionReferenceOutput = {

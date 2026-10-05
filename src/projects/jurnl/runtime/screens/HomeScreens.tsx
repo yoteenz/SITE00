@@ -31,7 +31,7 @@ import { useSetup } from '../../data/f02/setupDraft';
 import { JurnlIcon } from '../components/icons';
 import { JurnlProductNav } from '../components/ProductNav';
 import { JurnlTransactionRow } from '../components/TransactionRow';
-import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInput } from '../components/primitives';
+import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
 
@@ -71,7 +71,7 @@ export function TodayScreen() {
           <p className="jrn-home__sub">WHAT IS TRUE.</p>
         </div>
         <div className="jrn-home__rail" data-jrn-zone="content-rail">
-        {mode === 'LOADING' ? <p className="jrn-home__wait">READING TODAY</p> : null}
+        {mode === 'LOADING' ? <p className="jrn-home__wait" data-jrn-state="loading">READING TODAY</p> : null}
         {mode === 'ERROR' ? (
           <JurnlErrorPanel
             block
@@ -82,23 +82,23 @@ export function TodayScreen() {
           />
         ) : null}
         {mode === 'EMPTY' ? (
-          <div className="jrn-home__panel" data-jrn-trigger="today-empty">
+          <JurnlPanel role="empty" className="jrn-home__panel" data-jrn-trigger="today-empty">
             <b>NO ACCOUNTS YET</b>
             <p>THIS HOME NEEDS A MONEY SOURCE. NOTHING HERE IS A BALANCE.</p>
             <JurnlButton variant="secondary" trigger="today-empty-setup" onClick={() => go('F02.02')}>
               RETURN TO ACCOUNTS
             </JurnlButton>
-          </div>
+          </JurnlPanel>
         ) : null}
         {mode === 'PARTIAL' ? (
-          <div className="jrn-home__panel" data-jrn-trigger="today-partial">
+          <JurnlPanel role="editorial" className="jrn-home__panel" data-jrn-trigger="today-partial">
             <b>STILL LEARNING</b>
             <p>{draft.accounts === 'SKIPPED' ? 'ACCOUNTS WERE SKIPPED.' : 'INCOME IS STILL QUIET.'}</p>
             <p>SAFE TO SPEND STAYS UNSTATED UNTIL THOSE FACTS EXIST.</p>
-          </div>
+          </JurnlPanel>
         ) : null}
         {showSignal ? (
-          <div className="jrn-home__signal">
+          <div className="jrn-home__signal" data-jrn-panel="signal">
             <p className="jrn-home__num">{formatMoney(signal.value)}</p>
             <p className="jrn-home__label">SAFE TO SPEND</p>
             <p className="jrn-home__hint">A COMPUTED SIGNAL. PREVIEW.</p>
@@ -114,12 +114,12 @@ export function TodayScreen() {
         ) : null}
         {attention && showSignal ? <p className="jrn-home__note" data-jrn-trigger="today-attention">{attention}</p> : null}
         {showSignal || mode === 'PARTIAL' ? (
-          <div className="jrn-home__panel">
+          <JurnlPanel role="editorial" className="jrn-home__panel" data-jrn-rhythm={openUpcoming ? 'sequence' : 'rest'}>
             <div className="jrn-home__sec">
               <span>COMING</span>
-              <button type="button" className="jrn-btn jrn-btn--quiet" data-jrn-trigger="today-upcoming" onClick={() => setOpenUpcoming((v) => !v)}>
+              <JurnlButton variant="inline" trigger="today-upcoming" onClick={() => setOpenUpcoming((v) => !v)}>
                 {openUpcoming ? 'LESS' : 'MORE'}
-              </button>
+              </JurnlButton>
             </div>
             <ul className="jrn-home__list">
               {(openUpcoming ? upcomingFor(draft) : upcoming).map((item) => (
@@ -142,9 +142,9 @@ export function TodayScreen() {
               <>
                 <div className="jrn-home__sec">
                   <span>MOVED</span>
-                  <button type="button" className="jrn-btn jrn-btn--quiet" data-jrn-trigger="today-activity" onClick={() => go('F04')}>
+                  <JurnlButton variant="inline" trigger="today-activity" onClick={() => go('F04')}>
                     ACTIVITY
-                  </button>
+                  </JurnlButton>
                 </div>
                 <div role="list" className="jrn-home__list">
                   {recent.map((entry) => (
@@ -154,7 +154,7 @@ export function TodayScreen() {
               </>
             ) : null}
             {draft.priorities[0] ? <p className="jrn-home__goal">{draft.priorities[0]} FIRST</p> : null}
-          </div>
+          </JurnlPanel>
         ) : null}
         </div>
         <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
@@ -175,7 +175,7 @@ function SeeWhySheet({ onClose }: { onClose: () => void }) {
     ['SAFE TO SPEND', formatMoney(signal.value), 'DERIVED'],
   ];
   return (
-    <JurnlDrawer size="long" testId="see-why" title="SEE WHY" lead="SAFE TO SPEND IS CASH, MINUS WHAT IS COMING, MINUS WHAT YOU PROTECTED. THIS IS A PREVIEW READING." onClose={onClose}>
+    <JurnlDrawer expression="analysis" size="long" testId="see-why" title="SEE WHY" lead="SAFE TO SPEND IS CASH, MINUS WHAT IS COMING, MINUS WHAT YOU PROTECTED. THIS IS A PREVIEW READING." onClose={onClose}>
       <ul className="jrn-why">
         {rows.map(([label, value, source]) => (
           <li key={label}>
@@ -200,6 +200,7 @@ export function QuickAddSheet({ onClose }: { onClose: () => void }) {
   const valid = name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim()) && numeric > 0 && (direction === 'EXPENSE' || direction === 'INCOME') && account.length > 0;
   return (
     <JurnlDrawer
+      expression="form"
       size="long"
       testId="quick-add"
       title="QUICK ADD"
@@ -265,7 +266,7 @@ export function AskSheet({ onClose }: { onClose: () => void }) {
   const signal = safeToSpend();
   const currency = useCurrency();
   return (
-    <JurnlDrawer size="long" testId="ask" title="ASK JURNL" lead="JURNL READS THE PREVIEW CASH, WHAT IS COMING, AND WHAT YOU PROTECTED." onClose={onClose}>
+    <JurnlDrawer expression="confirmation" size="long" testId="ask" title="ASK JURNL" lead="JURNL READS THE PREVIEW CASH, WHAT IS COMING, AND WHAT YOU PROTECTED." onClose={onClose}>
       <p className="jrn-home__ask">SAFE TO SPEND IS {formatMoney(signal.value)}. THIS IS NOT A PLAN AND NOT A BALANCE.</p>
       <div className="jrn-currency" data-jrn-trigger="change-currency">
         <p className="jrn-currency__label">DISPLAY CURRENCY</p>
@@ -310,7 +311,7 @@ export function ActivityScreen() {
 
   return (
     <JurnlScreen screenId="F04.00" familyPlate={F04_LEDGER_PLATE}>
-      <div className="jrn-act" data-jrn-state={mode || 'connected'}>
+      <div className="jrn-act" data-jrn-state={mode || 'connected'} data-jrn-expression={query ? 'investigative' : 'ledger'}>
         <div className="jrn-home__top" data-jrn-zone="chrome">
           <JurnlIconButton icon="back" label="BACK TO TODAY" trigger="activity-back" onClick={() => go('F03')} />
           <span className="jrn-home__mark">JURNL</span>
@@ -323,42 +324,42 @@ export function ActivityScreen() {
         <div className="jrn-act__stage" data-jrn-zone="content-rail">
         <div className="jrn-act__tools">
           <JurnlInput label="SEARCH" value={query} onValue={setQuery} icon="search" trigger="activity-search" />
-          <JurnlButton variant="secondary" trigger="activity-filter" onClick={() => openOverlay('filter')}>
+          <JurnlButton variant="utility" trigger="activity-filter" onClick={() => openOverlay('filter')}>
             <JurnlIcon name="filter" size={14} /> FILTER
           </JurnlButton>
         </div>
         {query ? (
           <p className="jrn-act__query" data-jrn-trigger="activity-query">
             <span>LOOKING FOR {query.toUpperCase()}</span>
-            <button type="button" className="jrn-btn jrn-btn--quiet" data-jrn-trigger="activity-clear-search" onClick={() => setQuery('')}>
+            <JurnlButton variant="inline" trigger="activity-clear-search" onClick={() => setQuery('')}>
               CLEAR SEARCH
-            </button>
+            </JurnlButton>
           </p>
         ) : null}
         {summary ? (
           <p className="jrn-act__filters" data-jrn-trigger="activity-filter-state">
             <span>{summary}</span>
-            <button type="button" className="jrn-btn jrn-btn--quiet" data-jrn-trigger="activity-clear-filter" onClick={() => setFilter(EMPTY_FILTER)}>
+            <JurnlButton variant="inline" trigger="activity-clear-filter" onClick={() => setFilter(EMPTY_FILTER)}>
               CLEAR FILTERS
-            </button>
+            </JurnlButton>
           </p>
         ) : null}
-        {mode === 'loading' ? <p className="jrn-home__wait">READING ACTIVITY</p> : null}
+        {mode === 'loading' ? <p className="jrn-home__wait" data-jrn-state="loading">READING ACTIVITY</p> : null}
         {mode === 'error' ? (
           <JurnlErrorPanel block testId="activity-error" title="COULD NOT READ ACTIVITY" body="THE LEDGER IS STILL HERE." action={{ label: 'RETRY', trigger: 'activity-retry', onClick: () => go('F04') }} />
         ) : null}
         {mode !== 'loading' && mode !== 'error' ? (
-          <div className="jrn-ledger" data-jrn-zone="ledger">
+          <JurnlPanel role="ledger" className="jrn-ledger" data-jrn-zone="ledger">
             {mode !== 'empty' && shown.length > 0 ? <p className="jrn-ledger__count">{shown.length} MOVEMENTS</p> : null}
             <div className="jrn-act__list" role="list" aria-label="ACTIVITY">
               {mode === 'empty' ? (
-                <div className="jrn-ledger__empty" data-jrn-trigger="activity-empty">
+                <div className="jrn-ledger__empty" data-jrn-panel="empty" data-jrn-trigger="activity-empty">
                   <b>NO MOVEMENT YET</b>
                   <p>THE LEDGER IS QUIET.</p>
                 </div>
               ) : null}
               {mode !== 'empty' && shown.length === 0 ? (
-                <div className="jrn-ledger__empty" data-jrn-trigger="activity-none">
+                <div className="jrn-ledger__empty" data-jrn-panel="empty" data-jrn-trigger="activity-none">
                   <b>NO MATCHES</b>
                   <p>NOTHING IN THIS LEDGER FITS.</p>
                   {query ? (
@@ -384,7 +385,7 @@ export function ActivityScreen() {
                 />
               ))}
             </div>
-          </div>
+          </JurnlPanel>
         ) : null}
         </div>
         <JurnlProductNav current="ACTIVITY" onGo={go} onAdd={() => openOverlay('quick-add')} />
@@ -404,6 +405,7 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
   const whens = ['ALL', 'YESTERDAY', 'FRIDAY', 'THURSDAY', 'MONDAY', 'TODAY'];
   return (
     <JurnlDrawer
+      expression="filter"
       size="long"
       testId="activity-filter-sheet"
       title="FILTER"
@@ -465,7 +467,7 @@ function DetailSheet({ entry, onClose }: { entry: LedgerEntry; onClose: () => vo
   if (entry.memo) rows.push(['NOTE', entry.memo]);
   if (entry.recurring) rows.push(['RECURRING', 'YES']);
   return (
-    <JurnlDrawer size="long" testId="activity-detail" title={entry.merchant} lead="A MOVEMENT. NOT A BILL, UNLESS A RELATED OBLIGATION IS NAMED." onClose={onClose}>
+    <JurnlDrawer expression="detail" size="long" testId="activity-detail" title={entry.merchant} lead="A MOVEMENT. NOT A BILL, UNLESS A RELATED OBLIGATION IS NAMED." onClose={onClose}>
       <ul className="jrn-why">
         {rows.map(([label, value]) => (
           <li key={label}>
