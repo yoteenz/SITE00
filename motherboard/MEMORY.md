@@ -13450,6 +13450,14 @@ Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENAR
 
 ---
 
+## 2026-10-05 — Full-body uniform regen (OpenArt1)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.FULL-BODY-UNIFORM-REGEN.OPENART1` on `cursor/studio-world-resident-full-body-uniform-regen-openart1`.
+
+- **8/8** full-body-only regens with identity registry + founder uniform authorities (`uniform-authority-v1/` women leggings / men compression shorts, white-red toe shoes). **0 retries**, **1216** credits. Portraits unchanged. Review ZIPs `STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN_REVIEW*.zip`. All `IN_REVIEW`.
+
+---
+
 ## 2026-10-05 — RESUME16 OpenArt2 validation (16 frames, sha256 registry)
 
 Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2`.
