@@ -1,0 +1,29 @@
+{
+  "owner_family": "F07",
+  "data_owner": "DERIVED — not persisted",
+  "sources": [
+    { "domain": "DD.INCOME_SOURCES", "owner": "F06", "field": "expected_date / recurrence" },
+    { "domain": "DD.OBLIGATIONS", "owner": "F07", "field": "due_date / amount_minor" }
+  ],
+  "implementation": "src/projects/jurnl/data/foundation/upcomingProjection.ts",
+  "shape": {
+    "upcoming_id": "string",
+    "source_domain": "INCOME | OBLIGATION",
+    "source_id": "string",
+    "direction": "MONEY_IN | MONEY_OUT",
+    "label": "string",
+    "amount_minor": "number | null",
+    "currency": "string",
+    "due_date": "YYYY-MM-DD",
+    "status": "string",
+    "recurrence": "optional",
+    "account_id": "optional",
+    "owner_family_id": "F06 | F07",
+    "destination_node_id": "route target for detail"
+  },
+  "rules": [
+    "No duplicate upcoming store in repository snapshot",
+    "Edits route to canonical source owner",
+    "Date grouping uses canonical date model (timezone-safe date-only keys)"
+  ]
+}

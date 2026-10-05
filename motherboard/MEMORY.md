@@ -13815,6 +13815,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   6. **F09** — safe-to-spend upcoming reads repository obligations
 - **Artifacts:** `docs/jurnl/structural-completion/wave2/`; blueprint regenerated (~35.2% functional est.; interactions WORKING 118).
 - **Next:** Wave 3 F08/F09/F12/F14 — do not rework F05/F06/F07 ownership.
+- **Ship (same day):** Branch `cursor/jurnl-wave2-money-income-upcoming-7425`; F03/F04 smoke updated for functional F05; full wave2 artifact set + regression report; merged to `main`; deploy ZIP v20.
 
 ---
 

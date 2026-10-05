@@ -1,0 +1,54 @@
+{
+  "contracts": [
+    {
+      "from": "F05",
+      "to": "F04",
+      "type": "navigation",
+      "surface": "money-open-activity → activity ledger"
+    },
+    {
+      "from": "F05",
+      "to": "F06",
+      "type": "navigation",
+      "surface": "money-open-income"
+    },
+    {
+      "from": "F06",
+      "to": "F04",
+      "type": "data",
+      "surface": "receiveIncome → appendTransaction + markIncomeReceived"
+    },
+    {
+      "from": "F06",
+      "to": "F07",
+      "type": "read",
+      "surface": "projectUpcoming includes expected income rows"
+    },
+    {
+      "from": "F07",
+      "to": "F06",
+      "type": "navigation",
+      "surface": "income source detail route income/:sourceId"
+    },
+    {
+      "from": "F07",
+      "to": "F09",
+      "type": "read",
+      "surface": "listObligations feeds computeSafeToSpend upcoming outflows"
+    },
+    {
+      "from": "F03",
+      "to": "F05/F06/F07",
+      "type": "read",
+      "surface": "money.ts upcomingFor uses projectUpcoming when repo populated"
+    },
+    {
+      "from": "GS.QUICK_ADD",
+      "to": "F06",
+      "type": "mutation",
+      "surface": "INCOME type → upsertIncomeSource"
+    }
+  ],
+  "safe_to_spend_owner": "F09",
+  "duplicate_safe_to_spend_formulas": 0
+}
