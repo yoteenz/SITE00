@@ -4,7 +4,7 @@ Today answers what is true right now. The signal is one figure: what can be spen
 
 The room should feel brighter and already in use. It is a morning room, not the front door. No arch-and-bust still life. No bowl. No stack of books. Daylight leads. A cloth, a cup, or an open note is enough.
 
-The mounted plate does not meet this brief. It still shows the entry and setup doorway. It stays up, and it is marked for replacement. Do not generate that replacement until the founder asks.
+The mounted plate is the daily room derived from the full-page authority. It is in review. The earlier arrival-copy file is not the authority.
 
 Activity should feel quieter than this room.
 

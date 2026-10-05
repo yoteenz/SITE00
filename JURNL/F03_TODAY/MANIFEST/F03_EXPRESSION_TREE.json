@@ -59,7 +59,7 @@
     "reuse_reason": "CORRECT",
     "notes": [
       "The written Today room is not the entry doorway and not the activity wall.",
-      "The mounted ENV.DAY file still shows the arrival still life. That mount fails. Do not generate a replacement until the founder asks.",
+      "The mounted ENV.DAY file is the plate derived from the full-page authority. It is in review. It is not the arrival still life.",
       "See why and upcoming stay in the day room. They do not get plates."
     ]
   },
@@ -114,7 +114,7 @@
       "parent_expression_inherited": "F03 open sunlit lived-in daily active",
       "expression_changes": [
         "Not a generic template.",
-        "The mounted plate still repeats the F01 and F02 arrival still life and is SHOULD_REPLACE.",
+        "The mounted plate is the derived daily room. The arrival-copy file is an invalid method output.",
         "Do not regenerate that plate until the founder asks."
       ],
       "environment_policy": "NEW_PLATE_WITHIN_FAMILY",

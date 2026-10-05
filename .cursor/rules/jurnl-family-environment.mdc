@@ -37,7 +37,7 @@ States and interactions are directed. They are not generic messages, spinners, o
 
 `precheckGenerationDispatch()` requires the expression tree after the family brief. A missing tree is `HIERARCHICAL_EXPRESSION_REQUIRED`. An incomplete tree or a failed repetition audit is `FAMILY_EXPRESSION_GATE_FAILED`. Credits spent stay 0.
 
-F03's mounted day plate still fails the daily-salon concept until the authority-first correction is mounted. F03 and F04 child production stays blocked.
+F03's mounted day plate is the derived daily room and is in review. F03 and F04 child production stays blocked.
 
 ## Plate occupancy
 

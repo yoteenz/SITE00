@@ -25,6 +25,22 @@ export const SITE00_REFERENCE_REGISTRY: readonly ReferenceRegistryEntry[] = [
     ],
   },
   {
+    authorityId: 'F03.00_TODAY_AUTHORITY_FIRST',
+    projectId: 'JURNL',
+    status: 'IN_REVIEW',
+    familyId: 'F03',
+    screenId: 'F03.00',
+    paths: ['src/projects/jurnl/families/F03_TODAY/AUTHORITIES/F03.00_TODAY_AUTHORITY_FIRST.jpg'],
+  },
+  {
+    authorityId: 'F03.00_LIVE_STRUCTURE',
+    projectId: 'JURNL',
+    status: 'IN_REVIEW',
+    familyId: 'F03',
+    screenId: 'F03.00',
+    paths: ['src/projects/jurnl/families/F03_TODAY/REFERENCES/F03.00_LIVE_STRUCTURE.jpg'],
+  },
+  {
     authorityId: 'F03.00_TODAY_PARENT',
     projectId: 'JURNL',
     status: 'IN_REVIEW',

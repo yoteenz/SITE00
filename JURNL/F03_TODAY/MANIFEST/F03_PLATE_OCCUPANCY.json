@@ -34,5 +34,16 @@
     "drawer_overlay_zone": "Lower sheet. No plate of its own.",
     "text_density_zone": "Left rail. Do not stretch the journal across the plate."
   },
-  "plate_ui_interference": "PENDING_AUTHORITY"
+  "plate_ui_interference": "PASS",
+  "qa": {
+    "ui_occupancy_fit": "PASS",
+    "negative_space_quality": "PASS",
+    "visual_noise_in_ui_zone": "LOW",
+    "edge_density_in_ui_zone": "LOW",
+    "salience_conflict": "PASS",
+    "panel_material_compatibility": "PASS",
+    "responsive_fit": "PASS",
+    "drawer_occlusion_exception": "NOT_USED",
+    "plate_ui_interference": "PASS"
+  }
 }

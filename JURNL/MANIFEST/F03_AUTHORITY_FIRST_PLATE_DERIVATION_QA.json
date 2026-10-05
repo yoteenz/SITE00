@@ -1,0 +1,47 @@
+{
+  "contract": "F03_AUTHORITY_FIRST_PLATE_DERIVATION_QA",
+  "sprint": "P0.JURNL.F03-GROK-AUTHORITY-FIRST-PLATE-DERIVATION-REPAIR1",
+  "full_page_authority_generated": true,
+  "reference_required": true,
+  "reference_found": true,
+  "reference_attached": true,
+  "generation_mode": "REFERENCE_GUIDED",
+  "text_to_image_used": false,
+  "F03_distinct_from_F02": "PASS",
+  "ui_occupancy_map": "PASS",
+  "plate_ui_interference": "PASS",
+  "authority_pass": true,
+  "plate_derived_from_authority": true,
+  "plate_reference_attached": true,
+  "live_plate_mounted": true,
+  "live_vs_authority_match": "PASS",
+  "mobile_pass": true,
+  "tablet_pass": true,
+  "desktop_pass": true,
+  "credits_spent": 644,
+  "credits_before": 25481,
+  "credits_after": 24837,
+  "new_paid_generations": 2,
+  "reference_binding_failures": 0,
+  "invalid_generations_blocked": 0,
+  "invalid_previous_outputs_classified": [
+    {
+      "generation_id": "R7v2u8iMYCWa2EFCshuQ",
+      "classification": "INVALID_METHOD_OUTPUT"
+    },
+    {
+      "generation_id": "HzvsFXSFIT00OiyvhNQF",
+      "classification": "INVALID_METHOD_OUTPUT"
+    },
+    {
+      "generation_id": "wLHnKXCM1PNhNZFFYZc6",
+      "classification": "INVALID_METHOD_OUTPUT"
+    }
+  ],
+  "live_metrics": {
+    "393x852": { "horizontal_overflow": 0, "nav_center_delta": 0, "object_position": "left center" },
+    "834x1194": { "horizontal_overflow": 0, "nav_center_delta": 0, "object_position": "left center" },
+    "1440x900": { "horizontal_overflow": 0, "nav_center_delta": 0, "object_position": "left center" }
+  },
+  "notes": "The live structure reference was the current Today screen with the arrival plate hidden. The full page was image-to-image from that file. The clean plate was image-to-image from the full page. Leaf shadows sit to the right of the journal. The phone crop keeps the quiet plaster and shows the cup at the lower right."
+}

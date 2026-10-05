@@ -25,6 +25,16 @@
     "RUNTIME_PLATE": "DERIVED_FROM_AUTHORITY"
   },
   "full_page_authorities": {
+    "F03.00_TODAY_AUTHORITY_FIRST": {
+      "authority_type": "FULL_PAGE",
+      "family_id": "F03",
+      "status": "PASS",
+      "derivation_allowed": true,
+      "reference_id": "F03.00_LIVE_STRUCTURE",
+      "generation_id": "7JmBzC1obUKZpdQwo74U",
+      "resource_id": "JOcEeFsHNjaz2B5NsLmQ",
+      "note": "Reference-guided full page. Quiet left plaster. Daylight, cup, and cloth on the right. Distinct from the arrival room."
+    },
     "F03.00_TODAY_PARENT": {
       "authority_type": "FULL_PAGE",
       "family_id": "F03",
