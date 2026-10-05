@@ -13452,3 +13452,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `JURNL/F02_SETUP/` authorities, plates, review sheets, and manifests. Motherboard note that the package is in review and unmounted.
 - **Credits:** OpenArt balance 44,534 → 37,088 (delta 7,446) across 23 jobs. Quoted rate 317 credits for image-to-image 4k high 9:16. The first job's balance delta was 318. The provider does not return a per-job receipt, so 155 credits above 23×317 stay unallocated. Ceiling remains 60,000.
 - **Conventions:** SETUP collects. Later families manage. Share a plate when the room is the same. Generate a plate from the screen by removing UI, not by cropping the screen. If a surface is flat bone or solid emerald, keep it in code.
+
+---
+
+## 2026-10-05 — F02 image ZIP
+
+- **Context:** After the F02 SETUP visual package landed, the founder asked for a ZIP of the generated F02 images.
+- **Decisions / outcomes:** The pack is the review images only: parent, children, grandchildren, states, interactions, environment plates, and contact sheets. It is not a site00.com deploy and must not be uploaded to public_html.
+- **Changes:** GitHub release `jurnl-f02-setup-images-2026-10-05`. No app code changed.
