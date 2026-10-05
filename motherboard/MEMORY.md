@@ -13278,6 +13278,115 @@ Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.MOUNT1` on `cursor/produc
 
 ---
 
+## 2026-10-04 — Resident recovery 3 from founder SW team pack (PR #1310)
+
+Same chat also shipped the 242-file production authority downloader on `cursor/production-openart-downloader-recovery2-0daf` (merged PR #1311). This entry is the resident ingest on draft PR #1310.
+
+- **Context:** Founder supplied `STUDIO_WORLD_TEAM_LITE_FORENSIC_REFERENCE.zip` (27 images). RECOVERY2 had marked Noa, Marlowe, and Elio `MISSING_SOURCE_ASSET` and Zuri as candidate only. No new OpenArt search. No generation.
+- **Clusters (visual, before names):** 8 people. Anchors locked to mounted portraits: Etta (06/20/23), Zuri candidate (04/15/18 exact), Caspian (16/17/22), Iona (02/07/24/27, 24 exact). Remaining: East Asian man (01/09/13/19/25) = Noa; older sun-earring man (03/05/12) = Marlowe; burgundy shorter-wave man (10/11/21) = Elio. Locs cluster (08/14/26) is only a probable Jules match (hair differs from the mounted portrait) and was not swapped in.
+- **Mounted:** `studio-world-noa-kline-portrait.jpg`, `studio-world-marlowe-saint-portrait.jpg`, `studio-world-elio-vahn-portrait.jpg`, `studio-world-zuri-xu-portrait.jpg` plus full-body variants. Status `IDENTITY_CONFIRMED`, source `USER_SUPPLIED`, `UNKNOWN_OPENART_PROVENANCE`. Original `SW Team(1).zip` was not in the workspace, so these are lite interim masters (`HIGH_RES_SOURCE_REQUIRED_FOR_FINAL_RUNTIME_MOUNT`).
+- **Changes:** registry, expression manifest (missing slot cleared), Opus handoff, forensics test. `tsc --noEmit` and `npm run build` passed. Draft PR #1310 stays draft. No merge, no deploy.
+
+## 2026-10-04 — Activity one-viewport convergence (canonical DOMAIN × TIME project memory)
+
+Sprint `P0.STUDIOOS.PRODUCTION.ACTIVITY.ONE-VIEWPORT-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL. It supersedes the earlier "Activity stays OPUS1" decision for presentation only.
+
+- **Root cause:** `/production/activity` still mounted the OPUS1 tree (7dcf37de, restored by 319ae2ff).
+  - It used the iaKit hero, the ALL/APPROVALS/UPDATES/COMMENTS/BLOCKERS lens bar, the search strip, KPI stats and stacked FEED / MILESTONES / ATTENTION panels.
+  - There was no `.pxa[data-screen='activity'] .pxa-scroll` lock, so the frame pane scrolled 435–903px.
+  - The canonical model lived only on other branches, unmounted.
+- **Now:**
+  - `activityLog.ts` provides `buildActivityMemory`, built from the entry, narrative, cast, authority sheets, storyboard, graph blockers/unlocks and recorded hub activity.
+  - `ActivityBody.tsx` is the `.amx` workspace.
+    - Primary filters are DOMAIN (ALL…SYSTEM) and TIME (TODAY…FULL HISTORY).
+    - CHANGE (verbs) is a secondary select.
+    - The timeline feeds an inspector with WHEN / BY / PROJECT / ENTRY / AREA / VERSION / STATE / AFFECTS / DOWNSTREAM / CAUSE, BEFORE/AFTER lineage and an OPEN source link.
+  - `buildActivityRows` is kept for the Hub.
+- **Height contract:** in `site00-production-activity-memory.css`:
+  - an activity-scoped frame lock, plus `100dvh` under `@supports`;
+  - only `.amx-events` and `.amx-insp__scroll` scroll;
+  - compositions: desktop rail | timeline | inspector, tablet band plus 62/38, mobile band plus timeline plus a drawer (`display:none` when closed).
+- **Retired:** the iaKit components except `IaIcon` (Inbox only uses icons), and `site00-production-inbox-activity.css`.
+- **Links:** legacy `?view=blockers|approvals` maps to CHANGE BLOCKED/APPROVED on FULL HISTORY, so Inbox's blockers link still works.
+- **Proof:** `artifacts/production-activity-one-viewport-opus1/`, covering 14 viewports × 5 states = 70/70. Document and frame scroll are both 0 and nothing is clipped. Test: `tests/productionActivityOneViewportOpus1.test.ts`.
+
+---
+
+## 2026-10-04 — Inbox one-viewport family convergence (children → rail · rows · inspector)
+
+Sprint `P0.STUDIOOS.PRODUCTION.INBOX.ONE-VIEWPORT-FAMILY-CONVERGENCE.OPUS1`, marked FOUNDER AUTHORITY: FINAL.
+
+- **Root cause:** the OPUS2 children (WATCHING / RESOLVED / ALL INBOX / SYSTEM / MESSAGES in `InboxBody.tsx`) kept the stale stacked mobile presentation from `SW_INBOX_AUTHORITY_LITE_v2`:
+  - a `.ibx-stats` block, then a search plus menus row, then `.ibx-row--watch` cards;
+  - each card had a 150px art column, a facts list and a permanent `.ibx-row__side` column (status pill + OPEN + STOP WATCHING, all `nowrap`);
+  - at 390px the side column's minimum width exceeded its track, and the list pane (`overflow-y:auto`, which forces `overflow-x:auto`) silently clipped the pill and the buttons;
+  - cards were about 260px tall, so on the iPhone they ran past the pane edge under the fixed nav.
+- **iOS:** the frame had no dvh contract.
+- **Now:** a shared `ListWorkspace`:
+  - rail: title + project/entry line, compact summary, search, FILTER / SORT sheet, menus on desktop, type views;
+  - compact `ObjectRow`s with no action column;
+  - an inspector at `?sel=` holding the actions (OPEN / STOP WATCHING / APPROVE behind the gate / REVIEW / ACKNOWLEDGE);
+  - compositions: desktop rail | list | inspector, tablet band + 60/40, mobile band + list + drawer.
+- **Styles:** in `site00-production-inbox-workspace.css`, with `100dvh` on the inbox frame under `@supports`.
+- **Unchanged:** NEEDS YOU keeps the parent-authority composition. Grandchildren (decision detail, thread, notice detail) and temporary sheets are unchanged apart from marking the attachment rail `data-scroll="internal-x"`.
+- **Cleanup:** 116 dead child rules were pruned from `site00-production-inbox-family.css` (postcss), and the unused `Attention` component was removed.
+- **Proof:** `artifacts/production-inbox-one-viewport-family-opus1/`. Test: `tests/productionInboxOneViewportFamilyOpus1.test.ts`.
+
+---
+
+## 2026-10-04 — Experience + Library convergence applied to live preview tunnel branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPERIENCE-LIBRARY.TUNNEL-BRANCH-APPLICATION.COMPOSER1`.
+
+- **Tunnel:** Vite dev on `:5174` serves `/workspace` checkout. Branch `cursor/production-openart-asset-forensics-mount1-0daf`; rebased convergence onto remote merge `433a7622` (Inbox `ec6211f0` + Activity one-viewport retained).
+- **Method:** cherry-pick `e989bcdcb58d9699afd47c64b3e7e3c911f54817` (Experience + Library realm screens, routes, CSS, tests, QA artifacts) — not a full merge of PR #1312 branch history.
+- **Result:** `ExperienceScreen` / `LibraryScreen` under `productionAuthority/realm/`; 46 + 75 routes; retired `ExperienceBody` / `LibraryBody`. Minimal exports added to `productionNavIcon` / `iaKit` for Library icon reads. `100dvh` frame contract scoped for realm one-viewport.
+- **Proof:** `tests/productionExperienceLibraryConvergenceOpus1.test.ts` (136) + inbox/activity regression suites on rebased branch.
+
+---
+
+## 2026-10-04 — Resident geometry fabrication batch (OpenArt) — infrastructure + partial gen
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-BATCH.OPENART1`.
+
+- **Branch:** `cursor/studio-world-resident-fabrication-geometry-openart1` from PR #1310 / asset-forensics lineage.
+- **Canon:** 8 residents, 16-frame geometry spec (`shared/site00-studio-world/resident-fabrication/`), identity from mounted portraits; **SW Team(1).zip not in workspace** → `LITE_ONLY`; Jules locs + Iona glam excluded as identity authority.
+- **OpenArt:** project `Q7IHYCEK3RPn2c1ConEG`, `gpt-image-2-5-sunburst` image2image HIGH 2K; all 8 identity refs uploaded (`openart_identity_references.json`). Credit math ~152×128 ≈ 19.5k vs ~12.7k balance → full 128 frames needs top-up or phased runs.
+- **Repo:** `FABRICATION_IN_REVIEW` status, `residentFabricationManifest.ts` / registry, pack + runner scripts, manifest JSON (128 scaffold rows), audit + README under `artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/`; PNG masters gitignored; review ZIPs via `studio-world-resident-fabrication-pack.mjs finalize`.
+- **Gen progress at commit:** SW-001 frames 01–02 completed; background agent queued SW-001–005. No performance/wardrobe batches. Draft PR only — no merge/deploy.
+
+---
+
+## 2026-10-04 — RECOVERY4 white-tee/red-collar fabrication source authority
+
+Sprint `P0.STUDIOWORLD.RESIDENT-AUTHORITY.RECOVERY4-WHITE-TEE-RED-COLLAR`.
+
+- **Problem:** PR #1313 geometry batch anchored OpenArt on `production-authority-assets/shared/residents/*-portrait.jpg` (forensics/black tee / outdated). Founder: correct set is **white T-shirt + red collar** already in repo history.
+- **Recovery:** `casting-thumbnails-v1/` (commit `4cdac10c`, PR #1303) = work look + fabrication portrait; `season1-v1/01-natural-authority/` (PR #1302 `a59131ef`) = full-body. Bundle on `cursor/production-hub-descendants-opus1` (not current `main`). Ivory `*-uniform.jpg` / season1 `03-work-uniform-candidates` are **not** white-tee authority.
+- **Branch:** `cursor/studio-world-resident-authority-recovery4`; halted OpenArt; invalidated SW-001 generated frames (16) as `SUPERSEDED_OUTPUT_WRONG_SOURCE`; pending 112 frames `NOT_GENERATED`. Review ZIPs `STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW*.zip`. Next: founder review → 16-frame validation gen before full 128 resume.
+
+---
+
+## 2026-10-04 — Resident fabrication authority validation OpenArt (16-frame pack)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.OPENART1` on branch `cursor/studio-world-resident-fabrication-validation-openart1`.
+
+- **Scope:** 8 residents × 2 frames (work portrait + work full-body front) using casting-thumbnails-v1 + season1 natural full-body refs uploaded to OpenArt project `Q7IHYCEK3RPn2c1ConEG`; `gpt-image-2-5-sunburst` image2image HIGH 2K (~152 credits/frame).
+- **Completed:** All **16/16** validation PNGs (8× portrait + 8× full-body) via OpenArt MCP + recovery4 casting-thumbnails-v1 / season1 full-body refs (`openart_visual_references.json`). Contact sheets, master overview, `failure_retry_report.json`, review ZIPs refreshed. Classifications: agent spot-check **PASS** on SW-001; all frames remain `approval_status: FABRICATION_VALIDATION_IN_REVIEW` / mostly `FOUNDER_REVIEW_REQUIRED` until founder sign-off. **128 geometry batch not resumed.**
+- **Credits recorded:** 2432 (16 × ~152). Draft PR on `cursor/studio-world-resident-fabrication-validation-openart1` links #1314 + #1313.
+
+---
+
+## 2026-10-04 — Validation source-binding recovery (RECOVERY1)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1`.
+
+- **Root cause:** Geometry OpenArt runner (`studio-world-resident-fabrication-openart-runner.mjs` `plan()`) binds `visualReference` from `openart_identity_references.json` → `production-authority-assets/shared/residents/*-portrait.jpg` (black-tee mounts). Validation had a parallel unverified cache (`openart_visual_references.json`) with no sha256 gate — ambiguous vs geometry identity uploads.
+- **Fix:** `validationSourceBinding.ts` (explicit identityFace / workLook / bodyGeometry roles, throws on superseded paths); `source-binding-registry.json` sha256 ↔ OpenArt upload IDs; `studio-world-validation-openart-run-one.mjs` refuses stale refs; proof script + 8 `SW-00X_SOURCE_BINDING_PROOF.jpg` sheets. Prior 16 validation PNGs marked `SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING`.
+- **Canary:** 1× Etta work portrait (`VBxhMWHBMtT6R63sRCnW`) using new upload `fujq0PYW5H3SwY15Oq35` (sha256 matches casting thumbnail); superseded geometry id `h5j5eTZfam3mnxVql57l`. Branch `cursor/studio-world-resident-fabrication-validation-source-binding-recovery1`. Tests: `residentFabricationValidationSourceBinding.test.ts`.
+
+---
+
 ## 2026-10-04 — Production authority downloader (RECOVERY2)
 
 Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.RECOVERY2` — forensic retrieval only (OpenArt project `Q7IHYCEK3RPn2c1ConEG`, zero generations).
@@ -13341,6 +13450,151 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-05 — Single-angle Etta source test (OpenArt)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` on `cursor/studio-world-resident-single-angle-source-test-openart1` (from #1316).
+
+- **One image:** Etta left three-quarter work portrait (`ODqcr3zgDJwpZfFwElmQ`); ref upload `fujq0PYW5H3SwY15Oq35`; inputImages URL verified = casting white-tee/red-collar sha256.
+- **Artifacts:** `SW-001_ETTA_SINGLE_TEST_SOURCE_PROOF.jpg`, `SW-001_ETTA_SINGLE_TEST_REVIEW.jpg`, `SW-001_ETTA_SINGLE_TEST_README.txt`, `artifacts/studio-world-resident-fabrication-validation/single-angle-source-test.json`. Classification **PASS**. No validation/geometry batch resume.
+
+---
+
+## 2026-10-05 — RESUME16 validation batch (OpenArt2, sha256 registry)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2` (from #1324 lineage).
+
+- **16/16** frames regenerated via `source-binding-registry.json` (SW-002–SW-008 fresh uploads; casting-thumbnails-v1 work look + season1 body). **0 retries**, **2432** credits. Review ZIPs refreshed. All `FOUNDER_REVIEW_REQUIRED` / `IN_REVIEW`. **128 geometry not resumed.**
+
+---
+
+## 2026-10-05 — Full-body uniform regen (OpenArt1)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.FULL-BODY-UNIFORM-REGEN.OPENART1` on `cursor/studio-world-resident-full-body-uniform-regen-openart1`.
+
+- **8/8** full-body-only regens with identity registry + founder uniform authorities (`uniform-authority-v1/` women leggings / men compression shorts, white-red toe shoes). **0 retries**, **1216** credits. Portraits unchanged. Review ZIPs `STUDIO_WORLD_RESIDENT_FULL_BODY_UNIFORM_REGEN_REVIEW*.zip`. All `IN_REVIEW`.
+
+---
+
+## 2026-10-05 — Actor Catalogue resident authority convergence (Expression / Character Fabrication)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.ACTOR-CATALOGUE.RESIDENT-AUTHORITY-CONVERGENCE1` on `cursor/expression-actor-catalogue-resident-authority1` (from full-body-uniform-regen tunnel).
+
+- **Root cause:** Character Fabrication `listFabricationActors()` read `seedCatalogue.ts` (stock SW-017/SW-044 mock roster) instead of Season 1 resident projections.
+- **Fix:** `productionCastingCatalogue.ts` + `projectAllResidentsToActors()` wired into fabrication + Production Expression casting; casting-thumbnails-v1 via `characterAssetUrl` / `portraitUrl`; legacy seed kept for Entry 002 fixtures only (`findFabricationActor` fallback). Actor cards show resident name + SW-001…SW-008 + provenance. Draft PR only — no merge/deploy.
+
+---
+
+## 2026-10-05 — Library Character Detail media hierarchy + image inspector
+
+Sprint `P0.STUDIOOS.PRODUCTION.LIBRARY.CHARACTER-DETAIL.MEDIA-HIERARCHY-INSPECTOR1` on `cursor/library-character-detail-media-hierarchy-inspector1`.
+
+- **Root cause:** Generic Library layout stacked lifecycle + 10-family grid + subfilter pills above a short 16:9 hero banner on Character Detail.
+- **Fix:** `CharacterDetail` route with `lbf--char-focus` compact category/subfilter rails, large `lbf-char-media` (4:5-style), `LibraryCharacterImageInspector` overlay, `RelatedCharacterTile` split image inspect vs card nav; `lbf--char-browse` taller tiles on index/residents/project/talent. Draft PR only.
+
+---
+
+## 2026-10-05 — Resident geometry complete + production injection (OpenArt1, in progress)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.GEOMETRY-COMPLETE-PRODUCTION-INJECTION.OPENART1` on `cursor/studio-world-resident-geometry-complete-production-injection1` (from Library Character Detail lineage).
+
+- **Pipeline:** `residentGeometryCompletePack/Registry`, uniform-aware `geometryPrompts`, `fabricationSourceAuthority` now binds **casting-thumbnails-v1 portrait + uniform regen full-body** (not season1 natural for fabrication body anchor). `validationSourceBinding` accepts uniform regen paths.
+- **OpenArt:** `scripts/studio-world-resident-geometry-complete-openart.mjs` scaffold/queue/record/finalize; 112-job queue; refs in `geometry_complete_openart_refs.json` (portrait upload + uniform output resource ids). Anchors copied to `public/site00/studio-world-residents/geometry-complete-v1/` and `artifacts/STUDIO_WORLD_RESIDENT_GEOMETRY_COMPLETE/`.
+- **Production injection:** `residentFabricationManifest` resolves 16 frames/resident via geometry-complete registry; `libraryCharacterMedia` surfaces geometry categories; batch status `GEOMETRY_COMPLETE_IN_REVIEW`. Tests `p0StudioWorldGeometryCompleteProductionInjection1.test.ts`.
+- **OpenArt batch:** 112 remaining geometry frames generating resident-by-resident (background agent); review ZIPs on finalize. Draft PR only — no merge/deploy.
+
+---
+
+## 2026-10-05 — Character Fabrication end-to-end resident wiring (Expression)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CHARACTER-FABRICATION.END-TO-END-RESIDENT-WIRING1` on `cursor/expression-character-fabrication-end-to-end-resident-wiring1`.
+
+- **Root cause (View Full Profile):** Actor Catalogue button dispatched `SET_SURFACE` → in-app `ACTOR_PROFILE` (reads as leaving catalogue / advancing), not Library Character Detail.
+- **Fix:** `fabricationLibraryNav` + navigate to `/production/libraries/characters/detail/SW-00N?returnTo=expression-character-fabrication`; session return context + `RESTORE_AFTER_LIBRARY`; Library Character Detail return link.
+- **Subject authority:** `fabricationSubject` on `CONFIRM_ACTOR`; `fabricationSubjectResolver` blocks SW-017/stock slot fallbacks for resident-backed actors; dynamic chamber/side cards via `subjectChamberUrl` + resident portrait/uniform public paths.
+- **Tests:** `p0CharacterFabricationEndToEndResidentWiring1.test.ts`. Merged to tunnel branch `cursor/studio-world-resident-geometry-complete-production-injection1` for preview. Draft PR only.
+
+---
+
+## 2026-10-05 — Expression media hierarchy one-viewport convergence
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.MEDIA-HIERARCHY.ONE-VIEWPORT-CONVERGENCE1` on `cursor/expression-media-hierarchy-one-viewport-convergence1` (from geometry-complete tunnel).
+
+- **Root cause:** One-viewport grid obeyed height budget by shrinking creative imagery into shallow strips/banners while metadata/status panels stayed large.
+- **Fix:** `MediaImg` + `ExpressionMediaInspector`; `exf-panel--media` / `--compact` / `--rail`; storyboard `exf-storyboard-stage` + `exf-frames--rail`; casting talent `exf-rail--talent`; compact `exf--media-focus` hero/status on media-heavy families. Layout updates in Casting, Look, Storyboard, Performance, Review families.
+- **Tests:** `productionExpressionMediaHierarchyOneViewportConvergence1.test.ts`. Merged to tunnel `cursor/studio-world-resident-geometry-complete-production-injection1`. Draft PR #1331 to `main` (not auto-merged).
+
+
+---
+
+## 2026-10-05 — Production full-authority forensic audit + pixel refinement (OPUS2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2` on `cursor/production-full-authority-forensic-pixel-refinement-opus2`. The base is the tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `09378e0a`.
+
+- **Forensics** (`artifacts/production-full-authority-forensics/`).
+  - Scope: 4,024 files inspected; 605 visual authorities (430 canonical, 53 superseded, 0 in review, 0 unknown); 165 duplicate groups; 13 conflicting.
+  - Route map: 200 routes.
+  - Unresolved: U-01 to U-13 are authority questions. U-14 to U-18 are refinement decisions:
+    - U-14: Design chamber micro-type.
+    - U-15: Character Fabrication tablet/desktop composition.
+    - U-16: Production Floor at the 1280×720 authority proportion.
+    - U-17: SW-017 subject identity.
+    - U-18: hero bands.
+- **QA.** The tunnel SHA (own dev server) and the branch were captured at 185 routes × 14 viewports with the same detector. Before → after:
+  - page scroll 24 → 10;
+  - media strips 146 → 4;
+  - type below 8.5px 389 → 89;
+  - horizontal overflow 0 → 0;
+  - undeclared panes 19 → 0;
+  - interaction authorities 51/51.
+  - Outputs: `visual-diff-report.json`, `before-after-sheets/` (21).
+- **HUB.** One viewport at every size. The world panel flexes and carries the chamber link. Portrait tablets use the 9:16 composition with `cqb`. Phone floor is 8.5px. File: `site00-production-hub-one-viewport.css`.
+- **EXPRESSION.**
+  - `expressionMedia.ts` resolver: Entry 002 board crops, resident media and CF receipts, all with provenance.
+  - `ExpressionMediaKit.tsx` holds the shared media components.
+  - Casting, Look, Storyboard, Performance and Review are media-first.
+  - Production Floor follows the T12 one-viewport composition: six floors in one row on phones, full-width travel and table rows elsewhere.
+  - Phone modules that the EXPR2 mobile boards show were restored.
+- **Assets.** 30 `entry002.*` crops registered PROJECT_CANON. Script: `scripts/production-authority/derive-entry002-media.py`.
+- **INBOX / ACTIVITY / LIBRARY / DESIGN.**
+  - Inbox: incoming cards fill their pane; detail views stack on portrait tablets.
+  - Inbox and Activity: 8.5px floors.
+  - Library: `.rk-scroll` panes only.
+  - Design: the chamber takes the slack.
+- **Detector notes.**
+  - Wide-but-short media are no longer skipped as icons.
+  - Edge clipping of a scroll pane is not counted as a strip.
+  - Overflow-hidden containers clip decorative layers; that is not counted as horizontal overflow.
+  - CF scroll is measured through `cf-scroll`.
+- **Tests.** `productionFullAuthorityForensicPixelRefinementOpus2.test.ts`. The stale Expression convergence assertions were fixed: attribute order and resident actor ids.
+  - The full suite carried 131 failures inherited from the tunnel, identical before and after.
+  - 91 remain; every one was already failing at the tunnel SHA.
+  - Two of them sit near Production: the hub-machine raster-import firewall and the API orchestration severity map. Neither is touched by this sprint.
+- Draft PR only. Not merged, not deployed.
+
+---
+
+## 2026-10-05 — Production workspace Grok handoff audit + lite pack (LITEPACK1)
+
+Sprint `P0.SITE00.PRODUCTION-WORKSPACE-GROK-HANDOFF-AUDIT-LITEPACK1`. Opus handoff between pipeline step 02 and step 03 (Grok asset / environment / icon pass). No generation, no OpenArt, no visual or functional change, no deploy.
+
+- **Outputs.**
+  - Audit: `docs/production-workspace/GROK_HANDOFF_AUDIT.md`.
+  - Manifests, NOTES and README_FIRST: `docs/production-workspace/grok-handoff/` (+ `PACK_INDEX.json`).
+  - ZIP: `artifacts/production-workspace-grok-handoff/SITE00_PRODUCTION_WORKSPACE_GROK_LITEPACK1.zip` (86 files, 7.03 MB).
+  - Builder: `scripts/production-workspace/grok-handoff/` (`runtime-model.tsx` reads the live route / icon / asset tables, `capture-runtime.mjs`, `build_handoff.py`).
+  - Guard test: `tests/productionWorkspaceGrokHandoffLitepack1.test.ts`.
+- **Map.** 235 surfaces (12 parents incl. six parent-level Design modes, 39 children, 137 grandchildren, 47 states / overlays); 52 distinct visual authorities; everything else inherits.
+- **Credit plan.** 11 environment groups, 8 new plates for the whole pass (atrium master, viewport corridor, production floor, five project-keyed NDXBOOK world plates). 95 surfaces take crops of those; 88 reuse CF chamber / canon vault as-is.
+- **Findings for Composer / Grok.**
+  - HUB nav glyph regression: `94831d12` (cherry-pick of `afb22c27`) replaced the founder pavilion master `masters/01_HUB.png` (git `43611fd8`, 384×284) with the 48 px design-pack house. No founder decision; pack restores the master; runtime untouched.
+  - `expression.stageHero` (dark faceted stage) contradicts every authority (white production floor).
+  - `hub.hero.*` are crops of the authority screenshot (core + screens baked in) → empty-pedestal atrium + separate project core.
+  - FIREWALL-01: host selector thumbnail hard-coded to `project.ndxbook.cover`.
+  - Design pack crops (stages 76 px, icons 48–64 px, swatches 41 px tall, plates 90–278 px) are unusable at size.
+  - `hub.crystal` is unused (Activity hero retired by D-ACTIVITY-FINAL).
+  - Inbox NEAR / MID / FAR is not canonical anywhere.
+- **Open founder decisions (explicit priority given in the manifests):** U-07 Experience tab root, U-08 Library tab root, U-17 Entry 002 subject identity.
+- Draft PR only. Not merged, not deployed.
 ## 2026-10-05 — JURNL ingested into SITE 00 + F01 ENTRY live in DESIGN (PROOF1)
 
 - **Sprint:** P0.JURNL.SITE00-INGEST-F01-DESIGN-WORKSPACE-PROOF1 — implementation only; **0** OpenArt access; failed F01 harvest **not** used (excluded + test-enforced).

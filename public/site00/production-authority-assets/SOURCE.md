@@ -33,3 +33,8 @@ Existing `production-hub/production/hub/chamber/atmosphere.webp` is a glass cyli
 | production-hub-hero-desktop-v1.jpg | Founder-approved HUB desktop authority (2304×1296), hero band | Desktop HUB hero |
 
 Cropped from the approved references; the baked-in hero copy (PROJECT / NDXBOOK / ENTRY 002 / tagline, IDEAS…IN MOTION) was removed with OpenCV Telea inpainting so the live copy renders on top. No regeneration.
+
+## Entry 002 authority-board crops — FULL-AUTHORITY-FORENSIC-AUDIT.PIXEL-PERFECT-REFINEMENT.OPUS2
+
+Thirty crops of the committed Entry 002 pre-storyboard authority boards: characters, era looks, wardrobe and beauty.
+See `entry-002/SOURCE.md`. Nothing is generated.

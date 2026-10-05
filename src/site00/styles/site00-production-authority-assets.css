@@ -58,13 +58,3 @@
 .pxa .pxa-expression .pxa-hero__bg--plate {
   background-position: 50% 42%;
 }
-
-.pxa .pxa-experience .pxa-hero__bg--plate::before {
-  content: none;
-}
-
-.pxa .pxa-vault__bg--canon {
-  background-size: cover;
-  background-position: center 45%;
-  background-repeat: no-repeat;
-}

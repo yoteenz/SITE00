@@ -1,0 +1,164 @@
+{
+  "projectId": "Q7IHYCEK3RPn2c1ConEG",
+  "model": "gpt-image-2-5-sunburst",
+  "mode": "image2image",
+  "creditsPerFrameEstimate": 152,
+  "startedAt": "2026-10-04T17:23:10.521Z",
+  "completedAt": null,
+  "residents": {
+    "SW-001": {
+      "frames": {
+        "1": {
+          "historyId": "dQbsHK7KWPSnRyIbXm9V",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134673469_521f8502.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_01_FRONT_PORTRAIT.png"
+        },
+        "2": {
+          "historyId": "70i9mehgjKyIY2D6Qt5E",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134613309_3ca2afb0.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_02_LEFT_3Q_PORTRAIT.png"
+        },
+        "3": {
+          "historyId": "G70MRF2haOd8Mmr6zAtc",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134898344_9ab9d40f.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_03_RIGHT_3Q_PORTRAIT.png"
+        },
+        "4": {
+          "historyId": "yiNXJcvQzl8RV4RidTwp",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134900119_86fef6bb.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_04_LEFT_PROFILE.png"
+        },
+        "5": {
+          "historyId": "UhI0XP7AYKcyVC2r4Qmf",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134900627_66e8850f.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_05_RIGHT_PROFILE.png"
+        },
+        "6": {
+          "historyId": "2JpqaKLuFE5QCFe8Osie",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134902784_5e39356c.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/02_FACE_GEOMETRY/SW-001_06_REAR_HEAD.png"
+        },
+        "7": {
+          "historyId": "WRTJ9wfVvuaULuDoc6lZ",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134988711_9cdd37ca.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_07_FULL_FRONT.png"
+        },
+        "8": {
+          "historyId": "XTY9kH3A4hlajBUqBqHn",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134989494_0368bf27.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_08_FULL_LEFT_3Q.png"
+        },
+        "9": {
+          "historyId": "u1TzzJueBYwymGvvL47w",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791134991946_47c6d5b7.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_09_FULL_RIGHT_3Q.png"
+        },
+        "10": {
+          "historyId": "rrQlLgxV9KWqFbLKKHQ2",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791135156609_8d0b8c62.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_10_FULL_LEFT_PROFILE.png"
+        },
+        "11": {
+          "historyId": "YYbOwKSg91knbvYn5585",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791135159548_bcb8812c.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_11_FULL_RIGHT_PROFILE.png"
+        },
+        "12": {
+          "historyId": "0pIs9vKMVgHoiBmHvwJX",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791135161602_f05e4138.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/03_BODY_GEOMETRY/SW-001_12_FULL_BACK.png"
+        },
+        "13": {
+          "historyId": "iejTC6FQ7MtpM7vCYLpU",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791135166893_9632254a.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_13_SEATED.png"
+        },
+        "14": {
+          "historyId": "xHmHK5RvV75rV7JNkaPo",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791135173303_cd60c3aa.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_14_CONVERSATIONAL.png"
+        },
+        "15": {
+          "historyId": "AnipzXWJjOEWgo6DEdyi",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791135175702_999af490.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_15_WALK.png"
+        },
+        "16": {
+          "historyId": "Zg9dBq1emQRVceUnqTfM",
+          "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791135184582_5561cc55.png",
+          "retryCount": 0,
+          "status": "COMPLETED",
+          "relative_path": "artifacts/STUDIO_WORLD_RESIDENT_FABRICATION/SW-001_ETTA_VALE/04_NATURAL_POSE/SW-001_16_DOCUMENTARY.png"
+        }
+      },
+      "status": "COMPLETE"
+    },
+    "SW-002": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-003": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-004": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-005": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-006": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-007": {
+      "frames": {},
+      "status": "PENDING"
+    },
+    "SW-008": {
+      "frames": {},
+      "status": "PENDING"
+    }
+  },
+  "failures": [],
+  "creditsUsedEstimate": 2432,
+  "framesCompleted": 16,
+  "framesFailed": 0,
+  "shortfallNotes": [
+    "Credit budget ~12601 at 152/frame supports ~82 frames total; full 128-frame sprint requires ~19456 credits or phased runs.",
+    "Priority queue SW-001..SW-005 (80 frames) fits in budget; SW-006..SW-008 deferred until top-up or second pass.",
+    "Batch driver: OpenArt MCP via cloud agent (batch-step emit + generate/wait/record); headless autogen needs OPENART_MCP_BRIDGE."
+  ]
+}

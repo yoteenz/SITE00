@@ -14,15 +14,16 @@ import {
 } from '../shared/studio-world-live-character-runtime/index.js';
 
 describe('P0 live character runtime architecture', () => {
-  it('separates actor SW-017 from character subject woman in manifest', () => {
+  it('separates resident-projected actor from character subject woman in manifest', () => {
     const state = initialFabricationState();
     const actor = findFabricationActor(state.selectedActorId)!;
     const character = buildFabricationCharacter(state.selectedCharacterId)!;
     const m = buildWorkingAssemblyManifest(state, actor, character);
     expect(m.actorId).toBe(actor.actorId);
     expect(m.characterId).toBe(character.characterId);
-    expect(actor.catalogueNumber).toBe('SW-017');
-    expect(m.runtime.runtimeCharacterId).toContain('sw-017');
+    expect(actor.catalogueNumber).toBe('SW-001');
+    expect(m.runtime.runtimeCharacterId).toContain('sw-001');
+    expect(character.actorId).not.toBe(actor.actorId);
   });
 
   it('validates manifest schema', () => {
