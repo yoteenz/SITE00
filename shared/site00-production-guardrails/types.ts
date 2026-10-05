@@ -39,6 +39,7 @@ export const BLOCKED_REASONS = [
   'HIERARCHICAL_EXPRESSION_REQUIRED',
   'PLATE_OCCUPANCY_REQUIRED',
   'AUTHORITY_FIRST_REQUIRED',
+  'UNAUTHORIZED_SPEND',
 ] as const;
 export type BlockedReason = (typeof BLOCKED_REASONS)[number];
 

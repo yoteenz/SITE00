@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "issueFunction": "issueSpendAuthorization",
+  "validateFunction": "validateSpendAuthorization",
+  "consumeFunction": "consumeSpendAuthorization",
+  "requiredFields": ["authorizationId", "projectId", "actorId", "provider", "generationClass", "maxCredits", "issuedAt", "expiresAt", "consumed"],
+  "rules": [
+    "Client request body founderConfirmedSpend alone MUST NOT authorize paid dispatch",
+    "authorizationId is one-shot by default after successful dispatch",
+    "projectId and provider on request MUST match authorization record"
+  ]
+}
