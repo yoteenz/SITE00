@@ -13576,3 +13576,29 @@ Sprint `P0.SITE00.PRODUCTION-WORKSPACE.POST-INJECTION.LIVE-RECONCILIATION1` on `
 - **Decisions:** No new paid generations. Do not invent missing authorities. Do not swap the frozen Experience or Library roots. Do not enlarge the 76px pipeline crops: Design already has zero page slack, and a larger stage row would scroll or shrink the chamber. Portal gate has no isolated canonical file. Icon substitutions stay; founder nav masters are already mounted, and design-pack crops are grid tiles, not control glyphs.
 - **Changes:** Reports under `artifacts/site00-workspace-post-injection/` (`LIVE_TAB_AUDIT.json`, `NO_SCROLL_REPORT.json`, `VISUAL_GAP_REPORT.json`, `ICON_RECONCILIATION.json`, `ALL_TABS_POST_MOUNT_CONTACT_SHEET.jpg`, captures). Detector: `scripts/production-authority/post-injection-capture.mjs`. Page scroll violations 0. Horizontal overflow 0.
 - **Conventions:** Measure the live product after a mount. A good registry is not a pass. Missing tablet/desktop Character Fabrication boards and Inbox URL-only boards stay unresolved. Activity inspector stays text-only.
+
+---
+
+## 2026-10-05 — Production full-authority pixel refinement (OPUS3)
+
+Sprint `P0.STUDIOOS.PRODUCTION.FULL-AUTHORITY-PIXEL-PERFECT-REFINEMENT.OPUS3` on `cursor/production-full-authority-pixel-refinement-opus3`, branched from tunnel `cursor/studio-world-resident-geometry-complete-production-injection1` at `a298b59a`. Draft PR #1354. Tunnel fast-forwarded to the working commit.
+
+- **Context:** Reference = design authority. Keep function, refine look. Authority matrix over 185 routes before any styling.
+- **Decisions:**
+  - Expression family hero follows EXPR2:
+    - family/record title is the heading, crumb `EXPRESSION / FAMILY`;
+    - project lead subject monochrome on the floor's central suspended screen, ndxbook-scoped;
+    - status band after the tabs;
+    - phone media-focus hero 108px, short phones 64px.
+  - Design stage objects: T12 shows ~70–80px at 1440, so the 76px crops now render at native size on desktop. The chamber pays for the height. This reverses the post-injection "do not enlarge", re-verified at 14 viewports.
+  - Character Fabrication mobile slack (9:16 canvas on 19.5:9 phones) is documented, not recomposed.
+  - Library Character Detail is left as is: resident media already leads.
+- **Changes:** `ExpressionFamilyShell.tsx`, `expressionMedia.ts` (`expressionHeroSubject`), expression-family and design-pack CSS, and the evidence under `artifacts/production-full-authority-pixel-refinement-opus3/`:
+  - matrix, diff, no-scroll and gaps reports;
+  - seven family contact sheets;
+  - BEFORE/AFTER captures.
+- **Results:** Detector totals equal BEFORE (no regression). Horizontal overflow 0. Page-scroll rows 10 → 10, all of them Character Fabrication's own frame overflow, which predates this sprint.
+- **Conventions:**
+  - Capture BEFORE from a separate clean worktree and server. HMR on the working server contaminates a running baseline.
+  - The 8.5px type floor applies to hero copy too.
+  - `grayscale(` trips the "no scale(" CSS test; use `saturate(0)`.
