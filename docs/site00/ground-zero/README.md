@@ -29,3 +29,5 @@ The companion client-room sprint is in `../client-project-room/`.
 - **Routes.** These were extracted with the TypeScript compiler AST from `src/App.tsx`, `src/routes/Site00Routes.tsx` and `src/routes/Site00AdminRoutes.tsx`. Raw output: `evidence/routes_ast_extraction.json`.
 - **Audits.** Eight read-only code audits are in `evidence/`.
 - **Not run locally.** Build, typecheck and tests could not run, because the npm registry is blocked in the audit environment. CI status for `main` was read from GitHub Actions instead.
+
+**Follow-up:** `navigation/` holds P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1. It covers ENTER 00, the WAITING ROOM, FAST TRAVEL, EXIT 00, CONTROL ROOM vs CONTROL PLANE, SITES vs PROJECTS, the route tree vs the experience tree, and a review addendum for the independent reviewer.

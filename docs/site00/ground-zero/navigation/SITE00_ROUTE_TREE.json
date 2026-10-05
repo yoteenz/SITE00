@@ -1,0 +1,1215 @@
+{
+ "artifact": "SITE00_ROUTE_TREE",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "definition": "IMPLEMENTATION / URL STRUCTURE only (from the AST route extraction). Not the experience model.",
+ "unique_url_patterns": 357,
+ "tree": {
+  "(root)": {
+   "__route__": "/"
+  },
+  "*": {
+   "__route__": "/*"
+  },
+  "__dev": {
+   "hero-outlier-measure": {
+    "__route__": "/__dev/hero-outlier-measure"
+   },
+   "live-character-runtime": {
+    "__route__": "/__dev/live-character-runtime"
+   }
+  },
+  "about": {
+   "__route__": "/about",
+   "desktop": {
+    "__route__": "/about/desktop"
+   }
+  },
+  "access": {
+   ":credentialId": {
+    "__route__": "/access/:credentialId"
+   },
+   "debug": {
+    "__route__": "/access/debug"
+   }
+  },
+  "account": {
+   "__route__": "/account",
+   "desktop": {
+    "__route__": "/account/desktop"
+   },
+   "intakes": {
+    "__route__": "/account/intakes",
+    ":intakeType": {
+     ":intakeId": {
+      "__route__": "/account/intakes/:intakeType/:intakeId"
+     }
+    }
+   }
+  },
+  "admin": {
+   "__route__": "/admin",
+   "site00": {
+    "__route__": "/admin/site00",
+    "*": {
+     "__route__": "/admin/site00/*"
+    },
+    "access-credentials": {
+     "__route__": "/admin/site00/access-credentials",
+     ":id": {
+      "__route__": "/admin/site00/access-credentials/:id"
+     }
+    },
+    "activity": {
+     "__route__": "/admin/site00/activity"
+    },
+    "approvals": {
+     "__route__": "/admin/site00/approvals"
+    },
+    "bldr-intakes": {
+     "__route__": "/admin/site00/bldr-intakes",
+     ":id": {
+      "__route__": "/admin/site00/bldr-intakes/:id"
+     }
+    },
+    "client-intakes": {
+     "__route__": "/admin/site00/client-intakes"
+    },
+    "ctrl-room": {
+     "__route__": "/admin/site00/ctrl-room"
+    },
+    "debug": {
+     "capture-auth": {
+      "__route__": "/admin/site00/debug/capture-auth"
+     },
+     "email-pack": {
+      "__route__": "/admin/site00/debug/email-pack",
+      ":templateId": {
+       "__route__": "/admin/site00/debug/email-pack/:templateId"
+      }
+     },
+     "evolve": {
+      "__route__": "/admin/site00/debug/evolve"
+     },
+     "evolve-creative-direction": {
+      "__route__": "/admin/site00/debug/evolve-creative-direction"
+     },
+     "evolve-marketing": {
+      "__route__": "/admin/site00/debug/evolve-marketing"
+     },
+     "orchestration": {
+      "__route__": "/admin/site00/debug/orchestration"
+     }
+    },
+    "discovery": {
+     "__route__": "/admin/site00/discovery",
+     ":id": {
+      "__route__": "/admin/site00/discovery/:id"
+     }
+    },
+    "evolve": {
+     "__route__": "/admin/site00/evolve",
+     "approvals": {
+      "__route__": "/admin/site00/evolve/approvals"
+     },
+     "connections": {
+      "__route__": "/admin/site00/evolve/connections"
+     }
+    },
+    "finance": {
+     "__route__": "/admin/site00/finance",
+     "invoices": {
+      ":id": {
+       "__route__": "/admin/site00/finance/invoices/:id"
+      }
+     }
+    },
+    "identities": {
+     "__route__": "/admin/site00/identities",
+     ":id": {
+      "__route__": "/admin/site00/identities/:id"
+     }
+    },
+    "intakes": {
+     "__route__": "/admin/site00/intakes",
+     ":intakeType": {
+      ":intakeId": {
+       "__route__": "/admin/site00/intakes/:intakeType/:intakeId"
+      }
+     }
+    },
+    "leads": {
+     "__route__": "/admin/site00/leads",
+     ":id": {
+      "__route__": "/admin/site00/leads/:id"
+     }
+    },
+    "marketing-engagements": {
+     "__route__": "/admin/site00/marketing-engagements",
+     ":engagementId": {
+      "__route__": "/admin/site00/marketing-engagements/:engagementId"
+     }
+    },
+    "orchestration": {
+     ":orgSlug": {
+      "__route__": "/admin/site00/orchestration/:orgSlug",
+      "evolve": {
+       "__route__": "/admin/site00/orchestration/:orgSlug/evolve",
+       "calendar": {
+        "__route__": "/admin/site00/orchestration/:orgSlug/evolve/calendar",
+        ":itemId": {
+         "__route__": "/admin/site00/orchestration/:orgSlug/evolve/calendar/:itemId"
+        }
+       },
+       "campaigns": {
+        "__route__": "/admin/site00/orchestration/:orgSlug/evolve/campaigns",
+        ":campaignId": {
+         "__route__": "/admin/site00/orchestration/:orgSlug/evolve/campaigns/:campaignId"
+        }
+       },
+       "connections": {
+        "__route__": "/admin/site00/orchestration/:orgSlug/evolve/connections"
+       },
+       "creative-direction": {
+        "__route__": "/admin/site00/orchestration/:orgSlug/evolve/creative-direction"
+       },
+       "emails": {
+        "__route__": "/admin/site00/orchestration/:orgSlug/evolve/emails"
+       },
+       "pilot": {
+        "__route__": "/admin/site00/orchestration/:orgSlug/evolve/pilot"
+       },
+       "pipeline-replay-validation": {
+        ":replayId?": {
+         "__route__": "/admin/site00/orchestration/:orgSlug/evolve/pipeline-replay-validation/:replayId?"
+        }
+       },
+       "plans": {
+        "__route__": "/admin/site00/orchestration/:orgSlug/evolve/plans"
+       },
+       "production": {
+        "new": {
+         "__route__": "/admin/site00/orchestration/:orgSlug/evolve/production/new"
+        }
+       },
+       "social": {
+        "__route__": "/admin/site00/orchestration/:orgSlug/evolve/social"
+       }
+      }
+     }
+    },
+    "projects": {
+     "__route__": "/admin/site00/projects",
+     ":projectId": {
+      "__route__": "/admin/site00/projects/:projectId",
+      ":section": {
+       "__route__": "/admin/site00/projects/:projectId/:section"
+      }
+     }
+    },
+    "reconciliation": {
+     "__route__": "/admin/site00/reconciliation"
+    },
+    "reports": {
+     "__route__": "/admin/site00/reports",
+     "pipeline": {
+      "__route__": "/admin/site00/reports/pipeline"
+     }
+    },
+    "settings": {
+     "__route__": "/admin/site00/settings",
+     "studio": {
+      "automation": {
+       "__route__": "/admin/site00/settings/studio/automation"
+      }
+     }
+    },
+    "sites": {
+     "__route__": "/admin/site00/sites",
+     ":id": {
+      "__route__": "/admin/site00/sites/:id"
+     }
+    },
+    "studio": {
+     "__route__": "/admin/site00/studio",
+     "queue": {
+      "__route__": "/admin/site00/studio/queue"
+     }
+    },
+    "team": {
+     "__route__": "/admin/site00/team"
+    }
+   }
+  },
+  "app": {
+   "__route__": "/app",
+   "preview": {
+    ":projectSlug": {
+     "*": {
+      "__route__": "/app/preview/:projectSlug/*"
+     },
+     "inbox": {
+      "__route__": "/app/preview/:projectSlug/inbox",
+      ":threadId": {
+       "__route__": "/app/preview/:projectSlug/inbox/:threadId"
+      }
+     },
+     "library": {
+      "__route__": "/app/preview/:projectSlug/library",
+      ":categoryId": {
+       "__route__": "/app/preview/:projectSlug/library/:categoryId",
+       ":fileId": {
+        "__route__": "/app/preview/:projectSlug/library/:categoryId/:fileId"
+       }
+      }
+     },
+     "profile": {
+      "__route__": "/app/preview/:projectSlug/profile"
+     },
+     "project": {
+      ":section": {
+       "__route__": "/app/preview/:projectSlug/project/:section"
+      }
+     },
+     "projects": {
+      "__route__": "/app/preview/:projectSlug/projects"
+     },
+     "reviews": {
+      "__route__": "/app/preview/:projectSlug/reviews",
+      ":reviewId": {
+       "__route__": "/app/preview/:projectSlug/reviews/:reviewId",
+       "annotations": {
+        "__route__": "/app/preview/:projectSlug/reviews/:reviewId/annotations"
+       },
+       "approve": {
+        "__route__": "/app/preview/:projectSlug/reviews/:reviewId/approve"
+       },
+       "comments": {
+        "__route__": "/app/preview/:projectSlug/reviews/:reviewId/comments"
+       },
+       "compare": {
+        "__route__": "/app/preview/:projectSlug/reviews/:reviewId/compare"
+       },
+       "history": {
+        "__route__": "/app/preview/:projectSlug/reviews/:reviewId/history"
+       },
+       "revision": {
+        "__route__": "/app/preview/:projectSlug/reviews/:reviewId/revision"
+       }
+      }
+     }
+    },
+    "select": {
+     "__route__": "/app/preview/select"
+    }
+   },
+   "projects": {
+    "__route__": "/app/projects",
+    ":projectSlug": {
+     "*": {
+      "__route__": "/app/projects/:projectSlug/*"
+     },
+     "inbox": {
+      "__route__": "/app/projects/:projectSlug/inbox",
+      ":threadId": {
+       "__route__": "/app/projects/:projectSlug/inbox/:threadId"
+      }
+     },
+     "library": {
+      "__route__": "/app/projects/:projectSlug/library",
+      ":categoryId": {
+       "__route__": "/app/projects/:projectSlug/library/:categoryId",
+       ":fileId": {
+        "__route__": "/app/projects/:projectSlug/library/:categoryId/:fileId"
+       }
+      }
+     },
+     "profile": {
+      "__route__": "/app/projects/:projectSlug/profile"
+     },
+     "project": {
+      ":section": {
+       "__route__": "/app/projects/:projectSlug/project/:section"
+      }
+     },
+     "projects": {
+      "__route__": "/app/projects/:projectSlug/projects"
+     },
+     "reviews": {
+      "__route__": "/app/projects/:projectSlug/reviews",
+      ":reviewId": {
+       "__route__": "/app/projects/:projectSlug/reviews/:reviewId",
+       "annotations": {
+        "__route__": "/app/projects/:projectSlug/reviews/:reviewId/annotations"
+       },
+       "approve": {
+        "__route__": "/app/projects/:projectSlug/reviews/:reviewId/approve"
+       },
+       "comments": {
+        "__route__": "/app/projects/:projectSlug/reviews/:reviewId/comments"
+       },
+       "compare": {
+        "__route__": "/app/projects/:projectSlug/reviews/:reviewId/compare"
+       },
+       "history": {
+        "__route__": "/app/projects/:projectSlug/reviews/:reviewId/history"
+       },
+       "revision": {
+        "__route__": "/app/projects/:projectSlug/reviews/:reviewId/revision"
+       }
+      }
+     }
+    }
+   }
+  },
+  "assts": {
+   "__route__": "/assts",
+   ":assetId": {
+    "__route__": "/assts/:assetId"
+   },
+   "batches": {
+    "__route__": "/assts/batches",
+    ":batchId": {
+     "__route__": "/assts/batches/:batchId"
+    }
+   },
+   "composition-studio": {
+    "__route__": "/assts/composition-studio"
+   },
+   "loader-pipeline": {
+    "__route__": "/assts/loader-pipeline"
+   },
+   "notifications": {
+    "__route__": "/assts/notifications"
+   },
+   "profile": {
+    "__route__": "/assts/profile"
+   },
+   "search": {
+    "__route__": "/assts/search"
+   }
+  },
+  "bldr": {
+   "__route__": "/bldr",
+   ":classSlug": {
+    "*": {
+     "__route__": "/bldr/:classSlug/*"
+    },
+    "desktop": {
+     "*": {
+      "__route__": "/bldr/:classSlug/desktop/*"
+     }
+    }
+   },
+   "desktop": {
+    "__route__": "/bldr/desktop"
+   },
+   "start": {
+    "__route__": "/bldr/start",
+    "desktop": {
+     "__route__": "/bldr/start/desktop"
+    }
+   },
+   "state": {
+    "__route__": "/bldr/state",
+    "desktop": {
+     "__route__": "/bldr/state/desktop"
+    }
+   },
+   "templates": {
+    "__route__": "/bldr/templates",
+    "desktop": {
+     "__route__": "/bldr/templates/desktop"
+    }
+   }
+  },
+  "blueprints": {
+   "__route__": "/blueprints",
+   "desktop": {
+    "__route__": "/blueprints/desktop"
+   }
+  },
+  "bluprint": {
+   "*": {
+    "__route__": "/bluprint/*"
+   }
+  },
+  "brand": {
+   "__route__": "/brand",
+   "desktop": {
+    "__route__": "/brand/desktop"
+   }
+  },
+  "build": {
+   "*": {
+    "__route__": "/build/*"
+   }
+  },
+  "client": {
+   "projects": {
+    ":projectSlug": {
+     "__route__": "/client/projects/:projectSlug",
+     "activity": {
+      "__route__": "/client/projects/:projectSlug/activity"
+     },
+     "library": {
+      "__route__": "/client/projects/:projectSlug/library"
+     },
+     "messages": {
+      "__route__": "/client/projects/:projectSlug/messages"
+     },
+     "reviews": {
+      "__route__": "/client/projects/:projectSlug/reviews",
+      ":reviewId": {
+       "__route__": "/client/projects/:projectSlug/reviews/:reviewId"
+      }
+     }
+    }
+   }
+  },
+  "contact": {
+   "__route__": "/contact",
+   "desktop": {
+    "__route__": "/contact/desktop"
+   }
+  },
+  "control": {
+   "__route__": "/control",
+   "billing": {
+    "__route__": "/control/billing"
+   },
+   "debug": {
+    "capture-auth": {
+     "__route__": "/control/debug/capture-auth"
+    },
+    "email-pack": {
+     "__route__": "/control/debug/email-pack",
+     ":templateId": {
+      "__route__": "/control/debug/email-pack/:templateId"
+     }
+    }
+   },
+   "domains": {
+    "__route__": "/control/domains"
+   },
+   "evolve-operations": {
+    "__route__": "/control/evolve-operations"
+   },
+   "security": {
+    "__route__": "/control/security"
+   },
+   "settings": {
+    "__route__": "/control/settings"
+   },
+   "sites": {
+    "__route__": "/control/sites"
+   },
+   "team": {
+    "__route__": "/control/team"
+   }
+  },
+  "create-account": {
+   "__route__": "/create-account"
+  },
+  "debug": {
+   "capture-auth": {
+    "__route__": "/debug/capture-auth"
+   },
+   "email-pack": {
+    "__route__": "/debug/email-pack",
+    ":templateId": {
+     "__route__": "/debug/email-pack/:templateId"
+    }
+   }
+  },
+  "enter": {
+   "__route__": "/enter"
+  },
+  "evolve": {
+   "__route__": "/evolve",
+   ":pathSlug": {
+    "*": {
+     "__route__": "/evolve/:pathSlug/*"
+    },
+    "desktop": {
+     "*": {
+      "__route__": "/evolve/:pathSlug/desktop/*"
+     }
+    }
+   },
+   "campaign-director": {
+    "__route__": "/evolve/campaign-director"
+   },
+   "campaign-flavor": {
+    "__route__": "/evolve/campaign-flavor"
+   },
+   "desktop": {
+    "__route__": "/evolve/desktop"
+   },
+   "marketing": {
+    "__route__": "/evolve/marketing",
+    "brief": {
+     ":engagementId": {
+      "__route__": "/evolve/marketing/brief/:engagementId"
+     }
+    },
+    "engagement": {
+     ":engagementId": {
+      "__route__": "/evolve/marketing/engagement/:engagementId"
+     }
+    },
+    "intake": {
+     ":serviceId": {
+      "__route__": "/evolve/marketing/intake/:serviceId"
+     }
+    },
+    "services": {
+     "__route__": "/evolve/marketing/services"
+    }
+   },
+   "plans": {
+    "__route__": "/evolve/plans",
+    "desktop": {
+     "__route__": "/evolve/plans/desktop"
+    }
+   },
+   "state": {
+    "__route__": "/evolve/state",
+    "desktop": {
+     "__route__": "/evolve/state/desktop"
+    }
+   }
+  },
+  "existing-location": {
+   "__route__": "/existing-location",
+   "case": {
+    ":caseId": {
+     "*": {
+      "__route__": "/existing-location/case/:caseId/*"
+     }
+    }
+   },
+   "desktop": {
+    "__route__": "/existing-location/desktop"
+   },
+   "start": {
+    "__route__": "/existing-location/start",
+    "desktop": {
+     "__route__": "/existing-location/start/desktop"
+    }
+   }
+  },
+  "faq": {
+   "__route__": "/faq",
+   "desktop": {
+    "__route__": "/faq/desktop"
+   }
+  },
+  "guide": {
+   "__route__": "/guide",
+   "desktop": {
+    "__route__": "/guide/desktop"
+   }
+  },
+  "identity": {
+   "__route__": "/identity",
+   "*": {
+    "__route__": "/identity/*"
+   }
+  },
+  "idnty": {
+   "__route__": "/idnty",
+   ":stateSlug": {
+    "*": {
+     "__route__": "/idnty/:stateSlug/*"
+    },
+    "desktop": {
+     "*": {
+      "__route__": "/idnty/:stateSlug/desktop/*"
+     }
+    }
+   },
+   "desktop": {
+    "__route__": "/idnty/desktop"
+   },
+   "sign-in-security": {
+    "__route__": "/idnty/sign-in-security",
+    "desktop": {
+     "__route__": "/idnty/sign-in-security/desktop"
+    }
+   },
+   "state": {
+    "__route__": "/idnty/state",
+    "desktop": {
+     "__route__": "/idnty/state/desktop"
+    }
+   }
+  },
+  "intake": {
+   ":token": {
+    "__route__": "/intake/:token"
+   },
+   "access": {
+    ":token": {
+     "__route__": "/intake/access/:token"
+    }
+   }
+  },
+  "journal": {
+   "__route__": "/journal",
+   "desktop": {
+    "__route__": "/journal/desktop"
+   }
+  },
+  "jurnl": {
+   "f01": {
+    "parent-assembly": {
+     "__route__": "/jurnl/f01/parent-assembly"
+    }
+   }
+  },
+  "live": {
+   "*": {
+    "__route__": "/live/*"
+   }
+  },
+  "loader-preview": {
+   "__route__": "/loader-preview"
+  },
+  "origin": {
+   "__route__": "/origin",
+   "create-account": {
+    "__route__": "/origin/create-account"
+   },
+   "desktop": {
+    "__route__": "/origin/desktop"
+   },
+   "forgot-password": {
+    "__route__": "/origin/forgot-password"
+   },
+   "locations": {
+    "__route__": "/origin/locations"
+   },
+   "reset-password": {
+    "__route__": "/origin/reset-password"
+   },
+   "sign-in": {
+    "__route__": "/origin/sign-in"
+   }
+  },
+  "production": {
+   "__route__": "/production",
+   ":projectSlug": {
+    "__route__": "/production/:projectSlug",
+    "design": {
+     "*": {
+      "__route__": "/production/:projectSlug/design/*"
+     },
+     "assets": {
+      "__route__": "/production/:projectSlug/design/assets"
+     },
+     "history": {
+      "__route__": "/production/:projectSlug/design/history"
+     },
+     "more": {
+      "__route__": "/production/:projectSlug/design/more"
+     },
+     "pages": {
+      "__route__": "/production/:projectSlug/design/pages"
+     },
+     "references": {
+      "__route__": "/production/:projectSlug/design/references"
+     },
+     "skins": {
+      "__route__": "/production/:projectSlug/design/skins"
+     },
+     "workspace": {
+      "__route__": "/production/:projectSlug/design/workspace"
+     }
+    },
+    "experience": {
+     "*": {
+      "__route__": "/production/:projectSlug/experience/*"
+     }
+    },
+    "expression": {
+     "*": {
+      "__route__": "/production/:projectSlug/expression/*"
+     }
+    },
+    "runtime": {
+     "*": {
+      "__route__": "/production/:projectSlug/runtime/*"
+     }
+    }
+   },
+   "activity": {
+    "__route__": "/production/activity"
+   },
+   "libraries": {
+    "__route__": "/production/libraries"
+   },
+   "queue": {
+    "__route__": "/production/queue"
+   },
+   "site00": {
+    "design": {
+     "__route__": "/production/site00/design"
+    }
+   }
+  },
+  "project": {
+   ":projectSlug": {
+    "provisioning": {
+     "__route__": "/project/:projectSlug/provisioning"
+    }
+   }
+  },
+  "projects": {
+   "__route__": "/projects",
+   ":projectSlug": {
+    "__route__": "/projects/:projectSlug",
+    "archive": {
+     "__route__": "/projects/:projectSlug/archive"
+    },
+    "brand-character-artifact-proofs": {
+     "__route__": "/projects/:projectSlug/brand-character-artifact-proofs"
+    },
+    "brand-character-deepening": {
+     "__route__": "/projects/:projectSlug/brand-character-deepening"
+    },
+    "brand-character-development": {
+     "__route__": "/projects/:projectSlug/brand-character-development"
+    },
+    "brand-character-formation": {
+     "__route__": "/projects/:projectSlug/brand-character-formation"
+    },
+    "brand-character-readiness": {
+     "__route__": "/projects/:projectSlug/brand-character-readiness"
+    },
+    "brand-character-synthesis": {
+     "__route__": "/projects/:projectSlug/brand-character-synthesis"
+    },
+    "builder": {
+     "__route__": "/projects/:projectSlug/builder"
+    },
+    "calibrate": {
+     "__route__": "/projects/:projectSlug/calibrate"
+    },
+    "campaign-director": {
+     "__route__": "/projects/:projectSlug/campaign-director"
+    },
+    "campaign-flavor": {
+     "__route__": "/projects/:projectSlug/campaign-flavor"
+    },
+    "canonical-carousel-expansion": {
+     "__route__": "/projects/:projectSlug/canonical-carousel-expansion"
+    },
+    "canonical-creative-range": {
+     "__route__": "/projects/:projectSlug/canonical-creative-range"
+    },
+    "character": {
+     "casting": {
+      "__route__": "/projects/:projectSlug/character/casting"
+     },
+     "continuity": {
+      "__route__": "/projects/:projectSlug/character/continuity",
+      "review": {
+       "__route__": "/projects/:projectSlug/character/continuity/review"
+      }
+     },
+     "discovery": {
+      "__route__": "/projects/:projectSlug/character/discovery"
+     }
+    },
+    "content-library": {
+     "__route__": "/projects/:projectSlug/content-library"
+    },
+    "content-operations": {
+     "__route__": "/projects/:projectSlug/content-operations",
+     "campaign-board": {
+      "__route__": "/projects/:projectSlug/content-operations/campaign-board",
+      "entry": {
+       ":entryNumber": {
+        "__route__": "/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber",
+        "carousel": {
+         "__route__": "/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/carousel"
+        },
+        "deliverable": {
+         ":deliverableId": {
+          "__route__": "/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/deliverable/:deliverableId"
+         }
+        },
+        "format": {
+         ":formatFamily": {
+          "__route__": "/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/format/:formatFamily"
+         }
+        },
+        "preview": {
+         "__route__": "/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/preview"
+        },
+        "story": {
+         "__route__": "/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/story"
+        }
+       }
+      }
+     },
+     "daily-plan": {
+      "__route__": "/projects/:projectSlug/content-operations/daily-plan"
+     },
+     "expression-engine": {
+      "__route__": "/projects/:projectSlug/content-operations/expression-engine"
+     },
+     "film-production": {
+      "__route__": "/projects/:projectSlug/content-operations/film-production",
+      "dailies": {
+       "__route__": "/projects/:projectSlug/content-operations/film-production/dailies"
+      },
+      "scene-deck": {
+       "__route__": "/projects/:projectSlug/content-operations/film-production/scene-deck"
+      }
+     },
+     "founder-creative-ingest": {
+      "__route__": "/projects/:projectSlug/content-operations/founder-creative-ingest"
+     },
+     "performance": {
+      "__route__": "/projects/:projectSlug/content-operations/performance"
+     }
+    },
+    "creative-appetite": {
+     "__route__": "/projects/:projectSlug/creative-appetite"
+    },
+    "creative-direction": {
+     "__route__": "/projects/:projectSlug/creative-direction"
+    },
+    "cultural-intelligence": {
+     "__route__": "/projects/:projectSlug/cultural-intelligence",
+     "sources": {
+      "__route__": "/projects/:projectSlug/cultural-intelligence/sources"
+     },
+     "weekly-forecast": {
+      "__route__": "/projects/:projectSlug/cultural-intelligence/weekly-forecast"
+     }
+    },
+    "debug": {
+     "reconstruction": {
+      ":pageScope": {
+       ":sessionId": {
+        "__route__": "/projects/:projectSlug/debug/reconstruction/:pageScope/:sessionId"
+       }
+      }
+     },
+     "twin-v2": {
+      ":sessionId": {
+       "__route__": "/projects/:projectSlug/debug/twin-v2/:sessionId"
+      }
+     },
+     "world": {
+      "*": {
+       "__route__": "/projects/:projectSlug/debug/world/*"
+      }
+     }
+    },
+    "design": {
+     "*": {
+      "__route__": "/projects/:projectSlug/design/*"
+     },
+     "opus-native": {
+      "__route__": "/projects/:projectSlug/design/opus-native"
+     },
+     "reconstruction-lab": {
+      "__route__": "/projects/:projectSlug/design/reconstruction-lab"
+     },
+     "twin": {
+      "__route__": "/projects/:projectSlug/design/twin"
+     },
+     "twin-fable-direct": {
+      "__route__": "/projects/:projectSlug/design/twin-fable-direct"
+     },
+     "twin-grok-direct": {
+      "__route__": "/projects/:projectSlug/design/twin-grok-direct"
+     },
+     "twin-opus-direct": {
+      "__route__": "/projects/:projectSlug/design/twin-opus-direct",
+      "assets": {
+       "__route__": "/projects/:projectSlug/design/twin-opus-direct/assets"
+      },
+      "history": {
+       "__route__": "/projects/:projectSlug/design/twin-opus-direct/history"
+      },
+      "more": {
+       "__route__": "/projects/:projectSlug/design/twin-opus-direct/more"
+      },
+      "pages": {
+       "__route__": "/projects/:projectSlug/design/twin-opus-direct/pages"
+      },
+      "references": {
+       "__route__": "/projects/:projectSlug/design/twin-opus-direct/references"
+      },
+      "skins": {
+       "__route__": "/projects/:projectSlug/design/twin-opus-direct/skins"
+      }
+     },
+     "twin-sol-direct": {
+      "__route__": "/projects/:projectSlug/design/twin-sol-direct"
+     },
+     "twin-spark-direct": {
+      "__route__": "/projects/:projectSlug/design/twin-spark-direct"
+     },
+     "twin-spark-responsive": {
+      "__route__": "/projects/:projectSlug/design/twin-spark-responsive"
+     },
+     "twin-testA": {
+      "__route__": "/projects/:projectSlug/design/twin-testA"
+     },
+     "twin-testB": {
+      "__route__": "/projects/:projectSlug/design/twin-testB"
+     },
+     "twin-v4": {
+      "__route__": "/projects/:projectSlug/design/twin-v4"
+     }
+    },
+    "embodied-character": {
+     "__route__": "/projects/:projectSlug/embodied-character"
+    },
+    "evolve": {
+     "__route__": "/projects/:projectSlug/evolve",
+     ":evolveTab": {
+      "__route__": "/projects/:projectSlug/evolve/:evolveTab"
+     },
+     "plans": {
+      "__route__": "/projects/:projectSlug/evolve/plans"
+     }
+    },
+    "experience-expression": {
+     "__route__": "/projects/:projectSlug/experience-expression",
+     "visual-development": {
+      "__route__": "/projects/:projectSlug/experience-expression/visual-development"
+     }
+    },
+    "experience": {
+     "*": {
+      "__route__": "/projects/:projectSlug/experience/*"
+     }
+    },
+    "experiment-d-concept-territory": {
+     "__route__": "/projects/:projectSlug/experiment-d-concept-territory"
+    },
+    "experiment-f-six-concept-reformation": {
+     "__route__": "/projects/:projectSlug/experiment-f-six-concept-reformation"
+    },
+    "experiment-g-brand-presentation-concepts": {
+     "__route__": "/projects/:projectSlug/experiment-g-brand-presentation-concepts",
+     "directions": {
+      "__route__": "/projects/:projectSlug/experiment-g-brand-presentation-concepts/directions"
+     },
+     "finalists": {
+      "__route__": "/projects/:projectSlug/experiment-g-brand-presentation-concepts/finalists"
+     }
+    },
+    "experiments": {
+     "__route__": "/projects/:projectSlug/experiments"
+    },
+    "identity": {
+     "__route__": "/projects/:projectSlug/identity",
+     "explore": {
+      "__route__": "/projects/:projectSlug/identity/explore"
+     }
+    },
+    "inspect": {
+     "icons": {
+      "__route__": "/projects/:projectSlug/inspect/icons"
+     }
+    },
+    "lab": {
+     "__route__": "/projects/:projectSlug/lab"
+    },
+    "library": {
+     "__route__": "/projects/:projectSlug/library"
+    },
+    "marketing-expression": {
+     "__route__": "/projects/:projectSlug/marketing-expression",
+     "experiment-01": {
+      "__route__": "/projects/:projectSlug/marketing-expression/experiment-01"
+     }
+    },
+    "more": {
+     "__route__": "/projects/:projectSlug/more"
+    },
+    "motion-character": {
+     "__route__": "/projects/:projectSlug/motion-character"
+    },
+    "notifications": {
+     "__route__": "/projects/:projectSlug/notifications"
+    },
+    "origin": {
+     "__route__": "/projects/:projectSlug/origin"
+    },
+    "overview": {
+     "__route__": "/projects/:projectSlug/overview"
+    },
+    "personality-replay": {
+     "__route__": "/projects/:projectSlug/personality-replay",
+     ":stepId": {
+      "__route__": "/projects/:projectSlug/personality-replay/:stepId"
+     },
+     "consistency": {
+      "__route__": "/projects/:projectSlug/personality-replay/consistency"
+     }
+    },
+    "product-assets": {
+     "__route__": "/projects/:projectSlug/product-assets"
+    },
+    "production": {
+     "__route__": "/projects/:projectSlug/production"
+    },
+    "reader": {
+     "*": {
+      "__route__": "/projects/:projectSlug/reader/*"
+     }
+    },
+    "realism-lab": {
+     "__route__": "/projects/:projectSlug/realism-lab",
+     "brief": {
+      "__route__": "/projects/:projectSlug/realism-lab/brief"
+     },
+     "continuity": {
+      "__route__": "/projects/:projectSlug/realism-lab/continuity"
+     },
+     "decision": {
+      "__route__": "/projects/:projectSlug/realism-lab/decision"
+     },
+     "providers": {
+      "__route__": "/projects/:projectSlug/realism-lab/providers"
+     },
+     "review": {
+      "__route__": "/projects/:projectSlug/realism-lab/review"
+     },
+     "runs": {
+      "__route__": "/projects/:projectSlug/realism-lab/runs"
+     }
+    },
+    "reviews": {
+     "__route__": "/projects/:projectSlug/reviews"
+    },
+    "setup": {
+     "__route__": "/projects/:projectSlug/setup"
+    }
+   },
+   "design": {
+    "__route__": "/projects/design",
+    ":projectSlug": {
+     "*": {
+      "__route__": "/projects/design/:projectSlug/*"
+     }
+    }
+   },
+   "desktop": {
+    "__route__": "/projects/desktop"
+   },
+   "site00": {
+    "master-skin-preview": {
+     "__route__": "/projects/site00/master-skin-preview"
+    }
+   }
+  },
+  "register": {
+   "__route__": "/register"
+  },
+  "services": {
+   "__route__": "/services",
+   "desktop": {
+    "__route__": "/services/desktop"
+   }
+  },
+  "sign-in": {
+   "__route__": "/sign-in"
+  },
+  "sites": {
+   "__route__": "/sites",
+   "desktop": {
+    "__route__": "/sites/desktop"
+   }
+  },
+  "sound": {
+   "__route__": "/sound",
+   "desktop": {
+    "__route__": "/sound/desktop"
+   }
+  },
+  "studio-world": {
+   "design": {
+    "__route__": "/studio-world/design"
+   }
+  },
+  "studio": {
+   ":projectSlug": {
+    "__route__": "/studio/:projectSlug",
+    "activity": {
+     "__route__": "/studio/:projectSlug/activity"
+    },
+    "assets": {
+     "__route__": "/studio/:projectSlug/assets"
+    },
+    "blueprint": {
+     "__route__": "/studio/:projectSlug/blueprint"
+    },
+    "experience-compiler": {
+     "__route__": "/studio/:projectSlug/experience-compiler"
+    },
+    "input": {
+     "__route__": "/studio/:projectSlug/input"
+    },
+    "milestones": {
+     "__route__": "/studio/:projectSlug/milestones"
+    },
+    "operations": {
+     "__route__": "/studio/:projectSlug/operations"
+    },
+    "preview-guest": {
+     "__route__": "/studio/:projectSlug/preview-guest"
+    },
+    "reviews": {
+     "__route__": "/studio/:projectSlug/reviews",
+     ":reviewId": {
+      "__route__": "/studio/:projectSlug/reviews/:reviewId"
+     }
+    }
+   }
+  },
+  "support": {
+   "__route__": "/support",
+   "desktop": {
+    "__route__": "/support/desktop"
+   }
+  },
+  "system": {
+   "__route__": "/system",
+   "design": {
+    "workspace-concepts": {
+     "__route__": "/system/design/workspace-concepts"
+    }
+   },
+   "desktop": {
+    "__route__": "/system/desktop"
+   }
+  },
+  "validation": {
+   "ndxbook": {
+    "replay": {
+     ":replayId": {
+      "personality": {
+       ":stepId": {
+        "__route__": "/validation/ndxbook/replay/:replayId/personality/:stepId"
+       },
+       "review": {
+        "__route__": "/validation/ndxbook/replay/:replayId/personality/review"
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
