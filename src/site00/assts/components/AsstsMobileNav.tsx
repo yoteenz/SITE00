@@ -35,7 +35,7 @@ export function AsstsVaultNav() {
 
   return (
     <div className="assts-vault-nav-wrap" data-anchor="library.bottomNav">
-      <nav className="assts-vault-nav" aria-label="Asset Vault navigation">
+      <nav className="assts-vault-nav" aria-label="ASSET VAULT NAVIGATION">
         <NavLink to="/assts" end className={`assts-vault-nav__item ${onLibrary ? 'active' : ''}`}>
           <span className="assts-vault-nav__glyph assts-vault-nav__glyph--library" aria-hidden="true" />
           <span>LIBRARY</span>
@@ -120,7 +120,7 @@ type ViewModeToggleProps = {
 
 export function AsstsViewModeToggle({ mode, onChange, showContact, showCompare, className }: ViewModeToggleProps) {
   return (
-    <div className={`assts-view-toggle ${className ?? ''}`.trim()} role="tablist" aria-label="Batch view mode">
+    <div className={`assts-view-toggle ${className ?? ''}`.trim()} role="tablist" aria-label="BATCH VIEW MODE">
       <button type="button" role="tab" aria-selected={mode === 'grid'} className={mode === 'grid' ? 'active' : ''} onClick={() => onChange('grid')}>
         GRID
       </button>

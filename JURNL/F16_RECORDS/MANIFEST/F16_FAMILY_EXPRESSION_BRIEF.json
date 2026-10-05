@@ -1,0 +1,55 @@
+{
+  "family_id": "F16",
+  "family_name": "RECORDS",
+  "product_job": "Organize the financial paper trail.",
+  "user_question_answered": "Where is the proof, the history, or the document I need?",
+  "primary_signal": "No document is open.",
+  "emotional_role": "Order, provenance, memory.",
+  "spatial_metaphor": "An archival drawer.",
+  "architectural_character": "Quiet plaster on the left. An open drawer of blank folders on the right.",
+  "lighting_character": "Warm archive light.",
+  "material_emphasis": "Plaster, ivory paper, cloth tabs with no writing.",
+  "environmental_focal_point": "The drawer.",
+  "object_language": "Blank folders. No handwriting.",
+  "botanical_role": "None.",
+  "negative_space_strategy": "Left half is plaster.",
+  "composition_bias": "Left index, drawer on the right.",
+  "information_density": "Proof filed, nothing open.",
+  "panel_behavior": "An index, not a transaction ledger.",
+  "button_behavior": "A document stays closed.",
+  "data_visualization_character": "Blank index marks.",
+  "interaction_character": "The drawer is the parent. A document stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "Index labels. No document title costume.",
+  "relationship_to_previous_family": "Ahead looks forward. Records keep the proof.",
+  "relationship_to_next_family": "The next family is not in this round.",
+  "relationship_to_other_families": "Activity is movement history. Records are documents.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Drawer",
+    "Blank folders",
+    "Archive"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "Copying the activity ledger",
+    "Paper edges in the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

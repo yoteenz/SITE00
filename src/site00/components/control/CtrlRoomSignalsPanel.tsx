@@ -1,35 +1,31 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { site00ClientProductionApi } from '../../services/clientProductionApi';
+import { CTRL_ROOM_MOBILE_COPY } from '../../config/ctrl-room-mobile';
+import type { CtrlRoomLoadState } from '../../hooks/useCtrlRoomData';
+import type { CtrlRoomSignalPayload } from '../../services/clientProductionApi';
 
-export type CtrlRoomSignal = {
-  id: string;
-  project_name: string;
-  signal_type: string;
-  title: string;
-  reason: string;
-  owner: string;
-  age_days: number;
-  action_route: string;
-  action_label: string;
+type CtrlRoomSignalsPanelProps = {
+  signals: CtrlRoomSignalPayload[];
+  apiState: CtrlRoomLoadState;
 };
 
-export function CtrlRoomSignalsPanel() {
-  const [signals, setSignals] = useState<CtrlRoomSignal[]>([]);
-  const [error, setError] = useState<string | null>(null);
+/** Desktop attention panel — data supplied by useCtrlRoomData (no duplicate fetch). */
+export function CtrlRoomSignalsPanel({ signals, apiState }: CtrlRoomSignalsPanelProps) {
+  const copy = CTRL_ROOM_MOBILE_COPY.actionQueue;
 
-  useEffect(() => {
-    site00ClientProductionApi
-      .ctrlRoom()
-      .then((data) => setSignals((data as { signals?: CtrlRoomSignal[] }).signals ?? []))
-      .catch((e) => setError(e instanceof Error ? e.message : 'FAILED TO LOAD SIGNALS'));
-  }, []);
-
-  if (error) {
+  if (apiState === 'loading') {
     return (
       <section className="site00-ctrl-panel">
         <h2 className="site00-ctrl-panel__title">ATTENTION</h2>
-        <p className="site00-body">{error.toUpperCase()}</p>
+        <p className="site00-body">EVALUATING QUEUE…</p>
+      </section>
+    );
+  }
+
+  if (apiState === 'error') {
+    return (
+      <section className="site00-ctrl-panel">
+        <h2 className="site00-ctrl-panel__title">ATTENTION</h2>
+        <p className="site00-body">{copy.unavailable}</p>
       </section>
     );
   }
@@ -38,14 +34,16 @@ export function CtrlRoomSignalsPanel() {
     return (
       <section className="site00-ctrl-panel">
         <h2 className="site00-ctrl-panel__title">ATTENTION</h2>
-        <p className="site00-body">NO ACCESS REQUIRED — ALL INFRASTRUCTURE FOR YOUR CURRENT PHASE IS READY.</p>
+        <p className="site00-body">{copy.emptyBody}</p>
       </section>
     );
   }
 
   return (
     <section className="site00-ctrl-panel">
-      <h2 className="site00-ctrl-panel__title">ATTENTION · {signals.length}</h2>
+      <h2 className="site00-ctrl-panel__title">
+        ATTENTION · {String(signals.length).padStart(2, '0')}
+      </h2>
       <div className="site00-ctrl-signals">
         {signals.map((signal) => (
           <article key={signal.id} className="site00-ctrl-signal">

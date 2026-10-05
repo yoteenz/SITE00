@@ -14,6 +14,8 @@ export const SITE00_PUBLIC_PAGE_BASES = [
   '/idnty/sign-in-security',
   '/bldr',
   '/bldr/templates',
+  '/bldr/start',
+  '/evolve',
   '/projects',
 ] as const;
 

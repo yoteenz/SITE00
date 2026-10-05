@@ -1,0 +1,1528 @@
+[
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/world/overview",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/world/architecture",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/world/environments",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/world/destinations",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/zones/index",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/zones/rooms",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/zones/districts",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/zones/portals",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/zones/thresholds",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/paths/pathways",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/paths/route-map",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/paths/entry",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/paths/exit",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/interactions/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/interactions/objects",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/interactions/spatial",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/interactions/triggers",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/inhabitants/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/inhabitants/residents",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/inhabitants/characters",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/inhabitants/presence",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/inhabitants/relationships",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/states/scenes",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/states/lighting",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/states/atmosphere",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/states/time",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/states/live",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/access/rules",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/access/roles",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/access/zones",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/access/conditional",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/ndxbook/experience/access/privacy",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/authorities/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/authorities/canonical",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/authorities/in-review",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/authorities/superseded",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/assets/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/assets/images",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/assets/video",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/assets/audio",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/assets/spatial",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/assets/usage",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/characters/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/characters/residents",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/characters/project",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/characters/talent",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/environments/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/environments/worlds",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/environments/zones",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/environments/sets",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/environments/plates",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/expressions/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/expressions/entries",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/expressions/campaigns",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/expressions/formats",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/expressions/packages",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/references/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/references/visual",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/references/research",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/references/style",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/references/source",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/icons/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/icons/families",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/icons/navigation",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/icons/functional",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/icons/project",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/materials/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/materials/surfaces",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/materials/components",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/materials/textures",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/materials/ui",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/documents/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/documents/briefs",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/documents/bibles",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/documents/specs",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/documents/reports",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/documents/notes",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/archive/index",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/archive/assets",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/archive/authorities",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/archive/characters",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/archive/environments",
+  "item": false
+ },
+ {
+  "fam": "m390",
+  "path": "/production/libraries/archive/expressions",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/world/overview",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/world/architecture",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/world/environments",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/world/destinations",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/zones/index",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/zones/rooms",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/zones/districts",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/zones/portals",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/zones/thresholds",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/paths/pathways",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/paths/route-map",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/paths/entry",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/paths/exit",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/interactions/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/interactions/objects",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/interactions/spatial",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/interactions/triggers",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/inhabitants/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/inhabitants/residents",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/inhabitants/characters",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/inhabitants/presence",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/inhabitants/relationships",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/states/scenes",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/states/lighting",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/states/atmosphere",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/states/time",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/states/live",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/access/rules",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/access/roles",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/access/zones",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/access/conditional",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/ndxbook/experience/access/privacy",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/authorities/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/authorities/canonical",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/authorities/in-review",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/authorities/superseded",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/assets/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/assets/images",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/assets/video",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/assets/audio",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/assets/spatial",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/assets/usage",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/characters/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/characters/residents",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/characters/project",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/characters/talent",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/environments/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/environments/worlds",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/environments/zones",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/environments/sets",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/environments/plates",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/expressions/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/expressions/entries",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/expressions/campaigns",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/expressions/formats",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/expressions/packages",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/references/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/references/visual",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/references/research",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/references/style",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/references/source",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/icons/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/icons/families",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/icons/navigation",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/icons/functional",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/icons/project",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/materials/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/materials/surfaces",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/materials/components",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/materials/textures",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/materials/ui",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/documents/index",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/documents/briefs",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/documents/bibles",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/documents/specs",
+  "item": true,
+  "open": true,
+  "inspVisible": true,
+  "docV": 0,
+  "docH": 0,
+  "navBottom": true,
+  "pass": true
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/documents/reports",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/documents/notes",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/archive/index",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/archive/assets",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/archive/authorities",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/archive/characters",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/archive/environments",
+  "item": false
+ },
+ {
+  "fam": "ios",
+  "path": "/production/libraries/archive/expressions",
+  "item": false
+ }
+]

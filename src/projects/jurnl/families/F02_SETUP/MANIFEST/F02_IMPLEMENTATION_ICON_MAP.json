@@ -1,0 +1,226 @@
+{
+  "family_id": "F02_SETUP",
+  "new_f02_icons": 0,
+  "inherited_icons": 12,
+  "provider_marks": "Apple, Google, and bank marks stay the existing official assets. F02 does not generate them and does not show a provider chooser.",
+  "source_module": "src/projects/jurnl/runtime/components/icons.tsx",
+  "icons": [
+    {
+      "semantic": "back",
+      "canonical_id": "F01.ICON.BACK",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.IN.SKIP"
+      ],
+      "component_usage": "LIVE_NAV_BACK. Square-rounded hit target. F02.00 has no back control.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "check",
+      "canonical_id": "F01.ICON.CHECK",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.05",
+        "F02.05.1",
+        "F02.07",
+        "F02.08",
+        "F02.ST.CONNECTED"
+      ],
+      "component_usage": "Selected state inside LIVE_SELECTION_ROW, and the confirmation on F02.ST.CONNECTED.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "alert",
+      "canonical_id": "F01.ICON.ALERT",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.03",
+        "F02.06",
+        "F02.02.1",
+        "F02.05.1",
+        "F02.IN.ADD",
+        "F02.ST.VALIDATION"
+      ],
+      "component_usage": "LIVE_FIELD error. Place inside a square-rounded tile. No circular badge.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "close",
+      "canonical_id": "F01.ICON.CLOSE",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.IN.PERMISSION",
+        "F02.IN.ADD",
+        "F02.IN.SKIP"
+      ],
+      "component_usage": "Sheet dismiss on LIVE_PAPER_SHEET.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "plus",
+      "canonical_id": "F01.ICON.PLUS",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.04",
+        "F02.IN.ADD"
+      ],
+      "component_usage": "Add affordance that opens F02.IN.ADD.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "chevron",
+      "canonical_id": "F01.ICON.CHEVRON",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.02",
+        "F02.04",
+        "F02.07"
+      ],
+      "component_usage": "Optional disclosure mark inside a square-rounded row. Primary actions stay text buttons.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "link",
+      "canonical_id": "F01.ICON.LINK",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.02",
+        "F02.IN.PERMISSION",
+        "F02.ST.CONNECTED"
+      ],
+      "component_usage": "Connect action and the linked confirmation. No provider logo.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "account",
+      "canonical_id": "F01.ICON.ACCOUNT",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.02",
+        "F02.02.1",
+        "F02.ST.CONNECTED"
+      ],
+      "component_usage": "Account row and the named-account form.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "shield",
+      "canonical_id": "F01.ICON.SHIELD",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.07"
+      ],
+      "component_usage": "Consent row on the boundaries screen.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "privacy",
+      "canonical_id": "F01.ICON.PRIVACY",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.07",
+        "F02.IN.PERMISSION"
+      ],
+      "component_usage": "Privacy disclosure on boundaries and the connection sheet.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "info",
+      "canonical_id": "F01.ICON.INFO",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.07",
+        "F02.IN.PERMISSION"
+      ],
+      "component_usage": "Disclosure trigger. Square-rounded, not a circle.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    },
+    {
+      "semantic": "clock",
+      "canonical_id": "F01.ICON.CLOCK",
+      "file_path": "src/projects/jurnl/runtime/components/icons.tsx",
+      "export": "JurnlIcon",
+      "inherited_from": "F01",
+      "inherited_or_new": "INHERITED",
+      "screens": [
+        "F02.03",
+        "F02.04",
+        "F02.05.1",
+        "F02.IN.ADD"
+      ],
+      "component_usage": "Cadence and horizon rows.",
+      "format": "SVG",
+      "runtime_ready": true,
+      "duplicated_into_f02": false
+    }
+  ]
+}

@@ -69,7 +69,7 @@ export default function InvoiceDetailPage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading invoice" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING INVOICE" />
       ) : invoice ? (
         <div className="site00-admin-dashboard-grid">
           <section className="site00-admin-panel">

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { OriginPanelIcon } from '../homepage/OriginPanelIcon';
 
 type BracketHeadingProps = {
   children: ReactNode;
@@ -34,6 +35,29 @@ export function PageIntro({ title, subtitle, body }: PageIntroProps) {
       {subtitle ? <p className="site00-page-intro__subtitle">{subtitle}</p> : null}
       {body ? <p className="site00-page-intro__body">{body}</p> : null}
     </header>
+  );
+}
+
+type EcosystemHubHeroProps = {
+  panel: 'idnty' | 'bldr' | 'evolve';
+  title: ReactNode;
+  subtitle?: string;
+  body?: string;
+};
+
+/** Mobile ecosystem hub header — Origin expanded-panel icon inline with title row. */
+export function EcosystemHubHero({ panel, title, subtitle, body }: EcosystemHubHeroProps) {
+  return (
+    <div className="site00-ecosystem-hub__hero">
+      <header className="site00-page-intro site00-ecosystem-hub__intro">
+        <div className="site00-ecosystem-hub__title-row">
+          <div className="site00-ecosystem-hub__title">{title}</div>
+          <OriginPanelIcon panel={panel} size="sm" className="site00-ecosystem-hub__panel-icon" />
+        </div>
+        {subtitle ? <p className="site00-page-intro__subtitle">{subtitle}</p> : null}
+        {body ? <p className="site00-page-intro__body">{body}</p> : null}
+      </header>
+    </div>
   );
 }
 

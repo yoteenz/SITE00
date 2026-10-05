@@ -32,7 +32,7 @@ function BldrAssessmentMobileBackground() {
 
 function BldrIntroPanel({ state }: { state: BldrAssessmentStateConfig }) {
   return (
-    <aside className="site00-idnty-assessment__intro" aria-label="Build class overview">
+    <aside className="site00-idnty-assessment__intro" aria-label="BUILD CLASS OVERVIEW">
       <div className="site00-idnty-assessment__intro-inner">
         <div className="site00-idnty-assessment__icon">
           <BldrBuildClassIcon id={state.iconId} title={state.title} />
@@ -69,7 +69,7 @@ function BldrMobileHero({ state }: { state: BldrAssessmentStateConfig }) {
 
 export function BldrAssessmentBreadcrumb({ label }: { label: string }) {
   return (
-    <nav className="site00-idnty-assessment__breadcrumb" aria-label="Breadcrumb">
+    <nav className="site00-idnty-assessment__breadcrumb" aria-label="BREADCRUMB">
       {label}
     </nav>
   );
@@ -88,7 +88,7 @@ export function BldrAssessmentShell({
     return (
       <div className="site00-idnty-assessment site00-idnty-assessment--mobile">
         <BldrAssessmentMobileBackground />
-        <Site00MobileShell activeNav="build" showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
+        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
           <div className="site00-idnty-assessment__mobile-content">
             <BldrAssessmentBreadcrumb label={state.breadcrumb} />
             <BldrMobileHero state={state} />

@@ -1,15 +1,18 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getBldrAssessmentState,
-  bldrAssessmentCompletePath,
   bldrAssessmentPath,
   bldrAssessmentAllSteps,
+  bldrDiscoveryResultPath,
   type BldrAssessmentStateId,
 } from '../../../config/bldr-assessment';
 import { useBldrAssessment } from '../../../hooks/useBldrAssessment';
 import { BldrAssessmentShell, BldrAssessmentActions } from '../../../components/bldr-assessment/BldrAssessmentShell';
 import { IdntyProcessStripPanel } from '../../../components/idnty-assessment/IdntyAssessmentPanels';
 import { formatAnswerLabel } from '../../../components/idnty-assessment/IdntyStepForm';
+import { formatSiteTypesForReview } from '../../../../../shared/site00-bldr-classification/bldrFieldValidation';
+import { BLDR_SITE_TYPE_OTHER_SPECIFY_KEY } from '../../../../../shared/site00-bldr-classification/siteTypeModel';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { site00BldrAssessmentDesktopPath } from '../../../config/routes';
 
@@ -17,34 +20,50 @@ type BldrAssessmentReviewPageProps = {
   classSlug: BldrAssessmentStateId;
 };
 
+/** Public Builder discovery — scope diagnosis only; deep Experience intelligence is post-purchase. */
 export default function BldrAssessmentReviewPage({ classSlug }: BldrAssessmentReviewPageProps) {
   const navigate = useNavigate();
   const isDesktop = useSite00DesktopArtboardPreview();
   const state = getBldrAssessmentState(classSlug)!;
-  const { getAnswersForClass, completeAssessment } = useBldrAssessment();
+  const { getAnswersForClass, completeAssessment, setCurrentStep } = useBldrAssessment();
   const answers = getAnswersForClass(classSlug);
-  const allSteps = bldrAssessmentAllSteps(state);
+  const allSteps = bldrAssessmentAllSteps(state, answers);
+
+  useEffect(() => {
+    setCurrentStep(classSlug, 'review');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [classSlug]);
 
   const navigateTo = (path: string) => {
     navigate(isDesktop ? site00BldrAssessmentDesktopPath(path) : path);
   };
 
-  const handleSubmit = () => {
+  const handlePrimary = () => {
     completeAssessment(classSlug);
-    navigateTo(bldrAssessmentCompletePath(classSlug));
+    navigateTo(bldrDiscoveryResultPath(classSlug));
   };
 
   const panel = (
     <div className="site00-idnty-assessment-card site00-idnty-assessment-card--review">
       <p className="site00-bldr-context-label">{state.contextLabel}</p>
       <h2 className="site00-idnty-assessment-card__title">YOUR BUILD BLUEPRINT</h2>
-      <p className="site00-idnty-assessment-card__subtitle">REVIEW YOUR RESPONSES BEFORE SUBMITTING.</p>
+      <p className="site00-idnty-assessment-card__subtitle">
+        REVIEW YOUR RESPONSES — WE&apos;LL RECOMMEND A SITE 00 PATH BASED ON SCOPE.
+      </p>
 
       <dl className="site00-idnty-review-list">
         {allSteps.map((step) => (
           <div key={step.id} className="site00-idnty-review-list__row">
             <dt>{step.title}</dt>
-            <dd>{formatAnswerLabel(step.options, answers[step.id] ?? '')}</dd>
+            <dd>
+              {step.id === 'type'
+                ? formatSiteTypesForReview(
+                    step.options,
+                    answers[step.id],
+                    String(answers[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY] ?? ''),
+                  )
+                : formatAnswerLabel(step.options, answers[step.id] ?? '')}
+            </dd>
             <button
               type="button"
               className="site00-idnty-review-list__edit"
@@ -60,8 +79,8 @@ export default function BldrAssessmentReviewPage({ classSlug }: BldrAssessmentRe
       </dl>
 
       <BldrAssessmentActions
-        primaryLabel="REVIEW BLUEPRINT →"
-        onPrimary={handleSubmit}
+        primaryLabel="VIEW RECOMMENDATION →"
+        onPrimary={handlePrimary}
         secondaryLabel="BACK"
         onSecondary={() => {
           const last = state.steps[state.steps.length - 1];

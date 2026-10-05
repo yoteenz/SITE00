@@ -1,3 +1,8 @@
+import {
+  createSilentLoaderPreloadVideo,
+  enforceSite00LoaderVideoSilent,
+} from './site00LoaderVideoSilent';
+
 type PreloadState = {
   backgrounds: Map<string, Promise<void>>;
   animations: Map<string, Promise<void>>;
@@ -37,15 +42,12 @@ function preloadImage(url: string): Promise<void> {
 function preloadVideo(url: string): Promise<void> {
   return withPreloadTimeout(
     new Promise((resolve) => {
-      const video = document.createElement('video');
-      video.preload = 'auto';
-      video.muted = true;
-      video.volume = 0;
-      video.playsInline = true;
+      const video = createSilentLoaderPreloadVideo();
       const done = () => resolve();
       video.addEventListener('loadeddata', done, { once: true });
       video.addEventListener('canplaythrough', done, { once: true });
       video.addEventListener('error', done, { once: true });
+      video.addEventListener('loadedmetadata', () => enforceSite00LoaderVideoSilent(video), { once: true });
       video.src = url;
       video.load();
     }),

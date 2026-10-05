@@ -12,7 +12,7 @@ type VersionStripProps = {
 export function AsstsVersionStrip({ versions, selectedId, onSelect, approvedVersionId }: VersionStripProps) {
   if (!versions.length) return null;
   return (
-    <div className="assts-version-strip" role="tablist" aria-label="Asset versions">
+    <div className="assts-version-strip" role="tablist" aria-label="ASSET VERSIONS">
       {versions.map((v) => {
         const isSelected = v.id === selectedId;
         const isCanonical = v.id === approvedVersionId;
@@ -164,7 +164,7 @@ export function AsstsFullScreenViewer({ open, url, title, onClose }: FullScreenV
   if (!open) return null;
   return (
     <div className="assts-fullscreen" role="dialog" aria-label={`Full size: ${title}`}>
-      <button type="button" className="assts-fullscreen__close" onClick={onClose} aria-label="Close">
+      <button type="button" className="assts-fullscreen__close" onClick={onClose} aria-label="CLOSE">
         ✕
       </button>
       <div className="assts-fullscreen__title">{title}</div>

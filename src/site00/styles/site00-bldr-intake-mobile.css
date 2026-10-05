@@ -1,0 +1,366 @@
+/**
+ * BLDR downstream intake — mobile V2 styles.
+ */
+
+.site00-bldr-intake {
+  background: #fff;
+}
+
+.site00-bldr-intake__content {
+  padding: 0 0 24px;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.site00-bldr-intake__breadcrumb {
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.45);
+  margin: 8px 0 12px;
+}
+
+.site00-bldr-intake-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ─── Progress header ─── */
+
+.site00-bldr-intake-header__mark-wrap {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.site00-bldr-intake-header__mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  color: rgba(196, 30, 58, 0.35);
+}
+
+.site00-bldr-intake-header__location {
+  margin: 0 0 0 22px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  letter-spacing: 0.1em;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.site00-bldr-intake-header__fraction {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-display);
+  font-size: clamp(1rem, 4.5vw, 1.125rem);
+  font-weight: 700;
+  color: var(--site-red);
+  letter-spacing: 0.04em;
+}
+
+.site00-bldr-intake-header__received {
+  margin: 0 0 10px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.1em;
+  color: var(--site-text-muted);
+}
+
+.site00-bldr-intake-header__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(64px, 28%);
+  gap: 8px 12px;
+  align-items: start;
+}
+
+.site00-bldr-intake-header__phase {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.1em;
+  color: var(--site-red);
+}
+
+.site00-bldr-intake-header__title {
+  margin: 0 0 6px;
+  font-family: var(--site00-font-heading);
+  font-size: clamp(1.125rem, 5vw, 1.375rem);
+  font-weight: var(--site00-weight-heading);
+  letter-spacing: 0.03em;
+  line-height: 1.05;
+}
+
+.site00-bldr-intake-header__descriptor {
+  margin: 0 0 6px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.5vw, 0.625rem);
+  letter-spacing: 0.06em;
+  color: var(--site-red);
+  font-weight: 600;
+}
+
+.site00-bldr-intake-header__next {
+  margin: 0;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.5vw, 0.625rem);
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+}
+
+.site00-bldr-intake-header__icon {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain;
+}
+
+.site00-bldr-intake-header__result-kicker {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  letter-spacing: 0.12em;
+  color: var(--site-red);
+}
+
+/* ─── Discovery rail ─── */
+
+.site00-bldr-discovery-rail {
+  margin-bottom: 4px;
+}
+
+.site00-bldr-discovery-rail__track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.site00-bldr-discovery-rail__step {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  opacity: 0.5;
+  min-width: 52px;
+}
+
+.site00-bldr-discovery-rail__step--active,
+.site00-bldr-discovery-rail__step--done {
+  opacity: 1;
+  border-color: rgba(196, 30, 58, 0.35);
+}
+
+.site00-bldr-discovery-rail__num {
+  font-family: var(--site00-font-display);
+  font-size: 0.5625rem;
+  color: var(--site-red);
+  font-weight: 700;
+}
+
+.site00-bldr-discovery-rail__label {
+  font-family: var(--site00-font-label);
+  font-size: 0.4375rem;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* ─── Panel ─── */
+
+.site00-bldr-intake-v2__panel {
+  padding: 14px 12px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+}
+
+.site00-bldr-intake-v2__progress {
+  margin: 0 0 12px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.08em;
+  color: var(--site-text-muted);
+}
+
+/* ─── Fields ─── */
+
+.site00-bldr-intake-fields__section + .site00-bldr-intake-fields__section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.site00-bldr-intake-fields__kicker {
+  margin: 0 0 8px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.1em;
+  color: var(--site-red);
+}
+
+.site00-bldr-intake-fields__title {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-heading);
+  font-size: clamp(0.875rem, 3.8vw, 0.9375rem);
+  font-weight: var(--site00-weight-heading);
+  letter-spacing: 0.04em;
+}
+
+.site00-bldr-intake-fields__subtitle {
+  margin: 0 0 10px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.05em;
+  color: var(--site-text-muted);
+  line-height: 1.4;
+}
+
+.site00-bldr-intake-fields__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site00-bldr-intake-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20px;
+  gap: 8px;
+  align-items: start;
+  width: 100%;
+  padding: 10px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.site00-bldr-intake-row:focus-visible {
+  outline: 2px solid var(--site-red);
+  outline-offset: 2px;
+}
+
+.site00-bldr-intake-row--selected {
+  border-color: rgba(196, 30, 58, 0.35);
+  background: rgba(196, 30, 58, 0.03);
+}
+
+.site00-bldr-intake-row__label {
+  grid-column: 1;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.5vw, 0.625rem);
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.site00-bldr-intake-row__desc {
+  grid-column: 1;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.4375rem, 2vw, 0.5rem);
+  letter-spacing: 0.04em;
+  color: var(--site-text-muted);
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.site00-bldr-intake-row__check {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  font-size: 0.625rem;
+  color: transparent;
+}
+
+.site00-bldr-intake-row__check--on {
+  border-color: var(--site-red);
+  background: var(--site-red);
+  color: #fff;
+}
+
+.site00-bldr-intake-v2 .site00-idnty-assessment__actions {
+  margin-top: 16px;
+}
+
+.site00-bldr-intake-v2 .site00-idnty-assessment__btn-primary {
+  background: #fff;
+  color: var(--site-red);
+  border: 1.5px solid var(--site-red);
+  border-radius: 8px;
+}
+
+.site00-bldr-intake-v2 .site00-idnty-assessment__btn-secondary {
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.5vw, 0.625rem);
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.45);
+  background: none;
+  border: none;
+}
+
+/* ─── Result ─── */
+
+.site00-bldr-intake-result {
+  margin: 14px 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.site00-bldr-intake-result__heading {
+  margin: 0 0 8px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  letter-spacing: 0.1em;
+  color: var(--site-red);
+}
+
+.site00-bldr-intake-result__reasons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.5vw, 0.625rem);
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+}
+
+.site00-bldr-intake-v2__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.site00-bldr-intake-v2__secondary-link {
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.5vw, 0.625rem);
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.45);
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site00-bldr-intake-row {
+    transition: none;
+  }
+}

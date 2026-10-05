@@ -1,0 +1,312 @@
+/* F02 SETUP column. Mobile authority first. Tablet and desktop reflow the same plates.
+ *
+ * LEFT CONTENT RAIL. Every F02 plate keeps its curtain, pilaster or column on the right. Copy, panels, rows and
+ * fields stay in a rail that ends a breath before that edge, so the photograph keeps its side of the frame.
+ * The edge is measured ON THE PLATE (`--f02-edge-f`, a fraction of plate width at the content band) and mapped
+ * through the same object-fit: cover + object-position the plate uses. The rail therefore follows the photograph
+ * at any canvas size. It is not one global pixel width. Values: F02_SETUP/MANIFEST/F02_CONTENT_RAIL_MAP.json.
+ */
+
+.jrn .jrn-screen[data-jrn-family='F02'] {
+  container-type: size;
+  --f02-px: 0.5; /* plate object-position x at this breakpoint */
+  --f02-plate-w: max(100cqw, 56.25cqh); /* rendered width of the 2016 × 3584 plate under cover */
+  --f02-edge: calc(var(--f02-px) * 100cqw + (var(--f02-edge-f, 0.6) - var(--f02-px)) * var(--f02-plate-w));
+  --f02-left: var(--jrn-m);
+  --f02-gap: 14px; /* breathing space between the rail and the environment edge */
+  --f02-rail-min: 160px;
+  --f02-rail-max: 440px;
+  --f02-rail: clamp(var(--f02-rail-min), calc(var(--f02-edge) - var(--f02-gap) - var(--f02-left)), var(--f02-rail-max));
+}
+.jrn .jrn-screen[data-jrn-plate='ENV.ARRIVAL'] {
+  --f02-edge-f: 0.545; /* sheer curtain, left edge at the panel band */
+}
+.jrn .jrn-screen[data-jrn-plate='ENV.DESK'] {
+  --f02-edge-f: 0.649; /* sheer curtain in front of the wall corner */
+}
+.jrn .jrn-screen[data-jrn-plate='ENV.EDIT'] {
+  --f02-edge-f: 0.666; /* olive leaves top right, stone pilaster below */
+}
+.jrn .jrn-screen[data-jrn-plate='ENV.QUIET'] {
+  --f02-edge-f: 0.643; /* lit stone column */
+}
+
+.jrn .jrn-screen[data-jrn-family='F02'] .jrn-col {
+  padding-top: calc(14px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+}
+.jrn .jrn-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  width: 100%;
+  max-width: var(--f02-rail);
+}
+.jrn .jrn-setup__top {
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+}
+.jrn .jrn-setup__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 12px;
+}
+/* SETUP sits on the plaster, not on paper: ink-2 keeps it above 4.5:1 across the shadowed wall. */
+.jrn .jrn-setup__meta .jrn-eyebrow {
+  color: var(--jrn-ink-2);
+}
+.jrn .jrn-setup__segs {
+  display: inline-flex;
+  gap: 6px;
+}
+.jrn .jrn-setup__segs i {
+  width: 16px;
+  height: 8px;
+  border-radius: 2px;
+  background: rgba(21, 23, 28, 0.16);
+}
+.jrn .jrn-setup__segs i[data-on='true'] {
+  background: var(--jrn-emerald);
+}
+.jrn .jrn-setup__mark {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  min-height: 42px;
+}
+.jrn .jrn-setup__emblem {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
+  object-position: left bottom;
+}
+.jrn .jrn-setup__lockup {
+  align-self: flex-start;
+  height: 42px;
+  width: auto;
+  max-width: 210px;
+  object-fit: contain;
+  object-position: left center;
+}
+/* The SETUP lockup (emblem 012 + JURNL. SETUP.) is taller than it is wide; match the sibling emblem height so the
+   wordmark inside it stays legible. */
+.jrn .jrn-setup__lockup[data-asset-id='F02.BRANDLOCKUP.JURNL_SETUP.001'] {
+  height: 52px;
+}
+.jrn .jrn-setup__word {
+  font-family: var(--jrn-display);
+  font-size: 22px;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: var(--jrn-rose-ink);
+}
+.jrn .jrn-screen[data-jrn-family='F02'] .jrn-h1 {
+  font-size: 34px;
+  line-height: 0.92;
+}
+.jrn .jrn-screen[data-jrn-family='F02'] .jrn-h1 > span {
+  text-wrap: balance;
+}
+/* Helper copy: two or three intentional lines inside the rail, never a one-word last line. */
+.jrn .jrn-setup > .jrn-kicker {
+  font-size: 11.5px;
+  line-height: 1.5;
+  letter-spacing: 0.18em;
+  text-wrap: balance;
+}
+.jrn .jrn-setup__path,
+.jrn .jrn-setup__list,
+.jrn .jrn-setup__summary {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(249, 246, 239, 0.9);
+  border: 1px solid rgba(203, 189, 171, 0.85);
+  border-radius: 12px;
+}
+/* Read-only lists take the width of their words, not the whole rail: the panel stays a paper card, not a band. */
+.jrn .jrn-setup__path,
+.jrn .jrn-setup__summary {
+  align-self: flex-start;
+  width: max-content;
+  min-width: min(100%, 200px);
+  max-width: 100%;
+  padding-right: 28px;
+}
+.jrn .jrn-setup__path li,
+.jrn .jrn-setup__summary li,
+.jrn .jrn-setup__list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+/* The recap carries live answers (EVERY TWO WEEKS INCOME); tighter tracking keeps each answer on one line. */
+.jrn .jrn-setup__summary li {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-wrap: balance;
+}
+.jrn .jrn-setup__path i {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1.5px solid var(--jrn-taupe);
+}
+.jrn .jrn-setup__choices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.jrn .jrn-setup__choices .jrn-choice {
+  background: rgba(249, 246, 239, 0.92);
+  border-radius: 12px;
+  min-height: 42px;
+  gap: 10px;
+  padding: 6px 10px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+/* Tight gutters keep the short icon labels (CONNECT AN ACCOUNT) on one line down to a 360 px phone. */
+.jrn .jrn-setup__choices .jrn-choice--icon {
+  column-gap: 8px;
+  padding-right: 8px;
+}
+.jrn .jrn-setup__list small {
+  margin-left: auto;
+  letter-spacing: 0.12em;
+  color: var(--jrn-ink-3);
+}
+.jrn .jrn-setup__empty {
+  color: var(--jrn-ink-3);
+}
+.jrn .jrn-setup__consents {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* [ ICON ] [ LABEL + NOTE ] [ TOGGLE ]. A wrapped label stays in its own column, beside the icon. */
+.jrn .jrn-setup__consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: 8px;
+  align-items: center;
+  padding: 8px 8px 8px 10px;
+  background: rgba(249, 246, 239, 0.92);
+  border-radius: 12px;
+  border: 1px solid rgba(203, 189, 171, 0.85);
+}
+.jrn .jrn-setup__consent > svg {
+  align-self: start; /* beside the label's first line, not the middle of label + note */
+  color: var(--jrn-ink-3);
+}
+.jrn .jrn-setup__consent b,
+.jrn .jrn-setup__consent small {
+  display: block;
+  letter-spacing: 0.12em;
+  text-wrap: balance;
+}
+.jrn .jrn-setup__consent b {
+  font-size: 10px;
+  line-height: 1.35;
+}
+.jrn .jrn-setup__consent small {
+  margin-top: 2px;
+  color: var(--jrn-ink-3);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+}
+.jrn .jrn-setup__read {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 36px;
+  padding: 0 12px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: inherit;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+}
+/* ADD ANOTHER: [ + ] [ LABEL ] on one line, the plus in its own slot. */
+.jrn .jrn-setup .jrn-btn--secondary {
+  gap: 8px;
+}
+/* Reassurance line belongs to the content it qualifies: left grid, bright wall, ink-2. */
+.jrn .jrn-setup__foot {
+  margin: 2px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--jrn-ink-2);
+}
+.jrn .jrn-screen[data-jrn-family='F02'] .jrn-cta {
+  padding-top: 8px;
+}
+/* Secondary actions (SKIP FOR NOW) sit on the left grid on the existing paper material, so they stay legible
+   wherever the CTA band lands on the plate. No scrim, no shadow on the type. */
+.jrn .jrn-screen[data-jrn-family='F02'] .jrn-btn--quiet {
+  align-self: flex-start;
+  width: auto;
+  min-height: 38px;
+  padding: 0 16px;
+  background: rgba(249, 246, 239, 0.86);
+  color: var(--jrn-ink-2);
+  border: 1px solid rgba(203, 189, 171, 0.7);
+  font-size: 11.5px;
+}
+
+@media (min-width: 600px) {
+  .jrn .jrn-screen[data-jrn-family='F02'] {
+    --f02-px: 0.56;
+    --f02-gap: 32px;
+    --f02-rail-max: 400px;
+  }
+  /* Tablet keeps the left rail: the column starts on the F01 grid line and never centres. */
+  .jrn .jrn-screen[data-jrn-family='F02'] .jrn-col {
+    max-width: none;
+    padding-left: var(--jrn-m);
+    padding-right: var(--jrn-m);
+  }
+  .jrn .jrn-screen[data-jrn-family='F02'] .jrn-h1 {
+    font-size: 40px;
+  }
+  .jrn .jrn-screen[data-jrn-family='F02'] .jrn-cta {
+    max-width: var(--f02-rail);
+  }
+  .jrn .jrn-setup > .jrn-kicker {
+    font-size: 12.5px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .jrn .jrn-screen[data-jrn-family='F02'] {
+    --f02-px: 0.62;
+    --f02-left: 72px;
+    --f02-rail-max: 420px;
+  }
+  .jrn .jrn-screen[data-jrn-family='F02'] .jrn-col {
+    width: 420px;
+    max-width: 420px;
+    margin-left: 72px;
+    margin-right: auto;
+    padding: 28px 0 20px;
+    justify-content: flex-start;
+  }
+  .jrn .jrn-screen[data-jrn-family='F02'] .jrn-col > * {
+    max-width: var(--f02-rail);
+  }
+  .jrn .jrn-screen[data-jrn-family='F02'] .jrn-h1 {
+    font-size: 40px;
+  }
+}

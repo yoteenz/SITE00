@@ -1,0 +1,151 @@
+{
+  "contract": "JURNL_HIERARCHICAL_EXPRESSION",
+  "cascade": [
+    "GLOBAL_JURNL_DNA",
+    "FAMILY",
+    "PARENT",
+    "CHILD",
+    "GRANDCHILD",
+    "STATE",
+    "INTERACTION",
+    "PANEL",
+    "CONTROL",
+    "LIVE_IMPLEMENTATION"
+  ],
+  "child_production": "BLOCKED_UNTIL_FOUNDER",
+  "paid_generation": "PARENT_ONLY",
+  "repetition_audit": {
+    "status": "PASS",
+    "compared_against": [
+      "F01",
+      "F02",
+      "F03",
+      "F04"
+    ],
+    "notes": [
+      "The cabinet stays right. The left field is plaster.",
+      "No arch-bust-bowl-book still life.",
+      "No travertine desk.",
+      "No activity wall ledger."
+    ]
+  },
+  "generation_gate": {
+    "product_tree_locked_enough": true,
+    "family_expression_defined": true,
+    "parent_expression_defined": true,
+    "material_child_expressions_defined": true,
+    "environment_policies_defined": true,
+    "panel_control_policies_defined": true,
+    "repetition_audit": "PASS"
+  },
+  "nodes": [
+    {
+      "node_id": "F05",
+      "node_type": "FAMILY",
+      "product_job": "Show the financial landscape: what is held, where it sits, and how it is organized.",
+      "expression_class": "FAMILY",
+      "expression_concept": "A refined limestone cabinet.",
+      "parent_expression_inherited": "GLOBAL_JURNL_DNA",
+      "expression_changes": [
+        "Organized places, not a balance costume."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "Editorial compartments",
+      "button_policy": "Global primitives",
+      "typography_policy": "The place count leads. Labels stay small.",
+      "interaction_policy": "Review the parent. The account dossier stays closed.",
+      "motion_policy": "Still.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F05.00",
+      "node_type": "PARENT",
+      "product_job": "Show the financial landscape: what is held, where it sits, and how it is organized.",
+      "expression_class": "PARENT",
+      "expression_concept": "A refined limestone cabinet.",
+      "parent_expression_inherited": "F05",
+      "expression_changes": [
+        "The cabinet stays right. The left field is plaster."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "Editorial compartments",
+      "button_policy": "Utility plus a closed child control",
+      "typography_policy": "The place count leads. Labels stay small.",
+      "interaction_policy": "Parent review only",
+      "motion_policy": "Still",
+      "distinct_authority_required": true
+    },
+    {
+      "node_id": "F05.ACCOUNTS",
+      "node_type": "CHILD",
+      "product_job": "Show the places.",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Same room. Show the places.",
+      "parent_expression_inherited": "F05.00",
+      "expression_changes": [
+        "Same plate. The job narrows."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "Editorial compartments",
+      "button_policy": "Inherited",
+      "typography_policy": "Inherited, slightly tighter",
+      "interaction_policy": "Not built",
+      "motion_policy": "Still",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F05.ACCOUNT",
+      "node_type": "CHILD",
+      "product_job": "Read one place.",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "A dossier. The room steps back.",
+      "parent_expression_inherited": "F05.00",
+      "expression_changes": [
+        "No plate. A detail sheet."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "DETAIL",
+      "button_policy": "Quiet close",
+      "typography_policy": "Dossier labels",
+      "interaction_policy": "Not built",
+      "motion_policy": "Sheet rises",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F05.ST.EMPTY",
+      "node_type": "STATE",
+      "product_job": "Nothing is placed yet.",
+      "expression_class": "STATE_LIKE",
+      "expression_concept": "Nothing is placed yet.",
+      "parent_expression_inherited": "F05.00",
+      "expression_changes": [
+        "Same plate or none. Copy changes."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "EMPTY",
+      "button_policy": "One return",
+      "typography_policy": "Short",
+      "interaction_policy": "Not built",
+      "motion_policy": "Still",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F05.IX.MOVE",
+      "node_type": "INTERACTION",
+      "product_job": "Move between places. Closed in this sprint.",
+      "expression_class": "INTERACTION_LIKE",
+      "expression_concept": "Move between places. Closed in this sprint.",
+      "parent_expression_inherited": "F05.00",
+      "expression_changes": [
+        "A sheet. No new plate."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "FORM",
+      "button_policy": "Global form or confirmation",
+      "typography_policy": "Inherited",
+      "interaction_policy": "Not built",
+      "motion_policy": "Sheet rises",
+      "distinct_authority_required": false
+    }
+  ]
+}

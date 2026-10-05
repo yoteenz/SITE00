@@ -1,0 +1,85 @@
+{
+ "artifact": "SITE00_CLIENT_APPROVAL_GATE_MODEL",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "approval_event": {
+  "fields": [
+   "review_id",
+   "project_id",
+   "family_id",
+   "authority_id",
+   "version",
+   "decision (APPROVE | NEEDS_REVISION | APPROVAL_UNDONE)",
+   "client_id",
+   "timestamp",
+   "comment",
+   "revision_reason",
+   "revision_chips",
+   "scope_class",
+   "previous_status",
+   "new_status",
+   "gate_kind (STANDARD | FINAL)"
+  ],
+  "storage": "EXTEND site00_client_review_receipts (+ events) \u2014 add family_id, authority_id, version_label, previous_status, new_status, revision_reason, comment; no third review store",
+  "durability": "append-only; reversals are new events"
+ },
+ "gate_machine": {
+  "family_states": [
+   "UPCOMING",
+   "READY_TO_BEGIN",
+   "AWAITING_PRODUCTION_FUNDING",
+   "IN_PRODUCTION",
+   "READY_FOR_YOU",
+   "REVISION_IN_PROGRESS",
+   "APPROVED",
+   "COMPLETE",
+   "BLOCKED"
+  ],
+  "transitions": [
+   {
+    "when": "family N required approval APPROVED",
+    "emit": "FAMILY_N_APPROVED",
+    "then": "family N+1 \u2192 READY_TO_BEGIN if no funding needed, else AWAITING_PRODUCTION_FUNDING"
+   },
+   {
+    "when": "funding confirmed (provider connected + sufficient attested balance, or prepayment received)",
+    "emit": "FAMILY_N_FUNDED",
+    "then": "READY_TO_BEGIN"
+   },
+   {
+    "when": "founder starts production",
+    "emit": "FAMILY_N_IN_PRODUCTION",
+    "then": "IN_PRODUCTION"
+   },
+   {
+    "when": "founder sends review",
+    "emit": "FAMILY_N_READY_FOR_CLIENT",
+    "then": "READY_FOR_YOU"
+   },
+   {
+    "when": "client requests revision",
+    "emit": "FAMILY_N_REVISION_REQUESTED",
+    "then": "REVISION_IN_PROGRESS"
+   },
+   {
+    "when": "final family approval",
+    "emit": "PROJECT_PHASE_COMPLETE",
+    "then": "next phase"
+   }
+  ],
+  "machine_readable_example": {
+   "FAMILY_01_APPROVED": "FAMILY_02_READY_TO_PRODUCE"
+  },
+  "bridge": "Approval service writes site00_project_deliverables.status = CLIENT_APPROVED so existing dependencyEngine/readinessEvaluator gates unlock (they already key on CLIENT_APPROVED)."
+ },
+ "approval_vs_funding_separation": "APPROVE never shows prices or payment controls. Funding appears AFTER approval as the next step (NextFamilyAdvance). Copy never implies \"approve or pay\".",
+ "client_never_runs_production": "No GENERATE / RUN AGENT / START JOB / DEPLOY in the client app. Client may only APPROVE and FUND / CONFIRM; production advances via founder/system.",
+ "founder_retains": [
+  "creative direction",
+  "production control",
+  "canon authority",
+  "release control",
+  "scope control"
+ ]
+}

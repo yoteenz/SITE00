@@ -1135,23 +1135,23 @@
 }
 
 .assts-library-home__eyebrow {
-  margin: 0 0 6px;
+  margin: 0 0 var(--site00-stack-md);
   font-size: clamp(8px, 2.4vw, 9px);
   letter-spacing: 0.14em;
   line-height: 1.2;
 }
 
 .assts-library-home__title {
-  margin: 0;
+  margin: 0 0 var(--site00-stack-tight-lg);
   font-family: var(--site00-font-heading);
   font-size: clamp(1.28rem, 5.6vw, 1.5rem);
   letter-spacing: 0.02em;
-  line-height: 1.05;
+  line-height: var(--site00-lh-display-tight);
   font-weight: 600;
 }
 
 .assts-library-home__tagline {
-  margin: 8px 0 0;
+  margin: calc(var(--site00-stack-md) + 6px) 0 0;
   font-size: clamp(8px, 2.35vw, 9px);
   letter-spacing: 0.12em;
   text-transform: uppercase;

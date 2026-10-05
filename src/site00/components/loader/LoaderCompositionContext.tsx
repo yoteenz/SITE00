@@ -46,8 +46,10 @@ export function useLoaderCompositionOptional() {
 
 type ProviderProps = {
   children: ReactNode;
-  /** Mobile (711×1536) or desktop (1672×941) artboard — Asset Vault only. */
+  /** Mobile (711×1536) or desktop (1672×941) artboard — live overlay uses mobile everywhere. */
   presentation?: LoaderPresentation;
+  /** When desktop animation/media is active, fill viewport width (mirrors phone edge-to-edge). */
+  mediaPresentation?: LoaderPresentation;
 };
 
 function readRefMapFromUrl(): boolean {
@@ -61,9 +63,14 @@ function readRefMapFromUrl(): boolean {
  * Mobile: 711×1536. Desktop Asset Vault: 1672×941 landscape master.
  * Background renders full-bleed outside this provider (see Site00ImmersiveLoader).
  */
-export function LoaderCompositionProvider({ children, presentation = 'mobile' }: ProviderProps) {
+export function LoaderCompositionProvider({
+  children,
+  presentation = 'mobile',
+  mediaPresentation = 'mobile',
+}: ProviderProps) {
   const composition = useMemo(() => resolveLoaderComposition(presentation), [presentation]);
   const canvas = composition.canvas;
+  const fillViewportWidth = mediaPresentation === 'desktop';
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const artboardRef = useRef<HTMLDivElement>(null);
@@ -106,7 +113,7 @@ export function LoaderCompositionProvider({ children, presentation = 'mobile' }:
       const availH = Math.max(1, rect.height - safeTop - safeBottom);
       const scaleW = availW / canvas.width;
       const scaleH = availH / canvas.height;
-      const nextScale = Math.min(scaleW, scaleH);
+      const nextScale = fillViewportWidth ? scaleW : Math.min(scaleW, scaleH);
       setScale(nextScale);
       setStageWidth(canvas.width * nextScale);
       setStageHeight(canvas.height * nextScale);
@@ -121,7 +128,7 @@ export function LoaderCompositionProvider({ children, presentation = 'mobile' }:
       ro.disconnect();
       window.removeEventListener('resize', update);
     };
-  }, [canvas.width, canvas.height]);
+  }, [canvas.width, canvas.height, fillViewportWidth]);
 
   const registerRegion = useCallback((id: string, node: HTMLElement | null) => {
     if (node) {

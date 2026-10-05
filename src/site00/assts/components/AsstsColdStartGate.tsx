@@ -1,11 +1,16 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  dispatchSite00ForceRevealLoader,
+  shouldBypassImmersiveColdStartGate,
+  SITE00_FORCE_REVEAL_LOADER_EVENT,
+} from '../../components/loader/site00ForceRevealAfterMount';
 import { createPortal } from 'react-dom';
 import { Outlet } from 'react-router-dom';
 import { acquireLoadingScreenDocumentLock } from '../../../platform-stabilization/loadingScreenLock';
 import { ASSTS_IMMERSIVE_LOADER_CONFIG } from '../../components/loader/site00LoaderConfig';
 import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderMediaPresentation } from '../../components/loader/site00LoaderMedia';
 import { Site00ImmersiveLoader, type Site00ImmersiveLoaderPhase } from '../../components/loader/Site00ImmersiveLoader';
-import { initSite00ImmersiveLoaderBoot, teardownSite00ImmersiveBootShell } from '../../components/loader/site00LoaderBoot';
+import { initSite00ImmersiveLoaderBoot, releaseSite00ImmersiveBootRoot, teardownSite00ImmersiveBootShell, waitForLoaderExitPaint } from '../../components/loader/site00LoaderBoot';
 import { resolveSite00LoaderGeometryPreloadUrl } from '../../components/loader/site00LoaderBootstrap';
 import {
   preloadSite00LoaderAnimation,
@@ -13,38 +18,28 @@ import {
 } from '../../components/loader/site00LoaderPreload';
 import {
   markSite00ImmersiveComplete,
+  purgeSite00ImmersiveLoaderDomAfterGateReveal,
   shouldShowSite00ImmersiveLoader,
 } from '../../components/loader/site00LoaderSession';
 import { useSite00LoaderProgress } from '../../components/loader/useSite00LoaderProgress';
+import { advanceLoaderStagesFromTasks, waitForLoaderAnimationOpeningHold, waitForLoaderAnimationStart, waitForOpeningFrameHold } from '../../components/loader/loaderProgressTimeline';
+import { preloadAsstsLibraryPage } from '../../components/loader/site00LoaderRoutePreload';
+import {
+  SITE00_LOADER_MIN_OPENING_HOLD_MS,
+  SITE00_LOADER_OPENING_HOLD_TIMEOUT_MS,
+} from '../../components/loader/site00LoaderAnimationPlayback';
 import { Site00TypographyBootstrap } from '../../components/Site00TypographyBootstrap';
 import { ASSTS_ENVIRONMENT_SLOTS } from '../config/slots';
 import { fetchAsstsLibrary, primeAsstsLibraryCache, resolveAsstsSlot } from '../services/asstsApi';
 
 const COMPLETE_HOLD_MS = 680;
-/** Minimum time the immersive loader stays visible from cold-start gate mount. */
-const MIN_CINEMATIC_MS = 4200;
-/** After geometry is painted, keep the loop running at least this long. */
-const MIN_GEOMETRY_PLAY_MS = 2800;
+const LOADER_WALL_CLOCK_FAILSAFE_MS = 6_000;
+const LOADER_EXIT_BACKUP_MS = 900;
 
 initSite00ImmersiveLoaderBoot();
 
 function waitForGeometryReady(getReady: () => boolean, timeoutMs = 8000): Promise<void> {
-  if (getReady()) return Promise.resolve();
-  return new Promise((resolve) => {
-    const started = Date.now();
-    const tick = () => {
-      if (getReady()) {
-        resolve();
-        return;
-      }
-      if (Date.now() - started >= timeoutMs) {
-        resolve();
-        return;
-      }
-      window.requestAnimationFrame(tick);
-    };
-    window.requestAnimationFrame(tick);
-  });
+  return waitForLoaderAnimationStart(getReady, timeoutMs);
 }
 
 function sleep(ms: number): Promise<void> {
@@ -72,14 +67,17 @@ const BOOTSTRAP_API_TIMEOUT_MS = 10000;
  * Loader media is boot-critical (same-origin) and does NOT wait on ASSTS API resolution.
  */
 export function AsstsColdStartGate() {
-  const immersive = shouldShowSite00ImmersiveLoader();
+  const bypassColdStart = shouldBypassImmersiveColdStartGate();
+  const immersive = !bypassColdStart && shouldShowSite00ImmersiveLoader();
   const [phase, setPhase] = useState<Site00ImmersiveLoaderPhase>(immersive ? 'loading' : 'exiting');
   const [revealed, setRevealed] = useState(!immersive);
-  const startedAt = useRef(Date.now());
+  const [pageUnderlayReady, setPageUnderlayReady] = useState(!immersive);
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
+  const openingHoldRef = useRef(false);
+  const openingHoldAt = useRef<number | null>(null);
   const config = ASSTS_IMMERSIVE_LOADER_CONFIG;
-  const { progress, statusLabel, loaderState, isComplete, completeStage, forceComplete } = useSite00LoaderProgress(
+  const { progress, smoothProgress, stageSubtitle, loaderState, isComplete, completeStage, forceComplete } = useSite00LoaderProgress(
     config.stages,
     config.completionMessage,
   );
@@ -89,6 +87,36 @@ export function AsstsColdStartGate() {
     geometryReadyRef.current = true;
     geometryReadyAt.current = Date.now();
   }, []);
+
+  const handleAnimationOpeningHold = useCallback(() => {
+    if (openingHoldRef.current) return;
+    openingHoldRef.current = true;
+    openingHoldAt.current = Date.now();
+  }, []);
+
+  const forceRevealApp = useCallback((_reason: string) => {
+    markSite00ImmersiveComplete();
+    releaseSite00ImmersiveBootRoot();
+    teardownSite00ImmersiveBootShell();
+    setPageUnderlayReady(true);
+    setPhase('exiting');
+    setRevealed(true);
+  }, []);
+
+  const handleExitComplete = useCallback(() => {
+    forceRevealApp('exit-animation');
+  }, [forceRevealApp]);
+
+  useLayoutEffect(() => {
+    if (bypassColdStart) {
+      forceRevealApp('preview-tunnel-bypass');
+    }
+  }, [bypassColdStart, forceRevealApp]);
+
+  useLayoutEffect(() => {
+    if (!revealed) return;
+    purgeSite00ImmersiveLoaderDomAfterGateReveal('gate-revealed');
+  }, [revealed]);
 
   useEffect(() => {
     if (!immersive || revealed) return;
@@ -106,53 +134,52 @@ export function AsstsColdStartGate() {
 
     async function bootstrap() {
       try {
-        completeStage('bootstrap');
-
-        void import('../pages/LibraryPage');
-
-        await preloadSite00LoaderBackground(
+        const backgroundTask = preloadSite00LoaderBackground(
           resolveSite00LoaderBackgroundUrl(resolveSite00LoaderMediaPresentation()),
         );
-        if (cancelled) return;
-        completeStage('preparing');
-
         const geometryUrl = await resolveSite00LoaderGeometryPreloadUrl();
-        const geometryPromise = preloadSite00LoaderAnimation(geometryUrl);
+        const animationTask = preloadSite00LoaderAnimation(geometryUrl);
+        const pageTask = preloadAsstsLibraryPage();
 
-        completeStage('connect');
-
-        const libraryPromise = withTimeout(fetchAsstsLibrary(), BOOTSTRAP_API_TIMEOUT_MS, 'library').catch(
+        const libraryTask = withTimeout(fetchAsstsLibrary(), BOOTSTRAP_API_TIMEOUT_MS, 'library').catch(
           () => null,
         );
-        const slotPromise = withTimeout(
+        const slotTask = withTimeout(
           resolveAsstsSlot(ASSTS_ENVIRONMENT_SLOTS.library),
           BOOTSTRAP_API_TIMEOUT_MS,
           'slot',
         ).catch(() => null);
 
-        const [library] = await Promise.all([libraryPromise, slotPromise]);
-        if (cancelled) return;
-        if (library) primeAsstsLibraryCache(library);
-        completeStage('resolve');
-
-        await geometryPromise;
-        if (cancelled) return;
-        completeStage('assemble');
-
         await waitForGeometryReady(() => geometryReadyRef.current);
         if (cancelled) return;
 
-        const geometryStartedAt = geometryReadyAt.current ?? Date.now();
-        const geometryElapsed = Date.now() - geometryStartedAt;
-        if (geometryElapsed < MIN_GEOMETRY_PLAY_MS) {
-          await sleep(MIN_GEOMETRY_PLAY_MS - geometryElapsed);
-        }
+        await advanceLoaderStagesFromTasks(
+          [
+            { stageId: 'bootstrap', task: backgroundTask },
+            { stageId: 'preparing', task: animationTask },
+            { stageId: 'connect', task: libraryTask },
+            { stageId: 'resolve', task: slotTask },
+            { stageId: 'assemble', task: pageTask },
+          ],
+          completeStage,
+          () => cancelled,
+        );
         if (cancelled) return;
 
-        const elapsed = Date.now() - startedAt.current;
-        if (elapsed < MIN_CINEMATIC_MS) {
-          await sleep(MIN_CINEMATIC_MS - elapsed);
-        }
+        const library = await libraryTask;
+        if (library) primeAsstsLibraryCache(library);
+
+        await waitForLoaderAnimationOpeningHold(
+          () => openingHoldRef.current,
+          SITE00_LOADER_OPENING_HOLD_TIMEOUT_MS,
+        );
+        if (cancelled) return;
+
+        await waitForOpeningFrameHold(
+          openingHoldAt.current ?? Date.now(),
+          SITE00_LOADER_MIN_OPENING_HOLD_MS,
+          () => cancelled,
+        );
         if (cancelled) return;
 
         completeStage('ready');
@@ -161,7 +188,10 @@ export function AsstsColdStartGate() {
         await sleep(COMPLETE_HOLD_MS);
         if (cancelled) return;
 
-        setPhase('exiting');
+        await waitForLoaderExitPaint();
+        if (cancelled) return;
+
+        forceRevealApp('bootstrap-complete');
       } catch {
         if (cancelled) return;
         completeStage('ready');
@@ -169,7 +199,9 @@ export function AsstsColdStartGate() {
         setPhase('complete-hold');
         await sleep(COMPLETE_HOLD_MS);
         if (cancelled) return;
-        setPhase('exiting');
+        await waitForLoaderExitPaint();
+        if (cancelled) return;
+        forceRevealApp('bootstrap-error');
       }
     }
 
@@ -177,13 +209,33 @@ export function AsstsColdStartGate() {
     return () => {
       cancelled = true;
     };
-  }, [immersive, completeStage, forceComplete]);
+  }, [immersive, completeStage, forceComplete, forceRevealApp]);
 
-  const handleExitComplete = () => {
-    markSite00ImmersiveComplete();
-    teardownSite00ImmersiveBootShell();
-    setRevealed(true);
-  };
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const onForce = (ev: Event) => {
+      const reason =
+        (ev as CustomEvent<{ reason?: string }>).detail?.reason ?? 'external-force-reveal';
+      forceRevealApp(reason);
+    };
+    window.addEventListener(SITE00_FORCE_REVEAL_LOADER_EVENT, onForce);
+    return () => window.removeEventListener(SITE00_FORCE_REVEAL_LOADER_EVENT, onForce);
+  }, [forceRevealApp]);
+
+  useEffect(() => {
+    if (phase !== 'exiting' || revealed) return;
+    const backup = window.setTimeout(() => forceRevealApp('exit-backup-timer'), LOADER_EXIT_BACKUP_MS);
+    return () => window.clearTimeout(backup);
+  }, [phase, revealed, forceRevealApp]);
+
+  useEffect(() => {
+    if (!immersive || revealed) return;
+    const failsafe = window.setTimeout(() => {
+      dispatchSite00ForceRevealLoader('wall-clock-failsafe');
+      forceRevealApp('wall-clock-failsafe');
+    }, LOADER_WALL_CLOCK_FAILSAFE_MS);
+    return () => window.clearTimeout(failsafe);
+  }, [immersive, revealed, forceRevealApp]);
 
   if (revealed) {
     return (
@@ -194,22 +246,41 @@ export function AsstsColdStartGate() {
     );
   }
 
-  const overlay = (
+  const underlay = pageUnderlayReady ? (
     <>
       <Site00TypographyBootstrap />
-      <Site00ImmersiveLoader
-        config={config}
-        progress={progress}
-        statusLabel={statusLabel}
-        loaderState={loaderState}
-        isComplete={isComplete}
-        phase={phase}
-        onAnimationReady={handleAnimationReady}
-        onExitComplete={handleExitComplete}
-      />
+      <Outlet />
     </>
+  ) : null;
+
+  const overlay = (
+    <Site00ImmersiveLoader
+      config={config}
+      progress={progress}
+      smoothProgress={smoothProgress}
+      stageSubtitle={stageSubtitle}
+      loaderState={loaderState}
+      isComplete={isComplete}
+      phase={phase}
+      onAnimationReady={handleAnimationReady}
+      onAnimationOpeningHold={handleAnimationOpeningHold}
+      onExitComplete={handleExitComplete}
+    />
   );
 
-  if (typeof document === 'undefined') return overlay;
-  return createPortal(overlay, document.body);
+  if (typeof document === 'undefined') {
+    return (
+      <>
+        {underlay}
+        {overlay}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {underlay}
+      {createPortal(overlay, document.body)}
+    </>
+  );
 }

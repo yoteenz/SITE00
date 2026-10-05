@@ -1,0 +1,142 @@
+/* R8M2R4 — actual-first pixel-fidelity reconstruction (af-* sections). */
+.site00-twin-af {
+  --af-black: #0a0a0a;
+  --af-ink: #111111;
+  --af-text: #f0f0f0;
+  --af-lime: #c8ff00;
+  --af-border: #333333;
+  --af-hero-headline-col: 38%;
+  --af-hero-artifact-col: 34%;
+  --af-hero-authority-col: 28%;
+  --af-gallery-gap: 6px;
+  --af-section-gap: 8px;
+  --af-lime-cap: 0.16;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  background: var(--af-black);
+  color: var(--af-text);
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.site00-twin-af__section {
+  padding: 8px 10px;
+  border-bottom: 1px solid #222;
+  margin-bottom: var(--af-section-gap);
+}
+
+.site00-twin-af__section-title {
+  margin: 0 0 6px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.site00-twin-af__hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 0.62fr);
+  gap: 6px;
+  align-items: start;
+}
+
+.site00-twin-af__gallery-sheet {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--af-gallery-gap);
+}
+
+.site00-twin-af__structured-band {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.site00-twin-af__readiness-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.site00-twin-af__metadata-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.site00-twin-af__bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.site00-twin-af__authority-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site00-twin-af__decision-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.site00-twin-af__node {
+  min-width: 0;
+}
+
+.site00-twin-af__node--interactive {
+  cursor: pointer;
+}
+
+.site00-twin-af__image-wrap {
+  width: 100%;
+  height: 100%;
+  min-height: 48px;
+  overflow: hidden;
+}
+
+.site00-twin-af__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.site00-twin-af-compare {
+  position: relative;
+  max-width: 390px;
+  margin: 0 auto;
+}
+
+.site00-twin-af-compare__panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.site00-twin-af-compare__overlay {
+  position: relative;
+}
+
+.site00-twin-af-compare__overlay-live {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.site00-twin-af-compare.is-flicker .site00-twin-af-compare__overlay-live {
+  animation: site00-twin-af-flicker 1.2s step-end infinite;
+}
+
+@keyframes site00-twin-af-flicker {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}

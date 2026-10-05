@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import type { LocationsDirectoryEntry } from '../../config/locations-directory';
 import { resolveDirectoryEntryHref } from '../../config/locations-directory';
+import { site00AuthLockedAriaLabel } from '../../config/site00-copy';
 import { useSignedInFromStorage } from '../../../hooks/useSignedInFromStorage';
 import { Site00DirectoryArrowIcon, Site00LockIcon } from '../mobile/Site00MobileIcons';
 
@@ -29,11 +30,7 @@ export function DirectoryCard({ entry, style }: DirectoryCardProps) {
         {locked ? (
           <span className="site00-directory-card__auth">
             <Site00LockIcon size={12} />
-            <span>
-              SIGN IN
-              <br />
-              TO ENTER
-            </span>
+            <span className="site00-directory-card__auth-label">SIGN IN TO ENTER</span>
           </span>
         ) : null}
       </div>
@@ -58,7 +55,7 @@ export function DirectoryCard({ entry, style }: DirectoryCardProps) {
       style={style}
       aria-label={
         locked
-          ? `${entry.title} — sign in to enter`
+          ? site00AuthLockedAriaLabel(entry.title)
           : `${entry.title} — ${entry.descriptionLines.join(' ')}`
       }
     >

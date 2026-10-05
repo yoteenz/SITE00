@@ -13,7 +13,7 @@ export function Site00EcosystemMobileNav({ active }: Site00EcosystemMobileNavPro
   const { pathname } = useLocation();
 
   return (
-    <nav className="site00-ecosystem-mobile-nav" aria-label="SITE 00 ecosystem navigation">
+    <nav className="site00-ecosystem-mobile-nav" aria-label="SITE 00 ECOSYSTEM NAVIGATION">
       {ECOSYSTEM_MOBILE_NAV.map((item, index) => {
         const isActive = active ? item.id === active : isEcosystemMobileNavActive(pathname, item.id);
 

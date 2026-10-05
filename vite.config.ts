@@ -1,6 +1,12 @@
+import { execSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import { site00AsstsLocalApiPlugin } from './scripts/vite-site00-assts-local-api.mjs';
+import { site00LocalApiPlugin } from './scripts/vite-site00-local-api.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -31,6 +37,22 @@ export default defineConfig(({ mode, command }) => {
     (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
       process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true');
 
+  /** HMR dev only — never transform dist/index.html during `vite preview` (would serve /src/main.tsx). */
+  const cloudPreviewDevServer =
+    cloudMobilePreview && command === 'serve' && mode === 'development';
+
+  /** Cloud preview: stable stamp by default (same until redeploy); set SITE00_CLOUD_PREVIEW_STABLE=0 to bust every Vite boot. */
+  const previewSessionUnstable =
+    cloudMobilePreview &&
+    (process.env.SITE00_CLOUD_PREVIEW_STABLE === '0' ||
+      process.env.SITE00_CLOUD_PREVIEW_STABLE === 'false');
+  const previewSessionId = cloudPreviewDevServer
+    ? previewSessionUnstable
+      ? Date.now().toString(36)
+      : String(buildId).slice(0, 12)
+    : null;
+  const effectiveBuildId = previewSessionId ?? buildId;
+
   const tunnelHostname = (
     process.env.SITE00_CLOUDFLARE_TUNNEL_HOSTNAME ||
     process.env.CLOUDFLARE_TUNNEL_HOSTNAME ||
@@ -59,7 +81,67 @@ export default defineConfig(({ mode, command }) => {
     };
   }
 
+  function indexBuildStampPlugin(stamp: string) {
+    return {
+      name: 'site00-index-build-stamp',
+      transformIndexHtml: {
+        order: 'post' as const,
+        handler(html: string) {
+          let next = html
+            .replace('content="__APP_BUILD_ID__"', `content="${stamp}"`)
+            .replace('src="/src/main.tsx"', `src="/src/main.tsx?v=${stamp}"`)
+            .replace(
+              'src="/site00-assts-boot-recovery.js"',
+              `src="/site00-assts-boot-recovery.js?v=${stamp}"`,
+            )
+            .replace(
+              'src="/site00-assts-loader-boot.js?v=environment-v2"',
+              `src="/site00-assts-loader-boot.js?v=${stamp}"`,
+            );
+          if (cloudMobilePreview) {
+            const previewMeta =
+              `<meta name="site00-cloud-preview" content="1" />` +
+              (tunnelAllowedHost
+                ? `\n    <meta name="site00-preview-hostname" content="${tunnelAllowedHost}" />`
+                : '');
+            next = next.replace('</head>', `    ${previewMeta}\n  </head>`);
+          }
+          return next;
+        },
+      },
+    };
+  }
+
+  function verifyClientBundlePlugin() {
+    return {
+      name: 'site00-verify-client-bundle',
+      closeBundle() {
+        if (command !== 'build') return;
+        execSync('node scripts/verify-production-dist.mjs', { stdio: 'inherit', cwd: process.cwd() });
+      },
+    };
+  }
+
+  function readPreviewCommitStamp(): string {
+    const fromEnv = (
+      process.env.SITE00_PREVIEW_COMMIT_SHA ||
+      process.env.GITHUB_SHA ||
+      ''
+    )
+      .trim()
+      .slice(0, 12);
+    if (fromEnv) return fromEnv;
+    try {
+      const manifestPath = path.resolve(__dirname, 'dist/release-manifest.json');
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as { commitSha?: string };
+      return String(manifest.commitSha ?? '').slice(0, 12);
+    } catch {
+      return '';
+    }
+  }
+
   function cloudPreviewNoCachePlugin() {
+    const previewCommit = readPreviewCommitStamp();
     return {
       name: 'site00-cloud-preview-no-cache',
       configureServer(server: {
@@ -68,6 +150,11 @@ export default defineConfig(({ mode, command }) => {
         server.middlewares.use((_req: unknown, res: { setHeader: (k: string, v: string) => void }, next: () => void) => {
           res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
           res.setHeader('Pragma', 'no-cache');
+          res.setHeader('CDN-Cache-Control', 'no-store');
+          res.setHeader('Surrogate-Control', 'no-store');
+          if (previewCommit) {
+            res.setHeader('X-Site00-Preview-Commit', previewCommit);
+          }
           next();
         });
       },
@@ -76,14 +163,53 @@ export default defineConfig(({ mode, command }) => {
 
   return {
     define: {
-      'import.meta.env.VITE_APP_BUILD_ID': JSON.stringify(buildId),
-      'import.meta.env.VITE_APP_VERSION': JSON.stringify(buildId),
+      'import.meta.env.VITE_APP_BUILD_ID': JSON.stringify(effectiveBuildId),
+      'import.meta.env.VITE_APP_VERSION': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_SITE00_ROOT': JSON.stringify('1'),
+      'import.meta.env.VITE_SITE00_CLOUD_PREVIEW': JSON.stringify(cloudMobilePreview ? '1' : '0'),
+      'import.meta.env.VITE_SITE00_EC_PREVIEW_GUEST': JSON.stringify(
+        process.env.VITE_SITE00_EC_PREVIEW_GUEST === '1' ? '1' : '0',
+      ),
+      'import.meta.env.VITE_SITE00_CLIENT_APP_PREVIEW': JSON.stringify(
+        process.env.VITE_SITE00_CLIENT_APP_PREVIEW === '1' ? '1' : '0',
+      ),
+    },
+    resolve: {
+      alias: [
+        { find: '@site00-email', replacement: path.resolve(__dirname, 'shared/site00-email') },
+        // Playwright must stay server-only; shared twin-build modules use dynamic import('playwright').
+        {
+          find: 'playwright/package.json',
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/playwright-package.json'),
+        },
+        {
+          find: 'playwright',
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/playwright.ts'),
+        },
+        {
+          find: /^chromium-bidi(\/.*)?$/,
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/chromium-bidi-empty.ts'),
+        },
+        {
+          find: /^sharp(\/.*)?$/,
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/sharp.ts'),
+        },
+        {
+          find: /^pngjs(\/.*)?$/,
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/pngjs.ts'),
+        },
+      ],
     },
     plugins: [
-      react(cloudMobilePreview ? { fastRefresh: false } : undefined),
-      ...(command === 'serve' ? [site00AsstsLocalApiPlugin()] : []),
-      ...(cloudMobilePreview ? [stripViteClientForCloudPreviewPlugin(), cloudPreviewNoCachePlugin()] : []),
+      react(cloudPreviewDevServer ? { fastRefresh: false } : undefined),
+      ...(command === 'serve' ? [site00LocalApiPlugin()] : []),
+      ...(cloudPreviewDevServer && previewSessionId
+        ? [stripViteClientForCloudPreviewPlugin(), cloudPreviewNoCachePlugin(), indexBuildStampPlugin(previewSessionId)]
+        : []),
+      ...(cloudMobilePreview && command === 'serve' && !cloudPreviewDevServer
+        ? [cloudPreviewNoCachePlugin()]
+        : []),
+      ...(command === 'build' ? [indexBuildStampPlugin(effectiveBuildId.slice(0, 12)), verifyClientBundlePlugin()] : []),
     ],
     base: '/',
     build: {
@@ -101,12 +227,31 @@ export default defineConfig(({ mode, command }) => {
       },
       chunkSizeWarningLimit: 1000,
     },
+    preview: {
+      port: 5174,
+      host: '0.0.0.0',
+      strictPort: true,
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        Pragma: 'no-cache',
+        'CDN-Cache-Control': 'no-store',
+        'Surrogate-Control': 'no-store',
+      },
+    },
     server: {
       port: 5174,
       host: '0.0.0.0',
       strictPort: true,
       allowedHosts: ['.trycloudflare.com', ...(tunnelAllowedHost ? [tunnelAllowedHost] : [])],
-      hmr: cloudMobilePreview ? false : undefined,
+      hmr: cloudMobilePreview
+        ? false
+        : tunnelAllowedHost
+          ? {
+              host: tunnelAllowedHost,
+              protocol: 'wss',
+              clientPort: 443,
+            }
+          : undefined,
       proxy,
     },
   };

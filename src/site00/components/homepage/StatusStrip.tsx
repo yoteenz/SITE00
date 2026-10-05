@@ -1,5 +1,6 @@
 import { SITE00_STATUS_STRIP, SITE00_ORIGIN_COPY } from '../../config/status';
 import { GeometricIcon } from '../icons/GeometricIcon';
+import type { useOriginLocationsTransition } from '../../hooks/useOriginLocationsTransition';
 
 const ICON_MAP = {
   pulse: 'pulse',
@@ -11,8 +12,12 @@ const ICON_MAP = {
 
 export type StatusStripLayout = 'desktop' | 'mobile';
 
+type SwipeHandlers = ReturnType<typeof useOriginLocationsTransition>['swipeHandlers'];
+
 type StatusStripProps = {
   layout: StatusStripLayout;
+  /** Origin mobile — swipe-up on metrics row + bottom of screen */
+  swipeHandlers?: SwipeHandlers;
 };
 
 function StatusStripCells() {
@@ -32,7 +37,7 @@ function StatusStripCells() {
               background: 'var(--site-success)',
               marginLeft: 4,
             }}
-            aria-label="Operational"
+            aria-label="OPERATIONAL"
           />
         ) : null}
       </div>
@@ -69,15 +74,20 @@ function StatusStripGuidance() {
 }
 
 /** Origin homepage status strip — single layout variant (no duplicate DOM). */
-export function StatusStrip({ layout }: StatusStripProps) {
+export function StatusStrip({ layout, swipeHandlers }: StatusStripProps) {
   if (layout === 'mobile') {
     return (
       <div
         className="site00-status-strip site00-status-strip--layout-mobile"
         role="region"
-        aria-label="System status"
+        aria-label="SYSTEM STATUS"
       >
-        <div className="site00-status-strip__metrics" role="group" aria-label="System metrics">
+        <div
+          className="site00-status-strip__metrics"
+          role="group"
+          aria-label="SYSTEM METRICS"
+          {...swipeHandlers}
+        >
           <StatusStripCells />
         </div>
         <StatusStripGuidance />
@@ -89,7 +99,7 @@ export function StatusStrip({ layout }: StatusStripProps) {
     <div
       className="site00-status-strip site00-status-strip--layout-desktop"
       role="region"
-      aria-label="System status"
+      aria-label="SYSTEM STATUS"
     >
       <StatusStripCells />
       <StatusStripGuidance />

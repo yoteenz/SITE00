@@ -25,7 +25,7 @@ export default function BldrTemplatesPage() {
   }, [category, query]);
 
   return (
-    <Site00PublicShell mobileActiveNav="build">
+    <Site00PublicShell>
       <div className="site00-page site00-page--templates">
         <Link to={SITE00_ROUTES.bldr} className="site00-back-link">
           ← BACK

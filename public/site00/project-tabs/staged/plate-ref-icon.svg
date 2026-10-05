@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200" data-ptv-plate="plate-ref-icon" data-ptv-status="STAGED" data-ptv-version="P0.VR.DESIGN.GROK-PROJECT-TAB-ASSETS1">
+  <rect width="320" height="200" fill="#0a0a0a"/>
+  <rect x="8" y="8" width="304" height="184" fill="none" stroke="#2a2a2a"/>
+  <text x="24" y="36" fill="#dbff00" font-size="9" letter-spacing="0.16em" font-family="ui-monospace, Menlo, monospace">ICON / SYMBOL</text>
+  <text x="24" y="88" fill="#f4f4f4" font-size="22" font-weight="700" letter-spacing="0.04em" font-family="ui-monospace, Menlo, monospace">MARK</text><text x="24" y="116" fill="#f4f4f4" font-size="22" font-weight="700" letter-spacing="0.04em" font-family="ui-monospace, Menlo, monospace">SYSTEM</text>
+  <circle cx="232" cy="64" r="10" fill="none" stroke="#dbff00" stroke-width="1.5"/><rect x="250" y="54" width="20" height="20" fill="none" stroke="#f4f4f4" stroke-width="1.5"/><path d="M222 100h20M232 90v20" stroke="#f4f4f4" stroke-width="1.5"/><rect x="254" y="92" width="16" height="16" fill="#dbff00"/>
+  <text x="24" y="180" fill="#6a6a70" font-size="8" letter-spacing="0.14em" font-family="ui-monospace, Menlo, monospace">STAGED · P0.VR.DESIGN.GROK-PROJECT-TAB-ASSETS1</text>
+</svg>

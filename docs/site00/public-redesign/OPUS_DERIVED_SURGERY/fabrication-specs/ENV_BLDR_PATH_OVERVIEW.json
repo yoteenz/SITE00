@@ -1,0 +1,50 @@
+{
+  "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "asset_id": "ENV.BLDR.PATH.OVERVIEW",
+  "slot_id": "ENV.BLDR.PATH.OVERVIEW",
+  "authority": [
+    "02_BLDR_OVERVIEW"
+  ],
+  "visual_role": "DAYLIGHT BUILDER ATRIUM \u2014 GLASS PATH PANELS OVER A ROUND TABLE.",
+  "asset_type": "environment-plate",
+  "target_pixels": {
+    "w": 1170,
+    "h": 1000
+  },
+  "aspect_ratio": "1170:1000",
+  "crop_behavior": "cover",
+  "final_geometry": {
+    "frame": "390x693",
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 332,
+    "from": "02_BLDR_OVERVIEW"
+  },
+  "transparency": false,
+  "mask_ownership": "NONE",
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+  "continuity_group": "BLDR_WORLD_SYSTEM_V1",
+  "negative_space": "UI boxes in opus-geometry-after.json stay clear of focal detail. Wash on environments is live CSS over the lower region, not baked.",
+  "must_include": [
+    "DAYLIGHT BUILDER ATRIUM \u2014 GLASS PATH PANELS OVER A ROUND TABLE."
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "card titles and body copy",
+    "live technical SVG linework",
+    "baked CSS wash or row fade"
+  ],
+  "reference_crop": "reference-crops/ENV_BLDR_PATH_OVERVIEW_REFERENCE.jpg",
+  "safe_zone_map": "safe-zones/ENV_BLDR_PATH_OVERVIEW_SAFE_ZONES.png",
+  "reference_crop_clipped_by_proof": false,
+  "generation_source_of_pixels": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validation_status": "VALID_WITH_METADATA_CORRECTION",
+  "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+  "production_eligible": true,
+  "regeneration_required": false
+}
