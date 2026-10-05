@@ -1,0 +1,345 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F13",
+  "name": "PAYDOWN",
+  "purpose": "TURN DEBT REDUCTION INTO A VISIBLE, CONTROLLED PATH.",
+  "product_job": "TURN DEBT REDUCTION INTO A VISIBLE, CONTROLLED PATH.",
+  "parent": {
+    "family_id": "F13",
+    "parent_id": null,
+    "route": "paydown",
+    "route_status": "PLACEHOLDER",
+    "implementation_status": "PLACEHOLDER",
+    "functional_status": "PLACEHOLDER",
+    "visual_status": "INVALID_EXPRESSION",
+    "approval_status": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.PAYOFF_PLANS",
+      "DD.ACCOUNTS",
+      "DD.CREDIT_ATTRIBUTES",
+      "DD.PLAN_ALLOCATIONS",
+      "DD.DATE_DERIVED"
+    ],
+    "interaction_dependencies": [
+      "GS.BOTTOM_NAV",
+      "GS.TOP_CHROME",
+      "GS.QUICK_ADD",
+      "GS.ASK_JURNL",
+      "GS.MONEY_FORMAT",
+      "GS.DATE_MODEL",
+      "GS.FORM_SYSTEM",
+      "GS.STATE_PATTERNS",
+      "GS.FAMILY_DISCOVERY",
+      "GS.ENTITLEMENTS"
+    ],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+    "generation_requirement": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_ADD",
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.BACK",
+      "ICON.CAT_DEBT",
+      "ICON.F13_PATH",
+      "ICON.INFO",
+      "ICON.KIND_LOAN"
+    ],
+    "reusable_capability_candidate": null,
+    "notes": [
+      "STATIC PREVIEW SPEC: \"HOW DOES THIS COME DOWN?\" · SIGNAL \"PATH NOT SET\" · CTA \"CHANGE THE PATH\" DISABLED (NOT OPEN YET).",
+      "PLATE INTERFERENCE FAIL; 639 CREDITS SPENT ON THE PARENT AUTHORITY.",
+      "NOT REACHABLE FROM THE PRODUCT TODAY (REVIEW BOARD OR TYPED URL ONLY)."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "EXPRESSION_READY (AUTHORITY INVALID: INTERFERENCE FAIL)",
+      "release": "NONE"
+    },
+    "functional_criteria": "R1 Uh D0 I0 S0 V- E0 M0 L0 P1 A1 N1",
+    "functional_score": 0.409,
+    "target_wave": 4,
+    "evidence": [
+      "src/projects/jurnl/data/parents/catalog.ts",
+      "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+      "JURNL/F13_*/MANIFEST/F13_EXPRESSION_TREE.json"
+    ],
+    "opens": null,
+    "node_id": "F13.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "PAYDOWN",
+    "purpose": "TURN DEBT REDUCTION INTO A VISIBLE, CONTROLLED PATH."
+  },
+  "children": [
+    {
+      "id": "F13.PATH",
+      "form": "EXPANDED_STATE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": null,
+      "status": "MISSING"
+    },
+    {
+      "id": "F13.WHAT_IF",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "paydown/what-if",
+      "status": "MISSING"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [],
+  "sheets": [
+    "F13.SH.CHANGE"
+  ],
+  "modals": [],
+  "states": [
+    {
+      "id": "F13.ST.LOADING",
+      "status": "MISSING"
+    },
+    {
+      "id": "F13.ST.NONE",
+      "status": "MISSING"
+    },
+    {
+      "id": "F13.ST.ERROR",
+      "status": "MISSING"
+    },
+    {
+      "id": "F13.ST.NO_DEBT",
+      "status": "MISSING"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F13.IN.PRIMARY",
+      "status": "NO_OP",
+      "opens": "F13.WHAT_IF"
+    },
+    {
+      "id": "F13.IX.CHANGE",
+      "status": "MISSING",
+      "opens": "F13.SH.CHANGE"
+    },
+    {
+      "id": "F13.IN.KEEP",
+      "status": "MISSING",
+      "opens": null
+    },
+    {
+      "id": "F13.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F13.IN.ASK",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F13.NAV.TODAY",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F13.REVIEW.BOARD",
+      "status": "LEGACY",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F13.00",
+      "route": "paydown",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "node_id": "F13.WHAT_IF",
+      "route": "paydown/what-if",
+      "status": "MISSING"
+    }
+  ],
+  "global_dependencies": [
+    "GS.BOTTOM_NAV",
+    "GS.TOP_CHROME",
+    "GS.QUICK_ADD",
+    "GS.ASK_JURNL",
+    "GS.MONEY_FORMAT",
+    "GS.DATE_MODEL",
+    "GS.FORM_SYSTEM",
+    "GS.STATE_PATTERNS",
+    "GS.FAMILY_DISCOVERY",
+    "GS.ENTITLEMENTS"
+  ],
+  "data_dependencies": [
+    "DD.PAYOFF_PLANS",
+    "DD.ACCOUNTS",
+    "DD.CREDIT_ATTRIBUTES",
+    "DD.PLAN_ALLOCATIONS",
+    "DD.DATE_DERIVED"
+  ],
+  "owned_data": [
+    "DD.PAYOFF_PLANS"
+  ],
+  "read_data": [
+    "DD.ACCOUNTS",
+    "DD.CREDIT_ATTRIBUTES",
+    "DD.PLAN_ALLOCATIONS",
+    "DD.DATE_DERIVED"
+  ],
+  "write_data": [
+    "DD.PAYOFF_PLANS"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlInlineExpansion",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlAmountField",
+    "JurnlSignal",
+    "JurnlStateBlock",
+    "JurnlProgress",
+    "JurnlComparePair",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_PAYDOWN_BASICS (CORE)",
+    "ADVANCED_DEBT_STRATEGY (ADVANCED)",
+    "AI_EXPLAIN_BASIC (AI)",
+    "AI_PLANNING_GUIDANCE (AI)",
+    "AI_MULTI_SCENARIO_ANALYSIS (AI)",
+    "AI_HIGHER_USAGE (AI)",
+    "FINANCIAL_SERVICE_REFERRALS (REFERRAL, DISABLED)"
+  ],
+  "functional_status": {
+    "score": 16.1,
+    "strict": 13.3,
+    "gap_counts": {
+      "PLACEHOLDER": 2,
+      "MISSING": 11,
+      "COMPLETE_FUNCTIONAL": 2,
+      "LEGACY": 1
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 4,
+    "visually_implemented": 0,
+    "parent": "INVALID_EXPRESSION"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F13.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F13.PATH": "REUSE_PARENT_PLATE",
+    "F13.WHAT_IF": "NO_PLATE_REQUIRED",
+    "F13.SH.CHANGE": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_ADD",
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.BACK",
+    "ICON.CAT_DEBT",
+    "ICON.F13_PATH",
+    "ICON.INFO",
+    "ICON.KIND_LOAN"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B02 NO DATE MODEL",
+    "B03 NO ACCOUNT REGISTRY",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B06 NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT",
+    "B11 F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+    "B14 ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT",
+    "B24 REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME"
+  ],
+  "implementation_dependencies": [
+    "W3.F12"
+  ],
+  "boundaries": [
+    "F13 OWNS THE PAYOFF PLAN. BALANCES COME FROM F05 PLACES, TERMS FROM F12.",
+    "NON-SHAMING: NO RED TOTALS, NO \"BEHIND\" LANGUAGE. A PATH, NOT A VERDICT.",
+    "NO NAMED STRATEGY (AVALANCHE / SNOWBALL) IS DEFINED ANYWHERE; ADVANCED_DEBT_STRATEGY IS SERVER-ENFORCED.",
+    "F15 MAY READ THE PATH AS A PROJECTION INPUT; F13 DOES NOT FORECAST BEYOND THE DEBTS."
+  ],
+  "extension": "PREMIUM CREDIT ADD-ON (ADVANCED_DEBT_STRATEGY).",
+  "founder_flags": [],
+  "reusable_capability_candidates": []
+}

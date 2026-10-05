@@ -13776,3 +13776,27 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Underlines are `text-decoration`.
   - Test clearance at each element's own height; curtains lean.
   - Top-corner chrome over bright sky or wall is reported, not gated.
+
+---
+
+## 2026-10-05 — JURNL complete product blueprint: structural completion decoupled from visual (P0 FORENSIC1)
+
+- **Context:** Founder doctrine sprint. Map the whole JURNL product F01–F16 from repo truth before more visual work, with zero generation. This entry records only the delta, not the earlier ChatGPT context transfer.
+- **Doctrine recorded (canonical from here):**
+  1. Structural completion and visual completion are decoupled: FULL PRODUCT TREE → COMPLETE FUNCTIONAL SHELL → 100% FUNCTIONAL → VISUAL TRANSFORMATION BY FAMILY → APPROVAL → LAUNCH.
+  2. "X% FUNCTIONAL / Y% VISUALLY IMPLEMENTED" (plus APPROVED % and LAUNCH READY %) is the canonical progress statement. The four axes are computed separately.
+  3. Paid generation must never block structural completion.
+  4. Client page-tree scoping should let SITE 00 provision the complete structural product before any visual customization.
+  5. BLUEPRINT / SYSTEM / EXTENSION / PRIMITIVE is an emerging SITE 00 productization model. It is identified only; it is not formalized in code and nothing is extracted yet.
+  6. JURNL is the first project completed under this doctrine. Its pre-generation blueprint is the first test of a structural blueprint library as a commercial direction.
+- **Outcomes:**
+  - Artifacts: `docs/jurnl/structural-completion/` holds 19 artifacts plus 16 family blueprints.
+  - Generator: `scripts/jurnl/structural-blueprint/build.ts`, with `model.ts` as the authored model. `--check` detects drift, and `tests/jurnlStructuralBlueprint.test.ts` guards it.
+  - Measured progress: 31.6% FUNCTIONAL (estimated, medium confidence, unit-balanced) / 26.6% VISUAL / 0.1% APPROVED / 9.4% LAUNCH. The graph has 543 material nodes.
+  - Unreachable families: nine (F06, F07, F09, F10, F11, F13, F14, F15, F16) are reachable only through the review board.
+  - 100% FUNCTIONAL needs no generation. Waves 0–4 run on device persistence. Wave 5 adds the identity providers that F01 needs, which is a founder decision.
+- **Conventions:**
+  - FUNCTIONAL means all 12 criteria are met (route, shell, data, interaction, states, validation, error, empty, loading, responsive, a11y, return path). A placeholder is never functional.
+  - Device persistence counts as functional for financial data. Identity needs a real provider.
+  - Headline metrics are balanced across F01–F16 + GLOBAL, so contract verbosity does not inflate them.
+  - Regenerate the blueprint after changing any family contract or `model.ts`.

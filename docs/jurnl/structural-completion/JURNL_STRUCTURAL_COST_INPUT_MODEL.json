@@ -1,0 +1,337 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "pricing_status": "NOT_PRICED — inputs only. No prices are calculated.",
+  "formula_shape": "cost(family) = Σ implementation inputs × founder-confirmed rate + Σ visual-track generations × current provider credit price. Both rates are unset.",
+  "observed_credit_evidence": {
+    "parent_authority_text_to_image_kept": 315,
+    "parent_authority_reference_guided_reframe": 639,
+    "f03_authority_first_full_page_plus_plate": 644,
+    "source": "catalog.ts credits + F03_AUTHORITY_FIRST_PLATE_DERIVATION_QA.json"
+  },
+  "families": [
+    {
+      "family_id": "F01",
+      "implementation_inputs": {
+        "nodes_to_complete": 59,
+        "new_routes": 0,
+        "new_sheets_drawers_modals": 0,
+        "states_to_wire": 12,
+        "interactions_to_wire": 22,
+        "owned_domains": [
+          "DD.IDENTITY",
+          "DD.SESSION_DEVICE"
+        ],
+        "complexity": "S–M (completion only)"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": false,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 0
+      }
+    },
+    {
+      "family_id": "F02",
+      "implementation_inputs": {
+        "nodes_to_complete": 16,
+        "new_routes": 0,
+        "new_sheets_drawers_modals": 0,
+        "states_to_wire": 1,
+        "interactions_to_wire": 1,
+        "owned_domains": [
+          "DD.SETUP_PROFILE"
+        ],
+        "complexity": "S–M (completion only)"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": false,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 0
+      }
+    },
+    {
+      "family_id": "F03",
+      "implementation_inputs": {
+        "nodes_to_complete": 12,
+        "new_routes": 0,
+        "new_sheets_drawers_modals": 0,
+        "states_to_wire": 7,
+        "interactions_to_wire": 3,
+        "owned_domains": [],
+        "complexity": "S–M (completion only)"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": false,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 5
+      }
+    },
+    {
+      "family_id": "F04",
+      "implementation_inputs": {
+        "nodes_to_complete": 14,
+        "new_routes": 0,
+        "new_sheets_drawers_modals": 2,
+        "states_to_wire": 4,
+        "interactions_to_wire": 4,
+        "owned_domains": [
+          "DD.TRANSACTIONS"
+        ],
+        "complexity": "S–M (completion only)"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": false,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 15
+      }
+    },
+    {
+      "family_id": "F05",
+      "implementation_inputs": {
+        "nodes_to_complete": 21,
+        "new_routes": 2,
+        "new_sheets_drawers_modals": 4,
+        "states_to_wire": 4,
+        "interactions_to_wire": 9,
+        "owned_domains": [
+          "DD.ACCOUNTS"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": false,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 7
+      }
+    },
+    {
+      "family_id": "F06",
+      "implementation_inputs": {
+        "nodes_to_complete": 17,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 4,
+        "states_to_wire": 4,
+        "interactions_to_wire": 6,
+        "owned_domains": [
+          "DD.INCOME_SOURCES"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": false,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 2
+      }
+    },
+    {
+      "family_id": "F07",
+      "implementation_inputs": {
+        "nodes_to_complete": 19,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 4,
+        "states_to_wire": 5,
+        "interactions_to_wire": 7,
+        "owned_domains": [
+          "DD.OBLIGATIONS"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": false,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 6
+      }
+    },
+    {
+      "family_id": "F08",
+      "implementation_inputs": {
+        "nodes_to_complete": 22,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 3,
+        "states_to_wire": 5,
+        "interactions_to_wire": 11,
+        "owned_domains": [
+          "DD.PLAN_ALLOCATIONS"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": true,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 7
+      }
+    },
+    {
+      "family_id": "F09",
+      "implementation_inputs": {
+        "nodes_to_complete": 14,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 2,
+        "states_to_wire": 4,
+        "interactions_to_wire": 4,
+        "owned_domains": [
+          "DD.PROTECTED_HOLD",
+          "DD.SAFE_TO_SPEND"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": true,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 1
+      }
+    },
+    {
+      "family_id": "F10",
+      "implementation_inputs": {
+        "nodes_to_complete": 15,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 3,
+        "states_to_wire": 3,
+        "interactions_to_wire": 6,
+        "owned_domains": [
+          "DD.PURCHASE_CONSIDERATIONS"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": true,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 1
+      }
+    },
+    {
+      "family_id": "F11",
+      "implementation_inputs": {
+        "nodes_to_complete": 15,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 3,
+        "states_to_wire": 3,
+        "interactions_to_wire": 6,
+        "owned_domains": [
+          "DD.TRIPS"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": true,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 2
+      }
+    },
+    {
+      "family_id": "F12",
+      "implementation_inputs": {
+        "nodes_to_complete": 16,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 2,
+        "states_to_wire": 5,
+        "interactions_to_wire": 6,
+        "owned_domains": [
+          "DD.CREDIT_ATTRIBUTES"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": false,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 3
+      }
+    },
+    {
+      "family_id": "F13",
+      "implementation_inputs": {
+        "nodes_to_complete": 13,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 1,
+        "states_to_wire": 5,
+        "interactions_to_wire": 4,
+        "owned_domains": [
+          "DD.PAYOFF_PLANS"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": true,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 3
+      }
+    },
+    {
+      "family_id": "F14",
+      "implementation_inputs": {
+        "nodes_to_complete": 18,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 4,
+        "states_to_wire": 5,
+        "interactions_to_wire": 6,
+        "owned_domains": [
+          "DD.GOALS"
+        ],
+        "complexity": "M"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": true,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 1
+      }
+    },
+    {
+      "family_id": "F15",
+      "implementation_inputs": {
+        "nodes_to_complete": 12,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 1,
+        "states_to_wire": 4,
+        "interactions_to_wire": 4,
+        "owned_domains": [
+          "DD.FORECAST_SCENARIOS"
+        ],
+        "complexity": "L"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": true,
+        "optional_plate_modulations": 1,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 1
+      }
+    },
+    {
+      "family_id": "F16",
+      "implementation_inputs": {
+        "nodes_to_complete": 17,
+        "new_routes": 1,
+        "new_sheets_drawers_modals": 3,
+        "states_to_wire": 5,
+        "interactions_to_wire": 6,
+        "owned_domains": [
+          "DD.DOCUMENTS"
+        ],
+        "complexity": "L"
+      },
+      "visual_track_inputs": {
+        "parent_reauthority": true,
+        "optional_plate_modulations": 0,
+        "child_authorities_required": 0,
+        "icons_missing_or_placeholder": 3
+      }
+    }
+  ]
+}

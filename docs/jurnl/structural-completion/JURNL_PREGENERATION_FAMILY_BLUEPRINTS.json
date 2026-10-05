@@ -1,0 +1,1784 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "zero_generation_rule": "Every node reaches FUNCTIONAL on a neutral structural presentation: existing JURNL primitives, live data, the global composition + containment rules, the family parent plate where it is valid (REUSE / MODULATE policies), or the bone field (JurnlScreen field=\"bone\") for NO_PLATE nodes and interference-FAIL families. Neutral is a holding state, not the final design; no generic-SaaS components, colors or type are introduced.",
+  "families": [
+    {
+      "family_id": "F01",
+      "parent_contract": {
+        "question": "WELCOME THE PERSON INTO THE HOUSE.",
+        "primary_action": null,
+        "secondary_action": null,
+        "data": [],
+        "links": [],
+        "states": [
+          "F01.01.DEFAULT",
+          "F01.01.FOCUSED",
+          "F01.01.VALIDATION_ERROR",
+          "F01.01.EMAIL_IN_USE",
+          "F01.01.PASSWORD_SATISFIED",
+          "F01.01.LOADING",
+          "F01.03.DEFAULT",
+          "F01.03.INCORRECT_PASSWORD",
+          "F01.03.ACCOUNT_NOT_FOUND",
+          "F01.03.LOCKED",
+          "F01.03.LOADING",
+          "F01.02.VERIFICATION_PENDING",
+          "F01.02.RESENT",
+          "F01.02.EXPIRED_LINK",
+          "F01.02.VERIFICATION_SUCCESS",
+          "F01.06.RESET_EMAIL_SENT",
+          "F01.07.INVALID_RESET_LINK",
+          "F01.08.RESET_SUCCESS",
+          "F01.09.BIOMETRIC_PROMPT",
+          "F01.09.BIOMETRIC_ENABLED",
+          "F01.09.BIOMETRIC_DECLINED",
+          "F01.09.BIOMETRIC_UNAVAILABLE",
+          "F01.10.DEVICE_TRUSTED",
+          "F01.10.DEVICE_VERIFY_REQUIRED",
+          "F01.03.OFFLINE",
+          "F01.04.SESSION_EXPIRED",
+          "F01.04.REAUTHENTICATION"
+        ],
+        "drawers_sheets_modals": [
+          "F01.01.DR.TERMS_OF_SERVICE",
+          "F01.01.DR.PRIVACY_POLICY",
+          "F01.02.DR.CHANGE_EMAIL",
+          "F01.03.DR.TEMPORARILY_LOCKED",
+          "F01.04.SH.USE_PASSWORD",
+          "F01.04.DR.SWITCH_ACCOUNT",
+          "F01.04.MD.SIGN_OUT",
+          "F01.09.DR.PERMISSION_DENIED",
+          "F01.10.DR.LEARN_WHAT_THIS_MEANS",
+          "F01.11.DR.YOUR_DATA",
+          "F01.11.DR.CONNECTED_ACCOUNTS",
+          "F01.11.DR.AI_ACCESS",
+          "F01.11.DR.DATA_EXPORT",
+          "F01.11.DR.REMOVE_ACCESS",
+          "F01.12.DR.BIOMETRIC_SIGN_IN",
+          "F01.12.DR.DEVICE_SECURITY",
+          "F01.12.DR.CONNECTED_ACCOUNT_CONTROL",
+          "F01.12.DR.SECURE_DATA_HANDLING",
+          "F01.12.DR.SESSION_MANAGEMENT",
+          "F01.11.MD.DELETE_ACCOUNT",
+          "F01.12.MD.REVOKE_SESSION"
+        ],
+        "children": [
+          "F01.01",
+          "F01.02",
+          "F01.03",
+          "F01.04",
+          "F01.05",
+          "F01.06",
+          "F01.07",
+          "F01.08",
+          "F01.09",
+          "F01.10",
+          "F01.11",
+          "F01.12",
+          "F01.13"
+        ],
+        "global_systems": []
+      },
+      "child_classification": [
+        {
+          "node_id": "F01.01",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.02",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.03",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.04",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.05",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.06",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.07",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.08",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.09",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.10",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.11",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.12",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.13",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.01.DR.TERMS_OF_SERVICE",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.01.DR.PRIVACY_POLICY",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.02.DR.CHANGE_EMAIL",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.03.DR.TEMPORARILY_LOCKED",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.04.SH.USE_PASSWORD",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.04.DR.SWITCH_ACCOUNT",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.04.MD.SIGN_OUT",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.09.DR.PERMISSION_DENIED",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.10.DR.LEARN_WHAT_THIS_MEANS",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.11.DR.YOUR_DATA",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.11.DR.CONNECTED_ACCOUNTS",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.11.DR.AI_ACCESS",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.11.DR.DATA_EXPORT",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.11.DR.REMOVE_ACCESS",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.12.DR.BIOMETRIC_SIGN_IN",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.12.DR.DEVICE_SECURITY",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.12.DR.CONNECTED_ACCOUNT_CONTROL",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.12.DR.SECURE_DATA_HANDLING",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.12.DR.SESSION_MANAGEMENT",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.11.MD.DELETE_ACCOUNT",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.12.MD.REVOKE_SESSION",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.OV.MAIL_HANDOFF",
+          "structural_form": "OVERLAY",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.03.OV.SUPPORT_HANDOFF",
+          "structural_form": "OVERLAY",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.OV.SOCIAL_APPLE",
+          "structural_form": "OVERLAY",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.OV.SOCIAL_GOOGLE",
+          "structural_form": "OVERLAY",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.04.OV.FACEID_UNLOCK",
+          "structural_form": "OVERLAY",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F01.09.OV.FACEID_ENABLE",
+          "structural_form": "OVERLAY",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "EXISTING FAMILY PLATES (IMPLEMENTED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": false,
+          "required_for_functional": false,
+          "generation_class": "NONE",
+          "reference_required": false,
+          "reference_source": null,
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": null
+        },
+        "unbuilt_visual_nodes": 0
+      }
+    },
+    {
+      "family_id": "F02",
+      "parent_contract": {
+        "question": "OPEN SETUP. SHOW THE SHORT PATH AHEAD.",
+        "primary_action": null,
+        "secondary_action": null,
+        "data": [
+          "DD.SETUP_PROFILE"
+        ],
+        "links": [],
+        "states": [
+          "F02.00.RESUME",
+          "F02.02.CONNECTED",
+          "F02.02.1.VALIDATION",
+          "F02.03.VALIDATION",
+          "F02.04.VALIDATION",
+          "F02.05.1.VALIDATION",
+          "F02.06.VALIDATION"
+        ],
+        "drawers_sheets_modals": [
+          "F02.DR.PERMISSION",
+          "F02.DR.SKIP",
+          "F02.DR.ADD"
+        ],
+        "children": [
+          "F02.01",
+          "F02.02",
+          "F02.03",
+          "F02.04",
+          "F02.05",
+          "F02.06",
+          "F02.07",
+          "F02.08"
+        ],
+        "global_systems": []
+      },
+      "child_classification": [
+        {
+          "node_id": "F02.01",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F02.02",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NEW_PLATE_WITHIN_FAMILY"
+        },
+        {
+          "node_id": "F02.03",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F02.04",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F02.05",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NEW_PLATE_WITHIN_FAMILY"
+        },
+        {
+          "node_id": "F02.06",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F02.07",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NEW_PLATE_WITHIN_FAMILY"
+        },
+        {
+          "node_id": "F02.08",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F02.02.1",
+          "structural_form": "ROUTE",
+          "inheritance_class": "INTERACTION_LIKE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F02.05.1",
+          "structural_form": "ROUTE",
+          "inheritance_class": "INTERACTION_LIKE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F02.DR.PERMISSION",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F02.DR.SKIP",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F02.DR.ADD",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "EXISTING FAMILY PLATES (IMPLEMENTED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": false,
+          "required_for_functional": false,
+          "generation_class": "NONE",
+          "reference_required": false,
+          "reference_source": null,
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": null
+        },
+        "unbuilt_visual_nodes": 0
+      }
+    },
+    {
+      "family_id": "F03",
+      "parent_contract": {
+        "question": "THE DAILY HOME. ONE COMPUTED SIGNAL, THEN WHAT IS COMING AND WHAT JUST MOVED.",
+        "primary_action": null,
+        "secondary_action": null,
+        "data": [
+          "DD.SAFE_TO_SPEND",
+          "DD.OBLIGATIONS",
+          "DD.TRANSACTIONS",
+          "DD.SETUP_PROFILE",
+          "DD.CURRENCY"
+        ],
+        "links": [],
+        "states": [
+          "F03.00.LOADING",
+          "F03.00.EMPTY",
+          "F03.00.PARTIAL",
+          "F03.00.CONNECTED",
+          "F03.00.ERROR",
+          "F03.00.CAUGHT_UP",
+          "F03.00.ATTENTION",
+          "F03.00.STALE"
+        ],
+        "drawers_sheets_modals": [],
+        "children": [
+          "F03.SEE_WHY",
+          "F03.UPCOMING_DETAIL"
+        ],
+        "global_systems": []
+      },
+      "child_classification": [
+        {
+          "node_id": "F03.SEE_WHY",
+          "structural_form": "DRAWER",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F03.UPCOMING_DETAIL",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "EXISTING FAMILY PLATES (IMPLEMENTED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": false,
+          "required_for_functional": false,
+          "generation_class": "NONE",
+          "reference_required": false,
+          "reference_source": null,
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": null
+        },
+        "unbuilt_visual_nodes": 0
+      }
+    },
+    {
+      "family_id": "F04",
+      "parent_contract": {
+        "question": "A CALM SEARCHABLE LEDGER OF MONEY MOVEMENT.",
+        "primary_action": null,
+        "secondary_action": null,
+        "data": [
+          "DD.TRANSACTIONS",
+          "DD.ACCOUNTS",
+          "DD.CATEGORIES"
+        ],
+        "links": [],
+        "states": [
+          "F04.00.LOADING",
+          "F04.00.EMPTY",
+          "F04.00.NO_RESULTS",
+          "F04.00.FILTERED",
+          "F04.00.ERROR"
+        ],
+        "drawers_sheets_modals": [
+          "F04.DR.FILTER",
+          "F04.SH.EDIT_MOVEMENT",
+          "F04.MD.DELETE_MOVEMENT"
+        ],
+        "children": [
+          "F04.SEARCH",
+          "F04.DETAIL"
+        ],
+        "global_systems": []
+      },
+      "child_classification": [
+        {
+          "node_id": "F04.SEARCH",
+          "structural_form": "INLINE_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F04.DETAIL",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F04.DR.FILTER",
+          "structural_form": "DRAWER",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F04.SH.EDIT_MOVEMENT",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F04.MD.DELETE_MOVEMENT",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "EXISTING FAMILY PLATES (IMPLEMENTED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": false,
+          "required_for_functional": false,
+          "generation_class": "NONE",
+          "reference_required": false,
+          "reference_source": null,
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": null
+        },
+        "unbuilt_visual_nodes": 2
+      }
+    },
+    {
+      "family_id": "F05",
+      "parent_contract": {
+        "question": "WHAT DO I HAVE, AND WHERE IS IT?",
+        "primary_action": "OPEN A PLACE",
+        "secondary_action": "ADD A PLACE",
+        "data": [
+          "DD.ACCOUNTS",
+          "DD.TRANSACTIONS",
+          "DD.CREDIT_ATTRIBUTES",
+          "DD.CURRENCY"
+        ],
+        "links": [
+          "F05.ACCOUNTS",
+          "F06.00",
+          "F16.00",
+          "F12.00 (CARD/LOAN PLACES)"
+        ],
+        "states": [
+          "F05.ST.LOADING",
+          "F05.ST.EMPTY",
+          "F05.ST.ERROR",
+          "F05.ST.STALE"
+        ],
+        "drawers_sheets_modals": [
+          "F05.SH.ADD_PLACE",
+          "F05.SH.EDIT_PLACE",
+          "F05.MD.REMOVE_PLACE",
+          "F05.SH.MOVE"
+        ],
+        "children": [
+          "F05.ACCOUNTS",
+          "F05.ACCOUNT"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.FORM_SYSTEM",
+          "GS.ACCOUNT_REGISTRY",
+          "GS.STATE_PATTERNS"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F05.ACCOUNTS",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F05.ACCOUNT",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F05.SH.ADD_PLACE",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F05.SH.EDIT_PLACE",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F05.MD.REMOVE_PLACE",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F05.SH.MOVE",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "EXISTING F05 PLATE (INTERFERENCE PASS)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": false,
+          "required_for_functional": false,
+          "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+          "reference_required": false,
+          "reference_source": null,
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": null
+        },
+        "unbuilt_visual_nodes": 6
+      }
+    },
+    {
+      "family_id": "F06",
+      "parent_contract": {
+        "question": "WHERE IS IT COMING FROM?",
+        "primary_action": "READ A SOURCE",
+        "secondary_action": "ADD A SOURCE",
+        "data": [
+          "DD.INCOME_SOURCES",
+          "DD.TRANSACTIONS",
+          "DD.ACCOUNTS",
+          "DD.SETUP_PROFILE"
+        ],
+        "links": [
+          "F06.SOURCE",
+          "F04.00 (ARRIVALS)",
+          "F15.00 (WHAT IT MEANS AHEAD)"
+        ],
+        "states": [
+          "F06.ST.LOADING",
+          "F06.ST.EMPTY",
+          "F06.ST.ERROR"
+        ],
+        "drawers_sheets_modals": [
+          "F06.SH.ADD_SOURCE",
+          "F06.SH.EDIT_SOURCE",
+          "F06.MD.REMOVE_SOURCE",
+          "F06.SH.PATTERN"
+        ],
+        "children": [
+          "F06.SOURCES",
+          "F06.SOURCE"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F06.SOURCES",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F06.SOURCE",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F06.SH.ADD_SOURCE",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F06.SH.EDIT_SOURCE",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F06.MD.REMOVE_SOURCE",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F06.SH.PATTERN",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "EXISTING F06 PLATE (INTERFERENCE PASS)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": false,
+          "required_for_functional": false,
+          "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+          "reference_required": false,
+          "reference_source": null,
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": null
+        },
+        "unbuilt_visual_nodes": 6
+      }
+    },
+    {
+      "family_id": "F07",
+      "parent_contract": {
+        "question": "WHAT IS COMING, AND WHEN?",
+        "primary_action": "OPEN THE NEXT",
+        "secondary_action": "ADD WHAT REPEATS",
+        "data": [
+          "DD.OBLIGATIONS",
+          "DD.ACCOUNTS",
+          "DD.TRANSACTIONS",
+          "DD.SETUP_PROFILE"
+        ],
+        "links": [
+          "F07.ITEM",
+          "F04.00 (PAID MOVEMENTS)",
+          "F09.00 (WHAT IS SET ASIDE)"
+        ],
+        "states": [
+          "F07.ST.LOADING",
+          "F07.ST.CLEAR",
+          "F07.ST.ERROR",
+          "F07.ST.OVERDUE"
+        ],
+        "drawers_sheets_modals": [
+          "F07.SH.ADD_ITEM",
+          "F07.SH.EDIT_ITEM",
+          "F07.MD.REMOVE_ITEM",
+          "F07.SH.WHEN"
+        ],
+        "children": [
+          "F07.SEQUENCE",
+          "F07.ITEM"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F07.SEQUENCE",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F07.ITEM",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F07.SH.ADD_ITEM",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F07.SH.EDIT_ITEM",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F07.MD.REMOVE_ITEM",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F07.SH.WHEN",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "EXISTING F07 PLATE (INTERFERENCE PASS)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": false,
+          "required_for_functional": false,
+          "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+          "reference_required": false,
+          "reference_source": null,
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": null
+        },
+        "unbuilt_visual_nodes": 6
+      }
+    },
+    {
+      "family_id": "F08",
+      "parent_contract": {
+        "question": "WHAT DO I WANT IT TO DO?",
+        "primary_action": "MOVE A PIECE",
+        "secondary_action": "ADD AN INTENTION",
+        "data": [
+          "DD.PLAN_ALLOCATIONS",
+          "DD.INCOME_SOURCES",
+          "DD.OBLIGATIONS",
+          "DD.GOALS",
+          "DD.PROTECTED_HOLD",
+          "DD.SETUP_PROFILE"
+        ],
+        "links": [
+          "F08.ITEM",
+          "F09.00",
+          "F10.00",
+          "F11.00",
+          "F14.00",
+          "F15.00"
+        ],
+        "states": [
+          "F08.ST.LOADING",
+          "F08.ST.EMPTY",
+          "F08.ST.ERROR",
+          "F08.ST.OVER_ASSIGNED"
+        ],
+        "drawers_sheets_modals": [
+          "F08.SH.ASSIGN",
+          "F08.SH.ADD_INTENTION",
+          "F08.MD.REMOVE_INTENTION"
+        ],
+        "children": [
+          "F08.ARRANGE",
+          "F08.ITEM"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY",
+          "GS.ENTITLEMENTS"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F08.ARRANGE",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F08.ITEM",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F08.SH.ASSIGN",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F08.SH.ADD_INTENTION",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F08.MD.REMOVE_INTENTION",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "BONE FIELD OR EXISTING PLATE WITH LEFT-RAIL CONTAINMENT (INTERFERENCE FAIL; PLATE NOT CHANGED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": true,
+          "required_for_functional": false,
+          "generation_class": "PARENT_AUTHORITY_REGEN",
+          "reference_required": true,
+          "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+        },
+        "unbuilt_visual_nodes": 5
+      }
+    },
+    {
+      "family_id": "F09",
+      "parent_contract": {
+        "question": "WHAT CAN I SPEND WITHOUT UNDOING THE PLAN?",
+        "primary_action": "SEE THE HOLD",
+        "secondary_action": "CHANGE THE HOLD",
+        "data": [
+          "DD.PROTECTED_HOLD",
+          "DD.SAFE_TO_SPEND",
+          "DD.ACCOUNTS",
+          "DD.TRANSACTIONS",
+          "DD.OBLIGATIONS",
+          "DD.PLAN_ALLOCATIONS",
+          "DD.INCOME_SOURCES"
+        ],
+        "links": [
+          "F09.WHY",
+          "F07.00",
+          "F08.00",
+          "F03.00"
+        ],
+        "states": [
+          "F09.ST.LOADING",
+          "F09.ST.UNSTATED",
+          "F09.ST.ERROR",
+          "F09.ST.BELOW_ZERO"
+        ],
+        "drawers_sheets_modals": [
+          "F09.MD.HOLD_CONFIRM"
+        ],
+        "children": [
+          "F09.WHY",
+          "F09.HOLD"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F09.WHY",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F09.HOLD",
+          "structural_form": "SHEET",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F09.MD.HOLD_CONFIRM",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "BONE FIELD OR EXISTING PLATE WITH LEFT-RAIL CONTAINMENT (INTERFERENCE FAIL; PLATE NOT CHANGED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": true,
+          "required_for_functional": false,
+          "generation_class": "PARENT_AUTHORITY_REGEN",
+          "reference_required": true,
+          "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+        },
+        "unbuilt_visual_nodes": 3
+      }
+    },
+    {
+      "family_id": "F10",
+      "parent_contract": {
+        "question": "CAN I BUY THIS, AND WHAT CHANGES?",
+        "primary_action": "DECIDE",
+        "secondary_action": "CONSIDER SOMETHING",
+        "data": [
+          "DD.PURCHASE_CONSIDERATIONS",
+          "DD.SAFE_TO_SPEND",
+          "DD.PLAN_ALLOCATIONS",
+          "DD.GOALS",
+          "DD.OBLIGATIONS"
+        ],
+        "links": [
+          "F10.OBJECT",
+          "F09.00",
+          "F14.00"
+        ],
+        "states": [
+          "F10.ST.LOADING",
+          "F10.ST.NONE",
+          "F10.ST.ERROR"
+        ],
+        "drawers_sheets_modals": [
+          "F10.SH.CONSIDER",
+          "F10.MD.REMOVE_OBJECT"
+        ],
+        "children": [
+          "F10.OBJECT",
+          "F10.DECISION"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY",
+          "GS.ENTITLEMENTS"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F10.OBJECT",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F10.DECISION",
+          "structural_form": "SHEET",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F10.SH.CONSIDER",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F10.MD.REMOVE_OBJECT",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "BONE FIELD OR EXISTING PLATE WITH LEFT-RAIL CONTAINMENT (INTERFERENCE FAIL; PLATE NOT CHANGED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": true,
+          "required_for_functional": false,
+          "generation_class": "PARENT_AUTHORITY_REGEN",
+          "reference_required": true,
+          "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+        },
+        "unbuilt_visual_nodes": 4
+      }
+    },
+    {
+      "family_id": "F11",
+      "parent_contract": {
+        "question": "CAN I TAKE THIS, AND WHAT DOES IT CHANGE?",
+        "primary_action": "FUND THE TRIP",
+        "secondary_action": "NAME A TRIP",
+        "data": [
+          "DD.TRIPS",
+          "DD.SAFE_TO_SPEND",
+          "DD.PLAN_ALLOCATIONS",
+          "DD.GOALS",
+          "DD.CURRENCY"
+        ],
+        "links": [
+          "F11.TRIP",
+          "F09.00",
+          "F14.00"
+        ],
+        "states": [
+          "F11.ST.LOADING",
+          "F11.ST.NONE",
+          "F11.ST.ERROR"
+        ],
+        "drawers_sheets_modals": [
+          "F11.SH.TRIP_EDIT",
+          "F11.MD.REMOVE_TRIP"
+        ],
+        "children": [
+          "F11.TRIP",
+          "F11.FUNDING"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY",
+          "GS.ENTITLEMENTS"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F11.TRIP",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F11.FUNDING",
+          "structural_form": "SHEET",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F11.SH.TRIP_EDIT",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F11.MD.REMOVE_TRIP",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "BONE FIELD OR EXISTING PLATE WITH LEFT-RAIL CONTAINMENT (INTERFERENCE FAIL; PLATE NOT CHANGED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": true,
+          "required_for_functional": false,
+          "generation_class": "PARENT_AUTHORITY_REGEN",
+          "reference_required": true,
+          "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+        },
+        "unbuilt_visual_nodes": 4
+      }
+    },
+    {
+      "family_id": "F12",
+      "parent_contract": {
+        "question": "WHAT IS HAPPENING, AND WHAT MATTERS?",
+        "primary_action": "OPEN AN ACCOUNT",
+        "secondary_action": "ADD A CARD OR LOAN",
+        "data": [
+          "DD.CREDIT_ATTRIBUTES",
+          "DD.ACCOUNTS",
+          "DD.TRANSACTIONS",
+          "DD.OBLIGATIONS"
+        ],
+        "links": [
+          "F12.ACCOUNT",
+          "F13.00",
+          "F05.ACCOUNTS"
+        ],
+        "states": [
+          "F12.ST.LOADING",
+          "F12.ST.QUIET",
+          "F12.ST.ERROR",
+          "F12.ST.ATTENTION"
+        ],
+        "drawers_sheets_modals": [
+          "F12.SH.UTILIZATION",
+          "F12.SH.EDIT_TERMS"
+        ],
+        "children": [
+          "F12.ACCOUNTS",
+          "F12.ACCOUNT"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.ACCOUNT_REGISTRY"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F12.ACCOUNTS",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F12.ACCOUNT",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F12.SH.UTILIZATION",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F12.SH.EDIT_TERMS",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "EXISTING F12 PLATE (INTERFERENCE PASS)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": false,
+          "required_for_functional": false,
+          "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+          "reference_required": false,
+          "reference_source": null,
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": null
+        },
+        "unbuilt_visual_nodes": 4
+      }
+    },
+    {
+      "family_id": "F13",
+      "parent_contract": {
+        "question": "HOW DOES THIS COME DOWN?",
+        "primary_action": "CHANGE THE PATH",
+        "secondary_action": "KEEP THIS PATH",
+        "data": [
+          "DD.PAYOFF_PLANS",
+          "DD.ACCOUNTS",
+          "DD.CREDIT_ATTRIBUTES",
+          "DD.PLAN_ALLOCATIONS",
+          "DD.DATE_DERIVED"
+        ],
+        "links": [
+          "F13.WHAT_IF",
+          "F12.00",
+          "F08.00"
+        ],
+        "states": [
+          "F13.ST.LOADING",
+          "F13.ST.NONE",
+          "F13.ST.ERROR",
+          "F13.ST.NO_DEBT"
+        ],
+        "drawers_sheets_modals": [
+          "F13.SH.CHANGE"
+        ],
+        "children": [
+          "F13.PATH",
+          "F13.WHAT_IF"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY",
+          "GS.ENTITLEMENTS"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F13.PATH",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F13.WHAT_IF",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F13.SH.CHANGE",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "BONE FIELD OR EXISTING PLATE WITH LEFT-RAIL CONTAINMENT (INTERFERENCE FAIL; PLATE NOT CHANGED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": true,
+          "required_for_functional": false,
+          "generation_class": "PARENT_AUTHORITY_REGEN",
+          "reference_required": true,
+          "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+        },
+        "unbuilt_visual_nodes": 3
+      }
+    },
+    {
+      "family_id": "F14",
+      "parent_contract": {
+        "question": "WHAT AM I BUILDING TOWARD?",
+        "primary_action": "NAME ONE",
+        "secondary_action": "SET ASIDE",
+        "data": [
+          "DD.GOALS",
+          "DD.PLAN_ALLOCATIONS",
+          "DD.ACCOUNTS",
+          "DD.SETUP_PROFILE"
+        ],
+        "links": [
+          "F14.GOAL",
+          "F08.00",
+          "F10.00",
+          "F11.00"
+        ],
+        "states": [
+          "F14.ST.LOADING",
+          "F14.ST.NONE",
+          "F14.ST.ERROR",
+          "F14.ST.REACHED"
+        ],
+        "drawers_sheets_modals": [
+          "F14.SH.NAME_GOAL",
+          "F14.SH.EDIT_GOAL",
+          "F14.SH.SET_ASIDE",
+          "F14.MD.REMOVE_GOAL"
+        ],
+        "children": [
+          "F14.GOAL",
+          "F14.MEANING"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F14.GOAL",
+          "structural_form": "ROUTE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F14.MEANING",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F14.SH.NAME_GOAL",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F14.SH.EDIT_GOAL",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F14.SH.SET_ASIDE",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F14.MD.REMOVE_GOAL",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "BONE FIELD OR EXISTING PLATE WITH LEFT-RAIL CONTAINMENT (INTERFERENCE FAIL; PLATE NOT CHANGED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": true,
+          "required_for_functional": false,
+          "generation_class": "PARENT_AUTHORITY_REGEN",
+          "reference_required": true,
+          "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+        },
+        "unbuilt_visual_nodes": 6
+      }
+    },
+    {
+      "family_id": "F15",
+      "parent_contract": {
+        "question": "WHERE AM I HEADED IF THIS CONTINUES?",
+        "primary_action": "TRY ANOTHER PATH",
+        "secondary_action": "CHANGE AN ASSUMPTION",
+        "data": [
+          "DD.FORECAST_SCENARIOS",
+          "DD.INCOME_SOURCES",
+          "DD.OBLIGATIONS",
+          "DD.PLAN_ALLOCATIONS",
+          "DD.GOALS",
+          "DD.PAYOFF_PLANS",
+          "DD.ACCOUNTS",
+          "DD.TRANSACTIONS"
+        ],
+        "links": [
+          "F15.BRANCH",
+          "F06.00",
+          "F07.00",
+          "F13.00",
+          "F14.00"
+        ],
+        "states": [
+          "F15.ST.LOADING",
+          "F15.ST.THIN",
+          "F15.ST.ERROR"
+        ],
+        "drawers_sheets_modals": [
+          "F15.SH.ASSUMPTION"
+        ],
+        "children": [
+          "F15.SCENARIO",
+          "F15.BRANCH"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.MONEY_FORMAT",
+          "GS.DATE_MODEL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY",
+          "GS.ENTITLEMENTS"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F15.SCENARIO",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F15.BRANCH",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F15.SH.ASSUMPTION",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "BONE FIELD OR EXISTING PLATE WITH LEFT-RAIL CONTAINMENT (INTERFERENCE FAIL; PLATE NOT CHANGED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": true,
+          "required_for_functional": false,
+          "generation_class": "PARENT_AUTHORITY_REGEN",
+          "reference_required": true,
+          "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+        },
+        "unbuilt_visual_nodes": 3
+      }
+    },
+    {
+      "family_id": "F16",
+      "parent_contract": {
+        "question": "WHERE IS THE PROOF?",
+        "primary_action": "OPEN A DOCUMENT",
+        "secondary_action": "FILE A DOCUMENT",
+        "data": [
+          "DD.DOCUMENTS",
+          "DD.TRANSACTIONS",
+          "DD.ACCOUNTS"
+        ],
+        "links": [
+          "F16.DOCUMENT",
+          "F04.00",
+          "F05.00"
+        ],
+        "states": [
+          "F16.ST.LOADING",
+          "F16.ST.EMPTY",
+          "F16.ST.ERROR",
+          "F16.ST.NO_RESULTS"
+        ],
+        "drawers_sheets_modals": [
+          "F16.SH.ADD_DOCUMENT",
+          "F16.MD.DELETE_DOCUMENT",
+          "F16.SH.EXPORT"
+        ],
+        "children": [
+          "F16.INDEX",
+          "F16.DOCUMENT"
+        ],
+        "global_systems": [
+          "GS.BOTTOM_NAV",
+          "GS.TOP_CHROME",
+          "GS.QUICK_ADD",
+          "GS.ASK_JURNL",
+          "GS.FORM_SYSTEM",
+          "GS.STATE_PATTERNS",
+          "GS.FAMILY_DISCOVERY",
+          "GS.FILE_STORAGE",
+          "GS.ENTITLEMENTS",
+          "GS.SETTINGS"
+        ]
+      },
+      "child_classification": [
+        {
+          "node_id": "F16.INDEX",
+          "structural_form": "EXPANDED_STATE",
+          "inheritance_class": "MODULATED_INHERITANCE",
+          "plate_policy": "REUSE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F16.DOCUMENT",
+          "structural_form": "ROUTE",
+          "inheritance_class": "DISTINCT_SUB_EXPRESSION",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F16.SH.ADD_DOCUMENT",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F16.MD.DELETE_DOCUMENT",
+          "structural_form": "MODAL",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        },
+        {
+          "node_id": "F16.SH.EXPORT",
+          "structural_form": "SHEET",
+          "inheritance_class": "DIRECT_INHERITANCE",
+          "plate_policy": "NO_PLATE_REQUIRED"
+        }
+      ],
+      "zero_generation_fallback": {
+        "presentation": "NEUTRAL_STRUCTURAL",
+        "plate": "BONE FIELD OR EXISTING PLATE WITH LEFT-RAIL CONTAINMENT (INTERFERENCE FAIL; PLATE NOT CHANGED)",
+        "live_data": true,
+        "generic_saas_drift": "FORBIDDEN"
+      },
+      "visual_track_after_functional": {
+        "parent": {
+          "generation_required": true,
+          "required_for_functional": false,
+          "generation_class": "PARENT_AUTHORITY_REGEN",
+          "reference_required": true,
+          "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+          "authority_parent": null,
+          "sidekick_required": false,
+          "icon_generation_required": false,
+          "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+        },
+        "unbuilt_visual_nodes": 5
+      }
+    }
+  ]
+}

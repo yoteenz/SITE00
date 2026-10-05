@@ -1,0 +1,350 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F09",
+  "name": "SAFE TO SPEND",
+  "purpose": "GIVE A CLEAR SIGNAL AFTER OBLIGATIONS AND INTENTIONS.",
+  "product_job": "GIVE A CLEAR SIGNAL AFTER OBLIGATIONS AND INTENTIONS.",
+  "parent": {
+    "family_id": "F09",
+    "parent_id": null,
+    "route": "safe",
+    "route_status": "PLACEHOLDER",
+    "implementation_status": "PLACEHOLDER",
+    "functional_status": "PLACEHOLDER",
+    "visual_status": "INVALID_EXPRESSION",
+    "approval_status": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.PROTECTED_HOLD",
+      "DD.SAFE_TO_SPEND",
+      "DD.ACCOUNTS",
+      "DD.TRANSACTIONS",
+      "DD.OBLIGATIONS",
+      "DD.PLAN_ALLOCATIONS",
+      "DD.INCOME_SOURCES"
+    ],
+    "interaction_dependencies": [
+      "GS.BOTTOM_NAV",
+      "GS.TOP_CHROME",
+      "GS.QUICK_ADD",
+      "GS.ASK_JURNL",
+      "GS.MONEY_FORMAT",
+      "GS.DATE_MODEL",
+      "GS.FORM_SYSTEM",
+      "GS.STATE_PATTERNS",
+      "GS.FAMILY_DISCOVERY"
+    ],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+    "generation_requirement": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_ADD",
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.BACK",
+      "ICON.F09_HOLD",
+      "ICON.INFO"
+    ],
+    "reusable_capability_candidate": null,
+    "notes": [
+      "STATIC PREVIEW SPEC: \"WHAT CAN I SPEND WITHOUT UNDOING THE PLAN?\" · SIGNAL \"OPEN\" · CTA \"SEE THE HOLD\" DISABLED (NOT OPEN YET).",
+      "PLATE INTERFERENCE FAIL; 639 CREDITS SPENT ON THE PARENT AUTHORITY.",
+      "NOT REACHABLE FROM THE PRODUCT TODAY (REVIEW BOARD OR TYPED URL ONLY)."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "EXPRESSION_READY (AUTHORITY INVALID: INTERFERENCE FAIL)",
+      "release": "NONE"
+    },
+    "functional_criteria": "R1 Uh D0 I0 S0 V- E0 M0 L0 P1 A1 N1",
+    "functional_score": 0.409,
+    "target_wave": 3,
+    "evidence": [
+      "src/projects/jurnl/data/parents/catalog.ts",
+      "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+      "JURNL/F09_*/MANIFEST/F09_EXPRESSION_TREE.json"
+    ],
+    "opens": null,
+    "node_id": "F09.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "SAFE TO SPEND",
+    "purpose": "GIVE A CLEAR SIGNAL AFTER OBLIGATIONS AND INTENTIONS."
+  },
+  "children": [
+    {
+      "id": "F09.WHY",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "safe/why",
+      "status": "MISSING"
+    },
+    {
+      "id": "F09.HOLD",
+      "form": "SHEET",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": null,
+      "status": "MISSING"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [],
+  "sheets": [],
+  "modals": [
+    "F09.MD.HOLD_CONFIRM"
+  ],
+  "states": [
+    {
+      "id": "F09.ST.LOADING",
+      "status": "MISSING"
+    },
+    {
+      "id": "F09.ST.UNSTATED",
+      "status": "MISSING"
+    },
+    {
+      "id": "F09.ST.ERROR",
+      "status": "MISSING"
+    },
+    {
+      "id": "F09.ST.BELOW_ZERO",
+      "status": "MISSING"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F09.IN.PRIMARY",
+      "status": "NO_OP",
+      "opens": "F09.WHY"
+    },
+    {
+      "id": "F09.IN.OPEN_HOLD",
+      "status": "MISSING",
+      "opens": "F09.HOLD"
+    },
+    {
+      "id": "F09.IX.HOLD",
+      "status": "MISSING",
+      "opens": "F09.MD.HOLD_CONFIRM"
+    },
+    {
+      "id": "F09.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F09.IN.ASK",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F09.NAV.TODAY",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F09.REVIEW.BOARD",
+      "status": "LEGACY",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F09.00",
+      "route": "safe",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "node_id": "F09.WHY",
+      "route": "safe/why",
+      "status": "MISSING"
+    }
+  ],
+  "global_dependencies": [
+    "GS.BOTTOM_NAV",
+    "GS.TOP_CHROME",
+    "GS.QUICK_ADD",
+    "GS.ASK_JURNL",
+    "GS.MONEY_FORMAT",
+    "GS.DATE_MODEL",
+    "GS.FORM_SYSTEM",
+    "GS.STATE_PATTERNS",
+    "GS.FAMILY_DISCOVERY"
+  ],
+  "data_dependencies": [
+    "DD.PROTECTED_HOLD",
+    "DD.SAFE_TO_SPEND",
+    "DD.ACCOUNTS",
+    "DD.TRANSACTIONS",
+    "DD.OBLIGATIONS",
+    "DD.PLAN_ALLOCATIONS",
+    "DD.INCOME_SOURCES"
+  ],
+  "owned_data": [
+    "DD.PROTECTED_HOLD",
+    "DD.SAFE_TO_SPEND"
+  ],
+  "read_data": [
+    "DD.ACCOUNTS",
+    "DD.TRANSACTIONS",
+    "DD.OBLIGATIONS",
+    "DD.PLAN_ALLOCATIONS",
+    "DD.INCOME_SOURCES"
+  ],
+  "write_data": [
+    "DD.PROTECTED_HOLD",
+    "DD.SAFE_TO_SPEND"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlAmountField",
+    "JurnlSignal",
+    "JurnlFieldRows",
+    "JurnlStateBlock",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_SAFE_TO_SPEND (CORE)",
+    "ADVANCED_SAFE_TO_SPEND (ADVANCED)",
+    "AI_EXPLAIN_BASIC (AI)",
+    "AI_PLANNING_GUIDANCE (AI)",
+    "AI_MULTI_SCENARIO_ANALYSIS (AI)",
+    "AI_HIGHER_USAGE (AI)"
+  ],
+  "functional_status": {
+    "score": 23.7,
+    "strict": 12.5,
+    "gap_counts": {
+      "PLACEHOLDER": 2,
+      "MISSING": 10,
+      "COMPLETE_FUNCTIONAL": 2,
+      "LEGACY": 1,
+      "PARTIAL_FUNCTIONAL": 2
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 4,
+    "visually_implemented": 0,
+    "parent": "INVALID_EXPRESSION"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F09.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F09.WHY": "REUSE_PARENT_PLATE",
+    "F09.HOLD": "NO_PLATE_REQUIRED",
+    "F09.MD.HOLD_CONFIRM": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_ADD",
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.BACK",
+    "ICON.F09_HOLD",
+    "ICON.INFO"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B02 NO DATE MODEL",
+    "B04 SAFE TO SPEND IGNORES SETUP OBLIGATIONS",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B06 NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT",
+    "B11 F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+    "B14 ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT",
+    "B24 REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME"
+  ],
+  "implementation_dependencies": [
+    "W0.6",
+    "W2.F05",
+    "W2.F06",
+    "W2.F07"
+  ],
+  "boundaries": [
+    "F09 IS A DERIVED DECISION SYSTEM. IT OWNS THE COMPUTATION AND THE PROTECTED HOLD, NOT THE INPUTS.",
+    "F03 SHOWS THE SAME NUMBER (READ-ONLY) AND A SHORT SEE WHY SHEET; F09.WHY IS THE FULL READING. ONE FORMULA, ONE OWNER.",
+    "INPUTS: CASH (F05 PLACES / F04 MOVEMENTS), DUE BEFORE NEXT INCOME (F07 + F06), ASSIGNED (F08), HELD (F09).",
+    "F10 AND F11 ASK F09 \"WHAT CHANGES\" — THEY NEVER RECOMPUTE IT.",
+    "F02.06 SEEDS THE PROTECTED AMOUNT; F09 BECOMES ITS OWNER."
+  ],
+  "extension": null,
+  "founder_flags": [
+    "FF.SEE_WHY_VS_F09"
+  ],
+  "reusable_capability_candidates": []
+}

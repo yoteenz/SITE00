@@ -1,0 +1,355 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F12",
+  "name": "CREDIT",
+  "purpose": "HELP THE USER UNDERSTAND CREDIT HEALTH, ACCOUNTS, UTILIZATION, AND ACTIONS.",
+  "product_job": "HELP THE USER UNDERSTAND CREDIT HEALTH, ACCOUNTS, UTILIZATION, AND ACTIONS.",
+  "parent": {
+    "family_id": "F12",
+    "parent_id": null,
+    "route": "credit",
+    "route_status": "PLACEHOLDER",
+    "implementation_status": "PLACEHOLDER",
+    "functional_status": "PLACEHOLDER",
+    "visual_status": "VISUALLY_IMPLEMENTED",
+    "approval_status": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.CREDIT_ATTRIBUTES",
+      "DD.ACCOUNTS",
+      "DD.TRANSACTIONS",
+      "DD.OBLIGATIONS"
+    ],
+    "interaction_dependencies": [
+      "GS.BOTTOM_NAV",
+      "GS.TOP_CHROME",
+      "GS.QUICK_ADD",
+      "GS.ASK_JURNL",
+      "GS.MONEY_FORMAT",
+      "GS.DATE_MODEL",
+      "GS.FORM_SYSTEM",
+      "GS.STATE_PATTERNS",
+      "GS.ACCOUNT_REGISTRY"
+    ],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+    "generation_requirement": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_ADD",
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.BACK",
+      "ICON.F12_UTILIZATION",
+      "ICON.INFO",
+      "ICON.KIND_CARD",
+      "ICON.KIND_LOAN"
+    ],
+    "reusable_capability_candidate": null,
+    "notes": [
+      "STATIC PREVIEW SPEC: \"WHAT IS HAPPENING, AND WHAT MATTERS?\" · SIGNAL \"QUIET\" · CTA \"OPEN AN ACCOUNT\" DISABLED (NOT OPEN YET).",
+      "PLATE INTERFERENCE PASS; 639 CREDITS SPENT ON THE PARENT AUTHORITY."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "VISUALLY_IMPLEMENTED",
+      "release": "NONE"
+    },
+    "functional_criteria": "R1 Uh D0 I0 S0 V- E0 M0 L0 P1 A1 N1",
+    "functional_score": 0.409,
+    "target_wave": 3,
+    "evidence": [
+      "src/projects/jurnl/data/parents/catalog.ts",
+      "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+      "JURNL/F12_*/MANIFEST/F12_EXPRESSION_TREE.json"
+    ],
+    "opens": null,
+    "node_id": "F12.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "CREDIT",
+    "purpose": "HELP THE USER UNDERSTAND CREDIT HEALTH, ACCOUNTS, UTILIZATION, AND ACTIONS."
+  },
+  "children": [
+    {
+      "id": "F12.ACCOUNTS",
+      "form": "EXPANDED_STATE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": null,
+      "status": "MISSING"
+    },
+    {
+      "id": "F12.ACCOUNT",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "credit/:accountId",
+      "status": "MISSING"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [],
+  "sheets": [
+    "F12.SH.UTILIZATION",
+    "F12.SH.EDIT_TERMS"
+  ],
+  "modals": [],
+  "states": [
+    {
+      "id": "F12.ST.LOADING",
+      "status": "MISSING"
+    },
+    {
+      "id": "F12.ST.QUIET",
+      "status": "MISSING"
+    },
+    {
+      "id": "F12.ST.ERROR",
+      "status": "MISSING"
+    },
+    {
+      "id": "F12.ST.ATTENTION",
+      "status": "MISSING"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F12.IN.PRIMARY",
+      "status": "NO_OP",
+      "opens": "F12.ACCOUNT"
+    },
+    {
+      "id": "F12.IN.EDIT",
+      "status": "MISSING",
+      "opens": "F12.SH.EDIT_TERMS"
+    },
+    {
+      "id": "F12.IN.ADD_ACCOUNT",
+      "status": "MISSING",
+      "opens": "F05.SH.ADD_PLACE"
+    },
+    {
+      "id": "F12.IX.UTILIZATION",
+      "status": "MISSING",
+      "opens": "F12.SH.UTILIZATION"
+    },
+    {
+      "id": "F12.IN.OPEN_PAYDOWN",
+      "status": "MISSING",
+      "opens": "F13.00"
+    },
+    {
+      "id": "F12.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F12.IN.ASK",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F12.NAV.TODAY",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F12.REVIEW.BOARD",
+      "status": "LEGACY",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F12.00",
+      "route": "credit",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "node_id": "F12.ACCOUNT",
+      "route": "credit/:accountId",
+      "status": "MISSING"
+    }
+  ],
+  "global_dependencies": [
+    "GS.BOTTOM_NAV",
+    "GS.TOP_CHROME",
+    "GS.QUICK_ADD",
+    "GS.ASK_JURNL",
+    "GS.MONEY_FORMAT",
+    "GS.DATE_MODEL",
+    "GS.FORM_SYSTEM",
+    "GS.STATE_PATTERNS",
+    "GS.ACCOUNT_REGISTRY"
+  ],
+  "data_dependencies": [
+    "DD.CREDIT_ATTRIBUTES",
+    "DD.ACCOUNTS",
+    "DD.TRANSACTIONS",
+    "DD.OBLIGATIONS"
+  ],
+  "owned_data": [
+    "DD.CREDIT_ATTRIBUTES"
+  ],
+  "read_data": [
+    "DD.ACCOUNTS",
+    "DD.TRANSACTIONS",
+    "DD.OBLIGATIONS"
+  ],
+  "write_data": [
+    "DD.CREDIT_ATTRIBUTES"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlInlineExpansion",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlAmountField",
+    "JurnlAccountPicker",
+    "JurnlSignal",
+    "JurnlRecordList",
+    "JurnlFieldRows",
+    "JurnlStateBlock",
+    "JurnlProgress",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_CREDIT_OVERVIEW (CORE)",
+    "ADVANCED_CREDIT_PLANNING (ADVANCED)",
+    "AI_EXPLAIN_BASIC (AI)",
+    "AI_PLANNING_GUIDANCE (AI)",
+    "AI_MULTI_SCENARIO_ANALYSIS (AI)",
+    "AI_HIGHER_USAGE (AI)",
+    "FINANCIAL_SERVICE_REFERRALS (REFERRAL, DISABLED)"
+  ],
+  "functional_status": {
+    "score": 13.4,
+    "strict": 11.1,
+    "gap_counts": {
+      "PLACEHOLDER": 2,
+      "MISSING": 14,
+      "COMPLETE_FUNCTIONAL": 2,
+      "LEGACY": 1
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 5,
+    "visually_implemented": 1,
+    "parent": "VISUALLY_IMPLEMENTED"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F12.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F12.ACCOUNTS": "REUSE_PARENT_PLATE",
+    "F12.ACCOUNT": "NO_PLATE_REQUIRED",
+    "F12.SH.UTILIZATION": "NO_PLATE_REQUIRED",
+    "F12.SH.EDIT_TERMS": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_ADD",
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.BACK",
+    "ICON.F12_UTILIZATION",
+    "ICON.INFO",
+    "ICON.KIND_CARD",
+    "ICON.KIND_LOAN"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B03 NO ACCOUNT REGISTRY",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B11 F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+    "B14 ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT",
+    "B24 REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME"
+  ],
+  "implementation_dependencies": [
+    "W2.F05"
+  ],
+  "boundaries": [
+    "F12 OWNS CREDIT ATTRIBUTES; F05 OWNS THE PLACE. ONE ACCOUNT RECORD, TWO VIEWS.",
+    "NO CREDIT SCORE FEATURE IS DEFINED (\"A QUIET WORD, NOT A GIANT SCORE\"). A BUREAU SCORE NEEDS A FOUNDER DECISION AND A PROVIDER.",
+    "F13 OWNS THE PATH DOWN; F12 SHOWS STATE, NOT STRATEGY (ADVANCED_CREDIT_PLANNING IS SERVER-ENFORCED).",
+    "FINANCIAL_SERVICE_REFERRALS STAY DISABLED."
+  ],
+  "extension": "PREMIUM CREDIT ADD-ON.",
+  "founder_flags": [
+    "FF.CREDIT_SCORE_SOURCE"
+  ],
+  "reusable_capability_candidates": [
+    "RC.BP.GUIDED_SETUP"
+  ]
+}

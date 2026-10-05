@@ -1,0 +1,313 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "axes": {
+    "FUNCTIONAL_COMPLETION": {
+      "formula": "mean over the 17 units (F01–F16 + GLOBAL) of [Σ functional_score(n) / |N_F ∩ unit|]. N_F = every material node except SHARED_COMPONENT and LEGACY interactions. functional_score = applicable criteria met / applicable criteria (1, 0.5, 0); interactions and states use their status scores.",
+      "value": 31.6,
+      "why_balanced": "F01’s contract enumerates every primitive behaviour (142 nodes); F05–F16 are authored at family grain. Node weighting would reward contract verbosity.",
+      "node_weighted": {
+        "formula": "Σ functional_score(n) / |N_F|",
+        "value": 48.6
+      },
+      "strict": {
+        "formula": "unit-balanced share of nodes with score = 1",
+        "value": 19.6
+      },
+      "family_mean": {
+        "formula": "mean over F01–F16 only (GLOBAL excluded)",
+        "value": 30.1
+      },
+      "confidence": "MEDIUM",
+      "status": "ESTIMATED",
+      "missing_evidence": [
+        "Criteria were scored from code reading + existing QA artifacts, not re-run per criterion in this sprint.",
+        "No accessibility audit; responsive evidence is from earlier F01–F04 + parent captures.",
+        "Provider-dependent F01 flows were not exercised against a provider (none exists)."
+      ]
+    },
+    "VISUAL_IMPLEMENTATION": {
+      "formula": "unit-balanced share of N_V with a valid expression mounted. N_V = parents, child / grandchild pages, drawers, sheets, modals, overlays, expanded/inline children, global nav. Interference-FAIL parents, neutral shells and placeholder nav icons do not count.",
+      "value": 26.6,
+      "node_weighted": 48.6,
+      "confidence": "HIGH"
+    },
+    "APPROVAL_COMPLETION": {
+      "formula": "unit-balanced share of N_V that is FOUNDER_APPROVED",
+      "value": 0.1,
+      "node_weighted": 0.7,
+      "confidence": "HIGH",
+      "note": "Only F01.00 is founder-approved. Nothing is marked approved automatically."
+    },
+    "LAUNCH_READINESS": {
+      "formula": "mean of 12 launch gates scored 0..1 with evidence",
+      "value": 9.4,
+      "confidence": "MEDIUM",
+      "gates": [
+        {
+          "id": "G01",
+          "gate": "FUNCTIONAL_COMPLETION = 100%",
+          "score": 0.3161482274134134,
+          "evidence": "Progress metric (unit-balanced)."
+        },
+        {
+          "id": "G02",
+          "gate": "PRODUCTION AUTH PROVIDER",
+          "score": 0,
+          "evidence": "B18."
+        },
+        {
+          "id": "G03",
+          "gate": "SERVER PERSISTENCE + RLS",
+          "score": 0,
+          "evidence": "B19."
+        },
+        {
+          "id": "G04",
+          "gate": "SECURITY REVIEW WITH TEST EVIDENCE",
+          "score": 0,
+          "evidence": "No JURNL security tests exist. Production security is NOT claimed."
+        },
+        {
+          "id": "G05",
+          "gate": "VISUAL_IMPLEMENTATION = 100%",
+          "score": 0.2657329598506069,
+          "evidence": "Progress metric."
+        },
+        {
+          "id": "G06",
+          "gate": "FOUNDER APPROVAL = 100%",
+          "score": 0.0014347202295552368,
+          "evidence": "Progress metric."
+        },
+        {
+          "id": "G07",
+          "gate": "ACCESSIBILITY AUDIT",
+          "score": 0,
+          "evidence": "Semantics exist; no audit (B23)."
+        },
+        {
+          "id": "G08",
+          "gate": "RESPONSIVE QA ON EVERY VISUAL NODE",
+          "score": 0.55,
+          "evidence": "Share of visual nodes with P=1 evidence (viewport + containment QA)."
+        },
+        {
+          "id": "G09",
+          "gate": "NOINDEX",
+          "score": 0,
+          "evidence": "B21."
+        },
+        {
+          "id": "G10",
+          "gate": "ANALYTICS ON EXISTING INFRA",
+          "score": 0,
+          "evidence": "B22."
+        },
+        {
+          "id": "G11",
+          "gate": "TEST SUITE GREEN ON MAIN",
+          "score": 0,
+          "evidence": "Pre-existing red on main (B25 + 67 failing files repo-wide)."
+        },
+        {
+          "id": "G12",
+          "gate": "PRODUCTION DELIVERY PATH FOR END USERS",
+          "score": 0,
+          "evidence": "JURNL mounts only at /production/jurnl/runtime behind the internal production guard."
+        }
+      ]
+    }
+  },
+  "report_format": "31.6% FUNCTIONAL / 26.6% VISUALLY IMPLEMENTED / 0.1% APPROVED / 9.4% LAUNCH READY",
+  "node_progression": [
+    "PLANNED",
+    "STRUCTURED",
+    "FUNCTIONAL",
+    "EXPRESSION_READY",
+    "AUTHORITY_READY",
+    "VISUALLY_IMPLEMENTED",
+    "QA_READY",
+    "APPROVED",
+    "LIVE"
+  ],
+  "progression_rule": "Each node carries three independent tracks: structural (PLANNED → STRUCTURED → FUNCTIONAL), visual (EXPRESSION_READY → AUTHORITY_READY → VISUALLY_IMPLEMENTED) and release (QA_READY → APPROVED → LIVE). A node can be FUNCTIONAL without being VISUALLY_IMPLEMENTED.",
+  "per_unit": [
+    {
+      "unit": "F01",
+      "name": "ENTRY",
+      "nodes": 144,
+      "functional": 86.7,
+      "strict": 59
+    },
+    {
+      "unit": "F02",
+      "name": "SETUP",
+      "nodes": 27,
+      "functional": 92.9,
+      "strict": 40.7
+    },
+    {
+      "unit": "F03",
+      "name": "TODAY",
+      "nodes": 20,
+      "functional": 67.4,
+      "strict": 40
+    },
+    {
+      "unit": "F04",
+      "name": "ACTIVITY",
+      "nodes": 21,
+      "functional": 62.7,
+      "strict": 33.3
+    },
+    {
+      "unit": "F05",
+      "name": "MONEY",
+      "nodes": 23,
+      "functional": 11.3,
+      "strict": 8.7
+    },
+    {
+      "unit": "F06",
+      "name": "INCOME",
+      "nodes": 19,
+      "functional": 13.7,
+      "strict": 10.5
+    },
+    {
+      "unit": "F07",
+      "name": "UPCOMING",
+      "nodes": 21,
+      "functional": 12.4,
+      "strict": 9.5
+    },
+    {
+      "unit": "F08",
+      "name": "PLAN",
+      "nodes": 24,
+      "functional": 10.5,
+      "strict": 8.3
+    },
+    {
+      "unit": "F09",
+      "name": "SAFE TO SPEND",
+      "nodes": 16,
+      "functional": 23.7,
+      "strict": 12.5
+    },
+    {
+      "unit": "F10",
+      "name": "PURCHASES",
+      "nodes": 17,
+      "functional": 14.2,
+      "strict": 11.8
+    },
+    {
+      "unit": "F11",
+      "name": "TRIPS",
+      "nodes": 17,
+      "functional": 14.2,
+      "strict": 11.8
+    },
+    {
+      "unit": "F12",
+      "name": "CREDIT",
+      "nodes": 18,
+      "functional": 13.4,
+      "strict": 11.1
+    },
+    {
+      "unit": "F13",
+      "name": "PAYDOWN",
+      "nodes": 15,
+      "functional": 16.1,
+      "strict": 13.3
+    },
+    {
+      "unit": "F14",
+      "name": "GOALS",
+      "nodes": 20,
+      "functional": 13,
+      "strict": 10
+    },
+    {
+      "unit": "F15",
+      "name": "AHEAD",
+      "nodes": 14,
+      "functional": 17.2,
+      "strict": 14.3
+    },
+    {
+      "unit": "F16",
+      "name": "RECORDS",
+      "nodes": 19,
+      "functional": 12.7,
+      "strict": 10.5
+    },
+    {
+      "unit": "GLOBAL",
+      "name": "GLOBAL SYSTEMS + DATA",
+      "nodes": 54,
+      "functional": 55.5,
+      "strict": 27.8
+    }
+  ],
+  "completion_simulation": [
+    {
+      "after_wave": 0,
+      "functional_completion": 34,
+      "node_weighted": 51.1,
+      "nodes_completed_in_wave": 32,
+      "strict": 26.5
+    },
+    {
+      "after_wave": 1,
+      "functional_completion": 44,
+      "node_weighted": 59.9,
+      "nodes_completed_in_wave": 59,
+      "strict": 39.1
+    },
+    {
+      "after_wave": 2,
+      "functional_completion": 58.2,
+      "node_weighted": 70.2,
+      "nodes_completed_in_wave": 53,
+      "strict": 54
+    },
+    {
+      "after_wave": 3,
+      "functional_completion": 75.5,
+      "node_weighted": 81.9,
+      "nodes_completed_in_wave": 62,
+      "strict": 72.9
+    },
+    {
+      "after_wave": 4,
+      "functional_completion": 98.8,
+      "node_weighted": 95.4,
+      "nodes_completed_in_wave": 68,
+      "strict": 96.9
+    },
+    {
+      "after_wave": 5,
+      "functional_completion": 100,
+      "node_weighted": 100,
+      "nodes_completed_in_wave": 65,
+      "strict": 100
+    }
+  ],
+  "gap_counts": {
+    "COMPLETE_FUNCTIONAL": 150,
+    "PARTIAL_FUNCTIONAL": 116,
+    "STRUCTURE_ONLY": 2,
+    "MISSING": 192,
+    "PLACEHOLDER": 24,
+    "LEGACY": 12,
+    "DUPLICATED": 4,
+    "VISUAL_ONLY": 1
+  }
+}

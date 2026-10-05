@@ -1,0 +1,791 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "rule": "Waves follow data dependencies: shared primitives + contracts first, source families before derived ones, providers last. No wave depends on generation.",
+  "waves": [
+    {
+      "wave": 0,
+      "title": "FOUNDATIONS — DATA CONTRACTS, REPOSITORY, DATE / CATEGORY / ACCOUNT MODELS, SHARED PRIMITIVES",
+      "tasks": [
+        {
+          "id": "W0.1",
+          "wave": 0,
+          "title": "DATE MODEL",
+          "scope": "ISO date type, cadence math (F02_CADENCES), next occurrence, relative formatter (TODAY / YESTERDAY / WEEKDAY / DATE).",
+          "dependsOn": [],
+          "files": [
+            "src/projects/jurnl/data/home/dates.ts (new)",
+            "src/projects/jurnl/data/home/money.ts"
+          ],
+          "pass": [
+            "Unit tests for cadence + relative display across month ends and DST.",
+            "LedgerEntry.when becomes an ISO date; display unchanged for existing mock scenario."
+          ],
+          "complexity": "M",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W0-A"
+        },
+        {
+          "id": "W0.2",
+          "wave": 0,
+          "title": "CATEGORY CATALOG",
+          "scope": "Closed category list + icon binding table (placeholder glyphs allowed, flagged) + JurnlCategoryPicker.",
+          "dependsOn": [],
+          "files": [
+            "src/projects/jurnl/data/home/categories.ts (new)",
+            "src/projects/jurnl/runtime/components/TransactionRow.tsx",
+            "JURNL/MANIFEST/JURNL_CATEGORY_CATALOG.json (new)"
+          ],
+          "pass": [
+            "Every mock and quick-add category maps to the catalog.",
+            "markFor() reads the catalog."
+          ],
+          "complexity": "S",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W0-A"
+        },
+        {
+          "id": "W0.3",
+          "wave": 0,
+          "title": "REPOSITORY CONTRACT + DEVICE ADAPTER",
+          "scope": "Typed repository per data domain (list/get/create/update/remove/subscribe, status, asOf) with a localStorage/IndexedDB device adapter; MOCK becomes a seed scenario, not a source.",
+          "dependsOn": [],
+          "files": [
+            "src/projects/jurnl/data/repository/ (new)",
+            "src/projects/jurnl/data/home/money.ts",
+            "src/projects/jurnl/data/f02/setupDraft.ts"
+          ],
+          "pass": [
+            "Data survives reload.",
+            "Design-preview ?scenario still seeds mock data.",
+            "No financial data leaves the device."
+          ],
+          "complexity": "L",
+          "collisionRisk": "HIGH",
+          "parallelGroup": "W0-B"
+        },
+        {
+          "id": "W0.4",
+          "wave": 0,
+          "title": "ACCOUNTS DOMAIN + ACCOUNT PICKER",
+          "scope": "DD.ACCOUNTS record (name, kind CASH/CHECKING/SAVINGS/CARD/LOAN/HELD, balance, asOf), F02.02 / F02.02.1 write into it, JurnlAccountPicker replaces both hard-coded lists.",
+          "dependsOn": [
+            "W0.3"
+          ],
+          "files": [
+            "src/projects/jurnl/data/repository/accounts.ts (new)",
+            "src/projects/jurnl/runtime/screens/HomeScreens.tsx",
+            "src/projects/jurnl/runtime/screens/SetupScreens.tsx"
+          ],
+          "pass": [
+            "Quick add and filter list the registry.",
+            "F02 setup writes a place."
+          ],
+          "complexity": "M",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W0-C"
+        },
+        {
+          "id": "W0.5",
+          "wave": 0,
+          "title": "REPOSITORY-DRIVEN STATES",
+          "scope": "JurnlStateBlock; LOADING / EMPTY / ERROR / STALE / OFFLINE from repository status; ?state remains a preview override.",
+          "dependsOn": [
+            "W0.3"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/components/primitives.tsx",
+            "src/projects/jurnl/runtime/screens/HomeScreens.tsx"
+          ],
+          "pass": [
+            "F03 / F04 reach every state without ?state in tests."
+          ],
+          "complexity": "M",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W0-C"
+        },
+        {
+          "id": "W0.6",
+          "wave": 0,
+          "title": "SAFE-TO-SPEND FORMULA OWNED BY F09",
+          "scope": "Move safeToSpend() into an F09 module; obligations without an amount mark the signal PARTIAL instead of contributing $0; F03 + SEE WHY read it.",
+          "dependsOn": [
+            "W0.1"
+          ],
+          "files": [
+            "src/projects/jurnl/data/f09/safeToSpend.ts (new)",
+            "src/projects/jurnl/data/home/money.ts"
+          ],
+          "pass": [
+            "Regression test: setup obligations never silently contribute 0.",
+            "SEE WHY rows unchanged in the mock scenario."
+          ],
+          "complexity": "S",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W0-A"
+        },
+        {
+          "id": "W0.7",
+          "wave": 0,
+          "title": "REGISTER F05–F16",
+          "scope": "Add F05–F16 to jurnlProject.ts families and generate production contracts from JURNL_FAMILY_TREE_F01_F16.json (implementation STRUCTURE_ONLY, approval UNREVIEWED). No approval claims.",
+          "dependsOn": [],
+          "files": [
+            "src/projects/jurnl/data/jurnlProject.ts",
+            "src/projects/jurnl/data/f05…f16/contract.ts (new)"
+          ],
+          "pass": [
+            "familyGate / registry tests pass for 16 families."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W0-A"
+        },
+        {
+          "id": "W0.8",
+          "wave": 0,
+          "title": "SHARED PRIMITIVES",
+          "scope": "JurnlTopChrome, JurnlAmountField (extract), JurnlDateField, JurnlCadencePicker (extract), JurnlSignal (extract), JurnlRecordList, JurnlFieldRows (extract), JurnlProgress, JurnlComparePair, JurnlSequence. Global composition + containment rules apply.",
+          "dependsOn": [
+            "W0.1"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/components/primitives.tsx",
+            "src/projects/jurnl/runtime/components/ (new files)"
+          ],
+          "pass": [
+            "interactive-text-qa.mjs stays at 0 drift at 393 / 834 / 1440.",
+            "Each primitive has a role + a11y test."
+          ],
+          "complexity": "L",
+          "collisionRisk": "HIGH",
+          "parallelGroup": "W0-B"
+        },
+        {
+          "id": "W0.9",
+          "wave": 0,
+          "title": "MAIN-RED + DOC DRIFT",
+          "scope": "Reconcile jurnlMonetizationFoundation \"no price strings\" with the currency contract; fix the FX wording in GLOBAL_COMPOSITION_RULES and the F03 plate status in CORE.md.",
+          "dependsOn": [],
+          "files": [
+            "tests/jurnlMonetizationFoundation.test.tsx",
+            "JURNL/MANIFEST/JURNL_GLOBAL_COMPOSITION_RULES.json",
+            "motherboard/CORE.md"
+          ],
+          "pass": [
+            "Test green on main."
+          ],
+          "complexity": "S",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W0-A"
+        }
+      ],
+      "nodes_completed": 32
+    },
+    {
+      "wave": 1,
+      "title": "GLOBAL SYSTEMS — SETTINGS, DISCOVERY, QUICK ADD V2, ASK EVERYWHERE, LEDGER EDIT, HONEST CONNECT",
+      "tasks": [
+        {
+          "id": "W1.1",
+          "wave": 1,
+          "title": "ACCOUNT / SETTINGS SURFACE",
+          "scope": "Route `account` with profile, display currency, privacy + AI access, consents, security + sessions, export, delete, sign out. Reuses F01.11 / F01.12 drawers.",
+          "dependsOn": [
+            "W0.3",
+            "W0.8"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/SettingsScreens.tsx (new)",
+            "src/projects/jurnl/runtime/JurnlRuntimeRoot.tsx",
+            "src/projects/jurnl/runtime/screens/SecurityScreens.tsx"
+          ],
+          "pass": [
+            "Sign out, export, delete reachable after entry.",
+            "Currency selector moved (ASK keeps a link)."
+          ],
+          "complexity": "M",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W1-A"
+        },
+        {
+          "id": "W1.2",
+          "wave": 1,
+          "title": "ASK JURNL ON EVERY FAMILY",
+          "scope": "Family-aware explanation built from derived values; read-only; no LLM; AI access OFF respected.",
+          "dependsOn": [
+            "W0.8"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/HomeScreens.tsx (AskSheet → shared)",
+            "src/projects/jurnl/runtime/screens/ParentScreens.tsx"
+          ],
+          "pass": [
+            "ASK opens on F03–F16 with family context; no writes."
+          ],
+          "complexity": "S",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W1-B"
+        },
+        {
+          "id": "W1.3",
+          "wave": 1,
+          "title": "FAMILY DISCOVERY HUB LINKS",
+          "scope": "Panel-header actions on hubs (FF.DISCOVERY_HUBS mapping).",
+          "dependsOn": [
+            "W0.8"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/HomeScreens.tsx",
+            "src/projects/jurnl/runtime/screens/ParentScreens.tsx"
+          ],
+          "pass": [
+            "Graph validation: every family reachable from F03 without the review board."
+          ],
+          "complexity": "S",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W1-B"
+        },
+        {
+          "id": "W1.4",
+          "wave": 1,
+          "title": "QUICK ADD V2 + LEDGER EDIT / DELETE",
+          "scope": "Persisted save, date, category, registry account; F04 detail edit / delete for hand-added movements; RELATED link.",
+          "dependsOn": [
+            "W0.1",
+            "W0.2",
+            "W0.3",
+            "W0.4"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/HomeScreens.tsx",
+            "src/projects/jurnl/data/home/money.ts"
+          ],
+          "pass": [
+            "Add → reload → still there; edit; delete with confirm.",
+            "JURNL_QUICK_ADD_CONTRACT updated (no recurrence)."
+          ],
+          "complexity": "M",
+          "collisionRisk": "HIGH",
+          "parallelGroup": "W1-A"
+        },
+        {
+          "id": "W1.5",
+          "wave": 1,
+          "title": "HONEST CONNECT (MANUAL-FIRST)",
+          "scope": "F02.02 connect relabelled to naming a place unless FF.BANK_AGGREGATION chooses a provider.",
+          "dependsOn": [
+            "W0.4"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/SetupScreens.tsx",
+            "src/projects/jurnl/data/f02/setupDraft.ts"
+          ],
+          "pass": [
+            "No UI claims a live connection."
+          ],
+          "complexity": "S",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W1-B"
+        },
+        {
+          "id": "W1.6",
+          "wave": 1,
+          "title": "ONE CONSENT RECORD",
+          "scope": "DD.CONSENT written by F01.11 and F02.07, read by settings and ASK.",
+          "dependsOn": [
+            "W0.3"
+          ],
+          "files": [
+            "src/projects/jurnl/data/repository/consent.ts (new)",
+            "src/projects/jurnl/runtime/screens/SecurityScreens.tsx",
+            "src/projects/jurnl/runtime/screens/SetupScreens.tsx"
+          ],
+          "pass": [
+            "Toggling in either place reflects in the other."
+          ],
+          "complexity": "S",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W1-A"
+        }
+      ],
+      "nodes_completed": 59
+    },
+    {
+      "wave": 2,
+      "title": "SOURCE FAMILIES — F05 MONEY, F06 INCOME, F07 UPCOMING",
+      "tasks": [
+        {
+          "id": "W2.F05",
+          "wave": 2,
+          "title": "F05 MONEY STRUCTURAL COMPLETION",
+          "scope": "Parent live from DD.ACCOUNTS; F05.ACCOUNTS, F05.ACCOUNT; add / edit / remove / move; states.",
+          "dependsOn": [
+            "W0.4",
+            "W0.8",
+            "W1.4"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F05MoneyScreens.tsx (new)",
+            "src/projects/jurnl/data/f05/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12 for every F05 node.",
+            "Responsive 393 / 834 / 1440; containment 0 drift."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W2-F05"
+        },
+        {
+          "id": "W2.F06",
+          "wave": 2,
+          "title": "F06 INCOME STRUCTURAL COMPLETION",
+          "scope": "Sources CRUD, F06.SOURCE with matched arrivals, pattern sheet; setup seed handoff.",
+          "dependsOn": [
+            "W0.1",
+            "W0.3",
+            "W0.8"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F06IncomeScreens.tsx (new)",
+            "src/projects/jurnl/data/f06/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12 for every F06 node."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W2-F06"
+        },
+        {
+          "id": "W2.F07",
+          "wave": 2,
+          "title": "F07 UPCOMING STRUCTURAL COMPLETION",
+          "scope": "Obligations with amount + due date, sequence, item, mark paid (writes a movement), when sheet, overdue; setup seed handoff; F03 COMING reads F07.",
+          "dependsOn": [
+            "W0.1",
+            "W0.3",
+            "W0.8",
+            "W1.4"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F07UpcomingScreens.tsx (new)",
+            "src/projects/jurnl/data/f07/ (new)",
+            "src/projects/jurnl/data/home/money.ts"
+          ],
+          "pass": [
+            "Functional contract 12/12.",
+            "Safe-to-spend includes F07 amounts."
+          ],
+          "complexity": "M",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W2-F07"
+        }
+      ],
+      "nodes_completed": 53
+    },
+    {
+      "wave": 3,
+      "title": "DERIVED + PLANNING FAMILIES — F08 PLAN, F09 SAFE TO SPEND, F12 CREDIT, F14 GOALS; F03 RE-POINTED",
+      "tasks": [
+        {
+          "id": "W3.F09",
+          "wave": 3,
+          "title": "F09 SAFE TO SPEND + F03 RE-POINT",
+          "scope": "F09 parent, WHY, HOLD; F03 signal + SEE WHY read F09; below-zero and unstated states.",
+          "dependsOn": [
+            "W0.6",
+            "W2.F05",
+            "W2.F06",
+            "W2.F07"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F09SafeScreens.tsx (new)",
+            "src/projects/jurnl/runtime/screens/HomeScreens.tsx"
+          ],
+          "pass": [
+            "One formula; F03 and F09 show the same figure.",
+            "F03 nodes reach 12/12."
+          ],
+          "complexity": "M",
+          "collisionRisk": "HIGH",
+          "parallelGroup": "W3-F09"
+        },
+        {
+          "id": "W3.F08",
+          "wave": 3,
+          "title": "F08 PLAN STRUCTURAL COMPLETION",
+          "scope": "Intentions, assign, reorder, over-assigned validation; setup priorities handoff.",
+          "dependsOn": [
+            "W2.F06",
+            "W2.F07"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F08PlanScreens.tsx (new)",
+            "src/projects/jurnl/data/f08/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W3-F08"
+        },
+        {
+          "id": "W3.F12",
+          "wave": 3,
+          "title": "F12 CREDIT STRUCTURAL COMPLETION",
+          "scope": "Credit attributes on card / loan places, utilization reading, attention state; add card routes to F05 add sheet.",
+          "dependsOn": [
+            "W2.F05"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F12CreditScreens.tsx (new)",
+            "src/projects/jurnl/data/f12/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12.",
+            "No second account list."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W3-F12"
+        },
+        {
+          "id": "W3.F14",
+          "wave": 3,
+          "title": "F14 GOALS STRUCTURAL COMPLETION",
+          "scope": "Goals CRUD, set aside, meaning, reached state; setup goal handoff.",
+          "dependsOn": [
+            "W0.1",
+            "W0.3",
+            "W0.8"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F14GoalsScreens.tsx (new)",
+            "src/projects/jurnl/data/f14/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W3-F14"
+        }
+      ],
+      "nodes_completed": 62
+    },
+    {
+      "wave": 4,
+      "title": "DECISION + PROJECTION FAMILIES — F10 PURCHASES, F11 TRIPS, F13 PAYDOWN, F15 AHEAD, F16 RECORDS",
+      "tasks": [
+        {
+          "id": "W4.F10",
+          "wave": 4,
+          "title": "F10 PURCHASES STRUCTURAL COMPLETION",
+          "scope": "Considerations, object page, decision sheet reading F09 / F14; bought → quick add.",
+          "dependsOn": [
+            "W3.F09",
+            "W3.F14"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F10PurchasesScreens.tsx (new)",
+            "src/projects/jurnl/data/f10/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12.",
+            "No commerce surface."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W4-F10"
+        },
+        {
+          "id": "W4.F11",
+          "wave": 4,
+          "title": "F11 TRIPS STRUCTURAL COMPLETION",
+          "scope": "Trips CRUD, cost lines (currency contract), funding sheet.",
+          "dependsOn": [
+            "W3.F09",
+            "W3.F08"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F11TripsScreens.tsx (new)",
+            "src/projects/jurnl/data/f11/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12.",
+            "No booking surface."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W4-F11"
+        },
+        {
+          "id": "W4.F13",
+          "wave": 4,
+          "title": "F13 PAYDOWN STRUCTURAL COMPLETION",
+          "scope": "Path from F05 liabilities + F12 terms; what-if; keep path; no-debt state.",
+          "dependsOn": [
+            "W3.F12"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F13PaydownScreens.tsx (new)",
+            "src/projects/jurnl/data/f13/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12.",
+            "Non-shaming copy check."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W4-F13"
+        },
+        {
+          "id": "W4.F15",
+          "wave": 4,
+          "title": "F15 AHEAD STRUCTURAL COMPLETION",
+          "scope": "Base projection, assumption sheet, branch compare, thin state.",
+          "dependsOn": [
+            "W2.F06",
+            "W2.F07",
+            "W3.F08",
+            "W3.F14"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F15AheadScreens.tsx (new)",
+            "src/projects/jurnl/data/f15/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12."
+          ],
+          "complexity": "L",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W4-F15"
+        },
+        {
+          "id": "W4.F16",
+          "wave": 4,
+          "title": "F16 RECORDS STRUCTURAL COMPLETION",
+          "scope": "Device blob storage, index + find, document page, file / remove / export.",
+          "dependsOn": [
+            "W0.3",
+            "W0.8"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/screens/families/F16RecordsScreens.tsx (new)",
+            "src/projects/jurnl/data/f16/ (new)"
+          ],
+          "pass": [
+            "Functional contract 12/12.",
+            "Export works with no plan (safety floor)."
+          ],
+          "complexity": "L",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W4-F16"
+        }
+      ],
+      "nodes_completed": 68
+    },
+    {
+      "wave": 5,
+      "title": "PRODUCTION ADAPTERS + LAUNCH GATES — AUTH, SERVER PERSISTENCE, PROVIDERS, SEO, ANALYTICS, A11Y AUDIT",
+      "tasks": [
+        {
+          "id": "W5.1",
+          "wave": 5,
+          "title": "PRODUCTION AUTH + EMAIL + SOCIAL",
+          "scope": "Production JurnlAuthAdapter (FF.AUTH_PROVIDER).",
+          "dependsOn": [],
+          "files": [
+            "src/projects/jurnl/runtime/state/adapters.ts",
+            "server/ (new routes)"
+          ],
+          "pass": [
+            "F01 flows pass against the provider; preview accounts never in a production build."
+          ],
+          "complexity": "L",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W5-A"
+        },
+        {
+          "id": "W5.2",
+          "wave": 5,
+          "title": "SERVER PERSISTENCE + RLS + RATE PROXY",
+          "scope": "Server adapter for every repository; migrations; RLS; security tests; FX proxy; entitlement enforcement.",
+          "dependsOn": [
+            "W0.3"
+          ],
+          "files": [
+            "supabase/migrations/ (new)",
+            "server/routes.ts",
+            "src/projects/jurnl/data/repository/"
+          ],
+          "pass": [
+            "RLS tests prove user isolation."
+          ],
+          "complexity": "L",
+          "collisionRisk": "MEDIUM",
+          "parallelGroup": "W5-B"
+        },
+        {
+          "id": "W5.3",
+          "wave": 5,
+          "title": "NOINDEX",
+          "scope": "noindex on every JURNL route + host header.",
+          "dependsOn": [],
+          "files": [
+            "public/",
+            "src/site00/projectRuntime/"
+          ],
+          "pass": [
+            "Rendered head carries noindex."
+          ],
+          "complexity": "S",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W5-C"
+        },
+        {
+          "id": "W5.4",
+          "wave": 5,
+          "title": "ANALYTICS ON EXISTING INFRA",
+          "scope": "trackActivity jurnl_* events (no financial payloads) + buildMonetizationEvent; user_activity migration.",
+          "dependsOn": [
+            "W5.2"
+          ],
+          "files": [
+            "src/utils/activity.ts",
+            "src/projects/jurnl/runtime/state/store.tsx"
+          ],
+          "pass": [
+            "Allow-list test rejects financial props."
+          ],
+          "complexity": "S",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W5-C"
+        },
+        {
+          "id": "W5.5",
+          "wave": 5,
+          "title": "NATIVE BRIDGE",
+          "scope": "Real biometric + device trust in the native shell.",
+          "dependsOn": [
+            "W5.1"
+          ],
+          "files": [
+            "src/projects/jurnl/runtime/state/adapters.ts"
+          ],
+          "pass": [
+            "F01.04 / F01.09 on device."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W5-A"
+        },
+        {
+          "id": "W5.6",
+          "wave": 5,
+          "title": "ACCESSIBILITY + RESPONSIVE AUDIT",
+          "scope": "axe pass on every route + overlay; screen-reader spot checks; 393 / 834 / 1440 captures for every node.",
+          "dependsOn": [
+            "W4.F16"
+          ],
+          "files": [
+            "scripts/jurnl/ (new qa script)"
+          ],
+          "pass": [
+            "0 serious axe violations."
+          ],
+          "complexity": "M",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W5-C"
+        },
+        {
+          "id": "W5.7",
+          "wave": 5,
+          "title": "REVIEW CHROME OUT OF PRODUCT",
+          "scope": "BOARD button + /parents only in design-preview.",
+          "dependsOn": [],
+          "files": [
+            "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+            "src/projects/jurnl/runtime/JurnlRuntimeRoot.tsx"
+          ],
+          "pass": [
+            "Production mode shows no review chrome."
+          ],
+          "complexity": "S",
+          "collisionRisk": "LOW",
+          "parallelGroup": "W5-C"
+        }
+      ],
+      "nodes_completed": 65
+    }
+  ],
+  "parallelizable": {
+    "W2": [
+      "F05",
+      "F06",
+      "F07"
+    ],
+    "W3": [
+      "F08",
+      "F12",
+      "F14 (F09 waits for F05 / F06 / F07)"
+    ],
+    "W4": [
+      "F10",
+      "F11",
+      "F13",
+      "F15",
+      "F16"
+    ]
+  },
+  "simulation": [
+    {
+      "after_wave": 0,
+      "functional_completion": 34,
+      "node_weighted": 51.1,
+      "nodes_completed_in_wave": 32,
+      "strict": 26.5
+    },
+    {
+      "after_wave": 1,
+      "functional_completion": 44,
+      "node_weighted": 59.9,
+      "nodes_completed_in_wave": 59,
+      "strict": 39.1
+    },
+    {
+      "after_wave": 2,
+      "functional_completion": 58.2,
+      "node_weighted": 70.2,
+      "nodes_completed_in_wave": 53,
+      "strict": 54
+    },
+    {
+      "after_wave": 3,
+      "functional_completion": 75.5,
+      "node_weighted": 81.9,
+      "nodes_completed_in_wave": 62,
+      "strict": 72.9
+    },
+    {
+      "after_wave": 4,
+      "functional_completion": 98.8,
+      "node_weighted": 95.4,
+      "nodes_completed_in_wave": 68,
+      "strict": 96.9
+    },
+    {
+      "after_wave": 5,
+      "functional_completion": 100,
+      "node_weighted": 100,
+      "nodes_completed_in_wave": 65,
+      "strict": 100
+    }
+  ]
+}

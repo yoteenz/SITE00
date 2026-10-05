@@ -1,0 +1,391 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F05",
+  "name": "MONEY",
+  "purpose": "SHOW THE FINANCIAL LANDSCAPE: WHAT IS HELD, WHERE IT SITS, AND HOW IT IS ORGANIZED.",
+  "product_job": "SHOW THE FINANCIAL LANDSCAPE: WHAT IS HELD, WHERE IT SITS, AND HOW IT IS ORGANIZED.",
+  "parent": {
+    "family_id": "F05",
+    "parent_id": null,
+    "route": "money",
+    "route_status": "PLACEHOLDER",
+    "implementation_status": "PLACEHOLDER",
+    "functional_status": "PLACEHOLDER",
+    "visual_status": "VISUALLY_IMPLEMENTED",
+    "approval_status": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.ACCOUNTS",
+      "DD.TRANSACTIONS",
+      "DD.CREDIT_ATTRIBUTES",
+      "DD.CURRENCY"
+    ],
+    "interaction_dependencies": [
+      "GS.BOTTOM_NAV",
+      "GS.TOP_CHROME",
+      "GS.QUICK_ADD",
+      "GS.ASK_JURNL",
+      "GS.MONEY_FORMAT",
+      "GS.FORM_SYSTEM",
+      "GS.ACCOUNT_REGISTRY",
+      "GS.STATE_PATTERNS"
+    ],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (TEXT_TO_IMAGE_KEPT_OCCUPANCY_PASS)",
+    "generation_requirement": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_ADD",
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.ACTION_MOVE",
+      "ICON.BACK",
+      "ICON.CAT_TRANSFER",
+      "ICON.INFO",
+      "ICON.KIND_CARD",
+      "ICON.KIND_CASH",
+      "ICON.KIND_LOAN",
+      "ICON.KIND_SAVINGS",
+      "ICON.STATUS_STALE"
+    ],
+    "reusable_capability_candidate": null,
+    "notes": [
+      "STATIC PREVIEW SPEC: \"WHAT DO I HAVE, AND WHERE IS IT?\" · SIGNAL \"FOUR PLACES\" · CTA \"OPEN A PLACE\" DISABLED (NOT OPEN YET).",
+      "PLATE INTERFERENCE PASS; 315 CREDITS SPENT ON THE PARENT AUTHORITY."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "VISUALLY_IMPLEMENTED",
+      "release": "NONE"
+    },
+    "functional_criteria": "R1 Uh D0 I0 S0 V- E0 M0 L0 P1 A1 N1",
+    "functional_score": 0.409,
+    "target_wave": 2,
+    "evidence": [
+      "src/projects/jurnl/data/parents/catalog.ts",
+      "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+      "JURNL/F05_*/MANIFEST/F05_EXPRESSION_TREE.json"
+    ],
+    "opens": null,
+    "node_id": "F05.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "MONEY",
+    "purpose": "SHOW THE FINANCIAL LANDSCAPE: WHAT IS HELD, WHERE IT SITS, AND HOW IT IS ORGANIZED."
+  },
+  "children": [
+    {
+      "id": "F05.ACCOUNTS",
+      "form": "ROUTE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": "money/places",
+      "status": "MISSING"
+    },
+    {
+      "id": "F05.ACCOUNT",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "money/places/:placeId",
+      "status": "MISSING"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [],
+  "sheets": [
+    "F05.SH.ADD_PLACE",
+    "F05.SH.EDIT_PLACE",
+    "F05.SH.MOVE"
+  ],
+  "modals": [
+    "F05.MD.REMOVE_PLACE"
+  ],
+  "states": [
+    {
+      "id": "F05.ST.LOADING",
+      "status": "MISSING"
+    },
+    {
+      "id": "F05.ST.EMPTY",
+      "status": "MISSING"
+    },
+    {
+      "id": "F05.ST.ERROR",
+      "status": "MISSING"
+    },
+    {
+      "id": "F05.ST.STALE",
+      "status": "MISSING"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F05.IN.PRIMARY",
+      "status": "NO_OP",
+      "opens": "F05.ACCOUNTS"
+    },
+    {
+      "id": "F05.IN.OPEN_PLACE",
+      "status": "MISSING",
+      "opens": "F05.ACCOUNT"
+    },
+    {
+      "id": "F05.IN.ADD",
+      "status": "MISSING",
+      "opens": "F05.SH.ADD_PLACE"
+    },
+    {
+      "id": "F05.IN.EDIT",
+      "status": "MISSING",
+      "opens": "F05.SH.EDIT_PLACE"
+    },
+    {
+      "id": "F05.IN.REMOVE",
+      "status": "MISSING",
+      "opens": "F05.MD.REMOVE_PLACE"
+    },
+    {
+      "id": "F05.IX.MOVE",
+      "status": "MISSING",
+      "opens": "F05.SH.MOVE"
+    },
+    {
+      "id": "F05.IN.OPEN_INCOME",
+      "status": "MISSING",
+      "opens": "F06.00"
+    },
+    {
+      "id": "F05.IN.OPEN_RECORDS",
+      "status": "MISSING",
+      "opens": "F16.00"
+    },
+    {
+      "id": "F05.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F05.IN.ASK",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F05.NAV.TODAY",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F05.REVIEW.BOARD",
+      "status": "LEGACY",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F05.00",
+      "route": "money",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "node_id": "F05.ACCOUNTS",
+      "route": "money/places",
+      "status": "MISSING"
+    },
+    {
+      "node_id": "F05.ACCOUNT",
+      "route": "money/places/:placeId",
+      "status": "MISSING"
+    }
+  ],
+  "global_dependencies": [
+    "GS.BOTTOM_NAV",
+    "GS.TOP_CHROME",
+    "GS.QUICK_ADD",
+    "GS.ASK_JURNL",
+    "GS.MONEY_FORMAT",
+    "GS.FORM_SYSTEM",
+    "GS.ACCOUNT_REGISTRY",
+    "GS.STATE_PATTERNS"
+  ],
+  "data_dependencies": [
+    "DD.ACCOUNTS",
+    "DD.TRANSACTIONS",
+    "DD.CREDIT_ATTRIBUTES",
+    "DD.CURRENCY"
+  ],
+  "owned_data": [
+    "DD.ACCOUNTS"
+  ],
+  "read_data": [
+    "DD.TRANSACTIONS",
+    "DD.CREDIT_ATTRIBUTES",
+    "DD.CURRENCY"
+  ],
+  "write_data": [
+    "DD.ACCOUNTS",
+    "DD.TRANSACTIONS"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlTransactionRow",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlAmountField",
+    "JurnlDateField",
+    "JurnlAccountPicker",
+    "JurnlSignal",
+    "JurnlRecordList",
+    "JurnlFieldRows",
+    "JurnlStateBlock",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_ACCOUNT_OVERVIEW (CORE)",
+    "AI_EXPLAIN_BASIC (AI)",
+    "AI_PLANNING_GUIDANCE (AI)",
+    "AI_MULTI_SCENARIO_ANALYSIS (AI)",
+    "AI_BUSINESS_ANALYSIS (AI)",
+    "AI_HIGHER_USAGE (AI)",
+    "BUSINESS_PNL (BUSINESS)",
+    "BUSINESS_CASH_FLOW (BUSINESS)",
+    "FINANCIAL_SERVICE_REFERRALS (REFERRAL, DISABLED)"
+  ],
+  "functional_status": {
+    "score": 11.3,
+    "strict": 8.7,
+    "gap_counts": {
+      "PLACEHOLDER": 2,
+      "MISSING": 18,
+      "COMPLETE_FUNCTIONAL": 2,
+      "LEGACY": 1,
+      "PARTIAL_FUNCTIONAL": 1
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 7,
+    "visually_implemented": 1,
+    "parent": "VISUALLY_IMPLEMENTED"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F05.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F05.ACCOUNTS": "REUSE_PARENT_PLATE",
+    "F05.ACCOUNT": "NO_PLATE_REQUIRED",
+    "F05.SH.ADD_PLACE": "NO_PLATE_REQUIRED",
+    "F05.SH.EDIT_PLACE": "NO_PLATE_REQUIRED",
+    "F05.MD.REMOVE_PLACE": "NO_PLATE_REQUIRED",
+    "F05.SH.MOVE": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_ADD",
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.ACTION_MOVE",
+    "ICON.BACK",
+    "ICON.CAT_TRANSFER",
+    "ICON.INFO",
+    "ICON.KIND_CARD",
+    "ICON.KIND_CASH",
+    "ICON.KIND_LOAN",
+    "ICON.KIND_SAVINGS",
+    "ICON.STATUS_STALE"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (TEXT_TO_IMAGE_KEPT_OCCUPANCY_PASS)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": false,
+      "required_for_functional": false,
+      "generation_class": "NONE (AWAITS FOUNDER REVIEW)",
+      "reference_required": false,
+      "reference_source": null,
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": null
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B03 NO ACCOUNT REGISTRY",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B11 F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+    "B14 ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT",
+    "B24 REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME"
+  ],
+  "implementation_dependencies": [
+    "W0.4",
+    "W0.8",
+    "W1.4"
+  ],
+  "boundaries": [
+    "F05 OWNS THE ACCOUNT REGISTRY (EVERY PLACE, INCLUDING CARDS AND LOANS AS LIABILITY PLACES).",
+    "F12 OWNS CREDIT-SPECIFIC ATTRIBUTES (LIMIT, UTILIZATION, APR, STATEMENT/DUE DAY) ON CARD/LOAN PLACES; IT DOES NOT KEEP A SECOND ACCOUNT LIST.",
+    "F13 OWNS THE PAYOFF PLAN; IT READS LIABILITY BALANCES FROM F05 AND TERMS FROM F12.",
+    "F16 OWNS DOCUMENTS (STATEMENTS); F05 LINKS TO THEM, NEVER STORES FILES.",
+    "F04 OWNS MOVEMENTS. F05.SH.MOVE WRITES A TRANSFER MOVEMENT THROUGH THE LEDGER CONTRACT."
+  ],
+  "extension": "BUSINESS_CASH_FLOW / BUSINESS_PNL READ F05 (JURNL BUSINESS EXTENSION, SERVER-ENFORCED).",
+  "founder_flags": [
+    "FF.BANK_AGGREGATION"
+  ],
+  "reusable_capability_candidates": []
+}

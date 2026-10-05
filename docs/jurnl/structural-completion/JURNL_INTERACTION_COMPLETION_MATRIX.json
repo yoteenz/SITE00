@@ -1,0 +1,2320 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "statuses": [
+    "WORKING",
+    "PARTIAL",
+    "NO_OP",
+    "VISUAL_ONLY",
+    "MISSING",
+    "BROKEN",
+    "LEGACY"
+  ],
+  "rule": "Per-family invocations of shared sheets (QUICK ADD, ASK) count WORKING when they open the sheet; the sheet’s own behaviour is scored once on the global system (GS.QA.SAVE, GS.ASK.EXPLAIN).",
+  "counts": {
+    "WORKING": 99,
+    "PARTIAL": 26,
+    "MISSING": 73,
+    "NO_OP": 12,
+    "LEGACY": 12
+  },
+  "interactions": [
+    {
+      "id": "F01.00.ROUTE.GET_STARTED",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "GET STARTED",
+      "status": "WORKING",
+      "opens": "F01.01",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.00.ROUTE.SIGN_IN",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "SIGN IN",
+      "status": "WORKING",
+      "opens": "F01.03",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.DRAWER.SHORT",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "BOTTOM DRAWER SHORT",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.DRAWER.LONG",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "BOTTOM DRAWER LONG SCROLLABLE",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.SHEET.FULL",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "FULL-SCREEN SHEET",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.MODAL.CONFIRM",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "CONFIRMATION MODAL",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.INLINE.EXPAND",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "INLINE EXPANSION",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.ERROR.PANEL",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "ERROR PANEL",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.BANNER.SUCCESS",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "SUCCESS BANNER TOAST",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.BUTTON.LOADING",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "LOADING BUTTON",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.INPUT.FOCUS",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "FORM FIELD FOCUS",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.HANDOFF.EXTERNAL",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "EXTERNAL APP HANDOFF",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.HANDOFF.NATIVE",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "NATIVE OS HANDOFF BOUNDARY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.GLOBAL.PRIM.ROUTE.TRANSITION",
+      "family_id": "F01",
+      "host": "F01.00",
+      "name": "ROUTE TRANSITION",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": [
+        "GLOBAL PRIMITIVE BEHAVIOUR DECLARED BY THE F01 CONTRACT."
+      ]
+    },
+    {
+      "id": "F01.01.INPUT.FOCUS",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "FIELD TAP",
+      "status": "WORKING",
+      "opens": "F01.01",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.01.PASSWORD.REQS",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "CREATE PASSWORD",
+      "status": "WORKING",
+      "opens": "F01.01",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.01.DRAWER.TERMS",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "TERMS OF SERVICE",
+      "status": "WORKING",
+      "opens": "F01.01.DR.TERMS_OF_SERVICE",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.01.DRAWER.PRIVACY",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "PRIVACY POLICY",
+      "status": "WORKING",
+      "opens": "F01.01.DR.PRIVACY_POLICY",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.01.SOCIAL.APPLE",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "CONTINUE WITH APPLE",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "PROVIDER_NOT_CONFIGURED."
+      ]
+    },
+    {
+      "id": "F01.01.SOCIAL.GOOGLE",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "CONTINUE WITH GOOGLE",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "PROVIDER_NOT_CONFIGURED."
+      ]
+    },
+    {
+      "id": "F01.01.SUBMIT.LOADING",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "CREATE ACCOUNT",
+      "status": "WORKING",
+      "opens": "F01.01",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.01.ERROR.EMAIL_IN_USE",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "CREATE ACCOUNT",
+      "status": "WORKING",
+      "opens": "F01.03",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.01.ERROR.VALIDATION",
+      "family_id": "F01",
+      "host": "F01.01",
+      "name": "CREATE ACCOUNT",
+      "status": "WORKING",
+      "opens": "F01.01",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.02.HANDOFF.MAIL",
+      "family_id": "F01",
+      "host": "F01.02",
+      "name": "OPEN EMAIL APP",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "NO EMAIL IS SENT."
+      ]
+    },
+    {
+      "id": "F01.02.RESEND.SUCCESS",
+      "family_id": "F01",
+      "host": "F01.02",
+      "name": "RESEND EMAIL",
+      "status": "PARTIAL",
+      "opens": "F01.02",
+      "wave": 5,
+      "notes": [
+        "NO EMAIL IS SENT."
+      ]
+    },
+    {
+      "id": "F01.02.CHANGE.EMAIL",
+      "family_id": "F01",
+      "host": "F01.02",
+      "name": "CHANGE EMAIL",
+      "status": "PARTIAL",
+      "opens": "F01.02.DR.CHANGE_EMAIL",
+      "wave": 5,
+      "notes": [
+        "CHANGE EMAIL UPDATES THE PREVIEW ACCOUNT ONLY."
+      ]
+    },
+    {
+      "id": "F01.02.ERROR.EXPIRED",
+      "family_id": "F01",
+      "host": "F01.02",
+      "name": "EXPIRED LINK",
+      "status": "PARTIAL",
+      "opens": "F01.02",
+      "wave": 5,
+      "notes": [
+        "LINK EXPIRY IS SIMULATED."
+      ]
+    },
+    {
+      "id": "F01.02.SUCCESS.VERIFY",
+      "family_id": "F01",
+      "host": "F01.02",
+      "name": "VERIFICATION SUCCESS",
+      "status": "PARTIAL",
+      "opens": "F01.09",
+      "wave": 5,
+      "notes": [
+        "VERIFICATION LINK IS SIMULATED."
+      ]
+    },
+    {
+      "id": "F01.03.INPUT.FOCUS",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "FIELD TAP",
+      "status": "WORKING",
+      "opens": "F01.03",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.03.PASSWORD.TOGGLE",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "SHOW/HIDE PASSWORD",
+      "status": "WORKING",
+      "opens": "F01.03",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.03.CHECKBOX.REMEMBER",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "KEEP ME SIGNED IN",
+      "status": "WORKING",
+      "opens": "F01.03",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.03.ROUTE.FORGOT",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "FORGOT PASSWORD?",
+      "status": "WORKING",
+      "opens": "F01.05",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.03.SOCIAL.APPLE",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "CONTINUE WITH APPLE",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "PROVIDER_NOT_CONFIGURED."
+      ]
+    },
+    {
+      "id": "F01.03.SOCIAL.GOOGLE",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "CONTINUE WITH GOOGLE",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "PROVIDER_NOT_CONFIGURED."
+      ]
+    },
+    {
+      "id": "F01.03.ERROR.PASSWORD",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "SIGN IN",
+      "status": "WORKING",
+      "opens": "F01.03",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.03.ERROR.NOT_FOUND",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "SIGN IN",
+      "status": "WORKING",
+      "opens": "F01.01",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.03.LOCKED.PANEL",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "TEMPORARILY LOCKED",
+      "status": "WORKING",
+      "opens": "F01.03.DR.TEMPORARILY_LOCKED",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.03.SUBMIT.LOADING",
+      "family_id": "F01",
+      "host": "F01.03",
+      "name": "SIGN IN",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.04.HANDOFF.FACEID",
+      "family_id": "F01",
+      "host": "F01.04",
+      "name": "UNLOCK WITH FACE ID",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "SIMULATED NATIVE BRIDGE."
+      ]
+    },
+    {
+      "id": "F01.04.ERROR.FACEID",
+      "family_id": "F01",
+      "host": "F01.04",
+      "name": "FACE ID FAILED",
+      "status": "PARTIAL",
+      "opens": "F01.04",
+      "wave": 5,
+      "notes": [
+        "SIMULATED NATIVE BRIDGE."
+      ]
+    },
+    {
+      "id": "F01.04.SHEET.PASSWORD",
+      "family_id": "F01",
+      "host": "F01.04",
+      "name": "USE PASSWORD",
+      "status": "WORKING",
+      "opens": "F01.04.SH.USE_PASSWORD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.04.SHEET.SWITCH",
+      "family_id": "F01",
+      "host": "F01.04",
+      "name": "SWITCH ACCOUNT",
+      "status": "WORKING",
+      "opens": "F01.04.DR.SWITCH_ACCOUNT",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.04.MODAL.SIGNOUT",
+      "family_id": "F01",
+      "host": "F01.04",
+      "name": "SIGN OUT",
+      "status": "WORKING",
+      "opens": "F01.04.MD.SIGN_OUT",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.05.INPUT.FOCUS",
+      "family_id": "F01",
+      "host": "F01.05",
+      "name": "EMAIL FIELD",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.05.SUBMIT.LOADING",
+      "family_id": "F01",
+      "host": "F01.05",
+      "name": "SEND RESET LINK",
+      "status": "PARTIAL",
+      "opens": "F01.06",
+      "wave": 5,
+      "notes": [
+        "RESET EMAIL IS SIMULATED."
+      ]
+    },
+    {
+      "id": "F01.05.ERROR.EMAIL",
+      "family_id": "F01",
+      "host": "F01.05",
+      "name": "SEND RESET LINK",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.06.HANDOFF.MAIL",
+      "family_id": "F01",
+      "host": "F01.06",
+      "name": "OPEN EMAIL APP",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "NO EMAIL IS SENT."
+      ]
+    },
+    {
+      "id": "F01.06.RESEND.TOAST",
+      "family_id": "F01",
+      "host": "F01.06",
+      "name": "RESEND EMAIL",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "NO EMAIL IS SENT."
+      ]
+    },
+    {
+      "id": "F01.06.ERROR.EXPIRED",
+      "family_id": "F01",
+      "host": "F01.06",
+      "name": "EXPIRED LINK",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "LINK EXPIRY IS SIMULATED."
+      ]
+    },
+    {
+      "id": "F01.07.INPUT.FOCUS",
+      "family_id": "F01",
+      "host": "F01.07",
+      "name": "PASSWORD FIELDS",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.07.PASSWORD.REQS",
+      "family_id": "F01",
+      "host": "F01.07",
+      "name": "NEW PASSWORD",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.07.ERROR.MISMATCH",
+      "family_id": "F01",
+      "host": "F01.07",
+      "name": "CONFIRM PASSWORD",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.07.SUBMIT.LOADING",
+      "family_id": "F01",
+      "host": "F01.07",
+      "name": "RESET PASSWORD",
+      "status": "PARTIAL",
+      "opens": "F01.08",
+      "wave": 5,
+      "notes": [
+        "RESET TOKEN IS SIMULATED."
+      ]
+    },
+    {
+      "id": "F01.08.ROUTE.SIGNIN",
+      "family_id": "F01",
+      "host": "F01.08",
+      "name": "SIGN IN",
+      "status": "WORKING",
+      "opens": "F01.03",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.09.HANDOFF.ENABLE",
+      "family_id": "F01",
+      "host": "F01.09",
+      "name": "ENABLE FACE ID",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 5,
+      "notes": [
+        "SIMULATED NATIVE BRIDGE."
+      ]
+    },
+    {
+      "id": "F01.09.SUCCESS.ENABLED",
+      "family_id": "F01",
+      "host": "F01.09",
+      "name": "PERMISSION GRANTED",
+      "status": "PARTIAL",
+      "opens": "F01.10",
+      "wave": 5,
+      "notes": [
+        "SIMULATED NATIVE BRIDGE."
+      ]
+    },
+    {
+      "id": "F01.09.DENIED.SHEET",
+      "family_id": "F01",
+      "host": "F01.09",
+      "name": "PERMISSION DENIED",
+      "status": "PARTIAL",
+      "opens": "F01.09.DR.PERMISSION_DENIED",
+      "wave": 5,
+      "notes": [
+        "SIMULATED NATIVE BRIDGE."
+      ]
+    },
+    {
+      "id": "F01.09.UNSUPPORTED.PANEL",
+      "family_id": "F01",
+      "host": "F01.09",
+      "name": "DEVICE UNSUPPORTED",
+      "status": "PARTIAL",
+      "opens": "F01.10",
+      "wave": 5,
+      "notes": [
+        "SIMULATED NATIVE BRIDGE."
+      ]
+    },
+    {
+      "id": "F01.09.SKIP.CONTINUE",
+      "family_id": "F01",
+      "host": "F01.09",
+      "name": "NOT NOW",
+      "status": "WORKING",
+      "opens": "F01.10",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.10.TRUST.CONFIRM",
+      "family_id": "F01",
+      "host": "F01.10",
+      "name": "TRUST THIS DEVICE",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.10.DRAWER.LEARN",
+      "family_id": "F01",
+      "host": "F01.10",
+      "name": "LEARN WHAT THIS MEANS",
+      "status": "WORKING",
+      "opens": "F01.10.DR.LEARN_WHAT_THIS_MEANS",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.11.DRAWER.YOUR_DATA",
+      "family_id": "F01",
+      "host": "F01.11",
+      "name": "YOUR DATA",
+      "status": "WORKING",
+      "opens": "F01.11.DR.YOUR_DATA",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.11.DRAWER.CONNECTED_ACCOUNTS",
+      "family_id": "F01",
+      "host": "F01.11",
+      "name": "CONNECTED ACCOUNTS",
+      "status": "WORKING",
+      "opens": "F01.11.DR.CONNECTED_ACCOUNTS",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.11.DRAWER.AI_ACCESS",
+      "family_id": "F01",
+      "host": "F01.11",
+      "name": "AI ACCESS",
+      "status": "WORKING",
+      "opens": "F01.11.DR.AI_ACCESS",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.11.DRAWER.DATA_EXPORT",
+      "family_id": "F01",
+      "host": "F01.11",
+      "name": "DATA EXPORT",
+      "status": "PARTIAL",
+      "opens": "F01.11.DR.DATA_EXPORT",
+      "wave": 5,
+      "notes": [
+        "EXPORT RECORDS A FLAG; NOTHING IS EXPORTED."
+      ]
+    },
+    {
+      "id": "F01.11.DRAWER.REMOVE_ACCESS",
+      "family_id": "F01",
+      "host": "F01.11",
+      "name": "REMOVE ACCESS",
+      "status": "WORKING",
+      "opens": "F01.11.DR.REMOVE_ACCESS",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.11.ROUTE.CONTINUE",
+      "family_id": "F01",
+      "host": "F01.11",
+      "name": "CONTINUE",
+      "status": "WORKING",
+      "opens": "F01.12",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.12.SURFACE.BIOMETRIC_SIGN_IN",
+      "family_id": "F01",
+      "host": "F01.12",
+      "name": "BIOMETRIC SIGN IN",
+      "status": "WORKING",
+      "opens": "F01.12.DR.BIOMETRIC_SIGN_IN",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.12.SURFACE.DEVICE_SECURITY",
+      "family_id": "F01",
+      "host": "F01.12",
+      "name": "DEVICE SECURITY",
+      "status": "WORKING",
+      "opens": "F01.12.DR.DEVICE_SECURITY",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.12.SURFACE.CONNECTED_ACCOUNT_CONTRO",
+      "family_id": "F01",
+      "host": "F01.12",
+      "name": "CONNECTED ACCOUNT CONTROL",
+      "status": "WORKING",
+      "opens": "F01.12.DR.CONNECTED_ACCOUNT_CONTROL",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.12.SURFACE.SECURE_DATA_HANDLING",
+      "family_id": "F01",
+      "host": "F01.12",
+      "name": "SECURE DATA HANDLING",
+      "status": "WORKING",
+      "opens": "F01.12.DR.SECURE_DATA_HANDLING",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.12.SURFACE.SESSION_MANAGEMENT",
+      "family_id": "F01",
+      "host": "F01.12",
+      "name": "SESSION MANAGEMENT",
+      "status": "PARTIAL",
+      "opens": "F01.12.DR.SESSION_MANAGEMENT",
+      "wave": 5,
+      "notes": [
+        "PREVIEW SESSION LIST."
+      ]
+    },
+    {
+      "id": "F01.12.ROUTE.CONTINUE",
+      "family_id": "F01",
+      "host": "F01.12",
+      "name": "CONTINUE",
+      "status": "WORKING",
+      "opens": "F01.13",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F01.13.ROUTE.SETUP",
+      "family_id": "F01",
+      "host": "F01.13",
+      "name": "CONTINUE TO SETUP",
+      "status": "WORKING",
+      "opens": "F02.00",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F02.IN.PERMISSION",
+      "family_id": "F02",
+      "host": "F02.02",
+      "name": "CONNECT AN ACCOUNT",
+      "status": "PARTIAL",
+      "opens": "F02.DR.PERMISSION",
+      "wave": 1,
+      "notes": [
+        "PERMISSION LEADS TO A SIMULATED CONNECTION."
+      ]
+    },
+    {
+      "id": "F02.IN.ADD",
+      "family_id": "F02",
+      "host": "F02.04",
+      "name": "ADD ANOTHER",
+      "status": "WORKING",
+      "opens": "F02.DR.ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F02.IN.SKIP",
+      "family_id": "F02",
+      "host": "F02.02",
+      "name": "SKIP FOR NOW",
+      "status": "WORKING",
+      "opens": "F02.DR.SKIP",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F02.NAV.BACK",
+      "family_id": "F02",
+      "host": "F02.01",
+      "name": "BACK",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F02.NAV.CONTINUE",
+      "family_id": "F02",
+      "host": "F02.00",
+      "name": "CONTINUE",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F03.IN.SEE_WHY",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "SEE WHY",
+      "status": "WORKING",
+      "opens": "F03.SEE_WHY",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F03.IN.QUICK_ADD",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F03.IN.ASK",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "ASK JURNL",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F03.IN.UPCOMING",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "MORE",
+      "status": "WORKING",
+      "opens": "F03.UPCOMING_DETAIL",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F03.IN.ACTIVITY",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "ACTIVITY",
+      "status": "WORKING",
+      "opens": "F04.00",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F03.NAV.BACK",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "BACK TO SETUP",
+      "status": "WORKING",
+      "opens": "F02.08",
+      "wave": 1,
+      "notes": [
+        "DAILY HOME BACK RETURNS TO SETUP (B17)."
+      ]
+    },
+    {
+      "id": "F04.IN.SEARCH",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "SEARCH",
+      "status": "WORKING",
+      "opens": "F04.SEARCH",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F04.IN.FILTER",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "FILTER",
+      "status": "PARTIAL",
+      "opens": "F04.DR.FILTER",
+      "wave": 1,
+      "notes": [
+        "OPTIONS ARE HARD-CODED (ACCOUNTS + WEEKDAYS)."
+      ]
+    },
+    {
+      "id": "F04.IN.DETAIL",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "ROW",
+      "status": "WORKING",
+      "opens": "F04.DETAIL",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F04.NAV.BACK",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "BACK TO TODAY",
+      "status": "WORKING",
+      "opens": "F03.00",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F04.IN.QUICK_ADD",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F04.IN.ASK",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "ASK JURNL",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F03.IN.OPEN_UPCOMING",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "COMING → UPCOMING",
+      "status": "MISSING",
+      "opens": "F07.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F03.IN.OPEN_SAFE",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "SEE WHY → SAFE TO SPEND",
+      "status": "MISSING",
+      "opens": "F09.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F03.IN.ACCOUNT",
+      "family_id": "F03",
+      "host": "F03.00",
+      "name": "ACCOUNT",
+      "status": "MISSING",
+      "opens": "GS.SETTINGS",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F04.IN.EDIT",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "EDIT",
+      "status": "MISSING",
+      "opens": "F04.SH.EDIT_MOVEMENT",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F04.IN.DELETE",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "DELETE",
+      "status": "MISSING",
+      "opens": "F04.MD.DELETE_MOVEMENT",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F04.IN.RELATED",
+      "family_id": "F04",
+      "host": "F04.00",
+      "name": "RELATED",
+      "status": "MISSING",
+      "opens": "F07.ITEM",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.PRIMARY",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "OPEN A PLACE",
+      "status": "NO_OP",
+      "opens": "F05.ACCOUNTS",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.OPEN_PLACE",
+      "family_id": "F05",
+      "host": "F05.ACCOUNTS",
+      "name": "OPEN ONE PLACE",
+      "status": "MISSING",
+      "opens": "F05.ACCOUNT",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.ADD",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "ADD A PLACE",
+      "status": "MISSING",
+      "opens": "F05.SH.ADD_PLACE",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.EDIT",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "EDIT A PLACE",
+      "status": "MISSING",
+      "opens": "F05.SH.EDIT_PLACE",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.REMOVE",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "REMOVE A PLACE",
+      "status": "MISSING",
+      "opens": "F05.MD.REMOVE_PLACE",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F05.IX.MOVE",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "MOVE",
+      "status": "MISSING",
+      "opens": "F05.SH.MOVE",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.OPEN_INCOME",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "INCOME",
+      "status": "MISSING",
+      "opens": "F06.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.OPEN_RECORDS",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "RECORDS",
+      "status": "MISSING",
+      "opens": "F16.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.QUICK_ADD",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F05.IN.ASK",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F05.NAV.TODAY",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F05.REVIEW.BOARD",
+      "family_id": "F05",
+      "host": "F05.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F06.IN.PRIMARY",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "READ A SOURCE",
+      "status": "NO_OP",
+      "opens": "F06.SOURCE",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F06.IN.ADD",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "ADD A SOURCE",
+      "status": "MISSING",
+      "opens": "F06.SH.ADD_SOURCE",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F06.IN.EDIT",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "EDIT A SOURCE",
+      "status": "MISSING",
+      "opens": "F06.SH.EDIT_SOURCE",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F06.IN.REMOVE",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "REMOVE A SOURCE",
+      "status": "MISSING",
+      "opens": "F06.MD.REMOVE_SOURCE",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F06.IX.PATTERN",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "PATTERN",
+      "status": "MISSING",
+      "opens": "F06.SH.PATTERN",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F06.IN.QUICK_ADD",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F06.IN.ASK",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F06.NAV.TODAY",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F06.REVIEW.BOARD",
+      "family_id": "F06",
+      "host": "F06.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F07.IN.PRIMARY",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "OPEN THE NEXT",
+      "status": "NO_OP",
+      "opens": "F07.ITEM",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F07.IN.ADD",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "ADD WHAT REPEATS",
+      "status": "MISSING",
+      "opens": "F07.SH.ADD_ITEM",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F07.IN.EDIT",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "EDIT",
+      "status": "MISSING",
+      "opens": "F07.SH.EDIT_ITEM",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F07.IN.REMOVE",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "END IT",
+      "status": "MISSING",
+      "opens": "F07.MD.REMOVE_ITEM",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F07.IN.MARK_PAID",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "MARK PAID",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F07.IX.WHEN",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "WHEN",
+      "status": "MISSING",
+      "opens": "F07.SH.WHEN",
+      "wave": 2,
+      "notes": []
+    },
+    {
+      "id": "F07.IN.QUICK_ADD",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F07.IN.ASK",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F07.NAV.TODAY",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F07.REVIEW.BOARD",
+      "family_id": "F07",
+      "host": "F07.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.PRIMARY",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "MOVE A PIECE",
+      "status": "NO_OP",
+      "opens": "F08.ITEM",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.ADD",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "ADD AN INTENTION",
+      "status": "MISSING",
+      "opens": "F08.SH.ADD_INTENTION",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.REMOVE",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "REMOVE",
+      "status": "MISSING",
+      "opens": "F08.MD.REMOVE_INTENTION",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.REORDER",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "REORDER",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F08.IX.ASSIGN",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "ASSIGN",
+      "status": "MISSING",
+      "opens": "F08.SH.ASSIGN",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.OPEN_SAFE",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "SAFE TO SPEND",
+      "status": "MISSING",
+      "opens": "F09.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.OPEN_PURCHASES",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "PURCHASES",
+      "status": "MISSING",
+      "opens": "F10.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.OPEN_TRIPS",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "TRIPS",
+      "status": "MISSING",
+      "opens": "F11.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.OPEN_GOALS",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "GOALS",
+      "status": "MISSING",
+      "opens": "F14.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.OPEN_AHEAD",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "AHEAD",
+      "status": "MISSING",
+      "opens": "F15.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.QUICK_ADD",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F08.IN.ASK",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F08.NAV.TODAY",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F08.REVIEW.BOARD",
+      "family_id": "F08",
+      "host": "F08.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F09.IN.PRIMARY",
+      "family_id": "F09",
+      "host": "F09.00",
+      "name": "SEE THE HOLD",
+      "status": "NO_OP",
+      "opens": "F09.WHY",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F09.IN.OPEN_HOLD",
+      "family_id": "F09",
+      "host": "F09.00",
+      "name": "CHANGE THE HOLD",
+      "status": "MISSING",
+      "opens": "F09.HOLD",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F09.IX.HOLD",
+      "family_id": "F09",
+      "host": "F09.00",
+      "name": "HOLD",
+      "status": "MISSING",
+      "opens": "F09.MD.HOLD_CONFIRM",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F09.IN.QUICK_ADD",
+      "family_id": "F09",
+      "host": "F09.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F09.IN.ASK",
+      "family_id": "F09",
+      "host": "F09.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F09.NAV.TODAY",
+      "family_id": "F09",
+      "host": "F09.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F09.REVIEW.BOARD",
+      "family_id": "F09",
+      "host": "F09.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F10.IN.PRIMARY",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "DECIDE",
+      "status": "NO_OP",
+      "opens": "F10.DECISION",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F10.IN.OPEN_OBJECT",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "OPEN THE OBJECT",
+      "status": "MISSING",
+      "opens": "F10.OBJECT",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F10.IX.CONSIDER",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "CONSIDER",
+      "status": "MISSING",
+      "opens": "F10.SH.CONSIDER",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F10.IN.REMOVE",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "LET IT GO",
+      "status": "MISSING",
+      "opens": "F10.MD.REMOVE_OBJECT",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F10.IN.BOUGHT",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "I BOUGHT IT",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F10.IN.QUICK_ADD",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F10.IN.ASK",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F10.NAV.TODAY",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F10.REVIEW.BOARD",
+      "family_id": "F10",
+      "host": "F10.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F11.IN.PRIMARY",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "FUND THE TRIP",
+      "status": "NO_OP",
+      "opens": "F11.FUNDING",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F11.IN.OPEN_TRIP",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "OPEN THE TRIP",
+      "status": "MISSING",
+      "opens": "F11.TRIP",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F11.IN.ADD",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "NAME A TRIP",
+      "status": "MISSING",
+      "opens": "F11.SH.TRIP_EDIT",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F11.IN.REMOVE",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "CANCEL",
+      "status": "MISSING",
+      "opens": "F11.MD.REMOVE_TRIP",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F11.IX.ALLOCATE",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "ALLOCATE",
+      "status": "MISSING",
+      "opens": "F11.FUNDING",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F11.IN.QUICK_ADD",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F11.IN.ASK",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F11.NAV.TODAY",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F11.REVIEW.BOARD",
+      "family_id": "F11",
+      "host": "F11.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F12.IN.PRIMARY",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "OPEN AN ACCOUNT",
+      "status": "NO_OP",
+      "opens": "F12.ACCOUNT",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F12.IN.EDIT",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "CREDIT TERMS",
+      "status": "MISSING",
+      "opens": "F12.SH.EDIT_TERMS",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F12.IN.ADD_ACCOUNT",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "ADD A CARD OR LOAN",
+      "status": "MISSING",
+      "opens": "F05.SH.ADD_PLACE",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F12.IX.UTILIZATION",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "UTILIZATION",
+      "status": "MISSING",
+      "opens": "F12.SH.UTILIZATION",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F12.IN.OPEN_PAYDOWN",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "PAYDOWN",
+      "status": "MISSING",
+      "opens": "F13.00",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F12.IN.QUICK_ADD",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F12.IN.ASK",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F12.NAV.TODAY",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F12.REVIEW.BOARD",
+      "family_id": "F12",
+      "host": "F12.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F13.IN.PRIMARY",
+      "family_id": "F13",
+      "host": "F13.00",
+      "name": "CHANGE THE PATH",
+      "status": "NO_OP",
+      "opens": "F13.WHAT_IF",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F13.IX.CHANGE",
+      "family_id": "F13",
+      "host": "F13.00",
+      "name": "CHANGE",
+      "status": "MISSING",
+      "opens": "F13.SH.CHANGE",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F13.IN.KEEP",
+      "family_id": "F13",
+      "host": "F13.00",
+      "name": "KEEP THIS PATH",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F13.IN.QUICK_ADD",
+      "family_id": "F13",
+      "host": "F13.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F13.IN.ASK",
+      "family_id": "F13",
+      "host": "F13.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F13.NAV.TODAY",
+      "family_id": "F13",
+      "host": "F13.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F13.REVIEW.BOARD",
+      "family_id": "F13",
+      "host": "F13.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F14.IN.PRIMARY",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "NAME ONE",
+      "status": "NO_OP",
+      "opens": "F14.GOAL",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F14.IX.ADD",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "ADD",
+      "status": "MISSING",
+      "opens": "F14.SH.NAME_GOAL",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F14.IN.EDIT",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "EDIT",
+      "status": "MISSING",
+      "opens": "F14.SH.EDIT_GOAL",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F14.IN.SET_ASIDE",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "SET ASIDE",
+      "status": "MISSING",
+      "opens": "F14.SH.SET_ASIDE",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F14.IN.REMOVE",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "LET IT GO",
+      "status": "MISSING",
+      "opens": "F14.MD.REMOVE_GOAL",
+      "wave": 3,
+      "notes": []
+    },
+    {
+      "id": "F14.IN.QUICK_ADD",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F14.IN.ASK",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F14.NAV.TODAY",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F14.REVIEW.BOARD",
+      "family_id": "F14",
+      "host": "F14.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F15.IN.PRIMARY",
+      "family_id": "F15",
+      "host": "F15.00",
+      "name": "TRY ANOTHER PATH",
+      "status": "NO_OP",
+      "opens": "F15.BRANCH",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F15.IX.ASSUMPTION",
+      "family_id": "F15",
+      "host": "F15.00",
+      "name": "ASSUMPTION",
+      "status": "MISSING",
+      "opens": "F15.SH.ASSUMPTION",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F15.IN.DISCARD",
+      "family_id": "F15",
+      "host": "F15.00",
+      "name": "LET THIS BRANCH GO",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F15.IN.QUICK_ADD",
+      "family_id": "F15",
+      "host": "F15.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F15.IN.ASK",
+      "family_id": "F15",
+      "host": "F15.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F15.NAV.TODAY",
+      "family_id": "F15",
+      "host": "F15.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F15.REVIEW.BOARD",
+      "family_id": "F15",
+      "host": "F15.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "F16.IN.PRIMARY",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "OPEN A DOCUMENT",
+      "status": "NO_OP",
+      "opens": "F16.DOCUMENT",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F16.IX.FIND",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "FIND",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F16.IN.ADD",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "FILE A DOCUMENT",
+      "status": "MISSING",
+      "opens": "F16.SH.ADD_DOCUMENT",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F16.IN.REMOVE",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "REMOVE",
+      "status": "MISSING",
+      "opens": "F16.MD.DELETE_DOCUMENT",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F16.IN.EXPORT",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "EXPORT",
+      "status": "MISSING",
+      "opens": "F16.SH.EXPORT",
+      "wave": 4,
+      "notes": []
+    },
+    {
+      "id": "F16.IN.QUICK_ADD",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "QUICK ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F16.IN.ASK",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "ASK JURNL",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK",
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "F16.NAV.TODAY",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "TODAY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "F16.REVIEW.BOARD",
+      "family_id": "F16",
+      "host": "F16.00",
+      "name": "BOARD",
+      "status": "LEGACY",
+      "opens": null,
+      "wave": 5,
+      "notes": []
+    },
+    {
+      "id": "GS.NAV.HOME",
+      "family_id": "GLOBAL",
+      "host": "GS.BOTTOM_NAV",
+      "name": "HOME",
+      "status": "WORKING",
+      "opens": "F03.00",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "GS.NAV.MONEY",
+      "family_id": "GLOBAL",
+      "host": "GS.BOTTOM_NAV",
+      "name": "MONEY",
+      "status": "WORKING",
+      "opens": "F05.00",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "GS.NAV.ADD",
+      "family_id": "GLOBAL",
+      "host": "GS.BOTTOM_NAV",
+      "name": "+ (QUICK ADD)",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "GS.NAV.PLAN",
+      "family_id": "GLOBAL",
+      "host": "GS.BOTTOM_NAV",
+      "name": "PLAN",
+      "status": "WORKING",
+      "opens": "F08.00",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "GS.NAV.CREDIT",
+      "family_id": "GLOBAL",
+      "host": "GS.BOTTOM_NAV",
+      "name": "CREDIT",
+      "status": "WORKING",
+      "opens": "F12.00",
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "GS.QA.VALIDATE",
+      "family_id": "GLOBAL",
+      "host": "GS.QUICK_ADD",
+      "name": "VALIDATE",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "GS.QA.CURRENCY_ENTRY",
+      "family_id": "GLOBAL",
+      "host": "GS.QUICK_ADD",
+      "name": "ENTER IN DISPLAY CURRENCY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "GS.QA.SAVE",
+      "family_id": "GLOBAL",
+      "host": "GS.QUICK_ADD",
+      "name": "SAVE",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "GS.ASK.EXPLAIN",
+      "family_id": "GLOBAL",
+      "host": "GS.ASK_JURNL",
+      "name": "EXPLAIN",
+      "status": "PARTIAL",
+      "opens": null,
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "GS.ASK.CURRENCY_SELECT",
+      "family_id": "GLOBAL",
+      "host": "GS.ASK_JURNL",
+      "name": "DISPLAY CURRENCY",
+      "status": "WORKING",
+      "opens": null,
+      "wave": null,
+      "notes": []
+    },
+    {
+      "id": "GS.SETTINGS.OPEN",
+      "family_id": "GLOBAL",
+      "host": "GS.SETTINGS",
+      "name": "OPEN ACCOUNT",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "GS.SETTINGS.SIGN_OUT",
+      "family_id": "GLOBAL",
+      "host": "GS.SETTINGS",
+      "name": "SIGN OUT",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "GS.SETTINGS.EXPORT",
+      "family_id": "GLOBAL",
+      "host": "GS.SETTINGS",
+      "name": "EXPORT MY DATA",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 1,
+      "notes": []
+    },
+    {
+      "id": "GS.SETTINGS.DELETE",
+      "family_id": "GLOBAL",
+      "host": "GS.SETTINGS",
+      "name": "DELETE ACCOUNT",
+      "status": "MISSING",
+      "opens": null,
+      "wave": 1,
+      "notes": []
+    }
+  ]
+}

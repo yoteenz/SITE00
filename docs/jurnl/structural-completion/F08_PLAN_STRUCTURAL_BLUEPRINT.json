@@ -1,0 +1,396 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F08",
+  "name": "PLAN",
+  "purpose": "HELP THE USER ARRANGE MONEY BEFORE IT MOVES.",
+  "product_job": "HELP THE USER ARRANGE MONEY BEFORE IT MOVES.",
+  "parent": {
+    "family_id": "F08",
+    "parent_id": null,
+    "route": "plan",
+    "route_status": "PLACEHOLDER",
+    "implementation_status": "PLACEHOLDER",
+    "functional_status": "PLACEHOLDER",
+    "visual_status": "INVALID_EXPRESSION",
+    "approval_status": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.PLAN_ALLOCATIONS",
+      "DD.INCOME_SOURCES",
+      "DD.OBLIGATIONS",
+      "DD.GOALS",
+      "DD.PROTECTED_HOLD",
+      "DD.SETUP_PROFILE"
+    ],
+    "interaction_dependencies": [
+      "GS.BOTTOM_NAV",
+      "GS.TOP_CHROME",
+      "GS.QUICK_ADD",
+      "GS.ASK_JURNL",
+      "GS.MONEY_FORMAT",
+      "GS.FORM_SYSTEM",
+      "GS.STATE_PATTERNS",
+      "GS.FAMILY_DISCOVERY",
+      "GS.ENTITLEMENTS"
+    ],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+    "generation_requirement": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_ADD",
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.ACTION_REORDER",
+      "ICON.BACK",
+      "ICON.CAT_DEBT",
+      "ICON.CAT_FOOD",
+      "ICON.CAT_HEALTH",
+      "ICON.CAT_HOUSING",
+      "ICON.CAT_TRANSPORT",
+      "ICON.CAT_TRAVEL",
+      "ICON.INFO"
+    ],
+    "reusable_capability_candidate": null,
+    "notes": [
+      "STATIC PREVIEW SPEC: \"WHAT DO I WANT IT TO DO?\" · SIGNAL \"THREE INTENTIONS\" · CTA \"MOVE A PIECE\" DISABLED (NOT OPEN YET).",
+      "PLATE INTERFERENCE FAIL; 639 CREDITS SPENT ON THE PARENT AUTHORITY."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "EXPRESSION_READY (AUTHORITY INVALID: INTERFERENCE FAIL)",
+      "release": "NONE"
+    },
+    "functional_criteria": "R1 Uh D0 I0 S0 V- E0 M0 L0 P1 A1 N1",
+    "functional_score": 0.409,
+    "target_wave": 3,
+    "evidence": [
+      "src/projects/jurnl/data/parents/catalog.ts",
+      "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+      "JURNL/F08_*/MANIFEST/F08_EXPRESSION_TREE.json"
+    ],
+    "opens": null,
+    "node_id": "F08.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "PLAN",
+    "purpose": "HELP THE USER ARRANGE MONEY BEFORE IT MOVES."
+  },
+  "children": [
+    {
+      "id": "F08.ARRANGE",
+      "form": "EXPANDED_STATE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": null,
+      "status": "MISSING"
+    },
+    {
+      "id": "F08.ITEM",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "plan/:intentionId",
+      "status": "MISSING"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [],
+  "sheets": [
+    "F08.SH.ASSIGN",
+    "F08.SH.ADD_INTENTION"
+  ],
+  "modals": [
+    "F08.MD.REMOVE_INTENTION"
+  ],
+  "states": [
+    {
+      "id": "F08.ST.LOADING",
+      "status": "MISSING"
+    },
+    {
+      "id": "F08.ST.EMPTY",
+      "status": "MISSING"
+    },
+    {
+      "id": "F08.ST.ERROR",
+      "status": "MISSING"
+    },
+    {
+      "id": "F08.ST.OVER_ASSIGNED",
+      "status": "MISSING"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F08.IN.PRIMARY",
+      "status": "NO_OP",
+      "opens": "F08.ITEM"
+    },
+    {
+      "id": "F08.IN.ADD",
+      "status": "MISSING",
+      "opens": "F08.SH.ADD_INTENTION"
+    },
+    {
+      "id": "F08.IN.REMOVE",
+      "status": "MISSING",
+      "opens": "F08.MD.REMOVE_INTENTION"
+    },
+    {
+      "id": "F08.IN.REORDER",
+      "status": "MISSING",
+      "opens": null
+    },
+    {
+      "id": "F08.IX.ASSIGN",
+      "status": "MISSING",
+      "opens": "F08.SH.ASSIGN"
+    },
+    {
+      "id": "F08.IN.OPEN_SAFE",
+      "status": "MISSING",
+      "opens": "F09.00"
+    },
+    {
+      "id": "F08.IN.OPEN_PURCHASES",
+      "status": "MISSING",
+      "opens": "F10.00"
+    },
+    {
+      "id": "F08.IN.OPEN_TRIPS",
+      "status": "MISSING",
+      "opens": "F11.00"
+    },
+    {
+      "id": "F08.IN.OPEN_GOALS",
+      "status": "MISSING",
+      "opens": "F14.00"
+    },
+    {
+      "id": "F08.IN.OPEN_AHEAD",
+      "status": "MISSING",
+      "opens": "F15.00"
+    },
+    {
+      "id": "F08.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F08.IN.ASK",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F08.NAV.TODAY",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F08.REVIEW.BOARD",
+      "status": "LEGACY",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F08.00",
+      "route": "plan",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "node_id": "F08.ITEM",
+      "route": "plan/:intentionId",
+      "status": "MISSING"
+    }
+  ],
+  "global_dependencies": [
+    "GS.BOTTOM_NAV",
+    "GS.TOP_CHROME",
+    "GS.QUICK_ADD",
+    "GS.ASK_JURNL",
+    "GS.MONEY_FORMAT",
+    "GS.FORM_SYSTEM",
+    "GS.STATE_PATTERNS",
+    "GS.FAMILY_DISCOVERY",
+    "GS.ENTITLEMENTS"
+  ],
+  "data_dependencies": [
+    "DD.PLAN_ALLOCATIONS",
+    "DD.INCOME_SOURCES",
+    "DD.OBLIGATIONS",
+    "DD.GOALS",
+    "DD.PROTECTED_HOLD",
+    "DD.SETUP_PROFILE"
+  ],
+  "owned_data": [
+    "DD.PLAN_ALLOCATIONS"
+  ],
+  "read_data": [
+    "DD.INCOME_SOURCES",
+    "DD.OBLIGATIONS",
+    "DD.GOALS",
+    "DD.PROTECTED_HOLD",
+    "DD.SETUP_PROFILE"
+  ],
+  "write_data": [
+    "DD.PLAN_ALLOCATIONS"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlInlineExpansion",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlAmountField",
+    "JurnlCadencePicker",
+    "JurnlSignal",
+    "JurnlRecordList",
+    "JurnlStateBlock",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_BASIC_BUDGETING (CORE)",
+    "ADVANCED_SCENARIOS (ADVANCED)",
+    "ADVANCED_AUTOMATION (ADVANCED)",
+    "AI_EXPLAIN_BASIC (AI)",
+    "AI_PLANNING_GUIDANCE (AI)",
+    "AI_MULTI_SCENARIO_ANALYSIS (AI)",
+    "AI_HIGHER_USAGE (AI)"
+  ],
+  "functional_status": {
+    "score": 10.5,
+    "strict": 8.3,
+    "gap_counts": {
+      "PLACEHOLDER": 2,
+      "MISSING": 19,
+      "COMPLETE_FUNCTIONAL": 2,
+      "LEGACY": 1,
+      "PARTIAL_FUNCTIONAL": 1
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 6,
+    "visually_implemented": 0,
+    "parent": "INVALID_EXPRESSION"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F08.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F08.ARRANGE": "REUSE_PARENT_PLATE",
+    "F08.ITEM": "NO_PLATE_REQUIRED",
+    "F08.SH.ASSIGN": "NO_PLATE_REQUIRED",
+    "F08.SH.ADD_INTENTION": "NO_PLATE_REQUIRED",
+    "F08.MD.REMOVE_INTENTION": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_ADD",
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.ACTION_REORDER",
+    "ICON.BACK",
+    "ICON.CAT_DEBT",
+    "ICON.CAT_FOOD",
+    "ICON.CAT_HEALTH",
+    "ICON.CAT_HOUSING",
+    "ICON.CAT_TRANSPORT",
+    "ICON.CAT_TRAVEL",
+    "ICON.INFO"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B08 NO CATEGORY TAXONOMY",
+    "B11 F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+    "B14 ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT",
+    "B24 REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME"
+  ],
+  "implementation_dependencies": [
+    "W2.F06",
+    "W2.F07"
+  ],
+  "boundaries": [
+    "F08 OWNS INTENTIONS AND ASSIGNED AMOUNTS (BASIC BUDGETING). IT DOES NOT COMPUTE SAFE TO SPEND.",
+    "F09 DERIVES THE SPENDABLE SIGNAL FROM F08 ASSIGNMENTS + F07 + F09 HOLD.",
+    "F14 OWNS GOALS; AN INTENTION MAY SERVE A GOAL BY REFERENCE.",
+    "F15 OWNS SCENARIOS ACROSS TIME; F08 IS THE CURRENT ARRANGEMENT (ADVANCED_SCENARIOS IS A SERVER-ENFORCED CAPABILITY).",
+    "F02.05 SEEDS UP TO THREE PRIORITIES; F08 BECOMES THEIR OWNER."
+  ],
+  "extension": null,
+  "founder_flags": [
+    "FF.DISCOVERY_HUBS"
+  ],
+  "reusable_capability_candidates": []
+}

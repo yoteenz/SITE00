@@ -1,0 +1,581 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "severities": [
+    "CRITICAL_PATH",
+    "HIGH",
+    "MEDIUM",
+    "LOW"
+  ],
+  "counts": {
+    "CRITICAL_PATH": 8,
+    "HIGH": 8,
+    "MEDIUM": 9,
+    "LOW": 4
+  },
+  "top_critical": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B02 NO DATE MODEL",
+    "B03 NO ACCOUNT REGISTRY",
+    "B04 SAFE TO SPEND IGNORES SETUP OBLIGATIONS",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B06 NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT",
+    "B18 NO PRODUCTION AUTH PROVIDER (PREVIEW STORES PLAINTEXT PASSWORDS) — GATES F01 FUNCTIONAL AND LAUNCH",
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS"
+  ],
+  "blockers": [
+    {
+      "id": "B01",
+      "severity": "CRITICAL_PATH",
+      "blocks": "FUNCTIONAL",
+      "title": "NO USER-SCOPED PERSISTENCE",
+      "evidence": "money.ts added[] in memory; setupDraft sessionStorage; MOCK_CASH / MOCK_ENTRIES / MOCK_UPCOMING; no JURNL tables.",
+      "affects": [
+        "GS.PERSISTENCE",
+        "DD.*",
+        "F02–F16"
+      ],
+      "resolution": "W0.3 REPOSITORY CONTRACT + DEVICE ADAPTER; RETIRE MOCK AS A DATA SOURCE (KEEP AS A PREVIEW SCENARIO).",
+      "wave": 0
+    },
+    {
+      "id": "B02",
+      "severity": "CRITICAL_PATH",
+      "blocks": "FUNCTIONAL",
+      "title": "NO DATE MODEL",
+      "evidence": "LedgerEntry.when is a string; FilterSheet WHEN hard-codes weekdays; quick add writes 'TODAY'.",
+      "affects": [
+        "GS.DATE_MODEL",
+        "F03",
+        "F04",
+        "F06",
+        "F07",
+        "F09",
+        "F11",
+        "F13",
+        "F14",
+        "F15"
+      ],
+      "resolution": "W0.1 ISO DATES + CADENCE MATH + RELATIVE FORMATTER.",
+      "wave": 0
+    },
+    {
+      "id": "B03",
+      "severity": "CRITICAL_PATH",
+      "blocks": "FUNCTIONAL",
+      "title": "NO ACCOUNT REGISTRY",
+      "evidence": "QuickAddSheet / FilterSheet hard-code CHECKING / CARD; F02 keeps one name.",
+      "affects": [
+        "DD.ACCOUNTS",
+        "GS.ACCOUNT_REGISTRY",
+        "F04",
+        "F05",
+        "F12",
+        "F13",
+        "GS.QUICK_ADD"
+      ],
+      "resolution": "W0.4 ACCOUNTS DOMAIN + JurnlAccountPicker; F05 UI IN W2.",
+      "wave": 0
+    },
+    {
+      "id": "B04",
+      "severity": "CRITICAL_PATH",
+      "blocks": "FUNCTIONAL",
+      "title": "SAFE TO SPEND IGNORES SETUP OBLIGATIONS",
+      "evidence": "safeToSpend(): upcomingItems = draft.obligations.length ? [] : MOCK_UPCOMING; upcomingFor() maps setup obligations with amount 0. The core signal under-counts what is due.",
+      "affects": [
+        "DD.SAFE_TO_SPEND",
+        "F03.00",
+        "F03.SEE_WHY",
+        "F09"
+      ],
+      "resolution": "W0.6 MOVE THE FORMULA TO AN F09-OWNED MODULE; OBLIGATIONS WITHOUT AN AMOUNT MARK THE SIGNAL PARTIAL (NEVER $0); F07 CAPTURES AMOUNTS IN W2.",
+      "wave": 0
+    },
+    {
+      "id": "B05",
+      "severity": "CRITICAL_PATH",
+      "blocks": "FUNCTIONAL",
+      "title": "F05–F16 CHILDREN DO NOT EXIST",
+      "evidence": "ParentAuthorityScreen renders a static spec with a disabled NOT OPEN YET CTA for all 12 families; expression trees mark children \"Not built\".",
+      "affects": [
+        "F05–F16"
+      ],
+      "resolution": "W2–W4 FAMILY STRUCTURAL COMPLETION ON NEUTRAL PRESENTATION.",
+      "wave": 2
+    },
+    {
+      "id": "B06",
+      "severity": "CRITICAL_PATH",
+      "blocks": "FUNCTIONAL",
+      "title": "NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT",
+      "evidence": "Only F03→F04 and nav → F05 / F08 / F12 exist. F06, F07, F09, F10, F11, F13, F14, F15, F16 are reachable through the review board or a typed URL.",
+      "affects": [
+        "GS.FAMILY_DISCOVERY",
+        "F06",
+        "F07",
+        "F09",
+        "F10",
+        "F11",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "resolution": "W1.3 HUB LINKS (FOUNDER CONFIRMS THE MAPPING).",
+      "wave": 1,
+      "founderDecision": "FF.DISCOVERY_HUBS"
+    },
+    {
+      "id": "B07",
+      "severity": "HIGH",
+      "blocks": "FUNCTIONAL",
+      "title": "NO POST-ENTRY ACCOUNT / SETTINGS SURFACE",
+      "evidence": "Export, delete, sessions, AI access live only in F01.11 / F01.12 during entry; sign out only on F01.04.",
+      "affects": [
+        "GS.SETTINGS",
+        "GS.CONSENT",
+        "GS.CURRENCY"
+      ],
+      "resolution": "W1.1 SETTINGS SURFACE REUSING F01.11 / F01.12 DRAWERS.",
+      "wave": 1,
+      "founderDecision": "FF.SETTINGS_PLACEMENT"
+    },
+    {
+      "id": "B08",
+      "severity": "HIGH",
+      "blocks": "FUNCTIONAL",
+      "title": "NO CATEGORY TAXONOMY",
+      "evidence": "Free-string categories in three different sets; markFor placeholders.",
+      "affects": [
+        "GS.CATEGORIES",
+        "F04",
+        "F03",
+        "F08",
+        "F16"
+      ],
+      "resolution": "W0.2 CLOSED CATEGORY CATALOG + PICKER.",
+      "wave": 0,
+      "founderDecision": "FF.CATEGORY_SET"
+    },
+    {
+      "id": "B09",
+      "severity": "HIGH",
+      "blocks": "FUNCTIONAL",
+      "title": "MOVEMENTS CANNOT BE EDITED OR DELETED",
+      "evidence": "DetailSheet is read-only.",
+      "affects": [
+        "F04",
+        "GS.TRANSACTION_DETAIL",
+        "GS.QUICK_ADD"
+      ],
+      "resolution": "W1.4 EDIT / DELETE ON HAND-ADDED MOVEMENTS.",
+      "wave": 1
+    },
+    {
+      "id": "B10",
+      "severity": "HIGH",
+      "blocks": "FUNCTIONAL",
+      "title": "LOADING / EMPTY / ERROR / STALE ARE PREVIEW-FORCED ONLY",
+      "evidence": "todayModeFromQuery: only PARTIAL / CONNECTED derive without ?state; ActivityScreen loading / error / empty forced.",
+      "affects": [
+        "GS.STATE_PATTERNS",
+        "F03",
+        "F04"
+      ],
+      "resolution": "W0.5 REPOSITORY STATUS → STATE; ?state STAYS A PREVIEW SWITCH.",
+      "wave": 0
+    },
+    {
+      "id": "B11",
+      "severity": "HIGH",
+      "blocks": "FUNCTIONAL",
+      "title": "F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+      "evidence": "jurnlProject.ts families = F01–F04; productTree.ts lists F02–F16 NOT_STARTED.",
+      "affects": [
+        "F05–F16"
+      ],
+      "resolution": "W0.7 REGISTER F05–F16 WITH CONTRACTS GENERATED FROM THIS BLUEPRINT (STATUS STRUCTURE_ONLY / PLACEHOLDER, NO APPROVAL CLAIMS).",
+      "wave": 0
+    },
+    {
+      "id": "B12",
+      "severity": "HIGH",
+      "blocks": "FUNCTIONAL",
+      "title": "BANK CONNECTION IS SIMULATED BUT SHOWN AS CONNECTED",
+      "evidence": "F02.02 permission → draft accounts = CONNECTED; no aggregator anywhere.",
+      "affects": [
+        "F02.02",
+        "F02.DR.PERMISSION",
+        "GS.BANK_CONNECTION"
+      ],
+      "resolution": "W1.5 MANUAL-FIRST RELABEL (NO PRETEND CONNECTION) UNLESS THE FOUNDER CHOOSES A PROVIDER.",
+      "wave": 1,
+      "founderDecision": "FF.BANK_AGGREGATION"
+    },
+    {
+      "id": "B13",
+      "severity": "HIGH",
+      "blocks": "FUNCTIONAL",
+      "title": "F16 HAS NO FILE STORAGE",
+      "evidence": "No storage path for JURNL documents.",
+      "affects": [
+        "F16",
+        "GS.FILE_STORAGE"
+      ],
+      "resolution": "W4 DEVICE BLOB ADAPTER BEHIND THE REPOSITORY.",
+      "wave": 4
+    },
+    {
+      "id": "B14",
+      "severity": "MEDIUM",
+      "blocks": "FUNCTIONAL",
+      "title": "ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+      "evidence": "AskSheet static sentence; ParentAuthorityScreen has no ask.",
+      "affects": [
+        "GS.ASK_JURNL",
+        "F05–F16"
+      ],
+      "resolution": "W1.2 FAMILY-AWARE EXPLANATION FROM DERIVED VALUES; SELECTOR TO SETTINGS. NO LLM WITHOUT A FOUNDER DECISION.",
+      "wave": 1,
+      "founderDecision": "FF.ASK_SCOPE"
+    },
+    {
+      "id": "B15",
+      "severity": "MEDIUM",
+      "blocks": "FUNCTIONAL",
+      "title": "CONSENT IS STORED TWICE",
+      "evidence": "F01.11 AI ACCESS (device) vs F02.07 consents (session draft).",
+      "affects": [
+        "GS.CONSENT",
+        "DD.CONSENT"
+      ],
+      "resolution": "W1.6 ONE CONSENT RECORD.",
+      "wave": 1
+    },
+    {
+      "id": "B16",
+      "severity": "MEDIUM",
+      "blocks": "FUNCTIONAL",
+      "title": "TOP CHROME IS COMPOSED PER SCREEN",
+      "evidence": "Three variants; no shared component.",
+      "affects": [
+        "GS.TOP_CHROME",
+        "F03–F16"
+      ],
+      "resolution": "W0.8 JurnlTopChrome.",
+      "wave": 0
+    },
+    {
+      "id": "B17",
+      "severity": "LOW",
+      "blocks": "FUNCTIONAL",
+      "title": "TODAY BACK RETURNS TO SETUP",
+      "evidence": "HomeScreens.tsx back → F02.08 \"BACK TO SETUP\" on the daily home.",
+      "affects": [
+        "F03.NAV.BACK"
+      ],
+      "resolution": "W1 TOP CHROME: AFTER SETUP COMPLETE, HOME HAS NO BACK (ACCOUNT ENTRY INSTEAD).",
+      "wave": 1
+    },
+    {
+      "id": "B18",
+      "severity": "CRITICAL_PATH",
+      "blocks": "FUNCTIONAL",
+      "title": "NO PRODUCTION AUTH PROVIDER (PREVIEW STORES PLAINTEXT PASSWORDS) — GATES F01 FUNCTIONAL AND LAUNCH",
+      "evidence": "adapters.ts DESIGN_PREVIEW / UNCONFIGURED; jurnlProject.ts authNote; D-17 / D-18.",
+      "affects": [
+        "GS.AUTH",
+        "F01",
+        "DD.IDENTITY"
+      ],
+      "resolution": "W5.1 PRODUCTION ADAPTER BEHIND JurnlAuthAdapter.",
+      "wave": 5,
+      "founderDecision": "FF.AUTH_PROVIDER"
+    },
+    {
+      "id": "B19",
+      "severity": "CRITICAL_PATH",
+      "blocks": "LAUNCH",
+      "title": "NO SERVER PERSISTENCE, SCHEMA OR RLS",
+      "evidence": "DRAFT_SCHEMA.sql NOT APPLIED; D-14 no site00_organizations row.",
+      "affects": [
+        "GS.PERSISTENCE",
+        "DD.*",
+        "GS.ENTITLEMENTS"
+      ],
+      "resolution": "W5.2 SERVER ADAPTER + MIGRATIONS + RLS + SECURITY TESTS.",
+      "wave": 5
+    },
+    {
+      "id": "B20",
+      "severity": "HIGH",
+      "blocks": "FUNCTIONAL",
+      "title": "EMAIL, SOCIAL AND NATIVE BIOMETRIC PROVIDERS ARE SIMULATED",
+      "evidence": "No email is sent; social returns PROVIDER_NOT_CONFIGURED; biometric bridge simulated.",
+      "affects": [
+        "F01.02",
+        "F01.04",
+        "F01.05",
+        "F01.06",
+        "F01.07",
+        "F01.09",
+        "GS.NATIVE_BRIDGE"
+      ],
+      "resolution": "W5.1 WITH THE AUTH PROVIDER; W5.5 NATIVE SHELL.",
+      "wave": 5
+    },
+    {
+      "id": "B21",
+      "severity": "MEDIUM",
+      "blocks": "LAUNCH",
+      "title": "NO NOINDEX FOR AN AUTHENTICATED PRODUCT",
+      "evidence": "No noindex / robots / X-Robots-Tag; guard skipped on localhost + fsbw-dev.",
+      "affects": [
+        "GS.SEO_NOINDEX"
+      ],
+      "resolution": "W5.3.",
+      "wave": 5
+    },
+    {
+      "id": "B22",
+      "severity": "MEDIUM",
+      "blocks": "LAUNCH",
+      "title": "ANALYTICS NOT WIRED",
+      "evidence": "user_activity has no migration; monetization events never sent.",
+      "affects": [
+        "GS.ANALYTICS"
+      ],
+      "resolution": "W5.4 REUSE trackActivity + buildMonetizationEvent.",
+      "wave": 5
+    },
+    {
+      "id": "B23",
+      "severity": "MEDIUM",
+      "blocks": "LAUNCH",
+      "title": "NO AUTOMATED ACCESSIBILITY AUDIT",
+      "evidence": "Semantics exist (dialog, alert, switch, nav landmark, reduced motion); no axe / screen-reader pass for JURNL.",
+      "affects": [
+        "ALL"
+      ],
+      "resolution": "W5.6.",
+      "wave": 5
+    },
+    {
+      "id": "B24",
+      "severity": "MEDIUM",
+      "blocks": "LAUNCH",
+      "title": "REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME",
+      "evidence": "BOARD utility button on every F05–F16 parent; /parents review board route.",
+      "affects": [
+        "F05–F16"
+      ],
+      "resolution": "W5.7 HIDE REVIEW CHROME OUTSIDE design-preview.",
+      "wave": 5
+    },
+    {
+      "id": "B25",
+      "severity": "MEDIUM",
+      "blocks": "LAUNCH",
+      "title": "PRE-EXISTING RED TEST ON MAIN",
+      "evidence": "tests/jurnlMonetizationFoundation \"no price strings\" fails on currency.ts (d2915e32).",
+      "affects": [
+        "GS.CURRENCY"
+      ],
+      "resolution": "W0.9 RECONCILE THE TEST WITH THE CURRENCY CONTRACT.",
+      "wave": 0
+    },
+    {
+      "id": "B26",
+      "severity": "LOW",
+      "blocks": "LAUNCH",
+      "title": "EXCHANGE RATES FETCHED CLIENT-SIDE WITHOUT A PROXY",
+      "evidence": "open.er-api.com called from the browser.",
+      "affects": [
+        "GS.EXCHANGE_RATES"
+      ],
+      "resolution": "W5.2 SERVER PROXY.",
+      "wave": 5
+    },
+    {
+      "id": "B27",
+      "severity": "MEDIUM",
+      "blocks": "VISUAL",
+      "title": "EIGHT PARENT AUTHORITIES FAIL PLATE INTERFERENCE",
+      "evidence": "catalog.ts interference FAIL: F08, F09, F10, F11, F13, F14, F15, F16; reuse matrix should_replace true.",
+      "affects": [
+        "F08.00",
+        "F09.00",
+        "F10.00",
+        "F11.00",
+        "F13.00",
+        "F14.00",
+        "F15.00",
+        "F16.00"
+      ],
+      "resolution": "VISUAL TRACK (FAMILY BY FAMILY, AFTER FUNCTIONAL).",
+      "wave": 5
+    },
+    {
+      "id": "B28",
+      "severity": "LOW",
+      "blocks": "VISUAL",
+      "title": "NAV AND CATEGORY ICON AUTHORITY MISSING",
+      "evidence": "F03_PARENT_REFINEMENT_QA: home, money, plan, credit, rent, groceries, atelier, market missing from the sheet.",
+      "affects": [
+        "GS.BOTTOM_NAV",
+        "GS.CATEGORIES"
+      ],
+      "resolution": "JURNL GLOBAL ICON SYSTEM (VISUAL TRACK).",
+      "wave": 5
+    },
+    {
+      "id": "B29",
+      "severity": "LOW",
+      "blocks": "VISUAL",
+      "title": "DOC DRIFT ON CURRENCY AND THE F03 PLATE",
+      "evidence": "GLOBAL_COMPOSITION_RULES + CORE.md:297 say no FX; CORE.md:295 says F03 plate SHOULD_REPLACE while matrices say PASS.",
+      "affects": [
+        "GS.CURRENCY",
+        "F03.00"
+      ],
+      "resolution": "DOC RECONCILIATION (NO CODE).",
+      "wave": 0
+    }
+  ],
+  "founder_flags": [
+    {
+      "id": "FF.DISCOVERY_HUBS",
+      "question": "Confirm how non-nav families are reached: HOME→F04/F07/F09 · MONEY→F06/F16 · PLAN→F09/F10/F11/F14/F15 · CREDIT→F13.",
+      "default": "PROPOSED MAPPING ABOVE.",
+      "blocks": [
+        "B06"
+      ]
+    },
+    {
+      "id": "FF.SETTINGS_PLACEMENT",
+      "question": "Where does the account / settings surface live after entry?",
+      "default": "TOP-CHROME ACCOUNT ENTRY ON HOME; NO SIXTH NAV ITEM.",
+      "blocks": [
+        "B07"
+      ]
+    },
+    {
+      "id": "FF.BANK_AGGREGATION",
+      "question": "Launch manual-first, or with a bank aggregation provider?",
+      "default": "MANUAL-FIRST; RELABEL F02.02 CONNECT.",
+      "blocks": [
+        "B12"
+      ]
+    },
+    {
+      "id": "FF.AUTH_PROVIDER",
+      "question": "Which end-user auth provider does JURNL use? (SITE 00 Supabase is not reused per jurnlProject.ts.)",
+      "default": "UNRESOLVED. REQUIRED FOR F01 TO REACH 100% FUNCTIONAL (IDENTITY CANNOT BE DEVICE-ONLY) AND FOR LAUNCH. NOT A GENERATION DEPENDENCY.",
+      "blocks": [
+        "B18"
+      ]
+    },
+    {
+      "id": "FF.CREDIT_SCORE_SOURCE",
+      "question": "Does F12 ever show a bureau score, or utilization + accounts only?",
+      "default": "UTILIZATION + ACCOUNTS ONLY (MATCHES \"NOT A SCORE DIAL\").",
+      "blocks": []
+    },
+    {
+      "id": "FF.ASK_SCOPE",
+      "question": "Ask JURNL: explanation-only from derived values, or an LLM provider?",
+      "default": "EXPLANATION-ONLY, READ-ONLY, NO WRITES.",
+      "blocks": [
+        "B14"
+      ]
+    },
+    {
+      "id": "FF.NOTIFICATIONS",
+      "question": "Are notifications in launch scope (only F07 due-soon is evidenced)?",
+      "default": "OUT OF SCOPE.",
+      "blocks": []
+    },
+    {
+      "id": "FF.BUSINESS_EXTENSION_TIMING",
+      "question": "When does the JURNL BUSINESS EXTENSION (anchored in F16) ship?",
+      "default": "AFTER CORE 100% FUNCTIONAL.",
+      "blocks": []
+    },
+    {
+      "id": "FF.SEE_WHY_VS_F09",
+      "question": "F03 SEE WHY \"does not open F09\" — keep it closed, or add a footer link to the full F09 reading?",
+      "default": "ADD THE FOOTER LINK (ONE FORMULA, TWO DEPTHS).",
+      "blocks": []
+    },
+    {
+      "id": "FF.CATEGORY_SET",
+      "question": "Confirm the closed category catalog (proposed: HOUSING, FOOD, CLOTHING, MEMBERSHIP, INCOME, TRANSPORT, UTILITIES, HEALTH, TRAVEL, DEBT PAYMENT, TRANSFER, OTHER).",
+      "default": "PROPOSED SET.",
+      "blocks": [
+        "B08"
+      ]
+    }
+  ],
+  "graph_validation": {
+    "orphans": [],
+    "dangling_opens": [],
+    "family_parents_unreachable_today": [
+      "F06.00",
+      "F07.00",
+      "F09.00",
+      "F10.00",
+      "F11.00",
+      "F13.00",
+      "F14.00",
+      "F15.00",
+      "F16.00"
+    ],
+    "target_unreachable": [],
+    "dead_ends_today": [],
+    "missing_return_paths_target": [],
+    "competing_ownership": 14,
+    "fake_completion": 7,
+    "incomplete_nodes_without_wave": []
+  },
+  "fake_completion": [
+    {
+      "claim": "F02.02 CONNECTED state + \"connected\" draft",
+      "reality": "No aggregator exists; the connection is simulated.",
+      "node": "F02.02.CONNECTED"
+    },
+    {
+      "claim": "Quick add note \"JURNL STORES THE USD EQUIVALENT\"",
+      "reality": "The row lives in memory and is lost on reload.",
+      "node": "GS.QA.SAVE"
+    },
+    {
+      "claim": "Today REFRESH (stale state)",
+      "reality": "go('F03') re-renders; nothing is fetched.",
+      "node": "GS.DATA_REFRESH"
+    },
+    {
+      "claim": "F01.11 DATA EXPORT \"requested\"",
+      "reality": "A device flag is set; nothing is exported.",
+      "node": "F01.11.DRAWER.DATA_EXPORT"
+    },
+    {
+      "claim": "jurnlProject.ts families = F01–F04",
+      "reality": "Runtime mounts F05–F16 parents; registry under-reports the tree.",
+      "node": "B11"
+    },
+    {
+      "claim": "productTree.ts F02–F16 NOT_STARTED",
+      "reality": "F02–F04 are implemented and QA-passed (stale under-claim).",
+      "node": "B11"
+    },
+    {
+      "claim": "F03 / F04 contracts LIVE_QA_PASSED",
+      "reality": "QA covered UI and states; data is MOCK + in-memory. Not a functional claim.",
+      "node": "F03.00"
+    }
+  ]
+}

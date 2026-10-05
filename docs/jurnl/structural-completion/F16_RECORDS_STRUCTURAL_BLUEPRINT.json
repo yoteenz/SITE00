@@ -1,0 +1,371 @@
+{
+  "sprint": "P0.JURNL.COMPLETE-PRODUCT-BLUEPRINT-STRUCTURAL-COMPLETION-FORENSIC1",
+  "audited_main": "6692bdd4",
+  "audit_date": "2026-10-05",
+  "generator": "scripts/jurnl/structural-blueprint/build.ts",
+  "generation": "ZERO — no provider calls",
+  "family_id": "F16",
+  "name": "RECORDS",
+  "purpose": "ORGANIZE THE FINANCIAL PAPER TRAIL.",
+  "product_job": "ORGANIZE THE FINANCIAL PAPER TRAIL.",
+  "parent": {
+    "family_id": "F16",
+    "parent_id": null,
+    "route": "records",
+    "route_status": "PLACEHOLDER",
+    "implementation_status": "PLACEHOLDER",
+    "functional_status": "PLACEHOLDER",
+    "visual_status": "INVALID_EXPRESSION",
+    "approval_status": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "launch_status": "NOT_LIVE — INTERNAL DESIGN-PREVIEW ONLY",
+    "data_dependencies": [
+      "DD.DOCUMENTS",
+      "DD.TRANSACTIONS",
+      "DD.ACCOUNTS"
+    ],
+    "interaction_dependencies": [
+      "GS.BOTTOM_NAV",
+      "GS.TOP_CHROME",
+      "GS.QUICK_ADD",
+      "GS.ASK_JURNL",
+      "GS.FORM_SYSTEM",
+      "GS.STATE_PATTERNS",
+      "GS.FAMILY_DISCOVERY",
+      "GS.FILE_STORAGE",
+      "GS.ENTITLEMENTS",
+      "GS.SETTINGS"
+    ],
+    "auth_requirements": "AUTHENTICATED, USER-SCOPED",
+    "responsive_requirements": "RESP.JURNL",
+    "accessibility_requirements": "A11Y.JURNL",
+    "analytics_events": [
+      "postToHost:route (design chamber)",
+      "trackActivity:jurnl_screen_view"
+    ],
+    "SEO_requirement": "AUTHENTICATED_NOINDEX",
+    "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+    "reference_requirement": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+    "generation_requirement": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "plate_policy": "NEW_PLATE_WITHIN_FAMILY",
+    "icon_requirements": [
+      "ICON.ACTION_ADD",
+      "ICON.ACTION_DELETE",
+      "ICON.ACTION_EDIT",
+      "ICON.ACTION_EXPORT",
+      "ICON.ACTION_UPLOAD",
+      "ICON.BACK",
+      "ICON.F16_DOCUMENT",
+      "ICON.INFO"
+    ],
+    "reusable_capability_candidate": null,
+    "notes": [
+      "STATIC PREVIEW SPEC: \"WHERE IS THE PROOF?\" · SIGNAL \"NO DOCUMENT OPEN\" · CTA \"OPEN A DOCUMENT\" DISABLED (NOT OPEN YET).",
+      "PLATE INTERFERENCE FAIL; 639 CREDITS SPENT ON THE PARENT AUTHORITY.",
+      "NOT REACHABLE FROM THE PRODUCT TODAY (REVIEW BOARD OR TYPED URL ONLY)."
+    ],
+    "structural_form": "ROUTE",
+    "inheritance_class": "FAMILY_PARENT",
+    "progression": {
+      "structural": "STRUCTURED",
+      "visual": "EXPRESSION_READY (AUTHORITY INVALID: INTERFERENCE FAIL)",
+      "release": "NONE"
+    },
+    "functional_criteria": "R1 Uh D0 I0 S0 V- E0 M0 L0 P1 A1 N1",
+    "functional_score": 0.409,
+    "target_wave": 4,
+    "evidence": [
+      "src/projects/jurnl/data/parents/catalog.ts",
+      "src/projects/jurnl/runtime/screens/ParentScreens.tsx",
+      "JURNL/F16_*/MANIFEST/F16_EXPRESSION_TREE.json"
+    ],
+    "opens": null,
+    "node_id": "F16.00",
+    "node_type": "FAMILY_PARENT",
+    "name": "RECORDS",
+    "purpose": "ORGANIZE THE FINANCIAL PAPER TRAIL."
+  },
+  "children": [
+    {
+      "id": "F16.INDEX",
+      "form": "EXPANDED_STATE",
+      "inheritance": "MODULATED_INHERITANCE",
+      "route": null,
+      "status": "MISSING"
+    },
+    {
+      "id": "F16.DOCUMENT",
+      "form": "ROUTE",
+      "inheritance": "DISTINCT_SUB_EXPRESSION",
+      "route": "records/:documentId",
+      "status": "MISSING"
+    }
+  ],
+  "grandchildren": [],
+  "drawers": [],
+  "sheets": [
+    "F16.SH.ADD_DOCUMENT",
+    "F16.SH.EXPORT"
+  ],
+  "modals": [
+    "F16.MD.DELETE_DOCUMENT"
+  ],
+  "states": [
+    {
+      "id": "F16.ST.LOADING",
+      "status": "MISSING"
+    },
+    {
+      "id": "F16.ST.EMPTY",
+      "status": "MISSING"
+    },
+    {
+      "id": "F16.ST.ERROR",
+      "status": "MISSING"
+    },
+    {
+      "id": "F16.ST.NO_RESULTS",
+      "status": "MISSING"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "F16.IN.PRIMARY",
+      "status": "NO_OP",
+      "opens": "F16.DOCUMENT"
+    },
+    {
+      "id": "F16.IX.FIND",
+      "status": "MISSING",
+      "opens": null
+    },
+    {
+      "id": "F16.IN.ADD",
+      "status": "MISSING",
+      "opens": "F16.SH.ADD_DOCUMENT"
+    },
+    {
+      "id": "F16.IN.REMOVE",
+      "status": "MISSING",
+      "opens": "F16.MD.DELETE_DOCUMENT"
+    },
+    {
+      "id": "F16.IN.EXPORT",
+      "status": "MISSING",
+      "opens": "F16.SH.EXPORT"
+    },
+    {
+      "id": "F16.IN.QUICK_ADD",
+      "status": "WORKING",
+      "opens": "GLOBAL.SH.QUICK_ADD"
+    },
+    {
+      "id": "F16.IN.ASK",
+      "status": "MISSING",
+      "opens": "GLOBAL.SH.ASK"
+    },
+    {
+      "id": "F16.NAV.TODAY",
+      "status": "WORKING",
+      "opens": null
+    },
+    {
+      "id": "F16.REVIEW.BOARD",
+      "status": "LEGACY",
+      "opens": null
+    }
+  ],
+  "routes": [
+    {
+      "node_id": "F16.00",
+      "route": "records",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "node_id": "F16.DOCUMENT",
+      "route": "records/:documentId",
+      "status": "MISSING"
+    }
+  ],
+  "global_dependencies": [
+    "GS.BOTTOM_NAV",
+    "GS.TOP_CHROME",
+    "GS.QUICK_ADD",
+    "GS.ASK_JURNL",
+    "GS.FORM_SYSTEM",
+    "GS.STATE_PATTERNS",
+    "GS.FAMILY_DISCOVERY",
+    "GS.FILE_STORAGE",
+    "GS.ENTITLEMENTS",
+    "GS.SETTINGS"
+  ],
+  "data_dependencies": [
+    "DD.DOCUMENTS",
+    "DD.TRANSACTIONS",
+    "DD.ACCOUNTS"
+  ],
+  "owned_data": [
+    "DD.DOCUMENTS"
+  ],
+  "read_data": [
+    "DD.TRANSACTIONS",
+    "DD.ACCOUNTS"
+  ],
+  "write_data": [
+    "DD.DOCUMENTS"
+  ],
+  "shared_primitives": [
+    "JurnlButton",
+    "JurnlIconButton",
+    "JurnlInlineAction",
+    "JurnlInput",
+    "JurnlTile",
+    "JurnlRow",
+    "JurnlPanel",
+    "JurnlInlineExpansion",
+    "JurnlErrorPanel",
+    "JurnlSuccessBanner",
+    "JurnlDrawer",
+    "JurnlSheet",
+    "JurnlModal",
+    "JurnlScreen",
+    "JurnlHeadline",
+    "useCompactFit",
+    "JurnlProductNav",
+    "JurnlIcon",
+    "JurnlTopChrome",
+    "JurnlDateField",
+    "JurnlCategoryPicker",
+    "JurnlSignal",
+    "JurnlRecordList",
+    "JurnlFieldRows",
+    "JurnlStateBlock",
+    "JurnlFileField",
+    "JurnlDocumentViewer",
+    "JurnlRepository"
+  ],
+  "responsive_contract": "RESP.JURNL — 393×852 / 834×1194 / 1440×900; left rail, open right plate, centered nav; 10px floor; 24×24 targets; 0 containment drift.",
+  "accessibility_contract": "A11Y.JURNL — landmark + h1; labelled controls; dialog / alertdialog with focus trap + Escape; role=alert errors; aria-live status; reduced motion.",
+  "analytics_hooks": [
+    "trackActivity:jurnl_screen_view {screenId}",
+    "trackActivity:jurnl_interaction {interactionId}",
+    "buildMonetizationEvent:feature_gate_seen {familyId, capability}"
+  ],
+  "security_requirements": [
+    "USER-SCOPED DATA; NO FINANCIAL VALUES IN ANALYTICS",
+    "DESTRUCTIVE ACTIONS BEHIND A CONFIRM",
+    "PRIVATE FILE STORAGE; EXPORT IS A SAFETY FLOOR",
+    "PRODUCTION SECURITY NOT CLAIMED (NO TEST EVIDENCE)"
+  ],
+  "capabilities": [
+    "CORE_PERSONAL_DATA_CONTROL (CORE)",
+    "RECORDS_BASIC (RECORDS)",
+    "RECORDS_ADVANCED (RECORDS)",
+    "AI_EXPLAIN_BASIC (AI)",
+    "AI_PLANNING_GUIDANCE (AI)",
+    "AI_MULTI_SCENARIO_ANALYSIS (AI)",
+    "AI_BUSINESS_ANALYSIS (AI)",
+    "AI_HIGHER_USAGE (AI)",
+    "BUSINESS_RECEIPTS (BUSINESS)",
+    "BUSINESS_MILEAGE (BUSINESS)",
+    "BUSINESS_CATEGORIZATION (BUSINESS)",
+    "BUSINESS_PNL (BUSINESS)",
+    "BUSINESS_TAX_PREP (BUSINESS)",
+    "BUSINESS_TAX_ADVANCED (BUSINESS)",
+    "BUSINESS_ACCOUNTANT_EXPORT (BUSINESS)",
+    "FINANCIAL_SERVICE_REFERRALS (REFERRAL, DISABLED)"
+  ],
+  "functional_status": {
+    "score": 12.7,
+    "strict": 10.5,
+    "gap_counts": {
+      "PLACEHOLDER": 2,
+      "MISSING": 15,
+      "COMPLETE_FUNCTIONAL": 2,
+      "LEGACY": 1
+    }
+  },
+  "visual_status": {
+    "visual_nodes": 6,
+    "visually_implemented": 0,
+    "parent": "INVALID_EXPRESSION"
+  },
+  "expression_status": "DEFINED_IN_EXPRESSION_TREE",
+  "plate_policy": {
+    "F16.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F16.INDEX": "REUSE_PARENT_PLATE",
+    "F16.DOCUMENT": "NO_PLATE_REQUIRED",
+    "F16.SH.ADD_DOCUMENT": "NO_PLATE_REQUIRED",
+    "F16.MD.DELETE_DOCUMENT": "NO_PLATE_REQUIRED",
+    "F16.SH.EXPORT": "NO_PLATE_REQUIRED"
+  },
+  "icon_requirements": [
+    "ICON.ACTION_ADD",
+    "ICON.ACTION_DELETE",
+    "ICON.ACTION_EDIT",
+    "ICON.ACTION_EXPORT",
+    "ICON.ACTION_UPLOAD",
+    "ICON.BACK",
+    "ICON.F16_DOCUMENT",
+    "ICON.INFO"
+  ],
+  "reference_requirements": "OWN_AUTHORITY (REFERENCE_GUIDED_REFRAME)",
+  "generation_requirements": {
+    "parent": {
+      "generation_required": true,
+      "required_for_functional": false,
+      "generation_class": "PARENT_AUTHORITY_REGEN",
+      "reference_required": true,
+      "reference_source": "CURRENT PARENT AUTHORITY + FAMILY EXPRESSION BRIEF",
+      "authority_parent": null,
+      "sidekick_required": false,
+      "icon_generation_required": false,
+      "expected_generation_group": "VISUAL_TRACK.PARENT_REAUTHORITY"
+    },
+    "required_for_functional": false
+  },
+  "approval_requirements": {
+    "parent": "READY_FOR_FOUNDER_REVIEW (UNREVIEWED)",
+    "rule": "FOUNDER MARKS LOVE_IT; NEVER SET AUTOMATICALLY. CHILD VISUALS FOLLOW PARENT APPROVAL."
+  },
+  "functional_blockers": [
+    "B01 NO USER-SCOPED PERSISTENCE",
+    "B05 F05–F16 CHILDREN DO NOT EXIST",
+    "B06 NINE FAMILIES ARE UNREACHABLE FROM THE PRODUCT",
+    "B08 NO CATEGORY TAXONOMY",
+    "B11 F05–F16 HAVE NO FAMILY PRODUCTION CONTRACTS; REGISTRY LISTS F01–F04",
+    "B13 F16 HAS NO FILE STORAGE",
+    "B14 ASK JURNL IS STATIC AND ONLY ON F03 / F04; CURRENCY SELECTOR LIVES INSIDE IT",
+    "B16 TOP CHROME IS COMPOSED PER SCREEN"
+  ],
+  "launch_blockers": [
+    "B19 NO SERVER PERSISTENCE, SCHEMA OR RLS",
+    "B23 NO AUTOMATED ACCESSIBILITY AUDIT",
+    "B24 REVIEW CHROME SHIPS IN THE PRODUCT RUNTIME"
+  ],
+  "implementation_dependencies": [
+    "W0.3",
+    "W0.8"
+  ],
+  "boundaries": [
+    "\"ACTIVITY IS MOVEMENT HISTORY. RECORDS ARE DOCUMENTS.\" (F16_FAMILY_EXPRESSION_BRIEF). F16 NEVER LISTS MOVEMENTS AS RECORDS.",
+    "F16 IS THE ARCHIVE / EVIDENCE LAYER; F04 IS THE LEDGER. A DOCUMENT MAY LINK TO A MOVEMENT.",
+    "BUSINESS / TAX (RECEIPTS, MILEAGE, P&L, TAX PREP, ACCOUNTANT EXPORT) IS THE JURNL BUSINESS EXTENSION ANCHORED HERE, SERVER-ENFORCED, NOT CORE FUNCTIONAL SCOPE.",
+    "BANK_STATEMENT_PDF IS NOT INVENTED (F04 LIST); A STATEMENT IS A DOCUMENT THE PERSON FILES.",
+    "PERSONAL DATA EXPORT IS A SAFETY FLOOR (F01 + F16)."
+  ],
+  "extension": "JURNL BUSINESS EXTENSION (BUSINESS_RECEIPTS, BUSINESS_MILEAGE, BUSINESS_PNL, BUSINESS_TAX_PREP, BUSINESS_TAX_ADVANCED, BUSINESS_ACCOUNTANT_EXPORT).",
+  "founder_flags": [
+    "FF.BUSINESS_EXTENSION_TIMING"
+  ],
+  "reusable_capability_candidates": []
+}
