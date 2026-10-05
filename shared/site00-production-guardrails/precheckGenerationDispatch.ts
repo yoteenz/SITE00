@@ -1,3 +1,4 @@
+import { validateFamilyOutputProject } from './familyOutputProjects.js';
 import { validateSidekickDerivationReference } from './sidekickReferenceBinding.js';
 import {
   classifyGenerationRequest,
@@ -8,6 +9,26 @@ import type { GenerationRequest, PrecheckResult } from './types.js';
 
 export function precheckGenerationDispatch(request: GenerationRequest, options: ValidateOptions): PrecheckResult {
   const classification = classifyGenerationRequest(request, options.resolverContext);
+  if (options.enforceFamilyOutputProject !== false) {
+    const folder = validateFamilyOutputProject(classification);
+    if (folder.status === 'BLOCKED') {
+      return {
+        classification,
+        status: 'BLOCKED',
+        dispatchAllowed: false,
+        blockedReason: folder.blockedReason,
+        referenceRequired: classification.referenceRequired,
+        referenceFound: false,
+        referenceAttached: Boolean(classification.referenceInputAttached),
+        generationMode: classification.generationMode,
+        resolvedReference: null,
+        referencePath: null,
+        referenceAuthorityId: classification.referenceAuthorityIdHint ?? null,
+        referenceStatus: null,
+        creditsSpent: 0,
+      };
+    }
+  }
   const sidekick = validateSidekickDerivationReference(classification);
   if (sidekick.status === 'BLOCKED') {
     return {

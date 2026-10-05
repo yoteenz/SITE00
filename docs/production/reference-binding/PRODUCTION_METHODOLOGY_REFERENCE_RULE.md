@@ -19,6 +19,10 @@ This is enforced in code via `shared/site00-production-guardrails/` — not prom
 
 Reference resolution is project-scoped. Cross-project binding requires an explicit shared-global registry entry.
 
+## One project per family
+
+Each family has its own provider project and repo folder. A paid job must pass `providerProjectId` for that family. Dispatch into another family's project is blocked (`FAMILY_PROJECT_MISMATCH`). A new family with no registered project is blocked (`FAMILY_PROJECT_REQUIRED`) until the project is created and added to `FAMILY_OUTPUT_PROJECTS.json`.
+
 ## Authority priority
 
 `CANONICAL` → `APPROVED` → `IN_REVIEW` → `PROVISIONAL_DERIVED` → `REFERENCE_ONLY`
@@ -32,7 +36,7 @@ Environment plates, botanicals, lockups, objects, materials, and other visually 
 ## Pre-dispatch pipeline
 
 ```
-classify → resolve reference → file health → validateGenerationReferenceBinding → budget gate → dispatch
+classify → family output project → resolve reference → file health → validateGenerationReferenceBinding → budget gate → dispatch
 ```
 
 ## Implementation entry points

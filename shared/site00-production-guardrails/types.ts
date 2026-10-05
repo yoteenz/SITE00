@@ -31,6 +31,8 @@ export const BLOCKED_REASONS = [
   'REFERENCE_RESOLUTION_FAILED',
   'SUPERSEDED_REFERENCE_WHEN_CANONICAL_EXISTS',
   'SILENT_FALLBACK_ATTEMPT',
+  'FAMILY_PROJECT_REQUIRED',
+  'FAMILY_PROJECT_MISMATCH',
 ] as const;
 export type BlockedReason = (typeof BLOCKED_REASONS)[number];
 
@@ -88,6 +90,8 @@ export type GenerationRequest = {
   referenceInputAttached?: boolean;
   provider: string;
   model: string;
+  /** Provider project this job must land in. One project per family. */
+  providerProjectId?: string | null;
   estimatedCostCredits?: number | null;
   /** Same-session outputs that may bind as references after parent gate. */
   sessionReferences?: readonly SessionReferenceOutput[];
