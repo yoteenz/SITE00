@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "rule": "ONE_PROVIDER_PROJECT_PER_FAMILY",
+  "before_first_paid_generation": [
+    "Create a provider project named for that family only",
+    "Register it in shared/site00-production-guardrails/familyOutputProjects.ts",
+    "Pass providerProjectId on every paid job",
+    "Write outputs under that family's repo folder"
+  ],
+  "blocked_conditions": ["FAMILY_PROJECT_REQUIRED", "FAMILY_PROJECT_MISMATCH"],
+  "projects": [
+    {
+      "product_project_id": "JURNL",
+      "family_id": "F01",
+      "provider": "OpenArt",
+      "provider_project_id": "TToQavm9coU1QGPRfEzU",
+      "provider_project_name": "JURNL F01 Entry Family Production",
+      "repo_folder": "JURNL/F01_ENTRY"
+    },
+    {
+      "product_project_id": "JURNL",
+      "family_id": "F02",
+      "provider": "OpenArt",
+      "provider_project_id": "rVShOWFblztGdIxRYHmL",
+      "provider_project_name": "JURNL F02 Setup Family Production",
+      "repo_folder": "JURNL/F02_SETUP"
+    },
+    {
+      "product_project_id": "JURNL",
+      "family_id": "F03",
+      "provider": "OpenArt",
+      "provider_project_id": "Aa0fKSPeX0SJ4DICt0aI",
+      "provider_project_name": "JURNL F03 Today Family Production",
+      "repo_folder": "JURNL/F03_TODAY"
+    },
+    {
+      "product_project_id": "JURNL",
+      "family_id": "F04",
+      "provider": "OpenArt",
+      "provider_project_id": "KUfyzoatdwpaYBkq2Mf8",
+      "provider_project_name": "JURNL F04 Activity Family Production",
+      "repo_folder": "JURNL/F04_ACTIVITY"
+    }
+  ]
+}

@@ -51,5 +51,26 @@ export const SITE00_ORIGIN_DESKTOP_COMPOSITION = {
   statusStripGuidancePaddingYPx: 0,
 } as const;
 
+/**
+ * Origin mobile composition — 390×844 artboard / native phone.
+ * Panel overlays align to baked blocks in ORIGIN_MOBILE_WITH_PANELS reference.
+ */
+export const SITE00_ORIGIN_MOBILE_COMPOSITION = {
+  cardsTopPercent: 53,
+  cardsTopOffsetPx: 0,
+  cardsMaxWidthPx: 360,
+  cardScale: 0.36,
+  cardsRowGapPx: 6,
+  panelIconSizePx: 34,
+  panelIconOffsetYPx: 4,
+  panelIconScale: 0.425,
+  expandedMaxWidthPx: 340,
+  expandedPanelScale: 0.92,
+  /** Collapsed teaser hit area — matches baked panel footprint. */
+  teaserMinWidthPx: 98,
+  teaserMinHeightPx: 148,
+  teaserPaddingPx: 8,
+} as const;
+
 /** @deprecated Use SITE00_ORIGIN_DESKTOP_COMPOSITION */
 export const SITE00_ORIGIN_DESKTOP_CARDS = SITE00_ORIGIN_DESKTOP_COMPOSITION;

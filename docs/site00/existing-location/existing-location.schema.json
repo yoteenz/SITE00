@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExistingLocationCase",
+  "type": "object",
+  "required": ["id", "public_reference", "status", "client_description"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "public_reference": { "type": "string" },
+    "platform": { "enum": ["SHOPIFY", "WORDPRESS", "WEBFLOW", "SQUARESPACE", "WIX", "CUSTOM_CODE", "OTHER", "UNSURE"] },
+    "request_type": { "enum": ["DIAGNOSE", "REPAIR", "IMPROVE", "INSTALL", "CUSTOM_EXPERIENCE", "UNSURE"] },
+    "status": { "type": "string" },
+    "access_requirements": { "type": "array" },
+    "findings": { "type": "array" },
+    "entitlement": { "type": ["object", "null"] }
+  }
+}

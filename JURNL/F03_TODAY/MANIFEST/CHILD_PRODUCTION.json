@@ -1,0 +1,7 @@
+{
+  "family_id": "F03",
+  "child_production": "BLOCKED",
+  "reason": "Parent correction is in founder review. Do not generate F03 child authorities until the founder passes the parent.",
+  "parent_status": "READY_FOR_FOUNDER_REVIEW",
+  "approved": false
+}

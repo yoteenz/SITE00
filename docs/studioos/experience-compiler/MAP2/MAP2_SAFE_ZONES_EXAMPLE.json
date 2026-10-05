@@ -1,0 +1,164 @@
+{
+  "maps": [
+    {
+      "asset_id": "ENV.ORIGIN.COLLAPSED",
+      "regions": [
+        {
+          "kind": "UI_CLEAR_ZONE",
+          "bbox": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.12
+          },
+          "label": "Header clear"
+        },
+        {
+          "kind": "NAV_OVERLAY_ZONE",
+          "bbox": {
+            "x": 0,
+            "y": 0.88,
+            "w": 1,
+            "h": 0.12
+          },
+          "label": "Bottom nav clear"
+        },
+        {
+          "kind": "FOCAL_ZONE",
+          "bbox": {
+            "x": 0.2,
+            "y": 0.15,
+            "w": 0.6,
+            "h": 0.45
+          },
+          "label": "Primary focal architecture"
+        },
+        {
+          "kind": "NO_FOCAL_DETAIL_ZONE",
+          "bbox": {
+            "x": 0.1,
+            "y": 0.55,
+            "w": 0.8,
+            "h": 0.35
+          },
+          "label": "Keep quiet for cards/UI"
+        },
+        {
+          "kind": "CROP_SAFE_ZONE",
+          "bbox": {
+            "x": 0.05,
+            "y": 0.05,
+            "w": 0.9,
+            "h": 0.9
+          },
+          "label": "Responsive crop safe"
+        }
+      ],
+      "overlay_relative_path": "safe-zones/ENV_ORIGIN_COLLAPSED_SAFE_ZONES.png"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.IDNTY",
+      "regions": [
+        {
+          "kind": "CROP_SAFE_ZONE",
+          "bbox": {
+            "x": 0.05,
+            "y": 0.05,
+            "w": 0.9,
+            "h": 0.9
+          },
+          "label": "Responsive crop safe"
+        }
+      ],
+      "overlay_relative_path": "safe-zones/CARD_ORIGIN_IDNTY_SAFE_ZONES.png"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.BLDR",
+      "regions": [
+        {
+          "kind": "CROP_SAFE_ZONE",
+          "bbox": {
+            "x": 0.05,
+            "y": 0.05,
+            "w": 0.9,
+            "h": 0.9
+          },
+          "label": "Responsive crop safe"
+        }
+      ],
+      "overlay_relative_path": "safe-zones/CARD_ORIGIN_BLDR_SAFE_ZONES.png"
+    },
+    {
+      "asset_id": "CARD.ORIGIN.EVOLVE",
+      "regions": [
+        {
+          "kind": "CROP_SAFE_ZONE",
+          "bbox": {
+            "x": 0.05,
+            "y": 0.05,
+            "w": 0.9,
+            "h": 0.9
+          },
+          "label": "Responsive crop safe"
+        }
+      ],
+      "overlay_relative_path": "safe-zones/CARD_ORIGIN_EVOLVE_SAFE_ZONES.png"
+    },
+    {
+      "asset_id": "ENV.ORIGIN.EXPANDED",
+      "regions": [
+        {
+          "kind": "UI_CLEAR_ZONE",
+          "bbox": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 0.12
+          },
+          "label": "Header clear"
+        },
+        {
+          "kind": "NAV_OVERLAY_ZONE",
+          "bbox": {
+            "x": 0,
+            "y": 0.88,
+            "w": 1,
+            "h": 0.12
+          },
+          "label": "Bottom nav clear"
+        },
+        {
+          "kind": "FOCAL_ZONE",
+          "bbox": {
+            "x": 0.2,
+            "y": 0.15,
+            "w": 0.6,
+            "h": 0.45
+          },
+          "label": "Primary focal architecture"
+        },
+        {
+          "kind": "NO_FOCAL_DETAIL_ZONE",
+          "bbox": {
+            "x": 0.1,
+            "y": 0.55,
+            "w": 0.8,
+            "h": 0.35
+          },
+          "label": "Keep quiet for cards/UI"
+        },
+        {
+          "kind": "CROP_SAFE_ZONE",
+          "bbox": {
+            "x": 0.05,
+            "y": 0.05,
+            "w": 0.9,
+            "h": 0.9
+          },
+          "label": "Responsive crop safe"
+        }
+      ],
+      "overlay_relative_path": "safe-zones/ENV_ORIGIN_EXPANDED_SAFE_ZONES.png"
+    }
+  ]
+}

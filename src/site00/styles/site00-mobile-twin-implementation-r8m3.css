@@ -1,0 +1,95 @@
+.site00-twin-fm3 {
+  --fm3-black: #0a0a0a;
+  --fm3-text: #ececec;
+  --fm3-lime: #b8e600;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  background: var(--fm3-black);
+  color: var(--fm3-text);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.site00-twin-fm3__section {
+  padding: 6px 8px;
+  border-bottom: 1px solid #1a1a1a;
+  margin-bottom: var(--fm3-section-gap, 6px);
+}
+
+.site00-twin-fm3__section-title {
+  margin: 0 0 4px;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #777;
+}
+
+.site00-twin-fm3__hero-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--fm3-hero-cols, 3), minmax(0, 1fr));
+  gap: 5px;
+  align-items: start;
+}
+
+.site00-twin-fm3__gallery-sheet {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--fm3-gallery-gap, 5px);
+}
+
+.site00-twin-fm3__structured-band {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.site00-twin-fm3__bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.site00-twin-fm3__readiness-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+
+.site00-twin-fm3__authority-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.site00-twin-fm3__decision-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.site00-twin-fm3__metadata-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  opacity: 0.92;
+}
+
+.site00-twin-fm3__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.site00-twin-fm3__node {
+  min-width: 0;
+}
+
+.site00-twin-fm3__node--interactive {
+  cursor: pointer;
+}
+
+.site00-twin-fm3__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

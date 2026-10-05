@@ -1,0 +1,21 @@
+import type { ProjectExperienceIntelligence } from './map2Types';
+
+export function buildGreenfieldProjectIntelligence(overrides?: Partial<ProjectExperienceIntelligence>): ProjectExperienceIntelligence {
+  return {
+    project_id: 'lumina-atelier-greenfield',
+    brand_name: 'LUMINA ATELIER',
+    business_model: 'DTC custom beauty + premium ready-to-wear wigs',
+    audience: ['Style-forward women 25–45', 'Salon partners', 'Creator economy stylists'],
+    products_services: ['Custom wigs', 'Ready collections', 'Atelier consultations'],
+    revenue_model: 'Configuration-led AOV + membership archive',
+    founder_goals: ['Own premium digital experience', 'Reduce manual sales design', 'Scale without template sites'],
+    creative_appetite: 'AMBITIOUS',
+    competitive_context: 'Commoditized e-commerce wig shops; differentiation via experience architecture',
+    constraints: ['No mass OpenArt in MAP2 sprint', 'Mobile-first founder review'],
+    references: ['Editorial beauty houses', 'Product configurators', 'Immersive retail worlds'],
+    boundaries: ['No visual reuse across clients', 'No generic sitemap templates'],
+    app_intent: 'COMPANION',
+    raw_notes: 'Fictional greenfield fixture for MAP2 validation — not a live client.',
+    ...overrides,
+  };
+}

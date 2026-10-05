@@ -19,11 +19,36 @@ const LOCAL_API_ROUTES = [
   { path: '/api/session-restore', file: 'api/session-restore.ts' },
   { path: '/api/site00-access', file: 'api/site00-access.ts' },
   { path: '/api/site00/client-production', file: 'api/site00/client-production.ts' },
+  { path: '/api/site00/client-project-room', file: 'api/site00/client-project-room.ts' },
+  { path: '/api/site00/client-reviews', file: 'api/site00/client-reviews.ts' },
+  { path: '/api/site00/client-app', file: 'api/site00/client-app.ts' },
   { path: '/api/site00/projects', file: 'api/site00/projects.ts' },
+  { path: '/api/site00/project-technical-intelligence', file: 'api/site00/project-technical-intelligence.ts' },
   { path: '/api/site00/marketing-engagements', file: 'api/site00/marketing-engagements.ts' },
   { path: '/api/site00/studio-world-webhook', file: 'api/site00/studio-world-webhook.ts' },
   { path: '/api/site00/intakes', file: 'api/site00/intakes.ts' },
   { path: '/api/site00/intake-access', file: 'api/site00/intake-access.ts' },
+  { path: '/api/site00/world-intake', file: 'api/site00/world-intake.ts' },
+  { path: '/api/site00/astral-world-assets', file: 'api/site00/astral-world-assets.ts' },
+  { path: '/api/site00/astral-world-reader-account', file: 'api/site00/astral-world-reader-account.ts' },
+  { path: '/api/site00/astral-world-avatar-library', file: 'api/site00/astral-world-avatar-library.ts' },
+  { path: '/api/site00/implementation-snapshots', file: 'api/site00/implementation-snapshots.ts' },
+  { path: '/api/site00/page-mirror', file: 'api/site00/page-mirror.ts' },
+  { path: '/api/site00/experience-engine', file: 'api/site00/experience-engine.ts' },
+  { path: '/api/site00/expression-engine', file: 'api/site00/expression-engine.ts' },
+  { path: '/api/site00/campaign-package', file: 'api/site00/campaign-package.ts' },
+  { path: '/api/site00/design-control-plane', file: 'api/site00/design-control-plane.ts' },
+  { path: '/api/site00/twin-v2-visual-concept', file: 'api/site00/twin-v2-visual-concept.ts' },
+  { path: '/api/site00/twin-v2-concept-generations', file: 'api/site00/twin-v2-concept-generations.ts' },
+  { path: '/api/site00/twin-v2-import-concept', file: 'api/site00/twin-v2-import-concept.ts' },
+  { path: '/api/site00/twin-v2-fal-parallel-twin-proof', file: 'api/site00/twin-v2-fal-parallel-twin-proof.ts' },
+  { path: '/api/site00/twin-v2-atomic-concept-generation', file: 'api/site00/twin-v2-atomic-concept-generation.ts' },
+  { path: '/api/site00/twin-v3-mobile-twin-pipeline', file: 'api/site00/twin-v3-mobile-twin-pipeline.ts' },
+  { path: '/api/site00/twin-v3-mobile-twin-implementation', file: 'api/site00/twin-v3-mobile-twin-implementation.ts' },
+  { path: '/api/site00/design-workspace-production', file: 'api/site00/design-workspace-production.ts' },
+  { path: '/api/site00/twin-v3-forensic-ui-blueprint', file: 'api/site00/twin-v3-forensic-ui-blueprint.ts' },
+  { path: '/api/site00/sol-design-bench', file: 'api/site00/sol-design-bench.ts' },
+  { path: '/api/site00/twin-test-a-design-bench', file: 'api/site00/twin-test-a-design-bench.ts' },
   { path: '/api/admin/site00-marketing', file: 'api/admin/site00-marketing.ts' },
   { path: '/api/admin/site00-assts', file: 'api/admin/site00-assts.ts' },
   { path: '/api/admin/site00-production', file: 'api/admin/site00-production.ts' },
@@ -32,6 +57,9 @@ const LOCAL_API_ROUTES = [
   { path: '/api/admin/site00-evolve', file: 'api/admin/site00-evolve.ts' },
   { path: '/api/admin/site00-evolve/oauth/callback', file: 'api/admin/site00-evolve-oauth-callback.ts' },
   { path: '/api/admin/site00-intakes', file: 'api/admin/site00-intakes.ts' },
+  { path: '/api/admin/site00-client-intakes', file: 'api/admin/site00-client-intakes.ts' },
+  { path: '/api/admin/site00-astral-world-generation', file: 'api/admin/site00-astral-world-generation.ts' },
+  { path: '/api/capture-auth-bootstrap', file: 'api/capture-auth-bootstrap.ts' },
 ];
 
 function applyServerEnv() {
@@ -44,6 +72,9 @@ function applyServerEnv() {
     ['SESSION_COOKIE_SECURE', env.SESSION_COOKIE_SECURE],
     ['ADMIN_EMAILS', env.ADMIN_EMAILS || env.VITE_ADMIN_EMAILS],
     ['FAL_KEY', env.FAL_KEY],
+    ['OPENAI_API_KEY', env.OPENAI_API_KEY],
+    ['XAI_API_KEY', env.XAI_API_KEY],
+    ['SITE00_GROK_VISION_MODEL', env.SITE00_GROK_VISION_MODEL],
     ['STUDIO_ASSETS_BUCKET', env.STUDIO_ASSETS_BUCKET],
     ['SITE00_ASSTS_BUCKET', env.SITE00_ASSTS_BUCKET],
     ['SITE00_ASSTS_LOADER_GEOMETRY_SECRET', env.SITE00_ASSTS_LOADER_GEOMETRY_SECRET],
@@ -54,6 +85,12 @@ function applyServerEnv() {
   ];
   for (const [key, value] of pairs) {
     if (value && !process.env[key]) process.env[key] = value;
+  }
+  if (!process.env.SITE00_CLIENT_REVIEW_PREVIEW_MODE && process.env.NODE_ENV !== 'production') {
+    process.env.SITE00_CLIENT_REVIEW_PREVIEW_MODE = '1';
+  }
+  if (!process.env.SITE00_VITE_LOCAL_API) {
+    process.env.SITE00_VITE_LOCAL_API = '1';
   }
 }
 

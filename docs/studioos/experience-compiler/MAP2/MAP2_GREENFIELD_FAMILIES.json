@@ -1,0 +1,55 @@
+{
+  "families": [
+    {
+      "family_id": "EDITORIAL_CONTENT",
+      "name": "Editorial Content",
+      "grammar_description": "Chapter spine + story spread",
+      "experience_unit_kinds": [
+        "CONTENT",
+        "HUB"
+      ],
+      "route_ids": [
+        "r_0__",
+        "r_1__lab",
+        "r_2__build",
+        "r_3__build_step",
+        "r_5__projects"
+      ],
+      "inheritance_layers": {
+        "HOST_SHELL": "GLOBAL"
+      }
+    },
+    {
+      "family_id": "TRANSACTION_FLOW",
+      "name": "Transaction Flow",
+      "grammar_description": "Review + checkout adjacency",
+      "experience_unit_kinds": [
+        "TRANSACTION_FLOW",
+        "COMMERCE_EXPERIENCE"
+      ],
+      "route_ids": [
+        "r_4__review"
+      ],
+      "inheritance_layers": {
+        "HOST_SHELL": "GLOBAL"
+      }
+    },
+    {
+      "family_id": "PRODUCT_ASSEMBLY_CONFIGURATOR",
+      "name": "Product Assembly Configurator",
+      "grammar_description": "Step machine + live preview",
+      "experience_unit_kinds": [
+        "CONFIGURATOR",
+        "MULTI_STEP_FLOW"
+      ],
+      "route_ids": [
+        "cx_0"
+      ],
+      "inheritance_layers": {
+        "HOST_SHELL": "FRONTAL_SLAYER",
+        "WORKING_SURFACE": "MULTI_STEP_CONFIGURATION",
+        "PREVIEW": "LIVE_PRODUCT_ASSEMBLY"
+      }
+    }
+  ]
+}

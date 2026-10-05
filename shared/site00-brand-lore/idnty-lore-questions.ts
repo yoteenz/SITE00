@@ -5,6 +5,10 @@
  * Steps are shared across all Identity brand states (starting-at-zero, some-pieces-exist, etc.).
  */
 
+import type { LoreResponseMode } from './loreAnswerTypes.js';
+
+export type { LoreResponseMode } from './loreAnswerTypes.js';
+
 export type LoreQuestionOption = {
   id: string;
   label: string;
@@ -17,14 +21,20 @@ export type LoreQuestionStep = {
   title: string;
   subtitle?: string;
   helper?: string;
+  /** Canonical response semantics — question definition owns behavior. */
+  responseMode: LoreResponseMode;
+  /** @deprecated Use responseMode. Kept for backward-compatible render paths. */
   type: 'single' | 'multi' | 'textarea' | 'language-samples';
   options?: LoreQuestionOption[];
   maxLength?: number;
   required?: boolean;
   placeholder?: string;
-  /** Allow SKIP / NOT SURE YET without blocking submission. */
   skippable?: boolean;
-  /** Internal domain — for synthesis mapping only. */
+  minSelections?: number;
+  maxSelections?: number;
+  recommendedMaxSelections?: number;
+  allowOther?: boolean;
+  selectionGuidance?: string;
   domain: string;
 };
 
@@ -138,8 +148,10 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'feeling',
     domain: 'EMOTIONAL_FIRST_IMPRESSION',
     title: 'BEFORE THEY UNDERSTAND YOU,\nWHAT SHOULD THEY FEEL?',
+    responseMode: 'MULTI_SELECT',
     type: 'multi',
     options: IDNTY_LORE_FEELING_OPTIONS,
+    selectionGuidance: 'SELECT ALL THAT GENUINELY BELONG.',
     required: false,
     skippable: true,
   },
@@ -147,8 +159,10 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'role',
     domain: 'AUDIENCE_RELATIONSHIP',
     title: 'WHO ARE YOU IN THEIR WORLD?',
-    type: 'single',
+    responseMode: 'MULTI_SELECT',
+    type: 'multi',
     options: IDNTY_LORE_ROLE_OPTIONS,
+    selectionGuidance: 'MORE THAN ONE CAN BE TRUE.',
     required: false,
     skippable: true,
   },
@@ -156,6 +170,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'belief',
     domain: 'BRAND_BELIEF',
     title: 'WHAT DOES YOUR BRAND BELIEVE\nTHAT OTHER PEOPLE KEEP GETTING WRONG?',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 600,
     placeholder: 'YOUR POINT OF VIEW…',
@@ -166,8 +181,10 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'enemy',
     domain: 'CULTURAL_OPPOSITION',
     title: 'WHAT ARE WE QUIETLY AT WAR WITH?',
+    responseMode: 'MULTI_SELECT',
     type: 'multi',
     options: IDNTY_LORE_ENEMY_OPTIONS,
+    selectionGuidance: 'MORE THAN ONE CAN BE TRUE.',
     required: false,
     skippable: true,
   },
@@ -177,6 +194,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     title: 'WHAT COULD THIS BRAND TALK ABOUT FOREVER?',
     subtitle: 'NOT PRODUCTS.',
     helper: 'IDEAS, BEHAVIORS, PROBLEMS, CURIOSITIES, CONVERSATIONS.',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 500,
     placeholder: 'THE THINGS YOU NEVER GET TIRED OF…',
@@ -188,6 +206,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     domain: 'WORLD_METAPHOR',
     title: 'IF THIS BRAND WERE A PLACE,\nWHERE DID WE JUST WALK INTO?',
     helper: 'NOT LITERALLY. DESCRIBE THE ATMOSPHERE.',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 500,
     placeholder: 'THE FEELING OF THE SPACE…',
@@ -198,8 +217,10 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'objects',
     domain: 'MATERIAL_VOCABULARY',
     title: 'WHAT BELONGS IN THIS WORLD?',
+    responseMode: 'MULTI_SELECT',
     type: 'multi',
     options: IDNTY_LORE_OBJECT_TAGS,
+    selectionGuidance: 'CHOOSE THE ONES THAT FEEL ESSENTIAL.',
     required: false,
     skippable: true,
   },
@@ -208,6 +229,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     domain: 'REFERENCE_LINEAGE',
     title: 'WHAT DID YOU GROW UP LOVING?',
     helper: 'SHOWS. MOVIES. MAGAZINES. MUSIC. STORES. BRANDS. WEBSITES. ERAS. SUBCULTURES.',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 600,
     placeholder: 'WHAT SHAPED YOUR TASTE…',
@@ -218,6 +240,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'now',
     domain: 'CURRENT_REFERENCE_SIGNALS',
     title: 'WHAT HAS YOUR ATTENTION RIGHT NOW?',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 500,
     placeholder: 'WHAT YOU ARE LOOKING AT TODAY…',
@@ -228,8 +251,10 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'contradiction',
     domain: 'CREATIVE_TENSIONS',
     title: 'YOU CAN BE TWO THINGS AT ONCE.\nWHICH TENSIONS FEEL LIKE YOU?',
+    responseMode: 'MULTI_SELECT',
     type: 'multi',
     options: IDNTY_LORE_TENSION_OPTIONS,
+    selectionGuidance: 'MORE THAN ONE CAN BE TRUE.',
     required: false,
     skippable: true,
   },
@@ -238,6 +263,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     domain: 'AUTHENTIC_LANGUAGE',
     title: 'WHAT WOULD YOU ACTUALLY SAY?',
     subtitle: 'WRITE IN YOUR OWN VOICE.',
+    responseMode: 'FREE_TEXT',
     type: 'language-samples',
     maxLength: 800,
     placeholder: 'A CAPTION. A CORRECTION. AN EXPLANATION TO A FRIEND…',
@@ -248,6 +274,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'line',
     domain: 'ANTI_LANGUAGE',
     title: 'WHAT WOULD YOU NEVER SAY?',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 400,
     placeholder: 'PHRASES THAT DO NOT SOUND LIKE YOU…',
@@ -258,6 +285,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'status',
     domain: 'SOCIAL_SIGNAL',
     title: 'WHEN PEOPLE SHARE THIS BRAND,\nWHAT SHOULD IT SAY ABOUT THEM?',
+    responseMode: 'SINGLE_SELECT',
     type: 'single',
     options: IDNTY_LORE_STATUS_OPTIONS,
     required: false,
@@ -267,8 +295,10 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'ritual',
     domain: 'AUDIENCE_RITUAL',
     title: 'WHAT SHOULD PEOPLE COME BACK HERE FOR?',
+    responseMode: 'MULTI_SELECT',
     type: 'multi',
     options: IDNTY_LORE_RITUAL_OPTIONS,
+    selectionGuidance: 'SELECT ALL THAT GENUINELY BELONG.',
     required: false,
     skippable: true,
   },
@@ -276,6 +306,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'memory',
     domain: 'MEMORY_GOAL',
     title: 'WHEN EVERYTHING ELSE IS GONE,\nWHAT SHOULD THEY REMEMBER?',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 400,
     placeholder: 'THE ONE THING THAT STICKS…',
@@ -286,6 +317,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'symbol',
     domain: 'SYMBOLIC_VOCABULARY',
     title: 'IF WE COULD OWN ONE SYMBOL,\nOBJECT, MOTION, OR GESTURE,\nWHAT MIGHT IT BE?',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 300,
     placeholder: 'OPTIONAL — UNCERTAINTY IS FINE.',
@@ -296,6 +328,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'myth',
     domain: 'DESIRED_MYTHOLOGY',
     title: 'WHAT STORY SHOULD PEOPLE\nEVENTUALLY TELL ABOUT THIS BRAND?',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 500,
     placeholder: 'THE STORY THEY RETELL…',
@@ -306,6 +339,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'future',
     domain: 'FUTURE_WORLD',
     title: 'IF THIS GETS MUCH BIGGER\nTHAN YOU EXPECT,\nWHAT DOES IT BECOME?',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 500,
     placeholder: 'THE FUTURE YOU CAN IMAGINE…',
@@ -316,6 +350,7 @@ export const IDNTY_LORE_QUESTIONS: LoreQuestionStep[] = [
     id: 'no-go',
     domain: 'CREATIVE_ANTI_PATTERNS',
     title: 'WHAT WOULD MAKE YOU SAY:\n"THAT DOESN\'T FEEL LIKE US."',
+    responseMode: 'FREE_TEXT',
     type: 'textarea',
     maxLength: 500,
     placeholder: 'YOUR NO-GO ZONE…',

@@ -1,0 +1,16 @@
+{
+  "resident_id": "SW-002",
+  "resident_name": "ZURI XU",
+  "outfit_system": "WOMEN_LEGGINGS",
+  "identity_worklook_path": "public/site00/studio-world-residents/casting-thumbnails-v1/SW-RESIDENT-002_ZURI_XU.jpg",
+  "body_geometry_path": "public/site00/studio-world-residents/season1-v1/SW-RESIDENT-002__zuri-xu/01-natural-authority/zuri-xu__natural-full-body__architectural-fashion-strategist.jpg",
+  "outfit_authority_path": "public/site00/studio-world-residents/uniform-authority-v1/WOMENS_FULL_BODY_UNIFORM_AUTHORITY.jpg",
+  "file": "01_FULL_BODY_UNIFORM_FRONT.png",
+  "prompt": "REFERENCE IMAGES = STRICT IDENTITY AUTHORITY. SAME PERSON. DO NOT CHANGE face, face shape, age, skin tone, ethnicity, eye shape, nose, lips, jaw, hairline, hair color, hair texture, body type, or body proportions. Only change wardrobe to the specified athletic uniform system.\n\nSubject: ZURI XU (SW-002) Studio World resident.\n\nUse casting/work-look reference for FACE, HAIR, and identity. Use season1 full-body reference for BODY PROPORTIONS and HEIGHT only. Use attached WOMEN'S uniform authority for OUTFIT SYSTEM only.\n\nFULL-BODY UNIFORM REGEN — FRONT:\n- full body standing straight-on, feet visible, neutral upright stance\n- clean studio backdrop, soft even lighting\n- white fitted short-sleeve top with red collar trim\n- white leggings with subtle red trim, white toe shoes with red trim (NOT sneakers)\n- minimal athletic uniform presentation, reference quality not editorial fashion\n- do NOT use cream suit, black suit, or prior fashion outfit",
+  "openart_generation_id": "y4hTdS5d18Z6bTngVYm1",
+  "output_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791161522623_e8a018c7.png",
+  "retry_count": 0,
+  "classification": "PASS",
+  "approval_status": "IN_REVIEW",
+  "credits": 152
+}

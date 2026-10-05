@@ -1,0 +1,13 @@
+{
+  "family_id": "F10",
+  "screen_id": "F10.00",
+  "approval_status": "READY_FOR_FOUNDER_REVIEW",
+  "founder_status": "UNREVIEWED",
+  "plate": "ENV.NICHE",
+  "plate_origin": "REFERENCE_GUIDED_REFRAME",
+  "plate_ui_interference": "FAIL",
+  "child_explosion": "NO",
+  "sidekick": "NOT_GENERATED",
+  "route": "purchases",
+  "provider_project_id": "SffNHRCKiMIzvkXj69ev"
+}

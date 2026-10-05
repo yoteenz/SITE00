@@ -1,5 +1,7 @@
 /** Admin client for EVOLVE Marketing OS API */
 
+import { getAccessToken } from '../../../utils/api.js';
+import { site00ApiUrl } from '../../../utils/site00ApiBase.js';
 import type {
   EvolveApprovalItem,
   EvolveCalendarItem,
@@ -9,6 +11,7 @@ import type {
   EvolveOverview,
   EvolveSocialItem,
 } from '../types/evolve';
+import type { EvolveCommercialState, EvolveServiceCatalog } from '../../../../shared/site00-evolve-commercial/types';
 
 export type ExpandedReadinessPayload = {
   designation: string;
@@ -29,16 +32,35 @@ export type ExpandedReadinessPayload = {
   automationMode: string;
 };
 
-const BASE = '/api/admin/site00-evolve';
+const EVOLVE_ADMIN_PATH = '/api/admin/site00-evolve';
+
+function evolveAdminUrl(path: string): string {
+  const suffix = path.startsWith('?') ? path : path.startsWith('/') ? path : `/${path}`;
+  return site00ApiUrl(`${EVOLVE_ADMIN_PATH}${suffix}`);
+}
 
 async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, {
+  const token = await getAccessToken();
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...((init?.headers as Record<string, string> | undefined) ?? {}),
+  };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  // Bearer auth only — do not send credentials; ACAO:* + credentials:'include' fails CORS on fsbw-dev → api.site00.com.
+  const res = await fetch(evolveAdminUrl(path), {
     ...init,
-    headers: { 'Content-Type': 'application/json', ...init?.headers },
-    credentials: 'include',
+    headers,
   });
   if (!res.ok) {
     const err = (await res.json().catch(() => ({}))) as { error?: string };
+    if (res.status === 401) {
+      throw new Error(
+        err.error === 'Sign in required'
+          ? 'Sign in required — sign in on site00.com (same account), then reload this page.'
+          : (err.error ?? 'Sign in required'),
+      );
+    }
     throw new Error(err.error ?? `EVOLVE API ${res.status}`);
   }
   return res.json() as Promise<T>;
@@ -282,11 +304,32 @@ export const site00EvolveApi = {
   creativeDirectionDebug: (orgSlug: string) =>
     evolveFetch<Record<string, unknown>>(`?action=creative_direction_debug&orgSlug=${encodeURIComponent(orgSlug)}`),
 
+  creativeDirectionFormationInspector: (orgSlug: string) =>
+    evolveFetch<Record<string, unknown>>(`?action=creative_direction_formation_inspector&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  commercialCatalog: () => evolveFetch<{ catalog: EvolveServiceCatalog }>('?action=commercial_catalog'),
+
+  commercialState: (orgSlug: string) =>
+    evolveFetch<{ orgSlug: string; commercial: EvolveCommercialState }>(`?action=commercial_state&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  commercialSetPlan: (orgSlug: string, planId: string) =>
+    evolveFetch<{ orgSlug: string; commercial: EvolveCommercialState }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'commercial_set_plan', orgSlug, planId }),
+    }),
+
+  commercialMarkFoundationCompleted: (orgSlug: string) =>
+    evolveFetch<{ orgSlug: string; commercial: EvolveCommercialState }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'commercial_mark_foundation_completed', orgSlug }),
+    }),
+
   creativeDirectionDecision: (
     orgSlug: string,
     body: {
       type: 'APPROVE' | 'REFINE' | 'HYBRIDIZE' | 'REJECT';
       selectedTerritoryId?: string;
+      selectedComparisonDirectionId?: string;
       hybridSelections?: Array<{ territoryId: string; elements: string[] }>;
       refinementNotes?: string;
       rejectedTerritoryIds?: string[];
@@ -295,5 +338,115 @@ export const site00EvolveApi = {
     evolveFetch<Record<string, unknown>>('', {
       method: 'POST',
       body: JSON.stringify({ action: 'creative_direction_decision', orgSlug, ...body }),
+    }),
+
+  /** Step 1 — Sonnet completion for v1 directions 01–03 only (NDX BOOK). */
+  creativeDirectionCompleteV1Directions: (orgSlug: string) =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'creative_direction_complete_v1_directions', orgSlug }),
+    }),
+
+  /** Step 2 — Stage A visual proof production for all six comparison directions. */
+  creativeDirectionRunSixDirectionProduction: (
+    orgSlug: string,
+    options?: { completeV1?: boolean; includeAllProofTypes?: boolean; dryRun?: boolean },
+  ) =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'creative_direction_run_six_direction_production',
+        orgSlug,
+        completeV1: options?.completeV1 ?? false,
+        includeAllProofTypes: options?.includeAllProofTypes ?? true,
+        dryRun: options?.dryRun ?? false,
+      }),
+    }),
+
+  /** Background job — returns immediately; poll creativeDirectionProductionJob for status. */
+  creativeDirectionStartProductionJob: (
+    orgSlug: string,
+    options?: {
+      jobType?: 'v1_completion' | 'six_direction_proofs' | 'full_pipeline';
+      includeAllProofTypes?: boolean;
+      completeV1InProofStep?: boolean;
+    },
+  ) =>
+    evolveFetch<{ job: Record<string, unknown>; message?: string }>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'creative_direction_start_production_job',
+        orgSlug,
+        jobType: options?.jobType ?? 'full_pipeline',
+        includeAllProofTypes: options?.includeAllProofTypes ?? true,
+        completeV1InProofStep: options?.completeV1InProofStep ?? false,
+      }),
+    }),
+
+  creativeDirectionProductionJob: (orgSlug: string, jobId?: string) =>
+    evolveFetch<{ job: Record<string, unknown> | null }>(
+      `?action=creative_direction_production_job&orgSlug=${encodeURIComponent(orgSlug)}${
+        jobId ? `&jobId=${encodeURIComponent(jobId)}` : ''
+      }`,
+    ),
+
+  /** Single-board pilot — THE MARKED-UP COPY only (board-first methodology). */
+  creativeDirectionMarkedUpCopyBoardPilot: (orgSlug: string, dryRun = false) =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'creative_direction_marked_up_copy_board_pilot', orgSlug, dryRun }),
+    }),
+
+  personalityReplayList: (orgSlug: string) =>
+    evolveFetch<{ replays: Array<Record<string, unknown>> }>(
+      `?action=personality_replay_list&orgSlug=${encodeURIComponent(orgSlug)}`,
+    ),
+
+  personalityReplayGet: (orgSlug: string, replayId: string) =>
+    evolveFetch<{ replay: Record<string, unknown> }>(
+      `?action=personality_replay_get&orgSlug=${encodeURIComponent(orgSlug)}&replayId=${encodeURIComponent(replayId)}`,
+    ),
+
+  personalityReplayCreate: (orgSlug: string) =>
+    evolveFetch<{ replay: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'personality_replay_create', orgSlug }),
+    }),
+
+  personalityReplaySaveAnswers: (
+    orgSlug: string,
+    replayId: string,
+    payload: { answers: Record<string, string | string[]>; completedSteps?: string[] },
+  ) =>
+    evolveFetch<{ replay: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'personality_replay_save_answers',
+        orgSlug,
+        replayId,
+        answers: payload.answers,
+        completedSteps: payload.completedSteps,
+      }),
+    }),
+
+  personalityReplayCompleteIntake: (orgSlug: string, replayId: string) =>
+    evolveFetch<{ replay: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'personality_replay_complete_intake', orgSlug, replayId }),
+    }),
+
+  personalityReplaySetJudgment: (
+    orgSlug: string,
+    replayId: string,
+    judgment: 'PIPELINE_VALIDATED' | 'PARTIAL_REVIEW_DIVERGENCE' | 'FAILED_METHODOLOGY_DRIFT',
+  ) =>
+    evolveFetch<{ replay: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'personality_replay_set_judgment',
+        orgSlug,
+        replayId,
+        judgment,
+      }),
     }),
 };

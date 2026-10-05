@@ -1,0 +1,168 @@
+{
+ "artifact": "SITE00_CLIENT_APP_CANONICAL_IA",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "shell": {
+  "header": [
+   "PROJECT NAME",
+   "\u25c6 PROJECT MARKER (project colour; SITE 00 red default)",
+   "NOTIFICATIONS (bell \u2192 drawer)",
+   "MENU (\u2192 drawer)"
+  ],
+  "bottom_nav": [
+   "HOME",
+   "PROJECT",
+   "REVIEWS",
+   "INBOX",
+   "LIBRARY"
+  ],
+  "background": "white / off-white (#fff / #fafafa)",
+  "type": "Martian Mono host (uppercase law); project faces only inside authority media"
+ },
+ "information_hierarchy": [
+  "1 NEEDS YOU",
+  "2 CURRENT MOMENT",
+  "3 WHAT COMES NEXT",
+  "4 PROJECT JOURNEY",
+  "5 RECENT DECISIONS",
+  "6 COST / PRODUCTION TRANSPARENCY",
+  "7 MESSAGES",
+  "8 FILES"
+ ],
+ "tabs": [
+  {
+   "tab": "HOME",
+   "route": "/app/:slug",
+   "job": "Where are we? What needs me? What happens next?",
+   "sections": [
+    "CURRENT MOMENT (pulse sentence + status)",
+    "NEEDS YOU (0\u2013n items, each one action)",
+    "NEXT (next family + what it will require + estimated cost)",
+    "RECENTLY APPROVED (last 3)",
+    "COST SNAPSHOT (spent \u00b7 next estimate)",
+    "PROJECT UPDATES (3 curated)"
+   ]
+  },
+  {
+   "tab": "PROJECT",
+   "route": "/app/:slug/project",
+   "job": "The full digestible journey",
+   "sections": [
+    "PROJECT SUMMARY (scope \u00b7 phase \u00b7 progress \u00b7 price \u00b7 production expenses)",
+    "JOURNEY (phases: completed / current / next / later)",
+    "FAMILY ROADMAP (families with status, approval, est./actual cost, dependency)",
+    "TIMELINE (human, not Gantt)",
+    "COST CENTER",
+    "PROJECT UPDATES (curated activity)"
+   ]
+  },
+  {
+   "tab": "REVIEWS",
+   "route": "/app/:slug/reviews",
+   "job": "Focused creative review environment",
+   "sections": [
+    "NEEDS YOU",
+    "REVISION IN PROGRESS",
+    "APPROVED"
+   ],
+   "detail": "/app/:slug/reviews/:reviewId (family review mode)"
+  },
+  {
+   "tab": "INBOX",
+   "route": "/app/:slug/inbox",
+   "job": "Human conversation that is not a structured review action",
+   "sections": [
+    "THREADS (project-scoped)",
+    "REQUESTS (decision / clarification / upload)"
+   ],
+   "detail": "/app/:slug/inbox/:threadId"
+  },
+  {
+   "tab": "LIBRARY",
+   "route": "/app/:slug/library",
+   "job": "Clean project archive",
+   "sections": [
+    "IDENTITY",
+    "APPROVED WORK",
+    "DELIVERABLES",
+    "REFERENCES",
+    "YOUR UPLOADS",
+    "FINAL FILES"
+   ],
+   "detail": "/app/:slug/library/:section/:fileId"
+  }
+ ],
+ "drawers": [
+  {
+   "drawer": "NOTIFICATIONS",
+   "items": [
+    "NEEDS YOU",
+    "REVISION READY",
+    "APPROVAL RECEIVED",
+    "FILE READY",
+    "FUNDING REQUIRED",
+    "IMPORTANT PROJECT CHANGE"
+   ]
+  },
+  {
+   "drawer": "MENU",
+   "items": [
+    "SWITCH PROJECT (if \u22652)",
+    "PRODUCTION CREDITS (only if funding_mode is client-funded)",
+    "PROFILE",
+    "ACCOUNT \u2192 CTRL ROOM",
+    "HELP \u2192 SUPPORT",
+    "SIGN OUT"
+   ]
+  }
+ ],
+ "not_in_client_app": [
+  "internal agent chat",
+  "prompts / model names / token usage",
+  "debug logs / QA noise",
+  "internal provider errors",
+  "margins / labor cost / SITE 00 internal API spend",
+  "GENERATE / RUN / DEPLOY controls"
+ ],
+ "project_type_adaptation": {
+  "CLIENT_PROJECT": "Full room; reviews by client; cost center per funding mode.",
+  "FOUNDER_PROJECT": "Same room viewed by founder (VIEW AS CLIENT); REVIEWS shows founder approvals; cost center shows SITE00_INCLUDED spend.",
+  "PERSONAL_PROJECT": "JURNL case: no client review user; REVIEWS = founder self-approval; INBOX hidden (no counterpart); cost center shows founder ledger.",
+  "rule": "One component tree; project type toggles sections via capabilities \u2014 no duplicated product."
+ },
+ "routes_proposed": [
+  "/app",
+  "/app/:slug",
+  "/app/:slug/project",
+  "/app/:slug/reviews",
+  "/app/:slug/reviews/:reviewId",
+  "/app/:slug/inbox",
+  "/app/:slug/inbox/:threadId",
+  "/app/:slug/library",
+  "/app/:slug/library/:section/:fileId",
+  "/app/:slug/project/tree",
+  "/app/:slug/live/:nodeId"
+ ],
+ "routes_retired_with_redirects": [
+  "/app/projects/:slug/*",
+  "/client/projects/:slug/*",
+  "/studio/:slug/* (client views)",
+  "/app/projects/:slug/projects",
+  "/app/projects/:slug/profile",
+  "/app/projects/:slug/project/:section",
+  "/app/projects/:slug/reviews/:id/{compare,comments,annotations,approve,revision,history}"
+ ],
+ "live_and_tree_addendum": {
+  "sixth_tab": "NO. SITE and TREE live inside existing tabs.",
+  "PROJECT": "Journey + WORKING TREE. Tree has its own deep-linkable child route /app/:slug/project/tree (?node=<id>) because it is a full-screen place and the target of VIEW IN TREE.",
+  "REVIEWS": "Family review gains a DESIGN | LIVE segmented control. LIVE becomes the primary authority once the family reached live implementation.",
+  "LIVE VIEWER": "Full-screen client viewport overlay route /app/:slug/live/:nodeId (deep link from tree, review, notification). Not a tab.",
+  "FINAL REVIEW": "A review of kind FINAL at /app/:slug/reviews/:reviewId with segments SITE \u00b7 TREE \u00b7 SUMMARY; surfaced on HOME as NEEDS YOU when ready.",
+  "why": "Keeps the locked 5-tab nav; matches the starting hypothesis; tree is understanding (PROJECT), live is judging (REVIEWS).",
+  "routes_added": [
+   "/app/:slug/project/tree",
+   "/app/:slug/live/:nodeId"
+  ]
+ }
+}

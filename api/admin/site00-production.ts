@@ -187,7 +187,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         case 'convert-intake-to-project': {
           const intakeId = String(body.intakeId ?? '');
+          const intakeType = String(body.intakeType ?? 'BUILDER');
           if (!intakeId) return res.status(400).json({ error: 'intakeId required' });
+          if (intakeType === 'IDENTITY') {
+            const { getIntakeForAdmin } = await import('../_lib/site00Intakes/intakeService.js');
+            const { convertIdentityIntakeToProject, authorizeIdentityIntakeCommercial } = await import(
+              '../_lib/site00Intakes/identityCommercial.js'
+            );
+            const intake = await getIntakeForAdmin('IDENTITY', intakeId);
+            await authorizeIdentityIntakeCommercial(intake, `admin-${intakeId}`);
+            return res.status(200).json(await convertIdentityIntakeToProject(intake, auth.user.email));
+          }
           return res.status(200).json(await convertIntakeToProject(intakeId, auth.user.email));
         }
         case 'approve-brief': {

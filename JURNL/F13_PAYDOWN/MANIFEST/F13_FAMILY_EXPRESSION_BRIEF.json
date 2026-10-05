@@ -1,0 +1,55 @@
+{
+  "family_id": "F13",
+  "family_name": "PAYDOWN",
+  "product_job": "Turn debt reduction into a visible, controlled path.",
+  "user_question_answered": "How do I get this down, and what happens if I change the plan?",
+  "primary_signal": "A path, not a scolding.",
+  "emotional_role": "Relief and control.",
+  "spatial_metaphor": "Steps descending toward a brighter garden.",
+  "architectural_character": "Pale steps and a garden. The reframe did not clear the left rail.",
+  "lighting_character": "Soft garden light. Not dark.",
+  "material_emphasis": "Pale stone and green.",
+  "environmental_focal_point": "The descending steps.",
+  "object_language": "Steps and plants. No chains.",
+  "botanical_role": "Garden planting. It still enters the rail.",
+  "negative_space_strategy": "Intended as a flat landing. The landing did not hold.",
+  "composition_bias": "Left path, garden right. The picture did not obey.",
+  "information_density": "Now and if you add.",
+  "panel_behavior": "A descent, not a shame meter.",
+  "button_behavior": "The what-if stays closed.",
+  "data_visualization_character": "A descending pair of marks.",
+  "interaction_character": "The path is the parent. Changing it stays closed.",
+  "motion_character": "Still.",
+  "typographic_character": "The path leads. No punitive red.",
+  "relationship_to_previous_family": "Credit is the measure. Paydown is the path down.",
+  "relationship_to_next_family": "Goals are what the freed money builds.",
+  "relationship_to_other_families": "Not a punishment and not the credit grid.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Descending steps",
+    "Garden light",
+    "Relief"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "Shame",
+    "The path filling the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

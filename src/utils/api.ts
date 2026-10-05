@@ -1,8 +1,7 @@
 /**
  * Minimal API client for SITE 00 standalone — profile sync and admin/production routes.
  */
-const API_BASE =
-  (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? '';
+import { site00ApiUrl } from './site00ApiBase';
 
 function getSupabaseAuthStorageKey(): string | null {
   const url = (import.meta as unknown as { env?: { VITE_SUPABASE_URL?: string } }).env?.VITE_SUPABASE_URL;
@@ -72,15 +71,21 @@ async function hydrateSupabaseSessionFromStorageIfNeeded(
   }
 }
 
+const ACCESS_TOKEN_STEP_TIMEOUT_MS = 8_000;
+
 export async function getAccessToken(): Promise<string | null> {
   const supabase = (await import('./supabase')).getSupabase();
   if (!supabase) return readAccessTokenFromSupabaseStorage();
 
   await hydrateSupabaseSessionFromStorageIfNeeded(supabase);
 
+  const { promiseWithTimeout } = await import('./promiseWithTimeout');
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await promiseWithTimeout(supabase.auth.getSession(), ACCESS_TOKEN_STEP_TIMEOUT_MS, {
+    data: { session: null },
+    error: null,
+  });
   if (session?.access_token && !isAccessTokenLikelyExpired(session.access_token)) {
     return session.access_token;
   }
@@ -88,10 +93,17 @@ export async function getAccessToken(): Promise<string | null> {
   const blob = readSupabaseSessionBlobFromStorage();
   if (blob?.refresh_token) {
     try {
-      await supabase.auth.refreshSession({ refresh_token: blob.refresh_token });
+      await promiseWithTimeout(
+        supabase.auth.refreshSession({ refresh_token: blob.refresh_token }),
+        ACCESS_TOKEN_STEP_TIMEOUT_MS,
+        { data: { user: null, session: null }, error: null },
+      );
       const {
         data: { session: s2 },
-      } = await supabase.auth.getSession();
+      } = await promiseWithTimeout(supabase.auth.getSession(), ACCESS_TOKEN_STEP_TIMEOUT_MS, {
+        data: { session: null },
+        error: null,
+      });
       if (s2?.access_token) return s2.access_token;
     } catch {
       /* fall through */
@@ -103,18 +115,45 @@ export async function getAccessToken(): Promise<string | null> {
   return null;
 }
 
+/** Force Supabase refresh (e.g. after API 401) before retrying authenticated fetches. */
+export async function refreshAccessTokenForApi(): Promise<string | null> {
+  const supabase = (await import('./supabase')).getSupabase();
+  if (!supabase) return readAccessTokenFromSupabaseStorage();
+
+  await hydrateSupabaseSessionFromStorageIfNeeded(supabase);
+
+  const blob = readSupabaseSessionBlobFromStorage();
+  try {
+    if (blob?.refresh_token) {
+      await supabase.auth.refreshSession({ refresh_token: blob.refresh_token });
+    } else {
+      await supabase.auth.refreshSession();
+    }
+  } catch {
+    /* fall through to getAccessToken */
+  }
+
+  return getAccessToken();
+}
+
 type ApiFetchOptions = Omit<RequestInit, 'body'> & { body?: unknown };
+
+/** Serialize apiFetch body once — callers may pass objects or pre-stringified JSON. */
+export function serializeApiFetchBody(body: unknown): string {
+  if (typeof body === 'string') return body;
+  return JSON.stringify(body);
+}
 
 export async function apiFetch(path: string, options: ApiFetchOptions = {}): Promise<Response> {
   const token = await getAccessToken();
-  const url = `${API_BASE.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+  const url = site00ApiUrl(path);
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...((options.headers as Record<string, string>) ?? {}),
   };
   if (token) headers.Authorization = `Bearer ${token}`;
   const body: BodyInit | null | undefined =
-    options.body !== undefined ? JSON.stringify(options.body) : undefined;
+    options.body !== undefined ? serializeApiFetchBody(options.body) : undefined;
   const { body: _omit, ...rest } = options;
   return fetch(url, { ...rest, headers, body });
 }

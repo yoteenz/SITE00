@@ -1,0 +1,208 @@
+/**
+ * P0.VR.EXPANDED-NAV-HIERARCHY-REFINEMENT1 — canonical MENU / EXPANDED NAV tree for NDXBOOK Overview.
+ */
+
+import { discoverProjectPageFamilyLayout } from './projectPageFamilyHierarchyDiscovery.js';
+import type { ContentManifestItem } from './experienceContentManifest.js';
+
+/** Approved sibling order for expanded project navigation (depth-1 under Overview anchor). */
+export const NDXBOOK_OVERVIEW_EXPANDED_NAV_CHILD_SCREEN_ORDER = [
+  'experiment-01',
+  'content-ops',
+  'character-lab',
+  'cultural-intelligence',
+  'bottom-nav-icons',
+] as const;
+
+export type ExpandedNavHierarchyTier = 'ANCHOR' | 'CHILD' | 'GRANDCHILD';
+
+export type ExpandedNavHierarchyEntry = {
+  pageId: string;
+  screenId: string;
+  label: string;
+  tier: ExpandedNavHierarchyTier;
+  parentScreenId: string | null;
+  /** Top-level index (001–006) — null for nested grandchild rows. */
+  topLevelIndex: string | null;
+  /** Full line for FAL / founder QA (includes indent). */
+  promptLine: string;
+};
+
+export type ExpandedNavHierarchyReceipt = {
+  anchorLabel: string;
+  entries: readonly ExpandedNavHierarchyEntry[];
+  hierarchyLines: readonly string[];
+  contentOpsParentVisible: boolean;
+  campaignBoardNested: boolean;
+  campaignBoardTopLevel: boolean;
+  canonicalPageFamilyMatch: boolean;
+};
+
+function padIndex(n: number): string {
+  return String(n).padStart(3, '0');
+}
+
+function childOrderRank(screenId: string): number {
+  const idx = NDXBOOK_OVERVIEW_EXPANDED_NAV_CHILD_SCREEN_ORDER.indexOf(
+    screenId as (typeof NDXBOOK_OVERVIEW_EXPANDED_NAV_CHILD_SCREEN_ORDER)[number],
+  );
+  return idx >= 0 ? idx : 100 + screenId.localeCompare('');
+}
+
+export function buildNdxbookOverviewExpandedNavHierarchy(
+  projectId: string,
+  anchorPageId: string,
+): ExpandedNavHierarchyReceipt {
+  const layout = discoverProjectPageFamilyLayout(projectId, anchorPageId);
+  const anchor =
+    layout.inventory.find((p) => p.pageId === anchorPageId) ??
+    layout.inventory.find((p) => p.screenId === 'overview') ??
+    null;
+  const anchorLabel = (anchor?.pageName ?? layout.anchorPageName ?? 'OVERVIEW').toUpperCase();
+
+  const children = [...layout.children].sort(
+    (a, b) => childOrderRank(a.screenId) - childOrderRank(b.screenId),
+  );
+  const grandchildren = [...layout.grandchildren, ...layout.deeperDescendants];
+
+  const entries: ExpandedNavHierarchyEntry[] = [];
+  const hierarchyLines: string[] = [];
+
+  let topCounter = 1;
+  entries.push({
+    pageId: anchor?.pageId ?? anchorPageId,
+    screenId: anchor?.screenId ?? 'overview',
+    label: anchorLabel,
+    tier: 'ANCHOR',
+    parentScreenId: null,
+    topLevelIndex: padIndex(topCounter),
+    promptLine: `${padIndex(topCounter)} ${anchorLabel}`,
+  });
+  hierarchyLines.push(`${padIndex(topCounter)} ${anchorLabel}`);
+  topCounter += 1;
+
+  for (const child of children) {
+    const label = child.pageName.toUpperCase();
+    const index = padIndex(topCounter);
+    entries.push({
+      pageId: child.pageId,
+      screenId: child.screenId,
+      label,
+      tier: 'CHILD',
+      parentScreenId: anchor?.screenId ?? null,
+      topLevelIndex: index,
+      promptLine: `${index} ${label}`,
+    });
+    hierarchyLines.push(`${index} ${label}`);
+    topCounter += 1;
+
+    const nested = grandchildren
+      .filter((g) => {
+        const invParent = layout.inventory.find((i) => i.pageId === g.pageId)?.parentPageId;
+        return g.parentPageId === child.pageId || invParent === child.pageId;
+      })
+      .sort((a, b) => a.pageName.localeCompare(b.pageName));
+
+    for (const grand of nested) {
+      const gLabel = grand.pageName.toUpperCase();
+      const line = `    └ ${gLabel}`;
+      entries.push({
+        pageId: grand.pageId,
+        screenId: grand.screenId,
+        label: gLabel,
+        tier: 'GRANDCHILD',
+        parentScreenId: child.screenId,
+        topLevelIndex: null,
+        promptLine: line,
+      });
+      hierarchyLines.push(line);
+    }
+  }
+
+  const contentOps = entries.find((e) => e.screenId === 'content-ops' && e.tier === 'CHILD');
+  const campaignBoard = entries.find((e) => e.screenId === 'campaign-board');
+  const campaignBoardNested =
+    Boolean(campaignBoard?.tier === 'GRANDCHILD' && campaignBoard.parentScreenId === 'content-ops');
+  const campaignBoardTopLevel = entries.some(
+    (e) => e.screenId === 'campaign-board' && e.tier === 'CHILD',
+  );
+  const canonicalPageFamilyMatch =
+    layout.discoveryStatus === 'RESOLVED' &&
+    layout.receipt.totalPageCount >= 7 &&
+    campaignBoardNested &&
+    !campaignBoardTopLevel &&
+    contentOps !== undefined;
+
+  return {
+    anchorLabel,
+    entries,
+    hierarchyLines,
+    contentOpsParentVisible: Boolean(contentOps),
+    campaignBoardNested,
+    campaignBoardTopLevel,
+    canonicalPageFamilyMatch,
+  };
+}
+
+export function expandedNavHierarchyToManifestDestinations(
+  receipt: ExpandedNavHierarchyReceipt,
+): ContentManifestItem[] {
+  return receipt.entries.map((e) => ({
+    id: `nav-${e.screenId}`,
+    label: e.label,
+    provenance: 'CANONICAL_STATIC' as const,
+    source:
+      e.tier === 'GRANDCHILD' ?
+        `Grandchild under ${e.parentScreenId ?? 'parent'} · page family blueprint`
+      : e.tier === 'ANCHOR' ?
+        'Overview anchor · page family blueprint'
+      : 'Child page · page family blueprint',
+    navTier: e.tier,
+    navPromptLine: e.promptLine,
+    parentScreenId: e.parentScreenId,
+    topLevelNavIndex: e.topLevelIndex,
+  }));
+}
+
+export function buildMenuExpandedNavHierarchyRefinementPromptBlock(input: {
+  hierarchyLines: readonly string[];
+}): string {
+  return [
+    `NESTED_NAV_REFINEMENT · ${'MENU / EXPANDED NAV — HIERARCHY + NESTED EXPANSION REFINEMENT (DESIGN LOCK)'}`,
+    'KEEP THE CURRENT APPROVED MENU DESIGN.',
+    'DO NOT REDESIGN THE MENU.',
+    'THIS IS A STATE REFINEMENT — NOT A NEW MENU CONCEPT.',
+    'CONTENT OPS IS CURRENTLY EXPANDED.',
+    'CAMPAIGN BOARD IS ITS GRANDCHILD AND MUST BE VISIBLY REVEALED DIRECTLY BENEATH CONTENT OPS.',
+    'DO NOT DISPLAY CAMPAIGN BOARD AS A TOP-LEVEL SIBLING.',
+    'THE FINAL IMAGE MUST VISUALLY DEMONSTRATE THE EXPANDED-PARENT / NESTED-CHILD INTERACTION.',
+    'SHOW CONTENT OPS IN ITS EXPANDED STATE (disclosure affordance changed: + → chevron or equivalent).',
+    'CAMPAIGN BOARD IS A GRANDCHILD OF CONTENT OPS — NEST CAMPAIGN BOARD BENEATH CONTENT OPS.',
+    'THIS OUTPUT MUST DEMONSTRATE BOTH PRIMARY NAVIGATION EXPANSION AND NESTED NAVIGATION EXPANSION IN ONE IMAGE.',
+    'PRESERVE EXACTLY: panel geometry, width, light theme, typography, lime highlight, borders, spacing, numbering style, header, close control, project-navigation title, underlying authority page, bottom navigation.',
+    'DO NOT regenerate or alter Entry Detail, Project Access, or Base Page.',
+    '',
+    'REQUIRED NAVIGATION TREE (canonical Page Family Blueprint — collapsed siblings + expanded parent):',
+    ...input.hierarchyLines.map((l) => `- ${l}`),
+    '',
+    'VISUAL REQUIREMENTS:',
+    '- Other top-level rows remain collapsed siblings.',
+    '- CONTENT OPS row is EXPANDED_PARENT with visible disclosure state change.',
+    '- CAMPAIGN BOARD is NESTED_DESTINATION beneath Content Ops (indent / hierarchy marker); selectable; not a top-level numbered sibling.',
+    'Do not number CAMPAIGN BOARD as another top-level index (use nested notation only).',
+  ].join('\n');
+}
+
+export function validateExpandedNavHierarchyManifestStructure(receipt: ExpandedNavHierarchyReceipt): {
+  contentOpsParentRelationship: 'PASS' | 'FAIL';
+  campaignBoardNested: 'PASS' | 'FAIL';
+  campaignBoardNotTopLevel: 'PASS' | 'FAIL';
+  canonicalPageFamilyMatch: 'PASS' | 'FAIL';
+} {
+  return {
+    contentOpsParentRelationship: receipt.contentOpsParentVisible ? 'PASS' : 'FAIL',
+    campaignBoardNested: receipt.campaignBoardNested ? 'PASS' : 'FAIL',
+    campaignBoardNotTopLevel: receipt.campaignBoardTopLevel ? 'FAIL' : 'PASS',
+    canonicalPageFamilyMatch: receipt.canonicalPageFamilyMatch ? 'PASS' : 'FAIL',
+  };
+}

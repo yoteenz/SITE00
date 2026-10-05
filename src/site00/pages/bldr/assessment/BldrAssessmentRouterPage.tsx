@@ -4,14 +4,15 @@ import {
   type BldrAssessmentRouteSlug,
   SITE00_ROUTES,
 } from '../../../config/routes';
-import type { BldrAssessmentStateId } from '../../../config/bldr-assessment';
+import { getBldrAssessmentState, type BldrAssessmentStateId } from '../../../config/bldr-assessment';
 import BldrAssessmentLandingPage from './BldrAssessmentLandingPage';
 import BldrAssessmentStepPage from './BldrAssessmentStepPage';
 import BldrAssessmentReviewPage from './BldrAssessmentReviewPage';
 import BldrAssessmentCompletePage from './BldrAssessmentCompletePage';
 import BldrAssessmentRecommendationPage from './BldrAssessmentRecommendationPage';
-import { BldrExperienceMobileStep } from '../../../components/bldr/experience/BldrExperienceMobileStep';
-import { getExperienceQuestion } from '../../../../../shared/site00-brand-lore/bldr-experience-questions';
+import BldrDiscoveryResultPage from './BldrDiscoveryResultPage';
+import { PostPurchaseIntelligenceRedirect } from '../../../components/discovery/PostPurchaseIntelligenceRedirect';
+import { BldrAssessmentShell } from '../../../components/bldr-assessment/BldrAssessmentShell';
 
 function isValidSlug(slug: string | undefined): slug is BldrAssessmentStateId {
   return Boolean(slug && BLDR_ASSESSMENT_STATE_SLUGS.includes(slug as BldrAssessmentRouteSlug));
@@ -57,13 +58,21 @@ export default function BldrAssessmentRouterPage() {
     return <BldrAssessmentRecommendationPage />;
   }
 
+  if (stepSegment === 'discovery-result') {
+    return <BldrDiscoveryResultPage classSlug={classSlug} />;
+  }
+
   if (stepSegment === 'desktop') {
     return <BldrAssessmentLandingPage classSlug={classSlug} />;
   }
 
   const experienceMatch = pathname.match(/\/experience\/([^/]+)/);
-  if (experienceMatch?.[1] && getExperienceQuestion(experienceMatch[1])) {
-    return <BldrExperienceMobileStep classSlug={classSlug} stepId={experienceMatch[1]} />;
+  if (experienceMatch?.[1]) {
+    return (
+      <BldrAssessmentShell state={getBldrAssessmentState(classSlug)!}>
+        <PostPurchaseIntelligenceRedirect moduleLabel="EXPERIENCE EXPRESSION" />
+      </BldrAssessmentShell>
+    );
   }
 
   return <BldrAssessmentStepPage classSlug={classSlug} stepId={stepSegment} />;

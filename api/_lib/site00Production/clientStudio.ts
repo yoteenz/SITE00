@@ -142,6 +142,7 @@ export type ClientProjectSummary = {
   productionReadinessPct: number;
   studioRoute: string;
   updatedAt: string;
+  clientEmail?: string | null;
 };
 
 function normalizeEmail(email: string): string {
@@ -385,6 +386,7 @@ export async function getClientProjectsPayload(clientEmail: string, userId?: str
         productionReadinessPct: p.production_readiness_pct ?? 0,
         studioRoute: studioRoute(p.slug),
         updatedAt: p.updated_at,
+        clientEmail: p.client_email ?? null,
       })),
   };
 }

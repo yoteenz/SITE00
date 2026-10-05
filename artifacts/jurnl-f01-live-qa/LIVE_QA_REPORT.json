@@ -1,0 +1,629 @@
+{
+  "sprint": "P0.JURNL.SITE00-INGEST-F01-DESIGN-WORKSPACE-PROOF1",
+  "base": "http://127.0.0.1:5174",
+  "at": "2026-10-05T02:25:44.139Z",
+  "total": 103,
+  "pass": 103,
+  "fail": 0,
+  "pageErrors": [],
+  "checks": [
+    {
+      "group": "SELECTOR",
+      "name": "NDXBOOK workspace loads with host chrome",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "SELECTOR",
+      "name": "PROJECT switcher opens and lists JURNL",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "SELECTOR",
+      "name": "switcher rows: thumb + label laid out side by side (no overlap / no wrap)",
+      "pass": true,
+      "detail": "overlapping rows: 0"
+    },
+    {
+      "group": "SELECTOR",
+      "name": "switch lands on /production/jurnl/design?mode=brand",
+      "pass": true,
+      "detail": "http://127.0.0.1:5174/production/jurnl/design?mode=brand"
+    },
+    {
+      "group": "CONTEXT",
+      "name": "JURNL context loaded (chamber data-project=jurnl, PERSONAL)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "CONTEXT",
+      "name": "brand changed: JURNL palette + tagline visible, no NDX copy",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "FIREWALL",
+      "name": "host chrome unchanged across switch (same header class + height)",
+      "pass": true,
+      "detail": "[{\"cls\":\"pxh-top\",\"h\":62},{\"cls\":\"pxh-top\",\"h\":62}]"
+    },
+    {
+      "group": "FIREWALL",
+      "name": "host chrome shows JURNL as the selected project",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "MODES",
+      "name": "EXPERIENCE reacts to JURNL",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "MODES",
+      "name": "SURFACES reacts to JURNL",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "MODES",
+      "name": "COMPILER reacts to JURNL",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "MODES",
+      "name": "ASSETS reacts to JURNL",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "INSPECT",
+      "name": "inspector SCREENS opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "INSPECT",
+      "name": "inspector INTERACTIONS opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "INSPECT",
+      "name": "inspector GATE opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "INSPECT",
+      "name": "inspector CLAIMS opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "INSPECT",
+      "name": "inspector ASSETS opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "INSPECT",
+      "name": "inspector BUDGET opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "MOBILE 393×852 target",
+      "pass": true,
+      "detail": "393×852"
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "MOBILE runtime lays out at real logical width",
+      "pass": true,
+      "detail": "393,852,393"
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "MOBILE no horizontal overflow inside runtime",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "OVERLAYS",
+      "name": "SAFE AREA (project insets) visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "OVERLAYS",
+      "name": "GRID shows 4 project columns",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "OVERLAYS",
+      "name": "BOUNDS measured runtime blocks",
+      "pass": true,
+      "detail": "3"
+    },
+    {
+      "group": "OVERLAYS",
+      "name": "REFERENCE authority beside the live device",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "TABLET 834×1194 target",
+      "pass": true,
+      "detail": "834×1194"
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "TABLET runtime lays out at real logical width",
+      "pass": true,
+      "detail": "834,1194,834"
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "TABLET no horizontal overflow inside runtime",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "DESKTOP 1440×900 target",
+      "pass": true,
+      "detail": "1440×900"
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "DESKTOP runtime lays out at real logical width",
+      "pass": true,
+      "detail": "1440,900,1440"
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "DESKTOP no horizontal overflow inside runtime",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "runtime reports its live screen to the host",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "VIEWPORT",
+      "name": "STATE selector drives the runtime (LOCKED drawer)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "SELECTOR",
+      "name": "switch back to NDXBOOK clears JURNL state (client app iframe, no runtime controls)",
+      "pass": true,
+      "detail": "/app/preview/fixture-app-ndxbook"
+    },
+    {
+      "group": "SELECTOR",
+      "name": "NDXBOOK brand mode restored (NDX config, no JURNL data)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "MODES",
+      "name": "JURNL workspace renders in the mobile host",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ROUTING",
+      "name": "F01.00 WELCOME",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ROUTING",
+      "name": "GET STARTED → F01.01 (route transition)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "FORM",
+      "name": "focused input = emerald state",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "FORM",
+      "name": "validation summary error panel",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "PASSWORD",
+      "name": "requirements expand inline",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "PASSWORD",
+      "name": "SHOW PASSWORD reveals",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "PASSWORD",
+      "name": "HIDE PASSWORD masks",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "PASSWORD",
+      "name": "all 4 requirements met",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "TERMS long drawer opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "INLINE",
+      "name": "terms section inline expansion",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "I AGREE closes drawer + ticks agreement",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "PRIVACY POLICY drawer opens + Escape closes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "HANDOFF",
+      "name": "social auth boundary → honest provider-not-configured (no fake success)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ERROR",
+      "name": "EMAIL ALREADY IN USE panel",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "LOADING",
+      "name": "CREATING ACCOUNT... loading button",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ROUTING",
+      "name": "account created → F01.02 EMAIL VERIFICATION",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "UPPERCASE",
+      "name": "entered email shown uppercase",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TOAST",
+      "name": "RESEND → success banner",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "CHANGE EMAIL short drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "HANDOFF",
+      "name": "OPEN EMAIL APP → JURNL external handoff card",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "HANDOFF",
+      "name": "handoff continues and returns to JURNL",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ERROR",
+      "name": "expired verification link panel",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "STATE",
+      "name": "verification success",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "HANDOFF",
+      "name": "native biometric boundary: JURNL waiting hold (no fake OS sheet)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TOAST",
+      "name": "FACE ID ENABLED success banner",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "LEARN WHAT THIS MEANS long drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TOAST",
+      "name": "TRUST THIS DEVICE → toast + F01.11",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "privacy your-data drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "privacy connected-accounts drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TOGGLE",
+      "name": "square-rounded AI toggle switches",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TOAST",
+      "name": "AI preferences saved",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "STATE",
+      "name": "data export requested (flagged claim C10)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "privacy data-export drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "MODAL",
+      "name": "DELETE ACCOUNT confirmation modal",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "VIEW PRIVACY DETAILS drawer shell",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "CHOICE",
+      "name": "square-rounded FACE ID / TOUCH ID choice",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "security biometric drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "security device drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "security connected drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "security data drawer",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "MODAL",
+      "name": "REVOKE SESSION confirm → revoked",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "SHEET",
+      "name": "VIEW SECURITY DETAILS full-screen sheet",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "STATE",
+      "name": "entry complete checklist reflects real state",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TRANSITION",
+      "name": "CONTINUE TO SETUP → F01 → F02 family boundary",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ERROR",
+      "name": "INCORRECT PASSWORD panel",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "PASSWORD",
+      "name": "sign-in SHOW PASSWORD",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ERROR",
+      "name": "ACCOUNT NOT FOUND panel with CREATE ACCOUNT",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "ACCOUNT LOCKED short drawer (wine)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "CHECKBOX",
+      "name": "KEEP ME SIGNED IN square checkbox",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "LOADING",
+      "name": "SIGNING IN... loading",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ROUTING",
+      "name": "sign-in success → post-auth routing (decided device → F01.13)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "STATE",
+      "name": "remembered user lands on F01.04 RETURNING USER UNLOCK",
+      "pass": true,
+      "detail": "http://127.0.0.1:5174/production/jurnl/runtime/entry/unlock"
+    },
+    {
+      "group": "ERROR",
+      "name": "FACE ID FAILED panel (OS outcome via boundary)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "SHEET",
+      "name": "USE PASSWORD full-screen sheet",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "DRAWER",
+      "name": "SWITCH ACCOUNT surface",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "MODAL",
+      "name": "SIGN OUT confirmation",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ROUTING",
+      "name": "sign out → F01.00",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ERROR",
+      "name": "forgot password invalid email",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "LOADING",
+      "name": "SENDING... loading",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TOAST",
+      "name": "reset link resent",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ERROR",
+      "name": "invalid / expired reset link",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ERROR",
+      "name": "weak password flagged",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ERROR",
+      "name": "confirm mismatch",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TOAST",
+      "name": "password reset → F01.08 + success banner",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "ROUTING",
+      "name": "new password signs in (real recovery state)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "TOAST",
+      "name": "network error toast (scenario)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "GEOMETRY",
+      "name": "circular interactive controls in live DOM = 0",
+      "pass": true,
+      "detail": "{\"interactive\":10,\"round\":0}"
+    }
+  ]
+}

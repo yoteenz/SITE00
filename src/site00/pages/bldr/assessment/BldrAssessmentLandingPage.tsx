@@ -14,6 +14,7 @@ import { BldrIntakeShell } from '../../../components/bldr/intake/BldrIntakeShell
 import { BldrIntakeLandingPanel } from '../../../components/bldr/intake/BldrIntakePanels';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { SITE00_ROUTES, site00BldrAssessmentDesktopPath } from '../../../config/routes';
+import { BLDR_SITE_TYPE_OTHER_SPECIFY_KEY } from '../../../../../shared/site00-bldr-classification/siteTypeModel';
 
 type BldrAssessmentLandingPageProps = {
   classSlug: BldrAssessmentStateId;
@@ -29,7 +30,15 @@ export default function BldrAssessmentLandingPage({ classSlug }: BldrAssessmentL
   const [values, setValues] = useState<Record<string, string | string[]>>(() => {
     const init: Record<string, string | string[]> = {};
     for (const f of state.landingFields) {
-      init[f.id] = existing[f.id] ?? (f.type === 'multi' ? [] : '');
+      const existingVal = existing[f.id];
+      if (existingVal !== undefined) {
+        init[f.id] = existingVal;
+      } else {
+        init[f.id] = f.type === 'multi' ? [] : '';
+      }
+    }
+    if (existing[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY]) {
+      init[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY] = existing[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY] as string;
     }
     return init;
   });
