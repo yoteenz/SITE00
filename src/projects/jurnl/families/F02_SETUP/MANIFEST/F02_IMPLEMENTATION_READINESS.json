@@ -1,0 +1,19 @@
+{
+  "family_id": "F02_SETUP",
+  "visual_status": "IN_REVIEW",
+  "visual_approval": false,
+  "screen_tree_ready": true,
+  "authorities_ready": true,
+  "environment_assets_ready": true,
+  "linked_assets_ready": true,
+  "icons_ready": true,
+  "states_ready": true,
+  "interactions_ready": true,
+  "sonnet_readme_ready": true,
+  "missing_sources": [],
+  "implementation_ready": true,
+  "runtime_implemented": false,
+  "f02_live_routes_created": 0,
+  "f02_components_created": 0,
+  "note": "Structural implementation may begin while founder visual approval is still pending. visual_approval stays false."
+}
