@@ -77,7 +77,7 @@ export const JURNL_F03_CONTRACT: FamilyProductionContract = {
     { id: 'JURNL.FONT.FUNCTIONAL', assetClass: 'GLOBAL_INHERITED', scope: 'GLOBAL_INHERITED', status: 'CANONICAL', source: 'BARLOW SEMI CONDENSED' },
   ],
   familyAssets: [
-    { id: 'TODAY.ENVIRONMENT.DAY.001', assetClass: 'FAMILY_BACKGROUND', scope: 'FAMILY', status: 'IN_REVIEW', source: 'DERIVED_FROM_AUTHORITY', filePath: 'src/projects/jurnl/families/F03_TODAY/ENVIRONMENTS/F03_ENVIRONMENT_DAY.jpg', format: 'jpg', nativeWidth: 2016, nativeHeight: 3584, routes: ['today'], runtimeStatus: 'PLATE' },
+    { id: 'TODAY.ENVIRONMENT.DAY.001', assetClass: 'FAMILY_BACKGROUND', scope: 'FAMILY', status: 'NOT_CANONICAL', source: 'DERIVED_FROM_AUTHORITY', filePath: 'src/projects/jurnl/families/F03_TODAY/ENVIRONMENTS/F03_ENVIRONMENT_DAY.jpg', format: 'jpg', nativeWidth: 2016, nativeHeight: 3584, routes: ['today'], runtimeStatus: 'PLATE' },
     { id: 'TODAY.UI.SURFACES', assetClass: 'IMPLEMENTATION_COMPONENT', scope: 'FAMILY', status: 'CODE_CONSTRUCTED', source: 'LIVE TYPE AND BONE PANELS. NO RASTER BUTTON OR PANEL SKIN.' },
   ],
   iconRequirements: ['BACK', 'INFO', 'CHECK', 'ALERT', 'CLOSE', 'PLUS', 'DOCUMENT', 'CLOCK', 'ACCOUNT', 'DOWNLOAD', 'SEARCH', 'FILTER', 'MONEY'].map((label) => ({
