@@ -294,7 +294,10 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
   const target = applyProjectViewportSize(resolveViewportTarget(preset, orientation), projectViewport?.presets[preset]);
   // The desktop canvas carries a browser bar above the client surface; fit the whole device into the stage.
   const chromeH = target.kind === 'desktop' ? (box.w && box.w < 520 ? 18 : 30) : 0;
-  const refShown = !!(pr.runtime && reference && pr.screen?.authorityFile);
+  const stateKey = pr.variant.startsWith('state:') ? pr.variant.slice('state:'.length) : '';
+  const stateAuthority = stateKey ? pr.states.find((s) => s.id.slice(s.screenId.length + 1).toLowerCase() === stateKey)?.authorityFile : null;
+  const authorityFile = stateAuthority || pr.screen?.authorityFile || null;
+  const refShown = !!(pr.runtime && reference && authorityFile);
   const fitBox = { w: refShown ? box.w * 0.48 : box.w, h: Math.max(0, box.h - chromeH) };
   const scale = viewportScale(target, fitBox, zoom);
   const section = VIEWPORT_ROUTES[route] ?? '';
@@ -439,7 +442,7 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
           <span style={{ display: 'flex', gap: 18, alignItems: 'flex-end' }}>
             {device}
             <span className="pxa-vref" data-testid="design-viewport-reference">
-              <img src={pr.screen!.authorityFile!.replace(/^public/, '')} alt={`${pr.screen!.id} AUTHORITY`} style={{ height: refHeight, width: Math.round(refHeight * 0.5621) }} />
+              <img src={authorityFile!.replace(/^public/, '')} alt={`${pr.screen!.id} AUTHORITY`} style={{ height: refHeight, width: Math.round(refHeight * 0.5621) }} />
               <small>AUTHORITY · {pr.screen!.id}</small>
             </span>
           </span>
