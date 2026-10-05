@@ -1,0 +1,60 @@
+{
+  "route": "/evolve/state",
+  "finalUrl": "/evolve/state",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 703,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "assetSlots": [
+    {
+      "id": "ENV.EVOLVE.INTERVENTION_CENTER",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 703,
+      "radius": "0px",
+      "z": "0"
+    },
+    {
+      "id": "MACHINE.EVOLVE.PROPERTY_TOWER",
+      "x": 139,
+      "y": 74,
+      "w": 230,
+      "h": 276,
+      "radius": "0px",
+      "z": "1"
+    },
+    {
+      "id": "CARD.EVOLVE.PATH.REFINE",
+      "x": 20,
+      "y": 390,
+      "w": 107,
+      "h": 62,
+      "radius": "3px",
+      "z": "auto"
+    },
+    {
+      "id": "CARD.EVOLVE.PATH.INSTALL",
+      "x": 141,
+      "y": 390,
+      "w": 107,
+      "h": 62,
+      "radius": "3px",
+      "z": "auto"
+    },
+    {
+      "id": "CARD.EVOLVE.PATH.TRANSFORM",
+      "x": 263,
+      "y": 390,
+      "w": 107,
+      "h": 62,
+      "radius": "3px",
+      "z": "auto"
+    }
+  ],
+  "errors": []
+}

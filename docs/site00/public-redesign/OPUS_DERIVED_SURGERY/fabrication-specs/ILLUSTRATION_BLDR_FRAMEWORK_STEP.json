@@ -1,0 +1,47 @@
+{
+  "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "asset_id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+  "slot_id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+  "authority": [
+    "02_BLDR_OVERVIEW",
+    "03_BLDR_SITE",
+    "04_BLDR_WORLD",
+    "05_BLDR_SYSTEMS",
+    "06_BLDR_EXTENSIONS"
+  ],
+  "visual_role": "FIVE FRAMEWORK STEP ILLUSTRATIONS (ORBIT, LAYERS, RINGS, HEX, HELIX) \u2014 SHARED ACROSS PATHS.",
+  "asset_type": "machine-illustration",
+  "target_pixels": {
+    "w": 240,
+    "h": 240
+  },
+  "aspect_ratio": "240:240",
+  "crop_behavior": "contain",
+  "final_geometry": "LIVE_CODE \u2014 FrameworkGlyph SVG renders directly in each 50\u00d750 framework column; no slot box is mounted",
+  "transparency": true,
+  "mask_ownership": "PARENT_OVERFLOW",
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "surface_derivation": "NOT_APPLICABLE",
+  "continuity_group": "BLDR_WORLD_SYSTEM_V1",
+  "negative_space": "UI boxes in opus-geometry-after.json stay clear of focal detail. Wash on environments is live CSS over the lower region, not baked.",
+  "must_include": [
+    "FIVE FRAMEWORK STEP ILLUSTRATIONS (ORBIT, LAYERS, RINGS, HEX, HELIX) \u2014 SHARED ACROSS PATHS."
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "card titles and body copy",
+    "live technical SVG linework",
+    "baked CSS wash or row fade"
+  ],
+  "reference_crop": null,
+  "safe_zone_map": null,
+  "reference_crop_clipped_by_proof": null,
+  "generation_source_of_pixels": "MAP2_FIXTURE_V1",
+  "validation_status": "SUPERSEDED_BY_LIVE_CODE",
+  "validation_reason": "GROK_REQUIRED \u2192 LIVE_CODE",
+  "production_eligible": false,
+  "regeneration_required": false
+}

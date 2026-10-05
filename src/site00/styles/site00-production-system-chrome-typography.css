@@ -1,0 +1,167 @@
+/**
+ * P0.STUDIOOS.PRODUCTION.NAV-TYPOGRAPHY-FIX1
+ * Production system chrome (top + bottom nav): 1:1 CSS px typography — no zoom / scale on text.
+ * Scoped to fixed strips + hub header/footer rows (chamber scroll keeps authority zoom separately).
+ */
+
+.ph--hub > .ph-top,
+.ph--hub > .ph-nav,
+.ph--hub.ph--system-chrome {
+  zoom: 1 !important;
+  transform: none !important;
+}
+
+.prod-chrome-strip.ph--hub.ph--system-chrome {
+  width: min(100vw, 520px);
+  max-width: 520px;
+}
+
+/* ── MOBILE (default, ≤520 CSS px viewport) ── */
+
+.ph--hub > .ph-top,
+.ph--hub.ph--system-chrome .ph-top {
+  height: 58px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) minmax(0, 0.9fr) minmax(0, 1fr) 44px;
+  padding-inline: 0;
+}
+
+.ph--hub > .ph-top .ph-top__brand b,
+.ph--hub.ph--system-chrome .ph-top__brand b {
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  font-weight: 500;
+}
+
+.ph--hub > .ph-top .ph-top__brand small,
+.ph--hub.ph--system-chrome .ph-top__brand small {
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  margin-top: 3px;
+}
+
+.ph--hub > .ph-top .ph-top__sel small,
+.ph--hub.ph--system-chrome .ph-top__sel small {
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+
+.ph--hub > .ph-top .ph-top__sel b,
+.ph--hub.ph--system-chrome .ph-top__sel b {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+}
+
+.ph--hub > .ph-top .ph-top__sel em,
+.ph--hub.ph--system-chrome .ph-top__sel em {
+  font-size: 7.5px;
+  letter-spacing: 0.08em;
+}
+
+.ph--hub > .ph-top .ph-top__attn b,
+.ph--hub.ph--system-chrome .ph-top__attn b {
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.ph--hub > .ph-top .ph-top__attn small,
+.ph--hub.ph--system-chrome .ph-top__attn small {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+.ph--hub > .ph-nav,
+.ph--hub.ph--system-chrome .ph-nav {
+  height: auto;
+  min-height: 56px;
+  padding: 0 0 env(safe-area-inset-bottom, 0px);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  column-gap: 0;
+}
+
+.ph--hub > .ph-nav .ph-nav__item,
+.ph--hub.ph--system-chrome .ph-nav__item {
+  min-width: 0;
+  padding: 10px 1px 8px;
+  gap: 6px;
+  font-size: 9px;
+  line-height: 1.1;
+  letter-spacing: 0.055em;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ph--hub > .ph-nav .ph-nav__item > span,
+.ph--hub.ph--system-chrome .ph-nav__item > span {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.ph--hub > .ph-nav .ph-nav__icon,
+.ph--hub.ph--system-chrome .ph-nav__icon {
+  width: 22px;
+  height: 22px;
+}
+
+.ph--hub > .ph-nav .ph-nav__icon svg,
+.ph--hub.ph--system-chrome .ph-nav__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ph--hub > .ph-nav .ph-nav__item.is-active::after,
+.ph--hub.ph--system-chrome .ph-nav__item.is-active::after {
+  left: 12%;
+  right: 12%;
+  bottom: 4px;
+}
+
+.ph--hub > .ph-top .ph-top__brand--long > b,
+.ph--hub.ph--system-chrome .ph-top__brand--long > b {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* ── TABLET (521–1100) ── */
+
+@media (min-width: 521px) {
+  .ph--hub > .ph-top,
+  .ph--hub.ph--system-chrome .ph-top {
+    height: 62px;
+  }
+
+  .ph--hub > .ph-top .ph-top__brand b,
+  .ph--hub.ph--system-chrome .ph-top__brand b {
+    font-size: 16px;
+  }
+
+  .ph--hub > .ph-nav .ph-nav__item,
+  .ph--hub.ph--system-chrome .ph-nav__item {
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    padding-top: 12px;
+  }
+}
+
+/* ── DESKTOP (1101+, chrome still caps at 520px wide) ── */
+
+@media (min-width: 1101px) {
+  .ph--hub > .ph-top .ph-top__brand b,
+  .ph--hub.ph--system-chrome .ph-top__brand b {
+    font-size: 17px;
+  }
+
+  .ph--hub > .ph-nav .ph-nav__item,
+  .ph--hub.ph--system-chrome .ph-nav__item {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    gap: 7px;
+  }
+}

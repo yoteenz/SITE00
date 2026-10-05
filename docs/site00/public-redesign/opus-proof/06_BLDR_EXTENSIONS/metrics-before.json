@@ -1,0 +1,13 @@
+{
+  "route": "/bldr/state?path=extensions",
+  "finalUrl": "/bldr/state?path=extensions",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 976,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": false,
+  "errors": []
+}

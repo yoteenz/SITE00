@@ -1,0 +1,2290 @@
+[
+  {
+    "viewport": "390x693",
+    "pair": [
+      "02_IDNTY_STATE_00_FOUNDATION",
+      "01_FOUNDATION_PRIMARY_GOAL"
+    ],
+    "allowed": [],
+    "mismatched": [],
+    "a_primaryBottom": 602,
+    "b_primaryBottom": 612,
+    "navTop": 633,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        390,
+        34
+      ],
+      "heroTitle": [
+        30,
+        65,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        68,
+        70,
+        52
+      ],
+      "machine": [
+        0,
+        28,
+        390,
+        300
+      ],
+      "rail": [
+        81,
+        321,
+        228,
+        20
+      ],
+      "railActive": [
+        100,
+        321,
+        20,
+        20
+      ],
+      "panelTop": [
+        18,
+        363,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        364,
+        352,
+        55
+      ],
+      "panelCode": [
+        33,
+        376,
+        50,
+        31
+      ],
+      "nav": [
+        0,
+        633,
+        390,
+        60
+      ],
+      "primaryBottom": 602,
+      "navTop": 633
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        390,
+        34
+      ],
+      "heroTitle": [
+        30,
+        65,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        68,
+        70,
+        52
+      ],
+      "machine": [
+        0,
+        28,
+        390,
+        300
+      ],
+      "rail": [
+        81,
+        321,
+        228,
+        20
+      ],
+      "railActive": [
+        100,
+        321,
+        20,
+        20
+      ],
+      "panelTop": [
+        18,
+        363,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        364,
+        352,
+        55
+      ],
+      "panelCode": [
+        33,
+        376,
+        50,
+        31
+      ],
+      "nav": [
+        0,
+        633,
+        390,
+        60
+      ],
+      "primaryBottom": 612,
+      "navTop": 633
+    }
+  },
+  {
+    "viewport": "390x693",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "01_BUILD_READY_VERIFICATION"
+    ],
+    "allowed": [],
+    "mismatched": [],
+    "a_primaryBottom": 632,
+    "b_primaryBottom": 633,
+    "navTop": 633,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        390,
+        34
+      ],
+      "heroTitle": [
+        30,
+        65,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        68,
+        70,
+        43
+      ],
+      "machine": [
+        0,
+        28,
+        390,
+        300
+      ],
+      "rail": [
+        81,
+        311,
+        228,
+        20
+      ],
+      "railActive": [
+        271,
+        311,
+        20,
+        20
+      ],
+      "panelTop": [
+        18,
+        353,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        354,
+        352,
+        55
+      ],
+      "panelCode": [
+        33,
+        366,
+        50,
+        31
+      ],
+      "nav": [
+        0,
+        633,
+        390,
+        60
+      ],
+      "primaryBottom": 632,
+      "navTop": 633
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        390,
+        34
+      ],
+      "heroTitle": [
+        30,
+        65,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        68,
+        70,
+        43
+      ],
+      "machine": [
+        0,
+        28,
+        390,
+        300
+      ],
+      "rail": [
+        81,
+        311,
+        228,
+        20
+      ],
+      "railActive": [
+        271,
+        311,
+        20,
+        20
+      ],
+      "panelTop": [
+        18,
+        353,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        354,
+        352,
+        55
+      ],
+      "panelCode": [
+        33,
+        366,
+        50,
+        31
+      ],
+      "nav": [
+        0,
+        633,
+        390,
+        60
+      ],
+      "primaryBottom": 633,
+      "navTop": 633
+    }
+  },
+  {
+    "viewport": "390x693",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "03_BUILD_READY_AUTHORITY_CHECK"
+    ],
+    "allowed": [
+      "panelHead",
+      "panelCode"
+    ],
+    "mismatched": [
+      "panelHead",
+      "panelCode"
+    ],
+    "a_primaryBottom": 632,
+    "b_primaryBottom": 659,
+    "navTop": 633,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        390,
+        34
+      ],
+      "heroTitle": [
+        30,
+        65,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        68,
+        70,
+        43
+      ],
+      "machine": [
+        0,
+        28,
+        390,
+        300
+      ],
+      "rail": [
+        81,
+        311,
+        228,
+        20
+      ],
+      "railActive": [
+        271,
+        311,
+        20,
+        20
+      ],
+      "panelTop": [
+        18,
+        353,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        354,
+        352,
+        55
+      ],
+      "panelCode": [
+        33,
+        366,
+        50,
+        31
+      ],
+      "nav": [
+        0,
+        633,
+        390,
+        60
+      ],
+      "primaryBottom": 632,
+      "navTop": 633
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        390,
+        34
+      ],
+      "heroTitle": [
+        30,
+        65,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        68,
+        70,
+        43
+      ],
+      "machine": [
+        0,
+        28,
+        390,
+        300
+      ],
+      "rail": [
+        81,
+        311,
+        228,
+        20
+      ],
+      "railActive": [
+        271,
+        311,
+        20,
+        20
+      ],
+      "panelTop": [
+        18,
+        353,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        354,
+        352,
+        58
+      ],
+      "panelCode": [
+        33,
+        368,
+        50,
+        31
+      ],
+      "nav": [
+        0,
+        633,
+        390,
+        60
+      ],
+      "primaryBottom": 659,
+      "navTop": 633
+    }
+  },
+  {
+    "viewport": "390x693",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "04_BUILD_READY_REVIEW_VERIFICATION"
+    ],
+    "allowed": [
+      "panelHead",
+      "panelCode"
+    ],
+    "mismatched": [
+      "panelHead",
+      "panelCode"
+    ],
+    "a_primaryBottom": 632,
+    "b_primaryBottom": 625,
+    "navTop": 633,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        390,
+        34
+      ],
+      "heroTitle": [
+        30,
+        65,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        68,
+        70,
+        43
+      ],
+      "machine": [
+        0,
+        28,
+        390,
+        300
+      ],
+      "rail": [
+        81,
+        311,
+        228,
+        20
+      ],
+      "railActive": [
+        271,
+        311,
+        20,
+        20
+      ],
+      "panelTop": [
+        18,
+        353,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        354,
+        352,
+        55
+      ],
+      "panelCode": [
+        33,
+        366,
+        50,
+        31
+      ],
+      "nav": [
+        0,
+        633,
+        390,
+        60
+      ],
+      "primaryBottom": 632,
+      "navTop": 633
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        390,
+        34
+      ],
+      "heroTitle": [
+        30,
+        65,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        68,
+        70,
+        43
+      ],
+      "machine": [
+        0,
+        28,
+        390,
+        300
+      ],
+      "rail": [
+        81,
+        311,
+        228,
+        20
+      ],
+      "railActive": [
+        271,
+        311,
+        20,
+        20
+      ],
+      "panelTop": [
+        18,
+        353,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        354,
+        352,
+        61
+      ],
+      "panelCode": [
+        33,
+        369,
+        50,
+        31
+      ],
+      "nav": [
+        0,
+        633,
+        390,
+        60
+      ],
+      "primaryBottom": 625,
+      "navTop": 633
+    }
+  },
+  {
+    "viewport": "360x740",
+    "pair": [
+      "02_IDNTY_STATE_00_FOUNDATION",
+      "01_FOUNDATION_PRIMARY_GOAL"
+    ],
+    "allowed": [],
+    "mismatched": [],
+    "a_primaryBottom": 560,
+    "b_primaryBottom": 570,
+    "navTop": 683,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        360,
+        32
+      ],
+      "heroTitle": [
+        28,
+        60,
+        140,
+        39
+      ],
+      "sideNote": [
+        252,
+        63,
+        65,
+        48
+      ],
+      "machine": [
+        -1,
+        26,
+        363,
+        279
+      ],
+      "rail": [
+        74,
+        299,
+        212,
+        19
+      ],
+      "railActive": [
+        91,
+        299,
+        19,
+        19
+      ],
+      "panelTop": [
+        17,
+        338,
+        327,
+        null
+      ],
+      "panelHead": [
+        18,
+        339,
+        325,
+        51
+      ],
+      "panelCode": [
+        31,
+        350,
+        47,
+        29
+      ],
+      "nav": [
+        0,
+        683,
+        360,
+        57
+      ],
+      "primaryBottom": 560,
+      "navTop": 683
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        360,
+        32
+      ],
+      "heroTitle": [
+        28,
+        60,
+        140,
+        39
+      ],
+      "sideNote": [
+        252,
+        63,
+        65,
+        48
+      ],
+      "machine": [
+        -1,
+        26,
+        363,
+        279
+      ],
+      "rail": [
+        74,
+        299,
+        212,
+        19
+      ],
+      "railActive": [
+        91,
+        299,
+        19,
+        19
+      ],
+      "panelTop": [
+        17,
+        338,
+        327,
+        null
+      ],
+      "panelHead": [
+        18,
+        339,
+        325,
+        51
+      ],
+      "panelCode": [
+        31,
+        350,
+        47,
+        29
+      ],
+      "nav": [
+        0,
+        683,
+        360,
+        57
+      ],
+      "primaryBottom": 570,
+      "navTop": 683
+    }
+  },
+  {
+    "viewport": "360x740",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "01_BUILD_READY_VERIFICATION"
+    ],
+    "allowed": [],
+    "mismatched": [],
+    "a_primaryBottom": 591,
+    "b_primaryBottom": 589,
+    "navTop": 683,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        360,
+        32
+      ],
+      "heroTitle": [
+        28,
+        60,
+        140,
+        39
+      ],
+      "sideNote": [
+        252,
+        63,
+        65,
+        40
+      ],
+      "machine": [
+        -1,
+        26,
+        363,
+        279
+      ],
+      "rail": [
+        74,
+        289,
+        212,
+        19
+      ],
+      "railActive": [
+        250,
+        289,
+        19,
+        19
+      ],
+      "panelTop": [
+        17,
+        329,
+        327,
+        null
+      ],
+      "panelHead": [
+        18,
+        330,
+        325,
+        51
+      ],
+      "panelCode": [
+        31,
+        341,
+        47,
+        29
+      ],
+      "nav": [
+        0,
+        683,
+        360,
+        57
+      ],
+      "primaryBottom": 591,
+      "navTop": 683
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        360,
+        32
+      ],
+      "heroTitle": [
+        28,
+        60,
+        140,
+        39
+      ],
+      "sideNote": [
+        252,
+        63,
+        65,
+        40
+      ],
+      "machine": [
+        -1,
+        26,
+        363,
+        279
+      ],
+      "rail": [
+        74,
+        289,
+        212,
+        19
+      ],
+      "railActive": [
+        250,
+        289,
+        19,
+        19
+      ],
+      "panelTop": [
+        17,
+        329,
+        327,
+        null
+      ],
+      "panelHead": [
+        18,
+        330,
+        325,
+        51
+      ],
+      "panelCode": [
+        31,
+        341,
+        47,
+        29
+      ],
+      "nav": [
+        0,
+        683,
+        360,
+        57
+      ],
+      "primaryBottom": 589,
+      "navTop": 683
+    }
+  },
+  {
+    "viewport": "360x740",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "03_BUILD_READY_AUTHORITY_CHECK"
+    ],
+    "allowed": [
+      "panelHead",
+      "panelCode"
+    ],
+    "mismatched": [
+      "panelHead",
+      "panelCode"
+    ],
+    "a_primaryBottom": 591,
+    "b_primaryBottom": 613,
+    "navTop": 683,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        360,
+        32
+      ],
+      "heroTitle": [
+        28,
+        60,
+        140,
+        39
+      ],
+      "sideNote": [
+        252,
+        63,
+        65,
+        40
+      ],
+      "machine": [
+        -1,
+        26,
+        363,
+        279
+      ],
+      "rail": [
+        74,
+        289,
+        212,
+        19
+      ],
+      "railActive": [
+        250,
+        289,
+        19,
+        19
+      ],
+      "panelTop": [
+        17,
+        329,
+        327,
+        null
+      ],
+      "panelHead": [
+        18,
+        330,
+        325,
+        51
+      ],
+      "panelCode": [
+        31,
+        341,
+        47,
+        29
+      ],
+      "nav": [
+        0,
+        683,
+        360,
+        57
+      ],
+      "primaryBottom": 591,
+      "navTop": 683
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        360,
+        32
+      ],
+      "heroTitle": [
+        28,
+        60,
+        140,
+        39
+      ],
+      "sideNote": [
+        252,
+        63,
+        65,
+        40
+      ],
+      "machine": [
+        -1,
+        26,
+        363,
+        279
+      ],
+      "rail": [
+        74,
+        289,
+        212,
+        19
+      ],
+      "railActive": [
+        250,
+        289,
+        19,
+        19
+      ],
+      "panelTop": [
+        17,
+        329,
+        327,
+        null
+      ],
+      "panelHead": [
+        18,
+        330,
+        325,
+        54
+      ],
+      "panelCode": [
+        31,
+        342,
+        47,
+        29
+      ],
+      "nav": [
+        0,
+        683,
+        360,
+        57
+      ],
+      "primaryBottom": 613,
+      "navTop": 683
+    }
+  },
+  {
+    "viewport": "360x740",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "04_BUILD_READY_REVIEW_VERIFICATION"
+    ],
+    "allowed": [
+      "panelHead",
+      "panelCode"
+    ],
+    "mismatched": [
+      "panelHead",
+      "panelCode"
+    ],
+    "a_primaryBottom": 591,
+    "b_primaryBottom": 581,
+    "navTop": 683,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        360,
+        32
+      ],
+      "heroTitle": [
+        28,
+        60,
+        140,
+        39
+      ],
+      "sideNote": [
+        252,
+        63,
+        65,
+        40
+      ],
+      "machine": [
+        -1,
+        26,
+        363,
+        279
+      ],
+      "rail": [
+        74,
+        289,
+        212,
+        19
+      ],
+      "railActive": [
+        250,
+        289,
+        19,
+        19
+      ],
+      "panelTop": [
+        17,
+        329,
+        327,
+        null
+      ],
+      "panelHead": [
+        18,
+        330,
+        325,
+        51
+      ],
+      "panelCode": [
+        31,
+        341,
+        47,
+        29
+      ],
+      "nav": [
+        0,
+        683,
+        360,
+        57
+      ],
+      "primaryBottom": 591,
+      "navTop": 683
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        360,
+        32
+      ],
+      "heroTitle": [
+        28,
+        60,
+        140,
+        39
+      ],
+      "sideNote": [
+        252,
+        63,
+        65,
+        40
+      ],
+      "machine": [
+        -1,
+        26,
+        363,
+        279
+      ],
+      "rail": [
+        74,
+        289,
+        212,
+        19
+      ],
+      "railActive": [
+        250,
+        289,
+        19,
+        19
+      ],
+      "panelTop": [
+        17,
+        329,
+        327,
+        null
+      ],
+      "panelHead": [
+        18,
+        330,
+        325,
+        57
+      ],
+      "panelCode": [
+        31,
+        343,
+        47,
+        29
+      ],
+      "nav": [
+        0,
+        683,
+        360,
+        57
+      ],
+      "primaryBottom": 581,
+      "navTop": 683
+    }
+  },
+  {
+    "viewport": "430x932",
+    "pair": [
+      "02_IDNTY_STATE_00_FOUNDATION",
+      "01_FOUNDATION_PRIMARY_GOAL"
+    ],
+    "allowed": [],
+    "mismatched": [],
+    "a_primaryBottom": 776,
+    "b_primaryBottom": 805,
+    "navTop": 868,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        430,
+        45
+      ],
+      "heroTitle": [
+        32,
+        82,
+        161,
+        45
+      ],
+      "sideNote": [
+        306,
+        90,
+        75,
+        55
+      ],
+      "machine": [
+        -44,
+        72,
+        517,
+        398
+      ],
+      "rail": [
+        56,
+        422,
+        317,
+        28
+      ],
+      "railActive": [
+        82,
+        422,
+        28,
+        28
+      ],
+      "panelTop": [
+        19,
+        480,
+        392,
+        null
+      ],
+      "panelHead": [
+        20,
+        481,
+        390,
+        68
+      ],
+      "panelCode": [
+        38,
+        496,
+        62,
+        38
+      ],
+      "nav": [
+        0,
+        868,
+        430,
+        64
+      ],
+      "primaryBottom": 776,
+      "navTop": 868
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        430,
+        45
+      ],
+      "heroTitle": [
+        32,
+        82,
+        161,
+        45
+      ],
+      "sideNote": [
+        306,
+        90,
+        75,
+        55
+      ],
+      "machine": [
+        -44,
+        72,
+        517,
+        398
+      ],
+      "rail": [
+        56,
+        422,
+        317,
+        28
+      ],
+      "railActive": [
+        82,
+        422,
+        28,
+        28
+      ],
+      "panelTop": [
+        19,
+        480,
+        392,
+        null
+      ],
+      "panelHead": [
+        20,
+        481,
+        390,
+        68
+      ],
+      "panelCode": [
+        38,
+        496,
+        62,
+        38
+      ],
+      "nav": [
+        0,
+        868,
+        430,
+        64
+      ],
+      "primaryBottom": 805,
+      "navTop": 868
+    }
+  },
+  {
+    "viewport": "430x932",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "01_BUILD_READY_VERIFICATION"
+    ],
+    "allowed": [],
+    "mismatched": [],
+    "a_primaryBottom": 803,
+    "b_primaryBottom": 842,
+    "navTop": 868,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        430,
+        45
+      ],
+      "heroTitle": [
+        32,
+        82,
+        161,
+        45
+      ],
+      "sideNote": [
+        306,
+        90,
+        75,
+        46
+      ],
+      "machine": [
+        -44,
+        72,
+        517,
+        398
+      ],
+      "rail": [
+        56,
+        422,
+        317,
+        28
+      ],
+      "railActive": [
+        320,
+        422,
+        28,
+        28
+      ],
+      "panelTop": [
+        19,
+        480,
+        392,
+        null
+      ],
+      "panelHead": [
+        20,
+        481,
+        390,
+        68
+      ],
+      "panelCode": [
+        38,
+        496,
+        62,
+        38
+      ],
+      "nav": [
+        0,
+        868,
+        430,
+        64
+      ],
+      "primaryBottom": 803,
+      "navTop": 868
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        430,
+        45
+      ],
+      "heroTitle": [
+        32,
+        82,
+        161,
+        45
+      ],
+      "sideNote": [
+        306,
+        90,
+        75,
+        46
+      ],
+      "machine": [
+        -44,
+        72,
+        517,
+        398
+      ],
+      "rail": [
+        56,
+        422,
+        317,
+        28
+      ],
+      "railActive": [
+        320,
+        422,
+        28,
+        28
+      ],
+      "panelTop": [
+        19,
+        480,
+        392,
+        null
+      ],
+      "panelHead": [
+        20,
+        481,
+        390,
+        68
+      ],
+      "panelCode": [
+        38,
+        496,
+        62,
+        38
+      ],
+      "nav": [
+        0,
+        868,
+        430,
+        64
+      ],
+      "primaryBottom": 842,
+      "navTop": 868
+    }
+  },
+  {
+    "viewport": "430x932",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "03_BUILD_READY_AUTHORITY_CHECK"
+    ],
+    "allowed": [
+      "panelHead",
+      "panelCode"
+    ],
+    "mismatched": [
+      "panelHead",
+      "panelCode"
+    ],
+    "a_primaryBottom": 803,
+    "b_primaryBottom": 857,
+    "navTop": 868,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        430,
+        45
+      ],
+      "heroTitle": [
+        32,
+        82,
+        161,
+        45
+      ],
+      "sideNote": [
+        306,
+        90,
+        75,
+        46
+      ],
+      "machine": [
+        -44,
+        72,
+        517,
+        398
+      ],
+      "rail": [
+        56,
+        422,
+        317,
+        28
+      ],
+      "railActive": [
+        320,
+        422,
+        28,
+        28
+      ],
+      "panelTop": [
+        19,
+        480,
+        392,
+        null
+      ],
+      "panelHead": [
+        20,
+        481,
+        390,
+        68
+      ],
+      "panelCode": [
+        38,
+        496,
+        62,
+        38
+      ],
+      "nav": [
+        0,
+        868,
+        430,
+        64
+      ],
+      "primaryBottom": 803,
+      "navTop": 868
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        430,
+        45
+      ],
+      "heroTitle": [
+        32,
+        82,
+        161,
+        45
+      ],
+      "sideNote": [
+        306,
+        90,
+        75,
+        46
+      ],
+      "machine": [
+        -44,
+        72,
+        517,
+        398
+      ],
+      "rail": [
+        56,
+        422,
+        317,
+        28
+      ],
+      "railActive": [
+        320,
+        422,
+        28,
+        28
+      ],
+      "panelTop": [
+        19,
+        480,
+        392,
+        null
+      ],
+      "panelHead": [
+        20,
+        481,
+        390,
+        73
+      ],
+      "panelCode": [
+        38,
+        498,
+        62,
+        38
+      ],
+      "nav": [
+        0,
+        868,
+        430,
+        64
+      ],
+      "primaryBottom": 857,
+      "navTop": 868
+    }
+  },
+  {
+    "viewport": "430x932",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "04_BUILD_READY_REVIEW_VERIFICATION"
+    ],
+    "allowed": [
+      "panelHead",
+      "panelCode"
+    ],
+    "mismatched": [
+      "panelHead",
+      "panelCode"
+    ],
+    "a_primaryBottom": 803,
+    "b_primaryBottom": 827,
+    "navTop": 868,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        430,
+        45
+      ],
+      "heroTitle": [
+        32,
+        82,
+        161,
+        45
+      ],
+      "sideNote": [
+        306,
+        90,
+        75,
+        46
+      ],
+      "machine": [
+        -44,
+        72,
+        517,
+        398
+      ],
+      "rail": [
+        56,
+        422,
+        317,
+        28
+      ],
+      "railActive": [
+        320,
+        422,
+        28,
+        28
+      ],
+      "panelTop": [
+        19,
+        480,
+        392,
+        null
+      ],
+      "panelHead": [
+        20,
+        481,
+        390,
+        68
+      ],
+      "panelCode": [
+        38,
+        496,
+        62,
+        38
+      ],
+      "nav": [
+        0,
+        868,
+        430,
+        64
+      ],
+      "primaryBottom": 803,
+      "navTop": 868
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        430,
+        45
+      ],
+      "heroTitle": [
+        32,
+        82,
+        161,
+        45
+      ],
+      "sideNote": [
+        306,
+        90,
+        75,
+        46
+      ],
+      "machine": [
+        -44,
+        72,
+        517,
+        398
+      ],
+      "rail": [
+        56,
+        422,
+        317,
+        28
+      ],
+      "railActive": [
+        320,
+        422,
+        28,
+        28
+      ],
+      "panelTop": [
+        19,
+        480,
+        392,
+        null
+      ],
+      "panelHead": [
+        20,
+        481,
+        390,
+        76
+      ],
+      "panelCode": [
+        38,
+        499,
+        62,
+        38
+      ],
+      "nav": [
+        0,
+        868,
+        430,
+        64
+      ],
+      "primaryBottom": 827,
+      "navTop": 868
+    }
+  },
+  {
+    "viewport": "390x844",
+    "pair": [
+      "02_IDNTY_STATE_00_FOUNDATION",
+      "01_FOUNDATION_PRIMARY_GOAL"
+    ],
+    "allowed": [],
+    "mismatched": [],
+    "a_primaryBottom": 725,
+    "b_primaryBottom": 753,
+    "navTop": 784,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        390,
+        42
+      ],
+      "heroTitle": [
+        30,
+        76,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        84,
+        70,
+        52
+      ],
+      "machine": [
+        -47,
+        67,
+        484,
+        372
+      ],
+      "rail": [
+        47,
+        394,
+        296,
+        26
+      ],
+      "railActive": [
+        71,
+        394,
+        26,
+        26
+      ],
+      "panelTop": [
+        18,
+        448,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        449,
+        352,
+        64
+      ],
+      "panelCode": [
+        35,
+        463,
+        58,
+        36
+      ],
+      "nav": [
+        0,
+        784,
+        390,
+        60
+      ],
+      "primaryBottom": 725,
+      "navTop": 784
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        390,
+        42
+      ],
+      "heroTitle": [
+        30,
+        76,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        84,
+        70,
+        52
+      ],
+      "machine": [
+        -47,
+        67,
+        484,
+        372
+      ],
+      "rail": [
+        47,
+        394,
+        296,
+        26
+      ],
+      "railActive": [
+        71,
+        394,
+        26,
+        26
+      ],
+      "panelTop": [
+        18,
+        448,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        449,
+        352,
+        64
+      ],
+      "panelCode": [
+        35,
+        463,
+        58,
+        36
+      ],
+      "nav": [
+        0,
+        784,
+        390,
+        60
+      ],
+      "primaryBottom": 753,
+      "navTop": 784
+    }
+  },
+  {
+    "viewport": "390x844",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "01_BUILD_READY_VERIFICATION"
+    ],
+    "allowed": [],
+    "mismatched": [],
+    "a_primaryBottom": 748,
+    "b_primaryBottom": 788,
+    "navTop": 784,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        390,
+        42
+      ],
+      "heroTitle": [
+        30,
+        76,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        84,
+        70,
+        43
+      ],
+      "machine": [
+        -47,
+        67,
+        484,
+        372
+      ],
+      "rail": [
+        47,
+        394,
+        296,
+        26
+      ],
+      "railActive": [
+        293,
+        394,
+        26,
+        26
+      ],
+      "panelTop": [
+        18,
+        448,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        449,
+        352,
+        64
+      ],
+      "panelCode": [
+        35,
+        463,
+        58,
+        36
+      ],
+      "nav": [
+        0,
+        784,
+        390,
+        60
+      ],
+      "primaryBottom": 748,
+      "navTop": 784
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        390,
+        42
+      ],
+      "heroTitle": [
+        30,
+        76,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        84,
+        70,
+        43
+      ],
+      "machine": [
+        -47,
+        67,
+        484,
+        372
+      ],
+      "rail": [
+        47,
+        394,
+        296,
+        26
+      ],
+      "railActive": [
+        293,
+        394,
+        26,
+        26
+      ],
+      "panelTop": [
+        18,
+        448,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        449,
+        352,
+        64
+      ],
+      "panelCode": [
+        35,
+        463,
+        58,
+        36
+      ],
+      "nav": [
+        0,
+        784,
+        390,
+        60
+      ],
+      "primaryBottom": 788,
+      "navTop": 784
+    }
+  },
+  {
+    "viewport": "390x844",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "03_BUILD_READY_AUTHORITY_CHECK"
+    ],
+    "allowed": [
+      "panelHead",
+      "panelCode"
+    ],
+    "mismatched": [
+      "panelHead",
+      "panelCode"
+    ],
+    "a_primaryBottom": 748,
+    "b_primaryBottom": 802,
+    "navTop": 784,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        390,
+        42
+      ],
+      "heroTitle": [
+        30,
+        76,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        84,
+        70,
+        43
+      ],
+      "machine": [
+        -47,
+        67,
+        484,
+        372
+      ],
+      "rail": [
+        47,
+        394,
+        296,
+        26
+      ],
+      "railActive": [
+        293,
+        394,
+        26,
+        26
+      ],
+      "panelTop": [
+        18,
+        448,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        449,
+        352,
+        64
+      ],
+      "panelCode": [
+        35,
+        463,
+        58,
+        36
+      ],
+      "nav": [
+        0,
+        784,
+        390,
+        60
+      ],
+      "primaryBottom": 748,
+      "navTop": 784
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        390,
+        42
+      ],
+      "heroTitle": [
+        30,
+        76,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        84,
+        70,
+        43
+      ],
+      "machine": [
+        -47,
+        67,
+        484,
+        372
+      ],
+      "rail": [
+        47,
+        394,
+        296,
+        26
+      ],
+      "railActive": [
+        293,
+        394,
+        26,
+        26
+      ],
+      "panelTop": [
+        18,
+        448,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        449,
+        352,
+        68
+      ],
+      "panelCode": [
+        35,
+        465,
+        58,
+        36
+      ],
+      "nav": [
+        0,
+        784,
+        390,
+        60
+      ],
+      "primaryBottom": 802,
+      "navTop": 784
+    }
+  },
+  {
+    "viewport": "390x844",
+    "pair": [
+      "02_BUILD_READY_EVIDENCE",
+      "04_BUILD_READY_REVIEW_VERIFICATION"
+    ],
+    "allowed": [
+      "panelHead",
+      "panelCode"
+    ],
+    "mismatched": [
+      "panelHead",
+      "panelCode"
+    ],
+    "a_primaryBottom": 748,
+    "b_primaryBottom": 773,
+    "navTop": 784,
+    "measuredA": {
+      "header": [
+        0,
+        0,
+        390,
+        42
+      ],
+      "heroTitle": [
+        30,
+        76,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        84,
+        70,
+        43
+      ],
+      "machine": [
+        -47,
+        67,
+        484,
+        372
+      ],
+      "rail": [
+        47,
+        394,
+        296,
+        26
+      ],
+      "railActive": [
+        293,
+        394,
+        26,
+        26
+      ],
+      "panelTop": [
+        18,
+        448,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        449,
+        352,
+        64
+      ],
+      "panelCode": [
+        35,
+        463,
+        58,
+        36
+      ],
+      "nav": [
+        0,
+        784,
+        390,
+        60
+      ],
+      "primaryBottom": 748,
+      "navTop": 784
+    },
+    "measuredB": {
+      "header": [
+        0,
+        0,
+        390,
+        42
+      ],
+      "heroTitle": [
+        30,
+        76,
+        150,
+        42
+      ],
+      "sideNote": [
+        274,
+        84,
+        70,
+        43
+      ],
+      "machine": [
+        -47,
+        67,
+        484,
+        372
+      ],
+      "rail": [
+        47,
+        394,
+        296,
+        26
+      ],
+      "railActive": [
+        293,
+        394,
+        26,
+        26
+      ],
+      "panelTop": [
+        18,
+        448,
+        354,
+        null
+      ],
+      "panelHead": [
+        19,
+        449,
+        352,
+        71
+      ],
+      "panelCode": [
+        35,
+        467,
+        58,
+        36
+      ],
+      "nav": [
+        0,
+        784,
+        390,
+        60
+      ],
+      "primaryBottom": 773,
+      "navTop": 784
+    }
+  }
+]

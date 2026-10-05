@@ -1,0 +1,13 @@
+{
+  "route": "/evolve/state?path=install",
+  "finalUrl": "/evolve/state?path=install",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 871,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": false,
+  "errors": []
+}

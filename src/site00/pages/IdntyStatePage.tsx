@@ -2,14 +2,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EnvironmentShell } from '../components/environment/EnvironmentShell';
 import { Site00AppShell } from '../components/shell/Site00AppShell';
 import { Site00OriginLayoutSwitch } from '../components/shell/Site00OriginLayoutSwitch';
-import { Site00MobileShell } from '../components/mobile/Site00MobileShell';
 import {
   IDNTY_BRAND_STATES,
   IDNTY_INVESTMENT_TIERS,
   IDNTY_STATE_COPY,
 } from '../config/identity';
 import { StateCard, InvestmentColumn, WorkflowSummary } from '../components/workflow/WorkflowCards';
-import { IdntyMobileDiagnostic } from '../components/idnty/mobile/IdntyMobileDiagnostic';
+import { IdentityDiagnosticOverview } from '../components/public-redesign/IdentityDiagnosticOverview';
 import { useSite00 } from '../state/Site00Context';
 import { ArchitecturalPanel } from '../components/panels/ArchitecturalPanel';
 import { useIdntyAssessment } from '../hooks/useIdntyAssessment';
@@ -114,19 +113,7 @@ export default function IdntyStatePage() {
   const resumeStateLabel = record.identityState?.replace(/-/g, ' ').toUpperCase() ?? '';
 
   if (!isDesktopArtboard) {
-    return (
-      <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-state-mobile-shell">
-        <div className="site00-state-page site00-state-page--idnty site00-state-page--mobile">
-          <IdntyMobileDiagnostic
-            selectedStateId={state.selectedIdentityStateId}
-            onSelectState={selectIdentityState}
-            hasResume={hasResume}
-            resumeTarget={resumeTarget}
-            resumeStateLabel={resumeStateLabel}
-          />
-        </div>
-      </Site00MobileShell>
-    );
+    return <IdentityDiagnosticOverview />;
   }
 
   return (

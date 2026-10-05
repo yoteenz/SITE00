@@ -6,6 +6,10 @@
  * `PUBLIC_REDESIGN_ASSET_URLS` — no React edits, no layout guessing.
  *
  * Rules: never bake UI copy into a raster; never use authority screenshot crops as placeholders.
+ *
+ * OPUS-CONVERGENCE1: the four IDNTY machines and the BLDR framework step glyphs are now drawn in live
+ * SVG at authority geometry (GROK_REQUIRED → LIVE_CODE). Their slots stay mounted for an OPTIONAL
+ * material pass only; machine slots now cover the full 390×300 authority stage (1170×900 @3x).
  */
 
 export type AssetSlotType =
@@ -153,10 +157,10 @@ export const PUBLIC_REDESIGN_ASSET_SLOTS: AssetSlotSpec[] = [
     'LUMINOUS WHITE ATRIUM — CIRCULAR DAIS, STEPS, PLANTERS, RING LIGHT. SHARED ACROSS EVERY IDNTY STATE AND STEP (CONTINUITY).',
     'FULL-BLEED BEHIND THE HERO + MACHINE; PANEL SITS OVER THE LOWER REGION',
   ),
-  machine('MACHINE.IDNTY.FOUNDATION.ORB', ['/idnty/starting-at-zero'], ['02_IDNTY_STATE_00_FOUNDATION'], 'GLOSSY RED SPHERE (OPTIONAL MATERIAL UPGRADE OVER THE SVG ORB).', 'MACHINE STAGE CENTER', { w: 480, h: 480 }, { requiredForFidelity: false }),
-  machine('MACHINE.IDNTY.PARTIAL.LATTICE', ['/idnty/some-pieces-exist'], ['03_IDNTY_STATE_01_REFINE'], 'TRANSLUCENT RED HEX LATTICE VOLUME (OPTIONAL MATERIAL UPGRADE OVER THE SVG).', 'MACHINE STAGE CENTER', { w: 520, h: 640 }, { requiredForFidelity: false }),
-  machine('MACHINE.IDNTY.EVOLUTION.WAVES', ['/idnty/ready-for-evolution'], ['04_IDNTY_STATE_02_EVOLUTION'], 'CONCENTRIC ELLIPSE WAVEFORM (OPTIONAL MATERIAL UPGRADE OVER THE SVG).', 'MACHINE STAGE CENTER', { w: 640, h: 560 }, { requiredForFidelity: false }),
-  machine('MACHINE.IDNTY.AUTHORITY.STAR', ['/idnty/build-ready'], ['05_IDNTY_STATE_03_BUILD_READY'], 'GLOSSY RED FOUR-POINT STAR (OPTIONAL MATERIAL UPGRADE OVER THE SVG).', 'MACHINE STAGE CENTER', { w: 560, h: 560 }, { requiredForFidelity: false }),
+  machine('MACHINE.IDNTY.FOUNDATION.ORB', ['/idnty/starting-at-zero'], ['02_IDNTY_STATE_00_FOUNDATION'], 'GLOSSY RED SPHERE (OPTIONAL MATERIAL UPGRADE OVER THE SVG ORB).', 'MACHINE STAGE — FULL 390×300 AUTHORITY STAGE BOX (PAGE Y≈28→328), TRANSPARENT OVERLAY REGISTERED TO THE SVG', { w: 1170, h: 900 }, { requiredForFidelity: false, grokRequired: false }),
+  machine('MACHINE.IDNTY.PARTIAL.LATTICE', ['/idnty/some-pieces-exist'], ['03_IDNTY_STATE_01_REFINE'], 'TRANSLUCENT RED HEX LATTICE VOLUME (OPTIONAL MATERIAL UPGRADE OVER THE SVG).', 'MACHINE STAGE — FULL 390×300 AUTHORITY STAGE BOX (PAGE Y≈28→328), TRANSPARENT OVERLAY REGISTERED TO THE SVG', { w: 1170, h: 900 }, { requiredForFidelity: false, grokRequired: false }),
+  machine('MACHINE.IDNTY.EVOLUTION.WAVES', ['/idnty/ready-for-evolution'], ['04_IDNTY_STATE_02_EVOLUTION'], 'CONCENTRIC ELLIPSE WAVEFORM (OPTIONAL MATERIAL UPGRADE OVER THE SVG).', 'MACHINE STAGE — FULL 390×300 AUTHORITY STAGE BOX (PAGE Y≈28→328), TRANSPARENT OVERLAY REGISTERED TO THE SVG', { w: 1170, h: 900 }, { requiredForFidelity: false, grokRequired: false }),
+  machine('MACHINE.IDNTY.AUTHORITY.STAR', ['/idnty/build-ready'], ['05_IDNTY_STATE_03_BUILD_READY'], 'GLOSSY RED FOUR-POINT STAR (OPTIONAL MATERIAL UPGRADE OVER THE SVG).', 'MACHINE STAGE — FULL 390×300 AUTHORITY STAGE BOX (PAGE Y≈28→328), TRANSPARENT OVERLAY REGISTERED TO THE SVG', { w: 1170, h: 900 }, { requiredForFidelity: false, grokRequired: false }),
 
   /* BLDR */
   plate('ENV.BLDR.COMMAND_CENTER', ['/bldr/state'], ['01_BLDR_COMMAND_CENTER'], 'SAME WHITE ATRIUM FAMILY AS IDNTY, BUILD-DAIS VARIANT.', 'FULL-BLEED BEHIND HERO + MACHINE'),
@@ -175,7 +179,7 @@ export const PUBLIC_REDESIGN_ASSET_SLOTS: AssetSlotSpec[] = [
   machine('ILLUSTRATION.BLDR.PATH.PANEL.WORLD', ['/bldr/state?path=world'], ['04_BLDR_WORLD'], 'RED-LINE TERRACE LATTICE (PANEL HEADER).', 'PANEL HEADER RIGHT', { w: 420, h: 420 }, { requiredForFidelity: false }),
   machine('ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS', ['/bldr/state?path=systems'], ['05_BLDR_SYSTEMS'], 'RED-LINE SYSTEM-STACK LATTICE (PANEL HEADER).', 'PANEL HEADER RIGHT', { w: 420, h: 420 }, { requiredForFidelity: false }),
   machine('ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS', ['/bldr/state?path=extensions'], ['06_BLDR_EXTENSIONS'], 'RED-LINE LAYERED SLAB STACK (PANEL HEADER).', 'PANEL HEADER RIGHT', { w: 420, h: 420 }, { requiredForFidelity: false }),
-  machine('ILLUSTRATION.BLDR.FRAMEWORK.STEP', ['/bldr/state?path=*'], ['02_BLDR_OVERVIEW', '03_BLDR_SITE', '04_BLDR_WORLD', '05_BLDR_SYSTEMS', '06_BLDR_EXTENSIONS'], 'FIVE FRAMEWORK STEP ILLUSTRATIONS (ORBIT, LAYERS, RINGS, HEX, HELIX) — SHARED ACROSS PATHS.', 'FRAMEWORK ROW, 5 COLUMNS', { w: 240, h: 240 }, { requiredForFidelity: false }),
+  machine('ILLUSTRATION.BLDR.FRAMEWORK.STEP', ['/bldr/state?path=*'], ['02_BLDR_OVERVIEW', '03_BLDR_SITE', '04_BLDR_WORLD', '05_BLDR_SYSTEMS', '06_BLDR_EXTENSIONS'], 'FIVE FRAMEWORK STEP ILLUSTRATIONS (ORBIT, LAYERS, RINGS, HEX, HELIX) — SHARED ACROSS PATHS.', 'FRAMEWORK ROW, 5 COLUMNS', { w: 240, h: 240 }, { requiredForFidelity: false, grokRequired: false }),
 
   /* EVOLVE */
   plate('ENV.EVOLVE.INTERVENTION_CENTER', ['/evolve/state'], ['01_EVOLVE_INTERVENTION_CENTER'], 'WHITE ATRIUM WITH LAYERED GLASS PROPERTY UNDER INTERVENTION.', 'FULL-BLEED BEHIND HERO + MACHINE'),
@@ -201,8 +205,8 @@ export const PUBLIC_REDESIGN_ASSET_SLOTS: AssetSlotSpec[] = [
   thumb('CARD.LOCATIONS.JOURNAL', ['/origin/locations'], ['01_LOCATIONS_MAIN'], 'JOURNAL ROW — MOUNTAIN TERRACE WITH TABLE.', 'ROW RIGHT HALF', { w: 520, h: 300 }),
 ];
 
-/** Grok registers final URLs here. Empty on purpose in this pass. */
-export const PUBLIC_REDESIGN_ASSET_URLS: Partial<Record<string, string>> = {};
+/** Runtime Grok injection URLs (production-eligible assets only). */
+export { PUBLIC_REDESIGN_ASSET_URLS } from './publicRedesignAssetUrls';
 
 export function getAssetSlot(id: string): AssetSlotSpec | undefined {
   return PUBLIC_REDESIGN_ASSET_SLOTS.find((s) => s.id === id);

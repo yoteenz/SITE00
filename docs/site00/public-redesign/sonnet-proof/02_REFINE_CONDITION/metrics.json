@@ -1,0 +1,13 @@
+{
+  "route": "/idnty/some-pieces-exist/cohesion-diagnostic",
+  "finalUrl": "/idnty/some-pieces-exist/cohesion-diagnostic",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 921,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "errors": []
+}
