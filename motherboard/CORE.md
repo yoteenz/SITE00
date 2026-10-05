@@ -261,3 +261,5 @@ F02 is SETUP. The visual package for founder review is `JURNL/F02_SETUP/`. It is
 F02 header florals are floating assets, not part of the environment plate. The repair set is `JURNL/F02_SETUP/ASSETS/BOTANICALS/` and `JURNL/F02_SETUP/ASSETS/LOCKUPS/`. Progress squares stay live code. The screens and plates were not regenerated for that repair.
 
 The F02 implementation source for Sonnet is `src/projects/jurnl/families/F02_SETUP/`. Authorities there are reference only. Plates, botanicals, and brand lockups are the runtime images. That folder is not wired into the live app. Start at `HANDOFF/SONNET_START_HERE.txt`. Do not search OpenArt to implement F02.
+
+F02 header marks layer above the plate and under live UI: environment, then the botanical emblem, then a full brand lockup when that screen uses one. A lockup that already contains the wordmark and the flower is the only header mark on that screen. Do not redraw those assets in CSS, type, emoji, or a generic icon.

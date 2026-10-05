@@ -6,6 +6,189 @@
   "production_package": "JURNL/F02_SETUP",
   "runtime_wired": false,
   "rule": "Screen authorities are visual targets. Environment plates, botanicals, and brand lockups are the runtime images. Do not search OpenArt.",
+  "botanical_repair_binding": {
+    "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-BOTANICAL-REPAIR-BINDING1",
+    "repair_sprint": "P0.JURNL.F02-BOTANICAL-BRAND-ASSET-REPAIR1",
+    "repair_status": "COMPLETE",
+    "approval_status": "IN_REVIEW",
+    "pre_repair_manifests_used": false,
+    "source_manifests": [
+      "JURNL/F02_SETUP/MANIFEST/F02_VISUAL_ASSET_MANIFEST.json",
+      "JURNL/F02_SETUP/MANIFEST/F02_COMPONENT_ASSET_MAP.json",
+      "JURNL/F02_SETUP/MANIFEST/F02_SCREEN_TO_LINKED_ASSET_REPORT.json",
+      "JURNL/F02_SETUP/MANIFEST/GENERATION_LEDGER.json",
+      "JURNL/F02_SETUP/MANIFEST/F02_BOTANICAL_ASSET_MAP.json"
+    ],
+    "contact_sheet": "JURNL/F02_SETUP/SHEETS/J_BOTANICAL_LOCKUP_REPAIR.jpg",
+    "emblems_mounted": 13,
+    "full_lockups_mounted": 2,
+    "screens_mapped": 14,
+    "duplicate_collapsed": "F02.04 reuses F02.BOTANICAL.EMBLEM.004",
+    "stored_as_environment_plates": 0,
+    "transparency": "PASS",
+    "screenshot_crop_contamination": "NONE",
+    "layering": [
+      "ENVIRONMENT",
+      "BOTANICAL",
+      "BRAND_LOCKUP",
+      "LIVE_UI",
+      "INTERACTIONS"
+    ],
+    "ledger": {
+      "path": "JURNL/F02_SETUP/MANIFEST/GENERATION_LEDGER.json",
+      "generation_class": "BOTANICAL / BRAND_LOCKUP",
+      "paid_generations": 15,
+      "credits_spent": 2025,
+      "observed_rate": 135,
+      "rate_scope": "This 135-credit rate is the repair class only. Screen, environment, state, and interaction generations keep their own observed costs."
+    },
+    "mapped_screens": [
+      {
+        "screen_id": "F02.00",
+        "environment_id": "ENV.ARRIVAL",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.001"
+        ],
+        "brand_lockups": [
+          "F02.BRANDLOCKUP.JURNL.001"
+        ],
+        "header_paint": "LOCKUP"
+      },
+      {
+        "screen_id": "F02.01",
+        "environment_id": "ENV.ARRIVAL",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.002"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.02",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.003"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.02.1",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.009"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.03",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.004"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.04",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.004"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.05",
+        "environment_id": "ENV.EDIT",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_EDIT.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.005"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.05.1",
+        "environment_id": "ENV.EDIT",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_EDIT.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.010"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.06",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.006"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.07",
+        "environment_id": "ENV.QUIET",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_QUIET.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.007"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.08",
+        "environment_id": "ENV.ARRIVAL",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.008"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.ST.VALIDATION",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.012"
+        ],
+        "brand_lockups": [
+          "F02.BRANDLOCKUP.JURNL_SETUP.001"
+        ],
+        "header_paint": "LOCKUP"
+      },
+      {
+        "screen_id": "F02.ST.CONNECTED",
+        "environment_id": "ENV.DESK",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.013"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      },
+      {
+        "screen_id": "F02.ST.RESUME",
+        "environment_id": "ENV.ARRIVAL",
+        "environment_file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+        "botanical_assets": [
+          "F02.BOTANICAL.EMBLEM.011"
+        ],
+        "brand_lockups": [],
+        "header_paint": "EMBLEM_PLUS_LIVE_WORDMARK"
+      }
+    ]
+  },
   "screens": [
     {
       "screen_id": "F02.00",

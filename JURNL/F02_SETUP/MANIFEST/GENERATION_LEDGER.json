@@ -972,7 +972,15 @@
       "credits_spent": 2025,
       "paid_generations": 15,
       "screenshot_crop_harvest": false,
-      "transparent_backgrounds": true
+      "transparent_backgrounds": true,
+      "mount_binding": {
+        "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-BOTANICAL-REPAIR-BINDING1",
+        "generation_class": "BOTANICAL / BRAND_LOCKUP",
+        "paid_generations": 15,
+        "credits_spent": 2025,
+        "observed_rate": 135,
+        "rate_scope": "Repair class only. Do not apply 135 to SCREEN, ENVIRONMENT, STATE, or INTERACTION."
+      }
     }
   ],
   "credits_after_botanical_repair": 35063

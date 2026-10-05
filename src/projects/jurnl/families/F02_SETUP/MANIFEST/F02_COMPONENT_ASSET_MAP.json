@@ -3,6 +3,20 @@
   "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-SONNET-HANDOFF1",
   "verified_against": "JURNL/F02_SETUP/MANIFEST/F02_COMPONENT_ASSET_MAP.json",
   "rule": "CODE_ONLY means draw it in the app. CODE_PLUS_ASSET means draw the component and mount the listed file. Do not invent skins.",
+  "botanical_repair_binding": {
+    "sprint": "P0.JURNL.F02-GROK-CANONICAL-MOUNT-BOTANICAL-REPAIR-BINDING1",
+    "repair_status": "COMPLETE",
+    "pre_repair_manifests_used": false,
+    "layering": [
+      "ENVIRONMENT",
+      "BOTANICAL",
+      "BRAND_LOCKUP",
+      "LIVE_UI",
+      "INTERACTIONS"
+    ],
+    "lockup_rule": "A full lockup is the header. Do not also paint its emblem or a second wordmark.",
+    "emblem_rule": "Emblem-only screens paint the PNG plus live uppercase JURNL. Do not redraw the flower."
+  },
   "components": [
     {
       "component_id": "LIVE_ENVIRONMENT",
