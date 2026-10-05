@@ -13347,3 +13347,114 @@ Sprint `P0.STUDIOWORLD.RESIDENT-AUTHORITY.RECOVERY4-WHITE-TEE-RED-COLLAR`.
 - **Problem:** PR #1313 geometry batch anchored OpenArt on `production-authority-assets/shared/residents/*-portrait.jpg` (forensics/black tee / outdated). Founder: correct set is **white T-shirt + red collar** already in repo history.
 - **Recovery:** `casting-thumbnails-v1/` (commit `4cdac10c`, PR #1303) = work look + fabrication portrait; `season1-v1/01-natural-authority/` (PR #1302 `a59131ef`) = full-body. Bundle on `cursor/production-hub-descendants-opus1` (not current `main`). Ivory `*-uniform.jpg` / season1 `03-work-uniform-candidates` are **not** white-tee authority.
 - **Branch:** `cursor/studio-world-resident-authority-recovery4`; halted OpenArt; invalidated SW-001 generated frames (16) as `SUPERSEDED_OUTPUT_WRONG_SOURCE`; pending 112 frames `NOT_GENERATED`. Review ZIPs `STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW*.zip`. Next: founder review → 16-frame validation gen before full 128 resume.
+
+---
+
+## 2026-10-04 — Resident fabrication authority validation OpenArt (16-frame pack)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.OPENART1` on branch `cursor/studio-world-resident-fabrication-validation-openart1`.
+
+- **Scope:** 8 residents × 2 frames (work portrait + work full-body front) using casting-thumbnails-v1 + season1 natural full-body refs uploaded to OpenArt project `Q7IHYCEK3RPn2c1ConEG`; `gpt-image-2-5-sunburst` image2image HIGH 2K (~152 credits/frame).
+- **Completed:** All **16/16** validation PNGs (8× portrait + 8× full-body) via OpenArt MCP + recovery4 casting-thumbnails-v1 / season1 full-body refs (`openart_visual_references.json`). Contact sheets, master overview, `failure_retry_report.json`, review ZIPs refreshed. Classifications: agent spot-check **PASS** on SW-001; all frames remain `approval_status: FABRICATION_VALIDATION_IN_REVIEW` / mostly `FOUNDER_REVIEW_REQUIRED` until founder sign-off. **128 geometry batch not resumed.**
+- **Credits recorded:** 2432 (16 × ~152). Draft PR on `cursor/studio-world-resident-fabrication-validation-openart1` links #1314 + #1313.
+
+---
+
+## 2026-10-04 — Validation source-binding recovery (RECOVERY1)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.VALIDATION-SOURCE-BINDING.RECOVERY1`.
+
+- **Root cause:** Geometry OpenArt runner (`studio-world-resident-fabrication-openart-runner.mjs` `plan()`) binds `visualReference` from `openart_identity_references.json` → `production-authority-assets/shared/residents/*-portrait.jpg` (black-tee mounts). Validation had a parallel unverified cache (`openart_visual_references.json`) with no sha256 gate — ambiguous vs geometry identity uploads.
+- **Fix:** `validationSourceBinding.ts` (explicit identityFace / workLook / bodyGeometry roles, throws on superseded paths); `source-binding-registry.json` sha256 ↔ OpenArt upload IDs; `studio-world-validation-openart-run-one.mjs` refuses stale refs; proof script + 8 `SW-00X_SOURCE_BINDING_PROOF.jpg` sheets. Prior 16 validation PNGs marked `SUPERSEDED_OUTPUT_WRONG_REFERENCE_BINDING`.
+- **Canary:** 1× Etta work portrait (`VBxhMWHBMtT6R63sRCnW`) using new upload `fujq0PYW5H3SwY15Oq35` (sha256 matches casting thumbnail); superseded geometry id `h5j5eTZfam3mnxVql57l`. Branch `cursor/studio-world-resident-fabrication-validation-source-binding-recovery1`. Tests: `residentFabricationValidationSourceBinding.test.ts`.
+
+---
+
+## 2026-10-04 — Production authority downloader (RECOVERY2)
+
+Sprint `P0.STUDIOOS.PRODUCTION.OPENART-ASSET-FORENSICS.RECOVERY2` — forensic retrieval only (OpenArt project `Q7IHYCEK3RPn2c1ConEG`, zero generations).
+
+- **Delivered:** `download_production_authorities.ps1` at repo root with embedded **242** CDN URLs (Experience 46 mobile + 46 desktop/tablet hybrid, Library 75 + 75). Regenerator: `scripts/build-download-production-authorities.ps1.py`. Manifest: `artifacts/production-openart-recovery2/AUTHORITY_DOWNLOADER_MANIFEST.json`.
+- **Identification:** Broad prompt matching (IMAGE-TO-IMAGE library/experience mobile, `ROUTE:` hybrid boards); library hybrid duplicates resolved to newest `EXACTLY TWO` batch (75 routes × 2 histories).
+- **Run (Windows Shadow PC):** `powershell -ExecutionPolicy Bypass -File ".\download_production_authorities.ps1"` → `PRODUCTION_AUTHORITY_EXPORT/` + four ZIPs beside script.
+
+---
+
+## 2026-10-04 — JURNL F01 Entry full family production (OpenArt)
+
+Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent run.
+
+- **Context:** Founder sprint to expand **approved F01 Welcome parent** into complete JURNL Family 01 Entry visual authorities via **OpenArt GPT Image 2.5 Sunburst**, 2K, 9:16 flat mobile screens (no device frames)—plus harvest, manifests, state/interaction/icon sheets. Product **JURNL** is separate from SITE 00 SPA; assets live under repo `JURNL/F01_ENTRY/`.
+- **Delivered:** Parent recreation (`F01.00`), 13 child screens (`F01.01`–`F01.13`), 4 composite **state authority** sheets, interaction authority sheet (drawers/modals/social transition), F01 icon pack sheet, **17** forensic parent asset crops (`ENTRY.*`), Sheet A (canonical harvest from real crops), Sheet B (child lineage), manifests (screen tree, components, interactions, asset lineage, implementation mapping, OpenArt log). OpenArt project **`TToQavm9coU1QGPRfEzU`**. ~**20** generations (~**3,484** credits).
+- **Status:** All generated PNGs are **`GENERATED` / `IN REVIEW`** until founder marks **`APPROVED` / `CANONICAL`**. Harvest crops are from production parent PNG—not speculative replacements.
+- **Scripts:** `scripts/jurnl-f01-harvest-parent.py`, `jurnl-f01-build-asset-sheet-a.py`, `jurnl-f01-build-sheet-b.py`.
+- **Conventions:** JURNL UI copy **UPPERCASE**; **square-rounded** interactive controls only; logo **small/integrated**; child screens must **descend** from parent materials without duplicating full welcome hero.
+
+---
+
+## 2026-10-04 — Founder: direct ZIP as clickable link (always)
+
+- **Request:** After JURNL F01 review package, founder asked agents to **always** send the direct ZIP as a **clickable link** (mobile review), not only paths or bare URLs in prose.
+- **Rule:** `AGENTS.md` + `.cursor/rules/session-close.mdc` — Part 3 line 1: markdown link to `releases/download/…/*.zip` on its own line; review/asset ZIPs via GitHub Release + same link format.
+- **JURNL F01 review ZIP:** [JURNL-F01-ENTRY-REVIEW-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-entry-review-2026-10-04/JURNL-F01-ENTRY-REVIEW-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 asset harvest recovery (zero regen)
+
+- **Sprint:** P0.JURNL.F01-ASSET-HARVEST-RECOVERY1 — re-extract from existing `F01.00_WELCOME_GENERATED.png` only; **0** OpenArt credit spend.
+- **Done:** rembg isolation for objects/botanical; clean arch/material crops; light → `OVERLAYS/`; buttons + logo placement → `MANIFEST/COMPONENT_REFERENCES/` + `F01_COMPONENT_MANIFEST.json`; v1 crops → `ASSETS/_ARCHIVE_SCREENSHOT_CROPS_v1/`; Sheet A rebuilt; `scripts/jurnl-f01-recover-harvest.py`.
+- **Review ZIP:** [JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-asset-harvest-recovery-2026-10-04/JURNL-F01-ASSET-HARVEST-RECOVERY-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 parent harvest proof1 (FAIL @ 50%)
+
+- **Sprint:** P0.JURNL.F01-PARENT-ASSET-HARVEST-PROOF1 — **1** new F01.00 parent (`z6y0GkA8kNuu8Egnk22P`), immediate harvest, **0** asset regen credits.
+- **Result:** **FAIL** — 7/14 assets usable (50%) &lt; 80% bar; hypothesis (fresh parent fixes extraction) **not supported**.
+- **Next method:** **ASSET-FIRST GENERATION PIPELINE** for future families; F01 repair without child regen **not** viable via extraction alone.
+- **Proof ZIP:** [JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-parent-harvest-proof1-2026-10-04/JURNL-F01-PARENT-HARVEST-PROOF1-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 interaction authority complete
+
+- **Sprint:** P0.JURNL.F01-INTERACTION-AUTHORITY-COMPLETE1 — **0** child screen regen; **10** interaction authority PNGs in `INTERACTIONS/`; **74** rows in `F01_INTERACTION_MANIFEST.json`; `interactionPrimitives` in component manifest; Family 02+ pipeline adds mandatory interaction audit step.
+- **ZIP:** [JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip](https://github.com/yoteenz/SITE00/releases/download/jurnl-f01-interaction-authority-2026-10-04/JURNL-F01-INTERACTION-AUTHORITY-2026-10-04.zip)
+
+---
+
+## 2026-10-04 — JURNL F01 interaction authority uppercase regen
+
+- **Task:** Regenerate all **10** `JURNL/F01_ENTRY/INTERACTIONS/*.png` with **strict ALL-CAPS** user-facing text (founder requirement); same interaction content as INTERACTION-AUTHORITY-COMPLETE1.
+- **OpenArt:** `gpt-image-2-5-sunburst` image2image, project `TToQavm9coU1QGPRfEzU`, 2K 9:16 high, `autoEnhancePrompt: false`; every prompt prefixed with CRITICAL TYPOGRAPHY RULE (100% uppercase, zero lowercase on board).
+- **Log:** `openart_interaction_log.json` — `note: "uppercase-only regen 2026-10-04"`, new historyIds/urls; helper script `scripts/jurnl-f01-regen-interactions-uppercase.py` for prompt text + download workflow.
+- **Result:** **10/10** COMPLETED generations downloaded and overwritten in repo.
+
+---
+
+## 2026-10-05 — Single-angle Etta source test (OpenArt)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.SINGLE-ANGLE-SOURCE-TEST.OPENART1` on `cursor/studio-world-resident-single-angle-source-test-openart1` (from #1316).
+
+- **One image:** Etta left three-quarter work portrait (`ODqcr3zgDJwpZfFwElmQ`); ref upload `fujq0PYW5H3SwY15Oq35`; inputImages URL verified = casting white-tee/red-collar sha256.
+- **Artifacts:** `SW-001_ETTA_SINGLE_TEST_SOURCE_PROOF.jpg`, `SW-001_ETTA_SINGLE_TEST_REVIEW.jpg`, `SW-001_ETTA_SINGLE_TEST_README.txt`, `artifacts/studio-world-resident-fabrication-validation/single-angle-source-test.json`. Classification **PASS**. No validation/geometry batch resume.
+
+---
+
+## 2026-10-05 — RESUME16 validation batch (OpenArt2, sha256 registry)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2` (from #1324 lineage).
+
+- **16/16** frames regenerated via `source-binding-registry.json` (SW-002–SW-008 fresh uploads; casting-thumbnails-v1 work look + season1 body). **0 retries**, **2432** credits. Review ZIPs refreshed. All `FOUNDER_REVIEW_REQUIRED` / `IN_REVIEW`. **128 geometry not resumed.**
+
+---
+
+## 2026-10-05 — RESUME16 OpenArt2 validation (16 frames, sha256 registry)
+
+Sprint `P0.STUDIOWORLD.RESIDENT-FABRICATION.AUTHORITY-VALIDATION.RESUME16.OPENART2` on `cursor/studio-world-resident-fabrication-validation-resume16-openart2`.
+
+- **Registry:** Re-uploaded SW-002..SW-008 workLook + bodyGeometry to OpenArt project `Q7IHYCEK3RPn2c1ConEG`; merged `source-binding-registry.json` with `supersededOpenArtUploadIds` from `openart_identity_references.json`. SW-001 unchanged.
+- **Generation:** 16/16 frames (WORK_PORTRAIT_FRONT + WORK_FULL_BODY_FRONT) via `studio-world-validation-openart-run-one.mjs` + MCP; recorded with binding sha256 + `openart_reference_upload_id`; **2432** credits (16×152); **0** retries.
+- **Artifacts:** Refreshed PNGs, `validation_manifest.json` (sprint RESUME16.OPENART2), contact sheets, `STUDIO_WORLD_RESIDENT_FABRICATION_VALIDATION_REVIEW.zip` + `_LITE.zip`, `failure_retry_report.json`. Helpers: `studio-world-validation-openart-build-record.mjs`, `studio-world-validation-openart-batch-run.mjs` (OPENART_MCP_BRIDGE).
+- **Status:** Automated lane PASS; all frames `classification: FOUNDER_REVIEW_REQUIRED`, `approval_status: IN_REVIEW` for founder sign-off.
