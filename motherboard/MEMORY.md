@@ -13421,3 +13421,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `environmentPlates.ts`, `Environment.tsx`, `jurnl-environment.css`, F01 contract note, runtime plate test, coverage report, generation ledger. New files under `public/jurnl/f01-asset-first/assets/`: CREATE_ACCOUNT, SIGN_IN, UNLOCK, NEW_PASSWORD, RESET_SUCCESS, BIOMETRIC, DEVICE_TRUST, SECURITY, COMPLETE.
 - **Credits:** Quote and charge were 317 each (4k, 9:16, high). Nine jobs = 2,853. Balance 50,362 → 47,509. Earlier sprint spend of 1,268 is unchanged.
 - **Conventions:** A child authority that is its own composition gets its own plate. Do not object-position or scale the welcome plate to imitate a child. Live UI stays code above the plate.
+
+---
+
+## 2026-10-05 — F01 mobile viewport fit
+
+- **Context:** This chat started as the canonical plate injection, then the founder rejected flattening child screens onto the welcome atrium. Each of the 14 F01 screens got its own clean plate (nine new generations after the first four). The tunnel was restarted onto that build. The founder then confirmed the backgrounds load and the pipeline works, and asked for the live panels to be condensed because they overflow the phone.
+- **Topics covered:** OpenArt image-to-image plates (4k tier, 317 credits each, ceiling unchanged at 60,000). Child-plate correction. Preview tunnel restart. Sprint P0.JURNL.F01-MOBILE-VIEWPORT-FIT-COMPRESSION1.
+- **Decisions / outcomes:** Do not redesign F01, do not change plates, copy, routes, or flow. Condense spacing, row height, button height, and panel padding. Mobile 393×852 is compact. Tablet and desktop stay more open. No `transform: scale` on the screen and no root `overflow: hidden` to hide a too-tall stack. Error states on Create Account tighten only while an error panel is present. site00.com was not deployed. Paid generations this density pass: 0.
+- **Changes:** `jurnl-runtime.css`, `jurnl-screens.css`, privacy/security spacing in `SecurityScreens.tsx`. Fit report: `artifacts/jurnl-f01-mobile-fit/VIEWPORT_FIT_REPORT.json`. Before compression, Create Account overflowed by 38px and Privacy by 2px inside the 852 frame. After, all 14 primary screens, tablet, and 1440×900 desktop measure overflow 0 with host scroll 0. Privacy and Security keep both actions on screen.
+- **Conventions:** Fit F01 by density tokens and screen-specific overrides. A child plate stays the child’s own file. The design viewport (DESIGN → JURNL → VIEWPORT) is the review surface, and the direct runtime must use the same CSS.
