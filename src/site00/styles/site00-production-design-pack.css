@@ -178,3 +178,45 @@
     height: 46px;
   }
 }
+
+/* ── 3. FA.OPUS2: the chamber absorbs the slack (authority: the chamber is ~66% of the body at 16:9) ─────────────
+ * The 360 / 340px caps left 74–85px empty bands between chamber, pipeline and table (space-between). The chamber
+ * now takes the remaining height up to a per-family cap; panels are % of the chamber, so they gain height with it. */
+.pxa .pxa-design {
+  justify-content: flex-start;
+  gap: 6px;
+}
+@media (min-width: 1120px) {
+  .pxa .pxa-design > .pxa-chamber {
+    --ch-max: 640px;
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa .pxa-design > .pxa-chamber {
+    --ch-max: 620px;
+  }
+}
+@media (max-width: 699px) {
+  .pxa .pxa-design > .pxa-chamber {
+    --ch-max: 470px;
+  }
+}
+/* ON YOUR TABLE cards keep a real image (FA.OPUS2): the viewport mode's full-width 46px image band becomes the
+   same image-left card as the other modes, and wide desktops give the card image height as the card widens
+   (230–265×66px bands at 1680 / 1920). */
+@media (min-width: 700px) {
+  .pxa .pxa-design[data-mode='viewport'] .pxa-tcard {
+    grid-template-columns: 42% minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+  }
+  .pxa .pxa-design[data-mode='viewport'] .pxa-tcard__img {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    min-height: 58px;
+  }
+}
+@media (min-width: 1600px) {
+  .pxa .pxa-design .pxa-tcard__img {
+    min-height: 96px;
+  }
+}

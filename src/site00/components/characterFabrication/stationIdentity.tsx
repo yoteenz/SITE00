@@ -77,7 +77,7 @@ export function ActorCatalogue({ projectSlug }: { projectSlug: string }) {
           <button type="button" className={state.actorLayout === 'LIST' ? 'is-on' : ''} onClick={() => dispatch({ type: 'ACTOR_LAYOUT', layout: 'LIST' })} aria-label="List" aria-pressed={state.actorLayout === 'LIST'} data-testid="cf-layout-list"><IcMenu width={7} height={7} /></button>
         </span>
       </div>
-      <div className={`cf-cat__strip cf-cat__strip--${state.actorLayout.toLowerCase()}`} ref={strip} data-testid="cf-actor-grid">
+      <div className={`cf-cat__strip cf-cat__strip--${state.actorLayout.toLowerCase()}`} ref={strip} data-testid="cf-actor-grid" data-scroll="internal-x">
         {shown.map((a) => (
           <ActorCard key={a.actorId} a={a} layout={state.actorLayout} selected={a.actorId === state.selectedActorCandidateId} onSelect={() => dispatch({ type: 'SELECT_ACTOR', actorId: a.actorId })} />
         ))}

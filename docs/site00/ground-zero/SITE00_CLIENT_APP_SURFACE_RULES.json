@@ -1,0 +1,123 @@
+{
+ "artifact": "SITE00_CLIENT_APP_SURFACE_RULES",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "locked": {
+  "primary_nav": [
+   "HOME",
+   "PROJECT",
+   "REVIEWS",
+   "INBOX",
+   "LIBRARY"
+  ],
+  "header": [
+   "PROJECT NAME",
+   "DIAMOND / PROJECT MARKER",
+   "NOTIFICATIONS",
+   "MENU"
+  ],
+  "shell": "white / off-white; SITE 00 red default; bottom nav",
+  "feel": "a project room \u2014 not Asana, not Jira, not a generic client portal"
+ },
+ "rules": {
+  "client_app_grammar": [
+   {
+    "rule": "/app: white bg, off-white #fafafa, max-width 430px centered, 1px rgba(0,0,0,0.08) header rule, Martian Mono, accent #e8192c; \"not admin, not generic SaaS, not website UI 1:1\". No image authority in repo.",
+    "evidence": [
+     "src/site00/styles/site00-client-app.css",
+     "motherboard/MEMORY.md"
+    ],
+    "confidence": "MEDIUM",
+    "validated_known_principle": true
+   }
+  ],
+  "host_vs_project_rules": [
+   {
+    "rule": "Host chrome (top bar, bottom nav, mode bar, type, red) stays constant across projects; project identity appears via thumbnail, hero media, boards content, world imagery.",
+    "evidence": [
+     "artifacts/production-all-tabs-forensic1/00-hub-authority-vs-tunnel.jpg",
+     "src/site00/styles/site00-production-host-chrome.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "--site00-project-presence-accent defaults to host accent; project skins (NDXBOOK lime/black, JURNL bone/emerald) live inside project surfaces only.",
+    "evidence": [
+     "src/site00/styles/tokens.css",
+     "public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg",
+     "public/site00/projects/jurnl/f01/authorities/reference/REFERENCE_MASTER_VISUAL_AUTHORITY.jpg"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Do not crop finished screens into runtime assets; authority images are QA/reference only, never shipped as UI.",
+    "evidence": [
+     "src/site00/config/production-authority-registry.ts",
+     "src/site00/authority/publicRedesignAssetSlots.ts",
+     "motherboard/CORE.md"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ],
+  "typography": [
+   {
+    "rule": "SITE 00 host typography (public site, design reconstruction, client app, tokens): Martian Mono via Google Fonts (wdth 75\u2013112.5, wght 100\u2013800), default width 87.5 semi-condensed; weights label 600, heading 700, display 800, numeric 650.",
+    "evidence": [
+     "src/site00/styles/tokens.css",
+     "src/site00/styles/site00-fonts.css",
+     "motherboard/CORE.md (Typography provenance)"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Production workspace host (pxh/pxa/pw/ibx/a-): Saira Semi Condensed self-hosted woff2 300\u2013700, Martian Mono only as fallback.",
+    "evidence": [
+     "src/site00/assets/fonts/saira-semi-condensed/*.woff2",
+     "src/site00/styles/site00-production-host-chrome.css --pxh-font",
+     "src/site00/styles/site00-production-authority.css --pxa-font",
+     "src/site00/styles/site00-production-hub-authority.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": false
+   },
+   {
+    "rule": "Character Fabrication: \"SITE00 Fab Condensed\"/Barlow Condensed (declared specialization).",
+    "evidence": [
+     "src/site00/styles/site00-character-fabrication-authority.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   },
+   {
+    "rule": "Martian Mono is host-only; never client brand canon (HOST_UI cannot become CLIENT_BRAND). JURNL uses Barlow Semi Condensed + Instrument Serif; NDXBOOK uses its own editorial faces.",
+    "evidence": [
+     "motherboard/CORE.md",
+     "shared/site00-brand-lore/typographyProvenance.ts",
+     "public/site00/projects/jurnl/fonts/"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": true
+   },
+   {
+    "rule": "Tracking restrained (display 0, label 0.06em, nav 0.04em); Production chrome letter-spacing 0.04em.",
+    "evidence": [
+     "src/site00/styles/tokens.css",
+     "src/site00/styles/site00-production-host-chrome.css"
+    ],
+    "confidence": "HIGH",
+    "validated_known_principle": null
+   }
+  ]
+ },
+ "derived_rules": [
+  "One primary thing per screen; the authority under review dominates",
+  "Light and quiet: white/#fafafa, 1px rules, red only for attention and primary action",
+  "No card walls; sections read as an editorial page",
+  "Project personality enters through the project marker and the work itself",
+  "Never show internal agent chat, prompts, model names, token usage, debug or internal costs"
+ ],
+ "authority_status": "INCOMPLETE \u2014 CSS claims P0.APP.1 reference fidelity but the reference image is not tracked in the repo. Founder should supply it."
+}

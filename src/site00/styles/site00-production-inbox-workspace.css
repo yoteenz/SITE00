@@ -519,8 +519,8 @@
     font-size: 13px;
   }
   .pxa .ibx-sum dt {
-    font-size: 7.5px;
-    letter-spacing: 0.05em;
+    font-size: 8.5px;
+    letter-spacing: 0.02em;
   }
   /* no object is "selected" on mobile until the drawer opens */
   .pxa .ibx-lw:not([data-open]) .ibx-orow[data-selected='true'] {

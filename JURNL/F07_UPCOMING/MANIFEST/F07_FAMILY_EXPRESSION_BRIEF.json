@@ -1,0 +1,55 @@
+{
+  "family_id": "F07",
+  "family_name": "UPCOMING",
+  "product_job": "Show what is approaching, and when.",
+  "user_question_answered": "What is coming next, and when?",
+  "primary_signal": "A sequence, not a date grid.",
+  "emotional_role": "Anticipation and approach.",
+  "spatial_metaphor": "A colonnade receding toward the coast.",
+  "architectural_character": "Pale piers on the right, opening to the sea. The left is a quiet plaster face.",
+  "lighting_character": "Daylight at the end of the colonnade.",
+  "material_emphasis": "Plaster piers and stone floor.",
+  "environmental_focal_point": "The far coastal opening.",
+  "object_language": "Piers only. No calendar props.",
+  "botanical_role": "A little green at the far opening, not in the rail.",
+  "negative_space_strategy": "Left half is the quiet face of plaster.",
+  "composition_bias": "Left rail, sequence to the right.",
+  "information_density": "Next, then, later.",
+  "panel_behavior": "A short sequence.",
+  "button_behavior": "The next item stays closed.",
+  "data_visualization_character": "Time as a sequence of marks.",
+  "interaction_character": "The parent shows the approach. An item stays closed.",
+  "motion_character": "Still. The piers imply forward.",
+  "typographic_character": "Sequence words, not dates as the hero.",
+  "relationship_to_previous_family": "Income arrives. Upcoming is what that arrival meets.",
+  "relationship_to_next_family": "Plan is the intention before those things move.",
+  "relationship_to_other_families": "Not a calendar app and not the income gallery.",
+  "global_jurnl_traits_preserved": [
+    "Voice",
+    "Display and sans",
+    "Bone, cream, ivory, greige, taupe, blush, emerald, burgundy, champagne",
+    "Coastal plaster",
+    "Editorial restraint",
+    "Natural light",
+    "Square-rounded controls",
+    "No circular tap targets"
+  ],
+  "family_specific_traits": [
+    "Colonnade",
+    "Horizon",
+    "Sequence"
+  ],
+  "cross_family_plate_reuse_allowed": "NO",
+  "cross_family_reuse_reason": "NONE",
+  "distinctness_risks": [
+    "A calendar",
+    "A pier cutting the rail"
+  ],
+  "founder_gate": {
+    "brief": "READY",
+    "distinctness_test": "PASS",
+    "repetition_audit": "PASS",
+    "cross_family_reuse": "NONE",
+    "generation_allowed": true
+  }
+}

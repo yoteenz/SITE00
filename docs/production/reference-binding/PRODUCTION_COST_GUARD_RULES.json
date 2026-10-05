@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "pre_dispatch_block_zero_credits": true,
+  "metrics": {
+    "credits_avoided_by_block": "increment_on_blocked_precheck",
+    "invalid_generation_credits": "sum_postmortem_reference_binding_failure",
+    "reference_guided_credits": "sum_successful_reference_guided",
+    "net_new_text_to_image_credits": "sum_legitimate_net_new",
+    "recovery_credits": "sum_recovery_class"
+  },
+  "blocked_precheck_reasons_count_toward_credits_avoided": [
+    "REFERENCE_MISSING",
+    "REFERENCE_BINDING_FAILURE_PREVENTED",
+    "INVALID_GENERATION_MODE",
+    "CROSS_PROJECT_REFERENCE_DENIED",
+    "PROVIDER_REFERENCE_UNSUPPORTED",
+    "REFERENCE_FILE_CORRUPT",
+    "REFERENCE_RESOLUTION_FAILED"
+  ]
+}

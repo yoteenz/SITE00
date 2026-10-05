@@ -1,0 +1,515 @@
+{
+  "contract": "JURNL_HIERARCHICAL_EXPRESSION",
+  "cascade": [
+    "GLOBAL_JURNL_DNA",
+    "FAMILY",
+    "PARENT",
+    "CHILD",
+    "GRANDCHILD",
+    "STATE",
+    "INTERACTION",
+    "PANEL",
+    "CONTROL",
+    "LIVE_IMPLEMENTATION"
+  ],
+  "global_dna": [
+    "BRAND_VOICE",
+    "TYPOGRAPHY_SYSTEM",
+    "CORE_PALETTE",
+    "MEDITERRANEAN_COASTAL_LUXURY",
+    "EDITORIAL_RESTRAINT",
+    "NATURAL_LIGHT",
+    "MATERIAL_QUALITY",
+    "ICONOGRAPHY_FAMILY",
+    "CONTROL_GEOMETRY",
+    "ENVIRONMENT_BREATHING",
+    "NO_CIRCULAR_TAP_TARGETS",
+    "ACCESSIBILITY",
+    "RESPONSIVE_QUALITY"
+  ],
+  "expression_parent_rule": "parent_expression_inherited names the expression parent. That may be the family parent or a prior room in the same family.",
+  "plate_rule": "A distinct product job does not require a new plate. NEW_PLATE_WITHIN_FAMILY only when the job, emotional role, or spatial metaphor materially changes.",
+  "child_production": "AUTHORITIES_EXIST_DO_NOT_REGENERATE",
+  "paid_generation": "DO_NOT_GENERATE_FROM_THIS_TREE_UNTIL_THE_FOUNDER_ASKS",
+  "downstream_consumers": [
+    "GROK",
+    "OPUS",
+    "COMPOSER"
+  ],
+  "founder_review": {
+    "review": [
+      "FAMILY_EXPRESSION",
+      "PARENT_EXPRESSION",
+      "KEY_CHILD_SUB_EXPRESSIONS"
+    ],
+    "skip": [
+      "EVERY_MICROSTATE"
+    ],
+    "status": "NOT_APPROVED"
+  },
+  "repetition_audit": {
+    "status": "PASS",
+    "compared_against": [
+      "CURRENT_FAMILY",
+      "JURNL_EXPRESSION_MATRIX"
+    ],
+    "reuse_reason": "CORRECT",
+    "notes": [
+      "The welcome still life is owned by entry. Do not repeat it as the hero of a later family.",
+      "Historical entry screens each have a plate file. New work reuses or modulates. Do not add another entry plate because it is easy."
+    ]
+  },
+  "generation_gate": {
+    "product_tree_locked_enough": true,
+    "family_expression_defined": true,
+    "parent_expression_defined": true,
+    "material_child_expressions_defined": true,
+    "environment_policies_defined": true,
+    "panel_control_policies_defined": true,
+    "repetition_audit": "PASS"
+  },
+  "family_expression": {
+    "product_role": "Enter and trust.",
+    "emotional_role": "Arrival. Calm, first light.",
+    "spatial_metaphor": "The threshold of a coastal house.",
+    "architectural_character": "Welcome is the atrium. Later screens are quieter rooms of the same house.",
+    "lighting_character": "High side light on the welcome wall. Child moments stay softer.",
+    "material_emphasis": "Plaster, stone, bone, a little burgundy cloth.",
+    "information_density": "Sparse.",
+    "panel_language": "Few surfaces. Forms sit on the plaster.",
+    "interaction_character": "One primary step.",
+    "motion_character": "Slow. No bounce.",
+    "typographic_emphasis": "Display title.",
+    "data_visualization": "None."
+  },
+  "nodes": [
+    {
+      "node_id": "F01",
+      "node_type": "FAMILY",
+      "product_job": "Open the house. Create trust, an account, and a way back in.",
+      "expression_class": "FAMILY",
+      "expression_concept": "Threshold. First light. One decision at a time.",
+      "parent_expression_inherited": "GLOBAL_JURNL_DNA",
+      "expression_changes": [
+        "Sparse forms on plaster",
+        "Welcome owns the arch, curtain, bust, bowl, and books"
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "FORM",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Large display title, short line under it",
+      "interaction_policy": "One primary step, then a quiet alternate",
+      "motion_policy": "Slow room-to-room. No bounce.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.00",
+      "node_type": "PARENT",
+      "product_job": "Welcome the person into the house.",
+      "expression_class": "PARENT",
+      "expression_concept": "The atrium. Standing in the threshold, opening on the right.",
+      "parent_expression_inherited": "F01 threshold",
+      "expression_changes": [
+        "This is the strongest entry concept. Later entry screens do not repeat the bust."
+      ],
+      "environment_policy": "NEW_PLATE_WITHIN_FAMILY",
+      "panel_policy": "EDITORIAL_NOTE",
+      "button_policy": "primary get started, secondary sign in",
+      "typography_policy": "Display welcome, short supporting line",
+      "interaction_policy": "Two choices. No form yet.",
+      "motion_policy": "Still room.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.01",
+      "node_type": "CHILD",
+      "product_job": "create account",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Account form. Same house, less atrium, more fields.",
+      "parent_expression_inherited": "F01.00",
+      "expression_changes": [
+        "The bust is not the subject. The form is.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "FORM",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.02",
+      "node_type": "CHILD",
+      "product_job": "email verification",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Waiting for a letter. Quieter than the form.",
+      "parent_expression_inherited": "F01.01",
+      "expression_changes": [
+        "A held moment, not a new room.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "EMPTY_STATE",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.03",
+      "node_type": "CHILD",
+      "product_job": "sign in",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Returning. The threshold, with a shorter form.",
+      "parent_expression_inherited": "F01.00",
+      "expression_changes": [
+        "Return, not a second welcome.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "FORM",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.04",
+      "node_type": "CHILD",
+      "product_job": "returning user unlock",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Intimate unlock. Less room, one action.",
+      "parent_expression_inherited": "F01.03",
+      "expression_changes": [
+        "Closer and quieter than sign-in.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "SELECTION",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.05",
+      "node_type": "CHILD",
+      "product_job": "forgot password",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Recovery begins. One field.",
+      "parent_expression_inherited": "F01.03",
+      "expression_changes": [
+        "Same trust world, narrower job.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "FORM",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.06",
+      "node_type": "CHILD",
+      "product_job": "reset email sent",
+      "expression_class": "DIRECT_INHERITANCE",
+      "expression_concept": "The letter is sent. Continuation of recovery.",
+      "parent_expression_inherited": "F01.05",
+      "expression_changes": [
+        "No new room. The waiting is the state.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "EMPTY_STATE",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.07",
+      "node_type": "CHILD",
+      "product_job": "create new password",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "A new key. Form density returns.",
+      "parent_expression_inherited": "F01.05",
+      "expression_changes": [
+        "Same recovery, more fields.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "FORM",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.08",
+      "node_type": "CHILD",
+      "product_job": "password reset success",
+      "expression_class": "DIRECT_INHERITANCE",
+      "expression_concept": "The key is set. A quiet confirmation.",
+      "parent_expression_inherited": "F01.07",
+      "expression_changes": [
+        "Success is a state, not a new plate.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "APPROVAL",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.09",
+      "node_type": "CHILD",
+      "product_job": "biometric setup",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "Permission of the body. A different job from the form.",
+      "parent_expression_inherited": "F01.00",
+      "expression_changes": [
+        "Distinct sheet language. Not a new house.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "SELECTION",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.10",
+      "node_type": "CHILD",
+      "product_job": "device trust",
+      "expression_class": "MODULATED_INHERITANCE",
+      "expression_concept": "Trust this device. Same permission world as biometric.",
+      "parent_expression_inherited": "F01.09",
+      "expression_changes": [
+        "Continuation of trust.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "SELECTION",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.11",
+      "node_type": "CHILD",
+      "product_job": "privacy primer",
+      "expression_class": "DISTINCT_SUB_EXPRESSION",
+      "expression_concept": "An editorial primer. Reading, not typing.",
+      "parent_expression_inherited": "F01.00",
+      "expression_changes": [
+        "Density shifts to reading. The room stays.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "MODULATE_PARENT_PLATE",
+      "panel_policy": "EDITORIAL_NOTE",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.12",
+      "node_type": "CHILD",
+      "product_job": "security primer",
+      "expression_class": "DIRECT_INHERITANCE",
+      "expression_concept": "The same primer voice, for security.",
+      "parent_expression_inherited": "F01.11",
+      "expression_changes": [
+        "Do not invent a second reading room.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "EDITORIAL_NOTE",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.13",
+      "node_type": "CHILD",
+      "product_job": "entry complete",
+      "expression_class": "DIRECT_INHERITANCE",
+      "expression_concept": "The threshold again, ready to leave for setup.",
+      "parent_expression_inherited": "F01.00",
+      "expression_changes": [
+        "Return to the atrium. Bridge to setup.",
+        "A plate file may already exist. Do not generate another."
+      ],
+      "environment_policy": "REUSE_PARENT_PLATE",
+      "panel_policy": "SUMMARY",
+      "button_policy": "primary and secondary",
+      "typography_policy": "Display question, short line, fields in the sans",
+      "interaction_policy": "One step forward",
+      "motion_policy": "Push. No ornament.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "STATES.F01.01",
+      "node_type": "STATE",
+      "product_job": "Validation on the account form. Wine wash, square alert, the field stays.",
+      "expression_class": "STATE",
+      "expression_concept": "Validation on the account form. Wine wash, square alert, the field stays.",
+      "parent_expression_inherited": "F01.01",
+      "expression_changes": [
+        "No floating text. No default spinner. No plain error box."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "ALERT",
+      "button_policy": "secondary retry or primary continue",
+      "typography_policy": "Short display line, then one sentence",
+      "interaction_policy": "Stay on the screen",
+      "motion_policy": "The panel arrives. The room does not change.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "STATES.F01.03",
+      "node_type": "STATE",
+      "product_job": "Wrong key, missing account, or locked. The sign-in room holds the news.",
+      "expression_class": "STATE",
+      "expression_concept": "Wrong key, missing account, or locked. The sign-in room holds the news.",
+      "parent_expression_inherited": "F01.03",
+      "expression_changes": [
+        "No floating text. No default spinner. No plain error box."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "ALERT",
+      "button_policy": "secondary retry or primary continue",
+      "typography_policy": "Short display line, then one sentence",
+      "interaction_policy": "Stay on the screen",
+      "motion_policy": "The panel arrives. The room does not change.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "STATES.EMAIL_RECOVERY",
+      "node_type": "STATE",
+      "product_job": "Pending, resent, expired, success. Waiting and arrival, not a toast.",
+      "expression_class": "STATE",
+      "expression_concept": "Pending, resent, expired, success. Waiting and arrival, not a toast.",
+      "parent_expression_inherited": "F01.05",
+      "expression_changes": [
+        "No floating text. No default spinner. No plain error box."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "EMPTY_STATE",
+      "button_policy": "secondary retry or primary continue",
+      "typography_policy": "Short display line, then one sentence",
+      "interaction_policy": "Stay on the screen",
+      "motion_policy": "The panel arrives. The room does not change.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "STATES.SECURITY_NETWORK",
+      "node_type": "STATE",
+      "product_job": "Biometric, device, offline, session. Status inside the trust world.",
+      "expression_class": "STATE",
+      "expression_concept": "Biometric, device, offline, session. Status inside the trust world.",
+      "parent_expression_inherited": "F01.09",
+      "expression_changes": [
+        "No floating text. No default spinner. No plain error box."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "ALERT",
+      "button_policy": "secondary retry or primary continue",
+      "typography_policy": "Short display line, then one sentence",
+      "interaction_policy": "Stay on the screen",
+      "motion_policy": "The panel arrives. The room does not change.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.IN.PRIVACY_DETAIL",
+      "node_type": "INTERACTION",
+      "product_job": "Read the privacy note. Editorial drawer, not a generic sheet.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Read the privacy note. Editorial drawer, not a generic sheet.",
+      "parent_expression_inherited": "F01",
+      "expression_changes": [
+        "JurnlDrawer detail variant. Shared architecture. Different expression."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "EDITORIAL_NOTE",
+      "button_policy": "secondary",
+      "typography_policy": "Drawer title in display, body in sans",
+      "interaction_policy": "Sheet over the room",
+      "motion_policy": "Sheet rises. Scrim quiets the room.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.IN.SECURITY_DETAIL",
+      "node_type": "INTERACTION",
+      "product_job": "Read the security note. Same editorial drawer.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Read the security note. Same editorial drawer.",
+      "parent_expression_inherited": "F01",
+      "expression_changes": [
+        "JurnlDrawer detail variant. Shared architecture. Different expression."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "EDITORIAL_NOTE",
+      "button_policy": "secondary",
+      "typography_policy": "Drawer title in display, body in sans",
+      "interaction_policy": "Sheet over the room",
+      "motion_policy": "Sheet rises. Scrim quiets the room.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.IN.SIGN_OUT",
+      "node_type": "INTERACTION",
+      "product_job": "Leave. A confirmation, not a form.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "Leave. A confirmation, not a form.",
+      "parent_expression_inherited": "F01",
+      "expression_changes": [
+        "JurnlDrawer confirmation variant. Shared architecture. Different expression."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "APPROVAL",
+      "button_policy": "primary and quiet",
+      "typography_policy": "Drawer title in display, body in sans",
+      "interaction_policy": "Sheet over the room",
+      "motion_policy": "Sheet rises. Scrim quiets the room.",
+      "distinct_authority_required": false
+    },
+    {
+      "node_id": "F01.IN.AUTH_ERROR",
+      "node_type": "INTERACTION",
+      "product_job": "The house could not complete the step. Alert, still JURNL.",
+      "expression_class": "INTERACTION",
+      "expression_concept": "The house could not complete the step. Alert, still JURNL.",
+      "parent_expression_inherited": "F01",
+      "expression_changes": [
+        "JurnlDrawer confirmation variant. Shared architecture. Different expression."
+      ],
+      "environment_policy": "NO_PLATE_REQUIRED",
+      "panel_policy": "ALERT",
+      "button_policy": "primary and quiet",
+      "typography_policy": "Drawer title in display, body in sans",
+      "interaction_policy": "Sheet over the room",
+      "motion_policy": "Sheet rises. Scrim quiets the room.",
+      "distinct_authority_required": false
+    }
+  ]
+}

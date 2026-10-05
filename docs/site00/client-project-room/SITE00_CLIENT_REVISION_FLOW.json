@@ -1,0 +1,72 @@
+{
+ "artifact": "SITE00_CLIENT_REVISION_FLOW",
+ "sprint": "P0.SITE00.CLIENT-PROJECT-ROOM-UX-APPROVAL-COST-TRANSPARENCY-FORENSIC1",
+ "status": "PROPOSED_BY_OPUS (plan only \u2014 0 code, 0 DB changes)",
+ "commit": "eedc9c81abfb9d80b058bd423978af72089c9481",
+ "flow": [
+  "\u00d7 NEEDS REVISION tapped",
+  "feedback area expands (mobile: focused sheet, sticky SEND above keyboard)",
+  "client writes (+ optional chips)",
+  "SEND REVISION REQUEST enabled only when valid",
+  "submitted \u2192 status REVISION_REQUESTED \u2192 workspace receives \u2192 family returns to active production \u2192 HOME stops showing it as waiting on client",
+  "founder posts new version \u2192 client notified REVISION READY \u2192 review shows WHAT YOU SAID \u00b7 WHAT CHANGED \u00b7 NEW VERSION"
+ ],
+ "copy": {
+  "prompt": "WHAT ISN'T WORKING FOR YOU?",
+  "follow_ups_optional": [
+   "WHAT SHOULD WE KEEP?",
+   "WHAT WOULD YOU LIKE TO FEEL DIFFERENT?"
+  ],
+  "chips_optional": [
+   "VISUAL DIRECTION",
+   "LAYOUT",
+   "COPY",
+   "COLOR",
+   "IMAGERY",
+   "INTERACTION",
+   "DOESN'T FEEL LIKE MY BRAND",
+   "OTHER"
+  ],
+  "submit": "SEND REVISION REQUEST"
+ },
+ "validation_contract": {
+  "rule": "IF decision = NEEDS_REVISION THEN comment must be meaningful \u2014 enforced on CLIENT and SERVER (server currently accepts empty).",
+  "min_meaningful": "trimmed comment \u2265 12 characters AND \u2265 3 words; OR \u2265 1 chip + trimmed comment \u2265 6 characters",
+  "rejects": [
+   "empty",
+   "whitespace",
+   "single word",
+   "punctuation-only",
+   "repeated character runs (e.g. \"......\", \"aaaaaa\")"
+  ],
+  "not": "an arbitrary huge minimum",
+  "error_copy": "TELL US A LITTLE MORE SO WE CAN FIX THE RIGHT THING."
+ },
+ "unsaved_feedback": "Draft autosaved per review (server draft or local draft keyed by user+review); leaving with text shows KEEP DRAFT / DISCARD.",
+ "scope_boundary": {
+  "classes": [
+   "IN_SCOPE_REVISION",
+   "SCOPE_CHANGE_REQUEST"
+  ],
+  "who_classifies": "FOUNDER (system may suggest)",
+  "client_view_if_scope_change": [
+   "THIS REQUEST CHANGES THE APPROVED SCOPE.",
+   "ESTIMATED ADDITIONAL COST: $X\u2013$Y (ESTIMATED)",
+   "REQUIRES FOUNDER REVIEW."
+  ],
+  "billing": "never auto-billed"
+ },
+ "revision_memory": {
+  "client_sees": [
+   "what they said",
+   "what changed (founder-written one-liner per change)",
+   "new version"
+  ],
+  "not": "internal changelog"
+ },
+ "analytics_internal_only": [
+  "chip categories per family",
+  "revisions per family",
+  "time waiting on client vs founder"
+ ]
+}

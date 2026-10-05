@@ -599,6 +599,14 @@
   text-decoration: none;
 }
 
+.site00-idnty-complete-actions__secondary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
 .site00-idnty-state-resume {
   margin: 16px 0 24px;
   padding: 14px 16px;
