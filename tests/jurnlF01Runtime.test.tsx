@@ -69,6 +69,19 @@ const visibleText = (html: string) =>
     .replace(/<[^>]+>/g, ' ')
     .replace(/&#?[a-z0-9]+;/gi, ' ');
 
+describe('JURNL_APP_CANVAS_CONTAINMENT', () => {
+  it('the runtime root is the app stage and the plate stays inside it', () => {
+    const css = read('src/projects/jurnl/runtime/jurnl-runtime.css');
+    expect(css).toContain('JURNL_APP_CANVAS_CONTAINMENT');
+    expect(css).toContain('height: 100dvh');
+    expect(css).toMatch(/\.jrn \.jrn-screen \{[^}]*overflow:\s*hidden/s);
+    expect(css).not.toMatch(/\.jrn \.jrn-screen \{[^}]*overflow-y:\s*auto/s);
+    const html = renderRuntime('entry/create');
+    expect(html).toContain('data-jrn-app-stage="canvas"');
+    expect(html).toContain('ALREADY HAVE AN ACCOUNT?');
+  });
+});
+
 describe('F01 routing — every screen is a live route', () => {
   it('14 screens, each with its own runtime component', () => {
     expect(F01_SCREENS.map((s) => s.id)).toEqual(Object.keys(JURNL_F01_SCREEN_COMPONENTS));
@@ -79,6 +92,7 @@ describe('F01 routing — every screen is a live route', () => {
       const html = renderRuntime(s.route);
       expect(html).toContain(`data-jrn-screen="${s.id}"`);
       expect(html).toContain('data-project-runtime="jurnl"');
+      expect(html).toContain('data-jrn-app-stage="canvas"');
       expect(html).toContain('data-jrn-logo="official"');
       expect(html).toContain('data-testid="jurnl-environment"');
     });

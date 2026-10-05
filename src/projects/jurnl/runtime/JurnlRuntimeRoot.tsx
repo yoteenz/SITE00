@@ -69,7 +69,7 @@ function JurnlRoutes() {
 export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps) {
   const [overlayHost, setOverlayHost] = useState<HTMLElement | null>(null);
   return (
-    <div className="jrn" data-project-runtime="jurnl" data-runtime-mode={mode} lang="en">
+    <div className="jrn" data-project-runtime="jurnl" data-runtime-mode={mode} data-jrn-app-stage="canvas" lang="en">
       <JurnlOverlayHostContext.Provider value={overlayHost}>
         {/* Entitlements context only (no DOM): future families query capabilities; F01 never renders monetization UI. */}
         <JurnlEntitlementsProvider mode={mode}>
