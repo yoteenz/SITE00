@@ -7,9 +7,12 @@
 import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { productionExpressionPath } from '../../../../shared/site00-production-workspace/routes.js';
 import {
-  getStudioWorldActorCatalogue,
   castingCreativeSearch,
+  getProductionCastingResidentTalentCatalogue,
+  listStudioWorldResidentTalentActors,
 } from '../../../../shared/site00-studio-world/acting-catalogue/index.js';
+import type { ResidentBackedStudioWorldActor } from '../../../../shared/site00-studio-world/resident-intelligence/season1-ensemble/projectToActor.js';
+import { resolveCastingThumbnailObjectPosition } from '../../../../shared/site00-studio-world/resident-intelligence/season1-ensemble/castingThumbnailAuthority.js';
 import type {
   CharacterCampaignLook,
   ProductionCharacter,
@@ -212,9 +215,9 @@ export function CastingScreen({ slug, entry }: SubProps) {
   const [tab, setTab] = useState<'roles' | 'actors' | 'characters'>('roles');
   const [query, setQuery] = useState('');
   const { cast, gate } = useEntry002Production();
-  const catalogue = getStudioWorldActorCatalogue();
+  const catalogue = getProductionCastingResidentTalentCatalogue();
   const actors = useMemo(
-    () => (query.trim() ? castingCreativeSearch(query, catalogue) : catalogue.actors),
+    () => (query.trim() ? castingCreativeSearch(query, catalogue) : listStudioWorldResidentTalentActors()),
     [catalogue, query],
   );
   const ok = isEntry002Project(slug);
@@ -286,21 +289,40 @@ export function CastingScreen({ slug, entry }: SubProps) {
             data-testid="acting-catalogue-search"
           />
           <div className="pw-list">
-            {actors.map((a) => (
-              <div key={a.actorId} className="pw-row" data-testid={`actor-row-${a.catalogueNumber}`}>
+            {actors.map((a) => {
+              const resident = a as ResidentBackedStudioWorldActor;
+              const badge = 'residentBadgeLabel' in resident ? resident.residentBadgeLabel : null;
+              const role = 'studioWorldRole' in resident ? resident.studioWorldRole : null;
+              const thumbPos =
+                badge && resident.sourceResidentId ?
+                  resolveCastingThumbnailObjectPosition(resident.sourceResidentId)
+                : 'center 22%';
+              return (
+                <div key={a.actorId} className="pw-row" data-testid={`actor-row-${a.catalogueNumber}`} data-resident={badge ? '1' : '0'}>
                 {a.headshotPreviewUrl ?
-                  <span className="pw-row__thumb" style={{ backgroundImage: `url(${a.headshotPreviewUrl})` }} />
+                    <span
+                      className="pw-row__thumb pw-row__thumb--resident-casting"
+                      style={{ backgroundImage: `url(${a.headshotPreviewUrl})`, backgroundPosition: thumbPos }}
+                      data-visual-authority="CASTING_THUMBNAIL"
+                    />
                 : <Monogram text={a.stageName} size={64} />}
-                <span className="pw-row__text">
-                  <span className="pw-row__title">{a.stageName}</span>
-                  <span className="pw-row__sub">
-                    {a.catalogueNumber} · {a.ageRange} · {a.presentation}
+                  <span className="pw-row__text">
+                    <span className="pw-row__title">{a.stageName}</span>
+                    <span className="pw-row__sub">
+                      {a.catalogueNumber}
+                      {role ? ` · ${role}` : ''}
+                    </span>
+                    <span className="pw-row__sub">{a.personalityRange[0]?.slice(0, 80) ?? a.roleArchetypes.slice(0, 2).map(words).join(' · ')}</span>
+                    {badge ?
+                      <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
+                        <PwChip tone="green">{badge}</PwChip>
+                      </span>
+                    : null}
                   </span>
-                  <span className="pw-row__sub">{a.roleArchetypes.slice(0, 3).map(words).join(' · ')}</span>
-                </span>
-                <PwChip tone={a.availabilityState === 'AVAILABLE' ? 'green' : 'amber'}>{words(a.availabilityState)}</PwChip>
-              </div>
-            ))}
+                  <PwChip tone={a.availabilityState === 'AVAILABLE' ? 'green' : 'amber'}>{words(a.availabilityState)}</PwChip>
+                </div>
+              );
+            })}
           </div>
         </>
       : null}

@@ -1,0 +1,29 @@
+# MOCK ACTOR MIGRATION
+
+Former seed catalogue (`seedCatalogue.ts` pre-ingest1) — **GENERIC_MOCK** actors removed from active Casting dataset.
+
+| Old ID | Old name | Classification | Replacement | Preserved? |
+|--------|----------|----------------|-------------|------------|
+| sw-actor-044 | Jordan Reyes | GENERIC_MOCK | — (gallery = 8 residents) | No |
+| sw-actor-008 | Helena Voss | GENERIC_MOCK | — | No |
+| sw-actor-031 | Marcus Chen | GENERIC_MOCK | — | No |
+| sw-actor-052 | Priya Nair | GENERIC_MOCK | — | No |
+| sw-actor-019 | Eleanor Marsh | GENERIC_MOCK | — | No |
+| sw-actor-063 | Tomás Alvarez | GENERIC_MOCK | — | No |
+| sw-actor-017 | Maya Okonkwo | CLIENT_CAST (Entry 002 subject) | Kept for assignment lookup | Yes — not in resident Actors tab |
+
+**Resident gallery:** all eight `SW-RESIDENT-001` … `008` appear on Expression → Casting → Actors with **STUDIO WORLD RESIDENT** badge.
+
+No one-to-one mock→resident mapping (distinct purposes). Entry 002 **characters** (THE 2026 WOMAN, NDX, commenter chorus) unchanged.
+
+---
+
+## Visual ingest2 (RESIDENT-VISUAL-INGEST2)
+
+| Old mock | Old image | Replacement | New authority |
+|----------|-----------|-------------|---------------|
+| Generic seed actors (044, 008, …) | null / monogram | — | Removed from UI |
+| Resident rows (pre-visual) | Monogram initials | SW-RESIDENT-00X | `public/site00/studio-world-residents/season1-v1/` natural + closeup |
+| SW-017 Maya | (client cast) | unchanged | Entry 002 subject — not resident gallery |
+
+Card thumb source: `resolveCastingCardImage()` → closeup or natural (Marlowe: natural full-body off-duty). Uniform + alternate paths blocked from default card.
