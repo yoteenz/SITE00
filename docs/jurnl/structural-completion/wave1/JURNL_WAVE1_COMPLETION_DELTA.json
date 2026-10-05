@@ -1,0 +1,9 @@
+{
+  "sprint": "P0.JURNL.WAVE1-SHARED-GLOBAL-INTERACTIONS",
+  "functional_completion_before": 31.7,
+  "functional_completion_after": 32.6,
+  "interactions_working_before": 99,
+  "interactions_working_after": 105,
+  "interactions_missing_before": 73,
+  "interactions_missing_after": 69
+}

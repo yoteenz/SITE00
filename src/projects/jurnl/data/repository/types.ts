@@ -3,8 +3,10 @@
 import type { SetupDraft } from '../f02/setupDraft';
 import type { LedgerEntry } from '../home/moneyTypes';
 import type { JurnlAccountRecord } from '../foundation/accounts';
+import type { ConsentRecord } from '../foundation/consent';
+import type { JurnlSettings } from '../foundation/settings';
 
-export const REPOSITORY_SCHEMA_VERSION = 1;
+export const REPOSITORY_SCHEMA_VERSION = 2;
 
 export type RepositoryEventType =
   | 'ACCOUNT_CREATED'
@@ -23,7 +25,10 @@ export type RepositoryEventType =
   | 'GOAL_UPDATED'
   | 'SETUP_COMPLETED'
   | 'DISPLAY_CURRENCY_CHANGED'
-  | 'SAFE_TO_SPEND_RECALCULATED';
+  | 'SAFE_TO_SPEND_RECALCULATED'
+  | 'SETTING_CHANGED'
+  | 'CONSENT_GRANTED'
+  | 'CONSENT_REVOKED';
 
 export type RepositoryEvent = { type: RepositoryEventType; at: string; entityId?: string };
 
@@ -33,6 +38,8 @@ export type RepositorySnapshot = {
   setup: SetupDraft;
   accounts: JurnlAccountRecord[];
   transactions: LedgerEntry[];
+  settings: JurnlSettings;
+  consent: ConsentRecord[];
   updatedAt: string;
 };
 
@@ -50,7 +57,13 @@ export interface JurnlRepository {
   upsertAccount(account: JurnlAccountRecord): void;
   listTransactions(): LedgerEntry[];
   appendTransaction(entry: Omit<LedgerEntry, 'id' | 'source' | 'status' | 'related' | 'recurring' | 'memo'> & { memo?: string }): LedgerEntry;
+  updateTransaction(id: string, patch: Partial<Pick<LedgerEntry, 'merchant' | 'amount' | 'direction' | 'when' | 'account' | 'category' | 'memo'>>): LedgerEntry | null;
+  deleteTransaction(id: string): boolean;
   clearAddedTransactions(): void;
+  getSettings(): JurnlSettings;
+  patchSettings(patch: Partial<JurnlSettings>): JurnlSettings;
+  getConsent(): ConsentRecord[];
+  patchConsent(type: ConsentRecord['consent_type'], granted: boolean, source: string): ConsentRecord[];
   onEvent(cb: (event: RepositoryEvent) => void): () => void;
 }
 

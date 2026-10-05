@@ -153,20 +153,13 @@ describe('F03 and F04 live routes', () => {
     expect(html).toContain('disabled');
   });
 
-  it('offers a three-row display currency list that converts', () => {
-    const html = renderRuntime('activity', 'overlay=ask');
-    expect(html).toContain('DISPLAY CURRENCY');
-    expect(html).toContain('LATEST AVAILABLE EXCHANGE RATE');
-    expect(html).toContain('ORIGINAL VALUES STAY PRESERVED');
-    expect(html).not.toContain('NO EXCHANGE');
-    expect(html).toContain('data-visible-rows="3"');
-    expect(html).toContain('data-jrn-trigger="currency-usd"');
-    expect(html).toContain('data-jrn-trigger="currency-eur"');
-    expect(html).toContain('data-jrn-trigger="currency-jpy"');
-    expect(html).toContain('US DOLLAR');
-    expect(html).toContain('JAPANESE YEN');
-    const triggers = html.match(/data-jrn-trigger="currency-[a-z]{3}"/g) ?? [];
-    expect(triggers.length).toBeGreaterThan(3);
+  it('moves display currency to account settings (ask links there)', () => {
+    const askHtml = renderRuntime('activity', 'overlay=ask');
+    expect(askHtml).toContain('ASK JURNL');
+    expect(askHtml).toContain('data-jrn-trigger="ask-open-settings"');
+    expect(askHtml).not.toContain('data-jrn-trigger="currency-usd"');
+    const settingsHtml = renderRuntime('account');
+    expect(settingsHtml).toContain('DISPLAY CURRENCY');
     const css = readFileSync('src/projects/jurnl/runtime/jurnl-home.css', 'utf8');
     expect(css).toContain('height: calc(var(--jrn-currency-row) * 3)');
     expect(css).toContain('overflow-y: auto');

@@ -1,0 +1,6 @@
+{
+  "conflicts_before": 14,
+  "conflicts_after_estimate": 13,
+  "resolved": ["DD.CONSENT unified repository record", "DD.TRANSACTIONS device repository mutations"],
+  "deferred": ["DD.ACCOUNTS three-source until F05 expansion"]
+}

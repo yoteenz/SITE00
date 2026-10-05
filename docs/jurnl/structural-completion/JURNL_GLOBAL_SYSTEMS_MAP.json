@@ -188,7 +188,7 @@
       "ownerFamily": "F04",
       "current": "PARTIAL",
       "criteria": "R1 U1 Dh Ih S1 V1 E1 M- L- P1 A1 N1",
-      "evidence": "HomeScreens.tsx QuickAddSheet; JURNL_QUICK_ADD_CONTRACT.json. Writes in memory only (money.ts added[]), accounts hard-coded CHECKING/CARD, date fixed TODAY, category INCOME|OTHER, no edit/delete.",
+      "evidence": "GlobalSheets QuickAddV2Sheet + quickAddRegistry.ts; appendTransaction via repository v2; accountDisplayOptions().",
       "required": "PERSIST THROUGH THE LEDGER REPOSITORY; DATE (DEFAULT TODAY); CATEGORY; ACCOUNT FROM THE REGISTRY; EDIT/DELETE VIA F04 DETAIL. NO RECURRENCE (RECURRENCE IS AN F07 OBLIGATION).",
       "wave": 1,
       "consumers": [
@@ -215,7 +215,7 @@
           "current": "IMPLEMENTED",
           "criteria": "R1 U1 Dh Ih S1 V1 E1 M- L- P1 A1 N1",
           "wave": 1,
-          "evidence": "QuickAddSheet (exported, shared by F03/F04/F05–F16)."
+          "evidence": "QuickAddV2Sheet on F03/F04/F05–F16."
         }
       ],
       "interactions": [
@@ -236,9 +236,9 @@
         {
           "id": "GS.QA.SAVE",
           "name": "SAVE",
-          "status": "PARTIAL",
+          "status": "WORKING",
           "wave": 1,
-          "evidence": "addLedgerEntry writes to an in-memory array; lost on reload."
+          "evidence": "addLedgerEntry → repository appendTransaction (user-scoped device adapter)."
         }
       ],
       "functional_score": 0.9
@@ -251,7 +251,7 @@
       "ownerFamily": null,
       "current": "PARTIAL",
       "criteria": "R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1",
-      "evidence": "HomeScreens.tsx AskSheet: one static line + display currency selector. Mounted on F03/F04 only. No LLM wiring anywhere (server sweep). AI access preference defaults OFF.",
+      "evidence": "GlobalSheets AskJurnlSheet + askJurnl.ts context boundary; mounted F03/F04 + ParentScreens F05–F16; no LLM.",
       "required": "EXPLANATION-ONLY SURFACE ON EVERY FAMILY, CONTEXT = CURRENT FAMILY + ITS DERIVED VALUES, READ-ONLY. NO WRITES, NO ACTIONS. LLM PROVIDER IS A FOUNDER DECISION (AI_EXPLAIN_BASIC IS A SAFETY FLOOR). CURRENCY SELECTOR MOVES TO SETTINGS.",
       "wave": 1,
       "consumers": [
@@ -278,23 +278,23 @@
           "current": "IMPLEMENTED",
           "criteria": "R1 U1 Dh Ih S1 V- E- M- L- P1 A1 N1",
           "wave": 1,
-          "evidence": "AskSheet (F03/F04)."
+          "evidence": "AskJurnlSheet global."
         }
       ],
       "interactions": [
         {
           "id": "GS.ASK.EXPLAIN",
           "name": "EXPLAIN",
-          "status": "PARTIAL",
+          "status": "WORKING",
           "wave": 1,
-          "evidence": "Static sentence; not family-aware."
+          "evidence": "explainFromContext uses family id + safe-to-spend; consent-gated."
         },
         {
           "id": "GS.ASK.CURRENCY_SELECT",
           "name": "DISPLAY CURRENCY",
-          "status": "WORKING",
+          "status": "MISSING",
           "wave": 1,
-          "evidence": "setCurrency; 3 visible rows; persisted jurnl.currency. Misplaced inside ASK."
+          "evidence": "Moved to GS.SETTINGS account route (Wave 1)."
         }
       ],
       "functional_score": 0.875
@@ -587,7 +587,7 @@
       "name": "ACCOUNT / PROFILE / SETTINGS",
       "scope": "GLOBAL",
       "ownerFamily": null,
-      "current": "MISSING",
+      "current": "PARTIAL",
       "route": "account",
       "criteria": "R0 U0 D0 I0 S0 V0 E0 M- L0 P0 A0 N0",
       "evidence": "F01.11 / F01.12 hold privacy, AI access, export, delete, sessions — reachable only during entry. Sign out exists only on F01.04 switch sheet. Currency lives inside ASK.",
@@ -614,10 +614,10 @@
           "id": "GS.SETTINGS.DR.CURRENCY",
           "type": "DRAWER",
           "name": "DISPLAY CURRENCY",
-          "current": "MISSING",
+          "current": "IMPLEMENTED",
           "criteria": "R0 U0 D1 I1 S1 V- E1 M- L1 P0 A0 N0",
           "wave": 1,
-          "evidence": "Selector exists inside ASK; needs a home here."
+          "evidence": "SettingsScreens currency drawer + repository displayCurrency."
         },
         {
           "id": "GS.SETTINGS.DR.PRIVACY",
@@ -669,16 +669,16 @@
         {
           "id": "GS.SETTINGS.OPEN",
           "name": "OPEN ACCOUNT",
-          "status": "MISSING",
+          "status": "WORKING",
           "wave": 1,
-          "evidence": "No entry point after F01.13."
+          "evidence": "Route account + top chrome gear on F03/F04/parents."
         },
         {
           "id": "GS.SETTINGS.SIGN_OUT",
           "name": "SIGN OUT",
-          "status": "MISSING",
+          "status": "WORKING",
           "wave": 1,
-          "evidence": "Post-entry sign out does not exist."
+          "evidence": "SettingsScreens signOut()."
         },
         {
           "id": "GS.SETTINGS.EXPORT",
@@ -903,12 +903,11 @@
       "id": "GS.CONSENT",
       "type": "GLOBAL_SYSTEM",
       "name": "CONSENT + AI ACCESS",
-      "scope": "DUPLICATED",
+      "scope": "GLOBAL",
       "ownerFamily": null,
       "current": "PARTIAL",
-      "gapOverride": "DUPLICATED",
       "criteria": "R1 U1 Dh I1 S1 V- E- M- L- P1 A1 N1",
-      "evidence": "F01.11 AI ACCESS toggles → device PRIVACY_PREFERENCES; F02.07 consentRemember / consentLinks / consentSale → setup draft. Two stores for overlapping consent.",
+      "evidence": "repository consent[] + consentSync.ts (F01.11 AI + F02.07 setup consents); SettingsScreens reads/writes.",
       "required": "ONE CONSENT RECORD; F01.11 AND F02.07 BOTH WRITE IT; SETTINGS READS IT.",
       "wave": 1,
       "consumers": [

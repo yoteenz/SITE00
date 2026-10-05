@@ -15,9 +15,9 @@
   ],
   "rule": "Per-family invocations of shared sheets (QUICK ADD, ASK) count WORKING when they open the sheet; the sheet’s own behaviour is scored once on the global system (GS.QA.SAVE, GS.ASK.EXPLAIN).",
   "counts": {
-    "WORKING": 99,
-    "PARTIAL": 26,
-    "MISSING": 73,
+    "WORKING": 105,
+    "PARTIAL": 24,
+    "MISSING": 69,
     "NO_OP": 12,
     "LEGACY": 12
   },
@@ -1031,7 +1031,7 @@
       "family_id": "F03",
       "host": "F03.00",
       "name": "ACCOUNT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "GS.SETTINGS",
       "wave": 1,
       "notes": []
@@ -1041,7 +1041,7 @@
       "family_id": "F04",
       "host": "F04.00",
       "name": "EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F04.SH.EDIT_MOVEMENT",
       "wave": 1,
       "notes": []
@@ -1051,7 +1051,7 @@
       "family_id": "F04",
       "host": "F04.00",
       "name": "DELETE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F04.MD.DELETE_MOVEMENT",
       "wave": 1,
       "notes": []
@@ -2251,9 +2251,9 @@
       "family_id": "GLOBAL",
       "host": "GS.QUICK_ADD",
       "name": "SAVE",
-      "status": "PARTIAL",
+      "status": "WORKING",
       "opens": null,
-      "wave": 1,
+      "wave": null,
       "notes": []
     },
     {
@@ -2261,9 +2261,9 @@
       "family_id": "GLOBAL",
       "host": "GS.ASK_JURNL",
       "name": "EXPLAIN",
-      "status": "PARTIAL",
+      "status": "WORKING",
       "opens": null,
-      "wave": 1,
+      "wave": null,
       "notes": []
     },
     {
@@ -2271,9 +2271,9 @@
       "family_id": "GLOBAL",
       "host": "GS.ASK_JURNL",
       "name": "DISPLAY CURRENCY",
-      "status": "WORKING",
+      "status": "MISSING",
       "opens": null,
-      "wave": null,
+      "wave": 1,
       "notes": []
     },
     {
@@ -2281,9 +2281,9 @@
       "family_id": "GLOBAL",
       "host": "GS.SETTINGS",
       "name": "OPEN ACCOUNT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": null,
-      "wave": 1,
+      "wave": null,
       "notes": []
     },
     {
@@ -2291,9 +2291,9 @@
       "family_id": "GLOBAL",
       "host": "GS.SETTINGS",
       "name": "SIGN OUT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": null,
-      "wave": 1,
+      "wave": null,
       "notes": []
     },
     {

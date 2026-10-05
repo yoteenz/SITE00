@@ -1,0 +1,9 @@
+{
+  "source": "src/projects/jurnl/data/foundation/familyLinks.ts",
+  "links": [
+    { "link_id": "F03.TO.F04", "source_family_id": "F03", "destination_family_id": "F04", "relationship_type": "SEE_ACTIVITY", "label": "ACTIVITY" },
+    { "link_id": "F03.TO.F07", "source_family_id": "F03", "destination_family_id": "F07", "relationship_type": "DISCOVERY", "label": "UPCOMING" },
+    { "link_id": "F03.TO.F09", "source_family_id": "F03", "destination_family_id": "F09", "relationship_type": "DISCOVERY", "label": "SAFE TO SPEND" },
+    { "link_id": "F03.TO.SETTINGS", "source_family_id": "F03", "destination_family_id": "GLOBAL", "relationship_type": "SETTINGS", "label": "ACCOUNT", "route": "account" }
+  ]
+}

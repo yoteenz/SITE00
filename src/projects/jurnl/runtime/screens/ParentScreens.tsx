@@ -9,7 +9,8 @@ import { PARENT_PLATES } from '../../data/parents/plates';
 import { JurnlProductNav } from '../components/ProductNav';
 import { JurnlButton, JurnlPanel } from '../components/primitives';
 import { useJurnl } from '../state/store';
-import { QuickAddSheet } from './HomeScreens';
+import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
+import { JurnlIconButton } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
 import { FamilyDiscoveryLinks } from '../components/FamilyDiscovery';
 
@@ -50,9 +51,8 @@ export function ParentAuthorityScreen({ id }: { id: string }) {
             BOARD
           </JurnlButton>
           <span className="jrn-home__mark">JURNL</span>
-          <JurnlButton variant="utility" trigger={`${spec.route}-today`} onClick={() => go('F03')}>
-            TODAY
-          </JurnlButton>
+          <JurnlIconButton icon="gear" label="ACCOUNT" trigger={`${spec.route}-account`} onClick={() => go('account')} />
+          <JurnlIconButton icon="info" label="ASK JURNL" trigger={`${spec.route}-ask`} onClick={() => openOverlay('ask')} />
         </div>
         <div className="jrn-home__intro" data-jrn-zone="intro">
           <p className="jrn-home__label">{spec.id}</p>
@@ -85,7 +85,8 @@ export function ParentAuthorityScreen({ id }: { id: string }) {
         </div>
         <JurnlProductNav current={spec.nav} onGo={go} onAdd={() => openOverlay('quick-add')} />
       </div>
-      {overlay === 'quick-add' ? <QuickAddSheet onClose={closeOverlay} /> : null}
+      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId={spec.id} onClose={closeOverlay} /> : null}
+      {overlay === 'ask' ? <AskJurnlSheet familyId={spec.id} nodeId={spec.screenId} onClose={closeOverlay} /> : null}
     </JurnlScreen>
   );
 }

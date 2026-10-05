@@ -57,11 +57,11 @@
     {
       "family_id": "F03",
       "implementation_inputs": {
-        "nodes_to_complete": 12,
+        "nodes_to_complete": 11,
         "new_routes": 0,
         "new_sheets_drawers_modals": 0,
         "states_to_wire": 7,
-        "interactions_to_wire": 3,
+        "interactions_to_wire": 2,
         "owned_domains": [],
         "complexity": "S–M (completion only)"
       },
@@ -75,11 +75,11 @@
     {
       "family_id": "F04",
       "implementation_inputs": {
-        "nodes_to_complete": 14,
+        "nodes_to_complete": 12,
         "new_routes": 0,
-        "new_sheets_drawers_modals": 2,
+        "new_sheets_drawers_modals": 0,
         "states_to_wire": 4,
-        "interactions_to_wire": 4,
+        "interactions_to_wire": 2,
         "owned_domains": [
           "DD.TRANSACTIONS"
         ],

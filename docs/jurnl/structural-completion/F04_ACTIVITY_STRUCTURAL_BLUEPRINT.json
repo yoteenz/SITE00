@@ -171,12 +171,12 @@
     },
     {
       "id": "F04.IN.EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F04.SH.EDIT_MOVEMENT"
     },
     {
       "id": "F04.IN.DELETE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F04.MD.DELETE_MOVEMENT"
     },
     {
@@ -252,17 +252,17 @@
     "BUSINESS_CATEGORIZATION (BUSINESS)"
   ],
   "functional_status": {
-    "score": 62.7,
-    "strict": 33.3,
+    "score": 73.1,
+    "strict": 42.9,
     "gap_counts": {
       "PARTIAL_FUNCTIONAL": 9,
-      "COMPLETE_FUNCTIONAL": 7,
-      "MISSING": 5
+      "COMPLETE_FUNCTIONAL": 9,
+      "MISSING": 3
     }
   },
   "visual_status": {
     "visual_nodes": 6,
-    "visually_implemented": 4,
+    "visually_implemented": 6,
     "parent": "VISUALLY_IMPLEMENTED"
   },
   "expression_status": "DEFINED_IN_EXPRESSION_TREE",

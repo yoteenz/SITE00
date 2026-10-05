@@ -5,6 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import { F01_COPY } from '../../data/f01/copy';
+import { syncDeviceAiToRepository } from '../../data/repository/consentSync';
 import type { JurnlIconName } from '../components/icons';
 import {
   JurnlButton,
@@ -305,6 +306,7 @@ function PrivacyDrawer({ id }: { id: string }) {
             trigger="privacy-ai-save"
             onClick={() => {
               setDevice({ ai });
+              syncDeviceAiToRepository({ ...device, ai });
               closeOverlay();
               showToast({ tone: 'success', title: P.ai.savedTitle, body: P.ai.savedBody, testId: 'toast-ai-saved' });
             }}

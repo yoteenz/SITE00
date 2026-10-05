@@ -1,0 +1,7 @@
+{
+  "router": "QuickAddV2Sheet",
+  "source": "src/projects/jurnl/data/foundation/quickAddRegistry.ts",
+  "enabled_types": ["TRANSACTION"],
+  "repository_action": "appendTransaction",
+  "owner_family_id": "F04"
+}

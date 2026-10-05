@@ -59,15 +59,16 @@
       ],
       "writers": [
         "F01",
-        "F02"
+        "F02",
+        "GS.SETTINGS"
       ],
       "derived": false,
-      "currentSource": "device PRIVACY_PREFERENCES + setup draft consent*",
+      "currentSource": "repository snapshot consent[] (synced from device AI + setup draft)",
       "currentPersistence": "DEVICE",
       "targetPersistence": "REPOSITORY (USER-SCOPED)",
       "criteria": "R- U- Dh Ih S1 V- E- M- L- P- A- N-",
       "conflicts": [
-        "F01.11 AI ACCESS (DEVICE) VS F02.07 CONSENTS (SESSION DRAFT).",
+        "DEVICE AI STILL MIRRORS UI STATE; REPOSITORY IS CANONICAL FOR ASK + SETTINGS.",
         "DATA EXPORT IS RECORDED AS A FLAG ONLY."
       ],
       "wave": 1
@@ -154,12 +155,13 @@
         "F10"
       ],
       "derived": false,
-      "currentSource": "money.ts MOCK_ENTRIES + in-memory added[]",
-      "currentPersistence": "MEMORY",
+      "currentSource": "repository transactions (MOCK seed + ADDED mutations)",
+      "currentPersistence": "DEVICE",
       "targetPersistence": "REPOSITORY",
-      "criteria": "R- U- Dh Ih S1 V1 E0 M- L- P- A- N-",
+      "criteria": "R- U- Dh Ih S1 V1 E1 M- L- P- A- N-",
       "conflicts": [
-        "MOCK + IN-MEMORY; NO DATE MODEL; NO EDIT / DELETE; NO TRANSFER DIRECTION."
+        "MOCK ENTRIES READ-ONLY; DATE STILL RELATIVE STRINGS FOR FILTER.",
+        "NO TRANSFER DIRECTION."
       ],
       "wave": 0
     },
@@ -545,7 +547,7 @@
       "domain": "DD.CONSENT",
       "owner": "GS.CONSENT",
       "conflicts": [
-        "F01.11 AI ACCESS (DEVICE) VS F02.07 CONSENTS (SESSION DRAFT).",
+        "DEVICE AI STILL MIRRORS UI STATE; REPOSITORY IS CANONICAL FOR ASK + SETTINGS.",
         "DATA EXPORT IS RECORDED AS A FLAG ONLY."
       ]
     },
@@ -568,7 +570,8 @@
       "domain": "DD.TRANSACTIONS",
       "owner": "F04",
       "conflicts": [
-        "MOCK + IN-MEMORY; NO DATE MODEL; NO EDIT / DELETE; NO TRANSFER DIRECTION."
+        "MOCK ENTRIES READ-ONLY; DATE STILL RELATIVE STRINGS FOR FILTER.",
+        "NO TRANSFER DIRECTION."
       ]
     },
     {
@@ -652,11 +655,6 @@
     {
       "id": "DD.ACCOUNTS",
       "current": "SESSION",
-      "target": "REPOSITORY"
-    },
-    {
-      "id": "DD.TRANSACTIONS",
-      "current": "MEMORY",
       "target": "REPOSITORY"
     },
     {
