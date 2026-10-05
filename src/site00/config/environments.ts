@@ -1,10 +1,23 @@
 import { SITE00_ENTER_DESKTOP_FOCAL } from './desktop-environment-presentation';
+import {
+  SITE00_ORIGIN_DESKTOP_CLEAN_PATH,
+  SITE00_ORIGIN_DESKTOP_WITH_PANELS_PATH,
+  SITE00_ORIGIN_MOBILE_CLEAN_PATH,
+  SITE00_ORIGIN_MOBILE_WITH_PANELS_PATH,
+} from './origin-background-assets';
 
-/** Approved Origin desktop environment (Supabase live-preview/site00/). */
-export const SITE00_ORIGIN_DESKTOP_BACKGROUND_PATH = '942898D3-6953-47CD-8987-0697EC1C9F11.png';
+/** @deprecated P0.ORIGIN.1 — use origin-background-assets.ts roles; default = WITH_PANELS desktop. */
+export const SITE00_ORIGIN_DESKTOP_BACKGROUND_PATH = SITE00_ORIGIN_DESKTOP_WITH_PANELS_PATH;
 
-/** Approved Origin mobile homepage environment (Supabase live-preview/site00/). */
-export const SITE00_ORIGIN_MOBILE_BACKGROUND_PATH = 'C63192EC-00BE-46DB-8D3A-952173F6F5D1.png';
+/** @deprecated P0.ORIGIN.1 — use origin-background-assets.ts roles; default = WITH_PANELS mobile. */
+export const SITE00_ORIGIN_MOBILE_BACKGROUND_PATH = SITE00_ORIGIN_MOBILE_WITH_PANELS_PATH;
+
+export {
+  SITE00_ORIGIN_DESKTOP_CLEAN_PATH,
+  SITE00_ORIGIN_DESKTOP_WITH_PANELS_PATH,
+  SITE00_ORIGIN_MOBILE_CLEAN_PATH,
+  SITE00_ORIGIN_MOBILE_WITH_PANELS_PATH,
+};
 
 /** Approved Enter 00 desktop menu environment (Supabase live-preview/site00/). */
 export const SITE00_ENTER_DESKTOP_BACKGROUND_PATH = '89319E70-D080-4798-9BCA-E53B137F2387.png';
@@ -51,16 +64,18 @@ export type EnvironmentConfig = {
 export const SITE00_ENVIRONMENTS: Record<EnvironmentId, EnvironmentConfig> = {
   ORIGIN_ENVIRONMENT: {
     id: 'ORIGIN_ENVIRONMENT',
-    desktopAssetPath: SITE00_ORIGIN_DESKTOP_BACKGROUND_PATH,
-    mobileAssetPath: SITE00_ORIGIN_MOBILE_BACKGROUND_PATH,
-    desktopPosition: 'center 30%',
-    mobilePosition: 'center center',
+    /** Default collapsed paths — runtime variant swap via origin-panel-state.ts */
+    desktopAssetPath: SITE00_ORIGIN_DESKTOP_WITH_PANELS_PATH,
+    mobileAssetPath: SITE00_ORIGIN_MOBILE_WITH_PANELS_PATH,
+    desktopPosition: 'center 42%',
+    mobilePosition: 'center 58%',
     desktopScale: 1,
     mobileScale: 1,
     lightingClass: 'site00-env--origin-lighting',
     fallbackClass: 'site00-env-fallback--origin',
     routes: ['/', '/origin'],
-    notes: 'Approved Origin environment — desktop 942898D3 · mobile C63192EC @ live-preview/site00',
+    notes:
+      'P0.ORIGIN.1 — WITH_PANELS/CLEAN @ live-preview/3D images/BG/ · C505E8E2 desktop · 4729B1A3 mobile · A3EDBC2C/A3 clean',
   },
   WORKFLOW_ENVIRONMENT: {
     id: 'WORKFLOW_ENVIRONMENT',

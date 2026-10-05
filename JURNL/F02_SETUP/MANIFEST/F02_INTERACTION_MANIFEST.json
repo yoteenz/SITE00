@@ -1,0 +1,86 @@
+{
+  "family_id": "F02_SETUP",
+  "interactions": [
+    {
+      "interaction_id": "F02.IN.PERMISSION",
+      "source_screen": "F02.02",
+      "trigger": "CONNECT AN ACCOUNT",
+      "interaction_type": "SHEET",
+      "authority": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.PERMISSION.jpg",
+      "shared_or_distinct": "DISTINCT",
+      "environment_id": "ENV.QUIET",
+      "linked_assets": [
+        "ENV.QUIET"
+      ],
+      "component_reference": "LIVE_PAPER_SHEET + LIVE_BUTTON_PRIMARY",
+      "navigation_result": "Returns to F02.02. Does not open a provider until the user continues.",
+      "data_dependency": "Optional account link. No provider logo is generated.",
+      "error_behavior": "Dismiss with NOT NOW. No error copy on this sheet.",
+      "responsive_behavior": "Sheet stays inside the canvas at every breakpoint."
+    },
+    {
+      "interaction_id": "F02.IN.ADD",
+      "source_screen": "F02.04",
+      "trigger": "ADD ANOTHER",
+      "interaction_type": "SHEET",
+      "authority": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.ADD.jpg",
+      "shared_or_distinct": "DISTINCT",
+      "environment_id": "ENV.DESK",
+      "linked_assets": [
+        "ENV.DESK"
+      ],
+      "component_reference": "LIVE_PAPER_SHEET + LIVE_BUTTON_PRIMARY",
+      "navigation_result": "Saves one obligation seed and returns to F02.04.",
+      "data_dependency": "obligation name and cadence. Amount is not required here.",
+      "error_behavior": "Empty name keeps SAVE quiet. Validation reuses F02.ST.VALIDATION.",
+      "responsive_behavior": "Sheet stays inside the canvas."
+    },
+    {
+      "interaction_id": "F02.IN.SKIP",
+      "source_screen": "F02.02",
+      "trigger": "SKIP FOR NOW",
+      "interaction_type": "SHEET",
+      "authority": "JURNL/F02_SETUP/INTERACTIONS/F02.IN.SKIP.jpg",
+      "shared_or_distinct": "SHARED",
+      "environment_id": "ENV.DESK",
+      "linked_assets": [
+        "ENV.DESK"
+      ],
+      "component_reference": "LIVE_PAPER_SHEET + LIVE_BUTTON_PRIMARY",
+      "navigation_result": "CONTINUE advances the step. GO BACK closes the sheet.",
+      "data_dependency": "Marks the step skipped. Used by accounts, commitments, and the protected amount.",
+      "error_behavior": "No error state.",
+      "responsive_behavior": "Same sheet at every breakpoint."
+    },
+    {
+      "interaction_id": "F02.NAV.BACK",
+      "source_screen": "F02.01",
+      "trigger": "BACK",
+      "interaction_type": "INLINE",
+      "authority": "Live control. No separate image.",
+      "shared_or_distinct": "SHARED",
+      "environment_id": null,
+      "linked_assets": [],
+      "component_reference": "LIVE_PROGRESS",
+      "navigation_result": "Previous setup step. Answers already given stay saved.",
+      "data_dependency": "Draft setup record.",
+      "error_behavior": "None.",
+      "responsive_behavior": "Square back mark. Inherited back icon if a glyph is needed."
+    },
+    {
+      "interaction_id": "F02.NAV.CONTINUE",
+      "source_screen": "F02.00",
+      "trigger": "CONTINUE",
+      "interaction_type": "INLINE",
+      "authority": "Live emerald button on each screen authority.",
+      "shared_or_distinct": "SHARED",
+      "environment_id": null,
+      "linked_assets": [],
+      "component_reference": "LIVE_BUTTON_PRIMARY",
+      "navigation_result": "Next step in the screen tree. F02.08 opens F03 TODAY.",
+      "data_dependency": "Required fields on the current step.",
+      "error_behavior": "F02.ST.VALIDATION when a number or name is required and empty.",
+      "responsive_behavior": "Full column width. Square-rounded. Label is live."
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+/**
+ * Part 28 — CommercialFounderDecision register (explicit, not buried in prose).
+ */
+
+import type { CommercialFounderDecision } from './types.js';
+
+export const COMMERCIAL_FOUNDER_DECISIONS: readonly CommercialFounderDecision[] = [
+  {
+    decisionId: 'FD-EVOLVE-DUAL-PRICING',
+    serviceId: 'evolve-pricing-ui-self-directed',
+    packageId: null,
+    question: 'Retire, redirect, or re-map /evolve/plans to evolve-commercial catalog?',
+    whyRequired: 'Two active dollar trees with different plan IDs',
+    blockingArea: 'PACKAGE_SOURCE_OF_TRUTH',
+    recommendedDecisionType: 'ROUTE_OR_UI',
+  },
+  {
+    decisionId: 'FD-MARKETING-DOLLARS',
+    serviceId: 'marketing-campaign',
+    packageId: 'marketing-campaign',
+    question: 'What are public marketing service price points and quote vs checkout rules?',
+    whyRequired: 'Intake has no fixed SKU prices',
+    blockingArea: 'PAYMENT_READY',
+    recommendedDecisionType: 'PRICING',
+  },
+  {
+    decisionId: 'FD-BLDR-PAGE-LIMITS',
+    serviceId: 'bldr-site-class',
+    packageId: 'bldr-site-class',
+    question: 'Define enforced page count and revision rounds for SITE class?',
+    whyRequired: 'Display FROM $4K+ without enforcement',
+    blockingArea: 'ENTITLEMENT',
+    recommendedDecisionType: 'SCOPE_LIMIT',
+  },
+  {
+    decisionId: 'FD-IDNTY-TIER-PURCHASE',
+    serviceId: 'idnty-investment-tiers',
+    packageId: 'idnty-investment-tiers',
+    question: 'How do IDNTY investment tiers map to purchase, project creation, and delivery?',
+    whyRequired: 'Tiers are display-only',
+    blockingArea: 'FULFILLMENT',
+    recommendedDecisionType: 'DELIVERABLE_DEFINITION',
+  },
+  {
+    decisionId: 'FD-RECURRING-CAPACITY',
+    serviceId: 'evolve-recurring-growth',
+    packageId: 'evolve_growth',
+    question: 'Should asset/channel capacity guidelines hard-block production or remain informational?',
+    whyRequired: 'entitlements.ts does not enforce',
+    blockingArea: 'RECURRING_ADAPTER',
+    recommendedDecisionType: 'SUBSCRIPTION_TERMS',
+  },
+  {
+    decisionId: 'FD-LAUNCH-CAMPAIGN-SCOPE',
+    serviceId: 'evolve-project-launch-campaign',
+    packageId: 'launch_campaign',
+    question: 'Is EVOLVE launch_campaign the same product as Marketing launch-campaign intake category?',
+    whyRequired: 'Duplicated naming — different adapters',
+    blockingArea: 'DUPLICATED_SERVICES',
+    recommendedDecisionType: 'SCOPE_LIMIT',
+  },
+  {
+    decisionId: 'FD-SUPPORT-RETAINER',
+    serviceId: 'control-ongoing-support',
+    packageId: 'control-ongoing-support',
+    question: 'Define ongoing support SKU, billing, and fulfillment pipeline?',
+    whyRequired: 'Hub copy only → /support',
+    blockingArea: 'CUSTOM_QUOTE',
+    recommendedDecisionType: 'PRICING',
+  },
+  {
+    decisionId: 'FD-ADDON-PRICING',
+    serviceId: 'studio-world-add-ons',
+    packageId: 'studio-world-add-ons',
+    question: 'Canonical add-on price list and checkout vs invoice?',
+    whyRequired: 'FOUNDER_PRICING_REQUIRED on marketing add-ons',
+    blockingArea: 'ADD_ON',
+    recommendedDecisionType: 'PRICING',
+  },
+  {
+    decisionId: 'FD-DEPOSIT-MILESTONE',
+    serviceId: 'bldr-enterprise-class',
+    packageId: 'bldr-enterprise-class',
+    question: 'Deposit / milestone payment structure for enterprise builds?',
+    whyRequired: 'Not modeled in codebase',
+    blockingArea: 'PAYMENT',
+    recommendedDecisionType: 'PRICING',
+  },
+  {
+    decisionId: 'FD-MARKETING-CAMPAIGN-BOARD',
+    serviceId: 'marketing-campaign',
+    packageId: 'marketing-campaign',
+    question: 'Confirm Campaign Board as sole downstream for approved marketing derivatives?',
+    whyRequired: 'Handoff not wired',
+    blockingArea: 'DELIVERABLE',
+    recommendedDecisionType: 'DELIVERABLE_DEFINITION',
+  },
+  {
+    decisionId: 'FD-END-CLIENT-SCOPE',
+    serviceId: 'marketing-campaign',
+    packageId: 'marketing-campaign',
+    question: 'End-client private asset ownership and exclusivity commercial rules?',
+    whyRequired: 'Partial pipeline support only',
+    blockingArea: 'ENTITLEMENT',
+    recommendedDecisionType: 'SCOPE_LIMIT',
+  },
+  {
+    decisionId: 'FD-EVOLVE-COMMERCIAL-PAGE',
+    serviceId: 'evolve-commercial-foundation',
+    packageId: 'evolve_foundation',
+    question: 'Route EvolveCommercialPage publicly, admin-only, or merge into /evolve/plans?',
+    whyRequired: 'Orphan UI component',
+    blockingArea: 'ORPHAN',
+    recommendedDecisionType: 'ROUTE_OR_UI',
+  },
+];
+
+export const FOUNDER_DECISION_COUNT = COMMERCIAL_FOUNDER_DECISIONS.length;

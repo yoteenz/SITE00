@@ -1,0 +1,741 @@
+import type {
+  PageConceptGeneratedArtifact,
+  PageConceptGenerationPlan,
+  PageCreativeInjection,
+  PageFunctionContract,
+  PageCreativeContext,
+  ProjectCreativeContext,
+  PageConceptCgptCreativeBrief,
+  PageConceptPageArchitectureBrief,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import {
+  compilePageConceptPageArchitectureBrief,
+  evaluateGpt2MobilePageArchitectureValidity,
+  buildPageArchitectureFounderDebugLines,
+  validatePageArchitectureBrief,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
+import {
+  mobileConceptArtifactId,
+  PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS,
+  type PageGpt2MobileConcept,
+  type PageMobileConceptSlotId,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
+import { PAGE_CONCEPT_CANONICAL_PIPELINE_ID } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
+import { PAGE_GPT2_MOBILE_FAL_MODEL } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import { compileProjectSkinContract } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
+import { pageContextForGpt2Package } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectVisualIdentity.js';
+import { buildPageGpt2MobileConceptRequestPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileRequestPackage.js';
+import {
+  buildGpt2MobileArtifactDebug,
+  gpt2MobileConceptRenditionSlot,
+  PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
+  PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobilePageAuthority.js';
+import { renderPageGpt2MobileConceptJob } from './renderPageGpt2MobileConceptJob.js';
+import { persistPageConceptMobileArtifact } from './persistPageConceptMobileArtifact.js';
+import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
+import {
+  buildGpt2MobileProviderReferenceBundle,
+  formatGpt2MobileCapturePackageDebugLines,
+  formatGpt2MobileReferenceAuthorityDebugLines,
+  orderedProviderReferenceAssets,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import { COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileProviderPromptCompiler.js';
+import {
+  buildScreenshotFunctionMapReceipt,
+  evaluateFunctionalFidelityScorecard,
+  formatScreenshotFunctionMapDebugLines,
+  interpretScreenshotFunctionality,
+  validateBottomNavNotInvented,
+  validateScreenshotFunctionMapForGpt2Dispatch,
+  type ScreenshotFunctionalPageMap,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
+import type { Gpt2MobileProviderReferenceBundle } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import {
+  buildGpt2MobileConceptQualityDebugLines,
+  evaluateGpt2MobileConceptHandoffValidity,
+  validateGpt2MobileConceptQualityPrompt,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptContracts.js';
+import {
+  buildGpt2MobileContinuityLockDebugLines,
+  evaluateGpt2MobileBottomNavContinuityHandoffValidity,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileContinuityLock.js';
+import {
+  compileWebExpressionTerritorySet,
+  formatWebExpressionTerritoryDebugLines,
+  validateExpressionSterility,
+  validateSterileWebExpressionTerritory,
+  validateWebExpressionTerritoryDistance,
+  validateWebExpressionTypeScaleDramaRequirement,
+  webExpressionTerritoryForSlot,
+  type WebExpressionTerritorySet,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptWebExpressionTerritories.js';
+import {
+  evaluateNdxBrandAuthenticity,
+  formatNdxBrandFamiliarityDebugLines,
+  validateGenericEditorialDriftGuard,
+  validateTerritoryNdxFamiliarityDistinction,
+  validateTerritoryNdxBrandParity,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
+import { compileNdxBrandFamiliarityBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
+import {
+  buildPreConceptFunctionalLineage,
+  recompileScreenshotFunctionMapWithApprovedExpansions,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPreConceptFunctionalExpansion.js';
+import type { PageFunctionalExpansionIntelligence } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFunctionalExpansionIntelligence.js';
+import type {
+  ApprovedFuturePageTruth,
+  PreConceptFunctionalLineage,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPreConceptFunctionalExpansion.js';
+
+export type Gpt2MobileConceptsResult = {
+  jobs: PageConceptGeneratedArtifact[];
+  mobileConcepts: PageGpt2MobileConcept[];
+  partialFailure: boolean;
+  screenshotFunctionalPageMap: ScreenshotFunctionalPageMap | null;
+  webExpressionTerritorySet: WebExpressionTerritorySet | null;
+  preConceptFunctionalLineage: PreConceptFunctionalLineage | null;
+};
+
+function stripDataUrlPrefix(base64: string): string {
+  const trimmed = base64.trim();
+  if (trimmed.startsWith('data:')) {
+    const comma = trimmed.indexOf(',');
+    if (comma === -1) return trimmed;
+    return trimmed.slice(comma + 1);
+  }
+  return trimmed;
+}
+
+async function renderMobileConceptSlot(input: {
+  runId: string;
+  slot: PageMobileConceptSlotId;
+  dryRun: boolean;
+  pipelineSetId: string;
+  plan: PageConceptGenerationPlan;
+  injection: PageCreativeInjection;
+  cgptBrief: PageConceptCgptCreativeBrief | null;
+  pageArchitectureBrief: PageConceptPageArchitectureBrief | null;
+  projectContext: ProjectCreativeContext;
+  pageContext: PageCreativeContext;
+  functionContract: PageFunctionContract;
+  mobileDims: { width: number; height: number };
+  functionalCaptureBase64: string;
+  providerReferences?: Gpt2MobileProviderReferenceBundle;
+  screenshotFunctionalPageMap?: ScreenshotFunctionalPageMap;
+  webExpressionTerritorySet?: WebExpressionTerritorySet | null;
+  functionalExpansionIntelligence?: PageFunctionalExpansionIntelligence | null;
+  approvedFuturePageTruth?: ApprovedFuturePageTruth | null;
+  preConceptFunctionalLineage?: PreConceptFunctionalLineage | null;
+  existingJob?: PageConceptGeneratedArtifact;
+  retrySlots?: readonly PageMobileConceptSlotId[] | null;
+  forceRegenerate?: boolean;
+  artifactIdOverride?: string;
+}): Promise<{ concept: PageGpt2MobileConcept; job: PageConceptGeneratedArtifact }> {
+  const artifactId = input.artifactIdOverride ?? mobileConceptArtifactId(input.slot);
+  const conceptId = `pg2m-page-${input.slot}-${input.pipelineSetId}`;
+  const renditionSlot = gpt2MobileConceptRenditionSlot(input.slot);
+  const displayTitle = PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
+  const now = new Date().toISOString();
+
+  if (input.retrySlots && input.retrySlots.length > 0 && !input.retrySlots.includes(input.slot)) {
+    if (input.existingJob?.status === 'READY') {
+      return {
+        concept: {
+          conceptId,
+          slot: input.slot,
+          artifactId,
+          imageUri: input.existingJob.imageUri,
+          status: 'READY',
+          createdAt: input.existingJob.createdAt,
+        },
+        job: input.existingJob,
+      };
+    }
+  }
+
+  if (
+    !input.forceRegenerate &&
+    input.existingJob?.status === 'READY' &&
+    input.existingJob.providerJobId &&
+    input.existingJob.imageUri
+  ) {
+    return {
+      concept: {
+        conceptId,
+        slot: input.slot,
+        artifactId,
+        imageUri: input.existingJob.imageUri,
+        status: 'READY',
+        createdAt: input.existingJob.createdAt,
+      },
+      job: input.existingJob,
+    };
+  }
+
+  if (input.dryRun || process.env.VITEST === 'true') {
+    const concept: PageGpt2MobileConcept = {
+      conceptId,
+      slot: input.slot,
+      artifactId,
+      imageUri: `data:image/png;base64,${Buffer.from(`vitest-${input.slot}`, 'utf8').toString('base64')}`,
+      status: 'READY',
+      createdAt: now,
+    };
+    const job: PageConceptGeneratedArtifact = {
+      artifactId,
+      projectId: input.plan.projectId,
+      pageId: input.plan.pageId,
+      renditionSlot,
+      viewport: 'MOBILE',
+      captureSetId: input.plan.captureSetId,
+      projectContextVersion: input.projectContext.contextVersion,
+      pageContextVersion: input.pageContext.contextVersion,
+      functionContractId: input.functionContract.contractId,
+      creativeInjectionId: input.injection.injectionId,
+      gpt2AuthorityConceptId: conceptId,
+      renditionId: `pg2m-page-${input.slot}-${input.pipelineSetId}`,
+      provider: 'GPT2_MOBILE',
+      model: PAGE_GPT2_MOBILE_FAL_MODEL,
+      providerJobId: input.dryRun ? 'dry-run' : `vitest-${input.slot}`,
+      promptVersion: PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
+      displayTitle,
+      createdAt: now,
+      status: 'READY',
+      artifactPath: null,
+      imageUri: concept.imageUri,
+      width: input.mobileDims.width,
+      height: input.mobileDims.height,
+    };
+    return { concept, job };
+  }
+
+  const skinContract = compileProjectSkinContract(input.projectContext.projectId);
+  const pageContextSummary = JSON.stringify(pageContextForGpt2Package(input.pageContext));
+  const captureB64 = stripDataUrlPrefix(input.functionalCaptureBase64);
+
+  const archCheck = validatePageArchitectureBrief(input.pageArchitectureBrief);
+  if (!archCheck.ok && !input.dryRun && process.env.VITEST !== 'true') {
+    throw new Error(`PAGE_ARCHITECTURE_INCOMPLETE: ${archCheck.missingSections.join(', ')}`);
+  }
+
+  const providerReferences =
+    input.providerReferences ??
+    (await buildGpt2MobileProviderReferenceBundle({
+      captureSetId: input.plan.captureSetId,
+      functionalCaptureBase64: captureB64,
+      functionalAssetId: `${input.plan.captureSetId}:mobile-functional-page`,
+      functionalSourcePath: `capture-set/${input.plan.captureSetId}/mobile-functional-page.png`,
+      fallbackViewport: input.mobileDims,
+    }));
+
+  const screenshotFunctionalPageMap =
+    input.screenshotFunctionalPageMap ??
+    interpretScreenshotFunctionality({
+      captureSetId: input.plan.captureSetId,
+      providerReferenceBundle: providerReferences,
+      projectContext: input.projectContext,
+      pageContext: input.pageContext,
+      functionContract: input.functionContract,
+      pageArchitectureBrief: input.pageArchitectureBrief,
+    });
+  const functionMapDispatch = validateScreenshotFunctionMapForGpt2Dispatch(screenshotFunctionalPageMap);
+  if (!functionMapDispatch.ok) {
+    throw new Error(
+      `${functionMapDispatch.errorCode}: ${functionMapDispatch.criticalUnresolved.join('; ')}`,
+    );
+  }
+  const functionMapReceipt = buildScreenshotFunctionMapReceipt(screenshotFunctionalPageMap, functionMapDispatch);
+  const webExpressionTerritory =
+    input.webExpressionTerritorySet ?
+      webExpressionTerritoryForSlot(input.webExpressionTerritorySet, input.slot)
+    : null;
+
+  const referenceDebugLines = formatGpt2MobileReferenceAuthorityDebugLines(providerReferences);
+  const referenceInputs = orderedProviderReferenceAssets(providerReferences).map((asset) => ({
+    role: asset.role,
+    assetId: asset.assetId,
+    sourcePath: asset.sourcePath,
+    width: asset.width,
+    height: asset.height,
+  }));
+
+  const pkg = buildPageGpt2MobileConceptRequestPackage({
+    runId: input.runId,
+    slot: input.slot,
+    conceptId,
+    projectContext: input.projectContext,
+    pageContext: input.pageContext,
+    functionContract: input.functionContract,
+    injection: input.injection,
+    cgptBrief: input.cgptBrief,
+    pageArchitectureBrief: input.pageArchitectureBrief,
+    skinContract,
+    providerReferences,
+    screenshotFunctionalPageMap,
+    webExpressionTerritory,
+    pageContextSummary,
+    mobileViewport: input.mobileDims,
+    approvedFuturePageTruth: input.approvedFuturePageTruth ?? null,
+    functionalExpansionIntelligence: input.functionalExpansionIntelligence ?? null,
+    preConceptFunctionalLineage: input.preConceptFunctionalLineage ?? null,
+  });
+
+  const ndxBrandFamiliarityBrief =
+    input.pageArchitectureBrief?.targetRouteContract ?
+      compileNdxBrandFamiliarityBrief({
+        projectId: input.projectContext.projectId,
+        pageId: input.pageContext.pageId,
+        target: input.pageArchitectureBrief.targetRouteContract,
+        pageArchitectureBrief: input.pageArchitectureBrief,
+        screenshotFunctionalPageMap,
+      })
+    : null;
+  const genericEditorialDrift = validateGenericEditorialDriftGuard({
+    compiledPrompt: pkg.prompt,
+    territory: webExpressionTerritory,
+  });
+  if (!genericEditorialDrift.ok) {
+    throw new Error(`${genericEditorialDrift.errorCode}: ${genericEditorialDrift.detail ?? '—'}`);
+  }
+  const ndxAuthenticity = evaluateNdxBrandAuthenticity({
+    compiledPrompt: pkg.prompt,
+    brief: ndxBrandFamiliarityBrief,
+  });
+  if (ndxBrandFamiliarityBrief && !ndxAuthenticity.ok) {
+    throw new Error(`${ndxAuthenticity.failureCode}: familiarity layer missing from provider prompt`);
+  }
+
+  const runningJob: PageConceptGeneratedArtifact = {
+    artifactId,
+    projectId: input.plan.projectId,
+    pageId: input.plan.pageId,
+    renditionSlot,
+    viewport: 'MOBILE',
+    captureSetId: input.plan.captureSetId,
+    projectContextVersion: input.projectContext.contextVersion,
+    pageContextVersion: input.pageContext.contextVersion,
+    functionContractId: input.functionContract.contractId,
+    creativeInjectionId: input.injection.injectionId,
+    gpt2AuthorityConceptId: conceptId,
+    renditionId: `pg2m-page-${input.slot}-${input.pipelineSetId}`,
+    provider: 'GPT2_MOBILE',
+    model: PAGE_GPT2_MOBILE_FAL_MODEL,
+    providerJobId: null,
+    promptVersion: pkg.inspector.promptVersion,
+    displayTitle,
+    createdAt: now,
+    status: 'RUNNING',
+    artifactPath: null,
+    imageUri: null,
+    width: input.mobileDims.width,
+    height: input.mobileDims.height,
+  };
+
+  try {
+    const render = await renderPageGpt2MobileConceptJob({
+      package: pkg,
+      width: input.mobileDims.width,
+      height: input.mobileDims.height,
+    });
+    const persisted = await persistPageConceptMobileArtifact({
+      runId: input.runId,
+      projectId: input.plan.projectId,
+      pageId: input.plan.pageId,
+      conceptSlot: input.slot,
+      artifactId,
+      providerJobId: render.providerJobId,
+      imageBase64: render.imageBase64,
+      cgptBriefId: input.injection.injectionId,
+      skinVersion: skinContract.version,
+    });
+
+    const archEval = evaluateGpt2MobilePageArchitectureValidity({
+      architectureBrief: input.pageArchitectureBrief,
+      promptIncludedArchitecture: pkg.prompt.includes('PAGE REGIONS'),
+      posterDriftHeuristic: false,
+    });
+    const conceptEval = evaluateGpt2MobileConceptHandoffValidity(pkg.prompt);
+    const continuityEval = evaluateGpt2MobileBottomNavContinuityHandoffValidity(pkg.prompt);
+    const qualityPrompt = validateGpt2MobileConceptQualityPrompt(pkg.prompt);
+    const functionalScorecard = evaluateFunctionalFidelityScorecard(screenshotFunctionalPageMap, pkg.prompt);
+    const bottomNavGuard = validateBottomNavNotInvented(pkg.prompt, screenshotFunctionalPageMap);
+    const compiledMeta = pkg.inspector.compiledProviderPrompt;
+    const manifest = providerReferences.authorityManifest;
+    const conceptQualityDebug = buildGpt2MobileConceptQualityDebugLines({
+      pageArchitectureBriefId: input.pageArchitectureBrief?.briefId ?? null,
+      structuralAuthoritySource: 'TOP/MIDDLE/BOTTOM STRUCTURAL CAPTURES (FUNCTIONAL_REFERENCE_ONLY)',
+      bottomContinuitySource: 'BOTTOM_STRUCTURAL_CAPTURE (C)',
+      slot: input.slot,
+      uppercaseContractApplied: qualityPrompt.ok,
+      conceptDiversityContractApplied: qualityPrompt.ok,
+      lightFamilyContractApplied: qualityPrompt.ok,
+      bottomNavInherited: manifest.bottomStructuralAttached,
+      pageValidityPass:
+        archEval.ok &&
+        conceptEval.ok &&
+        continuityEval.ok &&
+        functionalScorecard.overall === 'PASS' &&
+        bottomNavGuard.ok,
+      posterRejectionPass: archEval.ok,
+    });
+    const debug = buildGpt2MobileArtifactDebug({
+      slot: input.slot,
+      territoryDirective: pkg.inspector.territoryDirective,
+      bottomContinuityApplied: pkg.inspector.bottomContinuityApplied,
+      pageValidityPass:
+        archEval.ok &&
+        conceptEval.ok &&
+        continuityEval.ok &&
+        functionalScorecard.overall === 'PASS' &&
+        bottomNavGuard.ok,
+      posterDriftWarning: !archEval.ok || !conceptEval.ok || !continuityEval.ok,
+      screenshotOverreachWarning: false,
+      pageArchitectureBriefId: input.pageArchitectureBrief?.briefId,
+      regionMapVersion: input.pageArchitectureBrief?.regionMapVersion,
+      bottomContinuityContractId: input.pageArchitectureBrief?.bottomContinuityContractId,
+      navigationContractId: input.pageArchitectureBrief?.navigationContractId,
+      scrollNarrativeId: input.pageArchitectureBrief?.scrollNarrativeId,
+      pageArchitectureValidation: archEval.ok ? 'PASS' : 'PAGE_ARCHITECTURE_VALIDATION_FAILED',
+      pageArchitectureDebugLines: [
+        ...buildPageArchitectureFounderDebugLines(input.pageArchitectureBrief, archEval),
+        ...referenceDebugLines,
+        `PROVIDER PROMPT VERSION: ${COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION}`,
+        `PAGE PROMPT VERSION: ${pkg.inspector.promptVersion}`,
+        ...formatGpt2MobileCapturePackageDebugLines(providerReferences),
+        ...formatScreenshotFunctionMapDebugLines(screenshotFunctionalPageMap, functionMapReceipt),
+        ...formatWebExpressionTerritoryDebugLines(
+          webExpressionTerritory,
+          input.pageArchitectureBrief?.targetRouteContract ?? null,
+        ),
+        ...formatNdxBrandFamiliarityDebugLines({
+          brief: ndxBrandFamiliarityBrief,
+          screenshotFunctionMapId: screenshotFunctionalPageMap.mapId,
+          compiledPrompt: pkg.prompt,
+          genericEditorialDrift: {
+            ok: genericEditorialDrift.ok,
+            errorCode: genericEditorialDrift.errorCode,
+          },
+          territoryDistinction: {
+            ok: true,
+            errorCode: null,
+          },
+          ndxAuthenticity: {
+            ok: ndxAuthenticity.ok,
+            failureCode: ndxAuthenticity.failureCode,
+          },
+        }),
+        `FULL_PAGE_CAPTURE: ${providerReferences.authorityManifest.bottomStructuralAttached ? 'PASS' : 'FAIL'}`,
+        `BOTTOM_CAPTURE: ${providerReferences.authorityManifest.bottomStructuralAttached ? 'PASS' : 'FAIL'}`,
+        `GPT2_FUNCTION_BLOCK_COMPILED: ${pkg.prompt.includes('PAGE FUNCTION (SCREENSHOT FUNCTIONAL PAGE MAP') ? 'PASS' : 'FAIL'}`,
+        `FUNCTIONAL_FIDELITY PAGE_IDENTITY: ${functionalScorecard.pageIdentity}`,
+        `FUNCTIONAL_FIDELITY BOTTOM_NAV: ${functionalScorecard.bottomNav}`,
+        `FUNCTIONAL_FIDELITY OVERALL: ${functionalScorecard.overall}`,
+        `INVENTED_BOTTOM_NAV_REJECTED: ${bottomNavGuard.ok ? 'PASS' : 'FAIL'}`,
+        `PROVIDER PROMPT CHAR COUNT: ${pkg.inspector.compiledProviderPrompt.compiledPromptCharCount}`,
+        `SAFE LIMIT: ${pkg.inspector.compiledProviderPrompt.safeLimit}`,
+        `COMPILED PROMPT HASH: ${pkg.inspector.compiledProviderPrompt.compiledPromptHash}`,
+        `SOURCE CGPT BRIEF: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.cgptBriefId ?? '—'}`,
+        `SOURCE PAGE ARCH: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.pageArchitectureBriefId ?? '—'}`,
+        `SOURCE SKIN: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.skinContractId}`,
+        `SOURCE FUNCTION: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.functionContractId}`,
+        ...buildGpt2MobileContinuityLockDebugLines(manifest),
+        ...conceptQualityDebug,
+        `BOTTOM NAV CONTINUITY VALIDATION: ${continuityEval.ok ? 'PASS' : continuityEval.failedChecks.join(',')}`,
+      ],
+      conceptTerritoryLabel: compiledMeta.conceptTerritoryLabel,
+      conceptThemeClass: compiledMeta.conceptThemeClass,
+      uppercaseContractApplied: compiledMeta.conceptQualityContractsApplied,
+      conceptDiversityContractApplied: compiledMeta.conceptQualityContractsApplied,
+      lightFamilyContractApplied: compiledMeta.conceptQualityContractsApplied,
+      bottomNavInherited: manifest.bottomStructuralAttached,
+      bottomContinuityLockActive: manifest.bottomContinuityLockActive,
+      bottomNavContinuityValidationPass: continuityEval.ok,
+      sourceAuthorityManifest: {
+        capturePackageVersion: manifest.capturePackageVersion,
+        screenshotAuthorityMode: manifest.screenshotAuthorityMode,
+        designAuthoritySource: manifest.designAuthoritySource,
+        topStructuralAttached: manifest.topStructuralAttached,
+        middleStructuralAttached: manifest.middleStructuralAttached,
+        bottomStructuralAttached: manifest.bottomStructuralAttached,
+        fullPageSourceAttached: manifest.fullPageSourceAttached,
+        bottomHalfSourceAttached: manifest.bottomHalfSourceAttached,
+        bottomNavAuthorityAttached: manifest.bottomNavAuthorityAttached,
+        stitchedFallbackUsed: manifest.stitchedFallbackUsed,
+      },
+      screenshotFunctionMapId: screenshotFunctionalPageMap.mapId,
+      screenshotFunctionMapPresent: true,
+      ndxBrandFamiliarityBriefId: ndxBrandFamiliarityBrief?.briefId,
+      ndxBrandFamiliarityDigest: ndxBrandFamiliarityBrief?.contentDigest,
+      ndxBrandFamiliarityInPrompt: pkg.prompt.includes('NDX BRAND FAMILIARITY'),
+      genericEditorialDriftGuardPass: genericEditorialDrift.ok,
+      ndxAuthenticityEvalPass: ndxAuthenticity.ok,
+      regionsPreservedLabel: `${screenshotFunctionalPageMap.regions.length} / ${screenshotFunctionalPageMap.regions.length}`,
+      interactionsPreservedLabel: `${screenshotFunctionalPageMap.elements.filter((e) => e.mustPreserveFunction).length} / ${screenshotFunctionalPageMap.elements.filter((e) => e.mustPreserveFunction).length}`,
+      bottomNavLockedToSource: bottomNavGuard.ok,
+      designAuthorityLabel: 'CGPT + SKINS + PAGE ARCHITECTURE',
+      screenshotDesignAuthority: 'NO',
+      functionalFidelityOverall: functionalScorecard.overall,
+      compiledPromptVersion: pkg.inspector.compiledProviderPrompt.compiledPromptVersion,
+      compiledPromptHash: pkg.inspector.compiledProviderPrompt.compiledPromptHash,
+      compiledPromptCharCount: pkg.inspector.compiledProviderPrompt.compiledPromptCharCount,
+      providerPromptSafeLimit: pkg.inspector.compiledProviderPrompt.safeLimit,
+      compiledProviderPromptPreview: pkg.prompt.slice(0, 1200),
+      providerReferenceInputs: referenceInputs,
+      providerImageRoleSummary: providerReferences.imageRoleSummary,
+    });
+    const concept: PageGpt2MobileConcept = {
+      conceptId,
+      slot: input.slot,
+      artifactId,
+      imageUri: persisted.publicUrl,
+      status: 'READY',
+      createdAt: now,
+      territoryLabel: webExpressionTerritory?.name ?? pkg.inspector.territoryLabel ?? displayTitle,
+      gpt2MobileDebug: debug,
+    };
+    const job: PageConceptGeneratedArtifact = {
+      ...runningJob,
+      status: 'READY',
+      providerJobId: render.providerJobId,
+      model: render.model,
+      artifactPath: persisted.storagePath,
+      imageUri: persisted.publicUrl,
+      gpt2MobileDebug: debug,
+    };
+    return { concept, job };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'GPT2_MOBILE_FAILED';
+    logPageConceptGpt2MobileEvent('GPT2_MOBILE_PROVIDER_FAILED', {
+      runId: input.runId,
+      conceptSlot: input.slot,
+      message,
+    });
+    const concept: PageGpt2MobileConcept = {
+      conceptId,
+      slot: input.slot,
+      artifactId,
+      imageUri: null,
+      status: 'FAILED',
+      createdAt: now,
+    };
+    const job: PageConceptGeneratedArtifact = {
+      ...runningJob,
+      status: 'FAILED',
+      failureReason: message,
+    };
+    return { concept, job };
+  }
+}
+
+export async function executePageConceptGpt2MobileConcepts(input: {
+  runId: string;
+  plan: PageConceptGenerationPlan;
+  pipelineSetId: string;
+  dryRun: boolean;
+  projectContext: ProjectCreativeContext;
+  pageContext: PageCreativeContext;
+  functionContract: PageFunctionContract;
+  creativeInjection: PageCreativeInjection;
+  cgptCreativeBrief: PageConceptCgptCreativeBrief | null;
+  pageArchitectureBrief?: PageConceptPageArchitectureBrief | null;
+  functionalExpansionIntelligence?: PageFunctionalExpansionIntelligence | null;
+  approvedFuturePageTruth?: ApprovedFuturePageTruth | null;
+  preConceptFunctionalLineage?: PreConceptFunctionalLineage | null;
+  mobileDims: { width: number; height: number };
+  functionalCaptureBase64: string;
+  existingJobs?: readonly PageConceptGeneratedArtifact[];
+  retrySlots?: readonly PageMobileConceptSlotId[] | null;
+  forceRegenerateSlots?: readonly PageMobileConceptSlotId[] | null;
+  artifactIdForSlot?: (slot: PageMobileConceptSlotId) => string;
+  webExpressionTerritorySet?: WebExpressionTerritorySet | null;
+  onSlotUpdate?: (payload: {
+    jobs: PageConceptGeneratedArtifact[];
+    mobileConcepts: PageGpt2MobileConcept[];
+    screenshotFunctionalPageMap: ScreenshotFunctionalPageMap | null;
+    webExpressionTerritorySet: WebExpressionTerritorySet | null;
+    preConceptFunctionalLineage: PreConceptFunctionalLineage | null;
+  }) => void;
+}): Promise<Gpt2MobileConceptsResult> {
+  const jobs: PageConceptGeneratedArtifact[] = [];
+  const mobileConcepts: PageGpt2MobileConcept[] = [];
+  const existingByArtifact = new Map(
+    (input.existingJobs ?? []).map((j) => [j.artifactId, j] as const),
+  );
+
+  const captureB64 = stripDataUrlPrefix(input.functionalCaptureBase64);
+  let pageArchitectureBrief = input.pageArchitectureBrief ?? null;
+  if (!pageArchitectureBrief && input.cgptCreativeBrief && input.creativeInjection) {
+    pageArchitectureBrief = compilePageConceptPageArchitectureBrief({
+      projectContext: input.projectContext,
+      pageContext: input.pageContext,
+      functionContract: input.functionContract,
+      injection: input.creativeInjection,
+      cgptCreativeBrief: input.cgptCreativeBrief,
+      captureSetId: input.plan.captureSetId,
+    });
+  }
+  let sharedProviderReferences: Gpt2MobileProviderReferenceBundle | null = null;
+  let sharedFunctionMap: ScreenshotFunctionalPageMap | null = null;
+  const needsFunctionMap = !input.dryRun && process.env.VITEST !== 'true';
+  if (needsFunctionMap || process.env.VITEST === 'true') {
+    try {
+      sharedProviderReferences = await buildGpt2MobileProviderReferenceBundle({
+        captureSetId: input.plan.captureSetId,
+        functionalCaptureBase64: captureB64,
+        functionalAssetId: `${input.plan.captureSetId}:mobile-functional-page`,
+        functionalSourcePath: `capture-set/${input.plan.captureSetId}/mobile-functional-page.png`,
+        fallbackViewport: input.mobileDims,
+      });
+      sharedFunctionMap = interpretScreenshotFunctionality({
+        captureSetId: input.plan.captureSetId,
+        providerReferenceBundle: sharedProviderReferences,
+        projectContext: input.projectContext,
+        pageContext: input.pageContext,
+        functionContract: input.functionContract,
+        pageArchitectureBrief,
+      });
+      const dispatchCheck = validateScreenshotFunctionMapForGpt2Dispatch(sharedFunctionMap);
+      if (!dispatchCheck.ok && needsFunctionMap) {
+        throw new Error(`${dispatchCheck.errorCode}: ${dispatchCheck.criticalUnresolved.join('; ')}`);
+      }
+      if (sharedFunctionMap && input.functionalExpansionIntelligence) {
+        sharedFunctionMap = recompileScreenshotFunctionMapWithApprovedExpansions({
+          map: sharedFunctionMap,
+          intelligence: input.functionalExpansionIntelligence,
+        });
+      }
+    } catch (err) {
+      if (needsFunctionMap) throw err;
+    }
+  }
+
+  let resolvedLineage = input.preConceptFunctionalLineage ?? null;
+  if (
+    input.functionalExpansionIntelligence &&
+    input.approvedFuturePageTruth &&
+    pageArchitectureBrief &&
+    sharedFunctionMap
+  ) {
+    resolvedLineage = buildPreConceptFunctionalLineage({
+      intelligence: input.functionalExpansionIntelligence,
+      futureTruth: input.approvedFuturePageTruth,
+      pageArchitectureBrief,
+      screenshotFunctionalPageMap: sharedFunctionMap,
+    });
+  }
+
+  let webExpressionTerritorySet = input.webExpressionTerritorySet ?? null;
+  if (
+    sharedFunctionMap &&
+    pageArchitectureBrief &&
+    input.cgptCreativeBrief &&
+    !webExpressionTerritorySet
+  ) {
+    webExpressionTerritorySet = compileWebExpressionTerritorySet({
+      brief: input.cgptCreativeBrief,
+      injection: input.creativeInjection,
+      target: pageArchitectureBrief.targetRouteContract,
+      pageArchitectureBriefId: pageArchitectureBrief.briefId,
+      functionMapId: sharedFunctionMap.mapId,
+      projectId: input.plan.projectId,
+      pageId: input.plan.pageId,
+    });
+    const distance = validateWebExpressionTerritoryDistance(webExpressionTerritorySet);
+    if (!distance.ok) {
+      throw new Error(`${distance.errorCode}: ${distance.detail ?? '—'}`);
+    }
+    const typeDrama = validateWebExpressionTypeScaleDramaRequirement(webExpressionTerritorySet);
+    if (!typeDrama.ok) {
+      throw new Error(`${typeDrama.errorCode}: type scale drama`);
+    }
+    const familiarityDistinction = validateTerritoryNdxFamiliarityDistinction(webExpressionTerritorySet);
+    if (!familiarityDistinction.ok) {
+      throw new Error(`${familiarityDistinction.errorCode}: ${familiarityDistinction.detail ?? '—'}`);
+    }
+    const brandParity = validateTerritoryNdxBrandParity(webExpressionTerritorySet);
+    if (!brandParity.ok) {
+      throw new Error(`${brandParity.errorCode}: ${brandParity.detail ?? '—'}`);
+    }
+    for (const territory of webExpressionTerritorySet.territories) {
+      const sterile = validateExpressionSterility(territory);
+      if (!sterile.ok) {
+        throw new Error(`${sterile.errorCode}: ${territory.territorySlot} ${sterile.detail ?? ''}`.trim());
+      }
+      const legacySterile = validateSterileWebExpressionTerritory(territory);
+      if (!legacySterile.ok) {
+        throw new Error(`${legacySterile.errorCode}: ${territory.territorySlot}`);
+      }
+    }
+  }
+
+  const tasks = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map(async (slot) => {
+    const defaultArtifactId = mobileConceptArtifactId(slot);
+    const artifactId = input.artifactIdForSlot?.(slot) ?? defaultArtifactId;
+    const forceRegenerate = input.forceRegenerateSlots?.includes(slot) === true;
+    const existingJob =
+      existingByArtifact.get(artifactId) ??
+      (forceRegenerate ? undefined : existingByArtifact.get(defaultArtifactId));
+    const result = await renderMobileConceptSlot({
+      runId: input.runId,
+      slot,
+      dryRun: input.dryRun,
+      pipelineSetId: input.pipelineSetId,
+      plan: input.plan,
+      injection: input.creativeInjection,
+      cgptBrief: input.cgptCreativeBrief,
+      pageArchitectureBrief,
+      projectContext: input.projectContext,
+      pageContext: input.pageContext,
+      functionContract: input.functionContract,
+      mobileDims: input.mobileDims,
+      functionalCaptureBase64: input.functionalCaptureBase64,
+      providerReferences: sharedProviderReferences ?? undefined,
+      screenshotFunctionalPageMap: sharedFunctionMap ?? undefined,
+      webExpressionTerritorySet,
+      functionalExpansionIntelligence: input.functionalExpansionIntelligence ?? null,
+      approvedFuturePageTruth: input.approvedFuturePageTruth ?? null,
+      preConceptFunctionalLineage: resolvedLineage,
+      existingJob,
+      retrySlots: input.retrySlots,
+      forceRegenerate,
+      artifactIdOverride: artifactId !== defaultArtifactId ? artifactId : forceRegenerate ? artifactId : undefined,
+    });
+    return result;
+  });
+
+  const settled = await Promise.allSettled(tasks);
+  for (const entry of settled) {
+    if (entry.status === 'rejected') {
+      continue;
+    }
+    mobileConcepts.push(entry.value.concept);
+    jobs.push(entry.value.job);
+    input.onSlotUpdate?.({
+      jobs: [...jobs],
+      mobileConcepts: [...mobileConcepts],
+      screenshotFunctionalPageMap: sharedFunctionMap,
+      webExpressionTerritorySet,
+      preConceptFunctionalLineage: resolvedLineage,
+    });
+  }
+
+  const partialFailure = jobs.some((j) => j.status === 'FAILED') && jobs.some((j) => j.status === 'READY');
+  const allFailed = jobs.length > 0 && jobs.every((j) => j.status === 'FAILED');
+  if (allFailed) {
+    throw new Error('GPT2_MOBILE_CONCEPTS_FAILED');
+  }
+
+  return {
+    jobs,
+    mobileConcepts,
+    partialFailure,
+    screenshotFunctionalPageMap: sharedFunctionMap,
+    webExpressionTerritorySet,
+    preConceptFunctionalLineage: resolvedLineage,
+  };
+}
+
+export function canonicalPipelineLineageMarker() {
+  return PAGE_CONCEPT_CANONICAL_PIPELINE_ID;
+}

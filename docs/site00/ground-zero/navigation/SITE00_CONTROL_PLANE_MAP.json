@@ -1,0 +1,238 @@
+{
+ "artifact": "SITE00_CONTROL_PLANE_MAP",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "nature": "Infrastructure layer (G). Not a navigable end-user family. Management UIs for it live in the Founder Control Room or the operations console.",
+ "term_collision": "In code, \"control plane\" today means only the SITE 00\u2194FSBW design handoff bridge (design_control_plane_bridge migration; shared/site00-design-control-plane). Adopting the founder meaning requires renaming that module (e.g. DESIGN HANDOFF BRIDGE).",
+ "services": [
+  {
+   "service": "auth / identity",
+   "files_tables": "Supabase auth.users; api/_lib/auth.ts getAuthUser; api/_lib/adminAuth.ts (isAdminEmail, hardcoded founder); api/_lib/site00Access/accessModel.ts; profiles table; src/components/AdminGuard.tsx; Site00AccountRouteGuard",
+   "live": "YES (JWT real)",
+   "gaps": "No roles/membership; ~20 unauthenticated paid endpoints; getSupabaseAdmin anon fallback; AdminGuard preview bypass; password reset incomplete (auth_permissions.json verdict FAIL)."
+  },
+  {
+   "service": "project registry",
+   "files_tables": "site00_projects (20260818143000) + api/_lib/site00Projects/projectRegistry.ts, canonicalProject.ts, projectResolver.ts; site00_managed_projects (design bridge); 7+ static registries",
+   "live": "YES but fragmented",
+   "gaps": "No single source of truth; slug aliases; no FOUNDER/CLIENT/INTERNAL project type enum (project_registry.json FAIL)."
+  },
+  {
+   "service": "client registry (identities)",
+   "files_tables": "site00_identities, site00_idnty_submissions, site00_bldr_intakes, site00_leads (20260818180000_site00_admin_operations.sql); admin /admin/site00/identities",
+   "live": "YES (with demo seed when empty)",
+   "gaps": "Identity keyed by email; no org/account entity for clients separate from site00_organizations (EVOLVE orgs); no link identity<->auth user enforced."
+  },
+  {
+   "service": "membership",
+   "files_tables": "NONE (no site00_project_members); site00_projects.client_email/client_user_id + metadata.client_role; site00_shell_propagation_members is unrelated",
+   "live": "NO",
+   "gaps": "Single owner per project; collaborator/viewer not modeled per user; invites absent."
+  },
+  {
+   "service": "permissions",
+   "files_tables": "shared/site00-client-project-room/capabilities.ts; api/_lib/site00Projects/projectCapabilityGuard.ts; shared/site00-monetization/serverAuthorization.ts (contract only)",
+   "live": "PARTIAL",
+   "gaps": "Role taken from request in client-reviews; RLS service_role-only; no per-member policies."
+  },
+  {
+   "service": "firewall",
+   "files_tables": "Host/project CSS scoping (JURNL), lazy registry; shared/site00-evolve-operations/clientFirewall.ts (fixture-level)",
+   "live": "UI-PARTIAL",
+   "gaps": "Data firewall not enforced (firewall.json FAIL): open anon RLS on 2 tables, shared public bucket, unauth endpoints."
+  },
+  {
+   "service": "review engine",
+   "files_tables": "site00_client_review_objects/versions/comments/annotations/events/receipts (20260826160000, 20260826180000); api/_lib/site00ClientReviews/reviewService.ts; api/site00/client-reviews.ts",
+   "live": "YES",
+   "gaps": "Role escalation via request body; client-facing UI coverage per client_components.json."
+  },
+  {
+   "service": "approval engine",
+   "files_tables": "site00_approval_requests (status AI_DRAFT/ADMIN_REVIEW/...) used in 11 api call sites; site00_launch_overrides (requirement override w/ approver + reason); admin /admin/site00/approvals",
+   "live": "YES (admin side)",
+   "gaps": "Two parallel approval systems (approval_requests vs client reviews vs founder judgment tables); no unified approval ledger."
+  },
+  {
+   "service": "project graph (PCI route graph)",
+   "files_tables": "shared/site00-studio-world-production/parentChildExperienceInheritance/* (routeGraphDiscovery, navigationLinkage, routeManifestReconciliation); site00_deliverable_dependencies, site00_requirement_dependencies; api/_lib/site00Orchestration/dependencyGraph.ts",
+   "live": "CODE-ONLY (computed; no persisted graph table)",
+   "gaps": "No persisted project/route graph; PCI is per-run computation."
+  },
+  {
+   "service": "cost engine",
+   "files_tables": "api/_lib/site00OpusNative/costLedger.ts (receipts written as JSON FILES to opusNativeWorkDir/ledger \u2014 not DB); api/_lib/site00ExpressionEngine/storyboardGenerationCostGuard.ts; JURNL GENERATION_LEDGER.json files; PRODUCTION_COST_GUARD_RULES.json (PR #1357); shared/site00-evolve-operations spend watch (fixtures)",
+   "live": "PARTIAL / filesystem + docs",
+   "gaps": "No DB cost ledger, no per-project spend cap, no payer attribution (cost_provider_models.json recommends site00_generation_cost_ledger)."
+  },
+  {
+   "service": "funding",
+   "files_tables": "NONE (site00_projects.payment_state only)",
+   "live": "NO",
+   "gaps": "No funding_mode / production_expense_owner / budget; Stripe absent; payments simulated."
+  },
+  {
+   "service": "discount / promotion engine",
+   "files_tables": "shared/site00-existing-location/courtesy.ts; site00_courtesy_codes + site00_courtesy_redemptions (20261001150000) \u2014 service uses in-memory store; EVOLVE FOUNDATION_WAIVED_WITH_CANONICAL_INTELLIGENCE (foundationQualification.ts)",
+   "live": "PARTIAL (logic real; persistence memory-only)",
+   "gaps": "See discount_promotion."
+  },
+  {
+   "service": "provider connection engine",
+   "files_tables": "site00_provider_secrets (AES-256-GCM, org-scoped), site00_external_connections (20260820180000), site00_service_connections + site00_service_catalog + site00_project_service_requirements (20260818143000); api/_lib/site00Evolve/providers/*; api/_lib/site00Production/serviceAccess.ts",
+   "live": "YES (EVOLVE OAuth); project service_connections state-only",
+   "gaps": "Generation providers = SITE 00 env keys only; client connect-service sets arbitrary state unverified (client-production.ts:62-76); no BYOK."
+  },
+  {
+   "service": "notification engine (email registry)",
+   "files_tables": "shared/site00-email/ (84-template registry); api/_lib/email/sendEmail.ts; projectNotificationsService (memory)",
+   "live": "RENDER-ONLY",
+   "gaps": "EMAIL_PROVIDER unset -> 'not-configured'; in-memory idempotency; no preferences table; in-app notifications non-persistent."
+  },
+  {
+   "service": "project lifecycle",
+   "files_tables": "site00_projects.status CHECK (ACTIVE, PRE_INGESTION, ORIGIN_INGESTED, IDENTITY_IN_PROGRESS, IDENTITY_COMPLETE, INGESTION, PRODUCTION, ARCHIVED \u2014 20260825220000), current_phase (default DISCOVERY), project_health, payment_state, provisioning_state; PHASE_ORDER DISCOVERY..LAUNCH (serviceAccess.ts:4); intake lifecycle columns on site00_idnty_submissions / site00_bldr_intakes (20260821020947)",
+   "live": "YES (pre-launch)",
+   "gaps": "No LAUNCHED/LIVE/MAINTENANCE/POST_LAUNCH DB status; phase normalizer maps unknown -> DESIGN; no lifecycle transition log."
+  },
+  {
+   "service": "orchestration",
+   "files_tables": "api/_lib/site00Orchestration/* (manifestBuilder, readinessCalculator, deferralEngine, reconciliation, commandQueue, githubClient); tables site00_launch_manifests, site00_manifest_requirements, site00_requirement_dependencies, site00_manifest_deferrals, site00_launch_overrides, site00_workstreams, site00_orchestration_events, site00_reconciliation_records",
+   "live": "YES (Supabase canonical; memory when ORCHESTRATION_USE_MEMORY=1/VITEST)",
+   "gaps": "Org-scoped (site00_organizations) rather than project-scoped; EVOLVE-centric."
+  },
+  {
+   "service": "studio world adapter",
+   "files_tables": "api/_lib/studioWorld/{adapter,client,liveAdapter,mockAdapter}.ts; env STUDIO_WORLD_ADAPTER=mock|live, STUDIO_WORLD_API_BASE/KEY",
+   "live": "CONFIG-DEPENDENT (throws in production without live config)",
+   "gaps": "External dependency; no health surface."
+  },
+  {
+   "service": "design control plane (the only code 'control plane')",
+   "files_tables": "site00_managed_projects, site00_repo_bindings (+ bridge tables) 20260826123000/130000; shared/site00-design-control-plane; api/site00/design-control-plane.ts",
+   "live": "PARTIAL (store defaults to memory)",
+   "gaps": "Narrow scope (SITE00<->FSBW design change handoff); should become one subsystem of a broader control plane."
+  }
+ ],
+ "discount_promotion": {
+  "current": [
+   {
+    "mechanism": "Existing Location courtesy codes",
+    "files_tables": "supabase/migrations/20261001150000_site00_existing_location_service.sql:68-112 (site00_courtesy_codes, site00_courtesy_redemptions, site00_existing_location_quotes.discount_cents, cases.courtesy_redemption_id); shared/site00-existing-location/courtesy.ts; types.ts:207; api/_lib/existingLocation/service.ts:194-301; memoryStore.ts; api/admin/site00-existing-location.ts:58-73; api/site00/existing-location.ts; src/site00/pages/existing-location/ExistingLocationCasePage.tsx:208",
+    "generation": "Founder POST action create-courtesy-code with raw_code (founder-chosen string, normalized upper/no-space, stored as SHA-256 hash). No random generator.",
+    "rules": "active; redemptions_used < max_redemptions; valid_from <= now; expires_at; eligible_email; eligible_client_id; timing-safe hash compare.",
+    "overrides": "discount_type: PERCENT_100, FULL_CASE_COMP, FIXED_AMOUNT (cents), DIAGNOSIS_ONLY, LABOR_ONLY, SPECIFIC_SERVICE (value cents).",
+    "credits": "None (no stored-value credit).",
+    "waivers": "Effectively full comps (PERCENT_100/FULL_CASE_COMP) -> case status COMPLIMENTARY_APPROVED + entitlement {complimentary:true}.",
+    "client_pricing": "Only via eligible_email / eligible_client_id restriction; quotes are per-case founder-authored line items.",
+    "limits": "max_redemptions (default 1).",
+    "expiration": "expires_at optional; valid_from.",
+    "redemption": "completeCheckout(): increments redemptions_used, writes redemption record, audit event COURTESY_CODE_APPLIED; if final total > 0 throws PAYMENT_REQUIRED (no payment provider). previewCourtesyCode for validation.",
+    "scope": "eligible_services column default ['EXISTING_LOCATION'] but validateCourtesyForQuote never checks it; service-specific by construction only.",
+    "audit": "case_events audit() in memory; created_by + founder_note on code; redemptions table (schema).",
+    "ui": "Client: courtesy code input on existing-location checkout. Founder: NONE \u2014 API only; SITE00_ROUTES.existingLocationAdmin constant has no mounted admin route/page.",
+    "persistence_note": "Service uses in-memory Maps (api/_lib/existingLocation/memoryStore.ts); no code reads/writes site00_courtesy_* tables. Codes vanish on Railway restart."
+   },
+   {
+    "mechanism": "EVOLVE Foundation waiver",
+    "files_tables": "api/_lib/site00Evolve/commercial/foundationQualification.ts:6,45,90; shared/site00-evolve-commercial/types.ts:116",
+    "generation": "Derived automatically when canonical Identity intelligence exists.",
+    "rules": "Status FOUNDATION_WAIVED_WITH_CANONICAL_INTELLIGENCE only if underlying canonical data actually present.",
+    "overrides": "Skips Foundation purchase requirement.",
+    "credits": "None",
+    "waivers": "Yes (rule-based)",
+    "client_pricing": "No",
+    "limits": "n/a",
+    "expiration": "n/a",
+    "redemption": "Implicit",
+    "scope": "EVOLVE Foundation",
+    "audit": "None dedicated",
+    "ui": "None for founder override"
+   },
+   {
+    "mechanism": "EVOLVE plan catalog + entitlements",
+    "files_tables": "shared/site00-evolve-commercial/catalog.ts (priceCents, priceQualifier FIXED|STARTING_AT, stripePriceId), entitlements.ts (channel/campaign/asset caps), api/_lib/site00Evolve/commercial/commercialState.ts (usageMetering NOT_AVAILABLE), site00_marketing_engagements.commercial_state jsonb (20260929153000), identity commercial state (20260929160000)",
+    "generation": "Static catalog",
+    "rules": "isWithin*Entitlement caps",
+    "overrides": "No per-client price override found",
+    "credits": "No",
+    "waivers": "No",
+    "client_pricing": "No",
+    "limits": "Plan caps (channels/campaigns/monthly assets)",
+    "expiration": "No",
+    "redemption": "n/a",
+    "scope": "EVOLVE marketing",
+    "audit": "commercial_state jsonb usage events (uncounted)",
+    "ui": "/admin/site00/orchestration/:orgSlug/evolve/plans (view)"
+   },
+   {
+    "mechanism": "Monetization contract (project-agnostic)",
+    "files_tables": "shared/site00-monetization/{contract.ts, entitlements.ts, serverAuthorization.ts}",
+    "generation": "Declarative",
+    "rules": "UsageLimit {limitType, period, tier LIMITED|HIGHER|UNLIMITED}; add-ons lift limits",
+    "overrides": "No",
+    "credits": "No",
+    "waivers": "No",
+    "client_pricing": "No",
+    "limits": "Yes (structural)",
+    "expiration": "No",
+    "redemption": "No",
+    "scope": "Personal products (e.g. JURNL)",
+    "audit": "No",
+    "ui": "None \u2014 explicitly 'never implies billing is live'"
+   },
+   {
+    "mechanism": "Launch requirement overrides (not pricing)",
+    "files_tables": "site00_launch_overrides (approver_email, reason, impact_acknowledgment); api/_lib/site00Orchestration/orchestrationService.ts:285",
+    "generation": "Founder action",
+    "rules": "Per manifest requirement",
+    "overrides": "Readiness requirement bypass",
+    "credits": "No",
+    "waivers": "Requirement waiver",
+    "client_pricing": "No",
+    "limits": "No",
+    "expiration": "No",
+    "redemption": "n/a",
+    "scope": "Launch manifest",
+    "audit": "Row = audit",
+    "ui": "Orchestration admin"
+   },
+   {
+    "mechanism": "Credit limit / credit exhaustion signals",
+    "files_tables": "shared/site00-evolve-operations/clientFirewall.ts:46-54 (CREDIT_WARNING/CREDIT_LIMIT), clientRiskIntelligence.ts:36, failureLoopIntelligence.ts:33-57 (INSUFFICIENT_CREDITS)",
+    "generation": "Fixture intelligence",
+    "rules": "Classifies provider credit failures",
+    "overrides": "No",
+    "credits": "Concept only \u2014 no credit balance store",
+    "waivers": "No",
+    "client_pricing": "No",
+    "limits": "Conceptual",
+    "expiration": "No",
+    "redemption": "No",
+    "scope": "EVOLVE ops",
+    "audit": "No",
+    "ui": "/control/evolve-operations (fixtures)"
+   }
+  ],
+  "gaps": [
+   "No general promotion engine: courtesy codes are hard-wired to EXISTING_LOCATION quotes; eligible_services stored but never enforced.",
+   "Courtesy persistence is in-memory despite tables existing \u2014 redemption limits and audit not durable; multi-instance would double-redeem.",
+   "No founder management UI (list/create/deactivate/redemption history) \u2014 only raw POST API.",
+   "No code generation (random/unique), no bulk/campaign codes, no per-code stacking rules, no min-spend, no currency scope.",
+   "No project credits / stored value / prepaid generation credits ledger.",
+   "No client-specific pricing overrides or price book; quotes are ad hoc line items.",
+   "No usage-limit enforcement tied to billing (usageMetering NOT_AVAILABLE).",
+   "No unified audit trail for commercial adjustments (who granted what, why, against which project).",
+   "Payment provider absent -> any non-zero final total blocks checkout (PAYMENT_REQUIRED)."
+  ],
+  "recommendation": {
+   "engine": "CONTROL PLANE: a project-agnostic Commercial Adjustments engine (shared/site00-commercial-adjustments + api/_lib) generalizing courtesy.ts: adjustment types (DISCOUNT_PERCENT, DISCOUNT_FIXED, COMP/WAIVER, PROJECT_CREDIT, PRICE_OVERRIDE, USAGE_LIMIT_OVERRIDE), scope (service/package/project/client/identity), eligibility, validity window, max redemptions, stacking policy, Supabase-persisted (reuse/extend site00_courtesy_codes + site00_courtesy_redemptions into site00_commercial_adjustments + site00_adjustment_applications + append-only audit), enforced server-side at quote/checkout/entitlement resolution for every service (Existing Location, BLDR, IDNTY, EVOLVE). Credits as a ledger table with balances derived.",
+   "founder_surface": "FOUNDER CONTROL ROOM > COMMERCIAL: create/deactivate codes, grant per-client pricing or project credits, set waivers, view redemptions + audit. Project-specific application (e.g. 'comp this case') appears in-context inside project management, but the policy objects and history live in Founder Control Room. Client Control Room shows only the client's own redemptions/credits/receipts."
+  }
+ },
+ "placement_rule": {
+  "engine": "CONTROL PLANE: a project-agnostic Commercial Adjustments engine (shared/site00-commercial-adjustments + api/_lib) generalizing courtesy.ts: adjustment types (DISCOUNT_PERCENT, DISCOUNT_FIXED, COMP/WAIVER, PROJECT_CREDIT, PRICE_OVERRIDE, USAGE_LIMIT_OVERRIDE), scope (service/package/project/client/identity), eligibility, validity window, max redemptions, stacking policy, Supabase-persisted (reuse/extend site00_courtesy_codes + site00_courtesy_redemptions into site00_commercial_adjustments + site00_adjustment_applications + append-only audit), enforced server-side at quote/checkout/entitlement resolution for every service (Existing Location, BLDR, IDNTY, EVOLVE). Credits as a ledger table with balances derived.",
+  "founder_surface": "FOUNDER CONTROL ROOM > COMMERCIAL: create/deactivate codes, grant per-client pricing or project credits, set waivers, view redemptions + audit. Project-specific application (e.g. 'comp this case') appears in-context inside project management, but the policy objects and history live in Founder Control Room. Client Control Room shows only the client's own redemptions/credits/receipts."
+ }
+}

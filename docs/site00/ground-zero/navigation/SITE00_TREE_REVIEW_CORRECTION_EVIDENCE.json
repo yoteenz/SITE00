@@ -1,0 +1,186 @@
+{
+ "artifact": "SITE00_TREE_REVIEW_CORRECTION_EVIDENCE",
+ "sprint": "P0.SITE00.GROUND-ZERO-NAVIGATION-SPATIAL-SHELL-INTERACTION-FORENSIC1",
+ "status": "EVIDENCE + PROPOSAL (Opus tree still PROPOSED_BY_OPUS; founder tree NOT locked; 0 route changes)",
+ "commit": "2ac4059",
+ "represented_well": [
+  "Route discovery (367/357, AST-verified)",
+  "Client review loop gaps",
+  "Production project scoping gap",
+  "Bench/experiment sprawl",
+  "Auth/registry/firewall security findings",
+  "Public dead links / draft gates"
+ ],
+ "undermodeled": [
+  {
+   "item": "FAST TRAVEL",
+   "prior": "listed only as a nav system row (navigation.json)",
+   "now": "a contextual global overlay with 11 page profiles, 20 destinations, mobile-only, role-blind \u2014 a first-class layer-B system"
+  },
+  {
+   "item": "ENTER 00 / WAITING ROOM / LOCATIONS",
+   "prior": "reduced to \"two directories, merge LOCATIONS as MAP state\"",
+   "now": "a spatial entry system (layer C): ORIGIN \u2192 SWIPE-UP/ENTER 00 \u2192 WAITING ROOM (mobile composition = LOCATIONS) \u2192 EXIT 00"
+  },
+  {
+   "item": "SWIPE-UP",
+   "prior": "not modeled",
+   "now": "gesture portal to LOCATIONS (not ENTER 00); accessible button alternative exists"
+  },
+  {
+   "item": "EXIT 00",
+   "prior": "mentioned as a locked name only",
+   "now": "inverse spatial portal with 3 render sites and one conflicting meaning (design workspace)"
+  },
+  {
+   "item": "Project switchers",
+   "prior": "one row (production selector)",
+   "now": "6 switchers with 4 storage mechanisms and broken landing behaviour"
+  },
+  {
+   "item": "Context switchers / transitions",
+   "prior": "not modeled",
+   "now": "9 context switchers (3 never render) + cold-start/loader transitions"
+  },
+  {
+   "item": "Non-route surfaces",
+   "prior": "35 appended from two audits",
+   "now": "43 inventoried (34 material)"
+  }
+ ],
+ "missing": [
+  "FOUNDER CONTROL ROOM (account/profile/security/notifications/defaults/commercial)",
+  "Client CONTROL ROOM as account/settings (distinct from project management)",
+  "CONTROL PLANE as an infrastructure layer (vs \"system capabilities\" list)",
+  "Commercial adjustments (discount/promotion/credits/waivers) engine + management surface",
+  "CLIENT SITES (MY SITES) with site actions",
+  "Project post-launch lifecycle (LAUNCHED/MAINTENANCE/EVOLVE/PAUSED)",
+  "Site \u2194 project linkage rules",
+  "LOG OUT / EXIT PROJECT distinctions"
+ ],
+ "flattened_incorrectly": [
+  {
+   "item": "11 peer families",
+   "why": "Families mixed different kinds of thing: page families (IDNTY), app shells (CLIENT APP), infrastructure (system capabilities), container layers (PROJECT RUNTIMES), machinery (STUDIO OS LAB) and spatial systems (not modeled). Experience tree now uses layers A\u2013J."
+  },
+  {
+   "item": "ACCESS & CTRL ROOM",
+   "why": "Bundled auth entry + account settings + MY PROJECTS + MY INTAKES + MY SITES. Founder rule: control room \u2260 project management. Split: ACCESS (entry) \u00b7 CLIENT CONTROL ROOM (account) \u00b7 YOUR SPACE (projects, sites, intakes)."
+  },
+  {
+   "item": "00 / CONTROL",
+   "why": "Treated as one operator family; it mixes FOUNDER CONTROL ROOM concerns (settings, commercial, team, provider connections), project management (registry, provisioning, reviews) and business operations."
+  },
+  {
+   "item": "SYSTEM CAPABILITIES",
+   "why": "Correct idea, wrong framing: it is the CONTROL PLANE (founder term); code's \"control plane\" means something narrower (design handoff bridge)."
+  },
+  {
+   "item": "PROJECT RUNTIMES",
+   "why": "Listed as a family; evidence shows it is a platform container layer that mounts project outputs into production preview and client live review."
+  },
+  {
+   "item": "STUDIO OS LAB",
+   "why": "Renamed the locked ontology; STUDIO OS is the root (machinery); LAB is its internal surface."
+  },
+  {
+   "item": "SITES",
+   "why": "Only a public showcase node; sites also have a client variant and a lifecycle independent of projects."
+  }
+ ],
+ "prior_changes_to_reconsider": [
+  {
+   "change_id": "TC010",
+   "what": "ADD CTRL.PROJECTS (/control/projects)",
+   "reconsider": "Project list must not live in CONTROL ROOM \u2192 YOUR SPACE \u203a MY PROJECTS."
+  },
+  {
+   "change_id": "TC011",
+   "what": "MOVE /account/intakes \u2192 /control/intakes",
+   "reconsider": "Intakes are pre-project records \u2192 YOUR SPACE \u203a MY INTAKES, not CONTROL ROOM."
+  },
+  {
+   "change_id": "TC013",
+   "what": "COLLAPSE CTRL settings sections",
+   "reconsider": "Keep, but as CLIENT CONTROL ROOM sections (profile, security, notifications, payments, providers, membership) \u2014 billing/domains placement re-check."
+  },
+  {
+   "change_id": "TC014",
+   "what": "MOVE /control/evolve-operations \u2192 CONTROL",
+   "reconsider": "Still correct; destination becomes OPERATIONS console, not a control room."
+  },
+  {
+   "change_id": "TC026",
+   "what": "MERGE admin projects + provisioning \u2192 CONTROL PROJECTS",
+   "reconsider": "Project management belongs with production/operations \u2014 confirm it is not placed in FOUNDER CONTROL ROOM."
+  },
+  {
+   "change_id": "TC027",
+   "what": "MERGE CONTROL REVIEWS + INBOX",
+   "reconsider": "Keep; place cross-project review view in operations/production, not a control room."
+  },
+  {
+   "change_id": "TC028",
+   "what": "Re-point CONTROL/production cross-links",
+   "reconsider": "Keep; production menu \"CONTROL\" should split into CONTROL ROOM (founder account) and OPERATIONS."
+  },
+  {
+   "change_id": "TC029\u2013TC032",
+   "what": "LAB namespace + moves",
+   "reconsider": "Keep routes; rename family to STUDIO OS \u203a LAB."
+  },
+  {
+   "change_id": "TC033",
+   "what": "MERGE /enter + /origin/locations (MAP state)",
+   "reconsider": "Replace with: one WAITING ROOM system, two viewport compositions, one destination registry; SWIPE-UP and ENTER 00 both open it."
+  },
+  {
+   "change_id": "TC034",
+   "what": "ALIAS /origin \u2192 /",
+   "reconsider": "Keep, but EXIT 00 and the LOCATIONS desktop redirect target /origin today \u2014 update together."
+  },
+  {
+   "change_id": "TC048",
+   "what": "Intake COMPLETE \u2192 CTRL.INTAKES",
+   "reconsider": "Hand off to YOUR SPACE \u203a MY INTAKES instead of a control room."
+  },
+  {
+   "change_id": "TC039",
+   "what": "DEMOTE /sound \u2192 setting",
+   "reconsider": "Check SOUND against ORIGIN/ENTER environment audio in the spatial layer before demoting."
+  },
+  {
+   "change_id": "PUB.SITES node",
+   "what": "SITES as public showcase only",
+   "reconsider": "Add CLIENT SITES (YOUR SPACE \u203a MY SITES) + site lifecycle + site\u2192project link."
+  },
+  {
+   "change_id": "F05/F08/F09/F10 family definitions",
+   "what": "ACCESS & CTRL ROOM \u00b7 00/CONTROL \u00b7 PROJECT RUNTIMES \u00b7 STUDIO OS LAB",
+   "reconsider": "Re-cast as layers per SITE00_EXPERIENCE_TREE.json."
+  }
+ ],
+ "re_evaluations": {
+  "ACCESS & CTRL ROOM vs 00/CONTROL vs CONTROL ROOM vs CONTROL PLANE": "RELATED BUT DISTINCT + LEGACY NAMING. ACCESS = entry to the account layer; CONTROL ROOM (client/founder) = account/settings UI; 00/CONTROL = operations console mixing founder settings, project management and business ops; CONTROL PLANE = infrastructure. \"CTRL ROOM\" names two different places today; \"control plane\" in code names only the design handoff bridge.",
+  "STUDIO OS LAB": "LAB is a child surface of STUDIO OS (machinery root). Do not rename the ontology.",
+  "PROJECT RUNTIMES": "PLATFORM_CONTAINER_LAYER \u2014 mounts SITE 00, JURNL, AIO, FRONTAL SLAYER and future products; not a page family.",
+  "ENTER 00": "SPATIAL_PORTAL that opens the WAITING ROOM (DIRECTORY_PLACE).",
+  "FAST TRAVEL": "GLOBAL_DESTINATION_SWITCHER (contextual shortcut overlay), layer B."
+ },
+ "reconsider_before_founder_lock": [
+  "U1 audience-first vs project-first (unchanged)",
+  "U2 WAITING ROOM \u2194 LOCATIONS \u2014 now evidence-backed proposal: one system, two compositions",
+  "NEW U10 founder control room scope (what moves out of 00/CONTROL)",
+  "NEW U11 client control room vs YOUR SPACE split",
+  "NEW U12 FAST TRAVEL scope (mobile-only today; every shell?)",
+  "NEW U13 project/site lifecycle states",
+  "NEW U14 \"control plane\" naming collision in code",
+  "NEW U15 EXIT 00 meaning inside internal shells"
+ ],
+ "counts": {
+  "undermodeled": 7,
+  "missing": 8,
+  "flattened_incorrectly": 7,
+  "prior_changes_to_reconsider": 14
+ }
+}

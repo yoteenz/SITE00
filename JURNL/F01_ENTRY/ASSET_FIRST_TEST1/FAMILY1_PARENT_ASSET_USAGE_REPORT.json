@@ -1,0 +1,25 @@
+{
+  "sprint": "P0.SITE00.FAMILY1.ASSET-FIRST.SEMANTIC-ISOLATION-INTELLIGENCE.CORRECTION1",
+  "whole_page_image_used": false,
+  "note": "Environment plate is a scene without live type or buttons. Headline, tagline, and CTAs are DOM.",
+  "assets": [
+    {
+      "asset_id": "ENTRY.ENVIRONMENT.PLATE.001",
+      "runtime_path": "/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png",
+      "component": "EnvironmentPlate",
+      "route": "/jurnl/f01/parent-assembly",
+      "rendered": true,
+      "fallback_used": false,
+      "duplicate_generated": false
+    },
+    {
+      "asset_id": "ENTRY.LOGO.OFFICIAL.001",
+      "runtime_path": "/jurnl/f01-asset-first/assets/ENTRY.LOGO.OFFICIAL.001.jpg",
+      "component": "OfficialLogo",
+      "route": "/jurnl/f01/parent-assembly",
+      "rendered": true,
+      "fallback_used": false,
+      "duplicate_generated": false
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "specId": "SITE00-P0.5A-SITE-PRODUCTION-METHODOLOGY",
+  "methodologyVersion": "P0.5A_PRODUCTION_METHODOLOGY_CORRECTIONS",
+  "correctedPipeline": [
+    "PROJECT_INTELLIGENCE",
+    "SITE_STRATEGY",
+    "SITE_ARCHITECTURE",
+    "INFORMATION_ARCHITECTURE",
+    "PAGE_INVENTORY",
+    "PAGE_FAMILY_FORMATION",
+    "EXPERIENCE_EXPRESSION",
+    "FAMILY_SURFACE_ART_DIRECTION",
+    "ASSET_DIRECTION",
+    "REPRESENTATIVE_VISUAL_DEVELOPMENT",
+    "SITE_COHERENCE_REVIEW",
+    "IMPLEMENTATION_CONTRACTS",
+    "COMPOSER",
+    "FIDELITY_REVIEW"
+  ],
+  "models": {
+    "SiteStrategy": "shared/site00-studio-world-production/siteProductionTypes.ts",
+    "SiteArchitecture": "shared/site00-studio-world-production/siteProductionTypes.ts",
+    "SiteInformationArchitecture": "shared/site00-studio-world-production/siteProductionTypes.ts",
+    "SitePageInventory": "shared/site00-studio-world-production/siteProductionTypes.ts",
+    "SitePageFamily": "shared/site00-studio-world-production/siteProductionTypes.ts",
+    "SiteSurfaceExperienceBrief": "shared/site00-studio-world-production/siteProductionTypes.ts",
+    "SiteCoherenceEvaluation": "shared/site00-studio-world-production/siteProductionTypes.ts",
+    "SiteProductionReadinessEvaluation": "shared/site00-studio-world-production/siteProductionTypes.ts"
+  },
+  "heroProofRole": "DIRECTIONAL_NORTH_STAR",
+  "heroSufficientForImplementation": false,
+  "representativeFamilyProofs": true,
+  "composerConnected": false,
+  "migrationProvenance": "MIGRATED_FROM_EXISTING_IMPLEMENTATION",
+  "falseReadinessCorrected": true,
+  "siteReadyCannotClaimFrom": [
+    "hero proof approved alone",
+    "Experience Concept approved alone",
+    "asset manifest compiled alone",
+    "Visual Development complete alone"
+  ]
+}

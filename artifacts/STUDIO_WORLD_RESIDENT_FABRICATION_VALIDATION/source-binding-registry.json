@@ -1,0 +1,190 @@
+{
+  "projectId": "Q7IHYCEK3RPn2c1ConEG",
+  "residents": {
+    "SW-001": {
+      "supersededOpenArtUploadIds": [
+        "h5j5eTZfam3mnxVql57l",
+        "J1pti9PD9lpTn3GPewtA"
+      ],
+      "workLook": {
+        "sha256": "4095c61c5c5e03396567e939f513c0e76fe35188eb1ed0f98b9d690c4ec560d1",
+        "visualReference": {
+          "type": "image",
+          "id": "fujq0PYW5H3SwY15Oq35",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-001_ETTA_VALE_1791140398969_2a242866.jpg",
+          "label": "SW-001 workLook sha256:4095c61c5c5e0339"
+        }
+      },
+      "bodyGeometry": {
+        "sha256": "35a4ec47c32769d20b9129ea4e00b00e417ad3a1ac2b2efd73e7ef8052751fb8",
+        "visualReference": {
+          "type": "image",
+          "id": "rwQsQDZLOzO7JoBzSRTW",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/etta-vale__natural-full-body__sophisticated-fashionista_1791140399453_21eb1044.jpg",
+          "label": "SW-001 bodyGeometry sha256:35a4ec47c32769d2"
+        }
+      }
+    },
+    "SW-002": {
+      "supersededOpenArtUploadIds": [
+        "vle2d0B4VdhTDw8SXyqD"
+      ],
+      "workLook": {
+        "sha256": "ea9f8a6ee37da595bc2d4fa509ee217fd9b6fee6b92a28050f591f44bd87931b",
+        "visualReference": {
+          "type": "image",
+          "id": "ApnGwxPFbKexSRZ8Dqhm",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-002_ZURI_XU_1791159960208_5cb7f6f2.jpg",
+          "label": "SW-002 workLook sha256:ea9f8a6ee37da595"
+        }
+      },
+      "bodyGeometry": {
+        "sha256": "6deaa462820ee313a14ffcda3b3e1f1ab57b097ef2f48e76c9c249f164855881",
+        "visualReference": {
+          "type": "image",
+          "id": "PFPUznC26GOknyrhnoRX",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/zuri-xu__natural-full-body__architectural-fashion-strategist_1791159960616_8953eb27.jpg",
+          "label": "SW-002 bodyGeometry sha256:6deaa462820ee313"
+        }
+      }
+    },
+    "SW-003": {
+      "supersededOpenArtUploadIds": [
+        "SVgwHX31K3HViJKxHeiK"
+      ],
+      "workLook": {
+        "sha256": "4e61ad0fdc90a80ae144d7bc2787a9cd5a53a7ffb6d124f6ff22ac6d20ad9640",
+        "visualReference": {
+          "type": "image",
+          "id": "UT7bIEtpMYTbiuD0deO3",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-003_JULES_MERCER_1791159961086_8f43c46c.jpg",
+          "label": "SW-003 workLook sha256:4e61ad0fdc90a80a"
+        }
+      },
+      "bodyGeometry": {
+        "sha256": "79455346245daa45ebbaa6da8caa3562cc89c627691ea4c05cad56aa3a91f400",
+        "visualReference": {
+          "type": "image",
+          "id": "T2C5vHCWojfJUMJAj2in",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/jules-mercer__natural-full-body__relaxed-romantic_1791159961520_2f7a55a5.jpg",
+          "label": "SW-003 bodyGeometry sha256:79455346245daa45"
+        }
+      }
+    },
+    "SW-004": {
+      "supersededOpenArtUploadIds": [
+        "UAcwfXEBhxIUJV9Tq2Id"
+      ],
+      "workLook": {
+        "sha256": "a0dfbb2fd3158d88d0d114a43f6baf4eea01a669470b0fb2b5e84e9e73e0c362",
+        "visualReference": {
+          "type": "image",
+          "id": "b74KfWBQojsM06MZdJJU",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-004_NOA_KLINE_1791159961912_74c3c79f.jpg",
+          "label": "SW-004 workLook sha256:a0dfbb2fd3158d88"
+        }
+      },
+      "bodyGeometry": {
+        "sha256": "431357a7ec648a0411ea0d104f3db5bd19d10185b4a1b6b3ee130d8a9942a166",
+        "visualReference": {
+          "type": "image",
+          "id": "1El7TQvuiXDB2Rh1HLIb",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/noa-kline__natural-full-body__understated-systems-dad_1791159962445_a33d74e1.jpg",
+          "label": "SW-004 bodyGeometry sha256:431357a7ec648a04"
+        }
+      }
+    },
+    "SW-005": {
+      "supersededOpenArtUploadIds": [
+        "amks2ddUaF2iQZ43zBwL"
+      ],
+      "workLook": {
+        "sha256": "b28df53d74ad02e2481107efc6c42c940f41920260f0d53c0c3917232bc4a680",
+        "visualReference": {
+          "type": "image",
+          "id": "isbIqB5ykRBuOJ6YV7EE",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-005_CASPIAN_REED_1791159962965_c0664810.jpg",
+          "label": "SW-005 workLook sha256:b28df53d74ad02e2"
+        }
+      },
+      "bodyGeometry": {
+        "sha256": "60fbb7584f2d4965e6f2102260d359b3bb122530009e19d3b3096455c0c68c09",
+        "visualReference": {
+          "type": "image",
+          "id": "EXq5LBUxgh1Kfq1HuwOw",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/caspian-reed__natural-full-body__decadent-bohemian-aristocrat_1791159963503_af387443.jpg",
+          "label": "SW-005 bodyGeometry sha256:60fbb7584f2d4965"
+        }
+      }
+    },
+    "SW-006": {
+      "supersededOpenArtUploadIds": [
+        "4uKCpVNe4lVwuNphJ1ZE"
+      ],
+      "workLook": {
+        "sha256": "313a5f16e86c4eb26a206ee15f4d11de8a25e59a9d7ba02bb7bfb178923bc55b",
+        "visualReference": {
+          "type": "image",
+          "id": "Ytgk8zeUuu3LI30JtRnU",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-006_IONA_WELLS_1791159971825_7e52d1e8.jpg",
+          "label": "SW-006 workLook sha256:313a5f16e86c4eb2"
+        }
+      },
+      "bodyGeometry": {
+        "sha256": "fab89b42ed7a3931f9bdee564dc9456a28a96bc580747f023e31ad3c9f84563e",
+        "visualReference": {
+          "type": "image",
+          "id": "4vNk4lE7LX1BxZt3qk23",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/iona-wells__natural-full-body__precision-utilitarian_1791159972297_e4b28480.jpg",
+          "label": "SW-006 bodyGeometry sha256:fab89b42ed7a3931"
+        }
+      }
+    },
+    "SW-007": {
+      "supersededOpenArtUploadIds": [
+        "Ya5qIVkyUDbpRo0aKtXn"
+      ],
+      "workLook": {
+        "sha256": "47ca8ac4698d3bc504890f1f29eaa69d669406480258754dd73eaf4c565c6ef5",
+        "visualReference": {
+          "type": "image",
+          "id": "NJnJaF2wvfKS60WYyykX",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-007_MARLOWE_SAINT_1791159972795_1790a19a.jpg",
+          "label": "SW-007 workLook sha256:47ca8ac4698d3bc5"
+        }
+      },
+      "bodyGeometry": {
+        "sha256": "e51d4d2cc4a3cce9ece61d6729164d16f86e5ed91e4fae1034da042b9bfb91d4",
+        "visualReference": {
+          "type": "image",
+          "id": "MqS8qc6HmSDvb5Vve1Nm",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/marlowe-saint__natural-full-body__off-duty-cultural-icon_1791159973776_4eb22cb6.jpg",
+          "label": "SW-007 bodyGeometry sha256:e51d4d2cc4a3cce9"
+        }
+      }
+    },
+    "SW-008": {
+      "supersededOpenArtUploadIds": [
+        "S4sMbvS3qX4uqoQ9RQvF"
+      ],
+      "workLook": {
+        "sha256": "86fe54c8b0f26494e985aaba2946ec1c9edc79a9846d7334a86767ee3763af04",
+        "visualReference": {
+          "type": "image",
+          "id": "8IyCz2KvKRyNfTVOuWpz",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/SW-RESIDENT-008_ELIO_EV_VAHN_1791159974263_a207b18c.jpg",
+          "label": "SW-008 workLook sha256:86fe54c8b0f26494"
+        }
+      },
+      "bodyGeometry": {
+        "sha256": "4ce6990b48dab0937ec3c5f9f8d9bed9b47f8af425518a825337770cf4b65fae",
+        "visualReference": {
+          "type": "image",
+          "id": "CP2XbUbo8JVLV0IEvsXj",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/elio-vahn__natural-full-body__private-club-strategist_1791159974793_d87824a6.jpg",
+          "label": "SW-008 bodyGeometry sha256:4ce6990b48dab093"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4509 @@
+{
+ "generated": "2026-10-05",
+ "totals": {
+  "routes": 200,
+  "EXACT_AUTHORITY_FOUND": 175,
+  "PARTIAL_AUTHORITY": 13,
+  "MULTIPLE_CONFLICTING_AUTHORITIES": 7,
+  "NO_AUTHORITY_FOUND": 5
+ },
+ "by_family": {
+  "HUB": {
+   "EXACT_AUTHORITY_FOUND": 1,
+   "PARTIAL_AUTHORITY": 1
+  },
+  "INBOX": {
+   "EXACT_AUTHORITY_FOUND": 1,
+   "MULTIPLE_CONFLICTING_AUTHORITIES": 5,
+   "PARTIAL_AUTHORITY": 3,
+   "NO_AUTHORITY_FOUND": 5
+  },
+  "DESIGN": {
+   "EXACT_AUTHORITY_FOUND": 6,
+   "PARTIAL_AUTHORITY": 7
+  },
+  "EXPERIENCE": {
+   "MULTIPLE_CONFLICTING_AUTHORITIES": 1,
+   "EXACT_AUTHORITY_FOUND": 46
+  },
+  "LIBRARY": {
+   "MULTIPLE_CONFLICTING_AUTHORITIES": 1,
+   "EXACT_AUTHORITY_FOUND": 75
+  },
+  "EXPRESSION": {
+   "EXACT_AUTHORITY_FOUND": 41,
+   "PARTIAL_AUTHORITY": 1
+  },
+  "ACTIVITY": {
+   "EXACT_AUTHORITY_FOUND": 5,
+   "PARTIAL_AUTHORITY": 1
+  }
+ },
+ "routes": [
+  {
+   "route": "/production",
+   "family": "HUB",
+   "state": "root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:HUBREF:d89b8fd6-image.png",
+    "UP:T12:Mobile/IMG_5922.jpg"
+   ],
+   "tablet_authority": [
+    "UP:HUBREF:c77b4b50-image.png",
+    "UP:T12:Tablet/IMG_6004.jpg"
+   ],
+   "desktop_authority": [
+    "UP:HUBREF:0af8bf87-image.png",
+    "UP:T12:Desktop/IMG_5981.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "HUBREF + T12 + PAR3V 00_HUB",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Host chrome on tablet/desktop per D-SHELL-CANON. UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/00_HUB.jpg"
+  },
+  {
+   "route": "/production?view=machine",
+   "family": "HUB",
+   "state": "legacy machine",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/00_PRODUCTION_HUB_BASE_AUTHORITY.jpeg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/01_SCENE_SELECTOR.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/02_CHAMBER_NODE_SELECTED.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/03_NODE_INSPECTOR.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/04_FLOW_MODE.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/05_DEPENDENCIES_MODE.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/06_CENTRAL_ARTIFACT_EXPANDED.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/07_STORYBOARD_AUTHORITY_EXPANDED.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/08_FRAME_LIGHTBOX.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/09_COMPARE_AUTHORITIES.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/10_FOUNDER_DECISION.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/11_ON_YOUR_TABLE_ITEM_EXPANDED.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/12_RECENT_ACTIVITY_EXPANDED.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/13_PROJECT_PRODUCTION_SELECTOR.jpeg",
+    "UP:HUBPK:SITE00_PRODUCTION_HUB_AUTHORITY_PACK/14_ATTENTION_INBOX_QUICK_VIEW.jpeg"
+   ],
+   "governing": "HUBPK 00 (+01\u201314 states)",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "LEGACY_LOCKED; mobile-only authority; not refined in this sprint."
+  },
+  {
+   "route": "/production/queue",
+   "family": "INBOX",
+   "state": "NEEDS YOU",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5924.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/00_inbox-root-needs-you.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6005.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5982.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "PAR3V 01_INBOX + IBX2 00 (D-INBOX-ROOT)",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/01_INBOX.jpg"
+  },
+  {
+   "route": "/production/queue?view=watching",
+   "family": "INBOX",
+   "state": "watching",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/01_watching.jpg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [
+    "UNRESOLVED:IBX2 02_DESKTOP_TABLET watching"
+   ],
+   "interaction_authority": [],
+   "governing": "D-INBOX-FINAL (presentation) + IBX2 (model/copy)",
+   "classification": "MULTIPLE_CONFLICTING_AUTHORITIES",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Desktop/tablet IBX2 boards exist only as OpenArt CDN URLs (cdn.openart.ai blocked by this container network policy). IA3V lens boards superseded."
+  },
+  {
+   "route": "/production/queue?view=resolved",
+   "family": "INBOX",
+   "state": "resolved",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/02_resolved.png"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [
+    "UNRESOLVED:IBX2 02_DESKTOP_TABLET resolved"
+   ],
+   "interaction_authority": [],
+   "governing": "D-INBOX-FINAL (presentation) + IBX2 (model/copy)",
+   "classification": "MULTIPLE_CONFLICTING_AUTHORITIES",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Desktop/tablet IBX2 boards exist only as OpenArt CDN URLs (cdn.openart.ai blocked by this container network policy). IA3V lens boards superseded."
+  },
+  {
+   "route": "/production/queue?view=all",
+   "family": "INBOX",
+   "state": "all-inbox",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/03_all-inbox.jpg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [
+    "UNRESOLVED:IBX2 02_DESKTOP_TABLET all-inbox"
+   ],
+   "interaction_authority": [],
+   "governing": "D-INBOX-FINAL (presentation) + IBX2 (model/copy)",
+   "classification": "MULTIPLE_CONFLICTING_AUTHORITIES",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Desktop/tablet IBX2 boards exist only as OpenArt CDN URLs (cdn.openart.ai blocked by this container network policy). IA3V lens boards superseded."
+  },
+  {
+   "route": "/production/queue?view=messages",
+   "family": "INBOX",
+   "state": "messages",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/04_messages.jpg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [
+    "UNRESOLVED:IBX2 02_DESKTOP_TABLET messages"
+   ],
+   "interaction_authority": [],
+   "governing": "D-INBOX-FINAL (presentation) + IBX2 (model/copy)",
+   "classification": "MULTIPLE_CONFLICTING_AUTHORITIES",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Desktop/tablet IBX2 boards exist only as OpenArt CDN URLs (cdn.openart.ai blocked by this container network policy). IA3V lens boards superseded."
+  },
+  {
+   "route": "/production/queue?view=system",
+   "family": "INBOX",
+   "state": "system",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:IA3V:STUDIOOS_INBOX_ACTIVITY_3VIEW_AUTHORITY_LITE_v1/INBOX/01_CHILDREN/inbox-system-three-viewports.jpg",
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/05_system.jpg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [
+    "UNRESOLVED:IBX2 02_DESKTOP_TABLET system"
+   ],
+   "interaction_authority": [],
+   "governing": "D-INBOX-FINAL (presentation) + IBX2 (model/copy)",
+   "classification": "MULTIPLE_CONFLICTING_AUTHORITIES",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Desktop/tablet IBX2 boards exist only as OpenArt CDN URLs (cdn.openart.ai blocked by this container network policy). IA3V lens boards superseded."
+  },
+  {
+   "route": "/production/queue?item=:id",
+   "family": "INBOX",
+   "state": "decision-detail",
+   "kind": "grandchild",
+   "mobile_authority": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/06_decision-detail.jpg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "IBX2 decision-detail",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Mobile exact; desktop/tablet pair URL-only (unresolved)."
+  },
+  {
+   "route": "/production/queue?thread=:id",
+   "family": "INBOX",
+   "state": "message-thread",
+   "kind": "grandchild",
+   "mobile_authority": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/07_message-thread.jpg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "IBX2 message-thread",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Mobile exact; desktop/tablet pair URL-only (unresolved)."
+  },
+  {
+   "route": "/production/queue?notice=:id",
+   "family": "INBOX",
+   "state": "system-notice-detail",
+   "kind": "grandchild",
+   "mobile_authority": [
+    "UP:IBX2:STUDIOOS_INBOX_AUTHORITY_LITE_v2/01_MOBILE/08_system-notice-detail.jpg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "IBX2 system-notice-detail",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Mobile exact; desktop/tablet pair URL-only (unresolved)."
+  },
+  {
+   "route": "/production/queue (temporary: REQUEST REVISION sheet)",
+   "family": "INBOX",
+   "state": "REQUEST REVISION sheet",
+   "kind": "temporary",
+   "mobile_authority": [],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "parent Inbox shell (D-INBOX-FINAL defines the inspector/drawer)",
+   "classification": "NO_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "notes": "NO_RECOVERED_AUTHORITY image; preserved live presentation; inherits parent shell."
+  },
+  {
+   "route": "/production/queue (temporary: APPROVAL CONFIRMATION sheet)",
+   "family": "INBOX",
+   "state": "APPROVAL CONFIRMATION sheet",
+   "kind": "temporary",
+   "mobile_authority": [],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "parent Inbox shell (D-INBOX-FINAL defines the inspector/drawer)",
+   "classification": "NO_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "notes": "NO_RECOVERED_AUTHORITY image; preserved live presentation; inherits parent shell."
+  },
+  {
+   "route": "/production/queue (temporary: FILTER / SORT sheet)",
+   "family": "INBOX",
+   "state": "FILTER / SORT sheet",
+   "kind": "temporary",
+   "mobile_authority": [],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "parent Inbox shell (D-INBOX-FINAL defines the inspector/drawer)",
+   "classification": "NO_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "notes": "NO_RECOVERED_AUTHORITY image; preserved live presentation; inherits parent shell."
+  },
+  {
+   "route": "/production/queue (temporary: ATTACHMENT PREVIEW sheet)",
+   "family": "INBOX",
+   "state": "ATTACHMENT PREVIEW sheet",
+   "kind": "temporary",
+   "mobile_authority": [],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "parent Inbox shell (D-INBOX-FINAL defines the inspector/drawer)",
+   "classification": "NO_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "notes": "NO_RECOVERED_AUTHORITY image; preserved live presentation; inherits parent shell."
+  },
+  {
+   "route": "/production/queue (temporary: INSPECTOR drawer (?sel=))",
+   "family": "INBOX",
+   "state": "INSPECTOR drawer (?sel=)",
+   "kind": "temporary",
+   "mobile_authority": [],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "parent Inbox shell (D-INBOX-FINAL defines the inspector/drawer)",
+   "classification": "NO_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "NO_RECOVERED_AUTHORITY",
+   "notes": "NO_RECOVERED_AUTHORITY image; preserved live presentation; inherits parent shell."
+  },
+  {
+   "route": "/production/:slug/design?mode=brand",
+   "family": "DESIGN",
+   "state": "BRAND",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5968.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6010.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5983.jpg"
+   ],
+   "modal_drawer_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/01_BRAND__DRAWER_DETAIL_REVIEW_MODAL.jpg"
+   ],
+   "interaction_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/01_BRAND__DRAWER_DETAIL_REVIEW_MODAL.jpg"
+   ],
+   "governing": "T12 + PAR3V UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/02_DESIGN_BRAND.jpg",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "DWS / VPT versions superseded (contact sheet 06-design-*)."
+  },
+  {
+   "route": "/production/:slug/design?mode=experience",
+   "family": "DESIGN",
+   "state": "EXPERIENCE",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5963.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6019.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5992.jpg"
+   ],
+   "modal_drawer_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/02_EXPERIENCE__MAP_INSPECTOR_REVIEW.jpg"
+   ],
+   "interaction_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/02_EXPERIENCE__MAP_INSPECTOR_REVIEW.jpg"
+   ],
+   "governing": "T12 + PAR3V UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/03_DESIGN_EXPERIENCE.jpg",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "DWS / VPT versions superseded (contact sheet 06-design-*)."
+  },
+  {
+   "route": "/production/:slug/design?mode=surfaces",
+   "family": "DESIGN",
+   "state": "SURFACES",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5969.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6011.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5984.jpg"
+   ],
+   "modal_drawer_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/03_SURFACES__LIBRARY_INSPECTOR_COMPARE.jpg"
+   ],
+   "interaction_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/03_SURFACES__LIBRARY_INSPECTOR_COMPARE.jpg"
+   ],
+   "governing": "T12 + PAR3V UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/04_DESIGN_SURFACES.jpg",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "DWS / VPT versions superseded (contact sheet 06-design-*)."
+  },
+  {
+   "route": "/production/:slug/design?mode=compiler",
+   "family": "DESIGN",
+   "state": "COMPILER",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5970.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6012.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5985.jpg"
+   ],
+   "modal_drawer_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/01_BRAND__DRAWER_DETAIL_REVIEW_MODAL.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/02_EXPERIENCE__MAP_INSPECTOR_REVIEW.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/03_SURFACES__LIBRARY_INSPECTOR_COMPARE.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/04_COMPILER__SYNTHESIS_INTELLIGENCE_REVIEW_MODAL.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/05_ASSETS__LIBRARY_DETAILS_METADATA_EXPORT.jpg"
+   ],
+   "interaction_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/01_BRAND__DRAWER_DETAIL_REVIEW_MODAL.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/02_EXPERIENCE__MAP_INSPECTOR_REVIEW.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/03_SURFACES__LIBRARY_INSPECTOR_COMPARE.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/04_COMPILER__SYNTHESIS_INTELLIGENCE_REVIEW_MODAL.jpg",
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/05_ASSETS__LIBRARY_DETAILS_METADATA_EXPORT.jpg"
+   ],
+   "governing": "T12 + PAR3V UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/05_DESIGN_COMPILER.jpg",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "DWS / VPT versions superseded (contact sheet 06-design-*)."
+  },
+  {
+   "route": "/production/:slug/design?mode=assets",
+   "family": "DESIGN",
+   "state": "ASSETS",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5974.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6013.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5986.jpg"
+   ],
+   "modal_drawer_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/05_ASSETS__LIBRARY_DETAILS_METADATA_EXPORT.jpg"
+   ],
+   "interaction_authority": [
+    "UP:DWS:DWS_SONNET_LITE/04_DESKTOP_INTERACTION_EXPRESSIONS/05_ASSETS__LIBRARY_DETAILS_METADATA_EXPORT.jpg"
+   ],
+   "governing": "T12 + PAR3V UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/06_DESIGN_ASSETS.jpg",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "DWS / VPT versions superseded (contact sheet 06-design-*)."
+  },
+  {
+   "route": "/production/:slug/design?mode=viewport",
+   "family": "DESIGN",
+   "state": "VIEWPORT",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5975.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6014.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5987.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "T12 + PAR3V UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/07_DESIGN_VIEWPORT.jpg",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "DWS / VPT versions superseded (contact sheet 06-design-*)."
+  },
+  {
+   "route": "/production/:slug/design/workspace",
+   "family": "DESIGN",
+   "state": "workspace",
+   "kind": "child",
+   "mobile_authority": [
+    "GIT:public/visual-references/founder/site00/design-workspace-reference-p0vr2b.jpg@0cc1af6b81"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "founder calibration references (p0vr6r1) \u2014 pre-Production design reconstruction",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "Legacy design bench (COMPOSER1: STALE vs chamber). Not refined in this sprint; DWS unified workspace line is unmounted on the tunnel."
+  },
+  {
+   "route": "/production/:slug/design/references",
+   "family": "DESIGN",
+   "state": "references",
+   "kind": "child",
+   "mobile_authority": [
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/08-references.jpg@bc730cfa49"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "founder calibration references (p0vr6r1) \u2014 pre-Production design reconstruction",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "Legacy design bench (COMPOSER1: STALE vs chamber). Not refined in this sprint; DWS unified workspace line is unmounted on the tunnel."
+  },
+  {
+   "route": "/production/:slug/design/assets",
+   "family": "DESIGN",
+   "state": "assets",
+   "kind": "child",
+   "mobile_authority": [
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/01-assets-upload.jpg@557fef733b",
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/02-assets-instruct.jpg@0df6ca22bf",
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/03-assets-detect.jpg@4f75ca09dc",
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/04-assets-crop.jpg@c6854444c9",
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/05-assets-reconstruct.jpg@574022169f",
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/06-assets-approve.jpg@1e2d41f468",
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/07-assets-live.jpg@2717649082"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "founder calibration references (p0vr6r1) \u2014 pre-Production design reconstruction",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "Legacy design bench (COMPOSER1: STALE vs chamber). Not refined in this sprint; DWS unified workspace line is unmounted on the tunnel."
+  },
+  {
+   "route": "/production/:slug/design/pages",
+   "family": "DESIGN",
+   "state": "pages",
+   "kind": "child",
+   "mobile_authority": [
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/09-pages.jpg@4156d0ea3f"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "founder calibration references (p0vr6r1) \u2014 pre-Production design reconstruction",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "Legacy design bench (COMPOSER1: STALE vs chamber). Not refined in this sprint; DWS unified workspace line is unmounted on the tunnel."
+  },
+  {
+   "route": "/production/:slug/design/skins",
+   "family": "DESIGN",
+   "state": "skins",
+   "kind": "child",
+   "mobile_authority": [
+    "GIT:public/visual-references/founder/site00/skins-authority-mobile.jpg@0a0ffc50dc"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [
+    "GIT:public/visual-references/founder/site00/skins-authority-desktop.jpg@9a2d43c39b"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "founder calibration references (p0vr6r1) \u2014 pre-Production design reconstruction",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "Legacy design bench (COMPOSER1: STALE vs chamber). Not refined in this sprint; DWS unified workspace line is unmounted on the tunnel."
+  },
+  {
+   "route": "/production/:slug/design/history",
+   "family": "DESIGN",
+   "state": "history",
+   "kind": "child",
+   "mobile_authority": [
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/10-history.jpg@a89b31e103"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "founder calibration references (p0vr6r1) \u2014 pre-Production design reconstruction",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "Legacy design bench (COMPOSER1: STALE vs chamber). Not refined in this sprint; DWS unified workspace line is unmounted on the tunnel."
+  },
+  {
+   "route": "/production/:slug/design/more",
+   "family": "DESIGN",
+   "state": "more",
+   "kind": "child",
+   "mobile_authority": [
+    "GIT:public/visual-references/founder/site00/calibration-p0vr6r1/11-more.jpg@e75628e38e"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "founder calibration references (p0vr6r1) \u2014 pre-Production design reconstruction",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "Legacy design bench (COMPOSER1: STALE vs chamber). Not refined in this sprint; DWS unified workspace line is unmounted on the tunnel."
+  },
+  {
+   "route": "/production/:slug/experience",
+   "family": "EXPERIENCE",
+   "state": "tab root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5925.jpg",
+    "UP:EL:02_EXPERIENCE_MOBILE/01_World/01_WORLD_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6006.jpg",
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/01_WORLD_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5988.jpg",
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/01_WORLD_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_World__01_WORLD_ROOT (rules 3+5); parent identity T12/PAR3V",
+   "classification": "MULTIPLE_CONFLICTING_AUTHORITIES",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "T12/PAR3V parent landing vs EL default-family root \u2014 FOUNDER DECISION REQUIRED (contact sheet 09)."
+  },
+  {
+   "route": "/production/:slug/experience/world",
+   "family": "EXPERIENCE",
+   "state": "world/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/01_World/01_WORLD_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/01_WORLD_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/01_WORLD_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_World__01_WORLD_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/world/overview",
+   "family": "EXPERIENCE",
+   "state": "world/overview",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/01_World/02_WORLD_OVERVIEW.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/02_WORLD_OVERVIEW.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/02_WORLD_OVERVIEW.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_World__02_WORLD_OVERVIEW",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/world/architecture",
+   "family": "EXPERIENCE",
+   "state": "world/architecture",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/01_World/03_ARCHITECTURE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/03_ARCHITECTURE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/03_ARCHITECTURE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_World__03_ARCHITECTURE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/world/environments",
+   "family": "EXPERIENCE",
+   "state": "world/environments",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/01_World/04_ENVIRONMENTS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/04_ENVIRONMENTS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/04_ENVIRONMENTS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_World__04_ENVIRONMENTS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/world/destinations",
+   "family": "EXPERIENCE",
+   "state": "world/destinations",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/01_World/05_DESTINATIONS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/05_DESTINATIONS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/05_DESTINATIONS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_World__05_DESTINATIONS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/world/detail/:id",
+   "family": "EXPERIENCE",
+   "state": "world/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/01_World/06_WORLD_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/06_WORLD_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/01_World/06_WORLD_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_World__06_WORLD_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/zones",
+   "family": "EXPERIENCE",
+   "state": "zones/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/02_Zones/01_ZONES_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/01_ZONES_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/01_ZONES_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Zones__01_ZONES_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/zones/index",
+   "family": "EXPERIENCE",
+   "state": "zones/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/02_Zones/02_ZONE_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/02_ZONE_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/02_ZONE_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Zones__02_ZONE_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/zones/rooms",
+   "family": "EXPERIENCE",
+   "state": "zones/rooms",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/02_Zones/03_ROOMS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/03_ROOMS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/03_ROOMS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Zones__03_ROOMS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/zones/districts",
+   "family": "EXPERIENCE",
+   "state": "zones/districts",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/02_Zones/04_DISTRICTS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/04_DISTRICTS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/04_DISTRICTS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Zones__04_DISTRICTS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/zones/portals",
+   "family": "EXPERIENCE",
+   "state": "zones/portals",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/02_Zones/05_PORTALS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/05_PORTALS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/05_PORTALS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Zones__05_PORTALS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/zones/thresholds",
+   "family": "EXPERIENCE",
+   "state": "zones/thresholds",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/02_Zones/06_THRESHOLDS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/06_THRESHOLDS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/06_THRESHOLDS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Zones__06_THRESHOLDS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/zones/detail/:id",
+   "family": "EXPERIENCE",
+   "state": "zones/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/02_Zones/07_ZONE_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/07_ZONE_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/02_Zones/07_ZONE_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Zones__07_ZONE_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/paths",
+   "family": "EXPERIENCE",
+   "state": "paths/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/03_Paths/01_PATHS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/01_PATHS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/01_PATHS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Paths__01_PATHS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/paths/pathways",
+   "family": "EXPERIENCE",
+   "state": "paths/pathways",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/03_Paths/02_PATHWAYS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/02_PATHWAYS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/02_PATHWAYS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Paths__02_PATHWAYS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/paths/route-map",
+   "family": "EXPERIENCE",
+   "state": "paths/route-map",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/03_Paths/03_ROUTE_MAP.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/03_ROUTE_MAP.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/03_ROUTE_MAP.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Paths__03_ROUTE_MAP",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/paths/entry",
+   "family": "EXPERIENCE",
+   "state": "paths/entry",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/03_Paths/04_ENTRY_PATHS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/04_ENTRY_PATHS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/04_ENTRY_PATHS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Paths__04_ENTRY_PATHS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/paths/exit",
+   "family": "EXPERIENCE",
+   "state": "paths/exit",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/03_Paths/05_EXIT_PATHS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/05_EXIT_PATHS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/05_EXIT_PATHS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Paths__05_EXIT_PATHS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/paths/journey/:id",
+   "family": "EXPERIENCE",
+   "state": "paths/journey",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/03_Paths/06_JOURNEY_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/06_JOURNEY_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/03_Paths/06_JOURNEY_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Paths__06_JOURNEY_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/interactions",
+   "family": "EXPERIENCE",
+   "state": "interactions/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/04_Interactions/01_INTERACTIONS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/01_INTERACTIONS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/01_INTERACTIONS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Interactions__01_INTERACTIONS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/interactions/index",
+   "family": "EXPERIENCE",
+   "state": "interactions/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/04_Interactions/02_INTERACTION_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/02_INTERACTION_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/02_INTERACTION_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Interactions__02_INTERACTION_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/interactions/objects",
+   "family": "EXPERIENCE",
+   "state": "interactions/objects",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/04_Interactions/03_OBJECT_INTERACTIONS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/03_OBJECT_INTERACTIONS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/03_OBJECT_INTERACTIONS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Interactions__03_OBJECT_INTERACTIONS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/interactions/spatial",
+   "family": "EXPERIENCE",
+   "state": "interactions/spatial",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/04_Interactions/04_SPATIAL_ACTIONS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/04_SPATIAL_ACTIONS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/04_SPATIAL_ACTIONS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Interactions__04_SPATIAL_ACTIONS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/interactions/triggers",
+   "family": "EXPERIENCE",
+   "state": "interactions/triggers",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/04_Interactions/05_TRIGGERS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/05_TRIGGERS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/05_TRIGGERS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Interactions__05_TRIGGERS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/interactions/detail/:id",
+   "family": "EXPERIENCE",
+   "state": "interactions/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/04_Interactions/06_INTERACTION_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/06_INTERACTION_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/04_Interactions/06_INTERACTION_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Interactions__06_INTERACTION_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/inhabitants",
+   "family": "EXPERIENCE",
+   "state": "inhabitants/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/05_Inhabitants/01_INHABITANTS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/01_INHABITANTS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/01_INHABITANTS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Inhabitants__01_INHABITANTS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/inhabitants/index",
+   "family": "EXPERIENCE",
+   "state": "inhabitants/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/05_Inhabitants/02_INHABITANT_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/02_INHABITANT_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/02_INHABITANT_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Inhabitants__02_INHABITANT_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/inhabitants/residents",
+   "family": "EXPERIENCE",
+   "state": "inhabitants/residents",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/05_Inhabitants/03_RESIDENTS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/03_RESIDENTS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/03_RESIDENTS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Inhabitants__03_RESIDENTS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/inhabitants/characters",
+   "family": "EXPERIENCE",
+   "state": "inhabitants/characters",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/05_Inhabitants/04_CHARACTERS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/04_CHARACTERS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/04_CHARACTERS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Inhabitants__04_CHARACTERS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/inhabitants/presence",
+   "family": "EXPERIENCE",
+   "state": "inhabitants/presence",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/05_Inhabitants/05_PRESENCE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/05_PRESENCE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/05_PRESENCE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Inhabitants__05_PRESENCE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/inhabitants/relationships",
+   "family": "EXPERIENCE",
+   "state": "inhabitants/relationships",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/05_Inhabitants/06_RELATIONSHIPS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/06_RELATIONSHIPS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/06_RELATIONSHIPS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Inhabitants__06_RELATIONSHIPS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/inhabitants/detail/:id",
+   "family": "EXPERIENCE",
+   "state": "inhabitants/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/05_Inhabitants/07_INHABITANT_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/07_INHABITANT_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/05_Inhabitants/07_INHABITANT_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Inhabitants__07_INHABITANT_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/states",
+   "family": "EXPERIENCE",
+   "state": "states/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/06_States/01_STATES_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/01_STATES_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/01_STATES_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_States__01_STATES_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/states/scenes",
+   "family": "EXPERIENCE",
+   "state": "states/scenes",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/06_States/02_SCENE_STATES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/02_SCENE_STATES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/02_SCENE_STATES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_States__02_SCENE_STATES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/states/lighting",
+   "family": "EXPERIENCE",
+   "state": "states/lighting",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/06_States/03_LIGHTING.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/03_LIGHTING.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/03_LIGHTING.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_States__03_LIGHTING",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/states/atmosphere",
+   "family": "EXPERIENCE",
+   "state": "states/atmosphere",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/06_States/04_ATMOSPHERE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/04_ATMOSPHERE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/04_ATMOSPHERE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_States__04_ATMOSPHERE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/states/time",
+   "family": "EXPERIENCE",
+   "state": "states/time",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/06_States/05_TIME_CONDITION.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/05_TIME_CONDITION.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/05_TIME_CONDITION.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_States__05_TIME_CONDITION",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/states/live",
+   "family": "EXPERIENCE",
+   "state": "states/live",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/06_States/06_LIVE_STATE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/06_LIVE_STATE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/06_LIVE_STATE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_States__06_LIVE_STATE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/states/detail/:id",
+   "family": "EXPERIENCE",
+   "state": "states/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/06_States/07_STATE_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/07_STATE_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/06_States/07_STATE_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_States__07_STATE_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/access",
+   "family": "EXPERIENCE",
+   "state": "access/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/07_Access/01_ACCESS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/01_ACCESS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/01_ACCESS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Access__01_ACCESS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/access/rules",
+   "family": "EXPERIENCE",
+   "state": "access/rules",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/07_Access/02_ACCESS_RULES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/02_ACCESS_RULES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/02_ACCESS_RULES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Access__02_ACCESS_RULES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/access/roles",
+   "family": "EXPERIENCE",
+   "state": "access/roles",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/07_Access/03_ROLES_PERMISSIONS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/03_ROLES_PERMISSIONS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/03_ROLES_PERMISSIONS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Access__03_ROLES_PERMISSIONS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/access/zones",
+   "family": "EXPERIENCE",
+   "state": "access/zones",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/07_Access/04_ZONE_ACCESS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/04_ZONE_ACCESS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/04_ZONE_ACCESS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Access__04_ZONE_ACCESS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/access/conditional",
+   "family": "EXPERIENCE",
+   "state": "access/conditional",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/07_Access/05_CONDITIONAL_ACCESS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/05_CONDITIONAL_ACCESS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/05_CONDITIONAL_ACCESS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Access__05_CONDITIONAL_ACCESS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/access/privacy",
+   "family": "EXPERIENCE",
+   "state": "access/privacy",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/07_Access/06_PRIVACY_PRESENCE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/06_PRIVACY_PRESENCE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/06_PRIVACY_PRESENCE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Access__06_PRIVACY_PRESENCE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/experience/access/detail/:id",
+   "family": "EXPERIENCE",
+   "state": "access/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:02_EXPERIENCE_MOBILE/07_Access/07_ACCESS_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/07_ACCESS_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:01_EXPERIENCE_DESKTOP_TABLET/07_Access/07_ACCESS_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Access__07_ACCESS_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries",
+   "family": "LIBRARY",
+   "state": "tab root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5979.jpg",
+    "UP:EL:04_LIBRARY_MOBILE/01_Authorities/01_AUTHORITIES_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6008.jpg",
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/01_AUTHORITIES_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5990.jpg",
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/01_AUTHORITIES_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_Authorities__01_AUTHORITIES_ROOT (rules 3+5); parent identity T12/PAR3V",
+   "classification": "MULTIPLE_CONFLICTING_AUTHORITIES",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "T12/PAR3V parent landing vs EL default-family root \u2014 FOUNDER DECISION REQUIRED (contact sheet 14)."
+  },
+  {
+   "route": "/production/libraries/authorities",
+   "family": "LIBRARY",
+   "state": "authorities/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/01_Authorities/01_AUTHORITIES_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/01_AUTHORITIES_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/01_AUTHORITIES_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_Authorities__01_AUTHORITIES_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/authorities/index",
+   "family": "LIBRARY",
+   "state": "authorities/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/01_Authorities/03_AUTHORITY_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/03_AUTHORITY_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/03_AUTHORITY_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_Authorities__03_AUTHORITY_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/authorities/canonical",
+   "family": "LIBRARY",
+   "state": "authorities/canonical",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/01_Authorities/04_CANONICAL_AUTHORITIES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/04_CANONICAL_AUTHORITIES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/04_CANONICAL_AUTHORITIES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_Authorities__04_CANONICAL_AUTHORITIES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/authorities/in-review",
+   "family": "LIBRARY",
+   "state": "authorities/in-review",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/01_Authorities/05_IN_REVIEW_AUTHORITIES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/05_IN_REVIEW_AUTHORITIES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/05_IN_REVIEW_AUTHORITIES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_Authorities__05_IN_REVIEW_AUTHORITIES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/authorities/superseded",
+   "family": "LIBRARY",
+   "state": "authorities/superseded",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/01_Authorities/07_SUPERSEDED_AUTHORITIES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/07_SUPERSEDED_AUTHORITIES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/07_SUPERSEDED_AUTHORITIES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_Authorities__07_SUPERSEDED_AUTHORITIES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/authorities/detail/:id",
+   "family": "LIBRARY",
+   "state": "authorities/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/01_Authorities/02_AUTHORITY_DETAIL_FOR_A_SELECTED_AUTHORITY.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/02_AUTHORITY_DETAIL_FOR_A_SELECTED_AUTHORITY.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/02_AUTHORITY_DETAIL_FOR_A_SELECTED_AUTHORITY.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_Authorities__02_AUTHORITY_DETAIL_FOR_A_SELECTED_AUTHORITY",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/authorities/lineage/:id",
+   "family": "LIBRARY",
+   "state": "authorities/lineage",
+   "kind": "lineage",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/01_Authorities/06_LINEAGE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/06_LINEAGE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/01_Authorities/06_LINEAGE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 01_Authorities__06_LINEAGE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/assets",
+   "family": "LIBRARY",
+   "state": "assets/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/02_Assets/01_ASSETS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/01_ASSETS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/01_ASSETS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Assets__01_ASSETS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/assets/index",
+   "family": "LIBRARY",
+   "state": "assets/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/02_Assets/04_ASSET_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/04_ASSET_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/04_ASSET_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Assets__04_ASSET_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/assets/images",
+   "family": "LIBRARY",
+   "state": "assets/images",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/02_Assets/06_IMAGES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/06_IMAGES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/06_IMAGES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Assets__06_IMAGES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/assets/video",
+   "family": "LIBRARY",
+   "state": "assets/video",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/02_Assets/08_VIDEO.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/08_VIDEO.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/08_VIDEO.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Assets__08_VIDEO",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/assets/audio",
+   "family": "LIBRARY",
+   "state": "assets/audio",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/02_Assets/05_AUDIO.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/05_AUDIO.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/05_AUDIO.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Assets__05_AUDIO",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/assets/spatial",
+   "family": "LIBRARY",
+   "state": "assets/spatial",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/02_Assets/02_3D_SPATIAL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/02_3D_SPATIAL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/02_3D_SPATIAL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Assets__02_3D_SPATIAL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/assets/detail/:id",
+   "family": "LIBRARY",
+   "state": "assets/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/02_Assets/03_ASSET_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/03_ASSET_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/03_ASSET_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Assets__03_ASSET_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/assets/usage",
+   "family": "LIBRARY",
+   "state": "assets/usage",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/02_Assets/07_USAGE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/07_USAGE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/02_Assets/07_USAGE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 02_Assets__07_USAGE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/characters",
+   "family": "LIBRARY",
+   "state": "characters/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/03_Characters/01_CHARACTERS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/01_CHARACTERS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/01_CHARACTERS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Characters__01_CHARACTERS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/characters/index",
+   "family": "LIBRARY",
+   "state": "characters/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/03_Characters/03_CHARACTER_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/03_CHARACTER_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/03_CHARACTER_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Characters__03_CHARACTER_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/characters/residents",
+   "family": "LIBRARY",
+   "state": "characters/residents",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/03_Characters/07_RESIDENTS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/07_RESIDENTS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/07_RESIDENTS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Characters__07_RESIDENTS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/characters/project",
+   "family": "LIBRARY",
+   "state": "characters/project",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/03_Characters/06_PROJECT_CHARACTERS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/06_PROJECT_CHARACTERS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/06_PROJECT_CHARACTERS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Characters__06_PROJECT_CHARACTERS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/characters/talent",
+   "family": "LIBRARY",
+   "state": "characters/talent",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/03_Characters/05_EXTERNAL_TALENT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/05_EXTERNAL_TALENT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/05_EXTERNAL_TALENT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Characters__05_EXTERNAL_TALENT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/characters/detail/:id",
+   "family": "LIBRARY",
+   "state": "characters/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/03_Characters/02_CHARACTER_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/02_CHARACTER_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/02_CHARACTER_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Characters__02_CHARACTER_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/characters/lineage/:id",
+   "family": "LIBRARY",
+   "state": "characters/lineage",
+   "kind": "lineage",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/03_Characters/04_CHARACTER_LINEAGE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/04_CHARACTER_LINEAGE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/03_Characters/04_CHARACTER_LINEAGE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 03_Characters__04_CHARACTER_LINEAGE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/environments",
+   "family": "LIBRARY",
+   "state": "environments/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/04_Environments/01_ENVIRONMENTS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/01_ENVIRONMENTS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/01_ENVIRONMENTS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Environments__01_ENVIRONMENTS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/environments/index",
+   "family": "LIBRARY",
+   "state": "environments/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/04_Environments/03_ENVIRONMENT_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/03_ENVIRONMENT_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/03_ENVIRONMENT_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Environments__03_ENVIRONMENT_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/environments/worlds",
+   "family": "LIBRARY",
+   "state": "environments/worlds",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/04_Environments/07_WORLDS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/07_WORLDS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/07_WORLDS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Environments__07_WORLDS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/environments/zones",
+   "family": "LIBRARY",
+   "state": "environments/zones",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/04_Environments/08_ZONES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/08_ZONES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/08_ZONES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Environments__08_ZONES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/environments/sets",
+   "family": "LIBRARY",
+   "state": "environments/sets",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/04_Environments/06_SETS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/06_SETS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/06_SETS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Environments__06_SETS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/environments/plates",
+   "family": "LIBRARY",
+   "state": "environments/plates",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/04_Environments/05_PLATES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/05_PLATES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/05_PLATES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Environments__05_PLATES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/environments/detail/:id",
+   "family": "LIBRARY",
+   "state": "environments/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/04_Environments/02_ENVIRONMENT_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/02_ENVIRONMENT_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/02_ENVIRONMENT_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Environments__02_ENVIRONMENT_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/environments/lineage/:id",
+   "family": "LIBRARY",
+   "state": "environments/lineage",
+   "kind": "lineage",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/04_Environments/04_ENVIRONMENT_LINEAGE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/04_ENVIRONMENT_LINEAGE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/04_Environments/04_ENVIRONMENT_LINEAGE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 04_Environments__04_ENVIRONMENT_LINEAGE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/expressions",
+   "family": "LIBRARY",
+   "state": "expressions/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/05_Expressions/01_EXPRESSIONS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/01_EXPRESSIONS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/01_EXPRESSIONS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Expressions__01_EXPRESSIONS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/expressions/index",
+   "family": "LIBRARY",
+   "state": "expressions/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/05_Expressions/05_EXPRESSION_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/05_EXPRESSION_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/05_EXPRESSION_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Expressions__05_EXPRESSION_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/expressions/entries",
+   "family": "LIBRARY",
+   "state": "expressions/entries",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/05_Expressions/03_ENTRIES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/03_ENTRIES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/03_ENTRIES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Expressions__03_ENTRIES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/expressions/campaigns",
+   "family": "LIBRARY",
+   "state": "expressions/campaigns",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/05_Expressions/02_CAMPAIGNS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/02_CAMPAIGNS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/02_CAMPAIGNS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Expressions__02_CAMPAIGNS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/expressions/formats",
+   "family": "LIBRARY",
+   "state": "expressions/formats",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/05_Expressions/07_FORMATS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/07_FORMATS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/07_FORMATS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Expressions__07_FORMATS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/expressions/packages",
+   "family": "LIBRARY",
+   "state": "expressions/packages",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/05_Expressions/08_PACKAGES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/08_PACKAGES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/08_PACKAGES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Expressions__08_PACKAGES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/expressions/detail/:id",
+   "family": "LIBRARY",
+   "state": "expressions/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/05_Expressions/04_EXPRESSION_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/04_EXPRESSION_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/04_EXPRESSION_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Expressions__04_EXPRESSION_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/expressions/lineage/:id",
+   "family": "LIBRARY",
+   "state": "expressions/lineage",
+   "kind": "lineage",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/05_Expressions/06_EXPRESSION_LINEAGE.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/06_EXPRESSION_LINEAGE.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/05_Expressions/06_EXPRESSION_LINEAGE.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 05_Expressions__06_EXPRESSION_LINEAGE",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/references",
+   "family": "LIBRARY",
+   "state": "references/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/06_References/01_REFERENCES_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/01_REFERENCES_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/01_REFERENCES_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_References__01_REFERENCES_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/references/index",
+   "family": "LIBRARY",
+   "state": "references/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/06_References/03_REFERENCE_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/03_REFERENCE_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/03_REFERENCE_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_References__03_REFERENCE_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/references/visual",
+   "family": "LIBRARY",
+   "state": "references/visual",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/06_References/07_VISUAL_REFERENCES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/07_VISUAL_REFERENCES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/07_VISUAL_REFERENCES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_References__07_VISUAL_REFERENCES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/references/research",
+   "family": "LIBRARY",
+   "state": "references/research",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/06_References/04_RESEARCH_REFERENCES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/04_RESEARCH_REFERENCES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/04_RESEARCH_REFERENCES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_References__04_RESEARCH_REFERENCES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/references/style",
+   "family": "LIBRARY",
+   "state": "references/style",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/06_References/06_STYLE_REFERENCES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/06_STYLE_REFERENCES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/06_STYLE_REFERENCES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_References__06_STYLE_REFERENCES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/references/source",
+   "family": "LIBRARY",
+   "state": "references/source",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/06_References/05_SOURCE_REFERENCES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/05_SOURCE_REFERENCES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/05_SOURCE_REFERENCES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_References__05_SOURCE_REFERENCES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/references/detail/:id",
+   "family": "LIBRARY",
+   "state": "references/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/06_References/02_REFERENCE_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/02_REFERENCE_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/06_References/02_REFERENCE_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 06_References__02_REFERENCE_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/icons",
+   "family": "LIBRARY",
+   "state": "icons/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/07_Icons/01_ICONS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/01_ICONS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/01_ICONS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Icons__01_ICONS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/icons/index",
+   "family": "LIBRARY",
+   "state": "icons/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/07_Icons/05_ICON_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/05_ICON_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/05_ICON_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Icons__05_ICON_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/icons/families",
+   "family": "LIBRARY",
+   "state": "icons/families",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/07_Icons/04_ICON_FAMILIES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/04_ICON_FAMILIES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/04_ICON_FAMILIES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Icons__04_ICON_FAMILIES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/icons/navigation",
+   "family": "LIBRARY",
+   "state": "icons/navigation",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/07_Icons/06_NAVIGATION_ICONS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/06_NAVIGATION_ICONS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/06_NAVIGATION_ICONS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Icons__06_NAVIGATION_ICONS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/icons/functional",
+   "family": "LIBRARY",
+   "state": "icons/functional",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/07_Icons/02_FUNCTIONAL_ICONS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/02_FUNCTIONAL_ICONS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/02_FUNCTIONAL_ICONS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Icons__02_FUNCTIONAL_ICONS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/icons/project",
+   "family": "LIBRARY",
+   "state": "icons/project",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/07_Icons/07_PROJECT_ICONS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/07_PROJECT_ICONS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/07_PROJECT_ICONS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Icons__07_PROJECT_ICONS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/icons/detail/:id",
+   "family": "LIBRARY",
+   "state": "icons/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/07_Icons/03_ICON_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/03_ICON_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/07_Icons/03_ICON_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 07_Icons__03_ICON_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/materials",
+   "family": "LIBRARY",
+   "state": "materials/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/08_Materials/01_MATERIALS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/01_MATERIALS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/01_MATERIALS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 08_Materials__01_MATERIALS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/materials/index",
+   "family": "LIBRARY",
+   "state": "materials/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/08_Materials/04_MATERIAL_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/04_MATERIAL_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/04_MATERIAL_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 08_Materials__04_MATERIAL_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/materials/surfaces",
+   "family": "LIBRARY",
+   "state": "materials/surfaces",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/08_Materials/05_SURFACES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/05_SURFACES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/05_SURFACES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 08_Materials__05_SURFACES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/materials/components",
+   "family": "LIBRARY",
+   "state": "materials/components",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/08_Materials/02_COMPONENTS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/02_COMPONENTS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/02_COMPONENTS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 08_Materials__02_COMPONENTS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/materials/textures",
+   "family": "LIBRARY",
+   "state": "materials/textures",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/08_Materials/06_TEXTURES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/06_TEXTURES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/06_TEXTURES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 08_Materials__06_TEXTURES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/materials/ui",
+   "family": "LIBRARY",
+   "state": "materials/ui",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/08_Materials/07_UI_MATERIALS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/07_UI_MATERIALS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/07_UI_MATERIALS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 08_Materials__07_UI_MATERIALS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/materials/detail/:id",
+   "family": "LIBRARY",
+   "state": "materials/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/08_Materials/03_MATERIAL_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/03_MATERIAL_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/08_Materials/03_MATERIAL_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 08_Materials__03_MATERIAL_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/documents",
+   "family": "LIBRARY",
+   "state": "documents/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/09_Documents/01_DOCUMENTS_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/01_DOCUMENTS_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/01_DOCUMENTS_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 09_Documents__01_DOCUMENTS_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/documents/index",
+   "family": "LIBRARY",
+   "state": "documents/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/09_Documents/05_DOCUMENT_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/05_DOCUMENT_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/05_DOCUMENT_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 09_Documents__05_DOCUMENT_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/documents/briefs",
+   "family": "LIBRARY",
+   "state": "documents/briefs",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/09_Documents/03_BRIEFS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/03_BRIEFS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/03_BRIEFS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 09_Documents__03_BRIEFS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/documents/bibles",
+   "family": "LIBRARY",
+   "state": "documents/bibles",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/09_Documents/02_BIBLES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/02_BIBLES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/02_BIBLES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 09_Documents__02_BIBLES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/documents/specs",
+   "family": "LIBRARY",
+   "state": "documents/specs",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/09_Documents/08_SPECS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/08_SPECS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/08_SPECS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 09_Documents__08_SPECS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/documents/reports",
+   "family": "LIBRARY",
+   "state": "documents/reports",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/09_Documents/07_REPORTS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/07_REPORTS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/07_REPORTS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 09_Documents__07_REPORTS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/documents/notes",
+   "family": "LIBRARY",
+   "state": "documents/notes",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/09_Documents/06_NOTES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/06_NOTES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/06_NOTES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 09_Documents__06_NOTES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/documents/detail/:id",
+   "family": "LIBRARY",
+   "state": "documents/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/09_Documents/04_DOCUMENT_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/04_DOCUMENT_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/09_Documents/04_DOCUMENT_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 09_Documents__04_DOCUMENT_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/archive",
+   "family": "LIBRARY",
+   "state": "archive/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/10_Archive/01_ARCHIVE_ROOT.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/01_ARCHIVE_ROOT.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/01_ARCHIVE_ROOT.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 10_Archive__01_ARCHIVE_ROOT",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/archive/index",
+   "family": "LIBRARY",
+   "state": "archive/index",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/10_Archive/03_ARCHIVE_INDEX.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/03_ARCHIVE_INDEX.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/03_ARCHIVE_INDEX.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 10_Archive__03_ARCHIVE_INDEX",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/archive/assets",
+   "family": "LIBRARY",
+   "state": "archive/assets",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/10_Archive/04_ARCHIVED_ASSETS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/04_ARCHIVED_ASSETS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/04_ARCHIVED_ASSETS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 10_Archive__04_ARCHIVED_ASSETS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/archive/authorities",
+   "family": "LIBRARY",
+   "state": "archive/authorities",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/10_Archive/05_ARCHIVED_AUTHORITIES.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/05_ARCHIVED_AUTHORITIES.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/05_ARCHIVED_AUTHORITIES.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 10_Archive__05_ARCHIVED_AUTHORITIES",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/archive/characters",
+   "family": "LIBRARY",
+   "state": "archive/characters",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/10_Archive/06_ARCHIVED_CHARACTERS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/06_ARCHIVED_CHARACTERS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/06_ARCHIVED_CHARACTERS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 10_Archive__06_ARCHIVED_CHARACTERS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/archive/environments",
+   "family": "LIBRARY",
+   "state": "archive/environments",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/10_Archive/07_ARCHIVED_ENVIRONMENTS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/07_ARCHIVED_ENVIRONMENTS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/07_ARCHIVED_ENVIRONMENTS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 10_Archive__07_ARCHIVED_ENVIRONMENTS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/archive/expressions",
+   "family": "LIBRARY",
+   "state": "archive/expressions",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/10_Archive/08_ARCHIVED_EXPRESSIONS.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/08_ARCHIVED_EXPRESSIONS.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/08_ARCHIVED_EXPRESSIONS.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 10_Archive__08_ARCHIVED_EXPRESSIONS",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/libraries/archive/detail/:id",
+   "family": "LIBRARY",
+   "state": "archive/detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EL:04_LIBRARY_MOBILE/10_Archive/02_ARCHIVE_DETAIL.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/02_ARCHIVE_DETAIL.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EL:03_LIBRARY_DESKTOP_TABLET/10_Archive/02_ARCHIVE_DETAIL.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "EL 10_Archive__02_ARCHIVE_DETAIL",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "desktop+tablet hybrid board: left = desktop 16:9, right = tablet 4:3"
+  },
+  {
+   "route": "/production/:slug/expression",
+   "family": "EXPRESSION",
+   "state": "Production Floor",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5957.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6007.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5989.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "T12 + PAR3V UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/09_EXPRESSION.jpg",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": null
+  },
+  {
+   "route": "/production/:slug/expression/narrative",
+   "family": "EXPRESSION",
+   "state": "narrative/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/01_Narrative/00_narrative-root.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/00_narrative-root.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/00_narrative-root.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 01_Narrative/00_narrative-root",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/narrative/story",
+   "family": "EXPRESSION",
+   "state": "narrative/story",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/01_Narrative/01_story.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/01_story.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/01_story.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 01_Narrative/01_story",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/narrative/structure",
+   "family": "EXPRESSION",
+   "state": "narrative/structure",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/01_Narrative/02_structure.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/02_structure.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/02_structure.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 01_Narrative/02_structure",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/narrative/momentum",
+   "family": "EXPRESSION",
+   "state": "narrative/momentum",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/01_Narrative/03_momentum.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/03_momentum.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/03_momentum.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 01_Narrative/03_momentum",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/narrative/proof",
+   "family": "EXPRESSION",
+   "state": "narrative/proof",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/01_Narrative/04_proof.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/04_proof.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/01_Narrative/04_proof.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 01_Narrative/04_proof",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/casting",
+   "family": "EXPRESSION",
+   "state": "casting/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/00_casting-root.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/00_casting-root.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/00_casting-root.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 02_Casting/00_casting-root",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/casting/roles",
+   "family": "EXPRESSION",
+   "state": "casting/roles",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/01_roles.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/01_roles.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/01_roles.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 02_Casting/01_roles",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/casting/actors",
+   "family": "EXPRESSION",
+   "state": "casting/actors",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/02_actors.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/02_actors.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/02_actors.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 02_Casting/02_actors",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/casting/characters",
+   "family": "EXPRESSION",
+   "state": "casting/characters",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/03_characters.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/03_characters.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/03_characters.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 02_Casting/03_characters",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/casting/continuity",
+   "family": "EXPRESSION",
+   "state": "casting/continuity",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/04_continuity.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/04_continuity.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/04_continuity.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 02_Casting/04_continuity",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/casting/roles/:id",
+   "family": "EXPRESSION",
+   "state": "casting/role-detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/05_role-detail.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/05_role-detail.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/05_role-detail.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 02_Casting/05_role-detail",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/casting/actors/:id",
+   "family": "EXPRESSION",
+   "state": "casting/actor-profile",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/06_actor-profile.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/06_actor-profile.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/06_actor-profile.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 02_Casting/06_actor-profile",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/casting/characters/:id",
+   "family": "EXPRESSION",
+   "state": "casting/character-profile",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/02_Casting/07_character-profile.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/07_character-profile.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/02_Casting/07_character-profile.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 02_Casting/07_character-profile",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/wardrobe",
+   "family": "EXPRESSION",
+   "state": "look/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/03_Look_Wardrobe/00_look-wardrobe-root.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/00_look-wardrobe-root.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/00_look-wardrobe-root.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 03_Look_Wardrobe/00_look-wardrobe-root",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/wardrobe/looks",
+   "family": "EXPRESSION",
+   "state": "look/looks",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/03_Look_Wardrobe/01_looks.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/01_looks.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/01_looks.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 03_Look_Wardrobe/01_looks",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/wardrobe/outfits",
+   "family": "EXPRESSION",
+   "state": "look/outfits",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/03_Look_Wardrobe/02_outfits.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/02_outfits.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/02_outfits.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 03_Look_Wardrobe/02_outfits",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/wardrobe/hair",
+   "family": "EXPRESSION",
+   "state": "look/hair",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/03_Look_Wardrobe/03_hair.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/03_hair.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/03_hair.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 03_Look_Wardrobe/03_hair",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/wardrobe/makeup",
+   "family": "EXPRESSION",
+   "state": "look/makeup",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/03_Look_Wardrobe/04_makeup.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/04_makeup.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/04_makeup.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 03_Look_Wardrobe/04_makeup",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/wardrobe/accessories",
+   "family": "EXPRESSION",
+   "state": "look/accessories",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/03_Look_Wardrobe/05_accessories.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/05_accessories.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/05_accessories.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 03_Look_Wardrobe/05_accessories",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/wardrobe/fittings",
+   "family": "EXPRESSION",
+   "state": "look/fittings",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/03_Look_Wardrobe/06_fittings.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/06_fittings.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/06_fittings.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 03_Look_Wardrobe/06_fittings",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/wardrobe/continuity",
+   "family": "EXPRESSION",
+   "state": "look/continuity",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/03_Look_Wardrobe/07_continuity.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/07_continuity.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/03_Look_Wardrobe/07_continuity.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 03_Look_Wardrobe/07_continuity",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/performance",
+   "family": "EXPRESSION",
+   "state": "performance/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/04_Cast_Performance/00_performance-root.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/00_performance-root.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/00_performance-root.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 04_Cast_Performance/00_performance-root",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/performance/scenes",
+   "family": "EXPRESSION",
+   "state": "performance/scenes",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/04_Cast_Performance/01_scenes.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/01_scenes.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/01_scenes.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 04_Cast_Performance/01_scenes",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/performance/beats",
+   "family": "EXPRESSION",
+   "state": "performance/beats",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/04_Cast_Performance/02_beats.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/02_beats.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/02_beats.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 04_Cast_Performance/02_beats",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/performance/takes",
+   "family": "EXPRESSION",
+   "state": "performance/takes",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/04_Cast_Performance/03_takes.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/03_takes.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/04_Cast_Performance/03_takes.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 04_Cast_Performance/03_takes",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/sets",
+   "family": "EXPRESSION",
+   "state": "sets/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/05_Sets_Scenes/00_sets-scenes-root.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/00_sets-scenes-root.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/00_sets-scenes-root.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 05_Sets_Scenes/00_sets-scenes-root",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/sets/environments",
+   "family": "EXPRESSION",
+   "state": "sets/environments",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/05_Sets_Scenes/01_environments.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/01_environments.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/01_environments.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 05_Sets_Scenes/01_environments",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/sets/sets",
+   "family": "EXPRESSION",
+   "state": "sets/sets",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/05_Sets_Scenes/02_sets.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/02_sets.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/02_sets.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 05_Sets_Scenes/02_sets",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/sets/zones",
+   "family": "EXPRESSION",
+   "state": "sets/zones",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/05_Sets_Scenes/03_zones.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/03_zones.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/03_zones.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 05_Sets_Scenes/03_zones",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/sets/props",
+   "family": "EXPRESSION",
+   "state": "sets/props",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/05_Sets_Scenes/04_props.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/04_props.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/04_props.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 05_Sets_Scenes/04_props",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/sets/graphics",
+   "family": "EXPRESSION",
+   "state": "sets/graphics",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/05_Sets_Scenes/05_graphics.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/05_graphics.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/05_graphics.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 05_Sets_Scenes/05_graphics",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/sets/camera",
+   "family": "EXPRESSION",
+   "state": "sets/camera",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/05_Sets_Scenes/06_camera.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/06_camera.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/05_Sets_Scenes/06_camera.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 05_Sets_Scenes/06_camera",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/storyboard",
+   "family": "EXPRESSION",
+   "state": "storyboard/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/06_Storyboard/00_storyboard-root.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/06_Storyboard/00_storyboard-root.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/06_Storyboard/00_storyboard-root.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 06_Storyboard/00_storyboard-root",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/storyboard/sequence/:id",
+   "family": "EXPRESSION",
+   "state": "storyboard/sequence-detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/06_Storyboard/01_sequence-detail.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/06_Storyboard/01_sequence-detail.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/06_Storyboard/01_sequence-detail.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 06_Storyboard/01_sequence-detail",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/storyboard/keyframes",
+   "family": "EXPRESSION",
+   "state": "storyboard/keyframes",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/06_Storyboard/02_keyframes.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/06_Storyboard/02_keyframes.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/06_Storyboard/02_keyframes.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 06_Storyboard/02_keyframes",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/review",
+   "family": "EXPRESSION",
+   "state": "review/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/07_Review_Handoff/00_review-handoff-root.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/07_Review_Handoff/00_review-handoff-root.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/07_Review_Handoff/00_review-handoff-root.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 07_Review_Handoff/00_review-handoff-root",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/review/approval/:id",
+   "family": "EXPRESSION",
+   "state": "review/approval-detail",
+   "kind": "detail",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/07_Review_Handoff/01_approval-detail.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/07_Review_Handoff/01_approval-detail.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/07_Review_Handoff/01_approval-detail.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 07_Review_Handoff/01_approval-detail",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/format-studio",
+   "family": "EXPRESSION",
+   "state": "format/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/08_Format_Studio/00_format-studio.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/08_Format_Studio/00_format-studio.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/08_Format_Studio/00_format-studio.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 08_Format_Studio/00_format-studio",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/content-package",
+   "family": "EXPRESSION",
+   "state": "package/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/09_Content_Package/00_content-package.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/09_Content_Package/00_content-package.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/09_Content_Package/00_content-package.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 09_Content_Package/00_content-package",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/campaign-board",
+   "family": "EXPRESSION",
+   "state": "campaign/root",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/01_MOBILE/10_Campaign_Board/00_campaign-board.jpg"
+   ],
+   "tablet_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/10_Campaign_Board/00_campaign-board.jpg"
+   ],
+   "desktop_authority": [
+    "UP:EXPR2:STUDIOOS_EXPRESSION_AUTHORITY_LITE_v2/02_DESKTOP_TABLET/10_Campaign_Board/00_campaign-board.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [
+    "D-EXPR-MEDIA"
+   ],
+   "governing": "EXPR2 10_Campaign_Board/00_campaign-board",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Media-priority rule applies (brief)."
+  },
+  {
+   "route": "/production/:slug/expression/character-fabrication",
+   "family": "EXPRESSION",
+   "state": "character fabrication",
+   "kind": "child",
+   "mobile_authority": [
+    "UP:CF:IMG_5414.jpeg",
+    "UP:CF:IMG_5415.jpeg",
+    "UP:CF:IMG_5416.jpeg",
+    "UP:CF:IMG_5417.jpeg",
+    "UP:CF:IMG_5418.jpeg",
+    "UP:CF:IMG_5419.jpeg",
+    "UP:CF:IMG_5420.jpeg",
+    "UP:CF:IMG_5421.jpeg",
+    "UP:CF:IMG_5422.jpeg",
+    "UP:CF:IMG_5423.jpeg",
+    "UP:CF:IMG_5424.jpeg",
+    "UP:CF:IMG_5425.jpeg",
+    "UP:CF:IMG_5426.jpeg",
+    "UP:CF:IMG_5427.jpeg",
+    "UP:CF:IMG_5428.jpeg",
+    "UP:CF:IMG_5429.jpeg"
+   ],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "CF IMG_5414\u20135429 (mobile)",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": "Tablet/desktop: NO_RECOVERED_AUTHORITY \u2192 preserve live presentation (Phase 5)."
+  },
+  {
+   "route": "/production/activity",
+   "family": "ACTIVITY",
+   "state": "root (DOMAIN x TIME)",
+   "kind": "root",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5936.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6009.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5991.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "D-ACTIVITY-FINAL + T12 + PAR3V UP:PAR3V:STUDIOOS_PRODUCTION_PARENT_3VIEW_AUTHORITY_LITE_v1/01_THREE_VIEW_BOARDS/11_ACTIVITY.jpg",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": null
+  },
+  {
+   "route": "/production/activity?domain=<DOMAIN>",
+   "family": "ACTIVITY",
+   "state": "?domain=<DOMAIN>",
+   "kind": "state",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5936.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6009.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5991.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "same authority as root (filter state)",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": null
+  },
+  {
+   "route": "/production/activity?range=<TODAY|WEEK|MONTH|ALL>",
+   "family": "ACTIVITY",
+   "state": "?range=<TODAY|WEEK|MONTH|ALL>",
+   "kind": "state",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5936.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6009.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5991.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "same authority as root (filter state)",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": null
+  },
+  {
+   "route": "/production/activity?verb=<CHANGE>",
+   "family": "ACTIVITY",
+   "state": "?verb=<CHANGE>",
+   "kind": "state",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5936.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6009.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5991.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "same authority as root (filter state)",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": null
+  },
+  {
+   "route": "/production/activity?view=blockers|approvals (legacy \u2192 verb)",
+   "family": "ACTIVITY",
+   "state": "?view=blockers|approvals (legacy \u2192 verb)",
+   "kind": "state",
+   "mobile_authority": [
+    "UP:T12:Mobile/IMG_5936.jpg"
+   ],
+   "tablet_authority": [
+    "UP:T12:Tablet/IMG_6009.jpg"
+   ],
+   "desktop_authority": [
+    "UP:T12:Desktop/IMG_5991.jpg"
+   ],
+   "modal_drawer_authority": [],
+   "interaction_authority": [],
+   "governing": "same authority as root (filter state)",
+   "classification": "EXACT_AUTHORITY_FOUND",
+   "confidence": "HIGH",
+   "status": "MAPPED",
+   "notes": null
+  },
+  {
+   "route": "/production/activity?event=:id | ?milestone=:node",
+   "family": "ACTIVITY",
+   "state": "inspector / drawer",
+   "kind": "detail",
+   "mobile_authority": [],
+   "tablet_authority": [],
+   "desktop_authority": [],
+   "modal_drawer_authority": [
+    "D-ACTIVITY-FINAL"
+   ],
+   "interaction_authority": [],
+   "governing": "D-ACTIVITY-FINAL (text authority: inspector fields)",
+   "classification": "PARTIAL_AUTHORITY",
+   "confidence": "MEDIUM",
+   "status": "MAPPED",
+   "notes": "No image authority for the inspector; directive text defines content."
+  }
+ ]
+}

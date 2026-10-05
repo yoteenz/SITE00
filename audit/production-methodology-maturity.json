@@ -1,0 +1,86 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "scale": ["NONE", "EARLY", "PARTIAL", "MEDIUM", "STRONG", "MATURE"],
+  "disciplines": {
+    "IDENTITY": {
+      "methodologyMaturity": "PARTIAL",
+      "implementationMaturity": "MEDIUM",
+      "automationMaturity": "PARTIAL",
+      "evaluationMaturity": "EARLY",
+      "generalizationMaturity": "PARTIAL",
+      "liveVerification": "MEDIUM",
+      "biggestGap": "No Identity Concept Territory — intelligence may collapse to style/direction without concept formation layer",
+      "nextRequiredCapability": "Identity concept formation + identity system compiler (verbal/visual/motion identity as governed system)"
+    },
+    "CONTENT_CREATIVE": {
+      "methodologyMaturity": "MEDIUM",
+      "implementationMaturity": "MEDIUM",
+      "automationMaturity": "PARTIAL",
+      "evaluationMaturity": "PARTIAL",
+      "generalizationMaturity": "EARLY",
+      "liveVerification": "EARLY",
+      "biggestGap": "No topic strategy, content calendar, campaign continuity, or performance learning loop",
+      "nextRequiredCapability": "Content planning engine — who/what decides what the brand says next"
+    },
+    "SITE": {
+      "methodologyMaturity": "MEDIUM",
+      "implementationMaturity": "PARTIAL",
+      "automationMaturity": "EARLY",
+      "evaluationMaturity": "EARLY",
+      "generalizationMaturity": "EARLY",
+      "liveVerification": "EARLY",
+      "biggestGap": "Hero proof → full site bridge missing; Composer would become creative director for remaining pages",
+      "nextRequiredCapability": "Page families, layout grammar, design tokens, surface-specific briefs before implementation"
+    },
+    "EXPERIENCE": {
+      "methodologyMaturity": "MEDIUM",
+      "implementationMaturity": "PARTIAL",
+      "automationMaturity": "PARTIAL",
+      "evaluationMaturity": "PARTIAL",
+      "generalizationMaturity": "EARLY",
+      "liveVerification": "EARLY",
+      "biggestGap": "Page-centric visual metaphor; weak interaction/IA/conversion architecture; solving site architecture problems",
+      "nextRequiredCapability": "Experience behavior model + interaction architecture separate from visual proof composition"
+    },
+    "APPLICATION_PRODUCT": {
+      "methodologyMaturity": "NONE",
+      "implementationMaturity": "EARLY",
+      "automationMaturity": "NONE",
+      "evaluationMaturity": "NONE",
+      "generalizationMaturity": "NONE",
+      "liveVerification": "NONE",
+      "biggestGap": "Product Expression layer entirely missing between intelligence and implementation",
+      "nextRequiredCapability": "Product Expression architecture (roles, loops, state, workflows, business rules)"
+    },
+    "MOTION": {
+      "methodologyMaturity": "EARLY",
+      "implementationMaturity": "NONE",
+      "automationMaturity": "NONE",
+      "evaluationMaturity": "NONE",
+      "generalizationMaturity": "NONE",
+      "liveVerification": "NONE",
+      "biggestGap": "Motion exists as intent/lineage types only — decorative potential, not medium discipline",
+      "nextRequiredCapability": "Motion grammar, transition system, reduced-motion contract, motion asset production"
+    },
+    "PHYSICAL_EXPERIENCE": {
+      "methodologyMaturity": "NONE",
+      "implementationMaturity": "NONE",
+      "automationMaturity": "NONE",
+      "evaluationMaturity": "NONE",
+      "generalizationMaturity": "NONE",
+      "liveVerification": "NONE",
+      "biggestGap": "No production methodology",
+      "nextRequiredCapability": "Defer until digital disciplines mature; capture physical intent in intelligence only"
+    },
+    "WORLD": {
+      "methodologyMaturity": "PARTIAL",
+      "implementationMaturity": "EARLY",
+      "automationMaturity": "NONE",
+      "evaluationMaturity": "EARLY",
+      "generalizationMaturity": "EARLY",
+      "liveVerification": "NONE",
+      "biggestGap": "Contracts describe worlds but cannot form them — missing presence, economy, moderation, sync domains",
+      "nextRequiredCapability": "World blocker domain research before any runtime formation"
+    }
+  }
+}

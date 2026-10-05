@@ -1,0 +1,27 @@
+{
+  "contract": "JURNL_CURRENCY_CATALOG",
+  "base_currency": "USD",
+  "note": "Canonical display catalog. The selector reads this list. It is not limited to three codes. The sheet shows three rows and scrolls the rest.",
+  "currencies": [
+    { "currency_code": "USD", "currency_name": "US DOLLAR", "locale": "en-US" },
+    { "currency_code": "EUR", "currency_name": "EURO", "locale": "en-US" },
+    { "currency_code": "GBP", "currency_name": "BRITISH POUND", "locale": "en-US" },
+    { "currency_code": "CAD", "currency_name": "CANADIAN DOLLAR", "locale": "en-US" },
+    { "currency_code": "AUD", "currency_name": "AUSTRALIAN DOLLAR", "locale": "en-US" },
+    { "currency_code": "JPY", "currency_name": "JAPANESE YEN", "locale": "en-US" },
+    { "currency_code": "CHF", "currency_name": "SWISS FRANC", "locale": "en-US" },
+    { "currency_code": "CNY", "currency_name": "CHINESE YUAN", "locale": "en-US" },
+    { "currency_code": "INR", "currency_name": "INDIAN RUPEE", "locale": "en-US" },
+    { "currency_code": "MXN", "currency_name": "MEXICAN PESO", "locale": "en-US" },
+    { "currency_code": "BRL", "currency_name": "BRAZILIAN REAL", "locale": "en-US" },
+    { "currency_code": "KRW", "currency_name": "SOUTH KOREAN WON", "locale": "en-US" },
+    { "currency_code": "SGD", "currency_name": "SINGAPORE DOLLAR", "locale": "en-US" },
+    { "currency_code": "HKD", "currency_name": "HONG KONG DOLLAR", "locale": "en-US" },
+    { "currency_code": "NZD", "currency_name": "NEW ZEALAND DOLLAR", "locale": "en-US" },
+    { "currency_code": "ZAR", "currency_name": "SOUTH AFRICAN RAND", "locale": "en-US" },
+    { "currency_code": "AED", "currency_name": "UAE DIRHAM", "locale": "en-US" },
+    { "currency_code": "NGN", "currency_name": "NIGERIAN NAIRA", "locale": "en-US" },
+    { "currency_code": "GHS", "currency_name": "GHANAIAN CEDI", "locale": "en-US" },
+    { "currency_code": "JMD", "currency_name": "JAMAICAN DOLLAR", "locale": "en-US" }
+  ]
+}

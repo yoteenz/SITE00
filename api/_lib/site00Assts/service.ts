@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from '../supabase.js';
+import { resolveProjectDbId } from '../site00Projects/canonicalProject.js';
 import type { AssetStatus, BatchStatus } from './types.js';
 import { ACTIVE_ASSTS_ENV_BATCH_KEY, BATCH_ASSTS_ENV_001, getBatchManifestByKey } from './manifests.js';
 import { ensureCanonicalMasterRegistered, getCanonicalMasterReviewContext } from './canonicalMaster.js';
@@ -25,6 +26,8 @@ export type DbAsset = {
   asset_type: string;
   category: string | null;
   batch_id: string | null;
+  project_id: string | null;
+  ownership_status: string | null;
   semantic_slot_key: string | null;
   current_version_id: string | null;
   approved_version_id: string | null;
@@ -124,6 +127,8 @@ export async function ensureBootstrapBatch(batchKey = ACTIVE_ASSTS_ENV_BATCH_KEY
       semantic_slot_key: asset.semanticSlotKey,
       status: 'QUEUED',
       required: asset.required,
+      project_id: await resolveProjectDbId({ slug: 'ndxbook' }),
+      ownership_status: 'SCOPED',
     });
   }
 
@@ -308,9 +313,27 @@ export async function getLibraryCategoryCounts(): Promise<
   return results;
 }
 
-export async function listFilteredLibraryAssets(filters: { status?: string; category?: string }) {
+export async function listLogicalAssetsForProject(projectId: string): Promise<DbAsset[]> {
+  const { data, error } = await supabase()
+    .from('site00_logical_assets')
+    .select('*')
+    .eq('project_id', projectId)
+    .order('asset_key');
+  if (error) throw new Error(error.message);
+  return (data ?? []) as DbAsset[];
+}
+
+export async function listFilteredLibraryAssets(filters: {
+  status?: string;
+  category?: string;
+  projectId?: string;
+}) {
   let rows: DbAsset[] = [];
-  const { data, error } = await supabase().from('site00_logical_assets').select('*').order('asset_key');
+  let query = supabase().from('site00_logical_assets').select('*').order('asset_key');
+  if (filters.projectId) {
+    query = query.eq('project_id', filters.projectId);
+  }
+  const { data, error } = await query;
   if (error) throw new Error(error.message);
   rows = (data ?? []) as DbAsset[];
 

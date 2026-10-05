@@ -1,0 +1,178 @@
+<title>Family Review Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@87.5,300..800&display=swap">
+<style>
+/* Layout: wireframe board — an interactive phone prototype first, then a row of static state frames, then the spec. Single light theme by choice (the client app shell is white). */
+:root{
+  --paper:#f7f7f6; --white:#ffffff; --ink:#0d0d0e; --muted:#6e6e72; --line:rgba(13,13,14,.12);
+  --red:#e8192c; --red-wash:rgba(232,25,44,.08); --slot:#ececee;
+  --mono:"Martian Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--mono);font-size:12px;line-height:1.55;text-transform:uppercase;letter-spacing:.02em;padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+header{display:flex;flex-direction:column;gap:10px;max-width:68ch}
+.kicker{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:10px;letter-spacing:.08em}
+.kicker i{width:3px;height:14px;background:var(--red);display:block}
+h1{font-size:clamp(22px,4vw,34px);font-weight:800;letter-spacing:0;line-height:1.1;text-wrap:balance;margin:0}
+.lede{color:var(--muted);text-transform:none;font-size:13px;letter-spacing:0;margin:0}
+h2{font-size:13px;font-weight:700;margin:0;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:3px;height:14px;background:var(--red)}
+.row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.cap{display:flex;flex-direction:column;gap:10px;width:300px;max-width:100%}
+.cap p{margin:0;color:var(--muted);text-transform:none;letter-spacing:0;font-size:12px;line-height:1.5}
+.cap b{color:var(--ink)}
+/* phone */
+.phone{width:300px;max-width:100%;aspect-ratio:393/852;background:var(--white);border:1px solid var(--line);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.top{display:flex;align-items:center;gap:8px;padding:14px 16px 10px;border-bottom:1px solid var(--line);font-size:10px;font-weight:700}
+.top .dia{width:9px;height:9px;background:var(--red);transform:rotate(45deg)}
+.top .sp{flex:1}
+.top .ic{width:16px;height:16px;border:1px solid var(--line);border-radius:4px}
+.body{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column}
+.slot{margin:12px;flex:0 0 auto;aspect-ratio:9/12;border-radius:6px;background:repeating-linear-gradient(135deg,var(--slot) 0 8px,var(--white) 8px 16px);border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:9px;letter-spacing:.1em;text-align:center}
+.slot.small{aspect-ratio:9/6}
+.meta{padding:0 16px 12px;display:flex;flex-direction:column;gap:6px}
+.meta .fam{font-size:14px;font-weight:800}
+.meta .ln{display:flex;justify-content:space-between;gap:8px;font-size:9px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px}
+.meta .ln span:last-child{color:var(--ink);text-align:right}
+.dock{border-top:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--white)}
+.btn{font:inherit;text-transform:uppercase;letter-spacing:.04em;min-height:48px;border-radius:6px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:1px solid var(--ink);background:var(--white);color:var(--ink);width:100%}
+.btn.pri{background:var(--red);border-color:var(--red);color:var(--white)}
+.btn.ghost{border-color:var(--line);color:var(--muted);min-height:36px;font-weight:500}
+.btn[disabled]{opacity:.35;cursor:not-allowed}
+.btn:focus-visible,.chip:focus-visible,textarea:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.glyph{font-size:13px;line-height:1}
+.fb{padding:12px 16px;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);background:var(--paper)}
+.fb .q{font-size:12px;font-weight:800}
+.fb textarea{font:inherit;text-transform:none;letter-spacing:0;font-size:12px;min-height:84px;border:1px solid var(--line);border-radius:6px;padding:10px;background:var(--white);color:var(--ink);resize:vertical;width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:9px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:5px 9px;background:var(--white);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--red);color:var(--red);background:var(--red-wash)}
+.hint{font-size:9px;color:var(--muted);text-transform:none;letter-spacing:0}
+.hint.err{color:var(--red)}
+.state{margin:12px;border:1px solid var(--line);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.state .big{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
+.state p{margin:0;text-transform:none;letter-spacing:0;color:var(--muted);font-size:11px}
+.state.ok .big .glyph{color:var(--red)}
+.quote{border-left:3px solid var(--red);padding-left:10px;text-transform:none;letter-spacing:0;font-size:11px}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);font-size:8px;text-align:center;padding:8px 4px 12px;color:var(--muted)}
+.nav .on{color:var(--red);font-weight:700}
+.tag{position:absolute;top:10px;right:-1px;background:var(--ink);color:var(--white);font-size:8px;padding:3px 8px;border-radius:4px 0 0 4px;letter-spacing:.08em}
+/* spec */
+.spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.spec section{display:flex;flex-direction:column;gap:8px;min-width:0;border-top:1px solid var(--line);padding-top:12px}
+.spec ul{margin:0;padding-left:16px;text-transform:none;letter-spacing:0;font-size:12px;color:var(--ink);display:flex;flex-direction:column;gap:4px}
+.spec code{font-family:var(--mono);font-size:11px;background:var(--white);border:1px solid var(--line);border-radius:4px;padding:0 4px}
+@media (prefers-reduced-motion:no-preference){.fb{animation:open .18s ease-out}@keyframes open{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="kicker"><i></i>SITE 00 · CLIENT APP · NON-PAID WIREFRAME AUTHORITY SPEC</div>
+  <h1>Family review: approve, or explain what needs work</h1>
+  <p class="lede">Wireframe board for the client family-review mode at 393×852. The hatched slot stands for the family authority under review; no imagery was generated. The first phone is live: try both decisions. A revision cannot be sent until it explains the problem.</p>
+</header>
+
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2>Try it</h2>
+<div class="row">
+  <div class="phone" id="proto" aria-label="Interactive family review prototype">
+    <span class="tag">LIVE</span>
+    <div class="top"><span class="dia" aria-hidden="true"></span>ALL IN ONE ENTERPRISES<span class="sp"></span><span class="ic" aria-label="Notifications"></span><span class="ic" aria-label="Menu"></span></div>
+    <div class="body" id="pbody"></div>
+    <div class="nav" aria-hidden="true"><span>HOME</span><span>PROJECT</span><span class="on">REVIEWS</span><span>INBOX</span><span>LIBRARY</span></div>
+  </div>
+  <div class="cap">
+    <h2>What it proves</h2>
+    <p><b>Approve</b> needs no comment. It settles into an approved state with a short undo window.</p>
+    <p><b>Needs revision</b> never submits on tap. It opens the feedback space in place. <b>Send revision request</b> stays disabled until the note is meaningful: at least 12 characters and 3 words, or one topic chip plus 6 characters.</p>
+    <p>Prices and payment never appear on this screen. Funding shows up later, as the next step after approval.</p>
+    <button class="btn ghost" id="reset" type="button">Reset prototype</button>
+  </div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2>States</h2>
+<div class="row" id="frames"></div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2>Spec</h2>
+<div class="spec">
+  <section><h2>Controls</h2><ul>
+    <li>♥ and × are decorative (<code>aria-hidden</code>). The buttons are named "Approve" and "Needs revision".</li>
+    <li>Each button is at least 48px tall and full width on mobile, in the thumb zone. No swipe gestures.</li>
+    <li>Status is always written in words, never shown by colour or symbol alone.</li>
+  </ul></section>
+  <section><h2>Feedback</h2><ul>
+    <li>Prompt: "What isn't working for you?" in a large field.</li>
+    <li>Optional chips in plain language. No design vocabulary required.</li>
+    <li>Validation runs on the client <em>and</em> the server; the server accepts an empty summary today.</li>
+    <li>Drafts autosave. Leaving with text offers KEEP DRAFT or DISCARD.</li>
+    <li>On mobile, a focused sheet keeps the prompt, field and send button above the keyboard.</li>
+  </ul></section>
+  <section><h2>Confirmation</h2><ul>
+    <li>Standard gates: light inline confirmation with UNDO for a short grace window.</li>
+    <li>Final or contractual gates: an explicit confirmation that lists what becomes final.</li>
+    <li>After the window, or once production starts, an approval is history. A change becomes a new version.</li>
+  </ul></section>
+  <section><h2>Events written</h2><ul>
+    <li><code>APPROVE</code> / <code>NEEDS_REVISION</code> / <code>APPROVAL_UNDONE</code> receipts with family, authority, version, previous and new status, reason and chips.</li>
+    <li>Gate: <code>FAMILY_01_APPROVED → FAMILY_02_READY_TO_PRODUCE</code> (or <code>AWAITING_PRODUCTION_FUNDING</code>).</li>
+    <li>Founder sees it in the production INBOX client lens.</li>
+  </ul></section>
+</div>
+</section>
+</div>
+
+<script>
+(function(){
+  var FAM={name:'IDENTITY DIRECTION',purpose:'HOW AIO LOOKS AND SOUNDS',changed:'FIRST VERSION',version:'V1',cost:'INCLUDED',status:'READY FOR YOU'};
+  var CHIPS=['VISUAL DIRECTION','LAYOUT','COPY','COLOR','IMAGERY','INTERACTION',"DOESN'T FEEL LIKE MY BRAND",'OTHER'];
+  function meta(f,status){return '<div class="slot">FAMILY AUTHORITY<br>(DOMINANT)</div><div class="meta"><div class="fam">'+f.name+'</div>'+
+    [['PURPOSE',f.purpose],['WHAT CHANGED',f.changed],['VERSION',f.version],['COST ON THIS FAMILY',f.cost],['STATUS',status||f.status]].map(function(r){return '<div class="ln"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>'}).join('')+'</div>';}
+  function dock(){return '<div class="dock"><button class="btn pri" type="button" data-act="approve"><span class="glyph" aria-hidden="true">♥</span>APPROVE</button><button class="btn" type="button" data-act="revise"><span class="glyph" aria-hidden="true">×</span>NEEDS REVISION</button></div>';}
+  function chipHtml(sel){return '<div class="chips" role="group" aria-label="Optional topics">'+CHIPS.map(function(c){return '<button type="button" class="chip" aria-pressed="'+(sel.indexOf(c)>-1)+'" data-chip="'+c+'">'+c+'</button>'}).join('')+'</div>';}
+  function fbHtml(text,sel,id,live){return '<div class="fb"><div class="q">WHAT ISN\'T WORKING FOR YOU?</div><label class="hint" for="'+id+'">Say it in your own words. No design terms needed.</label><textarea id="'+id+'" '+(live?'':'readonly')+' placeholder="E.g. the colours feel too cold for a trucking business our drivers trust">'+(text||'')+'</textarea>'+chipHtml(sel)+'<div class="hint" data-hint aria-live="polite"></div><button class="btn pri" type="button" data-act="send">SEND REVISION REQUEST</button><button class="btn ghost" type="button" data-act="cancel">KEEP REVIEWING</button></div>';}
+  function valid(t,sel){t=(t||'').trim();if(/^(.)\1+$/.test(t.replace(/\s/g,''))||/^[\W_]+$/.test(t))return false;var w=t.split(/\s+/).filter(Boolean).length;return (t.length>=12&&w>=3)||(sel.length>=1&&t.length>=6);}
+  function approved(){return '<div class="state ok"><div class="big"><span class="glyph" aria-hidden="true">♥</span>APPROVED</div><p>You approved Identity Direction V1. Next, we move into familyization. You don\'t need to do anything right now.</p><button class="btn ghost" type="button" data-act="undo">UNDO · 9:58 LEFT</button></div>';}
+  function submitted(t){return '<div class="state"><div class="big"><span class="glyph" aria-hidden="true">×</span>REVISION REQUESTED</div><p>We have your notes. The founder is working on V2. We\'ll let you know when it\'s ready.</p><div class="quote">"'+t+'"</div></div>';}
+
+  // ---------- live prototype ----------
+  var st={mode:'view',text:'',sel:[]};
+  var b=document.getElementById('pbody');
+  function render(){
+    if(st.mode==='view'){b.innerHTML=meta(FAM)+dock();}
+    else if(st.mode==='revise'){b.innerHTML=meta(FAM)+fbHtml(st.text,st.sel,'fb-live',true);var ta=b.querySelector('textarea');ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);sync();}
+    else if(st.mode==='approved'){b.innerHTML='<div class="slot small">FAMILY AUTHORITY</div>'+approved();}
+    else if(st.mode==='sent'){b.innerHTML='<div class="slot small">FAMILY AUTHORITY · V1</div>'+submitted(st.text.replace(/</g,'&lt;'));}
+  }
+  function sync(){var ok=valid(st.text,st.sel);var s=b.querySelector('[data-act=send]');if(s)s.disabled=!ok;var h=b.querySelector('[data-hint]');if(h){h.textContent=ok?'Ready to send.':(st.text.trim()?'Tell us a little more so we can fix the right thing.':'');h.className='hint'+(st.text.trim()&&!ok?' err':'');}}
+  b.addEventListener('click',function(e){var a=e.target.closest('[data-act]'),c=e.target.closest('[data-chip]');
+    if(c){var v=c.getAttribute('data-chip'),i=st.sel.indexOf(v);if(i>-1)st.sel.splice(i,1);else st.sel.push(v);c.setAttribute('aria-pressed',i<0);sync();return;}
+    if(!a)return;var act=a.getAttribute('data-act');
+    if(act==='approve')st.mode='approved';else if(act==='revise')st.mode='revise';else if(act==='cancel')st.mode='view';else if(act==='undo')st.mode='view';
+    else if(act==='send'){if(!valid(st.text,st.sel))return;st.mode='sent';}
+    render();});
+  b.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA'){st.text=e.target.value;sync();}});
+  document.getElementById('reset').addEventListener('click',function(){st={mode:'view',text:'',sel:[]};render();});
+  render();
+
+  // ---------- static frames ----------
+  var F=[
+    {t:'01 VIEWING',c:'The authority dominates. Context is short: purpose, what changed, version, cost and status.',h:meta(FAM)+dock()},
+    {t:'02 NEEDS REVISION · EMPTY',c:'Tapping × opens the feedback space in place. The send button is disabled.',h:meta(FAM).replace('class="slot"','class="slot small"')+fbHtml('',[],'fb-a',false),dis:true},
+    {t:'03 FEEDBACK VALID',c:'A meaningful note plus an optional chip enables the send button.',h:'<div class="slot small">FAMILY AUTHORITY</div>'+fbHtml('The blue feels corporate and cold. Our drivers know us as warm and local.',['COLOR'],'fb-b',false)},
+    {t:'04 REVISION SUBMITTED',c:'Status becomes REVISION REQUESTED. HOME stops showing it as waiting on the client.',h:'<div class="slot small">FAMILY AUTHORITY · V1</div>'+submitted('The blue feels corporate and cold. Our drivers know us as warm and local.')},
+    {t:'05 APPROVAL SUCCESS',c:'A light confirmation with UNDO for a short grace window. No prices.',h:'<div class="slot small">FAMILY AUTHORITY</div>'+approved()},
+    {t:'06 REVISION READY · V2',c:'The review remembers what you said, what changed, and the new version.',h:'<div class="slot small">FAMILY AUTHORITY · V2</div><div class="state"><div class="big">V2 READY FOR YOU</div><div class="quote">You said: "The blue feels corporate and cold."</div><p>What changed: warmer palette, a road-worn texture, and a friendlier wordmark.</p></div>'+dock()},
+    {t:'07 NEXT FAMILY ADVANCE',c:'Shown after approval, never inside it. Estimates are marked ESTIMATED.',h:'<div class="state"><div class="big">FAMILY 01 · APPROVED</div><p>NEXT: FAMILY 02 · SETUP SCREENS</p></div><div class="meta">'+[['ESTIMATED PRODUCTION','25–35 GENERATIONS'],['ESTIMATED CREDITS','7,500–13,000'],['ESTIMATED COST','$22–$40'],['PROVIDER','OPENART · CONNECTED'],['BALANCE (ATTESTED OCT 5)','14,200 CREDITS']].map(function(r){return '<div class="ln"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>'}).join('')+'</div><div class="dock"><button class="btn pri" type="button" tabindex="-1">READY TO ADVANCE</button></div>'}
+  ];
+  var fr=document.getElementById('frames');
+  fr.innerHTML=F.map(function(f){return '<div class="cap"><div class="phone" aria-label="'+f.t+'"><div class="top"><span class="dia" aria-hidden="true"></span>ALL IN ONE ENTERPRISES<span class="sp"></span><span class="ic"></span><span class="ic"></span></div><div class="body">'+f.h+'</div><div class="nav" aria-hidden="true"><span>HOME</span><span>PROJECT</span><span class="on">REVIEWS</span><span>INBOX</span><span>LIBRARY</span></div></div><h2>'+f.t+'</h2><p>'+f.c+'</p></div>';}).join('');
+  fr.querySelectorAll('.phone button,.phone textarea').forEach(function(el){el.tabIndex=-1;});
+  fr.querySelectorAll('.cap')[1].querySelector('[data-act=send]').disabled=true;
+})();
+</script>

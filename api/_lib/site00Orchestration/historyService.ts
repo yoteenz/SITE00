@@ -42,6 +42,12 @@ export async function getOrchestrationHistory(organizationId: string, limit = 50
 export async function ingestExistingProject(input: IngestionInput, actorEmail?: string) {
   const supabase = getSupabaseAdmin();
 
+  let projectId: string | null = null;
+  if (input.projectSlug) {
+    const { resolveProjectDbId } = await import('../site00Projects/canonicalProject.js');
+    projectId = await resolveProjectDbId({ slug: input.projectSlug });
+  }
+
   const { data: ingestion, error } = await supabase
     .from('site00_project_ingestions')
     .insert({
@@ -49,6 +55,7 @@ export async function ingestExistingProject(input: IngestionInput, actorEmail?: 
       organization_name: input.organizationName ?? null,
       project_classification: input.projectClassification ?? null,
       project_type: input.projectType ?? null,
+      project_id: projectId,
       existing_or_new: input.existingOrNew ?? 'EXISTING',
       current_state: input.currentState ?? null,
       repository_reference: input.repositoryReference ?? null,
@@ -57,7 +64,8 @@ export async function ingestExistingProject(input: IngestionInput, actorEmail?: 
       known_deployment: input.knownDeployment ?? null,
       current_objective: input.currentObjective ?? null,
       current_launch_target: input.currentLaunchTarget ?? null,
-      ingestion_state: 'RECONCILIATION_REQUIRED',
+      ingestion_state: projectId ? 'LINKED' : 'RECONCILIATION_REQUIRED',
+      reconciliation_note: projectId ? null : 'No project_id resolved at ingestion time',
       metadata: { source: 'orchestration_ingestion', demo: false },
     })
     .select('*')

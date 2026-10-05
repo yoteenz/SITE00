@@ -1,0 +1,19 @@
+{
+  "contract": "JURNL_GLOBAL_COMPOSITION",
+  "applies_to": "F03 and every later family. F01 and F02 are audited, not redesigned here.",
+  "top_control_safe_zone": "Back, wordmark, and info may sit near the safe top.",
+  "intro_start_zone": "The family title begins below the chrome with a deliberate gap. It does not sit against the controls.",
+  "content_safe_zone": "Primary type, panels, and amounts stay inside the content rail.",
+  "environment_breathing_zone": "The right side of an environment plate stays open. Content does not cover the curtain, sky, or architecture.",
+  "panel_width_policy": "If content does not fit, refine type and spacing before widening the panel into the plate.",
+  "bottom_centering_policy": "The bottom nav is centered in the app canvas. Inner labels stay left-aligned inside rows.",
+  "typographic_containment": "Interactive text stays compact. Reduce size and tracking before wrapping. An underline fits the text, not the parent.",
+  "icon_label_row": "Icon, then label, then optional control, on one row. A wrapping label stays in its own column.",
+  "money_formatting": "User-facing money uses formatMoney and the active currency symbol.",
+  "currency_preference": "Global display currency. No foreign-exchange conversion.",
+  "responsive_rules": {
+    "mobile": "393x852. Narrow content rail. Centered nav.",
+    "tablet": "834x1194. Wider rail, still short of the plate. Larger intro gap.",
+    "desktop": "1440x900. Rail stays editorial. Nav stays a centered dock, not a full-bleed bar."
+  }
+}

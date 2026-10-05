@@ -1,0 +1,110 @@
+{
+  "family_id": "F02_SETUP",
+  "plates": [
+    {
+      "environment_id": "ENV.ARRIVAL",
+      "asset_id": "SETUP.ENVIRONMENT.ARRIVAL.001",
+      "file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_ARRIVAL.jpg",
+      "source": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_ARRIVAL_PLATE.jpg",
+      "generation_id": "vXt3qXGkNz4UwerQKhGs",
+      "sha256": "e5140eb7977ccaa7383b67b398fe7499e09bbf781c34dcff0b4b5bf8124c2fed",
+      "dimensions": {
+        "width": 2016,
+        "height": 3584
+      },
+      "qa_status": "PASS_PROVISIONAL",
+      "clean_of_live_ui": true,
+      "clean_of_text": true,
+      "clean_of_buttons": true,
+      "clean_of_form_fields": true,
+      "lineage": "F02.00 screen authority, UI removed, room kept.",
+      "member_screens": [
+        "F02.00",
+        "F02.01",
+        "F02.08",
+        "F02.ST.RESUME"
+      ],
+      "runtime_use": true,
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "environment_id": "ENV.DESK",
+      "asset_id": "SETUP.ENVIRONMENT.DESK.001",
+      "file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_DESK.jpg",
+      "source": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_DESK_PLATE.jpg",
+      "generation_id": "hh67GjscTJvs74dBMWsX",
+      "sha256": "45f59583e55d07b15a965a136f8e8b9783e6d769c29217a87828bd2680992edf",
+      "dimensions": {
+        "width": 2016,
+        "height": 3584
+      },
+      "qa_status": "PASS_PROVISIONAL",
+      "clean_of_live_ui": true,
+      "clean_of_text": true,
+      "clean_of_buttons": true,
+      "clean_of_form_fields": true,
+      "lineage": "F02.02 screen authority, UI removed, desk kept.",
+      "member_screens": [
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.06",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP"
+      ],
+      "runtime_use": true,
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "environment_id": "ENV.EDIT",
+      "asset_id": "SETUP.ENVIRONMENT.EDIT.001",
+      "file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_EDIT.jpg",
+      "source": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_EDIT_PLATE.jpg",
+      "generation_id": "V0617Ub1w3FNYEXcp91K",
+      "sha256": "8fd6f57648a347210af95483060368a356264a852486fa14ef37effc05f54b9b",
+      "dimensions": {
+        "width": 2016,
+        "height": 3584
+      },
+      "qa_status": "PASS_PROVISIONAL",
+      "clean_of_live_ui": true,
+      "clean_of_text": true,
+      "clean_of_buttons": true,
+      "clean_of_form_fields": true,
+      "lineage": "F02.05 screen authority, UI removed.",
+      "member_screens": [
+        "F02.05",
+        "F02.05.1"
+      ],
+      "runtime_use": true,
+      "approval_status": "IN_REVIEW"
+    },
+    {
+      "environment_id": "ENV.QUIET",
+      "asset_id": "SETUP.ENVIRONMENT.QUIET.001",
+      "file": "src/projects/jurnl/families/F02_SETUP/ENVIRONMENTS/F02_ENVIRONMENT_QUIET.jpg",
+      "source": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_QUIET_PLATE.jpg",
+      "generation_id": "bEj6Bfu7UmEjMFm0l1Lx",
+      "sha256": "05d4d58bbc25a3878b0a0cd92e75d0dd5846df2acf194809a5286f12c524efab",
+      "dimensions": {
+        "width": 2016,
+        "height": 3584
+      },
+      "qa_status": "PASS_PROVISIONAL",
+      "clean_of_live_ui": true,
+      "clean_of_text": true,
+      "clean_of_buttons": true,
+      "clean_of_form_fields": true,
+      "lineage": "F02.07 screen authority, UI removed.",
+      "member_screens": [
+        "F02.07",
+        "F02.IN.PERMISSION"
+      ],
+      "runtime_use": true,
+      "approval_status": "IN_REVIEW"
+    }
+  ]
+}
