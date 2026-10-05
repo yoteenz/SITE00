@@ -1,0 +1,95 @@
+{
+  "family_id": "F02_SETUP",
+  "note": "Panel, button, object, botanical, material, and icon image assets were not generated. Those decisions are CODE_ONLY or BAKED_INTO_PLATE and are listed in the component map and the sidekick report.",
+  "assets": [
+    {
+      "asset_id": "SETUP.ENVIRONMENT.ARRIVAL.001",
+      "source_screen": "F02.00",
+      "asset_class": "ENVIRONMENT",
+      "purpose": "ENV.ARRIVAL",
+      "runtime_role": "Full-bleed plate behind live UI. Not a screenshot of the screen.",
+      "file_path": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_ARRIVAL_PLATE.jpg",
+      "format": "jpeg",
+      "transparency": false,
+      "member_screens": [
+        "F02.00",
+        "F02.01",
+        "F02.08",
+        "F02.ST.RESUME"
+      ],
+      "shared_or_unique": "SHARED",
+      "generation_id": "vXt3qXGkNz4UwerQKhGs",
+      "credit_cost": 317,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.00 screen authority, UI removed, room kept."
+    },
+    {
+      "asset_id": "SETUP.ENVIRONMENT.DESK.001",
+      "source_screen": "F02.02",
+      "asset_class": "ENVIRONMENT",
+      "purpose": "ENV.DESK",
+      "runtime_role": "Full-bleed plate behind live UI. Not a screenshot of the screen.",
+      "file_path": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_DESK_PLATE.jpg",
+      "format": "jpeg",
+      "transparency": false,
+      "member_screens": [
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.06",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP"
+      ],
+      "shared_or_unique": "SHARED",
+      "generation_id": "hh67GjscTJvs74dBMWsX",
+      "credit_cost": 317,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.02 screen authority, UI removed, desk kept."
+    },
+    {
+      "asset_id": "SETUP.ENVIRONMENT.EDIT.001",
+      "source_screen": "F02.05",
+      "asset_class": "ENVIRONMENT",
+      "purpose": "ENV.EDIT",
+      "runtime_role": "Full-bleed plate behind live UI. Not a screenshot of the screen.",
+      "file_path": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_EDIT_PLATE.jpg",
+      "format": "jpeg",
+      "transparency": false,
+      "member_screens": [
+        "F02.05",
+        "F02.05.1"
+      ],
+      "shared_or_unique": "SHARED",
+      "generation_id": "V0617Ub1w3FNYEXcp91K",
+      "credit_cost": 317,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.05 screen authority, UI removed."
+    },
+    {
+      "asset_id": "SETUP.ENVIRONMENT.QUIET.001",
+      "source_screen": "F02.07",
+      "asset_class": "ENVIRONMENT",
+      "purpose": "ENV.QUIET",
+      "runtime_role": "Full-bleed plate behind live UI. Not a screenshot of the screen.",
+      "file_path": "JURNL/F02_SETUP/ENVIRONMENTS/ENV_QUIET_PLATE.jpg",
+      "format": "jpeg",
+      "transparency": false,
+      "member_screens": [
+        "F02.07",
+        "F02.IN.PERMISSION"
+      ],
+      "shared_or_unique": "SHARED",
+      "generation_id": "bEj6Bfu7UmEjMFm0l1Lx",
+      "credit_cost": 317,
+      "qa_status": "PASS_PROVISIONAL",
+      "approval_status": "IN_REVIEW",
+      "lineage": "F02.07 screen authority, UI removed."
+    }
+  ]
+}

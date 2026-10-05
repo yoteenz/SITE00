@@ -1,0 +1,283 @@
+{
+  "family_id": "F02_SETUP",
+  "components": [
+    {
+      "component_id": "LIVE_ENVIRONMENT",
+      "component_type": "ENVIRONMENT",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.08",
+        "F02.ST.RESUME"
+      ],
+      "asset_id": "SETUP.ENVIRONMENT.ARRIVAL.001",
+      "asset_role": "PLATE",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_ENVIRONMENT",
+      "component_type": "ENVIRONMENT",
+      "screen_ids": [
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.06",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP"
+      ],
+      "asset_id": "SETUP.ENVIRONMENT.DESK.001",
+      "asset_role": "PLATE",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_ENVIRONMENT",
+      "component_type": "ENVIRONMENT",
+      "screen_ids": [
+        "F02.05",
+        "F02.05.1"
+      ],
+      "asset_id": "SETUP.ENVIRONMENT.EDIT.001",
+      "asset_role": "PLATE",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_ENVIRONMENT",
+      "component_type": "ENVIRONMENT",
+      "screen_ids": [
+        "F02.07",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": "SETUP.ENVIRONMENT.QUIET.001",
+      "asset_role": "PLATE",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_PAPER_CARD",
+      "component_type": "PANEL",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_PAPER_SHEET",
+      "component_type": "SHEET",
+      "screen_ids": [
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_BUTTON_PRIMARY",
+      "component_type": "BUTTON",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_SELECTION_ROW",
+      "component_type": "CONTROL",
+      "screen_ids": [
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.05",
+        "F02.05.1",
+        "F02.07",
+        "F02.08"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_FIELD",
+      "component_type": "FIELD",
+      "screen_ids": [
+        "F02.03",
+        "F02.06",
+        "F02.02.1",
+        "F02.05.1",
+        "F02.ST.VALIDATION",
+        "F02.IN.ADD"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_PROGRESS",
+      "component_type": "PROGRESS",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "CODE_ONLY",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    },
+    {
+      "component_id": "LIVE_WORDMARK",
+      "component_type": "LOGO",
+      "screen_ids": [
+        "F02.00",
+        "F02.01",
+        "F02.02",
+        "F02.02.1",
+        "F02.03",
+        "F02.04",
+        "F02.05",
+        "F02.05.1",
+        "F02.06",
+        "F02.07",
+        "F02.08",
+        "F02.ST.RESUME",
+        "F02.ST.VALIDATION",
+        "F02.ST.CONNECTED",
+        "F02.IN.ADD",
+        "F02.IN.SKIP",
+        "F02.IN.PERMISSION"
+      ],
+      "asset_id": null,
+      "asset_role": "EXISTING_OFFICIAL_LOGO",
+      "content_layer": "LIVE",
+      "interaction_layer": "LIVE",
+      "states": [
+        "DEFAULT",
+        "FOCUS",
+        "DISABLED"
+      ],
+      "responsive_behavior": "Same component at 393, 834, and 1440. No breakpoint art."
+    }
+  ]
+}

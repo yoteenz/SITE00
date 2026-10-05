@@ -13441,3 +13441,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** The runtime root is the app stage. The plate is pinned to that stage. The live column is positioned inside it and sized to `100dvh`, so content cannot anchor to the SITE 00 page. The form was tightened so the footer fits the plate. No negative-margin patches. No new plates. No paid generations. site00.com was not uploaded by the agent.
 - **Changes:** `jurnl-runtime.css`, `jurnl-screens.css`, `JurnlRuntimeRoot.tsx` (`data-jrn-app-stage="canvas"`), runtime containment test.
 - **Conventions:** `JURNL_APP_CANVAS_CONTAINMENT`. Fit the column, then let the stage stop accidental escape. Do not hide a too-tall footer with clipping alone. Do not position JURNL controls against the host page.
+
+---
+
+## 2026-10-05 — F02 SETUP visual package
+
+- **Context:** This chat produced the F02 visual authority package. Earlier F01 work in the motherboard (unique plates, density, canvas boundary) stays as it was. The sprint was P0.JURNL.F02-SETUP-FULL-FAMILY-SCREEN-PLUS-LINKED-ASSET-SIDEKICK1.
+- **Topics covered:** The product tree names F02 SETUP and leaves it NOT_STARTED. There was no screen tree, so the tree was written from the setup job only: configure household, accounts, income rhythm, repeating obligations, priorities, one goal when chosen, a protected amount, consent, and a handoff to Today. Downstream families were not redesigned. Screen authorities and linked plates were made in the same session with GPT Image 2.5 Sunburst at resolution tier 4k, 9:16, auto-enhance off. Delivered size 2016×3584, gallery label 3K.
+- **Decisions / outcomes:** One parent, eight children, two grandchildren, three states, three interaction sheets. Four plates, reused across the screens that share a room. Bone paper cards and the emerald button stay live code, so no panel or button image was generated and no label was baked into a skin. Objects and botanicals stay in the plates. F01 icons are inherited. No new icon was generated. Nothing was auto-approved. F01 files were not changed. The runtime was not rewritten. site00.com was not deployed.
+- **Changes:** `JURNL/F02_SETUP/` authorities, plates, review sheets, and manifests. Motherboard note that the package is in review and unmounted.
+- **Credits:** OpenArt balance 44,534 → 37,088 (delta 7,446) across 23 jobs. Quoted rate 317 credits for image-to-image 4k high 9:16. The first job's balance delta was 318. The provider does not return a per-job receipt, so 155 credits above 23×317 stay unallocated. Ceiling remains 60,000.
+- **Conventions:** SETUP collects. Later families manage. Share a plate when the room is the same. Generate a plate from the screen by removing UI, not by cropping the screen. If a surface is flat bone or solid emerald, keep it in code.
