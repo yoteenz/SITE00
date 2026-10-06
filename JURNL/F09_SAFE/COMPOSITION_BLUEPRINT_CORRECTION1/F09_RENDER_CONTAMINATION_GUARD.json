@@ -1,0 +1,225 @@
+{
+  "id": "F09_RENDER_CONTAMINATION_GUARD",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "guards": [
+    {
+      "guard_id": "JURNL.F09.T01.CONTAMINATION_GUARD.v1",
+      "territory_id": "JURNL.F09.T01",
+      "family_id": "JURNL.F09",
+      "product_job": "SAFE TO SPEND: what you can spend now without touching bills, plans or what you are holding.",
+      "required_copy": [
+        "SAFE TO SPEND",
+        "WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
+        "$24,885",
+        "HELD BACK $6,075 OF $30,960 CASH",
+        "SEE THE FULL BREAKDOWN",
+        "CHANGE WHAT’S HELD",
+        "PLAN",
+        "HOME",
+        "MONEY",
+        "PLAN",
+        "CREDIT",
+        "9:41",
+        "CLEAR TO SPEND",
+        "BILLS",
+        "GOALS",
+        "TRIPS",
+        "PLAN TODAY. GROW FREELY."
+      ],
+      "forbidden_copy": [
+        "A QUIETER YOU",
+        "BEGIN YOUR JOURNEY",
+        "REFLECT",
+        "ALIGN",
+        "GROW",
+        "JOURNAL",
+        "JOURNEY",
+        "WELCOME",
+        "GET STARTED",
+        "MINDFUL",
+        "DEAR",
+        "TODAY’S ENTRY"
+      ],
+      "allowed_reference_assets": [
+        {
+          "path": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_GUIDES/F09_T01_PLATE_GUIDE_9x16.png",
+          "sha256": "cc5b00919250c15d9950c8345d54017701be7ab8fda153394aea343a9d858365",
+          "role": "GENERATOR_REFERENCE (the only one)"
+        },
+        {
+          "path": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+          "sha256": "d0f706ebcd132562f233ed955e5670c0ff9309d9db6ef85c9d2650b72a16e188",
+          "role": "ASSEMBLY_ASSET (never sent to the generator)"
+        }
+      ],
+      "forbidden_reference_assets": [
+        "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/* (INVALID_RENDER — baked UI)",
+        "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/COMPOSITION_LOCKS/* (value studies and lock boards carry UI blocking)",
+        "Any founder-run ChatGPT output (RUN A) and any image from a chat thread that rendered another JURNL family",
+        "JURNL F01 entry / journal / onboarding references",
+        "The founder comparison concept (a lesson source, never a reference)",
+        "Any other project’s or family’s image"
+      ],
+      "prompt_hashes": {
+        "JURNL.F09.T01.SCENE_PLATE.v1": "2d8f8b423b0b9a93e7f2ac75db635fc509fadb3374ad342eb06e54eedcf6c70c"
+      },
+      "blueprint_hash": "ce248368d03cf11c12fe40d3ad45ad82756e07e5368016743b89a4ad04046b9e",
+      "run_rules": [
+        "One plate per run, in a fresh session or conversation with no prior images or memory.",
+        "Attach only the plate guide; its sha256 and the prompt sha256 must match this guard before the call.",
+        "OCR the output: any glyph rejects the plate (checkContamination plate mode).",
+        "Score every reserved region (BAKED_UI_GUARD); reject on UI shapes, ghost labels or icon glyphs.",
+        "Record provider, model, job id and output sha256 against the plate id."
+      ]
+    },
+    {
+      "guard_id": "JURNL.F09.T02.CONTAMINATION_GUARD.v1",
+      "territory_id": "JURNL.F09.T02",
+      "family_id": "JURNL.F09",
+      "product_job": "SAFE TO SPEND: what you can spend now without touching bills, plans or what you are holding.",
+      "required_copy": [
+        "SAFE TO SPEND",
+        "WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
+        "$24,885",
+        "HELD BACK $6,075 OF $30,960 CASH",
+        "SEE THE FULL BREAKDOWN",
+        "CHANGE WHAT’S HELD",
+        "PLAN",
+        "HOME",
+        "MONEY",
+        "PLAN",
+        "CREDIT",
+        "9:41",
+        "YOU CAN SPEND",
+        "NOW, AFTER",
+        "BILLS, YOUR PLAN,",
+        "GOALS AND TRIPS.",
+        "$2,400 ASSIGNED",
+        "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED."
+      ],
+      "forbidden_copy": [
+        "A QUIETER YOU",
+        "BEGIN YOUR JOURNEY",
+        "REFLECT",
+        "ALIGN",
+        "GROW",
+        "JOURNAL",
+        "JOURNEY",
+        "WELCOME",
+        "GET STARTED",
+        "MINDFUL",
+        "DEAR",
+        "TODAY’S ENTRY"
+      ],
+      "allowed_reference_assets": [
+        {
+          "path": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_GUIDES/F09_T02_PLATE_GUIDE_9x16.png",
+          "sha256": "aec58108568d9b57a735e87b9197d400651d6e57418b56f994a5b085bd62abd2",
+          "role": "GENERATOR_REFERENCE (the only one)"
+        },
+        {
+          "path": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+          "sha256": "d0f706ebcd132562f233ed955e5670c0ff9309d9db6ef85c9d2650b72a16e188",
+          "role": "ASSEMBLY_ASSET (never sent to the generator)"
+        }
+      ],
+      "forbidden_reference_assets": [
+        "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/* (INVALID_RENDER — baked UI)",
+        "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/COMPOSITION_LOCKS/* (value studies and lock boards carry UI blocking)",
+        "Any founder-run ChatGPT output (RUN A) and any image from a chat thread that rendered another JURNL family",
+        "JURNL F01 entry / journal / onboarding references",
+        "The founder comparison concept (a lesson source, never a reference)",
+        "Any other project’s or family’s image"
+      ],
+      "prompt_hashes": {
+        "JURNL.F09.T02.SCENE_PLATE.v1": "ef09c24d6e72cbbc88068bb273d4daac34935806b39e095364e3a7c8478d9c68"
+      },
+      "blueprint_hash": "7f3a8fa0d158924874379748231f025e6c59b6b18703fd75d47aa290d9f1307f",
+      "run_rules": [
+        "One plate per run, in a fresh session or conversation with no prior images or memory.",
+        "Attach only the plate guide; its sha256 and the prompt sha256 must match this guard before the call.",
+        "OCR the output: any glyph rejects the plate (checkContamination plate mode).",
+        "Score every reserved region (BAKED_UI_GUARD); reject on UI shapes, ghost labels or icon glyphs.",
+        "Record provider, model, job id and output sha256 against the plate id."
+      ]
+    },
+    {
+      "guard_id": "JURNL.F09.T03.CONTAMINATION_GUARD.v1",
+      "territory_id": "JURNL.F09.T03",
+      "family_id": "JURNL.F09",
+      "product_job": "SAFE TO SPEND: what you can spend now without touching bills, plans or what you are holding.",
+      "required_copy": [
+        "SAFE TO SPEND",
+        "WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
+        "$24,885",
+        "HELD BACK $6,075 OF $30,960 CASH",
+        "SEE THE FULL BREAKDOWN",
+        "CHANGE WHAT’S HELD",
+        "PLAN",
+        "HOME",
+        "MONEY",
+        "PLAN",
+        "CREDIT",
+        "9:41",
+        "CLEAR TO SPEND",
+        "BILLS",
+        "GOALS",
+        "TRIPS",
+        "PLAN TODAY. GROW FREELY."
+      ],
+      "forbidden_copy": [
+        "A QUIETER YOU",
+        "BEGIN YOUR JOURNEY",
+        "REFLECT",
+        "ALIGN",
+        "GROW",
+        "JOURNAL",
+        "JOURNEY",
+        "WELCOME",
+        "GET STARTED",
+        "MINDFUL",
+        "DEAR",
+        "TODAY’S ENTRY"
+      ],
+      "allowed_reference_assets": [
+        {
+          "path": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_GUIDES/F09_T03_PLATE_GUIDE_9x16.png",
+          "sha256": "9b76a6d1a83849b6a5a43973cfff817274208f9c8d56d532821213ecf544d1c2",
+          "role": "GENERATOR_REFERENCE (the only one)"
+        },
+        {
+          "path": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+          "sha256": "d0f706ebcd132562f233ed955e5670c0ff9309d9db6ef85c9d2650b72a16e188",
+          "role": "ASSEMBLY_ASSET (never sent to the generator)"
+        }
+      ],
+      "forbidden_reference_assets": [
+        "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/* (INVALID_RENDER — baked UI)",
+        "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/COMPOSITION_LOCKS/* (value studies and lock boards carry UI blocking)",
+        "Any founder-run ChatGPT output (RUN A) and any image from a chat thread that rendered another JURNL family",
+        "JURNL F01 entry / journal / onboarding references",
+        "The founder comparison concept (a lesson source, never a reference)",
+        "Any other project’s or family’s image"
+      ],
+      "prompt_hashes": {
+        "JURNL.F09.T03.SCENE_PLATE.v1": "c4354698ce1d87602d5caf977e4cee75a904159b8f98d825203e786c777bed00"
+      },
+      "blueprint_hash": "aec0bd62ef33a2590263038b34a038bed9feb74ba64f875390a61d72a7f8e251",
+      "run_rules": [
+        "One plate per run, in a fresh session or conversation with no prior images or memory.",
+        "Attach only the plate guide; its sha256 and the prompt sha256 must match this guard before the call.",
+        "OCR the output: any glyph rejects the plate (checkContamination plate mode).",
+        "Score every reserved region (BAKED_UI_GUARD); reject on UI shapes, ghost labels or icon glyphs.",
+        "Record provider, model, job id and output sha256 against the plate id."
+      ]
+    }
+  ],
+  "probe_run_a_t03": {
+    "status": "INVALIDATED",
+    "found": [
+      "forbidden copy: A QUIETER YOU",
+      "forbidden copy: BEGIN YOUR JOURNEY"
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "BAKED_UI_GUARD",
+  "schema_version": "1.0.0",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "why": "A plate that already contains a button, label, nav cell or logo produces UI on UI once the deterministic layer is placed over it.",
+  "method": [
+    "Every deterministic zone (PRODUCT_ZONE_ROLES + SYSTEM_ZONE_ROLES + any slot with a precision kind) becomes a RESERVED REGION on the plate.",
+    "OCR the plate: any legible glyph anywhere → reject (plates carry no text).",
+    "Score each reserved region with the CENTER_STAGE salience method (0.55 × local edge energy + 0.30 × saturation + 0.15 × bright luminance); mean must stay ≤ the threshold.",
+    "Human check of every reserved region at 100 %: no button shapes, pills, nav cells, icon glyphs, logo-like marks, ghost labels."
+  ],
+  "reserved_region_rule": "A reserved region may carry material and light only (plaster, paper, stone, shadow) — the quiet surface the deterministic UI sits on.",
+  "edge_score_threshold": 0.12,
+  "reject_on": [
+    "UI_ON_UI",
+    "DUPLICATE_BUTTON",
+    "DUPLICATE_LOGO",
+    "DUPLICATE_NAV",
+    "GHOST_LABEL",
+    "LEGIBLE_TEXT",
+    "ICON_GLYPH"
+  ],
+  "generator_qa": [
+    "NO_RANDOM_COPY",
+    "NO_RANDOM_LOGO",
+    "NO_NAV",
+    "NO_UI_BUTTONS",
+    "NO_WRONG_APP",
+    "NO_WRONG_FAMILY",
+    "NO_TYPOGRAPHY_DEPENDENCY",
+    "NO_BROKEN_DEVICE_CHROME",
+    "NO_UNRELATED_CONTENT"
+  ],
+  "contamination": {
+    "evaluator": "checkContamination(guard, observedText, plate)",
+    "plate_mode": "Any glyph in a plate invalidates it.",
+    "composite_mode": "Every string must be contract copy; forbidden phrases from other surfaces or families invalidate it unless that exact string is approved copy.",
+    "guard_fields": [
+      "required_copy",
+      "forbidden_copy",
+      "allowed_reference_assets (path + sha256 + role)",
+      "forbidden_reference_assets",
+      "prompt_hashes",
+      "blueprint_hash",
+      "run_rules"
+    ]
+  }
+}

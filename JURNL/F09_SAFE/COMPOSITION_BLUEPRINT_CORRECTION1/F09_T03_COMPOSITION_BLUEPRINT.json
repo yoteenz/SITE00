@@ -1,0 +1,683 @@
+{
+  "id": "F09_T03_COMPOSITION_BLUEPRINT",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "blueprint_id": "JURNL.F09.T03.BLUEPRINT.v1",
+  "project_id": "JURNL",
+  "territory_id": "JURNL.F09.T03",
+  "translation_id": "JURNL.F09.T03.CD.v1",
+  "frame": {
+    "width": 393,
+    "height": 852,
+    "unit": "pt",
+    "generated_aspect": "9:16",
+    "generated_frame_mapping": "9:16 plate: height = 852 pt; the 393-pt viewport is the central 82 % of the plate width (x 9–91 %); the outer 9 % each side is environment bleed only."
+  },
+  "safe_areas": {
+    "top": 108,
+    "bottom": 32,
+    "stage": {
+      "x": 26.5,
+      "w": 340
+    },
+    "nav_reserve_top": 714
+  },
+  "metaphor_scope": "OBJECT",
+  "metaphor_scope_justification": "The rack is one object. The released slip has been lifted out of it to the top of the page and carries the signal; the empty first slot is where it came from. Held-back line, actions and nav are outside the object.",
+  "founder_whole_page_decision": null,
+  "layers_present": [
+    "L0",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8"
+  ],
+  "zones": [
+    {
+      "zone_id": "T03.STATUS",
+      "role": "SYSTEM_STATUS",
+      "layer": "L6",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 393,
+        "h": 54
+      },
+      "slots": [
+        {
+          "slot_id": "time",
+          "kinds": [
+            "STATUS_VALUE",
+            "EXACT_COPY"
+          ],
+          "content": "9:41",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "glyphs",
+          "kinds": [
+            "ICON"
+          ],
+          "content": "signal · wi-fi · battery",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.CHROME",
+      "role": "SYSTEM_CHROME",
+      "layer": "L6",
+      "rect": {
+        "x": 26.5,
+        "y": 59,
+        "w": 340,
+        "h": 36
+      },
+      "note": "Square-rounded 34-pt icon buttons on bone with a hairline greige border. No centred wordmark: the lockup lives in the scene (sprint 2 founder direction).",
+      "slots": [
+        {
+          "slot_id": "back",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "BACK (chevron; aria-label BACK TO TODAY)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        },
+        {
+          "slot_id": "account",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "ACCOUNT (gear)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 294.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        },
+        {
+          "slot_id": "ask",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "ASK JURNL (i)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 332.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.NAV",
+      "role": "NAV",
+      "layer": "L7",
+      "rect": {
+        "x": 26.5,
+        "y": 762,
+        "w": 340,
+        "h": 44
+      },
+      "note": "JurnlProductNav: five equal square-rounded cells, 4-pt gaps, HOME active (deep emerald fill, bone glyph).",
+      "slots": [
+        {
+          "slot_id": "home",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "HOME (person) — active",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "money",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "MONEY (banknote)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 95.3,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "add",
+          "kinds": [
+            "NAVIGATION",
+            "ICON"
+          ],
+          "content": "+ QUICK ADD (no label)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 164.1,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "plan",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "PLAN (clock)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 232.89999999999998,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "credit",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "CREDIT (document)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 301.7,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.HOME_INDICATOR",
+      "role": "SYSTEM_STATUS",
+      "layer": "L6",
+      "rect": {
+        "x": 0,
+        "y": 820,
+        "w": 393,
+        "h": 32
+      },
+      "slots": [
+        {
+          "slot_id": "bar",
+          "kinds": [
+            "INTERACTION_CHROME"
+          ],
+          "content": "system home indicator",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.ENVIRONMENT",
+      "role": "ENVIRONMENT",
+      "layer": "L0",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 393,
+        "h": 852
+      },
+      "slots": [
+        {
+          "slot_id": "scene",
+          "kinds": [
+            "ARCHITECTURE",
+            "LIGHTING",
+            "MATERIALITY",
+            "SCENE_DEPTH"
+          ],
+          "content": "A limewashed plaster wall in soft morning window light from the upper left; gentle long shadows; quiet plaster across the stage.",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.EDGE",
+      "role": "NEGATIVE_SPACE",
+      "layer": "L0",
+      "rect": {
+        "x": 26.5,
+        "y": 714,
+        "w": 340,
+        "h": 40
+      },
+      "note": "Job: separates the page from the nav.",
+      "slots": [
+        {
+          "slot_id": "quiet",
+          "kinds": [
+            "MATERIALITY"
+          ],
+          "content": "plain surface, no content",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.SIGNAL",
+      "role": "PRIMARY_SIGNAL",
+      "layer": "L2",
+      "rect": {
+        "x": 46.5,
+        "y": 108,
+        "w": 300,
+        "h": 184
+      },
+      "note": "The released slip: blank cotton-rag paper from the plate (frontal, rotation ≤ 1.5°); letterpress text set with the same transform.",
+      "slots": [
+        {
+          "slot_id": "function",
+          "kinds": [
+            "EXACT_COPY",
+            "STATE_LABEL"
+          ],
+          "content": "SAFE TO SPEND",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 58,
+            "y": 156,
+            "w": 276,
+            "h": 12
+          }
+        },
+        {
+          "slot_id": "state_line",
+          "kinds": [
+            "EXACT_COPY",
+            "STATE_LABEL"
+          ],
+          "content": "STATE_LINE[completeness] — COMPLETE: WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 58,
+            "y": 172,
+            "w": 276,
+            "h": 22
+          }
+        },
+        {
+          "slot_id": "clear_label",
+          "kinds": [
+            "STATE_LABEL"
+          ],
+          "content": "CLEAR TO SPEND (value ≥ 0) · OVER BY (value < 0)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 58,
+            "y": 204,
+            "w": 276,
+            "h": 12
+          }
+        },
+        {
+          "slot_id": "value",
+          "kinds": [
+            "FINANCIAL_VALUE",
+            "EXACT_NUMBER"
+          ],
+          "content": "formatMoney(|breakdown.value|) — sample $24,885; letterpress emerald, display serif",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 58,
+            "y": 220,
+            "w": 276,
+            "h": 60
+          }
+        },
+        {
+          "slot_id": "slip",
+          "kinds": [
+            "PAPER_OBJECT",
+            "TACTILE_OBJECT"
+          ],
+          "content": "blank released slip, soft fold creases, no printing",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.BRAND",
+      "role": "BRAND_FRAME",
+      "layer": "L1",
+      "rect": {
+        "x": 58,
+        "y": 118,
+        "w": 180,
+        "h": 30
+      },
+      "note": "Letterhead printed on the slip (deterministic).",
+      "slots": [
+        {
+          "slot_id": "lockup",
+          "kinds": [
+            "LOGO_GEOMETRY"
+          ],
+          "content": "Official vertical lockup, 28 pt tall",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 58,
+            "y": 119,
+            "w": 17.4,
+            "h": 28
+          }
+        },
+        {
+          "slot_id": "tagline",
+          "kinds": [
+            "EXACT_COPY"
+          ],
+          "content": "PLAN TODAY. GROW FREELY.",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 84,
+            "y": 128,
+            "w": 150,
+            "h": 10
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.OBJECT",
+      "role": "SIGNATURE_OBJECT",
+      "layer": "L3",
+      "rect": {
+        "x": 36.5,
+        "y": 304,
+        "w": 320,
+        "h": 204
+      },
+      "note": "Oak sorting rack, five slots. The broken seal in the empty slot is the wit: the only letter opened is the money you can spend.",
+      "slots": [
+        {
+          "slot_id": "rack",
+          "kinds": [
+            "TACTILE_OBJECT",
+            "MATERIALITY",
+            "SHADOW"
+          ],
+          "content": "natural oak rack, five slots, blank brushed-brass slot plates",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "envelopes",
+          "kinds": [
+            "PROGRESS",
+            "ENVELOPE"
+          ],
+          "content": "Slot 1 empty (broken seal fragments). Slots 2–5: BILLS 9.38 pt · PLAN 12 pt · GOALS 4.5 pt · TRIPS 4.5 pt — linen envelopes, thickness ∝ amount",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "plate_labels",
+          "kinds": [
+            "EXACT_COPY",
+            "TAB_LABEL"
+          ],
+          "content": "BILLS · PLAN · GOALS · TRIPS engraved on the slot plates of slots 2–5; slot 1 plate blank",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "seals",
+          "kinds": [
+            "LOGO_GEOMETRY"
+          ],
+          "content": "burgundy wax seals embossed with the official botanical mark (deterministic emboss of the official asset; the plate supplies blank wax)",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.SECONDARY",
+      "role": "SECONDARY_PRODUCT",
+      "layer": "L4",
+      "rect": {
+        "x": 46.5,
+        "y": 520,
+        "w": 300,
+        "h": 28
+      },
+      "note": "A blank brass strip under the rack (plate material) carries the engraved held-back line.",
+      "slots": [
+        {
+          "slot_id": "held_line",
+          "kinds": [
+            "EXACT_COPY",
+            "FINANCIAL_VALUE",
+            "EXACT_NUMBER"
+          ],
+          "content": "HELD BACK $6,075 OF $30,960 CASH",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 56.5,
+            "y": 527,
+            "w": 280,
+            "h": 14
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.PLASTER",
+      "role": "NEGATIVE_SPACE",
+      "layer": "L0",
+      "rect": {
+        "x": 26.5,
+        "y": 560,
+        "w": 340,
+        "h": 54
+      },
+      "note": "Job: calm plaster before the action.",
+      "slots": [
+        {
+          "slot_id": "plaster",
+          "kinds": [
+            "MATERIALITY",
+            "LIGHTING"
+          ],
+          "content": "plain limewash in soft light",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.CTA",
+      "role": "CTA",
+      "layer": "L5",
+      "rect": {
+        "x": 26.5,
+        "y": 626,
+        "w": 340,
+        "h": 44
+      },
+      "note": "JurnlButton primary: deep emerald #0F3D32, 8-pt corners, bone tracked uppercase label.",
+      "slots": [
+        {
+          "slot_id": "primary",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "SEE THE FULL BREAKDOWN",
+          "decision": "D-F09-PRIMARY-ACTION-LABEL",
+          "rect": {
+            "x": 26.5,
+            "y": 626,
+            "w": 340,
+            "h": 44
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.INLINE",
+      "role": "CTA",
+      "layer": "L5",
+      "rect": {
+        "x": 26.5,
+        "y": 678,
+        "w": 340,
+        "h": 28
+      },
+      "note": "JurnlInlineAction ×2 on one row: tracked label, fine taupe rule, thin chevron. Never pills.",
+      "slots": [
+        {
+          "slot_id": "change_held",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "CHANGE WHAT’S HELD ›",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 678,
+            "w": 170,
+            "h": 28
+          }
+        },
+        {
+          "slot_id": "plan",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "PLAN ›",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 286.5,
+            "y": 678,
+            "w": 80,
+            "h": 28
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.BLEED_L",
+      "role": "PERIMETER",
+      "layer": "L0",
+      "rect": {
+        "x": 0,
+        "y": 108,
+        "w": 26.5,
+        "h": 606
+      },
+      "note": "Outside the 340-pt stage: environment only.",
+      "slots": [
+        {
+          "slot_id": "bleed",
+          "kinds": [
+            "MATERIALITY",
+            "SHADOW"
+          ],
+          "content": "environment bleed",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T03.BLEED_R",
+      "role": "PERIMETER",
+      "layer": "L0",
+      "rect": {
+        "x": 366.5,
+        "y": 108,
+        "w": 26.5,
+        "h": 606
+      },
+      "note": "Outside the 340-pt stage: environment only.",
+      "slots": [
+        {
+          "slot_id": "bleed",
+          "kinds": [
+            "MATERIALITY",
+            "SHADOW"
+          ],
+          "content": "environment bleed",
+          "decision": "DECIDED"
+        }
+      ]
+    }
+  ],
+  "overlap_relationships": [
+    {
+      "a": "T03.BRAND",
+      "b": "T03.SIGNAL",
+      "relation": "Letterhead printed at the top of the released slip, above the function label."
+    }
+  ],
+  "depth_order": [
+    "L0",
+    "L3",
+    "L1",
+    "L2",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8"
+  ],
+  "visual_focal_order": [
+    "T03.SIGNAL",
+    "T03.OBJECT",
+    "T03.SECONDARY",
+    "T03.CTA",
+    "T03.BRAND"
+  ],
+  "scroll_behavior": "NO_SCROLL",
+  "responsive_logic": "Authority viewport 393×852. Shorter phones (≥ 667 pt): the signature object scales down first (to 70 % minimum), then the inline-action row moves under the CTA tighter; the signal, CTA, chrome and nav never scale. Wider phones (430 pt): the 340-pt stage stays centred and the plate bleed fills the extra width. Tablet and desktop need their own authority (RESPONSIVE_AUTHORITY_REQUIRED); never stretch this one.",
+  "density_intent": "A still life with exactly two objects (slip, rack). Richness: paper, linen, wax, oak, brass and light; the empty slot rewards a second look.",
+  "check": {
+    "territory_id": "JURNL.F09.T03",
+    "status": "BLUEPRINT_READY",
+    "issues": []
+  },
+  "density": {
+    "blueprint_id": "JURNL.F09.T03.BLUEPRINT.v1",
+    "status": "DENSITY_BALANCED",
+    "metrics": {
+      "product_span": 0.987,
+      "signature_object_share": 0.317,
+      "negative_space_share": 0.155
+    },
+    "issues": []
+  },
+  "zone_map": "ZONE_MAPS/F09_T03_BLUEPRINT_ZONE_MAP.png"
+}

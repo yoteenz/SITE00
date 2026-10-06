@@ -53,9 +53,21 @@
       "produces": "BrandExpressionCheck per territory (checkBrandExpression → BRAND_EXPRESSION_READY)"
     },
     {
+      "step": "04C",
+      "id": "PAGE_COMPOSITION_BLUEPRINT",
+      "does": "Before any generation, lock how the page is composed as geometry: frame and safe areas, every zone (status, chrome, brand frame, primary signal, signature object, secondary product, CTA, nav, environment, perimeter, negative space) with its layer and slots, declared overlaps, depth and focal order, scroll and responsive logic, density intent. The metaphor is contained (OBJECT or ZONE by default; WHOLE_PAGE only with a founder decision).",
+      "produces": "PageCompositionBlueprint per territory (checkCompositionBlueprint → BLUEPRINT_READY)"
+    },
+    {
+      "step": "04D",
+      "id": "RENDER_LAYER_OWNERSHIP",
+      "does": "Assign exactly one renderer to each layer L0–L8 within the project’s render-ownership profile. Precision product UI (copy, figures, logo geometry, icons, nav, buttons, labels, data geometry) is deterministic; the image generator owns art only; a COMPOSITE layer names its generated and deterministic parts.",
+      "produces": "RenderOwnershipMap per territory (checkRenderOwnership → OWNERSHIP_READY)"
+    },
+    {
       "step": "05",
       "id": "GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES",
-      "does": "One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent. Since the creative-direction correction the candidate is rendered by the profile’s image renderer from the locked translation (the renderer executes; it never designs), then passes the anti-AI visual audit and the typography guard before it counts (checkCandidateAuthority → REFERENCE_AUTHORITY_READY).",
+      "does": "One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent. Since the composition-blueprint correction the reference authority is a COMPOSITE: text-free art plates from the profile renderer (generator QA, baked-UI guard, contamination guard) plus deterministic assembly of every precision layer, passing composite QA, the richness audit and the 2-second product-clarity check (checkCompositeAuthority → AUTHORITY_READY). An image generator may contribute to a product authority but may not be its sole renderer.",
       "produces": "ReferenceAuthority per territory"
     },
     {

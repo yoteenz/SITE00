@@ -1,0 +1,75 @@
+{
+  "id": "F09_HYBRID_GATE_STATUS",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "hybrid_gate": {
+    "status": "COMPOSITE_AUTHORITY_REQUIRED",
+    "blueprints": [
+      {
+        "territory_id": "JURNL.F09.T01",
+        "status": "BLUEPRINT_READY",
+        "issues": []
+      },
+      {
+        "territory_id": "JURNL.F09.T02",
+        "status": "BLUEPRINT_READY",
+        "issues": []
+      },
+      {
+        "territory_id": "JURNL.F09.T03",
+        "status": "BLUEPRINT_READY",
+        "issues": []
+      }
+    ],
+    "ownership": [
+      {
+        "territory_id": "JURNL.F09.T01",
+        "status": "OWNERSHIP_READY",
+        "issues": []
+      },
+      {
+        "territory_id": "JURNL.F09.T02",
+        "status": "OWNERSHIP_READY",
+        "issues": []
+      },
+      {
+        "territory_id": "JURNL.F09.T03",
+        "status": "OWNERSHIP_READY",
+        "issues": []
+      }
+    ],
+    "composites": [
+      {
+        "territory_id": "JURNL.F09.T01",
+        "status": "COMPOSITE_AUTHORITY_REQUIRED",
+        "issues": [
+          "no composite authority assembled yet"
+        ]
+      },
+      {
+        "territory_id": "JURNL.F09.T02",
+        "status": "COMPOSITE_AUTHORITY_REQUIRED",
+        "issues": [
+          "no composite authority assembled yet"
+        ]
+      },
+      {
+        "territory_id": "JURNL.F09.T03",
+        "status": "COMPOSITE_AUTHORITY_REQUIRED",
+        "issues": [
+          "no composite authority assembled yet"
+        ]
+      }
+    ]
+  },
+  "generation": {
+    "primary": 0,
+    "paid": 0
+  },
+  "page_implementation": false,
+  "verdict": {
+    "PIPELINE_CORRECTED": true,
+    "READY_FOR_HYBRID_RENDER_EXECUTION": true,
+    "READY_FOR_FOUNDER_COMPARISON": false
+  }
+}

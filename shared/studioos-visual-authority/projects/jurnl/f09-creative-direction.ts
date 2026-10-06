@@ -447,7 +447,11 @@ export const PREVIOUS_ROUND_SCORES: Record<string, Record<ComparisonDimension, n
   'JURNL.F09.T03': { BRAND_SPECIFICITY: 3, VISUAL_RICHNESS: 3, PRODUCT_CLARITY: 4, GRAPHIC_DESIGN_AUTHORSHIP: 3, ENVIRONMENTAL_INTELLIGENCE: 2, LOGO_INTELLIGENCE: 1, MATERIAL_SOPHISTICATION: 3, CUSTOM_DESIGN_QUALITY: 3, ANTI_AI_QUALITY: 3, FAMILY_DISTINCTNESS: 4 },
 };
 
-/** Agent-completed previous-vs-corrected scorecard (P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1). Not a founder verdict. */
+/**
+ * Agent-completed previous-vs-corrected scorecard (P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1). Not a founder
+ * verdict, and SUPERSEDED: the scored renders are INVALID_RENDER (COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1).
+ */
+export const CORRECTED_ROUND_SCORES_STATUS = 'SUPERSEDED — renders invalidated; see JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/F09_INVALID_RENDER_LEDGER.json' as const;
 export const CORRECTED_ROUND_SCORES: Record<string, Record<ComparisonDimension, number>> = {
   'JURNL.F09.T01': { BRAND_SPECIFICITY: 5, VISUAL_RICHNESS: 5, PRODUCT_CLARITY: 5, GRAPHIC_DESIGN_AUTHORSHIP: 5, ENVIRONMENTAL_INTELLIGENCE: 5, LOGO_INTELLIGENCE: 4, MATERIAL_SOPHISTICATION: 5, CUSTOM_DESIGN_QUALITY: 5, ANTI_AI_QUALITY: 4, FAMILY_DISTINCTNESS: 5 },
   'JURNL.F09.T02': { BRAND_SPECIFICITY: 5, VISUAL_RICHNESS: 5, PRODUCT_CLARITY: 5, GRAPHIC_DESIGN_AUTHORSHIP: 5, ENVIRONMENTAL_INTELLIGENCE: 4, LOGO_INTELLIGENCE: 4, MATERIAL_SOPHISTICATION: 5, CUSTOM_DESIGN_QUALITY: 5, ANTI_AI_QUALITY: 4, FAMILY_DISTINCTNESS: 5 },
@@ -504,10 +508,36 @@ export const JURNL_F09_CORRECTED_CANDIDATES: GeneratedCandidate[] = [
   },
 ];
 
+/**
+ * Corrected by P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1. The render sprint recorded
+ * empty audits (all PASS); the defects below are visible in the committed 4K files. All three are INVALID_RENDER
+ * (see F09_INVALID_RENDER_LEDGER.json); the next authority is a composite, not a whole-screen render.
+ */
 export const JURNL_F09_CORRECTED_AUDITS: AntiAiAudit[] = [
-  { candidate_id: 'JURNL.F09.T01.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T01', flags: [], typography_defects: [] },
-  { candidate_id: 'JURNL.F09.T02.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T02', flags: [], typography_defects: [] },
-  { candidate_id: 'JURNL.F09.T03.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T03', flags: [], typography_defects: [] },
+  {
+    candidate_id: 'JURNL.F09.T01.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T01',
+    flags: [
+      { flag: 'METAPHOR_CONSUMED_PAGE', severity: 'MATERIAL', note: 'The courtyard runs past both stage edges and fills ≈ 69 % of the stage; the signal is inside it.' },
+      { flag: 'DATA_NOT_ENCODED', severity: 'MATERIAL', note: 'Wall courses are not proportional to the held amounts; plates scattered.' },
+    ],
+    typography_defects: [
+      { defect: 'MUTATED_WORDMARK', text: 'JURL (cornerstone; N missing)', repaired: false, repair: '' },
+      { defect: 'MUTATED_MARK', text: 'three-leaf sprig instead of the official five-leaf stem', repaired: false, repair: '' },
+    ],
+  },
+  {
+    candidate_id: 'JURNL.F09.T02.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T02',
+    flags: [{ flag: 'METAPHOR_CONSUMED_PAGE', severity: 'MATERIAL', note: 'The inscription wall is the whole page (a poster).' }],
+    typography_defects: [
+      { defect: 'MISSING_COPY', text: '“…YOUR PLAN, GOALS AND” — TRIPS. dropped; the $2,400 ASSIGNED tag hangs after AND', repaired: false, repair: '' },
+      { defect: 'MUTATED_MARK', text: 'three-leaf sprig on the maker’s plate', repaired: false, repair: '' },
+    ],
+  },
+  {
+    candidate_id: 'JURNL.F09.T03.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T03',
+    flags: [{ flag: 'DATA_NOT_ENCODED', severity: 'MATERIAL', note: 'Only PLAN is thicker; BILLS (1,875) reads the same as GOALS and TRIPS (900).' }],
+    typography_defects: [{ defect: 'MUTATED_MARK', text: 'three-leaf sprig on every seal and the letterhead', repaired: false, repair: '' }],
+  },
 ];
 
 export function jurnlF09CreativeGateInput(): CreativeDirectionGateInput {
@@ -539,6 +569,7 @@ export const JURNL_F09_CD_GENERATION_LEDGER = {
   renderer_spec: P.renderer,
   status: 'GENERATED' as 'BLOCKED_ON_RENDERER_ROUTE' | 'GENERATED',
   render_sprint: 'P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1',
+  authority_status: 'INVALID_RENDER ×3 — the generator rendered precision UI (see COMPOSITION_BLUEPRINT_CORRECTION1/F09_INVALID_RENDER_LEDGER.json)',
   primary_generations: 3,
   retries: 0,
   credits_spent: 951,

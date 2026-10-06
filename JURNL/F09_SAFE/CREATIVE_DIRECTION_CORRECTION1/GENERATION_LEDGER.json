@@ -14,6 +14,7 @@
   },
   "status": "GENERATED",
   "render_sprint": "P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1",
+  "authority_status": "INVALID_RENDER ×3 — the generator rendered precision UI (see COMPOSITION_BLUEPRINT_CORRECTION1/F09_INVALID_RENDER_LEDGER.json)",
   "primary_generations": 3,
   "retries": 0,
   "credits_spent": 951,

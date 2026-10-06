@@ -1,0 +1,709 @@
+{
+  "id": "F09_T02_COMPOSITION_BLUEPRINT",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "blueprint_id": "JURNL.F09.T02.BLUEPRINT.v1",
+  "project_id": "JURNL",
+  "territory_id": "JURNL.F09.T02",
+  "translation_id": "JURNL.F09.T02.CD.v1",
+  "frame": {
+    "width": 393,
+    "height": 852,
+    "unit": "pt",
+    "generated_aspect": "9:16",
+    "generated_frame_mapping": "9:16 plate: height = 852 pt; the 393-pt viewport is the central 82 % of the plate width (x 9–91 %); the outer 9 % each side is environment bleed only."
+  },
+  "safe_areas": {
+    "top": 108,
+    "bottom": 32,
+    "stage": {
+      "x": 26.5,
+      "w": 340
+    },
+    "nav_reserve_top": 714
+  },
+  "metaphor_scope": "ZONE",
+  "metaphor_scope_justification": "The inscription is one zone: the after-clause whose held-back words are brass. The wall is the environment, the figure and its label are the signal, and the proportion rule, maker’s plate, actions and nav are separate zones. The previous render let the inscription become a full-page poster.",
+  "founder_whole_page_decision": null,
+  "layers_present": [
+    "L0",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8"
+  ],
+  "zones": [
+    {
+      "zone_id": "T02.STATUS",
+      "role": "SYSTEM_STATUS",
+      "layer": "L6",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 393,
+        "h": 54
+      },
+      "slots": [
+        {
+          "slot_id": "time",
+          "kinds": [
+            "STATUS_VALUE",
+            "EXACT_COPY"
+          ],
+          "content": "9:41",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "glyphs",
+          "kinds": [
+            "ICON"
+          ],
+          "content": "signal · wi-fi · battery",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.CHROME",
+      "role": "SYSTEM_CHROME",
+      "layer": "L6",
+      "rect": {
+        "x": 26.5,
+        "y": 59,
+        "w": 340,
+        "h": 36
+      },
+      "note": "Square-rounded 34-pt icon buttons on bone with a hairline greige border. No centred wordmark: the lockup lives in the scene (sprint 2 founder direction).",
+      "slots": [
+        {
+          "slot_id": "back",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "BACK (chevron; aria-label BACK TO TODAY)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        },
+        {
+          "slot_id": "account",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "ACCOUNT (gear)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 294.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        },
+        {
+          "slot_id": "ask",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "ASK JURNL (i)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 332.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.NAV",
+      "role": "NAV",
+      "layer": "L7",
+      "rect": {
+        "x": 26.5,
+        "y": 762,
+        "w": 340,
+        "h": 44
+      },
+      "note": "JurnlProductNav: five equal square-rounded cells, 4-pt gaps, HOME active (deep emerald fill, bone glyph).",
+      "slots": [
+        {
+          "slot_id": "home",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "HOME (person) — active",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "money",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "MONEY (banknote)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 95.3,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "add",
+          "kinds": [
+            "NAVIGATION",
+            "ICON"
+          ],
+          "content": "+ QUICK ADD (no label)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 164.1,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "plan",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "PLAN (clock)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 232.89999999999998,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "credit",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "CREDIT (document)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 301.7,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.HOME_INDICATOR",
+      "role": "SYSTEM_STATUS",
+      "layer": "L6",
+      "rect": {
+        "x": 0,
+        "y": 820,
+        "w": 393,
+        "h": 32
+      },
+      "slots": [
+        {
+          "slot_id": "bar",
+          "kinds": [
+            "INTERACTION_CHROME"
+          ],
+          "content": "system home indicator",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.ENVIRONMENT",
+      "role": "ENVIRONMENT",
+      "layer": "L0",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 393,
+        "h": 852
+      },
+      "slots": [
+        {
+          "slot_id": "scene",
+          "kinds": [
+            "ARCHITECTURE",
+            "LIGHTING",
+            "MATERIALITY",
+            "SCENE_DEPTH"
+          ],
+          "content": "One warm honed limestone wall seen straight on, lit by low morning sun raking in from a deep window at the right edge; the face across the stage is quiet stone.",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.EDGE",
+      "role": "NEGATIVE_SPACE",
+      "layer": "L0",
+      "rect": {
+        "x": 26.5,
+        "y": 714,
+        "w": 340,
+        "h": 40
+      },
+      "note": "Job: separates the page from the nav.",
+      "slots": [
+        {
+          "slot_id": "quiet",
+          "kinds": [
+            "MATERIALITY"
+          ],
+          "content": "plain surface, no content",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.SIGNAL",
+      "role": "PRIMARY_SIGNAL",
+      "layer": "L2",
+      "rect": {
+        "x": 26.5,
+        "y": 116,
+        "w": 300,
+        "h": 172
+      },
+      "note": "Left-aligned column. Carved look is a deterministic V-cut filter lit from the right to match the plate.",
+      "slots": [
+        {
+          "slot_id": "function",
+          "kinds": [
+            "EXACT_COPY",
+            "STATE_LABEL"
+          ],
+          "content": "SAFE TO SPEND",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 116,
+            "w": 300,
+            "h": 14
+          }
+        },
+        {
+          "slot_id": "state_line",
+          "kinds": [
+            "EXACT_COPY",
+            "STATE_LABEL"
+          ],
+          "content": "STATE_LINE[completeness] — COMPLETE: WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 136,
+            "w": 300,
+            "h": 24
+          }
+        },
+        {
+          "slot_id": "lede",
+          "kinds": [
+            "EXACT_COPY",
+            "STATE_LABEL"
+          ],
+          "content": "YOU CAN SPEND (value ≥ 0) · OVER BY (value < 0)",
+          "decision": "TERRITORY_COPY",
+          "rect": {
+            "x": 26.5,
+            "y": 168,
+            "w": 300,
+            "h": 26
+          }
+        },
+        {
+          "slot_id": "value",
+          "kinds": [
+            "FINANCIAL_VALUE",
+            "EXACT_NUMBER"
+          ],
+          "content": "formatMoney(|breakdown.value|) — sample $24,885; monumental carved serif, emerald enamel fill",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 198,
+            "w": 300,
+            "h": 88
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.OBJECT",
+      "role": "SIGNATURE_OBJECT",
+      "layer": "L3",
+      "rect": {
+        "x": 26.5,
+        "y": 300,
+        "w": 320,
+        "h": 140
+      },
+      "note": "Only the words that hold money are metal. Generated brass and chain material, masked into deterministic letterforms.",
+      "slots": [
+        {
+          "slot_id": "clause",
+          "kinds": [
+            "EXACT_COPY"
+          ],
+          "content": "NOW, AFTER / BILLS, YOUR PLAN, / GOALS AND TRIPS. — carved; BILLS, YOUR PLAN, GOALS, TRIPS inlaid brass (each opens its item)",
+          "decision": "TERRITORY_COPY",
+          "rect": {
+            "x": 26.5,
+            "y": 300,
+            "w": 300,
+            "h": 96
+          }
+        },
+        {
+          "slot_id": "tag",
+          "kinds": [
+            "EXACT_COPY",
+            "FINANCIAL_VALUE"
+          ],
+          "content": "$2,400 ASSIGNED — engraved brass tag on a fine chain from the end of YOUR PLAN, hanging into the open stone right of line 3; never between words",
+          "decision": "TERRITORY_COPY",
+          "rect": {
+            "x": 222,
+            "y": 372,
+            "w": 96,
+            "h": 30
+          }
+        },
+        {
+          "slot_id": "brass",
+          "kinds": [
+            "MATERIALITY",
+            "TACTILE_OBJECT"
+          ],
+          "content": "blank brass tag on a fine chain (plate); word inlay brass sampled from the maker’s plate",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.SECONDARY",
+      "role": "SECONDARY_PRODUCT",
+      "layer": "L4",
+      "rect": {
+        "x": 26.5,
+        "y": 452,
+        "w": 300,
+        "h": 34
+      },
+      "note": "Cut but not filled: the held share of the rule is an empty carved groove.",
+      "slots": [
+        {
+          "slot_id": "rule",
+          "kinds": [
+            "PROGRESS"
+          ],
+          "content": "Proportion rule 300 pt: 80.4 % polished brass, the rest an empty carved groove",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 452,
+            "w": 300,
+            "h": 8
+          }
+        },
+        {
+          "slot_id": "held_line",
+          "kinds": [
+            "EXACT_COPY",
+            "FINANCIAL_VALUE",
+            "EXACT_NUMBER"
+          ],
+          "content": "HELD BACK $6,075 OF $30,960 CASH",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 470,
+            "w": 300,
+            "h": 14
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.BRAND",
+      "role": "BRAND_FRAME",
+      "layer": "L1",
+      "rect": {
+        "x": 26.5,
+        "y": 512,
+        "w": 150,
+        "h": 44
+      },
+      "note": "Maker’s plate: the plate supplies a blank brushed-brass plate with four screws; lockup and descriptor are composited.",
+      "slots": [
+        {
+          "slot_id": "lockup",
+          "kinds": [
+            "LOGO_GEOMETRY"
+          ],
+          "content": "Official vertical lockup, 34 pt tall",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 36.5,
+            "y": 517,
+            "w": 21.2,
+            "h": 34
+          }
+        },
+        {
+          "slot_id": "descriptor",
+          "kinds": [
+            "EXACT_COPY"
+          ],
+          "content": "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED.",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 66.5,
+            "y": 521,
+            "w": 104,
+            "h": 26
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.STONE",
+      "role": "NEGATIVE_SPACE",
+      "layer": "L0",
+      "rect": {
+        "x": 186.5,
+        "y": 506,
+        "w": 180,
+        "h": 74
+      },
+      "note": "Job: uncut stone — the calm between the answer and the action.",
+      "slots": [
+        {
+          "slot_id": "stone",
+          "kinds": [
+            "MATERIALITY",
+            "LIGHTING"
+          ],
+          "content": "plain honed limestone in the warm light pool",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.CTA",
+      "role": "CTA",
+      "layer": "L5",
+      "rect": {
+        "x": 26.5,
+        "y": 596,
+        "w": 340,
+        "h": 48
+      },
+      "note": "JurnlButton primary: deep emerald #0F3D32, 8-pt corners, bone tracked uppercase label.",
+      "slots": [
+        {
+          "slot_id": "primary",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "SEE THE FULL BREAKDOWN",
+          "decision": "D-F09-PRIMARY-ACTION-LABEL",
+          "rect": {
+            "x": 26.5,
+            "y": 596,
+            "w": 340,
+            "h": 48
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.INLINE",
+      "role": "CTA",
+      "layer": "L5",
+      "rect": {
+        "x": 26.5,
+        "y": 656,
+        "w": 340,
+        "h": 32
+      },
+      "note": "JurnlInlineAction ×2 on one row: tracked label, fine taupe rule, thin chevron. Never pills.",
+      "slots": [
+        {
+          "slot_id": "change_held",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "CHANGE WHAT’S HELD ›",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 656,
+            "w": 170,
+            "h": 32
+          }
+        },
+        {
+          "slot_id": "plan",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "PLAN ›",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 286.5,
+            "y": 656,
+            "w": 80,
+            "h": 32
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.BLEED_L",
+      "role": "PERIMETER",
+      "layer": "L0",
+      "rect": {
+        "x": 0,
+        "y": 108,
+        "w": 26.5,
+        "h": 606
+      },
+      "note": "Outside the 340-pt stage: environment only.",
+      "slots": [
+        {
+          "slot_id": "bleed",
+          "kinds": [
+            "MATERIALITY",
+            "SHADOW"
+          ],
+          "content": "environment bleed",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.BLEED_R",
+      "role": "PERIMETER",
+      "layer": "L0",
+      "rect": {
+        "x": 366.5,
+        "y": 108,
+        "w": 26.5,
+        "h": 606
+      },
+      "note": "Outside the 340-pt stage: environment only.",
+      "slots": [
+        {
+          "slot_id": "bleed",
+          "kinds": [
+            "MATERIALITY",
+            "SHADOW"
+          ],
+          "content": "environment bleed",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T02.WINDOW",
+      "role": "PERIMETER",
+      "layer": "L0",
+      "rect": {
+        "x": 334,
+        "y": 96,
+        "w": 59,
+        "h": 210
+      },
+      "note": "Deep window reveal at the right edge with olive leaves outside: the source of the raking light.",
+      "slots": [
+        {
+          "slot_id": "window",
+          "kinds": [
+            "ARCHITECTURE",
+            "LIGHTING",
+            "ENVIRONMENTAL_FOLIAGE"
+          ],
+          "content": "oak-framed window reveal, olive sliver",
+          "decision": "DECIDED"
+        }
+      ]
+    }
+  ],
+  "overlap_relationships": [],
+  "depth_order": [
+    "L0",
+    "L3",
+    "L1",
+    "L2",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8"
+  ],
+  "visual_focal_order": [
+    "T02.SIGNAL",
+    "T02.OBJECT",
+    "T02.SECONDARY",
+    "T02.CTA",
+    "T02.BRAND"
+  ],
+  "scroll_behavior": "NO_SCROLL",
+  "responsive_logic": "Authority viewport 393×852. Shorter phones (≥ 667 pt): the signature object scales down first (to 70 % minimum), then the inline-action row moves under the CTA tighter; the signal, CTA, chrome and nav never scale. Wider phones (430 pt): the 340-pt stage stays centred and the plate bleed fills the extra width. Tablet and desktop need their own authority (RESPONSIVE_AUTHORITY_REQUIRED); never stretch this one.",
+  "density_intent": "The most direct territory: one sentence, one rule, one plate. Richness comes from the light across the stone, the carving depth, the brass and the window at the edge, not from more objects.",
+  "check": {
+    "territory_id": "JURNL.F09.T02",
+    "status": "BLUEPRINT_READY",
+    "issues": []
+  },
+  "density": {
+    "blueprint_id": "JURNL.F09.T02.BLUEPRINT.v1",
+    "status": "DENSITY_BALANCED",
+    "metrics": {
+      "product_span": 0.944,
+      "signature_object_share": 0.217,
+      "negative_space_share": 0.131
+    },
+    "issues": []
+  },
+  "zone_map": "ZONE_MAPS/F09_T02_BLUEPRINT_ZONE_MAP.png"
+}

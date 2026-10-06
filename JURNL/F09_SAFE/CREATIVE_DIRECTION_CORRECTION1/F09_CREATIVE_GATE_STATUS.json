@@ -3,22 +3,29 @@
   "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
   "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
   "corrected_round": {
-    "status": "REFERENCE_AUTHORITIES_READY",
+    "status": "ANTI_AI_FAILURE",
     "per_territory": [
       {
         "territory_id": "JURNL.F09.T01",
-        "status": "REFERENCE_AUTHORITY_READY",
-        "reasons": []
+        "status": "ANTI_AI_FAILURE",
+        "reasons": [
+          "METAPHOR_CONSUMED_PAGE: The courtyard runs past both stage edges and fills ≈ 69 % of the stage; the signal is inside it.",
+          "DATA_NOT_ENCODED: Wall courses are not proportional to the held amounts; plates scattered."
+        ]
       },
       {
         "territory_id": "JURNL.F09.T02",
-        "status": "REFERENCE_AUTHORITY_READY",
-        "reasons": []
+        "status": "ANTI_AI_FAILURE",
+        "reasons": [
+          "METAPHOR_CONSUMED_PAGE: The inscription wall is the whole page (a poster)."
+        ]
       },
       {
         "territory_id": "JURNL.F09.T03",
-        "status": "REFERENCE_AUTHORITY_READY",
-        "reasons": []
+        "status": "ANTI_AI_FAILURE",
+        "reasons": [
+          "DATA_NOT_ENCODED: Only PLAN is thicker; BILLS (1,875) reads the same as GOALS and TRIPS (900)."
+        ]
       }
     ],
     "distinctness": {

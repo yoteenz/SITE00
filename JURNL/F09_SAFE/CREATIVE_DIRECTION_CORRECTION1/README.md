@@ -2,6 +2,8 @@
 
 **Sprint:** `P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1` · 2026-10-06
 
+> **Superseded for rendering (2026-10-06):** the 4K candidates in `REFERENCE_CANDIDATES_4K/` (OpenArt, 3 generations) and the founder-run ChatGPT pass are **INVALID_RENDER**: the image model rendered precision UI (wordmark "JURL", "TRIPS." dropped, invented mark, metaphor as the whole page, contamination in the ChatGPT T03). `SUNBURST_PROMPTS/` and `CHATGPT_PROMPTS/` are SUPERSEDED. The creative directions below still stand. The next authority is a composite built from blueprint, ownership, text-free plates and deterministic assembly: see `../COMPOSITION_BLUEPRINT_CORRECTION1/`.
+
 ## Status
 
 | Step | Status |

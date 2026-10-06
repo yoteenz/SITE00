@@ -64,7 +64,9 @@
       "ILLEGIBLE_TEXT",
       "GENERIC_PROMO_LAYOUT",
       "TEMPLATE_DASHBOARD",
-      "MOODBOARD_NOT_PRODUCT"
+      "MOODBOARD_NOT_PRODUCT",
+      "METAPHOR_CONSUMED_PAGE",
+      "DATA_NOT_ENCODED"
     ],
     "material_flag_blocks": true,
     "typography_defects": [
@@ -74,9 +76,11 @@
       "DUPLICATED_NAV_ITEM",
       "MUTATED_WORDMARK",
       "GARBLED_AMOUNT",
-      "BROKEN_TAGLINE"
+      "BROKEN_TAGLINE",
+      "MISSING_COPY",
+      "MUTATED_MARK"
     ],
     "typography_rule": "Regenerate or repair (repair = composite the official asset, recorded); no candidate passes with an unrepaired defect."
   },
-  "gate_integration": "evaluateAuthorityGate: for every non-grandfathered material family, CREATIVE_DIRECTION_REQUIRED / BRAND_EXPRESSION_REQUIRED stop the line before references; references count only when every territory is REFERENCE_AUTHORITY_READY and the creative directions are distinct."
+  "gate_integration": "evaluateAuthorityGate: for every non-grandfathered material family, CREATIVE_DIRECTION_REQUIRED / BRAND_EXPRESSION_REQUIRED stop the line before references. Since the composition-blueprint correction the whole-screen candidate no longer counts as the reference authority: the composite does (HYBRID_AUTHORITY_RENDERING_METHOD); checkCandidateAuthority remains the audit for any whole-screen render."
 }

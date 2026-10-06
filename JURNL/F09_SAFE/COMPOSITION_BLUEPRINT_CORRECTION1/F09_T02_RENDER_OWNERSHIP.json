@@ -1,0 +1,74 @@
+{
+  "id": "F09_T02_RENDER_OWNERSHIP",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "ownership_id": "JURNL.F09.T02.OWNERSHIP.v1",
+  "project_id": "JURNL",
+  "territory_id": "JURNL.F09.T02",
+  "blueprint_id": "JURNL.F09.T02.BLUEPRINT.v1",
+  "profile_id": "JURNL.RENDER_OWNERSHIP.v1",
+  "layers": [
+    {
+      "layer": "L0",
+      "owner": "IMAGE_GENERATOR",
+      "renders": "Scene plate: environment, light, perimeter, reserved quiet regions.",
+      "source": "F09_RAW_GENERATION_CONTRACT"
+    },
+    {
+      "layer": "L1",
+      "owner": "COMPOSITE",
+      "renders": "Maker’s plate.",
+      "generated_part": "Blank brushed-brass plate with four screws, in the wall’s light.",
+      "deterministic_part": "Official lockup + descriptor, engraved filter.",
+      "source": "public/site00/projects/jurnl/brand/jurnl-logo-official.png"
+    },
+    {
+      "layer": "L2",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "SAFE TO SPEND, state line, YOU CAN SPEND, the carved figure with emerald enamel.",
+      "source": "src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx (STATE_LINE, labels, actions); src/projects/jurnl/data/f09/safeToSpend.ts computeSafeToSpend (QA seed sample values); public/site00/projects/jurnl/fonts/{instrument-serif-400,barlow-semi-condensed-300,barlow-semi-condensed-400,barlow-semi-condensed-500}.woff2"
+    },
+    {
+      "layer": "L3",
+      "owner": "COMPOSITE",
+      "renders": "The brass after-clause and hanging tag.",
+      "generated_part": "Blank brass tag on its fine chain at the tag slot (scene plate); the brass for the inlaid words is sampled from the plate’s maker’s plate, so it shares the wall’s light.",
+      "deterministic_part": "Letterforms, line breaks, which words are brass (masks), tag text.",
+      "source": "public/site00/projects/jurnl/fonts/{instrument-serif-400,barlow-semi-condensed-300,barlow-semi-condensed-400,barlow-semi-condensed-500}.woff2"
+    },
+    {
+      "layer": "L4",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "Proportion rule (exact clear share) + held-back line.",
+      "source": "src/projects/jurnl/data/f09/safeToSpend.ts computeSafeToSpend (QA seed sample values); public/site00/projects/jurnl/fonts/{instrument-serif-400,barlow-semi-condensed-300,barlow-semi-condensed-400,barlow-semi-condensed-500}.woff2"
+    },
+    {
+      "layer": "L5",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "Primary CTA + inline actions, exact copy.",
+      "source": "src/projects/jurnl/runtime/components/primitives.tsx (JurnlButton, JurnlInlineAction)"
+    },
+    {
+      "layer": "L6",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "Status bar, chrome icon buttons, home indicator.",
+      "source": "src/projects/jurnl/runtime/components/FamilyChrome.tsx (icon buttons only)"
+    },
+    {
+      "layer": "L7",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "JURNL product nav, HOME active.",
+      "source": "src/projects/jurnl/runtime/components/ProductNav.tsx + icons.tsx"
+    },
+    {
+      "layer": "L8",
+      "owner": "NO_RENDER",
+      "renders": "Hold sheet, quick add and Ask JURNL are separate state authorities; nothing on the hub page."
+    }
+  ],
+  "check": {
+    "territory_id": "JURNL.F09.T02",
+    "status": "OWNERSHIP_READY",
+    "issues": []
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "id": "F09_INVALID_RENDER_LEDGER",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "rule": "AN IMAGE GENERATOR MAY CONTRIBUTE TO A PRODUCT AUTHORITY, BUT IT MAY NOT BE THE SOLE RENDERER OF PRECISION PRODUCT UI.",
+  "runs": [
+    {
+      "run_id": "F09.CD1.RUN_A.CHATGPT_FOUNDER",
+      "route": "Founder-run ChatGPT image generation with CHATGPT_PROMPTS/*_CHATGPT.txt + value study + official logo",
+      "ingested": false,
+      "note": "Images were not added to the repo, so they have no hash. Findings are as reported in the founder’s sprint brief. The T03 contamination is not in the OpenArt T03 (RUN B), so it came from this run.",
+      "entries": [
+        {
+          "run_id": "F09.CD1.RUN_A.CHATGPT_FOUNDER",
+          "territory_id": "JURNL.F09.T01",
+          "status": "FOUNDER_REJECTED",
+          "image_path": null,
+          "sha256": null,
+          "reasons": [
+            {
+              "code": "GENERATOR_OWNED_PRECISION_UI",
+              "severity": "MATERIAL",
+              "evidence": "The prompt asked the image model to render the whole screen: copy, figures, logo, chrome and nav. Violates the hybrid hard rule regardless of how good it looks."
+            },
+            {
+              "code": "BLANK_NAV_CONTROLS",
+              "severity": "MATERIAL",
+              "evidence": "founder brief"
+            },
+            {
+              "code": "MUTATED_MARK",
+              "severity": "MATERIAL",
+              "evidence": "founder brief"
+            },
+            {
+              "code": "OFF_CONTRACT_COPY",
+              "severity": "MATERIAL",
+              "evidence": "founder brief"
+            }
+          ],
+          "reuse": "NONE"
+        },
+        {
+          "run_id": "F09.CD1.RUN_A.CHATGPT_FOUNDER",
+          "territory_id": "JURNL.F09.T02",
+          "status": "FOUNDER_REJECTED",
+          "image_path": null,
+          "sha256": null,
+          "reasons": [
+            {
+              "code": "GENERATOR_OWNED_PRECISION_UI",
+              "severity": "MATERIAL",
+              "evidence": "The prompt asked the image model to render the whole screen: copy, figures, logo, chrome and nav. Violates the hybrid hard rule regardless of how good it looks."
+            },
+            {
+              "code": "BLANK_NAV_CONTROLS",
+              "severity": "MATERIAL",
+              "evidence": "founder brief"
+            },
+            {
+              "code": "MUTATED_MARK",
+              "severity": "MATERIAL",
+              "evidence": "founder brief"
+            },
+            {
+              "code": "OFF_CONTRACT_COPY",
+              "severity": "MATERIAL",
+              "evidence": "founder brief"
+            }
+          ],
+          "reuse": "NONE"
+        },
+        {
+          "run_id": "F09.CD1.RUN_A.CHATGPT_FOUNDER",
+          "territory_id": "JURNL.F09.T03",
+          "status": "INVALID_RENDER",
+          "image_path": null,
+          "sha256": null,
+          "reasons": [
+            {
+              "code": "GENERATOR_OWNED_PRECISION_UI",
+              "severity": "MATERIAL",
+              "evidence": "The prompt asked the image model to render the whole screen: copy, figures, logo, chrome and nav. Violates the hybrid hard rule regardless of how good it looks."
+            },
+            {
+              "code": "CONTAMINATION_FOREIGN_COPY",
+              "severity": "MATERIAL",
+              "evidence": "“A QUIETER YOU”, “BEGIN YOUR JOURNEY” — journal / onboarding copy from another JURNL surface"
+            },
+            {
+              "code": "CONTAMINATION_FOREIGN_OBJECT",
+              "severity": "MATERIAL",
+              "evidence": "a journal cover in place of the released slip"
+            },
+            {
+              "code": "BROKEN_NAV",
+              "severity": "MATERIAL",
+              "evidence": "nav cells malformed"
+            },
+            {
+              "code": "BLANK_NAV_CONTROLS",
+              "severity": "MATERIAL",
+              "evidence": "nav controls without glyphs or labels"
+            }
+          ],
+          "reuse": "NONE — and never a reference (contamination source)."
+        }
+      ]
+    },
+    {
+      "run_id": "F09.CD1.RUN_B.OPENART_COMPOSER",
+      "route": "OpenArt · gpt-image-2.5-sunburst · 4K · 9:16 · reference-guided (P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1, PR #1405)",
+      "ingested": true,
+      "note": "The render report marked typography, logo and anti-AI PASS. That QA was wrong: the defects below are visible in the committed files.",
+      "entries": [
+        {
+          "run_id": "F09.CD1.RUN_B.OPENART_COMPOSER",
+          "territory_id": "JURNL.F09.T01",
+          "status": "INVALID_RENDER",
+          "image_path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T01_SURVEYED_COURTYARD_MOBILE_9x16_4K.png",
+          "sha256": "6e6bacb336ed83f9ec47264bd1016ad6874707333b6027a3d29c9e95b43776f8",
+          "reasons": [
+            {
+              "code": "GENERATOR_OWNED_PRECISION_UI",
+              "severity": "MATERIAL",
+              "evidence": "The prompt asked the image model to render the whole screen: copy, figures, logo, chrome and nav. Violates the hybrid hard rule regardless of how good it looks."
+            },
+            {
+              "code": "METAPHOR_CONSUMED_PAGE",
+              "severity": "MATERIAL",
+              "evidence": "The courtyard runs past both stage edges and fills ≈ 69 % of the stage; the signal is inside it."
+            },
+            {
+              "code": "MUTATED_WORDMARK",
+              "severity": "MATERIAL",
+              "evidence": "Cornerstone reads “JURL” (N missing)."
+            },
+            {
+              "code": "MUTATED_MARK",
+              "severity": "MATERIAL",
+              "evidence": "Botanical mark redrawn as a generic three-leaf sprig; the official mark is one stem with five leaves."
+            },
+            {
+              "code": "DATA_GEOMETRY_NOT_TRUE",
+              "severity": "MATERIAL",
+              "evidence": "Courses are not proportional to the held amounts; plates are scattered (BILLS top, PLAN and GOALS right, TRIPS left)."
+            },
+            {
+              "code": "OFF_CONTRACT_COPY",
+              "severity": "MINOR",
+              "evidence": "“A FULL READING” is invented, not the canonical state line."
+            }
+          ],
+          "reuse": "PROVENANCE_ONLY — never a generator reference (baked UI)."
+        },
+        {
+          "run_id": "F09.CD1.RUN_B.OPENART_COMPOSER",
+          "territory_id": "JURNL.F09.T02",
+          "status": "INVALID_RENDER",
+          "image_path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_9x16_4K.png",
+          "sha256": "ac61948e72fcc5380e494063bc93f5b498c601277e2cca707c4c1ec81d8bc5b7",
+          "reasons": [
+            {
+              "code": "GENERATOR_OWNED_PRECISION_UI",
+              "severity": "MATERIAL",
+              "evidence": "The prompt asked the image model to render the whole screen: copy, figures, logo, chrome and nav. Violates the hybrid hard rule regardless of how good it looks."
+            },
+            {
+              "code": "METAPHOR_CONSUMED_PAGE",
+              "severity": "MATERIAL",
+              "evidence": "The inscription wall is the whole page: a poster, not a product page."
+            },
+            {
+              "code": "MISSING_COPY",
+              "severity": "MATERIAL",
+              "evidence": "The sentence ends “…YOUR PLAN, GOALS AND” — “TRIPS.” is missing."
+            },
+            {
+              "code": "MISPLACED_COPY",
+              "severity": "MATERIAL",
+              "evidence": "The $2,400 ASSIGNED tag hangs after AND instead of under YOUR PLAN."
+            },
+            {
+              "code": "MUTATED_MARK",
+              "severity": "MATERIAL",
+              "evidence": "Maker’s plate mark redrawn as a three-leaf sprig."
+            },
+            {
+              "code": "OFF_CONTRACT_COPY",
+              "severity": "MINOR",
+              "evidence": "“A FULL READING. EVERY BILL HAS AN AMOUNT.” is invented."
+            }
+          ],
+          "reuse": "PROVENANCE_ONLY — never a generator reference (baked UI)."
+        },
+        {
+          "run_id": "F09.CD1.RUN_B.OPENART_COMPOSER",
+          "territory_id": "JURNL.F09.T03",
+          "status": "INVALID_RENDER",
+          "image_path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T03_SORTING_RACK_MOBILE_9x16_4K.png",
+          "sha256": "a67a77934f63a50d3a09ceae0acc1ba99751b5f7e99933d4fca3bf4d6a434f71",
+          "reasons": [
+            {
+              "code": "GENERATOR_OWNED_PRECISION_UI",
+              "severity": "MATERIAL",
+              "evidence": "The prompt asked the image model to render the whole screen: copy, figures, logo, chrome and nav. Violates the hybrid hard rule regardless of how good it looks."
+            },
+            {
+              "code": "MUTATED_MARK",
+              "severity": "MATERIAL",
+              "evidence": "Every seal and the letterhead carry a three-leaf sprig, not the official mark."
+            },
+            {
+              "code": "DATA_GEOMETRY_NOT_TRUE",
+              "severity": "MATERIAL",
+              "evidence": "Only PLAN is thicker; BILLS (1,875) reads the same as GOALS and TRIPS (900)."
+            },
+            {
+              "code": "OFF_CONTRACT_COPY",
+              "severity": "MINOR",
+              "evidence": "“FULL READING” stamp is invented."
+            }
+          ],
+          "reuse": "PROVENANCE_ONLY — never a generator reference (baked UI)."
+        }
+      ]
+    }
+  ],
+  "superseded_prompts": {
+    "files": [
+      "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/*.txt",
+      "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/CHATGPT_PROMPTS/*_CHATGPT.txt"
+    ],
+    "status": "SUPERSEDED",
+    "why": "They asked the image model to render the complete screen, including precision UI. Kept for lineage; replaced by the scene-plate prompts in F09_RAW_GENERATION_CONTRACT."
+  },
+  "t03_previous_render_status": "INVALID_RENDER"
+}

@@ -1,0 +1,85 @@
+{
+  "id": "HYBRID_AUTHORITY_RENDERING_METHOD",
+  "schema_version": "1.0.0",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "hard_rule": "AN IMAGE GENERATOR MAY CONTRIBUTE TO A PRODUCT AUTHORITY, BUT IT MAY NOT BE THE SOLE RENDERER OF PRECISION PRODUCT UI.",
+  "pipeline": [
+    "STRUCTURAL TERRITORY",
+    "CREATIVE DIRECTION",
+    "BRAND EXPRESSION",
+    "PAGE COMPOSITION BLUEPRINT",
+    "RENDER-LAYER OWNERSHIP",
+    "IMAGE-GENERATED ART LAYERS",
+    "DETERMINISTIC UI / BRAND ASSEMBLY",
+    "COMPOSITE AUTHORITY",
+    "FOUNDER REVIEW"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "id": "LOCK_COMPOSITION_BLUEPRINT",
+      "gate": "checkCompositionBlueprint → BLUEPRINT_READY"
+    },
+    {
+      "step": 2,
+      "id": "LOCK_RENDER_OWNERSHIP",
+      "gate": "checkRenderOwnership → OWNERSHIP_READY"
+    },
+    {
+      "step": 3,
+      "id": "GENERATE_ART_LAYERS",
+      "gate": "RawGenerationContract (environment / signature-object / material plates only; contamination guard locked: prompt + reference + blueprint hashes)"
+    },
+    {
+      "step": 4,
+      "id": "QA_ART_LAYERS",
+      "gate": "GENERATOR_QA + BAKED_UI_GUARD + contamination scan → plate accepted / rejected"
+    },
+    {
+      "step": 5,
+      "id": "ASSEMBLE_DETERMINISTIC_UI",
+      "gate": "CompositeAssemblyContract (official logo, type system, nav, icons, exact copy, exact data, components)"
+    },
+    {
+      "step": 6,
+      "id": "QA_EXACT_PRODUCT_TRUTH",
+      "gate": "COMPOSITE_QA (exact logo / copy / nav / icons / CTA / value; no overflow, collisions, baked UI under live UI, doubles)"
+    },
+    {
+      "step": 7,
+      "id": "CREATE_COMPOSITE_AUTHORITY",
+      "gate": "checkCompositeAuthority → AUTHORITY_READY (incl. richness audit, density, 2-second product clarity)"
+    },
+    {
+      "step": 8,
+      "id": "FOUNDER_REVIEW",
+      "gate": "Board shows the COMPOSITE authority; raw plates appear as provenance only."
+    }
+  ],
+  "division_of_labour": {
+    "IMAGE_GENERATOR": "Art-directed visual truth: architecture, light, materials, tactile objects, depth, shadow, foliage — as text-free plates with blank surfaces and quiet reserved regions.",
+    "DETERMINISTIC": "Product truth: official logo, exact copy and figures, data geometry, chrome, nav, icons, buttons, spacing — assembled on top of the plates.",
+    "COMPOSITE": "The reference authority the founder reviews. Raw plates are provenance, never the authority."
+  },
+  "plate_kinds": [
+    "SCENE_PLATE",
+    "ENVIRONMENT_PLATE",
+    "SIGNATURE_OBJECT_PLATE",
+    "MATERIAL_OBJECT_ASSET",
+    "BACKGROUND_DEPTH_LAYER"
+  ],
+  "plate_must_not_contain": [
+    "FINAL_NAV",
+    "FINAL_BUTTON_COPY",
+    "EXACT_FINANCIAL_TEXT",
+    "FINAL_LOGO",
+    "SYSTEM_ICONS",
+    "ANY_LEGIBLE_TEXT",
+    "DEVICE_CHROME",
+    "UI_CONTROLS"
+  ],
+  "gate_integration": "evaluateAuthorityGate: for every non-grandfathered material family, after creative direction + brand expression → PAGE_COMPOSITION_BLUEPRINT_REQUIRED / RENDER_LAYER_OWNERSHIP_REQUIRED stop the line before references; references count only when every territory’s composite is AUTHORITY_READY (else COMPOSITE_AUTHORITY_REQUIRED) and the creative directions are distinct.",
+  "hybrid_gate": "evaluateHybridGate(territories, hybrid) → COMPOSITES_READY | PAGE_COMPOSITION_BLUEPRINT_REQUIRED | RENDER_LAYER_OWNERSHIP_REQUIRED | COMPOSITE_AUTHORITY_REQUIRED"
+}

@@ -1,0 +1,38 @@
+## PLATE
+An art plate for compositing: environment and object in one light. It is not a finished screen and contains no text, no logo and no interface of any kind.
+
+## VIEW
+Frontal elevation of one wall, camera square to the wall plane.
+
+## SCENE
+One warm honed limestone wall filling the frame. At the right edge, a deep rectangular window reveal with an oak frame and a sliver of olive leaves outside. A small blank brushed-brass plate with four screws is fixed to the wall at the lower left. One small blank rectangular brass tag with softened corners hangs on a fine brass chain from a small brass pin in the wall, at the position marked in the plate guide.
+
+## LIGHT
+Low early-morning sun raking in from the window at the right, grazing leftward across the stone so its fine texture shows; a soft warm pool fading toward the lower left.
+
+## MATERIALS (no others)
+limestone · brass · oak
+
+## BLANK SURFACES (left empty; exact typography and the real logo are added later)
+- the blank brushed-brass maker’s plate (also the brass sample for the inlaid words)
+- the blank brass tag on its chain
+
+## GEOMETRY
+Follow the attached plate guide exactly. The main object occupies x 14.5–81.3 %, y 35.2–51.6 %; its proportions in the guide are measurements, so do not resize, move or even them out. The outer 9 % on each side is environment bleed.
+
+## QUIET REGIONS (material and light only)
+- x 9.0–91.0 %, y 0.0–6.3 %: plain stone
+- x 14.5–85.4 %, y 6.9–11.1 %: plain stone
+- x 14.5–85.4 %, y 89.4–94.6 %: plain stone
+- x 9.0–91.0 %, y 96.2–100.0 %: plain stone
+- x 14.5–77.1 %, y 13.6–33.8 %: plain honed stone
+- x 14.5–77.1 %, y 53.1–57.1 %: plain stone
+- x 14.5–45.8 %, y 60.1–65.3 %: the blank brass plate face
+- x 14.5–85.4 %, y 70.0–75.6 %: plain stone
+- x 14.5–85.4 %, y 77.0–80.8 %: plain stone
+
+## MUST NOT CONTAIN
+Any letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, phone frame or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.
+
+## RENDER SETTINGS
+gpt-image-2.5-sunburst · quality 4K · aspect ratio 9:16 · auto-enhance OFF · reference-guided with the attached plate guide only.

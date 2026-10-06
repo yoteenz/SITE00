@@ -1,0 +1,38 @@
+## PLATE
+An art plate for compositing: environment and object in one light. It is not a finished screen and contains no text, no logo and no interface of any kind.
+
+## VIEW
+True orthographic top-down architectural photograph: camera directly overhead, no perspective tilt.
+
+## SCENE
+A sunlit limewashed terrace in bone and greige plaster seen from above. In it, one rectangular courtyard enclosed by thin walls built from four limestone courses (honey, cream, grey, faint rose) with fine mortar joints, an open-pored honed travertine floor, and a closed natural-oak door leaf in the bottom wall on the centre line. An olive canopy enters from the top-right edge only.
+
+## LIGHT
+High late-morning Mediterranean sun from the upper right; short soft shadows on the inner wall faces; the open floor evenly bright; soft leaf shadow in the top-right bleed.
+
+## MATERIALS (no others)
+limewashed plaster · limestone · travertine · oak
+
+## BLANK SURFACES (left empty; exact typography and the real logo are added later)
+- a small blank limestone cornerstone block at the courtyard’s top-left outer corner
+- four small blank brushed-brass plates, one on each wall course
+
+## GEOMETRY
+Follow the attached plate guide exactly. The main object occupies x 17.7–82.4 %, y 32.4–64.1 %; its proportions in the guide are measurements, so do not resize, move or even them out. The outer 9 % on each side is environment bleed.
+
+## QUIET REGIONS (material and light only)
+- x 9.0–91.0 %, y 0.0–6.3 %: plain plaster
+- x 14.5–85.4 %, y 6.9–11.1 %: plain plaster
+- x 14.5–85.4 %, y 89.4–94.6 %: plain plaster
+- x 9.0–91.0 %, y 96.2–100.0 %: plain plaster
+- x 14.5–85.4 %, y 14.1–30.5 %: plain bone plaster
+- x 17.7–27.3 %, y 32.4–39.0 %: the blank cornerstone face
+- x 14.5–85.4 %, y 65.5–70.2 %: plain plaster
+- x 14.5–85.4 %, y 72.3–77.9 %: plain plaster
+- x 14.5–85.4 %, y 78.9–82.7 %: plain plaster
+
+## MUST NOT CONTAIN
+Any letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, phone frame or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.
+
+## RENDER SETTINGS
+gpt-image-2.5-sunburst · quality 4K · aspect ratio 9:16 · auto-enhance OFF · reference-guided with the attached plate guide only.

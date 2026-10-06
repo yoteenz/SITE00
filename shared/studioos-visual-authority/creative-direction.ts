@@ -241,10 +241,14 @@ export const ANTI_AI_FLAGS = [
   'GENERIC_PROMO_LAYOUT',
   'TEMPLATE_DASHBOARD',
   'MOODBOARD_NOT_PRODUCT',
+  /** Composition-blueprint correction: the metaphor became the whole page instead of an object or zone. */
+  'METAPHOR_CONSUMED_PAGE',
+  /** Composition-blueprint correction: an object that should encode data (lengths, thickness, fill) does not. */
+  'DATA_NOT_ENCODED',
 ] as const;
 export type AntiAiFlag = (typeof ANTI_AI_FLAGS)[number];
 
-export const TYPOGRAPHY_DEFECTS = ['MISSPELLING', 'FAKE_WORD', 'RANDOM_LABEL', 'DUPLICATED_NAV_ITEM', 'MUTATED_WORDMARK', 'GARBLED_AMOUNT', 'BROKEN_TAGLINE'] as const;
+export const TYPOGRAPHY_DEFECTS = ['MISSPELLING', 'FAKE_WORD', 'RANDOM_LABEL', 'DUPLICATED_NAV_ITEM', 'MUTATED_WORDMARK', 'GARBLED_AMOUNT', 'BROKEN_TAGLINE', 'MISSING_COPY', 'MUTATED_MARK'] as const;
 export type TypographyDefect = (typeof TYPOGRAPHY_DEFECTS)[number];
 
 export type AntiAiAudit = {
@@ -499,5 +503,5 @@ export const BRAND_EXPRESSION_GATE_CONTRACT = {
     renderer_rule: 'The profile renderer (model, quality, aspect, auto-enhance, mode). Local HTML/CSS renders are never final candidates. A deviation counts only with a recorded founder exception.',
   },
   anti_ai_audit: { flags: ANTI_AI_FLAGS, material_flag_blocks: true, typography_defects: TYPOGRAPHY_DEFECTS, typography_rule: 'Regenerate or repair (repair = composite the official asset, recorded); no candidate passes with an unrepaired defect.' },
-  gate_integration: 'evaluateAuthorityGate: for every non-grandfathered material family, CREATIVE_DIRECTION_REQUIRED / BRAND_EXPRESSION_REQUIRED stop the line before references; references count only when every territory is REFERENCE_AUTHORITY_READY and the creative directions are distinct.',
+  gate_integration: 'evaluateAuthorityGate: for every non-grandfathered material family, CREATIVE_DIRECTION_REQUIRED / BRAND_EXPRESSION_REQUIRED stop the line before references. Since the composition-blueprint correction the whole-screen candidate no longer counts as the reference authority: the composite does (HYBRID_AUTHORITY_RENDERING_METHOD); checkCandidateAuthority remains the audit for any whole-screen render.',
 };

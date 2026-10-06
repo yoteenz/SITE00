@@ -85,20 +85,76 @@
     {
       "candidate_id": "JURNL.F09.T01.CD.SUNBURST.v1",
       "territory_id": "JURNL.F09.T01",
-      "flags": [],
-      "typography_defects": []
+      "flags": [
+        {
+          "flag": "METAPHOR_CONSUMED_PAGE",
+          "severity": "MATERIAL",
+          "note": "The courtyard runs past both stage edges and fills ≈ 69 % of the stage; the signal is inside it."
+        },
+        {
+          "flag": "DATA_NOT_ENCODED",
+          "severity": "MATERIAL",
+          "note": "Wall courses are not proportional to the held amounts; plates scattered."
+        }
+      ],
+      "typography_defects": [
+        {
+          "defect": "MUTATED_WORDMARK",
+          "text": "JURL (cornerstone; N missing)",
+          "repaired": false,
+          "repair": ""
+        },
+        {
+          "defect": "MUTATED_MARK",
+          "text": "three-leaf sprig instead of the official five-leaf stem",
+          "repaired": false,
+          "repair": ""
+        }
+      ]
     },
     {
       "candidate_id": "JURNL.F09.T02.CD.SUNBURST.v1",
       "territory_id": "JURNL.F09.T02",
-      "flags": [],
-      "typography_defects": []
+      "flags": [
+        {
+          "flag": "METAPHOR_CONSUMED_PAGE",
+          "severity": "MATERIAL",
+          "note": "The inscription wall is the whole page (a poster)."
+        }
+      ],
+      "typography_defects": [
+        {
+          "defect": "MISSING_COPY",
+          "text": "“…YOUR PLAN, GOALS AND” — TRIPS. dropped; the $2,400 ASSIGNED tag hangs after AND",
+          "repaired": false,
+          "repair": ""
+        },
+        {
+          "defect": "MUTATED_MARK",
+          "text": "three-leaf sprig on the maker’s plate",
+          "repaired": false,
+          "repair": ""
+        }
+      ]
     },
     {
       "candidate_id": "JURNL.F09.T03.CD.SUNBURST.v1",
       "territory_id": "JURNL.F09.T03",
-      "flags": [],
-      "typography_defects": []
+      "flags": [
+        {
+          "flag": "DATA_NOT_ENCODED",
+          "severity": "MATERIAL",
+          "note": "Only PLAN is thicker; BILLS (1,875) reads the same as GOALS and TRIPS (900)."
+        }
+      ],
+      "typography_defects": [
+        {
+          "defect": "MUTATED_MARK",
+          "text": "three-leaf sprig on every seal and the letterhead",
+          "repaired": false,
+          "repair": ""
+        }
+      ]
     }
   ]
 }

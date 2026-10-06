@@ -14243,3 +14243,46 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Authority sync:** `f09-creative-direction.ts` — `JURNL_F09_CORRECTED_CANDIDATES`, audits, `GENERATION_LEDGER` status `GENERATED`, `CORRECTED_ROUND_SCORES`, gate **REFERENCE_AUTHORITIES_READY** (founder territory verdict still null). Helper scripts: `scripts/jurnl/f09-sunburst-generate-one.py`, `f09-build-founder-review-board.py`, `f09-openart-generate-from-json.mjs`. Test `jurnlF09CreativeDirectionCorrection1.test.ts` updated.
 - **QA:** Typography / logo / anti-AI **PASS** on all three; T02 — founder should zoom carved line for full **AND TRIPS.** at 4K. Ignore truncated OpenArt job `BtaPQBn9ja50o02vbAgR`.
 - **Not done:** No F09 React/production UI. **Founder verdict PENDING** — ready for four-way comparison (three corrected 4K + founder hybrid).
+
+---
+
+## 2026-10-06 — JURNL F09 composition blueprint + render ownership (P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1)
+
+- **Hard rule (methodology):** AN IMAGE GENERATOR MAY CONTRIBUTE TO A PRODUCT AUTHORITY, BUT IT MAY NOT BE THE SOLE RENDERER OF PRECISION PRODUCT UI.
+  - Superseded: "a complete Sunburst prompt = a complete product authority" and "image generator = sole renderer of the screen".
+- **New gates** in `shared/studioos-visual-authority/hybrid-authority.ts`, wired into `evaluateAuthorityGate` after 04A/04B, before references:
+  - 04C `PAGE_COMPOSITION_BLUEPRINT_REQUIRED` (`checkCompositionBlueprint`)
+  - 04D `RENDER_LAYER_OWNERSHIP_REQUIRED` (`checkRenderOwnership`)
+  - 05 `COMPOSITE_AUTHORITY_REQUIRED` (`checkCompositeAuthority`): the composite, not a whole-screen render, is the reference authority.
+  - Layers are L0–L8 with one owner each. L2 and L4–L7 are deterministic; L1 is never generated.
+  - Metaphor scope defaults to OBJECT or ZONE; WHOLE_PAGE needs a founder decision.
+  - Also: baked-UI guard (OCR + reserved-region edge score ≤ 0.12), contamination guard, richness audit (each ≥ 3, mean ≥ 3.8) and 2-second clarity.
+  - Render-ownership profiles: JURNL is READY; AIO, FRONTAL_SLAYER, ASTRAL_WORLD, NDXBOOK and SITE00 are drafts for the founder. AIO IFTA stays grandfathered.
+  - Docs (6 md + 6 generated json) are in `docs/studioos/visual-authority-development/`; the export count is 22.
+- **JURNL composition grammar** (`projects/jurnl/composition-grammar.ts`):
+  - nine rules G01–G09
+  - the comparison-concept lessons as rules
+  - density rule `checkJurnlDensity`
+  - the shared 393×852 geometry
+- **F09 package** `JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/`, from `projects/jurnl/f09-composition-blueprint.ts`:
+  - three blueprints, all BLUEPRINT_READY: T01 OBJECT courtyard ≈ 41 % of the stage; T02 ZONE brass after-clause; T03 OBJECT rack, with the released slip at the top carrying the signal
+  - three ownership maps, all OWNERSHIP_READY
+  - data geometry computed from the formula (courses, rule, envelope thickness)
+  - one text-free scene plate per territory (prompts with no product or brand words) plus plate guides
+  - assembly contract, contamination guard (with hashes) and invalid-render ledger
+  - zone maps stamped BLUEPRINT — NOT AUTHORITY
+- **Corrected the render sprint's QA.** The OpenArt renders' audits were empty or PASS. Recorded defects:
+  - T01: "JURL" wordmark; metaphor consumed the page; courses not data-true
+  - T02: "TRIPS." dropped and the tag misplaced; wall-as-poster
+  - all three: the mark redrawn as a three-leaf sprig
+  - T03: envelope thickness not data-true
+  - The creative gate is now ANTI_AI_FAILURE. CORRECTED_ROUND_SCORES are superseded. TYPOGRAPHY_DEFECTS gained MISSING_COPY and MUTATED_MARK; ANTI_AI_FLAGS gained METAPHOR_CONSUMED_PAGE and DATA_NOT_ENCODED.
+  - The founder-reported T03 contamination ("A QUIETER YOU", "BEGIN YOUR JOURNEY", journal cover, broken nav) came from the founder-run ChatGPT pass (RUN A, not ingested). It is not in the OpenArt T03.
+  - T03 previous render: INVALID_RENDER. SUNBURST_PROMPTS and CHATGPT_PROMPTS are SUPERSEDED.
+- **Not done (by design):** 0 generations, 0 paid, no OpenArt use, no production JURNL change.
+- **Next:** hybrid render execution:
+  - 3 scene plates (attach only the plate guide, in a fresh session, with hashes checked)
+  - deterministic assembly at 393×852
+  - composite QA, richness and clarity
+  - founder board of composites
+- **Verdict:** READY_FOR_FOUNDER_COMPARISON NO.

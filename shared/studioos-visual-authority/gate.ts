@@ -3,6 +3,7 @@
  */
 import { validateExperienceContract } from '../studioos-experience-brain/validate.js';
 import { creativeDirectionRequired, evaluateCreativeGate } from './creative-direction.js';
+import { evaluateHybridGate } from './hybrid-authority.js';
 import { isNotApplicable, type ExperienceActor, type ExperienceContract, type Viewport } from '../studioos-experience-brain/schema.js';
 import {
   APPROVING_VERDICTS,
@@ -369,15 +370,29 @@ export function evaluateAuthorityGate(i: AuthorityGateInput): AuthorityGateResul
         : 'Pass the brand-expression checklist for each territory before generation.');
     }
 
+    // Page composition blueprint → render-layer ownership come BEFORE generation too: the generator never infers the page.
+    const hybrid = needsCreative ? evaluateHybridGate(i.territories ?? [], i.hybrid) : null;
+    if (hybrid && (hybrid.status === 'PAGE_COMPOSITION_BLUEPRINT_REQUIRED' || hybrid.status === 'RENDER_LAYER_OWNERSHIP_REQUIRED')) {
+      const per = hybrid.status === 'PAGE_COMPOSITION_BLUEPRINT_REQUIRED' ? hybrid.blueprints.filter((b) => b.status !== 'BLUEPRINT_READY') : hybrid.ownership.filter((o) => o.status !== 'OWNERSHIP_READY');
+      reasons.push(...per.map((p) => `${p.territory_id}: ${p.issues.slice(0, 4).join('; ')}`));
+      return out('AUTHORITY_TERRITORIES_REQUIRED', hybrid.status, hybrid.status === 'PAGE_COMPOSITION_BLUEPRINT_REQUIRED'
+        ? 'Lock a page composition blueprint per territory (zones, layers, overlaps, focal order, density; metaphor contained).'
+        : 'Assign one renderer per layer; precision product UI deterministic, the generator owns art only.');
+    }
+
     const refs = checkReferences(i.territories, i.references);
     if (refs.status !== 'REFERENCES_COMPLETE') {
       reasons.push(...refs.missing_territories.map((t) => `no reference authority for ${t}`), ...refs.insufficient.map((x) => `${x.reference_id} does not show ${x.missing_proof.join(', ')}`));
       return out('AUTHORITY_TERRITORIES_REQUIRED', 'REFERENCE_AUTHORITY_REQUIRED', 'Generate / assemble one reference authority per territory.');
     }
-    if (creative && creative.status !== 'REFERENCE_AUTHORITIES_READY') {
-      reasons.push(`creative gate: ${creative.status}`, ...creative.per_territory.filter((p) => p.status !== 'REFERENCE_AUTHORITY_READY').map((p) => `${p.territory_id} ${p.status}: ${p.reasons.slice(0, 3).join('; ')}`));
-      if (creative.status === 'CREATIVE_DIRECTION_COLLAPSE') reasons.push('creative directions collapse into one look (≥ 8 of 10 creative dimensions, incl. premise / depth / material, must differ)');
-      return out('AUTHORITY_TERRITORIES_REQUIRED', 'REFERENCE_AUTHORITY_REQUIRED', 'Render each locked translation with the profile renderer, pass the anti-AI audit and typography guard.');
+    if (hybrid && hybrid.status !== 'COMPOSITES_READY') {
+      // The composite supersedes the whole-screen candidate as the reference authority (hybrid hard rule).
+      reasons.push(`hybrid gate: ${hybrid.status}`, ...hybrid.composites.filter((c) => c.status !== 'AUTHORITY_READY').map((c) => `${c.territory_id}: ${c.issues.slice(0, 3).join('; ')}`));
+      return out('AUTHORITY_TERRITORIES_REQUIRED', 'COMPOSITE_AUTHORITY_REQUIRED', 'Generate text-free art plates, assemble every precision layer deterministically, pass composite QA, richness and 2-second clarity.');
+    }
+    if (creative && creative.distinctness.status !== 'CREATIVE_DIRECTIONS_DISTINCT') {
+      reasons.push('creative directions collapse into one look (≥ 8 of 10 creative dimensions, incl. premise / depth / material, must differ)');
+      return out('AUTHORITY_TERRITORIES_REQUIRED', 'REFERENCE_AUTHORITY_REQUIRED', 'Re-translate the territories so the creative directions differ.');
     }
     conditions.REFERENCE_AUTHORITY_EXISTS = true;
   }

@@ -1,0 +1,459 @@
+{
+  "id": "F09_RAW_GENERATION_CONTRACT",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "hard_rule": "AN IMAGE GENERATOR MAY CONTRIBUTE TO A PRODUCT AUTHORITY, BUT IT MAY NOT BE THE SOLE RENDERER OF PRECISION PRODUCT UI.",
+  "renderer": {
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "4K",
+    "aspect_ratio": "9:16",
+    "auto_enhance": false,
+    "viewport_mapping": "The 9:16 frame height equals the 852-pt JURNL mobile viewport height; the 393-pt viewport is the central 82.05% of the frame width (43-pt environment bleed each side — the same crop the runtime applies to 9:16 plates). All UI, text and data objects stay inside the central 82%; the side bleed carries environment only.",
+    "generation_mode": "REFERENCE_GUIDED",
+    "forbidden_providers": [],
+    "local_render_allowed_as_final": false
+  },
+  "generations_this_sprint": {
+    "primary": 0,
+    "paid": 0
+  },
+  "next_sprint_budget": {
+    "primary": 3,
+    "rule": "One scene plate per territory. Retry only on a failed generator QA, baked-UI or contamination check, or a data-geometry miss the assembly cannot re-cut; each retry logged with its reason."
+  },
+  "plate_must_not_contain": [
+    "FINAL_NAV",
+    "FINAL_BUTTON_COPY",
+    "EXACT_FINANCIAL_TEXT",
+    "FINAL_LOGO",
+    "SYSTEM_ICONS",
+    "ANY_LEGIBLE_TEXT",
+    "DEVICE_CHROME",
+    "UI_CONTROLS"
+  ],
+  "generator_qa": [
+    "NO_RANDOM_COPY",
+    "NO_RANDOM_LOGO",
+    "NO_NAV",
+    "NO_UI_BUTTONS",
+    "NO_WRONG_APP",
+    "NO_WRONG_FAMILY",
+    "NO_TYPOGRAPHY_DEPENDENCY",
+    "NO_BROKEN_DEVICE_CHROME",
+    "NO_UNRELATED_CONTENT"
+  ],
+  "baked_ui_guard": {
+    "method": [
+      "Every deterministic zone (PRODUCT_ZONE_ROLES + SYSTEM_ZONE_ROLES + any slot with a precision kind) becomes a RESERVED REGION on the plate.",
+      "OCR the plate: any legible glyph anywhere → reject (plates carry no text).",
+      "Score each reserved region with the CENTER_STAGE salience method (0.55 × local edge energy + 0.30 × saturation + 0.15 × bright luminance); mean must stay ≤ the threshold.",
+      "Human check of every reserved region at 100 %: no button shapes, pills, nav cells, icon glyphs, logo-like marks, ghost labels."
+    ],
+    "reserved_region_rule": "A reserved region may carry material and light only (plaster, paper, stone, shadow) — the quiet surface the deterministic UI sits on.",
+    "edge_score_threshold": 0.12,
+    "reject_on": [
+      "UI_ON_UI",
+      "DUPLICATE_BUTTON",
+      "DUPLICATE_LOGO",
+      "DUPLICATE_NAV",
+      "GHOST_LABEL",
+      "LEGIBLE_TEXT",
+      "ICON_GLYPH"
+    ]
+  },
+  "reference_rule": "The plate guide is the only reference. Never attach the official logo (the generator must not draw it), a value study or lock board, a previous candidate, or any other family’s image.",
+  "plates": [
+    {
+      "territory_id": "JURNL.F09.T01",
+      "plate_id": "JURNL.F09.T01.SCENE_PLATE.v1",
+      "layers": [
+        "L0",
+        "L3"
+      ],
+      "view": "True orthographic top-down architectural photograph: camera directly overhead, no perspective tilt.",
+      "scene": "A sunlit limewashed terrace in bone and greige plaster seen from above. In it, one rectangular courtyard enclosed by thin walls built from four limestone courses (honey, cream, grey, faint rose) with fine mortar joints, an open-pored honed travertine floor, and a closed natural-oak door leaf in the bottom wall on the centre line. An olive canopy enters from the top-right edge only.",
+      "light": "High late-morning Mediterranean sun from the upper right; short soft shadows on the inner wall faces; the open floor evenly bright; soft leaf shadow in the top-right bleed.",
+      "materials": [
+        "limewashed plaster",
+        "limestone",
+        "travertine",
+        "oak"
+      ],
+      "blank_surfaces": [
+        "a small blank limestone cornerstone block at the courtyard’s top-left outer corner",
+        "four small blank brushed-brass plates, one on each wall course"
+      ],
+      "quiet": {
+        "T01.SIGNAL": "plain bone plaster",
+        "T01.SECONDARY": "plain plaster",
+        "T01.CTA": "plain plaster",
+        "T01.INLINE": "plain plaster",
+        "T01.CHROME": "plain plaster",
+        "T01.NAV": "plain plaster",
+        "T01.STATUS": "plain plaster",
+        "T01.HOME_INDICATOR": "plain plaster",
+        "T01.BRAND": "the blank cornerstone face"
+      },
+      "blueprint_id": "JURNL.F09.T01.BLUEPRINT.v1",
+      "plate_kind": "SCENE_PLATE",
+      "plate_guide": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_GUIDES/F09_T01_PLATE_GUIDE_9x16.png",
+      "reserved_regions": [
+        {
+          "zone_id": "T01.STATUS",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 9,
+            "y": 0,
+            "w": 82,
+            "h": 6.3
+          }
+        },
+        {
+          "zone_id": "T01.CHROME",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 6.9,
+            "w": 70.9,
+            "h": 4.2
+          }
+        },
+        {
+          "zone_id": "T01.NAV",
+          "layer": "L7",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 89.4,
+            "w": 70.9,
+            "h": 5.2
+          }
+        },
+        {
+          "zone_id": "T01.HOME_INDICATOR",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 9,
+            "y": 96.2,
+            "w": 82,
+            "h": 3.8
+          }
+        },
+        {
+          "zone_id": "T01.SIGNAL",
+          "layer": "L2",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 14.1,
+            "w": 70.9,
+            "h": 16.4
+          }
+        },
+        {
+          "zone_id": "T01.BRAND",
+          "layer": "L1",
+          "plate_pct": {
+            "x": 17.7,
+            "y": 32.4,
+            "w": 9.6,
+            "h": 6.6
+          }
+        },
+        {
+          "zone_id": "T01.SECONDARY",
+          "layer": "L4",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 65.5,
+            "w": 70.9,
+            "h": 4.7
+          }
+        },
+        {
+          "zone_id": "T01.CTA",
+          "layer": "L5",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 72.3,
+            "w": 70.9,
+            "h": 5.6
+          }
+        },
+        {
+          "zone_id": "T01.INLINE",
+          "layer": "L5",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 78.9,
+            "w": 70.9,
+            "h": 3.8
+          }
+        }
+      ],
+      "prompt": "## PLATE\nAn art plate for compositing: environment and object in one light. It is not a finished screen and contains no text, no logo and no interface of any kind.\n\n## VIEW\nTrue orthographic top-down architectural photograph: camera directly overhead, no perspective tilt.\n\n## SCENE\nA sunlit limewashed terrace in bone and greige plaster seen from above. In it, one rectangular courtyard enclosed by thin walls built from four limestone courses (honey, cream, grey, faint rose) with fine mortar joints, an open-pored honed travertine floor, and a closed natural-oak door leaf in the bottom wall on the centre line. An olive canopy enters from the top-right edge only.\n\n## LIGHT\nHigh late-morning Mediterranean sun from the upper right; short soft shadows on the inner wall faces; the open floor evenly bright; soft leaf shadow in the top-right bleed.\n\n## MATERIALS (no others)\nlimewashed plaster · limestone · travertine · oak\n\n## BLANK SURFACES (left empty; exact typography and the real logo are added later)\n- a small blank limestone cornerstone block at the courtyard’s top-left outer corner\n- four small blank brushed-brass plates, one on each wall course\n\n## GEOMETRY\nFollow the attached plate guide exactly. The main object occupies x 17.7–82.4 %, y 32.4–64.1 %; its proportions in the guide are measurements, so do not resize, move or even them out. The outer 9 % on each side is environment bleed.\n\n## QUIET REGIONS (material and light only)\n- x 9.0–91.0 %, y 0.0–6.3 %: plain plaster\n- x 14.5–85.4 %, y 6.9–11.1 %: plain plaster\n- x 14.5–85.4 %, y 89.4–94.6 %: plain plaster\n- x 9.0–91.0 %, y 96.2–100.0 %: plain plaster\n- x 14.5–85.4 %, y 14.1–30.5 %: plain bone plaster\n- x 17.7–27.3 %, y 32.4–39.0 %: the blank cornerstone face\n- x 14.5–85.4 %, y 65.5–70.2 %: plain plaster\n- x 14.5–85.4 %, y 72.3–77.9 %: plain plaster\n- x 14.5–85.4 %, y 78.9–82.7 %: plain plaster\n\n## MUST NOT CONTAIN\nAny letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, phone frame or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.\n\n## RENDER SETTINGS\ngpt-image-2.5-sunburst · quality 4K · aspect ratio 9:16 · auto-enhance OFF · reference-guided with the attached plate guide only.\n",
+      "prompt_path": "PLATE_PROMPTS/T01_SCENE_PLATE.txt",
+      "prompt_sha256": "2d8f8b423b0b9a93e7f2ac75db635fc509fadb3374ad342eb06e54eedcf6c70c"
+    },
+    {
+      "territory_id": "JURNL.F09.T02",
+      "plate_id": "JURNL.F09.T02.SCENE_PLATE.v1",
+      "layers": [
+        "L0",
+        "L1",
+        "L3"
+      ],
+      "view": "Frontal elevation of one wall, camera square to the wall plane.",
+      "scene": "One warm honed limestone wall filling the frame. At the right edge, a deep rectangular window reveal with an oak frame and a sliver of olive leaves outside. A small blank brushed-brass plate with four screws is fixed to the wall at the lower left. One small blank rectangular brass tag with softened corners hangs on a fine brass chain from a small brass pin in the wall, at the position marked in the plate guide.",
+      "light": "Low early-morning sun raking in from the window at the right, grazing leftward across the stone so its fine texture shows; a soft warm pool fading toward the lower left.",
+      "materials": [
+        "limestone",
+        "brass",
+        "oak"
+      ],
+      "blank_surfaces": [
+        "the blank brushed-brass maker’s plate (also the brass sample for the inlaid words)",
+        "the blank brass tag on its chain"
+      ],
+      "quiet": {
+        "T02.SIGNAL": "plain honed stone",
+        "T02.SECONDARY": "plain stone",
+        "T02.CTA": "plain stone",
+        "T02.INLINE": "plain stone",
+        "T02.CHROME": "plain stone",
+        "T02.NAV": "plain stone",
+        "T02.STATUS": "plain stone",
+        "T02.HOME_INDICATOR": "plain stone",
+        "T02.BRAND": "the blank brass plate face"
+      },
+      "blueprint_id": "JURNL.F09.T02.BLUEPRINT.v1",
+      "plate_kind": "SCENE_PLATE",
+      "plate_guide": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_GUIDES/F09_T02_PLATE_GUIDE_9x16.png",
+      "reserved_regions": [
+        {
+          "zone_id": "T02.STATUS",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 9,
+            "y": 0,
+            "w": 82,
+            "h": 6.3
+          }
+        },
+        {
+          "zone_id": "T02.CHROME",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 6.9,
+            "w": 70.9,
+            "h": 4.2
+          }
+        },
+        {
+          "zone_id": "T02.NAV",
+          "layer": "L7",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 89.4,
+            "w": 70.9,
+            "h": 5.2
+          }
+        },
+        {
+          "zone_id": "T02.HOME_INDICATOR",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 9,
+            "y": 96.2,
+            "w": 82,
+            "h": 3.8
+          }
+        },
+        {
+          "zone_id": "T02.SIGNAL",
+          "layer": "L2",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 13.6,
+            "w": 62.6,
+            "h": 20.2
+          }
+        },
+        {
+          "zone_id": "T02.SECONDARY",
+          "layer": "L4",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 53.1,
+            "w": 62.6,
+            "h": 4
+          }
+        },
+        {
+          "zone_id": "T02.BRAND",
+          "layer": "L1",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 60.1,
+            "w": 31.3,
+            "h": 5.2
+          }
+        },
+        {
+          "zone_id": "T02.CTA",
+          "layer": "L5",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 70,
+            "w": 70.9,
+            "h": 5.6
+          }
+        },
+        {
+          "zone_id": "T02.INLINE",
+          "layer": "L5",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 77,
+            "w": 70.9,
+            "h": 3.8
+          }
+        }
+      ],
+      "prompt": "## PLATE\nAn art plate for compositing: environment and object in one light. It is not a finished screen and contains no text, no logo and no interface of any kind.\n\n## VIEW\nFrontal elevation of one wall, camera square to the wall plane.\n\n## SCENE\nOne warm honed limestone wall filling the frame. At the right edge, a deep rectangular window reveal with an oak frame and a sliver of olive leaves outside. A small blank brushed-brass plate with four screws is fixed to the wall at the lower left. One small blank rectangular brass tag with softened corners hangs on a fine brass chain from a small brass pin in the wall, at the position marked in the plate guide.\n\n## LIGHT\nLow early-morning sun raking in from the window at the right, grazing leftward across the stone so its fine texture shows; a soft warm pool fading toward the lower left.\n\n## MATERIALS (no others)\nlimestone · brass · oak\n\n## BLANK SURFACES (left empty; exact typography and the real logo are added later)\n- the blank brushed-brass maker’s plate (also the brass sample for the inlaid words)\n- the blank brass tag on its chain\n\n## GEOMETRY\nFollow the attached plate guide exactly. The main object occupies x 14.5–81.3 %, y 35.2–51.6 %; its proportions in the guide are measurements, so do not resize, move or even them out. The outer 9 % on each side is environment bleed.\n\n## QUIET REGIONS (material and light only)\n- x 9.0–91.0 %, y 0.0–6.3 %: plain stone\n- x 14.5–85.4 %, y 6.9–11.1 %: plain stone\n- x 14.5–85.4 %, y 89.4–94.6 %: plain stone\n- x 9.0–91.0 %, y 96.2–100.0 %: plain stone\n- x 14.5–77.1 %, y 13.6–33.8 %: plain honed stone\n- x 14.5–77.1 %, y 53.1–57.1 %: plain stone\n- x 14.5–45.8 %, y 60.1–65.3 %: the blank brass plate face\n- x 14.5–85.4 %, y 70.0–75.6 %: plain stone\n- x 14.5–85.4 %, y 77.0–80.8 %: plain stone\n\n## MUST NOT CONTAIN\nAny letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, phone frame or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.\n\n## RENDER SETTINGS\ngpt-image-2.5-sunburst · quality 4K · aspect ratio 9:16 · auto-enhance OFF · reference-guided with the attached plate guide only.\n",
+      "prompt_path": "PLATE_PROMPTS/T02_SCENE_PLATE.txt",
+      "prompt_sha256": "ef09c24d6e72cbbc88068bb273d4daac34935806b39e095364e3a7c8478d9c68"
+    },
+    {
+      "territory_id": "JURNL.F09.T03",
+      "plate_id": "JURNL.F09.T03.SCENE_PLATE.v1",
+      "layers": [
+        "L0",
+        "L3"
+      ],
+      "view": "Frontal still life, camera square to the wall, very slightly above the rack.",
+      "scene": "A limewashed plaster wall. Near the top, one blank cotton-rag slip of paper with soft fold creases, held flat to the wall, frontal. Below it, a natural oak sorting rack with five slots: the first slot on the left is empty with two small broken blank burgundy wax-seal fragments resting in it; slots two to five each hold one sealed linen envelope (bone, greige, ivory, pale blush) closed with a blank burgundy wax seal, the envelopes’ thicknesses exactly as drawn in the plate guide. A blank brushed-brass plate under each slot, and one long blank brass strip fixed to the wall under the rack.",
+      "light": "Soft morning window light from the upper left (window off-frame); gentle long shadows of the envelopes and slip on the wall.",
+      "materials": [
+        "limewashed plaster",
+        "paper and linen",
+        "oak",
+        "brass and wax"
+      ],
+      "blank_surfaces": [
+        "the released slip (no printing)",
+        "five blank slot plates",
+        "the blank brass strip",
+        "blank wax seals (no emboss)"
+      ],
+      "quiet": {
+        "T03.SIGNAL": "blank paper of the slip",
+        "T03.BRAND": "blank paper of the slip",
+        "T03.SECONDARY": "the blank brass strip",
+        "T03.CTA": "plain plaster",
+        "T03.INLINE": "plain plaster",
+        "T03.CHROME": "plain plaster",
+        "T03.NAV": "plain plaster",
+        "T03.STATUS": "plain plaster",
+        "T03.HOME_INDICATOR": "plain plaster"
+      },
+      "blueprint_id": "JURNL.F09.T03.BLUEPRINT.v1",
+      "plate_kind": "SCENE_PLATE",
+      "plate_guide": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_GUIDES/F09_T03_PLATE_GUIDE_9x16.png",
+      "reserved_regions": [
+        {
+          "zone_id": "T03.STATUS",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 9,
+            "y": 0,
+            "w": 82,
+            "h": 6.3
+          }
+        },
+        {
+          "zone_id": "T03.CHROME",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 6.9,
+            "w": 70.9,
+            "h": 4.2
+          }
+        },
+        {
+          "zone_id": "T03.NAV",
+          "layer": "L7",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 89.4,
+            "w": 70.9,
+            "h": 5.2
+          }
+        },
+        {
+          "zone_id": "T03.HOME_INDICATOR",
+          "layer": "L6",
+          "plate_pct": {
+            "x": 9,
+            "y": 96.2,
+            "w": 82,
+            "h": 3.8
+          }
+        },
+        {
+          "zone_id": "T03.SIGNAL",
+          "layer": "L2",
+          "plate_pct": {
+            "x": 18.7,
+            "y": 12.7,
+            "w": 62.6,
+            "h": 21.6
+          }
+        },
+        {
+          "zone_id": "T03.BRAND",
+          "layer": "L1",
+          "plate_pct": {
+            "x": 21.1,
+            "y": 13.8,
+            "w": 37.6,
+            "h": 3.5
+          }
+        },
+        {
+          "zone_id": "T03.SECONDARY",
+          "layer": "L4",
+          "plate_pct": {
+            "x": 18.7,
+            "y": 61,
+            "w": 62.6,
+            "h": 3.3
+          }
+        },
+        {
+          "zone_id": "T03.CTA",
+          "layer": "L5",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 73.5,
+            "w": 70.9,
+            "h": 5.2
+          }
+        },
+        {
+          "zone_id": "T03.INLINE",
+          "layer": "L5",
+          "plate_pct": {
+            "x": 14.5,
+            "y": 79.6,
+            "w": 70.9,
+            "h": 3.3
+          }
+        }
+      ],
+      "prompt": "## PLATE\nAn art plate for compositing: environment and object in one light. It is not a finished screen and contains no text, no logo and no interface of any kind.\n\n## VIEW\nFrontal still life, camera square to the wall, very slightly above the rack.\n\n## SCENE\nA limewashed plaster wall. Near the top, one blank cotton-rag slip of paper with soft fold creases, held flat to the wall, frontal. Below it, a natural oak sorting rack with five slots: the first slot on the left is empty with two small broken blank burgundy wax-seal fragments resting in it; slots two to five each hold one sealed linen envelope (bone, greige, ivory, pale blush) closed with a blank burgundy wax seal, the envelopes’ thicknesses exactly as drawn in the plate guide. A blank brushed-brass plate under each slot, and one long blank brass strip fixed to the wall under the rack.\n\n## LIGHT\nSoft morning window light from the upper left (window off-frame); gentle long shadows of the envelopes and slip on the wall.\n\n## MATERIALS (no others)\nlimewashed plaster · paper and linen · oak · brass and wax\n\n## BLANK SURFACES (left empty; exact typography and the real logo are added later)\n- the released slip (no printing)\n- five blank slot plates\n- the blank brass strip\n- blank wax seals (no emboss)\n\n## GEOMETRY\nFollow the attached plate guide exactly. The main object occupies x 16.6–83.4 %, y 35.7–59.6 %; its proportions in the guide are measurements, so do not resize, move or even them out. The outer 9 % on each side is environment bleed.\n\n## QUIET REGIONS (material and light only)\n- x 9.0–91.0 %, y 0.0–6.3 %: plain plaster\n- x 14.5–85.4 %, y 6.9–11.1 %: plain plaster\n- x 14.5–85.4 %, y 89.4–94.6 %: plain plaster\n- x 9.0–91.0 %, y 96.2–100.0 %: plain plaster\n- x 18.7–81.3 %, y 12.7–34.3 %: blank paper of the slip\n- x 21.1–58.7 %, y 13.8–17.3 %: blank paper of the slip\n- x 18.7–81.3 %, y 61.0–64.3 %: the blank brass strip\n- x 14.5–85.4 %, y 73.5–78.7 %: plain plaster\n- x 14.5–85.4 %, y 79.6–82.9 %: plain plaster\n\n## MUST NOT CONTAIN\nAny letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, phone frame or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.\n\n## RENDER SETTINGS\ngpt-image-2.5-sunburst · quality 4K · aspect ratio 9:16 · auto-enhance OFF · reference-guided with the attached plate guide only.\n",
+      "prompt_path": "PLATE_PROMPTS/T03_SCENE_PLATE.txt",
+      "prompt_sha256": "c4354698ce1d87602d5caf977e4cee75a904159b8f98d825203e786c777bed00"
+    }
+  ]
+}
