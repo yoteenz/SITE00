@@ -291,6 +291,18 @@ describe('panels respect their media (content-driven geometry)', () => {
     expect(read('src/site00/components/productionAuthority/WorkspaceMediaSlot.tsx')).toMatch(/<img ref=\{guard\}/);
   });
 
+  it('CSS: on tablet / desktop a MEDIA_LEAD card widens its art column to the PREVIEW floor instead of shrinking the authority', () => {
+    const floor = WORKSPACE_MEDIA_SCALES.PREVIEW.minInlinePx!;
+    expect(floor.tablet).toBe(240);
+    expect(floor.desktop).toBe(240);
+    for (const sel of ['.ibx-dcard', '.ibx-notice .ibx-dcard', '.iax-ms__head']) {
+      const rule = new RegExp(`\\.pxa\\[data-density\\] ${sel.replace(/\./g, '\\.')}\\[data-panel-media='MEDIA_LEAD'\\] \\{\\s*grid-template-columns: (\\d+)px`, 'g');
+      const widths = [...css.matchAll(rule)].map((m) => Number(m[1]));
+      expect(widths.length, sel).toBeGreaterThan(0);
+      for (const w of widths) expect(w, sel).toBeGreaterThanOrEqual(floor.tablet);
+    }
+  });
+
   it('CSS: a raw image that declares a no-crop role always contains; the media geometry layer never hides overflow or covers', () => {
     expect(css).toMatch(/:is\(img, video\):is\(\[data-media-role='UI_SCREENSHOT'\], \[data-media-role='LOGO_MARK'\], \[data-media-role='DOCUMENT_PREVIEW'\], \[data-media-role='OTHER_FUNCTIONAL'\]\),\s*:is\(\.pxa, \.pw\)\[data-density\] :is\(img, video\)\[data-media-role='REFERENCE_AUTHORITY'\]:not\(\[data-media-crop\]\) \{\s*object-fit: contain;/);
     const s8 = css.slice(css.indexOf("[data-media-fit='AUTHORITY_PREVIEW_CONTAIN']"));

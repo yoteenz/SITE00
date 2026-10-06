@@ -1092,6 +1092,47 @@
     aspect-ratio: var(--pw-media-aspect, 16 / 10);
     align-self: center;
   }
+  /* escape step TALLER_MEDIA_SLOT, widened for a landscape authority: the lead art column never drops below the
+   * PREVIEW floor (WORKSPACE_MEDIA_SCALES.PREVIEW.minInlinePx, 240px on tablet / desktop) — the facts take the rest */
+  .pxa[data-density] .ibx-dcard[data-panel-media='MEDIA_LEAD'] {
+    grid-template-columns: 240px minmax(0, 1fr);
+    grid-template-areas: 'art facts' 'side side';
+  }
+  .pxa[data-density] .ibx-notice .ibx-dcard[data-panel-media='MEDIA_LEAD'] {
+    grid-template-columns: 240px minmax(0, 1fr);
+    grid-template-areas: 'art facts';
+  }
+  .pxa[data-density] .iax-ms__head[data-panel-media='MEDIA_LEAD'] {
+    grid-template-columns: 240px minmax(0, 1fr) auto;
+  }
+  .pxa[data-density] :is(.ibx-dcard, .iax-ms__head)[data-panel-media='MEDIA_LEAD'] > [data-media-scale='PREVIEW'] {
+    inline-size: 100%;
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) {
+  /* escape step MOVE_SECONDARY_CONTENT_TO_NEXT_ROW: on tablet the decision card cannot hold the widened art, the
+   * facts and the side column in one row — the side summary (affects / dependencies / reviewers) takes the next
+   * row as the phone card's three-cell strip */
+  .pxa[data-density] .ibx-dcard[data-panel-media='MEDIA_LEAD'] > .ibx-dside {
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 0;
+    padding: 6px 0 0;
+    border-top: 1px solid var(--ibx-line-2);
+    border-left: 0;
+  }
+  .pxa[data-density] .ibx-dcard[data-panel-media='MEDIA_LEAD'] > .ibx-dside > div {
+    padding: 0 8px;
+    border-bottom: 0;
+  }
+  .pxa[data-density] .ibx-dcard[data-panel-media='MEDIA_LEAD'] > .ibx-dside > div + div {
+    border-left: 1px solid var(--ibx-line-2);
+  }
+}
+@media (min-width: 1120px) {
+  .pxa[data-density] .ibx-dcard[data-panel-media='MEDIA_LEAD'] {
+    grid-template-columns: 240px minmax(0, 1fr) 190px;
+    grid-template-areas: 'art facts side';
+  }
 }
 
 /* 8.6 a raw image that declares a no-crop role always contains (UI / logo / document / other functional, and authority
