@@ -256,6 +256,15 @@ Canonical upstream-to-downstream layers (methodology v20+):
 
 ---
 
+## Workspace Experience Brain (Studio OS experience layer)
+
+- Stack: **STRUCTURE** (what exists) → **EXPERIENCE** (how it is lived) → **EXPRESSION** (how it looks) → **IMPLEMENTATION** (how it runs). The experience layer is `shared/studioos-experience-brain/` (role `EXPERIENCE_CONTRACT_LAYER`; not the pixel-fidelity "Experience Engine V0").
+- Every material feature gets one **experience contract**: four actors (PUBLIC · CLIENT · FOUNDER_STAFF · SYSTEM), states → visual relationships, artifacts, events, cross-feature experience effects, archetype + metaphor + primary object, information hierarchy, interaction grammar, mobile / tablet / desktop behaviour, experience E2E.
+- Generators call `queryExperience(contract, dna, actor, state, viewport)`; material features without an EXPERIENCE_COMPLETE contract return `EXPERIENCE_REQUIRED` — never invent. Experience completion is separate from functional completion.
+- Exports + AIO proof (IFTA = QUARTERLY FILING ROOM): `docs/studioos/experience-brain/` (regenerate with `npx tsx scripts/studioos/experience-brain-export.ts`).
+
+---
+
 ## Docs
 
 | Path | Purpose |

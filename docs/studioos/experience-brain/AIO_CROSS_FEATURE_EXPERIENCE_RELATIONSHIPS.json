@@ -1,0 +1,1283 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "principle": "Not just “A depends on B”: what each actor and surface experiences when A reaches a state.",
+  "relationships": [
+    {
+      "id": "ENTRY_REL_1",
+      "from_feature": "AIO.ENTRY",
+      "from_state": "PATHWAY_CHOSEN",
+      "to_feature": "AIO.GET_STARTED",
+      "relationship": "HANDS_OFF_TO",
+      "actor_effects": {
+        "CLIENT": "pathway pre-fills Get Started",
+        "FOUNDER_STAFF": "lead tagged with pathway"
+      },
+      "surface_effects": {
+        "GET_STARTED": "intake pre-filled"
+      },
+      "visual_transition": "pathway card expands into intake"
+    },
+    {
+      "id": "GET_STARTED_REL_1",
+      "from_feature": "AIO.GET_STARTED",
+      "from_state": "PLAN_STARTED",
+      "to_feature": "AIO.SERVICES",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "plan items appear as requests",
+        "FOUNDER_STAFF": "requests in division queues"
+      },
+      "surface_effects": {
+        "SERVICES": "requests created"
+      },
+      "visual_transition": "roadmap items turn into tracked services"
+    },
+    {
+      "id": "GET_STARTED_REL_2",
+      "from_feature": "AIO.GET_STARTED",
+      "from_state": "PLAN_STARTED",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "Road Ready profile seeded from answers",
+        "FOUNDER_STAFF": "profile created"
+      },
+      "surface_effects": {
+        "ROAD_READY": "profile seeded"
+      },
+      "visual_transition": "profile appears with progress"
+    },
+    {
+      "id": "BUSINESS_FORMATION_REL_1",
+      "from_feature": "AIO.BUSINESS_FORMATION",
+      "from_state": "EIN_ISSUED",
+      "to_feature": "AIO.AUTHORITIES",
+      "relationship": "UNLOCKS",
+      "actor_effects": {
+        "CLIENT": "USDOT step becomes READY in the journey",
+        "FOUNDER_STAFF": "USDOT work item can start"
+      },
+      "surface_effects": {
+        "JOURNEY": "USDOT item READY"
+      },
+      "visual_transition": "next journey stop lights up"
+    },
+    {
+      "id": "BUSINESS_FORMATION_REL_2",
+      "from_feature": "AIO.BUSINESS_FORMATION",
+      "from_state": "FORMED",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "formation documents appear in Vault",
+        "FOUNDER_STAFF": "documents verified"
+      },
+      "surface_effects": {
+        "VAULT": "Business & Formation documents"
+      },
+      "visual_transition": "formation card seals and files"
+    },
+    {
+      "id": "BUSINESS_FORMATION_REL_3",
+      "from_feature": "AIO.BUSINESS_FORMATION",
+      "from_state": "FORMED",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready entity item complete",
+        "FOUNDER_STAFF": "profile updated"
+      },
+      "surface_effects": {
+        "ROAD_READY": "entity requirement verified"
+      },
+      "visual_transition": "checklist line completes"
+    },
+    {
+      "id": "ROAD_READY_REL_1",
+      "from_feature": "AIO.ROAD_READY",
+      "from_state": "NEEDS_ATTENTION",
+      "to_feature": "AIO.SERVICES",
+      "relationship": "HANDS_OFF_TO",
+      "actor_effects": {
+        "CLIENT": "GET HELP opens a pre-filled service request for the unmet item",
+        "FOUNDER_STAFF": "request lands in division queue"
+      },
+      "surface_effects": {
+        "SERVICES": "service request pre-filled with the requirement"
+      },
+      "visual_transition": "item shows “AIO is working” badge"
+    },
+    {
+      "id": "ROAD_READY_REL_2",
+      "from_feature": "AIO.ROAD_READY",
+      "from_state": "RENEWAL_DUE",
+      "to_feature": "AIO.RENEWALS",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "renewal appears in Renewal Center",
+        "FOUNDER_STAFF": "renewal work item"
+      },
+      "surface_effects": {
+        "RENEWALS": "renewal opened from expiring item"
+      },
+      "visual_transition": "item moves from complete to attention"
+    },
+    {
+      "id": "ROAD_READY_REL_3",
+      "from_feature": "AIO.ROAD_READY",
+      "from_state": "NEEDS_ATTENTION",
+      "to_feature": "AIO.MY_OFFICE",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "My Office attention list includes the item",
+        "FOUNDER_STAFF": "client 360 risk"
+      },
+      "surface_effects": {
+        "MY_OFFICE": "attention item"
+      },
+      "visual_transition": "attention count increments"
+    },
+    {
+      "id": "MY_OFFICE_REL_1",
+      "from_feature": "AIO.MY_OFFICE",
+      "from_state": "NEEDS_YOU",
+      "to_feature": "AIO.INBOX",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Needs You mirrors Inbox action threads",
+        "FOUNDER_STAFF": "client 360 owed items"
+      },
+      "surface_effects": {
+        "INBOX": "action threads"
+      },
+      "visual_transition": "attention count matches inbox"
+    },
+    {
+      "id": "SERVICES_REL_1",
+      "from_feature": "AIO.SERVICES",
+      "from_state": "QUOTE_DECISION",
+      "to_feature": "AIO.FINANCES",
+      "relationship": "DEPENDS_ON",
+      "actor_effects": {
+        "CLIENT": "quote shown in Money too",
+        "FOUNDER_STAFF": "quote billable once accepted"
+      },
+      "surface_effects": {
+        "FINANCES": "quote"
+      },
+      "visual_transition": "quote card mirrors Money"
+    },
+    {
+      "id": "AUTHORITIES_REL_1",
+      "from_feature": "AIO.AUTHORITIES",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready USDOT / MC item complete",
+        "FOUNDER_STAFF": "profile verified"
+      },
+      "surface_effects": {
+        "ROAD_READY": "USDOT / MC requirement verified"
+      },
+      "visual_transition": "checklist line completes"
+    },
+    {
+      "id": "AUTHORITIES_REL_2",
+      "from_feature": "AIO.AUTHORITIES",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "documents appear in Vault › Registration & Permits",
+        "FOUNDER_STAFF": "documents verified"
+      },
+      "surface_effects": {
+        "VAULT": "Registration & Permits"
+      },
+      "visual_transition": "request card seals and files"
+    },
+    {
+      "id": "AUTHORITIES_REL_3",
+      "from_feature": "AIO.AUTHORITIES",
+      "from_state": "ON_FILE",
+      "to_feature": "AIO.RENEWALS",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "MCS-150 renewal tracked in Renewal Center",
+        "FOUNDER_STAFF": "renewal scheduled"
+      },
+      "surface_effects": {
+        "RENEWALS": "MCS-150 renewal"
+      },
+      "visual_transition": "renewal appears on the horizon"
+    },
+    {
+      "id": "AUTHORITIES_REL_4",
+      "from_feature": "AIO.AUTHORITIES",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.BOC3",
+      "relationship": "UNLOCKS",
+      "actor_effects": {
+        "CLIENT": "BOC-3 becomes the next journey stop",
+        "FOUNDER_STAFF": "BOC-3 work item can start"
+      },
+      "surface_effects": {
+        "JOURNEY": "BOC-3 READY"
+      },
+      "visual_transition": "next stop lights up"
+    },
+    {
+      "id": "BOC3_REL_1",
+      "from_feature": "AIO.BOC3",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready BOC-3 item complete",
+        "FOUNDER_STAFF": "profile verified"
+      },
+      "surface_effects": {
+        "ROAD_READY": "BOC-3 requirement verified"
+      },
+      "visual_transition": "checklist line completes"
+    },
+    {
+      "id": "BOC3_REL_2",
+      "from_feature": "AIO.BOC3",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "documents appear in Vault › Registration & Permits",
+        "FOUNDER_STAFF": "documents verified"
+      },
+      "surface_effects": {
+        "VAULT": "Registration & Permits"
+      },
+      "visual_transition": "request card seals and files"
+    },
+    {
+      "id": "IFTA_REGISTRATION_REL_1",
+      "from_feature": "AIO.IFTA_REGISTRATION",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready IFTA item complete",
+        "FOUNDER_STAFF": "profile verified"
+      },
+      "surface_effects": {
+        "ROAD_READY": "IFTA requirement verified"
+      },
+      "visual_transition": "checklist line completes"
+    },
+    {
+      "id": "IFTA_REGISTRATION_REL_2",
+      "from_feature": "AIO.IFTA_REGISTRATION",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.IFTA",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "first IFTA quarter card appears",
+        "FOUNDER_STAFF": "quarter work item created"
+      },
+      "surface_effects": {
+        "IFTA": "first quarter collection window opens"
+      },
+      "visual_transition": "account seal → quarter bench"
+    },
+    {
+      "id": "IFTA_REGISTRATION_REL_3",
+      "from_feature": "AIO.IFTA_REGISTRATION",
+      "from_state": "ON_FILE",
+      "to_feature": "AIO.RENEWALS",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "IFTA license / decals renewal tracked in Renewal Center",
+        "FOUNDER_STAFF": "renewal scheduled"
+      },
+      "surface_effects": {
+        "RENEWALS": "IFTA license / decals renewal"
+      },
+      "visual_transition": "renewal appears on the horizon"
+    },
+    {
+      "id": "IFTA_FILED_TO_VAULT",
+      "from_feature": "AIO.IFTA",
+      "from_state": "FILED",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "sees the sealed Q{n} packet appear in Vault › Fuel Tax",
+        "FOUNDER_STAFF": "sees packet sealed + retention set"
+      },
+      "surface_effects": {
+        "VAULT": "receives the filing packet (receipts, mileage, summary, return, confirmation)"
+      },
+      "visual_transition": "active quarter workbench collapses into one sealed folder object in the Vault cabinet"
+    },
+    {
+      "id": "IFTA_FILED_TO_INBOX",
+      "from_feature": "AIO.IFTA",
+      "from_state": "FILED",
+      "to_feature": "AIO.INBOX",
+      "relationship": "RESOLVES",
+      "actor_effects": {
+        "CLIENT": "request thread shows FILED and leaves NEEDS YOU",
+        "FOUNDER_STAFF": "office inbox thread closes"
+      },
+      "surface_effects": {
+        "INBOX": "resolves the quarter request thread with the confirmation attached"
+      },
+      "visual_transition": "thread moves from action to resolved with the champagne seal"
+    },
+    {
+      "id": "IFTA_FILED_TO_ACTIVITY",
+      "from_feature": "AIO.IFTA",
+      "from_state": "FILED",
+      "to_feature": "AIO.MY_OFFICE",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "My Office attention item disappears; activity shows “IFTA return filed”",
+        "FOUNDER_STAFF": "client 360 shows Q{n} complete + payment status"
+      },
+      "surface_effects": {
+        "ACTIVITY": "records FILED",
+        "MY_OFFICE": "removes the quarter from attention"
+      },
+      "visual_transition": "quarter card turns from gold progress to archived stone"
+    },
+    {
+      "id": "IFTA_FILED_TO_ROAD_READY",
+      "from_feature": "AIO.IFTA",
+      "from_state": "FILED",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready IFTA item shows current quarter filed"
+      },
+      "surface_effects": {
+        "ROAD_READY": "IFTA requirement item marked current for Q{n}"
+      },
+      "visual_transition": "Road Ready checklist line goes from attention to complete"
+    },
+    {
+      "id": "IFTA_ARCHIVED_OPENS_NEXT",
+      "from_feature": "AIO.IFTA",
+      "from_state": "ARCHIVED",
+      "to_feature": "AIO.IFTA",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "next quarter card appears, fleet pre-filled",
+        "FOUNDER_STAFF": "new quarter work item created"
+      },
+      "surface_effects": {
+        "IFTA": "opens Q{n+1} collection window"
+      },
+      "visual_transition": "archived quarter slides into history; the new quarter becomes the bench object"
+    },
+    {
+      "id": "IFTA_FILED_TO_FINANCES",
+      "from_feature": "AIO.IFTA",
+      "from_state": "FILED",
+      "to_feature": "AIO.FINANCES",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "service fee invoice appears in Money (AIO service fees only)",
+        "FOUNDER_STAFF": "fee billable; tax payment status separate"
+      },
+      "surface_effects": {
+        "FINANCES": "AIO service fee per accepted quote"
+      },
+      "visual_transition": "none in the quarter — finance is a separate ledger"
+    },
+    {
+      "id": "IFTA_FILED_TO_BOOKKEEPING",
+      "from_feature": "AIO.IFTA",
+      "from_state": "FILED",
+      "to_feature": "AIO.BOOKKEEPING",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "fuel expenses and the tax payment are categorised in monthly close (if subscribed)"
+      },
+      "surface_effects": {
+        "BOOKKEEPING": "fuel tax payment + fuel expense lines"
+      },
+      "visual_transition": "none"
+    },
+    {
+      "id": "DISPATCH_TO_IFTA",
+      "from_feature": "AIO.DISPATCH_OPERATIONS",
+      "from_state": "*",
+      "to_feature": "AIO.IFTA",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "load miles appear as ESTIMATED mileage, prompting a verified source"
+      },
+      "surface_effects": {
+        "IFTA": "estimated mileage per truck (never filed)"
+      },
+      "visual_transition": "estimate badge (stone) until a verified source replaces it"
+    },
+    {
+      "id": "PERMITTING_REL_1",
+      "from_feature": "AIO.PERMITTING",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready permit item complete",
+        "FOUNDER_STAFF": "profile verified"
+      },
+      "surface_effects": {
+        "ROAD_READY": "permit requirement verified"
+      },
+      "visual_transition": "checklist line completes"
+    },
+    {
+      "id": "PERMITTING_REL_2",
+      "from_feature": "AIO.PERMITTING",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "documents appear in Vault › Registration & Permits",
+        "FOUNDER_STAFF": "documents verified"
+      },
+      "surface_effects": {
+        "VAULT": "Registration & Permits"
+      },
+      "visual_transition": "request card seals and files"
+    },
+    {
+      "id": "PERMITTING_REL_3",
+      "from_feature": "AIO.PERMITTING",
+      "from_state": "ON_FILE",
+      "to_feature": "AIO.RENEWALS",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "UCR renewal tracked in Renewal Center",
+        "FOUNDER_STAFF": "renewal scheduled"
+      },
+      "surface_effects": {
+        "RENEWALS": "UCR renewal"
+      },
+      "visual_transition": "renewal appears on the horizon"
+    },
+    {
+      "id": "TAGS_REGISTRATION_REL_1",
+      "from_feature": "AIO.TAGS_REGISTRATION",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready registration item complete",
+        "FOUNDER_STAFF": "profile verified"
+      },
+      "surface_effects": {
+        "ROAD_READY": "registration requirement verified"
+      },
+      "visual_transition": "checklist line completes"
+    },
+    {
+      "id": "TAGS_REGISTRATION_REL_2",
+      "from_feature": "AIO.TAGS_REGISTRATION",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "documents appear in Vault › Registration & Permits",
+        "FOUNDER_STAFF": "documents verified"
+      },
+      "surface_effects": {
+        "VAULT": "Registration & Permits"
+      },
+      "visual_transition": "request card seals and files"
+    },
+    {
+      "id": "TAGS_REGISTRATION_REL_3",
+      "from_feature": "AIO.TAGS_REGISTRATION",
+      "from_state": "ON_FILE",
+      "to_feature": "AIO.RENEWALS",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "IRP / registration renewal tracked in Renewal Center",
+        "FOUNDER_STAFF": "renewal scheduled"
+      },
+      "surface_effects": {
+        "RENEWALS": "IRP / registration renewal"
+      },
+      "visual_transition": "renewal appears on the horizon"
+    },
+    {
+      "id": "ROAD_TAX_REL_1",
+      "from_feature": "AIO.ROAD_TAX",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "documents appear in Vault › Tax & Financial",
+        "FOUNDER_STAFF": "documents verified"
+      },
+      "surface_effects": {
+        "VAULT": "Tax & Financial"
+      },
+      "visual_transition": "request card seals and files"
+    },
+    {
+      "id": "ROAD_TAX_REL_2",
+      "from_feature": "AIO.ROAD_TAX",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.TAGS_REGISTRATION",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "Schedule 1 available for IRP",
+        "FOUNDER_STAFF": "registration can proceed"
+      },
+      "surface_effects": {
+        "TAGS": "HVUT proof on file"
+      },
+      "visual_transition": "proof badge appears on the unit"
+    },
+    {
+      "id": "ROAD_TAX_REL_3",
+      "from_feature": "AIO.ROAD_TAX",
+      "from_state": "ON_FILE",
+      "to_feature": "AIO.RENEWALS",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "HVUT period renewal tracked in Renewal Center",
+        "FOUNDER_STAFF": "renewal scheduled"
+      },
+      "surface_effects": {
+        "RENEWALS": "HVUT period renewal"
+      },
+      "visual_transition": "renewal appears on the horizon"
+    },
+    {
+      "id": "COMPLIANCE_SAFETY_REL_1",
+      "from_feature": "AIO.COMPLIANCE_SAFETY",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready safety item complete",
+        "FOUNDER_STAFF": "profile verified"
+      },
+      "surface_effects": {
+        "ROAD_READY": "safety requirement verified"
+      },
+      "visual_transition": "checklist line completes"
+    },
+    {
+      "id": "COMPLIANCE_SAFETY_REL_2",
+      "from_feature": "AIO.COMPLIANCE_SAFETY",
+      "from_state": "COMPLETE",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "documents appear in Vault › Safety & Drivers",
+        "FOUNDER_STAFF": "documents verified"
+      },
+      "surface_effects": {
+        "VAULT": "Safety & Drivers"
+      },
+      "visual_transition": "request card seals and files"
+    },
+    {
+      "id": "RENEWALS_REL_1",
+      "from_feature": "AIO.RENEWALS",
+      "from_state": "RENEWED",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready item current again",
+        "FOUNDER_STAFF": "profile current"
+      },
+      "surface_effects": {
+        "ROAD_READY": "item verified"
+      },
+      "visual_transition": "attention → complete"
+    },
+    {
+      "id": "RENEWALS_REL_2",
+      "from_feature": "AIO.RENEWALS",
+      "from_state": "RENEWED",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "renewed document in Vault (old one superseded)",
+        "FOUNDER_STAFF": "supersede recorded"
+      },
+      "surface_effects": {
+        "VAULT": "new version supersedes"
+      },
+      "visual_transition": "document card swaps version"
+    },
+    {
+      "id": "DISPATCH_OPERATIONS_REL_1",
+      "from_feature": "AIO.DISPATCH_OPERATIONS",
+      "from_state": "LOAD_COMPLETE",
+      "to_feature": "AIO.FACTORING",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "FACTOR THIS LOAD offered on the completed load",
+        "FOUNDER_STAFF": "freight invoice ready for factoring review"
+      },
+      "surface_effects": {
+        "FACTORING": "freight invoice HF-* created from the load"
+      },
+      "visual_transition": "load card shows invoice ready"
+    },
+    {
+      "id": "DISPATCH_OPERATIONS_REL_2",
+      "from_feature": "AIO.DISPATCH_OPERATIONS",
+      "from_state": "LOAD_COMPLETE",
+      "to_feature": "AIO.FINANCES",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "dispatch fee appears in Money (AIO service fees)",
+        "FOUNDER_STAFF": "fee billable"
+      },
+      "surface_effects": {
+        "FINANCES": "dispatch fee line"
+      },
+      "visual_transition": "none on the load"
+    },
+    {
+      "id": "DISPATCH_OPERATIONS_REL_3",
+      "from_feature": "AIO.DISPATCH_OPERATIONS",
+      "from_state": "LOAD_COMPLETE",
+      "to_feature": "AIO.IFTA",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "load miles appear as ESTIMATES in the IFTA quarter",
+        "FOUNDER_STAFF": "estimated miles visible"
+      },
+      "surface_effects": {
+        "IFTA": "estimated jurisdiction miles"
+      },
+      "visual_transition": "estimate badge in the quarter"
+    },
+    {
+      "id": "DISPATCH_OPERATIONS_REL_4",
+      "from_feature": "AIO.DISPATCH_OPERATIONS",
+      "from_state": "LOAD_COMPLETE",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "load documents filed under the load",
+        "FOUNDER_STAFF": "documents complete"
+      },
+      "surface_effects": {
+        "VAULT": "rate con, BOL, POD"
+      },
+      "visual_transition": "load folder seals"
+    },
+    {
+      "id": "LOAD_BOARD_REL_1",
+      "from_feature": "AIO.LOAD_BOARD",
+      "from_state": "BOOKED",
+      "to_feature": "AIO.BROKERAGE",
+      "relationship": "HANDS_OFF_TO",
+      "actor_effects": {
+        "CLIENT": "load appears in Operations with rate con",
+        "FOUNDER_STAFF": "load covered in brokerage"
+      },
+      "surface_effects": {
+        "BROKERAGE": "coverage recorded"
+      },
+      "visual_transition": "opportunity card becomes a booked load"
+    },
+    {
+      "id": "BROKERAGE_REL_1",
+      "from_feature": "AIO.BROKERAGE",
+      "from_state": "COVERING",
+      "to_feature": "AIO.LOAD_BOARD",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "none (shipper sees “assigning a carrier”)",
+        "FOUNDER_STAFF": "load published to carriers"
+      },
+      "surface_effects": {
+        "LOAD_BOARD": "carrier-safe publication"
+      },
+      "visual_transition": "shipper status: covering"
+    },
+    {
+      "id": "BROKERAGE_REL_2",
+      "from_feature": "AIO.BROKERAGE",
+      "from_state": "BILLED",
+      "to_feature": "AIO.BOOKKEEPING",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "invoice in shipper billing",
+        "FOUNDER_STAFF": "brokerage bookkeeping handoff"
+      },
+      "surface_effects": {
+        "BOOKKEEPING": "brokerageBookkeepingHandoff"
+      },
+      "visual_transition": "none"
+    },
+    {
+      "id": "FINANCES_REL_1",
+      "from_feature": "AIO.FINANCES",
+      "from_state": "INVOICE_OPEN",
+      "to_feature": "AIO.SERVICES",
+      "relationship": "UNLOCKS",
+      "actor_effects": {
+        "CLIENT": "the quoted service starts",
+        "FOUNDER_STAFF": "work item can begin"
+      },
+      "surface_effects": {
+        "SERVICES": "request moves to in progress"
+      },
+      "visual_transition": "quote card turns into service progress"
+    },
+    {
+      "id": "FACTORING_REL_1",
+      "from_feature": "AIO.FACTORING",
+      "from_state": "FUNDED",
+      "to_feature": "AIO.BOOKKEEPING",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "factoring fee appears in monthly close",
+        "FOUNDER_STAFF": "fee categorised"
+      },
+      "surface_effects": {
+        "BOOKKEEPING": "factoring fee line"
+      },
+      "visual_transition": "none"
+    },
+    {
+      "id": "FACTORING_REL_2",
+      "from_feature": "AIO.FACTORING",
+      "from_state": "CLOSED",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "invoice + report filed",
+        "FOUNDER_STAFF": "closed record"
+      },
+      "surface_effects": {
+        "VAULT": "factoring folder"
+      },
+      "visual_transition": "invoice seals"
+    },
+    {
+      "id": "INSURANCE_REL_1",
+      "from_feature": "AIO.INSURANCE",
+      "from_state": "ACTIVE_POLICY",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready insurance item verified",
+        "FOUNDER_STAFF": "profile updated"
+      },
+      "surface_effects": {
+        "ROAD_READY": "insurance verified"
+      },
+      "visual_transition": "checklist line completes"
+    },
+    {
+      "id": "INSURANCE_REL_2",
+      "from_feature": "AIO.INSURANCE",
+      "from_state": "RENEWAL_WINDOW",
+      "to_feature": "AIO.RENEWALS",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "insurance renewal in Renewal Center",
+        "FOUNDER_STAFF": "renewal work item"
+      },
+      "surface_effects": {
+        "RENEWALS": "insurance renewal"
+      },
+      "visual_transition": "horizon item appears"
+    },
+    {
+      "id": "BOOKKEEPING_REL_1",
+      "from_feature": "AIO.BOOKKEEPING",
+      "from_state": "CLOSED",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "monthly reports filed",
+        "FOUNDER_STAFF": "close recorded"
+      },
+      "surface_effects": {
+        "VAULT": "month folder"
+      },
+      "visual_transition": "month card seals"
+    },
+    {
+      "id": "FLEETCARE_REL_1",
+      "from_feature": "AIO.FLEETCARE",
+      "from_state": "IN_REPAIR",
+      "to_feature": "AIO.DISPATCH_OPERATIONS",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "truck shows “in repair” in Operations",
+        "FOUNDER_STAFF": "truck unavailable on the board"
+      },
+      "surface_effects": {
+        "OPERATIONS": "truck unavailable"
+      },
+      "visual_transition": "truck chip greys"
+    },
+    {
+      "id": "FLEETCARE_REL_2",
+      "from_feature": "AIO.FLEETCARE",
+      "from_state": "RECORDED",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "service record under the truck",
+        "FOUNDER_STAFF": "record complete"
+      },
+      "surface_effects": {
+        "VAULT": "vehicle service record"
+      },
+      "visual_transition": "ticket seals into vehicle record"
+    },
+    {
+      "id": "DRIVERLINK_REL_1",
+      "from_feature": "AIO.DRIVERLINK",
+      "from_state": "HIRED",
+      "to_feature": "AIO.COMPLIANCE_SAFETY",
+      "relationship": "HANDS_OFF_TO",
+      "actor_effects": {
+        "CLIENT": "DQ file started for the new driver",
+        "FOUNDER_STAFF": "DQ work item"
+      },
+      "surface_effects": {
+        "COMPLIANCE": "driver qualification file opened"
+      },
+      "visual_transition": "candidate card becomes a driver file"
+    },
+    {
+      "id": "VAULT_REL_1",
+      "from_feature": "AIO.VAULT",
+      "from_state": "VERIFIED",
+      "to_feature": "AIO.ROAD_READY",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Road Ready item verified",
+        "FOUNDER_STAFF": "verification counts"
+      },
+      "surface_effects": {
+        "ROAD_READY": "verified status"
+      },
+      "visual_transition": "checklist completes"
+    },
+    {
+      "id": "VAULT_REL_2",
+      "from_feature": "AIO.VAULT",
+      "from_state": "EXPIRING",
+      "to_feature": "AIO.RENEWALS",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "renewal appears",
+        "FOUNDER_STAFF": "renewal item"
+      },
+      "surface_effects": {
+        "RENEWALS": "renewal"
+      },
+      "visual_transition": "expiring badge"
+    },
+    {
+      "id": "INBOX_REL_1",
+      "from_feature": "AIO.INBOX",
+      "from_state": "ACTION_THREADS",
+      "to_feature": "AIO.MY_OFFICE",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "Needs You count",
+        "FOUNDER_STAFF": "client owed items"
+      },
+      "surface_effects": {
+        "MY_OFFICE": "attention"
+      },
+      "visual_transition": "count badge"
+    },
+    {
+      "id": "ACCOUNT_REL_1",
+      "from_feature": "AIO.ACCOUNT",
+      "from_state": "UPDATED",
+      "to_feature": "AIO.INBOX",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "notification preferences applied",
+        "FOUNDER_STAFF": "consent updated"
+      },
+      "surface_effects": {
+        "INBOX": "preferences"
+      },
+      "visual_transition": "none"
+    },
+    {
+      "id": "OFFICE_OPERATIONS_REL_1",
+      "from_feature": "AIO.OFFICE_OPERATIONS",
+      "from_state": "COMPLETED",
+      "to_feature": "AIO.MY_OFFICE",
+      "relationship": "UPDATES_STATUS",
+      "actor_effects": {
+        "CLIENT": "client sees the feature complete",
+        "FOUNDER_STAFF": "client 360 updated"
+      },
+      "surface_effects": {
+        "MY_OFFICE": "attention cleared"
+      },
+      "visual_transition": "AIO IS WORKING → complete"
+    }
+  ],
+  "upstream_downstream": [
+    {
+      "feature_id": "AIO.ENTRY",
+      "upstream": [
+        "marketing"
+      ],
+      "downstream": [
+        "AIO.GET_STARTED",
+        "CRM"
+      ]
+    },
+    {
+      "feature_id": "AIO.GET_STARTED",
+      "upstream": [
+        "AIO.ENTRY"
+      ],
+      "downstream": [
+        "AIO.SERVICES (requests)",
+        "AIO.ROAD_READY (profile seeded)",
+        "AIO.FINANCES (quotes)",
+        "AIO.MY_OFFICE"
+      ]
+    },
+    {
+      "feature_id": "AIO.BUSINESS_FORMATION",
+      "upstream": [
+        "AIO.GET_STARTED (intake / roadmap)"
+      ],
+      "downstream": [
+        "AIO.AUTHORITIES (USDOT / MC)",
+        "AIO.ROAD_READY",
+        "AIO.VAULT",
+        "AIO.BOOKKEEPING (entity for books)"
+      ]
+    },
+    {
+      "feature_id": "AIO.ROAD_READY",
+      "upstream": [
+        "AIO.GET_STARTED",
+        "AIO.BUSINESS_FORMATION",
+        "fleet profile"
+      ],
+      "downstream": [
+        "AIO.SERVICES (service requests for unmet items)",
+        "AIO.RENEWALS",
+        "AIO.MY_OFFICE (attention)",
+        "AIO.VAULT"
+      ]
+    },
+    {
+      "feature_id": "AIO.MY_OFFICE",
+      "upstream": [
+        "every AIO feature (attention + activity events)"
+      ],
+      "downstream": [
+        "owning features (deep links)"
+      ]
+    },
+    {
+      "feature_id": "AIO.SERVICES",
+      "upstream": [
+        "AIO.GET_STARTED",
+        "AIO.ROAD_READY"
+      ],
+      "downstream": [
+        "every service contract",
+        "AIO.FINANCES (quotes)"
+      ]
+    },
+    {
+      "feature_id": "AIO.AUTHORITIES",
+      "upstream": [
+        "AIO.SERVICES (request)",
+        "AIO.ROAD_READY (unmet item)",
+        "AIO.BUSINESS_FORMATION"
+      ],
+      "downstream": [
+        "AIO.BOC3",
+        "AIO.INSURANCE",
+        "AIO.ROAD_READY",
+        "AIO.VAULT",
+        "AIO.RENEWALS"
+      ]
+    },
+    {
+      "feature_id": "AIO.BOC3",
+      "upstream": [
+        "AIO.SERVICES (request)",
+        "AIO.ROAD_READY (unmet item)",
+        "AIO.BUSINESS_FORMATION"
+      ],
+      "downstream": [
+        "AIO.AUTHORITIES",
+        "AIO.ROAD_READY",
+        "AIO.VAULT"
+      ]
+    },
+    {
+      "feature_id": "AIO.IFTA_REGISTRATION",
+      "upstream": [
+        "AIO.SERVICES (request)",
+        "AIO.ROAD_READY (unmet item)",
+        "AIO.BUSINESS_FORMATION"
+      ],
+      "downstream": [
+        "AIO.IFTA",
+        "AIO.ROAD_READY",
+        "AIO.RENEWALS"
+      ]
+    },
+    {
+      "feature_id": "AIO.IFTA",
+      "upstream": [
+        "AIO.IFTA_REGISTRATION (ifta-reg — account must be active)",
+        "AIO.ROAD_READY (IFTA requirement item)",
+        "Fleet profile (vehicles)",
+        "AIO.DISPATCH_OPERATIONS (load miles → estimates only)",
+        "AIO.VAULT (import receipts already stored)",
+        "ELD provider exports"
+      ],
+      "downstream": [
+        "AIO.VAULT (quarter packet)",
+        "AIO.INBOX (request thread)",
+        "AIO.MY_OFFICE activity + attention",
+        "AIO.ROAD_READY (IFTA item current)",
+        "AIO.FINANCES (AIO service fee quote / invoice)",
+        "AIO.BOOKKEEPING (fuel expense + tax payment categorisation)",
+        "AIO.RENEWALS (IFTA license / decals)",
+        "next IFTA quarter"
+      ]
+    },
+    {
+      "feature_id": "AIO.PERMITTING",
+      "upstream": [
+        "AIO.SERVICES (request)",
+        "AIO.ROAD_READY (unmet item)",
+        "AIO.BUSINESS_FORMATION"
+      ],
+      "downstream": [
+        "AIO.ROAD_READY",
+        "AIO.VAULT",
+        "AIO.RENEWALS"
+      ]
+    },
+    {
+      "feature_id": "AIO.TAGS_REGISTRATION",
+      "upstream": [
+        "AIO.SERVICES (request)",
+        "AIO.ROAD_READY (unmet item)",
+        "AIO.BUSINESS_FORMATION"
+      ],
+      "downstream": [
+        "AIO.ROAD_READY",
+        "AIO.VAULT",
+        "AIO.RENEWALS",
+        "AIO.IFTA (qualified vehicles)"
+      ]
+    },
+    {
+      "feature_id": "AIO.ROAD_TAX",
+      "upstream": [
+        "AIO.SERVICES (request)",
+        "AIO.ROAD_READY (unmet item)",
+        "AIO.BUSINESS_FORMATION"
+      ],
+      "downstream": [
+        "AIO.TAGS_REGISTRATION",
+        "AIO.VAULT",
+        "AIO.RENEWALS"
+      ]
+    },
+    {
+      "feature_id": "AIO.COMPLIANCE_SAFETY",
+      "upstream": [
+        "AIO.SERVICES (request)",
+        "AIO.ROAD_READY (unmet item)",
+        "AIO.BUSINESS_FORMATION"
+      ],
+      "downstream": [
+        "AIO.ROAD_READY",
+        "AIO.DRIVERLINK",
+        "AIO.VAULT"
+      ]
+    },
+    {
+      "feature_id": "AIO.RENEWALS",
+      "upstream": [
+        "AIO.VAULT (expiration dates)",
+        "AIO.ROAD_READY",
+        "AIO.INSURANCE"
+      ],
+      "downstream": [
+        "AIO.SERVICES (renewal reuses the service request engine)",
+        "AIO.VAULT",
+        "AIO.ROAD_READY"
+      ]
+    },
+    {
+      "feature_id": "AIO.DISPATCH_OPERATIONS",
+      "upstream": [
+        "AIO.ROAD_READY (authority active)",
+        "AIO.LOAD_BOARD (opportunities)",
+        "fleet profile"
+      ],
+      "downstream": [
+        "AIO.FACTORING (freight invoice)",
+        "AIO.FINANCES (dispatch fee)",
+        "AIO.IFTA (estimated miles)",
+        "AIO.VAULT",
+        "AIO.BOOKKEEPING"
+      ]
+    },
+    {
+      "feature_id": "AIO.LOAD_BOARD",
+      "upstream": [
+        "AIO.BROKERAGE (publisher)",
+        "AIO.ROAD_READY (eligibility)"
+      ],
+      "downstream": [
+        "AIO.BROKERAGE (coverage)",
+        "AIO.DISPATCH_OPERATIONS",
+        "AIO.VAULT"
+      ]
+    },
+    {
+      "feature_id": "AIO.BROKERAGE",
+      "upstream": [
+        "brokerage capability gate (business activation)"
+      ],
+      "downstream": [
+        "AIO.LOAD_BOARD (publication)",
+        "AIO.FACTORING (carrier payables flags)",
+        "AIO.BOOKKEEPING (brokerage handoff)",
+        "AIO.VAULT"
+      ]
+    },
+    {
+      "feature_id": "AIO.FINANCES",
+      "upstream": [
+        "every priced AIO service (quotes / completions)"
+      ],
+      "downstream": [
+        "AIO.SERVICES (accepted quote starts service)",
+        "AIO.VAULT",
+        "AIO.BOOKKEEPING"
+      ]
+    },
+    {
+      "feature_id": "AIO.FACTORING",
+      "upstream": [
+        "AIO.DISPATCH_OPERATIONS (completed loads)",
+        "AIO.BROKERAGE (carrier payables flags)"
+      ],
+      "downstream": [
+        "AIO.BOOKKEEPING (factoring fees)",
+        "AIO.VAULT"
+      ]
+    },
+    {
+      "feature_id": "AIO.INSURANCE",
+      "upstream": [
+        "AIO.AUTHORITIES (authority requires insurance)",
+        "fleet profile"
+      ],
+      "downstream": [
+        "AIO.ROAD_READY",
+        "AIO.RENEWALS",
+        "AIO.VAULT"
+      ]
+    },
+    {
+      "feature_id": "AIO.BOOKKEEPING",
+      "upstream": [
+        "AIO.DISPATCH_OPERATIONS",
+        "AIO.FACTORING",
+        "AIO.IFTA (fuel tax payment)",
+        "AIO.BROKERAGE (handoff)",
+        "AIO.FINANCES"
+      ],
+      "downstream": [
+        "AIO.VAULT",
+        "external CPA"
+      ]
+    },
+    {
+      "feature_id": "AIO.FLEETCARE",
+      "upstream": [
+        "fleet profile",
+        "provider verification"
+      ],
+      "downstream": [
+        "AIO.VAULT (vehicle record)",
+        "AIO.DISPATCH_OPERATIONS (truck availability)",
+        "AIO.FINANCES (referral fee — provider side)"
+      ]
+    },
+    {
+      "feature_id": "AIO.DRIVERLINK",
+      "upstream": [
+        "driver profiles"
+      ],
+      "downstream": [
+        "AIO.COMPLIANCE_SAFETY (DQ file)",
+        "AIO.VAULT"
+      ]
+    },
+    {
+      "feature_id": "AIO.VAULT",
+      "upstream": [
+        "every feature that seals artifacts (e.g. AIO.IFTA quarter packets)"
+      ],
+      "downstream": [
+        "AIO.ROAD_READY",
+        "AIO.RENEWALS",
+        "every feature that imports from the Vault"
+      ]
+    },
+    {
+      "feature_id": "AIO.INBOX",
+      "upstream": [
+        "every feature (inbox events)"
+      ],
+      "downstream": [
+        "AIO.MY_OFFICE (needs you)"
+      ]
+    },
+    {
+      "feature_id": "AIO.ACCOUNT",
+      "upstream": [
+        "AIO.GET_STARTED (conversion)"
+      ],
+      "downstream": [
+        "every authenticated surface (roles)",
+        "AIO.INBOX (preferences)"
+      ]
+    },
+    {
+      "feature_id": "AIO.OFFICE_OPERATIONS",
+      "upstream": [
+        "every feature (work items)"
+      ],
+      "downstream": [
+        "every feature (status)",
+        "management reporting"
+      ]
+    }
+  ]
+}

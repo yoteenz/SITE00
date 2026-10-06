@@ -1,0 +1,706 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "features": [
+    {
+      "feature_id": "AIO.ENTRY",
+      "primary_metaphor": "THE ROADSIDE OFFICE DOOR",
+      "secondary_metaphor": "pick your road",
+      "visual_archetype": [
+        "THRESHOLD",
+        "SHOWCASE"
+      ],
+      "primary_visual_object": "THE PATHWAY (start · road ready · run · get paid)",
+      "secondary_visual_objects": [
+        "brand promise",
+        "pathways"
+      ],
+      "composition_rules": [
+        "Cinematic trucking context with the tagline; pathways are the only choices above the fold."
+      ],
+      "density_target": "SPARSE",
+      "avoid_list": [
+        "services wall above the fold",
+        "stock smiles",
+        "Frontal Slayer typography"
+      ]
+    },
+    {
+      "feature_id": "AIO.GET_STARTED",
+      "primary_metaphor": "ROADMAP BUILDER",
+      "secondary_metaphor": "your route from here",
+      "visual_archetype": [
+        "ROUTE",
+        "CONSULTATION"
+      ],
+      "primary_visual_object": "THE ROADMAP (items with reasons)",
+      "secondary_visual_objects": [
+        "questions",
+        "plan"
+      ],
+      "composition_rules": [
+        "One question at a time; roadmap builds visibly as answers arrive."
+      ],
+      "density_target": "SPARSE",
+      "avoid_list": [
+        "long forms",
+        "upsell walls",
+        "legal conclusions"
+      ]
+    },
+    {
+      "feature_id": "AIO.BUSINESS_FORMATION",
+      "primary_metaphor": "FOUNDING DESK",
+      "secondary_metaphor": "the first stop on the business route",
+      "visual_archetype": [
+        "ROUTE",
+        "CASE_FILE"
+      ],
+      "primary_visual_object": "THE BUSINESS ENTITY (name, type, status on the route)",
+      "secondary_visual_objects": [
+        "journey route",
+        "documents",
+        "EIN"
+      ],
+      "composition_rules": [
+        "The route shows formation as the first stop with later stops visibly locked.",
+        "One open question at a time in intake.",
+        "Formed state seals the entity and lights the next stop (USDOT)."
+      ],
+      "density_target": "SPARSE",
+      "avoid_list": [
+        "legal advice framing",
+        "implying AIO is the state",
+        "long forms on one page"
+      ]
+    },
+    {
+      "feature_id": "AIO.ROAD_READY",
+      "primary_metaphor": "ACTIVATION PATH",
+      "secondary_metaphor": "a pre-trip inspection for the business",
+      "visual_archetype": [
+        "CHECKLIST",
+        "ROUTE"
+      ],
+      "primary_visual_object": "THE ROAD READY PROFILE (setup progress vs items verified)",
+      "secondary_visual_objects": [
+        "requirement items",
+        "next best action",
+        "renewals"
+      ],
+      "composition_rules": [
+        "Two honest meters: setup progress and items verified — never merged.",
+        "Next best action leads.",
+        "Items grouped by category with status per line."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "claiming legal / federal compliance",
+        "merging setup and verified into one score",
+        "government seal imagery"
+      ]
+    },
+    {
+      "feature_id": "AIO.MY_OFFICE",
+      "primary_metaphor": "THE OFFICE DESK",
+      "secondary_metaphor": "one next move",
+      "visual_archetype": [
+        "CONTROL_ROOM",
+        "QUEUE"
+      ],
+      "primary_visual_object": "THE NEXT ACTION",
+      "secondary_visual_objects": [
+        "attention list",
+        "health summaries"
+      ],
+      "composition_rules": [
+        "Next action hero → attention → health; never a flat tile dashboard."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "flat dashboard of equal tiles",
+        "false confidence scores",
+        "combining financial domains"
+      ]
+    },
+    {
+      "feature_id": "AIO.SERVICES",
+      "primary_metaphor": "SERVICE COUNTER",
+      "secondary_metaphor": "one window for every service",
+      "visual_archetype": [
+        "INDEX",
+        "QUEUE"
+      ],
+      "primary_visual_object": "THE REQUEST (service, customer-friendly state)",
+      "secondary_visual_objects": [
+        "catalog",
+        "requests"
+      ],
+      "composition_rules": [
+        "Requests by state lead for clients with open work; catalog leads when empty."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "raw workflow states",
+        "catalog wall when the client has open work"
+      ]
+    },
+    {
+      "feature_id": "AIO.AUTHORITIES",
+      "primary_metaphor": "AUTHORITY DESK",
+      "secondary_metaphor": "a request that moves through the office and comes back filed",
+      "visual_archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE AUTHORITY (USDOT / MC numbers and status)",
+      "secondary_visual_objects": [
+        "checklist",
+        "documents",
+        "external status"
+      ],
+      "composition_rules": [
+        "The request object with its customer-friendly state leads.",
+        "Checklist of what AIO needs sits under it.",
+        "External waiting is shown as AIO’s responsibility, not the client’s."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "raw workflow states to the client",
+        "implying AIO is the government agency",
+        "legal advice framing"
+      ]
+    },
+    {
+      "feature_id": "AIO.BOC3",
+      "primary_metaphor": "PARTNER HANDOFF DESK",
+      "secondary_metaphor": "a request that moves through the office and comes back filed",
+      "visual_archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE BOC-3 FILING",
+      "secondary_visual_objects": [
+        "checklist",
+        "documents",
+        "external status"
+      ],
+      "composition_rules": [
+        "The request object with its customer-friendly state leads.",
+        "Checklist of what AIO needs sits under it.",
+        "External waiting is shown as AIO’s responsibility, not the client’s."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "raw workflow states to the client",
+        "implying AIO is the government agency",
+        "legal advice framing"
+      ]
+    },
+    {
+      "feature_id": "AIO.IFTA_REGISTRATION",
+      "primary_metaphor": "ACCOUNT SETUP DESK",
+      "secondary_metaphor": "a request that moves through the office and comes back filed",
+      "visual_archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE IFTA ACCOUNT (license + decals)",
+      "secondary_visual_objects": [
+        "checklist",
+        "documents",
+        "external status"
+      ],
+      "composition_rules": [
+        "The request object with its customer-friendly state leads.",
+        "Checklist of what AIO needs sits under it.",
+        "External waiting is shown as AIO’s responsibility, not the client’s."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "raw workflow states to the client",
+        "implying AIO is the government agency",
+        "legal advice framing"
+      ]
+    },
+    {
+      "feature_id": "AIO.IFTA",
+      "primary_metaphor": "QUARTERLY FILING ROOM",
+      "secondary_metaphor": "BUILDING A COMPLETE FILING PACKET",
+      "visual_archetype": [
+        "PACKET_BUILDER",
+        "WORKBENCH",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+      "secondary_visual_objects": [
+        "RECEIPTS (stack by class)",
+        "MILEAGE (per truck, per state, source badge)",
+        "VEHICLES (fleet strip)",
+        "FLAGS",
+        "RETURN (summary sheet)",
+        "CONFIRMATION (seal)"
+      ],
+      "composition_rules": [
+        "The quarter object leads every client state; receipts / mileage / vehicles are its three compartments, never three equal dashboard cards.",
+        "Exactly one primary action per state (CONTINUE FILING · RESOLVE n ITEMS · SEND QUARTER TO AIO · APPROVE RETURN · VIEW IN VAULT).",
+        "Flags sit inside the compartment they belong to, with the fix action inline.",
+        "Estimated mileage is visually distinct (stone, “ESTIMATE”) and can never look filed-ready.",
+        "Review states quiet the inputs and foreground who is working and what happens next.",
+        "Completion collapses the workbench into a sealed quarter that visibly moves to the Vault."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "generic tax form",
+        "generic dashboard",
+        "card wall of equal tiles",
+        "long marketing copy inside the client workspace",
+        "implying AIO is the government / a tax authority",
+        "showing estimated mileage as filed-ready",
+        "raw workflow state names to the client"
+      ]
+    },
+    {
+      "feature_id": "AIO.PERMITTING",
+      "primary_metaphor": "READINESS / REQUIREMENT ROOM",
+      "secondary_metaphor": "a request that moves through the office and comes back filed",
+      "visual_archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE PERMIT (jurisdiction, validity window)",
+      "secondary_visual_objects": [
+        "checklist",
+        "documents",
+        "external status"
+      ],
+      "composition_rules": [
+        "The request object with its customer-friendly state leads.",
+        "Checklist of what AIO needs sits under it.",
+        "External waiting is shown as AIO’s responsibility, not the client’s."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "raw workflow states to the client",
+        "implying AIO is the government agency",
+        "legal advice framing"
+      ]
+    },
+    {
+      "feature_id": "AIO.TAGS_REGISTRATION",
+      "primary_metaphor": "UNIT REGISTRATION BAY",
+      "secondary_metaphor": "a request that moves through the office and comes back filed",
+      "visual_archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE UNIT REGISTRATION (truck, plate, jurisdictions)",
+      "secondary_visual_objects": [
+        "checklist",
+        "documents",
+        "external status"
+      ],
+      "composition_rules": [
+        "The request object with its customer-friendly state leads.",
+        "Checklist of what AIO needs sits under it.",
+        "External waiting is shown as AIO’s responsibility, not the client’s."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "raw workflow states to the client",
+        "implying AIO is the government agency",
+        "legal advice framing"
+      ]
+    },
+    {
+      "feature_id": "AIO.ROAD_TAX",
+      "primary_metaphor": "ANNUAL TAX WINDOW",
+      "secondary_metaphor": "a request that moves through the office and comes back filed",
+      "visual_archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE TAX PERIOD (units, amount, stamped proof)",
+      "secondary_visual_objects": [
+        "checklist",
+        "documents",
+        "external status"
+      ],
+      "composition_rules": [
+        "The request object with its customer-friendly state leads.",
+        "Checklist of what AIO needs sits under it.",
+        "External waiting is shown as AIO’s responsibility, not the client’s."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "raw workflow states to the client",
+        "implying AIO is the government agency",
+        "legal advice framing"
+      ]
+    },
+    {
+      "feature_id": "AIO.COMPLIANCE_SAFETY",
+      "primary_metaphor": "AUDIT-READY CABINET",
+      "secondary_metaphor": "a request that moves through the office and comes back filed",
+      "visual_archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE SAFETY FILE (program + driver files)",
+      "secondary_visual_objects": [
+        "checklist",
+        "documents",
+        "external status"
+      ],
+      "composition_rules": [
+        "The request object with its customer-friendly state leads.",
+        "Checklist of what AIO needs sits under it.",
+        "External waiting is shown as AIO’s responsibility, not the client’s."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "raw workflow states to the client",
+        "implying AIO is the government agency",
+        "legal advice framing"
+      ]
+    },
+    {
+      "feature_id": "AIO.RENEWALS",
+      "primary_metaphor": "EXPIRATION HORIZON",
+      "secondary_metaphor": "a calendar that acts",
+      "visual_archetype": [
+        "HORIZON",
+        "QUEUE"
+      ],
+      "primary_visual_object": "THE NEXT EXPIRATION (item, date, decision)",
+      "secondary_visual_objects": [
+        "renewal horizon",
+        "decisions",
+        "renewed documents"
+      ],
+      "composition_rules": [
+        "A horizon ordered by days-to-expiry; the nearest leads.",
+        "Each renewal carries one decision.",
+        "Expired items break the horizon visually."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "calendar-only view without decisions",
+        "alarm styling for items months away"
+      ]
+    },
+    {
+      "feature_id": "AIO.DISPATCH_OPERATIONS",
+      "primary_metaphor": "DISPATCH DESK",
+      "secondary_metaphor": "every truck on a lane, every load a decision",
+      "visual_archetype": [
+        "CONTROL_ROOM",
+        "DECISION_WINDOW",
+        "PIPELINE"
+      ],
+      "primary_visual_object": "THE LOAD (lane, rate, pickup / delivery, status)",
+      "secondary_visual_objects": [
+        "trucks",
+        "load offers",
+        "documents"
+      ],
+      "composition_rules": [
+        "Client: trucks with their current load; a pending offer opens as a decision window.",
+        "Staff: board of trucks × loads with exceptions raised.",
+        "Documents attach to the load, never a separate list."
+      ],
+      "density_target": "DENSE",
+      "avoid_list": [
+        "load board clutter in the client view",
+        "mixing brokerage margin into dispatch",
+        "GPS-tracker framing"
+      ]
+    },
+    {
+      "feature_id": "AIO.LOAD_BOARD",
+      "primary_metaphor": "OPPORTUNITY BOARD",
+      "secondary_metaphor": "negotiation at the counter",
+      "visual_archetype": [
+        "MATCHING_BOARD",
+        "DECISION_WINDOW"
+      ],
+      "primary_visual_object": "THE OPPORTUNITY (lane, rate, fit)",
+      "secondary_visual_objects": [
+        "offers",
+        "fit score"
+      ],
+      "composition_rules": [
+        "Best fit leads; each opportunity shows lane, rate, miles, pickup.",
+        "Negotiation opens as a decision window on the opportunity."
+      ],
+      "density_target": "DENSE",
+      "avoid_list": [
+        "shipper rate leakage",
+        "generic load board noise without fit"
+      ]
+    },
+    {
+      "feature_id": "AIO.BROKERAGE",
+      "primary_metaphor": "SHIPMENT LIFECYCLE",
+      "secondary_metaphor": "from request to delivered",
+      "visual_archetype": [
+        "PIPELINE",
+        "DECISION_WINDOW"
+      ],
+      "primary_visual_object": "THE SHIPMENT (lane, dates, status)",
+      "secondary_visual_objects": [
+        "quote",
+        "carrier coverage",
+        "POD",
+        "invoice"
+      ],
+      "composition_rules": [
+        "Shipment lifecycle as a horizontal pipeline; current stage leads.",
+        "Quote acceptance is a decision window."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "exposing carrier pay / margin to shippers",
+        "merging dispatch and brokerage queues"
+      ]
+    },
+    {
+      "feature_id": "AIO.FINANCES",
+      "primary_metaphor": "SERVICE LEDGER",
+      "secondary_metaphor": "one honest bill",
+      "visual_archetype": [
+        "LEDGER",
+        "DECISION_WINDOW"
+      ],
+      "primary_visual_object": "THE BALANCE (service fees due)",
+      "secondary_visual_objects": [
+        "quotes",
+        "invoices",
+        "receipts"
+      ],
+      "composition_rules": [
+        "Balance leads; quotes awaiting acceptance appear as decisions.",
+        "Freight / factoring / brokerage money never appears here."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "combining freight / factoring / brokerage money with service fees",
+        "hidden fees"
+      ]
+    },
+    {
+      "feature_id": "AIO.FACTORING",
+      "primary_metaphor": "INVOICE-TO-CASH FLOW",
+      "secondary_metaphor": "packet out, cash back",
+      "visual_archetype": [
+        "PIPELINE",
+        "PACKET_BUILDER"
+      ],
+      "primary_visual_object": "THE INVOICE (load, amount, stage)",
+      "secondary_visual_objects": [
+        "packet",
+        "partner status",
+        "funding report"
+      ],
+      "composition_rules": [
+        "Invoices flow through stages; the packet shows completeness.",
+        "Funding figures labelled partner-reported."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "presenting AIO as the funder",
+        "real-money language on demo / staff-entered figures",
+        "combining with service-fee billing"
+      ]
+    },
+    {
+      "feature_id": "AIO.INSURANCE",
+      "primary_metaphor": "COVERAGE DECISION + DOCUMENT PROGRESSION",
+      "secondary_metaphor": "a coverage file kept current",
+      "visual_archetype": [
+        "DECISION_WINDOW",
+        "DOCUMENT_TABLE"
+      ],
+      "primary_visual_object": "THE POLICY (coverage, carrier, term)",
+      "secondary_visual_objects": [
+        "options",
+        "certificates",
+        "renewal"
+      ],
+      "composition_rules": [
+        "Policy status leads with the disclosure always present.",
+        "Options shown as a decision window, partner-attributed."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "implying AIO binds coverage or issues COIs",
+        "premium as AIO revenue",
+        "missing disclosure"
+      ]
+    },
+    {
+      "feature_id": "AIO.BOOKKEEPING",
+      "primary_metaphor": "MONTHLY CLOSE WORKSPACE",
+      "secondary_metaphor": "the month on the desk",
+      "visual_archetype": [
+        "WORKBENCH",
+        "LEDGER"
+      ],
+      "primary_visual_object": "THE MONTH (period, close status)",
+      "secondary_visual_objects": [
+        "transactions",
+        "questions",
+        "reports"
+      ],
+      "composition_rules": [
+        "The month is the bench object; questions lead when open.",
+        "Reports appear only when closed."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "generic small-business bookkeeping framing",
+        "tax return promises",
+        "calling IFTA bookkeeping a filing"
+      ]
+    },
+    {
+      "feature_id": "AIO.FLEETCARE",
+      "primary_metaphor": "INCIDENT → PROVIDER → REPAIR → RECORD",
+      "secondary_metaphor": "roadside rescue with a paper trail",
+      "visual_archetype": [
+        "ROUTE",
+        "CASE_FILE"
+      ],
+      "primary_visual_object": "THE TICKET (unit, issue, step)",
+      "secondary_visual_objects": [
+        "provider",
+        "estimate",
+        "service record"
+      ],
+      "composition_rules": [
+        "The ticket’s four-stage route leads; current stage emphasised.",
+        "Estimate approval is a decision window."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "marketplace shopping UI during a breakdown",
+        "hiding cost until after work"
+      ]
+    },
+    {
+      "feature_id": "AIO.DRIVERLINK",
+      "primary_metaphor": "CANDIDATE → CREDENTIAL → APPROVAL → MATCH",
+      "secondary_metaphor": "a hiring pipeline with a verified gate",
+      "visual_archetype": [
+        "PIPELINE",
+        "MATCHING_BOARD"
+      ],
+      "primary_visual_object": "THE JOB (opening, matched verified drivers)",
+      "secondary_visual_objects": [
+        "candidates",
+        "credentials"
+      ],
+      "composition_rules": [
+        "Pipeline by stage; verified gate visually distinct.",
+        "Candidates as a matching board."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "showing unverified candidates as hire-ready",
+        "dating-app swipe metaphors"
+      ]
+    },
+    {
+      "feature_id": "AIO.VAULT",
+      "primary_metaphor": "STRUCTURED RECORD ARCHIVE",
+      "secondary_metaphor": "the filing cabinet behind the office",
+      "visual_archetype": [
+        "CABINET",
+        "ARCHIVE",
+        "DOCUMENT_TABLE"
+      ],
+      "primary_visual_object": "THE DOCUMENT (category, status, version)",
+      "secondary_visual_objects": [
+        "taxonomy groups",
+        "sealed packets (e.g. IFTA quarters)"
+      ],
+      "composition_rules": [
+        "Cabinet drawers by taxonomy group; requested / expiring float to the top.",
+        "Sealed packets (IFTA quarter) render as one folder object."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "generic file manager",
+        "implying upload = verified"
+      ]
+    },
+    {
+      "feature_id": "AIO.INBOX",
+      "primary_metaphor": "ACTION / CORRESPONDENCE QUEUE",
+      "secondary_metaphor": "the office mail tray",
+      "visual_archetype": [
+        "QUEUE"
+      ],
+      "primary_visual_object": "THE THREAD (feature, needs-you, resolution)",
+      "secondary_visual_objects": [
+        "notifications",
+        "appointments"
+      ],
+      "composition_rules": [
+        "Action threads first; each thread carries its feature context and resolves when the work completes."
+      ],
+      "density_target": "BALANCED",
+      "avoid_list": [
+        "email-client clutter",
+        "notifications without feature context"
+      ]
+    },
+    {
+      "feature_id": "AIO.ACCOUNT",
+      "primary_metaphor": "THE OFFICE KEYRING",
+      "secondary_metaphor": "who holds which key",
+      "visual_archetype": [
+        "DOCUMENT_TABLE",
+        "CHECKLIST"
+      ],
+      "primary_visual_object": "THE ORGANISATION (members, roles)",
+      "secondary_visual_objects": [
+        "profile",
+        "team",
+        "preferences"
+      ],
+      "composition_rules": [
+        "Quiet settings surface; team and roles as a table."
+      ],
+      "density_target": "SPARSE",
+      "avoid_list": [
+        "loud styling on settings",
+        "exposing staff roles to clients"
+      ]
+    },
+    {
+      "feature_id": "AIO.OFFICE_OPERATIONS",
+      "primary_metaphor": "THE BUSINESS OFFICE",
+      "secondary_metaphor": "the control room behind every truck",
+      "visual_archetype": [
+        "CONTROL_ROOM",
+        "QUEUE"
+      ],
+      "primary_visual_object": "THE WORK ITEM (client, division, waitingOn, due)",
+      "secondary_visual_objects": [
+        "division queues",
+        "founder hub buckets",
+        "metrics"
+      ],
+      "composition_rules": [
+        "Founder hub: buckets (NEEDS REVIEW · BLOCKED · AWAITING CLIENT · AWAITING PROVIDER · READY TO FILE · READY TO SEND · READY TO LAUNCH · COMPLETE) with exceptions first."
+      ],
+      "density_target": "DENSE",
+      "avoid_list": [
+        "copying client UI for staff",
+        "vanity metrics over exceptions"
+      ]
+    }
+  ]
+}

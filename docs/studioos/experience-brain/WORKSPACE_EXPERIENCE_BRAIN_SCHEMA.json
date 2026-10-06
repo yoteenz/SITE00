@@ -1,0 +1,764 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "studioos://experience-brain/experience-contract/1.0.0",
+  "title": "Workspace Experience Brain — Experience Contract",
+  "description": "One canonical experience contract per material feature: how it is lived by every actor (PUBLIC · CLIENT · FOUNDER_STAFF · SYSTEM), on every surface, in every state, and how state changes change the experience visually. Portable — no project assumptions.",
+  "production_layers": [
+    {
+      "layer": "STRUCTURE",
+      "question": "What exists?",
+      "owns": [
+        "product ontology / families",
+        "routes / node types",
+        "data contracts",
+        "state enums",
+        "dependencies",
+        "capabilities"
+      ],
+      "existing_systems": [
+        "project canonical product graph (e.g. AIO_CANONICAL_PRODUCT_GRAPH.json)",
+        "docs/site00/capability-genome",
+        "route registries"
+      ],
+      "experience_brain_relationship": "Contracts REFERENCE structure (structure_refs); the brain never redefines routes, data or families."
+    },
+    {
+      "layer": "EXPERIENCE",
+      "question": "How is it lived — by every actor, on every surface, in every state?",
+      "owns": [
+        "experience contracts",
+        "four-actor perspectives",
+        "state → visual relationships",
+        "artifacts / events / cross-feature effects",
+        "experience E2E contracts",
+        "experience completion"
+      ],
+      "existing_systems": [
+        "shared/studioos-experience-brain (this layer)"
+      ],
+      "experience_brain_relationship": "This layer."
+    },
+    {
+      "layer": "EXPRESSION",
+      "question": "How does it look and feel?",
+      "owns": [
+        "page archetypes",
+        "visual authorities",
+        "brand canon",
+        "screen families",
+        "fidelity proofs"
+      ],
+      "existing_systems": [
+        "shared/studioos-experience-compiler + docs/studioos/experience-compiler (page archetype taxonomy, authority registry)",
+        "shared/site00-experience-engine (Experience Engine V0 — fidelity)",
+        "brand lore / project skin"
+      ],
+      "experience_brain_relationship": "Expression CONSUMES experience briefs (queryExperience) — archetype, primary object, composition, must/quiet/never."
+    },
+    {
+      "layer": "IMPLEMENTATION",
+      "question": "How does it run?",
+      "owns": [
+        "code",
+        "persistence",
+        "workflow engines",
+        "tests",
+        "deployment"
+      ],
+      "existing_systems": [
+        "project source repositories",
+        "E2E suites"
+      ],
+      "experience_brain_relationship": "Implementation is measured against experience E2E contracts; functional completion stays a separate axis."
+    }
+  ],
+  "type": "object",
+  "required": [
+    "feature_id",
+    "feature_name",
+    "family_id",
+    "purpose",
+    "business_promise",
+    "user_value",
+    "primary_actors",
+    "secondary_actors",
+    "public_entry",
+    "client_entry",
+    "founder_staff_entry",
+    "system_entry",
+    "start_state",
+    "success_state",
+    "blocked_state",
+    "error_states",
+    "empty_state",
+    "complete_state",
+    "required_inputs",
+    "optional_inputs",
+    "system_derivations",
+    "human_review_points",
+    "client_approval_points",
+    "founder_override_points",
+    "output_artifacts",
+    "vault_destination",
+    "inbox_events",
+    "activity_events",
+    "notifications",
+    "next_step",
+    "upstream_systems",
+    "downstream_systems",
+    "cross_feature_relationships",
+    "automations",
+    "primary_metaphor",
+    "visual_archetype",
+    "primary_visual_object",
+    "secondary_visual_objects",
+    "composition_rules",
+    "information_hierarchy",
+    "interaction_grammar",
+    "emotional_target",
+    "density_target",
+    "mobile_behavior",
+    "tablet_behavior",
+    "desktop_behavior",
+    "public_cta",
+    "client_cta",
+    "staff_cta",
+    "avoid_list",
+    "e2e_proof_contract",
+    "schema_version",
+    "project_id",
+    "material",
+    "states",
+    "transitions",
+    "perspectives",
+    "visual_relationships",
+    "structure_refs",
+    "lineage",
+    "declared_completion"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "feature_id": {
+      "type": "string"
+    },
+    "feature_name": {
+      "type": "string"
+    },
+    "family_id": {
+      "type": "string"
+    },
+    "material": {
+      "type": "boolean"
+    },
+    "sample": {
+      "type": "boolean"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "business_promise": {
+      "type": "string"
+    },
+    "user_value": {
+      "type": "string"
+    },
+    "primary_actors": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "PUBLIC",
+          "CLIENT",
+          "FOUNDER_STAFF",
+          "SYSTEM"
+        ]
+      }
+    },
+    "secondary_actors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "public_entry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "surface",
+            "route",
+            "trigger"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "applicable",
+            "reason"
+          ],
+          "properties": {
+            "applicable": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "client_entry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "surface",
+            "route",
+            "trigger"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "applicable",
+            "reason"
+          ],
+          "properties": {
+            "applicable": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "founder_staff_entry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "surface",
+            "route",
+            "trigger"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "applicable",
+            "reason"
+          ],
+          "properties": {
+            "applicable": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "system_entry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "surface",
+            "route",
+            "trigger"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "applicable",
+            "reason"
+          ],
+          "properties": {
+            "applicable": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "state_class",
+          "meaning"
+        ],
+        "properties": {
+          "state_class": {
+            "enum": [
+              "EMPTY",
+              "ACTIVE",
+              "BLOCKED",
+              "REVIEW",
+              "APPROVAL",
+              "COMPLETE",
+              "ARCHIVED",
+              "ERROR"
+            ]
+          }
+        }
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "from",
+          "to",
+          "trigger",
+          "actor"
+        ]
+      }
+    },
+    "start_state": {
+      "type": "string"
+    },
+    "success_state": {
+      "type": "string"
+    },
+    "blocked_state": {
+      "type": "string"
+    },
+    "error_states": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "empty_state": {
+      "type": "string"
+    },
+    "complete_state": {
+      "type": "string"
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "methods",
+          "required_for"
+        ]
+      }
+    },
+    "optional_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "system_derivations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "derives",
+          "from",
+          "rule"
+        ]
+      }
+    },
+    "human_review_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "actor",
+          "at_state",
+          "decision",
+          "outcomes"
+        ]
+      }
+    },
+    "client_approval_points": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "founder_override_points": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "output_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "type",
+          "owner",
+          "source",
+          "status_lifecycle",
+          "visible_to",
+          "editable_by",
+          "vault_destination",
+          "retention",
+          "supersession",
+          "view_behavior"
+        ]
+      }
+    },
+    "vault_destination": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "inbox_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "channel",
+          "trigger",
+          "audience",
+          "summary"
+        ]
+      }
+    },
+    "activity_events": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "notifications": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "human_tasks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "next_step": {
+      "type": "string"
+    },
+    "upstream_systems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "downstream_systems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cross_feature_relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "from_feature",
+          "from_state",
+          "to_feature",
+          "relationship",
+          "actor_effects",
+          "surface_effects",
+          "visual_transition"
+        ]
+      }
+    },
+    "automations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "perspectives": {
+      "type": "object",
+      "required": [
+        "public",
+        "client",
+        "founder_staff",
+        "system"
+      ],
+      "description": "Required keys per actor in perspective_required_keys; only PUBLIC may be not-applicable (with reason)."
+    },
+    "primary_metaphor": {
+      "type": "string"
+    },
+    "secondary_metaphor": {
+      "type": "string"
+    },
+    "visual_archetype": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "WORKBENCH",
+          "CHECKLIST",
+          "TIMELINE",
+          "ARCHIVE",
+          "LEDGER",
+          "ROUTE",
+          "QUEUE",
+          "DECISION_WINDOW",
+          "CABINET",
+          "PACKET_BUILDER",
+          "MATCHING_BOARD",
+          "CASE_FILE",
+          "CONTROL_ROOM",
+          "PIPELINE",
+          "DOCUMENT_TABLE",
+          "THRESHOLD",
+          "HORIZON",
+          "MAP",
+          "INDEX",
+          "SHOWCASE",
+          "ATELIER",
+          "CONSULTATION",
+          "GALLERY"
+        ]
+      }
+    },
+    "primary_visual_object": {
+      "type": "string"
+    },
+    "secondary_visual_objects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "composition_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "information_hierarchy": {
+      "type": "object",
+      "description": "per actor: primary_question, primary_status, primary_task, secondary_status, blocker, next_action, completion_proof"
+    },
+    "interaction_grammar": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "verb",
+          "actor",
+          "meaning"
+        ]
+      }
+    },
+    "emotional_target": {
+      "type": "object"
+    },
+    "density_target": {
+      "enum": [
+        "SPARSE",
+        "BALANCED",
+        "DENSE"
+      ]
+    },
+    "mobile_behavior": {
+      "type": "object",
+      "required": [
+        "task_model",
+        "layout",
+        "primary_object_treatment",
+        "input_treatment"
+      ]
+    },
+    "tablet_behavior": {
+      "type": "object"
+    },
+    "desktop_behavior": {
+      "type": "object"
+    },
+    "public_cta": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "client_cta": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "staff_cta": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "avoid_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "visual_relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "state",
+          "composition_emphasis",
+          "emphasis_role",
+          "panel_density",
+          "primary_cta",
+          "artifact_visibility",
+          "nav_emphasis",
+          "status_treatment",
+          "quiet"
+        ]
+      }
+    },
+    "section_overrides": {
+      "type": "object"
+    },
+    "e2e_proof_contract": {
+      "type": "object",
+      "required": [
+        "journey",
+        "not_applicable",
+        "steps"
+      ]
+    },
+    "structure_refs": {
+      "type": "object",
+      "required": [
+        "routes",
+        "data_contracts",
+        "source_evidence"
+      ]
+    },
+    "expression_refs": {
+      "type": "object"
+    },
+    "implementation_refs": {
+      "type": "object"
+    },
+    "lineage": {
+      "type": "object",
+      "required": [
+        "created",
+        "revised",
+        "approved",
+        "superseded_by",
+        "source_project_context",
+        "founder_decision",
+        "related_features",
+        "related_authorities"
+      ]
+    },
+    "open_experience_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "declared_completion": {
+      "enum": [
+        "UNMAPPED",
+        "STRUCTURED",
+        "EXPERIENCE_DRAFTED",
+        "EXPERIENCE_COMPLETE",
+        "VISUALIZED",
+        "IMPLEMENTED",
+        "E2E_PROVEN",
+        "APPROVED"
+      ]
+    }
+  },
+  "perspective_required_keys": {
+    "PUBLIC": [
+      "discovery",
+      "must_understand",
+      "who_its_for",
+      "what_we_handle",
+      "what_client_provides",
+      "how_it_works",
+      "outcome",
+      "pricing_relationship",
+      "cta",
+      "workspace_continuity"
+    ],
+    "CLIENT": [
+      "entry_point",
+      "primary_task",
+      "sees_first",
+      "must_provide",
+      "input_methods",
+      "system_already_knows",
+      "needs_you",
+      "under_review",
+      "completion_looks_like",
+      "artifacts_received",
+      "what_happens_next",
+      "project_room"
+    ],
+    "FOUNDER_STAFF": [
+      "client_context",
+      "work_queue",
+      "status_model",
+      "blockers",
+      "missing_inputs",
+      "system_flags",
+      "human_review",
+      "corrections",
+      "approval",
+      "overrides",
+      "operational_actions",
+      "communication",
+      "artifact_generation",
+      "completion",
+      "audit_history",
+      "hub_buckets",
+      "mirror_not_copy"
+    ],
+    "SYSTEM": [
+      "ingestion",
+      "validation",
+      "derivation",
+      "state_transitions",
+      "event_creation",
+      "notifications",
+      "vault_movement",
+      "inbox_movement",
+      "activity_events",
+      "next_cycle_creation",
+      "reminders",
+      "failure_handling"
+    ]
+  },
+  "project_dna_shape": [
+    "project_id",
+    "project_name",
+    "brand {tagline, positioning, promise, voice}",
+    "visual_language {register, palette, emphasis_map, imagery, forbidden}",
+    "actors",
+    "role_projections",
+    "shared_surfaces",
+    "source_repositories"
+  ]
+}

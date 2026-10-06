@@ -1,0 +1,112 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "principle": "Author experience first; later visual refinement and implementation consume the contracts. No page redesign happened in this sprint.",
+  "items": [
+    {
+      "id": "XB-01",
+      "priority": "P0",
+      "title": "AIO IFTA experience-driven page refinement",
+      "detail": "Build the client QUARTERLY FILING ROOM + staff Fuel Tax case file from AIO_IFTA_FUEL_TAX_VISUAL_CONTRACT briefs (mobile first).",
+      "consumes": [
+        "AIO.IFTA"
+      ],
+      "repo": "yoteenz/fsbw (AIO)"
+    },
+    {
+      "id": "XB-02",
+      "priority": "P0",
+      "title": "Wire queryExperience into AIO / Studio OS page + authority generation",
+      "detail": "Generators call queryExperience(feature, actor, state, viewport) and refuse EXPERIENCE_REQUIRED features (screen-family gate).",
+      "consumes": [
+        "all"
+      ],
+      "repo": "yoteenz/SITE00"
+    },
+    {
+      "id": "XB-03",
+      "priority": "P0",
+      "title": "Experience E2E harness",
+      "detail": "Turn deriveE2EContract output into Playwright journeys per actor (one browser context per actor), starting with AIO.IFTA.",
+      "consumes": [
+        "AIO.IFTA"
+      ],
+      "repo": "yoteenz/fsbw (AIO)"
+    },
+    {
+      "id": "XB-04",
+      "priority": "P1",
+      "title": "Resolve AIO open experience questions",
+      "detail": "Founder / ops answers for the partial features.",
+      "consumes": [
+        "AIO.BOC3",
+        "AIO.COMPLIANCE_SAFETY",
+        "AIO.LOAD_BOARD",
+        "AIO.BROKERAGE",
+        "AIO.DRIVERLINK"
+      ],
+      "repo": "founder decision"
+    },
+    {
+      "id": "XB-05",
+      "priority": "P1",
+      "title": "Split AIO.COMPLIANCE_SAFETY into one contract per service",
+      "detail": "DOT compliance, DQ files, D&A consortium, Clearinghouse, ELD services, DOT audit, new-entrant audit, safety programs.",
+      "consumes": [
+        "AIO.COMPLIANCE_SAFETY"
+      ],
+      "repo": "yoteenz/SITE00"
+    },
+    {
+      "id": "XB-06",
+      "priority": "P1",
+      "title": "Founder hub consumption",
+      "detail": "Founder workspace buckets (NEEDS REVIEW · BLOCKED · AWAITING CLIENT · AWAITING PROVIDER · READY TO FILE · READY TO SEND · READY TO LAUNCH · COMPLETE) read founder_staff.hub_buckets.",
+      "consumes": [
+        "all"
+      ],
+      "repo": "yoteenz/fsbw (AIO office)"
+    },
+    {
+      "id": "XB-07",
+      "priority": "P1",
+      "title": "Client project room consumption",
+      "detail": "Status / needs you / next / decisions / files / messages / approvals / service progress read client.project_room.",
+      "consumes": [
+        "all"
+      ],
+      "repo": "yoteenz/fsbw (AIO portal)"
+    },
+    {
+      "id": "XB-08",
+      "priority": "P2",
+      "title": "Structure drift test",
+      "detail": "CI check that contract structure_refs (routes, state enums, catalog ids) still exist in the AIO repo.",
+      "consumes": [
+        "all"
+      ],
+      "repo": "yoteenz/SITE00 + yoteenz/fsbw"
+    },
+    {
+      "id": "XB-09",
+      "priority": "P2",
+      "title": "Map the next projects",
+      "detail": "Promote JURNL / Frontal Slayer samples to real contracts when those projects schedule experience work; map SITE 00 itself and Astral World.",
+      "consumes": [
+        "samples"
+      ],
+      "repo": "yoteenz/SITE00"
+    },
+    {
+      "id": "XB-10",
+      "priority": "P2",
+      "title": "Founder approval rung",
+      "detail": "Record founder approval per contract in lineage.approved to reach APPROVED.",
+      "consumes": [
+        "all"
+      ],
+      "repo": "founder decision"
+    }
+  ]
+}
