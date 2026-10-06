@@ -15,9 +15,9 @@ describe('JURNL Wave 3 F08/F09/F12/F14', () => {
     resetRepositoryForDev();
   });
 
-  it('repository schema v4 includes plan, goals, credit attributes', () => {
+  it('repository schema v5 includes plan, goals, credit attributes', () => {
     const snap = getRepository().getSnapshot();
-    expect(snap.schemaVersion).toBe(4);
+    expect(snap.schemaVersion).toBe(5);
     expect(Array.isArray(snap.planIntentions)).toBe(true);
     expect(Array.isArray(snap.goals)).toBe(true);
     expect(Array.isArray(snap.creditAttributes)).toBe(true);

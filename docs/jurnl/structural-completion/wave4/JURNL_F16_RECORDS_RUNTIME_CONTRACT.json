@@ -1,0 +1,1 @@
+{"family":"F16","routes":["records","records/:documentId"],"persistence":"repository.snapshot.records","mutations":["createRecord","updateRecord","archiveRecord"],"file_storage":"DEVICE_METADATA only — no fake remote upload","verification_states":0}

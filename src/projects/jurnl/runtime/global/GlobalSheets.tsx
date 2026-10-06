@@ -9,6 +9,8 @@ import { quickAddTypesForFamily, type QuickAddTypeId } from '../../data/foundati
 import { getTodayKey } from '../../data/foundation/dates';
 import { createIncomeSource } from '../../data/f06/incomeStore';
 import { createGoal } from '../../data/f14/goalsStore';
+import { createPurchase } from '../../data/f10/purchasesStore';
+import { createTrip } from '../../data/f11/tripsStore';
 import {
   addLedgerEntry,
   formatAmountInput,
@@ -58,6 +60,8 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
     typeId === 'TRANSACTION' ? name.trim().length > 0 && quote != null && account.length > 0
     : typeId === 'INCOME' ? name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim())
     : typeId === 'GOAL' ? name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim())
+    : typeId === 'PURCHASE' ? name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim())
+    : typeId === 'TRIP' ? name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim())
     : false;
 
   return (
@@ -83,6 +87,16 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
               }
               if (typeId === 'GOAL') {
                 createGoal({ title: name, target_amount: Number(amount) || 0 });
+                onClose();
+                return;
+              }
+              if (typeId === 'PURCHASE') {
+                createPurchase({ title: name, target_amount: Number(amount) || 0 });
+                onClose();
+                return;
+              }
+              if (typeId === 'TRIP') {
+                createTrip({ title: name, destination: name, target_budget: Number(amount) || 0 });
                 onClose();
                 return;
               }

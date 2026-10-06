@@ -15,11 +15,10 @@
   ],
   "rule": "Per-family invocations of shared sheets (QUICK ADD, ASK) count WORKING when they open the sheet; the sheet’s own behaviour is scored once on the global system (GS.QA.SAVE, GS.ASK.EXPLAIN).",
   "counts": {
-    "WORKING": 137,
-    "PARTIAL": 24,
-    "MISSING": 44,
-    "LEGACY": 12,
-    "NO_OP": 5
+    "WORKING": 156,
+    "PARTIAL": 25,
+    "MISSING": 29,
+    "LEGACY": 12
   },
   "interactions": [
     {
@@ -1591,9 +1590,9 @@
       "family_id": "F10",
       "host": "F10.00",
       "name": "DECIDE",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F10.DECISION",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1601,9 +1600,9 @@
       "family_id": "F10",
       "host": "F10.00",
       "name": "OPEN THE OBJECT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F10.OBJECT",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1611,9 +1610,9 @@
       "family_id": "F10",
       "host": "F10.00",
       "name": "CONSIDER",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F10.SH.CONSIDER",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1621,9 +1620,9 @@
       "family_id": "F10",
       "host": "F10.00",
       "name": "LET IT GO",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F10.MD.REMOVE_OBJECT",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1631,9 +1630,9 @@
       "family_id": "F10",
       "host": "F10.00",
       "name": "I BOUGHT IT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "GLOBAL.SH.QUICK_ADD",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1681,9 +1680,9 @@
       "family_id": "F11",
       "host": "F11.00",
       "name": "FUND THE TRIP",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F11.FUNDING",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1691,9 +1690,9 @@
       "family_id": "F11",
       "host": "F11.00",
       "name": "OPEN THE TRIP",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F11.TRIP",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1701,9 +1700,9 @@
       "family_id": "F11",
       "host": "F11.00",
       "name": "NAME A TRIP",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F11.SH.TRIP_EDIT",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1711,9 +1710,9 @@
       "family_id": "F11",
       "host": "F11.00",
       "name": "CANCEL",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F11.MD.REMOVE_TRIP",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1721,9 +1720,9 @@
       "family_id": "F11",
       "host": "F11.00",
       "name": "ALLOCATE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F11.FUNDING",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1861,9 +1860,9 @@
       "family_id": "F13",
       "host": "F13.00",
       "name": "CHANGE THE PATH",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F13.WHAT_IF",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1871,9 +1870,9 @@
       "family_id": "F13",
       "host": "F13.00",
       "name": "CHANGE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F13.SH.CHANGE",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -1881,9 +1880,9 @@
       "family_id": "F13",
       "host": "F13.00",
       "name": "KEEP THIS PATH",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": null,
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -2021,9 +2020,9 @@
       "family_id": "F15",
       "host": "F15.00",
       "name": "TRY ANOTHER PATH",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F15.BRANCH",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -2031,7 +2030,7 @@
       "family_id": "F15",
       "host": "F15.00",
       "name": "ASSUMPTION",
-      "status": "MISSING",
+      "status": "PARTIAL",
       "opens": "F15.SH.ASSUMPTION",
       "wave": 4,
       "notes": []
@@ -2041,9 +2040,9 @@
       "family_id": "F15",
       "host": "F15.00",
       "name": "LET THIS BRANCH GO",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": null,
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -2091,9 +2090,9 @@
       "family_id": "F16",
       "host": "F16.00",
       "name": "OPEN A DOCUMENT",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F16.DOCUMENT",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -2101,9 +2100,9 @@
       "family_id": "F16",
       "host": "F16.00",
       "name": "FIND",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": null,
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -2111,9 +2110,9 @@
       "family_id": "F16",
       "host": "F16.00",
       "name": "FILE A DOCUMENT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F16.SH.ADD_DOCUMENT",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {
@@ -2121,9 +2120,9 @@
       "family_id": "F16",
       "host": "F16.00",
       "name": "REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F16.MD.DELETE_DOCUMENT",
-      "wave": 4,
+      "wave": null,
       "notes": []
     },
     {

@@ -1,0 +1,1 @@
+{"owner":"F13","entity":"JurnlPaydownPlan","fields":["paydown_plan_id","account_ids","strategy_type","extra_payment","account_order","status"],"strategies":["SNOWBALL","AVALANCHE","MANUAL_ORDER"]}

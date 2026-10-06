@@ -135,27 +135,27 @@
   "interactions": [
     {
       "id": "F11.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F11.FUNDING"
     },
     {
       "id": "F11.IN.OPEN_TRIP",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F11.TRIP"
     },
     {
       "id": "F11.IN.ADD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F11.SH.TRIP_EDIT"
     },
     {
       "id": "F11.IN.REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F11.MD.REMOVE_TRIP"
     },
     {
       "id": "F11.IX.ALLOCATE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F11.FUNDING"
     },
     {
@@ -270,12 +270,12 @@
     "TRAVEL_BOOKING_REFERRALS (REFERRAL, DISABLED)"
   ],
   "functional_status": {
-    "score": 14.2,
-    "strict": 11.8,
+    "score": 43.6,
+    "strict": 41.2,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 13,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 9,
+      "COMPLETE_FUNCTIONAL": 7,
       "LEGACY": 1
     }
   },

@@ -1,0 +1,1 @@
+{"family":"F11","routes":["trips","trips/:tripId"],"persistence":"repository.snapshot.trips","mutations":["createTrip","updateTrip","completeTrip","archiveTrip"],"reads":["computeSafeToSpend"],"boundaries":["no booking engine","target_budget alone does not reduce STS"]}

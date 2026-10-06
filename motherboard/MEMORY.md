@@ -13833,6 +13833,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — JURNL Wave 4 purchases, trips, paydown, ahead, records (P0.JURNL.WAVE4-PURCHASES-TRIPS-PAYDOWN-AHEAD-RECORDS)
+
+- **Context:** After Wave 3 (F08/F09/F12/F14), Composer implemented F10, F11, F13, F15, F16 with repository **v5** (`purchases`, `trips`, `paydownPlan`, `records`). F15 is derived-only (`aheadProjection.ts`); F16 metadata-only (no fake upload/verification). F09 formula extended with `purchaseReserved` / `tripReserved`. Quick Add adds **PURCHASE** and **TRIP** (5 types). Routes wired in `JurnlRuntimeRoot.tsx`. Blueprint functional ~**49.4%**; interactions WORKING **156**. E2E readiness contract: `docs/jurnl/e2e/JURNL_FULL_PRODUCT_E2E_READINESS.json`. **Next:** P0.JURNL.FULL-PRODUCT-E2E-GATE1 (not Wave 5).
+
+---
+
 ## 2026-10-05 — JURNL Wave 1 shared global interactions (P0.JURNL.WAVE1-SHARED-GLOBAL-INTERACTIONS)
 
 - **Context:** After Wave 0 merge, Composer implemented the global interaction layer before F05–F16 child expansion. Zero generation; F01/F02 visuals frozen except honest F02 connect copy.

@@ -196,11 +196,11 @@
     {
       "family_id": "F10",
       "implementation_inputs": {
-        "nodes_to_complete": 15,
+        "nodes_to_complete": 10,
         "new_routes": 1,
         "new_sheets_drawers_modals": 3,
         "states_to_wire": 3,
-        "interactions_to_wire": 6,
+        "interactions_to_wire": 1,
         "owned_domains": [
           "DD.PURCHASE_CONSIDERATIONS"
         ],
@@ -216,11 +216,11 @@
     {
       "family_id": "F11",
       "implementation_inputs": {
-        "nodes_to_complete": 15,
+        "nodes_to_complete": 10,
         "new_routes": 1,
         "new_sheets_drawers_modals": 3,
         "states_to_wire": 3,
-        "interactions_to_wire": 6,
+        "interactions_to_wire": 1,
         "owned_domains": [
           "DD.TRIPS"
         ],
@@ -256,11 +256,11 @@
     {
       "family_id": "F13",
       "implementation_inputs": {
-        "nodes_to_complete": 13,
+        "nodes_to_complete": 10,
         "new_routes": 1,
         "new_sheets_drawers_modals": 1,
         "states_to_wire": 5,
-        "interactions_to_wire": 4,
+        "interactions_to_wire": 1,
         "owned_domains": [
           "DD.PAYOFF_PLANS"
         ],
@@ -296,11 +296,11 @@
     {
       "family_id": "F15",
       "implementation_inputs": {
-        "nodes_to_complete": 12,
+        "nodes_to_complete": 10,
         "new_routes": 1,
         "new_sheets_drawers_modals": 1,
         "states_to_wire": 4,
-        "interactions_to_wire": 4,
+        "interactions_to_wire": 2,
         "owned_domains": [
           "DD.FORECAST_SCENARIOS"
         ],
@@ -316,11 +316,11 @@
     {
       "family_id": "F16",
       "implementation_inputs": {
-        "nodes_to_complete": 17,
+        "nodes_to_complete": 13,
         "new_routes": 1,
         "new_sheets_drawers_modals": 3,
         "states_to_wire": 5,
-        "interactions_to_wire": 6,
+        "interactions_to_wire": 2,
         "owned_domains": [
           "DD.DOCUMENTS"
         ],

@@ -138,17 +138,17 @@
   "interactions": [
     {
       "id": "F13.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F13.WHAT_IF"
     },
     {
       "id": "F13.IX.CHANGE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F13.SH.CHANGE"
     },
     {
       "id": "F13.IN.KEEP",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": null
     },
     {
@@ -264,12 +264,12 @@
     "FINANCIAL_SERVICE_REFERRALS (REFERRAL, DISABLED)"
   ],
   "functional_status": {
-    "score": 16.1,
-    "strict": 13.3,
+    "score": 36.1,
+    "strict": 33.3,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 11,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 9,
+      "COMPLETE_FUNCTIONAL": 5,
       "LEGACY": 1
     }
   },

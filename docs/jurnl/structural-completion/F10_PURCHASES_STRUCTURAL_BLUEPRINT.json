@@ -134,27 +134,27 @@
   "interactions": [
     {
       "id": "F10.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F10.DECISION"
     },
     {
       "id": "F10.IN.OPEN_OBJECT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F10.OBJECT"
     },
     {
       "id": "F10.IX.CONSIDER",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F10.SH.CONSIDER"
     },
     {
       "id": "F10.IN.REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F10.MD.REMOVE_OBJECT"
     },
     {
       "id": "F10.IN.BOUGHT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "GLOBAL.SH.QUICK_ADD"
     },
     {
@@ -271,12 +271,12 @@
     "COMMERCE_MERCHANT_OPTIONS (COMMERCE, DISABLED)"
   ],
   "functional_status": {
-    "score": 14.2,
-    "strict": 11.8,
+    "score": 43.6,
+    "strict": 41.2,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 13,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 9,
+      "COMPLETE_FUNCTIONAL": 7,
       "LEGACY": 1
     }
   },

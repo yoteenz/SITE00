@@ -10,8 +10,12 @@ import type { JurnlObligation } from '../foundation/obligations';
 import type { JurnlPlanIntention } from '../foundation/plan';
 import type { JurnlGoal } from '../foundation/goals';
 import type { JurnlCreditAttributes } from '../foundation/creditAttributes';
+import type { JurnlPurchase } from '../foundation/purchases';
+import type { JurnlTrip } from '../foundation/trips';
+import type { JurnlPaydownPlan } from '../foundation/paydown';
+import type { JurnlRecord } from '../foundation/records';
 
-export const REPOSITORY_SCHEMA_VERSION = 4;
+export const REPOSITORY_SCHEMA_VERSION = 5;
 
 export type RepositoryEventType =
   | 'ACCOUNT_CREATED'
@@ -57,6 +61,10 @@ export type RepositorySnapshot = {
   planIntentions: JurnlPlanIntention[];
   goals: JurnlGoal[];
   creditAttributes: JurnlCreditAttributes[];
+  purchases: JurnlPurchase[];
+  trips: JurnlTrip[];
+  paydownPlan: JurnlPaydownPlan | null;
+  records: JurnlRecord[];
   updatedAt: string;
 };
 
@@ -96,6 +104,17 @@ export interface JurnlRepository {
   deleteGoal(id: string): boolean;
   getCreditAttributes(accountId: string): JurnlCreditAttributes | null;
   upsertCreditAttributes(attrs: JurnlCreditAttributes): JurnlCreditAttributes;
+  listPurchases(): JurnlPurchase[];
+  upsertPurchase(purchase: JurnlPurchase): JurnlPurchase;
+  deletePurchase(id: string): boolean;
+  listTrips(): JurnlTrip[];
+  upsertTrip(trip: JurnlTrip): JurnlTrip;
+  deleteTrip(id: string): boolean;
+  getPaydownPlan(): JurnlPaydownPlan | null;
+  upsertPaydownPlan(plan: JurnlPaydownPlan): JurnlPaydownPlan;
+  listRecords(): JurnlRecord[];
+  upsertRecord(record: JurnlRecord): JurnlRecord;
+  deleteRecord(id: string): boolean;
   onEvent(cb: (event: RepositoryEvent) => void): () => void;
 }
 

@@ -1,0 +1,41 @@
+{
+  "sprint": "P0.JURNL.FULL-PRODUCT-E2E-GATE1-prep",
+  "families": [
+    {"id": "F01", "route": "entry/*", "fixture": "new user + returning user"},
+    {"id": "F02", "route": "setup/*", "fixture": "setup draft"},
+    {"id": "F03", "route": "today", "fixture": "signed-in session"},
+    {"id": "F04", "route": "activity", "fixture": "ledger entries"},
+    {"id": "F05", "route": "money", "fixture": "accounts"},
+    {"id": "F06", "route": "income", "fixture": "income sources"},
+    {"id": "F07", "route": "upcoming", "fixture": "obligations + credit payments"},
+    {"id": "F08", "route": "plan", "fixture": "plan intentions"},
+    {"id": "F09", "route": "safe", "fixture": "STS breakdown"},
+    {"id": "F10", "route": "purchases", "fixture": "purchase consider + bought"},
+    {"id": "F11", "route": "trips", "fixture": "trip reserve"},
+    {"id": "F12", "route": "credit", "fixture": "credit terms"},
+    {"id": "F13", "route": "paydown", "fixture": "paydown plan"},
+    {"id": "F14", "route": "goals", "fixture": "goal set-aside"},
+    {"id": "F15", "route": "ahead", "fixture": "derived projection"},
+    {"id": "F16", "route": "records", "fixture": "record metadata"}
+  ],
+  "mutations_to_exercise": [
+    "quick add transaction",
+    "create purchase + mark purchased",
+    "create trip + reserve",
+    "upsert paydown extra",
+    "create record + link domain",
+    "plan assign + goal set-aside"
+  ],
+  "cross_family_checks": [
+    "F10 → ledger transaction",
+    "F10/F11 reserved → F09",
+    "F12 → F07 upcoming",
+    "F15 reads all without writes"
+  ],
+  "persistence_checks": ["reload preserves repository v5 snapshot"],
+  "auth_dependencies": ["Supabase session for production API paths"],
+  "server_dependencies": ["api.site00.com for non-device features"],
+  "known_blockers": ["F16 blob upload", "F15 scenario store", "Brand Lore unrelated"],
+  "safe_mockable": ["device repository", "preview guest user"],
+  "non_mockable_production": ["Railway API", "Supabase RLS when server adapter lands"]
+}

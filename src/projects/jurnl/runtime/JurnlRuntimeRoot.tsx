@@ -27,6 +27,11 @@ import { PlanHubScreen, PlanIntentionScreen } from './screens/PlanScreens';
 import { SafeToSpendHubScreen, SafeToSpendWhyScreen } from './screens/SafeToSpendScreens';
 import { CreditHubScreen, CreditAccountScreen } from './screens/CreditScreens';
 import { GoalsHubScreen, GoalDetailScreen } from './screens/GoalsScreens';
+import { PurchasesHubScreen, PurchaseDetailScreen } from './screens/PurchasesScreens';
+import { TripsHubScreen, TripDetailScreen } from './screens/TripsScreens';
+import { PaydownHubScreen, PaydownWhatIfScreen } from './screens/PaydownScreens';
+import { AheadHubScreen, AheadBranchScreen } from './screens/AheadScreens';
+import { RecordsHubScreen, RecordDetailScreen } from './screens/RecordsScreens';
 import './jurnl-runtime.css';
 import './jurnl-environment.css';
 import './jurnl-screens.css';
@@ -100,7 +105,17 @@ function JurnlRoutes() {
       <Route path="credit/:accountId" element={<CreditAccountScreen />} />
       <Route path="goals" element={<GoalsHubScreen />} />
       <Route path="goals/:goalId" element={<GoalDetailScreen />} />
-      {PARENTS.filter((p) => !['F05', 'F06', 'F07', 'F08', 'F09', 'F12', 'F14'].includes(p.id)).map((parent) => (
+      <Route path="purchases" element={<PurchasesHubScreen />} />
+      <Route path="purchases/:purchaseId" element={<PurchaseDetailScreen />} />
+      <Route path="trips" element={<TripsHubScreen />} />
+      <Route path="trips/:tripId" element={<TripDetailScreen />} />
+      <Route path="paydown" element={<PaydownHubScreen />} />
+      <Route path="paydown/what-if" element={<PaydownWhatIfScreen />} />
+      <Route path="ahead" element={<AheadHubScreen />} />
+      <Route path="ahead/:branchId" element={<AheadBranchScreen />} />
+      <Route path="records" element={<RecordsHubScreen />} />
+      <Route path="records/:documentId" element={<RecordDetailScreen />} />
+      {PARENTS.filter((p) => !['F05', 'F06', 'F07', 'F08', 'F09', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16'].includes(p.id)).map((parent) => (
         <Route key={parent.id} path={parent.route} element={<ParentAuthorityScreen id={parent.id} />} />
       ))}
       <Route path="*" element={<EntryIndex />} />

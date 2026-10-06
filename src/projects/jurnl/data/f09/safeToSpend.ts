@@ -10,6 +10,8 @@ import { safeToSpendEligibleAccounts } from '../foundation/accounts';
 import { getRepository } from '../repository/deviceRepository';
 import { totalPlanAssigned } from '../f08/planStore';
 import { totalGoalSetAside } from '../f14/goalsStore';
+import { totalPurchaseReserved } from '../f10/purchasesStore';
+import { totalTripReserved } from '../f11/tripsStore';
 
 export type SafeToSpendCompleteness = 'COMPLETE' | 'PARTIAL' | 'UNSTATED' | 'NEEDS_SETUP' | 'NEEDS_ACCOUNT';
 
@@ -19,6 +21,8 @@ export type SafeToSpendBreakdown = {
   protected: number;
   assigned: number;
   goalReserved: number;
+  purchaseReserved: number;
+  tripReserved: number;
   safetyBuffer: number;
   value: number;
   cashSource: 'MOCK' | 'ACCOUNTS' | 'DERIVED';
@@ -75,6 +79,8 @@ export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries:
   const safetyBuffer = safetyBufferFromSettings();
   const assigned = totalPlanAssigned();
   const goalReserved = totalGoalSetAside();
+  const purchaseReserved = totalPurchaseReserved();
+  const tripReserved = totalTripReserved();
   const { cash, source: cashSource } = cashForSafeToSpend(entries);
 
   let upcoming = 0;
@@ -105,8 +111,11 @@ export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries:
   else if (draft.accounts === 'SKIPPED' || (!draft.cadence && !draft.amount && draft.started)) completeness = 'UNSTATED';
   else if (unknownUpcoming || repoObligations.some((i) => i.amount <= 0)) completeness = 'PARTIAL';
 
-  const deductions = upcoming + held + safetyBuffer + assigned + goalReserved;
-  const value = completeness === 'UNSTATED' ? cash - held - safetyBuffer - assigned - goalReserved : cash - deductions;
+  const deductions = upcoming + held + safetyBuffer + assigned + goalReserved + purchaseReserved + tripReserved;
+  const value =
+    completeness === 'UNSTATED'
+      ? cash - held - safetyBuffer - assigned - goalReserved - purchaseReserved - tripReserved
+      : cash - deductions;
 
   return {
     cash,
@@ -114,6 +123,8 @@ export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries:
     protected: held,
     assigned,
     goalReserved,
+    purchaseReserved,
+    tripReserved,
     safetyBuffer,
     value,
     cashSource,

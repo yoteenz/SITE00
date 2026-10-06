@@ -7,19 +7,19 @@
   "axes": {
     "FUNCTIONAL_COMPLETION": {
       "formula": "mean over the 17 units (F01–F16 + GLOBAL) of [Σ functional_score(n) / |N_F ∩ unit|]. N_F = every material node except SHARED_COMPONENT and LEGACY interactions. functional_score = applicable criteria met / applicable criteria (1, 0.5, 0); interactions and states use their status scores.",
-      "value": 42.5,
+      "value": 49.4,
       "why_balanced": "F01’s contract enumerates every primitive behaviour (142 nodes); F05–F16 are authored at family grain. Node weighting would reward contract verbosity.",
       "node_weighted": {
         "formula": "Σ functional_score(n) / |N_F|",
-        "value": 56.7
+        "value": 60.7
       },
       "strict": {
         "formula": "unit-balanced share of nodes with score = 1",
-        "value": 30.2
+        "value": 36.9
       },
       "family_mean": {
         "formula": "mean over F01–F16 only (GLOBAL excluded)",
-        "value": 41.4
+        "value": 48.7
       },
       "confidence": "MEDIUM",
       "status": "ESTIMATED",
@@ -44,13 +44,13 @@
     },
     "LAUNCH_READINESS": {
       "formula": "mean of 12 launch gates scored 0..1 with evidence",
-      "value": 10.6,
+      "value": 11.1,
       "confidence": "MEDIUM",
       "gates": [
         {
           "id": "G01",
           "gate": "FUNCTIONAL_COMPLETION = 100%",
-          "score": 0.4252152523927415,
+          "score": 0.49447013700912673,
           "evidence": "Progress metric (unit-balanced)."
         },
         {
@@ -122,7 +122,7 @@
       ]
     }
   },
-  "report_format": "42.5% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 10.6% LAUNCH READY",
+  "report_format": "49.4% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 11.1% LAUNCH READY",
   "node_progression": [
     "PLANNED",
     "STRUCTURED",
@@ -203,15 +203,15 @@
       "unit": "F10",
       "name": "PURCHASES",
       "nodes": 17,
-      "functional": 14.2,
-      "strict": 11.8
+      "functional": 43.6,
+      "strict": 41.2
     },
     {
       "unit": "F11",
       "name": "TRIPS",
       "nodes": 17,
-      "functional": 14.2,
-      "strict": 11.8
+      "functional": 43.6,
+      "strict": 41.2
     },
     {
       "unit": "F12",
@@ -224,8 +224,8 @@
       "unit": "F13",
       "name": "PAYDOWN",
       "nodes": 15,
-      "functional": 16.1,
-      "strict": 13.3
+      "functional": 36.1,
+      "strict": 33.3
     },
     {
       "unit": "F14",
@@ -238,15 +238,15 @@
       "unit": "F15",
       "name": "AHEAD",
       "nodes": 14,
-      "functional": 17.2,
-      "strict": 14.3
+      "functional": 35.1,
+      "strict": 28.6
     },
     {
       "unit": "F16",
       "name": "RECORDS",
       "nodes": 19,
-      "functional": 12.7,
-      "strict": 10.5
+      "functional": 33.7,
+      "strict": 31.6
     },
     {
       "unit": "GLOBAL",
@@ -259,37 +259,37 @@
   "completion_simulation": [
     {
       "after_wave": 0,
-      "functional_completion": 44.9,
-      "node_weighted": 59.1,
+      "functional_completion": 51.8,
+      "node_weighted": 63.1,
       "nodes_completed_in_wave": 32,
-      "strict": 37.1
+      "strict": 43.8
     },
     {
       "after_wave": 1,
-      "functional_completion": 52.9,
-      "node_weighted": 66.1,
+      "functional_completion": 59.8,
+      "node_weighted": 70,
       "nodes_completed_in_wave": 49,
-      "strict": 47.6
+      "strict": 54.3
     },
     {
       "after_wave": 2,
-      "functional_completion": 63.1,
-      "node_weighted": 73.5,
+      "functional_completion": 70,
+      "node_weighted": 77.5,
       "nodes_completed_in_wave": 40,
-      "strict": 58.9
+      "strict": 65.6
     },
     {
       "after_wave": 3,
-      "functional_completion": 75.5,
-      "node_weighted": 81.9,
+      "functional_completion": 82.4,
+      "node_weighted": 85.9,
       "nodes_completed_in_wave": 46,
-      "strict": 72.9
+      "strict": 79.6
     },
     {
       "after_wave": 4,
       "functional_completion": 98.8,
       "node_weighted": 95.4,
-      "nodes_completed_in_wave": 68,
+      "nodes_completed_in_wave": 49,
       "strict": 96.9
     },
     {
@@ -301,11 +301,11 @@
     }
   ],
   "gap_counts": {
-    "COMPLETE_FUNCTIONAL": 189,
-    "PARTIAL_FUNCTIONAL": 115,
+    "COMPLETE_FUNCTIONAL": 208,
+    "PARTIAL_FUNCTIONAL": 116,
     "STRUCTURE_ONLY": 2,
-    "MISSING": 162,
-    "PLACEHOLDER": 17,
+    "MISSING": 147,
+    "PLACEHOLDER": 12,
     "LEGACY": 12,
     "DUPLICATED": 3,
     "VISUAL_ONLY": 1

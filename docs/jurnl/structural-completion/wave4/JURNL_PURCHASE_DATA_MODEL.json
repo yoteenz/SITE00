@@ -1,0 +1,1 @@
+{"owner":"F10","entity":"JurnlPurchase","fields":["purchase_id","title","target_amount","target_date","status","reserved_amount","linked_plan_id","linked_goal_id","linked_transaction_id","purchased_at","archived_at"],"statuses":["IDEA","PLANNING","READY","PURCHASED","CANCELLED","ARCHIVED"]}

@@ -1,15 +1,15 @@
 /** Quick Add V2 type registry (W1.4). Only types with repository mutations are enabled. */
 
-export type QuickAddTypeId = 'TRANSACTION' | 'INCOME' | 'GOAL';
+export type QuickAddTypeId = 'TRANSACTION' | 'INCOME' | 'GOAL' | 'PURCHASE' | 'TRIP';
 
 export type QuickAddTypeDef = {
   type_id: QuickAddTypeId;
   domain: 'TRANSACTION' | 'INCOME' | 'GOAL';
   label: string;
-  owner_family_id: 'F04' | 'F06' | 'F14';
+  owner_family_id: 'F04' | 'F06' | 'F14' | 'F10' | 'F11';
   enabled: boolean;
   required_fields: string[];
-  repository_action: 'appendTransaction' | 'upsertIncomeSource' | 'upsertGoal';
+  repository_action: 'appendTransaction' | 'upsertIncomeSource' | 'upsertGoal' | 'upsertPurchase' | 'upsertTrip';
   suggested_from_families: string[];
 };
 
@@ -43,6 +43,26 @@ export const JURNL_QUICK_ADD_TYPES: readonly QuickAddTypeDef[] = [
     required_fields: ['title', 'target_amount'],
     repository_action: 'upsertGoal',
     suggested_from_families: ['F14', 'F08', 'F03'],
+  },
+  {
+    type_id: 'PURCHASE',
+    domain: 'TRANSACTION',
+    label: 'PURCHASE',
+    owner_family_id: 'F10',
+    enabled: true,
+    required_fields: ['title', 'target_amount'],
+    repository_action: 'upsertPurchase',
+    suggested_from_families: ['F10', 'F08', 'F03'],
+  },
+  {
+    type_id: 'TRIP',
+    domain: 'TRANSACTION',
+    label: 'TRIP',
+    owner_family_id: 'F11',
+    enabled: true,
+    required_fields: ['title', 'target_budget'],
+    repository_action: 'upsertTrip',
+    suggested_from_families: ['F11', 'F08', 'F03'],
   },
 ];
 

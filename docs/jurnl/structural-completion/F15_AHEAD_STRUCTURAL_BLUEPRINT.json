@@ -135,17 +135,17 @@
   "interactions": [
     {
       "id": "F15.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F15.BRANCH"
     },
     {
       "id": "F15.IX.ASSUMPTION",
-      "status": "MISSING",
+      "status": "PARTIAL",
       "opens": "F15.SH.ASSUMPTION"
     },
     {
       "id": "F15.IN.DISCARD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": null
     },
     {
@@ -269,12 +269,13 @@
     "BUSINESS_FORECASTING (BUSINESS)"
   ],
   "functional_status": {
-    "score": 17.2,
-    "strict": 14.3,
+    "score": 35.1,
+    "strict": 28.6,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 10,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 8,
+      "COMPLETE_FUNCTIONAL": 4,
+      "PARTIAL_FUNCTIONAL": 1,
       "LEGACY": 1
     }
   },

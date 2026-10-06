@@ -17,7 +17,7 @@ describe('JURNL Wave 2 F05/F06/F07', () => {
 
   it('repository schema v3 includes income and obligations', () => {
     const snap = getRepository().getSnapshot();
-    expect(snap.schemaVersion).toBe(4);
+    expect(snap.schemaVersion).toBe(5);
     expect(Array.isArray(snap.incomeSources)).toBe(true);
     expect(Array.isArray(snap.obligations)).toBe(true);
   });
