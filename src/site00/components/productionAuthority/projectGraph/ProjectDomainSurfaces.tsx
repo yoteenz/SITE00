@@ -17,6 +17,7 @@ import {
   domainNodes,
   experienceKinds,
   isDesignMethodId,
+  resolveDesignMethodPanelMedia,
   scopedTabHref,
   topLevelNodes,
   type ArtifactRecord,
@@ -24,6 +25,7 @@ import {
   type ProjectProductionGraph,
   type WorkDomain,
 } from '../../../../../shared/site00-production-graph/index.js';
+import { PanelMediaSlot } from './PanelMediaSlot';
 import { useProjectGraphData } from '../ProductionAuthorityData';
 import { ProductionAuthorityFrame } from '../ProductionAuthorityFrame';
 import { IaEmpty } from '../iaKit';
@@ -229,8 +231,12 @@ export function ProjectDesignSurface({ modes = [] }: { modes?: readonly string[]
         <ol className="pgx-method" data-testid="project-design-method-steps">
           {DESIGN_METHOD.map((m) => {
             const count = m.rule ? null : atMethod(m.id).length;
+            const preview = m.rule ? null : resolveDesignMethodPanelMedia(g, m.id);
             const body = (
               <>
+                {preview && !m.rule ?
+                  <PanelMediaSlot contract={preview} geometry="TILE" className="pgx-method__thumb" testId={`project-design-step-${m.id}-media`} />
+                : null}
                 <em>{m.id}</em>
                 <b>{m.label}</b>
                 <strong>{count == null ? 'RULE' : count}</strong>

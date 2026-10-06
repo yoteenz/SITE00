@@ -17,9 +17,11 @@ import {
   type ProjectProductionGraph,
   type WorkspaceActionKind,
 } from '../../../../../shared/site00-production-graph/index.js';
+import { resolveBlockerPanelMedia, resolveDecisionPanelMedia, resolveEventPanelMedia, resolveNodePanelMedia } from '../../../../../shared/site00-production-graph/panelMedia.js';
 import { recordWorkspaceAction } from '../../../production/workspaceLedgerStore';
 import { IaChip } from '../iaKit';
 import { agoLabel } from '../primitives';
+import { PanelMediaSlot } from './PanelMediaSlot';
 import '../../../styles/site00-production-project-graph.css';
 
 export const STATUS_WORD: Record<NodeStatus, string> = {
@@ -91,7 +93,7 @@ export function ArtifactMedia({ artifact, className = 'pgx-tile__media' }: { art
 }
 
 export function NodeRow({ node, graph, to, testId }: { node: ProductionNode; graph: ProjectProductionGraph; to?: string | null; testId?: string }) {
-  const preview = node.preview_artifact_id ? (graph.artifacts.find((a) => a.artifact_id === node.preview_artifact_id) ?? null) : null;
+  const media = resolveNodePanelMedia(graph, node);
   const href = to ?? node.route;
   const copy = (
     <span className="pgx-row__copy">
@@ -103,8 +105,8 @@ export function NodeRow({ node, graph, to, testId }: { node: ProductionNode; gra
     </span>
   );
   return (
-    <li className={`pgx-row${preview ? ' pgx-row--media' : ''}`} data-testid={testId ?? 'graph-node-row'} data-node={node.node_id} data-project={node.project_id} data-status={node.status}>
-      {preview ? <ArtifactMedia artifact={preview} className="pgx-row__thumb" /> : null}
+    <li className="pgx-row pgx-row--media" data-testid={testId ?? 'graph-node-row'} data-node={node.node_id} data-project={node.project_id} data-status={node.status}>
+      <PanelMediaSlot contract={media} node={node} className="pgx-row__thumb" testId={`${testId ?? 'graph-node-row'}-media`} />
       {href ? <Link to={href}>{copy}</Link> : copy}
       <span className="pgx-row__side">
         <StatusChip status={node.status} />
@@ -116,8 +118,10 @@ export function NodeRow({ node, graph, to, testId }: { node: ProductionNode; gra
 export function BlockerRow({ blocker, graph }: { blocker: ProductionBlocker; graph: ProjectProductionGraph }) {
   const node = graph.nodes.find((n) => n.node_id === blocker.node_id);
   const upstream = blocker.upstream ? graph.nodes.find((n) => n.node_id === blocker.upstream) : null;
+  const media = resolveBlockerPanelMedia(graph, blocker);
   return (
-    <li className="pgx-row" data-testid="graph-blocker-row" data-node={blocker.node_id} data-project={graph.project_id}>
+    <li className="pgx-row pgx-row--media" data-testid="graph-blocker-row" data-node={blocker.node_id} data-project={graph.project_id}>
+      <PanelMediaSlot contract={media} node={node ?? null} className="pgx-row__thumb" testId="graph-blocker-media" />
       <span className="pgx-row__copy">
         <b>{node?.label ?? blocker.node_id}</b>
         <small>{blocker.reason}</small>
@@ -136,8 +140,13 @@ export function BlockerRow({ blocker, graph }: { blocker: ProductionBlocker; gra
 
 export function EventRow({ event, graph }: { event: ProductionEvent; graph: ProjectProductionGraph }) {
   const node = event.node_id ? graph.nodes.find((n) => n.node_id === event.node_id) : null;
+  const media = resolveEventPanelMedia(graph, event);
+  const showMedia = !!(media.artifact?.url || media.artifact || node);
   return (
-    <li className="pgx-row" data-testid="graph-event-row" data-event={event.event_type} data-project={event.project_id}>
+    <li className={`pgx-row${showMedia ? ' pgx-row--media' : ''}`} data-testid="graph-event-row" data-event={event.event_type} data-project={event.project_id}>
+      {showMedia ?
+        <PanelMediaSlot contract={media} node={node} className="pgx-row__thumb" testId="graph-event-media" />
+      : null}
       <span className="pgx-row__copy">
         <b>{event.title}</b>
         <small>
@@ -207,8 +216,13 @@ export function DecisionActions({ item, projectId }: { item: DecisionItem; proje
 
 export function DecisionRow({ item, graph, to, actions = false }: { item: DecisionItem; graph: ProjectProductionGraph; to: string; actions?: boolean }) {
   const node = graph.nodes.find((n) => n.node_id === item.node_id);
+  const media = resolveDecisionPanelMedia(graph, item);
+  const visual = item.kind === 'AUTHORITY_VERDICT' || item.kind === 'IMPLEMENTATION_ACCEPTANCE' || !!media.artifact;
   return (
-    <li className="pgx-row" data-testid="graph-decision-row" data-item={item.item_id} data-state={item.state} data-project={item.project_id}>
+    <li className={`pgx-row${visual ? ' pgx-row--media' : ''}`} data-testid="graph-decision-row" data-item={item.item_id} data-state={item.state} data-project={item.project_id}>
+      {visual ?
+        <PanelMediaSlot contract={{ ...media, click_target: to }} node={node ?? null} className="pgx-row__thumb" testId="graph-decision-media" />
+      : null}
       <span className="pgx-row__copy">
         <Link to={to}>
           <b>{item.title}</b>
