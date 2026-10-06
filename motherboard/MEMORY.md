@@ -14348,3 +14348,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix shipped:** `run-site00-preview-tunnel.sh` runs cloudflared only when **`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`** in Cloud Secrets on **one** environment; `stop-site00-preview-tunnel-local.sh`; docs `preview-tunnel-multi-connector-2026-10-06.md`; AGENTS.md + `environment.json` notes.
 - **Founder ops:** Set `SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1` on exactly one SITE 00 preview environment; archive idle agents; prune stale connectors in Cloudflare Zero Trust or rotate token.
 - **Verify:** Repeat `curl` public URL — single fingerprint when only one canonical connector remains; local `:5174` + `/tmp/site00-preview-runtime-lineage.txt` for this agent.
+
+---
+
+## 2026-10-06 — preview/tunnel branch + canonical routing (founder request)
+
+- **Context:** Founder wanted one canonical preview tunnel and all agent work (incl. Opus) visible on tunnel — not scattered on `cursor/*` branches / random connectors.
+- **Shipped:** Git branch **`preview/tunnel`** (FF from `main` via `.github/workflows/sync-preview-tunnel-branch.yml` + `sync-preview-tunnel-branch.sh`); worktree authority tracks `origin/preview/tunnel`; `post-merge-preview-tunnel-refresh.sh`; `bootstrap-site00-cloud-preview-runtime.sh` in `environment.json` start; rule `.cursor/rules/preview-tunnel-authority.mdc`; AGENTS.md + shipping.mdc updates.
+- **Ops:** Set **`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`** on **one** Cursor Cloud environment only; trigger environment build so agents stop booting Grok preview from stale snapshot.
+- **Agent contract:** Merge PR to `main` same session → `preview/tunnel` updates → refresh on canonical host.

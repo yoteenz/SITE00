@@ -2,7 +2,7 @@
 # Grok unified review ONLY (branch cursor/grok-plus-environment-unified-review-87ed).
 # Does NOT include project-scoped production workspace (#1404). Founder review: serve-site00-preview-from-main.sh.
 if [[ "${SITE00_PREVIEW_REQUIRE_MAIN:-1}" == "1" ]]; then
-  echo "Refusing grok unified-review preview (SITE00_PREVIEW_REQUIRE_MAIN=1). Use serve-site00-preview-from-main.sh → origin/main." >&2
+  echo "Refusing grok unified-review preview (SITE00_PREVIEW_REQUIRE_MAIN=1). Use serve-site00-preview-from-main.sh → origin/preview/tunnel." >&2
   exit 1
 fi
 set -euo pipefail
