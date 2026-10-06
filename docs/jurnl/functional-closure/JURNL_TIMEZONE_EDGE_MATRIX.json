@@ -1,0 +1,10 @@
+{
+  "zones": [
+    "America/Los_Angeles",
+    "America/New_York",
+    "UTC",
+    "Asia/Kolkata",
+    "Australia/Sydney"
+  ],
+  "status": "PASS"
+}

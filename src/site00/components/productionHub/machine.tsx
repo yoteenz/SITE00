@@ -16,7 +16,7 @@ import type {
   HubScene,
   HubStoryboardFrame,
 } from '../../../../shared/site00-production-hub/types.js';
-import { HubImage } from './HubImage';
+import { HUB_MEDIA, HubImage } from './HubImage';
 import {
   IcArrowD,
   IcArrowL,
@@ -316,7 +316,7 @@ export function ProductionChamber({
       data-environment={envOn ? 'ph.environment.chamber.base' : undefined}
     >
       <div className="ph-chamber__atmo" data-asset-slot="production.hub.chamber.atmosphere" data-asset-state={envOn ? 'filled' : 'missing'}>
-        {atmosphereUrl ? <img src={atmosphereUrl} alt="" draggable={false} data-testid="hub-environment-plate" /> : null}
+        {atmosphereUrl ? <img src={atmosphereUrl} alt="" draggable={false} data-testid="hub-environment-plate" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="HUB_ATMOSPHERE" /> : null}
       </div>
       <ChamberGeometry mode={mode} expanded={expanded} suppressLegacyScenery={envOn} />
       {children}
@@ -429,7 +429,7 @@ export function ProductionNode({
                 <IcWarn width={10} height={10} /> REVIEW REQUIRED
               </span>
             ) : null}
-            <HubImage slotId={node.assetSlotId} url={imageUrl} label={slotLabel} className="ph-node__img" />
+            <HubImage slotId={node.assetSlotId} url={imageUrl} label={slotLabel} className="ph-node__img" {...HUB_MEDIA.nodeChip} />
             {node.status === 'REVIEW_REQUIRED' ? (
               <span className="ph-node__go" aria-hidden>
                 <IcChevR width={14} height={14} />
@@ -507,7 +507,7 @@ export function ArtifactStage({
       </button>
       <div className="ph-artifact__view" {...swipe}>
         <button type="button" className="ph-artifact__hit" onClick={onOpen} aria-label="Expand artifact">
-          <HubImage slotId={frameSlotId} url={frameUrl} label={frames.length ? 'STORYBOARD FRAME' : 'NO STORYBOARD FRAME'} className="ph-artifact__img" />
+          <HubImage slotId={frameSlotId} url={frameUrl} label={frames.length ? 'STORYBOARD FRAME' : 'NO STORYBOARD FRAME'} className="ph-artifact__img" {...HUB_MEDIA.frameCard} />
         </button>
         <button type="button" className="ph-round ph-round--l" onClick={onPrev} disabled={!frames.length} aria-label="Previous frame" data-testid="artifact-prev">
           <IcChevR style={{ transform: 'scaleX(-1)' }} />
@@ -526,7 +526,7 @@ export function ArtifactStage({
             onClick={() => t.frame && onSelectFrame(t.frame.frameId)}
             aria-label={t.frame ? `Frame ${t.frame.number}` : 'Empty frame slot'}
           >
-            <HubImage slotId={t.slotId} url={t.url} label="" className="ph-artifact__timg" />
+            <HubImage slotId={t.slotId} url={t.url} label="" className="ph-artifact__timg" {...HUB_MEDIA.frameChip} />
           </button>
         ))}
       </div>
@@ -577,7 +577,7 @@ export function Filmstrip({
                 if (el && active) el.scrollIntoView({ inline: 'center', block: 'nearest' });
               }}
             >
-              <HubImage slotId={slotFor(n)} url={frame ? urlFor(frame) : null} label="" className="ph-film__img" />
+              <HubImage slotId={slotFor(n)} url={frame ? urlFor(frame) : null} label="" className="ph-film__img" {...HUB_MEDIA.frameChip} />
               <i>{pad(n)}</i>
               {active ? <span className="ph-film__live" aria-hidden /> : null}
             </button>
@@ -659,7 +659,7 @@ export function FlowStack({
                     </em>
                   ) : null}
                 </span>
-                <HubImage slotId={n.assetSlotId} url={urlFor(n)} label={n.label} className="ph-flow__img" />
+                <HubImage slotId={n.assetSlotId} url={urlFor(n)} label={n.label} className="ph-flow__img" {...HUB_MEDIA.nodeCard} />
                 <span className="ph-flow__state">
                   {n.status === 'COMPLETE' ? <small>COMPLETED</small> : n.status === 'ACTIVE' ? <small>IN PROGRESS</small> : n.status === 'NOT_STARTED' ? <small>NOT STARTED</small> : null}
                   {n.status === 'REVIEW_REQUIRED' ? (
@@ -739,7 +739,7 @@ export function DependencyCard({
         <b>{sceneOrder ? `SCENE ${pad(sceneOrder)}` : 'SCENE'}</b>
         <span>{sceneLabel}</span>
       </span>
-      <HubImage slotId={node.assetSlotId} url={url} label={node.label} className="ph-depcard__img" />
+      <HubImage slotId={node.assetSlotId} url={url} label={node.label} className="ph-depcard__img" {...HUB_MEDIA.nodeCard} />
       <span className="ph-depcard__foot">
         <b>{node.label}</b>
         <span>
@@ -815,7 +815,7 @@ export function DependencyNode({
               <span>{node.label}</span>
               <StatusBeacon status={node.status} size={16} />
             </span>
-            <HubImage slotId={node.assetSlotId} url={url} label={slotLabel} className="ph-depnode__img" />
+            <HubImage slotId={node.assetSlotId} url={url} label={slotLabel} className="ph-depnode__img" {...HUB_MEDIA.nodeChip} />
             <span className="ph-depnode__status">{HUB_STATUS_LABEL[node.status]}</span>
             <span className="ph-depnode__detail">{node.statusDetail}</span>
           </>

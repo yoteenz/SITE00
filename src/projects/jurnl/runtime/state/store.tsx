@@ -20,6 +20,7 @@ import {
   subscribeServerSync,
   type ServerSyncState,
 } from '../../data/repository/serverSyncCoordinator';
+import { trackJurnlSafeError } from '../../data/telemetry/errorTelemetry';
 import { resolveJurnlProductionConfig, type JurnlProductionConfig } from '../../data/production/productionConfig';
 import { getSupabase } from '../../../../utils/supabase';
 import {
@@ -263,10 +264,25 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
     return subscribeServerSync((state, detail) => {
       setServerSyncState(state);
       if (state === 'error' && detail) {
+        const expired = detail.toUpperCase().includes('SESSION EXPIRED');
+        if (expired && mode === 'production' && auth.kind === 'SUPABASE') {
+          trackJurnlSafeError('SESSION_EXPIRED', { surface: 'sync' });
+          void getSupabase()?.auth.signOut();
+          setSession({ ...DEFAULT_SESSION });
+          setRepositoryUserId('preview-guest');
+          showToast({
+            tone: 'error',
+            title: 'SESSION ENDED',
+            body: 'SIGN IN AGAIN TO CONTINUE. YOUR LAST SAVE MAY NOT HAVE SYNCED.',
+            testId: 'jurnl-session-expired',
+          });
+          return;
+        }
+        trackJurnlSafeError('SYNC', { message: detail });
         showToast({ tone: 'error', title: 'SAVE FAILED', body: detail, testId: 'jurnl-sync-error' });
       }
     });
-  }, [mode, showToast]);
+  }, [mode, showToast, auth.kind, setSession]);
 
   useEffect(() => {
     if (mode === 'production' && auth.kind === 'SUPABASE') return;
@@ -294,8 +310,16 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
         serverSnap = pulled.snapshot;
       } catch (e) {
         if (String(e).includes('AUTH')) {
+          trackJurnlSafeError('SESSION_EXPIRED', { surface: 'hydrate' });
+          void sb.auth.signOut();
           setSession({ ...DEFAULT_SESSION });
           setRepositoryUserId('preview-guest');
+          showToast({
+            tone: 'error',
+            title: 'SESSION ENDED',
+            body: 'SIGN IN AGAIN TO CONTINUE.',
+            testId: 'jurnl-session-expired',
+          });
           return;
         }
       }
@@ -324,7 +348,7 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
       }
     });
     return () => sub.subscription.unsubscribe();
-  }, [mode, auth.kind, setSession]);
+  }, [mode, auth.kind, setSession, showToast]);
 
   const value = useMemo<Ctx>(
     () => ({

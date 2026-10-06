@@ -14003,6 +14003,42 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — SITE00 production workspace: panel ↔ media geometry (P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2)
+
+- **Context:** Founder live review after REFINEMENT1 (type / density fixed): functional media was still clipped inside panels — EXPRESSION → CASTING AVAILABLE TALENT tiles sliced by a 96px panel, LEAD AUTHORITY a 167×40 strip of the cast node art. Root cause: panels treated as fixed geometry (EXPRESSION phone grids = minmax(0, Nfr) rows; `.exf-fill` previews = flex: 1 1 auto; INBOX / ACTIVITY art = fixed px frames) with cover-by-default media. Founder decision: HUB governs how panels respect their content; functional media is never sacrificed to keep a rigid panel height. No type / route / data / logic change; zero paid generation.
+- **Landed:**
+  1. **Contract** `src/site00/config/production-workspace-media.ts` — 10 media ROLES (asset type → fit, crop policy NONE / FOCAL_SAFE / CROP_SAFE / SLOT_DEFINED, semantic aspect, focal, backdrop, text-overlay rule); SCALES CHIP / TILE / PREVIEW / PLATE (HUB-calibrated legibility); focal contract (center / top / face / subject / custom, region-anchored position); semantic aspects (+ HUB node-art ratios from the receipt ledger, drift-tested); 6 panel media modes; mobile escape order; content priority; INTENTIONAL CROP REGISTRY (the only crops allowed).
+  2. **Primitives** — `workspaceMediaAttrs` / `WorkspaceMediaSlot` / `HubImage` / `Thumb` / EXPRESSION `Img` (role now required, no cover default) / `Mono` (initials keep the portrait slot) emit `data-media-role / -scale / -crop / -focal-region / -guard` + `--pw-media-aspect`; `useWorkspaceCropGuard` contains a declared functional cover that would break its bound in the box it actually got.
+  3. **Geometry (density CSS §8)** — EXPRESSION phone grids holding functional media are content-driven (`data-media-geometry="CONTENT"`), media-led panels take the full row; PREVIEW at its approved aspect; PORTRAIT_GRID ≈3.3 portrait tiles per view; INBOX focus / decision / notice cards + ACTIVITY milestone header = MEDIA_LEAD (whole authority stacked on phones, approved aspect on tablet / desktop); raw images with no-crop roles always contain; tablet / desktop compositions kept.
+  4. **Every media call site declares its role** (HUB / INBOX / ACTIVITY / LIBRARY / EXPRESSION root + 10 families / DESIGN + JURNL chamber / EXPERIENCE); a test scans the call sites.
+  5. **Tablet / desktop MEDIA_LEAD** — INBOX decision / notice cards + ACTIVITY milestone header widen the art column to the PREVIEW floor (240px); tablet decision card moves its side summary to the next row. ACTIVITY attention-card tiles keep the TILE floor on phones.
+  6. **HUB = authority control group** — machine view declares roles (data attributes only, `HUB_MEDIA`); HUB crop classes registered (`HUB_MACHINE_FRAME`, `HUB_ATMOSPHERE`); HUB measured but reported separately; pixel diff vs main 0% (root + machine view, 5 widths).
+  7. **Tooling** `scripts/production-workspace/media-geometry-{routes,audit,report,stress,board,artifacts,qa-report}` — live visible-source-window audit (fit + transforms + clipping + pane fit + focal + legibility + distortion) over 85 routes × 5 widths; audit writes after every route and retries a route once on a page reload.
+- **Measured (workspace, 2769 element × viewport measurements, same final contract both sides):** functional crop failures 194 → 0; unintentional crops 166 → 0; fixed-panel / media conflicts 91 → 0; UI 15 → 0; logo 7 → 0; authority 90 → 0; legibility 56 → 0; unclassified 2769 → 0; distortion 0; overflow 0. Stress 195/195. Typography: 5063 text nodes, 0 changed. Full vitest: 106 failures, identical set on main, 0 new. HUB control: 8 machine-view node glyphs at 360px (13–14px, HUB's own) below the 16px CHIP floor — unchanged by rule.
+- **Durable rules (motherboard):**
+  1. FUNCTIONAL MEDIA INFLUENCES PANEL GEOMETRY.
+  2. PANELS DO NOT FORCE FUNCTIONAL MEDIA INTO ARBITRARY HEIGHTS.
+  3. MEDIA MODE MUST BE EXPLICIT BY ASSET TYPE (data-media-role at every call site).
+  4. DECORATIVE ART MAY CROP (registered).
+  5. FUNCTIONAL THUMBNAILS MAY NOT CROP UNLESS THE CONTRACT EXPLICITLY ALLOWS IT (WORKSPACE_INTENTIONAL_CROPS; not registered = failure).
+  6. MOBILE MAY STACK OR GROW PANELS RATHER THAN DESTROY MEDIA LEGIBILITY (escape order: grow → stack → taller slot → fewer columns → next row → detail view; never crop harder / shrink / hide overflow).
+  7. ASSET FOCAL INTEGRITY IS PART OF RESPONSIVE QA (focal region in the visible window, live audit + stress test).
+  8. "CONTAINED" IS NOT ENOUGH; MEDIA MUST ALSO BE VISUALLY USEFUL (HUB-calibrated legibility per scale; previews ≥120px or the full row).
+- **Gotchas (cont.):** a dev-server restart reloads every open page (Vite client) — long Playwright audits must persist per route and retry; vitest writes tracked proof / ledger files (CREATIVE-DIRECTOR proof markup, F03 / F05 generation ledgers) — restore them, never commit them with a sprint.
+- **Gotchas:** (a) object-position = the focal point loses edge-touching regions (a face near the top) — anchor each axis at r0 / (1 − h); (b) whether a cover is safe depends on the box it actually gets, not on the slot's nominal aspect — guard at runtime (contain fallback), never size panels from source pixels; (c) EXPRESSION `minmax(0, fr)` rows crush media AND slice chip rows — content-driven on phones whenever a panel declares media; (d) a 1px sub-pixel overflow activates the scroll-edge fade — content-sized panel bodies are not scroll panes; (e) audit: clipping by ancestors outside a scrolling pane is not a crop, and a position: fixed box escapes ancestor overflow (HUB machine view); the audit JSON `viewport` key gets clobbered by page data — use `viewport_px`.
+
+---
+
+## 2026-10-06 — JURNL functional closure + launch hardening 1 (P0.JURNL.FUNCTIONAL-CLOSURE-AND-LAUNCH-HARDENING1)
+
+- **Context:** After Waves 0–5, full-product E2E, production hardening, and live RLS/sync unblock, founder sprint to close remaining **functional / QA partials** only — **visual design frozen**, no paid generation, no new feature wave.
+- **Landed:** Session expiry on production sync (`SESSION EXPIRED` → sign-out + toast, safe error telemetry); `errorTelemetry.ts` redaction; F16 `uploadGuard.ts` (metadata-only); timezone + upload + telemetry unit tests; Playwright **834×1194 tablet** project (Desktop Chrome viewport, not WebKit); `@axe-core/playwright` core-route a11y gate; TODAY/ACTIVITY list semantics fix (`ul`/`li` for MOVED + activity ledger — 0 critical axe on today); CI workflow `jurnl-functional-closure.yml` + `npm run jurnl:functional-closure`; 13 artifacts under `docs/jurnl/functional-closure/`; wave5 E2E result writer fix (merge Playwright `unexpected` into gate PASS).
+- **Gates (local):** full product E2E **PASS** (144 tests × mobile/tablet/desktop); production hardening E2E **PASS**; live RLS/sync **REUSED_VALID_PROOF** (`JURNL_LIVE_PROOF_REUSE=1` until QA secrets + green live workflow). **FUNCTIONAL_CLOSED: YES** with non-blocking deferred: live proof rerun, full screen-reader audit, remote F16 blob upload.
+- **Founder follow-up:** Add four `JURNL_QA_USER_*` GitHub secrets; apply `20261006103000_jurnl_production_persistence.sql` on Supabase if not applied; re-run **JURNL Live RLS & Production Sync Proof**; cPanel deploy after merge.
+- **Do not regress:** F01–F16 contracts, STS ownership, RLS, device/server merge, zero no-ops / broken interactions; no visual redesign until Visual Authority Development Gate is proven.
+
+---
+
 ## 2026-10-06 — AIO IFTA authority bundle ingest + page / tab / state tree proof (P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1)
 
 - **What the founder did:** the founder and ChatGPT manually ran the authority pipeline for AIO IFTA. They locked the client parent authority, derived three actor modes, derived tablet and desktop per mode, and wrote a page / component / interaction contract and an icon / asset sheet. They then locked the package `AIO_IFTA_AUTHORITY_BUNDLE_LEAN.zip`.

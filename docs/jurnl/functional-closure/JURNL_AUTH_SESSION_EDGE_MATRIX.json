@@ -1,0 +1,8 @@
+{
+  "login": "PASS",
+  "logout": "PASS",
+  "session_restore": "PASS",
+  "session_expiry": "PASS",
+  "invalid_token": "PASS",
+  "sync_auth_failure_signout": "PASS"
+}

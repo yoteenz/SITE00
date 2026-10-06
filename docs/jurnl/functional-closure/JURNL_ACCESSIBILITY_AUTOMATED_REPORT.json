@@ -1,0 +1,14 @@
+{
+  "tool": "axe-core/playwright",
+  "critical": 0,
+  "serious": 0,
+  "routes": [
+    "today",
+    "money",
+    "plan",
+    "safe",
+    "goals",
+    "records",
+    "account"
+  ]
+}

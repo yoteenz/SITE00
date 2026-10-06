@@ -1,0 +1,368 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2",
+  "name": "WorkspaceIntentionalCropRegistry",
+  "rule": "IF A CROP IS NOT IN THIS REGISTRY: IT IS A FAILURE. No-crop roles (UI / logo / document / other functional) can never be registered.",
+  "source": "src/site00/config/production-workspace-media.ts (WORKSPACE_INTENTIONAL_CROPS); call sites carry data-media-crop",
+  "entries": [
+    {
+      "id": "HERO_PLATE_BAND",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "WIDE_SCENE_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [
+        "[data-media-slot='HERO_PLATE']"
+      ],
+      "reason": "Hero / atmosphere bands follow the HUB hero band (--hero-h): composition, not information; copy sits on a wash.",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "HUB hero grammar (.hubx-hero)",
+      "measuredAfter": {
+        "crops": 315,
+        "routes": 63,
+        "minVisibleAxisMeasured": 0.185,
+        "failures": 0
+      }
+    },
+    {
+      "id": "LIBRARY_PLATE",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [],
+      "reason": "Library category / lineage covers use the abstract red-geometry library plates (no subject) — composition only; real records carry their own node art.",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "LIBRARY authority (production-library-red-geometry plates)",
+      "measuredAfter": {
+        "crops": 432,
+        "routes": 9,
+        "minVisibleAxisMeasured": 0.592,
+        "failures": 0
+      }
+    },
+    {
+      "id": "STAGE_FLOOR_CROP",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "WIDE_SCENE_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [],
+      "reason": "EXPRESSION floors with no node art frame their own part of the one stage plate (art-directed --pw-focal per floor).",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "EXPRESSION root authority (stage floors)",
+      "measuredAfter": {
+        "crops": 0,
+        "routes": 0,
+        "minVisibleAxisMeasured": null,
+        "failures": 0
+      }
+    },
+    {
+      "id": "DESIGN_CHAMBER_ART",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "WIDE_SCENE_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [
+        ".pxa-chamber__atrium-art",
+        ".pxa-core"
+      ],
+      "reason": "DESIGN chamber atmosphere (atrium / corridor plate, project core): the room the floating panels sit in.",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "DESIGN chamber authority (approved production world)",
+      "measuredAfter": {
+        "crops": 40,
+        "routes": 8,
+        "minVisibleAxisMeasured": 0.445,
+        "failures": 0
+      }
+    },
+    {
+      "id": "DESIGN_CHAMBER_MINIATURE",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "AUTHORITY_PREVIEW_COVER",
+        "THUMBNAIL_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [
+        ".pxa-vis",
+        ".pxa-panel__viswrap",
+        ".pxa-overview-panel__strip"
+      ],
+      "reason": "Miniatures inside the floating chamber panels (board strips, swatches, device outlines, authority strips) illustrate what each panel holds — 12–80px composition, never the inspectable object. The boards / screens themselves are inspected in DESIGN → ASSETS / VIEWPORT and the project inspector.",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "DESIGN chamber authority — re-reviewed: the 23 prior \"decorative-art\" chamber crops are all of this class and stay intentional",
+      "measuredAfter": {
+        "crops": 293,
+        "routes": 7,
+        "minVisibleAxisMeasured": 0.067,
+        "failures": 0
+      }
+    },
+    {
+      "id": "DESIGN_TABLE_PLATE",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "LANDSCAPE_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [
+        ".pxa-tcard__img:not(.pxa-pf-tcard__img)"
+      ],
+      "reason": "ON YOUR TABLE cards carry an illustrative plate, reused across items (the same row plate illustrates BRAND APPLICATIONS, STATE FAMILY, MOBILE EXPRESSION, SAFE AREA CHECK) — not the reviewed object, which opens in the workspace.",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "designChamberConfig table plates (PW_IMG.designRows)",
+      "measuredAfter": {
+        "crops": 107,
+        "routes": 7,
+        "minVisibleAxisMeasured": 0.136,
+        "failures": 0
+      }
+    },
+    {
+      "id": "OVERVIEW_BACKDROP",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "WIDE_SCENE_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [
+        ".pxa-pf-overview__art img"
+      ],
+      "reason": "Project overview panel backdrop: the parent authority framed behind the lede (art-directed, gradient-washed); the screen itself is inspected whole in the project inspector and the live viewport.",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "Project-family chamber overview grammar",
+      "measuredAfter": {
+        "crops": 5,
+        "routes": 1,
+        "minVisibleAxisMeasured": 0.36,
+        "failures": 0
+      }
+    },
+    {
+      "id": "EXPERIENCE_WORLD_CROP",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "WIDE_SCENE_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [
+        ".pw-plate",
+        ".pw-scroll__hero"
+      ],
+      "reason": "Each EXPERIENCE sub-workspace frames a different part of the one Experience world plate (art-directed WORLD_CROP zoom + focal).",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "ExperienceProductionShellPage WORLD_CROP",
+      "measuredAfter": {
+        "crops": 35,
+        "routes": 7,
+        "minVisibleAxisMeasured": 0.384,
+        "failures": 0
+      }
+    },
+    {
+      "id": "NODE_ART_CHIP",
+      "role": "REFERENCE_AUTHORITY",
+      "fits": [
+        "THUMBNAIL_COVER",
+        "LANDSCAPE_COVER",
+        "PORTRAIT_COVER"
+      ],
+      "scales": [
+        "CHIP"
+      ],
+      "where": [],
+      "reason": "Node art as an identification chip inside a row (ops / feed / activity / library rows). The whole node art stays inspectable on its node and authority preview.",
+      "minVisibleAxis": 0.28,
+      "focal": "POINT",
+      "authority": "HUB ops / feed row thumbs (--op-thumb) — authority crop metadata: CROP_SAFE at chip scale",
+      "measuredAfter": {
+        "crops": 444,
+        "routes": 24,
+        "minVisibleAxisMeasured": 0.284,
+        "failures": 0
+      }
+    },
+    {
+      "id": "NODE_ART_CARD",
+      "role": "REFERENCE_AUTHORITY",
+      "fits": [
+        "THUMBNAIL_COVER",
+        "LANDSCAPE_COVER",
+        "PORTRAIT_COVER"
+      ],
+      "scales": [
+        "TILE"
+      ],
+      "where": [],
+      "reason": "Node art framing a card / strip (HUB feature + entry cards, library strips, decision cards): the centre region stays in frame and at least half of each axis shows.",
+      "minVisibleAxis": 0.5,
+      "focal": "REGION",
+      "authority": "HUB feature / entry card media (--feature-h, --entry-img)",
+      "measuredAfter": {
+        "crops": 320,
+        "routes": 13,
+        "minVisibleAxisMeasured": 0.498,
+        "failures": 0
+      }
+    },
+    {
+      "id": "HUB_MACHINE_FRAME",
+      "role": "VIDEO_FRAME",
+      "fits": [
+        "THUMBNAIL_COVER",
+        "LANDSCAPE_COVER"
+      ],
+      "scales": [
+        "CHIP",
+        "TILE"
+      ],
+      "where": [
+        ".ph-artifact__img",
+        ".ph-artifact__timg",
+        ".ph-film__img",
+        ".ph-auth__img",
+        ".ph-cmp__img"
+      ],
+      "reason": "HUB machine view: storyboard frames sit in HUB’s own artifact / filmstrip / authority cells (portrait and square cells around 16:10 frames). HUB is the media authority and is not changed; the whole frame opens in the HUB lightbox (contained).",
+      "minVisibleAxis": 0.5,
+      "focal": "REGION",
+      "authority": "HUB machine view (.ph-artifact / .ph-film / .ph-auth) — authority, unchanged",
+      "measuredAfter": {
+        "crops": 140,
+        "routes": 2,
+        "minVisibleAxisMeasured": 0.562,
+        "failures": 0
+      }
+    },
+    {
+      "id": "HUB_ATMOSPHERE",
+      "role": "DECORATIVE_ART",
+      "fits": [
+        "WIDE_SCENE_COVER"
+      ],
+      "scales": [
+        "PLATE"
+      ],
+      "where": [
+        ".ph-chamber__atmo"
+      ],
+      "reason": "HUB machine chamber atmosphere plate behind the machine — composition, not information.",
+      "minVisibleAxis": 0,
+      "focal": "NONE",
+      "authority": "HUB machine view (.ph-chamber__atmo) — authority, unchanged",
+      "measuredAfter": {
+        "crops": 10,
+        "routes": 2,
+        "minVisibleAxisMeasured": 0.449,
+        "failures": 0
+      }
+    },
+    {
+      "id": "PORTRAIT_FACE_SAFE",
+      "role": "PORTRAIT",
+      "fits": [
+        "PORTRAIT_COVER"
+      ],
+      "scales": [
+        "CHIP",
+        "TILE",
+        "PREVIEW"
+      ],
+      "where": [],
+      "reason": "Portraits fill their portrait slot with the face, head and hair silhouette (face region) in frame — never a letterbox strip.",
+      "minVisibleAxis": 0.5,
+      "focal": "REGION",
+      "authority": "PORTRAIT role contract (focal: face)",
+      "measuredAfter": {
+        "crops": 0,
+        "routes": 0,
+        "minVisibleAxisMeasured": null,
+        "failures": 0
+      }
+    },
+    {
+      "id": "SCENE_SUBJECT_SAFE",
+      "role": "LANDSCAPE_EDITORIAL",
+      "fits": [
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER",
+        "WIDE_SCENE_COVER"
+      ],
+      "scales": [
+        "CHIP",
+        "TILE",
+        "PREVIEW"
+      ],
+      "where": [],
+      "reason": "Scene / environment imagery may cover while the subject region stays visible and at least half of each axis shows.",
+      "minVisibleAxis": 0.5,
+      "focal": "REGION",
+      "authority": "LANDSCAPE_EDITORIAL role contract (focal: subject)",
+      "measuredAfter": {
+        "crops": 0,
+        "routes": 0,
+        "minVisibleAxisMeasured": null,
+        "failures": 0
+      }
+    },
+    {
+      "id": "FRAME_TRIM",
+      "role": "VIDEO_FRAME",
+      "fits": [
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER"
+      ],
+      "scales": [
+        "CHIP",
+        "TILE"
+      ],
+      "where": [],
+      "reason": "A frame may lose at most a 12% trim to sit in its tile; otherwise it is contained on a dark ground.",
+      "minVisibleAxis": 0.88,
+      "focal": "REGION",
+      "authority": "VIDEO_FRAME role contract",
+      "measuredAfter": {
+        "crops": 0,
+        "routes": 0,
+        "minVisibleAxisMeasured": null,
+        "failures": 0
+      }
+    }
+  ],
+  "previousClassificationReview": {
+    "designDecorativeArtCrops23": "Re-reviewed live: all are DESIGN chamber miniatures (board strips, swatches, device outlines inside the floating panels) or chamber atmosphere — composition, 12–80px, never the inspectable object. Kept as DESIGN_CHAMBER_MINIATURE / DESIGN_CHAMBER_ART. Two classes were NOT decorative and are now fixed: the JURNL table cards (approved F01 screens → UI_SCREENSHOT, contained) and the DESIGN overview mark (LOGO_MARK, was clipped ≈10% on tablet / desktop).",
+    "fadedScrollEdgeFrames4": "Re-reviewed: the scroll-edge fade only masks a pane while it overflows. On phones, EXPRESSION grids holding media are now content-driven, so those panes no longer overflow and the fade is inactive there; it remains intentional for long text / list panes (it never hides a whole media item — PANE_SLICE = 0).",
+    "undeclaredCropsBefore": 166
+  }
+}

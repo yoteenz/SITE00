@@ -15,6 +15,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import type { WorkspaceMediaSlotType } from '../../config/production-workspace-density';
+import { workspaceAssetAspect } from '../../config/production-workspace-media';
 import type { HubNode, HubNodeId } from '../../../../shared/site00-production-hub/index.js';
 import { productionExpressionPath, productionWorkspacePath } from '../../../../shared/site00-production-workspace/routes.js';
 import { useProductionRequests } from '../../state/productionRequestStore';
@@ -76,7 +77,23 @@ function Art({
   className?: string;
   slot?: WorkspaceMediaSlotType;
 }) {
-  return <Thumb slotId={o.slot} url={url(o.slot)} label="" className={`ibx-art ${className}`} slot={slot} />;
+  // node art: an identification CHIP in rows, rails and the ≈56–70px incoming cards (HUB entry-strip scale), the whole
+  // authority (PREVIEW, approved aspect) on focus / decision cards
+  const scale = slot === 'PORTRAIT' ? 'PREVIEW' : 'CHIP';
+  return (
+    <Thumb
+      slotId={o.slot}
+      url={url(o.slot)}
+      label=""
+      className={`ibx-art ${className}`}
+      slot={slot}
+      role="REFERENCE_AUTHORITY"
+      scale={scale}
+      fit={scale === 'CHIP' ? (slot === 'CARD_MEDIA' ? 'LANDSCAPE_COVER' : 'THUMBNAIL_COVER') : undefined}
+      crop={scale === 'CHIP' ? 'NODE_ART_CHIP' : undefined}
+      aspect={workspaceAssetAspect(o.slot) ?? undefined}
+    />
+  );
 }
 const Chip = ({ tone, children, testId }: { tone: string; children: ReactNode; testId?: string }) => (
   <span className={`ibx-chip ibx-chip--${tone}`} data-testid={testId}>
@@ -492,7 +509,7 @@ function BlockersApprovals({ objects, data }: { objects: InboxObject[]; data: Da
 function FocusCard({ o, url, actions }: { o: InboxObject; url: Url; actions: Actions }) {
   const ok = actions.canDecide(o);
   return (
-    <article className="ibx-focus" data-testid="inbox-focus" data-type={o.type} data-state={o.state}>
+    <article className="ibx-focus" data-panel-media="MEDIA_LEAD" data-testid="inbox-focus" data-type={o.type} data-state={o.state}>
       <Art o={o} url={url} className="ibx-focus__art" slot="PORTRAIT" />
       <div className="ibx-focus__body">
         <Facts
@@ -946,7 +963,7 @@ function Attachments({ nodes, url, onOpen, testId }: { nodes: HubNode[]; url: Ur
       <div className="ibx-attach__rail">
         {nodes.map((n) => (
           <button key={n.id} type="button" onClick={() => onOpen(n)} data-testid={`${testId}-item`}>
-            <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" slot="STRIP_THUMB" />
+            <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" slot="STRIP_THUMB" fit="THUMBNAIL_COVER" role="REFERENCE_AUTHORITY" scale="TILE" crop="NODE_ART_CARD" />
             <span>
               <b>{n.label}</b>
               <small>{n.status.replace(/_/g, ' ')}</small>
@@ -962,7 +979,7 @@ function Preview({ node, url, onClose }: { node: HubNode; url: Url; onClose: () 
   return (
     <Sheet title={node.label} onClose={onClose} testId="inbox-attachment-preview" wide>
       <div className="ibx-preview">
-        <Thumb slotId={node.assetSlotId} url={url(node.assetSlotId)} label="" className="ibx-preview__art" />
+        <Thumb slotId={node.assetSlotId} url={url(node.assetSlotId)} label="" className="ibx-preview__art" role="REFERENCE_AUTHORITY" scale="PREVIEW" aspect={workspaceAssetAspect(node.assetSlotId) ?? undefined} />
         <Facts
           rows={[
             ['STAGE', node.label],
@@ -1018,7 +1035,7 @@ function DecisionDetail({ o, data, url, actions }: { o: InboxObject | null; data
         </span>
       </header>
       <div className="ibx-dgrid">
-        <section className="ibx-dcard" data-testid="inbox-detail-card">
+        <section className="ibx-dcard" data-panel-media="MEDIA_LEAD" data-testid="inbox-detail-card">
           <Art o={o} url={url} className="ibx-dcard__art" slot="PORTRAIT" />
           <Facts
             rows={[
@@ -1172,7 +1189,7 @@ function NoticeDetail({ o, data, url }: { o: InboxObject | null; data: Data; url
         </p>
       </header>
       <div className="ibx-dgrid ibx-dgrid--notice">
-        <section className="ibx-dcard" data-testid="inbox-notice-card">
+        <section className="ibx-dcard" data-panel-media="MEDIA_LEAD" data-testid="inbox-notice-card">
           <Art o={o} url={url} className="ibx-dcard__art" slot="PORTRAIT" />
           <Facts
             rows={[
@@ -1192,7 +1209,7 @@ function NoticeDetail({ o, data, url }: { o: InboxObject | null; data: Data; url
           <ol>
             {chain.map((n) => (
               <li key={n.id} className={n.id === node?.id ? 'is-self' : undefined} data-status={n.status}>
-                <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" slot="STRIP_THUMB" />
+                <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" slot="STRIP_THUMB" fit="THUMBNAIL_COVER" role="REFERENCE_AUTHORITY" scale="CHIP" crop="NODE_ART_CHIP" />
                 <span>
                   <small>{n.label}</small>
                   <b>{n.status.replace(/_/g, ' ')}</b>

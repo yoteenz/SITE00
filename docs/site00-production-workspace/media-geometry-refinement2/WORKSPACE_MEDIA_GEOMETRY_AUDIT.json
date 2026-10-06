@@ -1,0 +1,1836 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2",
+  "method": "live browser (Playwright, Chromium): every img / video / CSS background image (+ missing-asset slots) in the workspace body of every route and viewport — visible source window after object-fit / background-size / position / transforms / clipping ancestors, pane fit of the media unit, legibility, focal region, distortion, text overlay. Undeclared media are judged by what the contract would accept (role / scale / crop class inferred from the asset).",
+  "viewports": {
+    "mobile": "393×852",
+    "small": "360×800",
+    "large": "430×932",
+    "tablet": "834×1194",
+    "desktop": "1440×900"
+  },
+  "routes": {
+    "before": {
+      "rootTabs": 7,
+      "childPagesAudited": 78,
+      "childPagesWithMedia": 75
+    },
+    "after": {
+      "rootTabs": 7,
+      "childPagesAudited": 78,
+      "childPagesWithMedia": 75
+    }
+  },
+  "scope": "totals / byViewport = the six workspace tabs HUB governs. HUB itself (root + machine view) is the media authority the contract is calibrated from and is not changed by this sprint: it is measured and declared like every tab and reported as hubAuthority (control), with its pixel diff in the QA totals.",
+  "totals": {
+    "before": {
+      "elements": 2769,
+      "functional": 1208,
+      "decorative": 1561,
+      "unclassified": 2769,
+      "cropped": 2112,
+      "intentionalCrops": 1946,
+      "unintentionalCrops": 166,
+      "functionalMediaCropFailures": 194,
+      "fixedPanelMediaConflicts": 91,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 15,
+      "logoCropFailures": 7,
+      "authorityPreviewCropFailures": 90,
+      "documentCropFailures": 0,
+      "legibility": 56,
+      "textOverlay": 0,
+      "failing": 243
+    },
+    "after": {
+      "elements": 2769,
+      "functional": 1128,
+      "decorative": 1641,
+      "unclassified": 0,
+      "cropped": 1876,
+      "intentionalCrops": 1876,
+      "unintentionalCrops": 0,
+      "functionalMediaCropFailures": 0,
+      "fixedPanelMediaConflicts": 0,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 0,
+      "logoCropFailures": 0,
+      "authorityPreviewCropFailures": 0,
+      "documentCropFailures": 0,
+      "legibility": 0,
+      "textOverlay": 0,
+      "failing": 0
+    }
+  },
+  "hubAuthority": {
+    "before": {
+      "elements": 270,
+      "functional": 255,
+      "decorative": 15,
+      "unclassified": 270,
+      "cropped": 265,
+      "intentionalCrops": 265,
+      "unintentionalCrops": 0,
+      "functionalMediaCropFailures": 0,
+      "fixedPanelMediaConflicts": 9,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 0,
+      "logoCropFailures": 0,
+      "authorityPreviewCropFailures": 0,
+      "documentCropFailures": 0,
+      "legibility": 9,
+      "textOverlay": 0,
+      "failing": 9,
+      "deviations": [
+        {
+          "viewport": "small",
+          "route": "hub-machine",
+          "ctx": "hub-node-narrative",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 139.1,
+            "w": 54.2,
+            "h": 13.8
+          },
+          "minAxis": 0.562,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine",
+          "ctx": "hub-node-cast",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 190,
+            "w": 54.2,
+            "h": 13.3
+          },
+          "minAxis": 0.604,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine",
+          "ctx": "hub-node-look",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 239.9,
+            "w": 54.2,
+            "h": 14.4
+          },
+          "minAxis": 0.684,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine",
+          "ctx": "hub-node-performance",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 273.8,
+            "y": 139.3,
+            "w": 53.9,
+            "h": 13.8
+          },
+          "minAxis": 0.394,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-narrative",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 139.1,
+            "w": 54.2,
+            "h": 13.8
+          },
+          "minAxis": 0.562,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-cast",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 190,
+            "w": 54.2,
+            "h": 13.3
+          },
+          "minAxis": 0.604,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-look",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 239.9,
+            "w": 54.2,
+            "h": 14.4
+          },
+          "minAxis": 0.684,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-performance",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 273.8,
+            "y": 139.3,
+            "w": 53.9,
+            "h": 13.8
+          },
+          "minAxis": 0.394,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "tablet",
+          "route": "hub",
+          "ctx": "hub-entry-active",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "box": {
+            "x": 437.5,
+            "y": 322.1,
+            "w": 59.1,
+            "h": 43.7
+          },
+          "minAxis": 0.926,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "elements": 270,
+      "functional": 255,
+      "decorative": 15,
+      "unclassified": 0,
+      "cropped": 265,
+      "intentionalCrops": 265,
+      "unintentionalCrops": 0,
+      "functionalMediaCropFailures": 0,
+      "fixedPanelMediaConflicts": 8,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 0,
+      "logoCropFailures": 0,
+      "authorityPreviewCropFailures": 0,
+      "documentCropFailures": 0,
+      "legibility": 8,
+      "textOverlay": 0,
+      "failing": 8,
+      "deviations": [
+        {
+          "viewport": "small",
+          "route": "hub-machine",
+          "ctx": "hub-node-narrative",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 139.1,
+            "w": 54.2,
+            "h": 13.8
+          },
+          "minAxis": 0.562,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine",
+          "ctx": "hub-node-cast",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 190,
+            "w": 54.2,
+            "h": 13.3
+          },
+          "minAxis": 0.604,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine",
+          "ctx": "hub-node-look",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 239.9,
+            "w": 54.2,
+            "h": 14.4
+          },
+          "minAxis": 0.684,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine",
+          "ctx": "hub-node-performance",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 273.8,
+            "y": 139.3,
+            "w": 53.9,
+            "h": 13.8
+          },
+          "minAxis": 0.394,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-narrative",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 139.1,
+            "w": 54.2,
+            "h": 13.8
+          },
+          "minAxis": 0.562,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-cast",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 190,
+            "w": 54.2,
+            "h": 13.3
+          },
+          "minAxis": 0.604,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-look",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 24,
+            "y": 239.9,
+            "w": 54.2,
+            "h": 14.4
+          },
+          "minAxis": 0.684,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        },
+        {
+          "viewport": "small",
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-performance",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "box": {
+            "x": 273.8,
+            "y": 139.3,
+            "w": 53.9,
+            "h": 13.8
+          },
+          "minAxis": 0.394,
+          "codes": [
+            "LEGIBILITY"
+          ]
+        }
+      ]
+    }
+  },
+  "allTotals": {
+    "before": {
+      "elements": 3039,
+      "functional": 1463,
+      "decorative": 1576,
+      "unclassified": 3039,
+      "cropped": 2377,
+      "intentionalCrops": 2211,
+      "unintentionalCrops": 166,
+      "functionalMediaCropFailures": 194,
+      "fixedPanelMediaConflicts": 100,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 15,
+      "logoCropFailures": 7,
+      "authorityPreviewCropFailures": 90,
+      "documentCropFailures": 0,
+      "legibility": 65,
+      "textOverlay": 0,
+      "failing": 252
+    },
+    "after": {
+      "elements": 3039,
+      "functional": 1383,
+      "decorative": 1656,
+      "unclassified": 0,
+      "cropped": 2141,
+      "intentionalCrops": 2141,
+      "unintentionalCrops": 0,
+      "functionalMediaCropFailures": 0,
+      "fixedPanelMediaConflicts": 8,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 0,
+      "logoCropFailures": 0,
+      "authorityPreviewCropFailures": 0,
+      "documentCropFailures": 0,
+      "legibility": 8,
+      "textOverlay": 0,
+      "failing": 8
+    }
+  },
+  "byViewport": {
+    "before": {
+      "desktop": {
+        "elements": 576,
+        "functional": 253,
+        "decorative": 323,
+        "unclassified": 576,
+        "cropped": 449,
+        "intentionalCrops": 417,
+        "unintentionalCrops": 32,
+        "functionalMediaCropFailures": 32,
+        "fixedPanelMediaConflicts": 6,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 3,
+        "logoCropFailures": 6,
+        "authorityPreviewCropFailures": 12,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 32
+      },
+      "large": {
+        "elements": 539,
+        "functional": 234,
+        "decorative": 305,
+        "unclassified": 539,
+        "cropped": 403,
+        "intentionalCrops": 373,
+        "unintentionalCrops": 30,
+        "functionalMediaCropFailures": 39,
+        "fixedPanelMediaConflicts": 26,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 3,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 16,
+        "documentCropFailures": 0,
+        "legibility": 17,
+        "textOverlay": 0,
+        "failing": 54
+      },
+      "mobile": {
+        "elements": 539,
+        "functional": 234,
+        "decorative": 305,
+        "unclassified": 539,
+        "cropped": 403,
+        "intentionalCrops": 374,
+        "unintentionalCrops": 29,
+        "functionalMediaCropFailures": 38,
+        "fixedPanelMediaConflicts": 28,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 3,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 15,
+        "documentCropFailures": 0,
+        "legibility": 19,
+        "textOverlay": 0,
+        "failing": 55
+      },
+      "small": {
+        "elements": 539,
+        "functional": 234,
+        "decorative": 305,
+        "unclassified": 539,
+        "cropped": 403,
+        "intentionalCrops": 364,
+        "unintentionalCrops": 39,
+        "functionalMediaCropFailures": 49,
+        "fixedPanelMediaConflicts": 30,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 3,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 26,
+        "documentCropFailures": 0,
+        "legibility": 20,
+        "textOverlay": 0,
+        "failing": 66
+      },
+      "tablet": {
+        "elements": 576,
+        "functional": 253,
+        "decorative": 323,
+        "unclassified": 576,
+        "cropped": 454,
+        "intentionalCrops": 418,
+        "unintentionalCrops": 36,
+        "functionalMediaCropFailures": 36,
+        "fixedPanelMediaConflicts": 1,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 3,
+        "logoCropFailures": 1,
+        "authorityPreviewCropFailures": 21,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 36
+      }
+    },
+    "after": {
+      "desktop": {
+        "elements": 576,
+        "functional": 237,
+        "decorative": 339,
+        "unclassified": 0,
+        "cropped": 402,
+        "intentionalCrops": 402,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "large": {
+        "elements": 539,
+        "functional": 218,
+        "decorative": 321,
+        "unclassified": 0,
+        "cropped": 362,
+        "intentionalCrops": 362,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "mobile": {
+        "elements": 539,
+        "functional": 218,
+        "decorative": 321,
+        "unclassified": 0,
+        "cropped": 363,
+        "intentionalCrops": 363,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "small": {
+        "elements": 539,
+        "functional": 218,
+        "decorative": 321,
+        "unclassified": 0,
+        "cropped": 353,
+        "intentionalCrops": 353,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "tablet": {
+        "elements": 576,
+        "functional": 237,
+        "decorative": 339,
+        "unclassified": 0,
+        "cropped": 396,
+        "intentionalCrops": 396,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      }
+    }
+  },
+  "byTab": {
+    "before": {
+      "HUB": {
+        "elements": 270,
+        "functional": 255,
+        "decorative": 15,
+        "unclassified": 270,
+        "cropped": 265,
+        "intentionalCrops": 265,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 9,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 9,
+        "textOverlay": 0,
+        "failing": 9
+      },
+      "INBOX": {
+        "elements": 90,
+        "functional": 90,
+        "decorative": 0,
+        "unclassified": 90,
+        "cropped": 88,
+        "intentionalCrops": 72,
+        "unintentionalCrops": 16,
+        "functionalMediaCropFailures": 17,
+        "fixedPanelMediaConflicts": 1,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 17,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 17
+      },
+      "DESIGN": {
+        "elements": 850,
+        "functional": 125,
+        "decorative": 725,
+        "unclassified": 850,
+        "cropped": 467,
+        "intentionalCrops": 445,
+        "unintentionalCrops": 22,
+        "functionalMediaCropFailures": 22,
+        "fixedPanelMediaConflicts": 52,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 15,
+        "logoCropFailures": 7,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 45,
+        "textOverlay": 0,
+        "failing": 67
+      },
+      "EXPERIENCE": {
+        "elements": 75,
+        "functional": 0,
+        "decorative": 75,
+        "unclassified": 75,
+        "cropped": 75,
+        "intentionalCrops": 75,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "EXPRESSION": {
+        "elements": 602,
+        "functional": 397,
+        "decorative": 205,
+        "unclassified": 602,
+        "cropped": 421,
+        "intentionalCrops": 320,
+        "unintentionalCrops": 101,
+        "functionalMediaCropFailures": 128,
+        "fixedPanelMediaConflicts": 34,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 46,
+        "documentCropFailures": 0,
+        "legibility": 7,
+        "textOverlay": 0,
+        "failing": 128
+      },
+      "LIBRARY": {
+        "elements": 882,
+        "functional": 351,
+        "decorative": 531,
+        "unclassified": 882,
+        "cropped": 792,
+        "intentionalCrops": 774,
+        "unintentionalCrops": 18,
+        "functionalMediaCropFailures": 18,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 18,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 18
+      },
+      "ACTIVITY": {
+        "elements": 270,
+        "functional": 245,
+        "decorative": 25,
+        "unclassified": 270,
+        "cropped": 269,
+        "intentionalCrops": 260,
+        "unintentionalCrops": 9,
+        "functionalMediaCropFailures": 9,
+        "fixedPanelMediaConflicts": 4,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 9,
+        "documentCropFailures": 0,
+        "legibility": 4,
+        "textOverlay": 0,
+        "failing": 13
+      }
+    },
+    "after": {
+      "HUB": {
+        "elements": 270,
+        "functional": 255,
+        "decorative": 15,
+        "unclassified": 0,
+        "cropped": 265,
+        "intentionalCrops": 265,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 8,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 8,
+        "textOverlay": 0,
+        "failing": 8
+      },
+      "INBOX": {
+        "elements": 90,
+        "functional": 90,
+        "decorative": 0,
+        "unclassified": 0,
+        "cropped": 78,
+        "intentionalCrops": 78,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "DESIGN": {
+        "elements": 850,
+        "functional": 45,
+        "decorative": 805,
+        "unclassified": 0,
+        "cropped": 445,
+        "intentionalCrops": 445,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "EXPERIENCE": {
+        "elements": 75,
+        "functional": 0,
+        "decorative": 75,
+        "unclassified": 0,
+        "cropped": 75,
+        "intentionalCrops": 75,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "EXPRESSION": {
+        "elements": 602,
+        "functional": 397,
+        "decorative": 205,
+        "unclassified": 0,
+        "cropped": 255,
+        "intentionalCrops": 255,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "LIBRARY": {
+        "elements": 882,
+        "functional": 351,
+        "decorative": 531,
+        "unclassified": 0,
+        "cropped": 774,
+        "intentionalCrops": 774,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "ACTIVITY": {
+        "elements": 270,
+        "functional": 245,
+        "decorative": 25,
+        "unclassified": 0,
+        "cropped": 249,
+        "intentionalCrops": 249,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      }
+    }
+  },
+  "byRole": {
+    "before": {
+      "PORTRAIT": {
+        "elements": 155,
+        "functional": 155,
+        "decorative": 0,
+        "unclassified": 155,
+        "cropped": 0,
+        "intentionalCrops": 0,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 27,
+        "fixedPanelMediaConflicts": 27,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 27
+      },
+      "UI_SCREENSHOT": {
+        "elements": 15,
+        "functional": 15,
+        "decorative": 0,
+        "unclassified": 15,
+        "cropped": 15,
+        "intentionalCrops": 0,
+        "unintentionalCrops": 15,
+        "functionalMediaCropFailures": 15,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 15,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 15
+      },
+      "LOGO_MARK": {
+        "elements": 105,
+        "functional": 105,
+        "decorative": 0,
+        "unclassified": 105,
+        "cropped": 7,
+        "intentionalCrops": 0,
+        "unintentionalCrops": 7,
+        "functionalMediaCropFailures": 7,
+        "fixedPanelMediaConflicts": 52,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 7,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 45,
+        "textOverlay": 0,
+        "failing": 52
+      },
+      "LANDSCAPE_EDITORIAL": {
+        "elements": 5,
+        "functional": 5,
+        "decorative": 0,
+        "unclassified": 5,
+        "cropped": 4,
+        "intentionalCrops": 4,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "REFERENCE_AUTHORITY": {
+        "elements": 898,
+        "functional": 898,
+        "decorative": 0,
+        "unclassified": 898,
+        "cropped": 858,
+        "intentionalCrops": 769,
+        "unintentionalCrops": 89,
+        "functionalMediaCropFailures": 90,
+        "fixedPanelMediaConflicts": 18,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 90,
+        "documentCropFailures": 0,
+        "legibility": 17,
+        "textOverlay": 0,
+        "failing": 103
+      },
+      "DECORATIVE_ART": {
+        "elements": 1576,
+        "functional": 0,
+        "decorative": 1576,
+        "unclassified": 1576,
+        "cropped": 1233,
+        "intentionalCrops": 1233,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "VIDEO_FRAME": {
+        "elements": 285,
+        "functional": 285,
+        "decorative": 0,
+        "unclassified": 285,
+        "cropped": 260,
+        "intentionalCrops": 205,
+        "unintentionalCrops": 55,
+        "functionalMediaCropFailures": 55,
+        "fixedPanelMediaConflicts": 3,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 3,
+        "textOverlay": 0,
+        "failing": 55
+      }
+    },
+    "after": {
+      "PORTRAIT": {
+        "elements": 155,
+        "functional": 155,
+        "decorative": 0,
+        "unclassified": 0,
+        "cropped": 0,
+        "intentionalCrops": 0,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "UI_SCREENSHOT": {
+        "elements": 15,
+        "functional": 15,
+        "decorative": 0,
+        "unclassified": 0,
+        "cropped": 0,
+        "intentionalCrops": 0,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "LOGO_MARK": {
+        "elements": 30,
+        "functional": 30,
+        "decorative": 0,
+        "unclassified": 0,
+        "cropped": 0,
+        "intentionalCrops": 0,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "REFERENCE_AUTHORITY": {
+        "elements": 898,
+        "functional": 898,
+        "decorative": 0,
+        "unclassified": 0,
+        "cropped": 764,
+        "intentionalCrops": 764,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 8,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 8,
+        "textOverlay": 0,
+        "failing": 8
+      },
+      "DECORATIVE_ART": {
+        "elements": 1481,
+        "functional": 0,
+        "decorative": 1481,
+        "unclassified": 0,
+        "cropped": 1237,
+        "intentionalCrops": 1237,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "VIDEO_FRAME": {
+        "elements": 285,
+        "functional": 285,
+        "decorative": 0,
+        "unclassified": 0,
+        "cropped": 140,
+        "intentionalCrops": 140,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      },
+      "OTHER_DECORATIVE": {
+        "elements": 175,
+        "functional": 0,
+        "decorative": 175,
+        "unclassified": 0,
+        "cropped": 0,
+        "intentionalCrops": 0,
+        "unintentionalCrops": 0,
+        "functionalMediaCropFailures": 0,
+        "fixedPanelMediaConflicts": 0,
+        "distortion": 0,
+        "portraitFocalFailures": 0,
+        "uiScreenshotCropFailures": 0,
+        "logoCropFailures": 0,
+        "authorityPreviewCropFailures": 0,
+        "documentCropFailures": 0,
+        "legibility": 0,
+        "textOverlay": 0,
+        "failing": 0
+      }
+    }
+  },
+  "horizontalOverflow": {
+    "before": {
+      "desktop": [],
+      "large": [],
+      "mobile": [],
+      "small": [],
+      "tablet": []
+    },
+    "after": {
+      "desktop": [],
+      "large": [],
+      "mobile": [],
+      "small": [],
+      "tablet": []
+    }
+  },
+  "overflowAudit": {
+    "note": "every clipping ancestor of a media element, classified (FIXED_PANEL = a panel / card cutting functional media — must be 0 failing after)",
+    "before": [
+      {
+        "clipBy": "pxa-vis",
+        "kind": "SLOT_OR_FRAME",
+        "elements": 60,
+        "functional": 0,
+        "failing": 0,
+        "roles": [
+          "DECORATIVE_ART"
+        ]
+      },
+      {
+        "clipBy": "ph-img",
+        "kind": "SLOT_OR_FRAME",
+        "elements": 31,
+        "functional": 31,
+        "failing": 0,
+        "roles": [
+          "REFERENCE_AUTHORITY"
+        ]
+      },
+      {
+        "clipBy": "pxa-panel",
+        "kind": "FIXED_PANEL",
+        "elements": 17,
+        "functional": 0,
+        "failing": 0,
+        "roles": [
+          "DECORATIVE_ART"
+        ]
+      },
+      {
+        "clipBy": "pxa-overview-panel__art",
+        "kind": "PANE",
+        "elements": 7,
+        "functional": 7,
+        "failing": 7,
+        "roles": [
+          "LOGO_MARK"
+        ]
+      },
+      {
+        "clipBy": "pxa-overview-panel",
+        "kind": "PANE",
+        "elements": 6,
+        "functional": 0,
+        "failing": 0,
+        "roles": [
+          "DECORATIVE_ART"
+        ]
+      },
+      {
+        "clipBy": "ibx-card",
+        "kind": "FIXED_PANEL",
+        "elements": 1,
+        "functional": 1,
+        "failing": 1,
+        "roles": [
+          "REFERENCE_AUTHORITY"
+        ]
+      }
+    ],
+    "after": [
+      {
+        "clipBy": "pxa-vis",
+        "kind": "SLOT_OR_FRAME",
+        "elements": 60,
+        "functional": 0,
+        "failing": 0,
+        "roles": [
+          "DECORATIVE_ART"
+        ]
+      },
+      {
+        "clipBy": "ph-img",
+        "kind": "SLOT_OR_FRAME",
+        "elements": 30,
+        "functional": 30,
+        "failing": 0,
+        "roles": [
+          "REFERENCE_AUTHORITY"
+        ]
+      },
+      {
+        "clipBy": "pxa-panel",
+        "kind": "FIXED_PANEL",
+        "elements": 17,
+        "functional": 0,
+        "failing": 0,
+        "roles": [
+          "DECORATIVE_ART"
+        ]
+      },
+      {
+        "clipBy": "pxa-overview-panel",
+        "kind": "PANE",
+        "elements": 6,
+        "functional": 0,
+        "failing": 0,
+        "roles": [
+          "DECORATIVE_ART"
+        ]
+      }
+    ]
+  },
+  "failureGroups": {
+    "before": [
+      {
+        "tab": "INBOX",
+        "panel": "img:ph-img",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 5
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "inbox 383.7×207 min-axis 0.806"
+      },
+      {
+        "tab": "DESIGN",
+        "panel": "design-overview",
+        "role": "LOGO_MARK",
+        "scale": "CHIP",
+        "codes": {
+          "CROP_FORBIDDEN": 7,
+          "PANEL_CLIP": 7
+        },
+        "viewports": [
+          "desktop",
+          "tablet"
+        ],
+        "example": "design 113.9×113.9 min-axis 0.897"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "expression-travel",
+        "role": "VIDEO_FRAME",
+        "scale": "CHIP",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 2
+        },
+        "viewports": [
+          "desktop",
+          "tablet"
+        ],
+        "example": "expression 61.6×38.5 min-axis 0.54"
+      },
+      {
+        "tab": "DESIGN",
+        "panel": "design-table",
+        "role": "UI_SCREENSHOT",
+        "scale": "TILE",
+        "codes": {
+          "CROP_FORBIDDEN": 15
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "design-jurnl-brand 195.4×66 min-axis 0.19"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "casting-lead-authority",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 5,
+          "LEGIBILITY": 3,
+          "PANE_SLICE": 2
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-casting 416.7×186.5 min-axis 0.906"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "look-root-active",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 5,
+          "LEGIBILITY": 1
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-look 416.7×437.2 min-axis 0.34"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "look-authority",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 5
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-look-looks 302.5×416 min-axis 0.26"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "look-active",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 20
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-look-outfits 302.5×437.3 min-axis 0.248"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "performance-art",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 2
+        },
+        "viewports": [
+          "desktop",
+          "tablet"
+        ],
+        "example": "expression-performance 302.5×418.3 min-axis 0.45"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "storyboard-root-boards",
+        "role": "VIDEO_FRAME",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 15
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-storyboard 100.5×62.8 min-axis 0.534"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "storyboard-inspector",
+        "role": "VIDEO_FRAME",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 5,
+          "LEGIBILITY": 3
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-storyboard 302.5×433.3 min-axis 0.452"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "storyboard-sequence-frames",
+        "role": "VIDEO_FRAME",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 15
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-storyboard-sequence-detail 91.4×57.1 min-axis 0.536"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "storyboard-keyframes",
+        "role": "VIDEO_FRAME",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 15
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-storyboard-keyframes 101.9×63.7 min-axis 0.538"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "storyboard-keyframe-node",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 4
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-storyboard-keyframes 416.7×432.9 min-axis 0.276"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "review-approval-detail",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 5
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "expression-review-approval-detail 530.8×462.4 min-axis 0.5"
+      },
+      {
+        "tab": "INBOX",
+        "panel": "inbox-detail-card",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "PREVIEW",
+        "codes": {
+          "CROP_UNREGISTERED": 5
+        },
+        "viewports": [
+          "desktop",
+          "large",
+          "mobile",
+          "small",
+          "tablet"
+        ],
+        "example": "inbox-decision-detail 210×200 min-axis 0.456"
+      },
+      {
+        "tab": "INBOX",
+        "panel": "inbox-incoming",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 6,
+          "PANEL_CLIP": 1
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "inbox 68.7×57.3 min-axis 0.432"
+      },
+      {
+        "tab": "DESIGN",
+        "panel": "design-panel-02",
+        "role": "LOGO_MARK",
+        "scale": "CHIP",
+        "codes": {
+          "LEGIBILITY": 36
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "design 13.3×13.9 min-axis 1"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "expression-travel",
+        "role": "VIDEO_FRAME",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 3
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "expression 92.9×58.1 min-axis 0.534"
+      },
+      {
+        "tab": "DESIGN",
+        "panel": "design-panel-04",
+        "role": "LOGO_MARK",
+        "scale": "CHIP",
+        "codes": {
+          "LEGIBILITY": 9
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "design-surfaces 10.7×11.6 min-axis 1"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "casting-available-talent",
+        "role": "PORTRAIT",
+        "scale": "TILE",
+        "codes": {
+          "PANE_SLICE": 21
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "expression-casting 46×46 min-axis 1"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "casting-role-current",
+        "role": "PORTRAIT",
+        "scale": "CHIP",
+        "codes": {
+          "PANE_SLICE": 3
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "expression-casting-role-detail 24×24 min-axis 1"
+      },
+      {
+        "tab": "EXPRESSION",
+        "panel": "casting-actor-profile",
+        "role": "PORTRAIT",
+        "scale": "TILE",
+        "codes": {
+          "PANE_SLICE": 3
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "expression-casting-actor-profile 396×120 min-axis 1"
+      },
+      {
+        "tab": "ACTIVITY",
+        "panel": "activity-updates",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 3
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "activity-updates 84.1×52.5 min-axis 0.455"
+      },
+      {
+        "tab": "ACTIVITY",
+        "panel": "img:ph-img",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 6
+        },
+        "viewports": [
+          "large",
+          "mobile",
+          "small"
+        ],
+        "example": "activity-milestone-cast 120×100 min-axis 0.486"
+      },
+      {
+        "tab": "ACTIVITY",
+        "panel": "activity-pending-review",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "TILE",
+        "codes": {
+          "LEGIBILITY": 4
+        },
+        "viewports": [
+          "mobile",
+          "small"
+        ],
+        "example": "activity-approvals 69.9×43.7 min-axis 0.692"
+      },
+      {
+        "tab": "LIBRARY",
+        "panel": "library-lineage-flow",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 9
+        },
+        "viewports": [
+          "small"
+        ],
+        "example": "library 58.9×56 min-axis 0.458"
+      },
+      {
+        "tab": "HUB",
+        "panel": "hub-chamber",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "CHIP",
+        "codes": {
+          "LEGIBILITY": 8
+        },
+        "viewports": [
+          "small"
+        ],
+        "example": "hub-machine 54.2×13.8 min-axis 0.562"
+      },
+      {
+        "tab": "HUB",
+        "panel": "hub-entries",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "TILE",
+        "codes": {
+          "LEGIBILITY": 1
+        },
+        "viewports": [
+          "tablet"
+        ],
+        "example": "hub 59.1×43.7 min-axis 0.926"
+      },
+      {
+        "tab": "LIBRARY",
+        "panel": "library-recent",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "TILE",
+        "codes": {
+          "CROP_OUT_OF_BOUNDS": 9
+        },
+        "viewports": [
+          "tablet"
+        ],
+        "example": "library 66.8×52 min-axis 0.46"
+      }
+    ],
+    "after": [
+      {
+        "tab": "HUB",
+        "panel": "hub-chamber",
+        "role": "REFERENCE_AUTHORITY",
+        "scale": "CHIP",
+        "codes": {
+          "LEGIBILITY": 8
+        },
+        "viewports": [
+          "small"
+        ],
+        "example": "hub-machine 54.2×13.8 min-axis 0.562"
+      }
+    ]
+  },
+  "errors": {
+    "before": [],
+    "after": []
+  }
+}

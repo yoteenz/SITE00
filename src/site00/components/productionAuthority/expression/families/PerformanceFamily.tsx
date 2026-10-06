@@ -85,7 +85,7 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
         key={c.characterId}
         to={go('casting', 'character-profile', c.characterId)}
         testId="performance-performer-row"
-        media={<Mono text={c.characterName} className="exf-face exf-face--char" />}
+        media={<Mono text={c.characterName} className="exf-face exf-face--char" media={{ role: 'PORTRAIT', scale: 'CHIP', slot: 'ROW_THUMB' }} />}
         title={c.characterName}
         sub={`${a ? a.stageName : 'NO ACTOR'} · ${c.performanceDirection}`}
         aside={<Chip tone={c.performanceDirection.trim() ? 'green' : 'amber'}>{c.performanceDirection.trim() ? 'DIRECTED' : 'NO DIRECTION'}</Chip>}
@@ -198,7 +198,7 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
               ))
             : <Empty title="NO BLOCKING RECORDED" />}
           </Panel>
-          <Panel title="DIRECTOR NOTES" meta="PERFORMANCE DIRECTION" at={{ d: [7, 1], t: [6, 1], m: [6, 1] }} testId="performance-direction">
+          <Panel title="DIRECTOR NOTES" meta="PERFORMANCE DIRECTION" at={{ d: [7, 1], t: [6, 1], m: [6, 1] }} media="MEDIA_INLINE" testId="performance-direction">
             {performers}
           </Panel>
         </Grid>
@@ -206,14 +206,14 @@ export function PerformanceFamily({ d, r, go }: FamilyProps) {
     default:
       return (
         <Grid rows={{ d: '1fr 0.8fr', t: '1fr 1fr', m: '0.85fr 1.05fr 0.62fr' }}>
-          <Panel title="CURRENT PERFORMERS" meta={`${players.length} CHARACTERS`} to={go('casting', 'characters')} toLabel="CHARACTERS" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} testId="performance-performers">
+          <Panel title="CURRENT PERFORMERS" meta={`${players.length} CHARACTERS`} to={go('casting', 'characters')} toLabel="CHARACTERS" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} media="MEDIA_INLINE" testId="performance-performers">
             {performers}
           </Panel>
           <Panel title="PERFORMANCE BRIEF" meta={character?.characterName} at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} testId="performance-root-brief">
             {brief}
           </Panel>
-          <Panel title="PERFORMANCE AUTHORITY" meta="HUB NODE" at={{ d: [3, 2], t: [6, 1], m: [3, 1] }} testId="performance-art" hide="m">
-            <Img url={art} label="PERFORMANCE STILL" className="exf-fill" />
+          <Panel title="PERFORMANCE AUTHORITY" meta="HUB NODE" at={{ d: [3, 2], t: [6, 1], m: [3, 1] }} media="AUTHORITY_PREVIEW" testId="performance-art" hide="m">
+            <Img url={art} label="PERFORMANCE STILL" className="exf-fill" role="REFERENCE_AUTHORITY" scale="PREVIEW" aspect="node:performance" />
             {gate}
           </Panel>
           <Panel title="SCENE LINEUP" meta={`${d.scenes.length} SCENES`} to={go('performance', 'scenes')} toLabel="SCENES" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} testId="performance-root-scenes">

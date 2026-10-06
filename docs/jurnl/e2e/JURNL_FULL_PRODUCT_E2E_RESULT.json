@@ -1,6 +1,6 @@
 {
   "sprint": "P0.JURNL.FULL-PRODUCT-E2E-GATE1",
-  "generated_at": "2026-10-06T02:54:49.345Z",
+  "generated_at": "2026-10-06T14:27:20.347Z",
   "gate_status": "PASS",
   "playwright_exit_code": 0,
   "stats": {
@@ -8,6 +8,737 @@
     "failed": 0,
     "skipped": 0,
     "tests": [
+      {
+        "title": "jurnl-a11y-core.e2e.ts",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "JURNL core accessibility (automated)",
+            "file": "jurnl-a11y-core.e2e.ts",
+            "line": 7,
+            "column": 6,
+            "specs": [
+              {
+                "title": "axe today — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4123,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:21:41.369Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-bf0807e1a7a82a8713f2",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe money — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4142,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:21:41.349Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-89099410e13c8a78afc6",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe plan — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4301,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:21:45.590Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-6d42d0517c533059efb2",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe safe — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4303,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:21:45.603Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-4c796d70afbaf7092942",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe goals — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4342,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:21:49.903Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-525640937fe8654fefe7",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe records — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4054,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:21:49.917Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-5890e3ad62446b4fd00a",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe account — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4433,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:21:53.988Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-1eedc3ba10d258a95003",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe today — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4267,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:36.079Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-716dc18b8cfd6aa77eea",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe money — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4126,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:36.132Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-c5e2f370999d1b96934d",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe plan — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4164,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:40.381Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-4a1f7ee69c00b8ac7e64",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe safe — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4022,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:40.476Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-30e8c9d7de7c834b6bce",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe goals — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4258,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:44.513Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-a552d803337936318243",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe records — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4035,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:44.553Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-6a1a177ffa1066e38dd0",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe account — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4671,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:48.597Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-89cf1761fc4bb9c77b45",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe today — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4043,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:27.732Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-ce203fd5d184acc23c9b",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe money — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4137,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:28.543Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-d2495f6fe72b2f859a96",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe plan — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4076,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:31.956Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-74bf8cf6a35784df9c1a",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe safe — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4041,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:32.775Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-96ebedcf19945cf59765",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe goals — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4244,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:36.044Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-4dc11b5d88e783898b4d",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe records — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4046,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:36.827Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-8c72e85ea04a8f866546",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              },
+              {
+                "title": "axe account — no critical/serious",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4460,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:40.303Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "6f0a7283ac5ee20ddcf9-77670ceaa7d5a0ebd1cf",
+                "file": "jurnl-a11y-core.e2e.ts",
+                "line": 13,
+                "column": 5
+              }
+            ]
+          }
+        ]
+      },
       {
         "title": "jurnl-core-mutations.e2e.ts",
         "file": "jurnl-core-mutations.e2e.ts",
@@ -34,15 +765,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 4106,
+                        "duration": 4140,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:41.575Z",
+                        "startTime": "2026-10-06T14:21:54.310Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -68,15 +799,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 7451,
+                        "duration": 7974,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:41.571Z",
+                        "startTime": "2026-10-06T14:21:58.441Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -102,15 +833,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 6259,
+                        "duration": 6553,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:45.774Z",
+                        "startTime": "2026-10-06T14:21:58.463Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -139,12 +870,12 @@
                         "workerIndex": 1,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 6186,
+                        "duration": 6190,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:49.102Z",
+                        "startTime": "2026-10-06T14:22:05.026Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -173,12 +904,12 @@
                         "workerIndex": 0,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3837,
+                        "duration": 4081,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:52.056Z",
+                        "startTime": "2026-10-06T14:22:06.427Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -204,15 +935,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3582,
+                        "duration": 3480,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:55.312Z",
+                        "startTime": "2026-10-06T14:22:10.526Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -238,15 +969,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3861,
+                        "duration": 4539,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:55.906Z",
+                        "startTime": "2026-10-06T14:22:11.225Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -272,15 +1003,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3713,
+                        "duration": 3915,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:58.921Z",
+                        "startTime": "2026-10-06T14:22:14.034Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -306,15 +1037,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3280,
+                        "duration": 3701,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:51:59.776Z",
+                        "startTime": "2026-10-06T14:22:15.787Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -336,19 +1067,325 @@
                     "timeout": 90000,
                     "annotations": [],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 2,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3860,
+                        "duration": 4310,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:16.251Z",
+                        "startTime": "2026-10-06T14:23:48.790Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-d2b8ced3b2a162164a94",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 9,
+                "column": 3
+              },
+              {
+                "title": "F11 trip reserve affects safe to spend",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 7821,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:53.133Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-6e942458ed588e819d8c",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 22,
+                "column": 3
+              },
+              {
+                "title": "F08 plan assign reduces STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 6571,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:53.307Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-bf8754dc5d94e385c175",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 38,
+                "column": 3
+              },
+              {
+                "title": "F14 goal set aside reduces STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 6483,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:23:59.891Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-a910d777902dc7545dd8",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 50,
+                "column": 3
+              },
+              {
+                "title": "F13 paydown what-if keeps credit balance read-only",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3768,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:00.970Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-37e06291ddfd488ea237",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 63,
+                "column": 3
+              },
+              {
+                "title": "F15 ahead derived timeline",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3343,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:04.763Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-f975cd466e479d71a59c",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 70,
+                "column": 3
+              },
+              {
+                "title": "F16 record metadata create",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3955,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:06.399Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-f7cb7c26473f527eafbf",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 76,
+                "column": 3
+              },
+              {
+                "title": "F07 upcoming lists obligations",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3418,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:08.121Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-3760b3b5424af4afa76b",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 85,
+                "column": 3
+              },
+              {
+                "title": "F12 credit hub opens account",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3436,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:10.403Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-9e14cf8f9e22745f2e54",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 91,
+                "column": 3
+              },
+              {
+                "title": "F10 create purchase and mark purchased",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4137,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:40.888Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -374,15 +1411,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
+                        "workerIndex": 4,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 7567,
+                        "duration": 7805,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:17.371Z",
+                        "startTime": "2026-10-06T14:25:44.789Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -408,15 +1445,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
+                        "workerIndex": 5,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 6113,
+                        "duration": 6512,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:20.231Z",
+                        "startTime": "2026-10-06T14:25:45.034Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -442,15 +1479,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 5821,
+                        "duration": 6711,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:25.019Z",
+                        "startTime": "2026-10-06T14:25:51.558Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -476,15 +1513,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3372,
+                        "duration": 4216,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:26.364Z",
+                        "startTime": "2026-10-06T14:25:52.616Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -510,15 +1547,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3228,
+                        "duration": 3497,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:29.756Z",
+                        "startTime": "2026-10-06T14:25:56.857Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -544,15 +1581,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3874,
+                        "duration": 4200,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:30.848Z",
+                        "startTime": "2026-10-06T14:25:58.292Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -578,15 +1615,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3365,
+                        "duration": 3519,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:32.992Z",
+                        "startTime": "2026-10-06T14:26:00.365Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -612,15 +1649,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3208,
+                        "duration": 3542,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:34.733Z",
+                        "startTime": "2026-10-06T14:26:02.511Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -663,15 +1700,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 1999,
+                        "duration": 2129,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:02.685Z",
+                        "startTime": "2026-10-06T14:22:17.967Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -697,15 +1734,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 2245,
+                        "duration": 2441,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:03.079Z",
+                        "startTime": "2026-10-06T14:22:19.508Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -727,19 +1764,87 @@
                     "timeout": 90000,
                     "annotations": [],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 2,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 2009,
+                        "duration": 2066,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:36.375Z",
+                        "startTime": "2026-10-06T14:24:11.556Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "90d52376721333c5d158-53ba0de2fa51e5949e2a",
+                "file": "jurnl-entry-setup.e2e.ts",
+                "line": 5,
+                "column": 3
+              },
+              {
+                "title": "F02 setup route loads when navigated directly",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 2315,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:13.631Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "90d52376721333c5d158-aac0557d36320b26478e",
+                "file": "jurnl-entry-setup.e2e.ts",
+                "line": 18,
+                "column": 3
+              },
+              {
+                "title": "F01 entry index resolves to a primary route",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 2307,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:26:03.911Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -765,15 +1870,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 1977,
+                        "duration": 2233,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:37.957Z",
+                        "startTime": "2026-10-06T14:26:06.103Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -816,15 +1921,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3663,
+                        "duration": 3519,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:04.720Z",
+                        "startTime": "2026-10-06T14:22:20.113Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -850,15 +1955,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3409,
+                        "duration": 3524,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:05.338Z",
+                        "startTime": "2026-10-06T14:22:22.001Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -884,15 +1989,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3659,
+                        "duration": 3939,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:08.393Z",
+                        "startTime": "2026-10-06T14:22:23.649Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -918,15 +2023,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3670,
+                        "duration": 3954,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:08.756Z",
+                        "startTime": "2026-10-06T14:22:25.534Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -952,15 +2057,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3736,
+                        "duration": 3747,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:12.064Z",
+                        "startTime": "2026-10-06T14:22:27.599Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -986,15 +2091,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3596,
+                        "duration": 3803,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:12.437Z",
+                        "startTime": "2026-10-06T14:22:29.507Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1020,15 +2125,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3809,
+                        "duration": 3723,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:15.818Z",
+                        "startTime": "2026-10-06T14:22:31.359Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1054,15 +2159,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3938,
+                        "duration": 3995,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:16.048Z",
+                        "startTime": "2026-10-06T14:22:33.321Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1088,15 +2193,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3734,
+                        "duration": 3711,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:19.641Z",
+                        "startTime": "2026-10-06T14:22:35.102Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1122,15 +2227,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3623,
+                        "duration": 3831,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:20.007Z",
+                        "startTime": "2026-10-06T14:22:37.335Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1156,15 +2261,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3804,
+                        "duration": 3808,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:23.387Z",
+                        "startTime": "2026-10-06T14:22:38.841Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1190,15 +2295,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3761,
+                        "duration": 3871,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:23.639Z",
+                        "startTime": "2026-10-06T14:22:41.184Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1224,15 +2329,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3706,
+                        "duration": 3663,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:27.210Z",
+                        "startTime": "2026-10-06T14:22:42.678Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1258,15 +2363,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3697,
+                        "duration": 3728,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:27.419Z",
+                        "startTime": "2026-10-06T14:22:45.063Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1292,15 +2397,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 2248,
+                        "duration": 2289,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:30.937Z",
+                        "startTime": "2026-10-06T14:22:46.377Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1322,19 +2427,529 @@
                     "timeout": 90000,
                     "annotations": [],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3413,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:13.859Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-1fe54185d678afb1c97c",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F04 root activity reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 2,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3313,
+                        "duration": 3515,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:38.403Z",
+                        "startTime": "2026-10-06T14:24:15.989Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-977e2034545d0f0c7813",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F05 root money reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3498,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:17.287Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-9b06ab9777206ffcc561",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F06 root income reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3498,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:19.517Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-7c2e38aa45ae68c3ec8f",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F07 root upcoming reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3576,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:20.797Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-871797b86b97eb686924",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F08 root plan reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3559,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:23.023Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-96b4356dd7bc49d0e312",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F09 root safe reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3635,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:24.387Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-944779a50b3e78099f34",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F10 root purchases reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3621,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:26.590Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-139fed244bfc2ecc201f",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F11 root trips reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3506,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:28.038Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-14ccf5049d54a0d49d1f",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F12 root credit reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3636,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:30.225Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-d1738d59deda1b069f78",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F13 root paydown reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3725,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:31.556Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-05100cf92a1ad4d23a92",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F14 root goals reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3676,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:33.871Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-746b5b6205eb47d02bfd",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F15 root ahead reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3600,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:35.296Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-2f451dd4f43073fa739c",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F16 root records reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3437,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:37.556Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-b920a5d26136958162fe",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "16/16 product families reachable from routes",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 2076,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:38.911Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-4cb8772d7a68ef6134c6",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 33,
+                "column": 3
+              },
+              {
+                "title": "F03 root today reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3392,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:26:06.244Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1360,15 +2975,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3221,
+                        "duration": 3410,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:39.957Z",
+                        "startTime": "2026-10-06T14:26:08.371Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1394,15 +3009,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3411,
+                        "duration": 3562,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:41.731Z",
+                        "startTime": "2026-10-06T14:26:09.653Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1428,15 +3043,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3418,
+                        "duration": 3510,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:43.194Z",
+                        "startTime": "2026-10-06T14:26:11.790Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1462,15 +3077,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3535,
+                        "duration": 3486,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:45.154Z",
+                        "startTime": "2026-10-06T14:26:13.227Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1496,15 +3111,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3401,
+                        "duration": 3620,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:46.638Z",
+                        "startTime": "2026-10-06T14:26:15.315Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1530,15 +3145,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3453,
+                        "duration": 3707,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:48.703Z",
+                        "startTime": "2026-10-06T14:26:16.727Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1564,15 +3179,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3582,
+                        "duration": 3668,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:50.095Z",
+                        "startTime": "2026-10-06T14:26:18.952Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1598,15 +3213,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3553,
+                        "duration": 3673,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:52.165Z",
+                        "startTime": "2026-10-06T14:26:20.455Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1632,15 +3247,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3603,
+                        "duration": 3611,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:53.701Z",
+                        "startTime": "2026-10-06T14:26:22.629Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1666,15 +3281,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3610,
+                        "duration": 3776,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:55.729Z",
+                        "startTime": "2026-10-06T14:26:24.148Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1700,15 +3315,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3531,
+                        "duration": 3783,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:57.331Z",
+                        "startTime": "2026-10-06T14:26:26.249Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1734,15 +3349,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3496,
+                        "duration": 3498,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:59.353Z",
+                        "startTime": "2026-10-06T14:26:27.959Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1768,15 +3383,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3430,
+                        "duration": 3434,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:00.879Z",
+                        "startTime": "2026-10-06T14:26:30.041Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1802,15 +3417,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 1931,
+                        "duration": 2176,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:02.863Z",
+                        "startTime": "2026-10-06T14:26:31.490Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1856,12 +3471,12 @@
                         "workerIndex": 0,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 5549,
+                        "duration": 5771,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:31.163Z",
+                        "startTime": "2026-10-06T14:22:48.683Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1890,12 +3505,12 @@
                         "workerIndex": 1,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3679,
+                        "duration": 4090,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:33.247Z",
+                        "startTime": "2026-10-06T14:22:48.862Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1921,15 +3536,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 4877,
+                        "duration": 5422,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:36.725Z",
+                        "startTime": "2026-10-06T14:22:52.962Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1951,19 +3566,121 @@
                     "timeout": 90000,
                     "annotations": [],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 3,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 5430,
+                        "duration": 5783,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:04.363Z",
+                        "startTime": "2026-10-06T14:24:41.010Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-113000f58a825e015909",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 9,
+                "column": 3
+              },
+              {
+                "title": "Ask Jurnl opens without provider",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4129,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:41.013Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-d5a277d9f364d2acda74",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 21,
+                "column": 3
+              },
+              {
+                "title": "Settings buffer persists after reload",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 5269,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:45.182Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-e675e2dd1c93375663c6",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 27,
+                "column": 3
+              },
+              {
+                "title": "Quick Add movement saves",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 5630,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:26:33.491Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -1989,15 +3706,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3672,
+                        "duration": 3915,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:04.832Z",
+                        "startTime": "2026-10-06T14:26:33.694Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2023,15 +3740,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 4882,
+                        "duration": 5077,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:08.512Z",
+                        "startTime": "2026-10-06T14:26:37.618Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2065,15 +3782,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3685,
+                        "duration": 3942,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:36.940Z",
+                        "startTime": "2026-10-06T14:22:54.467Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2102,12 +3819,12 @@
                         "workerIndex": 1,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3399,
+                        "duration": 4058,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:40.638Z",
+                        "startTime": "2026-10-06T14:22:58.393Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2136,12 +3853,12 @@
                         "workerIndex": 0,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3428,
+                        "duration": 4062,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:41.636Z",
+                        "startTime": "2026-10-06T14:22:58.423Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2170,12 +3887,12 @@
                         "workerIndex": 1,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3492,
+                        "duration": 3917,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:44.045Z",
+                        "startTime": "2026-10-06T14:23:02.460Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2204,12 +3921,12 @@
                         "workerIndex": 0,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3535,
+                        "duration": 3785,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:45.079Z",
+                        "startTime": "2026-10-06T14:23:02.499Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2231,19 +3948,189 @@
                     "timeout": 90000,
                     "annotations": [],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 3,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3732,
+                        "duration": 3896,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:09.809Z",
+                        "startTime": "2026-10-06T14:24:46.820Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-184738a2aa329f7a6f9f",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes INCOME",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4016,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:50.469Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-6182dd8b3534bcdb1056",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes GOAL",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3834,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:50.735Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-96c23a1bdd70170c3e3a",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes PURCHASE",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3686,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:54.496Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-0f02da142f5f57f335bf",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes TRIP",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3702,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:24:54.582Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-6b5ebdc8f2ea93c5543f",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes MOVEMENT",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4159,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:26:39.149Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2269,15 +4156,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3719,
+                        "duration": 4015,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:13.403Z",
+                        "startTime": "2026-10-06T14:26:42.722Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2303,15 +4190,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3708,
+                        "duration": 3766,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:13.564Z",
+                        "startTime": "2026-10-06T14:26:43.348Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2337,15 +4224,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 2,
-                        "parallelIndex": 1,
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 3739,
+                        "duration": 3706,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:17.137Z",
+                        "startTime": "2026-10-06T14:26:46.779Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2371,15 +4258,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 3647,
+                        "duration": 3501,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:17.285Z",
+                        "startTime": "2026-10-06T14:26:47.128Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2431,15 +4318,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 1,
-                        "parallelIndex": 1,
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 27987,
+                        "duration": 28829,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:47.554Z",
+                        "startTime": "2026-10-06T14:23:06.300Z",
                         "annotations": [
                           {
                             "type": "serial",
@@ -2479,19 +4366,71 @@
                       }
                     ],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 2,
                         "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 28225,
+                        "duration": 29483,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:20.908Z",
+                        "startTime": "2026-10-06T14:24:58.212Z",
+                        "annotations": [
+                          {
+                            "type": "serial",
+                            "location": {
+                              "file": "/workspace/e2e/jurnl/jurnl-golden-journey.e2e.ts",
+                              "line": 0,
+                              "column": 0
+                            }
+                          }
+                        ],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "e100c105d73f81ba2c88-2f803c61ab6251c4c1a9",
+                "file": "jurnl-golden-journey.e2e.ts",
+                "line": 7,
+                "column": 3
+              },
+              {
+                "title": "F01–F16 coherent path with reload verification",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [
+                      {
+                        "type": "serial",
+                        "location": {
+                          "file": "/workspace/e2e/jurnl/jurnl-golden-journey.e2e.ts",
+                          "line": 0,
+                          "column": 0
+                        }
+                      }
+                    ],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 4,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 29544,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:26:50.517Z",
                         "annotations": [
                           {
                             "type": "serial",
@@ -2543,15 +4482,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 7360,
+                        "duration": 7054,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:48.628Z",
+                        "startTime": "2026-10-06T14:23:06.399Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2577,15 +4516,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 8247,
+                        "duration": 8181,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:52:56.003Z",
+                        "startTime": "2026-10-06T14:23:13.462Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2607,19 +4546,87 @@
                     "timeout": 90000,
                     "annotations": [],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 3,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 6796,
+                        "duration": 6944,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:20.957Z",
+                        "startTime": "2026-10-06T14:24:58.322Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "88bc183f2015226d35a1-1cdeeb232af0d447e7df",
+                "file": "jurnl-paydown-sts.e2e.ts",
+                "line": 5,
+                "column": 3
+              },
+              {
+                "title": "committed trip reserve reduces STS (contrast)",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 8470,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:05.282Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "88bc183f2015226d35a1-f2ec279463cd4b93e0c2",
+                "file": "jurnl-paydown-sts.e2e.ts",
+                "line": 16,
+                "column": 3
+              },
+              {
+                "title": "simulated extra payment alone does not reduce STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 6981,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:26:50.661Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2645,15 +4652,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 8099,
+                        "duration": 8261,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:27.761Z",
+                        "startTime": "2026-10-06T14:26:57.650Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2696,15 +4703,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 6217,
+                        "duration": 6195,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:04.267Z",
+                        "startTime": "2026-10-06T14:23:21.679Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2726,19 +4733,53 @@
                     "timeout": 90000,
                     "annotations": [],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 3,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 5547,
+                        "duration": 6114,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:35.877Z",
+                        "startTime": "2026-10-06T14:25:13.766Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "53148d2e329fed69b379-9d1aadf1c48f4e54d8d8",
+                "file": "jurnl-persistence.e2e.ts",
+                "line": 6,
+                "column": 3
+              },
+              {
+                "title": "purchase survives reload",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 5698,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:27:05.990Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2781,15 +4822,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 2171,
+                        "duration": 2349,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:10.510Z",
+                        "startTime": "2026-10-06T14:23:27.893Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2815,15 +4856,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 1931,
+                        "duration": 2199,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:12.691Z",
+                        "startTime": "2026-10-06T14:23:30.250Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2849,15 +4890,15 @@
                     "projectName": "mobile",
                     "results": [
                       {
-                        "workerIndex": 0,
-                        "parallelIndex": 0,
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 2096,
+                        "duration": 2430,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:53:14.635Z",
+                        "startTime": "2026-10-06T14:23:32.458Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2879,19 +4920,121 @@
                     "timeout": 90000,
                     "annotations": [],
                     "expectedStatus": "passed",
-                    "projectId": "desktop",
-                    "projectName": "desktop",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
                     "results": [
                       {
                         "workerIndex": 3,
                         "parallelIndex": 0,
                         "status": "passed",
-                        "duration": 2355,
+                        "duration": 2746,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:41.473Z",
+                        "startTime": "2026-10-06T14:25:19.907Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "9a68aa94b88b9804a064-fc2cfe0229e16d10f94a",
+                "file": "jurnl-production-hardening.e2e.ts",
+                "line": 5,
+                "column": 3
+              },
+              {
+                "title": "production config module is fail-closed without server flag",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 2054,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:22.690Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "9a68aa94b88b9804a064-48c34360a6e7ae6d1c99",
+                "file": "jurnl-production-hardening.e2e.ts",
+                "line": 11,
+                "column": 3
+              },
+              {
+                "title": "no preview seed emails in production mode document (static guard)",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "tablet",
+                    "projectName": "tablet",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 1819,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:25:24.768Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "9a68aa94b88b9804a064-3dc50a4fd45b392fad36",
+                "file": "jurnl-production-hardening.e2e.ts",
+                "line": 31,
+                "column": 3
+              },
+              {
+                "title": "core journey still loads with repository seed",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 2168,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T14:27:11.713Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2917,15 +5060,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 1846,
+                        "duration": 1893,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:43.844Z",
+                        "startTime": "2026-10-06T14:27:13.891Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2951,15 +5094,15 @@
                     "projectName": "desktop",
                     "results": [
                       {
-                        "workerIndex": 3,
-                        "parallelIndex": 0,
+                        "workerIndex": 5,
+                        "parallelIndex": 1,
                         "status": "passed",
-                        "duration": 2000,
+                        "duration": 1931,
                         "errors": [],
                         "stdout": [],
                         "stderr": [],
                         "retry": 0,
-                        "startTime": "2026-10-06T02:54:45.715Z",
+                        "startTime": "2026-10-06T14:27:15.820Z",
                         "annotations": [],
                         "attachments": []
                       }
@@ -2977,9 +5120,9 @@
         ]
       }
     ],
-    "startTime": "2026-10-06T02:51:40.989Z",
-    "duration": 188260.826,
-    "expected": 82,
+    "startTime": "2026-10-06T14:21:40.584Z",
+    "duration": 339608.151,
+    "expected": 144,
     "unexpected": 0,
     "flaky": 0
   },

@@ -25,6 +25,7 @@ export default defineConfig({
   },
   projects: [
     { name: 'mobile', use: { ...devices['Pixel 5'], viewport: { width: 393, height: 852 } } },
+    { name: 'tablet', use: { ...devices['Desktop Chrome'], viewport: { width: 834, height: 1194 } } },
     { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
   ],
   webServer: process.env.JURNL_E2E_SKIP_WEBSERVER ?

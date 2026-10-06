@@ -10,10 +10,11 @@
  * remaining height. Panels declare their span per viewport; a panel whose content exceeds its cell scrolls inside
  * its own body (`data-scroll="internal"`), so every route fits one viewport and nothing is silently clipped.
  */
-import type { CSSProperties, ReactNode } from 'react';
+import { Children, isValidElement, type CSSProperties, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { HubImage } from '../../productionHub/HubImage';
 import { workspaceMediaAttrs, type WorkspaceMediaProps } from '../WorkspaceMediaSlot';
+import { WORKSPACE_PANEL_MEDIA_MODES, type WorkspaceMediaRole, type WorkspacePanelMediaMode } from '../../../config/production-workspace-media';
 import { AUTHORITY_ASSETS } from '../authorityAssets';
 import { LiveStatusBar } from '../HubBody';
 import { useProductionAuthorityData } from '../ProductionAuthorityData';
@@ -58,7 +59,7 @@ export function ExpressionFamilyShell({
       data-entry={entry}
     >
       <header className="pxa-hero exf-hero" data-testid="expression-family-hero">
-        <span className="pxa-hero__bg pxa-hero__bg--plate" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" style={{ backgroundImage: `url(${AUTHORITY_ASSETS.expressionStage})` }} aria-hidden />
+        <span className="pxa-hero__bg pxa-hero__bg--plate" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="HERO_PLATE_BAND" style={{ backgroundImage: `url(${AUTHORITY_ASSETS.expressionStage})` }} aria-hidden />
         <span className="pxa-hero__wash" aria-hidden />
         <div className="pxa-hero__copy">
           <i aria-hidden />
@@ -135,11 +136,30 @@ const fr = (s: string) =>
     .map((x) => (x.endsWith('fr') ? `minmax(0, ${x})` : x))
     .join(' ');
 
-/** Panel grid. `rows` = row track sizes per viewport family (fractions of the remaining height). */
+/**
+ * True when a panel composed on phones declares functional media (any panel media mode). On phones such a grid is
+ * content-driven: TILE / PREVIEW media set their panel's height and media rows are never sliced by a short pane.
+ */
+function carriesFunctionalMedia(children: ReactNode): boolean {
+  let found = false;
+  Children.forEach(children, (c) => {
+    if (!isValidElement<{ media?: WorkspacePanelMediaMode; hide?: string }>(c)) return;
+    const { media, hide } = c.props;
+    if (media && media in WORKSPACE_PANEL_MEDIA_MODES && !(hide ?? '').split(/\s+/).includes('m')) found = true;
+  });
+  return found;
+}
+
+/**
+ * Panel grid. `rows` = row track sizes per viewport family (fractions of the remaining height). A grid that carries
+ * functional media is marked CONTENT: on phones its panels size to their content (the media sets the floor, rows stay
+ * whole) and the frame scrolls, instead of fixed fractional rows cropping or slicing the media. Tablet / desktop keep
+ * the fractional composition.
+ */
 export function Grid({ rows, children, testId }: { rows: { d: string; t: string; m: string }; children: ReactNode; testId?: string }) {
   const style = { '--exf-rows-d': fr(rows.d), '--exf-rows-t': fr(rows.t), '--exf-rows-m': fr(rows.m) } as CSSProperties;
   return (
-    <div className="exf-grid" style={style} data-testid={testId ?? 'expression-grid'}>
+    <div className="exf-grid" style={style} data-media-geometry={carriesFunctionalMedia(children) ? 'CONTENT' : 'COMPOSITION'} data-testid={testId ?? 'expression-grid'}>
       {children}
     </div>
   );
@@ -152,6 +172,7 @@ export function Panel({
   toLabel = 'VIEW ALL',
   at,
   hide,
+  media,
   testId,
   className = '',
   children,
@@ -163,6 +184,11 @@ export function Panel({
   at: At;
   /** Viewport families where this panel is not composed (space it frees goes to the others). */
   hide?: string;
+  /**
+   * Panel ↔ media geometry mode (production-workspace-media.ts). A panel whose functional media is TILE / PREVIEW
+   * scale is content-driven: the media's role and aspect set the panel's minimum height, never the reverse.
+   */
+  media?: WorkspacePanelMediaMode;
   testId?: string;
   className?: string;
   children: ReactNode;
@@ -172,7 +198,7 @@ export function Panel({
   const m = at.m ?? [6, 1];
   const style = { '--dc': d[0], '--dr': d[1], '--tc': t[0], '--tr': t[1], '--mc': m[0], '--mr': m[1] } as CSSProperties;
   return (
-    <section className={`exf-panel ${className}`} style={style} data-hide={hide} data-testid={testId}>
+    <section className={`exf-panel ${className}`} style={style} data-hide={hide} data-panel-media={media} data-testid={testId}>
       <header className="exf-panel__head">
         <h3>
           <i aria-hidden />
@@ -215,25 +241,37 @@ export function Kv({ rows, testId, cols }: { rows: readonly (readonly [string, R
   );
 }
 
-/** Family imagery. Declares its media slot + fit (default: composed card media, centred cover — the crop it already had). */
+/**
+ * Family imagery. The ROLE (asset type) is required and decides the fit: authority / reference previews contain,
+ * portraits and frames cover only focal-safe, decorative art crops only where registered. No cover-by-default.
+ * `scale` = CHIP (inline in a row) · TILE (rail / grid) · PREVIEW (the panel's primary media, content-driven height).
+ */
 export function Img({
   url,
   label,
   slotId = null,
   className = '',
   slot = 'CARD_MEDIA',
-  fit = 'THUMBNAIL_COVER',
+  fit,
   focal,
-}: { url: string | null; label: string; slotId?: string | null; className?: string } & WorkspaceMediaProps) {
+  role,
+  scale,
+  aspect,
+  crop,
+}: { url: string | null; label: string; slotId?: string | null; className?: string; role: WorkspaceMediaRole } & WorkspaceMediaProps) {
   return (
-    <span className={`exf-img ${className}`} {...workspaceMediaAttrs({ slot, fit, focal })}>
+    <span className={`exf-img ${className}`} {...workspaceMediaAttrs({ slot, fit, focal, role, scale, aspect, crop })}>
       <HubImage slotId={slotId} url={url} label={label} />
     </span>
   );
 }
 
-/** Initials tile for a record with no image (actor without a headshot, character without a portrait). */
-export function Mono({ text, className = '' }: { text: string; className?: string }) {
+/**
+ * Initials tile for a record with no image (actor without a headshot, character without a portrait). When it stands
+ * in for media it declares the same slot (role / scale / aspect) as the image it replaces, in the missing state — the
+ * slot keeps its geometry, the panel never collapses.
+ */
+export function Mono({ text, className = '', media }: { text: string; className?: string; media?: WorkspaceMediaProps & { role: WorkspaceMediaRole } }) {
   const ini = text
     .split(/[\s/·-]+/)
     .filter(Boolean)
@@ -242,7 +280,7 @@ export function Mono({ text, className = '' }: { text: string; className?: strin
     .join('')
     .toUpperCase();
   return (
-    <span className={`exf-mono ${className}`} aria-hidden>
+    <span className={`exf-mono ${className}`} aria-hidden {...(media ? { ...workspaceMediaAttrs(media), 'data-media-state': 'missing' } : {})}>
       {ini}
     </span>
   );

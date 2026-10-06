@@ -1,0 +1,11 @@
+{
+  "redaction": "PASS",
+  "kinds": [
+    "AUTH",
+    "SESSION_EXPIRED",
+    "SYNC",
+    "PERSISTENCE",
+    "ASK_JURNL",
+    "UPLOAD"
+  ]
+}
