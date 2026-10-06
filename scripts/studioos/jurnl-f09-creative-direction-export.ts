@@ -50,7 +50,9 @@ export function buildJurnlF09CreativeExports(): Record<string, string> {
       previous_candidate: jurnlF09CD.PREVIOUS_ROUND_CANDIDATES.find((c) => c.territory_id === t.territory_id)?.image_path,
       previous_scores: jurnlF09CD.PREVIOUS_ROUND_SCORES[t.territory_id],
       corrected_candidate: jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES.find((c) => c.territory_id === t.territory_id)?.image_path ?? 'PENDING_GENERATION',
-      corrected_scores: 'PENDING_GENERATION',
+      corrected_scores: jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES.some((c) => c.territory_id === t.territory_id)
+        ? jurnlF09CD.CORRECTED_ROUND_SCORES[t.territory_id]
+        : 'PENDING_GENERATION',
     })),
   });
   files['GENERATION_LEDGER.json'] = json({ ...head('GENERATION_LEDGER'), ...jurnlF09CD.JURNL_F09_CD_GENERATION_LEDGER });

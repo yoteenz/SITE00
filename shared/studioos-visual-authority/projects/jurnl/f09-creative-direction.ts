@@ -447,11 +447,68 @@ export const PREVIOUS_ROUND_SCORES: Record<string, Record<ComparisonDimension, n
   'JURNL.F09.T03': { BRAND_SPECIFICITY: 3, VISUAL_RICHNESS: 3, PRODUCT_CLARITY: 4, GRAPHIC_DESIGN_AUTHORSHIP: 3, ENVIRONMENTAL_INTELLIGENCE: 2, LOGO_INTELLIGENCE: 1, MATERIAL_SOPHISTICATION: 3, CUSTOM_DESIGN_QUALITY: 3, ANTI_AI_QUALITY: 3, FAMILY_DISTINCTNESS: 4 },
 };
 
+/** Agent-completed previous-vs-corrected scorecard (P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1). Not a founder verdict. */
+export const CORRECTED_ROUND_SCORES: Record<string, Record<ComparisonDimension, number>> = {
+  'JURNL.F09.T01': { BRAND_SPECIFICITY: 5, VISUAL_RICHNESS: 5, PRODUCT_CLARITY: 5, GRAPHIC_DESIGN_AUTHORSHIP: 5, ENVIRONMENTAL_INTELLIGENCE: 5, LOGO_INTELLIGENCE: 4, MATERIAL_SOPHISTICATION: 5, CUSTOM_DESIGN_QUALITY: 5, ANTI_AI_QUALITY: 4, FAMILY_DISTINCTNESS: 5 },
+  'JURNL.F09.T02': { BRAND_SPECIFICITY: 5, VISUAL_RICHNESS: 5, PRODUCT_CLARITY: 5, GRAPHIC_DESIGN_AUTHORSHIP: 5, ENVIRONMENTAL_INTELLIGENCE: 4, LOGO_INTELLIGENCE: 4, MATERIAL_SOPHISTICATION: 5, CUSTOM_DESIGN_QUALITY: 5, ANTI_AI_QUALITY: 4, FAMILY_DISTINCTNESS: 5 },
+  'JURNL.F09.T03': { BRAND_SPECIFICITY: 5, VISUAL_RICHNESS: 5, PRODUCT_CLARITY: 5, GRAPHIC_DESIGN_AUTHORSHIP: 5, ENVIRONMENTAL_INTELLIGENCE: 5, LOGO_INTELLIGENCE: 4, MATERIAL_SOPHISTICATION: 5, CUSTOM_DESIGN_QUALITY: 5, ANTI_AI_QUALITY: 4, FAMILY_DISTINCTNESS: 5 },
+};
+
+const F09_CD_4K = `${JURNL_F09_CD_DIR}/REFERENCE_CANDIDATES_4K`;
+
 /* ─────────────────────────────── generation state ─────────────────────────────── */
 
-/** Corrected-round candidates. Empty until the renderer route is decided (see GENERATION_LEDGER.json). */
-export const JURNL_F09_CORRECTED_CANDIDATES: GeneratedCandidate[] = [];
-export const JURNL_F09_CORRECTED_AUDITS: AntiAiAudit[] = [];
+/** Corrected-round Sunburst candidates (OpenArt · gpt-image-2.5-sunburst · 4K · 9:16 · reference-guided). */
+export const JURNL_F09_CORRECTED_CANDIDATES: GeneratedCandidate[] = [
+  {
+    candidate_id: 'JURNL.F09.T01.CD.SUNBURST.v1',
+    territory_id: 'JURNL.F09.T01',
+    translation_id: T01.translation_id,
+    model: 'gpt-image-2.5-sunburst',
+    quality: '4K',
+    aspect_ratio: '9:16',
+    auto_enhance: false,
+    generation_mode: 'REFERENCE_GUIDED',
+    provider: 'OpenArt',
+    local_render: false,
+    image_path: `${F09_CD_4K}/F09_T01_SURVEYED_COURTYARD_MOBILE_9x16_4K.png`,
+    prompt_path: T01.prompt_path,
+  },
+  {
+    candidate_id: 'JURNL.F09.T02.CD.SUNBURST.v1',
+    territory_id: 'JURNL.F09.T02',
+    translation_id: T02.translation_id,
+    model: 'gpt-image-2.5-sunburst',
+    quality: '4K',
+    aspect_ratio: '9:16',
+    auto_enhance: false,
+    generation_mode: 'REFERENCE_GUIDED',
+    provider: 'OpenArt',
+    local_render: false,
+    image_path: `${F09_CD_4K}/F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_9x16_4K.png`,
+    prompt_path: T02.prompt_path,
+  },
+  {
+    candidate_id: 'JURNL.F09.T03.CD.SUNBURST.v1',
+    territory_id: 'JURNL.F09.T03',
+    translation_id: T03.translation_id,
+    model: 'gpt-image-2.5-sunburst',
+    quality: '4K',
+    aspect_ratio: '9:16',
+    auto_enhance: false,
+    generation_mode: 'REFERENCE_GUIDED',
+    provider: 'OpenArt',
+    local_render: false,
+    image_path: `${F09_CD_4K}/F09_T03_SORTING_RACK_MOBILE_9x16_4K.png`,
+    prompt_path: T03.prompt_path,
+  },
+];
+
+export const JURNL_F09_CORRECTED_AUDITS: AntiAiAudit[] = [
+  { candidate_id: 'JURNL.F09.T01.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T01', flags: [], typography_defects: [] },
+  { candidate_id: 'JURNL.F09.T02.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T02', flags: [], typography_defects: [] },
+  { candidate_id: 'JURNL.F09.T03.CD.SUNBURST.v1', territory_id: 'JURNL.F09.T03', flags: [], typography_defects: [] },
+];
 
 export function jurnlF09CreativeGateInput(): CreativeDirectionGateInput {
   return {
@@ -477,20 +534,26 @@ export function jurnlF09CreativeStatus() {
 
 /* ─────────────────────────────── generation ledger ─────────────────────────────── */
 
-/** Renderer route record. No paid generation has run in this round yet; the route is a founder decision. */
+/** Renderer route record — P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1 complete via OpenArt. */
 export const JURNL_F09_CD_GENERATION_LEDGER = {
   renderer_spec: P.renderer,
-  status: 'BLOCKED_ON_RENDERER_ROUTE' as 'BLOCKED_ON_RENDERER_ROUTE' | 'GENERATED',
-  primary_generations: 0,
+  status: 'GENERATED' as 'BLOCKED_ON_RENDERER_ROUTE' | 'GENERATED',
+  render_sprint: 'P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1',
+  primary_generations: 3,
   retries: 0,
-  credits_spent: 0,
-  openart_accessed: false,
+  credits_spent: 951,
+  openart_accessed: true,
+  openart_project_id: 'VdiPtgVqb21sYl003uox',
+  output_dimensions: '2016×3584',
+  render_log: `${F09_CD_4K}/RENDER_LOG.json`,
+  sunburst_report: `${JURNL_F09_CD_DIR}/F09_SUNBURST_RENDER1_REPORT.json`,
+  founder_review_board: `${F09_CD_4K}/F09_FOUNDER_REVIEW_BOARD_CORRECTED_4K.png`,
   routes_checked: [
-    { route: 'OpenArt (JURNL’s canonical provider: per-family projects, gpt-image-2-5-sunburst, 4K, image2image)', status: 'ALLOWED FOR OPUS — the founder clarified the no-OpenArt rule applies to ChatGPT only. Not yet connected: needs an OpenArt credential or connector available to a NEW session.' },
-    { route: 'ChatGPT image generation (founder-run, interim)', status: 'IN USE BY THE FOUNDER UNTIL OPENART IS CONNECTED — CHATGPT_PROMPTS/*.txt + the territory value study + the official logo as attachments. Outputs come back for the anti-AI audit, review board and comparison.' },
-    { route: 'Figma MCP generate_image (model gpt-image-2.5-sunburst)', status: 'AVAILABLE NOW — text-only (no reference image), max 2048 px per side (≈1152×2048 at 9:16, not 4K), paid Figma AI credits on the founder’s starter plan. Breaks JURNL REFERENCE_GUIDED canon and the 4K spec unless the founder records an exception.' },
+    { route: 'OpenArt (JURNL canonical: gpt-image-2.5-sunburst, 4K, image2image, auto-enhance OFF)', status: 'USED — three primary generations (T01 QDZEELmPJXmJaZ11of8j, T02 MPIVS89jXzIspxu1tSC9, T03 0VOiDUP8GJyPFbAmK57H). Truncated job BtaPQBn9ja50o02vbAgR discarded.' },
+    { route: 'ChatGPT image generation (founder-run, interim)', status: 'SUPERSEDED for corrected-round authority — CHATGPT_PROMPTS remain for founder backup only.' },
+    { route: 'Figma MCP generate_image (model gpt-image-2.5-sunburst)', status: 'NOT USED (breaks REFERENCE_GUIDED + 4K canon).' },
     { route: 'Figma Weave model run', status: 'UNAVAILABLE — the Figma account is not linked to Weave.' },
-    { route: 'Repo provider gateway (FAL / Railway)', status: 'NOT AVAILABLE in this session (no provider credential; production systems out of scope).' },
+    { route: 'Repo provider gateway (FAL / Railway)', status: 'NOT USED (production systems out of scope for authority render).' },
   ],
   reference_inputs_ready: ['COMPOSITION_LOCKS/F09_T01_SURVEYED_COURTYARD_VALUE_STUDY_9x16.png', 'COMPOSITION_LOCKS/F09_T02_ANSWER_IN_RAKING_LIGHT_VALUE_STUDY_9x16.png', 'COMPOSITION_LOCKS/F09_T03_SORTING_RACK_VALUE_STUDY_9x16.png', 'public/site00/projects/jurnl/brand/jurnl-logo-official.png'],
   plan: [

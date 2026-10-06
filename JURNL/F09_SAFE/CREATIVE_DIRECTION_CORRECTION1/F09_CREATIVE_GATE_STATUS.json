@@ -3,28 +3,22 @@
   "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
   "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
   "corrected_round": {
-    "status": "CANDIDATE_REQUIRED",
+    "status": "REFERENCE_AUTHORITIES_READY",
     "per_territory": [
       {
         "territory_id": "JURNL.F09.T01",
-        "status": "CANDIDATE_REQUIRED",
-        "reasons": [
-          "no generated candidate yet"
-        ]
+        "status": "REFERENCE_AUTHORITY_READY",
+        "reasons": []
       },
       {
         "territory_id": "JURNL.F09.T02",
-        "status": "CANDIDATE_REQUIRED",
-        "reasons": [
-          "no generated candidate yet"
-        ]
+        "status": "REFERENCE_AUTHORITY_READY",
+        "reasons": []
       },
       {
         "territory_id": "JURNL.F09.T03",
-        "status": "CANDIDATE_REQUIRED",
-        "reasons": [
-          "no generated candidate yet"
-        ]
+        "status": "REFERENCE_AUTHORITY_READY",
+        "reasons": []
       }
     ],
     "distinctness": {

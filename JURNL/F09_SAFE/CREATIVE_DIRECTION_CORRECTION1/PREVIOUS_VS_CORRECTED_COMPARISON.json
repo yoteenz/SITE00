@@ -31,8 +31,19 @@
         "ANTI_AI_QUALITY": 3,
         "FAMILY_DISTINCTNESS": 4
       },
-      "corrected_candidate": "PENDING_GENERATION",
-      "corrected_scores": "PENDING_GENERATION"
+      "corrected_candidate": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T01_SURVEYED_COURTYARD_MOBILE_9x16_4K.png",
+      "corrected_scores": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 5,
+        "PRODUCT_CLARITY": 5,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "ENVIRONMENTAL_INTELLIGENCE": 5,
+        "LOGO_INTELLIGENCE": 4,
+        "MATERIAL_SOPHISTICATION": 5,
+        "CUSTOM_DESIGN_QUALITY": 5,
+        "ANTI_AI_QUALITY": 4,
+        "FAMILY_DISTINCTNESS": 5
+      }
     },
     {
       "territory_id": "JURNL.F09.T02",
@@ -49,8 +60,19 @@
         "ANTI_AI_QUALITY": 3,
         "FAMILY_DISTINCTNESS": 3
       },
-      "corrected_candidate": "PENDING_GENERATION",
-      "corrected_scores": "PENDING_GENERATION"
+      "corrected_candidate": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_9x16_4K.png",
+      "corrected_scores": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 5,
+        "PRODUCT_CLARITY": 5,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "ENVIRONMENTAL_INTELLIGENCE": 4,
+        "LOGO_INTELLIGENCE": 4,
+        "MATERIAL_SOPHISTICATION": 5,
+        "CUSTOM_DESIGN_QUALITY": 5,
+        "ANTI_AI_QUALITY": 4,
+        "FAMILY_DISTINCTNESS": 5
+      }
     },
     {
       "territory_id": "JURNL.F09.T03",
@@ -67,8 +89,19 @@
         "ANTI_AI_QUALITY": 3,
         "FAMILY_DISTINCTNESS": 4
       },
-      "corrected_candidate": "PENDING_GENERATION",
-      "corrected_scores": "PENDING_GENERATION"
+      "corrected_candidate": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T03_SORTING_RACK_MOBILE_9x16_4K.png",
+      "corrected_scores": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 5,
+        "PRODUCT_CLARITY": 5,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "ENVIRONMENTAL_INTELLIGENCE": 5,
+        "LOGO_INTELLIGENCE": 4,
+        "MATERIAL_SOPHISTICATION": 5,
+        "CUSTOM_DESIGN_QUALITY": 5,
+        "ANTI_AI_QUALITY": 4,
+        "FAMILY_DISTINCTNESS": 5
+      }
     }
   ]
 }

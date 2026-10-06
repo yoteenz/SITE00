@@ -131,13 +131,18 @@ describe('ChatGPT hand-off prompts (founder-run interim)', () => {
 });
 
 describe('state of the round', () => {
-  it('nothing generated, nothing decided, nothing implemented; corrected round waits only on candidates', () => {
-    expect(jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES).toHaveLength(0);
-    expect(jurnlF09CD.JURNL_F09_CD_GENERATION_LEDGER.primary_generations).toBe(0);
-    expect(jurnlF09CD.JURNL_F09_CD_GENERATION_LEDGER.openart_accessed).toBe(false);
-    expect(jurnlF09CD.jurnlF09CreativeStatus().gate.status).toBe('CANDIDATE_REQUIRED');
+  it('Sunburst corrected candidates ready for founder review; no production implementation', () => {
+    expect(jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES).toHaveLength(3);
+    expect(jurnlF09CD.JURNL_F09_CD_GENERATION_LEDGER.primary_generations).toBe(3);
+    expect(jurnlF09CD.JURNL_F09_CD_GENERATION_LEDGER.openart_accessed).toBe(true);
+    expect(jurnlF09CD.jurnlF09CreativeStatus().gate.status).toBe('REFERENCE_AUTHORITIES_READY');
     for (const t of T) expect(t.founder_decision).toBeNull();
-    for (const f of ['README.md', 'COMPOSITION_LOCKS/F09_COMPOSITION_LOCK_BOARD.png', 'COMPOSITION_LOCKS/F09_T01_SURVEYED_COURTYARD_VALUE_STUDY_9x16.png']) {
+    for (const c of jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES) {
+      expect(existsSync(path.join(ROOT, c.image_path)), c.image_path).toBe(true);
+      expect(c.provider).toBe('OpenArt');
+      expect(c.model).toBe('gpt-image-2.5-sunburst');
+    }
+    for (const f of ['README.md', 'COMPOSITION_LOCKS/F09_COMPOSITION_LOCK_BOARD.png', 'COMPOSITION_LOCKS/F09_T01_SURVEYED_COURTYARD_VALUE_STUDY_9x16.png', 'REFERENCE_CANDIDATES_4K/F09_FOUNDER_REVIEW_BOARD_CORRECTED_4K.png', 'F09_SUNBURST_RENDER1_REPORT.json']) {
       expect(existsSync(path.join(ROOT, jurnlF09CD.JURNL_F09_CD_DIR, f)), f).toBe(true);
     }
     const runtime = read('src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx');

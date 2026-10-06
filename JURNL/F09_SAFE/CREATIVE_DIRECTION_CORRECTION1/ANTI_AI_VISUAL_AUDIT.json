@@ -81,5 +81,24 @@
       ]
     }
   },
-  "corrected_round": "PENDING_GENERATION"
+  "corrected_round": [
+    {
+      "candidate_id": "JURNL.F09.T01.CD.SUNBURST.v1",
+      "territory_id": "JURNL.F09.T01",
+      "flags": [],
+      "typography_defects": []
+    },
+    {
+      "candidate_id": "JURNL.F09.T02.CD.SUNBURST.v1",
+      "territory_id": "JURNL.F09.T02",
+      "flags": [],
+      "typography_defects": []
+    },
+    {
+      "candidate_id": "JURNL.F09.T03.CD.SUNBURST.v1",
+      "territory_id": "JURNL.F09.T03",
+      "flags": [],
+      "typography_defects": []
+    }
+  ]
 }
