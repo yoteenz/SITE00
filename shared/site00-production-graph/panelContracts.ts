@@ -72,7 +72,7 @@ function graphPanel(c: Omit<PanelContract, 'project_id' | 'loading_state' | 'err
 const DECIDE = 'Approve / request revision / reject / mark decided → WorkspaceAction in the project ledger';
 const DECIDE_TRANSITION =
   'APPROVE: node APPROVED + authority LOCKED, IN_REVIEW artifacts → CANONICAL, item RESOLVED, downstream blockers UNLOCKED · REVISE/REJECT: node BLOCKED, artifacts REVISE, review request WATCHING · RESOLVE: decision DECIDED, page-tree gate recomputed';
-const ALL_TABS: readonly WorkspaceDomain[] = ['HUB', 'INBOX', 'DESIGN', 'EXPERIENCE', 'EXPRESSION', 'LIBRARY', 'ACTIVITY'];
+const ALL_TABS: readonly WorkspaceDomain[] = ['HUB', 'INBOX', 'EXPERIENCE', 'DESIGN', 'EXPRESSION', 'LIBRARY', 'ACTIVITY'];
 
 export const GRAPH_PANEL_CONTRACTS: readonly PanelContract[] = [
   /* ── HUB ── */

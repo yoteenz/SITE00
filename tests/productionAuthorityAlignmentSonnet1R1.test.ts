@@ -36,7 +36,7 @@ describe('authority registry', () => {
   });
 
   it('keeps the global tab order and the fixed six design modes', () => {
-    expect(PRODUCTION_GLOBAL_TAB_ORDER).toEqual(['hub', 'inbox', 'design', 'experience', 'expression', 'library', 'activity']);
+    expect(PRODUCTION_GLOBAL_TAB_ORDER).toEqual(['hub', 'inbox', 'experience', 'design', 'expression', 'library', 'activity']);
     expect(PRODUCTION_DESIGN_MODE_ORDER).toEqual(['brand', 'experience', 'surfaces', 'compiler', 'assets', 'viewport']);
     const designScreens = PRODUCTION_AUTHORITY_SCREENS.filter((s) => s.workspace === 'design');
     expect(designScreens.map((s) => s.designMode)).toEqual([...PRODUCTION_DESIGN_MODE_ORDER]);
@@ -85,7 +85,7 @@ describe('host chrome canon', () => {
 
   it('renders the bottom nav in order with the icon LEFT of the label', () => {
     const labels = [...html.matchAll(/pxh-nav__label">([A-Z]+)</g)].map((m) => m[1]);
-    expect(labels).toEqual(['HUB', 'INBOX', 'DESIGN', 'EXPERIENCE', 'EXPRESSION', 'LIBRARY', 'ACTIVITY']);
+    expect(labels).toEqual(['HUB', 'INBOX', 'EXPERIENCE', 'DESIGN', 'EXPRESSION', 'LIBRARY', 'ACTIVITY']);
     expect(html).toContain('data-nav-layout="horizontal"');
     for (const item of html.split('<a ').slice(1)) {
       expect(item.indexOf('pxh-nav__icon')).toBeLessThan(item.indexOf('pxh-nav__label'));

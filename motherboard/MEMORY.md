@@ -14358,6 +14358,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Ops:** Set **`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`** on **one** Cursor Cloud environment only; trigger environment build so agents stop booting Grok preview from stale snapshot.
 - **Agent contract:** Merge PR to `main` same session → `preview/tunnel` updates → refresh on canonical host.
 
+---
+
+## 2026-10-06 — Production workspace nav: DESIGN tab centered
+
+- **Request:** Swap DESIGN and EXPERIENCE in bottom nav so DESIGN is the center (4th of 7) tab.
+- **Change:** `PRODUCTION_GLOBAL_TAB_ORDER` → hub, inbox, experience, design, expression, library, activity; `nav.tsx` derives ITEMS from registry; `WORKSPACE_DOMAINS` / panel contracts aligned.
+
 ## 2026-10-06 — AIO IFTA three-mode live visual authority reconstruction (P0.AIO.IFTA.THREE-MODE-LIVE-VISUAL-AUTHORITY-RECONSTRUCTION1)
 
 - **Why:** The first live IFTA implementation (fsbw PR #43) was functionally right but visually wrong — text panels, a spreadsheet queue, generic cards, a missing media layer. The authority package was under-consumed.

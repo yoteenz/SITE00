@@ -17,7 +17,7 @@
 /** The seven root surfaces of the workspace shell (global). */
 export type WorkspaceDomain = 'HUB' | 'INBOX' | 'DESIGN' | 'EXPERIENCE' | 'EXPRESSION' | 'LIBRARY' | 'ACTIVITY';
 
-export const WORKSPACE_DOMAINS: readonly WorkspaceDomain[] = ['HUB', 'INBOX', 'DESIGN', 'EXPERIENCE', 'EXPRESSION', 'LIBRARY', 'ACTIVITY'];
+export const WORKSPACE_DOMAINS: readonly WorkspaceDomain[] = ['HUB', 'INBOX', 'EXPERIENCE', 'DESIGN', 'EXPRESSION', 'LIBRARY', 'ACTIVITY'];
 
 /**
  * The three WORK domains that own production nodes. HUB / INBOX / LIBRARY / ACTIVITY are projections over every
