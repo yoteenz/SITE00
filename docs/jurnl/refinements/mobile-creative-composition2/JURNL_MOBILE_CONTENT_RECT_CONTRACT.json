@@ -1,0 +1,131 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "primitive": "JurnlFamilyFrame / JurnlFamilyShell (src/projects/jurnl/runtime/components/FamilyFrame.tsx) + src/projects/jurnl/runtime/jurnl-frame.css",
+  "zones_top_to_bottom": [
+    {
+      "zone": "TOP SAFE AREA",
+      "rule": "padding-top: calc(14px + env(safe-area-inset-top, 0px)) on the frame column (28px from 600px)"
+    },
+    {
+      "zone": "CHROME",
+      "selector": ".jrn-frame > .jrn-home__top",
+      "rule": "flex: none — back · JURNL · account · ask"
+    },
+    {
+      "zone": "CONTENT RECT",
+      "selector": "[data-jrn-zone=\"content-rect\"] (.jrn-frame__content)",
+      "rule": "flex: 1; min-height: 0; overflow: hidden; row-gap: var(--jrn-frame-gap). Finite: its height is known before panels are placed."
+    },
+    {
+      "zone": "COMPOSITION EDGE",
+      "selector": "[data-jrn-zone=\"composition-edge\"] (.jrn-frame__edge)",
+      "rule": "height: var(--jrn-frame-edge-h) = 40px — double hairline with square end caps; carries screen marks + NEXT."
+    },
+    {
+      "zone": "NAV RESERVE",
+      "selector": ".jrn-frame__navspace",
+      "rule": "height: var(--jrn-nav-reserve) = nav-h 44 + gutter 12 + gap-above 8 + env(safe-area-inset-bottom). In the flow, not an overlay."
+    }
+  ],
+  "variables": {
+    "--jrn-nav-h": "44px",
+    "--jrn-nav-gutter": "12px",
+    "--jrn-nav-gap-above": "8px",
+    "--jrn-nav-reserve": "calc(var(--jrn-nav-h) + var(--jrn-nav-gutter) + var(--jrn-nav-gap-above) + env(safe-area-inset-bottom, 0px))",
+    "--jrn-frame-edge-h": "40px",
+    "--jrn-frame-caption-h": "20px",
+    "--jrn-frame-gap": "10px (12px ≥600px)",
+    "--jrn-frame-pad-x": "20px / 56px ≥600px / 9vw ≥1100px",
+    "--jrn-frame-max": "none / 560px / 540px"
+  },
+  "no_family_magic_numbers": "Every family root and child uses the same frame; families style panels, never the reserve, edge or rect.",
+  "forbidden": [
+    "SHRINK-TO-FIT (no transform/zoom/font scaling to make content fit)",
+    "Z-INDEX CHEAT (content never runs under the nav; the reserve is real layout space)",
+    "BOTTOM-PADDING CHEAT (no padding-bottom on a scrolling body; the body does not scroll)",
+    "PRIMARY BODY SCROLL (column overflow: hidden; only an OVERSIZE panel scrolls inside itself)"
+  ],
+  "measured": {
+    "mobile_393x852": {
+      "viewport": [
+        393,
+        852
+      ],
+      "content_rect_top": 64,
+      "content_rect_bottom": 748,
+      "composition_edge": [
+        748,
+        788
+      ],
+      "nav": [
+        796,
+        840
+      ],
+      "nav_x_w": [
+        26.5,
+        340
+      ],
+      "identical_on_all_frame_roots": true
+    },
+    "tablet_834x1194": {
+      "viewport": [
+        834,
+        1194
+      ],
+      "content_rect_top": 78,
+      "content_rect_bottom": 1090,
+      "composition_edge": [
+        1090,
+        1130
+      ],
+      "nav": [
+        1138,
+        1182
+      ],
+      "nav_x_w": [
+        207,
+        420
+      ],
+      "identical_on_all_frame_roots": true
+    },
+    "desktop_1440x900": {
+      "viewport": [
+        1440,
+        900
+      ],
+      "content_rect_top": 78,
+      "content_rect_bottom": 796,
+      "composition_edge": [
+        796,
+        836
+      ],
+      "nav": [
+        844,
+        888
+      ],
+      "nav_x_w": [
+        490,
+        460
+      ],
+      "identical_on_all_frame_roots": true
+    }
+  },
+  "measured_after_all_roots": {
+    "rows": 84,
+    "under_nav": 0,
+    "clipped_panels": 0,
+    "column_scroll_px_max": 0
+  },
+  "measured_before": {
+    "mobile_populated_under_nav": {
+      "F09": 1,
+      "F15": 4
+    },
+    "mobile_populated_F15_column_scroll_px": 809,
+    "desktop_populated_under_nav": {
+      "F09": 3,
+      "F15": 4
+    }
+  }
+}

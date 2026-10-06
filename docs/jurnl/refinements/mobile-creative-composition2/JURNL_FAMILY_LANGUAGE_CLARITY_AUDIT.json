@@ -1,0 +1,307 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "layers": {
+    "1_FUNCTION_LABEL": "What this is (H1 / family name).",
+    "2_STATE_OR_TASK": "What is happening now, and what you can do — must be clear without layer 3.",
+    "3_EDITORIAL": "Optional brand line (the family question), italic display, always secondary."
+  },
+  "rules": [
+    "ALL COPY UPPERCASE",
+    "VOICE: CALM, CLEAR, SMART, HUMAN, QUIETLY ASSURED",
+    "NO ENUMS, FAMILY IDS OR REGISTRY TERMS IN UI COPY",
+    "ONLY DISPLAY REAL VALUES (no placeholder figures; zero bands hidden; HELD and OWED never netted)",
+    "THE QUESTION NEVER CARRIES PRIMARY MEANING"
+  ],
+  "note_on_example_values": "Figures quoted in proposed_clear_copy come from the seeded QA device (scripts/jurnl/mobile-composition-qa.mjs seedPopulated); the UI renders whatever the device actually holds.",
+  "ambiguous_root_copy_before": 7,
+  "ambiguous_root_copy_after": 0,
+  "entries": [
+    {
+      "family_id": "F05",
+      "family_name": "MONEY",
+      "current_copy": "MONEY / WHAT DO I HAVE, AND WHERE IS IT? / $32,200 / 7 PLACES · NOT SET",
+      "clarity_issue": "One total that adds card and loan balances as money you have; “NOT SET” is a status code.",
+      "functional_meaning": "How much you hold and how much you owe, and where each sits.",
+      "proposed_clear_copy": "MONEY / YOUR MONEY IS IN 7 PLACES. / HELD $22,560 · OWED $9,640 / OPEN A DRAWER TO SEE A PLACE’S BALANCE AND MOVEMENTS.",
+      "editorial_copy_retained": "WHAT DO I HAVE, AND WHERE IS IT?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F05",
+      "family_name": "MONEY",
+      "current_copy": "NO ACCOUNTS YET. ADD A MANUAL PLACE.",
+      "clarity_issue": "“Manual place” is system language.",
+      "functional_meaning": "Nothing is added yet; add where money lives.",
+      "proposed_clear_copy": "NO PLACES YET. / ADD WHERE YOUR MONEY LIVES: CHECKING, SAVINGS, CASH OR A CARD. NO BANK CONNECTION NEEDED.",
+      "editorial_copy_retained": "WHAT DO I HAVE, AND WHERE IS IT?",
+      "copy_priority": "TASK",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F05",
+      "family_name": "MONEY",
+      "current_copy": "OPEN A PLACE",
+      "clarity_issue": "Opened the list, not a place.",
+      "functional_meaning": "See every place.",
+      "proposed_clear_copy": "SEE ALL PLACES (+ ADD A PLACE)",
+      "editorial_copy_retained": null,
+      "copy_priority": "PRIMARY_ACTION",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F05",
+      "family_name": "MONEY",
+      "current_copy": "NOT SET (connection status)",
+      "clarity_issue": "Status code.",
+      "functional_meaning": "There is no bank connection; balances are entered by hand.",
+      "proposed_clear_copy": "NO BANK CONNECTED · BALANCES ARE WHAT YOU ENTERED",
+      "editorial_copy_retained": null,
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F09",
+      "family_name": "SAFE TO SPEND",
+      "current_copy": "SAFE TO SPEND / WHAT CAN I SPEND WITHOUT UNDOING THE PLAN? / $12,745 / NEEDS_SETUP · ONE FORMULA",
+      "clarity_issue": "Enum leaked (NEEDS_SETUP); “ONE FORMULA” is internal; the question carried the meaning.",
+      "functional_meaning": "What you can spend now and how sure the reading is.",
+      "proposed_clear_copy": "SAFE TO SPEND / AN ESTIMATE. FINISH SETUP FOR A FULL READING. / CLEAR TO SPEND $24,885 / HELD BACK $6,075 OF $30,960 CASH",
+      "editorial_copy_retained": "WHAT CAN I SPEND WITHOUT UNDOING THE PLAN?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F09",
+      "family_name": "SAFE TO SPEND",
+      "current_copy": "CASH / UPCOMING / HELD / ASSIGNED / GOAL SET ASIDE / SAFETY BUFFER / COMPLETENESS NEEDS_SETUP",
+      "clarity_issue": "Formula terms + an enum as the reading.",
+      "functional_meaning": "What is held back from cash, and why.",
+      "proposed_clear_copy": "BILLS BEFORE NEXT INCOME / ASSIGNED IN PLAN / SET ASIDE FOR GOALS / RESERVED FOR TRIPS / RESERVED FOR PURCHASES / SAFETY BUFFER (only real, non-zero bands; the full formula stays on SEE THE FULL BREAKDOWN)",
+      "editorial_copy_retained": null,
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F09",
+      "family_name": "SAFE TO SPEND",
+      "current_copy": "SEE THE HOLD / CHANGE THE HOLD",
+      "clarity_issue": "“The hold” is a metaphor.",
+      "functional_meaning": "Open the breakdown; change what is held back.",
+      "proposed_clear_copy": "SEE THE FULL BREAKDOWN / CHANGE WHAT’S HELD",
+      "editorial_copy_retained": null,
+      "copy_priority": "PRIMARY_ACTION",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F10",
+      "family_name": "PURCHASES",
+      "current_copy": "PURCHASES / CAN I BUY THIS, AND WHAT CHANGES? / LINEN SOFA $2,400 PLANNING",
+      "clarity_issue": "The question carried the function; no verdict on the page.",
+      "functional_meaning": "You are considering purchases; does the first one fit?",
+      "proposed_clear_copy": "YOU’RE CONSIDERING 2 PURCHASES. / SEE WHETHER IT FITS YOUR PLAN BEFORE YOU BUY. / FITS? FITS NOW · SAFE TO SPEND AFTER $22,485 · STATUS PLANNING / BUYING IT NOW KEEPS SAFE TO SPEND ABOVE ZERO.",
+      "editorial_copy_retained": "CAN I BUY THIS, AND WHAT CHANGES?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F10",
+      "family_name": "PURCHASES",
+      "current_copy": "NOTHING UNDER CONSIDERATION / CONSIDER SOMETHING",
+      "clarity_issue": "No task; vague action.",
+      "functional_meaning": "Add something you want to buy.",
+      "proposed_clear_copy": "NOTHING IS UNDER CONSIDERATION. / ADD SOMETHING YOU WANT TO BUY. JURNL SHOWS WHETHER IT FITS. / ADD SOMETHING TO CONSIDER",
+      "editorial_copy_retained": "CAN I BUY THIS, AND WHAT CHANGES?",
+      "copy_priority": "TASK",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F11",
+      "family_name": "TRIPS",
+      "current_copy": "TRIPS / CAN I TAKE THIS, AND WHAT DOES IT CHANGE? / NO TRIP IS NAMED / NAME A TRIP",
+      "clarity_issue": "“Named” is ambiguous; no funding state.",
+      "functional_meaning": "No trip is set up; add a destination and budget.",
+      "proposed_clear_copy": "NO TRIP IS SET UP YET. / ADD A DESTINATION AND A BUDGET TO START. / ADD A DESTINATION",
+      "editorial_copy_retained": "CAN I TAKE THIS, AND WHAT DOES IT CHANGE?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F11",
+      "family_name": "TRIPS",
+      "current_copy": "LISBON $2,800 (budget only)",
+      "clarity_issue": "Budget without funding progress.",
+      "functional_meaning": "How funded the trip is.",
+      "proposed_clear_copy": "2 TRIPS PLANNED. LISBON IS 32% FUNDED. / FROM HERE: TODAY · $24,885 SAFE TO SPEND / FUNDING: $900 OF $2,800 RESERVED / FUND THIS TRIP",
+      "editorial_copy_retained": null,
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F13",
+      "family_name": "PAYDOWN",
+      "current_copy": "PAYDOWN / HOW DOES THIS COME DOWN? / STRATEGY AVALANCHE / EXTRA / PERIOD $200 / CHANGE THE PATH / WHAT IF",
+      "clarity_issue": "Strategy name without its rule; “path” and “what if” are vague.",
+      "functional_meaning": "Your plan, its rule, and the order balances come down.",
+      "proposed_clear_copy": "YOUR PLAN: AVALANCHE — HIGHEST INTEREST RATE FIRST. / $200 EXTRA EACH MONTH, SPREAD ACROSS 3 BALANCES. / CHANGE THE PLAN / TRY AN EXTRA PAYMENT",
+      "editorial_copy_retained": "THE DESCENT · HOW DOES THIS COME DOWN?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F13",
+      "family_name": "PAYDOWN",
+      "current_copy": "(no plan) NOTHING OWED / CHANGE THE PATH",
+      "clarity_issue": "No statement that the plan is not set.",
+      "functional_meaning": "The debt plan is not set yet.",
+      "proposed_clear_copy": "YOUR DEBT PLAN ISN’T SET YET. / CHOOSE HOW YOU WANT TO PAY DOWN YOUR BALANCES. / SET A PLAN",
+      "editorial_copy_retained": "THE DESCENT · HOW DOES THIS COME DOWN?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F13",
+      "family_name": "PAYDOWN",
+      "current_copy": "PARTIAL · SOME TERMS MISSING",
+      "clarity_issue": "Status shorthand.",
+      "functional_meaning": "Minimum payments are missing, so the plan is partial.",
+      "proposed_clear_copy": "SOME MINIMUM PAYMENTS ARE MISSING, SO THIS PLAN IS PARTIAL.",
+      "editorial_copy_retained": null,
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F15",
+      "family_name": "AHEAD",
+      "current_copy": "AHEAD / WHERE AM I HEADED IF THIS CONTINUES? / $15,005 / SAFE TO SPEND NOW · READ FROM F09",
+      "clarity_issue": "Internal family id leaked (F09); the question carried the function.",
+      "functional_meaning": "What the next 30 days look like if nothing changes.",
+      "proposed_clear_copy": "HERE’S WHAT THE NEXT 30 DAYS LOOK LIKE IF NOTHING CHANGES. / TODAY $24,885 SAFE TO SPEND NOW · NEXT 30 DAYS $23,041.67 PROJECTED NET · LATER OPEN NOT PROJECTED",
+      "editorial_copy_retained": "WHERE AM I HEADED IF THIS CONTINUES?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F15",
+      "family_name": "AHEAD",
+      "current_copy": "TOO LITTLE IS KNOWN TO PROJECT HONESTLY",
+      "clarity_issue": "Fine but missing the task.",
+      "functional_meaning": "Not enough dated data.",
+      "proposed_clear_copy": "TOO LITTLE IS KNOWN YET TO LOOK AHEAD HONESTLY. / NO INCOME, BILLS OR PLANS ARE DATED YET. ADD THEM IN INCOME AND UPCOMING.",
+      "editorial_copy_retained": null,
+      "copy_priority": "TASK",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F15",
+      "family_name": "AHEAD",
+      "current_copy": "SHORTFALL RISK / PROJECTED OUTFLOWS EXCEED AVAILABLE · NOT CERTAIN",
+      "clarity_issue": "Jargon.",
+      "functional_meaning": "More is going out than is available.",
+      "proposed_clear_copy": "PROJECTED OUTFLOWS ARE MORE THAN WHAT’S AVAILABLE. NOT CERTAIN.",
+      "editorial_copy_retained": null,
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F16",
+      "family_name": "RECORDS",
+      "current_copy": "RECORDS / WHERE IS THE PROOF? / FIND / NOTHING IS FILED / FILE A DOCUMENT",
+      "clarity_issue": "The question carried the function; “file a document” implies an upload that does not exist (metadata only).",
+      "functional_meaning": "Records are filed by type; none is open; add one.",
+      "proposed_clear_copy": "RECORDS · FILED 7 · OPEN NONE / 7 RECORDS FILED. NO RECORD IS OPEN. / OPEN A SAVED RECORD OR ADD A NEW ONE. / FIND A RECORD / ADD A RECORD",
+      "editorial_copy_retained": "WHERE IS THE PROOF?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F16",
+      "family_name": "RECORDS",
+      "current_copy": "NO RESULTS",
+      "clarity_issue": "Does not say what was searched.",
+      "functional_meaning": "No record matches the search.",
+      "proposed_clear_copy": "NO RECORDS MATCH “QUERY”.",
+      "editorial_copy_retained": null,
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F06",
+      "family_name": "INCOME",
+      "current_copy": "NO INCOME SOURCES / ADD WHAT ARRIVES.",
+      "clarity_issue": "Terse.",
+      "functional_meaning": "No income added yet; why it matters.",
+      "proposed_clear_copy": "NO INCOME IS ADDED YET. / ADD EACH PLACE MONEY COMES FROM SO JURNL CAN PLAN AROUND IT. · populated: N INCOME SOURCES. NEXT: SOURCE, WHEN.",
+      "editorial_copy_retained": "WHERE IS IT COMING FROM?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F07",
+      "family_name": "UPCOMING",
+      "current_copy": "NOTHING APPROACHING / ADD INCOME OR OBLIGATIONS.",
+      "clarity_issue": "“Obligations” is system language.",
+      "functional_meaning": "Nothing is coming up; add what repeats.",
+      "proposed_clear_copy": "NOTHING IS COMING UP YET. / ADD BILLS AND SUBSCRIPTIONS THAT REPEAT, AND INCOME THAT ARRIVES. · populated: NEXT: RENT, FRIDAY.",
+      "editorial_copy_retained": "WHAT IS COMING, AND WHEN?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F08",
+      "family_name": "PLAN",
+      "current_copy": "NOTHING IS ARRANGED / NAME AN INTENTION.",
+      "clarity_issue": "“Intention” without context.",
+      "functional_meaning": "Give money a job.",
+      "proposed_clear_copy": "NOTHING IS ARRANGED YET. / GIVE EACH PART OF YOUR MONEY A JOB BEFORE IT MOVES. · populated: $2,400 ASSIGNED ACROSS 2 INTENTIONS.",
+      "editorial_copy_retained": "WHAT DO I WANT IT TO DO?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F12",
+      "family_name": "CREDIT",
+      "current_copy": "NO CARD OR LOAN PLACES. / CREATES A MANUAL CREDIT PLACE IN THE REGISTRY. / UTILIZATION / QUIET",
+      "clarity_issue": "Registry/system language; “QUIET” unexplained.",
+      "functional_meaning": "No cards or loans; add one to track use and due dates.",
+      "proposed_clear_copy": "NO CARDS OR LOANS ARE ADDED. / ADD ONE TO TRACK WHAT’S USED AND WHEN IT’S DUE. / HOW MUCH IS USED · populated: 3 CARDS AND LOANS. $14,640 USED IN TOTAL.",
+      "editorial_copy_retained": "WHAT IS HAPPENING, AND WHAT MATTERS?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F14",
+      "family_name": "GOALS",
+      "current_copy": "NOTHING IS NAMED / NAME ONE GOAL. / NAME ONE",
+      "clarity_issue": "Vague.",
+      "functional_meaning": "No goal yet; name one and set money aside.",
+      "proposed_clear_copy": "NO GOAL IS NAMED YET. / NAME SOMETHING YOU’RE SAVING TOWARD AND SET MONEY ASIDE FOR IT. / NAME A GOAL · populated: 1 GOAL. $900 SET ASIDE SO FAR.",
+      "editorial_copy_retained": "WHAT AM I BUILDING TOWARD?",
+      "copy_priority": "STATE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "family_id": "F03",
+      "family_name": "TODAY",
+      "current_copy": "TODAY / WHAT IS TRUE. (unchanged)",
+      "clarity_issue": "None — F03 parent copy already states the signal and its source.",
+      "functional_meaning": "Safe to spend today and what is close.",
+      "proposed_clear_copy": "UNCHANGED (BACK TO SETUP chrome now context-aware: BACK TO SCREEN 1 on screen 2)",
+      "editorial_copy_retained": "WHAT IS TRUE.",
+      "copy_priority": "FUNCTION",
+      "status": "NO_CHANGE_NEEDED"
+    },
+    {
+      "family_id": "F04",
+      "family_name": "ACTIVITY",
+      "current_copy": "ACTIVITY / WHAT MOVED. (unchanged)",
+      "clarity_issue": "None.",
+      "functional_meaning": "Movements, searchable.",
+      "proposed_clear_copy": "UNCHANGED",
+      "editorial_copy_retained": "WHAT MOVED.",
+      "copy_priority": "FUNCTION",
+      "status": "NO_CHANGE_NEEDED"
+    }
+  ]
+}

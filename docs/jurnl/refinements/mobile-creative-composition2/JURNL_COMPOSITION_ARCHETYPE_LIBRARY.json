@@ -1,0 +1,320 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "purpose": "A controlled set of family composition archetypes. Every family stays in the JURNL world (bone paper, emerald / wine / champagne accents, display serif + tracked sans, square-rounded controls, the family plate) while its composition encodes its job.",
+  "shared_world_constants": [
+    "ONE FINITE FRAME PER SCREEN (JurnlFamilyFrame)",
+    "BONE PAPER PANELS (--jrn-frame-paper)",
+    "SQUARE-ROUNDED CONTROLS, NO CIRCULAR TAPPABLE BUTTONS",
+    "DISPLAY SERIF + TRACKED SANS, ALL UPPERCASE",
+    "FAMILY PLATE AS ENVIRONMENT, NEVER AS THE ONLY DIFFERENTIATOR",
+    "LANGUAGE LAYERS: FUNCTION LABEL → STATE → TASK → EDITORIAL (OPTIONAL)",
+    "VIEWPORT-CENTRED 5-ITEM NAV"
+  ],
+  "source": {
+    "component": "src/projects/jurnl/runtime/components/FamilyFrame.tsx (JurnlArchetype)",
+    "styles": "src/projects/jurnl/runtime/jurnl-archetypes.css"
+  },
+  "rule_adjacency": "No more than 2 adjacent families (F03→F16 order) may share an archetype. Measured: 0 adjacent repeats.",
+  "archetypes": [
+    {
+      "id": "CONTAINER_CABINET",
+      "name": "CABINET / WARDROBE",
+      "mental_model": "A cabinet of labelled shelves; each place is a drawer you pull open.",
+      "spatial_grammar": "Brass-rule plaque at the top; full-width shelves stacked below, each with a vertical edge label (EVERYDAY / SAVED / OWED / OTHER) and drawers with a centred pull; a base with ADD A PLACE (dashed slot) + SEE ALL PLACES.",
+      "information_hierarchy": [
+        "PLAQUE: MONEY + PLACE COUNT",
+        "HELD / OWED FIGURES (SEPARATE, NEVER NETTED)",
+        "SHELF TOTALS",
+        "DRAWER BALANCES",
+        "SOURCE LINE (WHAT THE NUMBERS ARE)"
+      ],
+      "rhythm": "Even, stacked, ruled; repeated drawer modules inside ruled shelves.",
+      "interaction_emphasis": "Open a drawer (a place); add a place in the empty slot.",
+      "typographic_role": "Wide-tracked display plaque title; numerals in display face; labels in small tracked sans.",
+      "panel_treatment": "Shelf panels with inset drawers; drawer pulls as small horizontal bars.",
+      "css_namespace": "jrn-cab__*",
+      "used_by": [
+        "F05"
+      ],
+      "do_not_use_for": "Time-ordered data or decisions."
+    },
+    {
+      "id": "TENSION_THRESHOLD",
+      "name": "THRESHOLD / PROTECTED ZONE",
+      "mental_model": "A doorway: above the line is clear to spend, below it is held back.",
+      "spatial_grammar": "Arched paper panel, centred; one large figure above a full-width threshold line with tick marks; hatched bands below the line show each held amount proportionally; two equal actions under it.",
+      "information_hierarchy": [
+        "FUNCTION LABEL: SAFE TO SPEND",
+        "STATE: HOW COMPLETE THE READING IS",
+        "CLEAR TO SPEND / OVER BY FIGURE",
+        "HELD BACK $X OF $CASH",
+        "HELD BANDS (BILLS, PLAN, GOALS, RESERVES, BUFFER)"
+      ],
+      "rhythm": "Symmetric, centred, one heavy figure then light bands.",
+      "interaction_emphasis": "Read the figure; SEE THE FULL BREAKDOWN; CHANGE WHAT’S HELD.",
+      "typographic_role": "Small tracked sans function label as H1; the figure is the display hero.",
+      "panel_treatment": "Arched top panel; hatched (diagonal) bands with share bars.",
+      "css_namespace": "jrn-thr*",
+      "used_by": [
+        "F09"
+      ],
+      "do_not_use_for": "Lists of things to browse."
+    },
+    {
+      "id": "OBJECT_FOCUS",
+      "name": "OBJECT ON A PLINTH",
+      "mental_model": "One thing under consideration sits on a plinth; its consequences orbit it.",
+      "spatial_grammar": "Short intro card; arched niche/plinth centred with the object name + price; the decide control attached to the plinth base; a 3-cell orbit (FITS? / SAFE TO SPEND AFTER / STATUS) beneath; others shelved below.",
+      "information_hierarchy": [
+        "STATE: HOW MANY PURCHASES ARE UNDER CONSIDERATION",
+        "THE OBJECT + PRICE",
+        "DECIDE ON THIS",
+        "VERDICT (FITS NOW / CLOSE / NOT YET) + SAFE TO SPEND AFTER",
+        "ALSO CONSIDERING"
+      ],
+      "rhythm": "Centred single focal object, then a horizontal orbit, then a quiet shelf.",
+      "interaction_emphasis": "Decide on the one object; consider something else.",
+      "typographic_role": "Small sans function label; display serif for the object name.",
+      "panel_treatment": "Arched niche with plinth; attached full-width decide control.",
+      "css_namespace": "jrn-obj__*",
+      "used_by": [
+        "F10"
+      ],
+      "do_not_use_for": "More than one primary object at a time."
+    },
+    {
+      "id": "MAP_ROUTE",
+      "name": "ROUTE / DESTINATION",
+      "mental_model": "A route from here to a destination, marked by stops; funding fills the line.",
+      "spatial_grammar": "Intro card; a vertical route line with diamond stop marks: FROM HERE (today’s safe to spend) → FUNDING (reserved of budget, FUND THIS TRIP) → DESTINATION (large display name); other trips as rows with their own funding lines.",
+      "information_hierarchy": [
+        "STATE: TRIPS PLANNED + % FUNDED",
+        "FROM HERE",
+        "FUNDING",
+        "DESTINATION",
+        "OTHER TRIPS"
+      ],
+      "rhythm": "Vertical progression with stops; the destination is the visual end of the line.",
+      "interaction_emphasis": "Fund this trip; open the destination; plan another trip.",
+      "typographic_role": "Display serif destination; tracked sans kickers on each stop.",
+      "panel_treatment": "Route line gradient filled by --funded; diamond marks.",
+      "css_namespace": "jrn-route*",
+      "used_by": [
+        "F11"
+      ],
+      "do_not_use_for": "Ordered obligations (use SEQUENTIAL_STEPS or TIMELINE)."
+    },
+    {
+      "id": "SEQUENTIAL_STEPS",
+      "name": "STAIR / SEQUENCE",
+      "mental_model": "A staircase down: each balance is a step in the paydown order.",
+      "spatial_grammar": "Landing slab (heavy 4px top border) with plan state and CHANGE THE PLAN; steps indented progressively (--step × 20px) with large index numerals 01 02 03; partial note; TRY AN EXTRA PAYMENT.",
+      "information_hierarchy": [
+        "STATE: YOUR PLAN (STRATEGY — RULE) OR NOT SET",
+        "EXTRA PER MONTH ACROSS N BALANCES",
+        "STEP ORDER WITH BALANCE, APR, NEXT PAYMENT",
+        "PARTIAL NOTE",
+        "WHAT-IF"
+      ],
+      "rhythm": "Descending diagonal; indentation encodes order.",
+      "interaction_emphasis": "Change the plan; try an extra payment; open a step.",
+      "typographic_role": "Display index numerals; display H1 on the landing.",
+      "panel_treatment": "Treads with a top rule; landing slab.",
+      "css_namespace": "jrn-stair*",
+      "used_by": [
+        "F13"
+      ],
+      "do_not_use_for": "Unordered collections."
+    },
+    {
+      "id": "HORIZON_PATH",
+      "name": "HORIZON / SCENARIO",
+      "mental_model": "Looking out to a horizon: today, the next 30 days, and the open distance; dated windows below.",
+      "spatial_grammar": "Wide-tracked display H1; a 3-cell horizon band on a line with an arrow (TODAY / NEXT 30 DAYS / LATER); risk line; time windows (THIS WEEK / NEXT WEEK / LATER THIS MONTH / AFTER 30 DAYS / NO DATE YET) each a panel with a marker spine; a fork panel with TRY ANOTHER PATH.",
+      "information_hierarchy": [
+        "STATE: WHAT THE NEXT 30 DAYS LOOK LIKE (OR TOO LITTLE KNOWN)",
+        "TODAY / NEXT 30 DAYS / LATER FIGURES",
+        "SHORTFALL RISK",
+        "DATED WINDOWS",
+        "SCENARIO FORK"
+      ],
+      "rhythm": "Horizontal band first, then vertical windows; certainty shown per row.",
+      "interaction_emphasis": "Try another path (scenario); read windows.",
+      "typographic_role": "Wide-tracked display H1; display figures on the band; tracked sans window labels.",
+      "panel_treatment": "Band line with markers; windows with a dotted spine.",
+      "css_namespace": "jrn-hz*",
+      "used_by": [
+        "F15"
+      ],
+      "do_not_use_for": "Historical records."
+    },
+    {
+      "id": "SCENARIO_FORK",
+      "name": "SCENARIO FORK (SECONDARY)",
+      "mental_model": "A fork in the path: the base and an alternative.",
+      "spatial_grammar": "Used as the secondary archetype inside HORIZON_PATH (the fork panel with TRY ANOTHER PATH); the F15 branch child screens keep their existing layout.",
+      "information_hierarchy": [
+        "WHAT A DIFFERENT CHOICE CHANGES",
+        "TRY ANOTHER PATH"
+      ],
+      "rhythm": "One branching mark.",
+      "interaction_emphasis": "Open the scenario.",
+      "typographic_role": "Tracked sans task line.",
+      "panel_treatment": "Fork line glyph.",
+      "css_namespace": "jrn-hz__fork",
+      "used_by": [
+        "F15 (secondary)"
+      ],
+      "do_not_use_for": "A family root on its own."
+    },
+    {
+      "id": "ARCHIVE_INDEX",
+      "name": "ARCHIVE / INDEX",
+      "mental_model": "A filing cabinet: a label holder on the drawer, folders with staggered tabs, index cards inside.",
+      "spatial_grammar": "Label holder with brass end caps (RECORDS + FILED / OPEN counts); a find field with an attached tab-shaped ADD A RECORD; folders by type, each with a tab staggered by index (--tab × 30%) and stacked index cards.",
+      "information_hierarchy": [
+        "RECORDS + FILED / OPEN COUNTS",
+        "STATE: N RECORDS FILED, NONE OPEN",
+        "FIND + ADD",
+        "FOLDERS BY TYPE",
+        "CARDS: TITLE · DATE · STATUS"
+      ],
+      "rhythm": "Indexed, tabbed, staggered; cards stacked tight.",
+      "interaction_emphasis": "Find; add a record; open a card.",
+      "typographic_role": "Sans wide-tracked H1 inside the label holder (archival); small caps metadata.",
+      "panel_treatment": "Folders with tabs; index cards with a ruled edge.",
+      "css_namespace": "jrn-idx*",
+      "used_by": [
+        "F16"
+      ],
+      "do_not_use_for": "Forward-looking data."
+    },
+    {
+      "id": "LEDGER_GRID",
+      "name": "LEDGER",
+      "mental_model": "A ruled ledger page with columns.",
+      "spatial_grammar": "Ruled background, double left border, a header row with column names; rows in columns; actions under the ledger.",
+      "information_hierarchy": [
+        "STATE LINE",
+        "COLUMN HEADERS",
+        "ROWS",
+        "ACTIONS"
+      ],
+      "rhythm": "Tabular, ruled.",
+      "interaction_emphasis": "Open a row; add a row.",
+      "typographic_role": "Display H1; tabular sans figures.",
+      "panel_treatment": "Ruled paper, wine double border.",
+      "css_namespace": "jrn-ledg* / jrn-cred*",
+      "used_by": [
+        "F06",
+        "F12"
+      ],
+      "do_not_use_for": "Adjacent families (F06 and F12 are not adjacent; F12 adds a utilization meter variant)."
+    },
+    {
+      "id": "TIMELINE",
+      "name": "TIMELINE",
+      "mental_model": "A dated column: what arrives, in order.",
+      "spatial_grammar": "Date column on the left, items on a spine; overdue in wine; grouped THIS WEEK / LATER.",
+      "information_hierarchy": [
+        "STATE: NEXT ITEM + WHEN",
+        "GROUPS BY TIME",
+        "ITEMS WITH DATE + AMOUNT"
+      ],
+      "rhythm": "Vertical, dated.",
+      "interaction_emphasis": "Open an item; add what repeats.",
+      "typographic_role": "Wide-tracked sans H1; dates in small tracked sans.",
+      "panel_treatment": "Spine with ticks.",
+      "css_namespace": "jrn-tl*",
+      "used_by": [
+        "F07"
+      ],
+      "do_not_use_for": "Undated collections."
+    },
+    {
+      "id": "ROOM_ZONE",
+      "name": "ROOM / ZONE PLAN",
+      "mental_model": "A floor plan: each intention is a room whose width is its share.",
+      "spatial_grammar": "Proportional plan band (zone widths = share of assigned); 2-column rooms; PLAN AROUND links to SAFE TO SPEND / GOALS / PURCHASES / TRIPS / AHEAD.",
+      "information_hierarchy": [
+        "STATE: $ ASSIGNED ACROSS N INTENTIONS",
+        "PLAN BAND",
+        "ROOMS WITH AMOUNT + SHARE",
+        "PLAN AROUND"
+      ],
+      "rhythm": "Proportional blocks.",
+      "interaction_emphasis": "Open a zone; add an intention.",
+      "typographic_role": "Display H1; zone labels in tracked sans.",
+      "panel_treatment": "Plan band + room tiles.",
+      "css_namespace": "jrn-zone*",
+      "used_by": [
+        "F08"
+      ],
+      "do_not_use_for": "Sequences."
+    },
+    {
+      "id": "EDITORIAL_SPREAD",
+      "name": "EDITORIAL SPREAD",
+      "mental_model": "A magazine spread: each goal is a page with a progress rule.",
+      "spatial_grammar": "Italic display H1; goal spreads with a progress line (--share); actions under.",
+      "information_hierarchy": [
+        "STATE: N GOALS, $ SET ASIDE",
+        "GOAL SPREADS",
+        "ACTIONS"
+      ],
+      "rhythm": "Large type, generous space.",
+      "interaction_emphasis": "Name a goal; open a goal.",
+      "typographic_role": "Italic display H1 (only family that uses it).",
+      "panel_treatment": "Page spreads with progress rule.",
+      "css_namespace": "jrn-spread*",
+      "used_by": [
+        "F14"
+      ],
+      "do_not_use_for": "Dense data."
+    },
+    {
+      "id": "FOCUS_REVEAL",
+      "name": "FOCUS / REVEAL",
+      "mental_model": "One signal first, then what is close, coming and moved.",
+      "spatial_grammar": "Left-anchored display stack (F03 parent composition kept): signal, attention, coming, moved, more; on the frame it paginates instead of running under the nav.",
+      "information_hierarchy": [
+        "TODAY + SAFE TO SPEND SIGNAL",
+        "SEE WHY",
+        "ATTENTION",
+        "COMING",
+        "MOVED",
+        "MORE"
+      ],
+      "rhythm": "Signal first, then a quiet rail.",
+      "interaction_emphasis": "See why; open what is coming.",
+      "typographic_role": "Display H1 and figure (F03 authority kept).",
+      "panel_treatment": "Existing F03 parent panels, now atomic frame panels.",
+      "css_namespace": "jrn-home* (F03 parent)",
+      "used_by": [
+        "F03"
+      ],
+      "do_not_use_for": "Other families."
+    },
+    {
+      "id": "DETAIL",
+      "name": "DETAIL / CHILD SCREEN",
+      "mental_model": "One record, one form: the child screen of a family.",
+      "spatial_grammar": "Paper intro, single column (max 360px), panels stacked on the frame.",
+      "information_hierarchy": [
+        "TITLE",
+        "FACTS",
+        "ACTIONS"
+      ],
+      "rhythm": "Plain, consistent.",
+      "interaction_emphasis": "Edit / act on one item.",
+      "typographic_role": "Family display H1.",
+      "panel_treatment": "Paper intro + existing child panels.",
+      "css_namespace": "jrn-frame[data-jrn-archetype=DETAIL]",
+      "used_by": [
+        "ALL FAMILY CHILD SCREENS VIA JurnlFamilyShell"
+      ],
+      "do_not_use_for": "Family roots."
+    }
+  ]
+}

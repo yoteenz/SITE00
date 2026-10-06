@@ -11,46 +11,135 @@ import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function Shell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F10} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F10" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F10" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F10"
+      familyPlate={PARENT_PLATES.F10}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F10" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F10" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+const VERDICT: Record<'NOW' | 'WAIT' | 'NOT_YET', { short: string; line: string }> = {
+  NOW: { short: 'FITS NOW', line: 'BUYING IT NOW KEEPS SAFE TO SPEND ABOVE ZERO.' },
+  WAIT: { short: 'CLOSE', line: 'CLOSE. BUYING NOW TAKES SAFE TO SPEND SLIGHTLY BELOW ZERO.' },
+  NOT_YET: { short: 'NOT YET', line: 'NOT YET. BUYING NOW TAKES SAFE TO SPEND WELL BELOW ZERO.' },
+};
+
+const STATUS_LABEL: Record<string, string> = { IDEA: 'AN IDEA', PLANNING: 'PLANNING', READY: 'READY', PURCHASED: 'BOUGHT', ARCHIVED: 'LET GO' };
+
+/** F10 PURCHASES — OBJECT FOCUS. The thing under consideration stands on a plinth; fit, after and status orbit it. */
 export function PurchasesHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const items = usePurchases();
   const spec = parentById('F10')!;
   const [addOpen, setAddOpen] = useState(false);
+  const open = items.filter((p) => p.status !== 'PURCHASED');
+  const focus = open[0] ?? null;
+  const others = items.filter((p) => p !== focus);
+  const fit = focus ? purchaseAffordability(focus) : null;
   return (
-    <Shell screenId="F10.00">
-      <FamilyChrome familyId="F10" nodeId="F10.00" backLabel="BACK TO TODAY" onBack={() => go('today')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro"><h1 className="jrn-home__h">{spec.name}</h1><p className="jrn-home__sub">{spec.question}</p></div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        {items.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel"><b>NOTHING UNDER CONSIDERATION</b></JurnlPanel>
-        : items.map((p) => (
-            <button key={p.purchase_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`purchase-${p.purchase_id}`} onClick={() => go(`purchases/${p.purchase_id}`)}>
-              <span className="jrn-tx__copy"><span className="jrn-tx__name">{p.title}</span><small>{p.status}</small></span>
-              <span className="jrn-tx__amt">{formatMoney(p.target_amount)}</span>
-            </button>
-          ))}
-        <JurnlButton trigger="purchase-consider" onClick={() => setAddOpen(true)}>CONSIDER SOMETHING</JurnlButton>
-        <JurnlButton variant="secondary" trigger="purchase-safe" onClick={() => go('safe')}>SAFE TO SPEND</JurnlButton>
-      </div>
-      {addOpen ? <ConsiderSheet onClose={() => setAddOpen(false)} /> : null}
-    </Shell>
+    <JurnlFamilyFrame
+      screenId="F10.00"
+      familyId="F10"
+      familyPlate={PARENT_PLATES.F10}
+      label="PURCHASES"
+      archetype="OBJECT_FOCUS"
+      chrome={<FamilyChrome familyId="F10" nodeId="F10.00" backLabel="BACK TO TODAY" onBack={() => go('today')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F10" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F10" nodeId="F10.00" onClose={closeOverlay} /> : null}
+          {addOpen ? <ConsiderSheet onClose={() => setAddOpen(false)} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="intro">
+        <header className="jrn-obj__intro" data-jrn-zone="intro">
+          <h1 className="jrn-obj__fn">PURCHASES</h1>
+          <p className="jrn-lang__state">{open.length ? `YOU’RE CONSIDERING ${open.length} ${open.length === 1 ? 'PURCHASE' : 'PURCHASES'}.` : 'NOTHING IS UNDER CONSIDERATION.'}</p>
+          <p className="jrn-lang__task">{open.length ? 'SEE WHETHER IT FITS YOUR PLAN BEFORE YOU BUY.' : 'ADD SOMETHING YOU WANT TO BUY. JURNL SHOWS WHETHER IT FITS.'}</p>
+        </header>
+      </FramePanel>
+      <FramePanel id="plinth">
+        <section className="jrn-obj__stage" aria-label="UNDER CONSIDERATION" data-empty={focus ? 'false' : 'true'}>
+          <span className="jrn-obj__tag">UNDER CONSIDERATION</span>
+          <div className="jrn-obj__niche">
+            {focus ?
+              <>
+                <h2 className="jrn-obj__name">{focus.title}</h2>
+                <p className="jrn-obj__price">{formatMoney(focus.target_amount)}</p>
+                <p className="jrn-obj__meta">{STATUS_LABEL[focus.status] ?? focus.status}</p>
+              </>
+            : <>
+                <h2 className="jrn-obj__name jrn-obj__name--empty">NOTHING YET</h2>
+                <p className="jrn-obj__meta">NAME IT, GIVE IT A PRICE.</p>
+              </>
+            }
+          </div>
+          {focus ?
+            <JurnlButton trigger="purchase-decide-focus" onClick={() => go(`purchases/${focus.purchase_id}`)}>DECIDE ON THIS</JurnlButton>
+          : <JurnlButton trigger="purchase-consider" onClick={() => setAddOpen(true)}>ADD SOMETHING TO CONSIDER</JurnlButton>}
+          {focus && fit ?
+            <dl className="jrn-obj__orbit">
+              <div>
+                <dt>FITS?</dt>
+                <dd data-verdict={fit.verdict}>{VERDICT[fit.verdict].short}</dd>
+              </div>
+              <div>
+                <dt>SAFE TO SPEND AFTER</dt>
+                <dd>{formatMoney(fit.after)}</dd>
+              </div>
+              <div>
+                <dt>STATUS</dt>
+                <dd>{STATUS_LABEL[focus.status] ?? focus.status}</dd>
+              </div>
+            </dl>
+          : null}
+          {focus && fit ? <p className="jrn-lang__task jrn-obj__line">{VERDICT[fit.verdict].line}</p> : null}
+        </section>
+      </FramePanel>
+      {others.length ?
+        <FramePanel id="others">
+          <section className="jrn-obj__shelf" aria-label="ALSO CONSIDERING">
+            <p className="jrn-lang__fn">ALSO CONSIDERING</p>
+            {others.map((p) => (
+              <button key={p.purchase_id} type="button" className="jrn-obj__item" data-jrn-trigger={`purchase-${p.purchase_id}`} onClick={() => go(`purchases/${p.purchase_id}`)}>
+                <span className="jrn-obj__itemname">{p.title}</span>
+                <span className="jrn-obj__itemmeta">{STATUS_LABEL[p.status] ?? p.status}</span>
+                <span className="jrn-obj__itemamt">{formatMoney(p.target_amount)}</span>
+              </button>
+            ))}
+          </section>
+        </FramePanel>
+      : null}
+      <FramePanel id="actions">
+        <div className="jrn-obj__actions">
+          {focus ? <JurnlButton variant="secondary" trigger="purchase-consider" onClick={() => setAddOpen(true)}>CONSIDER SOMETHING ELSE</JurnlButton> : null}
+          <p className="jrn-obj__links">
+            <JurnlInlineAction trigger="purchase-safe" onClick={() => go('safe')}>SAFE TO SPEND</JurnlInlineAction>
+          </p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </div>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 

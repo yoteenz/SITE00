@@ -9,61 +9,101 @@ import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function PlanShell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F08} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="PLAN" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F08" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F08" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F08"
+      familyPlate={PARENT_PLATES.F08}
+      nav={<JurnlProductNav current="PLAN" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F08" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F08" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+/** F08 PLAN — ROOM / ZONE. Money arranged into zones before it moves; each zone's width is its share of what's assigned. */
 export function PlanHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const plans = usePlanIntentions();
   const spec = parentById('F08')!;
   const [addOpen, setAddOpen] = useState(false);
   const assigned = totalPlanAssigned();
   return (
-    <PlanShell screenId="F08.00">
-      <FamilyChrome familyId="F08" nodeId="F08.00" backLabel="BACK TO TODAY" onBack={() => go('today')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">{spec.name}</h1>
-        <p className="jrn-home__sub">{spec.question}</p>
-      </div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        <div className="jrn-home__signal" data-jrn-panel="signal">
-          <p className="jrn-home__num">{formatMoney(assigned)}</p>
-          <p className="jrn-home__hint">ASSIGNED · {plans.length} INTENTIONS</p>
+    <JurnlFamilyFrame
+      screenId="F08.00"
+      familyId="F08"
+      familyPlate={PARENT_PLATES.F08}
+      label="PLAN"
+      archetype="ROOM_ZONE"
+      chrome={<FamilyChrome familyId="F08" nodeId="F08.00" backLabel="BACK TO TODAY" onBack={() => go('today')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="PLAN" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F08" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F08" nodeId="F08.00" onClose={closeOverlay} /> : null}
+          {addOpen ? <AddIntentionSheet onClose={() => setAddOpen(false)} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="intro">
+        <header className="jrn-zone__intro" data-jrn-zone="intro">
+          <h1 className="jrn-zone__h">PLAN</h1>
+          <p className="jrn-lang__state" data-jrn-panel="signal">
+            {plans.length ? `${formatMoney(assigned)} ASSIGNED ACROSS ${plans.length} ${plans.length === 1 ? 'INTENTION' : 'INTENTIONS'}.` : 'NOTHING IS ARRANGED YET.'}
+          </p>
+          <p className="jrn-lang__task">{plans.length ? 'OPEN A ZONE TO CHANGE WHAT IT HOLDS.' : 'GIVE EACH PART OF YOUR MONEY A JOB BEFORE IT MOVES.'}</p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </header>
+      </FramePanel>
+      {plans.length ?
+        <FramePanel id="zones">
+          <section className="jrn-zone" aria-label="INTENTIONS">
+            <div className="jrn-zone__plan" aria-hidden>
+              {plans.map((p) => (
+                <i key={p.plan_id} style={{ flexGrow: Math.max(1, p.assigned_amount) }} />
+              ))}
+            </div>
+            <div className="jrn-zone__grid">
+              {plans.map((p) => (
+                <button key={p.plan_id} type="button" className="jrn-zone__room" data-jrn-trigger={`plan-${p.plan_id}`} onClick={() => go(`plan/${p.plan_id}`)}>
+                  <span className="jrn-zone__name">{p.title}</span>
+                  <span className="jrn-zone__amt">{formatMoney(p.assigned_amount)}</span>
+                  <span className="jrn-zone__share">{assigned > 0 ? `${Math.round((p.assigned_amount / assigned) * 100)}% OF THE PLAN` : 'NOTHING ASSIGNED'}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        </FramePanel>
+      : null}
+      <FramePanel id="actions">
+        <div className="jrn-zone__actions">
+          <JurnlButton trigger="plan-add-intention" onClick={() => setAddOpen(true)}>ADD AN INTENTION</JurnlButton>
         </div>
-        {plans.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel" data-jrn-trigger="plan-empty">
-            <b>NOTHING IS ARRANGED</b>
-            <p>NAME AN INTENTION.</p>
-          </JurnlPanel>
-        : plans.map((p) => (
-            <button key={p.plan_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`plan-${p.plan_id}`} onClick={() => go(`plan/${p.plan_id}`)}>
-              <span className="jrn-tx__copy">
-                <span className="jrn-tx__name">{p.title}</span>
-                <small>ASSIGNED</small>
-              </span>
-              <span className="jrn-tx__amt">{formatMoney(p.assigned_amount)}</span>
-            </button>
-          ))}
-        <JurnlButton trigger="plan-add-intention" onClick={() => setAddOpen(true)}>ADD AN INTENTION</JurnlButton>
-        <JurnlButton variant="secondary" trigger="plan-open-safe" onClick={() => go('safe')}>SAFE TO SPEND</JurnlButton>
-        <JurnlButton variant="secondary" trigger="plan-open-goals" onClick={() => go('goals')}>GOALS</JurnlButton>
-      </div>
-      {addOpen ? <AddIntentionSheet onClose={() => setAddOpen(false)} /> : null}
-    </PlanShell>
+      </FramePanel>
+      <FramePanel id="around">
+        <nav className="jrn-zone__around" aria-label="PLAN AROUND">
+          <span>PLAN AROUND</span>
+          <JurnlInlineAction trigger="plan-open-safe" onClick={() => go('safe')}>SAFE TO SPEND</JurnlInlineAction>
+          <JurnlInlineAction trigger="plan-open-goals" onClick={() => go('goals')}>GOALS</JurnlInlineAction>
+          <JurnlInlineAction trigger="discovery-F08-F10" onClick={() => go('F10')}>PURCHASES</JurnlInlineAction>
+          <JurnlInlineAction trigger="discovery-F08-F11" onClick={() => go('F11')}>TRIPS</JurnlInlineAction>
+          <JurnlInlineAction trigger="discovery-F08-F15" onClick={() => go('F15')}>AHEAD</JurnlInlineAction>
+        </nav>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 

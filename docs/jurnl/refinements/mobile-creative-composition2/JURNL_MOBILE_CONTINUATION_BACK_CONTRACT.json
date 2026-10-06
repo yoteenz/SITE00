@@ -1,0 +1,23 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "back": {
+    "hook": "useFrameBack() in FamilyFrame.tsx; FamilyChrome and TodayChrome call frame.back() before the route back",
+    "screen_N_gt_0": "Goes to screen N−1. Label becomes “BACK TO SCREEN N”.",
+    "screen_0": "The family’s original back (e.g. BACK TO TODAY / BACK TO MONEY / BACK TO CREDIT).",
+    "sequence_proven": "screen 3 → 2 → 1 → route back (F16, live)"
+  },
+  "forward": {
+    "control": "NEXT (data-jrn-trigger=\"frame-next\")",
+    "aria_label": "NEXT — {FAMILY}, SCREEN {n+1} OF {count}",
+    "visibility": "Only when there is a next screen"
+  },
+  "history": "No history entries, no URL change (history.length and pathname unchanged across NEXT/BACK, proven live). The browser / OS back gesture therefore leaves the route, as it did before.",
+  "accessibility": {
+    "region": "role=region, aria-label “{FAMILY} — SCREEN n OF m”, tabIndex −1",
+    "focus": "Moves to the region on every screen change (never on first render)",
+    "announce": "aria-live=polite “SCREEN n OF m”",
+    "offscreen": "aria-hidden + inert — hidden panels cannot be tabbed into"
+  },
+  "reset": "FrameProvider is keyed by pathname: opening another route starts at screen 1."
+}

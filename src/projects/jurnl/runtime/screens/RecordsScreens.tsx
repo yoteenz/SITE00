@@ -10,46 +10,120 @@ import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
+import { formatCalendarDate } from '../../data/foundation/dates';
 import { useJurnl } from '../state/store';
 
 function Shell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F16} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F16" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F16" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F16"
+      familyPlate={PARENT_PLATES.F16}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F16" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F16" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+const FOLDERS: { type: RecordType; label: string }[] = [
+  { type: 'STATEMENT', label: 'STATEMENTS' },
+  { type: 'RECEIPT', label: 'RECEIPTS' },
+  { type: 'INVOICE', label: 'INVOICES' },
+  { type: 'PAYSTUB', label: 'PAY STUBS' },
+  { type: 'TAX', label: 'TAX' },
+  { type: 'OTHER', label: 'OTHER' },
+];
+
+/** F16 RECORDS — ARCHIVE / INDEX. A drawer label, an index you can search, folders by kind with staggered tabs. */
 export function RecordsHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   const spec = parentById('F16')!;
   const [query, setQuery] = useState('');
   const records = useRecords();
   const items = useMemo(() => listRecords(query), [records, query]);
   const [addOpen, setAddOpen] = useState(false);
+  const filed = records.length;
+  const folders = FOLDERS.map((f) => ({ ...f, rows: items.filter((r) => r.record_type === f.type) })).filter((f) => f.rows.length);
+  const searching = query.trim().length > 0;
   return (
-    <Shell screenId="F16.00">
-      <FamilyChrome familyId="F16" nodeId="F16.00" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro"><h1 className="jrn-home__h">{spec.name}</h1><p className="jrn-home__sub">{spec.question}</p></div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        <JurnlInput label="FIND" value={query} onValue={setQuery} trigger="records-find" />
-        {items.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel"><b>{query.trim() ? 'NO RESULTS' : 'NOTHING IS FILED'}</b></JurnlPanel>
-        : items.map((r) => (
-            <button key={r.record_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`record-${r.record_id}`} onClick={() => go(`records/${r.record_id}`)}>
-              <span className="jrn-tx__copy"><span className="jrn-tx__name">{r.title}</span><small>{r.record_type}</small></span>
-              <span className="jrn-tx__amt">{r.status}</span>
-            </button>
-          ))}
-        <JurnlButton trigger="records-add" onClick={() => setAddOpen(true)}>FILE A DOCUMENT</JurnlButton>
-      </div>
-      {addOpen ? <AddRecordSheet onClose={() => setAddOpen(false)} /> : null}
-    </Shell>
+    <JurnlFamilyFrame
+      screenId="F16.00"
+      familyId="F16"
+      familyPlate={PARENT_PLATES.F16}
+      label="RECORDS"
+      archetype="ARCHIVE_INDEX"
+      chrome={<FamilyChrome familyId="F16" nodeId="F16.00" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F16" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F16" nodeId="F16.00" onClose={closeOverlay} /> : null}
+          {addOpen ? <AddRecordSheet onClose={() => setAddOpen(false)} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="label">
+        <header className="jrn-idx__label" data-jrn-zone="intro">
+          <div className="jrn-idx__holder">
+            <h1 className="jrn-idx__h">RECORDS</h1>
+            <dl className="jrn-idx__counts">
+              <div>
+                <dt>FILED</dt>
+                <dd>{filed}</dd>
+              </div>
+              <div>
+                <dt>OPEN</dt>
+                <dd>NONE</dd>
+              </div>
+            </dl>
+          </div>
+          <p className="jrn-lang__state">{filed ? `${filed} ${filed === 1 ? 'RECORD' : 'RECORDS'} FILED. NO RECORD IS OPEN.` : 'NO RECORDS YET.'}</p>
+          <p className="jrn-lang__task">{filed ? 'OPEN A SAVED RECORD OR ADD A NEW ONE.' : 'ADD A STATEMENT, RECEIPT OR TAX FORM TO KEEP IT WITH YOUR MONEY.'}</p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </header>
+      </FramePanel>
+      <FramePanel id="find">
+        <div className="jrn-idx__find">
+          {filed ? <JurnlInput label="FIND A RECORD" value={query} onValue={setQuery} trigger="records-find" /> : null}
+          <button type="button" className="jrn-idx__newtab" data-jrn-trigger="records-add" data-primary={filed ? 'false' : 'true'} onClick={() => setAddOpen(true)}>
+            ADD A RECORD
+          </button>
+        </div>
+      </FramePanel>
+      {searching && !folders.length ?
+        <FramePanel id="no-results">
+          <p className="jrn-lang__task jrn-idx__none" role="status">NO RECORDS MATCH “{query.trim().toUpperCase()}”.</p>
+        </FramePanel>
+      : null}
+      {folders.map((f, i) => (
+        <FramePanel key={f.type} id={`folder-${f.type}`}>
+          <section className="jrn-idx__folder" aria-label={`${f.label} — ${f.rows.length}`} style={{ ['--tab' as string]: i % 3 }}>
+            <p className="jrn-idx__tab">
+              <span>{f.label}</span>
+              <b>{f.rows.length}</b>
+            </p>
+            <div className="jrn-idx__cards">
+              {f.rows.map((r) => (
+                <button key={r.record_id} type="button" className="jrn-idx__card" data-jrn-trigger={`record-${r.record_id}`} onClick={() => go(`records/${r.record_id}`)}>
+                  <span className="jrn-idx__title">{r.title}</span>
+                  <span className="jrn-idx__date">{r.document_date ? formatCalendarDate(r.document_date) : 'NO DATE'}</span>
+                  <span className="jrn-idx__status">{r.status}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        </FramePanel>
+      ))}
+    </JurnlFamilyFrame>
   );
 }
 

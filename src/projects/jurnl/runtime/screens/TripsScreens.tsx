@@ -10,46 +10,128 @@ import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function Shell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F11} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F11" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F11" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F11"
+      familyPlate={PARENT_PLATES.F11}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F11" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F11" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+/** F11 TRIPS — MAP / ROUTE. From here, through funding, to the destination. The route line fills as funding lands. */
 export function TripsHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const items = useTrips();
   const spec = parentById('F11')!;
   const [addOpen, setAddOpen] = useState(false);
+  const active = items.filter((t) => t.status === 'ACTIVE');
+  const focus = active[0] ?? null;
+  const others = items.filter((t) => t !== focus);
+  const funded = focus && focus.target_budget > 0 ? Math.min(1, focus.reserved_amount / focus.target_budget) : 0;
+  const sts = computeSafeToSpend();
+  const fundingLine = focus ?
+      focus.target_budget > 0 ? `${formatMoney(focus.reserved_amount)} OF ${formatMoney(focus.target_budget)} RESERVED` : 'NO BUDGET SET'
+    : 'NOT SET';
   return (
-    <Shell screenId="F11.00">
-      <FamilyChrome familyId="F11" nodeId="F11.00" backLabel="BACK TO TODAY" onBack={() => go('today')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro"><h1 className="jrn-home__h">{spec.name}</h1><p className="jrn-home__sub">{spec.question}</p></div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        {items.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel"><b>NO TRIP IS NAMED</b></JurnlPanel>
-        : items.map((t) => (
-            <button key={t.trip_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`trip-${t.trip_id}`} onClick={() => go(`trips/${t.trip_id}`)}>
-              <span className="jrn-tx__copy"><span className="jrn-tx__name">{t.title}</span><small>{t.destination}</small></span>
-              <span className="jrn-tx__amt">{formatMoney(t.target_budget)}</span>
-            </button>
-          ))}
-        <JurnlButton trigger="trip-add" onClick={() => setAddOpen(true)}>NAME A TRIP</JurnlButton>
-        <JurnlButton variant="secondary" trigger="trip-safe" onClick={() => go('safe')}>SAFE TO SPEND</JurnlButton>
-      </div>
-      {addOpen ? <TripEditSheet onClose={() => setAddOpen(false)} /> : null}
-    </Shell>
+    <JurnlFamilyFrame
+      screenId="F11.00"
+      familyId="F11"
+      familyPlate={PARENT_PLATES.F11}
+      label="TRIPS"
+      archetype="MAP_ROUTE"
+      chrome={<FamilyChrome familyId="F11" nodeId="F11.00" backLabel="BACK TO TODAY" onBack={() => go('today')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F11" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F11" nodeId="F11.00" onClose={closeOverlay} /> : null}
+          {addOpen ? <TripEditSheet onClose={() => setAddOpen(false)} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="intro">
+        <header className="jrn-route__intro" data-jrn-zone="intro">
+          <h1 className="jrn-route__fn">TRIPS</h1>
+          <p className="jrn-lang__state">
+            {focus ?
+              `${active.length} ${active.length === 1 ? 'TRIP' : 'TRIPS'} PLANNED. ${focus.destination} IS ${Math.round(funded * 100)}% FUNDED.`
+            : 'NO TRIP IS SET UP YET.'}
+          </p>
+          <p className="jrn-lang__task">{focus ? 'RESERVE MONEY FOR IT SO IT STAYS OUT OF SAFE TO SPEND.' : 'ADD A DESTINATION AND A BUDGET TO START.'}</p>
+        </header>
+      </FramePanel>
+      <FramePanel id="route">
+        <section className="jrn-route" aria-label={focus ? `ROUTE TO ${focus.destination}` : 'ROUTE NOT SET'} style={{ ['--funded' as string]: funded }}>
+          <ol className="jrn-route__stops">
+            <li className="jrn-route__stop" data-stop="origin">
+              <span className="jrn-route__mark" aria-hidden />
+              <span className="jrn-route__kicker">FROM HERE</span>
+              <span className="jrn-route__value">TODAY · {formatMoney(sts.value)} SAFE TO SPEND</span>
+            </li>
+            <li className="jrn-route__stop" data-stop="funding">
+              <span className="jrn-route__mark" aria-hidden />
+              <span className="jrn-route__kicker">FUNDING</span>
+              <span className="jrn-route__value">{fundingLine}</span>
+              {focus ?
+                <JurnlButton trigger="trip-fund-focus" onClick={() => go(`trips/${focus.trip_id}`)}>FUND THIS TRIP</JurnlButton>
+              : null}
+            </li>
+            <li className="jrn-route__stop" data-stop="destination">
+              <span className="jrn-route__mark" aria-hidden />
+              <span className="jrn-route__kicker">DESTINATION</span>
+              <h2 className="jrn-route__dest">{focus ? focus.destination : 'NOT SET'}</h2>
+              {focus ?
+                <JurnlInlineAction trigger={`trip-${focus.trip_id}`} onClick={() => go(`trips/${focus.trip_id}`)}>OPEN {focus.title}</JurnlInlineAction>
+              : <JurnlButton trigger="trip-add" onClick={() => setAddOpen(true)}>ADD A DESTINATION</JurnlButton>}
+            </li>
+          </ol>
+        </section>
+      </FramePanel>
+      {others.length ?
+        <FramePanel id="others">
+          <section className="jrn-route__others" aria-label="OTHER TRIPS">
+            <p className="jrn-lang__fn">OTHER TRIPS</p>
+            {others.map((t) => {
+              const share = t.target_budget > 0 ? Math.min(1, t.reserved_amount / t.target_budget) : 0;
+              return (
+                <button key={t.trip_id} type="button" className="jrn-route__row" data-jrn-trigger={`trip-${t.trip_id}`} onClick={() => go(`trips/${t.trip_id}`)} style={{ ['--funded' as string]: share }}>
+                  <span className="jrn-route__rowname">{t.destination}</span>
+                  <span className="jrn-route__rowmeta">{t.status === 'COMPLETE' ? 'DONE' : `${Math.round(share * 100)}% FUNDED`}</span>
+                  <span className="jrn-route__rowamt">{formatMoney(t.target_budget)}</span>
+                  <i className="jrn-route__rowline" aria-hidden />
+                </button>
+              );
+            })}
+          </section>
+        </FramePanel>
+      : null}
+      <FramePanel id="actions">
+        <div className="jrn-route__actions">
+          {focus ? <JurnlButton variant="secondary" trigger="trip-add" onClick={() => setAddOpen(true)}>PLAN ANOTHER TRIP</JurnlButton> : null}
+          <p className="jrn-route__links">
+            <JurnlInlineAction trigger="trip-safe" onClick={() => go('safe')}>SAFE TO SPEND</JurnlInlineAction>
+          </p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </div>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 
