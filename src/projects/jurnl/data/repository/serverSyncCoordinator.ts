@@ -71,6 +71,17 @@ async function flushPush(snapshot: RepositorySnapshot): Promise<void> {
 }
 
 /** Pull server snapshot on login (caller merges via importSnapshotForUser). */
+export async function pushSnapshotAfterLogin(mode: 'design-preview' | 'production', userId: string): Promise<void> {
+  configureServerSync(mode);
+  if (!enabled || !apiBase) return;
+  const { peekDeviceSnapshot } = await import('./deviceRepository');
+  const snap = peekDeviceSnapshot(userId);
+  if (!snap) return;
+  const token = await getAccessTokenForSync();
+  if (!token) return;
+  await pushServerSnapshot(apiBase, token, snap, null, `first-login-${userId}-${snap.updatedAt}`);
+}
+
 export async function pullServerSnapshotForHydrate(mode: 'design-preview' | 'production'): Promise<{
   snapshot: RepositorySnapshot | null;
   updatedAt: string | null;

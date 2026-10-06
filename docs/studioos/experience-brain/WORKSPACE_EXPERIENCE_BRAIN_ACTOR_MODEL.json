@@ -1,0 +1,117 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "actors": {
+    "PUBLIC": {
+      "role": "potential client discovering the service",
+      "perspective_keys": [
+        "discovery",
+        "must_understand",
+        "who_its_for",
+        "what_we_handle",
+        "what_client_provides",
+        "how_it_works",
+        "outcome",
+        "pricing_relationship",
+        "cta",
+        "workspace_continuity"
+      ],
+      "may_be_not_applicable": "only for internal / authenticated-only features, with a reason"
+    },
+    "CLIENT": {
+      "role": "client workspace user (incl. client-side role projections)",
+      "perspective_keys": [
+        "entry_point",
+        "primary_task",
+        "sees_first",
+        "must_provide",
+        "input_methods",
+        "system_already_knows",
+        "needs_you",
+        "under_review",
+        "completion_looks_like",
+        "artifacts_received",
+        "what_happens_next",
+        "project_room"
+      ],
+      "may_be_not_applicable": false
+    },
+    "FOUNDER_STAFF": {
+      "role": "founder / staff workspace — the operational mirror",
+      "perspective_keys": [
+        "client_context",
+        "work_queue",
+        "status_model",
+        "blockers",
+        "missing_inputs",
+        "system_flags",
+        "human_review",
+        "corrections",
+        "approval",
+        "overrides",
+        "operational_actions",
+        "communication",
+        "artifact_generation",
+        "completion",
+        "audit_history",
+        "hub_buckets",
+        "mirror_not_copy"
+      ],
+      "may_be_not_applicable": false,
+      "mirror_rule": "never a copy of the client UI: operational status, review work, exceptions, client needs, automation status, audit history, financial / service status where permitted"
+    },
+    "SYSTEM": {
+      "role": "automation — ingestion, derivation, transitions, events, vault / inbox movement, next cycle, failure handling",
+      "perspective_keys": [
+        "ingestion",
+        "validation",
+        "derivation",
+        "state_transitions",
+        "event_creation",
+        "notifications",
+        "vault_movement",
+        "inbox_movement",
+        "activity_events",
+        "next_cycle_creation",
+        "reminders",
+        "failure_handling"
+      ],
+      "may_be_not_applicable": false
+    }
+  },
+  "experience_complete_requires": "all four perspectives (PUBLIC may be not-applicable with reason)",
+  "role_projection_rule": "Role projections (e.g. SHIPPER, DRIVER, PROVIDER, OFFICE) are views of the same contract, mapped to an actor — not separate features.",
+  "project_examples": {
+    "AIO": [
+      {
+        "id": "SHIPPER",
+        "label": "Shipper",
+        "actor": "CLIENT",
+        "route_prefix": "shipper/*",
+        "note": "Freight buyer; never sees carrier pay / margin."
+      },
+      {
+        "id": "DRIVER",
+        "label": "Driver",
+        "actor": "CLIENT",
+        "route_prefix": "driver/driverlink/*",
+        "note": "Driver candidate / hired driver (route guard is a known gap)."
+      },
+      {
+        "id": "FLEETCARE_PROVIDER",
+        "label": "FleetCare provider",
+        "actor": "CLIENT",
+        "route_prefix": "provider/fleetcare/*",
+        "note": "Repair / service provider (route guard is a known gap)."
+      },
+      {
+        "id": "AIO_OFFICE",
+        "label": "AIO Office",
+        "actor": "FOUNDER_STAFF",
+        "route_prefix": "office/*",
+        "note": "Internal staff; OfficeRouteGuard."
+      }
+    ]
+  }
+}

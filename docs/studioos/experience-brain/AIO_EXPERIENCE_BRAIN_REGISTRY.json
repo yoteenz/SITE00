@@ -1,0 +1,2117 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "project": {
+    "project_id": "AIO",
+    "project_name": "ALL IN ONE ENTERPRISES INC",
+    "brand": {
+      "tagline": "WHERE BUSINESS MEETS THE ROAD.",
+      "positioning": "THE BUSINESS OFFICE BEHIND THE TRUCK.",
+      "promise": "FROM STARTUP TO EVERY MILE AFTER.",
+      "voice": [
+        "CLEAR",
+        "CAPABLE",
+        "CONNECTED",
+        "HUMAN"
+      ]
+    },
+    "visual_language": {
+      "register": "EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE — operational luxury",
+      "palette": [
+        "BLACK",
+        "GOLD",
+        "SILVER",
+        "OBSIDIAN",
+        "CHARCOAL",
+        "STONE",
+        "CHAMPAGNE"
+      ],
+      "emphasis_map": {
+        "NEUTRAL": "STONE on CHARCOAL",
+        "PROGRESS": "CHAMPAGNE progress line on OBSIDIAN",
+        "ATTENTION": "GOLD",
+        "BLOCKER": "GOLD outline + solid marker (never alarm red as decoration)",
+        "REVIEW": "SILVER",
+        "DECISION": "GOLD fill — the one decision on screen",
+        "SUCCESS": "CHAMPAGNE seal on BLACK",
+        "ARCHIVED": "STONE, muted, filed",
+        "ERROR": "GOLD on BLACK with explicit recovery copy"
+      },
+      "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles",
+      "forbidden": [
+        "Frontal Slayer typography",
+        "generic SaaS dashboard chrome",
+        "cartoon trucks",
+        "legal / government seals implying AIO is a government system"
+      ]
+    },
+    "actors": {
+      "PUBLIC": "Prospective carrier / owner-operator / small fleet / shipper discovering AIO",
+      "CLIENT": "Carrier client organization (owner-operator, fleet owner, office manager) in the portal",
+      "FOUNDER_STAFF": "AIO founder and office specialists (permitting, compliance, dispatch, insurance, factoring, bookkeeping, brokerage divisions)",
+      "SYSTEM": "AIO automation: service request engine, office work items, readiness engines, vault, notification + communication engines"
+    },
+    "role_projections": [
+      {
+        "id": "SHIPPER",
+        "label": "Shipper",
+        "actor": "CLIENT",
+        "route_prefix": "shipper/*",
+        "note": "Freight buyer; never sees carrier pay / margin."
+      },
+      {
+        "id": "DRIVER",
+        "label": "Driver",
+        "actor": "CLIENT",
+        "route_prefix": "driver/driverlink/*",
+        "note": "Driver candidate / hired driver (route guard is a known gap)."
+      },
+      {
+        "id": "FLEETCARE_PROVIDER",
+        "label": "FleetCare provider",
+        "actor": "CLIENT",
+        "route_prefix": "provider/fleetcare/*",
+        "note": "Repair / service provider (route guard is a known gap)."
+      },
+      {
+        "id": "AIO_OFFICE",
+        "label": "AIO Office",
+        "actor": "FOUNDER_STAFF",
+        "route_prefix": "office/*",
+        "note": "Internal staff; OfficeRouteGuard."
+      }
+    ],
+    "shared_surfaces": {
+      "vault": "F16 VAULT — portal/vault (customer) · office/documents (Office Document Center)",
+      "inbox": "F17 INBOX — portal/messages · notifications · office/inbox",
+      "activity": "F05 MY OFFICE — portal/activity",
+      "founder_hub": "AIO Office — office/* command center + division queues (OfficeWorkItem)",
+      "client_home": "F05 MY OFFICE — portal (Client Command Center: next action · attention · health)"
+    },
+    "source_repositories": [
+      "yoteenz/fsbw/all-in-one-enterprises",
+      "yoteenz/SITE00 (Studio OS host)"
+    ]
+  },
+  "source": "yoteenz/fsbw · all-in-one-enterprises/ @ fd8bf3c",
+  "service_inventory": {
+    "PERMITTING": "AIO.PERMITTING",
+    "TAGS / REGISTRATION": "AIO.TAGS_REGISTRATION",
+    "IFTA / FUEL TAX": "AIO.IFTA",
+    "ROAD TAX / HIGHWAY TAX": "AIO.ROAD_TAX",
+    "AUTHORITIES": "AIO.AUTHORITIES",
+    "BOC-3": "AIO.BOC3",
+    "LLC / INC": "AIO.BUSINESS_FORMATION",
+    "ROAD READY": "AIO.ROAD_READY",
+    "BROKERAGE": "AIO.BROKERAGE",
+    "DISPATCH / OPERATIONS": "AIO.DISPATCH_OPERATIONS",
+    "LOAD BOARD": "AIO.LOAD_BOARD",
+    "INSURANCE": "AIO.INSURANCE",
+    "FACTORING": "AIO.FACTORING",
+    "BOOKKEEPING": "AIO.BOOKKEEPING",
+    "FLEETCARE": "AIO.FLEETCARE",
+    "DRIVERLINK": "AIO.DRIVERLINK",
+    "VAULT": "AIO.VAULT",
+    "INBOX": "AIO.INBOX",
+    "CLIENT ACCOUNT": "AIO.ACCOUNT",
+    "AIO OFFICE OPERATIONS": "AIO.OFFICE_OPERATIONS"
+  },
+  "family_map": {
+    "F01 ENTRY": [
+      "AIO.ENTRY"
+    ],
+    "F02 GET STARTED": [
+      "AIO.GET_STARTED"
+    ],
+    "F03 START YOUR BUSINESS": [
+      "AIO.BUSINESS_FORMATION"
+    ],
+    "F04 ROAD READY": [
+      "AIO.ROAD_READY",
+      "AIO.RENEWALS"
+    ],
+    "F05 MY OFFICE": [
+      "AIO.MY_OFFICE"
+    ],
+    "F06 SERVICES": [
+      "AIO.SERVICES",
+      "AIO.AUTHORITIES",
+      "AIO.BOC3",
+      "AIO.IFTA_REGISTRATION",
+      "AIO.IFTA",
+      "AIO.PERMITTING",
+      "AIO.TAGS_REGISTRATION",
+      "AIO.ROAD_TAX",
+      "AIO.COMPLIANCE_SAFETY"
+    ],
+    "F07 OPERATIONS": [
+      "AIO.DISPATCH_OPERATIONS"
+    ],
+    "F08 LOAD BOARD": [
+      "AIO.LOAD_BOARD"
+    ],
+    "F09 BROKERAGE": [
+      "AIO.BROKERAGE"
+    ],
+    "F10 FINANCES": [
+      "AIO.FINANCES"
+    ],
+    "F11 FACTORING": [
+      "AIO.FACTORING"
+    ],
+    "F12 INSURANCE": [
+      "AIO.INSURANCE"
+    ],
+    "F13 BOOKKEEPING": [
+      "AIO.BOOKKEEPING"
+    ],
+    "F14 FLEETCARE": [
+      "AIO.FLEETCARE"
+    ],
+    "F15 DRIVERLINK": [
+      "AIO.DRIVERLINK"
+    ],
+    "F16 VAULT": [
+      "AIO.VAULT"
+    ],
+    "F17 INBOX": [
+      "AIO.INBOX"
+    ],
+    "F18 ACCOUNT": [
+      "AIO.ACCOUNT"
+    ],
+    "ROLE: SHIPPER": [
+      "AIO.BROKERAGE"
+    ],
+    "ROLE: DRIVER": [
+      "AIO.DRIVERLINK",
+      "AIO.DISPATCH_OPERATIONS"
+    ],
+    "ROLE: FLEETCARE PROVIDER": [
+      "AIO.FLEETCARE"
+    ],
+    "ROLE: AIO OFFICE": [
+      "AIO.OFFICE_OPERATIONS"
+    ]
+  },
+  "rows": [
+    {
+      "project": "AIO",
+      "feature_id": "AIO.ENTRY",
+      "feature_name": "Entry — Home / About / Contact",
+      "family": "F01 ENTRY",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "FIRST_VISIT",
+          "class": "EMPTY"
+        },
+        {
+          "id": "PATHWAY_CHOSEN",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "CONTACTED",
+          "class": "REVIEW"
+        },
+        {
+          "id": "CONVERTED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "RETURNING",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "UNAVAILABLE",
+          "class": "ERROR"
+        },
+        {
+          "id": "FOLLOW_UP_NEEDED",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "CALL_BOOKED",
+          "class": "APPROVAL"
+        }
+      ],
+      "archetype": [
+        "THRESHOLD",
+        "SHOWCASE"
+      ],
+      "primary_object": "THE PATHWAY (start · road ready · run · get paid)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 55,
+      "activation_state": "public live (demo persistence)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.GET_STARTED",
+      "feature_name": "Get Started — Intake / Roadmap / Service Plan",
+      "family": "F02 GET STARTED",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_STARTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "ANSWERING",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "ROADMAP_READY",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "UNSURE_ITEMS",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_REVIEWING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "PLAN_STARTED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "IN_MY_OFFICE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "SUBMIT_FAILED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "ROUTE",
+        "CONSULTATION"
+      ],
+      "primary_object": "THE ROADMAP (items with reasons)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 55,
+      "activation_state": "live (demo persistence)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.BUSINESS_FORMATION",
+      "feature_name": "Start Your Business — LLC / INC / EIN",
+      "family": "F03 START YOUR BUSINESS",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_STARTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "INTAKE",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "NAME_CHECK",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_PREPARING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "FILED_WITH_STATE",
+          "class": "REVIEW"
+        },
+        {
+          "id": "FORMED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "EIN_ISSUED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "REJECTED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "ROUTE",
+        "CASE_FILE"
+      ],
+      "primary_object": "THE BUSINESS ENTITY (name, type, status on the route)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 55,
+      "activation_state": "formation ACTIVE (SERVICE_ACTIVATION_MATRIX)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.ROAD_READY",
+      "feature_name": "Road Ready",
+      "family": "F04 ROAD READY",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NO_PROFILE",
+          "class": "EMPTY"
+        },
+        {
+          "id": "SETTING_UP",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "NEEDS_ATTENTION",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "IN_VERIFICATION",
+          "class": "REVIEW"
+        },
+        {
+          "id": "ROAD_READY",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "RENEWAL_DUE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "VERIFICATION_REJECTED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CHECKLIST",
+        "ROUTE"
+      ],
+      "primary_object": "THE ROAD READY PROFILE (setup progress vs items verified)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 64,
+      "activation_state": "authorities ACTIVE · Road Ready profile live (demo persistence)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.MY_OFFICE",
+      "feature_name": "My Office — Client Command Center",
+      "family": "F05 MY OFFICE",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "NOT_APPLICABLE",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NEW_CLIENT",
+          "class": "EMPTY"
+        },
+        {
+          "id": "NEXT_ACTION",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "NEEDS_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "DECISION_WAITING",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "ALL_CLEAR",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "QUIET_PERIOD",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "DATA_UNAVAILABLE",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CONTROL_ROOM",
+        "QUEUE"
+      ],
+      "primary_object": "THE NEXT ACTION",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 68,
+      "activation_state": "demo complete",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.SERVICES",
+      "feature_name": "Services — Catalog / Requests",
+      "family": "F06 SERVICES",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NO_REQUESTS",
+          "class": "EMPTY"
+        },
+        {
+          "id": "IN_PROGRESS",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "ALL_IN_ONE_IS_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "QUOTE_DECISION",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "HISTORY",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "NOT_AVAILABLE",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "INDEX",
+        "QUEUE"
+      ],
+      "primary_object": "THE REQUEST (service, customer-friendly state)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 57,
+      "activation_state": "per service",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.AUTHORITIES",
+      "feature_name": "Authorities — USDOT / MC / MCS-150",
+      "family": "F06 SERVICES (get-road-ready) · F04 ROAD READY",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_REQUESTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "WAITING_EXTERNALLY",
+          "class": "REVIEW"
+        },
+        {
+          "id": "COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ON_FILE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RETURNED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE AUTHORITY (USDOT / MC numbers and status)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 57,
+      "activation_state": "authorities ACTIVE",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.BOC3",
+      "feature_name": "BOC-3 Process Agent Filing",
+      "family": "F06 SERVICES (get-road-ready)",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_REQUESTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "WAITING_EXTERNALLY",
+          "class": "REVIEW"
+        },
+        {
+          "id": "COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ON_FILE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RETURNED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE BOC-3 FILING",
+      "declared_completion": "EXPERIENCE_DRAFTED",
+      "earned_completion": "EXPERIENCE_DRAFTED",
+      "experience_status": "EXPERIENCE_PARTIAL",
+      "authority_readiness": "EXPERIENCE_REQUIRED",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 57,
+      "activation_state": "boc3 PARTNER_PENDING — partner / manual workflow until provider is activated",
+      "gate_failures": [],
+      "gap_count": 1
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.IFTA_REGISTRATION",
+      "feature_name": "IFTA Account Registration",
+      "family": "F06 SERVICES (get-road-ready)",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_REQUESTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "WAITING_EXTERNALLY",
+          "class": "REVIEW"
+        },
+        {
+          "id": "COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ON_FILE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RETURNED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE IFTA ACCOUNT (license + decals)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 57,
+      "activation_state": "ifta-reg LIMITED_PILOT",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.IFTA",
+      "feature_name": "IFTA / Fuel Tax",
+      "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_ENROLLED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "QUARTER_OPEN",
+          "class": "EMPTY"
+        },
+        {
+          "id": "COLLECTING",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "NEEDS_CLIENT",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "OVERDUE_RISK",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_REVIEW",
+          "class": "REVIEW"
+        },
+        {
+          "id": "RECONCILING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "AWAITING_APPROVAL",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "FILING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "FILED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ARCHIVED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "FILING_REJECTED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "PACKET_BUILDER",
+        "WORKBENCH",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": null,
+      "activation_state": "ifta-reg LIMITED_PILOT · ifta-filing PREPARING · fuel-tax INTERNAL_ONLY (staff manual filing)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.PERMITTING",
+      "feature_name": "Permitting — UCR / Trip / Temporary & Specialty Permits",
+      "family": "F06 SERVICES (permits-taxes-compliance)",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_REQUESTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "WAITING_EXTERNALLY",
+          "class": "REVIEW"
+        },
+        {
+          "id": "COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ON_FILE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RETURNED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE PERMIT (jurisdiction, validity window)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 57,
+      "activation_state": "permitting ACTIVE",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.TAGS_REGISTRATION",
+      "feature_name": "Tags / Registration — IRP / Plates / Titles",
+      "family": "F06 SERVICES (get-road-ready)",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_REQUESTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "WAITING_EXTERNALLY",
+          "class": "REVIEW"
+        },
+        {
+          "id": "COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ON_FILE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RETURNED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE UNIT REGISTRATION (truck, plate, jurisdictions)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 57,
+      "activation_state": "tags ACTIVE",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.ROAD_TAX",
+      "feature_name": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes",
+      "family": "F06 SERVICES (permits-taxes-compliance)",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_REQUESTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "WAITING_EXTERNALLY",
+          "class": "REVIEW"
+        },
+        {
+          "id": "COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ON_FILE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RETURNED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE TAX PERIOD (units, amount, stamped proof)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 57,
+      "activation_state": "road-tax INTERNAL_ONLY — staff workflow",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.COMPLIANCE_SAFETY",
+      "feature_name": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits",
+      "family": "F06 SERVICES (safety-drivers)",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_REQUESTED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_YOU",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AIO_WORKING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "WAITING_EXTERNALLY",
+          "class": "REVIEW"
+        },
+        {
+          "id": "COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ON_FILE",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RETURNED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CASE_FILE",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE SAFETY FILE (program + driver files)",
+      "declared_completion": "EXPERIENCE_DRAFTED",
+      "earned_completion": "EXPERIENCE_DRAFTED",
+      "experience_status": "EXPERIENCE_PARTIAL",
+      "authority_readiness": "EXPERIENCE_REQUIRED",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": null,
+      "activation_state": "catalog-listed; activation per service (not in SERVICE_ACTIVATION_MATRIX)",
+      "gate_failures": [],
+      "gap_count": 2
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.RENEWALS",
+      "feature_name": "Renewals",
+      "family": "F04 ROAD READY · F06 SERVICES (renewals)",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NONE_DUE",
+          "class": "EMPTY"
+        },
+        {
+          "id": "UPCOMING",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "DECISION_NEEDED",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "WITH_AIO",
+          "class": "REVIEW"
+        },
+        {
+          "id": "OVERDUE",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "RENEWED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "SELF_MANAGED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RENEWAL_FAILED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "HORIZON",
+        "QUEUE"
+      ],
+      "primary_object": "THE NEXT EXPIRATION (item, date, decision)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": null,
+      "activation_state": "renewals in catalog (permits-taxes-compliance)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.DISPATCH_OPERATIONS",
+      "feature_name": "Dispatch / Operations",
+      "family": "F07 OPERATIONS",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_ENROLLED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "ONBOARDING",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "SEARCHING",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "OFFER_PENDING",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "BOOKED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "IN_TRANSIT",
+          "class": "REVIEW"
+        },
+        {
+          "id": "POD_NEEDED",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "LOAD_COMPLETE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "SETTLED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "LOAD_PROBLEM",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CONTROL_ROOM",
+        "DECISION_WINDOW",
+        "PIPELINE"
+      ],
+      "primary_object": "THE LOAD (lane, rate, pickup / delivery, status)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 71,
+      "activation_state": "dispatch ACTIVE — manual load entry supported without load board",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.LOAD_BOARD",
+      "feature_name": "Load Board",
+      "family": "F08 LOAD BOARD",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "NOT_APPLICABLE",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NO_MATCHES",
+          "class": "EMPTY"
+        },
+        {
+          "id": "BROWSING",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "NEGOTIATING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "OFFER_DECISION",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "BOOKED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "CLOSED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "NOT_ELIGIBLE",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "PUBLISH_ERROR",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "MATCHING_BOARD",
+        "DECISION_WINDOW"
+      ],
+      "primary_object": "THE OPPORTUNITY (lane, rate, fit)",
+      "declared_completion": "EXPERIENCE_DRAFTED",
+      "earned_completion": "EXPERIENCE_DRAFTED",
+      "experience_status": "EXPERIENCE_PARTIAL",
+      "authority_readiness": "EXPERIENCE_REQUIRED",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 68,
+      "activation_state": "tied to brokerage — PAUSED (business activation required)",
+      "gate_failures": [],
+      "gap_count": 2
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.BROKERAGE",
+      "feature_name": "Brokerage (Shipper)",
+      "family": "F09 BROKERAGE",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_ONBOARDED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "QUOTE_READY",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "COVERING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "IN_TRANSIT",
+          "class": "REVIEW"
+        },
+        {
+          "id": "DELIVERED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "BILLED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "EXCEPTION",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "CANCELLED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "PIPELINE",
+        "DECISION_WINDOW"
+      ],
+      "primary_object": "THE SHIPMENT (lane, dates, status)",
+      "declared_completion": "EXPERIENCE_DRAFTED",
+      "earned_completion": "EXPERIENCE_DRAFTED",
+      "experience_status": "EXPERIENCE_PARTIAL",
+      "authority_readiness": "EXPERIENCE_REQUIRED",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 68,
+      "activation_state": "brokerage PAUSED — BUSINESS ACTIVATION REQUIRED (not publicly enabled)",
+      "gate_failures": [],
+      "gap_count": 2
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.FINANCES",
+      "feature_name": "Finances — Money / Billing / Quotes",
+      "family": "F10 FINANCES",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "NOT_APPLICABLE",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOTHING_DUE",
+          "class": "EMPTY"
+        },
+        {
+          "id": "QUOTE_PENDING",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "INVOICE_OPEN",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "OVERDUE",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "PAYMENT_PROCESSING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "PAID",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ARCHIVED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "PAYMENT_FAILED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "LEDGER",
+        "DECISION_WINDOW"
+      ],
+      "primary_object": "THE BALANCE (service fees due)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 55,
+      "activation_state": "billing live in demo; payment provider abstraction",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.FACTORING",
+      "feature_name": "Factoring (assistance / partner)",
+      "family": "F11 FACTORING",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NOT_ENROLLED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "DOCUMENTS_NEEDED",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "UNDER_REVIEW",
+          "class": "REVIEW"
+        },
+        {
+          "id": "PARTNER_REVIEW",
+          "class": "REVIEW"
+        },
+        {
+          "id": "ACTIVE",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "FUNDED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "CLOSED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "DECLINED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "PIPELINE",
+        "PACKET_BUILDER"
+      ],
+      "primary_object": "THE INVOICE (load, amount, stage)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 68,
+      "activation_state": "factoring PARTNER_PENDING — partner referral, not direct funding",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.INSURANCE",
+      "feature_name": "Insurance (assistance / referral)",
+      "family": "F12 INSURANCE",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NO_POLICY",
+          "class": "EMPTY"
+        },
+        {
+          "id": "INTAKE",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "REFERRED",
+          "class": "REVIEW"
+        },
+        {
+          "id": "OPTIONS_READY",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "POLICY_SETUP",
+          "class": "REVIEW"
+        },
+        {
+          "id": "ACTIVE_POLICY",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "RENEWAL_WINDOW",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "DOCUMENTS_NEEDED",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "LAPSE_RISK",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "DECISION_WINDOW",
+        "DOCUMENT_TABLE"
+      ],
+      "primary_object": "THE POLICY (coverage, carrier, term)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 65,
+      "activation_state": "insurance PARTNER_PENDING — assistance / referral, no bind without licensing",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.BOOKKEEPING",
+      "feature_name": "Bookkeeping",
+      "family": "F13 BOOKKEEPING",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NO_PLAN",
+          "class": "EMPTY"
+        },
+        {
+          "id": "MONTH_OPEN",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "QUESTIONS",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "CLOSING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "REVIEW_READY",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "CLOSED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ARCHIVED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "RESCUE_NEEDED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "WORKBENCH",
+        "LEDGER"
+      ],
+      "primary_object": "THE MONTH (period, close status)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 69,
+      "activation_state": "bookkeeping in catalog (plans priced)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.FLEETCARE",
+      "feature_name": "FleetCare",
+      "family": "F14 FLEETCARE",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NO_TICKETS",
+          "class": "EMPTY"
+        },
+        {
+          "id": "SUBMITTED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "PROVIDER_REVIEWING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "ESTIMATE_DECISION",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "IN_REPAIR",
+          "class": "REVIEW"
+        },
+        {
+          "id": "NO_PROVIDER",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "COMPLETED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "RECORDED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "DISPUTED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "ROUTE",
+        "CASE_FILE"
+      ],
+      "primary_object": "THE TICKET (unit, issue, step)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 61,
+      "activation_state": "demo store (provider route guard is a known gap)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.DRIVERLINK",
+      "feature_name": "DriverLink",
+      "family": "F15 DRIVERLINK",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NO_JOBS",
+          "class": "EMPTY"
+        },
+        {
+          "id": "PUBLISHED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "CREDENTIALS_PENDING",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "CANDIDATES_READY",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "IN_PROCESS",
+          "class": "REVIEW"
+        },
+        {
+          "id": "HIRED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "CLOSED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "CREDENTIAL_REJECTED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "PIPELINE",
+        "MATCHING_BOARD"
+      ],
+      "primary_object": "THE JOB (opening, matched verified drivers)",
+      "declared_completion": "EXPERIENCE_DRAFTED",
+      "earned_completion": "EXPERIENCE_DRAFTED",
+      "experience_status": "EXPERIENCE_PARTIAL",
+      "authority_readiness": "EXPERIENCE_REQUIRED",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 61,
+      "activation_state": "demo store (driver route guard is a known gap)",
+      "gate_failures": [],
+      "gap_count": 2
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.VAULT",
+      "feature_name": "Vault",
+      "family": "F16 VAULT",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "NOT_APPLICABLE",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "EMPTY_VAULT",
+          "class": "EMPTY"
+        },
+        {
+          "id": "ORGANISED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "REQUESTED",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "PENDING_VERIFICATION",
+          "class": "REVIEW"
+        },
+        {
+          "id": "VERIFIED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "SUPERSEDED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "REJECTED",
+          "class": "ERROR"
+        },
+        {
+          "id": "EXPIRING",
+          "class": "APPROVAL"
+        }
+      ],
+      "archetype": [
+        "CABINET",
+        "ARCHIVE",
+        "DOCUMENT_TABLE"
+      ],
+      "primary_object": "THE DOCUMENT (category, status, version)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 66,
+      "activation_state": "live (demo + storage abstraction)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.INBOX",
+      "feature_name": "Inbox — Messages / Notifications / Appointments",
+      "family": "F17 INBOX",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "NOT_APPLICABLE",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "EMPTY_INBOX",
+          "class": "EMPTY"
+        },
+        {
+          "id": "ACTION_THREADS",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "CONVERSATION",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "AIO_REPLYING",
+          "class": "REVIEW"
+        },
+        {
+          "id": "APPOINTMENT_PROPOSED",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "RESOLVED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "ARCHIVED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "DELIVERY_FAILED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "QUEUE"
+      ],
+      "primary_object": "THE THREAD (feature, needs-you, resolution)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 62,
+      "activation_state": "live (provider abstraction)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.ACCOUNT",
+      "feature_name": "Account — Settings / Team / Auth",
+      "family": "F18 ACCOUNT",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "DEFINED",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NO_ACCOUNT",
+          "class": "EMPTY"
+        },
+        {
+          "id": "ACTIVE",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "INVITE_PENDING",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "VERIFY_EMAIL",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "SUPPORT_REVIEW",
+          "class": "REVIEW"
+        },
+        {
+          "id": "UPDATED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "DEACTIVATED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "AUTH_ERROR",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "DOCUMENT_TABLE",
+        "CHECKLIST"
+      ],
+      "primary_object": "THE ORGANISATION (members, roles)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": 55,
+      "activation_state": "live (Supabase auth partial)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.OFFICE_OPERATIONS",
+      "feature_name": "AIO Office Operations (founder / staff)",
+      "family": "AIO OFFICE role projection (office/*) across F05–F17",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "NOT_APPLICABLE",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "NEW",
+          "class": "EMPTY"
+        },
+        {
+          "id": "ASSIGNED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WAITING_ON_CUSTOMER",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "READY_FOR_REVIEW",
+          "class": "REVIEW"
+        },
+        {
+          "id": "AWAITING_APPROVAL",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "COMPLETED",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "CLOSED",
+          "class": "ARCHIVED"
+        },
+        {
+          "id": "ESCALATED",
+          "class": "ERROR"
+        }
+      ],
+      "archetype": [
+        "CONTROL_ROOM",
+        "QUEUE"
+      ],
+      "primary_object": "THE WORK ITEM (client, division, waitingOn, due)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": null,
+      "activation_state": "live (OfficeRouteGuard; demo + office modules)",
+      "gate_failures": [],
+      "gap_count": 0
+    }
+  ],
+  "screen_family_gate": [
+    {
+      "feature_id": "AIO.ENTRY",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.GET_STARTED",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.BUSINESS_FORMATION",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.ROAD_READY",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.MY_OFFICE",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.SERVICES",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.AUTHORITIES",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.BOC3",
+      "status": "EXPERIENCE_REQUIRED",
+      "reason": "EXPERIENCE_DRAFTED: open question: Process-agent partner is not activated (PARTNER_PENDING): partner turnaround, confirmation format and who files are unknown — the client / staff handoff moment cannot be authored precisely."
+    },
+    {
+      "feature_id": "AIO.IFTA_REGISTRATION",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.IFTA",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.PERMITTING",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.TAGS_REGISTRATION",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.ROAD_TAX",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.COMPLIANCE_SAFETY",
+      "status": "EXPERIENCE_REQUIRED",
+      "reason": "EXPERIENCE_DRAFTED: open question: Bundles 8 catalog services (DOT compliance, DQ files, D&A consortium, Clearinghouse, ELD services, DOT audit, new-entrant audit, safety programs) with different lifecycles — split into one contract per service.; open question: Activation state per service is not in SERVICE_ACTIVATION_MATRIX."
+    },
+    {
+      "feature_id": "AIO.RENEWALS",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.DISPATCH_OPERATIONS",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.LOAD_BOARD",
+      "status": "EXPERIENCE_REQUIRED",
+      "reason": "EXPERIENCE_DRAFTED: open question: Negotiation policy (counter rules, rate floors), carrier eligibility criteria and publication cadence are not in source.; open question: Depends on brokerage business activation (PAUSED)."
+    },
+    {
+      "feature_id": "AIO.BROKERAGE",
+      "status": "EXPERIENCE_REQUIRED",
+      "reason": "EXPERIENCE_DRAFTED: open question: Brokerage is PAUSED pending business activation (authority / bond / licensing) — the public experience cannot be finalised.; open question: Shipper credit terms and quote validity rules are not in source."
+    },
+    {
+      "feature_id": "AIO.FINANCES",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.FACTORING",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.INSURANCE",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.BOOKKEEPING",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.FLEETCARE",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.DRIVERLINK",
+      "status": "EXPERIENCE_REQUIRED",
+      "reason": "EXPERIENCE_DRAFTED: open question: Pricing model (who pays — company, driver, placement fee) is not in source.; open question: The DRIVER projection needs its own client-side perspective (driver onboarding, credential upload, job applications); driver route guard is a known gap."
+    },
+    {
+      "feature_id": "AIO.VAULT",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.INBOX",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.ACCOUNT",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    },
+    {
+      "feature_id": "AIO.OFFICE_OPERATIONS",
+      "status": "GENERATE",
+      "reason": "EXPERIENCE_COMPLETE"
+    }
+  ],
+  "contracts_source": "import { aio } from shared/studioos-experience-brain — AIO_EXPERIENCE_CONTRACTS (full contracts); IFTA is exported in full as AIO_IFTA_FUEL_TAX_EXPERIENCE_CONTRACT.json; per-actor maps carry every perspective."
+}

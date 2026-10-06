@@ -1,0 +1,220 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "state_classes": [
+    "EMPTY",
+    "ACTIVE",
+    "BLOCKED",
+    "REVIEW",
+    "APPROVAL",
+    "COMPLETE",
+    "ARCHIVED",
+    "ERROR"
+  ],
+  "rule": "Every feature-specific state maps onto one class; composition emphasis is defined per state (visual_relationships) and defaults per class.",
+  "anchors": [
+    "start_state",
+    "success_state",
+    "blocked_state",
+    "error_states",
+    "empty_state",
+    "complete_state"
+  ],
+  "experience_completion": {
+    "ladder": [
+      "UNMAPPED",
+      "STRUCTURED",
+      "EXPERIENCE_DRAFTED",
+      "EXPERIENCE_COMPLETE",
+      "VISUALIZED",
+      "IMPLEMENTED",
+      "E2E_PROVEN",
+      "APPROVED"
+    ],
+    "separate_from_functional_completion": true,
+    "earning_rules": {
+      "UNMAPPED": "no states or no structure refs",
+      "STRUCTURED": "states + structure routes + family",
+      "EXPERIENCE_DRAFTED": "structured + archetype + CLIENT / FOUNDER_STAFF / SYSTEM perspectives at least partial",
+      "EXPERIENCE_COMPLETE": "every required field, all applicable perspectives DEFINED, a visual relationship for every state, every E2E phase proven or N/A with reason, no open experience questions",
+      "VISUALIZED": "experience complete + approved visual authority (expression_refs.authority_status = APPROVED)",
+      "IMPLEMENTED": "external evidence (implementation drift test) — never derived from the contract alone",
+      "E2E_PROVEN": "experience E2E contract passing in CI",
+      "APPROVED": "founder approval recorded in lineage"
+    },
+    "never_exceeds_declared": true
+  },
+  "section_grammar": {
+    "PUBLIC": {
+      "EMPTY": [
+        "WHAT_IT_IS",
+        "WHO_ITS_FOR",
+        "WHAT_WE_HANDLE",
+        "WHAT_YOU_PROVIDE",
+        "HOW_IT_WORKS",
+        "OUTCOME",
+        "TIMING",
+        "PRICING_RELATIONSHIP",
+        "CTA"
+      ],
+      "ACTIVE": [
+        "WHAT_IT_IS",
+        "HOW_IT_WORKS",
+        "CTA"
+      ],
+      "BLOCKED": [
+        "WHAT_IT_IS",
+        "AVAILABILITY_NOTICE",
+        "CTA"
+      ],
+      "REVIEW": [
+        "WHAT_IT_IS",
+        "HOW_IT_WORKS",
+        "CTA"
+      ],
+      "APPROVAL": [
+        "WHAT_IT_IS",
+        "HOW_IT_WORKS",
+        "CTA"
+      ],
+      "COMPLETE": [
+        "WHAT_IT_IS",
+        "OUTCOME",
+        "CTA"
+      ],
+      "ARCHIVED": [
+        "WHAT_IT_IS",
+        "CTA"
+      ],
+      "ERROR": [
+        "AVAILABILITY_NOTICE",
+        "CONTACT"
+      ]
+    },
+    "CLIENT": {
+      "EMPTY": [
+        "PRIMARY_OBJECT",
+        "WHAT_THIS_IS",
+        "START"
+      ],
+      "ACTIVE": [
+        "PRIMARY_OBJECT",
+        "STATUS",
+        "NEEDS_YOU",
+        "INPUTS",
+        "READY",
+        "NEXT"
+      ],
+      "BLOCKED": [
+        "PRIMARY_OBJECT",
+        "BLOCKER",
+        "RESOLVE",
+        "NEXT"
+      ],
+      "REVIEW": [
+        "PRIMARY_OBJECT",
+        "UNDER_REVIEW",
+        "WHAT_HAPPENS_NEXT",
+        "MESSAGES"
+      ],
+      "APPROVAL": [
+        "PRIMARY_OBJECT",
+        "DECISION",
+        "EVIDENCE",
+        "APPROVE_OR_QUESTION"
+      ],
+      "COMPLETE": [
+        "PRIMARY_OBJECT",
+        "CONFIRMATION",
+        "ARTIFACTS",
+        "NEXT"
+      ],
+      "ARCHIVED": [
+        "PRIMARY_OBJECT",
+        "ARTIFACTS",
+        "HISTORY",
+        "NEXT_CYCLE"
+      ],
+      "ERROR": [
+        "PRIMARY_OBJECT",
+        "WHAT_WENT_WRONG",
+        "RECOVERY",
+        "CONTACT"
+      ]
+    },
+    "FOUNDER_STAFF": {
+      "EMPTY": [
+        "CLIENT_CONTEXT",
+        "SETUP_STATUS",
+        "START_WORK"
+      ],
+      "ACTIVE": [
+        "CLIENT_CONTEXT",
+        "WORK_STATUS",
+        "MISSING_INPUTS",
+        "SYSTEM_FLAGS",
+        "ACTIONS",
+        "COMMUNICATION"
+      ],
+      "BLOCKED": [
+        "CLIENT_CONTEXT",
+        "BLOCKERS",
+        "WAITING_ON",
+        "ESCALATE",
+        "COMMUNICATION"
+      ],
+      "REVIEW": [
+        "CLIENT_CONTEXT",
+        "REVIEW_SURFACE",
+        "DISCREPANCIES",
+        "CORRECTIONS",
+        "APPROVE_OR_RETURN"
+      ],
+      "APPROVAL": [
+        "CLIENT_CONTEXT",
+        "AWAITING_CLIENT",
+        "REMINDERS",
+        "OVERRIDE"
+      ],
+      "COMPLETE": [
+        "CLIENT_CONTEXT",
+        "COMPLETION",
+        "ARTIFACTS",
+        "FINANCIAL_STATUS",
+        "AUDIT_HISTORY"
+      ],
+      "ARCHIVED": [
+        "CLIENT_CONTEXT",
+        "AUDIT_HISTORY",
+        "NEXT_CYCLE"
+      ],
+      "ERROR": [
+        "CLIENT_CONTEXT",
+        "FAILURE",
+        "RECOVERY_ACTIONS",
+        "AUDIT_HISTORY"
+      ]
+    }
+  },
+  "founder_hub_buckets": [
+    "NEEDS_REVIEW",
+    "BLOCKED",
+    "AWAITING_CLIENT",
+    "AWAITING_PROVIDER",
+    "READY_TO_FILE",
+    "READY_TO_SEND",
+    "READY_TO_LAUNCH",
+    "COMPLETE"
+  ],
+  "client_project_room_slots": [
+    "status",
+    "needs_you",
+    "next",
+    "decisions",
+    "files",
+    "messages",
+    "approvals",
+    "service_progress"
+  ]
+}

@@ -1,0 +1,1110 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "features": [
+    {
+      "feature_id": "AIO.ENTRY",
+      "feature_name": "Entry — Home / About / Contact",
+      "public_entry": {
+        "surface": "Homepage",
+        "route": "/",
+        "trigger": "search / referral / social"
+      },
+      "public_cta": "GET STARTED",
+      "perspective": {
+        "discovery": [
+          "search",
+          "referral",
+          "social",
+          "truck-stop / industry presence"
+        ],
+        "must_understand": [
+          "AIO is the business office behind the truck",
+          "it covers startup, compliance, operations, money",
+          "you start from your situation"
+        ],
+        "who_its_for": "New and established carriers, owner-operators, small fleets; also shippers, drivers, providers.",
+        "what_we_handle": [
+          "business setup",
+          "road readiness",
+          "operations",
+          "finances"
+        ],
+        "what_client_provides": [
+          "your situation (pathway)"
+        ],
+        "how_it_works": [
+          "Pick your pathway",
+          "Get a roadmap",
+          "AIO takes it from there"
+        ],
+        "outcome": "A clear next step into Get Started.",
+        "timing": "Immediate.",
+        "pricing_relationship": "Pathways lead to priced services and plans.",
+        "cta": "Get Started",
+        "workspace_continuity": "Pathways map directly to Get Started and the client’s My Office journey.",
+        "route": "/"
+      },
+      "continuity": "Pathways map directly to Get Started and the client’s My Office journey."
+    },
+    {
+      "feature_id": "AIO.GET_STARTED",
+      "feature_name": "Get Started — Intake / Roadmap / Service Plan",
+      "public_entry": {
+        "surface": "Get Started",
+        "route": "get-started",
+        "trigger": "homepage pathway"
+      },
+      "public_cta": "GET STARTED",
+      "perspective": {
+        "discovery": [
+          "homepage pathways",
+          "service pages CTA"
+        ],
+        "must_understand": [
+          "answers build a personal roadmap",
+          "“not sure” is fine — AIO reviews it",
+          "nothing is purchased until you start a plan"
+        ],
+        "who_its_for": "Anyone starting or reorganising a trucking business.",
+        "what_we_handle": [
+          "building the roadmap",
+          "recommending services",
+          "reviewing unsure answers"
+        ],
+        "what_client_provides": [
+          "answers"
+        ],
+        "how_it_works": [
+          "Answer",
+          "See roadmap",
+          "Choose plan",
+          "AIO starts"
+        ],
+        "outcome": "A roadmap + service plan.",
+        "timing": "Minutes.",
+        "pricing_relationship": "Plan shows prices / quote-required items before starting.",
+        "cta": "Get Started",
+        "workspace_continuity": "Roadmap items become the My Office service progress the client tracks.",
+        "route": "get-started"
+      },
+      "continuity": "Roadmap items become the My Office service progress the client tracks."
+    },
+    {
+      "feature_id": "AIO.BUSINESS_FORMATION",
+      "feature_name": "Start Your Business — LLC / INC / EIN",
+      "public_entry": {
+        "surface": "Start Your Business service pages",
+        "route": "start-your-business/*",
+        "trigger": "Get Started intake / homepage pathway “Start my trucking business”"
+      },
+      "public_cta": "START MY BUSINESS",
+      "perspective": {
+        "discovery": [
+          "homepage pathway “Start my trucking business”",
+          "services › Start My Business",
+          "Get Started roadmap"
+        ],
+        "must_understand": [
+          "which entity fits (LLC vs corporation) at a plain-language level",
+          "formation comes before USDOT / MC",
+          "AIO prepares and coordinates; the state approves"
+        ],
+        "who_its_for": "New owner-operators and fleets that have not formed a business yet.",
+        "what_we_handle": [
+          "name check",
+          "formation filing preparation + submission",
+          "EIN assistance",
+          "storing the documents"
+        ],
+        "what_client_provides": [
+          "owner details",
+          "business name ideas",
+          "ID"
+        ],
+        "how_it_works": [
+          "Intake",
+          "Name check",
+          "AIO prepares + you confirm",
+          "AIO files",
+          "State approves",
+          "EIN issued"
+        ],
+        "outcome": "A formed entity with articles + EIN in your Vault and USDOT ready to start.",
+        "timing": "Depends on state processing time.",
+        "pricing_relationship": "Service fee per catalog (quote / fixed by service); state fees separate.",
+        "cta": "Start My Business",
+        "workspace_continuity": "The same journey route (formation → USDOT → authority) the public page shows is the client’s journey timeline.",
+        "route": "start-your-business/*"
+      },
+      "continuity": "The same journey route (formation → USDOT → authority) the public page shows is the client’s journey timeline."
+    },
+    {
+      "feature_id": "AIO.ROAD_READY",
+      "feature_name": "Road Ready",
+      "public_entry": {
+        "surface": "Road Ready explainer",
+        "route": "road-ready",
+        "trigger": "homepage pathway / Get Started recommendation"
+      },
+      "public_cta": "GET ROAD READY",
+      "perspective": {
+        "discovery": [
+          "homepage pathway",
+          "Get Started recommendation"
+        ],
+        "must_understand": [
+          "Road Ready tracks your setup, what AIO verified, and what is due",
+          "Road Ready is business organisation and service assistance — not legal advice and not a government system."
+        ],
+        "who_its_for": "Any carrier — new or established — that wants one place to see its operating readiness.",
+        "what_we_handle": [
+          "tracking requirements that apply to you",
+          "verifying documents you upload",
+          "recommending next steps",
+          "helping with any unmet item as a service"
+        ],
+        "what_client_provides": [
+          "business profile answers",
+          "fleet units",
+          "documents"
+        ],
+        "how_it_works": [
+          "Answer a few questions",
+          "See what applies",
+          "Upload what you have",
+          "AIO verifies",
+          "Get help with the rest"
+        ],
+        "outcome": "A Road Ready profile with setup progress, items verified, and next steps.",
+        "timing": "Ongoing — the profile stays live.",
+        "pricing_relationship": "Profile included with the portal; individual items fulfilled as priced services.",
+        "cta": "Get Road Ready",
+        "workspace_continuity": "The public explainer uses the same checklist language (Setup Progress, Items Verified, Recommended Next Steps) as the portal.",
+        "route": "road-ready"
+      },
+      "continuity": "The public explainer uses the same checklist language (Setup Progress, Items Verified, Recommended Next Steps) as the portal."
+    },
+    {
+      "feature_id": "AIO.MY_OFFICE",
+      "feature_name": "My Office — Client Command Center",
+      "public_entry": {
+        "applicable": false,
+        "reason": "Authenticated home; publicly represented by the Entry pathways."
+      },
+      "public_cta": null,
+      "perspective": {
+        "applicable": false,
+        "reason": "Authenticated home."
+      },
+      "continuity": null
+    },
+    {
+      "feature_id": "AIO.SERVICES",
+      "feature_name": "Services — Catalog / Requests",
+      "public_entry": {
+        "surface": "Services hub",
+        "route": "services/*",
+        "trigger": "navigation"
+      },
+      "public_cta": "REQUEST ASSISTANCE",
+      "perspective": {
+        "discovery": [
+          "navigation",
+          "search"
+        ],
+        "must_understand": [
+          "what each service does",
+          "availability can depend on location",
+          "pricing model per service"
+        ],
+        "who_its_for": "Carriers looking for a specific service.",
+        "what_we_handle": [
+          "the catalogued services"
+        ],
+        "what_client_provides": [
+          "request details"
+        ],
+        "how_it_works": [
+          "Find",
+          "Request",
+          "Track"
+        ],
+        "outcome": "A tracked request.",
+        "timing": "Per service.",
+        "pricing_relationship": "quote_required / fixed / plan per catalog entry.",
+        "cta": "Request Assistance",
+        "workspace_continuity": "Public service pages and portal requests share the same service ids and steps.",
+        "route": "services/*"
+      },
+      "continuity": "Public service pages and portal requests share the same service ids and steps."
+    },
+    {
+      "feature_id": "AIO.AUTHORITIES",
+      "feature_name": "Authorities — USDOT / MC / MCS-150",
+      "public_entry": {
+        "surface": "Authorities — USDOT / MC / MCS-150 service page",
+        "route": "services/usdot-registration",
+        "trigger": "Services hub / Road Ready recommendation"
+      },
+      "public_cta": "REQUEST ASSISTANCE",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready recommendation",
+          "search"
+        ],
+        "must_understand": [
+          "what Authorities — USDOT / MC / MCS-150 is",
+          "AIO prepares and submits; FMCSA decides",
+          "what you need to provide"
+        ],
+        "who_its_for": "Carriers that need this registration / filing.",
+        "what_we_handle": [
+          "USDOT registration",
+          "MC / operating authority",
+          "MCS-150 biennial updates",
+          "authority maintenance"
+        ],
+        "what_client_provides": [
+          "entity documents",
+          "business address + contacts",
+          "operation type + cargo",
+          "fleet count"
+        ],
+        "how_it_works": [
+          "Request",
+          "Send what AIO needs",
+          "AIO prepares + you confirm",
+          "AIO submits to FMCSA",
+          "Result in your Vault"
+        ],
+        "outcome": "Authorities — USDOT / MC / MCS-150 on file, documents in your Vault, Road Ready updated.",
+        "timing": "Depends on FMCSA; MCS-150 biennial update.",
+        "pricing_relationship": "Per catalog pricing model (quote required for most); government / partner fees separate.",
+        "cta": "Request Assistance",
+        "workspace_continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states).",
+        "route": "services/usdot-registration"
+      },
+      "continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states)."
+    },
+    {
+      "feature_id": "AIO.BOC3",
+      "feature_name": "BOC-3 Process Agent Filing",
+      "public_entry": {
+        "surface": "BOC-3 Process Agent Filing service page",
+        "route": "services/boc-3-assistance",
+        "trigger": "Services hub / Road Ready recommendation"
+      },
+      "public_cta": "REQUEST INFORMATION",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready recommendation",
+          "search"
+        ],
+        "must_understand": [
+          "what BOC-3 Process Agent Filing is",
+          "AIO prepares and submits; process-agent partner decides",
+          "what you need to provide"
+        ],
+        "who_its_for": "Carriers that need this registration / filing.",
+        "what_we_handle": [
+          "partner coordination",
+          "confirmation tracking",
+          "storing the filing"
+        ],
+        "what_client_provides": [
+          "USDOT / MC number",
+          "entity details"
+        ],
+        "how_it_works": [
+          "Request",
+          "Send what AIO needs",
+          "AIO prepares + you confirm",
+          "AIO submits to process-agent partner",
+          "Result in your Vault"
+        ],
+        "outcome": "BOC-3 Process Agent Filing on file, documents in your Vault, Road Ready updated.",
+        "timing": "Depends on process-agent partner; kept with the authority.",
+        "pricing_relationship": "Per catalog pricing model (quote required for most); government / partner fees separate.",
+        "cta": "Request Information",
+        "workspace_continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states).",
+        "route": "services/boc-3-assistance"
+      },
+      "continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states)."
+    },
+    {
+      "feature_id": "AIO.IFTA_REGISTRATION",
+      "feature_name": "IFTA Account Registration",
+      "public_entry": {
+        "surface": "IFTA Account Registration service page",
+        "route": "services/ifta-fuel-tax-assistance",
+        "trigger": "Services hub / Road Ready recommendation"
+      },
+      "public_cta": "REQUEST ASSISTANCE",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready recommendation",
+          "search"
+        ],
+        "must_understand": [
+          "what IFTA Account Registration is",
+          "AIO prepares and submits; base jurisdiction decides",
+          "what you need to provide"
+        ],
+        "who_its_for": "Carriers that need this registration / filing.",
+        "what_we_handle": [
+          "application preparation",
+          "base jurisdiction submission",
+          "decal tracking"
+        ],
+        "what_client_provides": [
+          "entity + USDOT",
+          "base jurisdiction address",
+          "qualified vehicles"
+        ],
+        "how_it_works": [
+          "Request",
+          "Send what AIO needs",
+          "AIO prepares + you confirm",
+          "AIO submits to base jurisdiction",
+          "Result in your Vault"
+        ],
+        "outcome": "IFTA Account Registration on file, documents in your Vault, Road Ready updated.",
+        "timing": "Depends on base jurisdiction; annual license / decal renewal.",
+        "pricing_relationship": "Per catalog pricing model (quote required for most); government / partner fees separate.",
+        "cta": "Request Assistance",
+        "workspace_continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states).",
+        "route": "services/ifta-fuel-tax-assistance"
+      },
+      "continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states)."
+    },
+    {
+      "feature_id": "AIO.IFTA",
+      "feature_name": "IFTA / Fuel Tax",
+      "public_entry": {
+        "surface": "Public service page — IFTA Filing",
+        "route": "services/ifta-filing (+ services/ifta-fuel-tax-assistance for account setup)",
+        "trigger": "Search / services hub / Road Ready recommendation / Start Your Business journey item “IFTA / Fuel Tax”"
+      },
+      "public_cta": "REQUEST FILING",
+      "perspective": {
+        "route": "services/ifta-filing",
+        "discovery": [
+          "Services hub › Permits, Taxes & Compliance",
+          "Road Ready recommendation (interstate carriers)",
+          "Start Your Business journey item “IFTA / Fuel Tax”",
+          "search “IFTA filing”"
+        ],
+        "must_understand": [
+          "IFTA is the quarterly fuel tax report for qualifying interstate carriers",
+          "it is due every quarter (Apr 30 · Jul 31 · Oct 31 · Jan 31)",
+          "it needs fuel receipts and miles by state",
+          "AIO builds, checks and files it with you — you approve before anything is filed"
+        ],
+        "who_its_for": "Interstate carriers with qualified motor vehicles and an active IFTA account (AIO can help set the account up first).",
+        "what_we_handle": [
+          "collecting and checking receipts",
+          "turning ELD / trip records into miles by state",
+          "matching fuel to miles",
+          "preparing the return",
+          "filing it",
+          "keeping the quarter in your Vault",
+          "reminding you before the next one"
+        ],
+        "what_client_provides": [
+          "fuel receipts (photo, upload or from your Vault)",
+          "miles by state (ELD report, import, spreadsheet or manual)",
+          "confirmation of which trucks ran",
+          "approval of the return"
+        ],
+        "how_it_works": [
+          "Your quarter opens",
+          "Send receipts and miles as you go",
+          "AIO reviews and reconciles",
+          "You approve the return",
+          "AIO files it",
+          "The filed quarter lands in your Vault"
+        ],
+        "outcome": "A filed quarterly IFTA return with confirmation and the full record in your Vault — and the next quarter already open.",
+        "timing": "Quarterly; due the last day of the month after each quarter.",
+        "pricing_relationship": "Quote required (per-quarter service fee by fleet size); fuel tax owed is the carrier’s own liability, separate from AIO fees.",
+        "cta": "Request Filing",
+        "workspace_continuity": "The page shows the same six-step quarter the client will live in the workspace (open → send → review → approve → filed → vault) and the same quarter card visual — no surprise UI after signup."
+      },
+      "continuity": "The page shows the same six-step quarter the client will live in the workspace (open → send → review → approve → filed → vault) and the same quarter card visual — no surprise UI after signup."
+    },
+    {
+      "feature_id": "AIO.PERMITTING",
+      "feature_name": "Permitting — UCR / Trip / Temporary & Specialty Permits",
+      "public_entry": {
+        "surface": "Permitting — UCR / Trip / Temporary & Specialty Permits service page",
+        "route": "services/trip-permits",
+        "trigger": "Services hub / Road Ready recommendation"
+      },
+      "public_cta": "REQUEST PERMIT",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready recommendation",
+          "search"
+        ],
+        "must_understand": [
+          "what Permitting — UCR / Trip / Temporary & Specialty Permits is",
+          "AIO prepares and submits; issuing jurisdiction decides",
+          "what you need to provide"
+        ],
+        "who_its_for": "Carriers that need this registration / filing.",
+        "what_we_handle": [
+          "permit application",
+          "UCR registration + renewal",
+          "permit storage + expiry tracking"
+        ],
+        "what_client_provides": [
+          "unit + plate",
+          "route / jurisdictions + dates",
+          "UCR fleet size bracket"
+        ],
+        "how_it_works": [
+          "Request",
+          "Send what AIO needs",
+          "AIO prepares + you confirm",
+          "AIO submits to issuing jurisdiction",
+          "Result in your Vault"
+        ],
+        "outcome": "Permitting — UCR / Trip / Temporary & Specialty Permits on file, documents in your Vault, Road Ready updated.",
+        "timing": "Depends on issuing jurisdiction; UCR annual; trip permits per trip.",
+        "pricing_relationship": "Per catalog pricing model (quote required for most); government / partner fees separate.",
+        "cta": "Request Permit",
+        "workspace_continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states).",
+        "route": "services/trip-permits"
+      },
+      "continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states)."
+    },
+    {
+      "feature_id": "AIO.TAGS_REGISTRATION",
+      "feature_name": "Tags / Registration — IRP / Plates / Titles",
+      "public_entry": {
+        "surface": "Tags / Registration — IRP / Plates / Titles service page",
+        "route": "services/irp-apportioned-registration",
+        "trigger": "Services hub / Road Ready recommendation"
+      },
+      "public_cta": "REQUEST ASSISTANCE",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready recommendation",
+          "search"
+        ],
+        "must_understand": [
+          "what Tags / Registration — IRP / Plates / Titles is",
+          "AIO prepares and submits; registration office decides",
+          "what you need to provide"
+        ],
+        "who_its_for": "Carriers that need this registration / filing.",
+        "what_we_handle": [
+          "IRP application",
+          "plate / tag services",
+          "title transfers",
+          "cab card storage"
+        ],
+        "what_client_provides": [
+          "title / bill of sale",
+          "VIN + unit details",
+          "insurance proof",
+          "HVUT proof (2290) where required"
+        ],
+        "how_it_works": [
+          "Request",
+          "Send what AIO needs",
+          "AIO prepares + you confirm",
+          "AIO submits to registration office",
+          "Result in your Vault"
+        ],
+        "outcome": "Tags / Registration — IRP / Plates / Titles on file, documents in your Vault, Road Ready updated.",
+        "timing": "Depends on registration office; annual registration renewal.",
+        "pricing_relationship": "Per catalog pricing model (quote required for most); government / partner fees separate.",
+        "cta": "Request Assistance",
+        "workspace_continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states).",
+        "route": "services/irp-apportioned-registration"
+      },
+      "continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states)."
+    },
+    {
+      "feature_id": "AIO.ROAD_TAX",
+      "feature_name": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes",
+      "public_entry": {
+        "surface": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes service page",
+        "route": "services/hvut-form-2290",
+        "trigger": "Services hub / Road Ready recommendation"
+      },
+      "public_cta": "REQUEST ASSISTANCE",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready recommendation",
+          "search"
+        ],
+        "must_understand": [
+          "what Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes is",
+          "AIO prepares and submits; tax authority decides",
+          "what you need to provide"
+        ],
+        "who_its_for": "Carriers that need this registration / filing.",
+        "what_we_handle": [
+          "2290 preparation + filing",
+          "state road / use tax filing",
+          "stamped Schedule 1 storage"
+        ],
+        "what_client_provides": [
+          "units + taxable gross weight",
+          "first-use month",
+          "payment method"
+        ],
+        "how_it_works": [
+          "Request",
+          "Send what AIO needs",
+          "AIO prepares + you confirm",
+          "AIO submits to tax authority",
+          "Result in your Vault"
+        ],
+        "outcome": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes on file, documents in your Vault, Road Ready updated.",
+        "timing": "Depends on tax authority; annual tax period.",
+        "pricing_relationship": "Per catalog pricing model (quote required for most); government / partner fees separate.",
+        "cta": "Request Assistance",
+        "workspace_continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states).",
+        "route": "services/hvut-form-2290"
+      },
+      "continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states)."
+    },
+    {
+      "feature_id": "AIO.COMPLIANCE_SAFETY",
+      "feature_name": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits",
+      "public_entry": {
+        "surface": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits service page",
+        "route": "services/dot-compliance-support",
+        "trigger": "Services hub / Road Ready recommendation"
+      },
+      "public_cta": "REQUEST ASSISTANCE",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready recommendation",
+          "search"
+        ],
+        "must_understand": [
+          "what Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits is",
+          "AIO prepares and submits; FMCSA / consortium / auditor decides",
+          "what you need to provide"
+        ],
+        "who_its_for": "Carriers that need this registration / filing.",
+        "what_we_handle": [
+          "DQ file assembly",
+          "consortium enrolment",
+          "clearinghouse queries",
+          "audit preparation"
+        ],
+        "what_client_provides": [
+          "driver documents",
+          "program enrolment details",
+          "ELD provider"
+        ],
+        "how_it_works": [
+          "Request",
+          "Send what AIO needs",
+          "AIO prepares + you confirm",
+          "AIO submits to FMCSA / consortium / auditor",
+          "Result in your Vault"
+        ],
+        "outcome": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits on file, documents in your Vault, Road Ready updated.",
+        "timing": "Depends on FMCSA / consortium / auditor; annual reviews + audit events.",
+        "pricing_relationship": "Per catalog pricing model (quote required for most); government / partner fees separate.",
+        "cta": "Request Assistance",
+        "workspace_continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states).",
+        "route": "services/dot-compliance-support"
+      },
+      "continuity": "The page shows the same request steps the client tracks in the portal (customer-friendly states)."
+    },
+    {
+      "feature_id": "AIO.RENEWALS",
+      "feature_name": "Renewals",
+      "public_entry": {
+        "surface": "Renewals service page",
+        "route": "services/renewals",
+        "trigger": "Services hub"
+      },
+      "public_cta": "SEE RENEWALS",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready"
+        ],
+        "must_understand": [
+          "AIO tracks expirations from your documents",
+          "you choose to renew with AIO or yourself"
+        ],
+        "who_its_for": "Any carrier with authorities, plates, permits, insurance or credentials that expire.",
+        "what_we_handle": [
+          "tracking expirations",
+          "starting renewals as service requests",
+          "storing renewed documents"
+        ],
+        "what_client_provides": [
+          "the decision",
+          "updated documents"
+        ],
+        "how_it_works": [
+          "AIO spots an expiration",
+          "You decide",
+          "AIO renews",
+          "New document in Vault"
+        ],
+        "outcome": "Renewed items with no lapse.",
+        "timing": "Windows per item type.",
+        "pricing_relationship": "Each renewal priced as its service.",
+        "cta": "See Renewals",
+        "workspace_continuity": "The Renewal Center shows the same horizon of upcoming expirations described on the page.",
+        "route": "services/renewals"
+      },
+      "continuity": "The Renewal Center shows the same horizon of upcoming expirations described on the page."
+    },
+    {
+      "feature_id": "AIO.DISPATCH_OPERATIONS",
+      "feature_name": "Dispatch / Operations",
+      "public_entry": {
+        "surface": "Dispatch service page",
+        "route": "services/dispatch",
+        "trigger": "Services hub › Operations"
+      },
+      "public_cta": "REQUEST DISPATCH",
+      "perspective": {
+        "discovery": [
+          "Services hub › Operations",
+          "homepage pathway “Keep my truck loaded”"
+        ],
+        "must_understand": [
+          "AIO dispatchers work for the carrier",
+          "you approve every load",
+          "dispatch is a service fee, not brokerage"
+        ],
+        "who_its_for": "Owner-operators and small fleets with active authority.",
+        "what_we_handle": [
+          "finding and reviewing loads",
+          "booking after your approval",
+          "check calls",
+          "collecting documents for billing"
+        ],
+        "what_client_provides": [
+          "truck + lane preferences",
+          "load approvals",
+          "POD"
+        ],
+        "how_it_works": [
+          "Enrol",
+          "AIO finds loads",
+          "You approve",
+          "AIO books + tracks",
+          "You upload POD",
+          "Invoice / factor"
+        ],
+        "outcome": "Booked loads with complete paperwork, ready to get paid.",
+        "timing": "Continuous while enrolled.",
+        "pricing_relationship": "Dispatch fee (service revenue) — separate from freight pay.",
+        "cta": "Request Dispatch",
+        "workspace_continuity": "The page’s approve-every-load promise is the portal’s load offer decision window.",
+        "route": "services/dispatch"
+      },
+      "continuity": "The page’s approve-every-load promise is the portal’s load offer decision window."
+    },
+    {
+      "feature_id": "AIO.LOAD_BOARD",
+      "feature_name": "Load Board",
+      "public_entry": {
+        "applicable": false,
+        "reason": "Authenticated carrier surface — opportunities are not published publicly."
+      },
+      "public_cta": null,
+      "perspective": {
+        "applicable": false,
+        "reason": "Authenticated carrier surface; publicly described only inside Dispatch / Operations marketing."
+      },
+      "continuity": null
+    },
+    {
+      "feature_id": "AIO.BROKERAGE",
+      "feature_name": "Brokerage (Shipper)",
+      "public_entry": {
+        "surface": "Shipper services page",
+        "route": "services/shipper-services",
+        "trigger": "freight quote CTA"
+      },
+      "public_cta": "GET A FREIGHT QUOTE",
+      "perspective": {
+        "discovery": [
+          "Shipper services",
+          "freight quote CTA"
+        ],
+        "must_understand": [
+          "AIO arranges carriers for your freight",
+          "you get a quote first",
+          "status and POD in your portal"
+        ],
+        "who_its_for": "Shippers with truckload freight.",
+        "what_we_handle": [
+          "quoting",
+          "carrier coverage",
+          "tracking",
+          "documents + invoice"
+        ],
+        "what_client_provides": [
+          "shipment details",
+          "quote acceptance"
+        ],
+        "how_it_works": [
+          "Request",
+          "Quote",
+          "Accept",
+          "AIO covers",
+          "Delivered",
+          "Invoice"
+        ],
+        "outcome": "Delivered freight with POD and invoice.",
+        "timing": "Per shipment.",
+        "pricing_relationship": "Quoted per shipment.",
+        "cta": "Get a Freight Quote",
+        "workspace_continuity": "Shipper portal mirrors the six public steps.",
+        "route": "services/shipper-services"
+      },
+      "continuity": "Shipper portal mirrors the six public steps."
+    },
+    {
+      "feature_id": "AIO.FINANCES",
+      "feature_name": "Finances — Money / Billing / Quotes",
+      "public_entry": {
+        "applicable": false,
+        "reason": "Pricing is shown on each public service page; the ledger itself is authenticated."
+      },
+      "public_cta": null,
+      "perspective": {
+        "applicable": false,
+        "reason": "Pricing relationships are defined on each service’s public perspective."
+      },
+      "continuity": null
+    },
+    {
+      "feature_id": "AIO.FACTORING",
+      "feature_name": "Factoring (assistance / partner)",
+      "public_entry": {
+        "surface": "Factoring page",
+        "route": "services/invoice-factoring",
+        "trigger": "Finances / dispatch cross-sell"
+      },
+      "public_cta": "SEE IF FACTORING FITS",
+      "perspective": {
+        "discovery": [
+          "Finances services",
+          "dispatch cross-sell"
+        ],
+        "must_understand": [
+          "AIO packages invoices and works with a factoring partner",
+          "AIO does not fund invoices itself",
+          "funding comes from the partner"
+        ],
+        "who_its_for": "Carriers who want faster cash on delivered loads.",
+        "what_we_handle": [
+          "enrolment packaging",
+          "invoice packets",
+          "partner submission",
+          "status tracking"
+        ],
+        "what_client_provides": [
+          "enrolment documents",
+          "load documents"
+        ],
+        "how_it_works": [
+          "Enrol",
+          "Complete a load",
+          "Factor this load",
+          "AIO reviews",
+          "Partner funds",
+          "Closed"
+        ],
+        "outcome": "Funded invoices through the partner with clean packets.",
+        "timing": "Per invoice; partner timing.",
+        "pricing_relationship": "Partner fees per partner agreement; AIO assistance fees per catalog.",
+        "cta": "See if Factoring Fits",
+        "workspace_continuity": "FACTOR THIS LOAD on completed loads is the same flow the page explains.",
+        "route": "services/invoice-factoring"
+      },
+      "continuity": "FACTOR THIS LOAD on completed loads is the same flow the page explains."
+    },
+    {
+      "feature_id": "AIO.INSURANCE",
+      "feature_name": "Insurance (assistance / referral)",
+      "public_entry": {
+        "surface": "Insurance page",
+        "route": "services/commercial-auto-liability",
+        "trigger": "Road Ready insurance item"
+      },
+      "public_cta": "GET COVERAGE HELP",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "Road Ready"
+        ],
+        "must_understand": [
+          "AIO is not an insurer or agency",
+          "licensed partners quote and bind",
+          "AIO coordinates and keeps your records"
+        ],
+        "who_its_for": "Carriers needing commercial trucking coverage.",
+        "what_we_handle": [
+          "needs intake",
+          "partner referral",
+          "organising quotes",
+          "policy records",
+          "COI coordination",
+          "renewal help"
+        ],
+        "what_client_provides": [
+          "operation details",
+          "policy documents"
+        ],
+        "how_it_works": [
+          "Tell AIO your needs",
+          "Partner prepares options",
+          "You choose with the partner",
+          "AIO records the policy",
+          "Renewal help"
+        ],
+        "outcome": "Coverage chosen with a licensed partner and on file with AIO.",
+        "timing": "Per policy term.",
+        "pricing_relationship": "Premiums paid to the insurer / partner — never AIO revenue.",
+        "cta": "Get Coverage Help",
+        "workspace_continuity": "The disclosure on the page is the same disclosure on every insurance screen.",
+        "route": "services/commercial-auto-liability"
+      },
+      "continuity": "The disclosure on the page is the same disclosure on every insurance screen."
+    },
+    {
+      "feature_id": "AIO.BOOKKEEPING",
+      "feature_name": "Bookkeeping",
+      "public_entry": {
+        "surface": "Bookkeeping page",
+        "route": "services/bookkeeping",
+        "trigger": "plan recommendation"
+      },
+      "public_cta": "SEE PLANS",
+      "perspective": {
+        "discovery": [
+          "Services hub › Finances",
+          "plan recommendation"
+        ],
+        "must_understand": [
+          "bookkeeping built for trucking",
+          "AIO is not a CPA / tax preparer",
+          "IFTA bookkeeping support is not IFTA filing"
+        ],
+        "who_its_for": "Owner-operators and fleets needing monthly books.",
+        "what_we_handle": [
+          "categorising transactions",
+          "monthly close",
+          "reports"
+        ],
+        "what_client_provides": [
+          "statements",
+          "answers"
+        ],
+        "how_it_works": [
+          "Pick a plan",
+          "Send statements",
+          "Answer questions",
+          "AIO closes",
+          "Review + confirm"
+        ],
+        "outcome": "Closed months with P&L and balance sheet.",
+        "timing": "Monthly.",
+        "pricing_relationship": "Essentials $249/mo · Plus $449/mo · All In One $749/mo; Books Rescue from $749 one-time.",
+        "cta": "See Plans",
+        "workspace_continuity": "The month card in the portal follows the five public steps.",
+        "route": "services/bookkeeping"
+      },
+      "continuity": "The month card in the portal follows the five public steps."
+    },
+    {
+      "feature_id": "AIO.FLEETCARE",
+      "feature_name": "FleetCare",
+      "public_entry": {
+        "surface": "FleetCare page",
+        "route": "fleetcare",
+        "trigger": "Services hub / provider sign-up"
+      },
+      "public_cta": "REPORT AN ISSUE",
+      "perspective": {
+        "discovery": [
+          "Services hub",
+          "provider network page"
+        ],
+        "must_understand": [
+          "AIO matches you with verified providers",
+          "you approve every estimate",
+          "records are kept per truck"
+        ],
+        "who_its_for": "Carriers needing repairs / service; providers wanting AIO jobs.",
+        "what_we_handle": [
+          "finding providers",
+          "coordinating estimate + repair",
+          "keeping service records"
+        ],
+        "what_client_provides": [
+          "issue + location",
+          "estimate approval"
+        ],
+        "how_it_works": [
+          "Report",
+          "Match",
+          "Estimate",
+          "Approve",
+          "Repair",
+          "Record"
+        ],
+        "outcome": "Repaired truck with a record.",
+        "timing": "Per job.",
+        "pricing_relationship": "Provider bills the repair; AIO referral fee on the provider side.",
+        "cta": "Report an Issue",
+        "workspace_continuity": "Ticket screen follows the same six steps.",
+        "route": "fleetcare"
+      },
+      "continuity": "Ticket screen follows the same six steps."
+    },
+    {
+      "feature_id": "AIO.DRIVERLINK",
+      "feature_name": "DriverLink",
+      "public_entry": {
+        "surface": "DriverLink page",
+        "route": "driverlink",
+        "trigger": "driver sign-up / carrier hiring CTA"
+      },
+      "public_cta": "JOIN DRIVERLINK",
+      "perspective": {
+        "discovery": [
+          "DriverLink page",
+          "driver sign-up"
+        ],
+        "must_understand": [
+          "drivers are credential-checked by AIO",
+          "companies post jobs and invite"
+        ],
+        "who_its_for": "Carriers hiring drivers; CDL drivers looking for work.",
+        "what_we_handle": [
+          "credential verification",
+          "matching",
+          "hiring pipeline"
+        ],
+        "what_client_provides": [
+          "job details (company)",
+          "credentials (driver)"
+        ],
+        "how_it_works": [
+          "Post / sign up",
+          "Verify",
+          "Match",
+          "Invite",
+          "Hire"
+        ],
+        "outcome": "A hired, credentialed driver.",
+        "timing": "Per job.",
+        "pricing_relationship": "Not specified in current source — to be confirmed.",
+        "cta": "Join DriverLink",
+        "workspace_continuity": "Pipeline steps match the public explainer.",
+        "route": "driverlink"
+      },
+      "continuity": "Pipeline steps match the public explainer."
+    },
+    {
+      "feature_id": "AIO.VAULT",
+      "feature_name": "Vault",
+      "public_entry": {
+        "applicable": false,
+        "reason": "Private document hub."
+      },
+      "public_cta": null,
+      "perspective": {
+        "applicable": false,
+        "reason": "Private document hub."
+      },
+      "continuity": null
+    },
+    {
+      "feature_id": "AIO.INBOX",
+      "feature_name": "Inbox — Messages / Notifications / Appointments",
+      "public_entry": {
+        "applicable": false,
+        "reason": "Private correspondence."
+      },
+      "public_cta": null,
+      "perspective": {
+        "applicable": false,
+        "reason": "Private correspondence."
+      },
+      "continuity": null
+    },
+    {
+      "feature_id": "AIO.ACCOUNT",
+      "feature_name": "Account — Settings / Team / Auth",
+      "public_entry": {
+        "surface": "Sign up",
+        "route": "auth routes",
+        "trigger": "Get Started conversion"
+      },
+      "public_cta": "CREATE ACCOUNT",
+      "perspective": {
+        "discovery": [
+          "Get Started conversion",
+          "sign-in link"
+        ],
+        "must_understand": [
+          "one account per business with team roles"
+        ],
+        "who_its_for": "New clients.",
+        "what_we_handle": [
+          "secure sign-in",
+          "team access"
+        ],
+        "what_client_provides": [
+          "email",
+          "password"
+        ],
+        "how_it_works": [
+          "Sign up",
+          "Verify email",
+          "Invite team"
+        ],
+        "outcome": "An active account.",
+        "timing": "Minutes.",
+        "pricing_relationship": "Account included.",
+        "cta": "Create Account",
+        "workspace_continuity": "Sign-up lands directly in My Office with the Get Started plan.",
+        "route": "auth routes"
+      },
+      "continuity": "Sign-up lands directly in My Office with the Get Started plan."
+    },
+    {
+      "feature_id": "AIO.OFFICE_OPERATIONS",
+      "feature_name": "AIO Office Operations (founder / staff)",
+      "public_entry": {
+        "applicable": false,
+        "reason": "Internal-only office."
+      },
+      "public_cta": null,
+      "perspective": {
+        "applicable": false,
+        "reason": "Internal-only office."
+      },
+      "continuity": null
+    }
+  ]
+}

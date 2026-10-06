@@ -1,0 +1,959 @@
+/*
+ * P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1
+ *
+ * HUB IS THE RESPONSIVE DENSITY AUTHORITY. This file is the shared Production Workspace density contract:
+ *
+ *   1. TOKENS   — the HUB type scale (T0 … T6 + METRIC), panel density and media slot sizes, per viewport
+ *                 family, written with the same unit HUB uses (one authority px = width / artboard).
+ *   2. MEDIA    — the media slot / fit contract ([data-media-slot] + [data-media-fit]): the slot owns the
+ *                 geometry, the source never does; crops are declared, contain-fits never crop.
+ *   3. LAYERS   — each tab's own internal layers (page title, section title, panel title, body, label,
+ *                 control, metric, caption) mapped onto the tokens. Compositions are untouched.
+ *
+ * Rules: no zoom, no transform: scale, no root font-size shrink, no overflow:hidden-only media fixes.
+ * Host chrome (.pxh-*, .ph-*, prod-chrome-*) is never selected here. HUB (.hubx) is never selected here.
+ * TS mirror: src/site00/config/production-workspace-density.ts.
+ * Loaded last by ProductionAuthorityFrame and PwFrame; selectors are anchored on [data-density] so they
+ * out-rank the per-tab authority files without !important.
+ */
+
+/* ═══ 1. TOKENS ═══════════════════════════════════════════════════════════════════════════════════════ */
+
+/* desktop (16:9 authority, 2000 artboard) */
+.pxa[data-density],
+.pw[data-density] {
+  --pw-u: calc(min(100vw, 2200px) / 2000);
+  --pw-t0: max(10px, calc(var(--pw-u) * 16.5));
+  --pw-t1: max(10.5px, calc(var(--pw-u) * 17));
+  --pw-t2: max(12px, calc(var(--pw-u) * 20));
+  --pw-t3: max(14px, calc(var(--pw-u) * 24));
+  --pw-t4: max(15px, calc(var(--pw-u) * 26));
+  --pw-t5: max(24px, calc(var(--pw-u) * 44));
+  --pw-t6: max(36px, calc(var(--pw-u) * 66));
+  --pw-metric: max(20px, calc(var(--pw-u) * 34));
+  --pw-gutter: calc(var(--pw-u) * 65);
+  --pw-gap: calc(var(--pw-u) * 30);
+  --pw-row-gap: calc(var(--pw-u) * 14);
+  --pw-pad: max(10px, calc(var(--pw-u) * 18));
+  --pw-radius: 6px;
+  --pw-target: 32px;
+  --pw-thumb-row: calc(var(--pw-u) * 46);
+  --pw-thumb-strip: calc(var(--pw-u) * 85);
+  --pw-media-card: calc(var(--pw-u) * 122);
+  --pw-media-feature: calc(var(--pw-u) * 178);
+  --pw-media-portrait: calc(var(--pw-u) * 260);
+  --pw-media-capture: calc(var(--pw-u) * 420);
+  --pw-hero-h: calc(var(--pw-u) * 308);
+  --pw-media-radius: 3px;
+}
+
+/* tablet (4:3 authority, 1792 artboard) */
+@media (min-width: 700px) and (max-width: 1119px) {
+  .pxa[data-density],
+  .pw[data-density] {
+    --pw-u: calc(100vw / 1792);
+    --pw-t0: max(8px, calc(var(--pw-u) * 18.5));
+    --pw-t1: max(8.5px, calc(var(--pw-u) * 19));
+    --pw-t2: max(9.5px, calc(var(--pw-u) * 22));
+    --pw-t3: max(11px, calc(var(--pw-u) * 28));
+    --pw-t4: max(12px, calc(var(--pw-u) * 28));
+    --pw-t5: max(20px, calc(var(--pw-u) * 50));
+    --pw-t6: max(30px, calc(var(--pw-u) * 74));
+    --pw-metric: max(16px, calc(var(--pw-u) * 38));
+    --pw-gutter: calc(var(--pw-u) * 47);
+    --pw-gap: calc(var(--pw-u) * 22);
+    --pw-row-gap: calc(var(--pw-u) * 14);
+    --pw-pad: max(8px, calc(var(--pw-u) * 18));
+    --pw-thumb-row: calc(var(--pw-u) * 48);
+    --pw-thumb-strip: calc(var(--pw-u) * 94);
+    --pw-media-card: calc(var(--pw-u) * 140);
+    --pw-media-feature: calc(var(--pw-u) * 200);
+    --pw-media-portrait: calc(var(--pw-u) * 300);
+    --pw-media-capture: calc(var(--pw-u) * 520);
+    --pw-hero-h: calc(var(--pw-u) * 330);
+  }
+}
+
+/* mobile (9:16 authority, 1125 artboard) — the primary refinement target */
+@media (max-width: 699px) {
+  .pxa[data-density],
+  .pw[data-density] {
+    --pw-u: calc(100vw / 1125);
+    --pw-t0: max(6.5px, calc(var(--pw-u) * 17));
+    --pw-t1: max(7px, calc(var(--pw-u) * 19));
+    --pw-t2: max(7px, calc(var(--pw-u) * 19));
+    --pw-t3: max(8.5px, calc(var(--pw-u) * 24));
+    --pw-t4: max(9.5px, calc(var(--pw-u) * 28));
+    --pw-t5: max(12px, calc(var(--pw-u) * 38));
+    --pw-t6: max(18px, calc(var(--pw-u) * 58));
+    --pw-metric: max(11px, calc(var(--pw-u) * 34));
+    --pw-gutter: calc(var(--pw-u) * 38);
+    --pw-gap: calc(var(--pw-u) * 15);
+    --pw-row-gap: calc(var(--pw-u) * 15);
+    --pw-pad: max(6px, calc(var(--pw-u) * 24));
+    --pw-radius: 3px;
+    --pw-target: 28px;
+    --pw-thumb-row: calc(var(--pw-u) * 58);
+    --pw-thumb-strip: calc(var(--pw-u) * 98);
+    --pw-media-card: calc(var(--pw-u) * 150);
+    --pw-media-feature: calc(var(--pw-u) * 560);
+    --pw-media-portrait: calc(var(--pw-u) * 280);
+    --pw-media-capture: calc(var(--pw-u) * 460);
+    --pw-hero-h: calc(var(--pw-u) * 315);
+    --pw-media-radius: 2px;
+  }
+}
+
+/* ═══ 2. MEDIA SLOT CONTRACT ══════════════════════════════════════════════════════════════════════════
+ * Every media-bearing element declares [data-media-slot] (geometry) and [data-media-fit] (cover / contain +
+ * default focal). The slot defines the box; the image fills it with object-fit; nothing is sized by the
+ * source. `--pw-focal` overrides the focal point per asset. Overflow is clipped TO THE DECLARED SLOT only.
+ * Slot GEOMETRY defaults use :where() (zero specificity) so composed layouts (HUB) keep their own sizes;
+ * FIT rules are anchored on [data-density] so a declared contain-fit always beats an inherited cover.
+ */
+/* geometry defaults are a MOBILE contract: tablet / desktop compositions keep their own approved media boxes.
+ * Slot GEOMETRY (frame size + aspect) drives the shared primitive (.pw-media — WorkspaceMediaSlot / WorkspacePanel).
+ * A slot's max size caps the frame WITHOUT changing its aspect: the inline size shrinks and the aspect holds, so
+ * a cap can never crush a frame into an undeclared strip. Retrofitted composition frames (.pxa-thumb, plates,
+ * heroes) keep their authored box — the contract governs their fit, focal, radius and missing state. */
+@media (max-width: 699px) {
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-slot]) {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    min-width: 0;
+    max-width: 100%;
+    border-radius: var(--pw-media-radius, 2px);
+    background-color: #d9d9de;
+  }
+  /* hero plates (bands) and marks keep square edges at any owner; marks are never cropped by their slot.
+   * No frame size is imposed on composition frames (inset-positioned plates keep their authored box). */
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-slot='HERO_PLATE'], [data-media-slot='LOGO_MARK']) {
+    border-radius: 0;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-slot='LOGO_MARK']) {
+    overflow: visible;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where(.pw-media:is([data-media-slot='ROW_THUMB'], [data-media-slot='LOGO_MARK'])) {
+    flex: none;
+    inline-size: var(--pw-thumb-row);
+    aspect-ratio: 1 / 1;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where(.pw-media[data-media-slot='STRIP_THUMB']) {
+    inline-size: min(100%, calc(var(--pw-thumb-strip) * 16 / 10));
+    aspect-ratio: 16 / 10;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where(.pw-media[data-media-slot='CARD_MEDIA']) {
+    inline-size: min(100%, calc(var(--pw-media-card) * 16 / 9));
+    aspect-ratio: 16 / 9;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where(.pw-media[data-media-slot='FEATURE_MEDIA']) {
+    inline-size: min(100%, calc(var(--pw-media-feature) * 3 / 2));
+    aspect-ratio: 3 / 2;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where(.pw-media[data-media-slot='PORTRAIT']) {
+    inline-size: min(100%, calc(var(--pw-media-portrait) * 4 / 5));
+    aspect-ratio: 4 / 5;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where(.pw-media[data-media-slot='DOCUMENT']) {
+    inline-size: min(100%, calc(var(--pw-media-portrait) * 3 / 4));
+    aspect-ratio: 3 / 4;
+    box-shadow: inset 0 0 0 1px rgba(17, 17, 20, 0.12);
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where(.pw-media[data-media-slot='UI_CAPTURE']) {
+    inline-size: min(100%, calc(var(--pw-media-capture) * 9 / 16));
+    aspect-ratio: 9 / 16;
+    background-color: #17171a;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where(.pw-media[data-media-slot='HERO_PLATE']) {
+    inline-size: 100%;
+    aspect-ratio: 1125 / 315;
+    border-radius: 0;
+  }
+}
+
+/* fit: the image always fills the slot box; the fit decides crop vs letterbox.
+ * CONTAIN is strong (a declared no-crop always beats an inherited cover). COVER and the mode's DEFAULT focal are
+ * zero-specificity defaults, so tabs that art-direct a crop (zoom + per-item position) keep it. Explicit focal
+ * metadata (--pw-focal, set inline by the component) is strong. */
+:is(.pxa, .pw)[data-density] [data-media-slot] :is(img, video) {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: none;
+}
+:is(.pxa, .pw)[data-density] [data-media-fit$='_COVER'] :is(img, video) {
+  object-fit: cover;
+}
+:is(.pxa, .pw)[data-density] [data-media-fit$='_CONTAIN'] :is(img, video) {
+  object-fit: contain;
+}
+:where(.pxa[data-density], .pw[data-density]) :where([data-media-fit$='_COVER']:not(:has(img, video))) {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+:is(.pxa, .pw)[data-density] [data-media-fit$='_CONTAIN']:not(:has(img, video)) {
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+@media (max-width: 699px) {
+  /* default focal per fit mode */
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-fit='THUMBNAIL_COVER'], [data-media-fit='THUMBNAIL_CONTAIN'], [data-media-fit='LOGO_CONTAIN'], [data-media-fit='DOCUMENT_PREVIEW_CONTAIN']) {
+    --pw-focal-default: 50% 50%;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-fit='PORTRAIT_COVER']) {
+    --pw-focal-default: 50% 22%;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-fit='LANDSCAPE_COVER']) {
+    --pw-focal-default: 50% 45%;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-fit='WIDE_SCENE_COVER']) {
+    --pw-focal-default: 50% 42%;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-fit='UI_CAPTURE_CONTAIN'], [data-media-fit='AUTHORITY_PREVIEW_COVER']) {
+    --pw-focal-default: 50% 0%;
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-fit] :is(img, video)) {
+    object-position: var(--pw-focal, var(--pw-focal-default, 50% 50%));
+  }
+  :where(.pxa[data-density], .pw[data-density]) :where([data-media-fit]:not(:has(img, video))) {
+    background-position: var(--pw-focal, var(--pw-focal-default, 50% 50%));
+  }
+}
+/* explicit focal metadata always wins */
+:is(.pxa, .pw)[data-density] [data-media-fit][style*='--pw-focal'] :is(img, video) {
+  object-position: var(--pw-focal);
+}
+:is(.pxa, .pw)[data-density] [data-media-fit][style*='--pw-focal']:not(:has(img, video)) {
+  background-position: var(--pw-focal);
+}
+/* contain fits sit on a neutral / dark backdrop instead of cropping */
+:is(.pxa, .pw)[data-density] :is([data-media-fit='THUMBNAIL_CONTAIN'], [data-media-fit='DOCUMENT_PREVIEW_CONTAIN']) {
+  background-color: #eeeef1;
+}
+:is(.pxa, .pw)[data-density] [data-media-fit='UI_CAPTURE_CONTAIN'] {
+  background-color: #17171a;
+}
+:is(.pxa, .pw)[data-density] [data-media-fit='LOGO_CONTAIN'] {
+  background-color: transparent;
+}
+
+/* missing asset: the slot keeps its geometry and shows the named empty state — never a broken icon */
+:is(.pxa, .pw)[data-density] [data-media-slot] [data-asset-state='missing'] {
+  position: absolute;
+  inset: 0;
+}
+/* row-scale slots are too small for a legible label: the hatched empty state stays, the name moves to the tooltip */
+:is(.pxa, .pw)[data-density] .pw-media:is([data-media-slot='ROW_THUMB'], [data-media-slot='LOGO_MARK']) [data-asset-state='missing'] .ph-slot__label {
+  display: none;
+}
+
+/* ═══ 3. LAYER NORMALIZATION — MOBILE (primary refinement target) ═══════════════════════════════════════
+ * Each tab keeps its own composition; only its internal layers are re-pointed at the HUB tiers.
+ * Selector lists are the WINNING font-size rules measured live (scripts/production-workspace/density-rules.mjs),
+ * re-anchored on [data-density] so they out-rank the per-tab authority files regardless of load order.
+ */
+@media (max-width: 699px) {
+  /* ── T0 · MICRO / SYSTEM LABEL ── */
+  .pxa[data-density] :is(
+      .ibx-viewall, .ibx-chip, .ibx-card small, .ibx-card__status, .ibx-focus__gate, .ibx-facts dt, .ibx-row__main small,
+      .ibx-row__main em, .ibx-row--all .ibx-row__type, .ibx-row__side--meta, .ibx-row__side--meta small, .ibx-stats span,
+      .ibx-dside span, .ibx-attach__rail small, .ibx-recent__rail--empty p, .ibx-iconbtn em, .ibx-deps span, .ibx-chain small,
+      .ibx-linked small, .ibx-linked em, .ibx-metrics span, .ibx-thead small, .ibx-revise__obj span, .ibx-filtersheet legend,
+      .iax-viewall, .iax-chip, .iax-feed time, .iax-feed__text small, .iax-hero__copy p + p, .iax-hero__side, .iax-stat small,
+      .iax-lenses em, .iax-panel__head h2 em, .iax-acard__meta small, .iax-attn small, .iax-links small, .iax-milestones em,
+      .iax-milestones small, .iax-mstl small, .iax-ms__facts dt, .iax-ms__status small, .iax-tabs em, .iax-tags li,
+      .iax-notices time, .iax-notices small, .iax-review small, .iax-review em, .iax-fast small, .iax-lines li > small,
+      .iax-detail__meta, .iax-statusbox small, .iax-statusbox em, .iax-deps small, .iax-history small, .iax-kv dt,
+      .iax-sysfilters small, .iax-btable__head, .iax-sev, .iax-bdeps, .iax-preview > small, .iax-filterbody > small,
+      .iax-updates small,
+      .pxa-hero__side, .pxa-sec__all, .pxa-sec__head > small, .pxa-status__cell small, .pxa-status__cell a, .pxa-xstatus small,
+      .pxa-prio, .pxa-chips li, .pxa-entry em, .pxa-floorgrid em, .pxa-floorgrid small, .pxa-ops small, .pxa-canon dt,
+      .pxa-vault__bar small, .pxa-flow small, .pxa-collection small, .pxa-collection em, .pxa-collection__panel li span,
+      .pxa-design .pxa-tcard__copy small, .pxa-design .pxa-pipeline__steps small, .pxa-design .pxa-sec__all,
+      .exf-row__text small
+    ) {
+    font-size: var(--pw-t0);
+  }
+
+  /* ── T1 · SUPPORTING LABEL ── */
+  .pxa[data-density] :is(
+      .ibx-crumb a, .ibx-title p, .ibx-typerail a, .ibx-hint, .ibx-mono, .ibx-empty p, .ibx-revise label span,
+      .ibx-ba__list span, .ibx-attn__grid span, .ibx-dtitle--stack p,
+      .iax-hero__copy small, .iax-hero__copy p, .iax-crumbs, .iax-hint, .iax-msg__who b, .iax-msg__body small, .iax-empty p,
+      .pxa-hero__copy small, .pxa-hero__copy p, .pxa-authority span, .pxa-making__copy em, .pxa-making__copy small,
+      .pxa-subnav, .pxa-travel__steps em, .pxa-vault__hero small, .pxa-empty, .pxa-collection__panel, .pxa-collection__panel p,
+      .exf-empty span
+    ) {
+    font-size: var(--pw-t1);
+  }
+
+  /* ── T2 · BODY / CONTROL ── */
+  .pxa[data-density] :is(
+      .ibx-btn, .ibx-focus__actions > .ibx-btn, .ibx-row__side .ibx-btn, .ibx-row--sys .ibx-btn, .ibx-facts dd, .ibx-facts--tight dd,
+      .ibx-focus__facts dt, .ibx-focus__facts dd, .ibx-dtab p, .ibx-dtabs button, .ibx-dside b, .ibx-attach__rail b,
+      .ibx-card b, .ibx-root .ibx-card b, .ibx-row__main b, .ibx-row--sys .ibx-row__main b, .ibx-menu__btn, .ibx-dims .ibx-menu__btn,
+      .ibx-menu__list button, .ibx-seg button, .ibx-search input, .ibx-composer input, .ibx-empty b, .ibx-deps b, .ibx-chain b,
+      .ibx-note, .ibx-confirm p, .ibx-revise textarea, .ibx-filtersheet fieldset button,
+      .iax-btn, .iax-acard__actions .iax-btn, .iax-detail__actions .iax-btn, .iax-blocktext, .iax-deps b, .iax-empty b,
+      .iax-feed__text b, .iax-lenses a, .iax-lines li > b, .iax-links b, .iax-milestones b, .iax-ms__desc p, .iax-ms__facts dd,
+      .iax-ms__title p, .iax-mstl b, .iax-stat strong, .iax-tabs button, .iax-acard__meta b, .iax-attn b, .iax-note,
+      .iax-msg__who strong, .iax-blocklist li, .iax-fast b, .iax-review b, .iax-preview > p, .iax-filterlist li, .iax-kv dd,
+      .iax-sysfilters select, .iax-notices b, .iax-updates b, .iax-bitem b, .iax-statusbox b, .iax-history b, .iax-search input,
+      .iax-filterbody [role='tab'], .iax-detail__head > p,
+      .pxa-btn, .pxa-xactions .pxa-btn, .pxa-capsules a, .pxa-xstatus b, .pxa-status__cell b, .pxa-entry b, .pxa-floorgrid b,
+      .pxa-ops b, .pxa-travel__steps b, .pxa-catgrid button, .pxa-vault__bar b, .pxa-canon dd, .pxa-strip b, .pxa-flow b,
+      .pxa-collection b, .pxa-empty--block b,
+      .pxa-design .pxa-tcard__copy b, .pxa-design .pxa-tcard__cta,
+      .exf-btn, .exf-kv dd, .exf-row__text b, .exf-num, .exf-empty b, .exf-chain b
+    ) {
+    font-size: var(--pw-t2);
+  }
+
+  /* ── T3 · PANEL TITLE (and page-level tab bars) ── */
+  .pxa[data-density] :is(
+      .ibx-head h2, .ibx-root > section .ibx-head h2, .ibx-context .ibx-head h2, .ibx-dtab h3, .ibx-tabs a, .ibx-thead b,
+      .ibx-sheet > header b, .ibx-linked b,
+      .iax-panel__head h2, .iax-pop > header b,
+      .pxa-sec__head h2, .pxa-design .pxa-sec__head h2, .pxa-tabs button,
+      .exf-panel__head h3
+    ) {
+    font-size: var(--pw-t3);
+  }
+
+  /* ── T4 · SECTION / FEATURE TITLE ── */
+  .pxa[data-density] :is(
+      .ibx-revise__obj b,
+      .iax-ms__title strong, .iax-hero__copy strong, .iax-preview > header b,
+      .pxa-making__copy b,
+      .exf-hero__family
+    ) {
+    font-size: var(--pw-t4);
+  }
+
+  /* ── T5 · WORKSPACE PAGE TITLE (child pages, featured page heads) ── */
+  .pxa[data-density] :is(
+      .ibx-title h1, .ibx-title--inline span, .ibx-dtitle h1, .ibx-dtitle--stack h1,
+      .iax-ms__title h1, .iax-detail__head h1,
+      .pxa-vault__hero h2
+    ) {
+    font-size: var(--pw-t5);
+  }
+
+  /* ── T6 · DISPLAY — one hero title per ROOT tab, never above HUB's own display size ── */
+  .pxa[data-density] :is(.iax-hero__copy h1, .pxa-hero__copy h1, .exf-hero .pxa-hero__copy h1) {
+    font-size: var(--pw-t6);
+  }
+  /* Expression family pages are CHILD views: their hero title tops out at T5 (same specificity, later wins) */
+  .pxa[data-density] .exf-hero .pxa-hero__copy h1 {
+    font-size: var(--pw-t5);
+  }
+
+  /* ── METRIC / NUMBER ── */
+  .pxa[data-density] :is(
+      .ibx-ba__list b, .ibx-stats b, .ibx-attn__grid b, .ibx-metrics b,
+      .iax-stat b, .iax-ms__status b,
+      .pxa-status__cell .pxa-num, .pxa-authority b,
+      .exf-stat b
+    ) {
+    font-size: var(--pw-metric);
+  }
+
+  /* glyph arrows / chevrons scale with the text they follow (HUB: 1.35em), never as a fixed large glyph */
+  .pxa[data-density] :is(.iax-viewall span, .pxa-sec__all span, .pxa-design .pxa-sec__all span) {
+    font-size: 1.35em;
+  }
+  .pxa[data-density] :is(.exf-row__go, .pxa-flow li.pxa-flow__arrow) {
+    font-size: var(--pw-t4);
+  }
+  .pxa[data-density] .pxa-entry--new span {
+    font-size: var(--pw-t5);
+  }
+
+  /* ── EXPERIENCE child pages (PwFrame descendants) ── */
+  .pw[data-density] :is(.pw-head__title) {
+    font-size: var(--pw-t5);
+  }
+  .pw[data-density] :is(.pw-head__sub, .pw-head__back, .pw-empty) {
+    font-size: var(--pw-t1);
+  }
+  .pw[data-density] :is(.pw-note, .pw-empty strong, .pw.pw--authority .pwa-capsules a, .pwa-capsules a) {
+    font-size: var(--pw-t2);
+  }
+  .pw[data-density] :is(.pw.pw--authority .pwa-xchild__tag b, .pwa-xchild__tag b) {
+    font-size: var(--pw-t4);
+  }
+  .pw[data-density] :is(.pw.pw--authority .pwa-xchild__tag small, .pwa-xchild__tag small) {
+    font-size: var(--pw-t0);
+  }
+}
+
+/* ═══ 4. PANEL DENSITY + MEDIA SLOTS — MOBILE ═════════════════════════════════════════════════════════
+ * Padding, gaps, control heights, icon and thumbnail sizes follow the HUB unit so text, media and spacing
+ * scale as one unit. Compositions stay; only internal geometry is normalized. Media boxes are declared slots.
+ */
+@media (max-width: 699px) {
+  /* ── shared: controls, chips, icons ── */
+  .pxa[data-density] :is(.ibx-btn, .iax-btn, .pxa-btn, .exf-btn) {
+    min-height: var(--pw-target);
+    padding-block: 0;
+  }
+  .pxa[data-density] :is(.iax-chip, .ibx-chip) {
+    padding: 2px 6px;
+  }
+
+  /* ── INBOX ── */
+  .pxa[data-density] .ibx {
+    --ibx-pad: var(--pw-gutter);
+    --ibx-gap: var(--pw-gap);
+    --ibx-title: var(--pw-t3);
+    --ibx-text: var(--pw-t2);
+    --ibx-small: var(--pw-t0);
+  }
+  .pxa[data-density] .ibx-tabs a {
+    height: 30px;
+  }
+  .pxa[data-density] .ibx-tabs a + a::before {
+    top: 9px;
+    bottom: 9px;
+  }
+  .pxa[data-density] .ibx-root {
+    grid-template-rows: auto auto auto;
+    gap: var(--pw-gap);
+    padding-top: var(--pw-gap);
+  }
+  .pxa[data-density] .ibx-root > section {
+    padding: var(--pw-pad);
+  }
+  /* selected decision: portrait slot left, facts right — the slot (not the source) sets the size */
+  .pxa[data-density] .ibx-focus {
+    grid-template-columns: calc(var(--pw-u) * 300) minmax(0, 1fr);
+    gap: var(--pw-pad) calc(var(--pw-pad) * 1.4);
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .ibx-focus__art {
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+  .pxa[data-density] .ibx-focus__body {
+    gap: 5px;
+  }
+  .pxa[data-density] .ibx-focus__actions {
+    gap: var(--pw-pad);
+  }
+  .pxa[data-density] .ibx-focus__actions > .ibx-btn {
+    min-height: var(--pw-target);
+  }
+  .pxa[data-density] .ibx-root .ibx-card .ibx-art {
+    height: var(--pw-media-card);
+  }
+  .pxa[data-density] :is(.ibx-root .ibx-recent__rail .ibx-art, .ibx-slot) {
+    height: var(--pw-thumb-strip);
+  }
+  /* empty rail: the label sits on its own backing chip — it never runs across the slot outlines */
+  .pxa[data-density] .ibx-recent__rail--empty p {
+    inset: 50% auto auto 50%;
+    translate: -50% -50%;
+    display: block;
+    width: max-content;
+    max-width: 92%;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(245, 245, 247, 0.96);
+    box-shadow: 0 0 0 1px var(--ibx-line-2);
+  }
+  .pxa[data-density] .ibx-ba__list a {
+    grid-template-columns: calc(var(--pw-u) * 90) minmax(0, 1fr);
+    gap: var(--pw-pad);
+    padding: 6px 2px;
+  }
+  .pxa[data-density] .ibx-incoming__rail .ibx-card b {
+    overflow-wrap: break-word;
+    hyphens: manual;
+  }
+
+  /* ── ACTIVITY ── */
+  .pxa[data-density] .iax {
+    --pad: var(--pw-gutter);
+    --gap: calc(var(--pw-gap) * 1.6);
+    gap: var(--gap);
+  }
+  .pxa[data-density] .iax-hero {
+    height: calc(var(--pw-hero-h) * 1.2);
+  }
+  .pxa[data-density] .iax-lenses a {
+    padding: 8px 10px;
+  }
+  .pxa[data-density] .iax-search {
+    height: var(--pw-target);
+  }
+  .pxa[data-density] .iax-filterbtn {
+    width: var(--pw-target);
+    height: var(--pw-target);
+  }
+  .pxa[data-density] .iax-stats {
+    gap: var(--pw-gap);
+  }
+  .pxa[data-density] .iax-stat {
+    min-height: 0;
+    gap: 8px;
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .iax-stat > .iax-ic {
+    width: calc(var(--pw-u) * 64);
+    height: calc(var(--pw-u) * 64);
+    padding: calc(var(--pw-u) * 14);
+  }
+  .pxa[data-density] .iax-panel {
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .iax-feed li {
+    grid-template-columns: var(--pw-thumb-row) minmax(0, 1fr) auto 12px;
+    gap: 1px 8px;
+    min-height: 0;
+    padding: 5px 2px;
+  }
+  .pxa[data-density] :is(.iax-feed .iax-av, .iax-msg .iax-av) {
+    width: var(--pw-thumb-row);
+    height: var(--pw-thumb-row);
+  }
+  .pxa[data-density] .iax-msg {
+    grid-template-columns: 6px var(--pw-thumb-row) minmax(0, 1fr) auto;
+    min-height: 0;
+    padding: 5px 2px;
+  }
+  .pxa[data-density] .iax-more .iax-ic {
+    width: 12px;
+    height: 12px;
+  }
+  .pxa[data-density] .iax-acard {
+    grid-template-columns: calc(var(--pw-u) * 200) minmax(0, 1fr) auto;
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .iax-acard > .pxa-thumb {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+  .pxa[data-density] .iax-acard__actions .iax-btn {
+    height: var(--pw-target);
+  }
+  .pxa[data-density] .iax-review a {
+    grid-template-columns: calc(var(--pw-u) * 200) minmax(0, 1fr) auto 12px;
+    gap: 8px;
+    padding: 5px 2px;
+  }
+  .pxa[data-density] .iax-review .pxa-thumb {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+  .pxa[data-density] .iax-updates li {
+    grid-template-columns: minmax(0, 1fr) calc(var(--pw-u) * 220);
+  }
+  .pxa[data-density] .iax-updates__art {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+  .pxa[data-density] .iax-fast > :is(a, button) {
+    min-height: 0;
+  }
+  .pxa[data-density] :is(.iax-milestones a, .iax-lines li, .iax-links a, .iax-notices li) {
+    min-height: 0;
+  }
+
+  /* ── EXPERIENCE (root): the world plate fills what the panel leaves — panel stays on the first screen ── */
+  .pxa[data-density] .pxa-experience {
+    display: flex;
+    flex-direction: column;
+  }
+  .pxa[data-density] .pxa-experience .pxa-hero {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: calc(var(--pw-hero-h) * 1.6);
+  }
+  .pxa[data-density] .pxa-xpanel {
+    flex: none;
+    gap: var(--pw-pad);
+    padding: var(--pw-pad) var(--pw-gutter) calc(var(--pw-pad) * 1.5);
+  }
+  .pxa[data-density] .pxa-capsules a {
+    padding: 3px 8px;
+  }
+  .pxa[data-density] .pxa-xstatus {
+    gap: 3px;
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .pxa-xactions {
+    gap: var(--pw-pad);
+  }
+
+  /* ── EXPRESSION (root) ── */
+  .pxa[data-density] :is(.pxa-expression > .pxa-card, .pxa-expression__top, .pxa-expression__bottom) {
+    margin: var(--pw-gap) var(--pw-gutter) 0;
+  }
+  .pxa[data-density] .pxa-expression .pxa-card {
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .pxa-making__body {
+    grid-template-columns: calc(var(--pw-u) * 230) minmax(0, 1fr);
+    gap: calc(var(--pw-pad) * 1.4);
+  }
+  .pxa[data-density] .pxa-making__img {
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+  .pxa[data-density] .pxa-authority {
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .pxa-floorgrid {
+    gap: var(--pw-gap);
+  }
+  .pxa[data-density] .pxa-floor__art {
+    height: auto;
+    aspect-ratio: 16 / 6;
+  }
+  .pxa[data-density] .pxa-chips li {
+    padding: 2px 6px;
+  }
+
+  /* ── LIBRARY ── */
+  .pxa[data-density] :is(.pxa-library > .pxa-catgrid, .pxa-library > .pxa-vault, .pxa-library > .pxa-library__strips, .pxa-library > .pxa-card) {
+    margin-inline: var(--pw-gutter);
+  }
+  .pxa[data-density] .pxa-library {
+    gap: var(--pw-gap);
+  }
+  .pxa[data-density] .pxa-tabs button {
+    padding: 8px 6px;
+  }
+  .pxa[data-density] .pxa-catgrid {
+    gap: var(--pw-gap);
+  }
+  .pxa[data-density] .pxa-catgrid button {
+    gap: 6px;
+    padding: 6px 8px;
+  }
+  .pxa[data-density] .pxa-catgrid button i {
+    width: 10px;
+    height: 10px;
+  }
+  .pxa[data-density] .pxa-vault__hero {
+    height: var(--pw-hero-h);
+  }
+  .pxa[data-density] .pxa-vault__bar {
+    gap: 6px 14px;
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .pxa-canon > div {
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .pxa-library .pxa-card {
+    padding: var(--pw-pad);
+  }
+  .pxa[data-density] .pxa-strip .pxa-thumb {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  .pxa[data-density] .pxa-collection > button {
+    grid-template-columns: calc(var(--pw-u) * 100) minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 5px 8px;
+  }
+  .pxa[data-density] .pxa-collection > button .pxa-thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+  .pxa[data-density] .pxa-flow li {
+    width: calc(var(--pw-u) * 260);
+  }
+
+  /* ── DESIGN (root + modes): the chamber composition is untouched; only the section bands tighten ── */
+  .pxa[data-density] :is(.pxa-pipeline, .pxa-table-sec) {
+    margin-top: var(--pw-gap);
+  }
+  .pxa[data-density] .pxa-chamber__edge span:last-child {
+    max-width: 42%;
+    line-height: 1.15;
+  }
+
+  /* ── EXPERIENCE child pages (PwFrame) ── */
+  .pw[data-density] .pw-head__back {
+    padding-block: 4px;
+  }
+  .pw[data-density] .pwa-capsules a {
+    padding: 3px 8px;
+  }
+  .pw[data-density].pw--authority .pwa-xchild__world {
+    min-height: 0;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ═══ 5. MOBILE FIXES — specificity-tied layers, decision detail, list rows, hero copy on imagery ════════ */
+@media (max-width: 699px) {
+  /* EXPERIENCE child chrome-in-body: back pill + capsules (out-rank `.pw.pw--authority …`) */
+  .pw[data-density].pw--authority :is(.pw-head__back, .pw-head__sub, .pw-empty) {
+    font-size: var(--pw-t1);
+  }
+  .pw[data-density].pw--authority .pw-head__back {
+    min-height: 0;
+    padding: 4px 10px 4px 6px;
+  }
+  .pw[data-density].pw--authority .pw-head__back svg {
+    width: 12px;
+    height: 12px;
+  }
+  .pw[data-density].pw--authority :is(.pw-note, .pw-empty strong, .pwa-capsules a) {
+    font-size: var(--pw-t2);
+  }
+  .pw[data-density].pw--authority .pwa-xchild__tag {
+    left: var(--pw-pad);
+    bottom: var(--pw-pad);
+    padding: 5px 9px;
+  }
+  .pw[data-density].pw--authority :is(.pw-note, .pw-empty) {
+    padding: var(--pw-pad) calc(var(--pw-pad) * 1.6);
+  }
+
+  /* DESIGN chamber edge pill: the tagline takes its full column instead of wrapping out of the pill */
+  .pxa[data-density] .pxa-chamber__edge span:last-child {
+    max-width: 100%;
+    line-height: 1.2;
+  }
+
+  /* INBOX decision / notice detail: content-sized rows; the tab pane scrolls inside a capped box */
+  .pxa[data-density] :is(.ibx-dgrid, .ibx-dgrid--notice) {
+    grid-template-rows: auto auto auto;
+    align-content: start;
+  }
+  .pxa[data-density] .ibx-dtab {
+    max-height: calc(var(--pw-u) * 900);
+  }
+  .pxa[data-density] .ibx-dcard__art {
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+  /* INBOX list rows (watching / all / resolved / system): HUB row proportions */
+  .pxa[data-density] .ibx-row {
+    grid-template-columns: calc(var(--pw-u) * 120) minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 5px;
+  }
+  .pxa[data-density] .ibx-row > .ibx-art {
+    width: calc(var(--pw-u) * 120);
+    height: auto;
+    aspect-ratio: 5 / 4;
+  }
+  .pxa[data-density] :is(.ibx-search, .ibx-iconbtn) {
+    height: var(--pw-target);
+  }
+  .pxa[data-density] .ibx-iconbtn {
+    width: var(--pw-target);
+  }
+
+  /* hero copy never sits on raw imagery: a light wash behind the copy column (HUB / ACTIVITY grammar) */
+  .pxa[data-density] :is(.pxa-expression, .exf-hero) .pxa-hero__wash,
+  .pxa[data-density] .pxa-vault__hero .pxa-hero__wash {
+    background:
+      linear-gradient(90deg, rgba(244, 244, 246, 0.94) 0%, rgba(244, 244, 246, 0.82) 38%, rgba(244, 244, 246, 0.2) 70%, rgba(244, 244, 246, 0) 86%),
+      linear-gradient(180deg, rgba(244, 244, 246, 0) 72%, rgba(244, 244, 246, 0.85) 100%);
+  }
+  .pxa[data-density] .pxa-expression .pxa-hero {
+    height: calc(var(--pw-hero-h) * 1.3);
+  }
+}
+@media (max-width: 699px) {
+  .pxa[data-density] :is(.pxa-authority, .pxa-entry) small {
+    font-size: var(--pw-t1);
+  }
+  /* hero side index on imagery: a soft backing so it never reads ink-on-dark */
+  .pxa[data-density] .pxa-expression .pxa-hero__side {
+    padding: 4px 6px;
+    border-radius: 2px;
+    background: rgba(244, 244, 246, 0.8);
+  }
+  .pxa[data-density] .pxa-library .pxa-catgrid button > i {
+    width: 10px;
+    height: 10px;
+    flex: none;
+  }
+}
+
+/* ═══ 6. WORKSPACE PANEL — shared media-bearing panel (WorkspacePanel.tsx) ═══════════════════════════════
+ * Explicit zones on the HUB tokens. The panel is its own inline-size container: side-by-side modes stack
+ * when the panel (not the viewport) is too narrow, so the same panel works in any column of any tab.
+ */
+:is(.pxa, .pw)[data-density] .pwk-panel {
+  container-type: inline-size;
+  min-width: 0;
+  padding: var(--pw-pad);
+  border-radius: var(--pw-radius);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 1px rgba(17, 17, 20, 0.04), 0 6px 18px -12px rgba(17, 17, 20, 0.25);
+}
+:is(.pxa, .pw)[data-density] .pwk-panel__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--pw-pad);
+  align-items: start;
+  min-width: 0;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel__text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel__title {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: var(--pw-t3);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel__meta {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  font-size: var(--pw-t0);
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  color: #6e6e76;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pw-pad);
+  min-width: 0;
+}
+/* MEDIA_LEFT_TEXT_RIGHT — media column capped; stacks below a 300px panel */
+:is(.pxa, .pw)[data-density] .pwk-panel[data-panel-layout='MEDIA_LEFT_TEXT_RIGHT'] .pwk-panel__grid {
+  grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+}
+:is(.pxa, .pw)[data-density] .pwk-panel[data-panel-layout='MEDIA_LEFT_TEXT_RIGHT'] .pwk-panel__actions {
+  grid-column: 1 / -1;
+}
+@container (max-width: 300px) {
+  :is(.pxa, .pw)[data-density] .pwk-panel[data-panel-layout='MEDIA_LEFT_TEXT_RIGHT'] .pwk-panel__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* THUMBNAIL_INLINE / METADATA_WITH_SMALL_THUMBNAIL — HUB row grammar: thumb · text · action */
+:is(.pxa, .pw)[data-density] .pwk-panel:is([data-panel-layout='THUMBNAIL_INLINE'], [data-panel-layout='METADATA_WITH_SMALL_THUMBNAIL']) .pwk-panel__grid {
+  grid-template-columns: var(--pw-thumb-row) minmax(0, 1fr) auto;
+  align-items: center;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel[data-panel-layout='METADATA_WITH_SMALL_THUMBNAIL'] .pwk-panel__title {
+  font-size: var(--pw-t2);
+}
+/* FULL_BLEED_MEDIA_WITH_OVERLAY — copy sits on a wash, never on raw imagery */
+:is(.pxa, .pw)[data-density] .pwk-panel[data-panel-layout='FULL_BLEED_MEDIA_WITH_OVERLAY'] {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel[data-panel-layout='FULL_BLEED_MEDIA_WITH_OVERLAY'] .pwk-panel__text {
+  position: absolute;
+  inset: auto 0 0;
+  padding: var(--pw-pad) calc(var(--pw-pad) * 1.4);
+  background: linear-gradient(180deg, rgba(244, 244, 246, 0), rgba(244, 244, 246, 0.94) 42%);
+}
+:is(.pxa, .pw)[data-density] .pwk-panel[data-panel-layout='MEDIA_ONLY_PREVIEW'] {
+  padding: 0;
+  overflow: hidden;
+}
+/* every panel media zone is a declared slot: geometry from the slot, at every width. The aspect always holds;
+ * tall slots (portrait / document / capture) are capped through their inline size, never by cropping the frame. */
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  max-block-size: none;
+  border-radius: var(--pw-media-radius);
+  background-color: #d9d9de;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media:is([data-media-slot='ROW_THUMB'], [data-media-slot='LOGO_MARK']) {
+  inline-size: var(--pw-thumb-row);
+  aspect-ratio: 1 / 1;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-slot='LOGO_MARK'] {
+  background-color: transparent;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-slot='STRIP_THUMB'] {
+  aspect-ratio: 16 / 10;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-slot='CARD_MEDIA'] {
+  aspect-ratio: 16 / 9;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-slot='FEATURE_MEDIA'] {
+  aspect-ratio: 3 / 2;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-slot='PORTRAIT'] {
+  inline-size: min(100%, calc(var(--pw-media-feature) * 4 / 5));
+  aspect-ratio: 4 / 5;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-slot='DOCUMENT'] {
+  inline-size: min(100%, calc(var(--pw-media-feature) * 3 / 4));
+  aspect-ratio: 3 / 4;
+  background-color: #eeeef1;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-slot='UI_CAPTURE'] {
+  inline-size: min(100%, calc(var(--pw-media-feature) * 9 / 16));
+  aspect-ratio: 9 / 16;
+  background-color: #17171a;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-slot='HERO_PLATE'] {
+  aspect-ratio: 1125 / 315;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media :is(img, video) {
+  object-position: var(--pw-focal, var(--pw-focal-default, 50% 50%));
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-fit='PORTRAIT_COVER'] {
+  --pw-focal-default: 50% 22%;
+}
+:is(.pxa, .pw)[data-density] .pwk-panel .pw-media[data-media-fit='UI_CAPTURE_CONTAIN'] {
+  --pw-focal-default: 50% 0%;
+}
+
+/* ═══ 7. INTERNAL SCROLL PANES — the pane edge is a scroll edge, never a hard cut ═══════════════════════════
+ * Locked-viewport compositions (Expression families, INBOX panes) scroll inside their panels. While a pane has
+ * more content below, the last 18px fade out so a partially visible row / control reads as "more below", not
+ * as clipped. Scroll-driven: when the pane does not overflow the timeline is inactive and nothing is masked;
+ * at the end of the scroll the fade is gone. Mobile only; no support → unchanged.
+ */
+@property --pw-pane-fade {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@keyframes pw-pane-fade {
+  from {
+    --pw-pane-fade: 18px;
+  }
+  92% {
+    --pw-pane-fade: 18px;
+  }
+  to {
+    --pw-pane-fade: 0px;
+  }
+}
+@supports (animation-timeline: scroll()) {
+  @media (max-width: 699px) {
+    .pxa[data-density] :is(.exf-panel__body, .ibx-pane) {
+      -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--pw-pane-fade)), transparent);
+      mask-image: linear-gradient(to bottom, #000 calc(100% - var(--pw-pane-fade)), transparent);
+      animation: pw-pane-fade linear both;
+      animation-timeline: scroll(self block);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "sprint": "P0.JURNL.WAVE5-LIVE-RLS-AND-PRODUCTION-SYNC-PROOF",
+  "generated_at": "2026-10-06T04:34:02.612Z",
+  "environment": "SKIP",
+  "steps": [
+    {
+      "id": "ENV_GUARD",
+      "status": "SKIP",
+      "detail": "Set JURNL_LIVE_PROOF=1 to run live gate"
+    }
+  ],
+  "gate_status": "AWAITING_GITHUB_ACTIONS_LIVE_PROOF",
+  "supabase_reachable": false,
+  "api_base": "http://127.0.0.1:8787",
+  "workflow_name": "JURNL Live RLS & Production Sync Proof"
+}

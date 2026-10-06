@@ -1,0 +1,1231 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "primary_metaphor": "QUARTERLY FILING ROOM",
+  "secondary_metaphor": "BUILDING A COMPLETE FILING PACKET",
+  "visual_archetype": [
+    "PACKET_BUILDER",
+    "WORKBENCH",
+    "CHECKLIST"
+  ],
+  "primary_visual_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+  "secondary_visual_objects": [
+    "RECEIPTS (stack by class)",
+    "MILEAGE (per truck, per state, source badge)",
+    "VEHICLES (fleet strip)",
+    "FLAGS",
+    "RETURN (summary sheet)",
+    "CONFIRMATION (seal)"
+  ],
+  "composition_rules": [
+    "The quarter object leads every client state; receipts / mileage / vehicles are its three compartments, never three equal dashboard cards.",
+    "Exactly one primary action per state (CONTINUE FILING · RESOLVE n ITEMS · SEND QUARTER TO AIO · APPROVE RETURN · VIEW IN VAULT).",
+    "Flags sit inside the compartment they belong to, with the fix action inline.",
+    "Estimated mileage is visually distinct (stone, “ESTIMATE”) and can never look filed-ready.",
+    "Review states quiet the inputs and foreground who is working and what happens next.",
+    "Completion collapses the workbench into a sealed quarter that visibly moves to the Vault."
+  ],
+  "avoid_list": [
+    "generic tax form",
+    "generic dashboard",
+    "card wall of equal tiles",
+    "long marketing copy inside the client workspace",
+    "implying AIO is the government / a tax authority",
+    "showing estimated mileage as filed-ready",
+    "raw workflow state names to the client"
+  ],
+  "viewports": {
+    "MOBILE": {
+      "task_model": "capture-first task flow: snap receipts at the pump, resolve one flag at a time, approve in one decision window",
+      "layout": "quarter header (state · % · due) → single next action → compartments as collapsible rows → sticky TAKE PHOTO / CONTINUE",
+      "primary_object_treatment": "quarter card pinned at top with a completeness ring",
+      "input_treatment": "camera + upload as full-width primary; mileage source picker as a sheet"
+    },
+    "TABLET": {
+      "task_model": "review-and-resolve: compartments side by side, flags resolved in place",
+      "layout": "quarter header + two-column compartments (receipts | mileage) with vehicles strip",
+      "primary_object_treatment": "quarter header with timeline of the six steps",
+      "input_treatment": "drag-and-drop upload + camera"
+    },
+    "DESKTOP": {
+      "task_model": "workbench: build and check the packet with everything visible",
+      "layout": "left: quarter + six-step progress; centre: active compartment (receipt grid / mileage table by state × truck); right: flags + messages",
+      "primary_object_treatment": "quarter as the bench object with compartments as tabs of one packet",
+      "input_treatment": "bulk upload, ELD report upload, spreadsheet mapping"
+    }
+  },
+  "state_visual_relationships": [
+    {
+      "state": "NOT_ENROLLED",
+      "composition_emphasis": "single explanatory threshold: what IFTA filing with AIO is + set up",
+      "emphasis_role": "NEUTRAL",
+      "panel_density": "SPARSE",
+      "primary_cta": {
+        "CLIENT": "SET UP IFTA FILING",
+        "PUBLIC": "REQUEST FILING",
+        "FOUNDER_STAFF": "OFFER IFTA FILING"
+      },
+      "artifact_visibility": "HIDDEN",
+      "nav_emphasis": "Services",
+      "status_treatment": "not set up",
+      "quiet": [
+        "flags",
+        "history"
+      ]
+    },
+    {
+      "state": "QUARTER_OPEN",
+      "composition_emphasis": "empty packet with three compartments and the capture method picker",
+      "emphasis_role": "PROGRESS",
+      "panel_density": "SPARSE",
+      "primary_cta": {
+        "CLIENT": "ADD FIRST RECEIPT",
+        "FOUNDER_STAFF": "REMIND CLIENT"
+      },
+      "artifact_visibility": "HIDDEN",
+      "nav_emphasis": "My Office attention",
+      "status_treatment": "Q{n} open · 0% · due {due_date}",
+      "quiet": [
+        "review",
+        "history"
+      ]
+    },
+    {
+      "state": "COLLECTING",
+      "composition_emphasis": "packet filling: compartments show counts and classes; next item leads",
+      "emphasis_role": "PROGRESS",
+      "panel_density": "BALANCED",
+      "primary_cta": {
+        "CLIENT": "CONTINUE FILING",
+        "FOUNDER_STAFF": "VIEW PROGRESS"
+      },
+      "artifact_visibility": "PREVIEW",
+      "nav_emphasis": "My Office attention",
+      "status_treatment": "{pct}% ready · due {due_date}",
+      "quiet": [
+        "return summary",
+        "history"
+      ]
+    },
+    {
+      "state": "NEEDS_CLIENT",
+      "composition_emphasis": "flags lead: one card per flag with the fix inline; packet dimmed behind",
+      "emphasis_role": "BLOCKER",
+      "panel_density": "BALANCED",
+      "primary_cta": {
+        "CLIENT": "RESOLVE {n} ITEMS",
+        "FOUNDER_STAFF": "NUDGE CLIENT"
+      },
+      "artifact_visibility": "PREVIEW",
+      "nav_emphasis": "Inbox + My Office NEEDS YOU",
+      "status_treatment": "Needs you · {n} items",
+      "quiet": [
+        "completed compartments",
+        "history"
+      ]
+    },
+    {
+      "state": "OVERDUE_RISK",
+      "composition_emphasis": "deadline banner over the packet; remaining gaps listed by impact",
+      "emphasis_role": "BLOCKER",
+      "panel_density": "BALANCED",
+      "primary_cta": {
+        "CLIENT": "FINISH QUARTER",
+        "FOUNDER_STAFF": "CALL CLIENT"
+      },
+      "artifact_visibility": "PREVIEW",
+      "nav_emphasis": "My Office top attention",
+      "status_treatment": "Due in {d} days · {pct}% ready",
+      "quiet": [
+        "history"
+      ]
+    },
+    {
+      "state": "AIO_REVIEW",
+      "composition_emphasis": "inputs locked; who is reviewing + what happens next foregrounded",
+      "emphasis_role": "REVIEW",
+      "panel_density": "SPARSE",
+      "primary_cta": {
+        "CLIENT": "MESSAGE AIO",
+        "FOUNDER_STAFF": "START RECONCILIATION"
+      },
+      "artifact_visibility": "PREVIEW",
+      "nav_emphasis": "none (no client action)",
+      "status_treatment": "AIO reviewing",
+      "quiet": [
+        "capture tools"
+      ]
+    },
+    {
+      "state": "RECONCILING",
+      "composition_emphasis": "client: calm progress; staff: jurisdiction × truck reconciliation table with discrepancies",
+      "emphasis_role": "REVIEW",
+      "panel_density": "DENSE",
+      "primary_cta": {
+        "CLIENT": "MESSAGE AIO",
+        "FOUNDER_STAFF": "PREPARE RETURN SUMMARY"
+      },
+      "artifact_visibility": "PREVIEW",
+      "nav_emphasis": "Office queue",
+      "status_treatment": "Reconciling fuel and miles",
+      "quiet": [
+        "capture tools"
+      ]
+    },
+    {
+      "state": "AWAITING_APPROVAL",
+      "composition_emphasis": "decision window: the return summary is the object, approve / ask beside it",
+      "emphasis_role": "DECISION",
+      "panel_density": "BALANCED",
+      "primary_cta": {
+        "CLIENT": "APPROVE RETURN",
+        "FOUNDER_STAFF": "REMIND CLIENT"
+      },
+      "artifact_visibility": "PROMINENT",
+      "nav_emphasis": "Inbox + My Office NEEDS YOU",
+      "status_treatment": "Ready for your approval",
+      "quiet": [
+        "receipts detail",
+        "capture tools"
+      ]
+    },
+    {
+      "state": "FILING",
+      "composition_emphasis": "approved summary with filing in progress",
+      "emphasis_role": "REVIEW",
+      "panel_density": "SPARSE",
+      "primary_cta": {
+        "CLIENT": "VIEW SUMMARY",
+        "FOUNDER_STAFF": "RECORD FILING CONFIRMATION"
+      },
+      "artifact_visibility": "PROMINENT",
+      "nav_emphasis": "Office READY TO FILE",
+      "status_treatment": "Filing with {base_jurisdiction}",
+      "quiet": [
+        "capture tools"
+      ]
+    },
+    {
+      "state": "FILED",
+      "composition_emphasis": "sealed quarter with confirmation; artifacts prominent; motion to the Vault",
+      "emphasis_role": "SUCCESS",
+      "panel_density": "SPARSE",
+      "primary_cta": {
+        "CLIENT": "VIEW IN VAULT",
+        "FOUNDER_STAFF": "RECORD PAYMENT STATUS"
+      },
+      "artifact_visibility": "PROMINENT",
+      "nav_emphasis": "Vault",
+      "status_treatment": "Filed {date} · confirmation #",
+      "quiet": [
+        "flags",
+        "capture tools"
+      ]
+    },
+    {
+      "state": "ARCHIVED",
+      "composition_emphasis": "history row in the filing room; next quarter becomes the bench object",
+      "emphasis_role": "ARCHIVED",
+      "panel_density": "SPARSE",
+      "primary_cta": {
+        "CLIENT": "START Q{n+1}",
+        "FOUNDER_STAFF": "VIEW AUDIT TRAIL"
+      },
+      "artifact_visibility": "ARCHIVED",
+      "nav_emphasis": "none",
+      "status_treatment": "Filed + archived",
+      "quiet": [
+        "everything except next quarter"
+      ]
+    },
+    {
+      "state": "FILING_REJECTED",
+      "composition_emphasis": "correction notice over the summary: what was returned and what AIO is doing",
+      "emphasis_role": "ERROR",
+      "panel_density": "BALANCED",
+      "primary_cta": {
+        "CLIENT": "MESSAGE AIO",
+        "FOUNDER_STAFF": "OPEN CORRECTION"
+      },
+      "artifact_visibility": "PROMINENT",
+      "nav_emphasis": "Inbox",
+      "status_treatment": "Returned by jurisdiction — AIO correcting",
+      "quiet": [
+        "capture tools"
+      ]
+    }
+  ],
+  "section_overrides": {
+    "CLIENT": {
+      "QUARTER_OPEN": [
+        "QUARTER",
+        "CAPTURE_METHODS",
+        "VEHICLES_PREFILLED",
+        "DUE_DATE"
+      ],
+      "COLLECTING": [
+        "QUARTER",
+        "NEXT_ITEM",
+        "RECEIPTS",
+        "MILEAGE",
+        "VEHICLES",
+        "SEND_TO_AIO"
+      ],
+      "NEEDS_CLIENT": [
+        "QUARTER",
+        "FLAGS",
+        "RECEIPTS",
+        "MILEAGE"
+      ],
+      "AWAITING_APPROVAL": [
+        "QUARTER",
+        "RETURN_SUMMARY",
+        "APPROVE_OR_ASK"
+      ],
+      "FILED": [
+        "QUARTER_SEALED",
+        "CONFIRMATION",
+        "ARTIFACTS",
+        "VAULT_LINK",
+        "NEXT_QUARTER"
+      ]
+    },
+    "FOUNDER_STAFF": {
+      "AIO_REVIEW": [
+        "CLIENT_CONTEXT",
+        "QUARTER_CASE",
+        "RECEIPT_CLASSES",
+        "MILEAGE_QUALITY",
+        "VEHICLE_READINESS",
+        "FLAGS",
+        "ACTIONS"
+      ],
+      "RECONCILING": [
+        "CLIENT_CONTEXT",
+        "RECONCILIATION_TABLE",
+        "DISCREPANCIES",
+        "OVERRIDES",
+        "RETURN_SUMMARY_DRAFT"
+      ],
+      "FILING": [
+        "CLIENT_CONTEXT",
+        "APPROVED_SUMMARY",
+        "FILING_STATUS",
+        "CONFIRMATION_ENTRY"
+      ],
+      "FILED": [
+        "CLIENT_CONTEXT",
+        "FILING_STATUS",
+        "PAYMENT_STATUS",
+        "ARTIFACTS",
+        "AUDIT_HISTORY"
+      ]
+    }
+  },
+  "brand": {
+    "tagline": "WHERE BUSINESS MEETS THE ROAD.",
+    "positioning": "THE BUSINESS OFFICE BEHIND THE TRUCK.",
+    "promise": "FROM STARTUP TO EVERY MILE AFTER.",
+    "voice": [
+      "CLEAR",
+      "CAPABLE",
+      "CONNECTED",
+      "HUMAN"
+    ]
+  },
+  "visual_language": {
+    "register": "EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE — operational luxury",
+    "palette": [
+      "BLACK",
+      "GOLD",
+      "SILVER",
+      "OBSIDIAN",
+      "CHARCOAL",
+      "STONE",
+      "CHAMPAGNE"
+    ],
+    "emphasis_map": {
+      "NEUTRAL": "STONE on CHARCOAL",
+      "PROGRESS": "CHAMPAGNE progress line on OBSIDIAN",
+      "ATTENTION": "GOLD",
+      "BLOCKER": "GOLD outline + solid marker (never alarm red as decoration)",
+      "REVIEW": "SILVER",
+      "DECISION": "GOLD fill — the one decision on screen",
+      "SUCCESS": "CHAMPAGNE seal on BLACK",
+      "ARCHIVED": "STONE, muted, filed",
+      "ERROR": "GOLD on BLACK with explicit recovery copy"
+    },
+    "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles",
+    "forbidden": [
+      "Frontal Slayer typography",
+      "generic SaaS dashboard chrome",
+      "cartoon trucks",
+      "legal / government seals implying AIO is a government system"
+    ]
+  },
+  "generator_briefs": {
+    "CLIENT · COLLECTING · MOBILE": {
+      "status": "READY",
+      "project": {
+        "id": "AIO",
+        "name": "ALL IN ONE ENTERPRISES INC",
+        "tagline": "WHERE BUSINESS MEETS THE ROAD.",
+        "voice": [
+          "CLEAR",
+          "CAPABLE",
+          "CONNECTED",
+          "HUMAN"
+        ]
+      },
+      "feature": {
+        "id": "AIO.IFTA",
+        "name": "IFTA / Fuel Tax",
+        "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel"
+      },
+      "actor": "CLIENT",
+      "state": {
+        "id": "COLLECTING",
+        "label": "Collecting",
+        "class": "ACTIVE",
+        "meaning": "Building your quarter packet"
+      },
+      "viewport": "MOBILE",
+      "surface": "My Office attention card “Q{n} fuel tax — {pct}% ready · due {due_date}” → CONTINUE FILING → quarter workspace",
+      "communicates": "What does AIO still need from me for this quarter?",
+      "emotional_target": "I know exactly what AIO needs from me — and that the quarter is under control.",
+      "primary_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+      "secondary_objects": [
+        "RECEIPTS (stack by class)",
+        "MILEAGE (per truck, per state, source badge)",
+        "VEHICLES (fleet strip)",
+        "FLAGS",
+        "RETURN (summary sheet)",
+        "CONFIRMATION (seal)"
+      ],
+      "primary_task": "Send fuel and miles; resolve flags; approve",
+      "current_status": "{pct}% ready · due {due_date}",
+      "required_sections": [
+        "QUARTER",
+        "NEXT_ITEM",
+        "RECEIPTS",
+        "MILEAGE",
+        "VEHICLES",
+        "SEND_TO_AIO"
+      ],
+      "recommended_composition": {
+        "archetype": "PACKET_BUILDER",
+        "archetype_model": "a packet assembled from required parts",
+        "metaphor": "QUARTERLY FILING ROOM",
+        "emphasis": "packet filling: compartments show counts and classes; next item leads",
+        "viewport": {
+          "task_model": "capture-first task flow: snap receipts at the pump, resolve one flag at a time, approve in one decision window",
+          "layout": "quarter header (state · % · due) → single next action → compartments as collapsible rows → sticky TAKE PHOTO / CONTINUE",
+          "primary_object_treatment": "quarter card pinned at top with a completeness ring",
+          "input_treatment": "camera + upload as full-width primary; mileage source picker as a sheet"
+        },
+        "rules": [
+          "The quarter object leads every client state; receipts / mileage / vehicles are its three compartments, never three equal dashboard cards.",
+          "Exactly one primary action per state (CONTINUE FILING · RESOLVE n ITEMS · SEND QUARTER TO AIO · APPROVE RETURN · VIEW IN VAULT).",
+          "Flags sit inside the compartment they belong to, with the fix action inline.",
+          "Estimated mileage is visually distinct (stone, “ESTIMATE”) and can never look filed-ready.",
+          "Review states quiet the inputs and foreground who is working and what happens next.",
+          "Completion collapses the workbench into a sealed quarter that visibly moves to the Vault."
+        ]
+      },
+      "visual_rules": {
+        "emphasis_role": "PROGRESS",
+        "emphasis_token": "CHAMPAGNE progress line on OBSIDIAN",
+        "density": "BALANCED",
+        "artifact_visibility": "PREVIEW",
+        "nav_emphasis": "My Office attention",
+        "status_treatment": "{pct}% ready · due {due_date}",
+        "register": "EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE — operational luxury",
+        "palette": [
+          "BLACK",
+          "GOLD",
+          "SILVER",
+          "OBSIDIAN",
+          "CHARCOAL",
+          "STONE",
+          "CHAMPAGNE"
+        ],
+        "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles"
+      },
+      "input_types": [
+        {
+          "id": "FUEL_RECEIPTS",
+          "label": "Fuel receipts",
+          "methods": [
+            "TAKE PHOTO",
+            "UPLOAD FILES",
+            "IMPORT FROM VAULT",
+            "CONTINUOUS QUARTER CAPTURE (snap at the pump all quarter)"
+          ]
+        },
+        {
+          "id": "JURISDICTION_MILEAGE",
+          "label": "Miles by state, per truck",
+          "methods": [
+            "ELD / GPS import",
+            "ELD report upload",
+            "Manual state entry",
+            "Spreadsheet",
+            "AIO assistance",
+            "Estimated from loads"
+          ]
+        },
+        {
+          "id": "QUARTER_VEHICLES",
+          "label": "Qualified vehicles this quarter",
+          "methods": [
+            "CONFIRM FLEET LIST (pre-filled from fleet profile)",
+            "ADD / REMOVE A TRUCK"
+          ]
+        },
+        {
+          "id": "RETURN_APPROVAL",
+          "label": "Return approval",
+          "methods": [
+            "APPROVE",
+            "ASK A QUESTION"
+          ]
+        },
+        {
+          "id": "FUEL_CARD_STATEMENT",
+          "label": "Fuel card statement",
+          "methods": [
+            "UPLOAD FILES"
+          ]
+        },
+        {
+          "id": "NOTES_FOR_AIO",
+          "label": "Notes for AIO",
+          "methods": [
+            "MESSAGE"
+          ]
+        }
+      ],
+      "blockers": [
+        "receipts flagged NEEDS YOU / UNREADABLE",
+        "POSSIBLE MISSING receipts for states driven without fuel",
+        "trucks without a mileage source",
+        "approval of the return"
+      ],
+      "next_action": "The single next item (e.g. “Add 2 missing receipts for Oklahoma”)",
+      "primary_cta": "CONTINUE FILING",
+      "interactions": [
+        {
+          "verb": "TAKE PHOTO",
+          "meaning": "capture a receipt with the camera"
+        },
+        {
+          "verb": "UPLOAD",
+          "meaning": "add receipt / mileage files"
+        },
+        {
+          "verb": "IMPORT",
+          "meaning": "pull receipts from the Vault or an ELD export"
+        },
+        {
+          "verb": "VERIFY",
+          "meaning": "confirm a parsed receipt / truck list"
+        },
+        {
+          "verb": "RESOLVE FLAG",
+          "meaning": "answer a NEEDS YOU / POSSIBLE MISSING / DUPLICATE flag"
+        },
+        {
+          "verb": "SEND QUARTER TO AIO",
+          "meaning": "submit the packet for review"
+        },
+        {
+          "verb": "APPROVE",
+          "meaning": "approve the return summary"
+        },
+        {
+          "verb": "ASK A QUESTION",
+          "meaning": "question a line before approving"
+        }
+      ],
+      "artifacts_visible": [
+        "Fuel receipt",
+        "Jurisdiction mileage record",
+        "IFTA return summary",
+        "Filed IFTA return",
+        "Filing confirmation",
+        "IFTA Q{n} {YYYY} filing packet"
+      ],
+      "downstream": [
+        {
+          "to_feature": "AIO.IFTA",
+          "relationship": "FEEDS",
+          "effect": "load miles appear as ESTIMATED mileage, prompting a verified source"
+        }
+      ],
+      "must_be_visible": [
+        "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+        "Quarter state + packet completeness % + due date",
+        "The single next item (e.g. “Add 2 missing receipts for Oklahoma”)"
+      ],
+      "should_be_quiet": [
+        "return summary",
+        "history"
+      ],
+      "must_not_appear": [
+        "generic tax form",
+        "generic dashboard",
+        "card wall of equal tiles",
+        "long marketing copy inside the client workspace",
+        "implying AIO is the government / a tax authority",
+        "showing estimated mileage as filed-ready",
+        "raw workflow state names to the client",
+        "raw internal workflow states",
+        "staff-only flags and margins",
+        "Frontal Slayer typography",
+        "generic SaaS dashboard chrome",
+        "cartoon trucks",
+        "legal / government seals implying AIO is a government system"
+      ]
+    },
+    "CLIENT · AWAITING_APPROVAL · MOBILE": {
+      "status": "READY",
+      "project": {
+        "id": "AIO",
+        "name": "ALL IN ONE ENTERPRISES INC",
+        "tagline": "WHERE BUSINESS MEETS THE ROAD.",
+        "voice": [
+          "CLEAR",
+          "CAPABLE",
+          "CONNECTED",
+          "HUMAN"
+        ]
+      },
+      "feature": {
+        "id": "AIO.IFTA",
+        "name": "IFTA / Fuel Tax",
+        "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel"
+      },
+      "actor": "CLIENT",
+      "state": {
+        "id": "AWAITING_APPROVAL",
+        "label": "Ready for your approval",
+        "class": "APPROVAL",
+        "meaning": "Review and approve your return"
+      },
+      "viewport": "MOBILE",
+      "surface": "My Office attention card “Q{n} fuel tax — {pct}% ready · due {due_date}” → CONTINUE FILING → quarter workspace",
+      "communicates": "What does AIO still need from me for this quarter?",
+      "emotional_target": "I know exactly what AIO needs from me — and that the quarter is under control.",
+      "primary_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+      "secondary_objects": [
+        "RECEIPTS (stack by class)",
+        "MILEAGE (per truck, per state, source badge)",
+        "VEHICLES (fleet strip)",
+        "FLAGS",
+        "RETURN (summary sheet)",
+        "CONFIRMATION (seal)"
+      ],
+      "primary_task": "Send fuel and miles; resolve flags; approve",
+      "current_status": "Ready for your approval",
+      "required_sections": [
+        "QUARTER",
+        "RETURN_SUMMARY",
+        "APPROVE_OR_ASK"
+      ],
+      "recommended_composition": {
+        "archetype": "PACKET_BUILDER",
+        "archetype_model": "a packet assembled from required parts",
+        "metaphor": "QUARTERLY FILING ROOM",
+        "emphasis": "decision window: the return summary is the object, approve / ask beside it",
+        "viewport": {
+          "task_model": "capture-first task flow: snap receipts at the pump, resolve one flag at a time, approve in one decision window",
+          "layout": "quarter header (state · % · due) → single next action → compartments as collapsible rows → sticky TAKE PHOTO / CONTINUE",
+          "primary_object_treatment": "quarter card pinned at top with a completeness ring",
+          "input_treatment": "camera + upload as full-width primary; mileage source picker as a sheet"
+        },
+        "rules": [
+          "The quarter object leads every client state; receipts / mileage / vehicles are its three compartments, never three equal dashboard cards.",
+          "Exactly one primary action per state (CONTINUE FILING · RESOLVE n ITEMS · SEND QUARTER TO AIO · APPROVE RETURN · VIEW IN VAULT).",
+          "Flags sit inside the compartment they belong to, with the fix action inline.",
+          "Estimated mileage is visually distinct (stone, “ESTIMATE”) and can never look filed-ready.",
+          "Review states quiet the inputs and foreground who is working and what happens next.",
+          "Completion collapses the workbench into a sealed quarter that visibly moves to the Vault."
+        ]
+      },
+      "visual_rules": {
+        "emphasis_role": "DECISION",
+        "emphasis_token": "GOLD fill — the one decision on screen",
+        "density": "BALANCED",
+        "artifact_visibility": "PROMINENT",
+        "nav_emphasis": "Inbox + My Office NEEDS YOU",
+        "status_treatment": "Ready for your approval",
+        "register": "EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE — operational luxury",
+        "palette": [
+          "BLACK",
+          "GOLD",
+          "SILVER",
+          "OBSIDIAN",
+          "CHARCOAL",
+          "STONE",
+          "CHAMPAGNE"
+        ],
+        "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles"
+      },
+      "input_types": [],
+      "blockers": [],
+      "next_action": "The single next item (e.g. “Add 2 missing receipts for Oklahoma”)",
+      "primary_cta": "APPROVE RETURN",
+      "interactions": [
+        {
+          "verb": "TAKE PHOTO",
+          "meaning": "capture a receipt with the camera"
+        },
+        {
+          "verb": "UPLOAD",
+          "meaning": "add receipt / mileage files"
+        },
+        {
+          "verb": "IMPORT",
+          "meaning": "pull receipts from the Vault or an ELD export"
+        },
+        {
+          "verb": "VERIFY",
+          "meaning": "confirm a parsed receipt / truck list"
+        },
+        {
+          "verb": "RESOLVE FLAG",
+          "meaning": "answer a NEEDS YOU / POSSIBLE MISSING / DUPLICATE flag"
+        },
+        {
+          "verb": "SEND QUARTER TO AIO",
+          "meaning": "submit the packet for review"
+        },
+        {
+          "verb": "APPROVE",
+          "meaning": "approve the return summary"
+        },
+        {
+          "verb": "ASK A QUESTION",
+          "meaning": "question a line before approving"
+        }
+      ],
+      "artifacts_visible": [
+        "Fuel receipt",
+        "Jurisdiction mileage record",
+        "IFTA return summary",
+        "Filed IFTA return",
+        "Filing confirmation",
+        "IFTA Q{n} {YYYY} filing packet"
+      ],
+      "downstream": [
+        {
+          "to_feature": "AIO.IFTA",
+          "relationship": "FEEDS",
+          "effect": "load miles appear as ESTIMATED mileage, prompting a verified source"
+        }
+      ],
+      "must_be_visible": [
+        "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+        "Quarter state + packet completeness % + due date",
+        "The single next item (e.g. “Add 2 missing receipts for Oklahoma”)"
+      ],
+      "should_be_quiet": [
+        "receipts detail",
+        "capture tools"
+      ],
+      "must_not_appear": [
+        "generic tax form",
+        "generic dashboard",
+        "card wall of equal tiles",
+        "long marketing copy inside the client workspace",
+        "implying AIO is the government / a tax authority",
+        "showing estimated mileage as filed-ready",
+        "raw workflow state names to the client",
+        "raw internal workflow states",
+        "staff-only flags and margins",
+        "Frontal Slayer typography",
+        "generic SaaS dashboard chrome",
+        "cartoon trucks",
+        "legal / government seals implying AIO is a government system"
+      ]
+    },
+    "CLIENT · FILED · DESKTOP": {
+      "status": "READY",
+      "project": {
+        "id": "AIO",
+        "name": "ALL IN ONE ENTERPRISES INC",
+        "tagline": "WHERE BUSINESS MEETS THE ROAD.",
+        "voice": [
+          "CLEAR",
+          "CAPABLE",
+          "CONNECTED",
+          "HUMAN"
+        ]
+      },
+      "feature": {
+        "id": "AIO.IFTA",
+        "name": "IFTA / Fuel Tax",
+        "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel"
+      },
+      "actor": "CLIENT",
+      "state": {
+        "id": "FILED",
+        "label": "Filed",
+        "class": "COMPLETE",
+        "meaning": "Filed — confirmation in your Vault"
+      },
+      "viewport": "DESKTOP",
+      "surface": "My Office attention card “Q{n} fuel tax — {pct}% ready · due {due_date}” → CONTINUE FILING → quarter workspace",
+      "communicates": "What does AIO still need from me for this quarter?",
+      "emotional_target": "I know exactly what AIO needs from me — and that the quarter is under control.",
+      "primary_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+      "secondary_objects": [
+        "RECEIPTS (stack by class)",
+        "MILEAGE (per truck, per state, source badge)",
+        "VEHICLES (fleet strip)",
+        "FLAGS",
+        "RETURN (summary sheet)",
+        "CONFIRMATION (seal)"
+      ],
+      "primary_task": "Send fuel and miles; resolve flags; approve",
+      "current_status": "Filed {date} · confirmation #",
+      "required_sections": [
+        "QUARTER_SEALED",
+        "CONFIRMATION",
+        "ARTIFACTS",
+        "VAULT_LINK",
+        "NEXT_QUARTER"
+      ],
+      "recommended_composition": {
+        "archetype": "PACKET_BUILDER",
+        "archetype_model": "a packet assembled from required parts",
+        "metaphor": "QUARTERLY FILING ROOM",
+        "emphasis": "sealed quarter with confirmation; artifacts prominent; motion to the Vault",
+        "viewport": {
+          "task_model": "workbench: build and check the packet with everything visible",
+          "layout": "left: quarter + six-step progress; centre: active compartment (receipt grid / mileage table by state × truck); right: flags + messages",
+          "primary_object_treatment": "quarter as the bench object with compartments as tabs of one packet",
+          "input_treatment": "bulk upload, ELD report upload, spreadsheet mapping"
+        },
+        "rules": [
+          "The quarter object leads every client state; receipts / mileage / vehicles are its three compartments, never three equal dashboard cards.",
+          "Exactly one primary action per state (CONTINUE FILING · RESOLVE n ITEMS · SEND QUARTER TO AIO · APPROVE RETURN · VIEW IN VAULT).",
+          "Flags sit inside the compartment they belong to, with the fix action inline.",
+          "Estimated mileage is visually distinct (stone, “ESTIMATE”) and can never look filed-ready.",
+          "Review states quiet the inputs and foreground who is working and what happens next.",
+          "Completion collapses the workbench into a sealed quarter that visibly moves to the Vault."
+        ]
+      },
+      "visual_rules": {
+        "emphasis_role": "SUCCESS",
+        "emphasis_token": "CHAMPAGNE seal on BLACK",
+        "density": "SPARSE",
+        "artifact_visibility": "PROMINENT",
+        "nav_emphasis": "Vault",
+        "status_treatment": "Filed {date} · confirmation #",
+        "register": "EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE — operational luxury",
+        "palette": [
+          "BLACK",
+          "GOLD",
+          "SILVER",
+          "OBSIDIAN",
+          "CHARCOAL",
+          "STONE",
+          "CHAMPAGNE"
+        ],
+        "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles"
+      },
+      "input_types": [],
+      "blockers": [],
+      "next_action": "The single next item (e.g. “Add 2 missing receipts for Oklahoma”)",
+      "primary_cta": "VIEW IN VAULT",
+      "interactions": [
+        {
+          "verb": "TAKE PHOTO",
+          "meaning": "capture a receipt with the camera"
+        },
+        {
+          "verb": "UPLOAD",
+          "meaning": "add receipt / mileage files"
+        },
+        {
+          "verb": "IMPORT",
+          "meaning": "pull receipts from the Vault or an ELD export"
+        },
+        {
+          "verb": "VERIFY",
+          "meaning": "confirm a parsed receipt / truck list"
+        },
+        {
+          "verb": "RESOLVE FLAG",
+          "meaning": "answer a NEEDS YOU / POSSIBLE MISSING / DUPLICATE flag"
+        },
+        {
+          "verb": "SEND QUARTER TO AIO",
+          "meaning": "submit the packet for review"
+        },
+        {
+          "verb": "APPROVE",
+          "meaning": "approve the return summary"
+        },
+        {
+          "verb": "ASK A QUESTION",
+          "meaning": "question a line before approving"
+        }
+      ],
+      "artifacts_visible": [
+        "Fuel receipt",
+        "Jurisdiction mileage record",
+        "IFTA return summary",
+        "Filed IFTA return",
+        "Filing confirmation",
+        "IFTA Q{n} {YYYY} filing packet"
+      ],
+      "downstream": [
+        {
+          "to_feature": "AIO.VAULT",
+          "relationship": "ARCHIVES_TO",
+          "effect": "sees the sealed Q{n} packet appear in Vault › Fuel Tax"
+        },
+        {
+          "to_feature": "AIO.INBOX",
+          "relationship": "RESOLVES",
+          "effect": "request thread shows FILED and leaves NEEDS YOU"
+        },
+        {
+          "to_feature": "AIO.MY_OFFICE",
+          "relationship": "UPDATES_STATUS",
+          "effect": "My Office attention item disappears; activity shows “IFTA return filed”"
+        },
+        {
+          "to_feature": "AIO.ROAD_READY",
+          "relationship": "UPDATES_STATUS",
+          "effect": "Road Ready IFTA item shows current quarter filed"
+        },
+        {
+          "to_feature": "AIO.FINANCES",
+          "relationship": "FEEDS",
+          "effect": "service fee invoice appears in Money (AIO service fees only)"
+        },
+        {
+          "to_feature": "AIO.BOOKKEEPING",
+          "relationship": "FEEDS",
+          "effect": "fuel expenses and the tax payment are categorised in monthly close (if subscribed)"
+        },
+        {
+          "to_feature": "AIO.IFTA",
+          "relationship": "FEEDS",
+          "effect": "load miles appear as ESTIMATED mileage, prompting a verified source"
+        }
+      ],
+      "must_be_visible": [
+        "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+        "Quarter state + packet completeness % + due date",
+        "The single next item (e.g. “Add 2 missing receipts for Oklahoma”)",
+        "FILED seal + confirmation + packet in Vault"
+      ],
+      "should_be_quiet": [
+        "flags",
+        "capture tools"
+      ],
+      "must_not_appear": [
+        "generic tax form",
+        "generic dashboard",
+        "card wall of equal tiles",
+        "long marketing copy inside the client workspace",
+        "implying AIO is the government / a tax authority",
+        "showing estimated mileage as filed-ready",
+        "raw workflow state names to the client",
+        "raw internal workflow states",
+        "staff-only flags and margins",
+        "Frontal Slayer typography",
+        "generic SaaS dashboard chrome",
+        "cartoon trucks",
+        "legal / government seals implying AIO is a government system"
+      ]
+    },
+    "FOUNDER_STAFF · RECONCILING · DESKTOP": {
+      "status": "READY",
+      "project": {
+        "id": "AIO",
+        "name": "ALL IN ONE ENTERPRISES INC",
+        "tagline": "WHERE BUSINESS MEETS THE ROAD.",
+        "voice": [
+          "CLEAR",
+          "CAPABLE",
+          "CONNECTED",
+          "HUMAN"
+        ]
+      },
+      "feature": {
+        "id": "AIO.IFTA",
+        "name": "IFTA / Fuel Tax",
+        "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel"
+      },
+      "actor": "FOUNDER_STAFF",
+      "state": {
+        "id": "RECONCILING",
+        "label": "Reconciling",
+        "class": "REVIEW",
+        "meaning": "Discrepancies being resolved"
+      },
+      "viewport": "DESKTOP",
+      "surface": "Permitting division › Fuel Tax queue (OfficeWorkItem per client-quarter, sorted by due date × readiness)",
+      "communicates": "What is blocking this filing, and who has to act?",
+      "emotional_target": "I can see exactly what is blocking this filing and act on it.",
+      "primary_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+      "secondary_objects": [
+        "RECEIPTS (stack by class)",
+        "MILEAGE (per truck, per state, source badge)",
+        "VEHICLES (fleet strip)",
+        "FLAGS",
+        "RETURN (summary sheet)",
+        "CONFIRMATION (seal)"
+      ],
+      "primary_task": "Review, reconcile, send for approval, file",
+      "current_status": "Reconciling fuel and miles",
+      "required_sections": [
+        "CLIENT_CONTEXT",
+        "RECONCILIATION_TABLE",
+        "DISCREPANCIES",
+        "OVERRIDES",
+        "RETURN_SUMMARY_DRAFT"
+      ],
+      "recommended_composition": {
+        "archetype": "PACKET_BUILDER",
+        "archetype_model": "a packet assembled from required parts",
+        "metaphor": "QUARTERLY FILING ROOM",
+        "emphasis": "client: calm progress; staff: jurisdiction × truck reconciliation table with discrepancies",
+        "viewport": {
+          "task_model": "workbench: build and check the packet with everything visible",
+          "layout": "left: quarter + six-step progress; centre: active compartment (receipt grid / mileage table by state × truck); right: flags + messages",
+          "primary_object_treatment": "quarter as the bench object with compartments as tabs of one packet",
+          "input_treatment": "bulk upload, ELD report upload, spreadsheet mapping"
+        },
+        "rules": [
+          "The quarter object leads every client state; receipts / mileage / vehicles are its three compartments, never three equal dashboard cards.",
+          "Exactly one primary action per state (CONTINUE FILING · RESOLVE n ITEMS · SEND QUARTER TO AIO · APPROVE RETURN · VIEW IN VAULT).",
+          "Flags sit inside the compartment they belong to, with the fix action inline.",
+          "Estimated mileage is visually distinct (stone, “ESTIMATE”) and can never look filed-ready.",
+          "Review states quiet the inputs and foreground who is working and what happens next.",
+          "Completion collapses the workbench into a sealed quarter that visibly moves to the Vault."
+        ]
+      },
+      "visual_rules": {
+        "emphasis_role": "REVIEW",
+        "emphasis_token": "SILVER",
+        "density": "DENSE",
+        "artifact_visibility": "PREVIEW",
+        "nav_emphasis": "Office queue",
+        "status_treatment": "Reconciling fuel and miles",
+        "register": "EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE — operational luxury",
+        "palette": [
+          "BLACK",
+          "GOLD",
+          "SILVER",
+          "OBSIDIAN",
+          "CHARCOAL",
+          "STONE",
+          "CHAMPAGNE"
+        ],
+        "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles"
+      },
+      "input_types": [],
+      "blockers": [],
+      "next_action": "START RECONCILIATION · REQUEST CORRECTION · SEND FOR APPROVAL · RECORD FILING",
+      "primary_cta": "PREPARE RETURN SUMMARY",
+      "interactions": [
+        {
+          "verb": "REQUEST CORRECTION",
+          "meaning": "send items back to the client"
+        },
+        {
+          "verb": "RECONCILE",
+          "meaning": "match fuel to miles per jurisdiction"
+        },
+        {
+          "verb": "SEND FOR APPROVAL",
+          "meaning": "issue the return summary"
+        },
+        {
+          "verb": "FILE",
+          "meaning": "file with the base jurisdiction + record confirmation"
+        },
+        {
+          "verb": "REOPEN",
+          "meaning": "reopen for amendment"
+        },
+        {
+          "verb": "ESCALATE",
+          "meaning": "deadline-risk escalation"
+        }
+      ],
+      "artifacts_visible": [
+        "Fuel receipt",
+        "Jurisdiction mileage record",
+        "Reconciliation notes",
+        "IFTA return summary",
+        "Filed IFTA return",
+        "Filing confirmation",
+        "IFTA Q{n} {YYYY} filing packet"
+      ],
+      "downstream": [
+        {
+          "to_feature": "AIO.IFTA",
+          "relationship": "FEEDS",
+          "effect": "estimated mileage per truck (never filed)"
+        }
+      ],
+      "must_be_visible": [
+        "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+        "Client-quarter readiness × days to due",
+        "START RECONCILIATION · REQUEST CORRECTION · SEND FOR APPROVAL · RECORD FILING"
+      ],
+      "should_be_quiet": [
+        "capture tools"
+      ],
+      "must_not_appear": [
+        "generic tax form",
+        "generic dashboard",
+        "card wall of equal tiles",
+        "long marketing copy inside the client workspace",
+        "implying AIO is the government / a tax authority",
+        "showing estimated mileage as filed-ready",
+        "raw workflow state names to the client",
+        "Frontal Slayer typography",
+        "generic SaaS dashboard chrome",
+        "cartoon trucks",
+        "legal / government seals implying AIO is a government system"
+      ]
+    },
+    "PUBLIC · NOT_ENROLLED · MOBILE": {
+      "status": "READY",
+      "project": {
+        "id": "AIO",
+        "name": "ALL IN ONE ENTERPRISES INC",
+        "tagline": "WHERE BUSINESS MEETS THE ROAD.",
+        "voice": [
+          "CLEAR",
+          "CAPABLE",
+          "CONNECTED",
+          "HUMAN"
+        ]
+      },
+      "feature": {
+        "id": "AIO.IFTA",
+        "name": "IFTA / Fuel Tax",
+        "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel"
+      },
+      "actor": "PUBLIC",
+      "state": {
+        "id": "NOT_ENROLLED",
+        "label": "Not set up",
+        "class": "EMPTY",
+        "meaning": "IFTA filing service"
+      },
+      "viewport": "MOBILE",
+      "surface": "services/ifta-filing",
+      "communicates": "Can AIO handle my IFTA every quarter?",
+      "emotional_target": "I understand what AIO will handle every quarter and what I send.",
+      "primary_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+      "secondary_objects": [
+        "RECEIPTS (stack by class)",
+        "MILEAGE (per truck, per state, source badge)",
+        "VEHICLES (fleet strip)",
+        "FLAGS",
+        "RETURN (summary sheet)",
+        "CONFIRMATION (seal)"
+      ],
+      "primary_task": "Understand what to send and request filing",
+      "current_status": "not set up",
+      "required_sections": [
+        "WHAT_IT_IS",
+        "WHO_ITS_FOR",
+        "WHAT_WE_HANDLE",
+        "WHAT_YOU_PROVIDE",
+        "HOW_IT_WORKS",
+        "OUTCOME",
+        "TIMING",
+        "PRICING_RELATIONSHIP",
+        "CTA"
+      ],
+      "recommended_composition": {
+        "archetype": "PACKET_BUILDER",
+        "archetype_model": "a packet assembled from required parts",
+        "metaphor": "QUARTERLY FILING ROOM",
+        "emphasis": "single explanatory threshold: what IFTA filing with AIO is + set up",
+        "viewport": {
+          "task_model": "capture-first task flow: snap receipts at the pump, resolve one flag at a time, approve in one decision window",
+          "layout": "quarter header (state · % · due) → single next action → compartments as collapsible rows → sticky TAKE PHOTO / CONTINUE",
+          "primary_object_treatment": "quarter card pinned at top with a completeness ring",
+          "input_treatment": "camera + upload as full-width primary; mileage source picker as a sheet"
+        },
+        "rules": [
+          "The quarter object leads every client state; receipts / mileage / vehicles are its three compartments, never three equal dashboard cards.",
+          "Exactly one primary action per state (CONTINUE FILING · RESOLVE n ITEMS · SEND QUARTER TO AIO · APPROVE RETURN · VIEW IN VAULT).",
+          "Flags sit inside the compartment they belong to, with the fix action inline.",
+          "Estimated mileage is visually distinct (stone, “ESTIMATE”) and can never look filed-ready.",
+          "Review states quiet the inputs and foreground who is working and what happens next.",
+          "Completion collapses the workbench into a sealed quarter that visibly moves to the Vault."
+        ]
+      },
+      "visual_rules": {
+        "emphasis_role": "NEUTRAL",
+        "emphasis_token": "STONE on CHARCOAL",
+        "density": "SPARSE",
+        "artifact_visibility": "HIDDEN",
+        "nav_emphasis": "Services",
+        "status_treatment": "not set up",
+        "register": "EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE — operational luxury",
+        "palette": [
+          "BLACK",
+          "GOLD",
+          "SILVER",
+          "OBSIDIAN",
+          "CHARCOAL",
+          "STONE",
+          "CHAMPAGNE"
+        ],
+        "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles"
+      },
+      "input_types": [],
+      "blockers": [],
+      "next_action": "REQUEST FILING",
+      "primary_cta": "REQUEST FILING",
+      "interactions": [],
+      "artifacts_visible": [],
+      "downstream": [
+        {
+          "to_feature": "AIO.IFTA",
+          "relationship": "FEEDS",
+          "effect": "estimated mileage per truck (never filed)"
+        }
+      ],
+      "must_be_visible": [
+        "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+        "Quarterly filing service — you approve, AIO files",
+        "REQUEST FILING"
+      ],
+      "should_be_quiet": [
+        "flags",
+        "history"
+      ],
+      "must_not_appear": [
+        "generic tax form",
+        "generic dashboard",
+        "card wall of equal tiles",
+        "long marketing copy inside the client workspace",
+        "implying AIO is the government / a tax authority",
+        "showing estimated mileage as filed-ready",
+        "raw workflow state names to the client",
+        "workspace data",
+        "internal states",
+        "Frontal Slayer typography",
+        "generic SaaS dashboard chrome",
+        "cartoon trucks",
+        "legal / government seals implying AIO is a government system"
+      ]
+    }
+  }
+}

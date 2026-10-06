@@ -1,0 +1,397 @@
+[
+  {
+    "component": "bg:hubx-hero__plate",
+    "routes": [
+      "hub"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "HERO_PLATE",
+    "new_fit": "WIDE_SCENE_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 40%",
+    "responsive_behavior": "393x110 frame at 393 (source 1296x365); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "img:ph-img",
+    "routes": [
+      "hub",
+      "inbox",
+      "expression",
+      "library",
+      "activity",
+      "expression-wardrobe-looks",
+      "expression-storyboard",
+      "library-collection-open",
+      "activity-approvals",
+      "activity-milestone",
+      "inbox-watching",
+      "inbox-all",
+      "inbox-decision-detail"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "CARD_MEDIA",
+    "new_fit": "THUMBNAIL_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [
+      {
+        "route": "library",
+        "before": "114x52",
+        "after": "112x63",
+        "aspectChange": 0.189,
+        "intent": "LIBRARY recent / most-used strips: 16:9 frame instead of a 2.2:1 sliver (subject kept)"
+      },
+      {
+        "route": "library-collection-open",
+        "before": "114x52",
+        "after": "112x63",
+        "aspectChange": 0.189,
+        "intent": "LIBRARY recent / most-used strips: 16:9 frame instead of a 2.2:1 sliver (subject kept)"
+      }
+    ],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "142x49 frame at 393 (source 640x443); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "img:pxa-chamber__atrium-art",
+    "routes": [
+      "design",
+      "design-brand",
+      "design-surfaces",
+      "design-assets",
+      "design-viewport"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "UNDECLARED",
+    "new_fit": "UNDECLARED",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 42%",
+    "responsive_behavior": "393x340 frame at 393 (source 1920x823); fit cover",
+    "status": "COMPOSITION ART (decorative layer, not a media panel)"
+  },
+  {
+    "component": "img:pxa-core",
+    "routes": [
+      "design",
+      "design-brand",
+      "design-surfaces",
+      "design-assets"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "contain",
+    "current_overflow": "none",
+    "new_slot": "UNDECLARED",
+    "new_fit": "UNDECLARED",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 70%",
+    "responsive_behavior": "102x238 frame at 393 (source 324x720); fit contain",
+    "status": "COMPOSITION ART (decorative layer, not a media panel)"
+  },
+  {
+    "component": "bg:pxa-vis",
+    "routes": [
+      "design",
+      "design-brand",
+      "design-surfaces",
+      "design-assets"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "BOARD_PREVIEW",
+    "new_fit": "AUTHORITY_PREVIEW_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "20x82 frame at 393 (source 768x768); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "img:pxa-vis",
+    "routes": [
+      "design",
+      "design-brand",
+      "design-surfaces",
+      "design-assets"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "contain",
+    "current_overflow": "none",
+    "new_slot": "UNDECLARED",
+    "new_fit": "UNDECLARED",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "12x13 frame at 393 (source 64x64); fit contain",
+    "status": "COMPOSITION ART (decorative layer, not a media panel)"
+  },
+  {
+    "component": "img:pxa-overview-panel__mark",
+    "routes": [
+      "design",
+      "design-brand",
+      "design-surfaces",
+      "design-assets"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "contain",
+    "current_overflow": "none",
+    "new_slot": "LOGO_MARK",
+    "new_fit": "LOGO_CONTAIN",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "48x48 frame at 393 (source 324x720); fit contain",
+    "status": "DECLARED"
+  },
+  {
+    "component": "bg:pxa-overview-panel__strip",
+    "routes": [
+      "design",
+      "design-brand"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "BOARD_PREVIEW",
+    "new_fit": "AUTHORITY_PREVIEW_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "15x15 frame at 393 (source 768x768); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "bg:pxa-panel__viswrap",
+    "routes": [
+      "design",
+      "design-brand"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "BOARD_PREVIEW",
+    "new_fit": "AUTHORITY_PREVIEW_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "30x59 frame at 393 (source 768x768); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "img:pxa-stage",
+    "routes": [
+      "design",
+      "design-brand",
+      "design-surfaces",
+      "design-assets"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "contain",
+    "current_overflow": "none",
+    "new_slot": "UNDECLARED",
+    "new_fit": "UNDECLARED",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "36x36 frame at 393 (source 76x76); fit contain",
+    "status": "COMPOSITION ART (decorative layer, not a media panel)"
+  },
+  {
+    "component": "bg:pxa-tcard__img",
+    "routes": [
+      "design",
+      "design-brand",
+      "design-surfaces",
+      "design-assets",
+      "design-viewport"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "CARD_MEDIA",
+    "new_fit": "LANDSCAPE_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "110x52 frame at 393 (source 768x768); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "bg:pxa-hero__bg.pxa-hero__bg--plate",
+    "routes": [
+      "experience",
+      "expression",
+      "expression-narrative",
+      "expression-casting-actors",
+      "expression-wardrobe-looks",
+      "expression-sets-environments",
+      "expression-storyboard"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "HERO_PLATE",
+    "new_fit": "WIDE_SCENE_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [
+      {
+        "route": "experience",
+        "before": "393x746",
+        "after": "393x574",
+        "aspectChange": 0.3,
+        "intent": "EXPERIENCE root fits one screen: the world plate flexes into the space above the panel (min = HUB hero × 1.6)"
+      },
+      {
+        "route": "expression",
+        "before": "393x172",
+        "after": "393x143",
+        "aspectChange": 0.203,
+        "intent": "EXPRESSION root hero band → HUB hero height × 1.3 (copy on a wash)"
+      }
+    ],
+    "focal_behavior": "50% 42%",
+    "responsive_behavior": "393x574 frame at 393 (source 1600x900); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "bg:pxa-vault__bg.pxa-vault__bg--canon",
+    "routes": [
+      "library",
+      "library-collection-open"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "HERO_PLATE",
+    "new_fit": "WIDE_SCENE_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [
+      {
+        "route": "library",
+        "before": "375x150",
+        "after": "364x110",
+        "aspectChange": 0.324,
+        "intent": "LIBRARY vault hero → HUB gutter + HUB hero band height"
+      },
+      {
+        "route": "library-collection-open",
+        "before": "375x150",
+        "after": "364x110",
+        "aspectChange": 0.324,
+        "intent": "LIBRARY vault hero → HUB gutter + HUB hero band height"
+      }
+    ],
+    "focal_behavior": "50% 45%",
+    "responsive_behavior": "364x110 frame at 393 (source 1920x823); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "bg:pxa-thumb.",
+    "routes": [
+      "library",
+      "library-collection-open"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "STRIP_THUMB",
+    "new_fit": "LANDSCAPE_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [
+      {
+        "route": "library",
+        "before": "114x52",
+        "after": "112x63",
+        "aspectChange": 0.189,
+        "intent": "LIBRARY recent / most-used strips: 16:9 frame instead of a 2.2:1 sliver (subject kept)"
+      },
+      {
+        "route": "library-collection-open",
+        "before": "114x52",
+        "after": "112x63",
+        "aspectChange": 0.189,
+        "intent": "LIBRARY recent / most-used strips: 16:9 frame instead of a 2.2:1 sliver (subject kept)"
+      }
+    ],
+    "focal_behavior": "50% 50%",
+    "responsive_behavior": "112x63 frame at 393 (source 960x540); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "bg:iax-hero__plate",
+    "routes": [
+      "activity",
+      "activity-approvals"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "HERO_PLATE",
+    "new_fit": "WIDE_SCENE_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [
+      {
+        "route": "activity",
+        "before": "275x186",
+        "after": "275x132",
+        "aspectChange": 0.409,
+        "intent": "ACTIVITY hero band → HUB hero height × 1.2"
+      },
+      {
+        "route": "activity-approvals",
+        "before": "275x186",
+        "after": "275x132",
+        "aspectChange": 0.409,
+        "intent": "ACTIVITY hero band → HUB hero height × 1.2"
+      }
+    ],
+    "focal_behavior": "62% 40%",
+    "responsive_behavior": "275x132 frame at 393 (source 1600x900); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "bg:pw-scroll__hero",
+    "routes": [
+      "experience-world",
+      "experience-environments"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "cover",
+    "current_overflow": "none",
+    "new_slot": "HERO_PLATE",
+    "new_fit": "WIDE_SCENE_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 55%",
+    "responsive_behavior": "393x230 frame at 393 (source 1600x900); fit cover",
+    "status": "DECLARED"
+  },
+  {
+    "component": "bg:pw-plate.pw-plate--set",
+    "routes": [
+      "experience-world",
+      "experience-environments"
+    ],
+    "current_slot": "UNDECLARED",
+    "current_fit": "260%",
+    "current_overflow": "none",
+    "new_slot": "CARD_MEDIA",
+    "new_fit": "WIDE_SCENE_COVER",
+    "frame_owner": "COMPOSITION",
+    "frame_changes": [],
+    "focal_behavior": "50% 40%",
+    "responsive_behavior": "361x203 frame at 393 (source 1600x900); fit 260%",
+    "status": "DECLARED"
+  }
+]

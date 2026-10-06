@@ -1,0 +1,352 @@
+{
+  "source": "live computed styles at 393x852 / 834x1194 / 1440x900 (density-audit.mjs)",
+  "hub": {
+    "mobile": {
+      "viewport": {
+        "w": 393,
+        "h": 852
+      },
+      "tiers": {
+        "T0": {
+          "tokenPx": 6.5,
+          "authorityUnits": 17,
+          "floorPx": 6.5,
+          "hubLayers": [
+            "li \"IDEAS\"",
+            "li \"PEOPLE\"",
+            "li \"WORLDS\"",
+            "li \"IN MOTION\"",
+            "small \"LIVE STATUS\""
+          ]
+        },
+        "T1": {
+          "tokenPx": 7,
+          "authorityUnits": 19,
+          "floorPx": 7,
+          "hubLayers": [
+            "small \"PROJECT\"",
+            "p \"A CLEAR ROUTE FOR EVER\"",
+            "b \"IN PRODUCTION\"",
+            "b \"ENTRY 002\"",
+            "b \"PRODUCTION\""
+          ]
+        },
+        "T2": {
+          "tokenPx": 7,
+          "authorityUnits": 19,
+          "floorPx": 7,
+          "hubLayers": [
+            "small \"PROJECT\"",
+            "p \"A CLEAR ROUTE FOR EVER\"",
+            "b \"IN PRODUCTION\"",
+            "b \"ENTRY 002\"",
+            "b \"PRODUCTION\""
+          ]
+        },
+        "T3": {
+          "tokenPx": 8.5,
+          "authorityUnits": 24,
+          "floorPx": 8.5,
+          "hubLayers": [
+            "h2 \"PRODUCTION OVERVIEW\"",
+            "h2 \"PROJECT COMPONENTS\"",
+            "h2 \"ACTIVE ENTRIES\"",
+            "em \"01\"",
+            "em \"02\""
+          ]
+        },
+        "T4": {
+          "tokenPx": 9.78,
+          "authorityUnits": 28,
+          "floorPx": 9.5,
+          "hubLayers": [
+            "b \"ENTRY 002\"",
+            "a \"OPEN HUB MACHINE (CHAM\""
+          ]
+        },
+        "T5": {
+          "tokenPx": 13.27,
+          "authorityUnits": 38,
+          "floorPx": 12,
+          "hubLayers": [
+            "strong \"ENTRY 002\""
+          ]
+        },
+        "T6": {
+          "tokenPx": 20.26,
+          "authorityUnits": 58,
+          "floorPx": 18,
+          "hubLayers": [
+            "h1 \"NDXBOOK\""
+          ]
+        },
+        "METRIC": {
+          "tokenPx": 11.88,
+          "authorityUnits": 34,
+          "floorPx": 11,
+          "hubLayers": [
+            "strong \"02\"",
+            "strong \"06\"",
+            "b \"0 %\""
+          ]
+        }
+      },
+      "distinctSizes": [
+        6.5,
+        6.64,
+        6.99,
+        7,
+        7.34,
+        7.38,
+        8.13,
+        8.38,
+        8.5,
+        8.78,
+        9.78,
+        10,
+        10.48,
+        11.88,
+        13.27,
+        16.07,
+        20.26
+      ],
+      "contentScreens": 1
+    },
+    "tablet": {
+      "viewport": {
+        "w": 834,
+        "h": 1194
+      },
+      "tiers": {
+        "T0": {
+          "tokenPx": 8.61,
+          "authorityUnits": 18.5,
+          "floorPx": 8,
+          "hubLayers": [
+            "small \"LIVE STATUS\"",
+            "em \"UPDATED —\"",
+            "span \"ITEMS NEED YOU\"",
+            "a \"VIEW NOW\"",
+            "span \"ACTIVE ENTRY\""
+          ]
+        },
+        "T1": {
+          "tokenPx": 8.84,
+          "authorityUnits": 19,
+          "floorPx": 8.5,
+          "hubLayers": [
+            "small \"LIVE STATUS\"",
+            "em \"UPDATED —\"",
+            "span \"ITEMS NEED YOU\"",
+            "a \"VIEW NOW\"",
+            "span \"ACTIVE ENTRY\""
+          ]
+        },
+        "T2": {
+          "tokenPx": 10.24,
+          "authorityUnits": 22,
+          "floorPx": 9.5,
+          "hubLayers": [
+            "b \"IN PRODUCTION\"",
+            "b \"ENTRY 002\"",
+            "b \"PRODUCTION\"",
+            "h2 \"CURRENT OPERATIONS\"",
+            "h2 \"RECENT ACTIVITY\""
+          ]
+        },
+        "T3": {
+          "tokenPx": 13.03,
+          "authorityUnits": 28,
+          "floorPx": 11,
+          "hubLayers": [
+            "h2 \"PRODUCTION OVERVIEW\"",
+            "b \"ENTRY 002\"",
+            "h2 \"PROJECT COMPONENTS\"",
+            "h2 \"ACTIVE ENTRIES\"",
+            "em \"01\""
+          ]
+        },
+        "T4": {
+          "tokenPx": 13.03,
+          "authorityUnits": 28,
+          "floorPx": 12,
+          "hubLayers": [
+            "h2 \"PRODUCTION OVERVIEW\"",
+            "b \"ENTRY 002\"",
+            "h2 \"PROJECT COMPONENTS\"",
+            "h2 \"ACTIVE ENTRIES\"",
+            "em \"01\""
+          ]
+        },
+        "T5": {
+          "tokenPx": 23.27,
+          "authorityUnits": 50,
+          "floorPx": 20,
+          "hubLayers": [
+            "strong \"ENTRY 002\""
+          ]
+        },
+        "T6": {
+          "tokenPx": 34.44,
+          "authorityUnits": 74,
+          "floorPx": 30,
+          "hubLayers": [
+            "h1 \"NDXBOOK\""
+          ]
+        },
+        "METRIC": {
+          "tokenPx": 17.69,
+          "authorityUnits": 38,
+          "floorPx": 16,
+          "hubLayers": [
+            "strong \"02\"",
+            "strong \"06\""
+          ]
+        }
+      },
+      "distinctSizes": [
+        6.52,
+        6.98,
+        7.21,
+        7.45,
+        7.52,
+        7.68,
+        8.14,
+        8.38,
+        8.61,
+        8.84,
+        9.31,
+        10,
+        10.15,
+        10.16,
+        10.24,
+        10.76,
+        11.17,
+        11.94,
+        12.1,
+        13.03,
+        13.96,
+        16.75,
+        17.69,
+        21.41,
+        23.27,
+        34.44
+      ],
+      "contentScreens": 1
+    },
+    "desktop": {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "tiers": {
+        "T0": {
+          "tokenPx": 11.88,
+          "authorityUnits": 16.5,
+          "floorPx": 10,
+          "hubLayers": [
+            "em \"UPDATED —\"",
+            "a \"VIEW NOW\"",
+            "em \"7 SCENES\"",
+            "em \"NARRATIVE\"",
+            "a \"VIEW\""
+          ]
+        },
+        "T1": {
+          "tokenPx": 12.24,
+          "authorityUnits": 17,
+          "floorPx": 10.5,
+          "hubLayers": [
+            "small \"LIVE STATUS\"",
+            "span \"ITEMS NEED YOU\"",
+            "span \"ACTIVE ENTRY\"",
+            "span \"CURRENT PHASE\"",
+            "span \"BLOCKERS\""
+          ]
+        },
+        "T2": {
+          "tokenPx": 14.4,
+          "authorityUnits": 20,
+          "floorPx": 12,
+          "hubLayers": [
+            "b \"IN PRODUCTION\"",
+            "b \"ENTRY 002\"",
+            "b \"PRODUCTION\""
+          ]
+        },
+        "T3": {
+          "tokenPx": 17.28,
+          "authorityUnits": 24,
+          "floorPx": 14,
+          "hubLayers": [
+            "h2 \"PRODUCTION OVERVIEW\"",
+            "h2 \"PROJECT COMPONENTS\"",
+            "h2 \"ACTIVE ENTRIES\""
+          ]
+        },
+        "T4": {
+          "tokenPx": 18.72,
+          "authorityUnits": 26,
+          "floorPx": 15,
+          "hubLayers": [
+            "b \"ENTRY 002\"",
+            "em \"01\"",
+            "em \"02\""
+          ]
+        },
+        "T5": {
+          "tokenPx": 31.68,
+          "authorityUnits": 44,
+          "floorPx": 24,
+          "hubLayers": [
+            "strong \"ENTRY 002\""
+          ]
+        },
+        "T6": {
+          "tokenPx": 47.52,
+          "authorityUnits": 66,
+          "floorPx": 36,
+          "hubLayers": [
+            "h1 \"NDXBOOK\""
+          ]
+        },
+        "METRIC": {
+          "tokenPx": 24.48,
+          "authorityUnits": 34,
+          "floorPx": 20,
+          "hubLayers": [
+            "strong \"02\"",
+            "strong \"06\"",
+            "b \"0 %\""
+          ]
+        }
+      },
+      "distinctSizes": [
+        9.72,
+        10,
+        10.08,
+        10.8,
+        11.16,
+        11.52,
+        11.88,
+        12.24,
+        12.6,
+        12.96,
+        14.4,
+        14.85,
+        15.12,
+        15.21,
+        16.52,
+        16.56,
+        17.28,
+        18.72,
+        21.6,
+        24.48,
+        31.68,
+        33.12,
+        47.52
+      ],
+      "contentScreens": 1
+    }
+  }
+}

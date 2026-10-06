@@ -1,0 +1,1939 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "features": [
+    {
+      "feature_id": "AIO.ENTRY",
+      "feature_name": "Entry — Home / About / Contact",
+      "family": "F01 ENTRY",
+      "perspective": {
+        "entry_point": "Sign in from the homepage",
+        "primary_task": "Get back to My Office.",
+        "sees_first": "Sign-in and their pathway context.",
+        "must_provide": [
+          "credentials"
+        ],
+        "input_methods": [
+          "SIGN IN"
+        ],
+        "system_already_knows": [
+          "account"
+        ],
+        "ready_signals": [
+          "signed in"
+        ],
+        "needs_you": [
+          "nothing beyond sign-in"
+        ],
+        "under_review": [
+          "none"
+        ],
+        "approves": [],
+        "completion_looks_like": "In My Office.",
+        "artifacts_received": [
+          "none (entry surface)"
+        ],
+        "what_happens_next": "My Office next action.",
+        "project_room": {
+          "status": "Signed in",
+          "needs_you": "nothing beyond sign-in",
+          "next": "SIGN IN",
+          "decisions": "none",
+          "files": "none (entry surface)",
+          "messages": "Entry — Home / About / Contact request thread",
+          "approvals": "none",
+          "service_progress": "First visit → Pathway chosen → Contacted → Signed up → Returning client → Follow-up needed → Call booked"
+        }
+      },
+      "client_entry": {
+        "surface": "Sign in → My Office",
+        "route": "portal",
+        "trigger": "returning client"
+      },
+      "client_cta": "SIGN IN",
+      "information_hierarchy": {
+        "primary_question": "How do I get back to my office?",
+        "primary_status": "Signed in",
+        "primary_task": "Sign in",
+        "secondary_status": "none",
+        "blocker": "none",
+        "next_action": "SIGN IN",
+        "completion_proof": "In My Office"
+      },
+      "emotional_target": "I am one tap from my office."
+    },
+    {
+      "feature_id": "AIO.GET_STARTED",
+      "feature_name": "Get Started — Intake / Roadmap / Service Plan",
+      "family": "F02 GET STARTED",
+      "perspective": {
+        "entry_point": "Roadmap after intake",
+        "primary_task": "Review the roadmap and start the plan.",
+        "sees_first": "The roadmap with reasons per item.",
+        "must_provide": [
+          "answers",
+          "plan acceptance"
+        ],
+        "input_methods": [
+          "GUIDED QUESTIONS",
+          "NOT SURE",
+          "ACCEPT"
+        ],
+        "system_already_knows": [
+          "pathway"
+        ],
+        "ready_signals": [
+          "roadmap complete"
+        ],
+        "needs_you": [
+          "plan acceptance"
+        ],
+        "under_review": [
+          "unsure answers"
+        ],
+        "approves": [
+          "service plan"
+        ],
+        "completion_looks_like": "Plan started; requests open.",
+        "artifacts_received": [
+          "Personal roadmap",
+          "Service plan"
+        ],
+        "what_happens_next": "Track in My Office.",
+        "project_room": {
+          "status": "Roadmap ready",
+          "needs_you": "plan acceptance",
+          "next": "START MY PLAN",
+          "decisions": "service plan",
+          "files": "Personal roadmap · Service plan",
+          "messages": "Get Started — Intake / Roadmap / Service Plan request thread",
+          "approvals": "service plan",
+          "service_progress": "Not started → Answering → Roadmap ready → Needs a quick review → AIO reviewing → Plan started → In My Office"
+        }
+      },
+      "client_entry": {
+        "surface": "Roadmap",
+        "route": "roadmap · service-plan",
+        "trigger": "after intake"
+      },
+      "client_cta": "START MY PLAN",
+      "information_hierarchy": {
+        "primary_question": "What is my plan?",
+        "primary_status": "Roadmap ready",
+        "primary_task": "Start plan",
+        "secondary_status": "Items + prices",
+        "blocker": "Unsure items",
+        "next_action": "START MY PLAN",
+        "completion_proof": "Plan started"
+      },
+      "emotional_target": "I know exactly what AIO will do first."
+    },
+    {
+      "feature_id": "AIO.BUSINESS_FORMATION",
+      "feature_name": "Start Your Business — LLC / INC / EIN",
+      "family": "F03 START YOUR BUSINESS",
+      "perspective": {
+        "entry_point": "Start Your Business journey card (My Business) or Get Started roadmap item",
+        "primary_task": "Give AIO what it needs to form the business and confirm the details.",
+        "sees_first": "The journey route with Formation as the current stop and what AIO needs now.",
+        "must_provide": [
+          "entity choice",
+          "name + alternates",
+          "owners",
+          "ID"
+        ],
+        "input_methods": [
+          "GUIDED QUESTIONS",
+          "TAKE PHOTO",
+          "UPLOAD FILES"
+        ],
+        "system_already_knows": [
+          "intake answers from Get Started",
+          "state of operation"
+        ],
+        "ready_signals": [
+          "intake complete",
+          "name clear"
+        ],
+        "needs_you": [
+          "missing details",
+          "alternate name",
+          "confirmation of filing details"
+        ],
+        "under_review": [
+          "name availability",
+          "filing preparation",
+          "state processing"
+        ],
+        "approves": [
+          "filing details"
+        ],
+        "completion_looks_like": "Formed + EIN issued; documents in Vault; USDOT stop unlocked.",
+        "artifacts_received": [
+          "Articles",
+          "EIN confirmation",
+          "Operating agreement (if prepared)"
+        ],
+        "what_happens_next": "USDOT registration starts.",
+        "project_room": {
+          "status": "Formation stage on the route",
+          "needs_you": "missing details · alternate name · confirmation of filing details",
+          "next": "The single open question",
+          "decisions": "filing details",
+          "files": "Articles · EIN confirmation · Operating agreement (if prepared)",
+          "messages": "Start Your Business — LLC / INC / EIN request thread",
+          "approvals": "filing details",
+          "service_progress": "Not started → Intake → Name check → Waiting on you → AIO preparing → Filed with state → Formed → EIN issued"
+        }
+      },
+      "client_entry": {
+        "surface": "Start Your Business journey in My Business",
+        "route": "portal/business (journey) · portal/requests",
+        "trigger": "Get Started roadmap item or service request"
+      },
+      "client_cta": "CONTINUE SETUP",
+      "information_hierarchy": {
+        "primary_question": "Is my business formed yet, and what do you need from me?",
+        "primary_status": "Formation stage on the route",
+        "primary_task": "Answer intake / confirm details",
+        "secondary_status": "Name check · state processing",
+        "blocker": "Missing detail / name conflict",
+        "next_action": "The single open question",
+        "completion_proof": "Articles + EIN in Vault"
+      },
+      "emotional_target": "My business is being set up correctly and I know what is next."
+    },
+    {
+      "feature_id": "AIO.ROAD_READY",
+      "feature_name": "Road Ready",
+      "family": "F04 ROAD READY",
+      "perspective": {
+        "entry_point": "My Business › Road Ready (or My Office next action)",
+        "primary_task": "Close the next requirement and keep everything current.",
+        "sees_first": "Setup progress vs items verified, and the recommended next step.",
+        "must_provide": [
+          "profile answers",
+          "fleet",
+          "requirement documents"
+        ],
+        "input_methods": [
+          "GUIDED QUESTIONS",
+          "TAKE PHOTO",
+          "UPLOAD FILES",
+          "IMPORT FROM VAULT",
+          "GET HELP (service request)"
+        ],
+        "system_already_knows": [
+          "formation + authority records",
+          "fleet units",
+          "vault documents"
+        ],
+        "ready_signals": [
+          "items verified count",
+          "setup progress"
+        ],
+        "needs_you": [
+          "missing documents",
+          "rejected documents",
+          "expiring items"
+        ],
+        "under_review": [
+          "documents awaiting verification"
+        ],
+        "approves": [],
+        "completion_looks_like": "All applicable items verified; nothing needs attention.",
+        "artifacts_received": [
+          "verified documents in Vault",
+          "Road Ready profile summary"
+        ],
+        "what_happens_next": "Renewals and new requirements surface automatically.",
+        "project_room": {
+          "status": "Setup progress vs verified",
+          "needs_you": "missing documents · rejected documents · expiring items",
+          "next": "Recommended next step",
+          "decisions": "none",
+          "files": "verified documents in Vault · Road Ready profile summary",
+          "messages": "Road Ready request thread",
+          "approvals": "none",
+          "service_progress": "No profile → Setting up → Needs attention → Being verified → Road Ready → Renewal coming"
+        }
+      },
+      "client_entry": {
+        "surface": "My Business › Road Ready",
+        "route": "portal/road-ready",
+        "trigger": "My Office next action / attention item"
+      },
+      "client_cta": "NEXT STEP",
+      "information_hierarchy": {
+        "primary_question": "Where does my business stand, and what next?",
+        "primary_status": "Setup progress vs verified",
+        "primary_task": "Close the next item",
+        "secondary_status": "Items by category",
+        "blocker": "Missing / rejected / expiring item",
+        "next_action": "Recommended next step",
+        "completion_proof": "All applicable items verified"
+      },
+      "emotional_target": "I know where I stand and what to do next."
+    },
+    {
+      "feature_id": "AIO.MY_OFFICE",
+      "feature_name": "My Office — Client Command Center",
+      "family": "F05 MY OFFICE",
+      "perspective": {
+        "entry_point": "Sign in → My Office",
+        "primary_task": "Do the next thing.",
+        "sees_first": "The next action hero, then attention, then health.",
+        "must_provide": [
+          "action on items"
+        ],
+        "input_methods": [
+          "TAP THROUGH TO FEATURE"
+        ],
+        "system_already_knows": [
+          "everything across features"
+        ],
+        "ready_signals": [
+          "attention count",
+          "health summaries"
+        ],
+        "needs_you": [
+          "aggregated client-owed items"
+        ],
+        "under_review": [
+          "aggregated AIO-working items"
+        ],
+        "approves": [
+          "decisions routed to features"
+        ],
+        "completion_looks_like": "All clear.",
+        "artifacts_received": [
+          "none directly (links to Vault)"
+        ],
+        "what_happens_next": "Next action updates as features move.",
+        "project_room": {
+          "status": "Next action",
+          "needs_you": "aggregated client-owed items",
+          "next": "NEXT ACTION",
+          "decisions": "decisions routed to features",
+          "files": "none directly (links to Vault)",
+          "messages": "My Office — Client Command Center request thread",
+          "approvals": "decisions routed to features",
+          "service_progress": "Welcome → Next action → Needs you → AIO is working → Decision waiting → All clear → Quiet"
+        }
+      },
+      "client_entry": {
+        "surface": "My Office",
+        "route": "portal",
+        "trigger": "sign in"
+      },
+      "client_cta": "NEXT ACTION",
+      "information_hierarchy": {
+        "primary_question": "What should I do next?",
+        "primary_status": "Next action",
+        "primary_task": "Do it",
+        "secondary_status": "Attention + health",
+        "blocker": "Items needing you",
+        "next_action": "NEXT ACTION",
+        "completion_proof": "All clear"
+      },
+      "emotional_target": "I know my next move the moment I open AIO."
+    },
+    {
+      "feature_id": "AIO.SERVICES",
+      "feature_name": "Services — Catalog / Requests",
+      "family": "F06 SERVICES",
+      "perspective": {
+        "entry_point": "Services / Requests",
+        "primary_task": "Request and track services.",
+        "sees_first": "Requests grouped by customer-friendly state.",
+        "must_provide": [
+          "request details"
+        ],
+        "input_methods": [
+          "ENTER",
+          "UPLOAD FILES"
+        ],
+        "system_already_knows": [
+          "profile, Road Ready gaps"
+        ],
+        "ready_signals": [
+          "availability"
+        ],
+        "needs_you": [
+          "waiting-on-you requests"
+        ],
+        "under_review": [
+          "AIO working"
+        ],
+        "approves": [
+          "quotes"
+        ],
+        "completion_looks_like": "Request complete.",
+        "artifacts_received": [
+          "Service request record"
+        ],
+        "what_happens_next": "The service’s own next step.",
+        "project_room": {
+          "status": "Requests by state",
+          "needs_you": "waiting-on-you requests",
+          "next": "OPEN REQUEST",
+          "decisions": "quotes",
+          "files": "Service request record",
+          "messages": "Services — Catalog / Requests request thread",
+          "approvals": "quotes",
+          "service_progress": "No requests → In progress → Waiting on you → All In One is working → Quote decision → Complete → History"
+        }
+      },
+      "client_entry": {
+        "surface": "Services / Requests",
+        "route": "portal/services · portal/requests",
+        "trigger": "Road Ready GET HELP / roadmap"
+      },
+      "client_cta": "OPEN REQUEST",
+      "information_hierarchy": {
+        "primary_question": "Where are my requests?",
+        "primary_status": "Requests by state",
+        "primary_task": "Act on waiting items",
+        "secondary_status": "Quotes",
+        "blocker": "Waiting on you",
+        "next_action": "OPEN REQUEST",
+        "completion_proof": "Complete"
+      },
+      "emotional_target": "Every request is visible and moving."
+    },
+    {
+      "feature_id": "AIO.AUTHORITIES",
+      "feature_name": "Authorities — USDOT / MC / MCS-150",
+      "family": "F06 SERVICES (get-road-ready) · F04 ROAD READY",
+      "perspective": {
+        "entry_point": "Services catalog / Road Ready GET HELP → request",
+        "primary_task": "Give AIO what it needs and confirm the submission.",
+        "sees_first": "THE AUTHORITY (USDOT / MC numbers and status) with its current customer-friendly state and what AIO needs.",
+        "must_provide": [
+          "entity documents",
+          "business address + contacts",
+          "operation type + cargo",
+          "fleet count"
+        ],
+        "input_methods": [
+          "UPLOAD FILES",
+          "TAKE PHOTO",
+          "IMPORT FROM VAULT",
+          "ENTER DETAILS"
+        ],
+        "system_already_knows": [
+          "business entity + USDOT / MC where on file",
+          "fleet units",
+          "documents already in the Vault"
+        ],
+        "ready_signals": [
+          "checklist completeness"
+        ],
+        "needs_you": [
+          "missing documents / details",
+          "submission confirmation"
+        ],
+        "under_review": [
+          "AIO preparing",
+          "FMCSA processing"
+        ],
+        "approves": [
+          "submission details"
+        ],
+        "completion_looks_like": "THE AUTHORITY (USDOT / MC numbers and status) COMPLETE with documents in the Vault and Road Ready updated.",
+        "artifacts_received": [
+          "USDOT number record",
+          "Operating authority grant"
+        ],
+        "what_happens_next": "BOC-3 and insurance filings follow; MCS-150 biennial update is scheduled.",
+        "project_room": {
+          "status": "Customer-friendly state",
+          "needs_you": "missing documents / details · submission confirmation",
+          "next": "The single next item",
+          "decisions": "submission details",
+          "files": "USDOT number record · Operating authority grant",
+          "messages": "Authorities — USDOT / MC / MCS-150 request thread",
+          "approvals": "submission details",
+          "service_progress": "Not requested → Requested → Waiting on you → All In One is working → Waiting externally → Complete → On file"
+        }
+      },
+      "client_entry": {
+        "surface": "Authorities — USDOT / MC / MCS-150 request",
+        "route": "portal/services · portal/requests",
+        "trigger": "Road Ready GET HELP or Services catalog"
+      },
+      "client_cta": "CONTINUE REQUEST",
+      "information_hierarchy": {
+        "primary_question": "Where is my Authorities — USDOT / MC / MCS-150, and do you need anything?",
+        "primary_status": "Customer-friendly state",
+        "primary_task": "Provide documents / confirm",
+        "secondary_status": "Checklist",
+        "blocker": "Missing document",
+        "next_action": "The single next item",
+        "completion_proof": "Documents in Vault + Road Ready updated"
+      },
+      "emotional_target": "I know what AIO needs and that it is being handled."
+    },
+    {
+      "feature_id": "AIO.BOC3",
+      "feature_name": "BOC-3 Process Agent Filing",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "entry_point": "Services catalog / Road Ready GET HELP → request",
+        "primary_task": "Give AIO what it needs and confirm the submission.",
+        "sees_first": "THE BOC-3 FILING with its current customer-friendly state and what AIO needs.",
+        "must_provide": [
+          "USDOT / MC number",
+          "entity details"
+        ],
+        "input_methods": [
+          "UPLOAD FILES",
+          "TAKE PHOTO",
+          "IMPORT FROM VAULT",
+          "ENTER DETAILS"
+        ],
+        "system_already_knows": [
+          "business entity + USDOT / MC where on file",
+          "fleet units",
+          "documents already in the Vault"
+        ],
+        "ready_signals": [
+          "checklist completeness"
+        ],
+        "needs_you": [
+          "missing documents / details",
+          "submission confirmation"
+        ],
+        "under_review": [
+          "AIO preparing",
+          "process-agent partner processing"
+        ],
+        "approves": [
+          "submission details"
+        ],
+        "completion_looks_like": "THE BOC-3 FILING COMPLETE with documents in the Vault and Road Ready updated.",
+        "artifacts_received": [
+          "BOC-3 filing confirmation"
+        ],
+        "what_happens_next": "Operating authority activation can proceed once insurance is on file.",
+        "project_room": {
+          "status": "Customer-friendly state",
+          "needs_you": "missing documents / details · submission confirmation",
+          "next": "The single next item",
+          "decisions": "submission details",
+          "files": "BOC-3 filing confirmation",
+          "messages": "BOC-3 Process Agent Filing request thread",
+          "approvals": "submission details",
+          "service_progress": "Not requested → Requested → Waiting on you → All In One is working → Waiting externally → Complete → On file"
+        }
+      },
+      "client_entry": {
+        "surface": "BOC-3 Process Agent Filing request",
+        "route": "portal/services · portal/requests",
+        "trigger": "Road Ready GET HELP or Services catalog"
+      },
+      "client_cta": "CONTINUE REQUEST",
+      "information_hierarchy": {
+        "primary_question": "Where is my BOC-3 Process Agent Filing, and do you need anything?",
+        "primary_status": "Customer-friendly state",
+        "primary_task": "Provide documents / confirm",
+        "secondary_status": "Checklist",
+        "blocker": "Missing document",
+        "next_action": "The single next item",
+        "completion_proof": "Documents in Vault + Road Ready updated"
+      },
+      "emotional_target": "I know what AIO needs and that it is being handled."
+    },
+    {
+      "feature_id": "AIO.IFTA_REGISTRATION",
+      "feature_name": "IFTA Account Registration",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "entry_point": "Services catalog / Road Ready GET HELP → request",
+        "primary_task": "Give AIO what it needs and confirm the submission.",
+        "sees_first": "THE IFTA ACCOUNT (license + decals) with its current customer-friendly state and what AIO needs.",
+        "must_provide": [
+          "entity + USDOT",
+          "base jurisdiction address",
+          "qualified vehicles"
+        ],
+        "input_methods": [
+          "UPLOAD FILES",
+          "TAKE PHOTO",
+          "IMPORT FROM VAULT",
+          "ENTER DETAILS"
+        ],
+        "system_already_knows": [
+          "business entity + USDOT / MC where on file",
+          "fleet units",
+          "documents already in the Vault"
+        ],
+        "ready_signals": [
+          "checklist completeness"
+        ],
+        "needs_you": [
+          "missing documents / details",
+          "submission confirmation"
+        ],
+        "under_review": [
+          "AIO preparing",
+          "base jurisdiction processing"
+        ],
+        "approves": [
+          "submission details"
+        ],
+        "completion_looks_like": "THE IFTA ACCOUNT (license + decals) COMPLETE with documents in the Vault and Road Ready updated.",
+        "artifacts_received": [
+          "IFTA license",
+          "IFTA decal record"
+        ],
+        "what_happens_next": "The first IFTA quarter opens (AIO.IFTA).",
+        "project_room": {
+          "status": "Customer-friendly state",
+          "needs_you": "missing documents / details · submission confirmation",
+          "next": "The single next item",
+          "decisions": "submission details",
+          "files": "IFTA license · IFTA decal record",
+          "messages": "IFTA Account Registration request thread",
+          "approvals": "submission details",
+          "service_progress": "Not requested → Requested → Waiting on you → All In One is working → Waiting externally → Complete → On file"
+        }
+      },
+      "client_entry": {
+        "surface": "IFTA Account Registration request",
+        "route": "portal/services · portal/requests",
+        "trigger": "Road Ready GET HELP or Services catalog"
+      },
+      "client_cta": "CONTINUE REQUEST",
+      "information_hierarchy": {
+        "primary_question": "Where is my IFTA Account Registration, and do you need anything?",
+        "primary_status": "Customer-friendly state",
+        "primary_task": "Provide documents / confirm",
+        "secondary_status": "Checklist",
+        "blocker": "Missing document",
+        "next_action": "The single next item",
+        "completion_proof": "Documents in Vault + Road Ready updated"
+      },
+      "emotional_target": "I know what AIO needs and that it is being handled."
+    },
+    {
+      "feature_id": "AIO.IFTA",
+      "feature_name": "IFTA / Fuel Tax",
+      "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "perspective": {
+        "entry_point": "My Office attention card “Q{n} fuel tax — {pct}% ready · due {due_date}” → CONTINUE FILING → quarter workspace",
+        "primary_task": "Get this quarter’s fuel and miles to AIO, then approve the return.",
+        "sees_first": "THE QUARTER: Q{n} {YYYY}, due date, packet completeness (receipts · mileage · vehicles), and the single next thing to do.",
+        "must_provide": [
+          "fuel receipts for the quarter",
+          "miles by state for every qualified truck",
+          "confirmation of trucks that ran",
+          "approval of the return summary"
+        ],
+        "input_methods": [
+          "TAKE PHOTO",
+          "UPLOAD FILES",
+          "IMPORT FROM VAULT",
+          "CONTINUOUS QUARTER CAPTURE",
+          "ELD / GPS IMPORT",
+          "ELD REPORT UPLOAD",
+          "MANUAL STATE ENTRY",
+          "SPREADSHEET",
+          "ASK AIO TO HELP"
+        ],
+        "system_already_knows": [
+          "fleet profile vehicles (pre-filled)",
+          "IFTA account / base jurisdiction",
+          "receipts already in the Vault for the quarter dates",
+          "load miles from Operations (as estimates)",
+          "previous quarter MPG per truck"
+        ],
+        "ready_signals": [
+          "receipt count by class (READY / NEEDS YOU / DUPLICATE / POSSIBLE MISSING / UNREADABLE)",
+          "per-truck mileage source badge (VERIFIED / ESTIMATED)",
+          "packet completeness %"
+        ],
+        "needs_you": [
+          "receipts flagged NEEDS YOU / UNREADABLE",
+          "POSSIBLE MISSING receipts for states driven without fuel",
+          "trucks without a mileage source",
+          "approval of the return"
+        ],
+        "under_review": [
+          "AIO checking receipts",
+          "AIO reconciling fuel vs miles by state",
+          "AIO filing with your base jurisdiction"
+        ],
+        "approves": [
+          "the IFTA return summary (miles, gallons, MPG, tax due / credit by state)"
+        ],
+        "completion_looks_like": "Quarter card shows FILED with the confirmation seal; the packet is in the Vault; nothing in Needs You.",
+        "artifacts_received": [
+          "IFTA return summary",
+          "Filed IFTA return",
+          "Filing confirmation",
+          "IFTA Q{n} {YYYY} filing packet"
+        ],
+        "what_happens_next": "The next quarter opens with your trucks pre-filled; keep capturing receipts as you fuel.",
+        "project_room": {
+          "status": "Quarter state + completeness",
+          "needs_you": "Open receipt / mileage flags and approval",
+          "next": "Single next action (e.g. “Add Texas miles for Truck 02”)",
+          "decisions": "Approve return",
+          "files": "Receipts, mileage records, return, confirmation",
+          "messages": "Quarter request thread",
+          "approvals": "Return summary approval",
+          "service_progress": "Open → Collect → Review → Reconcile → Approve → Filed → Vault"
+        }
+      },
+      "client_entry": {
+        "surface": "Quarter card in My Office + Services › IFTA",
+        "route": "portal (attention: “Q{n} fuel tax — continue filing”) → portal/services/ifta (quarter workspace)",
+        "trigger": "Quarter collection window opens · reminder · Road Ready IFTA item"
+      },
+      "client_cta": "CONTINUE FILING",
+      "information_hierarchy": {
+        "primary_question": "What does AIO still need from me for this quarter?",
+        "primary_status": "Quarter state + packet completeness % + due date",
+        "primary_task": "Send fuel and miles; resolve flags; approve",
+        "secondary_status": "Receipts by class · mileage source per truck · vehicles",
+        "blocker": "Open flags / truck without miles / approval pending",
+        "next_action": "The single next item (e.g. “Add 2 missing receipts for Oklahoma”)",
+        "completion_proof": "FILED seal + confirmation + packet in Vault"
+      },
+      "emotional_target": "I know exactly what AIO needs from me — and that the quarter is under control."
+    },
+    {
+      "feature_id": "AIO.PERMITTING",
+      "feature_name": "Permitting — UCR / Trip / Temporary & Specialty Permits",
+      "family": "F06 SERVICES (permits-taxes-compliance)",
+      "perspective": {
+        "entry_point": "Services catalog / Road Ready GET HELP → request",
+        "primary_task": "Give AIO what it needs and confirm the submission.",
+        "sees_first": "THE PERMIT (jurisdiction, validity window) with its current customer-friendly state and what AIO needs.",
+        "must_provide": [
+          "unit + plate",
+          "route / jurisdictions + dates",
+          "UCR fleet size bracket"
+        ],
+        "input_methods": [
+          "UPLOAD FILES",
+          "TAKE PHOTO",
+          "IMPORT FROM VAULT",
+          "ENTER DETAILS"
+        ],
+        "system_already_knows": [
+          "business entity + USDOT / MC where on file",
+          "fleet units",
+          "documents already in the Vault"
+        ],
+        "ready_signals": [
+          "checklist completeness"
+        ],
+        "needs_you": [
+          "missing documents / details",
+          "submission confirmation"
+        ],
+        "under_review": [
+          "AIO preparing",
+          "issuing jurisdiction processing"
+        ],
+        "approves": [
+          "submission details"
+        ],
+        "completion_looks_like": "THE PERMIT (jurisdiction, validity window) COMPLETE with documents in the Vault and Road Ready updated.",
+        "artifacts_received": [
+          "Permit document",
+          "UCR registration receipt"
+        ],
+        "what_happens_next": "UCR renewal is scheduled; trip permits expire with their window.",
+        "project_room": {
+          "status": "Customer-friendly state",
+          "needs_you": "missing documents / details · submission confirmation",
+          "next": "The single next item",
+          "decisions": "submission details",
+          "files": "Permit document · UCR registration receipt",
+          "messages": "Permitting — UCR / Trip / Temporary & Specialty Permits request thread",
+          "approvals": "submission details",
+          "service_progress": "Not requested → Requested → Waiting on you → All In One is working → Waiting externally → Complete → On file"
+        }
+      },
+      "client_entry": {
+        "surface": "Permitting — UCR / Trip / Temporary & Specialty Permits request",
+        "route": "portal/services · portal/requests",
+        "trigger": "Road Ready GET HELP or Services catalog"
+      },
+      "client_cta": "CONTINUE REQUEST",
+      "information_hierarchy": {
+        "primary_question": "Where is my Permitting — UCR / Trip / Temporary & Specialty Permits, and do you need anything?",
+        "primary_status": "Customer-friendly state",
+        "primary_task": "Provide documents / confirm",
+        "secondary_status": "Checklist",
+        "blocker": "Missing document",
+        "next_action": "The single next item",
+        "completion_proof": "Documents in Vault + Road Ready updated"
+      },
+      "emotional_target": "I know what AIO needs and that it is being handled."
+    },
+    {
+      "feature_id": "AIO.TAGS_REGISTRATION",
+      "feature_name": "Tags / Registration — IRP / Plates / Titles",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "entry_point": "Services catalog / Road Ready GET HELP → request",
+        "primary_task": "Give AIO what it needs and confirm the submission.",
+        "sees_first": "THE UNIT REGISTRATION (truck, plate, jurisdictions) with its current customer-friendly state and what AIO needs.",
+        "must_provide": [
+          "title / bill of sale",
+          "VIN + unit details",
+          "insurance proof",
+          "HVUT proof (2290) where required"
+        ],
+        "input_methods": [
+          "UPLOAD FILES",
+          "TAKE PHOTO",
+          "IMPORT FROM VAULT",
+          "ENTER DETAILS"
+        ],
+        "system_already_knows": [
+          "business entity + USDOT / MC where on file",
+          "fleet units",
+          "documents already in the Vault"
+        ],
+        "ready_signals": [
+          "checklist completeness"
+        ],
+        "needs_you": [
+          "missing documents / details",
+          "submission confirmation"
+        ],
+        "under_review": [
+          "AIO preparing",
+          "registration office processing"
+        ],
+        "approves": [
+          "submission details"
+        ],
+        "completion_looks_like": "THE UNIT REGISTRATION (truck, plate, jurisdictions) COMPLETE with documents in the Vault and Road Ready updated.",
+        "artifacts_received": [
+          "IRP cab card",
+          "Registration / plate record",
+          "Title record"
+        ],
+        "what_happens_next": "Registration renewal scheduled per unit.",
+        "project_room": {
+          "status": "Customer-friendly state",
+          "needs_you": "missing documents / details · submission confirmation",
+          "next": "The single next item",
+          "decisions": "submission details",
+          "files": "IRP cab card · Registration / plate record · Title record",
+          "messages": "Tags / Registration — IRP / Plates / Titles request thread",
+          "approvals": "submission details",
+          "service_progress": "Not requested → Requested → Waiting on you → All In One is working → Waiting externally → Complete → On file"
+        }
+      },
+      "client_entry": {
+        "surface": "Tags / Registration — IRP / Plates / Titles request",
+        "route": "portal/services · portal/requests",
+        "trigger": "Road Ready GET HELP or Services catalog"
+      },
+      "client_cta": "CONTINUE REQUEST",
+      "information_hierarchy": {
+        "primary_question": "Where is my Tags / Registration — IRP / Plates / Titles, and do you need anything?",
+        "primary_status": "Customer-friendly state",
+        "primary_task": "Provide documents / confirm",
+        "secondary_status": "Checklist",
+        "blocker": "Missing document",
+        "next_action": "The single next item",
+        "completion_proof": "Documents in Vault + Road Ready updated"
+      },
+      "emotional_target": "I know what AIO needs and that it is being handled."
+    },
+    {
+      "feature_id": "AIO.ROAD_TAX",
+      "feature_name": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes",
+      "family": "F06 SERVICES (permits-taxes-compliance)",
+      "perspective": {
+        "entry_point": "Services catalog / Road Ready GET HELP → request",
+        "primary_task": "Give AIO what it needs and confirm the submission.",
+        "sees_first": "THE TAX PERIOD (units, amount, stamped proof) with its current customer-friendly state and what AIO needs.",
+        "must_provide": [
+          "units + taxable gross weight",
+          "first-use month",
+          "payment method"
+        ],
+        "input_methods": [
+          "UPLOAD FILES",
+          "TAKE PHOTO",
+          "IMPORT FROM VAULT",
+          "ENTER DETAILS"
+        ],
+        "system_already_knows": [
+          "business entity + USDOT / MC where on file",
+          "fleet units",
+          "documents already in the Vault"
+        ],
+        "ready_signals": [
+          "checklist completeness"
+        ],
+        "needs_you": [
+          "missing documents / details",
+          "submission confirmation"
+        ],
+        "under_review": [
+          "AIO preparing",
+          "tax authority processing"
+        ],
+        "approves": [
+          "submission details"
+        ],
+        "completion_looks_like": "THE TAX PERIOD (units, amount, stamped proof) COMPLETE with documents in the Vault and Road Ready updated.",
+        "artifacts_received": [
+          "Stamped Schedule 1 (2290)",
+          "Road / use tax return"
+        ],
+        "what_happens_next": "Next tax period is tracked; Schedule 1 feeds IRP registration.",
+        "project_room": {
+          "status": "Customer-friendly state",
+          "needs_you": "missing documents / details · submission confirmation",
+          "next": "The single next item",
+          "decisions": "submission details",
+          "files": "Stamped Schedule 1 (2290) · Road / use tax return",
+          "messages": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes request thread",
+          "approvals": "submission details",
+          "service_progress": "Not requested → Requested → Waiting on you → All In One is working → Waiting externally → Complete → On file"
+        }
+      },
+      "client_entry": {
+        "surface": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes request",
+        "route": "portal/services · portal/requests",
+        "trigger": "Road Ready GET HELP or Services catalog"
+      },
+      "client_cta": "CONTINUE REQUEST",
+      "information_hierarchy": {
+        "primary_question": "Where is my Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes, and do you need anything?",
+        "primary_status": "Customer-friendly state",
+        "primary_task": "Provide documents / confirm",
+        "secondary_status": "Checklist",
+        "blocker": "Missing document",
+        "next_action": "The single next item",
+        "completion_proof": "Documents in Vault + Road Ready updated"
+      },
+      "emotional_target": "I know what AIO needs and that it is being handled."
+    },
+    {
+      "feature_id": "AIO.COMPLIANCE_SAFETY",
+      "feature_name": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits",
+      "family": "F06 SERVICES (safety-drivers)",
+      "perspective": {
+        "entry_point": "Services catalog / Road Ready GET HELP → request",
+        "primary_task": "Give AIO what it needs and confirm the submission.",
+        "sees_first": "THE SAFETY FILE (program + driver files) with its current customer-friendly state and what AIO needs.",
+        "must_provide": [
+          "driver documents",
+          "program enrolment details",
+          "ELD provider"
+        ],
+        "input_methods": [
+          "UPLOAD FILES",
+          "TAKE PHOTO",
+          "IMPORT FROM VAULT",
+          "ENTER DETAILS"
+        ],
+        "system_already_knows": [
+          "business entity + USDOT / MC where on file",
+          "fleet units",
+          "documents already in the Vault"
+        ],
+        "ready_signals": [
+          "checklist completeness"
+        ],
+        "needs_you": [
+          "missing documents / details",
+          "submission confirmation"
+        ],
+        "under_review": [
+          "AIO preparing",
+          "FMCSA / consortium / auditor processing"
+        ],
+        "approves": [
+          "submission details"
+        ],
+        "completion_looks_like": "THE SAFETY FILE (program + driver files) COMPLETE with documents in the Vault and Road Ready updated.",
+        "artifacts_received": [
+          "Driver qualification file",
+          "Audit preparation packet"
+        ],
+        "what_happens_next": "Annual driver reviews and expiring credentials are tracked.",
+        "project_room": {
+          "status": "Customer-friendly state",
+          "needs_you": "missing documents / details · submission confirmation",
+          "next": "The single next item",
+          "decisions": "submission details",
+          "files": "Driver qualification file · Audit preparation packet",
+          "messages": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits request thread",
+          "approvals": "submission details",
+          "service_progress": "Not requested → Requested → Waiting on you → All In One is working → Waiting externally → Complete → On file"
+        }
+      },
+      "client_entry": {
+        "surface": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits request",
+        "route": "portal/services · portal/requests",
+        "trigger": "Road Ready GET HELP or Services catalog"
+      },
+      "client_cta": "CONTINUE REQUEST",
+      "information_hierarchy": {
+        "primary_question": "Where is my Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits, and do you need anything?",
+        "primary_status": "Customer-friendly state",
+        "primary_task": "Provide documents / confirm",
+        "secondary_status": "Checklist",
+        "blocker": "Missing document",
+        "next_action": "The single next item",
+        "completion_proof": "Documents in Vault + Road Ready updated"
+      },
+      "emotional_target": "I know what AIO needs and that it is being handled."
+    },
+    {
+      "feature_id": "AIO.RENEWALS",
+      "feature_name": "Renewals",
+      "family": "F04 ROAD READY · F06 SERVICES (renewals)",
+      "perspective": {
+        "entry_point": "Renewal Center (or expiring notification)",
+        "primary_task": "Decide how each upcoming renewal is handled.",
+        "sees_first": "The renewal horizon — what expires next and when.",
+        "must_provide": [
+          "decision",
+          "updated documents"
+        ],
+        "input_methods": [
+          "DECIDE",
+          "UPLOAD FILES",
+          "IMPORT FROM VAULT"
+        ],
+        "system_already_knows": [
+          "expiration dates from verified documents"
+        ],
+        "ready_signals": [
+          "days until expiration"
+        ],
+        "needs_you": [
+          "renewal decisions",
+          "expired items"
+        ],
+        "under_review": [
+          "renewals AIO is working"
+        ],
+        "approves": [
+          "renew with AIO"
+        ],
+        "completion_looks_like": "Item renewed; new document in Vault.",
+        "artifacts_received": [
+          "Renewed document"
+        ],
+        "what_happens_next": "Next expiration tracked.",
+        "project_room": {
+          "status": "Next expiration + days",
+          "needs_you": "renewal decisions · expired items",
+          "next": "Decision on the nearest item",
+          "decisions": "renew with AIO",
+          "files": "Renewed document",
+          "messages": "Renewals request thread",
+          "approvals": "renew with AIO",
+          "service_progress": "Nothing due → Upcoming → Decide → Renewing with AIO → Expired / overdue → Renewed → Self-managed"
+        }
+      },
+      "client_entry": {
+        "surface": "Renewal Center",
+        "route": "portal/renewals",
+        "trigger": "expiring item notification / Road Ready"
+      },
+      "client_cta": "DECIDE",
+      "information_hierarchy": {
+        "primary_question": "What is expiring, and how is it being renewed?",
+        "primary_status": "Next expiration + days",
+        "primary_task": "Decide renew with AIO / self",
+        "secondary_status": "Upcoming list",
+        "blocker": "Expired item",
+        "next_action": "Decision on the nearest item",
+        "completion_proof": "Renewed document in Vault"
+      },
+      "emotional_target": "I see what is coming and it is handled."
+    },
+    {
+      "feature_id": "AIO.DISPATCH_OPERATIONS",
+      "feature_name": "Dispatch / Operations",
+      "family": "F07 OPERATIONS",
+      "perspective": {
+        "entry_point": "Operations (or load offer notification)",
+        "primary_task": "Approve good loads and close each load with a POD.",
+        "sees_first": "Each truck’s status and any load offer waiting for approval.",
+        "must_provide": [
+          "truck preferences",
+          "approvals",
+          "POD"
+        ],
+        "input_methods": [
+          "APPROVE / DECLINE",
+          "TAKE PHOTO",
+          "UPLOAD FILES"
+        ],
+        "system_already_knows": [
+          "authority status",
+          "fleet",
+          "lane history"
+        ],
+        "ready_signals": [
+          "load score band",
+          "document completeness"
+        ],
+        "needs_you": [
+          "load approvals",
+          "POD uploads"
+        ],
+        "under_review": [
+          "loads being searched / reviewed"
+        ],
+        "approves": [
+          "each load offer"
+        ],
+        "completion_looks_like": "Load complete with POD; invoice / factoring ready.",
+        "artifacts_received": [
+          "Rate confirmation",
+          "BOL",
+          "POD"
+        ],
+        "what_happens_next": "Truck returns to searching; invoice / factoring proceeds.",
+        "project_room": {
+          "status": "Truck status + current load",
+          "needs_you": "load approvals · POD uploads",
+          "next": "APPROVE LOAD / UPLOAD POD",
+          "decisions": "each load offer",
+          "files": "Rate confirmation · BOL · POD",
+          "messages": "Dispatch / Operations request thread",
+          "approvals": "each load offer",
+          "service_progress": "Not enrolled → Onboarding → Finding loads → Load offer → Booked → In transit → POD needed → Load complete → Settled"
+        }
+      },
+      "client_entry": {
+        "surface": "Operations",
+        "route": "portal/operations · portal/dispatch",
+        "trigger": "load offer awaiting approval / dispatch enrolment"
+      },
+      "client_cta": "APPROVE LOAD",
+      "information_hierarchy": {
+        "primary_question": "Are my trucks loaded, and do I need to approve anything?",
+        "primary_status": "Truck status + current load",
+        "primary_task": "Approve offers, upload POD",
+        "secondary_status": "Upcoming pickups",
+        "blocker": "POD missing / problem",
+        "next_action": "APPROVE LOAD / UPLOAD POD",
+        "completion_proof": "Load complete + invoice ready"
+      },
+      "emotional_target": "My trucks are moving and I only decide what matters."
+    },
+    {
+      "feature_id": "AIO.LOAD_BOARD",
+      "feature_name": "Load Board",
+      "family": "F08 LOAD BOARD",
+      "perspective": {
+        "entry_point": "Operations › Load Board",
+        "primary_task": "Find a fitting load and book it.",
+        "sees_first": "Best-fit opportunities for the truck with rate, miles and pickup.",
+        "must_provide": [
+          "offer / acceptance"
+        ],
+        "input_methods": [
+          "FILTER",
+          "SEND OFFER",
+          "ACCEPT"
+        ],
+        "system_already_knows": [
+          "truck + lanes",
+          "eligibility"
+        ],
+        "ready_signals": [
+          "fit score"
+        ],
+        "needs_you": [
+          "counter decisions"
+        ],
+        "under_review": [
+          "offers with AIO"
+        ],
+        "approves": [
+          "counter offers"
+        ],
+        "completion_looks_like": "Load booked with rate con.",
+        "artifacts_received": [
+          "Rate confirmation"
+        ],
+        "what_happens_next": "Load runs in Operations.",
+        "project_room": {
+          "status": "Best-fit opportunities",
+          "needs_you": "counter decisions",
+          "next": "SEND OFFER",
+          "decisions": "counter offers",
+          "files": "Rate confirmation",
+          "messages": "Load Board request thread",
+          "approvals": "counter offers",
+          "service_progress": "No matching loads → Opportunities → Offer sent → Counter received → Booked → Closed → Not eligible"
+        }
+      },
+      "client_entry": {
+        "surface": "Load Board",
+        "route": "portal/load-board/*",
+        "trigger": "Operations › find loads"
+      },
+      "client_cta": "SEND OFFER",
+      "information_hierarchy": {
+        "primary_question": "Is there a load that fits my truck?",
+        "primary_status": "Best-fit opportunities",
+        "primary_task": "Offer / book",
+        "secondary_status": "Fit reasons",
+        "blocker": "Not eligible",
+        "next_action": "SEND OFFER",
+        "completion_proof": "Booked with rate con"
+      },
+      "emotional_target": "I can find good freight fast."
+    },
+    {
+      "feature_id": "AIO.BROKERAGE",
+      "feature_name": "Brokerage (Shipper)",
+      "family": "F09 BROKERAGE",
+      "perspective": {
+        "entry_point": "Shipper portal",
+        "primary_task": "Request, accept the quote, follow the shipment.",
+        "sees_first": "Active shipments and any quote awaiting acceptance.",
+        "must_provide": [
+          "shipment details",
+          "acceptance"
+        ],
+        "input_methods": [
+          "ENTER",
+          "REPEAT SHIPMENT",
+          "ACCEPT"
+        ],
+        "system_already_knows": [
+          "shipper profile",
+          "past lanes"
+        ],
+        "ready_signals": [
+          "quote ready"
+        ],
+        "needs_you": [
+          "quote acceptance",
+          "exceptions"
+        ],
+        "under_review": [
+          "coverage",
+          "in transit"
+        ],
+        "approves": [
+          "quote"
+        ],
+        "completion_looks_like": "Delivered with POD; invoice issued.",
+        "artifacts_received": [
+          "Freight quote",
+          "Proof of delivery",
+          "Shipper invoice"
+        ],
+        "what_happens_next": "Repeat shipment offered.",
+        "project_room": {
+          "status": "Shipment stage",
+          "needs_you": "quote acceptance · exceptions",
+          "next": "ACCEPT QUOTE",
+          "decisions": "quote",
+          "files": "Freight quote · Proof of delivery · Shipper invoice",
+          "messages": "Brokerage (Shipper) request thread",
+          "approvals": "quote",
+          "service_progress": "Not set up → Shipment requested → Quote ready → Covering → In transit → Delivered → Billed → Exception"
+        }
+      },
+      "client_entry": {
+        "surface": "Shipper portal",
+        "route": "shipper/*",
+        "trigger": "shipment request / quote"
+      },
+      "client_cta": "ACCEPT QUOTE",
+      "information_hierarchy": {
+        "primary_question": "Where is my freight?",
+        "primary_status": "Shipment stage",
+        "primary_task": "Accept quote / follow",
+        "secondary_status": "ETA",
+        "blocker": "Exception",
+        "next_action": "ACCEPT QUOTE",
+        "completion_proof": "Delivered + POD"
+      },
+      "emotional_target": "I always know where my shipment is."
+    },
+    {
+      "feature_id": "AIO.FINANCES",
+      "feature_name": "Finances — Money / Billing / Quotes",
+      "family": "F10 FINANCES",
+      "perspective": {
+        "entry_point": "Money",
+        "primary_task": "Accept quotes and pay AIO invoices.",
+        "sees_first": "Balance due and any quote awaiting acceptance.",
+        "must_provide": [
+          "quote acceptance",
+          "payment"
+        ],
+        "input_methods": [
+          "ACCEPT",
+          "PAY NOW",
+          "SAVED METHOD"
+        ],
+        "system_already_knows": [
+          "services in progress",
+          "payment methods"
+        ],
+        "ready_signals": [
+          "balance",
+          "due dates"
+        ],
+        "needs_you": [
+          "quotes to accept",
+          "overdue invoices",
+          "failed payments"
+        ],
+        "under_review": [
+          "payment processing"
+        ],
+        "approves": [
+          "quotes"
+        ],
+        "completion_looks_like": "Paid with receipt.",
+        "artifacts_received": [
+          "Service quote",
+          "Service invoice",
+          "Payment receipt"
+        ],
+        "what_happens_next": "Accepted quote starts the service.",
+        "project_room": {
+          "status": "Balance due",
+          "needs_you": "quotes to accept · overdue invoices · failed payments",
+          "next": "ACCEPT QUOTE / PAY",
+          "decisions": "quotes",
+          "files": "Service quote · Service invoice · Payment receipt",
+          "messages": "Finances — Money / Billing / Quotes request thread",
+          "approvals": "quotes",
+          "service_progress": "Nothing due → Quote to review → Invoice open → Overdue → Processing → Paid → Archived"
+        }
+      },
+      "client_entry": {
+        "surface": "Money",
+        "route": "portal/money · portal/billing/* · portal/quotes/*",
+        "trigger": "quote ready / invoice due"
+      },
+      "client_cta": "PAY NOW",
+      "information_hierarchy": {
+        "primary_question": "What do I owe AIO, and what needs accepting?",
+        "primary_status": "Balance due",
+        "primary_task": "Accept / pay",
+        "secondary_status": "Upcoming invoices",
+        "blocker": "Overdue / failed",
+        "next_action": "ACCEPT QUOTE / PAY",
+        "completion_proof": "Paid with receipt"
+      },
+      "emotional_target": "I know exactly what I am paying AIO for."
+    },
+    {
+      "feature_id": "AIO.FACTORING",
+      "feature_name": "Factoring (assistance / partner)",
+      "family": "F11 FACTORING",
+      "perspective": {
+        "entry_point": "Factoring (or FACTOR THIS LOAD on a completed load)",
+        "primary_task": "Get delivered loads funded.",
+        "sees_first": "Invoices by stage and enrolment status.",
+        "must_provide": [
+          "enrolment documents",
+          "load documents"
+        ],
+        "input_methods": [
+          "FROM COMPLETED LOAD",
+          "UPLOAD FILES",
+          "IMPORT FROM VAULT"
+        ],
+        "system_already_knows": [
+          "completed loads + documents"
+        ],
+        "ready_signals": [
+          "packet completeness"
+        ],
+        "needs_you": [
+          "missing documents"
+        ],
+        "under_review": [
+          "specialist review",
+          "partner review"
+        ],
+        "approves": [
+          "invoice submission"
+        ],
+        "completion_looks_like": "Funding reported; invoice closed.",
+        "artifacts_received": [
+          "Freight invoice (HF-*)",
+          "Partner funding report"
+        ],
+        "what_happens_next": "Factor the next load.",
+        "project_room": {
+          "status": "Invoice stage",
+          "needs_you": "missing documents",
+          "next": "FACTOR THIS LOAD",
+          "decisions": "invoice submission",
+          "files": "Freight invoice (HF-*) · Partner funding report",
+          "messages": "Factoring (assistance / partner) request thread",
+          "approvals": "invoice submission",
+          "service_progress": "Not enrolled → Documents needed → Under review → Partner review → Active → Funded → Closed"
+        }
+      },
+      "client_entry": {
+        "surface": "Factoring",
+        "route": "portal/factoring/*",
+        "trigger": "load complete → FACTOR THIS LOAD"
+      },
+      "client_cta": "FACTOR THIS LOAD",
+      "information_hierarchy": {
+        "primary_question": "When do I get paid for this load?",
+        "primary_status": "Invoice stage",
+        "primary_task": "Complete packet / submit",
+        "secondary_status": "Partner status",
+        "blocker": "Documents needed",
+        "next_action": "FACTOR THIS LOAD",
+        "completion_proof": "Funding reported"
+      },
+      "emotional_target": "My delivered loads turn into cash without paperwork chaos."
+    },
+    {
+      "feature_id": "AIO.INSURANCE",
+      "feature_name": "Insurance (assistance / referral)",
+      "family": "F12 INSURANCE",
+      "perspective": {
+        "entry_point": "Insurance",
+        "primary_task": "Get covered and keep the policy on file.",
+        "sees_first": "Coverage status per policy and what is needed.",
+        "must_provide": [
+          "operation details",
+          "policy documents"
+        ],
+        "input_methods": [
+          "GUIDED QUESTIONS",
+          "UPLOAD FILES",
+          "IMPORT FROM VAULT"
+        ],
+        "system_already_knows": [
+          "authority + fleet"
+        ],
+        "ready_signals": [
+          "policy active + expiry"
+        ],
+        "needs_you": [
+          "option selection",
+          "policy documents"
+        ],
+        "under_review": [
+          "partner preparing options",
+          "policy verification"
+        ],
+        "approves": [
+          "option selection (with the partner)"
+        ],
+        "completion_looks_like": "Active policy on file.",
+        "artifacts_received": [
+          "Policy record + declarations",
+          "Certificate of insurance (from partner)"
+        ],
+        "what_happens_next": "Renewal tracked.",
+        "project_room": {
+          "status": "Policy status + expiry",
+          "needs_you": "option selection · policy documents",
+          "next": "REVIEW OPTIONS",
+          "decisions": "option selection (with the partner)",
+          "files": "Policy record + declarations · Certificate of insurance (from partner)",
+          "messages": "Insurance (assistance / referral) request thread",
+          "approvals": "option selection (with the partner)",
+          "service_progress": "No policy on file → Coverage needs → With partner → Options ready → Policy setup → Active policy → Renewal coming → Documents needed"
+        }
+      },
+      "client_entry": {
+        "surface": "Insurance",
+        "route": "portal/insurance/*",
+        "trigger": "coverage request / renewal"
+      },
+      "client_cta": "REVIEW OPTIONS",
+      "information_hierarchy": {
+        "primary_question": "Am I covered, and what do I need to do?",
+        "primary_status": "Policy status + expiry",
+        "primary_task": "Select option / upload docs",
+        "secondary_status": "Partner progress",
+        "blocker": "Lapse risk",
+        "next_action": "REVIEW OPTIONS",
+        "completion_proof": "Active policy on file"
+      },
+      "emotional_target": "My coverage is handled and never a surprise."
+    },
+    {
+      "feature_id": "AIO.BOOKKEEPING",
+      "feature_name": "Bookkeeping",
+      "family": "F13 BOOKKEEPING",
+      "perspective": {
+        "entry_point": "Bookkeeping",
+        "primary_task": "Send statements and answer questions so the month closes.",
+        "sees_first": "The current month and what it needs.",
+        "must_provide": [
+          "statements",
+          "answers"
+        ],
+        "input_methods": [
+          "UPLOAD FILES",
+          "IMPORT FROM VAULT",
+          "ANSWER"
+        ],
+        "system_already_knows": [
+          "loads, factoring fees, AIO fees, fuel tax payments"
+        ],
+        "ready_signals": [
+          "statements received"
+        ],
+        "needs_you": [
+          "questions",
+          "month review"
+        ],
+        "under_review": [
+          "closing"
+        ],
+        "approves": [
+          "month confirmation"
+        ],
+        "completion_looks_like": "Month closed with reports.",
+        "artifacts_received": [
+          "Monthly P&L",
+          "Balance sheet"
+        ],
+        "what_happens_next": "Next month opens.",
+        "project_room": {
+          "status": "Month status",
+          "needs_you": "questions · month review",
+          "next": "ANSWER QUESTIONS",
+          "decisions": "month confirmation",
+          "files": "Monthly P&L · Balance sheet",
+          "messages": "Bookkeeping request thread",
+          "approvals": "month confirmation",
+          "service_progress": "No plan → Month open → Questions for you → Closing → Review ready → Closed → Archived"
+        }
+      },
+      "client_entry": {
+        "surface": "Bookkeeping",
+        "route": "portal/bookkeeping",
+        "trigger": "monthly close request / plan"
+      },
+      "client_cta": "ANSWER QUESTIONS",
+      "information_hierarchy": {
+        "primary_question": "Is my month closed, and what do you need?",
+        "primary_status": "Month status",
+        "primary_task": "Send statements / answer",
+        "secondary_status": "Categories",
+        "blocker": "Questions open",
+        "next_action": "ANSWER QUESTIONS",
+        "completion_proof": "Closed reports"
+      },
+      "emotional_target": "My month closes without me living in spreadsheets."
+    },
+    {
+      "feature_id": "AIO.FLEETCARE",
+      "feature_name": "FleetCare",
+      "family": "F14 FLEETCARE",
+      "perspective": {
+        "entry_point": "FleetCare (or breakdown CTA)",
+        "primary_task": "Get the truck fixed.",
+        "sees_first": "The open ticket and its current step.",
+        "must_provide": [
+          "issue details",
+          "location",
+          "estimate approval"
+        ],
+        "input_methods": [
+          "DESCRIBE",
+          "TAKE PHOTO",
+          "SHARE LOCATION",
+          "APPROVE"
+        ],
+        "system_already_knows": [
+          "truck + last service",
+          "preferred providers"
+        ],
+        "ready_signals": [
+          "provider matched"
+        ],
+        "needs_you": [
+          "estimate approval"
+        ],
+        "under_review": [
+          "provider reviewing",
+          "repair"
+        ],
+        "approves": [
+          "estimate"
+        ],
+        "completion_looks_like": "Repair complete; record saved.",
+        "artifacts_received": [
+          "Repair estimate",
+          "Work summary + invoice",
+          "Vehicle service record"
+        ],
+        "what_happens_next": "Next service tracked.",
+        "project_room": {
+          "status": "Ticket stage",
+          "needs_you": "estimate approval",
+          "next": "APPROVE ESTIMATE",
+          "decisions": "estimate",
+          "files": "Repair estimate · Work summary + invoice · Vehicle service record",
+          "messages": "FleetCare request thread",
+          "approvals": "estimate",
+          "service_progress": "No open tickets → Submitted → Provider reviewing → Estimate ready → In repair → No provider yet → Repair complete → In vehicle record"
+        }
+      },
+      "client_entry": {
+        "surface": "FleetCare",
+        "route": "portal/fleetcare/*",
+        "trigger": "breakdown / service need"
+      },
+      "client_cta": "REPORT AN ISSUE",
+      "information_hierarchy": {
+        "primary_question": "When will my truck be fixed?",
+        "primary_status": "Ticket stage",
+        "primary_task": "Approve estimate",
+        "secondary_status": "Provider + ETA",
+        "blocker": "No provider yet",
+        "next_action": "APPROVE ESTIMATE",
+        "completion_proof": "Repair complete + record"
+      },
+      "emotional_target": "My truck is being handled and I approve the cost."
+    },
+    {
+      "feature_id": "AIO.DRIVERLINK",
+      "feature_name": "DriverLink",
+      "family": "F15 DRIVERLINK",
+      "perspective": {
+        "entry_point": "DriverLink (company view)",
+        "primary_task": "Hire a verified driver.",
+        "sees_first": "Open jobs and verified candidates.",
+        "must_provide": [
+          "job details",
+          "candidate decisions"
+        ],
+        "input_methods": [
+          "ENTER",
+          "INVITE",
+          "PASS"
+        ],
+        "system_already_knows": [
+          "company profile"
+        ],
+        "ready_signals": [
+          "verified badge"
+        ],
+        "needs_you": [
+          "candidate decisions"
+        ],
+        "under_review": [
+          "credential checks"
+        ],
+        "approves": [
+          "invites / hires"
+        ],
+        "completion_looks_like": "Driver hired.",
+        "artifacts_received": [
+          "Verified credential record",
+          "Offer / hire record"
+        ],
+        "what_happens_next": "DQ file in Compliance & Safety.",
+        "project_room": {
+          "status": "Pipeline stage",
+          "needs_you": "candidate decisions",
+          "next": "REVIEW CANDIDATES",
+          "decisions": "invites / hires",
+          "files": "Verified credential record · Offer / hire record",
+          "messages": "DriverLink request thread",
+          "approvals": "invites / hires",
+          "service_progress": "No openings → Job published → Credentials pending → Candidates ready → In process → Hired → Closed"
+        }
+      },
+      "client_entry": {
+        "surface": "DriverLink (company)",
+        "route": "portal/driverlink/*",
+        "trigger": "job posted / candidate matched"
+      },
+      "client_cta": "REVIEW CANDIDATES",
+      "information_hierarchy": {
+        "primary_question": "Do I have verified drivers for my job?",
+        "primary_status": "Pipeline stage",
+        "primary_task": "Review / invite",
+        "secondary_status": "Credential status",
+        "blocker": "Credentials pending",
+        "next_action": "REVIEW CANDIDATES",
+        "completion_proof": "Driver hired"
+      },
+      "emotional_target": "I am choosing from verified drivers."
+    },
+    {
+      "feature_id": "AIO.VAULT",
+      "feature_name": "Vault",
+      "family": "F16 VAULT",
+      "perspective": {
+        "entry_point": "Vault",
+        "primary_task": "Find, add and keep documents current.",
+        "sees_first": "Taxonomy groups with requested / expiring items on top.",
+        "must_provide": [
+          "requested documents"
+        ],
+        "input_methods": [
+          "TAKE PHOTO",
+          "UPLOAD FILES"
+        ],
+        "system_already_knows": [
+          "all sealed artifacts from features"
+        ],
+        "ready_signals": [
+          "verified badges"
+        ],
+        "needs_you": [
+          "requested",
+          "rejected",
+          "expiring"
+        ],
+        "under_review": [
+          "pending verification"
+        ],
+        "approves": [
+          "renewal decisions (routed)"
+        ],
+        "completion_looks_like": "Everything verified and current.",
+        "artifacts_received": [
+          "all feature artifacts"
+        ],
+        "what_happens_next": "Renewals as items expire.",
+        "project_room": {
+          "status": "Requested / expiring count",
+          "needs_you": "requested · rejected · expiring",
+          "next": "UPLOAD",
+          "decisions": "renewal decisions (routed)",
+          "files": "all feature artifacts",
+          "messages": "Vault request thread",
+          "approvals": "renewal decisions (routed)",
+          "service_progress": "Empty → Organised → Requested → Pending verification → Verified → Superseded → Expiring"
+        }
+      },
+      "client_entry": {
+        "surface": "Vault",
+        "route": "portal/vault · portal/documents",
+        "trigger": "artifact filed / document requested"
+      },
+      "client_cta": "UPLOAD",
+      "information_hierarchy": {
+        "primary_question": "Where is my document, and is it current?",
+        "primary_status": "Requested / expiring count",
+        "primary_task": "Upload / replace",
+        "secondary_status": "Groups",
+        "blocker": "Rejected / requested",
+        "next_action": "UPLOAD",
+        "completion_proof": "Verified + current"
+      },
+      "emotional_target": "Everything is safe and findable."
+    },
+    {
+      "feature_id": "AIO.INBOX",
+      "feature_name": "Inbox — Messages / Notifications / Appointments",
+      "family": "F17 INBOX",
+      "perspective": {
+        "entry_point": "Inbox (or notification)",
+        "primary_task": "Clear what needs you.",
+        "sees_first": "Action threads first, then conversations.",
+        "must_provide": [
+          "replies / actions"
+        ],
+        "input_methods": [
+          "TYPE",
+          "ATTACH FILE",
+          "CONFIRM"
+        ],
+        "system_already_knows": [
+          "feature context per thread"
+        ],
+        "ready_signals": [
+          "unread / action counts"
+        ],
+        "needs_you": [
+          "action threads",
+          "appointments"
+        ],
+        "under_review": [
+          "awaiting AIO reply"
+        ],
+        "approves": [
+          "appointments"
+        ],
+        "completion_looks_like": "No action threads.",
+        "artifacts_received": [
+          "Message thread"
+        ],
+        "what_happens_next": "Threads resolve as work completes.",
+        "project_room": {
+          "status": "Action threads count",
+          "needs_you": "action threads · appointments",
+          "next": "OPEN THREAD",
+          "decisions": "appointments",
+          "files": "Message thread",
+          "messages": "Inbox — Messages / Notifications / Appointments request thread",
+          "approvals": "appointments",
+          "service_progress": "Empty → Needs you → Conversation → AIO replying → Appointment → Resolved → Archived"
+        }
+      },
+      "client_entry": {
+        "surface": "Inbox",
+        "route": "portal/messages · notifications · appointments",
+        "trigger": "notification"
+      },
+      "client_cta": "OPEN THREAD",
+      "information_hierarchy": {
+        "primary_question": "What needs my reply?",
+        "primary_status": "Action threads count",
+        "primary_task": "Reply / act",
+        "secondary_status": "Conversations",
+        "blocker": "Unanswered action",
+        "next_action": "OPEN THREAD",
+        "completion_proof": "All resolved"
+      },
+      "emotional_target": "I know which messages need me."
+    },
+    {
+      "feature_id": "AIO.ACCOUNT",
+      "feature_name": "Account — Settings / Team / Auth",
+      "family": "F18 ACCOUNT",
+      "perspective": {
+        "entry_point": "Settings",
+        "primary_task": "Manage the organisation and team.",
+        "sees_first": "Profile, team, preferences.",
+        "must_provide": [
+          "profile",
+          "team invites"
+        ],
+        "input_methods": [
+          "ENTER",
+          "INVITE",
+          "TOGGLE"
+        ],
+        "system_already_knows": [
+          "org + roles"
+        ],
+        "ready_signals": [
+          "verified email"
+        ],
+        "needs_you": [
+          "email verification",
+          "invite acceptance"
+        ],
+        "under_review": [
+          "support requests"
+        ],
+        "approves": [
+          "invites"
+        ],
+        "completion_looks_like": "Saved settings.",
+        "artifacts_received": [
+          "none (records only)"
+        ],
+        "what_happens_next": "Back to My Office.",
+        "project_room": {
+          "status": "Team",
+          "needs_you": "email verification · invite acceptance",
+          "next": "INVITE",
+          "decisions": "invites",
+          "files": "none (records only)",
+          "messages": "Account — Settings / Team / Auth request thread",
+          "approvals": "invites",
+          "service_progress": "No account → Active → Invite pending → Verify email → Support reviewing → Saved → Deactivated"
+        }
+      },
+      "client_entry": {
+        "surface": "Settings",
+        "route": "portal/settings/* · team",
+        "trigger": "profile menu"
+      },
+      "client_cta": "INVITE",
+      "information_hierarchy": {
+        "primary_question": "Who has access?",
+        "primary_status": "Team",
+        "primary_task": "Manage",
+        "secondary_status": "Preferences",
+        "blocker": "Pending invites",
+        "next_action": "INVITE",
+        "completion_proof": "Saved"
+      },
+      "emotional_target": "The right people have the right access."
+    },
+    {
+      "feature_id": "AIO.OFFICE_OPERATIONS",
+      "feature_name": "AIO Office Operations (founder / staff)",
+      "family": "AIO OFFICE role projection (office/*) across F05–F17",
+      "perspective": {
+        "entry_point": "Indirect — client feature surfaces",
+        "primary_task": "None directly; client sees outcomes.",
+        "sees_first": "“All In One is working” states on their features.",
+        "must_provide": [
+          "responses when work waits on them"
+        ],
+        "input_methods": [
+          "via feature surfaces"
+        ],
+        "system_already_knows": [
+          "all work items"
+        ],
+        "ready_signals": [
+          "customer-friendly states"
+        ],
+        "needs_you": [
+          "waiting-on-customer items (via features)"
+        ],
+        "under_review": [
+          "AIO working"
+        ],
+        "approves": [
+          "feature-level approvals"
+        ],
+        "completion_looks_like": "Feature complete.",
+        "artifacts_received": [
+          "feature artifacts"
+        ],
+        "what_happens_next": "Feature next steps.",
+        "project_room": {
+          "status": "AIO IS WORKING states",
+          "needs_you": "waiting-on-customer items (via features)",
+          "next": "via features",
+          "decisions": "feature-level approvals",
+          "files": "feature artifacts",
+          "messages": "AIO Office Operations (founder / staff) request thread",
+          "approvals": "feature-level approvals",
+          "service_progress": "New → Assigned → Waiting on customer → Ready for review → Awaiting approval → Completed → Closed"
+        }
+      },
+      "client_entry": {
+        "surface": "(indirect) every client surface shows the result of office work",
+        "route": "portal",
+        "trigger": "client sees AIO IS WORKING states"
+      },
+      "client_cta": "SEE WHAT AIO IS WORKING ON",
+      "information_hierarchy": {
+        "primary_question": "Is AIO working on my business?",
+        "primary_status": "AIO IS WORKING states",
+        "primary_task": "none",
+        "secondary_status": "none",
+        "blocker": "Waiting on me",
+        "next_action": "via features",
+        "completion_proof": "Feature complete"
+      },
+      "emotional_target": "AIO is working, and I am told when I am needed."
+    }
+  ]
+}

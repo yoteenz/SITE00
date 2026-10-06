@@ -13,6 +13,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { HubImage } from '../../productionHub/HubImage';
+import { workspaceMediaAttrs, type WorkspaceMediaProps } from '../WorkspaceMediaSlot';
 import { AUTHORITY_ASSETS } from '../authorityAssets';
 import { LiveStatusBar } from '../HubBody';
 import { useProductionAuthorityData } from '../ProductionAuthorityData';
@@ -57,7 +58,7 @@ export function ExpressionFamilyShell({
       data-entry={entry}
     >
       <header className="pxa-hero exf-hero" data-testid="expression-family-hero">
-        <span className="pxa-hero__bg pxa-hero__bg--plate" style={{ backgroundImage: `url(${AUTHORITY_ASSETS.expressionStage})` }} aria-hidden />
+        <span className="pxa-hero__bg pxa-hero__bg--plate" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" style={{ backgroundImage: `url(${AUTHORITY_ASSETS.expressionStage})` }} aria-hidden />
         <span className="pxa-hero__wash" aria-hidden />
         <div className="pxa-hero__copy">
           <i aria-hidden />
@@ -214,9 +215,18 @@ export function Kv({ rows, testId, cols }: { rows: readonly (readonly [string, R
   );
 }
 
-export function Img({ url, label, slotId = null, className = '' }: { url: string | null; label: string; slotId?: string | null; className?: string }) {
+/** Family imagery. Declares its media slot + fit (default: composed card media, centred cover — the crop it already had). */
+export function Img({
+  url,
+  label,
+  slotId = null,
+  className = '',
+  slot = 'CARD_MEDIA',
+  fit = 'THUMBNAIL_COVER',
+  focal,
+}: { url: string | null; label: string; slotId?: string | null; className?: string } & WorkspaceMediaProps) {
   return (
-    <span className={`exf-img ${className}`}>
+    <span className={`exf-img ${className}`} {...workspaceMediaAttrs({ slot, fit, focal })}>
       <HubImage slotId={slotId} url={url} label={label} />
     </span>
   );

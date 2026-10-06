@@ -1,0 +1,76 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1",
+  "name": "WorkspacePanel",
+  "authority": "HUB --pad / --row-gap / --card-pad / thumb tokens",
+  "tokens": {
+    "--pw-gutter": "page gutter (HUB --pad)",
+    "--pw-gap": "inter-panel gap (HUB --row-gap)",
+    "--pw-pad": "panel inner padding",
+    "--pw-target": "minimum control / row touch target",
+    "--pw-thumb-row": "row thumbnail (HUB --op-thumb)",
+    "--pw-thumb-strip": "strip / entry thumbnail (HUB --entry-img)",
+    "--pw-media-card": "card media cap (HUB --feature-h)",
+    "--pw-media-feature": "feature media cap",
+    "--pw-media-portrait": "portrait / document cap",
+    "--pw-media-capture": "UI capture cap",
+    "--pw-hero-h": "hero plate band (HUB --hero-h)"
+  },
+  "perFamily": {
+    "mobile": {
+      "pad": 38,
+      "gap": 15,
+      "rowGap": 15,
+      "radiusPx": 6,
+      "minTargetPx": 28
+    },
+    "tablet": {
+      "pad": 47,
+      "gap": 22,
+      "rowGap": 14,
+      "radiusPx": 6,
+      "minTargetPx": 32
+    },
+    "desktop": {
+      "pad": 65,
+      "gap": 30,
+      "rowGap": 14,
+      "radiusPx": 6,
+      "minTargetPx": 32
+    }
+  },
+  "layoutModes": [
+    {
+      "layout": "MEDIA_LEFT_TEXT_RIGHT",
+      "defaultSlot": "FEATURE_MEDIA"
+    },
+    {
+      "layout": "MEDIA_TOP_TEXT_BOTTOM",
+      "defaultSlot": "CARD_MEDIA"
+    },
+    {
+      "layout": "THUMBNAIL_INLINE",
+      "defaultSlot": "ROW_THUMB"
+    },
+    {
+      "layout": "FULL_BLEED_MEDIA_WITH_OVERLAY",
+      "defaultSlot": "CARD_MEDIA"
+    },
+    {
+      "layout": "MEDIA_ONLY_PREVIEW",
+      "defaultSlot": "CARD_MEDIA"
+    },
+    {
+      "layout": "METADATA_WITH_SMALL_THUMBNAIL",
+      "defaultSlot": "ROW_THUMB"
+    }
+  ],
+  "zones": [
+    "MEDIA SLOT",
+    "TEXT SLOT (title T3, clamp 2)",
+    "METADATA SLOT (T0, clamp 3)",
+    "ACTION SLOT",
+    "PADDING --pw-pad",
+    "GAP --pw-pad / --pw-gap"
+  ],
+  "mobileStack": "MEDIA_LEFT_TEXT_RIGHT stacks when the PANEL is narrower than 300px (container query) — never squeezed text, never a cropped-to-nothing thumbnail."
+}

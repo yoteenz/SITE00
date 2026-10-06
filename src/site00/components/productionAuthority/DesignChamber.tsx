@@ -58,7 +58,7 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
       return (
         <span className="pxa-vis pxa-vis--plates">
           {(panel.plates ?? []).map((p, i) => (
-            <i key={`${panel.n}-${i}`} style={{ backgroundImage: `url(${p})` }} />
+            <i key={`${panel.n}-${i}`} data-media-slot="BOARD_PREVIEW" data-media-fit="AUTHORITY_PREVIEW_COVER" style={{ backgroundImage: `url(${p})` }} />
           ))}
         </span>
       );
@@ -136,6 +136,8 @@ function Panel({ panel, side }: { panel: ChamberPanel; side: 'left' | 'right' })
       <div className={`pxa-panel__body${panel.rows?.length ? ' has-rows' : ''}`}>
         <span
           className="pxa-panel__viswrap"
+          data-media-slot={panel.art && panel.vis !== 'plates' ? 'BOARD_PREVIEW' : undefined}
+          data-media-fit={panel.art && panel.vis !== 'plates' ? 'AUTHORITY_PREVIEW_COVER' : undefined}
           style={panel.art && panel.vis !== 'plates' ? { backgroundImage: `url(${panel.art})` } : undefined}
         >
           <PanelVis panel={panel} />
@@ -642,7 +644,7 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
               </header>
               <div className="pxa-overview-panel__body">
                 <span className="pxa-overview-panel__art">
-                  <span className="pxa-overview-panel__mark" aria-hidden>
+                  <span className="pxa-overview-panel__mark" data-media-slot="LOGO_MARK" data-media-fit="LOGO_CONTAIN" aria-hidden>
                     <img src={AUTHORITY_ASSETS.designCore} alt="" />
                   </span>
                   <p>{cfg.lede}</p>
@@ -668,7 +670,7 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
                         .flatMap((p) => p.plates ?? [])
                         .slice(0, 3)
                         .map((u, i) => (
-                          <i key={`${u}-${i}`} style={{ backgroundImage: `url(${u})` }} />
+                          <i key={`${u}-${i}`} data-media-slot="BOARD_PREVIEW" data-media-fit="AUTHORITY_PREVIEW_COVER" style={{ backgroundImage: `url(${u})` }} />
                         ))}
                     </span>
                   : null}
@@ -708,7 +710,7 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
         <div className="pxa-tablecards" data-count={cfg.table.length}>
           {cfg.table.map((t) => (
             <Link key={t.title} to={workspace} className="pxa-tcard" data-testid="design-table-card">
-              <span className="pxa-tcard__img" style={{ backgroundImage: `url(${t.plate})` }} aria-hidden />
+              <span className="pxa-tcard__img" data-media-slot="CARD_MEDIA" data-media-fit="LANDSCAPE_COVER" style={{ backgroundImage: `url(${t.plate})` }} aria-hidden />
               <span className="pxa-tcard__copy">
                 <b>{t.title}</b>
                 <small>{t.sub}</small>

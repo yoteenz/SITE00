@@ -17,7 +17,7 @@ const IMPORTANCE: Record<string, string> = { HERO: 'LEAD', SUPPORTING: 'SUPPORTI
 const availTone = (s: string): Tone => (s === 'AVAILABLE' ? 'green' : s === 'IN_CURRENT_PRODUCTION' ? 'red' : 'amber');
 
 function ActorFace({ actor, label }: { actor: StudioWorldActor | null; label: string }) {
-  return actor?.headshotPreviewUrl ? <Img url={actor.headshotPreviewUrl} label={label} className="exf-face" /> : <Mono text={actor?.stageName ?? label} className="exf-face" />;
+  return actor?.headshotPreviewUrl ? <Img url={actor.headshotPreviewUrl} label={label} className="exf-face" slot="ROW_THUMB" fit="PORTRAIT_COVER" /> : <Mono text={actor?.stageName ?? label} className="exf-face" />;
 }
 
 export function CastingFamily({ d, r, go }: FamilyProps) {

@@ -9,6 +9,8 @@ import '../../styles/site00-production-authority-opus.css';
 import '../../styles/site00-production-authority-assets.css';
 import '../../styles/site00-production-authority-opus2.css';
 import '../../styles/site00-production-design-pack.css';
+// Shared density contract (HUB = authority) — loaded last; selectors are anchored on [data-density].
+import '../../styles/site00-production-workspace-density.css';
 
 function useBodyLock() {
   useEffect(() => {
@@ -41,7 +43,7 @@ function FrameInner({
   useBodyLock();
   const family = useProductionViewportFamily();
   return createPortal(
-    <div className="pxa" data-testid="production-authority-frame" data-screen={screen} data-family={family}>
+    <div className="pxa" data-testid="production-authority-frame" data-screen={screen} data-family={family} data-density="hub-authority">
       <ProductionChromeStrip host>
         <ProductionWorkspaceHeader />
       </ProductionChromeStrip>

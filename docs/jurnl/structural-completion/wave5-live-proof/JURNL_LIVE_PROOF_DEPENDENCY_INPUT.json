@@ -1,0 +1,11 @@
+{
+  "remaining_before": [
+    "NATIVE_FINANCIAL_PROVIDER",
+    "F16_REMOTE_FILE_BLOB",
+    "LIVE_ASK_JURNL_PROVIDER_PARTIAL"
+  ],
+  "focus": [
+    "SERVER_PERSISTENCE_RLS",
+    "PRODUCTION_AUTH"
+  ]
+}

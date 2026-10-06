@@ -13868,6 +13868,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — JURNL Wave 5 live RLS & sync proof gate (P0.JURNL.WAVE5-LIVE-RLS-AND-PRODUCTION-SYNC-PROOF)
+
+- **Context:** After Wave 5 merged (#1392), narrow sprint to close live auth/RLS/sync gaps — not another broad hardening pass.
+- **Delivered:** Device→server merge (`deviceServerMerge.ts`, `peekDeviceSnapshot`, login hydrate + first-upload); session invalid clears auth on pull failure; live proof runner `scripts/jurnl/run-live-rls-and-sync-proof.ts` (user JWT RLS matrix, API snapshot round-trip, idempotency, cross-session, ask-context boundary); artifact writer `docs/jurnl/structural-completion/wave5-live-proof/`; CI **JURNL Live RLS & Production Sync Proof** (skips to AWAITING when `JURNL_QA_USER_*` secrets missing); `npm run jurnl:live-proof`.
+- **Founder:** Add GitHub secrets per `wave5-live-proof/README.md`; run workflow_dispatch; apply Supabase migration if not already; Railway API must expose `/api/jurnl/repository`.
+- **VM note:** Supabase auth health timed out from cloud agent — live PASS requires GitHub Actions with secrets against reachable Supabase.
+
+---
+
 ## 2026-10-06 — JURNL Wave 5 production hardening (P0.JURNL.WAVE5-PRODUCTION-HARDENING)
 
 - **Context:** After full-product E2E Gate 1 PASS on `main`, Composer hardened JURNL for production without visual redesign or new families. Canonical input: `docs/jurnl/e2e/JURNL_E2E_WAVE5_DEPENDENCIES.json` (5 dependencies).
@@ -13911,6 +13920,52 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   10. THE NAV IS ALWAYS CENTRED TO THE VIEWPORT — portal host, five equal cells, + is the centre anchor, safe area via `env(safe-area-inset-bottom)`.
 - **Composer flags (not fixed here):** F05 total had summed card/loan balances as held (UI now shows HELD / OWED); LOAN counts toward safe-to-spend cash; `createManualAccount` `Date.now()` ids collide within 1ms; default CARD shows $0 in MONEY but $5,000 used in CREDIT/PAYDOWN; records `document_date` always null; SITE00 `index.html` lacks `viewport-fit=cover`. The render-loop crash on 10/14 roots was fixed on main by Composer (`cachedRepoView`, #1391) — this sprint ships no data-layer change.
 - **Hook rule:** E2E selectors read presentation hooks (`.jrn-home__num`, `.jrn-tx`, visible copy). A recomposition must keep them (or move tests in the same PR).
+
+---
+
+## 2026-10-06 — SITE00 production workspace: HUB-authority responsive density + media framing (P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1)
+
+- **Context:** Founder decision — HUB is the responsive density authority (type scale, panel density, media / thumbnail framing, mobile child-page behaviour). Non-HUB tabs and child pages felt like desktop designs forced into mobile (oversized titles, blown-out children, thumbnails clipped instead of framed). Fix = normalize each tab's INTERNAL layers to HUB scale while every tab keeps its own composition. No IA / route / nav / data / product-logic change; zero paid generation.
+- **Landed:**
+  1. **Contract (single source)** — `src/site00/config/production-workspace-density.ts`: T0–T6 + METRIC tiers in HUB authority units per family (mobile ÷1125, tablet ÷1792, desktop ÷2000, HUB floors), panel density tokens, 9 media fit modes, 10 slot types, frame ownership.
+  2. **Density layer** — `src/site00/styles/site00-production-workspace-density.css`, loaded LAST by `ProductionAuthorityFrame` + `PwFrame` (`data-density="hub-authority"`). Tokens `--pw-t0…--pw-t6`, `--pw-metric`, `--pw-pad/--pw-gap/--pw-target/--pw-thumb-*/--pw-media-*` at every width; layer mapping + panel density are the **mobile (≤699px)** contract; tablet / desktop stay pixel-identical to main.
+  3. **Primitives** — `WorkspaceMediaSlot` (slot + fit + focal + missing state), `WorkspacePanel` (6 layout modes, container-query stacking), `Thumb` takes `slot / fit / focal`. Call sites in INBOX / ACTIVITY / EXPRESSION / LIBRARY / DESIGN / HUB / Experience children declare slot + fit.
+  4. **Tooling** — `scripts/production-workspace/density-*.mjs` (live audit, report, media stress test, screenshot pack, contract export).
+- **Measured (mobile 393×852, live):** non-HUB root tabs with oversized titles 4 → 0; oversized layers root 90 → 0, child 180 → 0; text clips 22 → 10 (DESIGN chamber miniatures, intentional); media distortion 0, source-driven media 0, horizontal overflow 0; media stress test 147 / 147 cases pass (mobile / tablet / desktop). HUB, tablet and desktop: 0.00% pixel diff vs main.
+- **Durable rules (motherboard):**
+  1. HUB is the responsive typographic scale authority.
+  2. HUB is the responsive panel-density authority.
+  3. HUB is the media / thumbnail framing authority.
+  4. Other tabs may keep distinct compositions.
+  5. Mobile typography must not exceed the workspace scale without an explicit design reason (roots: one T6 display title at HUB's own display size; children top out at T5).
+  6. Media-bearing panels must declare a media slot (`data-media-slot` + `data-media-fit`, focal via `--pw-focal`).
+  7. Source asset dimensions must not control panel geometry.
+  8. Accidental thumbnail clipping is a failure — a size cap never crushes a frame (caps go through the inline size, aspect holds).
+  9. Child pages inherit the same responsive density system as root tabs.
+  10. Responsive normalization happens at the internal-layer level — never `zoom`, `transform: scale()`, root font-size shrink or page-width hacks.
+- **Gotchas:** cover fits and default focal points are zero-specificity (`:where`) so art-directed crops (zoom + position) survive; contain fits and explicit `--pw-focal` are strong. Slot GEOMETRY drives the shared primitive (`.pw-media`); retrofitted composition frames keep their authored box. Internal scroll panes (Expression families, INBOX) fade their last 18px while they overflow (scroll-driven) — a cut row reads as "more below", not clipped.
+- **Next:** tablet / desktop normalization is a separate sprint (pre-existing tablet / desktop titles above the HUB-equivalent ceiling are recorded in `SITE00_WORKSPACE_ROOT_TAB_QA.json`). Artifacts: `docs/site00/production-workspace/refinements/responsive-density-media1/`.
+
+---
+
+## 2026-10-06 — Workspace Experience Brain: canonical schema + AIO proof (P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1)
+
+- **Context:** Studio OS could say *what exists / what depends on what* (structure) but not *how a feature is lived* — so page generators invented the experience (AIO IFTA was the proof). Founder formalised the missing layer: **WORKSPACE EXPERIENCE BRAIN**. Production stack is now **STRUCTURE (what exists) → EXPERIENCE (how it is lived) → EXPRESSION (how it looks) → IMPLEMENTATION (how it runs)**.
+- **Naming:** "Experience Engine" is already taken (`shared/site00-experience-engine` = Experience Engine V0, pixel-fidelity). The brain keeps its founder name; system role `EXPERIENCE_CONTRACT_LAYER`. Nothing renamed; it references structure (`structure_refs`) and feeds the Experience Compiler / Experience Engine V0.
+- **Landed:** `shared/studioos-experience-brain/` (TS source of truth):
+  - schema: contract unit with every §2 field, four actors, state classes, the completion ladder, visual archetypes, emphasis roles, section grammar, founder hub buckets, project-room slots
+  - `validateExperienceContract` (earned ≠ declared; §48 gates; `open_experience_questions` = explicit gaps)
+  - `queryExperience` (generator brief or `EXPERIENCE_REQUIRED`) + `screenFamilyGate`
+  - `deriveE2EContract` (11 experience phases)
+  - registry / coverage
+  - `projects/aio/*` (28 contracts), `projects/samples/portability.ts` (JURNL + Frontal Slayer, non-implemented)
+- **Exports:** `docs/studioos/experience-brain/` (19 deliverables, generated by `npx tsx scripts/studioos/experience-brain-export.ts`; a test keeps them in sync).
+- **AIO proof** (source `yoteenz/fsbw/all-in-one-enterprises`, read-only):
+  - 28 material features; 23 EXPERIENCE_COMPLETE, 5 partial with explicit open questions (BOC-3 partner, Compliance & Safety bundle, Load Board negotiation policy, Brokerage PAUSED, DriverLink pricing)
+  - public / client / founder / system / archetype / E2E coverage 100% (6 features public-not-applicable)
+  - **IFTA = QUARTERLY FILING ROOM** (packet builder): receipt classes READY / NEEDS_YOU / DUPLICATE / POSSIBLE_MISSING / UNREADABLE; mileage sources mapped to `MileageSourceType`; staff review + reconcile; client approval; filing as a staff action (fuel-tax INTERNAL_ONLY); vault `tax_fuel`; next quarter opens
+- **Durable rules:** one canonical experience contract per material feature before screen generation (else EXPERIENCE_REQUIRED) · four actors, founder view mirrors never copies · visual relationships (state → composition) are data · public page prepares the real workspace · mobile = task experience, desktop = workspace experience · experience completion ≠ functional completion · gaps explicit, never invented · contracts reference structure, never redefine it.
+- **Next:** AIO experience-driven page refinement (IFTA first) consuming `AIO_IFTA_FUEL_TAX_VISUAL_CONTRACT.json` briefs; wire `queryExperience` into page / authority generation; experience E2E harness (backlog XB-01…XB-10).
 
 ---
 

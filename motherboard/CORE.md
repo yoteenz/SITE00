@@ -246,6 +246,25 @@ Canonical upstream-to-downstream layers (methodology v20+):
 
 ---
 
+## Production workspace — responsive density authority (HUB)
+
+- **HUB is the authority** for responsive type scale, panel density and media / thumbnail framing; other tabs (INBOX, DESIGN, EXPERIENCE, EXPRESSION, LIBRARY, ACTIVITY) keep their own compositions and normalize their **internal layers** to it. Child pages inherit the same system.
+- **Contract:** `src/site00/config/production-workspace-density.ts` (T0–T6 + METRIC, panel density, 9 fit modes, 10 slot types) mirrored by `src/site00/styles/site00-production-workspace-density.css` (loaded last by `ProductionAuthorityFrame` + `PwFrame`, `data-density="hub-authority"`). Roots carry at most one T6 display title (HUB's own display size); children top out at T5.
+- **Media:** every media-bearing panel declares `data-media-slot` + `data-media-fit` (focal via `--pw-focal`); the source never sizes the panel; caps never crush a frame; `WorkspaceMediaSlot` / `WorkspacePanel` are the shared primitives.
+- **Forbidden:** `zoom`, `transform: scale()`, root font-size shrink, page-width hacks, `overflow: hidden` without a slot / fit / focal contract, `object-fit: fill`.
+- Audit / stress tooling: `scripts/production-workspace/density-*.mjs`; artifacts: `docs/site00/production-workspace/refinements/responsive-density-media1/`.
+
+---
+
+## Workspace Experience Brain (Studio OS experience layer)
+
+- Stack: **STRUCTURE** (what exists) → **EXPERIENCE** (how it is lived) → **EXPRESSION** (how it looks) → **IMPLEMENTATION** (how it runs). The experience layer is `shared/studioos-experience-brain/` (role `EXPERIENCE_CONTRACT_LAYER`; not the pixel-fidelity "Experience Engine V0").
+- Every material feature gets one **experience contract**: four actors (PUBLIC · CLIENT · FOUNDER_STAFF · SYSTEM), states → visual relationships, artifacts, events, cross-feature experience effects, archetype + metaphor + primary object, information hierarchy, interaction grammar, mobile / tablet / desktop behaviour, experience E2E.
+- Generators call `queryExperience(contract, dna, actor, state, viewport)`; material features without an EXPERIENCE_COMPLETE contract return `EXPERIENCE_REQUIRED` — never invent. Experience completion is separate from functional completion.
+- Exports + AIO proof (IFTA = QUARTERLY FILING ROOM): `docs/studioos/experience-brain/` (regenerate with `npx tsx scripts/studioos/experience-brain-export.ts`).
+
+---
+
 ## Docs
 
 | Path | Purpose |
@@ -299,3 +318,5 @@ F02 SETUP is a live runtime family. Route `setup` is F02.00. The eleven screens,
 **JURNL display conversion:** Base currency stays USD. Stored ledger amounts stay canonical USD. `formatMoney` multiplies that canonical amount by a fetched USD rate and formats with `Intl.NumberFormat`. The rate comes from `https://open.er-api.com/v6/latest/USD`, is cached in `jurnl.exchangeRate`, and is never invented. A failed fetch keeps the prior display currency. The Ask Jurnl list shows three rows and scrolls. Quick add stores the entered amount and currency plus the canonical USD equivalent. Contracts: `JURNL_CURRENCY_CATALOG.json`, `JURNL_EXCHANGE_RATE_CONTRACT.json`, `JURNL_CURRENCY_SELECTOR_QA.json`.
 
 **JURNL control expression:** A control's form follows its product role. Secondary panel-header actions that only navigate or expand use `JurnlInlineAction` (`panel_header_action`): label, fine rule, and the canonical chevron. They do not default to a filled or outlined button. `SEE WHY` stays the primary button. The center nav mark is one `JurnlIcon` plus. Do not add a text plus beside it. The icon sheet is `JURNL/F01_ENTRY/ICONS/F01_ICON_PACK_SHEET.png`, drawn in `src/projects/jurnl/runtime/components/icons.tsx`. If that sheet has no matching glyph, record `ICON_AUTHORITY_MISSING` and do not invent a substitute. Do not apply the editorial header treatment to every action.
+
+**JURNL production live proof:** Structural E2E pass is not full production proof. Live proof requires real user JWT → server write → server read → reload/logout/login → second user denied → idempotent retry, against the non-production Supabase + API environment. Gate: GitHub Actions **JURNL Live RLS & Production Sync Proof** (`npm run jurnl:live-proof` with `JURNL_LIVE_PROOF=1`). Artifacts: `docs/jurnl/structural-completion/wave5-live-proof/`. Service role is for QA user setup/cleanup only — not for RLS pass claims.

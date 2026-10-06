@@ -1,0 +1,372 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "principle": "Visual relationships are first-class data: every state declares how the experience changes when the feature enters it.",
+  "per_state_fields": [
+    "composition_emphasis",
+    "emphasis_role",
+    "panel_density",
+    "primary_cta (per actor)",
+    "artifact_visibility",
+    "nav_emphasis",
+    "status_treatment",
+    "quiet"
+  ],
+  "emphasis_roles": [
+    "NEUTRAL",
+    "PROGRESS",
+    "ATTENTION",
+    "BLOCKER",
+    "REVIEW",
+    "DECISION",
+    "SUCCESS",
+    "ARCHIVED",
+    "ERROR"
+  ],
+  "emphasis_rule": "Contracts use semantic roles; each project DNA maps them to its palette (never hard-coded colours).",
+  "density": [
+    "SPARSE",
+    "BALANCED",
+    "DENSE"
+  ],
+  "artifact_visibility": [
+    "HIDDEN",
+    "PREVIEW",
+    "PROMINENT",
+    "ARCHIVED"
+  ],
+  "visual_archetypes": {
+    "WORKBENCH": {
+      "spatial_model": "one object on the bench, tools and inputs around it",
+      "primary_object_rule": "the object being worked on is always centred",
+      "reads_as": "I am working on this one thing"
+    },
+    "CHECKLIST": {
+      "spatial_model": "ordered requirements with state per line",
+      "primary_object_rule": "the next unmet item leads",
+      "reads_as": "what is left"
+    },
+    "TIMELINE": {
+      "spatial_model": "events on a time axis",
+      "primary_object_rule": "now marker + next event",
+      "reads_as": "what happened, what is next"
+    },
+    "ARCHIVE": {
+      "spatial_model": "filed, immutable records grouped by period / type",
+      "primary_object_rule": "the record, not the folder",
+      "reads_as": "it is safe and findable"
+    },
+    "LEDGER": {
+      "spatial_model": "rows of amounts with running totals",
+      "primary_object_rule": "the balance / total",
+      "reads_as": "the numbers reconcile"
+    },
+    "ROUTE": {
+      "spatial_model": "stops along a path",
+      "primary_object_rule": "current position on the path",
+      "reads_as": "where I am on the way"
+    },
+    "QUEUE": {
+      "spatial_model": "prioritised items waiting for an actor",
+      "primary_object_rule": "the top item and why it is top",
+      "reads_as": "what to handle next"
+    },
+    "DECISION_WINDOW": {
+      "spatial_model": "one decision framed with its evidence and consequences",
+      "primary_object_rule": "the decision and its two outcomes",
+      "reads_as": "I can decide this now"
+    },
+    "CABINET": {
+      "spatial_model": "labelled drawers of related records",
+      "primary_object_rule": "drawer state (complete / missing)",
+      "reads_as": "everything has a place"
+    },
+    "PACKET_BUILDER": {
+      "spatial_model": "a packet assembled from required parts",
+      "primary_object_rule": "the packet with filled / missing parts",
+      "reads_as": "the packet is almost complete"
+    },
+    "MATCHING_BOARD": {
+      "spatial_model": "two sides matched by fit",
+      "primary_object_rule": "the best current match",
+      "reads_as": "who fits whom"
+    },
+    "CASE_FILE": {
+      "spatial_model": "one case with history, evidence and owner",
+      "primary_object_rule": "the case status and its next step",
+      "reads_as": "this case is handled"
+    },
+    "CONTROL_ROOM": {
+      "spatial_model": "many live systems at a glance with exceptions raised",
+      "primary_object_rule": "exceptions over normal state",
+      "reads_as": "nothing is on fire, or exactly this is"
+    },
+    "PIPELINE": {
+      "spatial_model": "stages left-to-right with items flowing",
+      "primary_object_rule": "stage counts + stuck items",
+      "reads_as": "how work is moving"
+    },
+    "DOCUMENT_TABLE": {
+      "spatial_model": "documents with type, status, owner, date",
+      "primary_object_rule": "the document needing action",
+      "reads_as": "documents are in order"
+    },
+    "THRESHOLD": {
+      "spatial_model": "a single gate between before and after",
+      "primary_object_rule": "the threshold value / decision",
+      "reads_as": "am I over or under"
+    },
+    "HORIZON": {
+      "spatial_model": "forward-looking runway of future events",
+      "primary_object_rule": "the next horizon point",
+      "reads_as": "what is coming"
+    },
+    "MAP": {
+      "spatial_model": "geography / jurisdictions as space",
+      "primary_object_rule": "where activity happened",
+      "reads_as": "where things are"
+    },
+    "INDEX": {
+      "spatial_model": "searchable index of records",
+      "primary_object_rule": "the query + best matches",
+      "reads_as": "I can find anything"
+    },
+    "SHOWCASE": {
+      "spatial_model": "curated discovery of offerings",
+      "primary_object_rule": "the hero offering and fit",
+      "reads_as": "this is for me"
+    },
+    "ATELIER": {
+      "spatial_model": "a crafted object under construction",
+      "primary_object_rule": "the object as it is being made",
+      "reads_as": "it is being made for me"
+    },
+    "CONSULTATION": {
+      "spatial_model": "diagnostic questions to a recommendation",
+      "primary_object_rule": "the diagnosis / recommendation",
+      "reads_as": "I understand what I need"
+    },
+    "GALLERY": {
+      "spatial_model": "performance / social media grid",
+      "primary_object_rule": "the featured piece",
+      "reads_as": "look at what was made"
+    }
+  },
+  "cross_feature_visual_transition": "Each cross-feature relationship carries visual_transition (e.g. active workbench collapses into a sealed folder in the Vault).",
+  "example": {
+    "feature": "AIO.IFTA",
+    "state_relationships": [
+      {
+        "state": "NOT_ENROLLED",
+        "composition_emphasis": "single explanatory threshold: what IFTA filing with AIO is + set up",
+        "emphasis_role": "NEUTRAL",
+        "panel_density": "SPARSE",
+        "primary_cta": {
+          "CLIENT": "SET UP IFTA FILING",
+          "PUBLIC": "REQUEST FILING",
+          "FOUNDER_STAFF": "OFFER IFTA FILING"
+        },
+        "artifact_visibility": "HIDDEN",
+        "nav_emphasis": "Services",
+        "status_treatment": "not set up",
+        "quiet": [
+          "flags",
+          "history"
+        ]
+      },
+      {
+        "state": "QUARTER_OPEN",
+        "composition_emphasis": "empty packet with three compartments and the capture method picker",
+        "emphasis_role": "PROGRESS",
+        "panel_density": "SPARSE",
+        "primary_cta": {
+          "CLIENT": "ADD FIRST RECEIPT",
+          "FOUNDER_STAFF": "REMIND CLIENT"
+        },
+        "artifact_visibility": "HIDDEN",
+        "nav_emphasis": "My Office attention",
+        "status_treatment": "Q{n} open · 0% · due {due_date}",
+        "quiet": [
+          "review",
+          "history"
+        ]
+      },
+      {
+        "state": "COLLECTING",
+        "composition_emphasis": "packet filling: compartments show counts and classes; next item leads",
+        "emphasis_role": "PROGRESS",
+        "panel_density": "BALANCED",
+        "primary_cta": {
+          "CLIENT": "CONTINUE FILING",
+          "FOUNDER_STAFF": "VIEW PROGRESS"
+        },
+        "artifact_visibility": "PREVIEW",
+        "nav_emphasis": "My Office attention",
+        "status_treatment": "{pct}% ready · due {due_date}",
+        "quiet": [
+          "return summary",
+          "history"
+        ]
+      },
+      {
+        "state": "NEEDS_CLIENT",
+        "composition_emphasis": "flags lead: one card per flag with the fix inline; packet dimmed behind",
+        "emphasis_role": "BLOCKER",
+        "panel_density": "BALANCED",
+        "primary_cta": {
+          "CLIENT": "RESOLVE {n} ITEMS",
+          "FOUNDER_STAFF": "NUDGE CLIENT"
+        },
+        "artifact_visibility": "PREVIEW",
+        "nav_emphasis": "Inbox + My Office NEEDS YOU",
+        "status_treatment": "Needs you · {n} items",
+        "quiet": [
+          "completed compartments",
+          "history"
+        ]
+      },
+      {
+        "state": "OVERDUE_RISK",
+        "composition_emphasis": "deadline banner over the packet; remaining gaps listed by impact",
+        "emphasis_role": "BLOCKER",
+        "panel_density": "BALANCED",
+        "primary_cta": {
+          "CLIENT": "FINISH QUARTER",
+          "FOUNDER_STAFF": "CALL CLIENT"
+        },
+        "artifact_visibility": "PREVIEW",
+        "nav_emphasis": "My Office top attention",
+        "status_treatment": "Due in {d} days · {pct}% ready",
+        "quiet": [
+          "history"
+        ]
+      },
+      {
+        "state": "AIO_REVIEW",
+        "composition_emphasis": "inputs locked; who is reviewing + what happens next foregrounded",
+        "emphasis_role": "REVIEW",
+        "panel_density": "SPARSE",
+        "primary_cta": {
+          "CLIENT": "MESSAGE AIO",
+          "FOUNDER_STAFF": "START RECONCILIATION"
+        },
+        "artifact_visibility": "PREVIEW",
+        "nav_emphasis": "none (no client action)",
+        "status_treatment": "AIO reviewing",
+        "quiet": [
+          "capture tools"
+        ]
+      },
+      {
+        "state": "RECONCILING",
+        "composition_emphasis": "client: calm progress; staff: jurisdiction × truck reconciliation table with discrepancies",
+        "emphasis_role": "REVIEW",
+        "panel_density": "DENSE",
+        "primary_cta": {
+          "CLIENT": "MESSAGE AIO",
+          "FOUNDER_STAFF": "PREPARE RETURN SUMMARY"
+        },
+        "artifact_visibility": "PREVIEW",
+        "nav_emphasis": "Office queue",
+        "status_treatment": "Reconciling fuel and miles",
+        "quiet": [
+          "capture tools"
+        ]
+      },
+      {
+        "state": "AWAITING_APPROVAL",
+        "composition_emphasis": "decision window: the return summary is the object, approve / ask beside it",
+        "emphasis_role": "DECISION",
+        "panel_density": "BALANCED",
+        "primary_cta": {
+          "CLIENT": "APPROVE RETURN",
+          "FOUNDER_STAFF": "REMIND CLIENT"
+        },
+        "artifact_visibility": "PROMINENT",
+        "nav_emphasis": "Inbox + My Office NEEDS YOU",
+        "status_treatment": "Ready for your approval",
+        "quiet": [
+          "receipts detail",
+          "capture tools"
+        ]
+      },
+      {
+        "state": "FILING",
+        "composition_emphasis": "approved summary with filing in progress",
+        "emphasis_role": "REVIEW",
+        "panel_density": "SPARSE",
+        "primary_cta": {
+          "CLIENT": "VIEW SUMMARY",
+          "FOUNDER_STAFF": "RECORD FILING CONFIRMATION"
+        },
+        "artifact_visibility": "PROMINENT",
+        "nav_emphasis": "Office READY TO FILE",
+        "status_treatment": "Filing with {base_jurisdiction}",
+        "quiet": [
+          "capture tools"
+        ]
+      },
+      {
+        "state": "FILED",
+        "composition_emphasis": "sealed quarter with confirmation; artifacts prominent; motion to the Vault",
+        "emphasis_role": "SUCCESS",
+        "panel_density": "SPARSE",
+        "primary_cta": {
+          "CLIENT": "VIEW IN VAULT",
+          "FOUNDER_STAFF": "RECORD PAYMENT STATUS"
+        },
+        "artifact_visibility": "PROMINENT",
+        "nav_emphasis": "Vault",
+        "status_treatment": "Filed {date} · confirmation #",
+        "quiet": [
+          "flags",
+          "capture tools"
+        ]
+      },
+      {
+        "state": "ARCHIVED",
+        "composition_emphasis": "history row in the filing room; next quarter becomes the bench object",
+        "emphasis_role": "ARCHIVED",
+        "panel_density": "SPARSE",
+        "primary_cta": {
+          "CLIENT": "START Q{n+1}",
+          "FOUNDER_STAFF": "VIEW AUDIT TRAIL"
+        },
+        "artifact_visibility": "ARCHIVED",
+        "nav_emphasis": "none",
+        "status_treatment": "Filed + archived",
+        "quiet": [
+          "everything except next quarter"
+        ]
+      },
+      {
+        "state": "FILING_REJECTED",
+        "composition_emphasis": "correction notice over the summary: what was returned and what AIO is doing",
+        "emphasis_role": "ERROR",
+        "panel_density": "BALANCED",
+        "primary_cta": {
+          "CLIENT": "MESSAGE AIO",
+          "FOUNDER_STAFF": "OPEN CORRECTION"
+        },
+        "artifact_visibility": "PROMINENT",
+        "nav_emphasis": "Inbox",
+        "status_treatment": "Returned by jurisdiction — AIO correcting",
+        "quiet": [
+          "capture tools"
+        ]
+      }
+    ],
+    "project_emphasis_map": {
+      "NEUTRAL": "STONE on CHARCOAL",
+      "PROGRESS": "CHAMPAGNE progress line on OBSIDIAN",
+      "ATTENTION": "GOLD",
+      "BLOCKER": "GOLD outline + solid marker (never alarm red as decoration)",
+      "REVIEW": "SILVER",
+      "DECISION": "GOLD fill — the one decision on screen",
+      "SUCCESS": "CHAMPAGNE seal on BLACK",
+      "ARCHIVED": "STONE, muted, filed",
+      "ERROR": "GOLD on BLACK with explicit recovery copy"
+    }
+  }
+}

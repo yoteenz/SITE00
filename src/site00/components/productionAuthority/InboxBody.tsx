@@ -14,6 +14,7 @@
  */
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import type { WorkspaceMediaSlotType } from '../../config/production-workspace-density';
 import type { HubNode, HubNodeId } from '../../../../shared/site00-production-hub/index.js';
 import { productionExpressionPath, productionWorkspacePath } from '../../../../shared/site00-production-workspace/routes.js';
 import { useProductionRequests } from '../../state/productionRequestStore';
@@ -63,8 +64,19 @@ function detailHref(o: InboxObject): string | null {
 }
 
 /* ── small shared pieces ─────────────────────────────────────────────────────────────────────────── */
-function Art({ o, url, className = '' }: { o: Pick<InboxObject, 'slot' | 'title'>; url: (slot: string | null) => string | null; className?: string }) {
-  return <Thumb slotId={o.slot} url={url(o.slot)} label="" className={`ibx-art ${className}`} />;
+/** Decision-object art. Every use declares its media slot (density contract); the fit follows the slot. */
+function Art({
+  o,
+  url,
+  className = '',
+  slot = 'ROW_THUMB',
+}: {
+  o: Pick<InboxObject, 'slot' | 'title'>;
+  url: (slot: string | null) => string | null;
+  className?: string;
+  slot?: WorkspaceMediaSlotType;
+}) {
+  return <Thumb slotId={o.slot} url={url(o.slot)} label="" className={`ibx-art ${className}`} slot={slot} />;
 }
 const Chip = ({ tone, children, testId }: { tone: string; children: ReactNode; testId?: string }) => (
   <span className={`ibx-chip ibx-chip--${tone}`} data-testid={testId}>
@@ -376,7 +388,7 @@ function RecentlyResolved({ objects, url, strip = false }: { objects: InboxObjec
         <div className="ibx-recent__rail">
           {done.map((o) => (
             <Link key={o.id} to={detailHref(o) ?? inboxHref('resolved')} title={o.title}>
-              <Art o={o} url={url} />
+              <Art o={o} url={url} slot="STRIP_THUMB" />
               <i className="ibx-ok" aria-hidden>
                 <IaIcon name="check" />
               </i>
@@ -440,7 +452,7 @@ function NeedsYou({ objects, data, url, actions }: { objects: InboxObject[]; dat
         <div className="ibx-incoming__rail">
           {incoming.map((o) => (
             <Link key={o.id} to={detailHref(o) ?? inboxHref('all')} className="ibx-card" data-testid={o.source === 'REQUEST' ? 'queue-request' : 'inbox-item'} data-type={o.type}>
-              <Art o={o} url={url} />
+              <Art o={o} url={url} slot="CARD_MEDIA" />
               <b>
                 {o.type === 'SYSTEM' ? 'SYSTEM' : o.entry} – {o.title}
               </b>
@@ -481,7 +493,7 @@ function FocusCard({ o, url, actions }: { o: InboxObject; url: Url; actions: Act
   const ok = actions.canDecide(o);
   return (
     <article className="ibx-focus" data-testid="inbox-focus" data-type={o.type} data-state={o.state}>
-      <Art o={o} url={url} className="ibx-focus__art" />
+      <Art o={o} url={url} className="ibx-focus__art" slot="PORTRAIT" />
       <div className="ibx-focus__body">
         <Facts
           className="ibx-focus__facts"
@@ -934,7 +946,7 @@ function Attachments({ nodes, url, onOpen, testId }: { nodes: HubNode[]; url: Ur
       <div className="ibx-attach__rail">
         {nodes.map((n) => (
           <button key={n.id} type="button" onClick={() => onOpen(n)} data-testid={`${testId}-item`}>
-            <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" />
+            <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" slot="STRIP_THUMB" />
             <span>
               <b>{n.label}</b>
               <small>{n.status.replace(/_/g, ' ')}</small>
@@ -1007,7 +1019,7 @@ function DecisionDetail({ o, data, url, actions }: { o: InboxObject | null; data
       </header>
       <div className="ibx-dgrid">
         <section className="ibx-dcard" data-testid="inbox-detail-card">
-          <Art o={o} url={url} className="ibx-dcard__art" />
+          <Art o={o} url={url} className="ibx-dcard__art" slot="PORTRAIT" />
           <Facts
             rows={[
               ['SOURCE', o.entry],
@@ -1161,7 +1173,7 @@ function NoticeDetail({ o, data, url }: { o: InboxObject | null; data: Data; url
       </header>
       <div className="ibx-dgrid ibx-dgrid--notice">
         <section className="ibx-dcard" data-testid="inbox-notice-card">
-          <Art o={o} url={url} className="ibx-dcard__art" />
+          <Art o={o} url={url} className="ibx-dcard__art" slot="PORTRAIT" />
           <Facts
             rows={[
               ['STATUS', <span className={node?.status === 'BLOCKED' ? 'ibx-red' : undefined}>{node?.status.replace(/_/g, ' ')}</span>],
@@ -1180,7 +1192,7 @@ function NoticeDetail({ o, data, url }: { o: InboxObject | null; data: Data; url
           <ol>
             {chain.map((n) => (
               <li key={n.id} className={n.id === node?.id ? 'is-self' : undefined} data-status={n.status}>
-                <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" />
+                <Thumb slotId={n.assetSlotId} url={url(n.assetSlotId)} label="" className="ibx-art" slot="STRIP_THUMB" />
                 <span>
                   <small>{n.label}</small>
                   <b>{n.status.replace(/_/g, ' ')}</b>
