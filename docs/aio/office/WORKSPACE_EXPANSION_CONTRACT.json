@@ -1,0 +1,3176 @@
+{
+  "id": "WORKSPACE_EXPANSION_CONTRACT",
+  "sprint": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
+  "generated_by": "scripts/studioos/aio-office-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/operating-environment.ts",
+    "shared/studioos-experience-brain/projects/aio/office.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "20438a24c7e0f8d48782684315e4f73e82d48111",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "legacy_visual_authority": "FORBIDDEN",
+    "permissions_broadened": false
+  },
+  "principles": [
+    "RELEVANT",
+    "TIMELY",
+    "EXPLAINABLE",
+    "NON-INTRUSIVE",
+    "ACTIONABLE",
+    "TRUTHFUL",
+    "PROJECT-SCOPED"
+  ],
+  "not_an_ai_black_box": "Rules over recorded signals; every shown suggestion names its rule, reasons and related active workspace; every hidden one names its suppression.",
+  "contract_fields": [
+    "workspace_id",
+    "client_id",
+    "eligibility",
+    "relevance_class",
+    "reasons[]",
+    "current_related_workspaces[]",
+    "trigger_context",
+    "placement",
+    "message_key",
+    "cta",
+    "availability_truth",
+    "suppressed",
+    "suppressed_by[]"
+  ],
+  "relevance": {
+    "HIGH": "operational dependency + a time-bound record (e.g. open deadlines)",
+    "MEDIUM": "operational dependency only",
+    "NONE": "suppressed"
+  },
+  "placements": [
+    "WORKSPACE_SWITCHER_AVAILABLE",
+    "EMPTY_STATE",
+    "INSIGHT_MODULE",
+    "WORKFLOW_BOUNDARY",
+    "CLIENT_OFFICE_HUB",
+    "AFTER_RELATED_COMPLETION"
+  ],
+  "never": [
+    "interrupt a critical operation",
+    "obscure task state",
+    "replace an alert",
+    "show an irrelevant service",
+    "upsell during error recovery",
+    "compete with a compliance-critical action",
+    "fall back to a generic promotion when no rule matches"
+  ],
+  "suppression_reasons": [
+    "NOT_APPLICABLE",
+    "SERVICE_UNAVAILABLE",
+    "ALREADY_OWNED",
+    "ELIGIBILITY_UNKNOWN",
+    "CRITICAL_STATE",
+    "ERROR_RECOVERY",
+    "CONFLICTING_SERVICE_STATE",
+    "REQUIRED_DATA_MISSING",
+    "MISLEADING",
+    "PLACEMENT_NOT_ALLOWED",
+    "NO_MATCHING_RULE"
+  ],
+  "signals": [
+    {
+      "signal": "operates_trucks",
+      "source": "Client.clientType ∈ owner_operator | carrier | fleet (all-in-one-enterprises/src/demo/demoTypes.ts:205)",
+      "status": "EXISTING",
+      "note": "Shippers are false. Three vocabularies exist (clientType · Road Ready operationType · aio_org_type)."
+    },
+    {
+      "signal": "interstate",
+      "source": "RoadReadyProfile.operating.scope (all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:67)",
+      "status": "PARTIAL",
+      "note": "Road Ready profiles exist for client-a…d only; others unknown."
+    },
+    {
+      "signal": "new_entrant",
+      "source": "RoadReadyProfile.operating.currentlyOperating (all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:67)",
+      "status": "PARTIAL",
+      "note": ""
+    },
+    {
+      "signal": "power_units",
+      "source": "DemoStore.powerUnits by organizationId (all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:111)",
+      "status": "CONFLICT",
+      "note": "Disagrees with Road Ready fleet size and with IFTA vehicles for client-f / client-g → unknown there."
+    },
+    {
+      "signal": "ifta_vehicles",
+      "source": "IftaQuarterCase.vehicles (all-in-one-enterprises/src/ifta/iftaTypes.ts:57)",
+      "status": "EXISTING",
+      "note": "Vehicles AIO already files for."
+    },
+    {
+      "signal": "interstate_dispatch_loads",
+      "source": "Load origin / destination state (all-in-one-enterprises/src/demo/dispatchSeed.ts:221)",
+      "status": "EXISTING",
+      "note": "Counted only where audited (client-a)."
+    },
+    {
+      "signal": "ifta_account_reported",
+      "source": "RoadReadyProfile.taxFuel.ifta (all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:91)",
+      "status": "PARTIAL",
+      "note": "Self-reported yes / no / not_sure."
+    },
+    {
+      "signal": "registration_deadlines_open",
+      "source": "Deadline registration_renewal / IRP (all-in-one-enterprises/src/demo/vaultSeed.ts:220)",
+      "status": "EXISTING",
+      "note": ""
+    },
+    {
+      "signal": "vehicles_without_coverage",
+      "source": "insurance policy vehicles vs power units (all-in-one-enterprises/src/demo/insuranceSeed.ts:148)",
+      "status": "PARTIAL",
+      "note": ""
+    },
+    {
+      "signal": "factoring_ready_loads",
+      "source": "Load.factoringHandoffStatus === \"ready\" (all-in-one-enterprises/src/portal/clientCommandCenterService.ts:445)",
+      "status": "EXISTING",
+      "note": "Not counted per client in this proof → null (rule suppressed REQUIRED_DATA_MISSING)."
+    },
+    {
+      "signal": "factoring_active",
+      "source": "FactoringProfile.enrollmentStatus active (all-in-one-enterprises/src/factoring/factoringTypes.ts:87)",
+      "status": "EXISTING",
+      "note": ""
+    },
+    {
+      "signal": "fuel_transactions_in_books",
+      "source": "none — bookkeeping transactions are not exposed per org by category",
+      "status": "MISSING",
+      "note": "BOOKKEEPING → IFTA stays suppressed until a source exists."
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": "X.TAGS.FROM_IFTA.DEADLINES",
+      "target_workspace_id": "TAGS_REGISTRATION",
+      "when_active_any": [
+        "IFTA"
+      ],
+      "requires": [
+        {
+          "signal": "ifta_vehicles",
+          "op": "gte",
+          "value": 1
+        },
+        {
+          "signal": "registration_deadlines_open",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "relevance": "HIGH",
+      "reasons": [
+        "{ifta_vehicles} vehicles already filed through AIO IFTA",
+        "{registration_deadlines_open} registration / IRP deadline(s) open on file"
+      ],
+      "message_key": "expansion.tags.from_ifta.deadlines",
+      "headline": "YOU’RE ALREADY MANAGING {ifta_vehicles} VEHICLES WITH AIO.",
+      "body": "BRING REGISTRATION INTO THE SAME OFFICE — {registration_deadlines_open} REGISTRATION DEADLINE(S) ARE OPEN.",
+      "cta": {
+        "label": "EXPLORE TAGS",
+        "action": "I.EXPLORE_WORKSPACE"
+      },
+      "placements": [
+        "WORKSPACE_SWITCHER_AVAILABLE",
+        "CLIENT_OFFICE_HUB",
+        "INSIGHT_MODULE",
+        "AFTER_RELATED_COMPLETION"
+      ],
+      "grounded_in": "Same fleet units: IFTA quarter vehicles + Deadline registration_renewal / IRP (all-in-one-enterprises/src/demo/vaultSeed.ts:220); AIO.ROAD_READY related AIO.IFTA + registration; crossSellRecommendations irp→ifta+tags (all-in-one-enterprises/src/services/catalog/serviceNeedRecommendation.ts:28)"
+    },
+    {
+      "rule_id": "X.TAGS.FROM_IFTA",
+      "target_workspace_id": "TAGS_REGISTRATION",
+      "when_active_any": [
+        "IFTA"
+      ],
+      "requires": [
+        {
+          "signal": "ifta_vehicles",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "relevance": "MEDIUM",
+      "reasons": [
+        "{ifta_vehicles} vehicles already filed through AIO IFTA"
+      ],
+      "message_key": "expansion.tags.from_ifta",
+      "headline": "YOU’RE ALREADY MANAGING {ifta_vehicles} VEHICLES WITH AIO.",
+      "body": "BRING REGISTRATION INTO THE SAME OFFICE.",
+      "cta": {
+        "label": "EXPLORE TAGS",
+        "action": "I.EXPLORE_WORKSPACE"
+      },
+      "placements": [
+        "WORKSPACE_SWITCHER_AVAILABLE",
+        "CLIENT_OFFICE_HUB",
+        "AFTER_RELATED_COMPLETION"
+      ],
+      "grounded_in": "Same fleet units across IFTA and registration (IFTA quarter vehicles ↔ IRP / plates)."
+    },
+    {
+      "rule_id": "X.IFTA.FROM_DISPATCH",
+      "target_workspace_id": "IFTA",
+      "when_active_any": [
+        "DISPATCH"
+      ],
+      "requires": [
+        {
+          "signal": "operates_trucks",
+          "op": "truthy"
+        },
+        {
+          "signal": "interstate_dispatch_loads",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "relevance": "HIGH",
+      "reasons": [
+        "{interstate_dispatch_loads} interstate load(s) dispatched through AIO",
+        "IFTA account on file: {ifta_account_reported}"
+      ],
+      "message_key": "expansion.ifta.from_dispatch",
+      "headline": "YOUR DISPATCHED LOADS ALREADY CROSS STATE LINES.",
+      "body": "AIO CAN HANDLE THE QUARTERLY IFTA FILING IN THE SAME OFFICE.",
+      "cta": {
+        "label": "REQUEST FILING",
+        "action": "I.SET_UP_FILING"
+      },
+      "placements": [
+        "WORKSPACE_SWITCHER_AVAILABLE",
+        "CLIENT_OFFICE_HUB",
+        "AFTER_RELATED_COMPLETION"
+      ],
+      "grounded_in": "AIO.DISPATCH_OPERATIONS related AIO.IFTA; IFTA mileage source LOAD_DERIVED_ESTIMATE from dispatch loads (all-in-one-enterprises/src/ifta/iftaSeed.ts:122); interstate load (all-in-one-enterprises/src/demo/dispatchSeed.ts:221)"
+    },
+    {
+      "rule_id": "X.IFTA.FROM_BOOKKEEPING",
+      "target_workspace_id": "IFTA",
+      "when_active_any": [
+        "BOOKKEEPING"
+      ],
+      "requires": [
+        {
+          "signal": "operates_trucks",
+          "op": "truthy"
+        },
+        {
+          "signal": "fuel_transactions_in_books",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "relevance": "MEDIUM",
+      "reasons": [
+        "{fuel_transactions_in_books} fuel transactions already categorised in your books"
+      ],
+      "message_key": "expansion.ifta.from_bookkeeping",
+      "headline": "YOUR FUEL AND MILEAGE RECORDS ALREADY FEED YOUR BOOKS.",
+      "body": "AIO CAN HANDLE THE QUARTERLY FILING TOO.",
+      "cta": {
+        "label": "REQUEST FILING",
+        "action": "I.SET_UP_FILING"
+      },
+      "placements": [
+        "WORKSPACE_SWITCHER_AVAILABLE",
+        "CLIENT_OFFICE_HUB",
+        "INSIGHT_MODULE"
+      ],
+      "grounded_in": "AIO.BOOKKEEPING related AIO.IFTA. Signal source for fuel transactions in books is not exposed per org today → REQUIRED_DATA_MISSING until it is."
+    },
+    {
+      "rule_id": "X.FLEETCARE.FROM_DISPATCH",
+      "target_workspace_id": "FLEETCARE",
+      "when_active_any": [
+        "DISPATCH"
+      ],
+      "requires": [
+        {
+          "signal": "power_units",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "relevance": "MEDIUM",
+      "reasons": [
+        "{power_units} truck(s) dispatched through AIO"
+      ],
+      "message_key": "expansion.fleetcare.from_dispatch",
+      "headline": "KEEP OPERATIONS AND MAINTENANCE CONNECTED.",
+      "body": "A TRUCK IN REPAIR SHOWS UNAVAILABLE IN DISPATCH AUTOMATICALLY.",
+      "cta": {
+        "label": "EXPLORE FLEETCARE",
+        "action": "I.EXPLORE_WORKSPACE"
+      },
+      "placements": [
+        "WORKSPACE_SWITCHER_AVAILABLE",
+        "CLIENT_OFFICE_HUB"
+      ],
+      "grounded_in": "AIO.FLEETCARE relationship IN_REPAIR → AIO.DISPATCH_OPERATIONS (truck unavailable on the board)."
+    },
+    {
+      "rule_id": "X.INSURANCE.FROM_TAGS",
+      "target_workspace_id": "INSURANCE",
+      "when_active_any": [
+        "TAGS_REGISTRATION"
+      ],
+      "requires": [
+        {
+          "signal": "operates_trucks",
+          "op": "truthy"
+        },
+        {
+          "signal": "vehicles_without_coverage",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "relevance": "HIGH",
+      "reasons": [
+        "{vehicles_without_coverage} registered unit(s) not on an AIO-tracked policy"
+      ],
+      "message_key": "expansion.insurance.from_tags",
+      "headline": "REGISTRATION NEEDS PROOF OF COVERAGE.",
+      "body": "AIO CAN COORDINATE COVERAGE FOR THE UNITS IT REGISTERS.",
+      "cta": {
+        "label": "EXPLORE INSURANCE",
+        "action": "I.EXPLORE_WORKSPACE"
+      },
+      "placements": [
+        "WORKSPACE_SWITCHER_AVAILABLE",
+        "WORKFLOW_BOUNDARY"
+      ],
+      "grounded_in": "Only where legitimately relevant: insurance policy vehicles vs power units (all-in-one-enterprises/src/demo/insuranceSeed.ts:148); AIO.INSURANCE related AIO.ROAD_READY / AIO.RENEWALS."
+    },
+    {
+      "rule_id": "X.FACTORING.FROM_DISPATCH",
+      "target_workspace_id": "FACTORING",
+      "when_active_any": [
+        "DISPATCH"
+      ],
+      "requires": [
+        {
+          "signal": "operates_trucks",
+          "op": "truthy"
+        },
+        {
+          "signal": "factoring_ready_loads",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "relevance": "MEDIUM",
+      "reasons": [
+        "{factoring_ready_loads} delivered load(s) ready to invoice"
+      ],
+      "message_key": "expansion.factoring.from_dispatch",
+      "headline": "YOUR DELIVERED LOADS ARE READY TO INVOICE.",
+      "body": "AIO CAN HAND THEM TO A FACTORING PARTNER.",
+      "cta": {
+        "label": "EXPLORE FACTORING",
+        "action": "I.EXPLORE_WORKSPACE"
+      },
+      "placements": [
+        "AFTER_RELATED_COMPLETION",
+        "WORKSPACE_SWITCHER_AVAILABLE"
+      ],
+      "grounded_in": "Load.factoringHandoffStatus \"ready\" (all-in-one-enterprises/src/portal/clientCommandCenterService.ts:445); crossSellRecommendations dispatch→factoring."
+    },
+    {
+      "rule_id": "X.BOOKKEEPING.FROM_FACTORING",
+      "target_workspace_id": "BOOKKEEPING",
+      "when_active_any": [
+        "FACTORING"
+      ],
+      "requires": [
+        {
+          "signal": "factoring_active",
+          "op": "truthy"
+        }
+      ],
+      "relevance": "MEDIUM",
+      "reasons": [
+        "Factoring is active with AIO — funding fees land in your monthly close"
+      ],
+      "message_key": "expansion.bookkeeping.from_factoring",
+      "headline": "YOUR FACTORING FEES ALREADY RUN THROUGH AIO.",
+      "body": "KEEP THE BOOKS IN THE SAME OFFICE.",
+      "cta": {
+        "label": "EXPLORE BOOKKEEPING",
+        "action": "I.EXPLORE_WORKSPACE"
+      },
+      "placements": [
+        "WORKSPACE_SWITCHER_AVAILABLE",
+        "CLIENT_OFFICE_HUB"
+      ],
+      "grounded_in": "AIO.FACTORING relationship FUNDED → AIO.BOOKKEEPING (factoring fee line); bookkeeping lead reason “You use factoring” (all-in-one-enterprises/src/demo/bookkeepingSeed.ts:155)."
+    }
+  ],
+  "legacy_generic_fallbacks_found": [
+    {
+      "surface": "portal buildActiveServices — Dispatch",
+      "ref": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:541",
+      "behaviour": "AVAILABLE for every carrier without an active enrollment (no eligibility, no relevance)."
+    },
+    {
+      "surface": "portal buildActiveServices — Insurance",
+      "ref": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:549",
+      "behaviour": "AVAILABLE when no policy / request, although insurance launch is HOLD."
+    },
+    {
+      "surface": "portal buildActiveServices — Factoring",
+      "ref": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:557",
+      "behaviour": "AVAILABLE when no profile, although factoring launch is HOLD."
+    },
+    {
+      "surface": "portal buildActiveServices — Brokerage carrier network",
+      "ref": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:566",
+      "behaviour": "AVAILABLE when no network profile, although brokerage launch is BLOCKED."
+    },
+    {
+      "surface": "portal buildActiveServices — Permitting & Compliance",
+      "ref": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:534",
+      "behaviour": "Hard-coded ACTIVE for every carrier."
+    }
+  ],
+  "demo_note": "DEMO SEED FIXTURES (AIO demo store) — used only to prove the model; never rendered as client data and never a fallback for another client.",
+  "evaluation_matrix": [
+    {
+      "client_id": "client-a",
+      "workspace_id": "IFTA",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "IFTA",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "PERMITTING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "PERMITTING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "COMPLIANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "COMPLIANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "INSURANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "INSURANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "FACTORING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "PLACEMENT_NOT_ALLOWED"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "FACTORING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "DISPATCH",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "DISPATCH",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "BROKERAGE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "BROKERAGE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "FLEETCARE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "FLEETCARE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "DRIVERLINK",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "DRIVERLINK",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-a",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "IFTA",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "IFTA",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "PERMITTING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "PERMITTING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "COMPLIANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "COMPLIANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "INSURANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "PLACEMENT_NOT_ALLOWED"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "INSURANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "FACTORING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "PLACEMENT_NOT_ALLOWED"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "FACTORING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "DISPATCH",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "DISPATCH",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "BROKERAGE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "BROKERAGE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "FLEETCARE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "FLEETCARE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "DRIVERLINK",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "DRIVERLINK",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-b",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "IFTA",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "IFTA",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": true,
+      "relevance_class": "HIGH",
+      "rule_id": "X.TAGS.FROM_IFTA.DEADLINES",
+      "headline": "YOU’RE ALREADY MANAGING 3 VEHICLES WITH AIO.",
+      "reasons": [
+        "3 vehicles already filed through AIO IFTA",
+        "2 registration / IRP deadline(s) open on file"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": true,
+      "relevance_class": "HIGH",
+      "rule_id": "X.TAGS.FROM_IFTA.DEADLINES",
+      "headline": "YOU’RE ALREADY MANAGING 3 VEHICLES WITH AIO.",
+      "reasons": [
+        "3 vehicles already filed through AIO IFTA",
+        "2 registration / IRP deadline(s) open on file"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "PERMITTING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "PERMITTING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "COMPLIANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "COMPLIANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "INSURANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "INSURANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "FACTORING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "PLACEMENT_NOT_ALLOWED"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "FACTORING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "DISPATCH",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "DISPATCH",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "BROKERAGE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "BROKERAGE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "FLEETCARE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "FLEETCARE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "DRIVERLINK",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "DRIVERLINK",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-c",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "IFTA",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "IFTA",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": true,
+      "relevance_class": "MEDIUM",
+      "rule_id": "X.TAGS.FROM_IFTA",
+      "headline": "YOU’RE ALREADY MANAGING 2 VEHICLES WITH AIO.",
+      "reasons": [
+        "2 vehicles already filed through AIO IFTA"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": true,
+      "relevance_class": "MEDIUM",
+      "rule_id": "X.TAGS.FROM_IFTA",
+      "headline": "YOU’RE ALREADY MANAGING 2 VEHICLES WITH AIO.",
+      "reasons": [
+        "2 vehicles already filed through AIO IFTA"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "PERMITTING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "PERMITTING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "COMPLIANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "COMPLIANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "INSURANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "INSURANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": true,
+      "relevance_class": "MEDIUM",
+      "rule_id": "X.BOOKKEEPING.FROM_FACTORING",
+      "headline": "YOUR FACTORING FEES ALREADY RUN THROUGH AIO.",
+      "reasons": [
+        "Factoring is active with AIO — funding fees land in your monthly close"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": true,
+      "relevance_class": "MEDIUM",
+      "rule_id": "X.BOOKKEEPING.FROM_FACTORING",
+      "headline": "YOUR FACTORING FEES ALREADY RUN THROUGH AIO.",
+      "reasons": [
+        "Factoring is active with AIO — funding fees land in your monthly close"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "FACTORING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "PLACEMENT_NOT_ALLOWED"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "FACTORING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "REQUIRED_DATA_MISSING"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "DISPATCH",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "DISPATCH",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "BROKERAGE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "BROKERAGE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "FLEETCARE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "FLEETCARE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "DRIVERLINK",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "DRIVERLINK",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-d",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "IFTA",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "IFTA",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "PERMITTING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "PERMITTING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "COMPLIANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "COMPLIANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "INSURANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "INSURANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "FACTORING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "FACTORING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "DISPATCH",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "DISPATCH",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "BROKERAGE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "BROKERAGE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "FLEETCARE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "FLEETCARE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "DRIVERLINK",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "DRIVERLINK",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-e",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "IFTA",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "IFTA",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "PERMITTING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "PERMITTING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "COMPLIANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "COMPLIANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "INSURANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "INSURANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "FACTORING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "FACTORING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "DISPATCH",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "DISPATCH",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "BROKERAGE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "BROKERAGE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "FLEETCARE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "FLEETCARE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "DRIVERLINK",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "DRIVERLINK",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NOT_APPLICABLE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "IFTA",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "ELIGIBILITY_UNKNOWN",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "IFTA",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "ELIGIBILITY_UNKNOWN",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "PERMITTING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "PERMITTING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "COMPLIANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "COMPLIANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "INSURANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "INSURANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": true,
+      "relevance_class": "MEDIUM",
+      "rule_id": "X.BOOKKEEPING.FROM_FACTORING",
+      "headline": "YOUR FACTORING FEES ALREADY RUN THROUGH AIO.",
+      "reasons": [
+        "Factoring is active with AIO — funding fees land in your monthly close"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": true,
+      "relevance_class": "MEDIUM",
+      "rule_id": "X.BOOKKEEPING.FROM_FACTORING",
+      "headline": "YOUR FACTORING FEES ALREADY RUN THROUGH AIO.",
+      "reasons": [
+        "Factoring is active with AIO — funding fees land in your monthly close"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "FACTORING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "FACTORING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "DISPATCH",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "DISPATCH",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "BROKERAGE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "BROKERAGE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "FLEETCARE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "FLEETCARE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "DRIVERLINK",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "DRIVERLINK",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-f",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "IFTA",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "ELIGIBILITY_UNKNOWN",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "IFTA",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "ELIGIBILITY_UNKNOWN",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "TAGS_REGISTRATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "PERMITTING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "PERMITTING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "COMPLIANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "COMPLIANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "INSURANCE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "INSURANCE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "CONFLICTING_SERVICE_STATE",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": true,
+      "relevance_class": "MEDIUM",
+      "rule_id": "X.BOOKKEEPING.FROM_FACTORING",
+      "headline": "YOUR FACTORING FEES ALREADY RUN THROUGH AIO.",
+      "reasons": [
+        "Factoring is active with AIO — funding fees land in your monthly close"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "BOOKKEEPING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": true,
+      "relevance_class": "MEDIUM",
+      "rule_id": "X.BOOKKEEPING.FROM_FACTORING",
+      "headline": "YOUR FACTORING FEES ALREADY RUN THROUGH AIO.",
+      "reasons": [
+        "Factoring is active with AIO — funding fees land in your monthly close"
+      ],
+      "suppressed_by": []
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "FACTORING",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "FACTORING",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ALREADY_OWNED",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "DISPATCH",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "DISPATCH",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "BROKERAGE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "BROKERAGE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "SERVICE_UNAVAILABLE",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "FLEETCARE",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "FLEETCARE",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "DRIVERLINK",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "DRIVERLINK",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "MISLEADING",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "CLIENT_OFFICE_HUB",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    },
+    {
+      "client_id": "client-g",
+      "workspace_id": "BUSINESS_FORMATION",
+      "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+      "shown": false,
+      "relevance_class": "NONE",
+      "rule_id": null,
+      "headline": null,
+      "reasons": [],
+      "suppressed_by": [
+        "ELIGIBILITY_UNKNOWN",
+        "NO_MATCHING_RULE"
+      ]
+    }
+  ],
+  "status": {
+    "contract": "DEFINED",
+    "rules": 8,
+    "signals": 12,
+    "suppression_reasons": 11,
+    "placements": 6,
+    "evaluations": 576,
+    "shown": 13,
+    "shown_without_rule": 0,
+    "generic_fallbacks_in_model": 0,
+    "legacy_generic_fallbacks_found": 5
+  }
+}

@@ -59,7 +59,8 @@ describe('HUB-owned interactions resolve', () => {
   const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]!);
 
   it('every HUB action targets an existing production route (no invented routes)', () => {
-    const allowed = new Set(['/production/queue', '/production/activity', '/production?view=machine', '/production/ndxbook/expression']);
+    // P0 project isolation: the BLOCKERS count opens the list it counts — the existing ACTIVITY → BLOCKERS lens.
+    const allowed = new Set(['/production/queue', '/production/activity', '/production/activity?view=blockers', '/production?view=machine', '/production/ndxbook/expression']);
     for (const sub of Object.values(NODE_SUB)) allowed.add(`/production/ndxbook/expression/${sub}`);
     for (const h of hrefs) expect(allowed.has(h), h).toBe(true);
     for (const t of ['/production/queue', '/production/activity', '/production?view=machine', '/production/ndxbook/expression']) expect(hrefs).toContain(t);

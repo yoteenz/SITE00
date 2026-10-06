@@ -1,6 +1,7 @@
 /**
  * AIO IFTA — Brain ingest of the authority bundle → page / tab / state tree proof
- * (P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1). NO PAGE IMPLEMENTATION · NO PAID GENERATION.
+ * (P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1), rebased under AIO OFFICE / CLIENT OFFICE with the founder
+ * decisions locked (P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1). NO PAGE IMPLEMENTATION · NO PAID GENERATION.
  *
  * Completes every node contract from single sources, evaluates readiness per node (no false readiness), proves
  * coverage, binds authority references per node × viewport, and reports reference-package gaps honestly.
@@ -20,6 +21,7 @@ import {
   type DerivationConditions,
   type ExperienceTreeNode,
   type ExperienceTreeNodeInput,
+  type NodeContextMeta,
   type NodeReadiness,
   type TreeContext,
 } from '../../../tree.js';
@@ -32,7 +34,7 @@ import { AIO_IFTA_DECISIONS } from './decisions.js';
 import { AIO_IFTA_INTERACTIONS } from './interactions.js';
 import { AIO_IFTA_RESPONSIVE, respRule } from './responsive.js';
 import { AIO_IFTA_CONTRACT_STATE_IDS, AIO_IFTA_SPRINT_CLIENT_STATES, AIO_IFTA_STATES } from './states.js';
-import { AIO_IFTA_TAB_CONTRACTS, AIO_IFTA_TREE_SPECS, type TreeNodeSpec } from './tree-specs.js';
+import { AIO_IFTA_SECONDARY_TAB_CONTRACTS, AIO_IFTA_TAB_CONTRACTS, AIO_IFTA_TREE_SPECS, type TreeNodeSpec } from './tree-specs.js';
 
 export * from './bundle.js';
 export * from './authorities.js';
@@ -103,13 +105,36 @@ function derivationFor(spec: TreeNodeSpec): DerivationConditions {
   const parent = actor ? AIO_IFTA_AUTHORITIES[actor] : null;
   const components = spec.components.map((c) => AIO_IFTA_TREE_CONTEXT.components.get(c));
   const interactions = spec.interactions.map((i) => AIO_IFTA_TREE_CONTEXT.interactions.get(i));
-  const tabKnown = spec.tab_id === null || spec.actor === 'PUBLIC' || spec.tab_id === 'OVERVIEW' || AIO_IFTA_TAB_CONTRACTS.some((t) => t.tab_id === spec.tab_id);
+  const tabKnown = spec.tab_id === null || spec.actor === 'PUBLIC' || spec.tab_id === 'OVERVIEW' || AIO_IFTA_TAB_CONTRACTS.some((t) => t.tab_id === spec.tab_id) || AIO_IFTA_SECONDARY_TAB_CONTRACTS.some((t) => t.tab_id === spec.tab_id && (t.actors as readonly string[]).includes(spec.actor));
   return {
     family_composition_clear: !!parent && checkAuthorityLock(parent).locked,
     component_contract_clear: components.length > 0 && components.every((c) => !!c && c.authority_status !== 'MISSING_AUTHORITY'),
-    tab_logic_clear: spec.tab_class !== 'SECONDARY_CANDIDATE' && !!spec.purpose && !!spec.primary_task && interactions.length > 0 && interactions.every((x) => !!x && x.status !== 'CANDIDATE_FOUNDER_DECISION' && x.status !== 'ILLEGIBLE_IN_AUTHORITY') && tabKnown,
+    tab_logic_clear: spec.tab_class !== 'SECONDARY_CANDIDATE' && !!spec.purpose && !!spec.primary_task && interactions.length > 0 && interactions.every((x) => !!x && x.status !== 'CANDIDATE_FOUNDER_DECISION' && x.status !== 'ILLEGIBLE_IN_AUTHORITY' && x.status !== 'IDENTITY_RESOLVED_BEHAVIOR_PARTIAL') && tabKnown,
     asset_family_clear: components.every((c) => !!c && c.asset_refs.every((a) => AIO_IFTA_TREE_CONTEXT.asset_ids.has(a))),
   };
+}
+
+/** Operating-environment context per node: authored where the node is a context boundary, otherwise from its actor + position. */
+const SPEC_BY_ID = new Map(AIO_IFTA_TREE_SPECS.map((s) => [s.node_id, s]));
+const ENV_BY_ACTOR: Record<TreeNodeSpec['actor'], string | null> = { FOUNDER_STAFF: 'AIO.OFFICE', CLIENT: 'AIO.CLIENT_OFFICE', PUBLIC: 'AIO.PUBLIC_SITE', AIO: null };
+function contextFor(spec: TreeNodeSpec): NodeContextMeta | undefined {
+  if (spec.context) return spec.context;
+  const environment_id = ENV_BY_ACTOR[spec.actor];
+  if (!environment_id) return undefined;
+  if (['OPERATING_ENVIRONMENT', 'HUB'].includes(spec.node_type) || spec.node_id === 'AIO.OFFICE.CLIENT_OVERVIEW') {
+    const client_scope = spec.actor === 'PUBLIC' ? 'NONE' : spec.actor === 'CLIENT' ? 'FIXED' : spec.node_id === 'AIO.OFFICE.CLIENT_OVERVIEW' ? 'SWITCHABLE' : 'CROSS_CLIENT';
+    return { environment_id, workspace_id: null, client_scope, case_type: null, subcontext_type: null };
+  }
+  if (spec.actor === 'PUBLIC') return { environment_id, workspace_id: 'IFTA', client_scope: 'NONE', case_type: null, subcontext_type: null };
+  // Inside a client-quarter (client: under the quarter selector · staff: under the client context) the canonical case applies.
+  let cur: TreeNodeSpec | undefined = spec;
+  let inCase = false;
+  while (cur) {
+    if (cur.node_id === 'AIO.IFTA.CLIENT.QUARTER_CONTEXT' || cur.node_id === 'AIO.IFTA.STAFF.CLIENT_CONTEXT') inCase = true;
+    cur = cur.parent_node ? SPEC_BY_ID.get(cur.parent_node) : undefined;
+  }
+  const client_scope = spec.actor === 'CLIENT' ? 'FIXED' : inCase ? 'SWITCHABLE' : 'CROSS_CLIENT';
+  return { environment_id, workspace_id: 'IFTA', client_scope, case_type: inCase ? 'IFTA_QUARTER' : null, subcontext_type: inCase ? 'QUARTER' : null };
 }
 
 function completeNode(spec: TreeNodeSpec): ExperienceTreeNodeInput {
@@ -117,7 +142,8 @@ function completeNode(spec: TreeNodeSpec): ExperienceTreeNodeInput {
   const write_contracts = uniq(spec.interactions.map((i) => AIO_IFTA_TREE_CONTEXT.interactions.get(i)?.write_contract).filter((x): x is string => !!x));
   const data_domains = uniq([...spec.read_contracts, ...write_contracts].map((c) => AIO_IFTA_TREE_CONTEXT.data_contracts.get(c)?.domain_id).filter((x): x is string => !!x));
   const asset_refs = uniq(spec.components.flatMap((c) => AIO_IFTA_TREE_CONTEXT.components.get(c)?.asset_refs ?? []));
-  const open_decisions = AIO_IFTA_DECISIONS.filter((d) => d.blocks_nodes.includes(spec.node_id)).map((d) => d.decision_id);
+  // Only OPEN decisions block a node; decided ones stay traceable in the decision registry (blocks_nodes).
+  const open_decisions = AIO_IFTA_DECISIONS.filter((d) => d.status === 'OPEN' && d.blocks_nodes.includes(spec.node_id)).map((d) => d.decision_id);
   const actorKey = spec.actor === 'AIO' ? null : spec.actor;
   const rules = actorKey ? respRule(actorKey) : null;
   const resp = spec.resp ?? DEFAULT_RESP[spec.node_type] ?? ['—', '—', '—'];
@@ -135,6 +161,7 @@ function completeNode(spec: TreeNodeSpec): ExperienceTreeNodeInput {
     vault_relationship: spec.vault_relationship ?? '—', inbox_relationship: spec.inbox_relationship ?? '—', activity_relationship: spec.activity_relationship ?? '—',
     success_condition: spec.success_condition, blocked_condition: spec.blocked_condition, experience_refs: spec.experience_refs,
     ...(spec.tab_class ? { tab_class: spec.tab_class } : {}),
+    ...(contextFor(spec) ? { context: contextFor(spec) } : {}),
     ...(open_decisions.length ? { open_decisions } : {}),
     ...(spec.overrides ? { overrides: spec.overrides } : {}),
     ...(spec.notes ? { notes: spec.notes } : {}),
@@ -206,30 +233,49 @@ export function buildGapReport() {
   const missingBindings = AIO_IFTA_MATERIAL_NODES.flatMap((n) => n.authority_refs.filter((b) => !bindingUsable(b)).map((b) => ({ node_id: n.node_id, viewport: b.viewport, binding: b.binding, note: b.note ?? null, derivation: b.derivation ?? null })));
   const missingComponents = AIO_IFTA_COMPONENTS.filter((c) => c.authority_status === 'MISSING_AUTHORITY').map((c) => c.component_id);
   const illegible = AIO_IFTA_INTERACTIONS.filter((x) => x.status === 'ILLEGIBLE_IN_AUTHORITY').map((x) => x.interaction_id);
+  const partial = AIO_IFTA_INTERACTIONS.filter((x) => x.status === 'IDENTITY_RESOLVED_BEHAVIOR_PARTIAL');
   const runtime = AIO_IFTA_ASSETS.filter((a) => a.runtime === 'RUNTIME_ASSET_MISSING').map((a) => ({ asset_id: a.asset_id, asset_class: a.asset_class, note: a.note ?? '' }));
+  const queue = aioIftaNode('AIO.IFTA.STAFF.QUEUE')!;
+  // Gaps are computed from the registries: a node viewport with no usable binding, a component without authority, an unreadable contract item.
   const authorityGaps = [
-    { gap_id: 'G-STAFF-QUEUE', kind: 'MISSING_AUTHORITY', missing: 'FOUNDER / STAFF fuel tax QUEUE page (multi-client, due date × readiness, hub buckets) — MOBILE · TABLET · DESKTOP', nodes: uniq(missingBindings.filter((m) => m.binding === 'MISSING').map((m) => m.node_id)), components: missingComponents, decision: 'D-STAFF-QUEUE-AUTHORITY', why_not_derived: 'The package shows one client-quarter only; the queue’s primary object (many client-quarters) and its composition are not in any reference. Deriving it would invent composition.' },
-    { gap_id: 'G-INTERACTION-09', kind: 'ILLEGIBLE_CONTRACT_ITEM', missing: 'Page / component / interaction contract §05 item 09 label (“…FAQS”)', nodes: [], components: [], interactions: illegible, decision: 'D-INTERACTION-09', why_not_derived: 'Unreadable — never guessed.' },
+    ...(missingBindings.length ? [{ gap_id: 'G-UNBOUND-NODES', kind: 'MISSING_AUTHORITY', missing: 'Node viewports without a usable authority binding', nodes: uniq(missingBindings.map((m) => m.node_id)), components: [] as string[], interactions: [] as string[] }] : []),
+    ...(missingComponents.length ? [{ gap_id: 'G-COMPONENTS', kind: 'MISSING_AUTHORITY', missing: 'Components without authority', nodes: [] as string[], components: missingComponents, interactions: [] as string[] }] : []),
+    ...(illegible.length ? [{ gap_id: 'G-ILLEGIBLE', kind: 'ILLEGIBLE_CONTRACT_ITEM', missing: 'Unreadable contract items', nodes: [] as string[], components: [] as string[], interactions: illegible }] : []),
   ];
   return {
     status: authorityGaps.length ? 'REFERENCE_PACKAGE_INCOMPLETE' : 'REFERENCE_PACKAGE_COMPLETE',
     rule: 'IF INCOMPLETE: DO NOT INVENT VISUAL DESIGN. RETURN EXACTLY WHICH AUTHORITY IS MISSING.',
+    authority_vocabulary: { DEDICATED_REFERENCE: 'a bundle image governs the node × viewport directly', DERIVED_AUTHORITY: 'derived from the approved family with all four derivation conditions (or by explicit founder authorisation)', MISSING_AUTHORITY: 'no usable authority — never invented' },
     authority_gaps: authorityGaps,
     missing_bindings: missingBindings,
-    pending_scope_decision: {
-      note: 'Bindings unusable only because the node itself is a founder SCOPE decision (tab label in references, no content composition). Not counted as a reference gap; resolved by D-NOTES-TAB.',
-      nodes: uniq(missingBindings.filter((m) => m.binding === 'DERIVED').map((m) => m.node_id)),
+    resolved_gaps: [
+      {
+        gap_id: 'G-STAFF-QUEUE', previous_status: 'MISSING_AUTHORITY', status: queue.authority_refs.every(bindingUsable) ? 'DERIVED_AUTHORITY' : 'MISSING_AUTHORITY',
+        resolution: 'DERIVATION AUTHORIZED BY FOUNDER — designed as the IFTA workspace cross-client landing state (MULTI-CLIENT FILING QUEUE), not a duplicate of the case page.',
+        decision: 'D-STAFF-QUEUE-AUTHORITY', nodes: [queue.node_id], components: ['QUEUE_TABLE'], contract: 'docs/aio/ifta/authority-bundle/AIO_IFTA_QUEUE_DERIVATION_CONTRACT.json',
+      },
+      {
+        gap_id: 'G-INTERACTION-09', previous_status: 'ILLEGIBLE_CONTRACT_ITEM', status: 'IDENTITY_RESOLVED / BEHAVIOR_DESCRIPTION_PARTIAL',
+        resolution: 'Label “09 RUN FAQS” supplied by the founder (clearer image); sequence MESSAGE TEAM → RUN FAQS → SUBMIT FOR APPROVAL preserved. Behaviour description is not legible — never invented.',
+        decision: 'D-INTERACTION-09', interactions: partial.map((x) => x.interaction_id),
+        blocking: AIO_IFTA_MATERIAL_NODES.some((n) => partial.some((x) => n.interactions.includes(x.interaction_id))) ? 'BLOCKS_MATERIAL_NODES' : 'NON_BLOCKING — bound to the page families only, no material node',
+      },
+    ],
+    contract_clarifications: partial.map((x) => ({ interaction_id: x.interaction_id, label: x.label, needs: 'Behaviour description: actor, target surface, data effect, success / failure — the founder supplies it; until then the interaction is registered but bound to no material node.' })),
+    environment_authority_gaps: {
+      note: 'Outside the IFTA reference package: the AIO OFFICE / CLIENT OFFICE environment pages have no authority yet. They are environment-level nodes (non-material in the IFTA tree) and block no IFTA node.',
+      nodes: AIO_IFTA_TREE.filter((n) => n.node_type === 'HUB' || n.node_id === 'AIO.OFFICE.CLIENT_OVERVIEW').map((n) => ({ node_id: n.node_id, title: n.title, status: 'MISSING_AUTHORITY' as const })),
     },
     derived_not_gaps: {
       rule: 'A tab / child without a dedicated image derives from the approved parent when family composition, component contract, tab logic and asset family are clear (sprint §36). These are not gaps.',
       nodes: AIO_IFTA_MATERIAL_NODES.filter((n) => n.authority_refs.some((b) => b.binding === 'DERIVED' && bindingUsable(b))).map((n) => n.node_id),
-      founder_spot_check_recommended: ['AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW (highest-stakes client decision window)', 'AIO.IFTA.CLIENT.ROOM.FILED (sealed quarter — no dedicated seal asset)'],
+      founder_spot_check_recommended: ['AIO.IFTA.STAFF.QUEUE (founder-authorised derivation — first page with no dedicated reference)', 'AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW (highest-stakes client decision window)', 'AIO.IFTA.CLIENT.ROOM.FILED (sealed quarter — no dedicated seal asset)', 'WORKSPACE_SWITCHER · CLIENT_SWITCHER placement in the TOP_NAV (proposal)'],
     },
     blocked_by_founder_decision: AIO_IFTA_DECISIONS.filter((d) => d.status === 'OPEN' && (d.kind === 'AUTHORITY' || d.kind === 'SCOPE')).map((d) => ({ decision_id: d.decision_id, question: d.question, blocks_nodes: d.blocks_nodes })),
     runtime_asset_gaps: {
       note: 'Not authority gaps: the package directs composition; these production files are absent. SIDEKICK_FALLBACK_ONLY candidates (TRUE MISSING RUNTIME ASSET) — nothing generated.',
       assets: runtime,
-      fonts: 'MONUMENT EXTENDED requires a commercial licence if chosen (D-TYPOGRAPHY).',
+      fonts: 'INTER TIGHT + INTER (open licence) for client / staff UI (D-TYPOGRAPHY). MONUMENT EXTENDED only for PUBLIC / HERO if licensed and approved; the runtime never depends on it.',
     },
     reference_defects: AIO_IFTA_BUNDLE_FILES.filter((f) => f.defects.length).map((f) => ({ ref_id: f.ref_id, defects: f.defects })),
   };

@@ -79,7 +79,8 @@ describe('project context switching clears stale project state', () => {
     expect(projectSwitchPath('/production/ndxbook/design', '?mode=surfaces&inspect=screens&screen=F01.03&state=locked', 'jurnl')).toBe('/production/jurnl/design?mode=surfaces');
     expect(projectSwitchPath('/production/jurnl/design', '?mode=viewport&preset=TABLET&screen=F01.03', 'ndxbook')).toBe('/production/ndxbook/design?mode=viewport');
     expect(projectSwitchPath('/production/jurnl/experience', '?entry=002', 'ndxbook')).toBe('/production/ndxbook/experience');
-    expect(projectSwitchPath('/production/queue', '', 'jurnl')).toBe('/production/jurnl/design');
+    // P0 project isolation: a switch keeps the tab (INBOX stays INBOX) — it never lands on the nearest populated tab
+    expect(projectSwitchPath('/production/queue', '', 'jurnl')).toBe('/production/queue?project=jurnl');
   });
   it('hub data never substitutes another project for an unknown / newly ingested slug', () => {
     const list: HubProjectEntry[] = [{ projectId: 'frontal-slayer', name: 'FRONTAL SLAYER', productions: [], slotId: 'project.frontal-slayer.cover' }];

@@ -11,6 +11,7 @@ import { AIO_IFTA_CONTRACT } from './ifta.js';
 
 export { AIO_DNA, AIO_SOURCE_REPO } from './dna.js';
 export { AIO_IFTA_CONTRACT, AIO_IFTA_MILEAGE_SOURCES, AIO_IFTA_RECEIPT_CLASSES } from './ifta.js';
+export * from './office.js';
 
 /** Canonical AIO feature inventory, in family order (F01 → F18, then the AIO OFFICE projection). */
 export const AIO_EXPERIENCE_CONTRACTS: ExperienceContract[] = [

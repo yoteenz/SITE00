@@ -1,6 +1,8 @@
 /**
  * P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1 — export the Brain's ingest of the AIO IFTA authority bundle
  * and the page / tab / state tree proof (single source: shared/studioos-visual-authority/projects/aio/ifta-authority).
+ * Revision 2 (P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1): tree rebased under AIO OFFICE /
+ * CLIENT OFFICE, founder decisions locked, queue derivation contract, interaction 09 correction proof.
  *
  *   npx tsx scripts/studioos/aio-ifta-authority-bundle-export.ts
  *
@@ -16,7 +18,8 @@ const SPRINT = aioIfta.AIO_IFTA_BUNDLE_SPRINT;
 const AT = aioIfta.AIO_IFTA_INGESTED_AT;
 const ACTORS = ['CLIENT', 'FOUNDER_STAFF', 'PUBLIC'] as const;
 const json = (v: unknown) => `${JSON.stringify(v, null, 2)}\n`;
-const head = (id: string) => ({ id, sprint: SPRINT, generated_by: 'scripts/studioos/aio-ifta-authority-bundle-export.ts', source: 'shared/studioos-visual-authority/projects/aio/ifta-authority', generated_for: AT, constraints: { page_implementation: false, new_paid_generations: 0, credits_spent: 0, legacy_visual_authority: 'FORBIDDEN' } });
+const REV = aioIfta.AIO_IFTA_PAGE_TREE_REVISION;
+const head = (id: string) => ({ id, sprint: SPRINT, revision: REV.revision, revised_in: REV.revised_in, generated_by: 'scripts/studioos/aio-ifta-authority-bundle-export.ts', source: 'shared/studioos-visual-authority/projects/aio/ifta-authority', generated_for: AT, constraints: { page_implementation: false, new_paid_generations: 0, credits_spent: 0, legacy_visual_authority: 'FORBIDDEN' } });
 const count = <T,>(xs: T[], key: (x: T) => string) => xs.reduce<Record<string, number>>((m, x) => ((m[key(x)] = (m[key(x)] ?? 0) + 1), m), {});
 
 function gateSummary() {
@@ -83,7 +86,7 @@ function bundleRegistry() {
     page_family_authorities: aioIfta.AIO_IFTA_AUTHORITIES,
     derivations,
     gate: gateSummary(),
-    page_tree: aioIfta.aioIftaPageTreeConfirmation(aioIfta.AIO_IFTA_OPEN_DECISION_IDS),
+    page_tree: { ...aioIfta.aioIftaPageTreeConfirmation(aioIfta.AIO_IFTA_OPEN_DECISION_IDS), revision: REV },
     legacy_firewall: {
       status: 'PASS',
       surfaces: aio.AIO_IFTA_LEGACY_SURFACES.map((s) => ({ surface_id: s.surface_id, visual_class: s.visual_class })),
@@ -101,7 +104,7 @@ function nestTree() {
   for (const n of aioIfta.AIO_IFTA_TREE) byParent.set(n.parent_node, [...(byParent.get(n.parent_node) ?? []), n]);
   const walk = (id: string): unknown => {
     const n = aioIfta.aioIftaNode(id)!;
-    return { node_id: n.node_id, node_type: n.node_type, title: n.title, ...(n.tab_class ? { tab_class: n.tab_class } : {}), children: (byParent.get(id) ?? []).map((c) => walk(c.node_id)) };
+    return { node_id: n.node_id, node_type: n.node_type, title: n.title, ...(n.tab_class ? { tab_class: n.tab_class } : {}), ...(n.context ? { client_scope: n.context.client_scope } : {}), children: (byParent.get(id) ?? []).map((c) => walk(c.node_id)) };
   };
   return walk('AIO');
 }
@@ -109,10 +112,12 @@ function nestTree() {
 function pageTree() {
   return {
     ...head('AIO_IFTA_PAGE_TREE'),
-    ontology: ['PROJECT', 'FEATURE FAMILY', 'ACTOR MODE', 'PAGE FAMILY', 'TAB FAMILY', 'CHILD PAGE / DRAWER / MODAL / STATE', 'COMPONENT', 'INTERACTION'],
-    founder_decision: 'TABS ARE FIRST-CLASS AUTHORITY-DESIGN NODES. SHARED DESIGN ≠ SHARED LOGIC.',
+    ontology: ['PROJECT', 'OPERATING ENVIRONMENT', 'HUB | WORKSPACE', 'ACTOR MODE', 'PAGE FAMILY', 'CONTEXT (client · quarter)', 'PAGE', 'TAB FAMILY', 'CHILD PAGE / DRAWER / MODAL / STATE', 'COMPONENT', 'INTERACTION'],
+    founder_decision: 'TABS ARE FIRST-CLASS AUTHORITY-DESIGN NODES. SHARED DESIGN ≠ SHARED LOGIC. AIO services are WORKSPACES inside a connected business office (AIO OFFICE · CLIENT OFFICE).',
     tree_id: aioIfta.AIO_IFTA_PAGE_TREE_ID,
     status: aioIfta.aioIftaPageTreeConfirmation(aioIfta.AIO_IFTA_OPEN_DECISION_IDS),
+    revision: REV,
+    context_rule: 'Every node carries its operating-environment context (environment · workspace · client scope · case type · subcontext). Founder and client nodes are projections of ONE canonical client-quarter case.',
     node_contract_fields: ['node_id', 'project_id', 'feature_id', 'actor', 'page_family', 'tab_id', 'parent_node', 'node_type', 'purpose', 'primary_object', 'primary_task', 'data_domains', 'read_contracts', 'write_contracts', 'components', 'interactions', 'states', 'children', 'drawers', 'modals', 'responsive_modes', 'authority_refs', 'asset_refs', 'permissions', 'cross_feature_dependencies', 'vault_relationship', 'inbox_relationship', 'activity_relationship', 'success_condition', 'blocked_condition'],
     coverage: aioIfta.AIO_IFTA_COVERAGE,
     integrity: aioIfta.AIO_IFTA_TREE_INTEGRITY,
@@ -133,7 +138,8 @@ function tabTree() {
     ...head('AIO_IFTA_TAB_TREE'),
     rule: 'Tabs share the family DESIGN (header, visual family, nav, panel materials, typography, base grid, CTA language, brand environment) and own their LOGIC (data ownership, purpose, components, mutations, states, validation, child routes, drawers, modals, error conditions, actor rights, system relationships).',
     required_inventory: ['PROGRESS', 'FUEL_PURCHASES', 'MILEAGE', 'VEHICLES', 'JURISDICTIONS', 'DOCUMENTS'],
-    candidate_tabs: { NOTES: 'Appears in client desktop + every staff reference + 3-actor mobile; absent from the approved parent; asset sheet shows it disabled → SECONDARY_CANDIDATE pending D-NOTES-TAB. No new primary tab without contractual reason.' },
+    secondary_tabs: aioIfta.AIO_IFTA_SECONDARY_TAB_CONTRACTS,
+    notes_decision: 'D-NOTES-TAB (DECIDED): STAFF NOTES is a SECONDARY staff tab; the client has no NOTES tab (MESSAGE AIO); the client keeps six primary tabs.',
     families: {
       CLIENT: { page: 'AIO.IFTA.CLIENT.ROOM', tabs: tabsOf('AIO.IFTA.CLIENT.ROOM') },
       FOUNDER_STAFF: { page: 'AIO.IFTA.STAFF.CASE', note: 'OVERVIEW is the staff mirror of PROGRESS.', tabs: tabsOf('AIO.IFTA.STAFF.CASE') },
@@ -163,7 +169,8 @@ function interactionRegistry() {
     fields: ['actor', 'trigger', 'target', 'data_effect', 'ui_effect', 'success', 'failure', 'permission', 'analytics_event'],
     analytics: 'AIO has no product analytics pipeline (scan G-ANALYTICS); analytics_event keys are proposed and carried by the activity + audit trail.',
     by_status: count(aioIfta.AIO_IFTA_INTERACTIONS, (x) => x.status),
-    contract_sheet_items: ['01 UPLOAD RECEIPT → I.UPLOAD_RECEIPT', '02 IMPORT CSV → I.IMPORT_CSV · I.IMPORT_MILEAGE_REPORT', '03 OPEN DETAIL DRAWER → I.OPEN_RECEIPT · I.OPEN_MILEAGE_RECORD · I.OPEN_VEHICLE · I.OPEN_JURISDICTION · I.OPEN_FILE', '04 FILTER / SORT → I.FILTER_SORT', '05 VERIFY RECORD → I.CONFIRM_VEHICLES · I.STAFF_VERIFY_RECEIPT · I.VERIFY_MILEAGE_SOURCE', '06 REQUEST CORRECTION → I.REQUEST_CORRECTION', '07 REVIEW DRAFT → I.REVIEW_DRAFT', '08 MESSAGE TEAM → I.MESSAGE_AIO', '09 (illegible) → I.CONTRACT_09', '10 SUBMIT FOR APPROVAL → I.SEND_QUARTER_TO_AIO · I.SEND_FOR_APPROVAL', '11 FILE & CONFIRM → I.RECORD_FILING'],
+    contract_sheet_items: aioIfta.AIO_IFTA_CONTRACT_INTERACTION_SEQUENCE.map((x) => `${x.item} ${x.label} → ${x.interactions.join(' · ')}${x.status === 'DEFINED' ? '' : ` (${x.status})`}`),
+    contract_sheet_sequence: aioIfta.AIO_IFTA_CONTRACT_INTERACTION_SEQUENCE,
     interactions: aioIfta.AIO_IFTA_INTERACTIONS.map((x) => ({ ...x, used_by: usedBy('interactions', x.interaction_id), write_contract_status: x.write_contract ? aioIfta.dataContract(x.write_contract)?.status ?? 'UNKNOWN' : null })),
   };
 }
@@ -181,7 +188,9 @@ function actorModeMap() {
   const g = gateSummary();
   const nodes = (actor: string) => aioIfta.AIO_IFTA_MATERIAL_NODES.filter((n) => n.actor === actor);
   const ready = (actor: string) => aioIfta.AIO_IFTA_READINESS.filter((x) => x.actor === actor && x.IMPLEMENTATION_READY).length;
+  const ENV = { CLIENT: 'AIO.CLIENT_OFFICE', FOUNDER_STAFF: 'AIO.OFFICE', PUBLIC: 'AIO.PUBLIC_SITE' } as const;
   const mk = (actor: 'CLIENT' | 'FOUNDER_STAFF' | 'PUBLIC') => ({
+    operating_environment: brain.AIO_ENVIRONMENTS.find((e) => e.environment_id === ENV[actor]),
     theme: aioIfta.AIO_ACTOR_THEMES[actor],
     authority: aioIfta.AIO_IFTA_AUTHORITIES[actor].authority_id,
     authority_mode: actor === 'CLIENT' ? 'PARENT (3 territories → LOVE_IT T03 LIGHT)' : 'DERIVED FROM THE CLIENT PARENT',
@@ -197,7 +206,7 @@ function actorModeMap() {
     implementation_ready: ready(actor),
     experience: { primary_question: brain.AIO_IFTA_CONTRACT.information_hierarchy[actor]?.primary_question ?? null, emotional_target: brain.AIO_IFTA_CONTRACT.emotional_target[actor] ?? null },
   });
-  return { ...head('AIO_IFTA_ACTOR_MODE_MAP'), actors: { CLIENT: mk('CLIENT'), FOUNDER_STAFF: mk('FOUNDER_STAFF'), PUBLIC: mk('PUBLIC') }, mirror_rule: 'FOUNDER / STAFF mirror the client quarter as a CASE FILE (mirror, not copy); every material client state carries its staff interpretation.', public_rule: 'PUBLIC MODE IS NOT THE CLIENT APPLICATION WITH DATA HIDDEN. It is a service experience; it never displays private client data (SAMPLE quarter only).' };
+  return { ...head('AIO_IFTA_ACTOR_MODE_MAP'), architecture: 'Actor modes sit inside operating environments: FOUNDER / STAFF in AIO OFFICE (client × workspace × subcontext), CLIENT in CLIENT OFFICE (fixed client × workspace × subcontext), PUBLIC on the PUBLIC SITE.', actors: { CLIENT: mk('CLIENT'), FOUNDER_STAFF: mk('FOUNDER_STAFF'), PUBLIC: mk('PUBLIC') }, mirror_rule: 'FOUNDER / STAFF mirror the client quarter as a CASE FILE (mirror, not copy); every material client state carries its staff interpretation.', public_rule: 'PUBLIC MODE IS NOT THE CLIENT APPLICATION WITH DATA HIDDEN. It is a service experience; it never displays private client data (SAMPLE quarter only).' };
 }
 
 function responsiveMap() {
@@ -234,6 +243,115 @@ function dataReconciliation() {
   };
 }
 
+/** Remaining blockers grouped by kind — data blockers stay separate from authority blockers (sprint §31). */
+function remainingBlockers() {
+  const blocked = aioIfta.AIO_IFTA_READINESS.filter((x) => !x.IMPLEMENTATION_READY);
+  const by = (prefix: string) => blocked.filter((x) => x.blockers.some((b) => b.startsWith(prefix))).map((x) => ({ node_id: x.node_id, blockers: x.blockers.filter((b) => b.startsWith(prefix)) }));
+  return {
+    data: by('data:'),
+    authority: by('authority:'),
+    interaction: by('interaction:'),
+    data_blocker_groups: [
+      { blocker: 'CSV IMPORT', contract: 'FUEL.write.importCsv' },
+      { blocker: 'STAFF ESCALATE', contract: 'STAFF.write.escalate' },
+      { blocker: 'MARK NOT OPERATED', contract: 'STAFF.write.markNotOperated' },
+      { blocker: 'WORKSHEET WRITER', contract: 'STAFF.write.worksheet' },
+      { blocker: 'REJECTION / REOPEN PERSISTENCE', contract: 'STAFF.write.recordRejection · STAFF.write.reopenQuarter' },
+      { blocker: 'RECLASSIFY RECEIPT', contract: 'STAFF.write.reclassifyReceipt' },
+      { blocker: 'EXPORT REPORT', contract: 'STAFF.write.exportReport' },
+      { blocker: 'STAFF NOTES MODEL', contract: 'NOTES.read · NOTES.write' },
+      { blocker: 'PUBLIC AVAILABILITY TRUTH', contract: 'PUBLIC.read.availability · ENROLL.write.requestService' },
+      { blocker: 'ROUTE REGISTRATION', contract: 'implementation prerequisite (G-ROUTES) — /office/workspaces/ifta/* · /office/clients/:clientId/ifta/:quarter · /portal/workspaces/ifta/*' },
+      { blocker: 'PRODUCTION PERSISTENCE', contract: 'implementation prerequisite (G-DATA-PERSISTENCE) — IFTA lives in the demo store only' },
+    ],
+  };
+}
+
+function decisionRegistry() {
+  return {
+    ...head('AIO_IFTA_DECISION_REGISTRY'),
+    rule: 'Decisions the founder settles with the tree. FOUNDER-LOCKED items carry founder_decision + decided_in; rule-decided items are settled by an explicit package / contract rule (recommendation).',
+    summary: { total: aioIfta.AIO_IFTA_DECISIONS.length, open: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'OPEN').length, founder_locked: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.founder_decision).length, decided_by_rule: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'DECIDED' && !d.founder_decision).length },
+    founder_locked: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.founder_decision),
+    decided_by_rule: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'DECIDED' && !d.founder_decision),
+    open: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'OPEN'),
+    resolved_tokens: aioIfta.AIO_RESOLVED_TOKENS,
+    typography: aioIfta.AIO_TYPOGRAPHY_AUTHORITY.resolved,
+  };
+}
+
+function queueDerivationContract() {
+  const q = aioIfta.aioIftaNode('AIO.IFTA.STAFF.QUEUE')!;
+  const rd = aioIfta.AIO_IFTA_READINESS.find((x) => x.node_id === q.node_id)!;
+  return {
+    ...head('AIO_IFTA_QUEUE_DERIVATION_CONTRACT'),
+    decision: aioIfta.AIO_IFTA_DECISIONS.find((d) => d.decision_id === 'D-STAFF-QUEUE-AUTHORITY'),
+    authority_status: { previous: 'MISSING_AUTHORITY', now: 'DERIVED_AUTHORITY', vocabulary: ['DEDICATED_REFERENCE', 'DERIVED_AUTHORITY', 'MISSING_AUTHORITY'] },
+    design_as: 'IFTA WORKSPACE CROSS-CLIENT LANDING STATE — primary object MULTI-CLIENT FILING QUEUE. Not a duplicate of the case page: no per-client hero, no tab family, no case metrics.',
+    derived_from: { authority: 'AIO.IFTA.FOUNDER_STAFF.PFA.v1', references: ['FOUNDER_STAFF_TABLET_DESKTOP', 'ACTOR_MODES_MOBILE (staff column)', 'PAGE_COMPONENT_INTERACTION_CONTRACT', 'ICON_ASSET_SHEET'] },
+    inherits: ['LIGHT BODY', 'DARK OPERATIONAL ACCENTS', 'STATUS CHIPS', 'RISK LANGUAGE', 'METRICS (strip of bucket counts)', 'DENSE TABLE (row family)', 'NEXT-ACTION (per row)', 'AIO VISUAL LANGUAGE (simple mark in nav · lower brand band)'],
+    must_not: ['copy the case hero per client', 'render a tab family', 'invent columns without contract truth', 'show RISK TIER or per-task assignees (no model)'],
+    information_model: { questions: brain.AIO_IFTA_QUEUE_QUESTIONS, fields: brain.AIO_IFTA_QUEUE_FIELDS },
+    buckets: { contract_hub_buckets: ['AWAITING_CLIENT', 'BLOCKED', 'NEEDS_REVIEW', 'READY_TO_FILE', 'COMPLETE'], aio_split: ['FILED', 'PAYMENT_PENDING'], founder_views: ['NEEDS ATTENTION', 'WAITING ON CLIENT', 'WAITING ON AIO', 'BLOCKED', 'READY TO PREPARE', 'AWAITING APPROVAL', 'READY TO FILE', 'RETURNED / REJECTED', 'COMPLETE'] },
+    entry: { from: 'AIO OFFICE → WORKSPACE IFTA (workspace landing)', to: 'CLIENT CONTEXT → CLIENT-QUARTER CASE (same canonical case as the client route)' },
+    node: { node_id: q.node_id, components: q.components, interactions: q.interactions, states: q.states, read_contracts: q.read_contracts, authority_refs: q.authority_refs, responsive_modes: q.responsive_modes, context: q.context },
+    readiness: rd,
+  };
+}
+
+function interaction09Proof(): string {
+  const x = aioIfta.AIO_IFTA_INTERACTIONS.find((i) => i.interaction_id === 'I.RUN_FAQS')!;
+  const d = aioIfta.AIO_IFTA_DECISIONS.find((i) => i.decision_id === 'D-INTERACTION-09')!;
+  const gap = aioIfta.buildGapReport().resolved_gaps.find((g) => g.gap_id === 'G-INTERACTION-09')!;
+  const boundMaterial = aioIfta.AIO_IFTA_MATERIAL_NODES.filter((n) => n.interactions.includes(x.interaction_id)).map((n) => n.node_id);
+  const boundFamilies = aioIfta.AIO_IFTA_TREE.filter((n) => n.interactions.includes(x.interaction_id)).map((n) => n.node_id);
+  return [
+    '# Interaction 09 — Correction Proof',
+    '',
+    '> Generated by `scripts/studioos/aio-ifta-authority-bundle-export.ts`. Do not edit by hand.',
+    '',
+    `**Sprint:** ${REV.revised_in}`,
+    '',
+    '## What changed',
+    '',
+    '| | Before (revision 1) | After (revision 2) |',
+    '|---|---|---|',
+    '| Registry id | `I.CONTRACT_09` | `' + x.interaction_id + '` |',
+    '| Label | “(illegible in the contract sheet — “…FAQS”)” | **09 RUN FAQS** |',
+    '| Status | ILLEGIBLE_IN_AUTHORITY | ' + x.status + ' |',
+    '| Decision | D-INTERACTION-09 OPEN | D-INTERACTION-09 ' + d.status + ' |',
+    '| Gap | G-INTERACTION-09 authority gap | ' + gap.status + ' — ' + gap.blocking + ' |',
+    '',
+    '## Evidence',
+    '',
+    '- **Founder:** supplied a clearer image of the contract sheet; item 09 reads **RUN FAQS**.',
+    '- **Bundle image** (`06_CONTRACTS/AIO_IFTA_PAGE_COMPONENT_INTERACTION_CONTRACT`): position 09 and its icon are present between 08 MESSAGE TEAM and 10 SUBMIT FOR APPROVAL. The label glyphs are garbled at bundle resolution and no behaviour line is legible.',
+    '',
+    '## Sequence (preserved verbatim)',
+    '',
+    '| # | Label | Registry | Status |',
+    '|---|---|---|---|',
+    ...aioIfta.AIO_IFTA_CONTRACT_INTERACTION_SEQUENCE.map((s) => `| ${s.item} | ${s.label} | ${s.interactions.join(' · ')} | ${s.status} |`),
+    '',
+    '## What is known and what is not',
+    '',
+    '| Field | Value |',
+    '|---|---|',
+    `| label | ${x.label} |`,
+    `| trigger | ${x.trigger} |`,
+    `| actor | ${x.actor} |`,
+    `| target | ${x.target} |`,
+    `| data effect · UI effect · success · failure · permission | ${[x.data_effect, x.ui_effect, x.success, x.failure, x.permission].every((v) => v === 'NEEDS_CLARIFICATION') ? 'NEEDS_CLARIFICATION (no behaviour invented)' : 'see registry'} |`,
+    '',
+    '## Binding',
+    '',
+    `- Bound to the page families: ${boundFamilies.map((n) => '`' + n + '`').join(', ')} (contract interaction set).`,
+    `- Bound to material nodes: ${boundMaterial.length ? boundMaterial.join(', ') : 'none'} — it blocks no unrelated node.`,
+    '- When the founder describes the behaviour, the interaction is bound to its target node and its status becomes DEFINED.',
+    '',
+  ].join('\n');
+}
+
 function readiness() {
   const r = aioIfta.AIO_IFTA_READINESS;
   const k = ['EXPERIENCE_READY', 'AUTHORITY_READY', 'DATA_READY', 'INTERACTION_READY', 'PERMISSIONS_KNOWN', 'RESPONSIVE_RULE_EXISTS', 'IMPLEMENTATION_READY'] as const;
@@ -243,12 +361,15 @@ function readiness() {
     rule: 'NO FALSE READINESS — IMPLEMENTATION_READY only when the experience contract, authority binding, required data contracts, interactions, actor permissions and responsive rules all exist (evaluateNodeReadiness).',
     meaning: 'IMPLEMENTATION_READY = the authority-driven UI for this node can be built against existing functional contracts. FUNCTIONALLY_PARTIAL nodes run on demo-store persistence / stand-in parsing (global data findings); production persistence is a separate data sprint.',
     implementation_may_begin: false,
-    why_not: 'Founder pipeline step 10: the founder confirms the page / tab / state tree (and settles the OPEN decisions) before any implementation. Gate guard: PAGE_TREE_CONFIRMATION_REQUIRED for all three actors.',
+    why_not: 'Founder pipeline step 10: the founder confirms the revised page / tab / state tree before any implementation (the ten decisions are locked). Gate guard: PAGE_TREE_CONFIRMATION_REQUIRED for all three actors.',
     family_gate: g,
+    before_after: { before: REV.previous.implementation_ready, after: r.filter((n) => n.IMPLEMENTATION_READY).length, material_nodes: r.length },
+    remaining_blockers: remainingBlockers(),
     summary: { material_nodes: r.length, ...Object.fromEntries(k.map((x) => [x, r.filter((n) => n[x]).length])), visual_status: count(r, (x) => x.visual_status), functional_status: count(r, (x) => x.functional_status) },
     by_actor: Object.fromEntries(ACTORS.map((a) => [a, { total: r.filter((x) => x.actor === a).length, implementation_ready: r.filter((x) => x.actor === a && x.IMPLEMENTATION_READY).length }])),
     open_decisions: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'OPEN'),
-    decided_by_rule: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'DECIDED'),
+    locked_by_founder: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'DECIDED' && d.founder_decision).map((d) => d.decision_id),
+    decided_by_rule: aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'DECIDED' && !d.founder_decision).map((d) => d.decision_id),
     implementation_prerequisites: aioIfta.AIO_IFTA_IMPLEMENTATION_PREREQUISITES,
     nodes: r,
   };
@@ -271,7 +392,7 @@ function proofMarkdown(): string {
     const rd = ready.get(id);
     const fn = { FUNCTIONALLY_COMPLETE: 'contracts existing', FUNCTIONALLY_PARTIAL: 'contracts partial', FUNCTIONALLY_MISSING: 'contracts missing' }[rd?.functional_status ?? 'FUNCTIONALLY_MISSING'];
     const tag = rd ? ` — ${rd.IMPLEMENTATION_READY ? 'READY' : 'BLOCKED'} · ${rd.visual_status.replace('VISUALLY_', 'visual ').toLowerCase()} · ${fn}` : '';
-    outline.push(`${'  '.repeat(depth)}- \`${n.node_type}\` **${n.title}**${n.tab_class === 'SECONDARY_CANDIDATE' ? ' *(candidate)*' : ''}${tag}`);
+    outline.push(`${'  '.repeat(depth)}- \`${n.node_type}\` **${n.title}**${n.tab_class === 'SECONDARY' ? ' *(secondary)*' : ''}${tag}`);
     for (const c of kids(id)) walk(c.node_id, depth + 1);
   };
   walk('AIO', 0);
@@ -281,7 +402,9 @@ function proofMarkdown(): string {
     '',
     `> Generated by \`scripts/studioos/aio-ifta-authority-bundle-export.ts\` from \`shared/studioos-visual-authority/projects/aio/ifta-authority\`. Do not edit by hand.`,
     '',
-    `**Sprint:** ${SPRINT}`,
+    `**Sprint:** ${SPRINT} · **Revision ${REV.revision}:** ${REV.revised_in}`,
+    '',
+    `Revision ${REV.revision} changes: ${REV.changes.join('; ')}.`,
     '',
     'This sprint tests whether the Brain can ingest the authority package and produce the complete page / tab / state tree without improvising. **No page was implemented. No generation ran.**',
     '',
@@ -290,13 +413,15 @@ function proofMarkdown(): string {
     '| Check | Result |',
     '|---|---|',
     '| Authority bundle ingest | PASS — 12 images + README + manifest, sha256-pinned, every file has a role |',
-    '| Brand DNA binding | PASS — palette, uppercase typography, LOCKED logo rule and actor themes bound; two internal conflicts surfaced as decisions |',
+    '| Brand DNA binding | PASS — palette, uppercase typography, LOCKED logo rule and actor themes bound; token + typography conflicts settled by the founder (D-BRAND-TOKENS · D-TYPOGRAPHY) |',
+    '| Architecture | AIO OFFICE (client × workspace × subcontext) · CLIENT OFFICE (fixed client × workspace × subcontext) · PUBLIC SITE — IFTA is a workspace in each office |',
     `| Legacy visual firewall | PASS — ${s.legacy_visual_leaks} leaks; legacy read for function only |`,
     `| Actor modes | 3 / 3 |`,
     `| Viewport modes | ${cov.viewport_modes} / 3 |`,
     `| Reference package | ${s.reference_package} |`,
-    `| Implementation-ready nodes | ${s.implementation_ready_nodes.ready} / ${s.implementation_ready_nodes.total} |`,
-    '| Implementation may begin | NO — the founder confirms this tree first (pipeline step 10) |',
+    `| Implementation-ready nodes | ${s.implementation_ready_nodes.ready} / ${s.implementation_ready_nodes.total} (revision 1: ${REV.previous.implementation_ready} / ${REV.previous.material_nodes}) |`,
+    `| Tree status | ${REV.status_flags.join(' · ')} |`,
+    '| Implementation may begin | NO — the founder confirms this revised tree first (pipeline step 10) |',
     '',
     '### Gate (Visual Authority Development Gate, eight durable conditions)',
     '',
@@ -308,9 +433,9 @@ function proofMarkdown(): string {
     '',
     '## 2. Coverage',
     '',
-    '| Pages | Sections | Tabs (primary + candidate) | Child pages | Drawers | Modals | Flows | State views | States | Interactions | Components | Data domains | Page families |',
-    '|---|---|---|---|---|---|---|---|---|---|---|---|---|',
-    `| ${cov.pages} | ${cov.sections} | ${cov.tabs} (${cov.primary_tabs} + ${cov.candidate_tabs}) | ${cov.children} | ${cov.drawers} | ${cov.modals} | ${cov.flows} | ${cov.state_views} | ${cov.states} | ${cov.interactions} | ${cov.components} | ${cov.data_domains} | ${cov.page_families} |`,
+    '| Environments | Hubs | Workspaces | Pages | Sections | Tabs (primary + secondary) | Child pages | Drawers | Modals | Flows | State views | States | Interactions | Components | Data domains | Page families |',
+    '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
+    `| ${cov.operating_environments} | ${cov.hubs} | ${cov.workspaces} | ${cov.pages} | ${cov.sections} | ${cov.tabs} (${cov.primary_tabs} + ${cov.secondary_tabs}) | ${cov.children} | ${cov.drawers} | ${cov.modals} | ${cov.flows} | ${cov.state_views} | ${cov.states} | ${cov.interactions} | ${cov.components} | ${cov.data_domains} | ${cov.page_families} |`,
     '',
     `Material nodes: **${cov.material_nodes}**, each carrying the full node contract. Tree integrity: ${aioIfta.AIO_IFTA_TREE_INTEGRITY.ok ? 'OK' : 'FAIL'}.`,
     '',
@@ -344,15 +469,20 @@ function proofMarkdown(): string {
     '',
     '## 7. Reference package',
     '',
-    `**${gap.status}**`,
+    `**${gap.status}** (revision 1: ${REV.previous.reference_package})`,
     '',
-    ...gap.authority_gaps.map((x) => `- **${x.gap_id}** — ${x.missing}. ${x.why_not_derived}`),
+    ...(gap.authority_gaps.length ? gap.authority_gaps.map((x) => `- **${x.gap_id}** — ${x.missing}.`) : ['- No IFTA authority gap remains.']),
+    ...gap.resolved_gaps.map((x) => `- **${x.gap_id}** ${x.previous_status} → **${x.status}** — ${x.resolution}`),
+    '',
+    `Environment pages outside the IFTA package (authority MISSING, block no IFTA node): ${gap.environment_authority_gaps.nodes.map((n) => n.title).join(' · ')}.`,
     '',
     `Runtime assets absent from the package (not authority gaps; SIDEKICK_FALLBACK_ONLY candidates, nothing generated): ${gap.runtime_asset_gaps.assets.map((a) => a.asset_id).join(', ')}.`,
     '',
-    '## 8. Decisions for the founder (settled at tree confirmation)',
+    '## 8. Founder decisions (locked)',
     '',
-    ...decisions.map((d) => `- **${d.decision_id}** (${d.kind}${d.blocks_nodes.length ? `, blocks ${d.blocks_nodes.length} node${d.blocks_nodes.length === 1 ? '' : 's'}` : ', global'}): ${d.question}\n  - Recommendation: ${d.recommendation}`),
+    ...aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.founder_decision).map((d) => `- **${d.decision_id}** — ${d.founder_decision}`),
+    '',
+    decisions.length ? `Open: ${decisions.map((d) => d.decision_id).join(', ')}.` : 'Open decisions: none. The tree awaits final founder confirmation.',
     '',
     '## 9. Data reconciliation (read-only)',
     '',
@@ -360,7 +490,7 @@ function proofMarkdown(): string {
     '',
     '## 10. Next',
     '',
-    '1. The founder confirms the tree and settles the open decisions. The gate then moves to IMPLEMENTATION_READY.',
+    '1. The founder confirms this revised tree (decisions are locked). The gate then moves to IMPLEMENTATION_READY.',
     '2. **Authority-driven implementation sprint**, which builds the ready nodes against the existing contracts.',
     '3. **Data-contract completion sprint**, run in parallel. It covers the staff worksheet writer, CSV import, staff overrides, rejection / reopen, availability truth, routes, and production persistence.',
     '',
@@ -382,6 +512,9 @@ export function buildAioIftaAuthorityBundleExports(): Record<string, string> {
     'AIO_IFTA_IMPLEMENTATION_READINESS.json': json(readiness()),
     'AIO_IFTA_REFERENCE_PACKAGE_GAP_REPORT.json': json({ ...head('AIO_IFTA_REFERENCE_PACKAGE_GAP_REPORT'), ...aioIfta.buildGapReport(), asset_contract: { classes: aioIfta.ASSET_CLASSES, by_class: count(aioIfta.AIO_IFTA_ASSETS, (a) => a.asset_class), strictness: aioIfta.AIO_IFTA_ASSET_STRICTNESS, assets: aioIfta.AIO_IFTA_ASSETS }, sidekick: aioIfta.AIO_IFTA_SIDEKICK_POLICY }),
     'AIO_IFTA_PAGE_TREE_PROOF.md': proofMarkdown(),
+    'AIO_IFTA_DECISION_REGISTRY.json': json(decisionRegistry()),
+    'AIO_IFTA_QUEUE_DERIVATION_CONTRACT.json': json(queueDerivationContract()),
+    'AIO_IFTA_INTERACTION_09_CORRECTION_PROOF.md': interaction09Proof(),
   };
 }
 

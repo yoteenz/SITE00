@@ -1,0 +1,355 @@
+{
+  "id": "AIO_IFTA_QUEUE_DERIVATION_CONTRACT",
+  "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": 2,
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
+  "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
+  "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
+  "generated_for": "2026-10-06",
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "legacy_visual_authority": "FORBIDDEN"
+  },
+  "decision": {
+    "decision_id": "D-STAFF-QUEUE-AUTHORITY",
+    "kind": "AUTHORITY",
+    "scope": "NODE",
+    "status": "DECIDED",
+    "question": "The package has no reference for the multi-client FUEL TAX QUEUE (contract work_queue: client-quarters by due date × readiness with hub buckets). How is its authority supplied?",
+    "options": [
+      "Founder supplies a queue authority (one image, light dense)",
+      "Founder authorises derivation from the staff case authority (status chips · risk / flag panel · metrics rail · table rows)",
+      "Sidekick fallback (explicit founder request only)"
+    ],
+    "recommendation": "Founder supplies (or explicitly authorises derivation of) a queue authority. The Brain does not invent the queue composition.",
+    "blocks_nodes": [
+      "AIO.IFTA.STAFF.QUEUE"
+    ],
+    "evidence": [
+      "FOUNDER_STAFF_TABLET_DESKTOP (single client only)",
+      "experience contract perspectives.founder_staff.work_queue + hub_buckets"
+    ],
+    "founder_decision": "Derivation AUTHORIZED from the staff case authority (light body, dark accents, status chips, risk language, metrics, dense table, next-action, AIO visual language). Designed as the IFTA WORKSPACE CROSS-CLIENT LANDING STATE — primary object MULTI-CLIENT FILING QUEUE — not a duplicate of the case page.",
+    "decided_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1"
+  },
+  "authority_status": {
+    "previous": "MISSING_AUTHORITY",
+    "now": "DERIVED_AUTHORITY",
+    "vocabulary": [
+      "DEDICATED_REFERENCE",
+      "DERIVED_AUTHORITY",
+      "MISSING_AUTHORITY"
+    ]
+  },
+  "design_as": "IFTA WORKSPACE CROSS-CLIENT LANDING STATE — primary object MULTI-CLIENT FILING QUEUE. Not a duplicate of the case page: no per-client hero, no tab family, no case metrics.",
+  "derived_from": {
+    "authority": "AIO.IFTA.FOUNDER_STAFF.PFA.v1",
+    "references": [
+      "FOUNDER_STAFF_TABLET_DESKTOP",
+      "ACTOR_MODES_MOBILE (staff column)",
+      "PAGE_COMPONENT_INTERACTION_CONTRACT",
+      "ICON_ASSET_SHEET"
+    ]
+  },
+  "inherits": [
+    "LIGHT BODY",
+    "DARK OPERATIONAL ACCENTS",
+    "STATUS CHIPS",
+    "RISK LANGUAGE",
+    "METRICS (strip of bucket counts)",
+    "DENSE TABLE (row family)",
+    "NEXT-ACTION (per row)",
+    "AIO VISUAL LANGUAGE (simple mark in nav · lower brand band)"
+  ],
+  "must_not": [
+    "copy the case hero per client",
+    "render a tab family",
+    "invent columns without contract truth",
+    "show RISK TIER or per-task assignees (no model)"
+  ],
+  "information_model": {
+    "questions": [
+      {
+        "question": "WHICH CLIENT-QUARTERS NEED ATTENTION",
+        "answer": "bucket BLOCKED + NEEDS_REVIEW + effective state OVERDUE_RISK",
+        "source": "all-in-one-enterprises/src/ifta/iftaDerive.ts:528 staffBucket · :328 effectiveState",
+        "status": "EXISTING"
+      },
+      {
+        "question": "WHAT IS DUE NEXT",
+        "answer": "sort by due date × bucket priority × readiness",
+        "source": "all-in-one-enterprises/src/ifta/iftaDerive.ts:596 sortStaffQueue",
+        "status": "EXISTING"
+      },
+      {
+        "question": "WHAT IS BLOCKED",
+        "answer": "bucket BLOCKED (contract hub_buckets: OVERDUE_RISK · FILING_REJECTED)",
+        "source": "all-in-one-enterprises/src/ifta/iftaDerive.ts:528 · all-in-one-enterprises/src/ifta/experience/iftaExperience.ts:355 staffHubBucketFor",
+        "status": "EXISTING"
+      },
+      {
+        "question": "WHAT WAITS ON THE CLIENT",
+        "answer": "bucket AWAITING_CLIENT (QUARTER_OPEN · COLLECTING · NEEDS_CLIENT · AWAITING_APPROVAL)",
+        "source": "all-in-one-enterprises/src/ifta/iftaDerive.ts:528",
+        "status": "EXISTING"
+      },
+      {
+        "question": "WHAT WAITS ON AIO",
+        "answer": "bucket NEEDS_REVIEW (AIO_REVIEW · RECONCILING)",
+        "source": "all-in-one-enterprises/src/ifta/iftaDerive.ts:528",
+        "status": "EXISTING"
+      },
+      {
+        "question": "WHAT IS READY FOR PREPARATION",
+        "answer": "state AIO_REVIEW (client sent the quarter; reconciliation not started)",
+        "source": "all-in-one-enterprises/src/ifta/iftaTypes.ts:154 state",
+        "status": "EXISTING"
+      },
+      {
+        "question": "WHAT IS AWAITING APPROVAL",
+        "answer": "state AWAITING_APPROVAL",
+        "source": "all-in-one-enterprises/src/ifta/iftaTypes.ts:154 state",
+        "status": "EXISTING"
+      },
+      {
+        "question": "WHAT IS READY TO FILE",
+        "answer": "bucket READY_TO_FILE (approved, FILING)",
+        "source": "all-in-one-enterprises/src/ifta/iftaDerive.ts:528",
+        "status": "EXISTING"
+      },
+      {
+        "question": "WHAT WAS RETURNED / REJECTED",
+        "answer": "state FILING_REJECTED (inside bucket BLOCKED)",
+        "source": "no FILING_REJECTED writer (STAFF.write.recordRejection MISSING) — the bucket can never populate until it exists",
+        "status": "MISSING"
+      }
+    ],
+    "fields": [
+      {
+        "field": "CLIENT",
+        "source": "IftaQuarterCase.organizationId → Client.companyName (all-in-one-enterprises/src/demo/demoTypes.ts:321)",
+        "status": "EXISTING"
+      },
+      {
+        "field": "ACCOUNT",
+        "source": "IftaQuarterCase.iftaAccount + baseJurisdiction (all-in-one-enterprises/src/ifta/iftaTypes.ts:151-153)",
+        "status": "EXISTING"
+      },
+      {
+        "field": "QUARTER",
+        "source": "IftaQuarterCase.year + quarter (all-in-one-enterprises/src/ifta/iftaTypes.ts:146-147)",
+        "status": "EXISTING"
+      },
+      {
+        "field": "DUE DATE",
+        "source": "IftaQuarterCase.dueDate (all-in-one-enterprises/src/ifta/iftaTypes.ts:150)",
+        "status": "EXISTING"
+      },
+      {
+        "field": "READINESS",
+        "source": "packetCompleteness().pct (all-in-one-enterprises/src/ifta/iftaDerive.ts:256)",
+        "status": "EXISTING"
+      },
+      {
+        "field": "CURRENT STATE",
+        "source": "effectiveState() + staffStatusLine() (all-in-one-enterprises/src/ifta/iftaDerive.ts:328 · :537)",
+        "status": "EXISTING"
+      },
+      {
+        "field": "NEEDS YOU",
+        "source": "clientOpenItems().length (all-in-one-enterprises/src/ifta/iftaDerive.ts:287)",
+        "status": "EXISTING"
+      },
+      {
+        "field": "BLOCKER",
+        "source": "blocking items + open discrepancies / corrections (all-in-one-enterprises/src/ifta/iftaDerive.ts:333 · iftaTypes.ts:163-164)",
+        "status": "PARTIAL"
+      },
+      {
+        "field": "RISK",
+        "source": "effective state OVERDUE_RISK (deadline risk only)",
+        "status": "PARTIAL",
+        "note": "No risk-tier model (LOW / MEDIUM / HIGH RISK has no backing)."
+      },
+      {
+        "field": "ASSIGNEE",
+        "source": "IftaQuarterCase.assignedStaffId → StaffMember.name (all-in-one-enterprises/src/ifta/iftaTypes.ts:155)",
+        "status": "EXISTING",
+        "note": "Case-level assignee; per-task assignees have no model."
+      },
+      {
+        "field": "LAST CLIENT ACTIVITY",
+        "source": "max(audit[].at where actor = CLIENT) (all-in-one-enterprises/src/ifta/iftaTypes.ts:134-141)",
+        "status": "EXISTING"
+      },
+      {
+        "field": "NEXT ACTION",
+        "source": "staffNextAction() (all-in-one-enterprises/src/ifta/iftaDerive.ts:581)",
+        "status": "EXISTING"
+      }
+    ]
+  },
+  "buckets": {
+    "contract_hub_buckets": [
+      "AWAITING_CLIENT",
+      "BLOCKED",
+      "NEEDS_REVIEW",
+      "READY_TO_FILE",
+      "COMPLETE"
+    ],
+    "aio_split": [
+      "FILED",
+      "PAYMENT_PENDING"
+    ],
+    "founder_views": [
+      "NEEDS ATTENTION",
+      "WAITING ON CLIENT",
+      "WAITING ON AIO",
+      "BLOCKED",
+      "READY TO PREPARE",
+      "AWAITING APPROVAL",
+      "READY TO FILE",
+      "RETURNED / REJECTED",
+      "COMPLETE"
+    ]
+  },
+  "entry": {
+    "from": "AIO OFFICE → WORKSPACE IFTA (workspace landing)",
+    "to": "CLIENT CONTEXT → CLIENT-QUARTER CASE (same canonical case as the client route)"
+  },
+  "node": {
+    "node_id": "AIO.IFTA.STAFF.QUEUE",
+    "components": [
+      "TOP_NAV",
+      "WORKSPACE_SWITCHER",
+      "CLIENT_SWITCHER",
+      "METRICS_RAIL",
+      "QUEUE_TABLE",
+      "STATUS_CHIP",
+      "RISK_FLAG_PANEL",
+      "BRAND_EXIT_BAND"
+    ],
+    "interactions": [
+      "I.OPEN_CASE",
+      "I.FILTER_QUEUE",
+      "I.SWITCH_CLIENT",
+      "I.SWITCH_WORKSPACE",
+      "I.RETURN_TO_HUB",
+      "I.SEARCH"
+    ],
+    "states": [
+      "AIO_REVIEWING",
+      "NEEDS_YOU",
+      "CORRECTION_REQUIRED",
+      "READY_FOR_AIO",
+      "CLIENT_APPROVAL_PENDING",
+      "APPROVED_FOR_FILING",
+      "FILING_REJECTED",
+      "OVERDUE_RISK",
+      "COMPLETE",
+      "UI.DEFAULT",
+      "UI.LOADING",
+      "UI.EMPTY",
+      "UI.ERROR"
+    ],
+    "read_contracts": [
+      "STAFF.read.queue",
+      "QUARTER.read.derived",
+      "STAFF.read.dates",
+      "OFFICE.read.clients",
+      "OFFICE.read.case_index"
+    ],
+    "authority_refs": [
+      {
+        "viewport": "MOBILE",
+        "binding": "DERIVED",
+        "refs": [
+          "ACTOR_MODES_MOBILE",
+          "FOUNDER_STAFF_TABLET_DESKTOP",
+          "PAGE_COMPONENT_INTERACTION_CONTRACT",
+          "ICON_ASSET_SHEET"
+        ],
+        "derivation": {
+          "family_composition_clear": true,
+          "component_contract_clear": true,
+          "tab_logic_clear": true,
+          "asset_family_clear": true
+        },
+        "note": "DERIVED_AUTHORITY (founder-authorised, D-STAFF-QUEUE-AUTHORITY): staff mobile column — bucket chips + stacked client-quarter cards with status chips and next action."
+      },
+      {
+        "viewport": "TABLET",
+        "binding": "DERIVED",
+        "refs": [
+          "FOUNDER_STAFF_TABLET_DESKTOP",
+          "PAGE_COMPONENT_INTERACTION_CONTRACT",
+          "ICON_ASSET_SHEET"
+        ],
+        "derivation": {
+          "family_composition_clear": true,
+          "component_contract_clear": true,
+          "tab_logic_clear": true,
+          "asset_family_clear": true
+        },
+        "note": "DERIVED_AUTHORITY: staff case authority light body + dark accents → metrics strip, bucket chips, dense queue table."
+      },
+      {
+        "viewport": "DESKTOP",
+        "binding": "DERIVED",
+        "refs": [
+          "FOUNDER_STAFF_TABLET_DESKTOP",
+          "PAGE_COMPONENT_INTERACTION_CONTRACT",
+          "ICON_ASSET_SHEET"
+        ],
+        "derivation": {
+          "family_composition_clear": true,
+          "component_contract_clear": true,
+          "tab_logic_clear": true,
+          "asset_family_clear": true
+        },
+        "note": "DERIVED_AUTHORITY: staff case authority → metrics strip, bucket chips, full dense table (risk + next-action columns), dark operational accent panel for blockers."
+      }
+    ],
+    "responsive_modes": [
+      {
+        "viewport": "MOBILE",
+        "rule_ref": "RESP.STAFF.MOBILE",
+        "node_rule": "metrics strip → bucket chips → stacked client-quarter cards"
+      },
+      {
+        "viewport": "TABLET",
+        "rule_ref": "RESP.STAFF.TABLET",
+        "node_rule": "metrics strip → bucket chips → dense table (client · quarter · due · state · next action)"
+      },
+      {
+        "viewport": "DESKTOP",
+        "rule_ref": "RESP.STAFF.DESKTOP",
+        "node_rule": "metrics strip → bucket chips → full dense table (all queue fields with contract truth) + blocker accent panel"
+      }
+    ],
+    "context": {
+      "environment_id": "AIO.OFFICE",
+      "workspace_id": "IFTA",
+      "client_scope": "CROSS_CLIENT",
+      "case_type": null,
+      "subcontext_type": null
+    }
+  },
+  "readiness": {
+    "node_id": "AIO.IFTA.STAFF.QUEUE",
+    "node_type": "PAGE",
+    "actor": "FOUNDER_STAFF",
+    "EXPERIENCE_READY": true,
+    "AUTHORITY_READY": true,
+    "DATA_READY": true,
+    "INTERACTION_READY": true,
+    "PERMISSIONS_KNOWN": true,
+    "RESPONSIVE_RULE_EXISTS": true,
+    "IMPLEMENTATION_READY": true,
+    "visual_status": "VISUALLY_DERIVED",
+    "functional_status": "FUNCTIONALLY_PARTIAL",
+    "blockers": []
+  }
+}

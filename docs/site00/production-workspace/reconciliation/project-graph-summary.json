@@ -1,0 +1,499 @@
+[
+  {
+    "project_id": "ndxbook",
+    "project_name": "NDXBOOK",
+    "truth": "LIVE — Entry 002 expression production is built at runtime from the hub read (useProjectGraph → expressionPartFromHub); the static part is empty by design.",
+    "sources": [],
+    "counts": {
+      "nodes": 0,
+      "top_level": 0,
+      "complete": 0,
+      "needs_you": 0,
+      "watching": 0,
+      "resolved": 0,
+      "blockers": 0,
+      "review_nodes": 0,
+      "artifacts": 0,
+      "canonical_artifacts": 0,
+      "events": 0
+    },
+    "stages": [],
+    "domains": {
+      "DESIGN": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only where site / interface authority is recorded for NDXBOOK."
+      },
+      "EXPERIENCE": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only where a spatial / world experience is developed."
+      },
+      "EXPRESSION": {
+        "established": false,
+        "node_count": 0,
+        "reason": "EXPRESSION applies to NDXBOOK (Campaign entries: narrative, casting, look, performance, sets, storyboard, keyframes), but no production node has been recorded yet."
+      }
+    },
+    "phase": null,
+    "next_action": null,
+    "design_method": null,
+    "experience_kinds": [],
+    "foreign_dropped": 0
+  },
+  {
+    "project_id": "jurnl",
+    "project_name": "JURNL",
+    "truth": "STATIC SOURCE TRUTH",
+    "sources": [
+      "F01 ENTRY family production contract",
+      "F02 SETUP family production contract",
+      "F03 TODAY family production contract",
+      "F04 ACTIVITY family production contract",
+      "F05 MONEY family production contract",
+      "F06 INCOME family production contract",
+      "F07 UPCOMING family production contract",
+      "F08 PLAN family production contract",
+      "F09 SAFE TO SPEND family production contract",
+      "F10 PURCHASES family production contract",
+      "F11 TRIPS family production contract",
+      "F12 CREDIT family production contract",
+      "F13 PAYDOWN family production contract",
+      "F14 GOALS family production contract",
+      "F15 AHEAD family production contract",
+      "F16 RECORDS family production contract"
+    ],
+    "counts": {
+      "nodes": 16,
+      "top_level": 16,
+      "complete": 0,
+      "needs_you": 4,
+      "watching": 0,
+      "resolved": 0,
+      "blockers": 12,
+      "review_nodes": 4,
+      "artifacts": 49,
+      "canonical_artifacts": 35,
+      "events": 0
+    },
+    "stages": [
+      {
+        "stage": "STRUCTURED",
+        "count": 12
+      },
+      {
+        "stage": "QA_READY",
+        "count": 4
+      }
+    ],
+    "domains": {
+      "DESIGN": {
+        "established": true,
+        "node_count": 16,
+        "reason": "16 design production nodes recorded for JURNL."
+      },
+      "EXPERIENCE": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only where a legitimate spatial / behaviour experience system exists."
+      },
+      "EXPRESSION": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only when a campaign, editorial or casting system is explicitly established."
+      }
+    },
+    "phase": {
+      "step": "VISUAL_AUTHORITY_DEVELOPMENT",
+      "label": "VISUAL AUTHORITY DEVELOPMENT",
+      "detail": "12 of 16 top-level nodes at this step"
+    },
+    "next_action": {
+      "node_id": "jurnl.design.family.f02",
+      "label": "F02 SETUP AUTHORITY VERDICT",
+      "owner": "FOUNDER",
+      "route": "/production/jurnl/design?family=F02"
+    },
+    "design_method": [
+      {
+        "step": "01",
+        "label": "LOAD BRAND DNA",
+        "families": []
+      },
+      {
+        "step": "02",
+        "label": "LOAD EXPERIENCE CONTRACT",
+        "families": []
+      },
+      {
+        "step": "03",
+        "label": "IGNORE LEGACY VISUALS",
+        "families": null
+      },
+      {
+        "step": "04",
+        "label": "CREATE 3 DISTINCT COMPOSITION TERRITORIES",
+        "families": [
+          "F05",
+          "F06",
+          "F07",
+          "F08",
+          "F09",
+          "F10",
+          "F11",
+          "F12",
+          "F13",
+          "F14",
+          "F15",
+          "F16"
+        ]
+      },
+      {
+        "step": "05",
+        "label": "GENERATE / ASSEMBLE REFERENCE AUTHORITIES",
+        "families": []
+      },
+      {
+        "step": "06",
+        "label": "FOUNDER CHOOSES / REVISES",
+        "families": [
+          "F02",
+          "F03",
+          "F04"
+        ]
+      },
+      {
+        "step": "07",
+        "label": "LOCK FINAL PAGE-FAMILY AUTHORITY",
+        "families": []
+      },
+      {
+        "step": "08",
+        "label": "IMPLEMENT",
+        "families": [
+          "F01"
+        ]
+      }
+    ],
+    "experience_kinds": [],
+    "foreign_dropped": 0
+  },
+  {
+    "project_id": "all-in-one-enterprises",
+    "project_name": "ALL IN ONE ENTERPRISES",
+    "truth": "STATIC SOURCE TRUTH",
+    "sources": [
+      "IFTA · FUEL TAX authority bundle + gate",
+      "IFTA · FUEL TAX experience contract (AIO.IFTA experience contract)"
+    ],
+    "counts": {
+      "nodes": 5,
+      "top_level": 1,
+      "complete": 0,
+      "needs_you": 1,
+      "watching": 0,
+      "resolved": 17,
+      "blockers": 0,
+      "review_nodes": 2,
+      "artifacts": 60,
+      "canonical_artifacts": 8,
+      "events": 3
+    },
+    "stages": [
+      {
+        "stage": "STRUCTURED",
+        "count": 1
+      }
+    ],
+    "domains": {
+      "DESIGN": {
+        "established": true,
+        "node_count": 5,
+        "reason": "5 design production nodes recorded for ALL IN ONE ENTERPRISES."
+      },
+      "EXPERIENCE": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only if a spatial / world experience is legitimately developed."
+      },
+      "EXPRESSION": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only where real marketing / editorial / campaign systems exist."
+      }
+    },
+    "phase": {
+      "step": "AUTHORITY_PACKAGE",
+      "label": "AUTHORITY PACKAGE",
+      "detail": "1 of 1 top-level node at this step"
+    },
+    "next_action": {
+      "node_id": "all-in-one-enterprises.design.aio-ifta.page-tree",
+      "label": "CONFIRM IFTA · FUEL TAX PAGE TREE",
+      "owner": "FOUNDER",
+      "route": "/production/all-in-one-enterprises/design"
+    },
+    "design_method": [
+      {
+        "step": "01",
+        "label": "LOAD BRAND DNA",
+        "families": []
+      },
+      {
+        "step": "02",
+        "label": "LOAD EXPERIENCE CONTRACT",
+        "families": []
+      },
+      {
+        "step": "03",
+        "label": "IGNORE LEGACY VISUALS",
+        "families": null
+      },
+      {
+        "step": "04",
+        "label": "CREATE 3 DISTINCT COMPOSITION TERRITORIES",
+        "families": []
+      },
+      {
+        "step": "05",
+        "label": "GENERATE / ASSEMBLE REFERENCE AUTHORITIES",
+        "families": []
+      },
+      {
+        "step": "06",
+        "label": "FOUNDER CHOOSES / REVISES",
+        "families": []
+      },
+      {
+        "step": "07",
+        "label": "LOCK FINAL PAGE-FAMILY AUTHORITY",
+        "families": [
+          "AIO.IFTA"
+        ]
+      },
+      {
+        "step": "08",
+        "label": "IMPLEMENT",
+        "families": []
+      }
+    ],
+    "experience_kinds": [],
+    "foreign_dropped": 0
+  },
+  {
+    "project_id": "studio-world",
+    "project_name": "STUDIO WORLD",
+    "truth": "NONE RECORDED",
+    "sources": [],
+    "counts": {
+      "nodes": 0,
+      "top_level": 0,
+      "complete": 0,
+      "needs_you": 0,
+      "watching": 0,
+      "resolved": 0,
+      "blockers": 0,
+      "review_nodes": 0,
+      "artifacts": 0,
+      "canonical_artifacts": 0,
+      "events": 0
+    },
+    "stages": [],
+    "domains": {
+      "DESIGN": {
+        "established": false,
+        "node_count": 0,
+        "reason": "DESIGN applies to STUDIO WORLD (Site / control interface), but no production node has been recorded yet."
+      },
+      "EXPERIENCE": {
+        "established": false,
+        "node_count": 0,
+        "reason": "EXPERIENCE applies to STUDIO WORLD (World building — zones, environments, rooms, inhabitants), but no production node has been recorded yet."
+      },
+      "EXPRESSION": {
+        "established": false,
+        "node_count": 0,
+        "reason": "EXPRESSION applies to STUDIO WORLD (Residents / character / camera / editorial work), but no production node has been recorded yet."
+      }
+    },
+    "phase": null,
+    "next_action": null,
+    "design_method": null,
+    "experience_kinds": [],
+    "foreign_dropped": 0
+  },
+  {
+    "project_id": "astral-world",
+    "project_name": "ASTRAL WORLD",
+    "truth": "STATIC SOURCE TRUTH",
+    "sources": [
+      "ASTRAL WORLD scene contracts",
+      "ASTRAL WORLD scene objects",
+      "ASTRAL WORLD interaction hotspots",
+      "ASTRAL WORLD reference authority manifest"
+    ],
+    "counts": {
+      "nodes": 36,
+      "top_level": 1,
+      "complete": 0,
+      "needs_you": 0,
+      "watching": 0,
+      "resolved": 0,
+      "blockers": 0,
+      "review_nodes": 0,
+      "artifacts": 11,
+      "canonical_artifacts": 11,
+      "events": 0
+    },
+    "stages": [
+      {
+        "stage": "VISUALLY_IMPLEMENTED",
+        "count": 1
+      }
+    ],
+    "domains": {
+      "DESIGN": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only where a site / page authority is recorded."
+      },
+      "EXPERIENCE": {
+        "established": true,
+        "node_count": 36,
+        "reason": "36 experience production nodes recorded for ASTRAL WORLD."
+      },
+      "EXPRESSION": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only where editorial / campaign work is established."
+      }
+    },
+    "phase": {
+      "step": "QA",
+      "label": "QA / E2E",
+      "detail": "1 of 1 top-level node at this step"
+    },
+    "next_action": {
+      "node_id": "astral-world.experience.world",
+      "label": "Run world experience QA; no founder verdict recorded for any scene",
+      "owner": "STUDIO",
+      "route": "/projects/astral-world/experience"
+    },
+    "design_method": null,
+    "experience_kinds": [
+      {
+        "kind": "WORLD",
+        "count": 1
+      },
+      {
+        "kind": "ZONE",
+        "count": 3
+      },
+      {
+        "kind": "SCENE",
+        "count": 9
+      },
+      {
+        "kind": "PORTAL",
+        "count": 2
+      },
+      {
+        "kind": "INTERACTION",
+        "count": 19
+      },
+      {
+        "kind": "ENVIRONMENT_ASSET",
+        "count": 1
+      },
+      {
+        "kind": "PRESENCE_MODEL",
+        "count": 1
+      }
+    ],
+    "foreign_dropped": 0
+  },
+  {
+    "project_id": "frontal-slayer",
+    "project_name": "FRONTAL SLAYER",
+    "truth": "NONE RECORDED",
+    "sources": [],
+    "counts": {
+      "nodes": 0,
+      "top_level": 0,
+      "complete": 0,
+      "needs_you": 0,
+      "watching": 0,
+      "resolved": 0,
+      "blockers": 0,
+      "review_nodes": 0,
+      "artifacts": 0,
+      "canonical_artifacts": 0,
+      "events": 0
+    },
+    "stages": [],
+    "domains": {
+      "DESIGN": {
+        "established": false,
+        "node_count": 0,
+        "reason": "DESIGN applies to FRONTAL SLAYER (Digital-location / site authority), but no production node has been recorded yet."
+      },
+      "EXPERIENCE": {
+        "established": false,
+        "node_count": 0,
+        "reason": "EXPERIENCE applies to FRONTAL SLAYER (The Mansion — spatial rooms (no room registry is recorded yet)), but no production node has been recorded yet."
+      },
+      "EXPRESSION": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Where campaigns / editorial apply."
+      }
+    },
+    "phase": null,
+    "next_action": null,
+    "design_method": null,
+    "experience_kinds": [],
+    "foreign_dropped": 0
+  },
+  {
+    "project_id": "site00",
+    "project_name": "SITE 00",
+    "truth": "NONE RECORDED",
+    "sources": [],
+    "counts": {
+      "nodes": 0,
+      "top_level": 0,
+      "complete": 0,
+      "needs_you": 0,
+      "watching": 0,
+      "resolved": 0,
+      "blockers": 0,
+      "review_nodes": 0,
+      "artifacts": 0,
+      "canonical_artifacts": 0,
+      "events": 0
+    },
+    "stages": [],
+    "domains": {
+      "DESIGN": {
+        "established": false,
+        "node_count": 0,
+        "reason": "DESIGN applies to SITE 00 (SITE 00 host site / page design), but no production node has been recorded yet."
+      },
+      "EXPERIENCE": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only where a spatial experience is developed."
+      },
+      "EXPRESSION": {
+        "established": false,
+        "node_count": 0,
+        "reason": "Only where campaigns / editorial are established."
+      }
+    },
+    "phase": null,
+    "next_action": null,
+    "design_method": null,
+    "experience_kinds": [],
+    "foreign_dropped": 0
+  }
+]

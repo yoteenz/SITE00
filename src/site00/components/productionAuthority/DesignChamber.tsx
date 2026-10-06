@@ -31,12 +31,53 @@ export function useDesignMode(): ProductionDesignMode {
   return isProductionDesignMode(raw) ? raw : 'brand';
 }
 
-/** Six fixed design modes, always in this order. The global DESIGN tab stays active while these switch. */
-export function DesignModeBar({ active }: { active: ProductionDesignMode }) {
-  const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
+/** The DESIGN route's project (always present under /production/:projectSlug — there is no default project). */
+function useDesignProjectSlug(): string {
+  const { projectSlug } = useParams<{ projectSlug: string }>();
+  return (projectSlug ?? '').toLowerCase();
+}
+
+/**
+ * DESIGN chamber modes a project actually has (P0 project isolation): an ingested project gets its own family
+ * chamber in every mode; NDXBOOK keeps its own (legacy) host chamber; a project with an isolated runtime gets the
+ * VIEWPORT. Every other project has the graph-driven DESIGN overview only — never another project's chamber.
+ */
+export function designModesFor(projectSlug: string): readonly ProductionDesignMode[] {
+  const slug = projectSlug.toLowerCase();
+  if (getIngestedProject(slug) || slug === 'ndxbook') return PRODUCTION_DESIGN_MODE_ORDER;
+  if (hasProjectRuntime(slug)) return ['viewport'];
+  return [];
+}
+
+export type DesignSurface = ProductionDesignMode | 'overview';
+
+/** DESIGN surface for the route: `?mode=` when the project has that mode, else the project's DESIGN overview. */
+export function useDesignSurface(projectSlug: string): DesignSurface {
+  const [params] = useSearchParams();
+  const raw = params.get('mode');
+  return isProductionDesignMode(raw) && designModesFor(projectSlug).includes(raw) ? raw : 'overview';
+}
+
+/**
+ * OVERVIEW (the project's DESIGN graph) + the chamber modes the project has, always in this order. The global DESIGN
+ * tab stays active while these switch.
+ */
+export function DesignModeBar({ active }: { active: DesignSurface }) {
+  const projectSlug = useDesignProjectSlug();
+  const modes = designModesFor(projectSlug);
+  if (!modes.length) return null;
   return (
     <nav className="pxa-modes" aria-label="Design modes" data-testid="design-modes">
-      {PRODUCTION_DESIGN_MODE_ORDER.map((m) => (
+      <Link
+        to={`/production/${projectSlug}/design`}
+        className={active === 'overview' ? 'is-active' : undefined}
+        aria-current={active === 'overview' ? 'page' : undefined}
+        data-testid="design-surface-overview"
+        replace
+      >
+        OVERVIEW
+      </Link>
+      {modes.map((m) => (
         <Link
           key={m}
           to={`/production/${projectSlug}/design?mode=${m}`}
@@ -280,7 +321,7 @@ function useProjectRuntimeViewport(projectSlug: string) {
 }
 
 function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
-  const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
+  const projectSlug = useDesignProjectSlug();
   const [params] = useSearchParams();
   const pr = useProjectRuntimeViewport(projectSlug);
   const projectViewport = pr.runtime?.viewport ?? null;
@@ -620,7 +661,7 @@ function ChamberBackdrop({ environment = 'atrium' }: { environment?: 'atrium' | 
 /** DESIGN workspace body: chamber (floating panels) + pipeline + on-your-table. One component, six modes. */
 export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
   const cfg = DESIGN_CHAMBER[mode];
-  const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
+  const projectSlug = useDesignProjectSlug();
   // Ingested projects (P0.JURNL.SITE00-INGEST-F01) get their OWN data in the host chamber — never NDXBOOK plates.
   const ingested = useMemo(() => getIngestedProject(projectSlug), [projectSlug]);
   const families = useMemo(() => (ingested ? projectFamilies(ingested.slug) : []), [ingested]);
@@ -700,6 +741,16 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
           </footer>
         </div>
       )}
+      {/* The host chamber's sample pipeline / table cards are NDXBOOK's legacy workspace — never shown under another
+          project's runtime viewport (their links open NDXBOOK's reconstruction workspace). */}
+      {mode === 'viewport' && hasProjectRuntime(projectSlug) ? null : <ChamberPipelineAndTable cfg={cfg} mode={mode} workspace={workspace} />}
+    </div>
+  );
+}
+
+function ChamberPipelineAndTable({ cfg, mode, workspace }: { cfg: DesignChamberConfig; mode: ProductionDesignMode; workspace: string }) {
+  return (
+    <>
       <Sec title="DESIGN PIPELINE" to={workspace} className="pxa-pipeline" testId="design-pipeline">
         <ol className="pxa-pipeline__steps" data-count={cfg.pipeline.length}>
           {cfg.pipeline.map((s, i) => (
@@ -727,6 +778,6 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
           ))}
         </div>
       </Sec>
-    </div>
+    </>
   );
 }

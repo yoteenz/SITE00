@@ -10,7 +10,7 @@
  *   MISSING  — nothing implements it.   CONFLICT — existing truth contradicts the contract.
  */
 import type { DataContractRef, DataDomainContract, DataReconciliationStatus } from '../../../tree.js';
-import { AIO_SCANNED_DOMAINS } from './data-evidence.js';
+import { AIO_SCANNED_DOMAINS, type ScannedDomain } from './data-evidence.js';
 
 const DOMAIN_META: Record<string, { label: string; owner: string; readers: string[]; writers: string[]; experience_refs: string[] }> = {
   QUARTER_CASE: { label: 'Quarter case (state machine, period, due date, enrollment)', owner: 'CLIENT (record) · AIO (process)', readers: ['CLIENT', 'FOUNDER_STAFF'], writers: ['CLIENT', 'FOUNDER_STAFF', 'SYSTEM'], experience_refs: ['states', 'transitions', 'primary_visual_object'] },
@@ -34,9 +34,31 @@ const DOMAIN_META: Record<string, { label: string; owner: string; readers: strin
   NOTES: { label: 'Notes (client notes for AIO · staff internal notes)', owner: 'SHARED', readers: ['CLIENT', 'FOUNDER_STAFF'], writers: ['CLIENT', 'FOUNDER_STAFF'], experience_refs: ['optional_inputs.NOTES_FOR_AIO'] },
   CLIENT_HEALTH_RISK: { label: 'Client health / risk', owner: 'AIO', readers: ['FOUNDER_STAFF'], writers: ['SYSTEM'], experience_refs: ['perspectives.founder_staff.blockers'] },
   ANALYTICS_EVENTS: { label: 'Product analytics events', owner: 'AIO', readers: ['FOUNDER_STAFF'], writers: ['SYSTEM'], experience_refs: [] },
+  OFFICE_CONTEXT: { label: 'Office context (clients · workspace states · canonical case index · expansion signals)', owner: 'AIO', readers: ['CLIENT', 'FOUNDER_STAFF'], writers: ['SYSTEM'], experience_refs: ['AIO_OFFICE_CONTEXT_MODEL', 'AIO_OFFICE_WORKSPACE_REGISTRY'] },
 };
 
-export const AIO_IFTA_DATA_DOMAINS: DataDomainContract[] = AIO_SCANNED_DOMAINS.map((d) => {
+/**
+ * Office-context domain (P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1) — from the read-only office /
+ * portal / identity / entitlement audit of fsbw @ 20438a2 (IFTA code unchanged since the 48d463f scan).
+ */
+const OFFICE_SCANNED_DOMAINS: ScannedDomain[] = [{
+  domain_id: 'OFFICE_CONTEXT', summary_status: 'PARTIAL',
+  evidence: {
+    TABLES: { status: 'PARTIAL', refs: ['all-in-one-enterprises/src/demo/demoTypes.ts:321', 'all-in-one-enterprises/src/demo/demoTypes.ts:565', 'all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:59'], note: 'Client (= organisation id in demo) + per-domain entitlement records (iftaQuarters, DispatchEnrollment, FactoringProfile, BookkeepingSubscription, InsurancePolicy …); aio_organizations in Supabase. No workspace-state table.' },
+    SERVICES: { status: 'CONFLICT', refs: ['all-in-one-enterprises/src/portal/clientCommandCenterService.ts:524', 'all-in-one-enterprises/src/office-core/client360Service.ts:29'], note: 'Two disagreeing “active services” heuristics (portal hard-codes permitting ACTIVE); neither covers IFTA. The Brain workspace resolver is the canonical replacement.' },
+    ROUTES: { status: 'PARTIAL', refs: ['all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:261', 'all-in-one-enterprises/src/utils/paths.ts:217'], note: 'Client context only via the :clientId route param; no workspace routes; IFTA helpers unrouted.' },
+    MUTATIONS: { status: 'NOT_APPLICABLE', refs: [], note: 'Context is resolved, never written.' },
+    RLS: { status: 'PARTIAL', refs: ['all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:144', 'all-in-one-enterprises/src/auth/guards/RouteGuards.tsx:69'], note: 'aio_user_org_ids() is multi-org capable; office guard passes everyone in demo mode; every office role reads every client.' },
+    FILES: { status: 'NOT_APPLICABLE', refs: [], note: '' },
+    REQUESTS: { status: 'PARTIAL', refs: ['all-in-one-enterprises/src/demo/demoTypes.ts:359'], note: 'Request-only services (tags, permitting, compliance, formation) have no standing service record — an open request is the case.' },
+  },
+  fields_present: ['client id / name / type', 'IFTA quarter case per organisation-quarter', 'per-domain enrollment statuses', 'Road Ready operating facts (interstate, fleet size, accounts)', 'deadlines / renewals', 'dispatch loads (origin / destination states)'],
+  fields_missing: ['canonical client × workspace state resolver', 'office-wide client context / switcher', 'workspace switcher', 'fuel transactions per org in books (expansion signal)', 'founder role mapping'],
+  conflicts: ['Client.services free text disagrees with domain records', 'fleet size vs power units (client-b 4 vs 1, client-c 8 vs 3)', 'shipper client-e has active factoring + dispatch enrollment', 'session takes the first org membership only'],
+  legacy_duplicates: ['portal buildActiveServices', 'Client 360 activeServices'],
+}];
+
+export const AIO_IFTA_DATA_DOMAINS: DataDomainContract[] = [...AIO_SCANNED_DOMAINS, ...OFFICE_SCANNED_DOMAINS].map((d) => {
   const meta = DOMAIN_META[d.domain_id];
   if (!meta) throw new Error(`no domain meta for ${d.domain_id}`);
   return { domain_id: d.domain_id, ...meta, status: d.summary_status, evidence: d.evidence, fields_present: d.fields_present, fields_missing: d.fields_missing, conflicts: d.conflicts, legacy_duplicates: d.legacy_duplicates };
@@ -111,6 +133,11 @@ export const AIO_IFTA_DATA_CONTRACTS: AioDataContractRef[] = [
   C('SYSTEM.write.sealPacket', 'WRITE', 'DOCUMENTS_VAULT', `${SRC}/ifta/iftaEvents.ts:183`, 'PARTIAL', 'DEMO_STORE', 'Metadata only.'),
   C('ENROLL.write.requestService', 'WRITE', 'SERVICE_ENROLLMENT_REQUESTS', `${SRC}/demo/demoActions.ts:113 submitServiceRequest`, 'CONFLICT', 'DEMO_STORE', 'Creates a generic ServiceRequest; never creates a quarter; availability truth conflicts (PREPARING / INTERNAL_ONLY / GO).'),
   C('NOTES.write', 'WRITE', 'NOTES', 'none (no client note model; staff InternalNote takes no IFTA entity)', 'MISSING', 'NONE'),
+  /* OFFICE CONTEXT (AIO OFFICE / CLIENT OFFICE) */
+  C('OFFICE.read.clients', 'READ', 'OFFICE_CONTEXT', `${SRC}/demo/demoTypes.ts:321 Client (store.clients) · office/pages/ClientsListPage.tsx:13 · office/routes/OfficeRoutes.tsx:261 (Client 360)`, 'EXISTING', 'DEMO_STORE', 'Client id is the organisation id in demo (security/authorizationGuard.ts:39). Every office role holds clients.read over every client (not broadened here).'),
+  C('OFFICE.read.workspace_states', 'READ', 'OFFICE_CONTEXT', `${SRC}/demo/demoTypes.ts:565 iftaQuarters by organizationId (IFTA) · dispatch/dispatchTypes.ts:115 · factoring/factoringTypes.ts:87 · bookkeeping/bookkeepingTypes.ts:94 · insurance/insuranceTypes.ts:30`, 'PARTIAL', 'PURE_DERIVATION', 'Per-domain entitlement records exist; the canonical resolver is the Brain operating-environment model (AIO has two disagreeing heuristics and none for IFTA).'),
+  C('OFFICE.read.case_index', 'READ', 'OFFICE_CONTEXT', `${SRC}/ifta/iftaSeed.ts:145 one IftaQuarterCase per organisation-quarter (id ifta-{org}-{year}-q{n}) · ifta/iftaActions.ts:52 findQuarter`, 'EXISTING', 'DEMO_STORE', 'Canonical case AIO:{client}:IFTA:IFTA_QUARTER:{YYYY-Qn} ↔ one record; founder and client read the same record.'),
+  C('OFFICE.read.expansion_signals', 'READ', 'OFFICE_CONTEXT', `${SRC}/road-ready/roadReadyTypes.ts:66-103 · road-ready/roadReadyTypes.ts:111 powerUnits · demo/dispatchSeed.ts:221 loads · demo/vaultSeed.ts:220 deadlines`, 'PARTIAL', 'DEMO_STORE', 'Some signals missing (fuel transactions in books) or conflicting (fleet size vs power units) → those rules stay suppressed.'),
 ];
 
 /** Family-wide data facts that no single node can fix (reported, not changed). */

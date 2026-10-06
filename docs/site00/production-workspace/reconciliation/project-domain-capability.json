@@ -1,0 +1,170 @@
+[
+  {
+    "project_id": "ndxbook",
+    "label": "NDXBOOK",
+    "domains": {
+      "DESIGN": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only where site / interface authority is recorded for NDXBOOK.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPERIENCE": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only where a spatial / world experience is developed.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPRESSION": {
+        "applicability": "PRIMARY",
+        "scope": "Campaign entries: narrative, casting, look, performance, sets, storyboard, keyframes.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      }
+    }
+  },
+  {
+    "project_id": "jurnl",
+    "label": "JURNL",
+    "domains": {
+      "DESIGN": {
+        "applicability": "PRIMARY",
+        "scope": "App / site page families F01–F16 — authorities, implementation, QA, founder approval.",
+        "established_static": true,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPERIENCE": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only where a legitimate spatial / behaviour experience system exists.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPRESSION": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only when a campaign, editorial or casting system is explicitly established.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      }
+    }
+  },
+  {
+    "project_id": "all-in-one-enterprises",
+    "label": "ALL IN ONE ENTERPRISES",
+    "domains": {
+      "DESIGN": {
+        "applicability": "PRIMARY",
+        "scope": "Site / client / public / founder interfaces (IFTA authority package first).",
+        "established_static": true,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPERIENCE": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only if a spatial / world experience is legitimately developed.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPRESSION": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only where real marketing / editorial / campaign systems exist.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      }
+    }
+  },
+  {
+    "project_id": "studio-world",
+    "label": "STUDIO WORLD",
+    "domains": {
+      "DESIGN": {
+        "applicability": "APPLICABLE",
+        "scope": "Site / control interface.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPERIENCE": {
+        "applicability": "PRIMARY",
+        "scope": "World building — zones, environments, rooms, inhabitants.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPRESSION": {
+        "applicability": "APPLICABLE",
+        "scope": "Residents / character / camera / editorial work.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      }
+    }
+  },
+  {
+    "project_id": "astral-world",
+    "label": "ASTRAL WORLD",
+    "domains": {
+      "DESIGN": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only where a site / page authority is recorded.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPERIENCE": {
+        "applicability": "PRIMARY",
+        "scope": "World entry, districts, rooms, reader spaces, presence, world assets, spatial interactions.",
+        "established_static": true,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPRESSION": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only where editorial / campaign work is established.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      }
+    }
+  },
+  {
+    "project_id": "frontal-slayer",
+    "label": "FRONTAL SLAYER",
+    "domains": {
+      "DESIGN": {
+        "applicability": "APPLICABLE",
+        "scope": "Digital-location / site authority.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPERIENCE": {
+        "applicability": "APPLICABLE",
+        "scope": "The Mansion — spatial rooms (no room registry is recorded yet).",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPRESSION": {
+        "applicability": "CONDITIONAL",
+        "scope": "Where campaigns / editorial apply.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      }
+    }
+  },
+  {
+    "project_id": "site00",
+    "label": "SITE 00",
+    "domains": {
+      "DESIGN": {
+        "applicability": "APPLICABLE",
+        "scope": "SITE 00 host site / page design.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPERIENCE": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only where a spatial experience is developed.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      },
+      "EXPRESSION": {
+        "applicability": "CONDITIONAL",
+        "scope": "Only where campaigns / editorial are established.",
+        "established_static": false,
+        "rule": "GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED — established = ≥ 1 node of the project in the domain"
+      }
+    }
+  }
+]

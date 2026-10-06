@@ -312,7 +312,8 @@ export function HubBody() {
         <div className="hubx-status__cell is-alert">
           <strong>{pad2(graph.blockers.length)}</strong>
           <span>BLOCKERS</span>
-          <Link to="/production/activity">
+          {/* The count is the ACTIVITY → BLOCKERS list (blocked + at-risk nodes): the link opens exactly that list. */}
+          <Link to="/production/activity?view=blockers">
             VIEW <span aria-hidden>→</span>
           </Link>
         </div>

@@ -270,6 +270,23 @@ Contract: `src/site00/config/production-workspace-media.ts`, mirrored by density
 7. **FOCAL INTEGRITY IS PART OF RESPONSIVE QA.** Focal regions are anchored per axis at r0 / (1 − h) and proven by the live audit and stress test.
 8. **"CONTAINED" IS NOT ENOUGH.** Each scale has a HUB-calibrated legibility floor; a preview is at least 120px tall or spans the full row.
 
+### Project isolation — seven projections of ONE project graph (founder decision 2026-10-06)
+
+- **NO CROSS-PROJECT DATA FALLBACK. EVER.** HUB · INBOX · DESIGN · EXPERIENCE · EXPRESSION · LIBRARY · ACTIVITY project the
+  ACTIVE project's production graph (`shared/site00-production-graph/`). Missing truth → project-scoped NOT_ESTABLISHED state
+  (`DomainEmptyState`), never NDXBOOK. GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED (established = ≥ 1 own node).
+- **Active project:** path slug → `?project=` → this tab's choice (sessionStorage) → any tab's choice → **picker**. No default
+  project anywhere. Every tab href carries the project (`scopedTabHref`); a switch keeps the tab and drops child state
+  (`projectSwitchTarget`).
+- **One query path:** `getWorkspacePanelData({graph, projectId, …})` throws `PROJECT_SCOPE_VIOLATION` on a foreign graph; every
+  count is a list length and links to that list.
+- **Founder actions** are project-keyed WorkspaceActions (ledger) replayed over the graph → every tab updates at once.
+- **Panels** carry a PanelContract (`panelContracts.ts`: eleven questions); a `PROJECT_LEAK` panel is never kept.
+- **NDXBOOK Entry 002 bodies** (HubBody / InboxBody / ActivityBody / EXPRESSION routes / machine view / legacy chamber /
+  reconstruction workspace) render only under NDXBOOK. DESIGN defaults to the graph overview (method 01–08); chamber modes
+  only where the project has them (`designModesFor`).
+- Docs: `docs/site00/production-workspace/reconciliation/`. QA: `scripts/production-workspace/project-isolation-qa.mjs`.
+
 ---
 
 ## Workspace Experience Brain (Studio OS experience layer)
@@ -294,6 +311,23 @@ Contract: `src/site00/config/production-workspace-media.ts`, mirrored by density
 - **Known failure / do not regress:** the legacy AIO visual shell leaked into the new experience. Legacy visuals have ZERO design authority.
 - **No false readiness:** a node is IMPLEMENTATION_READY only with experience contract + authority binding + data contracts + interactions + permissions + responsive rule (`evaluateNodeReadiness`). Visual and data status stay separate.
 - **AIO IFTA:** authority bundle ingested at `docs/aio/ifta/authority-bundle/`. Regenerate with `npx tsx scripts/studioos/aio-ifta-authority-bundle-export.ts`; source is `shared/studioos-visual-authority/projects/aio/ifta-authority/`.
+
+## Operating environments + workspaces (Studio OS experience layer)
+
+- A project's services are **WORKSPACES inside an OPERATING ENVIRONMENT** (`shared/studioos-experience-brain/operating-environment.ts`, project-agnostic).
+  - Internal office = CLIENT × WORKSPACE × SUBCONTEXT.
+  - Client office = FIXED CLIENT × WORKSPACE × SUBCONTEXT (no client switcher).
+  - CASE = PROJECT + CLIENT + WORKSPACE + CASE TYPE + SUBCONTEXT: one canonical identity, one record, many projections.
+- Global navigation, workspace switcher, client switcher and subcontext selector are **distinct controls**. A context change re-resolves every scoped domain (no stale state).
+- Workspace states: ACTIVE · AVAILABLE_NOT_ACTIVATED · NOT_APPLICABLE (optional states only when a record supports them).
+  - Inactive internal → truthful inactive state (never another client).
+  - Inactive client → expansion state.
+  - NOT_APPLICABLE → hidden.
+- **Expansion is a contract, not advertising:** rules over recorded signals; named suppressions; no rule → nothing shown; conflicting availability → MISLEADING.
+- **AIO (founder decision 2026-10-06, P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1):**
+  - AIO OFFICE (founder / staff) and CLIENT OFFICE (client).
+  - IFTA is the TREE_PROVEN workspace. The IFTA tree is rebased under the offices (revision 2) with the ten decisions locked.
+  - Docs: `docs/aio/office/` (`npx tsx scripts/studioos/aio-office-export.ts`); data: `shared/studioos-experience-brain/projects/aio/office.ts`.
 
 ---
 

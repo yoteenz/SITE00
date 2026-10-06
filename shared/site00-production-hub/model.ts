@@ -2,6 +2,7 @@
  * Canonical-data → Hub model adapters. Pure. Every visible name/status/count comes through here.
  */
 
+import { scopedTabHref } from '../site00-production-graph/projectScope.js';
 import type { NarrativeMomentumPlan } from '../site00-expression-engine/narrative-momentum/types.js';
 import { buildEntry002FinalCinematicStoryboardPanelPublicPath } from '../site00-expression-engine/finalCinematicStoryboardIds.js';
 import type { ProductionCastState } from '../site00-studio-world/acting-catalogue/types.js';
@@ -126,7 +127,9 @@ export function hubDeepLink(args: {
   frameId?: string | null;
   nodeId?: HubNodeId | null;
 }): string {
-  const p = new URLSearchParams({ from: 'hub', entry: '002' });
+  const p = new URLSearchParams({ from: 'hub' });
+  // the entry belongs to its own project — never carried onto another project's links
+  if (args.projectId === HUB_ENTRY002.projectId) p.set('entry', '002');
   if (args.sceneId) p.set('scene', args.sceneId);
   if (args.frameId) p.set('frame', args.frameId);
   if (args.nodeId) p.set('node', args.nodeId);
@@ -135,11 +138,11 @@ export function hubDeepLink(args: {
     case 'design':
       return `${productionWorkspacePath(pid, 'DESIGN')}?${p}`;
     case 'experience':
-      return `${productionWorkspacePath(pid, 'EXPERIENCE', 'world')}?${p}`;
+      return `${productionWorkspacePath(pid, 'EXPERIENCE')}?${p}`;
     case 'queue':
-      return '/production/queue';
+      return scopedTabHref('INBOX', pid);
     case 'libraries':
-      return '/production/libraries';
+      return scopedTabHref('LIBRARY', pid);
     default:
       return `${productionWorkspacePath(pid, 'EXPRESSION', args.target)}?${p}`;
   }

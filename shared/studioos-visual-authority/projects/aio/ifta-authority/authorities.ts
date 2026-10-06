@@ -204,7 +204,7 @@ export const AIO_IFTA_FOUNDER_STAFF_AUTHORITY: PageFamilyAuthority = {
     created: AIO_IFTA_INGESTED_AT, territory_lineage: [T03],
     founder_decisions: ['Derived from the locked client parent (pipeline steps 02–03); locked in the authority package (step 07)'],
     superseded_by: null,
-    reason: 'Covers the single client-quarter CASE FILE. The multi-client FUEL TAX QUEUE has no reference authority in the package (gap G-STAFF-QUEUE).',
+    reason: 'Covers the single client-quarter CASE FILE. The multi-client FUEL TAX QUEUE has no dedicated image; the founder authorised its derivation from this authority as the IFTA workspace cross-client landing (D-STAFF-QUEUE-AUTHORITY).',
   },
 };
 
@@ -246,6 +246,27 @@ export const AIO_IFTA_AUTHORITIES: Record<'CLIENT' | 'FOUNDER_STAFF' | 'PUBLIC',
 /* ─────────────────────────────── 07A / 07B page tree ─────────────────────────────── */
 
 export const AIO_IFTA_PAGE_TREE_ID = 'AIO.IFTA.PAGE_TREE.v1' as const;
+
+/** Revision 2 rebases the tree under the AIO OFFICE / CLIENT OFFICE architecture with the founder decisions locked. Still awaiting final founder confirmation. */
+export const AIO_IFTA_PAGE_TREE_REVISION = {
+  tree_id: AIO_IFTA_PAGE_TREE_ID,
+  revision: 2,
+  revises: 'revision 1 (P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1)',
+  revised_in: 'P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1',
+  status_flags: ['TREE_REVISED', 'FOUNDER_DECISIONS_LOCKED', 'AIO_OFFICE_MODEL_DEFINED', 'CLIENT_OFFICE_MODEL_DEFINED', 'IFTA_TREE_REBASED', 'AWAITING_FINAL_FOUNDER_CONFIRMATION'],
+  changes: [
+    'AIO OFFICE / CLIENT OFFICE / PUBLIC SITE operating environments added as parents; hubs as environment nodes',
+    'IFTA is a WORKSPACE inside each office; staff: FUEL TAX QUEUE (cross-client landing) → CLIENT CONTEXT → CLIENT-QUARTER CASE; client: QUARTER SELECTOR → FILING ROOM',
+    'Staff WORKSPACE NOT ACTIVE FOR THIS CLIENT state added; client NOT_ENROLLED becomes the AVAILABLE_NOT_ACTIVATED expansion state',
+    'Client NOTES candidate removed (MESSAGE AIO); staff NOTES is a SECONDARY tab',
+    'FUEL TAX QUEUE authority: MISSING → DERIVED_AUTHORITY (founder-authorised derivation)',
+    'Interaction 09: ILLEGIBLE → RUN FAQS (identity resolved, behaviour description partial)',
+    'Every node carries operating-environment context (environment · workspace · client scope · case type · subcontext)',
+  ],
+  material_node_ids_preserved: true,
+  /** Revision 1 result (P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1). */
+  previous: { material_nodes: 64, implementation_ready: 39, reference_package: 'REFERENCE_PACKAGE_INCOMPLETE', open_decisions: 10, staff_queue: 'MISSING_AUTHORITY' },
+} as const;
 
 /** Produced by this sprint; the founder confirms it (pipeline step 10) before implementation may begin. */
 export function aioIftaPageTreeConfirmation(open_decisions: string[]): PageTreeConfirmation {

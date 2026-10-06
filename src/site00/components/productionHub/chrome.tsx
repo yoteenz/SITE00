@@ -6,15 +6,16 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
-import { listHostProductionProjects, projectCoverUrl, projectSwitchPath } from '../../projectRuntime/projectHostProfile';
-import { useProductionRequests } from '../../state/productionRequestStore';
+import { hostProjectName, listHostProductionProjects, projectCoverUrl, projectSwitchPath } from '../../projectRuntime/projectHostProfile';
+import { scopedTabHref, workspaceTabOf } from '../../../../shared/site00-production-graph/projectScope.js';
+import { useActiveProjectId } from '../../production/activeProject';
 import '../../styles/site00-production-hub.css';
 import '../../styles/site00-production-hub-authority.css';
 import '../../styles/site00-production-host-chrome.css';
 import { HubImage } from './HubImage';
 import { IcChevD, IcMenu, Reticle } from './icons';
 import { useProductionViewportFamily } from '../../hooks/useProductionViewportFamily';
-import { useProductionAuthorityData } from '../productionAuthority/ProductionAuthorityData';
+import { useProjectGraphData } from '../productionAuthority/ProductionAuthorityData';
 import { ProductionBottomNav, ProductionHostNav, type ProductionNavId } from './nav';
 
 export const PRODUCTION_CHROME_WIDTH = 864;
@@ -55,69 +56,71 @@ export function ProductionChromeStrip({ children, host = false }: { children: Re
   );
 }
 
-function projectIdFromPath(pathname: string): string {
-  const parts = pathname.split('/').filter(Boolean);
-  if (parts[0] !== 'production') return 'ndxbook';
-  const slug = parts[1];
-  if (!slug || slug === 'queue' || slug === 'libraries' || slug === 'activity') return 'ndxbook';
-  return slug;
-}
+const RECENT_MS = 24 * 60 * 60 * 1000;
 
 export function useProductionWorkspaceChrome(): {
   brand: string;
   active: ProductionNavId | null;
-  projectId: string;
+  /** Active project (null = none chosen — never a default project). */
+  projectId: string | null;
+  projectName: string;
+  /** Real count: the active project's founder decisions that NEED YOU. */
   queued: number;
+  /** The active project has recorded events in the last 24 h (drives the ACTIVITY dot — never always-on). */
+  recentActivity: boolean;
   sectionLabel: string;
   sectionValue: string;
 } {
   const { pathname } = useLocation();
-  const requests = useProductionRequests();
-  const hubData = useProductionAuthorityData();
-  const queuedRequests = requests.filter((r) => r.status === 'QUEUED').length;
-  const queued = hubData ? hubData.attention.length : queuedRequests;
-  const projectId = projectIdFromPath(pathname);
+  const graph = useProjectGraphData();
+  const urlProject = useActiveProjectId();
+  const projectId = graph?.project_id ?? urlProject;
+  const projectName = graph?.project_name ?? (projectId ? hostProjectName(projectId) : 'SELECT');
+  const queued = graph ? graph.decisions.filter((d) => d.state === 'NEEDS_YOU').length : 0;
+  const now = Date.now();
+  const recentActivity = !!graph?.events.some((e) => e.origin !== 'SOURCE_TRUTH' && now - Date.parse(e.timestamp) < RECENT_MS);
   let brand = 'PRODUCTION';
   let active: ProductionNavId | null = null;
   let sectionLabel = 'CURRENT PRODUCTION';
   let sectionValue = 'ENTRY';
-  if (pathname === '/production' || pathname === '/production/') {
+  const tab = workspaceTabOf(pathname);
+  if (tab === 'HUB') {
     brand = 'HUB';
     active = 'hub';
     sectionLabel = 'CURRENT WORKSPACE';
     sectionValue = 'HUB';
-  } else if (pathname.startsWith('/production/activity')) {
+  } else if (tab === 'ACTIVITY') {
     brand = 'ACTIVITY';
     active = 'activity';
     sectionLabel = 'CURRENT WORKSPACE';
     sectionValue = 'ACTIVITY';
-  } else if (pathname.startsWith('/production/queue')) {
+  } else if (tab === 'INBOX') {
     brand = 'INBOX';
     active = 'inbox';
     sectionLabel = 'CURRENT QUEUE';
-    sectionValue = 'REQUESTS';
-  } else if (pathname.startsWith('/production/libraries')) {
+    sectionValue = 'DECISIONS';
+  } else if (tab === 'LIBRARY') {
     brand = 'LIBRARY';
     active = 'library';
-    sectionLabel = 'SHARED LIBRARY';
-    sectionValue = 'ASSETS';
-  } else if (/^\/production\/[^/]+\/design(\/|$)/.test(pathname)) {
+    sectionLabel = 'PROJECT LIBRARY';
+    sectionValue = 'ARTIFACTS';
+  } else if (tab === 'DESIGN') {
     brand = 'DESIGN';
     active = 'design';
     sectionLabel = 'CURRENT WORKSPACE';
     sectionValue = 'DESIGN';
-  } else if (/^\/production\/[^/]+\/experience(\/|$)/.test(pathname)) {
+  } else if (tab === 'EXPERIENCE') {
     brand = 'EXPERIENCE';
     active = 'experience';
     sectionLabel = 'CURRENT WORKSPACE';
     sectionValue = 'EXPERIENCE';
-  } else if (/^\/production\/[^/]+\/expression(\/|$)/.test(pathname)) {
+  } else if (tab === 'EXPRESSION') {
     brand = 'EXPRESSION';
     active = 'expression';
     sectionLabel = 'CURRENT WORKSPACE';
     sectionValue = 'EXPRESSION';
   }
-  return { brand, active, projectId, queued, sectionLabel, sectionValue };
+  return { brand, active, projectId, projectName, queued, recentActivity, sectionLabel, sectionValue };
 }
 
 type MenuItem = { to: string; title: string; sub: string; thumb?: string | null; current?: boolean };
@@ -133,14 +136,18 @@ function ProductionMenuPanel({
   onClose,
   title = 'MENU',
   testId = 'production-menu',
+  projectId = null,
 }: {
   items: MenuItem[];
   className: string;
   onClose: () => void;
   title?: string;
   testId?: string;
+  /** Active project: production tab items are scoped to it. */
+  projectId?: string | null;
 }) {
   const { pathname } = useLocation();
+  const scoped = scopeMenuItems(items, projectId ?? null);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     const onDown = (e: PointerEvent) => {
@@ -164,8 +171,8 @@ function ProductionMenuPanel({
         </button>
       </header>
       <nav className="pxm__list">
-        {items.map((it, i) => {
-          const current = it.current ?? it.to === pathname;
+        {scoped.map((it, i) => {
+          const current = it.current ?? it.to.split('?')[0] === pathname;
           return (
             <Link key={it.to} to={it.to} onClick={onClose} className={current ? 'is-current' : undefined} aria-current={current ? 'page' : undefined} data-testid={`${testId}-item`}>
               {it.thumb !== undefined ?
@@ -186,17 +193,26 @@ function ProductionMenuPanel({
 
 const MENU_PHONE: MenuItem[] = [
   { to: '/production', title: 'PRODUCTION HUB', sub: 'RETURN TO CHAMBER' },
-  { to: '/production/queue', title: 'INBOX', sub: 'REQUESTS' },
+  { to: '/production/queue', title: 'INBOX', sub: 'DECISIONS' },
   { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
 ];
 const MENU_HOST: MenuItem[] = [
   { to: '/production', title: 'PRODUCTION HUB', sub: 'PROJECT COMMAND' },
-  { to: '/production/queue', title: 'INBOX', sub: 'REQUESTS' },
+  { to: '/production/queue', title: 'INBOX', sub: 'DECISIONS' },
   { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
 ];
 
-/** Project switcher (P0.JURNL.SITE00-INGEST-F01): real project selection; lands on the same workspace + mode. */
-function useProjectSwitchItems(projectId: string): MenuItem[] {
+/** Production tab destinations carry the active project (`?project=`); other destinations are unchanged. */
+function scopeMenuItems(items: MenuItem[], projectId: string | null): MenuItem[] {
+  if (!projectId) return items;
+  return items.map((it) => {
+    const tab = workspaceTabOf(it.to);
+    return tab ? { ...it, to: scopedTabHref(tab, projectId) } : it;
+  });
+}
+
+/** Project switcher: real project selection; keeps the current TAB (never redirects to a populated tab). */
+function useProjectSwitchItems(projectId: string | null): MenuItem[] {
   const { pathname, search } = useLocation();
   return listHostProductionProjects().map((p) => ({
     to: projectSwitchPath(pathname, search, p.slug),
@@ -209,7 +225,7 @@ function useProjectSwitchItems(projectId: string): MenuItem[] {
 
 /** Light authority header used by every production workspace that is not the hub or character fabrication. */
 export function ProductionWorkspaceHeader() {
-  const { brand, projectId, queued } = useProductionWorkspaceChrome();
+  const { brand, projectId, projectName, queued } = useProductionWorkspaceChrome();
   const family = useProductionViewportFamily();
   const [menu, setMenu] = useState(false);
   const [projects, setProjects] = useState(false);
@@ -217,7 +233,7 @@ export function ProductionWorkspaceHeader() {
   const closeProjects = useCallback(() => setProjects(false), []);
   const projectItems = useProjectSwitchItems(projectId);
   if (family !== 'mobile') {
-    return <ProductionHostTop projectId={projectId} queued={queued} />;
+    return <ProductionHostTop projectId={projectId} projectName={projectName} queued={queued} />;
   }
   const long = brand.length > 12;
   return (
@@ -233,19 +249,19 @@ export function ProductionWorkspaceHeader() {
         className="ph-top__sel"
         data-testid="production-chrome-project"
         data-production-project-trigger
-        data-project={projectId}
+        data-project={projectId ?? ''}
         aria-haspopup="dialog"
         aria-expanded={projects}
         onClick={() => setProjects((v) => !v)}
       >
-        <HubImage slotId={`project.${projectId}.cover`} url={projectCoverUrl(projectId)} label="" className="ph-top__thumb" />
+        <HubImage slotId={projectId ? `project.${projectId}.cover` : null} url={projectId ? projectCoverUrl(projectId) : null} label="" className="ph-top__thumb" />
         <span className="ph-top__copy">
           <small>PROJECT</small>
-          <b>{projectId.toUpperCase()}</b>
+          <b>{projectName}</b>
         </span>
         <IcChevD width={14} height={14} />
       </button>
-      <Link to="/production/queue" className="ph-top__attn" aria-label={`${queued} items need you`}>
+      <Link to={projectId ? scopedTabHref('INBOX', projectId) : '/production/queue'} className="ph-top__attn" aria-label={`${queued} items need you`} data-testid="production-attention-count" data-count={queued}>
         <Reticle size={46} />
         <span className="ph-top__copy">
           <b>{String(queued).padStart(2, '0')}</b>
@@ -255,7 +271,7 @@ export function ProductionWorkspaceHeader() {
       <button type="button" className="ph-top__menu" aria-label="Menu" aria-expanded={menu} onClick={() => setMenu((v) => !v)}>
         <IcMenu width={22} height={22} />
       </button>
-      {menu ? <ProductionMenuPanel items={MENU_PHONE} className="prod-chrome-pop" onClose={closeMenu} /> : null}
+      {menu ? <ProductionMenuPanel items={MENU_PHONE} className="prod-chrome-pop" projectId={projectId} onClose={closeMenu} /> : null}
       {projects ?
         <ProductionMenuPanel items={projectItems} title="PROJECTS" testId="production-project-menu" className="prod-chrome-pop pxm--projects" onClose={closeProjects} />
       : null}
@@ -267,7 +283,7 @@ export function ProductionWorkspaceHeader() {
  * Tablet + desktop top host panel.
  * [ PROJECT / NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
  */
-function ProductionHostTop({ projectId, queued }: { projectId: string; queued: number }) {
+function ProductionHostTop({ projectId, projectName, queued }: { projectId: string | null; projectName: string; queued: number }) {
   const [menu, setMenu] = useState(false);
   const [projects, setProjects] = useState(false);
   const closeMenu = useCallback(() => setMenu(false), []);
@@ -281,19 +297,19 @@ function ProductionHostTop({ projectId, queued }: { projectId: string; queued: n
           className="pxh-top__project"
           data-testid="production-chrome-project"
           data-production-project-trigger
-          data-project={projectId}
+          data-project={projectId ?? ''}
           aria-haspopup="dialog"
           aria-expanded={projects}
           onClick={() => setProjects((v) => !v)}
         >
-          <HubImage slotId={`project.${projectId}.cover`} url={projectCoverUrl(projectId)} label="" className="pxh-top__thumb" />
+          <HubImage slotId={projectId ? `project.${projectId}.cover` : null} url={projectId ? projectCoverUrl(projectId) : null} label="" className="pxh-top__thumb" />
           <span>
             <small>PROJECT</small>
-            <b>{projectId.toUpperCase()}</b>
+            <b>{projectName}</b>
           </span>
           <IcChevD width={14} height={14} />
         </button>
-        <Link to="/production/queue" className="pxh-top__attn" aria-label={`${queued} items need you`} data-testid="production-host-attention">
+        <Link to={projectId ? scopedTabHref('INBOX', projectId) : '/production/queue'} className="pxh-top__attn" aria-label={`${queued} items need you`} data-testid="production-host-attention" data-count={queued}>
           <Reticle size={34} />
           <span>
             <b>{String(queued).padStart(2, '0')}</b>
@@ -304,7 +320,7 @@ function ProductionHostTop({ projectId, queued }: { projectId: string; queued: n
       <button type="button" className="pxh-top__menu" aria-label="Menu" aria-expanded={menu} onClick={() => setMenu((v) => !v)} data-testid="production-host-menu">
         <IcMenu width={24} height={24} />
       </button>
-      {menu ? <ProductionMenuPanel items={MENU_HOST} className="pxh-pop" onClose={closeMenu} /> : null}
+      {menu ? <ProductionMenuPanel items={MENU_HOST} className="pxh-pop" projectId={projectId} onClose={closeMenu} /> : null}
       {projects ?
         <ProductionMenuPanel items={projectItems} title="PROJECTS" testId="production-project-menu" className="pxh-pop pxm--projects" onClose={closeProjects} />
       : null}
@@ -313,10 +329,10 @@ function ProductionHostTop({ projectId, queued }: { projectId: string; queued: n
 }
 
 export function ProductionWorkspaceNav() {
-  const { active, projectId, queued } = useProductionWorkspaceChrome();
+  const { active, projectId, queued, recentActivity } = useProductionWorkspaceChrome();
   const family = useProductionViewportFamily();
-  if (family !== 'mobile') return <ProductionHostNav active={active} projectId={projectId} inboxCount={queued} />;
-  return <ProductionBottomNav active={active} projectId={projectId} inboxCount={queued} />;
+  if (family !== 'mobile') return <ProductionHostNav active={active} projectId={projectId} inboxCount={queued} recentActivity={recentActivity} />;
+  return <ProductionBottomNav active={active} projectId={projectId} inboxCount={queued} recentActivity={recentActivity} />;
 }
 
 /** Fixed bars for full-bleed surfaces (Design) that are not inside PwFrame. */

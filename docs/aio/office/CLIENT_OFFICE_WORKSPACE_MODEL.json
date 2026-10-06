@@ -1,0 +1,401 @@
+{
+  "id": "CLIENT_OFFICE_WORKSPACE_MODEL",
+  "sprint": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
+  "generated_by": "scripts/studioos/aio-office-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/operating-environment.ts",
+    "shared/studioos-experience-brain/projects/aio/office.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "20438a24c7e0f8d48782684315e4f73e82d48111",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "legacy_visual_authority": "FORBIDDEN",
+    "permissions_broadened": false
+  },
+  "environment": {
+    "environment_id": "AIO.CLIENT_OFFICE",
+    "name": "CLIENT OFFICE",
+    "kind": "CLIENT_OFFICE",
+    "actor": "CLIENT",
+    "client": "FIXED",
+    "workspace": "SWITCHABLE",
+    "subcontext": "SWITCHABLE",
+    "hub": {
+      "hub_id": "AIO.CLIENT_OFFICE.HUB",
+      "name": "CLIENT OFFICE HUB (MY OFFICE)",
+      "scope": "ONE_CLIENT_CROSS_WORKSPACE",
+      "responsibilities": [
+        "ACTIVE WORKSPACES",
+        "CURRENT ACTIONS",
+        "UPCOMING DEADLINES",
+        "DOCUMENT REQUESTS",
+        "MESSAGES",
+        "RECENT ACTIVITY",
+        "AVAILABLE RELEVANT WORKSPACES"
+      ],
+      "feature_ref": "AIO.MY_OFFICE"
+    },
+    "workspace_landing": "CLIENT_WORKSPACE",
+    "switchers": [
+      {
+        "switcher_id": "AIO.SWITCHER.WORKSPACE",
+        "dimension": "WORKSPACE",
+        "label": "WORKSPACE",
+        "preserves": [
+          "CLIENT"
+        ],
+        "re_resolves": [
+          "WORKSPACE",
+          "SUBCONTEXT"
+        ],
+        "semantics": "Switch workspace, keep the client. Lists ACTIVE, IN PROGRESS and (client office) relevant AVAILABLE workspaces; NOT_APPLICABLE workspaces are never listed to the client."
+      },
+      {
+        "switcher_id": "AIO.SWITCHER.SUBCONTEXT",
+        "dimension": "SUBCONTEXT",
+        "label": "SUBCONTEXT (IFTA: QUARTER)",
+        "preserves": [
+          "CLIENT",
+          "WORKSPACE"
+        ],
+        "re_resolves": [
+          "SUBCONTEXT"
+        ],
+        "semantics": "Switch the subcontext inside one client × workspace (IFTA quarter; insurance policy; registration year …)."
+      }
+    ],
+    "route_root": "/portal"
+  },
+  "fixed_client": {
+    "rule": "The client is the signed-in organisation. No client switcher exists; any other client id is refused (ContextError CLIENT_FIXED); switchClient is refused (NO_CLIENT_SWITCHER).",
+    "session_resolution": "AIO today: portal org = store.portalClientId (demo) / first active membership (Supabase session) — multi-org chooser is an open founder question."
+  },
+  "hub": {
+    "responsibilities": [
+      "ACTIVE WORKSPACES",
+      "CURRENT ACTIONS",
+      "UPCOMING DEADLINES",
+      "DOCUMENT REQUESTS",
+      "MESSAGES",
+      "RECENT ACTIVITY",
+      "AVAILABLE RELEVANT WORKSPACES"
+    ],
+    "sources": [
+      {
+        "hub_id": "AIO.CLIENT_OFFICE.HUB",
+        "responsibility": "ACTIVE WORKSPACES",
+        "status": "CONFLICT",
+        "source": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:524 buildActiveServices",
+        "note": "Five hard-coded entries; permitting always ACTIVE (line 534). Replace with the workspace resolver."
+      },
+      {
+        "hub_id": "AIO.CLIENT_OFFICE.HUB",
+        "responsibility": "CURRENT ACTIONS",
+        "status": "EXISTING",
+        "source": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:613 (nextAction + attentionItems)",
+        "note": ""
+      },
+      {
+        "hub_id": "AIO.CLIENT_OFFICE.HUB",
+        "responsibility": "UPCOMING DEADLINES",
+        "status": "EXISTING",
+        "source": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:613 (today / upcoming)",
+        "note": ""
+      },
+      {
+        "hub_id": "AIO.CLIENT_OFFICE.HUB",
+        "responsibility": "DOCUMENT REQUESTS",
+        "status": "EXISTING",
+        "source": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:613 (documents)",
+        "note": ""
+      },
+      {
+        "hub_id": "AIO.CLIENT_OFFICE.HUB",
+        "responsibility": "MESSAGES",
+        "status": "EXISTING",
+        "source": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:613 (communication)",
+        "note": ""
+      },
+      {
+        "hub_id": "AIO.CLIENT_OFFICE.HUB",
+        "responsibility": "RECENT ACTIVITY",
+        "status": "CONFLICT",
+        "source": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:716 activityPreview",
+        "note": "Shows org-scoped events of any visibility (pre-existing privacy finding G-ACTIVITY-PRIVACY)."
+      },
+      {
+        "hub_id": "AIO.CLIENT_OFFICE.HUB",
+        "responsibility": "AVAILABLE RELEVANT WORKSPACES",
+        "status": "MISSING",
+        "source": "none",
+        "note": "Supplied by the workspace expansion contract (this model); crossSellRecommendations exists but is unused."
+      }
+    ]
+  },
+  "workspace_states": {
+    "ACTIVE": "workspace opens on its client view (IFTA: the filing room on the quarter that needs work)",
+    "AVAILABLE_NOT_ACTIVATED": "relevant + eligible + requestable → listed under AVAILABLE and opens the NOT ACTIVE YET expansion state; otherwise not listed",
+    "NOT_APPLICABLE": "never listed, never suggested; a direct link resolves WORKSPACE_HIDDEN",
+    "optional": "PENDING_SETUP · PAUSED · ENDED only where the workspace’s own record supports them (IN PROGRESS group)"
+  },
+  "expansion_state": [
+    "WORKSPACE NAME",
+    "NOT ACTIVE YET",
+    "WHY IT MAY MATTER (rule reasons — omitted when suppressed)",
+    "WHAT AIO HANDLES",
+    "WHAT YOU PROVIDE",
+    "REQUEST / EXPLORE CTA"
+  ],
+  "ifta": {
+    "tree": [
+      "CLIENT OFFICE",
+      "WORKSPACE IFTA",
+      "QUARTER SELECTOR",
+      "IFTA FILING ROOM",
+      "PROGRESS · FUEL PURCHASES · MILEAGE · VEHICLES · JURISDICTIONS · DOCUMENTS"
+    ],
+    "primary_tabs": [
+      "PROGRESS",
+      "FUEL_PURCHASES",
+      "MILEAGE",
+      "VEHICLES",
+      "JURISDICTIONS",
+      "DOCUMENTS"
+    ],
+    "notes": "No client NOTES tab — notes travel through MESSAGE AIO (D-NOTES-TAB).",
+    "inactive_node": "AIO.IFTA.CLIENT.NOT_ENROLLED"
+  },
+  "demo_note": "DEMO SEED FIXTURES (AIO demo store) — used only to prove the model; never rendered as client data and never a fallback for another client.",
+  "switcher_by_client": [
+    {
+      "client_id": "client-a",
+      "name": "Summit Ridge Hauling LLC",
+      "active": [
+        "COMPLIANCE",
+        "DISPATCH",
+        "FLEETCARE",
+        "DRIVERLINK"
+      ],
+      "in_progress": [
+        {
+          "workspace_id": "INSURANCE",
+          "state": "PENDING_SETUP"
+        },
+        {
+          "workspace_id": "BOOKKEEPING",
+          "state": "PENDING_SETUP"
+        },
+        {
+          "workspace_id": "FACTORING",
+          "state": "PENDING_SETUP"
+        }
+      ],
+      "available": [
+        "TAGS_REGISTRATION",
+        "PERMITTING",
+        "BUSINESS_FORMATION"
+      ],
+      "hidden": [
+        "IFTA",
+        "BROKERAGE"
+      ],
+      "conflicts": []
+    },
+    {
+      "client_id": "client-b",
+      "name": "Heartland Freight Co.",
+      "active": [
+        "IFTA",
+        "TAGS_REGISTRATION",
+        "INSURANCE",
+        "BOOKKEEPING",
+        "FACTORING",
+        "DISPATCH",
+        "BROKERAGE",
+        "FLEETCARE",
+        "DRIVERLINK"
+      ],
+      "in_progress": [],
+      "available": [
+        "PERMITTING",
+        "COMPLIANCE"
+      ],
+      "hidden": [
+        "BUSINESS_FORMATION"
+      ],
+      "conflicts": []
+    },
+    {
+      "client_id": "client-c",
+      "name": "Pioneer Fleet Services",
+      "active": [
+        "IFTA",
+        "INSURANCE",
+        "BOOKKEEPING",
+        "FACTORING",
+        "DISPATCH",
+        "BROKERAGE"
+      ],
+      "in_progress": [],
+      "available": [
+        "TAGS_REGISTRATION",
+        "PERMITTING",
+        "COMPLIANCE"
+      ],
+      "hidden": [
+        "FLEETCARE",
+        "DRIVERLINK",
+        "BUSINESS_FORMATION"
+      ],
+      "conflicts": []
+    },
+    {
+      "client_id": "client-d",
+      "name": "BlueLine Transport",
+      "active": [
+        "IFTA",
+        "FACTORING",
+        "DISPATCH",
+        "BROKERAGE"
+      ],
+      "in_progress": [
+        {
+          "workspace_id": "INSURANCE",
+          "state": "PENDING_SETUP"
+        }
+      ],
+      "available": [
+        "TAGS_REGISTRATION",
+        "PERMITTING",
+        "COMPLIANCE",
+        "BOOKKEEPING"
+      ],
+      "hidden": [
+        "FLEETCARE",
+        "DRIVERLINK",
+        "BUSINESS_FORMATION"
+      ],
+      "conflicts": []
+    },
+    {
+      "client_id": "client-e",
+      "name": "NorthStar Manufacturing",
+      "active": [
+        "FACTORING",
+        "BROKERAGE"
+      ],
+      "in_progress": [
+        {
+          "workspace_id": "DISPATCH",
+          "state": "PENDING_SETUP"
+        }
+      ],
+      "available": [
+        "BOOKKEEPING"
+      ],
+      "hidden": [
+        "IFTA",
+        "TAGS_REGISTRATION",
+        "PERMITTING",
+        "COMPLIANCE",
+        "INSURANCE",
+        "FLEETCARE",
+        "DRIVERLINK",
+        "BUSINESS_FORMATION"
+      ],
+      "conflicts": [
+        "FACTORING",
+        "DISPATCH"
+      ]
+    },
+    {
+      "client_id": "shipper-demo-b",
+      "name": "Lakeview Distribution Co.",
+      "active": [],
+      "in_progress": [
+        {
+          "workspace_id": "BROKERAGE",
+          "state": "PENDING_SETUP"
+        }
+      ],
+      "available": [
+        "BOOKKEEPING"
+      ],
+      "hidden": [
+        "IFTA",
+        "TAGS_REGISTRATION",
+        "PERMITTING",
+        "COMPLIANCE",
+        "INSURANCE",
+        "FACTORING",
+        "DISPATCH",
+        "FLEETCARE",
+        "DRIVERLINK",
+        "BUSINESS_FORMATION"
+      ],
+      "conflicts": []
+    },
+    {
+      "client_id": "client-f",
+      "name": "Delta Haul LLC",
+      "active": [
+        "IFTA",
+        "FACTORING"
+      ],
+      "in_progress": [
+        {
+          "workspace_id": "INSURANCE",
+          "state": "PENDING_SETUP"
+        }
+      ],
+      "available": [
+        "PERMITTING",
+        "COMPLIANCE",
+        "BOOKKEEPING"
+      ],
+      "hidden": [
+        "TAGS_REGISTRATION",
+        "DISPATCH",
+        "BROKERAGE",
+        "FLEETCARE",
+        "DRIVERLINK",
+        "BUSINESS_FORMATION"
+      ],
+      "conflicts": []
+    },
+    {
+      "client_id": "client-g",
+      "name": "RidgeLine Carriers",
+      "active": [
+        "IFTA",
+        "FACTORING"
+      ],
+      "in_progress": [
+        {
+          "workspace_id": "INSURANCE",
+          "state": "PENDING_SETUP"
+        }
+      ],
+      "available": [
+        "PERMITTING",
+        "COMPLIANCE",
+        "BOOKKEEPING"
+      ],
+      "hidden": [
+        "TAGS_REGISTRATION",
+        "DISPATCH",
+        "BROKERAGE",
+        "FLEETCARE",
+        "DRIVERLINK",
+        "BUSINESS_FORMATION"
+      ],
+      "conflicts": []
+    }
+  ]
+}
