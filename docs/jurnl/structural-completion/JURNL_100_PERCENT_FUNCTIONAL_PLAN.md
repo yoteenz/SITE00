@@ -7,11 +7,11 @@ Visual transformation runs afterwards, family by family, then founder approval, 
 
 | AFTER WAVE | FUNCTIONAL (BALANCED) | NODE-WEIGHTED | STRICT | NODES COMPLETED IN WAVE |
 |---|---|---|---|---|
-| W0 | 44.9% | 59.1% | 37.1% | 32 |
-| W1 | 52.9% | 66.1% | 47.6% | 49 |
-| W2 | 63.1% | 73.5% | 58.9% | 40 |
-| W3 | 75.5% | 81.9% | 72.9% | 46 |
-| W4 | 98.8% | 95.4% | 96.9% | 68 |
+| W0 | 51.8% | 63.1% | 43.8% | 32 |
+| W1 | 59.8% | 70% | 54.3% | 49 |
+| W2 | 70% | 77.5% | 65.6% | 40 |
+| W3 | 82.4% | 85.9% | 79.6% | 46 |
+| W4 | 98.8% | 95.4% | 96.9% | 49 |
 | W5 | 100% | 100% | 100% | 65 |
 
 Each node's `target_wave` in the canonical graph says when it reaches 12/12. Waves 0–4 make F02–F16 and the global systems
