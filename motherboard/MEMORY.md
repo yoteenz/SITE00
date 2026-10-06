@@ -14168,3 +14168,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Proof:** 55 new tests (graph + render A–H); live QA 105/105 routes · 49/49 flows · 0 leaks · 0 overflow at 393 / 834 / 1440.
 - **Next:** NDXBOOK DESIGN truth (twin golden master) and EXPERIENCE registries for Studio World / Frontal Slayer Mansion;
   ProjectFamilyChamber beyond F01; continuity as graph nodes; expression deliverables pipeline.
+
+---
+
+## 2026-10-06 — Post-merge tunnel runtime reconciliation (P0.SITE00.PRODUCTION-WORKSPACE.POST-MERGE-TUNNEL-RUNTIME-RECONCILIATION1)
+
+- **Context:** PR #1404 merged to `main` (`88043d6b`) but founder tunnel still showed pre-isolation workspace (NDXBOOK revert on project switch).
+- **Root cause:** tmux `site00_vite` was serving **`ensure-grok-environment-unified-preview.sh`** → worktree `.worktrees/grok-environment-unified-review` @ **`c0cc47d7`** via **`vite preview`** (`index.BiG_RmhR.js`), not `origin/main`.
+- **Fix:** Restarted preview with **`serve-site00-preview-from-main.sh`** → `/tmp/site00-preview-main` @ **`88043d6b`**, Vite **dev** on `:5174`. Tunnel unchanged (cloudflared → localhost).
+- **Proof:** mobile isolation QA 35/35 routes · 17/17 flows · 0 leaks; tests 32+38 pass; captures under `/opt/cursor/artifacts/post-reconcile-qa/mobile/`.
+- **Convention:** Four states for runtime sprints — SOURCE MERGED / RUNTIME MOUNTED / TUNNEL SERVING / FOUNDER VERIFIED. Documented in `docs/site00/production-workspace/reconciliation/tunnel-runtime-reconciliation-2026-10-06.md` + `AGENTS.md`.
+- **Release pipeline:** separate failure on #1404 merge (Brand Lore migration / orchestration test in CI) — not tunnel blocker.
