@@ -16,6 +16,7 @@ import {
   hubSummary,
   nodeById,
   projectBlockers,
+  resolveDecisionPanelMedia,
   scopedTabHref,
   topLevelNodes,
   type ArtifactStatus,
@@ -23,6 +24,7 @@ import {
   type ProductionEventType,
   type ProjectProductionGraph,
 } from '../../../../../shared/site00-production-graph/index.js';
+import { PanelMediaSlot } from './PanelMediaSlot';
 import { useProjectGraphData } from '../ProductionAuthorityData';
 import { IaEmpty } from '../iaKit';
 import { agoLabel } from '../primitives';
@@ -172,11 +174,22 @@ export function ProjectInboxBody() {
       );
     const node = nodeById(g, item.node_id);
     const arts = g.artifacts.filter((a) => a.source_node_id === item.node_id).slice(0, 8);
+    const hero = resolveDecisionPanelMedia(g, item);
     return (
       <div className="pgx" data-testid="project-inbox" data-project={pid}>
         <Link to={href(view)} className="iax-viewall" data-testid="project-inbox-back">
           ← INBOX
         </Link>
+        {(item.kind === 'AUTHORITY_VERDICT' || item.kind === 'IMPLEMENTATION_ACCEPTANCE' || hero.artifact) ?
+          <div className="pgx-inbox-hero" data-testid="project-inbox-item-hero">
+            <PanelMediaSlot contract={hero} node={node} geometry="HERO_PREVIEW" className="pgx-inbox-hero__media" testId="project-inbox-item-hero-media" />
+            <div className="pgx-inbox-hero__copy">
+              <small>WHAT YOU ARE REVIEWING</small>
+              <b>{node?.label ?? item.title}</b>
+              <p>{item.detail}</p>
+            </div>
+          </div>
+        : null}
         <GraphPanel title={item.title} testId="project-inbox-item" className="pgx-span">
           <dl className="pgx-facts">
             <dt>PROJECT</dt>
