@@ -1,0 +1,65 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION.CENTER-STAGE-NAV-ALIGNED-REFINEMENT3",
+  "generated": "2026-10-06",
+  "principle": "DESIGN AT THE PERIMETER. FUNCTION IN THE CENTRE. (primary visual hierarchy, not absolute geometric separation)",
+  "perimeter_zones": [
+    "UPPER LEFT CORNER",
+    "UPPER RIGHT CORNER",
+    "LOWER LEFT OUTER EDGE",
+    "LOWER RIGHT OUTER EDGE",
+    "LEFT OUTER FRAME",
+    "RIGHT OUTER FRAME"
+  ],
+  "central_field_may_contain": [
+    "SOFT PLASTER",
+    "PAPER",
+    "LOW-CONTRAST TEXTILE",
+    "LIGHT / SHADOW",
+    "SOFT ARCHITECTURAL MATERIAL",
+    "LOW-FREQUENCY ENVIRONMENT"
+  ],
+  "central_field_must_not_contain": [
+    "HIGH-CONTRAST OBJECT",
+    "FACE",
+    "PRIMARY ARCHITECTURAL SUBJECT",
+    "BRIGHT WINDOW",
+    "DENSE PATTERN",
+    "HIGH-FREQUENCY TEXTURE",
+    "AN OBJECT EDGE THROUGH IMPORTANT COPY",
+    "ANYTHING THAT READS AS UI"
+  ],
+  "mechanisms": {
+    "focal_anchor": {
+      "rule": "per-family --jrn-plate-mobile / -tablet / -desktop (never 'center center' for every plate)",
+      "phone": "object-fit: cover crops ~86px of a 9:16 plate at 393px. Anchoring LEFT (0% 50%) keeps the quiet left field and pushes a right-side subject to the right edge (100% would pull it ~43px inward). F06 / F13 keep 50% (subject on the centre line).",
+      "tablet_desktop": "plates crop vertically there; y focal values apply."
+    },
+    "crop_zoom": {
+      "rule": "--jrn-plate-zoom + --jrn-plate-origin (shared by plate and calm layer)",
+      "used_by": {
+        "F05": "1.06 from the left",
+        "F11": "1.08 from 0% 62%",
+        "F14": "1.06 from the left",
+        "F15": "1.06 from 0% 40%"
+      }
+    },
+    "calm_layer": {
+      "element": "<span class=\"jrn-env__calm\"> — the SAME plate as a background image, rendered only on CENTER_STAGE screens",
+      "treatment": "filter: blur(--jrn-calm-blur) saturate(--jrn-calm-sat) + a bone tint (--jrn-calm-tint)",
+      "mask": "two feathered linear gradients intersected (mask-composite: intersect) = the safe-zone rectangle; transparent above the chrome and below the field, so the top corners, outer frames and nav band keep the photograph's full detail",
+      "feather": "68px phone default (F11 40px, F13 30px), 120px on tablet / desktop",
+      "strength_by_class": {
+        "CENTER_SAFE": "blur 3px · tint .08 · sat .92 (F03 F04 F09 F12)",
+        "REPOSITIONABLE": "blur 5–6px · tint .14–.16 (F07 F08 F10 F14 F16)",
+        "NEEDS_DERIVED_VARIANT / CROPPABLE": "blur 7–8px · tint .18–.20 (F05 F11 F15)",
+        "INCOMPATIBLE": "blur 9px · tint .20–.22 (F06 F13)"
+      }
+    },
+    "surfaces_for_text_on_the_perimeter": "the chrome wordmark and the F04 FILTER control sit on the same paper chip as the controls beside them, so no label stands on beams, foliage or the curtain."
+  },
+  "safe_zone_test": {
+    "method": "UI hidden (column, nav, overlays); the rendered background is scored per pixel: 0.55 × local edge energy (Sobel, 9px mean) + 0.30 × saturation above 0.18 + 0.15 × luminance above 0.90 (bright window / sky); hot = score > 0.42.",
+    "pass_rule": "safe-zone core mean ≤ 0.12, hot share ≤ 0.05, and the core calmer than the perimeter"
+  },
+  "no_paid_generation": "Existing authority plates only. Plates that need real recomposition are flagged BACKGROUND_RECOMPOSITION_REQUIRED in JURNL_BACKGROUND_SALIENCE_AUDIT.json."
+}

@@ -1,0 +1,1026 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION.CENTER-STAGE-NAV-ALIGNED-REFINEMENT3",
+  "generated": "2026-10-06",
+  "method": "Rendered at 393×852 with the UI hidden (scripts/jurnl/center-stage-qa.mjs → backgroundSalience). Score per pixel = 0.55 × edge energy + 0.30 × saturation + 0.15 × bright-window luminance; hot = score > 0.42. Stats for the CENTER SAFE ZONE, its core (inner 76% × 88%) and the perimeter. Before = main 9b8137c4; after = this branch. Visual review overrides the metric where they disagree (F16 was scored CENTER_SAFE but the filing drawer reads as a primary subject on short pages → REPOSITIONABLE).",
+  "classification_counts": {
+    "CENTER_SAFE": 4,
+    "NEEDS_DERIVED_VARIANT": 2,
+    "INCOMPATIBLE": 2,
+    "REPOSITIONABLE": 5,
+    "CROPPABLE": 1
+  },
+  "background_recomposition_required": [
+    "F05",
+    "F06",
+    "F11",
+    "F13",
+    "F15"
+  ],
+  "safe_zone_test": {
+    "pass": 14,
+    "of": 14
+  },
+  "families": [
+    {
+      "family_id": "F03",
+      "family_name": "TODAY",
+      "asset_id": "TODAY.ENVIRONMENT.DAY.001",
+      "file": "src/projects/jurnl/families/F03_TODAY/ENVIRONMENTS/F03_ENVIRONMENT_DAY.jpg",
+      "classification": "CENTER_SAFE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "window with potted plant (right edge)",
+        "secondary_visual_salience": "mug + folded linen (lower right)",
+        "quiet_center_region": "plaster wall with leaf shadows (left / centre)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "tr"
+        ]
+      },
+      "treatment": "left anchor + light calm (3px / .08)",
+      "before": {
+        "safe_zone": {
+          "mean": 0.124,
+          "hot_share": 0.05,
+          "bright_share": 0.061,
+          "colour_share": 0.001,
+          "edge_density": 0.069
+        },
+        "safe_core": {
+          "mean": 0.124,
+          "hot_share": 0.051,
+          "bright_share": 0.068,
+          "colour_share": 0,
+          "edge_density": 0.073
+        },
+        "perimeter": {
+          "mean": 0.12,
+          "hot_share": 0.068,
+          "bright_share": 0.061,
+          "colour_share": 0.003,
+          "edge_density": 0.061
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.071,
+          "hot_share": 0.008,
+          "bright_share": 0.039,
+          "colour_share": 0,
+          "edge_density": 0.037
+        },
+        "safe_core": {
+          "mean": 0.056,
+          "hot_share": 0,
+          "bright_share": 0.042,
+          "colour_share": 0,
+          "edge_density": 0.032
+        },
+        "perimeter": {
+          "mean": 0.119,
+          "hot_share": 0.067,
+          "bright_share": 0.06,
+          "colour_share": 0.003,
+          "edge_density": 0.06
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F04",
+      "family_name": "ACTIVITY",
+      "asset_id": "ACTIVITY.ENVIRONMENT.LEDGER.001",
+      "file": "src/projects/jurnl/families/F04_ACTIVITY/ENVIRONMENTS/F04_ENVIRONMENT_LEDGER.jpg",
+      "classification": "CENTER_SAFE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "white curtain + arched window to the sea (upper right)",
+        "secondary_visual_salience": "red cushions + books (lower edge)",
+        "quiet_center_region": "plaster wall with sun shafts (centre-left)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "bl"
+        ]
+      },
+      "treatment": "left anchor + light calm (3px / .08)",
+      "before": {
+        "safe_zone": {
+          "mean": 0.139,
+          "hot_share": 0.089,
+          "bright_share": 0.079,
+          "colour_share": 0.054,
+          "edge_density": 0.073
+        },
+        "safe_core": {
+          "mean": 0.074,
+          "hot_share": 0.017,
+          "bright_share": 0.034,
+          "colour_share": 0.009,
+          "edge_density": 0.042
+        },
+        "perimeter": {
+          "mean": 0.313,
+          "hot_share": 0.315,
+          "bright_share": 0.14,
+          "colour_share": 0.215,
+          "edge_density": 0.156
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.09,
+          "hot_share": 0.069,
+          "bright_share": 0.064,
+          "colour_share": 0.042,
+          "edge_density": 0.042
+        },
+        "safe_core": {
+          "mean": 0.036,
+          "hot_share": 0.013,
+          "bright_share": 0.022,
+          "colour_share": 0.002,
+          "edge_density": 0.016
+        },
+        "perimeter": {
+          "mean": 0.331,
+          "hot_share": 0.328,
+          "bright_share": 0.224,
+          "colour_share": 0.251,
+          "edge_density": 0.16
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F05",
+      "family_name": "MONEY",
+      "asset_id": "MONEY.ENVIRONMENT.CABINET.001",
+      "file": "src/projects/jurnl/families/F05_MONEY/ENVIRONMENTS/F05_ENVIRONMENT_CABINET.jpg",
+      "classification": "NEEDS_DERIVED_VARIANT",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": true,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "open shelving with folded linen (centre-right)",
+        "secondary_visual_salience": "doorway sliver to the sea (left edge), rug (bottom)",
+        "quiet_center_region": "cabinet doors (upper left)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "tr"
+        ]
+      },
+      "treatment": "left anchor + zoom 1.06 + calm 7px / .18",
+      "before": {
+        "safe_zone": {
+          "mean": 0.229,
+          "hot_share": 0.183,
+          "bright_share": 0.007,
+          "colour_share": 0.13,
+          "edge_density": 0.107
+        },
+        "safe_core": {
+          "mean": 0.251,
+          "hot_share": 0.211,
+          "bright_share": 0.005,
+          "colour_share": 0.135,
+          "edge_density": 0.114
+        },
+        "perimeter": {
+          "mean": 0.323,
+          "hot_share": 0.394,
+          "bright_share": 0.009,
+          "colour_share": 0.056,
+          "edge_density": 0.208
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.084,
+          "hot_share": 0.017,
+          "bright_share": 0.014,
+          "colour_share": 0,
+          "edge_density": 0.045
+        },
+        "safe_core": {
+          "mean": 0.057,
+          "hot_share": 0,
+          "bright_share": 0.002,
+          "colour_share": 0,
+          "edge_density": 0.028
+        },
+        "perimeter": {
+          "mean": 0.335,
+          "hot_share": 0.398,
+          "bright_share": 0.066,
+          "colour_share": 0.06,
+          "edge_density": 0.23
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F06",
+      "family_name": "INCOME",
+      "asset_id": "INCOME.ENVIRONMENT.ARRIVAL.001",
+      "file": "src/projects/jurnl/families/F06_INCOME/ENVIRONMENTS/F06_ENVIRONMENT_ARRIVAL.jpg",
+      "classification": "INCOMPATIBLE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": true,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "corridor vanishing point with a bright opening to the sea (dead centre)",
+        "secondary_visual_salience": "timber beams (top)",
+        "quiet_center_region": "side walls",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "tr",
+          "br"
+        ]
+      },
+      "treatment": "50% anchor + calm 9px / .20",
+      "before": {
+        "safe_zone": {
+          "mean": 0.259,
+          "hot_share": 0.237,
+          "bright_share": 0.057,
+          "colour_share": 0.087,
+          "edge_density": 0.136
+        },
+        "safe_core": {
+          "mean": 0.27,
+          "hot_share": 0.269,
+          "bright_share": 0.029,
+          "colour_share": 0.089,
+          "edge_density": 0.147
+        },
+        "perimeter": {
+          "mean": 0.241,
+          "hot_share": 0.185,
+          "bright_share": 0.007,
+          "colour_share": 0.1,
+          "edge_density": 0.118
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.103,
+          "hot_share": 0.015,
+          "bright_share": 0.048,
+          "colour_share": 0.004,
+          "edge_density": 0.052
+        },
+        "safe_core": {
+          "mean": 0.07,
+          "hot_share": 0,
+          "bright_share": 0.017,
+          "colour_share": 0,
+          "edge_density": 0.038
+        },
+        "perimeter": {
+          "mean": 0.235,
+          "hot_share": 0.178,
+          "bright_share": 0.006,
+          "colour_share": 0.096,
+          "edge_density": 0.115
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F07",
+      "family_name": "UPCOMING",
+      "asset_id": "UPCOMING.ENVIRONMENT.HORIZON.001",
+      "file": "src/projects/jurnl/families/F07_UPCOMING/ENVIRONMENTS/F07_ENVIRONMENT_HORIZON.jpg",
+      "classification": "REPOSITIONABLE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "bright opening + sea + cliff (right of centre)",
+        "secondary_visual_salience": "colonnade (right)",
+        "quiet_center_region": "left wall",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "tr"
+        ]
+      },
+      "treatment": "left anchor + medium calm (5–6px / .14–.16)",
+      "before": {
+        "safe_zone": {
+          "mean": 0.167,
+          "hot_share": 0.136,
+          "bright_share": 0.024,
+          "colour_share": 0.002,
+          "edge_density": 0.093
+        },
+        "safe_core": {
+          "mean": 0.169,
+          "hot_share": 0.154,
+          "bright_share": 0.015,
+          "colour_share": 0.002,
+          "edge_density": 0.095
+        },
+        "perimeter": {
+          "mean": 0.142,
+          "hot_share": 0.068,
+          "bright_share": 0.024,
+          "colour_share": 0.001,
+          "edge_density": 0.077
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.073,
+          "hot_share": 0.018,
+          "bright_share": 0.006,
+          "colour_share": 0,
+          "edge_density": 0.041
+        },
+        "safe_core": {
+          "mean": 0.048,
+          "hot_share": 0.004,
+          "bright_share": 0.001,
+          "colour_share": 0,
+          "edge_density": 0.028
+        },
+        "perimeter": {
+          "mean": 0.122,
+          "hot_share": 0.043,
+          "bright_share": 0.026,
+          "colour_share": 0,
+          "edge_density": 0.063
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F08",
+      "family_name": "PLAN",
+      "asset_id": "PLAN.ENVIRONMENT.LAYOUT.001",
+      "file": "src/projects/jurnl/families/F08_PLAN/ENVIRONMENTS/F08_ENVIRONMENT_LAYOUT.jpg",
+      "classification": "REPOSITIONABLE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "desk with papers + plant (right / lower right)",
+        "secondary_visual_salience": "floor shadows",
+        "quiet_center_region": "wall (left / upper)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "bl"
+        ]
+      },
+      "treatment": "left anchor + medium calm (5–6px / .14–.16)",
+      "before": {
+        "safe_zone": {
+          "mean": 0.238,
+          "hot_share": 0.216,
+          "bright_share": 0.014,
+          "colour_share": 0.093,
+          "edge_density": 0.101
+        },
+        "safe_core": {
+          "mean": 0.235,
+          "hot_share": 0.215,
+          "bright_share": 0.009,
+          "colour_share": 0.101,
+          "edge_density": 0.099
+        },
+        "perimeter": {
+          "mean": 0.261,
+          "hot_share": 0.214,
+          "bright_share": 0.017,
+          "colour_share": 0.06,
+          "edge_density": 0.117
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.115,
+          "hot_share": 0.045,
+          "bright_share": 0.017,
+          "colour_share": 0.032,
+          "edge_density": 0.049
+        },
+        "safe_core": {
+          "mean": 0.083,
+          "hot_share": 0.029,
+          "bright_share": 0.007,
+          "colour_share": 0.037,
+          "edge_density": 0.035
+        },
+        "perimeter": {
+          "mean": 0.242,
+          "hot_share": 0.162,
+          "bright_share": 0.069,
+          "colour_share": 0.038,
+          "edge_density": 0.104
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F09",
+      "family_name": "SAFE TO SPEND",
+      "asset_id": "SAFE.ENVIRONMENT.LOGGIA.001",
+      "file": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_LOGGIA.jpg",
+      "classification": "CENTER_SAFE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "arched window to the sea (upper right)",
+        "secondary_visual_salience": "bench (right)",
+        "quiet_center_region": "plaster + floor (centre-left)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "tr"
+        ]
+      },
+      "treatment": "left anchor + light calm (3px / .08)",
+      "before": {
+        "safe_zone": {
+          "mean": 0.14,
+          "hot_share": 0.051,
+          "bright_share": 0.055,
+          "colour_share": 0.007,
+          "edge_density": 0.063
+        },
+        "safe_core": {
+          "mean": 0.139,
+          "hot_share": 0.046,
+          "bright_share": 0.081,
+          "colour_share": 0.009,
+          "edge_density": 0.059
+        },
+        "perimeter": {
+          "mean": 0.151,
+          "hot_share": 0.054,
+          "bright_share": 0.007,
+          "colour_share": 0.001,
+          "edge_density": 0.067
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.071,
+          "hot_share": 0.007,
+          "bright_share": 0.058,
+          "colour_share": 0,
+          "edge_density": 0.028
+        },
+        "safe_core": {
+          "mean": 0.058,
+          "hot_share": 0,
+          "bright_share": 0.069,
+          "colour_share": 0,
+          "edge_density": 0.022
+        },
+        "perimeter": {
+          "mean": 0.135,
+          "hot_share": 0.036,
+          "bright_share": 0.002,
+          "colour_share": 0.001,
+          "edge_density": 0.058
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F10",
+      "family_name": "PURCHASES",
+      "asset_id": "PURCHASES.ENVIRONMENT.NICHE.001",
+      "file": "src/projects/jurnl/families/F10_PURCHASES/ENVIRONMENTS/F10_ENVIRONMENT_NICHE.jpg",
+      "classification": "REPOSITIONABLE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "wall niche with folded cloth (centre-right)",
+        "secondary_visual_salience": "shadow pattern (left)",
+        "quiet_center_region": "wall",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "tr"
+        ]
+      },
+      "treatment": "left anchor + medium calm (5–6px / .14–.16)",
+      "before": {
+        "safe_zone": {
+          "mean": 0.181,
+          "hot_share": 0.075,
+          "bright_share": 0.003,
+          "colour_share": 0.028,
+          "edge_density": 0.093
+        },
+        "safe_core": {
+          "mean": 0.184,
+          "hot_share": 0.088,
+          "bright_share": 0.004,
+          "colour_share": 0.02,
+          "edge_density": 0.102
+        },
+        "perimeter": {
+          "mean": 0.148,
+          "hot_share": 0.039,
+          "bright_share": 0.003,
+          "colour_share": 0.014,
+          "edge_density": 0.071
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.075,
+          "hot_share": 0.011,
+          "bright_share": 0.001,
+          "colour_share": 0.002,
+          "edge_density": 0.038
+        },
+        "safe_core": {
+          "mean": 0.052,
+          "hot_share": 0.003,
+          "bright_share": 0,
+          "colour_share": 0.001,
+          "edge_density": 0.028
+        },
+        "perimeter": {
+          "mean": 0.147,
+          "hot_share": 0.035,
+          "bright_share": 0.001,
+          "colour_share": 0.015,
+          "edge_density": 0.07
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F11",
+      "family_name": "TRIPS",
+      "asset_id": "TRIPS.ENVIRONMENT.TERRACE.001",
+      "file": "src/projects/jurnl/families/F11_TRIPS/ENVIRONMENTS/F11_ENVIRONMENT_TERRACE.jpg",
+      "classification": "NEEDS_DERIVED_VARIANT",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": true,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "sunset sea + cliffs (right half)",
+        "secondary_visual_salience": "chair (lower right), stone pillar (left)",
+        "quiet_center_region": "none at full strength",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "bl"
+        ]
+      },
+      "treatment": "left anchor + zoom 1.08 (0% 62%) + calm 8px / .20, feather 40px",
+      "before": {
+        "safe_zone": {
+          "mean": 0.401,
+          "hot_share": 0.425,
+          "bright_share": 0,
+          "colour_share": 0.107,
+          "edge_density": 0.19
+        },
+        "safe_core": {
+          "mean": 0.427,
+          "hot_share": 0.478,
+          "bright_share": 0,
+          "colour_share": 0.118,
+          "edge_density": 0.207
+        },
+        "perimeter": {
+          "mean": 0.302,
+          "hot_share": 0.209,
+          "bright_share": 0,
+          "colour_share": 0.035,
+          "edge_density": 0.119
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.091,
+          "hot_share": 0.011,
+          "bright_share": 0,
+          "colour_share": 0,
+          "edge_density": 0.039
+        },
+        "safe_core": {
+          "mean": 0.057,
+          "hot_share": 0,
+          "bright_share": 0,
+          "colour_share": 0,
+          "edge_density": 0.022
+        },
+        "perimeter": {
+          "mean": 0.308,
+          "hot_share": 0.242,
+          "bright_share": 0,
+          "colour_share": 0.012,
+          "edge_density": 0.135
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F12",
+      "family_name": "CREDIT",
+      "asset_id": "CREDIT.ENVIRONMENT.GRID.001",
+      "file": "src/projects/jurnl/families/F12_CREDIT/ENVIRONMENTS/F12_ENVIRONMENT_GRID.jpg",
+      "classification": "CENTER_SAFE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "vase with olive branch (right of centre, lower)",
+        "secondary_visual_salience": "stone grid panels (right)",
+        "quiet_center_region": "wall (left)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "tr"
+        ]
+      },
+      "treatment": "left anchor + light calm (3px / .08)",
+      "before": {
+        "safe_zone": {
+          "mean": 0.158,
+          "hot_share": 0.075,
+          "bright_share": 0.017,
+          "colour_share": 0.004,
+          "edge_density": 0.095
+        },
+        "safe_core": {
+          "mean": 0.144,
+          "hot_share": 0.058,
+          "bright_share": 0.007,
+          "colour_share": 0.003,
+          "edge_density": 0.089
+        },
+        "perimeter": {
+          "mean": 0.161,
+          "hot_share": 0.075,
+          "bright_share": 0.02,
+          "colour_share": 0.007,
+          "edge_density": 0.086
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.063,
+          "hot_share": 0.02,
+          "bright_share": 0.006,
+          "colour_share": 0,
+          "edge_density": 0.037
+        },
+        "safe_core": {
+          "mean": 0.031,
+          "hot_share": 0.001,
+          "bright_share": 0,
+          "colour_share": 0,
+          "edge_density": 0.018
+        },
+        "perimeter": {
+          "mean": 0.142,
+          "hot_share": 0.054,
+          "bright_share": 0.016,
+          "colour_share": 0.001,
+          "edge_density": 0.085
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F13",
+      "family_name": "PAYDOWN",
+      "asset_id": "PAYDOWN.ENVIRONMENT.STEPS.001",
+      "file": "src/projects/jurnl/families/F13_PAYDOWN/ENVIRONMENTS/F13_ENVIRONMENT_STEPS.jpg",
+      "classification": "INCOMPATIBLE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": true,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "olive tree + cypress + garden stairs (whole frame, centre line)",
+        "secondary_visual_salience": "sea view (centre)",
+        "quiet_center_region": "none",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "tl",
+          "tr"
+        ]
+      },
+      "treatment": "50% anchor + calm 9px / .22, feather 30px",
+      "before": {
+        "safe_zone": {
+          "mean": 0.423,
+          "hot_share": 0.508,
+          "bright_share": 0.057,
+          "colour_share": 0.078,
+          "edge_density": 0.34
+        },
+        "safe_core": {
+          "mean": 0.429,
+          "hot_share": 0.523,
+          "bright_share": 0.069,
+          "colour_share": 0.081,
+          "edge_density": 0.356
+        },
+        "perimeter": {
+          "mean": 0.418,
+          "hot_share": 0.497,
+          "bright_share": 0.002,
+          "colour_share": 0.073,
+          "edge_density": 0.295
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.123,
+          "hot_share": 0.078,
+          "bright_share": 0.038,
+          "colour_share": 0,
+          "edge_density": 0.075
+        },
+        "safe_core": {
+          "mean": 0.073,
+          "hot_share": 0.01,
+          "bright_share": 0.046,
+          "colour_share": 0,
+          "edge_density": 0.041
+        },
+        "perimeter": {
+          "mean": 0.401,
+          "hot_share": 0.481,
+          "bright_share": 0.001,
+          "colour_share": 0.047,
+          "edge_density": 0.278
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F14",
+      "family_name": "GOALS",
+      "asset_id": "GOALS.ENVIRONMENT.COURSE.001",
+      "file": "src/projects/jurnl/families/F14_GOALS/ENVIRONMENTS/F14_ENVIRONMENT_COURSE.jpg",
+      "classification": "REPOSITIONABLE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "olive tree (right)",
+        "secondary_visual_salience": "stone wall course + sea sliver (right / lower)",
+        "quiet_center_region": "plaster (left)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "tr",
+          "br"
+        ]
+      },
+      "treatment": "left anchor + zoom 1.06 + calm 6px / .16",
+      "before": {
+        "safe_zone": {
+          "mean": 0.299,
+          "hot_share": 0.308,
+          "bright_share": 0.003,
+          "colour_share": 0.027,
+          "edge_density": 0.236
+        },
+        "safe_core": {
+          "mean": 0.309,
+          "hot_share": 0.312,
+          "bright_share": 0.002,
+          "colour_share": 0.033,
+          "edge_density": 0.243
+        },
+        "perimeter": {
+          "mean": 0.228,
+          "hot_share": 0.182,
+          "bright_share": 0.004,
+          "colour_share": 0.006,
+          "edge_density": 0.161
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.091,
+          "hot_share": 0.045,
+          "bright_share": 0,
+          "colour_share": 0,
+          "edge_density": 0.062
+        },
+        "safe_core": {
+          "mean": 0.047,
+          "hot_share": 0,
+          "bright_share": 0,
+          "colour_share": 0,
+          "edge_density": 0.029
+        },
+        "perimeter": {
+          "mean": 0.229,
+          "hot_share": 0.181,
+          "bright_share": 0.004,
+          "colour_share": 0.001,
+          "edge_density": 0.163
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F15",
+      "family_name": "AHEAD",
+      "asset_id": "AHEAD.ENVIRONMENT.OVERLOOK.001",
+      "file": "src/projects/jurnl/families/F15_AHEAD/ENVIRONMENTS/F15_ENVIRONMENT_OVERLOOK.jpg",
+      "classification": "CROPPABLE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": true,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "sea + cliffs (centre-right)",
+        "secondary_visual_salience": "sky + clouds (top), stone wall (bottom)",
+        "quiet_center_region": "sky (upper left)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "bl"
+        ]
+      },
+      "treatment": "left anchor + zoom 1.06 (0% 40%) + calm 8px / .18",
+      "before": {
+        "safe_zone": {
+          "mean": 0.244,
+          "hot_share": 0.217,
+          "bright_share": 0.002,
+          "colour_share": 0.019,
+          "edge_density": 0.116
+        },
+        "safe_core": {
+          "mean": 0.22,
+          "hot_share": 0.179,
+          "bright_share": 0.001,
+          "colour_share": 0.021,
+          "edge_density": 0.102
+        },
+        "perimeter": {
+          "mean": 0.322,
+          "hot_share": 0.296,
+          "bright_share": 0.003,
+          "colour_share": 0.04,
+          "edge_density": 0.153
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.088,
+          "hot_share": 0.046,
+          "bright_share": 0,
+          "colour_share": 0,
+          "edge_density": 0.043
+        },
+        "safe_core": {
+          "mean": 0.041,
+          "hot_share": 0.002,
+          "bright_share": 0,
+          "colour_share": 0,
+          "edge_density": 0.021
+        },
+        "perimeter": {
+          "mean": 0.299,
+          "hot_share": 0.298,
+          "bright_share": 0,
+          "colour_share": 0.004,
+          "edge_density": 0.156
+        }
+      },
+      "safe_zone_test": "PASS"
+    },
+    {
+      "family_id": "F16",
+      "family_name": "RECORDS",
+      "asset_id": "RECORDS.ENVIRONMENT.ARCHIVE.001",
+      "file": "src/projects/jurnl/families/F16_RECORDS/ENVIRONMENTS/F16_ENVIRONMENT_ARCHIVE.jpg",
+      "classification": "REPOSITIONABLE",
+      "BACKGROUND_RECOMPOSITION_REQUIRED": false,
+      "salience_map": {
+        "primary_ui_zone": "CENTER SAFE ZONE (nav footprint × content rect)",
+        "primary_visual_salience": "file drawer with folders (lower right)",
+        "secondary_visual_salience": "shelves (upper right)",
+        "quiet_center_region": "plaster (left / centre)",
+        "nav_region": "bottom band (perimeter)",
+        "hottest_quadrants_before": [
+          "br",
+          "tr"
+        ]
+      },
+      "treatment": "left anchor + medium calm (5–6px / .14–.16)",
+      "before": {
+        "safe_zone": {
+          "mean": 0.108,
+          "hot_share": 0.063,
+          "bright_share": 0.007,
+          "colour_share": 0.015,
+          "edge_density": 0.061
+        },
+        "safe_core": {
+          "mean": 0.107,
+          "hot_share": 0.06,
+          "bright_share": 0.01,
+          "colour_share": 0.014,
+          "edge_density": 0.062
+        },
+        "perimeter": {
+          "mean": 0.09,
+          "hot_share": 0.044,
+          "bright_share": 0,
+          "colour_share": 0.025,
+          "edge_density": 0.044
+        }
+      },
+      "after": {
+        "safe_zone": {
+          "mean": 0.045,
+          "hot_share": 0.012,
+          "bright_share": 0.002,
+          "colour_share": 0.001,
+          "edge_density": 0.026
+        },
+        "safe_core": {
+          "mean": 0.031,
+          "hot_share": 0.003,
+          "bright_share": 0.001,
+          "colour_share": 0,
+          "edge_density": 0.019
+        },
+        "perimeter": {
+          "mean": 0.096,
+          "hot_share": 0.054,
+          "bright_share": 0,
+          "colour_share": 0.033,
+          "edge_density": 0.049
+        }
+      },
+      "safe_zone_test": "PASS"
+    }
+  ],
+  "edge_led_control": {
+    "F01.00": {
+      "zone": {
+        "left": 27,
+        "right": 367,
+        "top": 0,
+        "bottom": 780
+      },
+      "safe_zone": {
+        "mean": 0.332,
+        "hot_share": 0.366,
+        "bright_share": 0.129,
+        "colour_share": 0.105,
+        "edge_density": 0.196
+      },
+      "safe_core": {
+        "mean": 0.318,
+        "hot_share": 0.341,
+        "bright_share": 0.131,
+        "colour_share": 0.102,
+        "edge_density": 0.194
+      },
+      "perimeter": {
+        "mean": 0.462,
+        "hot_share": 0.613,
+        "bright_share": 0.125,
+        "colour_share": 0.224,
+        "edge_density": 0.245
+      },
+      "quadrants": {
+        "tl": {
+          "mean": 0.092,
+          "hot_share": 0.004,
+          "bright_share": 0.161,
+          "colour_share": 0,
+          "edge_density": 0.044
+        },
+        "tr": {
+          "mean": 0.338,
+          "hot_share": 0.294,
+          "bright_share": 0.229,
+          "colour_share": 0.02,
+          "edge_density": 0.192
+        },
+        "bl": {
+          "mean": 0.475,
+          "hot_share": 0.639,
+          "bright_share": 0.065,
+          "colour_share": 0.295,
+          "edge_density": 0.267
+        },
+        "br": {
+          "mean": 0.532,
+          "hot_share": 0.734,
+          "bright_share": 0.056,
+          "colour_share": 0.204,
+          "edge_density": 0.321
+        }
+      },
+      "centre_to_perimeter_ratio": 0.72
+    }
+  },
+  "heatmaps": "screenshots/boards/BACKGROUND_SALIENCE_HEATMAPS.jpg · screenshots/boards/BACKGROUND_PERIMETER_COMPOSITION.jpg"
+}

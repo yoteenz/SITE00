@@ -371,6 +371,56 @@
   pointer-events: none;
   z-index: 3;
 }
+/* STAGE overlay (design / QA only): composition mode, CENTER_STAGE safe zone, nav footprint, `+` axis, perimeter. */
+.pxa .pxa-device__stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.pxa .pxa-device__stage i {
+  position: absolute;
+  font-style: normal;
+}
+.pxa .pxa-device__stage-mode {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  padding: 1px 5px;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: #fff;
+  background: rgba(20, 90, 60, 0.9);
+}
+.pxa .pxa-device__stage-perimeter {
+  background: repeating-linear-gradient(45deg, rgba(196, 120, 40, 0.18) 0 3px, rgba(196, 120, 40, 0.04) 3px 9px);
+}
+.pxa .pxa-device__stage-zone {
+  border: 1px dashed rgba(20, 120, 80, 0.95);
+  background: rgba(20, 120, 80, 0.06);
+}
+.pxa .pxa-device__stage-nav {
+  border: 1px solid rgba(20, 120, 80, 0.95);
+}
+.pxa .pxa-device__stage-zone::after,
+.pxa .pxa-device__stage-nav::after,
+.pxa .pxa-device__stage-perimeter[data-label]::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  padding: 0 3px;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: #0b4d33;
+  background: rgba(255, 255, 255, 0.85);
+}
+.pxa .pxa-device__stage-axis {
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px solid rgba(220, 30, 60, 0.85);
+}
 .pxa .pxa-device__bounds {
   position: absolute;
   inset: 0;

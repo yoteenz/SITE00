@@ -1,0 +1,52 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION.CENTER-STAGE-NAV-ALIGNED-REFINEMENT3",
+  "generated": "2026-10-06",
+  "modes": {
+    "EDGE_LED": {
+      "use_for": [
+        "F01 ENTRY",
+        "WELCOME",
+        "INTRO",
+        "ONBOARDING OPENERS (F02 SETUP)",
+        "NO-NAV EDITORIAL SCREENS",
+        "APPROVED CINEMATIC OPENERS"
+      ],
+      "characteristics": [
+        "LEFT-ANCHORED COPY MAY BE USED",
+        "ASYMMETRY ALLOWED",
+        "THE VISUAL FIELD MAY OCCUPY A SIDE",
+        "EDITORIAL TYPOGRAPHY MAY LEAD",
+        "MAIN CONTENT NEED NOT ALIGN TO THE NAV WIDTH"
+      ]
+    },
+    "CENTER_STAGE": {
+      "use_for": [
+        "EVERY SCREEN THAT CARRIES THE 5-ITEM PRODUCT NAV: FAMILY ROOTS, FUNCTIONAL CHILD SCREENS, DECISION SCREENS, ACCOUNT"
+      ],
+      "characteristics": [
+        "THE FUNCTIONAL FIELD IS CENTRED ON THE `+` AXIS",
+        "THE FIELD SHARES THE NAV FOOTPRINT ON PHONES (--jrn-stage-w = --jrn-nav-w)",
+        "TEXT INSIDE THE FIELD KEEPS ITS OWN ALIGNMENT — THE FIELD IS CENTRED, NOT EVERY ELEMENT",
+        "BACKGROUND FRAMES THE FIELD FROM THE PERIMETER (focal anchoring + calm layer)",
+        "FAMILY ARCHETYPES KEEP THEIR OWN INTERNAL RHYTHM"
+      ]
+    }
+  },
+  "detection": {
+    "rule": "resolveCompositionMode({ screenId, hasProductNav, override }) → override ?? COMPOSITION_OVERRIDES[screenId] ?? (hasProductNav ? CENTER_STAGE : EDGE_LED)",
+    "explicit_contract_not_css_hack": "JurnlScreen renders data-jrn-composition; JurnlFamilyFrame passes productNav = (nav prop present); direct JurnlScreen users with the nav (F04 ACTIVITY, parent authority fallback) pass productNav.",
+    "source": [
+      "src/projects/jurnl/runtime/layout/compositionMode.ts",
+      "src/projects/jurnl/runtime/screens/JurnlScreen.tsx",
+      "src/projects/jurnl/runtime/components/FamilyFrame.tsx"
+    ],
+    "route_authority_overrides": {},
+    "documented_exceptions": "NONE. Every nav-bearing screen is CENTER_STAGE; an override must carry a written reason (enforced by tests/jurnlCenterStage.test.tsx)."
+  },
+  "enforcement": {
+    "unit": "tests/jurnlCenterStage.test.tsx — 59 tests: every product route renders the nav AND CENTER_STAGE; every F01/F02 route renders no nav AND EDGE_LED; overrides need a reason; CSS geometry contract.",
+    "live": "scripts/jurnl/center-stage-qa.mjs — declared mode + measured geometry on every material route at 5 widths."
+  },
+  "overlays": "Sheets / drawers / modals keep their own overlay contract (sprint §48); they render in the overlay host, outside the CENTER_STAGE field.",
+  "no_nav_child_pages": "None exist today. A child page that drops the product nav for a focused task may use EDGE_LED or another approved mode (sprint §50) — it resolves to EDGE_LED automatically because it has no nav."
+}

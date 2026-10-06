@@ -95,12 +95,15 @@ export function PaydownHubScreen() {
       </FramePanel>
       {steps.length ?
         <FramePanel id="steps">
-          <ol className="jrn-stair" aria-label={`PAYDOWN ORDER — ${steps.length} ${steps.length === 1 ? 'STEP' : 'STEPS'}`}>
+          <ol className="jrn-stair" aria-label={`PAYDOWN ORDER — ${steps.length} ${steps.length === 1 ? 'STEP' : 'STEPS'}`} style={{ ['--last' as string]: Math.max(1, steps.length - 1) }}>
             {steps.map((a, i) => {
               const s = creditSummary(a);
               const pay = payment(a.account_id);
+              // Presentation only: a tread's width carries its share of the largest balance (the weight still to come down).
+              const heaviest = Math.max(...steps.map((x) => creditSummary(x).used), 0);
+              const weight = heaviest > 0 ? Math.min(1, s.used / heaviest) : 0;
               return (
-                <li key={a.account_id} className="jrn-stair__step" style={{ ['--step' as string]: i }}>
+                <li key={a.account_id} className="jrn-stair__step" style={{ ['--step' as string]: i, ['--weight' as string]: weight }}>
                   <span className="jrn-stair__index" aria-hidden>{String(i + 1).padStart(2, '0')}</span>
                   <button type="button" className="jrn-stair__tread" data-jrn-trigger={`paydown-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)}>
                     <span className="jrn-stair__name">{a.display_name}</span>

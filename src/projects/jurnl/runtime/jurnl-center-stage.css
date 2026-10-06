@@ -1,0 +1,425 @@
+/* JURNL CENTER-STAGE COMPOSITION (mode B) — P0.JURNL.MOBILE-COMPOSITION.CENTER-STAGE-NAV-ALIGNED-REFINEMENT3.
+   Every screen that carries the 5-item product nav is CENTER_STAGE (data-jrn-composition, layout/compositionMode.ts).
+   DESIGN AT THE PERIMETER, FUNCTION IN THE CENTRE:
+   · the functional field (the frame) shares the nav footprint and the `+` axis: --jrn-stage-w = --jrn-nav-w on phones;
+   · text inside the field keeps its own alignment — the FIELD is centred, not every element;
+   · the photograph is re-anchored so its subject sits at the outer frame, and a calm, soft-focus copy of the same plate
+     covers the safe zone and feathers out, so corners and outer edges keep their detail.
+   EDGE_LED screens (entry, welcome, setup) are untouched by this file. */
+
+.jrn {
+  /* SAFE ZONE — the CENTER_STAGE field. Phone: exactly the nav footprint. */
+  --jrn-stage-w: var(--jrn-nav-w);
+  --jrn-calm-blur: 4px;
+  --jrn-calm-sat: 0.85;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.16);
+  --jrn-calm-feather: 68px;
+  --jrn-calm-top: 52px;
+  --jrn-plate-zoom: 1;
+  --jrn-plate-origin: 50% 50%;
+}
+@media (min-width: 600px) {
+  .jrn {
+    /* Tablet: wider than the nav, still centred on the same axis. */
+    --jrn-stage-w: min(560px, calc(100% - 112px));
+  }
+}
+@media (min-width: 1100px) {
+  .jrn {
+    --jrn-stage-w: 560px;
+  }
+}
+
+/* ─── the field ─── */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-frame='family'] .jrn-col {
+  padding-left: 0;
+  padding-right: 0;
+  align-items: center;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-frame {
+  width: var(--jrn-stage-w);
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
+}
+/* No narrow left column inside the field (supersedes the F03 230px rail and the 360px DETAIL column). */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-frame__slot {
+  max-width: none;
+}
+
+/* ─── background: subject to the perimeter ─── */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-plate,
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-env__calm {
+  transform: scale(var(--jrn-plate-zoom));
+  transform-origin: var(--jrn-plate-origin);
+}
+.jrn .jrn-env__calm {
+  --jrn-stage-l: calc(50% - var(--jrn-stage-w) / 2);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(var(--jrn-calm-tint), var(--jrn-calm-tint)), var(--jrn-calm-src);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: var(--jrn-plate-mobile, 50% 50%);
+  filter: blur(var(--jrn-calm-blur)) saturate(var(--jrn-calm-sat));
+  /* Feathered safe-zone rectangle: full calm inside the field, none at the outer frame, corners stay sharpest. */
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent calc(var(--jrn-stage-l) - 18px), #000 calc(var(--jrn-stage-l) + var(--jrn-calm-feather)), #000 calc(100% - var(--jrn-stage-l) - var(--jrn-calm-feather)), transparent calc(100% - var(--jrn-stage-l) + 18px)),
+    linear-gradient(180deg, transparent var(--jrn-calm-top), #000 calc(var(--jrn-calm-top) + 110px), #000 calc(100% - var(--jrn-nav-reserve) - 130px), transparent calc(100% - var(--jrn-nav-reserve) + 4px));
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent calc(var(--jrn-stage-l) - 18px), #000 calc(var(--jrn-stage-l) + var(--jrn-calm-feather)), #000 calc(100% - var(--jrn-stage-l) - var(--jrn-calm-feather)), transparent calc(100% - var(--jrn-stage-l) + 18px)),
+    linear-gradient(180deg, transparent var(--jrn-calm-top), #000 calc(var(--jrn-calm-top) + 110px), #000 calc(100% - var(--jrn-nav-reserve) - 130px), transparent calc(100% - var(--jrn-nav-reserve) + 4px));
+  mask-composite: intersect;
+}
+
+/* Per-family focal metadata (see JURNL_BACKGROUND_SALIENCE_AUDIT.json). Nearly every plate was composed for a left
+   column, so its subject sits right of centre. On a phone `object-fit: cover` crops ~86px of width: anchoring the crop
+   LEFT (0%) keeps the quiet left field and pushes a right-side subject out to the right edge (100% would pull it ~43px
+   inward). Where a subject still crosses the field, zoom from the left so it moves further out. Tablet / desktop crop
+   vertically only, so there the y value matters. Calm strength follows the class:
+   CENTER_SAFE light · REPOSITIONABLE medium · CROPPABLE / NEEDS_DERIVED_VARIANT strong · INCOMPATIBLE strongest. */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family] {
+  --jrn-plate-mobile: 0% 50%;
+  --jrn-plate-tablet: 50% 40%;
+  --jrn-plate-desktop: 50% 38%;
+}
+/* CENTER_SAFE */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F03'],
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F04'],
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F09'],
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F12'] {
+  --jrn-calm-blur: 3px;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.08);
+  --jrn-calm-sat: 0.92;
+}
+/* REPOSITIONABLE */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F07'],
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F08'],
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F10'],
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F16'] {
+  --jrn-calm-blur: 5px;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.14);
+  --jrn-calm-sat: 0.82;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F14'] {
+  --jrn-plate-zoom: 1.06;
+  --jrn-plate-origin: 0% 50%;
+  --jrn-calm-blur: 6px;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.16);
+  --jrn-calm-sat: 0.78;
+}
+/* CROPPABLE / NEEDS_DERIVED_VARIANT (BACKGROUND_RECOMPOSITION_REQUIRED for a later authority pass) */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F05'] {
+  --jrn-plate-zoom: 1.06;
+  --jrn-plate-origin: 0% 50%;
+  --jrn-calm-blur: 7px;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.18);
+  --jrn-calm-sat: 0.76;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F11'] {
+  --jrn-calm-feather: 40px;
+  --jrn-plate-zoom: 1.08;
+  --jrn-plate-origin: 0% 62%;
+  --jrn-calm-blur: 8px;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.2);
+  --jrn-calm-sat: 0.7;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F15'] {
+  --jrn-plate-zoom: 1.06;
+  --jrn-plate-origin: 0% 40%;
+  --jrn-calm-blur: 8px;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.18);
+  --jrn-calm-sat: 0.72;
+}
+/* INCOMPATIBLE (subject on the centre line; BACKGROUND_RECOMPOSITION_REQUIRED) */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F06'] {
+  --jrn-plate-mobile: 50% 50%;
+  --jrn-calm-blur: 9px;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.2);
+  --jrn-calm-sat: 0.72;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F13'] {
+  --jrn-plate-mobile: 50% 50%;
+  --jrn-calm-feather: 30px;
+  --jrn-calm-blur: 9px;
+  --jrn-calm-tint: rgba(249, 246, 239, 0.22);
+  --jrn-calm-sat: 0.68;
+}
+
+/* ─── shared fixes inside the field ─── */
+/* Rail rows without a leading mark: two columns, never a 28px name column (fixes the MONEY › PLACES text collision). */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-tx:not(:has(> .jrn-tx__mark)) {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-frame .jrn-lang__editorial {
+  max-width: none;
+}
+
+/* ════════ F03 TODAY · OPERATING BOARD (the day ↔ the reading, then the queue across the field) ════════ */
+.jrn .jrn-frame[data-jrn-family-frame='F03'] .jrn-home__intro {
+  margin-top: 4px;
+}
+.jrn .jrn-today__snap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'day signal'
+    'act act';
+  column-gap: 12px;
+  row-gap: 10px;
+  align-items: end;
+  padding: 12px 14px 12px;
+  background: var(--jrn-frame-paper);
+  border: 1px solid var(--jrn-frame-line);
+  border-radius: 6px;
+}
+.jrn .jrn-today__day {
+  grid-area: day;
+  align-self: start;
+}
+.jrn .jrn-today__day .jrn-home__h {
+  max-width: none;
+  margin: 0;
+}
+.jrn .jrn-today__day .jrn-home__sub {
+  max-width: none;
+  margin-top: 4px;
+}
+.jrn .jrn-today__signal {
+  grid-area: signal;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  text-align: right;
+}
+.jrn .jrn-today__signal .jrn-home__num {
+  max-width: none;
+}
+.jrn .jrn-today__signal .jrn-home__label {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--jrn-ink-3);
+}
+.jrn .jrn-today__signal .jrn-home__hint {
+  max-width: none;
+  margin: 0;
+}
+.jrn .jrn-today__act {
+  grid-area: act;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(182, 165, 148, 0.55);
+}
+.jrn .jrn-today__act .jrn-btn {
+  width: auto;
+  min-height: 42px;
+  margin: 0;
+  padding: 0 18px;
+}
+.jrn .jrn-today__act .jrn-home__note {
+  margin: 0 0 0 auto;
+}
+.jrn .jrn-frame[data-jrn-family-frame='F03'] .jrn-home__panel {
+  max-width: none;
+}
+
+/* ════════ F05 MONEY · the cabinet plaque sits on the axis; shelves span the field ════════ */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-cab__plaque {
+  max-width: none;
+  align-items: stretch;
+  text-align: center;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-cab__label {
+  align-self: center;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-cab__figures {
+  justify-content: center;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-cab__source {
+  justify-self: center;
+}
+
+/* ════════ F10 PURCHASES · the object study owns the centre ════════ */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-obj__intro {
+  max-width: none;
+  text-align: center;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-obj__niche,
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-obj__niche + .jrn-btn,
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-obj__actions > .jrn-btn {
+  width: min(300px, 88%);
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-obj__line {
+  max-width: none;
+}
+
+/* ════════ F11 TRIPS · the route runs down the axis: from here ← | → funding, then the destination on the line ════════ */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__intro {
+  max-width: none;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route {
+  padding: 8px 12px 10px;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stops {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 30px;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stops::before {
+  left: calc(50% - 1px);
+  top: 16px;
+  bottom: 70px;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stop {
+  padding: 8px 0;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stop[data-stop='origin'] {
+  grid-column: 1;
+  grid-row: 1;
+  align-items: flex-end;
+  text-align: right;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stop[data-stop='funding'] {
+  grid-column: 2;
+  grid-row: 1;
+  margin-top: 40px;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stop[data-stop='destination'] {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  align-items: center;
+  text-align: center;
+  padding-top: 26px;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stop[data-stop='origin'] .jrn-route__mark {
+  left: auto;
+  right: -22px;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stop[data-stop='funding'] .jrn-route__mark {
+  left: -23px;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stop[data-stop='destination'] .jrn-route__mark {
+  left: calc(50% - 6px);
+  top: 8px;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__stop .jrn-inline-action {
+  margin: 0;
+}
+
+/* ════════ F13 PAYDOWN · the descent crosses the field on a clean diagonal; each tread carries its weight as a bar ════════ */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-stair__landing {
+  max-width: none;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-stair__step {
+  width: 70%;
+  margin-left: calc(30% * var(--step, 0) / var(--last, 1));
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-stair__tread {
+  position: relative;
+}
+/* Weight still to come down: share of the largest balance (presentation of the real balance, not a new number).
+   Drawn by the step, outside the tread control, so it never reads as the control's underline. */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-stair__step {
+  position: relative;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-stair__step::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  left: 46px;
+  bottom: 5px;
+  width: calc((100% - 58px) * var(--weight, 0));
+  height: 2px;
+  background: var(--jrn-ink-2);
+  opacity: 0.55;
+  pointer-events: none;
+}
+/* The route's stop copy reads in two lines at most inside a half-field column. */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-route__value {
+  letter-spacing: 0.08em;
+}
+
+/* ════════ F04 ACTIVITY (not paginated: one ledger) · the stage is the field ════════ */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F04'] .jrn-col {
+  padding-left: 0;
+  padding-right: 0;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F04'] .jrn-col > .jrn-act {
+  width: var(--jrn-stage-w);
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F04'] .jrn-act__stage {
+  width: 100%;
+  max-width: none;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family='F04'] .jrn-home__intro {
+  max-width: none;
+}
+
+/* ════════ DETAIL (child screens + account) · facts read as a two-column ledger across the field ════════ */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-frame[data-jrn-archetype='DETAIL'] .jrn-home__panel:has(> b + p) {
+  display: grid;
+  /* the label keeps its own width; a long value wraps inside the remaining width, never over the label */
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 14px;
+  row-gap: 6px;
+  align-items: baseline;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-frame[data-jrn-archetype='DETAIL'] .jrn-home__panel:has(> b + p) > b {
+  grid-column: 1;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-frame[data-jrn-archetype='DETAIL'] .jrn-home__panel:has(> b + p) > p {
+  grid-column: 2;
+  margin: 0;
+  text-align: right;
+}
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-frame[data-jrn-archetype='DETAIL'] .jrn-home__panel:has(> b + p) > :not(b):not(p) {
+  grid-column: 1 / -1;
+}
+
+/* ─── tablet / desktop: same axis, wider stage; the plate keeps its own breakpoint crop ─── */
+@media (min-width: 600px) {
+  .jrn .jrn-env__calm {
+    background-position: var(--jrn-plate-tablet, 56% 38%);
+  }
+}
+@media (min-width: 1100px) {
+  .jrn .jrn-env__calm {
+    background-position: var(--jrn-plate-desktop, 62% 34%);
+  }
+}
+
+/* Chrome row on CENTER_STAGE: the wordmark sits on the same paper chip as the icon controls beside it, so the top
+   perimeter can keep the photograph's detail without any text standing on beams or foliage. */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-home__top .jrn-home__mark:not([aria-hidden]) {
+  padding: 5px 12px 4px;
+  background: var(--jrn-frame-paper);
+  border-radius: 6px;
+}
+
+/* Wider stages get a wider feather so the calm field never shows a column edge (per-family phone feathers are tighter). */
+@media (min-width: 600px) {
+  .jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'][data-jrn-family] {
+    --jrn-calm-feather: 120px;
+  }
+}
+
+/* Family intros (F06 · F07 · F08 · F12 · F14) span the field, so a wide stage never leaves a left-hanging card. */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] :is(.jrn-ledg__intro, .jrn-tl__intro, .jrn-zone__intro, .jrn-cred__intro, .jrn-spread__intro) {
+  max-width: none;
+}
+
+/* F04: FILTER sits on the same paper as SEARCH beside it — a control label never stands on the bare curtain. */
+.jrn .jrn-screen[data-jrn-composition='CENTER_STAGE'] .jrn-act__tools > .jrn-btn {
+  background: var(--jrn-frame-paper);
+}

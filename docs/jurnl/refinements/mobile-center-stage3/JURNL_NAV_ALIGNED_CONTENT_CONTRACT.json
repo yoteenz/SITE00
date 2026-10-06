@@ -1,0 +1,175 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION.CENTER-STAGE-NAV-ALIGNED-REFINEMENT3",
+  "generated": "2026-10-06",
+  "contract": {
+    "width": "Phones: the functional field shares the horizontal footprint of HOME · MONEY · + · PLAN · CREDIT (field = nav width, measured tolerance ±3px raster). Tablet / desktop: a wider stage (560px) on the SAME axis — not the exact phone geometry (sprint §44).",
+    "axis": "The `+` control centre is the shared axis for the field, the title region, the panel group and the nav (|field centre − axis| = 0 at every width).",
+    "balance": "Left-column drift = |area-weighted content centroid − axis| > 10% of the nav width, or |field centre − axis| > 6px.",
+    "never": [
+      "width: 45% / left: 5% or any narrow left column on a nav-bearing screen",
+      "whole-page scroll as an escape (the frame paginates)",
+      "one big white rectangle (no generic cardification)"
+    ],
+    "nav": "The nav is the base of the structural grid: chrome row, field and nav share edges on phones.",
+    "clearance": "Nothing renders under the nav: content ends above --jrn-nav-reserve."
+  },
+  "measurement": "scripts/jurnl/center-stage-qa.mjs — field = union of opaque surfaces, controls and text ink inside the content rect (chrome excluded), rasterised on a 3px grid.",
+  "before_main": "9b8137c4",
+  "per_viewport": {
+    "mobile": {
+      "nav_bearing_routes": 28,
+      "before": {
+        "left_column_drift": [
+          "F03.00",
+          "F04.00",
+          "GS.SETTINGS"
+        ],
+        "max_abs_centroid_px": 76.9,
+        "max_abs_field_center_px": 67.5
+      },
+      "after": {
+        "left_column_drift": [],
+        "max_abs_centroid_px": 13.7,
+        "max_abs_field_center_px": 0,
+        "field_width_to_nav": [
+          1.015
+        ],
+        "min_clearance_px": 52
+      }
+    },
+    "mobile_s": {
+      "nav_bearing_routes": 28,
+      "before": {
+        "left_column_drift": [
+          "F03.00",
+          "F04.00",
+          "GS.SETTINGS"
+        ],
+        "max_abs_centroid_px": 71.8,
+        "max_abs_field_center_px": 61.5
+      },
+      "after": {
+        "left_column_drift": [],
+        "max_abs_centroid_px": 11.7,
+        "max_abs_field_center_px": 0,
+        "field_width_to_nav": [
+          1.006
+        ],
+        "min_clearance_px": 70
+      }
+    },
+    "mobile_l": {
+      "nav_bearing_routes": 28,
+      "before": {
+        "left_column_drift": [
+          "F03.00",
+          "F04.00",
+          "F05.ACCOUNT",
+          "F05.ACCOUNTS",
+          "F06.SOURCE",
+          "F07.ITEM",
+          "F08.ITEM",
+          "F09.WHY",
+          "F10.OBJECT",
+          "F11.TRIP",
+          "F12.ACCOUNT",
+          "F13.WHAT_IF",
+          "F14.GOAL",
+          "F15.BRANCH",
+          "F16.DOCUMENT",
+          "GS.SETTINGS"
+        ],
+        "max_abs_centroid_px": 89.3,
+        "max_abs_field_center_px": 80
+      },
+      "after": {
+        "left_column_drift": [],
+        "max_abs_centroid_px": 14.1,
+        "max_abs_field_center_px": 1,
+        "field_width_to_nav": [
+          1.006
+        ],
+        "min_clearance_px": 54
+      }
+    },
+    "tablet": {
+      "nav_bearing_routes": 28,
+      "before": {
+        "left_column_drift": [
+          "F03.00",
+          "F04.00",
+          "F05.ACCOUNT",
+          "F05.ACCOUNTS",
+          "F06.00",
+          "F06.SOURCE",
+          "F07.ITEM",
+          "F08.00",
+          "F08.ITEM",
+          "F09.WHY",
+          "F10.OBJECT",
+          "F11.TRIP",
+          "F12.ACCOUNT",
+          "F13.WHAT_IF",
+          "F14.00",
+          "F14.GOAL",
+          "F15.BRANCH",
+          "F16.DOCUMENT",
+          "GS.SETTINGS"
+        ],
+        "max_abs_centroid_px": 250.6,
+        "max_abs_field_center_px": 247.5
+      },
+      "after": {
+        "left_column_drift": [],
+        "max_abs_centroid_px": 21.4,
+        "max_abs_field_center_px": 0,
+        "field_width_to_nav": [
+          1.3430000000000002
+        ],
+        "min_clearance_px": 160
+      }
+    },
+    "desktop": {
+      "nav_bearing_routes": 28,
+      "before": {
+        "left_column_drift": [
+          "F03.00",
+          "F04.00",
+          "F05.00",
+          "F05.ACCOUNT",
+          "F05.ACCOUNTS",
+          "F06.00",
+          "F06.SOURCE",
+          "F07.00",
+          "F07.ITEM",
+          "F08.00",
+          "F08.ITEM",
+          "F09.WHY",
+          "F10.OBJECT",
+          "F11.00",
+          "F11.TRIP",
+          "F12.00",
+          "F12.ACCOUNT",
+          "F13.WHAT_IF",
+          "F14.00",
+          "F14.GOAL",
+          "F15.BRANCH",
+          "F16.DOCUMENT",
+          "GS.SETTINGS"
+        ],
+        "max_abs_centroid_px": 535.2,
+        "max_abs_field_center_px": 531
+      },
+      "after": {
+        "left_column_drift": [],
+        "max_abs_centroid_px": 21.4,
+        "max_abs_field_center_px": 0,
+        "field_width_to_nav": [
+          1.226
+        ],
+        "min_clearance_px": 61
+      }
+    }
+  },
+  "LEFT_COLUMN_DRIFT_REMAINING": 0
+}

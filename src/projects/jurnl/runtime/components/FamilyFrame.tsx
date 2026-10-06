@@ -25,6 +25,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { clampScreen, paginatePanels, type PaginationResult } from '../layout/paginate';
 import { JurnlScreen, type FamilyPlate } from '../screens/JurnlScreen';
+import type { JurnlCompositionMode } from '../layout/compositionMode';
 import { JurnlIcon } from './icons';
 
 /** Composition archetypes (see docs/jurnl/refinements/mobile-creative-composition2/JURNL_COMPOSITION_ARCHETYPE_LIBRARY.json). */
@@ -261,6 +262,7 @@ export function JurnlFamilyFrame({
   chrome,
   nav,
   overlays,
+  composition,
   children,
 }: {
   screenId: string;
@@ -271,13 +273,16 @@ export function JurnlFamilyFrame({
   chrome: ReactNode;
   nav: ReactNode;
   overlays?: ReactNode;
+  /** Route-authority override; omitted = CENTER_STAGE when the product nav is present. */
+  composition?: JurnlCompositionMode;
   children: ReactNode;
 }) {
   const { pathname } = useLocation();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={familyPlate} family frame>
+    <JurnlScreen screenId={screenId} familyPlate={familyPlate} family frame productNav={nav != null && nav !== false} composition={composition}>
       <FrameProvider key={pathname} label={label}>
-        <div className="jrn-frame" data-jrn-archetype={archetype} data-jrn-family-frame={familyId}>
+        {/* The frame IS the functional field: on CENTER_STAGE it shares the nav footprint and the `+` axis. */}
+        <div className="jrn-frame" data-jrn-archetype={archetype} data-jrn-family-frame={familyId} data-runtime-stage="SAFE ZONE">
           {chrome}
           <JurnlPanelStack>{children}</JurnlPanelStack>
         </div>
