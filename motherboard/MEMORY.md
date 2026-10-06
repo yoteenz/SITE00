@@ -14179,3 +14179,78 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Proof:** mobile isolation QA 35/35 routes · 17/17 flows · 0 leaks; tests 32+38 pass; captures under `/opt/cursor/artifacts/post-reconcile-qa/mobile/`.
 - **Convention:** Four states for runtime sprints — SOURCE MERGED / RUNTIME MOUNTED / TUNNEL SERVING / FOUNDER VERIFIED. Documented in `docs/site00/production-workspace/reconciliation/tunnel-runtime-reconciliation-2026-10-06.md` + `AGENTS.md`.
 - **Release pipeline:** separate failure on #1404 merge (Brand Lore migration / orchestration test in CI) — not tunnel blocker.
+
+---
+
+## 2026-10-06 — JURNL F09 SAFE TO SPEND: three composition territories, upstream-contract proof (P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1)
+
+- **Context:** First JURNL family to re-enter the Visual Authority Development pipeline after the founder froze JURNL visual polish. It is a controlled test of the upstream contracts, not a redesign. Founder decision: exactly three territories, no winner, no implementation.
+- **Firewall method (reusable):** An isolated agent read the current F09 screens and reported function only (routes, states, values, actions, copy, a11y, tests). The territory author never opened the legacy screen, its CSS, the ENV.LOGGIA plate or refinement screenshots. The refinement-2 TENSION_THRESHOLD composition text was used only as a negative anti-convergence check. CENTER_STAGE, nav and chrome are declared `PARTIAL_AUTHORITY` (NAV_VISUALS + GEOMETRY), with the sprint as the founder decision. Result: LEGACY_VISUAL_LEAK 0.
+- **Territories (all IN_REVIEW, verdict PENDING):**
+  - **T01 THE OPEN FLOOR:** a plan-view room. Width = cash, walls = held back, open floor = value. The figure sits on the floor; the door leads to the breakdown.
+  - **T02 THE PLAIN ANSWER:** one generated sentence inscribed in travertine. The figure is a word, and each held-back field is an openable word.
+  - **T03 THE OPEN ENVELOPE:** an open envelope with the figure on its slip, and sealed labelled envelopes per held-back field.
+  - Gate `checkTerritoryDistinctness`: 6/6 on every pair. Blur test: PASS ×3.
+- **References:** 3 mobile 393×852 candidates, WIREFRAME_PLUS_BRAND_RENDER (HTML/CSS/SVG rendered by local Chromium), 0 credits, no provider. Script: `scripts/jurnl/f09-territory-proof-render.mjs`.
+  - **Gotcha:** `visibility:hidden` on an `<svg>` root still paints filtered children in Chromium. Use `display:none` for imagery removal.
+  - **Gotcha:** `page.setContent` cannot load `file://` images. Embed data URIs.
+- **Gate:**
+  - Formal state: **EXPERIENCE_REQUIRED** (JURNL has no Workspace Experience Brain contract, only a non-material sample).
+  - Brand check: **BRAND_CONTEXT_REQUIRED (audience)**.
+  - Legacy, territory and reference checks all pass.
+- **Upstream verdict: PARTIAL.**
+  - Scores: BRAND PARTIAL · EXPERIENCE MISSING · FAMILY PARTIAL · STATE PARTIAL · INTERACTION PARTIAL · DATA SUFFICIENT · RESPONSIVE PARTIAL · EXPRESSION PARTIAL.
+  - Upstream fixed what F09 must say, feel and refuse. It did not say what the page *is*: all three primary objects were invented by the author.
+  - The expression brief is plate-centric (loggia, arch and sea, left rail), not composition-centric.
+- **Repo truth gaps:**
+  - The sprint lines MONEY IN SERVICE OF LIFE / FINANCIAL LIFE, BEAUTIFULLY ORGANIZED exist in neither repo.
+  - No JURNL audience and no voice avoid list.
+  - The matrix says SAFE_TO_SPEND_FIGURE is owned by F03.
+- **Open decisions:** D-F09-UNSTATED-NUMBER · RECOVERY-ACTIONS · PRIMARY-ACTION-LABEL · BILLS-LABEL (the formula has no date window) · FIGURE-OWNERSHIP · WHY-COMPLETENESS · BRAND-CANON.
+- **Landed:**
+  - `JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/`: source map, experience summary, firewall, 3 contracts, distinctness matrix, scorecard, founder review pack, ledger, references, blur test.
+  - `shared/studioos-visual-authority/projects/jurnl/f09-safe-to-spend.ts` (exported as `jurnlF09`).
+  - Export: `scripts/studioos/jurnl-f09-territory-proof-export.ts`.
+  - Test: `tests/jurnlF09VisualAuthorityTerritoryProof1.test.ts`.
+- **Unchanged:** no production JURNL UI, F09 logic, schema or RLS changed. The older F09 manifests are untouched.
+- **Next:** The founder reviews the three F09 territories (LOVE_IT / REVISE / REJECT / COMBINE / FOURTH). Before the next family, author a canonical JURNL experience contract and composition-centric briefs.
+
+---
+
+## 2026-10-06 — JURNL F09: creative-direction + brand-expression correction (P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1)
+
+- **Founder finding:** the three F09 territories were structurally right but read as GOOD PRODUCT CONCEPTS + CLEAN UI STUDIES. The pipeline went straight from structural territory to reference candidate. Durable rule: **a strong functional concept is not yet a visual authority. Image generation is a renderer, not the designer.**
+- **Methodology (portable, `shared/studioos-visual-authority/creative-direction.ts`):** new steps **04A CREATIVE DIRECTION TRANSLATION** and **04B BRAND EXPRESSION GATE**.
+  - Guards: `CREATIVE_DIRECTION_REQUIRED` and `BRAND_EXPRESSION_REQUIRED`.
+  - Profiles: every project has its own `CreativeDirectionProfile`; no universal luxury layer. JURNL is READY; AIO, SITE00, Frontal Slayer, Astral World and NDXBOOK each still need theirs.
+  - Translation: 22 fields + bespoke visual idea + render brief + ≥ 4 authorship devices + 12 locks + exact text.
+  - Brand expression: 19-item checklist (critical: brand evident with the logo hidden).
+  - Candidate authority: profile renderer, no material anti-AI flag (18 flags), no unrepaired typography defect. Local HTML renders are never final.
+  - Creative distinctness: ≥ 8/10 dimensions, including premise / depth / material.
+  - Gate integration: every non-grandfathered material family stops before references. Grandfathered list = AIO IFTA only.
+  - Docs: `CREATIVE_DIRECTION_GATE.md/json` and `BRAND_EXPRESSION_GATE.md/json` in `docs/studioos/visual-authority-development/`.
+- **F09 (`JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/`):** territories preserved and translated.
+  - **T01 THE SURVEYED COURTYARD:** overhead courtyard; negative space is the money; bronze floor inlay; cornerstone lockup.
+  - **T02 THE ANSWER IN RAKING LIGHT:** carved sentence; only words that hold money are metal; brass tag; maker's plate.
+  - **T03 THE SORTING RACK:** oak letter rack; envelope thickness = amount; the broken seal; letterhead + seal emboss. Kept independent of the founder hybrid folio.
+  - All three: CREATIVE_DIRECTION_READY, BRAND_EXPRESSION_READY, 10/10 creative distinctness.
+  - Also landed: Sunburst prompts (IMAGE brief first + 20 sections), 9:16 composition locks and value studies.
+  - Chrome: no centred wordmark (the lockup lives in the scene).
+- **Renderer blocker:**
+  - The spec is GPT IMAGE 2.5 SUNBURST · 4K · 9:16 · AUTO-ENHANCE OFF, reference-guided per JURNL canon.
+  - OpenArt is the canonical route but is forbidden by the sprint. The founder asked how to grant access; that needs a credential or connector plus a NEW session.
+  - Figma `generate_image` offers `gpt-image-2.5-sunburst` today, but it is text-only, capped at 2048 px and paid; using it needs a founder exception.
+  - Weave is not linked.
+  - 0 generations, 0 credits.
+- **Next:** pick the renderer route, generate 3 candidates, then anti-AI audit, review board, previous-vs-corrected scores and founder verdict.
+- **Correction (founder, same day):** the no-OpenArt rule applies to **ChatGPT only**; Opus may use OpenArt once it is connected (credential or connector plus a new session). Interim route: the founder runs ChatGPT image generation with `CHATGPT_PROMPTS/*_CHATGPT.txt`, attaching the territory value study and the official logo, then sends the images back for audit and review. The ChatGPT prompts are generated from the same locked translations (`buildChatGptPrompt`).
+
+---
+
+## 2026-10-06 — JURNL F09 Sunburst 3-territory render (P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1)
+
+- **Context:** Opus completed creative-direction + brand-expression on `claude/safe-to-spend-territories-g62f6l` (`f64620f7`); rendering was blocked. Founder directed **OpenArt · GPT IMAGE 2.5 SUNBURST · 4K · 9:16 · auto-enhance OFF** — render operator only, no concept changes.
+- **Delivered:** Three reference-guided Sunburst jobs (OpenArt project `VdiPtgVqb21sYl003uox`) from exact `SUNBURST_PROMPTS/T0*.txt` + composition value studies + logo references. Outputs **2016×3584** under `JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/` (T01 Surveyed Courtyard, T02 Answer in Raking Light, T03 Sorting Rack). Founder review board `F09_FOUNDER_REVIEW_BOARD_CORRECTED_4K.png`; `F09_SUNBURST_RENDER1_REPORT.json` + `RENDER_LOG.json`. **3 primary gens, 0 retries, ~951 credits.**
+- **Authority sync:** `f09-creative-direction.ts` — `JURNL_F09_CORRECTED_CANDIDATES`, audits, `GENERATION_LEDGER` status `GENERATED`, `CORRECTED_ROUND_SCORES`, gate **REFERENCE_AUTHORITIES_READY** (founder territory verdict still null). Helper scripts: `scripts/jurnl/f09-sunburst-generate-one.py`, `f09-build-founder-review-board.py`, `f09-openart-generate-from-json.mjs`. Test `jurnlF09CreativeDirectionCorrection1.test.ts` updated.
+- **QA:** Typography / logo / anti-AI **PASS** on all three; T02 — founder should zoom carved line for full **AND TRIPS.** at 4K. Ignore truncated OpenArt job `BtaPQBn9ja50o02vbAgR`.
+- **Not done:** No F09 React/production UI. **Founder verdict PENDING** — ready for four-way comparison (three corrected 4K + founder hybrid).

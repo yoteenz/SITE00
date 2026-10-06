@@ -1,0 +1,72 @@
+{
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1",
+  "agent": "COMPOSER",
+  "status": "COMPLETE",
+  "opus_branch": "claude/safe-to-spend-territories-g62f6l",
+  "opus_sha": "f64620f7024c850c984e149171c68e161e14208d",
+  "renderer": {
+    "provider": "OpenArt",
+    "model": "gpt-image-2-5-sunburst",
+    "display_name": "GPT IMAGE 2.5 SUNBURST",
+    "mode": "image2image",
+    "resolution": "4K",
+    "output_dimensions": "2016x3584",
+    "aspect_ratio": "9:16",
+    "auto_enhance": false,
+    "openart_project_id": "VdiPtgVqb21sYl003uox"
+  },
+  "territories": {
+    "T01": {
+      "creative_direction": "THE SURVEYED COURTYARD",
+      "structural": "THE OPEN FLOOR",
+      "source_prompt": "SUNBURST_PROMPTS/T01_OPEN_FLOOR.txt",
+      "composition_reference": "COMPOSITION_LOCKS/F09_T01_SURVEYED_COURTYARD_VALUE_STUDY_9x16.png",
+      "generation_count": 1,
+      "retries": 0,
+      "history_id": "QDZEELmPJXmJaZ11of8j",
+      "final_4k_path": "REFERENCE_CANDIDATES_4K/F09_T01_SURVEYED_COURTYARD_MOBILE_9x16_4K.png",
+      "typography_qa": "PASS",
+      "logo_qa": "PASS",
+      "anti_ai_qa": "PASS"
+    },
+    "T02": {
+      "creative_direction": "THE ANSWER IN RAKING LIGHT",
+      "structural": "THE PLAIN ANSWER",
+      "source_prompt": "SUNBURST_PROMPTS/T02_PLAIN_ANSWER.txt",
+      "composition_reference": "COMPOSITION_LOCKS/F09_T02_ANSWER_IN_RAKING_LIGHT_VALUE_STUDY_9x16.png",
+      "generation_count": 1,
+      "retries": 0,
+      "history_id": "MPIVS89jXzIspxu1tSC9",
+      "final_4k_path": "REFERENCE_CANDIDATES_4K/F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_9x16_4K.png",
+      "typography_qa": "PASS",
+      "logo_qa": "PASS",
+      "anti_ai_qa": "PASS",
+      "typography_note": "Founder should zoom carved sentence line for full AND TRIPS. clause at 4K."
+    },
+    "T03": {
+      "creative_direction": "THE SORTING RACK",
+      "structural": "THE OPEN ENVELOPE",
+      "source_prompt": "SUNBURST_PROMPTS/T03_OPEN_ENVELOPE.txt",
+      "composition_reference": "COMPOSITION_LOCKS/F09_T03_SORTING_RACK_VALUE_STUDY_9x16.png",
+      "generation_count": 1,
+      "retries": 0,
+      "history_id": "0VOiDUP8GJyPFbAmK57H",
+      "final_4k_path": "REFERENCE_CANDIDATES_4K/F09_T03_SORTING_RACK_MOBILE_9x16_4K.png",
+      "typography_qa": "PASS",
+      "logo_qa": "PASS",
+      "anti_ai_qa": "PASS"
+    }
+  },
+  "cost": {
+    "total_generations": 3,
+    "total_retries": 0,
+    "credits_estimate": 951,
+    "credits_per_job_estimate": 317
+  },
+  "founder_review_board": "REFERENCE_CANDIDATES_4K/F09_FOUNDER_REVIEW_BOARD_CORRECTED_4K.png",
+  "page_implementation": "NO",
+  "authority_explosion": "NO",
+  "founder_verdict": "PENDING",
+  "three_high_fidelity_candidates_ready": true,
+  "ready_for_four_way_founder_comparison": true
+}

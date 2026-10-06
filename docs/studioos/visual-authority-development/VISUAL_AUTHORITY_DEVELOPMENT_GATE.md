@@ -45,7 +45,9 @@ The compiler's creative gates say *which* archetypes need new authority. This ga
 | 02 | LOAD EXPERIENCE CONTRACT | `checkExperience` (uses `validateExperienceContract`) → EXPERIENCE_REQUIRED |
 | 03 | EXCLUDE LEGACY VISUALS unless promoted | `checkLegacyUse` → LEGACY_VISUAL_LEAK |
 | 04 | CREATE 3 DISTINCT COMPOSITION TERRITORIES | `checkTerritoryDistinctness` → TERRITORY_DISTINCTNESS_FAILURE |
-| 05 | GENERATE / ASSEMBLE REFERENCE AUTHORITIES | `checkReferences` → REFERENCE_AUTHORITY_REQUIRED |
+| 04A | CREATIVE DIRECTION TRANSLATION (project-specific profile; locks before generation) | `checkCreativeDirection` → CREATIVE_DIRECTION_REQUIRED · [CREATIVE_DIRECTION_GATE.md](CREATIVE_DIRECTION_GATE.md) |
+| 04B | BRAND EXPRESSION GATE (19-item checklist, brand evident with the logo hidden) | `checkBrandExpression` → BRAND_EXPRESSION_REQUIRED · [BRAND_EXPRESSION_GATE.md](BRAND_EXPRESSION_GATE.md) |
+| 05 | GENERATE / ASSEMBLE REFERENCE AUTHORITIES (profile renderer executes the locked translation; anti-AI audit + typography guard) | `checkReferences` + `checkCandidateAuthority` → REFERENCE_AUTHORITY_REQUIRED |
 | 06 | FOUNDER CHOOSES / REVISES | founder verdict |
 | 07 | LOCK PAGE-FAMILY AUTHORITY (other actors / viewports may **derive** from the locked parent) | `checkAuthorityLock` · `checkDerivation` |
 | 07A | BRAIN PRODUCES THE PAGE / TAB / STATE TREE (tabs are first-class nodes) | `tree.ts` → `buildExperienceTree` · `evaluateNodeReadiness` · `treeCoverage` |
@@ -60,6 +62,22 @@ The compiler's creative gates say *which* archetypes need new authority. This ga
 - the eight conditions
 - `implementation_ready`
 - `next_step`
+
+### 3.1 Creative direction correction (P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1)
+
+**A strong functional concept is not yet a visual authority.** Between the structural territories and the reference candidates, every material family now passes:
+- **04A Creative Direction Translation:** through its own project profile, with no universal luxury layer.
+- **04B Brand Expression Gate.**
+
+References count only when each territory is `REFERENCE_AUTHORITY_READY`, which requires:
+- the profile renderer
+- no material anti-AI flag
+- no unrepaired typography defect
+- creative directions that are distinct (≥ 8 of 10 creative dimensions)
+
+**Grandfathered:** AIO IFTA (locked before this gate).
+
+**New guards:** `CREATIVE_DIRECTION_REQUIRED` and `BRAND_EXPRESSION_REQUIRED`.
 
 ## 4. Durable rule
 
@@ -104,6 +122,8 @@ These guards can stop the line at any state:
 - RESPONSIVE_AUTHORITY_REQUIRED
 - AUTHORITY_AS_RUNTIME_ASSET
 - PAGE_TREE_CONFIRMATION_REQUIRED
+- CREATIVE_DIRECTION_REQUIRED
+- BRAND_EXPRESSION_REQUIRED
 
 Full transitions are in `VISUAL_AUTHORITY_STATE_MODEL.json`.
 

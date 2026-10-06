@@ -1,0 +1,65 @@
+## IMAGE
+A finished mobile app screen for JURNL, a calm Mediterranean personal-finance app, photographed straight down from above like an architect’s survey: a sunlit travertine courtyard enclosed by thin limewashed walls built from four limestone courses, each course with one small screwed brass plate (BILLS, PLAN, GOALS, TRIPS). In the middle of the empty, bright floor the amount $24,885 is inlaid flush in dark bronze like a piazza inscription, with CLEAR TO SPEND small above it and HELD BACK $6,075 small below it. A brass survey rule across the top of the courtyard reads CASH $30,960. A closed oak door in the bottom wall, on the centre line, leads down to a deep-emerald square-cornered button SEE THE FULL BREAKDOWN. A small carved limestone cornerstone with the JURNL botanical logo sits at the courtyard’s top-left corner; an olive canopy just enters the top-right edge. Small SAFE TO SPEND label and A FULL READING above the courtyard; iPhone status bar and square icon buttons at the top; the JURNL five-cell bottom navigation at the bottom.
+
+## RENDER SETTINGS
+Model gpt-image-2.5-sunburst · quality 4K · aspect ratio 9:16 · auto-enhance OFF · one finished mobile app screen (a JURNL visual-authority candidate), photographic-architectural rendering, not a mockup of a phone. 9:16 portrait. Height = the 852-pt JURNL mobile viewport. The 393-pt viewport is the central 82 % of the width (x 9.0–91.0 %); the outer 9 % on each side is environment bleed only — no text, control or data object there.
+
+## JURNL BRAND WORLD
+JURNL — MONEY IN SERVICE OF LIFE. FINANCIAL LIFE, BEAUTIFULLY ORGANIZED. PLAN TODAY. GROW FREELY. A personal finance and lifestyle app with calm confidence. World: Mediterranean / coastal architecture; natural light with a direction and a time of day; quiet luxury with human warmth; architectural lifestyle; considered object placement; visual breathing room. Colour: BONE / CREAM #F9F6EF and IVORY #F3EDE2 — the field; GREIGE #D2C8BA and TAUPE #B6A594 — material shadow, borders, quiet text; BLUSH #EBCFC8 and MUTED ROSE #C9949A — the brand mark and soft warmth, used sparingly; DEEP EMERALD #0F3D32 — the primary action and the one decisive figure; BURGUNDY #6E1F2D — seals, error, wax; never decoration; CHAMPAGNE #C6A676 — soft metal details only where they do a job (plates, rules, inlays); OBSIDIAN — deep ink for type, never a dark theme. Materials: plaster / limewash, travertine, limestone, paper (cotton rag, letterpress), linen, textile, stone, soft metal (brushed brass, bronze — functional), natural oak where appropriate, wax. Must not become: generic beige luxury, Pinterest Mediterranean, luxury hotel app, fashion editorial without product meaning, dark bank vault, futuristic tech, industrial loft.
+
+## F09 PRODUCT JOB
+SAFE TO SPEND: give one clear signal of what the user can spend now without undermining bills, plans or what they are holding. Under five seconds the user must see the amount, that it is a full reading, and that something is already held back. Details stay closed until asked.
+
+## TERRITORY STRUCTURE
+01 THE OPEN FLOOR: What you can spend is the open floor of a room. Everything already held back is the wall around it. Creative direction — THE SURVEYED COURTYARD — an orthographic, directly-overhead architectural photograph of one Mediterranean courtyard, annotated like a surveyor’s plan. Built, not drawn. Bespoke idea: NEGATIVE SPACE IS THE MONEY. The emptiest, sunniest part of the screen — the open travertine floor of a courtyard seen from directly above — is literally the amount you are free to spend, with the figure inlaid in bronze into that floor like a piazza inscription. The commitments are the courtyard walls, one stone course each, so "what is held back" is what holds the room up. No UI generator puts the answer in the empty space.
+
+## PRIMARY OBJECT
+The courtyard seen from directly above: walls = held back, open floor = clear to spend, figure inlaid in the floor. Four courses clockwise from the door: BILLS ≈ 31 % of the wall length, PLAN ≈ 39.5 %, GOALS ≈ 15 %, TRIPS ≈ 15 % (QA-seed sample). One brass plate per course, names only (amounts stay closed).
+
+## MOBILE COMPOSITION
+y 0–6.9 %: iPhone status bar inside the viewport — time 9:41 at left, signal / wi-fi / battery glyphs at right, in obsidian ink. y 6.9–11.2 %: three square-rounded 34-pt icon buttons on bone with a hairline greige border — BACK (left chevron) at the left edge of the stage; ACCOUNT (gear) and ASK JURNL (lowercase-free "i" glyph) side by side at the right edge of the stage. No centred wordmark in the chrome (the lockup lives in the scene). x 14.5–85.5 %, y 12.7–83.8 %: the functional field, centred on the vertical axis x 50 % (the + axis). Zones: TOP BAND (y 12.7–19.5 %): SAFE TO SPEND label + state + brass survey rule CASH $30,960 · COURTYARD (x 20–80 %, y 20.5–63 %) · PAVING BAND (y 63–83.8 %): oak door on axis, CTA, inline actions, tagline. Hierarchy: Figure ≫ open floor ≫ state ≫ plates ≫ door + CTA ≫ cornerstone ≫ tagline. Focal points: Primary: floor inlay at x 50 %, y ≈ 40 %. Secondary: the door at x 50 %, y 63 %. Environmental: olive canopy in the top-right bleed only. Negative space: Open floor (apart from the inlay); left and right bleed; the paving band between CTA and nav. Geometry: Rectangular courtyard 60 % of frame width, walls ≈ 2.6 % of frame width thick (data: 80 % open), door gap ≈ 12 % wide on the axis in the bottom wall. y 83.8–88.5 %: empty.
+
+## LOGO / LOCKUP PLACEMENT
+A small limestone CORNERSTONE plaque set into the top-left outer corner of the courtyard walls, carved with the official botanical mark and the vertical JURNL book-spine wordmark. The brand is the cornerstone of the room. Asymmetric; never in the chrome. Cornerstone = BOTANICAL MARK + JURNL. Tagline PLAN TODAY. GROW FREELY. engraved small along the outer face of the bottom wall, left of the door, on the paving band. Placement lock: Cornerstone plaque at the courtyard’s top-left outer wall corner (x ≈ 20–31 %, y ≈ 20.5–27 %), carved official mark — composite the official asset if mutated. The mark is a single slender stem with five leaves in muted rose beside the letters J U R N L set vertically like a book spine in a high-contrast serif. Do not invent other letterforms.
+
+## SAFE TO SPEND SIGNAL
+1 $24,885 (largest, bronze) · 2 CLEAR TO SPEND above it, HELD BACK $6,075 below it (small) · 3 SAFE TO SPEND + A FULL READING (top band) · 4 BILLS / PLAN / GOALS / TRIPS on brass plates · 5 CTA text · 6 inline actions · 7 tagline (smallest). The figure $24,885 is the single largest element and the only one in its colour.
+
+## SECONDARY BREAKDOWN
+Held back: BILLS, PLAN, GOALS, TRIPS (four commitments, sample values). Four courses clockwise from the door: BILLS ≈ 31 % of the wall length, PLAN ≈ 39.5 %, GOALS ≈ 15 %, TRIPS ≈ 15 % (QA-seed sample). One brass plate per course, names only (amounts stay closed). Amounts beyond those listed in TEXT THAT MUST RENDER stay closed.
+
+## ENVIRONMENT
+The environment IS the data object: courtyard proportions encode the breakdown (floor area ÷ room area = clear ÷ cash; wall course length = each held-back amount). Nothing in the scene is wallpaper. Information, not decoration: the photographed courtyard carries the data. The olive canopy (top-right bleed only) is the single living element: GROW FREELY.
+
+## MATERIALS
+Honed open-pored travertine floor; limewashed plaster walls in bone and greige with limestone copings, one limestone per course (honey, cream, grey, faint rose); dark bronze inlay; brushed champagne brass plates and rule; a natural oak door leaf. Hierarchy: Travertine floor > plaster walls > limestone courses > bronze inlay > brass plates > oak door.
+
+## LIGHTING
+High late-morning Mediterranean sun from the upper right; short, soft shadows only along the inner wall faces; the open floor evenly bright — clear means lit.
+
+## GRAPHIC DESIGN ELEMENTS
+Surveyor’s drafting over photography: a brass survey rule across the top wall reading CASH $30,960 with end ticks; engraved brass course plates; one monumental bronze floor inlay; hairline captions. Editorial scale contrast between the inlaid figure and the plates. Typography: Figure: fashion-condensed high-contrast serif cast in dark bronze, inlaid flush. Labels: tracked condensed sans capitals engraved into brass or printed on the plaster wall-top. All uppercase. Colour hierarchy: Travertine ivory (dominant field) → bone / greige plaster walls → ONE dark bronze-emerald figure → champagne brass only on plates and the survey rule → deep emerald only on the primary CTA and active nav cell. Depth: Orthographic top-down plan view (aerial). The only depth is wall height, read through the inner-face shadows. Tension: Rigid orthographic geometry against the organic olive canopy breaking the top-right outer frame; four unequal wall courses inside a symmetric room.
+
+## TACTILE OBJECTS
+Four stone courses joined by fine mortar lines, each with a small screwed brass plate; a flush bronze inlay you could run a finger over; an oak door leaf, closed. Bespoke detail: Each commitment is its own limestone course with its own brass plate — the commitments literally hold the room up; the closed oak door sits on the + axis and leads straight down to the breakdown.
+
+## BOTTOM NAV
+y 89.4–94.6 %, x 14.5–85.5 %: the JURNL product nav — five equal square-rounded cells (8-pt corner radius) with 4-pt gaps, exactly in this order: HOME (active: deep emerald #0F3D32 fill, bone person icon over the label HOME), MONEY (banknote icon), the centre cell with a single thin plus sign and no label (QUICK ADD), PLAN (clock icon), CREDIT (document icon). Inactive cells: bone #F9F6EF fill at 90 % opacity, 1-pt greige border, obsidian thin-line icon above a tiny tracked uppercase label. Never circles, never pills, never a sixth item. y ≈ 97.5 %: the short dark system home-indicator bar, centred.
+
+## CTA
+Emerald square-rounded tile SEE THE FULL BREAKDOWN centred on the axis directly below the oak door (x 26–74 %, y 69–74 %); inline actions CHANGE WHAT’S HELD › (left) and PLAN › (right) on one row at y 77–80 %. The CTA tile: deep emerald #0F3D32, 8-pt square-rounded corners, bone uppercase tracked label SEE THE FULL BREAKDOWN. Inline actions: tracked uppercase label, a fine taupe rule, and a thin chevron — never pills or circles.
+
+## ANTI-GENERIC RULES
+No card stacks over a pretty background. No fintech dashboard grammar (KPI tiles, donut charts, sparkline rows). No glassmorphism, no excessive gradients, no random gold accents. No generic serif + sans pairing without the brand logic above. No stock-feeling lifestyle photography; no tourist postcard Mediterranean (no pools, loungers, sea-view balconies). No botanical flourish unless it is the JURNL mark or a single justified plant in the scene. No weak floating pill controls. No isometric 3D dashboard, no floating cards over a photo, no pool, loungers or hotel courtyard, no tourist piazza, no fountains, no potted-plant clutter.
+
+## ANTI-AI RULES
+No mutated letterforms, fake words, random labels or duplicated nav items. Every visible word is specified in the prompt; anything else is forbidden. No symmetric AI-default composition; follow the locked zones. No HDR glow, no plastic 3D, no over-sharpened textures, no material overload. No photoreal scene with UI pasted on — the information object belongs to the scene. The renderer executes the locked translation; it never invents layout, hierarchy or extra elements. True orthographic overhead (no tilted perspective); straight walls; no HDR; no glitter gold; no glass; only the specified words; no extra plaques or numbers.
+
+## TEXT THAT MUST RENDER
+Only these words and figures may appear anywhere, uppercase and spelled exactly (a word may repeat only where the zones above place it): "SAFE TO SPEND", "A FULL READING", "CASH $30,960", "CLEAR TO SPEND", "$24,885", "HELD BACK $6,075", "BILLS", "PLAN", "GOALS", "TRIPS", "SEE THE FULL BREAKDOWN", "CHANGE WHAT’S HELD", "PLAN TODAY. GROW FREELY.", "JURNL", "HOME", "MONEY", "PLAN", "CREDIT", "9:41". No other words, numbers or letters.
+
+## TEXT THAT MAY BE REPRESENTATIONAL
+status-bar glyphs; botanical mark shape (official asset governs); stone grain and mortar lines
+
+## FORBIDDEN ELEMENTS
+any other words or numbers; arched panels or arches; threshold lines or hatched bands; cards or panels floating over the photo; pool, loungers, umbrellas, fountain; circular buttons or round badges; a centred wordmark in the chrome; gold glitter; glass

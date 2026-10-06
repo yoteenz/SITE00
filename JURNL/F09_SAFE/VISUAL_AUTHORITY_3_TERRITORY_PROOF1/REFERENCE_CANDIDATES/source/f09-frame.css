@@ -1,0 +1,75 @@
+/*
+ * F09 territory proof — shared device frame for the three conceptual reference authorities.
+ * Only GLOBAL JURNL contracts live here: brand palette + type (jurnlProject.ts), square-rounded control geometry
+ * (--jrn-r 8px), the preserved 5-item product nav, the CENTER_STAGE stage (field = nav footprint on the + axis) and
+ * the phone safe insets (top 59 / bottom 34). Nothing here is taken from the F09 legacy screen.
+ */
+@font-face { font-family: 'JRN Display'; src: url('../../../../../public/site00/projects/jurnl/fonts/instrument-serif-400.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'JRN Sans'; src: url('../../../../../public/site00/projects/jurnl/fonts/barlow-semi-condensed-300.woff2') format('woff2'); font-weight: 300; }
+@font-face { font-family: 'JRN Sans'; src: url('../../../../../public/site00/projects/jurnl/fonts/barlow-semi-condensed-400.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'JRN Sans'; src: url('../../../../../public/site00/projects/jurnl/fonts/barlow-semi-condensed-500.woff2') format('woff2'); font-weight: 500; }
+
+:root {
+  --bone: #f9f6ef;
+  --ivory: #f3ede2;
+  --greige: #d2c8ba;
+  --taupe: #b6a594;
+  --blush: #ebcfc8;
+  --rose: #c9949a;
+  --emerald: #0f3d32;
+  --wine: #6e1f2d;
+  --champagne: #c6a676;
+  --ink: #15171c;
+  --ink-2: #4a4036;
+  --line: #cbbdab;
+  --r: 8px;
+  /* CENTER_STAGE — phone: field = nav footprint (340) centred on the + axis (196.5) */
+  --stage-l: 26.5px;
+  --stage-w: 340px;
+  --stage-top: 108px;      /* chrome row 59–95 + deliberate intro gap */
+  --stage-bottom: 714px;   /* composition edge 714–754, nav 762–806, home indicator below */
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 393px; height: 852px; overflow: hidden; }
+body {
+  position: relative;
+  background: var(--bone);
+  color: var(--ink);
+  font-family: 'JRN Sans', sans-serif;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── device chrome (system, not product) ─── */
+.status { position: absolute; left: 0; right: 0; top: 0; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 14px 30px 0 40px; font: 500 15px/1 'JRN Sans'; letter-spacing: .02em; z-index: 9; }
+.status i { display: inline-block; height: 11px; background: var(--ink); border-radius: 2px; margin-left: 5px; }
+.home-ind { position: absolute; left: 50%; bottom: 8px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: var(--ink); opacity: .85; z-index: 9; }
+
+/* ─── product chrome row — global FamilyChrome contract: BACK TO TODAY · JURNL · ACCOUNT · ASK JURNL ─── */
+.chrome { position: absolute; left: var(--stage-l); width: var(--stage-w); top: 59px; height: 36px; display: flex; align-items: center; gap: 6px; z-index: 8; }
+.chrome .ib { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: var(--r); background: rgba(249,246,239,.92); border: 1px solid rgba(203,189,171,.7); color: var(--ink); }
+.chrome .ib svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.chrome .wm { flex: 1; text-align: center; font: 400 17px/1 'JRN Display'; letter-spacing: .34em; padding-left: .34em; color: var(--ink); }
+svg.ic { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ─── preserved product nav (HOME · MONEY · + · PLAN · CREDIT) ─── */
+.nav { position: absolute; left: var(--stage-l); width: var(--stage-w); top: 762px; height: 44px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; z-index: 8; }
+.nav b { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: var(--r); background: rgba(249,246,239,.9); border: 1px solid rgba(203,189,171,.7); font: 500 10px/1 'JRN Sans'; letter-spacing: .06em; color: var(--ink); }
+.nav b svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.nav b.plus svg { width: 18px; height: 18px; }
+.nav b[data-active] { background: var(--emerald); border-color: var(--emerald); color: var(--bone); }
+
+/* ─── stage + composition edge (overlays for review only) ─── */
+.stage { position: absolute; left: var(--stage-l); width: var(--stage-w); top: var(--stage-top); height: calc(var(--stage-bottom) - var(--stage-top)); }
+.edge { position: absolute; left: var(--stage-l); width: var(--stage-w); top: 714px; height: 40px; display: flex; align-items: center; justify-content: space-between; }
+
+/* ─── global primitives ─── */
+.btn { display: flex; align-items: center; justify-content: center; gap: 10px; height: 44px; border-radius: var(--r); font: 500 12px/1 'JRN Sans'; letter-spacing: .21em; }
+.btn--primary { background: var(--emerald); color: var(--bone); box-shadow: 0 1px 0 rgba(255,255,255,.12) inset, 0 6px 16px rgba(15,61,50,.18); }
+.btn--secondary { background: rgba(252,250,245,.97); color: var(--ink); border: 1px solid rgba(203,189,171,.7); }
+.inline-action { display: flex; align-items: center; gap: 8px; font: 500 10.5px/1 'JRN Sans'; letter-spacing: .18em; color: var(--ink); height: 32px; }
+.inline-action .rule { flex: 1; height: 1px; background: rgba(182,165,148,.7); }
+.label { font: 500 10.5px/1.2 'JRN Sans'; letter-spacing: .24em; }
+.display { font-family: 'JRN Display', serif; font-weight: 400; letter-spacing: .01em; }
+.sample-tag { position: absolute; right: 8px; bottom: 812px; }

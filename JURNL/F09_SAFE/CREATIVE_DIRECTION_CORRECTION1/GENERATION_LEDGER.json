@@ -1,0 +1,60 @@
+{
+  "id": "GENERATION_LEDGER",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "renderer_spec": {
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "4K",
+    "aspect_ratio": "9:16",
+    "auto_enhance": false,
+    "viewport_mapping": "The 9:16 frame height equals the 852-pt JURNL mobile viewport height; the 393-pt viewport is the central 82.05% of the frame width (43-pt environment bleed each side — the same crop the runtime applies to 9:16 plates). All UI, text and data objects stay inside the central 82%; the side bleed carries environment only.",
+    "generation_mode": "REFERENCE_GUIDED",
+    "forbidden_providers": [],
+    "local_render_allowed_as_final": false
+  },
+  "status": "GENERATED",
+  "render_sprint": "P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1",
+  "primary_generations": 3,
+  "retries": 0,
+  "credits_spent": 951,
+  "openart_accessed": true,
+  "openart_project_id": "VdiPtgVqb21sYl003uox",
+  "output_dimensions": "2016×3584",
+  "render_log": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/RENDER_LOG.json",
+  "sunburst_report": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/F09_SUNBURST_RENDER1_REPORT.json",
+  "founder_review_board": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_FOUNDER_REVIEW_BOARD_CORRECTED_4K.png",
+  "routes_checked": [
+    {
+      "route": "OpenArt (JURNL canonical: gpt-image-2.5-sunburst, 4K, image2image, auto-enhance OFF)",
+      "status": "USED — three primary generations (T01 QDZEELmPJXmJaZ11of8j, T02 MPIVS89jXzIspxu1tSC9, T03 0VOiDUP8GJyPFbAmK57H). Truncated job BtaPQBn9ja50o02vbAgR discarded."
+    },
+    {
+      "route": "ChatGPT image generation (founder-run, interim)",
+      "status": "SUPERSEDED for corrected-round authority — CHATGPT_PROMPTS remain for founder backup only."
+    },
+    {
+      "route": "Figma MCP generate_image (model gpt-image-2.5-sunburst)",
+      "status": "NOT USED (breaks REFERENCE_GUIDED + 4K canon)."
+    },
+    {
+      "route": "Figma Weave model run",
+      "status": "UNAVAILABLE — the Figma account is not linked to Weave."
+    },
+    {
+      "route": "Repo provider gateway (FAL / Railway)",
+      "status": "NOT USED (production systems out of scope for authority render)."
+    }
+  ],
+  "reference_inputs_ready": [
+    "COMPOSITION_LOCKS/F09_T01_SURVEYED_COURTYARD_VALUE_STUDY_9x16.png",
+    "COMPOSITION_LOCKS/F09_T02_ANSWER_IN_RAKING_LIGHT_VALUE_STUDY_9x16.png",
+    "COMPOSITION_LOCKS/F09_T03_SORTING_RACK_VALUE_STUDY_9x16.png",
+    "public/site00/projects/jurnl/brand/jurnl-logo-official.png"
+  ],
+  "plan": [
+    "One primary generation per territory (3 total) from SUNBURST_PROMPTS/*.txt, reference-guided with the territory value study (+ the official logo) where the route allows.",
+    "Inspect every word against text_must_render; regenerate or repair (composite the official logo / canonical nav, recorded) on any typography defect.",
+    "Corrective retries only for: typography corruption, broken logo, malformed object, wrong ratio, nav corruption, composition failure, major brand-expression failure. Each retry logged with its reason.",
+    "Then: anti-AI audit per candidate, founder review board, previous-vs-corrected scores."
+  ]
+}

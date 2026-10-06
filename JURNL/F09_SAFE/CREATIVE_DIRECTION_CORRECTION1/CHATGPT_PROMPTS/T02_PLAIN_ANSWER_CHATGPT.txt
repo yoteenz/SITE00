@@ -1,0 +1,73 @@
+Create ONE image only: a finished mobile app screen for JURNL, in 9:16 portrait. It is a flat screen design, not a photo of a phone and not a mockup.
+
+ATTACHMENTS
+1. F09_T02_ANSWER_IN_RAKING_LIGHT_VALUE_STUDY_9x16.png is the composition lock. Follow its layout exactly: where each zone sits, how big it is, the hierarchy, the centred field, the top chrome and the five-cell bottom navigation. It is a tonal blocking study, not the style. Render the real materials, light and type described below.
+2. JURNL_LOGO_OFFICIAL.png is the official logo. Wherever the JURNL logo appears, reproduce this mark and its lettering exactly. Never invent other letterforms.
+
+TEXT RULE: render only the words listed under TEXT THAT MUST RENDER, spelled exactly in uppercase. If a word cannot be rendered cleanly, leave that surface plain rather than inventing letters.
+
+## IMAGE
+A finished mobile app screen for JURNL, a calm Mediterranean personal-finance app: one warm honed limestone wall seen straight on, lit by low morning sun raking in from a deep rectangular window cut into the right edge (olive leaves outside). Carved into the stone, left-aligned in elegant condensed high-contrast serif capitals: YOU CAN SPEND, then $24,885 at monumental size filled with deep emerald enamel, then a thin inlaid rule — four fifths polished brass, one fifth an empty carved groove — captioned OF $30,960 CASH, then NOW, AFTER BILLS, YOUR PLAN, GOALS AND TRIPS. The words BILLS, YOUR PLAN, GOALS and TRIPS are inlaid in polished brass instead of carved; a small engraved brass tag hangs on a fine chain beneath YOUR PLAN reading $2,400 ASSIGNED. Below: a small engraved reading line with a tiny emerald square, a brushed-brass maker’s plate at lower left with the JURNL botanical logo and FINANCIAL LIFE, BEAUTIFULLY ORGANIZED., a full-width deep-emerald square-cornered button SEE THE FULL BREAKDOWN, and the JURNL five-cell bottom navigation.
+
+## RENDER SETTINGS
+GPT Image 2.5 (Sunburst) at its highest quality, 9:16 portrait, no auto-enhancement or style preset. 9:16 portrait. Height = the 852-pt JURNL mobile viewport. The 393-pt viewport is the central 82 % of the width (x 9.0–91.0 %); the outer 9 % on each side is environment bleed only — no text, control or data object there.
+
+## JURNL BRAND WORLD
+JURNL — MONEY IN SERVICE OF LIFE. FINANCIAL LIFE, BEAUTIFULLY ORGANIZED. PLAN TODAY. GROW FREELY. A personal finance and lifestyle app with calm confidence. World: Mediterranean / coastal architecture; natural light with a direction and a time of day; quiet luxury with human warmth; architectural lifestyle; considered object placement; visual breathing room. Colour: BONE / CREAM #F9F6EF and IVORY #F3EDE2 — the field; GREIGE #D2C8BA and TAUPE #B6A594 — material shadow, borders, quiet text; BLUSH #EBCFC8 and MUTED ROSE #C9949A — the brand mark and soft warmth, used sparingly; DEEP EMERALD #0F3D32 — the primary action and the one decisive figure; BURGUNDY #6E1F2D — seals, error, wax; never decoration; CHAMPAGNE #C6A676 — soft metal details only where they do a job (plates, rules, inlays); OBSIDIAN — deep ink for type, never a dark theme. Materials: plaster / limewash, travertine, limestone, paper (cotton rag, letterpress), linen, textile, stone, soft metal (brushed brass, bronze — functional), natural oak where appropriate, wax. Must not become: generic beige luxury, Pinterest Mediterranean, luxury hotel app, fashion editorial without product meaning, dark bank vault, futuristic tech, industrial loft.
+
+## F09 PRODUCT JOB
+SAFE TO SPEND: give one clear signal of what the user can spend now without undermining bills, plans or what they are holding. Under five seconds the user must see the amount, that it is a full reading, and that something is already held back. Details stay closed until asked.
+
+## TERRITORY STRUCTURE
+02 THE PLAIN ANSWER: The page is one plain sentence that answers the question, set into stone. Creative direction — THE ANSWER IN RAKING LIGHT — a frontal elevation of one sunlit limestone wall carrying a single carved sentence, read the way you read an inscription on a Mediterranean building. Bespoke idea: ONLY THE WORDS THAT HOLD MONEY ARE MADE OF METAL. The sentence is carved into a limestone wall and revealed by raking morning light, but the held-back words — BILLS, YOUR PLAN, GOALS, TRIPS — are inlaid in brass: the material itself says "this word opens". One opened word hangs a small engraved brass tag on a fine chain ($2,400 ASSIGNED). Under the figure, a brass rule fills only the share of cash that is clear; the rest is an empty carved groove — what is held back is cut but not filled.
+
+## PRIMARY OBJECT
+The carved answer sentence with the figure as its second line, held-back words inlaid in brass. Brass words = openable held-back fields (non-zero only, fixed order). Proportion rule length = full column width; brass-filled 80 % (24,885 ÷ 30,960), the remaining 20 % an empty groove.
+
+## MOBILE COMPOSITION
+y 0–6.9 %: iPhone status bar inside the viewport — time 9:41 at left, signal / wi-fi / battery glyphs at right, in obsidian ink. y 6.9–11.2 %: three square-rounded 34-pt icon buttons on bone with a hairline greige border — BACK (left chevron) at the left edge of the stage; ACCOUNT (gear) and ASK JURNL (lowercase-free "i" glyph) side by side at the right edge of the stage. No centred wordmark in the chrome (the lockup lives in the scene). x 14.5–85.5 %, y 12.7–83.8 %: the functional field, centred on the vertical axis x 50 % (the + axis). Zones: WINDOW REVEAL (x 82–100 %, y 12–32 %, edge only) · SENTENCE COLUMN (x 14.5–80 %, y 13–56 %) · READING LINE (y 58–60 %) · MAKER’S PLATE (x 14.5–44 %, y 62–67 %) · CTA (y 70–75 %) · INLINE ACTIONS (y 77–80 %). Hierarchy: Figure ≫ lead line ≫ brass words ≫ rule ≫ reading ≫ CTA ≫ plate. Focal points: Primary: the figure at x ≈ 40 %, y ≈ 28 %. Light source: window at top right. Secondary: brass tag at x ≈ 30 %, y ≈ 50 %. Negative space: Untouched stone between the reading line and the CTA, right of the plate; the left bleed. Geometry: One flat wall plane filling the frame; deep rectangular window reveal cut into the right edge below the chrome; no floor, no ceiling. y 83.8–88.5 %: empty.
+
+## LOGO / LOCKUP PLACEMENT
+A small brushed-brass MAKER’S PLATE screwed to the wall at the lower left of the field — like an architect’s or foundry plate — engraved with the official botanical mark and JURNL. Quiet, asymmetric, never in the chrome. Maker’s plate = BOTANICAL MARK + JURNL + descriptor FINANCIAL LIFE, BEAUTIFULLY ORGANIZED. (engraved, tiny). No tagline elsewhere: this is the most direct territory. Placement lock: Brass maker’s plate at the lower left of the field (x 14.5–44 %, y 62–67 %); reproduce the attached official JURNL logo exactly. The mark is a single slender stem with five leaves in muted rose beside the letters J U R N L set vertically like a book spine in a high-contrast serif. Do not invent other letterforms.
+
+## SAFE TO SPEND SIGNAL
+1 $24,885 (monumental, emerald enamel) · 2 YOU CAN SPEND (carved, large) · 3 NOW, AFTER BILLS, YOUR PLAN, GOALS AND TRIPS. (carved, brass for the four held-back words) · 4 OF $30,960 CASH (small caption right under the rule) · 5 brass tag $2,400 ASSIGNED · 6 SAFE TO SPEND (small label, top) and A FULL READING. EVERY BILL HAS AN AMOUNT. · 7 CTA and inline actions · 8 plate text. The figure $24,885 is the single largest element and the only one in its colour.
+
+## SECONDARY BREAKDOWN
+Held back: BILLS, PLAN, GOALS, TRIPS (four commitments, sample values). Brass words = openable held-back fields (non-zero only, fixed order). Proportion rule length = full column width; brass-filled 80 % (24,885 ÷ 30,960), the remaining 20 % an empty groove. Amounts beyond those listed in TEXT THAT MUST RENDER stay closed.
+
+## ENVIRONMENT
+Framing and meaning only: a deep window reveal at the top-right edge brings the light that makes the carving legible; outside it, a sliver of olive leaves. Nothing sits behind the text. Material and light, not a photo backdrop; the window and olive sliver justify the light and stay at the edge.
+
+## MATERIALS
+Warm honed limestone wall; carved letters with crisp shadows; emerald enamel in the figure; champagne brass inlays, rule, tag and plate; an oak window frame. Hierarchy: Limestone > carved shadow > emerald enamel > brass inlay > brass tag and plate > oak frame.
+
+## LIGHTING
+Low early-morning sun from a window at the right, grazing leftward across the wall so every carved letter casts a crisp short shadow; a soft warm pool fades toward the lower left.
+
+## GRAPHIC DESIGN ELEMENTS
+Monumental editorial typesetting in relief: carved V-cut capitals, a giant figure with emerald enamel infill, brass-inlaid interactive words, one brass proportion rule with an empty groove, a hanging brass tag as inline disclosure, a small brass maker’s plate. Typography: One fashion-condensed high-contrast serif for the whole sentence (carved), the figure at monumental scale; tracked condensed sans only for the small engraved captions. Left-aligned column inside the centred field. All uppercase. Colour hierarchy: Limestone cream (dominant) → taupe carving shadows → ONE emerald-enamel figure → champagne brass only on openable words, rule, tag and plate → deep emerald CTA and active nav cell. Depth: Frontal elevation, shallow relief (2.5D): one wall plane, carving and inlay depth only, plus the window reveal. Tension: A monumental carved figure against a tiny swinging brass tag; the diagonal of the raking light against the rigid left-aligned column.
+
+## TACTILE OBJECTS
+Inlaid brass letterforms flush in stone; a small rectangular brass tag with softened corners on a fine chain; a screwed brass maker’s plate. Bespoke detail: The held-back part of the rule is a carved groove left unfilled — cut but not filled.
+
+## BOTTOM NAV
+y 89.4–94.6 %, x 14.5–85.5 %: the JURNL product nav — five equal square-rounded cells (8-pt corner radius) with 4-pt gaps, exactly in this order: HOME (active: deep emerald #0F3D32 fill, bone person icon over the label HOME), MONEY (banknote icon), the centre cell with a single thin plus sign and no label (QUICK ADD), PLAN (clock icon), CREDIT (document icon). Inactive cells: bone #F9F6EF fill at 90 % opacity, 1-pt greige border, obsidian thin-line icon above a tiny tracked uppercase label. Never circles, never pills, never a sixth item. y ≈ 97.5 %: the short dark system home-indicator bar, centred.
+
+## CTA
+Full-stage-width emerald square-rounded tile SEE THE FULL BREAKDOWN (x 14.5–85.5 %, y 70–75 %); inline actions CHANGE WHAT’S HELD › and PLAN › at y 77–80 %. The CTA tile: deep emerald #0F3D32, 8-pt square-rounded corners, bone uppercase tracked label SEE THE FULL BREAKDOWN. Inline actions: tracked uppercase label, a fine taupe rule, and a thin chevron — never pills or circles.
+
+## ANTI-GENERIC RULES
+No card stacks over a pretty background. No fintech dashboard grammar (KPI tiles, donut charts, sparkline rows). No glassmorphism, no excessive gradients, no random gold accents. No generic serif + sans pairing without the brand logic above. No stock-feeling lifestyle photography; no tourist postcard Mediterranean (no pools, loungers, sea-view balconies). No botanical flourish unless it is the JURNL mark or a single justified plant in the scene. No weak floating pill controls. No hero-number promo layout, no gradient background, no centred stack, no card, no stock wall texture, no marble.
+
+## ANTI-AI RULES
+No mutated letterforms, fake words, random labels or duplicated nav items. Every visible word is specified in the prompt; anything else is forbidden. No symmetric AI-default composition; follow the locked zones. No HDR glow, no plastic 3D, no over-sharpened textures, no material overload. No photoreal scene with UI pasted on — the information object belongs to the scene. The renderer executes the locked translation; it never invents layout, hierarchy or extra elements. Every carved word exactly as specified; no extra inscriptions; consistent letter depth; no warped serifs; brass only where specified.
+
+## TEXT THAT MUST RENDER
+Only these words and figures may appear anywhere, uppercase and spelled exactly (a word may repeat only where the zones above place it): "SAFE TO SPEND", "YOU CAN SPEND", "$24,885", "OF $30,960 CASH", "NOW, AFTER", "BILLS", "YOUR PLAN", "GOALS", "AND TRIPS.", "$2,400 ASSIGNED", "A FULL READING. EVERY BILL HAS AN AMOUNT.", "SEE THE FULL BREAKDOWN", "CHANGE WHAT’S HELD", "PLAN", "JURNL", "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED.", "HOME", "MONEY", "PLAN", "CREDIT", "9:41". No other words, numbers or letters.
+
+## TEXT THAT MAY BE REPRESENTATIONAL
+status-bar glyphs; botanical mark shape (match the attached logo); stone grain
+
+## FORBIDDEN ELEMENTS
+any other inscription or words; arched window or arches; threshold lines or hatched bands; marble veining; a card or panel behind the text; gradients; circular buttons or round badges; a centred wordmark in the chrome; sea view
