@@ -6,14 +6,7 @@ SCRIPT_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 WT="${SITE00_PREVIEW_MAIN_WORKTREE:-/tmp/site00-preview-main}"
 
 cd "$SCRIPT_REPO"
-git fetch origin main
-
-if [[ ! -e "$WT/.git" ]]; then
-  git worktree add --detach "$WT" origin/main
-else
-  git -C "$WT" fetch origin main
-  git -C "$WT" checkout --detach origin/main
-fi
+bash "$SCRIPT_REPO/.cursor/scripts/ensure-site00-preview-main-authority.sh"
 
 if [[ -d "$SCRIPT_REPO/node_modules" && ! -e "$WT/node_modules" ]]; then
   ln -s "$SCRIPT_REPO/node_modules" "$WT/node_modules"
