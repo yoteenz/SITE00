@@ -1,0 +1,1 @@
+{"entity":"JurnlPlanIntention","file":"src/projects/jurnl/data/foundation/plan.ts","key_fields":["plan_id","title","assigned_amount","linked_goal_id","status"]}

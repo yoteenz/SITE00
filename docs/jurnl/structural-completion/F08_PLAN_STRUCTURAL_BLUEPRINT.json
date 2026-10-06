@@ -145,17 +145,17 @@
   "interactions": [
     {
       "id": "F08.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F08.ITEM"
     },
     {
       "id": "F08.IN.ADD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F08.SH.ADD_INTENTION"
     },
     {
       "id": "F08.IN.REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F08.MD.REMOVE_INTENTION"
     },
     {
@@ -165,12 +165,12 @@
     },
     {
       "id": "F08.IX.ASSIGN",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F08.SH.ASSIGN"
     },
     {
       "id": "F08.IN.OPEN_SAFE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F09.00"
     },
     {
@@ -185,7 +185,7 @@
     },
     {
       "id": "F08.IN.OPEN_GOALS",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.00"
     },
     {
@@ -307,12 +307,12 @@
     "AI_HIGHER_USAGE (AI)"
   ],
   "functional_status": {
-    "score": 10.5,
-    "strict": 8.3,
+    "score": 35.5,
+    "strict": 33.3,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 19,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 14,
+      "COMPLETE_FUNCTIONAL": 8,
       "LEGACY": 1,
       "PARTIAL_FUNCTIONAL": 1
     }

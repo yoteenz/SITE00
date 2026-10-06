@@ -137,27 +137,27 @@
   "interactions": [
     {
       "id": "F12.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F12.ACCOUNT"
     },
     {
       "id": "F12.IN.EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F12.SH.EDIT_TERMS"
     },
     {
       "id": "F12.IN.ADD_ACCOUNT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.SH.ADD_PLACE"
     },
     {
       "id": "F12.IX.UTILIZATION",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F12.SH.UTILIZATION"
     },
     {
       "id": "F12.IN.OPEN_PAYDOWN",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F13.00"
     },
     {
@@ -272,12 +272,12 @@
     "FINANCIAL_SERVICE_REFERRALS (REFERRAL, DISABLED)"
   ],
   "functional_status": {
-    "score": 13.4,
-    "strict": 11.1,
+    "score": 41.2,
+    "strict": 38.9,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 14,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 10,
+      "COMPLETE_FUNCTIONAL": 7,
       "LEGACY": 1
     }
   },

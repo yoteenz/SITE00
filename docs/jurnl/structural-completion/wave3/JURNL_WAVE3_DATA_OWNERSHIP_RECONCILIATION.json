@@ -1,0 +1,1 @@
+{"conflicts_before_estimate":11,"resolved":["DD.PLAN_ALLOCATIONS → repository F08","DD.GOALS → repository F14","DD.CREDIT_ATTRIBUTES → repository F12 on account_id","DD.PROTECTED_HOLD read via F09 surfaces"],"deferred":["DD.SAFE_TO_SPEND computed in money.ts consumer path only re-exports F09"]}

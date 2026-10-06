@@ -155,11 +155,11 @@
     {
       "family_id": "F08",
       "implementation_inputs": {
-        "nodes_to_complete": 22,
+        "nodes_to_complete": 16,
         "new_routes": 1,
         "new_sheets_drawers_modals": 3,
         "states_to_wire": 5,
-        "interactions_to_wire": 11,
+        "interactions_to_wire": 5,
         "owned_domains": [
           "DD.PLAN_ALLOCATIONS"
         ],
@@ -175,11 +175,11 @@
     {
       "family_id": "F09",
       "implementation_inputs": {
-        "nodes_to_complete": 14,
+        "nodes_to_complete": 11,
         "new_routes": 1,
         "new_sheets_drawers_modals": 2,
         "states_to_wire": 4,
-        "interactions_to_wire": 4,
+        "interactions_to_wire": 1,
         "owned_domains": [
           "DD.PROTECTED_HOLD",
           "DD.SAFE_TO_SPEND"
@@ -236,11 +236,11 @@
     {
       "family_id": "F12",
       "implementation_inputs": {
-        "nodes_to_complete": 16,
+        "nodes_to_complete": 11,
         "new_routes": 1,
         "new_sheets_drawers_modals": 2,
         "states_to_wire": 5,
-        "interactions_to_wire": 6,
+        "interactions_to_wire": 1,
         "owned_domains": [
           "DD.CREDIT_ATTRIBUTES"
         ],
@@ -276,11 +276,11 @@
     {
       "family_id": "F14",
       "implementation_inputs": {
-        "nodes_to_complete": 18,
+        "nodes_to_complete": 13,
         "new_routes": 1,
         "new_sheets_drawers_modals": 4,
         "states_to_wire": 5,
-        "interactions_to_wire": 6,
+        "interactions_to_wire": 1,
         "owned_domains": [
           "DD.GOALS"
         ],

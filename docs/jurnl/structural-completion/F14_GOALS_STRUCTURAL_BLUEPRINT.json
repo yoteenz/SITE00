@@ -138,27 +138,27 @@
   "interactions": [
     {
       "id": "F14.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F14.GOAL"
     },
     {
       "id": "F14.IX.ADD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.SH.NAME_GOAL"
     },
     {
       "id": "F14.IN.EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.SH.EDIT_GOAL"
     },
     {
       "id": "F14.IN.SET_ASIDE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.SH.SET_ASIDE"
     },
     {
       "id": "F14.IN.REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.MD.REMOVE_GOAL"
     },
     {
@@ -268,12 +268,12 @@
     "ADVANCED_AUTOMATION (ADVANCED)"
   ],
   "functional_status": {
-    "score": 13,
-    "strict": 10,
+    "score": 38,
+    "strict": 35,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 15,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 11,
+      "COMPLETE_FUNCTIONAL": 7,
       "LEGACY": 1,
       "PARTIAL_FUNCTIONAL": 1
     }

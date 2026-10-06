@@ -7,19 +7,19 @@
   "axes": {
     "FUNCTIONAL_COMPLETION": {
       "formula": "mean over the 17 units (F01–F16 + GLOBAL) of [Σ functional_score(n) / |N_F ∩ unit|]. N_F = every material node except SHARED_COMPONENT and LEGACY interactions. functional_score = applicable criteria met / applicable criteria (1, 0.5, 0); interactions and states use their status scores.",
-      "value": 36.8,
+      "value": 42.5,
       "why_balanced": "F01’s contract enumerates every primitive behaviour (142 nodes); F05–F16 are authored at family grain. Node weighting would reward contract verbosity.",
       "node_weighted": {
         "formula": "Σ functional_score(n) / |N_F|",
-        "value": 52.8
+        "value": 56.7
       },
       "strict": {
         "formula": "unit-balanced share of nodes with score = 1",
-        "value": 24.5
+        "value": 30.2
       },
       "family_mean": {
         "formula": "mean over F01–F16 only (GLOBAL excluded)",
-        "value": 35.3
+        "value": 41.4
       },
       "confidence": "MEDIUM",
       "status": "ESTIMATED",
@@ -44,13 +44,13 @@
     },
     "LAUNCH_READINESS": {
       "formula": "mean of 12 launch gates scored 0..1 with evidence",
-      "value": 10.1,
+      "value": 10.6,
       "confidence": "MEDIUM",
       "gates": [
         {
           "id": "G01",
           "gate": "FUNCTIONAL_COMPLETION = 100%",
-          "score": 0.36843420664110754,
+          "score": 0.4252152523927415,
           "evidence": "Progress metric (unit-balanced)."
         },
         {
@@ -122,7 +122,7 @@
       ]
     }
   },
-  "report_format": "36.8% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 10.1% LAUNCH READY",
+  "report_format": "42.5% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 10.6% LAUNCH READY",
   "node_progression": [
     "PLANNED",
     "STRUCTURED",
@@ -189,15 +189,15 @@
       "unit": "F08",
       "name": "PLAN",
       "nodes": 24,
-      "functional": 10.5,
-      "strict": 8.3
+      "functional": 35.5,
+      "strict": 33.3
     },
     {
       "unit": "F09",
       "name": "SAFE TO SPEND",
       "nodes": 16,
-      "functional": 23.7,
-      "strict": 12.5
+      "functional": 42.4,
+      "strict": 31.3
     },
     {
       "unit": "F10",
@@ -217,8 +217,8 @@
       "unit": "F12",
       "name": "CREDIT",
       "nodes": 18,
-      "functional": 13.4,
-      "strict": 11.1
+      "functional": 41.2,
+      "strict": 38.9
     },
     {
       "unit": "F13",
@@ -231,8 +231,8 @@
       "unit": "F14",
       "name": "GOALS",
       "nodes": 20,
-      "functional": 13,
-      "strict": 10
+      "functional": 38,
+      "strict": 35
     },
     {
       "unit": "F15",
@@ -259,30 +259,30 @@
   "completion_simulation": [
     {
       "after_wave": 0,
-      "functional_completion": 39.2,
-      "node_weighted": 55.3,
+      "functional_completion": 44.9,
+      "node_weighted": 59.1,
       "nodes_completed_in_wave": 32,
-      "strict": 31.4
+      "strict": 37.1
     },
     {
       "after_wave": 1,
-      "functional_completion": 48,
-      "node_weighted": 62.8,
-      "nodes_completed_in_wave": 52,
-      "strict": 42.7
+      "functional_completion": 52.9,
+      "node_weighted": 66.1,
+      "nodes_completed_in_wave": 49,
+      "strict": 47.6
     },
     {
       "after_wave": 2,
-      "functional_completion": 58.2,
-      "node_weighted": 70.2,
+      "functional_completion": 63.1,
+      "node_weighted": 73.5,
       "nodes_completed_in_wave": 40,
-      "strict": 54
+      "strict": 58.9
     },
     {
       "after_wave": 3,
       "functional_completion": 75.5,
       "node_weighted": 81.9,
-      "nodes_completed_in_wave": 62,
+      "nodes_completed_in_wave": 46,
       "strict": 72.9
     },
     {
@@ -301,11 +301,11 @@
     }
   ],
   "gap_counts": {
-    "COMPLETE_FUNCTIONAL": 170,
+    "COMPLETE_FUNCTIONAL": 189,
     "PARTIAL_FUNCTIONAL": 115,
     "STRUCTURE_ONLY": 2,
-    "MISSING": 177,
-    "PLACEHOLDER": 21,
+    "MISSING": 162,
+    "PLACEHOLDER": 17,
     "LEGACY": 12,
     "DUPLICATED": 3,
     "VISUAL_ONLY": 1

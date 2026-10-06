@@ -14,9 +14,9 @@ Paid generation is not on the structural critical path. Each node carries three 
 
 ## Where JURNL stands
 
-**36.8% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 10.1% LAUNCH READY**
+**42.5% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 10.6% LAUNCH READY**
 
-- Functional is ESTIMATED, confidence MEDIUM. It is unit-balanced (F01–F16 + GLOBAL count once each); node-weighted 52.8%, strict 24.5%. Formulas: `JURNL_PROGRESS_METRIC_MODEL.json`.
+- Functional is ESTIMATED, confidence MEDIUM. It is unit-balanced (F01–F16 + GLOBAL count once each); node-weighted 56.7%, strict 30.2%. Formulas: `JURNL_PROGRESS_METRIC_MODEL.json`.
 - 543 material nodes: 16 parents, 34 child pages, 2 grandchild pages, 26 drawers, 30 sheets, 15 modals, 6 overlays, 101 states, 222 interactions, 28 global systems, 21 data domains, 42 shared primitives.
 - F01 and F02 are implemented and QA-passed but depend on simulated providers and session-only data. F03 and F04 run on mock data. F05–F16 are parent placeholders with disabled CTAs; their children do not exist.
 - Nine families () can only be reached through the review board or a typed URL.
@@ -32,13 +32,13 @@ Paid generation is not on the structural critical path. Each node carries three 
 | F05 | MONEY | money | PLACEHOLDER | 33.1% | 2 | 4 | 4 | 12 | YES |
 | F06 | INCOME | income | PLACEHOLDER | 37.9% | 1 | 4 | 4 | 9 | YES |
 | F07 | UPCOMING | upcoming | PLACEHOLDER | 34.3% | 1 | 4 | 5 | 10 | YES |
-| F08 | PLAN | plan | PLACEHOLDER | 10.5% | 1 | 3 | 5 | 14 | FAIL |
-| F09 | SAFE TO SPEND | safe | PLACEHOLDER | 23.7% | 1 | 2 | 4 | 7 | FAIL |
+| F08 | PLAN | plan | PLACEHOLDER | 35.5% | 1 | 3 | 5 | 14 | FAIL |
+| F09 | SAFE TO SPEND | safe | PLACEHOLDER | 42.4% | 1 | 2 | 4 | 7 | FAIL |
 | F10 | PURCHASES | purchases | PLACEHOLDER | 14.2% | 1 | 3 | 3 | 9 | FAIL |
 | F11 | TRIPS | trips | PLACEHOLDER | 14.2% | 1 | 3 | 3 | 9 | FAIL |
-| F12 | CREDIT | credit | PLACEHOLDER | 13.4% | 1 | 2 | 5 | 9 | YES |
+| F12 | CREDIT | credit | PLACEHOLDER | 41.2% | 1 | 2 | 5 | 9 | YES |
 | F13 | PAYDOWN | paydown | PLACEHOLDER | 16.1% | 1 | 1 | 5 | 7 | FAIL |
-| F14 | GOALS | goals | PLACEHOLDER | 13% | 1 | 4 | 5 | 9 | FAIL |
+| F14 | GOALS | goals | PLACEHOLDER | 38% | 1 | 4 | 5 | 9 | FAIL |
 | F15 | AHEAD | ahead | PLACEHOLDER | 17.2% | 1 | 1 | 4 | 7 | FAIL |
 | F16 | RECORDS | records | PLACEHOLDER | 12.7% | 1 | 3 | 5 | 9 | FAIL |
 

@@ -1,0 +1,7 @@
+{
+  "owner": "F09",
+  "formula_location": "src/projects/jurnl/data/f09/safeToSpend.ts",
+  "inputs": ["eligible cash (F05 accounts + ADDED ledger delta)", "upcoming obligations (repository + setup fallback)", "protected hold (setup)", "safety buffer (settings)", "plan assigned amounts (F08)", "goal set-aside (F14 reserved only)"],
+  "outputs": ["cash", "upcoming", "protected", "assigned", "goalReserved", "safetyBuffer", "value", "completeness"],
+  "rules": ["Target amounts alone do not reduce safe to spend", "Single computeSafeToSpend entry point"]
+}

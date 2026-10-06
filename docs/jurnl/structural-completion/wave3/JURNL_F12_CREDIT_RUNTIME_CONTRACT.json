@@ -1,0 +1,1 @@
+{"family":"F12","routes":["credit","credit/:accountId"],"account_identity":"F05 registry","attributes":"repository.snapshot.creditAttributes","no_fake_score":true}

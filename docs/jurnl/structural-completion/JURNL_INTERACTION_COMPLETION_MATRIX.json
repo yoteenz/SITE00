@@ -15,11 +15,11 @@
   ],
   "rule": "Per-family invocations of shared sheets (QUICK ADD, ASK) count WORKING when they open the sheet; the sheet’s own behaviour is scored once on the global system (GS.QA.SAVE, GS.ASK.EXPLAIN).",
   "counts": {
-    "WORKING": 118,
+    "WORKING": 137,
     "PARTIAL": 24,
-    "MISSING": 59,
+    "MISSING": 44,
     "LEGACY": 12,
-    "NO_OP": 9
+    "NO_OP": 5
   },
   "interactions": [
     {
@@ -1381,9 +1381,9 @@
       "family_id": "F08",
       "host": "F08.00",
       "name": "MOVE A PIECE",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F08.ITEM",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1391,9 +1391,9 @@
       "family_id": "F08",
       "host": "F08.00",
       "name": "ADD AN INTENTION",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F08.SH.ADD_INTENTION",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1401,9 +1401,9 @@
       "family_id": "F08",
       "host": "F08.00",
       "name": "REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F08.MD.REMOVE_INTENTION",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1421,9 +1421,9 @@
       "family_id": "F08",
       "host": "F08.00",
       "name": "ASSIGN",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F08.SH.ASSIGN",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1431,9 +1431,9 @@
       "family_id": "F08",
       "host": "F08.00",
       "name": "SAFE TO SPEND",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F09.00",
-      "wave": 1,
+      "wave": null,
       "notes": []
     },
     {
@@ -1461,9 +1461,9 @@
       "family_id": "F08",
       "host": "F08.00",
       "name": "GOALS",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.00",
-      "wave": 1,
+      "wave": null,
       "notes": []
     },
     {
@@ -1521,9 +1521,9 @@
       "family_id": "F09",
       "host": "F09.00",
       "name": "SEE THE HOLD",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F09.WHY",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1531,9 +1531,9 @@
       "family_id": "F09",
       "host": "F09.00",
       "name": "CHANGE THE HOLD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F09.HOLD",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1541,9 +1541,9 @@
       "family_id": "F09",
       "host": "F09.00",
       "name": "HOLD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F09.MD.HOLD_CONFIRM",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1771,9 +1771,9 @@
       "family_id": "F12",
       "host": "F12.00",
       "name": "OPEN AN ACCOUNT",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F12.ACCOUNT",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1781,9 +1781,9 @@
       "family_id": "F12",
       "host": "F12.00",
       "name": "CREDIT TERMS",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F12.SH.EDIT_TERMS",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1791,9 +1791,9 @@
       "family_id": "F12",
       "host": "F12.00",
       "name": "ADD A CARD OR LOAN",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F05.SH.ADD_PLACE",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1801,9 +1801,9 @@
       "family_id": "F12",
       "host": "F12.00",
       "name": "UTILIZATION",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F12.SH.UTILIZATION",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1811,9 +1811,9 @@
       "family_id": "F12",
       "host": "F12.00",
       "name": "PAYDOWN",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F13.00",
-      "wave": 1,
+      "wave": null,
       "notes": []
     },
     {
@@ -1931,9 +1931,9 @@
       "family_id": "F14",
       "host": "F14.00",
       "name": "NAME ONE",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F14.GOAL",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1941,9 +1941,9 @@
       "family_id": "F14",
       "host": "F14.00",
       "name": "ADD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.SH.NAME_GOAL",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1951,9 +1951,9 @@
       "family_id": "F14",
       "host": "F14.00",
       "name": "EDIT",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.SH.EDIT_GOAL",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1961,9 +1961,9 @@
       "family_id": "F14",
       "host": "F14.00",
       "name": "SET ASIDE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.SH.SET_ASIDE",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {
@@ -1971,9 +1971,9 @@
       "family_id": "F14",
       "host": "F14.00",
       "name": "LET IT GO",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F14.MD.REMOVE_GOAL",
-      "wave": 3,
+      "wave": null,
       "notes": []
     },
     {

@@ -113,7 +113,11 @@ export function UpcomingItemScreen() {
           <b>DUE</b>
           <p>{item.due_date}</p>
         </JurnlPanel>
-        <JurnlButton variant="secondary" trigger="upcoming-source" onClick={() => go(item.source_domain === 'INCOME' ? `income/${item.source_id}` : `upcoming`)}>
+        <JurnlButton variant="secondary" trigger="upcoming-source" onClick={() => {
+            if (item.source_domain === 'INCOME') go(`income/${item.source_id}`);
+            else if (item.source_domain === 'CREDIT_PAYMENT') go(`credit/${item.source_id}`);
+            else go('upcoming');
+          }}>
           OPEN SOURCE OWNER
         </JurnlButton>
         {item.source_domain === 'OBLIGATION' ?

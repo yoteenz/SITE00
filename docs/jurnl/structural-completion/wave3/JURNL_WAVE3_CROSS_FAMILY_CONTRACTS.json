@@ -1,0 +1,1 @@
+{"contracts":[{"from":"F08","to":"F09","type":"assigned_amount reduces STS"},{"from":"F14","to":"F09","type":"set_aside reduces STS"},{"from":"F12","to":"F07","type":"credit payment projection"},{"from":"F12","to":"F13","type":"discovery link only"}]}

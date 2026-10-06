@@ -1,0 +1,1 @@
+{"family":"F14","routes":["goals","goals/:goalId"],"persistence":"repository.snapshot.goals","reserved_field":"set_aside_amount"}
