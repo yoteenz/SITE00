@@ -73,7 +73,7 @@ export function FabricationProvider({ projectSlug, entryId, initialStation, chil
     if (draining.current === batch.length) return;
     draining.current = batch.length;
     for (const e of batch) {
-      if (e.kind === 'ACTIVITY') recordProductionActivity({ category: e.category, title: e.title, detail: e.detail, actor: 'FOUNDER' });
+      if (e.kind === 'ACTIVITY') recordProductionActivity({ category: e.category, title: e.title, detail: e.detail, actor: 'FOUNDER', projectId: projectSlug });
       else submitProductionRequest({ projectSlug, kind: e.requestKind, note: e.note });
     }
     rawDispatch({ type: 'DRAIN_OUTBOX', count: batch.length });

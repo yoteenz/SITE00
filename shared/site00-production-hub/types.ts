@@ -103,6 +103,8 @@ export type HubActivityItem = {
   at: string;
   actor: string | null;
   assetSlotId: string | null;
+  /** Project the event belongs to (P0 project isolation). Legacy records without it are attributed by evidence only. */
+  projectId?: string | null;
 };
 
 export type HubGraph = {
