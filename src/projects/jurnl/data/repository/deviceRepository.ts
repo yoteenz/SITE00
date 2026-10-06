@@ -32,6 +32,8 @@ import {
 const memoryByUser = new Map<string, RepositorySnapshot>();
 const listeners = new Set<RepositoryListener>();
 const eventSubs = new Set<(e: RepositoryEvent) => void>();
+/** Monotonic revision for useSyncExternalStore memoization (updatedAt alone can collide within 1ms). */
+let persistRevision = 0;
 
 let activeUserId = 'preview-guest';
 
@@ -156,10 +158,15 @@ function readSnapshot(userId: string): RepositorySnapshot {
 }
 
 function persist(snap: RepositorySnapshot) {
+  persistRevision += 1;
   memoryByUser.set(snap.userId, snap);
   const kv = browserLocal();
   if (kv) kv.set(storageKey(snap.userId), JSON.stringify(snap));
   listeners.forEach((l) => l());
+}
+
+export function getRepositoryPersistRevision(): number {
+  return persistRevision;
 }
 
 function emit(type: RepositoryEvent['type'], entityId?: string) {
@@ -559,6 +566,7 @@ export function getRepository(): JurnlRepository {
 
 /** Dev-only: drop cached snapshot for the active user. */
 export function resetRepositoryForDev() {
+  persistRevision = 0;
   memoryByUser.delete(activeUserId);
   const kv = browserLocal();
   if (kv) {
