@@ -1,0 +1,39 @@
+{
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1",
+  "status": "THREE_DISTINCT_FINISHED_CONCEPTS_READY",
+  "supersedes_founder_review": "P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1",
+  "final_concept_count": 3,
+  "expected_count": 3,
+  "pass": true,
+  "payload": {
+    "path": "JURNL/F09_SAFE/F09_FOUNDER_REVIEW_PAYLOAD.json",
+    "hash": "421b8736e408a185edf1635de2cf2db1d7a3ff9986ec4cb0c7132fa3c992c2e9",
+    "amount": "$1,284",
+    "date_line": "AVAILABLE THROUGH OCT 18",
+    "held_categories": ["BILLS", "PLANS", "GOALS", "BUFFER"],
+    "primary_action": "SEE WHY THIS AMOUNT",
+    "purchase_bridge_cta": "CHECK A PURCHASE",
+    "nav": ["HOME", "MONEY", "+", "PLAN", "CREDIT"]
+  },
+  "device_chrome": {
+    "IOS_STATUS_BAR": "ABSENT",
+    "DYNAMIC_ISLAND": "ABSENT",
+    "CELLULAR_WIFI_BATTERY": "ABSENT",
+    "HOME_INDICATOR": "ABSENT",
+    "DEVICE_FRAME": "ABSENT",
+    "BROWSER_CHROME": "ABSENT"
+  },
+  "raw_prompt": {
+    "full_screen_app_language_present": false
+  },
+  "distinctness": {
+    "blur_test": "PASS",
+    "anti_template_test": "PASS",
+    "layouts": ["T01_COURTYARD_ASYMMETRIC_FRAME", "T02_EDITORIAL_ANSWER_COLUMN", "T03_SLIP_FOLIO_BRIDGE"]
+  },
+  "founder_review_board": "JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/FOUNDER_REVIEW_BOARD.png",
+  "page_implementation": false,
+  "authority_explosion": false,
+  "founder_verdict": "PENDING",
+  "previous_t03": "PROMISING_COMPOSITION_INVALID_PRODUCT_TRUTH"
+}

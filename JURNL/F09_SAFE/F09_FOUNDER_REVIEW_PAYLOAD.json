@@ -1,0 +1,23 @@
+{
+  "id": "F09_FOUNDER_REVIEW_PAYLOAD",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1",
+  "family": "F09 SAFE TO SPEND",
+  "primary_signal": "SAFE TO SPEND",
+  "amount": "$1,284",
+  "amount_numeric": 1284,
+  "date_line": "AVAILABLE THROUGH OCT 18",
+  "primary_action": "SEE WHY THIS AMOUNT",
+  "held_categories": ["BILLS", "PLANS", "GOALS", "BUFFER"],
+  "held_summary": "HELD FOR BILLS, PLANS, GOALS & BUFFER",
+  "purchase_bridge": {
+    "headline": "WANT TO SPEND ON SOMETHING?",
+    "body": "CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY.",
+    "cta": "CHECK A PURCHASE"
+  },
+  "nav": ["HOME", "MONEY", "+", "PLAN", "CREDIT"],
+  "brand": {
+    "tagline": "PLAN TODAY. GROW FREELY.",
+    "descriptor": "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED."
+  },
+  "device_chrome_forbidden": true
+}

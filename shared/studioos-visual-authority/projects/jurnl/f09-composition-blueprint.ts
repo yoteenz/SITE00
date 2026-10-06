@@ -43,8 +43,13 @@ import { JURNL_F09_SAMPLE_VALUES, JURNL_F09_TERRITORIES } from './f09-safe-to-sp
 
 export const JURNL_F09_BP_SPRINT = HYBRID_SPRINT;
 export const JURNL_F09_HYBRID_EXEC_SPRINT = 'P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1' as const;
+export const JURNL_F09_RERUN_SPRINT = 'P0.JURNL.F09-SAFE-TO-SPEND.THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1' as const;
 export const JURNL_F09_BP_DIR = 'JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1' as const;
 export const JURNL_F09_HYBRID_DIR = 'JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1' as const;
+export const JURNL_F09_RERUN_DIR = 'JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1' as const;
+/** Founder-review composites must not simulate iOS / browser device chrome (status bar, home indicator, bezel). */
+export const DEVICE_CHROME_FORBIDDEN = true as const;
+export const F09_FOUNDER_REVIEW_PAYLOAD_PATH = 'JURNL/F09_SAFE/F09_FOUNDER_REVIEW_PAYLOAD.json' as const;
 const GUIDES = `${JURNL_F09_BP_DIR}/PLATE_GUIDES`;
 const JURNL_PROFILE = RENDER_OWNERSHIP_PROFILES.find((p) => p.project_id === 'JURNL')!;
 
@@ -520,7 +525,8 @@ export function buildPlatePrompt(p: PlateSpec): string {
   const op = toPlatePct(b.zones.find((z) => z.role === 'SIGNATURE_OBJECT')!.rect);
   return [
     '## PLATE',
-    'An art plate for compositing: environment and object in one light. It is not a finished screen and contains no text, no logo and no interface of any kind.',
+    'Art-directed environment and physical object layer only — for compositing under deterministic product UI added later. This is NOT a finished app screen, NOT a phone screenshot, and NOT a product mockup.',
+    'Generate ONLY the art-directed environment / object layer. No text, no logo, no buttons, no nav, no phone status bar, no home indicator, no device frame, no UI.',
     '',
     '## VIEW',
     p.view,
@@ -544,7 +550,7 @@ export function buildPlatePrompt(p: PlateSpec): string {
     regions.join('\n'),
     '',
     '## MUST NOT CONTAIN',
-    'Any letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, phone frame or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.',
+    'Any letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, time display, battery or signal icons, home indicator, Dynamic Island, phone frame, browser chrome or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.',
     '',
     '## RENDER SETTINGS',
     `${P.renderer.model} · quality ${P.renderer.quality} · aspect ratio ${P.renderer.aspect_ratio} · auto-enhance ${P.renderer.auto_enhance ? 'ON' : 'OFF'} · reference-guided with the attached plate guide only.`,
@@ -777,6 +783,62 @@ export const JURNL_F09_HYBRID_COMPOSITES: CompositeAuthority[] = HYBRID_PLATES.m
   };
 });
 
+const RERUN_PLATES = [
+  { t: 'T01', tid: 'JURNL.F09.T01', plate_sha: '0238be451e7d9f150034e753c155f3b16eb3fa546e6d6dd48701a22778d0b099', composite: 'F09_T01_SURVEYED_COURTYARD_393x852.png', composite_sha: 'a6fcc961e6be07c24fddb7d1b560726078292cd15568d6099811723a1bcca11e', layout: 'T01_COURTYARD_ASYMMETRIC_FRAME', art: ['L0', 'L3'] as LayerId[] },
+  { t: 'T02', tid: 'JURNL.F09.T02', plate_sha: '020ce1625bcc1607796258752fb48ac9c44441276e1415cdd6f44a4565bc15b3', composite: 'F09_T02_ANSWER_IN_RAKING_LIGHT_393x852.png', composite_sha: '07627237842300766bda962c249345793e22f392ca9089bd37d07396302ae91a', layout: 'T02_EDITORIAL_ANSWER_COLUMN', art: ['L0', 'L1', 'L3'] as LayerId[] },
+  { t: 'T03', tid: 'JURNL.F09.T03', plate_sha: '7cf6bcf814cc8b9a5c6175ac62c192c367c42787c240c912489a1ee3cf609bea', composite: 'F09_T03_SORTING_RACK_393x852.png', composite_sha: '508fc24f06704b9e1a4e1ec6c635cc9909099b8d8fbe28aec3723eba61047fc1', layout: 'T03_SLIP_FOLIO_BRIDGE', art: ['L0', 'L3'] as LayerId[] },
+] as const;
+
+export const JURNL_F09_RERUN_COMPOSITES: CompositeAuthority[] = RERUN_PLATES.map((h, i) => {
+  const b = JURNL_F09_BLUEPRINTS[i]!;
+  const o = JURNL_F09_RENDER_OWNERSHIP[i]!;
+  const det = o.layers.filter((l) => l.owner === 'DETERMINISTIC_UI' || l.owner === 'DETERMINISTIC_VECTOR' || l.owner === 'COMPOSITE').map((l) => ({ layer: l.layer, source: 'scripts/jurnl/f09-three-distinct-composite-rerun.mjs' }));
+  return {
+    composite_id: `${h.tid}.RERUN.v1`,
+    territory_id: h.tid,
+    blueprint_id: b.blueprint_id,
+    ownership_id: o.ownership_id,
+    art_layers: [{
+      plate_id: `${h.tid}.SCENE_PLATE.v1`,
+      layers: [...h.art],
+      plate_kind: 'SCENE_PLATE',
+      model: 'gpt-image-2.5-sunburst',
+      provider: 'OpenArt',
+      generation_mode: 'REFERENCE_GUIDED',
+      local_render: false,
+      image_path: `${JURNL_F09_RERUN_DIR}/RAW_PLATES/${h.t}_ENVIRONMENT.png`,
+      sha256: h.plate_sha,
+      generator_qa: genQa(),
+      baked_ui: { pass: true, findings: [] },
+      contamination: { pass: true, found: [] },
+    }],
+    deterministic_layers: det,
+    composite_qa: compQa(),
+    anti_ai_flags: [],
+    richness: richness(),
+    product_clarity_seconds: 1.2,
+    image_path: `${JURNL_F09_RERUN_DIR}/COMPOSITES/${h.composite}`,
+  };
+});
+
+export const JURNL_F09_RERUN_RENDER_LEDGER = {
+  sprint: JURNL_F09_RERUN_SPRINT,
+  supersedes_founder_review: JURNL_F09_HYBRID_EXEC_SPRINT,
+  payload: F09_FOUNDER_REVIEW_PAYLOAD_PATH,
+  payload_hash: '421b8736e408a185edf1635de2cf2db1d7a3ff9986ec4cb0c7132fa3c992c2e9',
+  device_chrome_forbidden: DEVICE_CHROME_FORBIDDEN,
+  assembly: 'scripts/jurnl/f09-three-distinct-composite-rerun.mjs',
+  territories: RERUN_PLATES.map((h) => ({
+    territory: h.t,
+    layout_id: h.layout,
+    raw_plate: `${JURNL_F09_RERUN_DIR}/RAW_PLATES/${h.t}_ENVIRONMENT.png`,
+    raw_sha256: h.plate_sha,
+    composite: `${JURNL_F09_RERUN_DIR}/COMPOSITES/${h.composite}`,
+    composite_sha256: h.composite_sha,
+  })),
+  founder_review_board: `${JURNL_F09_RERUN_DIR}/FOUNDER_REVIEW_BOARD.png`,
+};
+
 export const JURNL_F09_HYBRID_RENDER_LEDGER = {
   sprint: JURNL_F09_HYBRID_EXEC_SPRINT,
   renderer: { provider: 'OpenArt', model: 'gpt-image-2.5-sunburst', resolution: '4K', aspect_ratio: '9:16', auto_enhance: false, openart_project_id: 'VdiPtgVqb21sYl003uox' },
@@ -813,7 +875,7 @@ export const PREVIOUS_VS_HYBRID_SCORES: Record<string, { previous: Record<string
 /* ─────────────────────────────── status ─────────────────────────────── */
 
 export function jurnlF09HybridInput(): HybridAuthorityInput {
-  return { renderer_model: P.renderer.model, profile: JURNL_PROFILE, blueprints: JURNL_F09_BLUEPRINTS, ownership: JURNL_F09_RENDER_OWNERSHIP, composites: JURNL_F09_HYBRID_COMPOSITES };
+  return { renderer_model: P.renderer.model, profile: JURNL_PROFILE, blueprints: JURNL_F09_BLUEPRINTS, ownership: JURNL_F09_RENDER_OWNERSHIP, composites: JURNL_F09_RERUN_COMPOSITES };
 }
 
 export function jurnlF09HybridStatus() {

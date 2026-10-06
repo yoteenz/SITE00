@@ -1,0 +1,76 @@
+{
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1",
+  "generated_at": "2026-10-06T21:49:18.642Z",
+  "device_chrome": {
+    "IOS_STATUS_BAR": "ABSENT",
+    "HOME_INDICATOR": "ABSENT",
+    "html_scan": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "composites": [
+    {
+      "composite_path": "JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/COMPOSITES/F09_T01_SURVEYED_COURTYARD_393x852.png",
+      "checks": {
+        "DEVICE_CHROME_FORBIDDEN": true,
+        "NO_BROKEN_DEVICE_CHROME": true,
+        "CANONICAL_PAYLOAD": true,
+        "AMOUNT": "$1,284",
+        "PRIMARY_ACTION": "SEE WHY THIS AMOUNT"
+      }
+    },
+    {
+      "composite_path": "JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/COMPOSITES/F09_T02_ANSWER_IN_RAKING_LIGHT_393x852.png",
+      "checks": {
+        "DEVICE_CHROME_FORBIDDEN": true,
+        "NO_BROKEN_DEVICE_CHROME": true,
+        "CANONICAL_PAYLOAD": true,
+        "AMOUNT": "$1,284",
+        "PRIMARY_ACTION": "SEE WHY THIS AMOUNT"
+      }
+    },
+    {
+      "composite_path": "JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/COMPOSITES/F09_T03_SORTING_RACK_393x852.png",
+      "checks": {
+        "DEVICE_CHROME_FORBIDDEN": true,
+        "NO_BROKEN_DEVICE_CHROME": true,
+        "CANONICAL_PAYLOAD": true,
+        "AMOUNT": "$1,284",
+        "PRIMARY_ACTION": "SEE WHY THIS AMOUNT"
+      }
+    }
+  ],
+  "distinctness": {
+    "blur_test": {
+      "pass": true,
+      "hashes": {
+        "F09_T01_SURVEYED_COURTYARD_393x852.png": "de4e53b47b675720580f6d7b029dc36975c4510529e4d17213a36080fdcd82a1",
+        "F09_T02_ANSWER_IN_RAKING_LIGHT_393x852.png": "52f3d824537c04511845b956373d9c59cb964620af73d9d34eaf044c1fb4724e",
+        "F09_T03_SORTING_RACK_393x852.png": "6c25ad6d95d83501246e9f49c60e877a600fc8c101b22b328e12ad81d7e06b11"
+      },
+      "pairs": [
+        {
+          "id": "T01_vs_T02",
+          "diff_ratio": 0.890625,
+          "distinct": true
+        },
+        {
+          "id": "T01_vs_T03",
+          "diff_ratio": 0.953125,
+          "distinct": true
+        },
+        {
+          "id": "T02_vs_T03",
+          "diff_ratio": 0.96875,
+          "distinct": true
+        }
+      ]
+    },
+    "anti_template_test": {
+      "pass": true,
+      "note": "Three independent layout implementations"
+    }
+  },
+  "pass": true
+}

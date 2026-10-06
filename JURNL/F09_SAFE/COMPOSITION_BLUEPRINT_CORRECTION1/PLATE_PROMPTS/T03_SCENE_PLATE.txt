@@ -1,5 +1,6 @@
 ## PLATE
-An art plate for compositing: environment and object in one light. It is not a finished screen and contains no text, no logo and no interface of any kind.
+Art-directed environment and physical object layer only — for compositing under deterministic product UI added later. This is NOT a finished app screen, NOT a phone screenshot, and NOT a product mockup.
+Generate ONLY the art-directed environment / object layer. No text, no logo, no buttons, no nav, no phone status bar, no home indicator, no device frame, no UI.
 
 ## VIEW
 Frontal still life, camera square to the wall, very slightly above the rack.
@@ -34,7 +35,7 @@ Follow the attached plate guide exactly. The main object occupies x 16.6–83.4 
 - x 14.5–85.4 %, y 79.6–82.9 %: plain plaster
 
 ## MUST NOT CONTAIN
-Any letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, phone frame or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.
+Any letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, time display, battery or signal icons, home indicator, Dynamic Island, phone frame, browser chrome or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.
 
 ## RENDER SETTINGS
 gpt-image-2.5-sunburst · quality 4K · aspect ratio 9:16 · auto-enhance OFF · reference-guided with the attached plate guide only.

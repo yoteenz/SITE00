@@ -14330,3 +14330,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Delivered:** `JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/` — RAW_PLATES T01–T03 (2016×3584), composites @3x, `FOUNDER_REVIEW_BOARD.png`, `HYBRID_RENDER_LEDGER.json`, `COMPOSITE_QA.json`, `PREVIOUS_VS_HYBRID.json`. OpenArt jobs d6K9fLZ8HLzpxFfKWxhE, BfrmFeCAensa14V72eSr, vvWAjYEBANSZu6KH2uPv; **3 primary, 0 retries, ~951 credits**.
 - **Product sample (execution):** SAFE TO SPEND **$1,284**, AVAILABLE THROUGH OCT 18, CTA **SEE WHY THIS AMOUNT**, canonical nav HOME/MONEY/+/PLAN/CREDIT, official logo asset. Gate **COMPOSITES_READY**; founder verdict **PENDING** (four-way vs founder hybrid).
 - **TS:** `JURNL_F09_HYBRID_COMPOSITES`, ledger, comparison scores; tests `jurnlF09CompositionBlueprintCorrection1.test.ts` green. **No** F09 production runtime change.
+
+---
+
+## 2026-10-06 — JURNL F09 three distinct composite authority rerun (P0.JURNL.F09-SAFE-TO-SPEND.THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1)
+
+- **Why:** HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 left only one fully resolved composite, included iOS status bar / home indicator, and mixed stale inline CTAs. Founder round requires **3 finished composite authorities** at **393×852 product canvas** (not device screenshot).
+- **Rules persisted:** `DEVICE_CHROME_FORBIDDEN`; raw plates never count toward territory count; `F09_FOUNDER_REVIEW_PAYLOAD.json` is single data lock (**$1,284**, OCT 18, BILLS/PLANS/GOALS/BUFFER, **SEE WHY THIS AMOUNT**, **CHECK A PURCHASE** bridge, nav HOME/MONEY/+/PLAN/CREDIT).
+- **Delivered:** `JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/` — three distinct layouts (`f09-three-distinct-composite-rerun.mjs` + `f09-product-canvas.css`), composites, `FOUNDER_REVIEW_BOARD.png` (composites only), `COMPOSITE_QA.json` (blur + anti-template pass), `RERUN1_REPORT.json`. Reused execution1 scene plates as provenance under `RAW_PLATES/` (labeled NOT A FOUNDER CONCEPT). Gate still **COMPOSITES_READY** via `JURNL_F09_RERUN_COMPOSITES`. **No** live F09 product change.

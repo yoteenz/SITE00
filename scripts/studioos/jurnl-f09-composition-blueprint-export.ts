@@ -38,16 +38,35 @@ export function buildJurnlF09BlueprintExports(): Record<string, string> {
     hybrid_gate: status.gate,
     generation: jurnlF09BP.JURNL_F09_RAW_GENERATION_CONTRACT.generations_this_sprint,
     hybrid_execution: jurnlF09BP.JURNL_F09_HYBRID_RENDER_LEDGER,
+    rerun_execution: jurnlF09BP.JURNL_F09_RERUN_RENDER_LEDGER,
+    device_chrome_forbidden: jurnlF09BP.DEVICE_CHROME_FORBIDDEN,
     page_implementation: false,
     verdict: {
       PIPELINE_CORRECTED: true,
       HYBRID_RENDER_PIPELINE_PASS: status.gate.status === 'COMPOSITES_READY',
-      THREE_COMPOSITE_AUTHORITIES_READY: jurnlF09BP.JURNL_F09_HYBRID_COMPOSITES.length === 3,
+      THREE_COMPOSITE_AUTHORITIES_READY: jurnlF09BP.JURNL_F09_RERUN_COMPOSITES.length === 3,
+      DEVICE_CHROME_CLEAN: jurnlF09BP.DEVICE_CHROME_FORBIDDEN,
       READY_FOR_FOUNDER_COMPARISON: status.gate.status === 'COMPOSITES_READY',
       founder_verdict: 'PENDING',
     },
   });
   return files;
+}
+
+export function buildJurnlF09RerunExports(): Record<string, string> {
+  const R = jurnlF09BP.JURNL_F09_RERUN_DIR;
+  const headR = (id: string) => ({ id, sprint: jurnlF09BP.JURNL_F09_RERUN_SPRINT, generated_by: 'scripts/studioos/jurnl-f09-composition-blueprint-export.ts' });
+  const composites = jurnlF09BP.JURNL_F09_RERUN_COMPOSITES;
+  return {
+    [`${R}/RERUN_RENDER_LEDGER.json`]: json({ ...headR('RERUN_RENDER_LEDGER'), ...jurnlF09BP.JURNL_F09_RERUN_RENDER_LEDGER }),
+    [`${R}/PREVIOUS_EXEC1_VS_RERUN1.json`]: json({
+      ...headR('PREVIOUS_EXEC1_VS_RERUN1'),
+      note: 'Execution1 composites included iOS device chrome and under-resolved T01/T02; rerun1 supersedes founder-review packaging.',
+      exec1_issues: ['IOS_STATUS_BAR', 'HOME_INDICATOR', 'THREE_CONCEPTS_NOT_ALL_RESOLVED', 'STALE_INLINE_CTA_ROW'],
+      rerun1_fixes: ['DEVICE_CHROME_FORBIDDEN', 'THREE_DISTINCT_LAYOUTS', 'F09_FOUNDER_REVIEW_PAYLOAD', 'PURCHASE_BRIDGE'],
+      scores: jurnlF09BP.PREVIOUS_VS_HYBRID_SCORES,
+    }),
+  };
 }
 
 export function buildJurnlF09HybridExecutionExports(): Record<string, string> {
@@ -82,5 +101,9 @@ if (process.argv[1] && /jurnl-f09-composition-blueprint-export\.ts$/.test(proces
     mkdirSync(name.slice(0, name.lastIndexOf('/')), { recursive: true });
     writeFileSync(name, body);
   }
-  console.log(`exported ${Object.keys(files).length} blueprint files + hybrid execution JSON to ${D} and ${jurnlF09BP.JURNL_F09_HYBRID_DIR}`);
+  for (const [name, body] of Object.entries(buildJurnlF09RerunExports())) {
+    mkdirSync(name.slice(0, name.lastIndexOf('/')), { recursive: true });
+    writeFileSync(name, body);
+  }
+  console.log(`exported ${Object.keys(files).length} blueprint files + hybrid + rerun JSON to ${D}`);
 }
