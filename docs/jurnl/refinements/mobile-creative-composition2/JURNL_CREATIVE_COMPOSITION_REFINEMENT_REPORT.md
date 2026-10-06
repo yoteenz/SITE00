@@ -4,7 +4,7 @@ Sprint: P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2
 
 Agent: OPUS
 
-Base: `main` at `dd8bdeca`, reconciled onto `9c817646` (Composer's E2E gate and persist-revision fix).
+Base: `main` at `dd8bdeca`, reconciled onto `9c817646` (Composer's E2E gate and persist-revision fix) and then `c33405b9` (Wave 5 production hardening).
 
 Scope:
 - Presentation, composition and copy only.
@@ -160,9 +160,9 @@ The composition QA reads the same nav rect for the same viewport everywhere. Pre
 |---|---|
 | Interactive-text containment | 1098 / 1098 labels (F01–F16, 3 viewports); parents re-run after the merge 432 / 432 |
 | Unit tests (`tests/jurnlMobileComposition.test.tsx`) | 24 / 24 |
-| JURNL suites | 383 / 385; the 2 failures are pre-existing (`jurnlF02Runtime`, which also fails on clean `main` 9c817646) |
+| JURNL suites | 385 / 389; the 4 failures are pre-existing and fail identically on clean `main` c33405b9: `jurnlF02Runtime` ×2, the F01 paywall check, and the production-shell debug-surface check |
 | Typecheck | clean |
-| Composer full-product E2E gate (`e2e/jurnl`) | **76 / 76** (38 tests × mobile and desktop) after restoring three hooks: `.jrn-home__num` on F09, `.jrn-tx` on F07, and the text "SAFE TO SPEND NOW" on F15 |
+| Composer full-product E2E gate (`e2e/jurnl`) | **82 / 82** on the final merged base (41 tests × mobile and desktop, including the Wave 5 hardening spec), after restoring three hooks: `.jrn-home__num` on F09, `.jrn-tx` on F07, and the text "SAFE TO SPEND NOW" on F15 |
 
 ### Defects found and fixed during QA
 

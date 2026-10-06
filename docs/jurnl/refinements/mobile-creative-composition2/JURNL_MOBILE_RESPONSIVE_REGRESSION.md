@@ -107,7 +107,7 @@ Regression boards: `screenshots/boards/REGRESSION_TABLET_834.jpg` and `screensho
 
 ## Routing and product logic
 
-Composer's full-product E2E gate (`e2e/jurnl`, 38 tests × mobile + desktop) was run against this branch. It surfaced three presentation hooks that the recomposition had removed:
+Composer's full-product E2E gate (`e2e/jurnl`) was run against this branch. On the final merged base it is 82/82: 41 tests × mobile and desktop, including the Wave 5 hardening spec. It surfaced three presentation hooks that the recomposition had removed:
 - `.jrn-home__num` on the F09 figure.
 - `.jrn-tx` on F07 rows.
 - The text "SAFE TO SPEND NOW" on F15.
