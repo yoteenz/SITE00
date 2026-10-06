@@ -12,6 +12,9 @@ on:
       - 'scripts/jurnl/run-live-rls-and-sync-proof.ts'
       - 'scripts/jurnl/write-live-proof-artifacts.ts'
       - 'scripts/jurnl/live-proof/**'
+      - 'scripts/jurnl/live-proof-prerequisite-precheck.ts'
+      - 'scripts/jurnl/write-live-proof-unblock-artifacts.ts'
+      - 'docs/jurnl/structural-completion/wave5-live-proof-unblock/**'
       - '.github/workflows/jurnl-live-production-sync-proof.yml'
 
 concurrency:
@@ -22,6 +25,8 @@ jobs:
   live_proof:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    outputs:
+      live_ran: ${{ steps.precheck.outputs.ready }}
     env:
       JURNL_LIVE_PROOF: '1'
       JURNL_LIVE_QA_SETUP: '1'
@@ -41,34 +46,45 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
-      - run: npm test -- --run tests/jurnlDeviceServerMerge.test.ts tests/jurnlWave5Production.test.ts
-      - name: Check live proof secrets
-        id: secrets
+      - run: npm test -- --run tests/jurnlDeviceServerMerge.test.ts tests/jurnlWave5Production.test.ts tests/jurnlLiveProofPrecheck.test.ts
+      - name: Live proof prerequisite precheck
+        id: precheck
         run: |
-          missing=0
-          for v in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY JURNL_QA_USER_A_EMAIL JURNL_QA_USER_A_PASSWORD JURNL_QA_USER_B_EMAIL JURNL_QA_USER_B_PASSWORD; do
-            if [ -z "${!v}" ]; then echo "Missing $v"; missing=1; fi
-          done
-          echo "ready=$([ $missing -eq 0 ] && echo 1 || echo 0)" >> "$GITHUB_OUTPUT"
+          npm run jurnl:live-proof:unblock-artifacts || true
+          npm run jurnl:live-proof:precheck && echo "ready=1" >> "$GITHUB_OUTPUT" || echo "ready=0" >> "$GITHUB_OUTPUT"
       - name: Live RLS and sync proof
-        if: steps.secrets.outputs.ready == '1'
+        if: steps.precheck.outputs.ready == '1'
         run: npm run jurnl:live-proof
-      - name: Write awaiting live proof artifacts
-        if: steps.secrets.outputs.ready != '1'
+      - name: Write prerequisite-blocked live proof result
+        if: steps.precheck.outputs.ready != '1'
         run: |
           mkdir -p docs/jurnl/structural-completion/wave5-live-proof
           npx tsx scripts/jurnl/write-live-proof-artifacts.ts
-          node -e "const fs=require('fs');const p='docs/jurnl/structural-completion/wave5-live-proof/JURNL_LIVE_PRODUCTION_SYNC_E2E_RESULT.json';const j=JSON.parse(fs.readFileSync(p,'utf8'));j.gate_status='AWAITING_GITHUB_ACTIONS_LIVE_PROOF';j.note='Add JURNL_QA_USER_A/B secrets and re-run workflow_dispatch';fs.writeFileSync(p,JSON.stringify(j,null,2));"
+          node -e "
+          const fs=require('fs');
+          const p='docs/jurnl/structural-completion/wave5-live-proof/JURNL_LIVE_PRODUCTION_SYNC_E2E_RESULT.json';
+          const u='docs/jurnl/structural-completion/wave5-live-proof-unblock/JURNL_LIVE_PROOF_ENVIRONMENT_READINESS.json';
+          let missing=[];
+          try { missing=JSON.parse(fs.readFileSync(u,'utf8')).missing_secret_names||[]; } catch {}
+          const j=JSON.parse(fs.readFileSync(p,'utf8'));
+          j.gate_status='PREREQUISITE_BLOCKED';
+          j.note='Install missing GitHub secrets and apply JURNL migration — see wave5-live-proof-unblock/';
+          j.missing_secret_names=missing;
+          fs.writeFileSync(p,JSON.stringify(j,null,2));
+          "
       - name: Upload live proof artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jurnl-live-proof-artifacts
           retention-days: 30
-          path: docs/jurnl/structural-completion/wave5-live-proof/
+          path: |
+            docs/jurnl/structural-completion/wave5-live-proof/
+            docs/jurnl/structural-completion/wave5-live-proof-unblock/
 
   regression_gates:
     needs: live_proof
+    if: needs.live_proof.outputs.live_ran == '1'
     runs-on: ubuntu-latest
     timeout-minutes: 50
     steps:
