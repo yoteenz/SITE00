@@ -11,22 +11,23 @@
   "actor": "CLIENT",
   "purpose": "Input for the founder + ChatGPT test-run of 3 composition territories. Not an implementation brief. Not a reference image.",
   "gate_status": {
-    "state": "AUTHORITY_TERRITORIES_REQUIRED",
-    "guard": "VISUAL_AUTHORITY_REQUIRED",
+    "state": "AUTHORITY_APPROVED",
+    "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
     "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
     "conditions": {
       "BRAND_CONTEXT_LOADED": true,
       "EXPERIENCE_CONTRACT_LOADED": true,
       "LEGACY_VISUAL_STATUS_KNOWN": true,
-      "COMPOSITION_TERRITORIES_EXIST": false,
-      "REFERENCE_AUTHORITY_EXISTS": false,
-      "FOUNDER_APPROVAL_EXISTS": false,
-      "PAGE_FAMILY_AUTHORITY_LOCKED": false
+      "COMPOSITION_TERRITORIES_EXIST": true,
+      "REFERENCE_AUTHORITY_EXISTS": true,
+      "FOUNDER_APPROVAL_EXISTS": true,
+      "PAGE_FAMILY_AUTHORITY_LOCKED": true,
+      "PAGE_TREE_CONFIRMED": false
     },
-    "next_step": "Author 3 distinct composition territories."
+    "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions)."
   },
   "brand_dna": {
-    "brand_context_id": "AIO.BRAND@2026-10-06",
+    "brand_context_id": "AIO.BRAND@2026-10-06+IFTA_AUTHORITY_BUNDLE",
     "positioning": "WHERE BUSINESS MEETS THE ROAD. THE BUSINESS OFFICE BEHIND THE TRUCK. FROM STARTUP TO EVERY MILE AFTER.",
     "voice": [
       "CLEAR",
@@ -35,13 +36,20 @@
       "HUMAN"
     ],
     "color": [
-      "BLACK",
-      "GOLD",
-      "SILVER",
-      "OBSIDIAN",
-      "CHARCOAL",
-      "STONE",
-      "CHAMPAGNE"
+      "OBSIDIAN #050505 — primary background (dark / public)",
+      "CHARCOAL #1A1A1A — secondary surfaces",
+      "SIGNATURE_GOLD #D4A853 — primary accent",
+      "CHAMPAGNE #EBD9B7 — supporting accent",
+      "PLATINUM #C0C6CC — secondary metallic",
+      "STONE_WHITE #F6F6F4 — light background (authenticated workspaces)",
+      "material world: BLACK",
+      "material world: GOLD",
+      "material world: SILVER",
+      "material world: OBSIDIAN",
+      "material world: CHARCOAL",
+      "material world: STONE",
+      "material world: CHAMPAGNE",
+      "material world: WHITE / IVORY FOR AUTHENTICATED WORKSPACES"
     ],
     "emphasis_map": {
       "NEUTRAL": "STONE on CHARCOAL",
@@ -55,15 +63,20 @@
       "ERROR": "GOLD on BLACK with explicit recovery copy"
     },
     "materials": [
+      "GOLD",
+      "BRUSHED METAL",
+      "CARBON",
+      "MARBLE",
+      "ROAD",
       "brushed / satin metal (silver)",
       "obsidian glass",
       "charcoal steel",
       "stone",
-      "champagne-gold accents and seals",
-      "office paper / filed-packet surfaces"
+      "champagne-gold accents",
+      "clean light operational surfaces (authenticated workspaces)"
     ],
-    "typography": "Current code tokens: display Plus Jakarta Sans, body DM Sans (src/styles/aio.css). Not founder-locked brand typography; never Frontal Slayer typography.",
-    "mood": "OPERATIONAL LUXURY — executive industrial × modern infrastructure; calm control over a moving operation.",
+    "typography": "UPPERCASE PRIMARY (locked). Brand DNA board: MONUMENT EXTENDED (headline) · INTER (secondary) · BEBAS NEUE (accent / label). IFTA asset sheet: INTER TIGHT headings · INTER body (+2% tracking). Display face open (D-TYPOGRAPHY). Code tokens Plus Jakarta Sans / DM Sans carry no authority.",
+    "mood": "OPERATIONAL LUXURY — executive industrial × modern infrastructure; calm control over a moving operation. Actor themes: PUBLIC DARK_PRIMARY cinematic · CLIENT LIGHT_PRIMARY · FOUNDER / STAFF LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS.",
     "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles",
     "architectural_language": "The business office behind the truck: a command office over road infrastructure — rooms, desks, filed packets, ledgers, gauges; never a generic SaaS dashboard.",
     "avoid": [
@@ -73,12 +86,16 @@
       "legal / government seals implying AIO is a government system",
       "stock smiles",
       "alarm red as decoration",
-      "implying AIO is a government system"
+      "implying AIO is a government system",
+      "full lockup in tight navigation",
+      "generic emoji / other icon families / random colors",
+      "third-party fuel-brand logos",
+      "legacy AIO shell visuals"
     ],
     "open_brand_questions": [
-      "Is the code typography (Plus Jakarta Sans / DM Sans) the founder brand typography, or provisional?",
-      "Logo clear-space, minimum size and on-dark / on-light rules.",
-      "Approved photography set (which cinematic trucking images are brand-approved vs placeholder)."
+      "D-BRAND-TOKENS — brand DNA board vs IFTA asset sheet values for gold (#D4A853 vs #F4B223), charcoal (#1A1A1A vs #1F2937), darkest ink (#050505 vs #0B0B0B), light background (#F6F6F4 vs #FFFFFF).",
+      "D-TYPOGRAPHY — display face MONUMENT EXTENDED (+ BEBAS NEUE labels; commercial licence) vs INTER TIGHT.",
+      "Production brand assets not in the package: light-theme / transparent simple mark, transparent full lockups, approved hero photographs (reference images are not runtime assets)."
     ]
   },
   "experience_contract": {
@@ -863,6 +880,8 @@
     "05 GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES",
     "06 FOUNDER_CHOOSES_OR_REVISES",
     "07 LOCK_PAGE_FAMILY_AUTHORITY",
+    "07A PRODUCE_PAGE_TAB_STATE_TREE",
+    "07B FOUNDER_CONFIRMS_TREE",
     "08 IMPLEMENT",
     "09 INCREASE_FIDELITY_WITHOUT_VIOLATING_CORE_LOGIC"
   ],

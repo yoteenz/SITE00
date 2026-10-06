@@ -17,6 +17,7 @@ import {
   REQUIRED_CORE_LOCKS,
   REQUIRED_EXPERIENCE_INGEST_FIELDS,
   TERRITORY_STRUCTURAL_DIMENSIONS,
+  type AuthorityDerivation,
   type AuthorityGateInput,
   type AuthorityGuardStatus,
   type AuthorityProductionState,
@@ -31,6 +32,7 @@ import {
   type LegacyVisualClass,
   type LegacyVisualDimension,
   type PageFamilyAuthority,
+  type PageTreeConfirmation,
   type ReferenceAuthority,
 } from './schema.js';
 
@@ -189,6 +191,45 @@ export function checkAuthorityLock(a: PageFamilyAuthority | null | undefined): L
   return { locked: missing.length === 0, missing };
 }
 
+/* ─────────────────────────────── 07 derivation ─────────────────────────────── */
+
+export type DerivationCheck = {
+  status: 'DERIVATION_VALID' | 'PARENT_AUTHORITY_REQUIRED' | 'REFERENCE_AUTHORITY_REQUIRED';
+  parent_authority_id: string | null;
+  reasons: string[];
+};
+
+/**
+ * Parent authority precedes actor / viewport derivation: a derived actor inherits the territory step only from a LOCKED
+ * parent of the same family (different actor) whose territories passed the distinctness test; its own references must
+ * trace to a parent source territory and show all six proofs.
+ */
+export function checkDerivation(i: Pick<AuthorityGateInput, 'family_id' | 'feature_id' | 'actor'>, d: AuthorityDerivation | null | undefined): DerivationCheck {
+  if (!d) return { status: 'PARENT_AUTHORITY_REQUIRED', parent_authority_id: null, reasons: ['no derivation'] };
+  const reasons: string[] = [];
+  const p = d.parent;
+  if (p.family_id !== i.family_id || p.feature_id !== i.feature_id) reasons.push('parent authority belongs to another family');
+  if (p.actor === i.actor) reasons.push('a derivation needs a parent authority of another actor');
+  const lock = checkAuthorityLock(p);
+  if (!lock.locked) reasons.push(...lock.missing.map((m) => `parent lock: missing ${m}`));
+  const terr = checkTerritoryDistinctness(d.parent_territories);
+  if (terr.status !== 'TERRITORIES_DISTINCT') reasons.push(`parent territories: ${terr.status}`);
+  const ids = new Set(d.parent_territories.map((t) => t.territory_id));
+  if (!p.territory_source.every((t) => ids.has(t))) reasons.push('parent territory_source not among parent territories');
+  if (reasons.length) return { status: 'PARENT_AUTHORITY_REQUIRED', parent_authority_id: p.authority_id, reasons };
+  if (!d.references.length) reasons.push('no derived reference authority');
+  for (const r of d.references) {
+    if (!p.territory_source.includes(r.territory_id)) reasons.push(`${r.reference_id} does not trace to a parent source territory`);
+    const missing = REFERENCE_AUTHORITY_MUST_SHOW.filter((x) => !r.shows.includes(x));
+    if (missing.length) reasons.push(`${r.reference_id} does not show ${missing.join(', ')}`);
+  }
+  return { status: reasons.length ? 'REFERENCE_AUTHORITY_REQUIRED' : 'DERIVATION_VALID', parent_authority_id: p.authority_id, reasons };
+}
+
+/* ─────────────────────────────── 07A / 07B page tree ─────────────────────────────── */
+
+export const pageTreeConfirmed = (t: PageTreeConfirmation | null | undefined): boolean => t?.status === 'FOUNDER_CONFIRMED' && filled(t.confirmed_at);
+
 /* ─────────────────────────────── 08–09 deviation ─────────────────────────────── */
 
 export type DeviationCheck = {
@@ -226,7 +267,7 @@ export type AuthorityGateResult = {
   state: AuthorityProductionState;
   /** A guard that stops the line (null when none). */
   guard: AuthorityGuardStatus | null;
-  /** The durable-rule verdict: VISUAL_AUTHORITY_REQUIRED until all seven conditions hold. */
+  /** The durable-rule verdict: VISUAL_AUTHORITY_REQUIRED until all eight conditions hold. */
   durable_rule: 'SATISFIED' | 'VISUAL_AUTHORITY_REQUIRED' | 'NOT_REQUIRED_NON_MATERIAL';
   conditions: Record<DurableGateCondition, boolean>;
   implementation_ready: boolean;
@@ -242,7 +283,7 @@ export function evaluateAuthorityGate(i: AuthorityGateInput): AuthorityGateResul
   const reasons: string[] = [];
   const conditions: Record<DurableGateCondition, boolean> = {
     BRAND_CONTEXT_LOADED: false, EXPERIENCE_CONTRACT_LOADED: false, LEGACY_VISUAL_STATUS_KNOWN: false, COMPOSITION_TERRITORIES_EXIST: false,
-    REFERENCE_AUTHORITY_EXISTS: false, FOUNDER_APPROVAL_EXISTS: false, PAGE_FAMILY_AUTHORITY_LOCKED: false,
+    REFERENCE_AUTHORITY_EXISTS: false, FOUNDER_APPROVAL_EXISTS: false, PAGE_FAMILY_AUTHORITY_LOCKED: false, PAGE_TREE_CONFIRMED: false,
   };
   const out = (state: AuthorityProductionState, guard: AuthorityGuardStatus | null, next: string): AuthorityGateResult => {
     const all = Object.values(conditions).every(Boolean);
@@ -291,23 +332,39 @@ export function evaluateAuthorityGate(i: AuthorityGateInput): AuthorityGateResul
 
   if (!conditions.LEGACY_VISUAL_STATUS_KNOWN) return out('EXPERIENCE_COMPLETE', 'VISUAL_AUTHORITY_REQUIRED', 'Classify legacy surfaces, then author 3 composition territories.');
 
-  const terr = checkTerritoryDistinctness(i.territories);
-  if (terr.status === 'AUTHORITY_TERRITORIES_REQUIRED') {
-    reasons.push(...terr.reasons);
-    return out('AUTHORITY_TERRITORIES_REQUIRED', 'VISUAL_AUTHORITY_REQUIRED', 'Author 3 distinct composition territories.');
-  }
-  if (terr.status === 'TERRITORY_DISTINCTNESS_FAILURE') {
-    reasons.push(...terr.reasons);
-    return out('AUTHORITY_TERRITORIES_REQUIRED', 'TERRITORY_DISTINCTNESS_FAILURE', 'Rebuild territories so they differ in page logic, not paint.');
-  }
-  conditions.COMPOSITION_TERRITORIES_EXIST = true;
+  if (i.derivation && !filled(i.territories)) {
+    // Parent authority precedes actor / viewport derivation: territories are inherited from the locked parent.
+    const der = checkDerivation(i, i.derivation);
+    if (der.status === 'PARENT_AUTHORITY_REQUIRED') {
+      reasons.push(...der.reasons);
+      return out('AUTHORITY_TERRITORIES_REQUIRED', 'VISUAL_AUTHORITY_REQUIRED', 'Lock the parent page-family authority first (parent authority precedes actor / viewport derivation).');
+    }
+    conditions.COMPOSITION_TERRITORIES_EXIST = true;
+    reasons.push(`territories inherited from parent authority ${der.parent_authority_id}`);
+    if (der.status !== 'DERIVATION_VALID') {
+      reasons.push(...der.reasons);
+      return out('AUTHORITY_TERRITORIES_REQUIRED', 'REFERENCE_AUTHORITY_REQUIRED', 'Assemble derived reference authorities that trace to the parent territory and show all six proofs.');
+    }
+    conditions.REFERENCE_AUTHORITY_EXISTS = true;
+  } else {
+    const terr = checkTerritoryDistinctness(i.territories);
+    if (terr.status === 'AUTHORITY_TERRITORIES_REQUIRED') {
+      reasons.push(...terr.reasons);
+      return out('AUTHORITY_TERRITORIES_REQUIRED', 'VISUAL_AUTHORITY_REQUIRED', 'Author 3 distinct composition territories (or derive from a locked parent authority).');
+    }
+    if (terr.status === 'TERRITORY_DISTINCTNESS_FAILURE') {
+      reasons.push(...terr.reasons);
+      return out('AUTHORITY_TERRITORIES_REQUIRED', 'TERRITORY_DISTINCTNESS_FAILURE', 'Rebuild territories so they differ in page logic, not paint.');
+    }
+    conditions.COMPOSITION_TERRITORIES_EXIST = true;
 
-  const refs = checkReferences(i.territories, i.references);
-  if (refs.status !== 'REFERENCES_COMPLETE') {
-    reasons.push(...refs.missing_territories.map((t) => `no reference authority for ${t}`), ...refs.insufficient.map((x) => `${x.reference_id} does not show ${x.missing_proof.join(', ')}`));
-    return out('AUTHORITY_TERRITORIES_REQUIRED', 'REFERENCE_AUTHORITY_REQUIRED', 'Generate / assemble one reference authority per territory.');
+    const refs = checkReferences(i.territories, i.references);
+    if (refs.status !== 'REFERENCES_COMPLETE') {
+      reasons.push(...refs.missing_territories.map((t) => `no reference authority for ${t}`), ...refs.insufficient.map((x) => `${x.reference_id} does not show ${x.missing_proof.join(', ')}`));
+      return out('AUTHORITY_TERRITORIES_REQUIRED', 'REFERENCE_AUTHORITY_REQUIRED', 'Generate / assemble one reference authority per territory.');
+    }
+    conditions.REFERENCE_AUTHORITY_EXISTS = true;
   }
-  conditions.REFERENCE_AUTHORITY_EXISTS = true;
 
   const d = i.founder_decision;
   if (!d || !APPROVING_VERDICTS.includes(d.verdict)) {
@@ -322,6 +379,14 @@ export function evaluateAuthorityGate(i: AuthorityGateInput): AuthorityGateResul
     return out('AUTHORITY_APPROVED', 'VISUAL_AUTHORITY_REQUIRED', 'Lock the page-family authority (core logic locks + flexible areas + lineage).');
   }
   conditions.PAGE_FAMILY_AUTHORITY_LOCKED = true;
+
+  // Authority package precedes implementation; the founder-confirmed page / tab / state tree is the last gate.
+  if (!pageTreeConfirmed(i.page_tree)) {
+    const t = i.page_tree;
+    reasons.push(t ? `page tree ${t.tree_id}: ${t.status}${t.open_decisions?.length ? ` (${t.open_decisions.length} open decisions)` : ''}` : 'page / tab / state tree not produced');
+    return out('AUTHORITY_APPROVED', 'PAGE_TREE_CONFIRMATION_REQUIRED', t?.status === 'PRODUCED' ? 'Founder confirms the page / tab / state tree (and settles its open decisions).' : 'Produce the page / tab / state tree (tabs are first-class nodes), then the founder confirms it.');
+  }
+  conditions.PAGE_TREE_CONFIRMED = true;
 
   const impl = i.implementation;
   if (!impl || impl.status === 'NOT_STARTED') return out('IMPLEMENTATION_READY', null, 'Implement against the locked page-family authority.');
@@ -349,6 +414,7 @@ export type PageGenerationRequest = {
   brand_context?: BrandContext | null;
   experience_contract?: ExperienceContract | null;
   authority?: PageFamilyAuthority | null;
+  page_tree?: PageTreeConfirmation | null;
   legacy_surfaces?: LegacySurface[];
   legacy_uses?: LegacyUse[];
   /** Assets the generated page will ship at runtime — an authority reference image is never one. */
@@ -361,7 +427,7 @@ export type PageGenerationVerdict =
   | { status: 'GENERATE'; inputs: string[] }
   | { status: 'EXPERIENCE_REQUIRED' | 'BRAND_CONTEXT_REQUIRED' | AuthorityGuardStatus; missing: string[] };
 
-/** Generators receive BRAND DNA + EXPERIENCE CONTRACT + PAGE-FAMILY AUTHORITY + STATE + VIEWPORT — never route + copy only. */
+/** Generators receive BRAND DNA + EXPERIENCE CONTRACT + PAGE-FAMILY AUTHORITY + CONFIRMED TREE + STATE + VIEWPORT — never route + copy only. */
 export function guardPageGeneration(r: PageGenerationRequest): PageGenerationVerdict {
   const exp = checkExperience(r.experience_contract, r.actor);
   if (exp.status !== 'EXPERIENCE_COMPLETE') return { status: 'EXPERIENCE_REQUIRED', missing: exp.missing.length ? exp.missing : exp.gaps };
@@ -372,6 +438,7 @@ export function guardPageGeneration(r: PageGenerationRequest): PageGenerationVer
   if (r.material) {
     const lock = checkAuthorityLock(r.authority);
     if (!lock.locked) return { status: 'VISUAL_AUTHORITY_REQUIRED', missing: lock.missing };
+    if (!pageTreeConfirmed(r.page_tree)) return { status: 'PAGE_TREE_CONFIRMATION_REQUIRED', missing: ['founder-confirmed page / tab / state tree'] };
     const a = r.authority!;
     if (!a.viewports.includes(r.viewport) && !(a.scales_to ?? []).includes(r.viewport)) {
       return { status: 'RESPONSIVE_AUTHORITY_REQUIRED', missing: [`${r.viewport} authority (do not shrink / stretch ${a.viewports.join('/')})`] };
@@ -380,5 +447,5 @@ export function guardPageGeneration(r: PageGenerationRequest): PageGenerationVer
     const leaked = (r.runtime_assets ?? []).filter((p) => a.reference_paths.includes(p));
     if (leaked.length) return { status: 'AUTHORITY_AS_RUNTIME_ASSET', missing: leaked };
   }
-  return { status: 'GENERATE', inputs: ['BRAND_DNA', 'EXPERIENCE_CONTRACT', ...(r.material ? ['PAGE_FAMILY_AUTHORITY'] : []), 'STATE', 'VIEWPORT'] };
+  return { status: 'GENERATE', inputs: ['BRAND_DNA', 'EXPERIENCE_CONTRACT', ...(r.material ? ['PAGE_FAMILY_AUTHORITY', 'PAGE_TREE'] : []), 'STATE', 'VIEWPORT'] };
 }

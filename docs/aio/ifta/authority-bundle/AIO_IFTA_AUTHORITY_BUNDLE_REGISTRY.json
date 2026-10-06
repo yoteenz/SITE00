@@ -1,0 +1,2275 @@
+{
+  "id": "AIO_IFTA_AUTHORITY_BUNDLE_REGISTRY",
+  "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
+  "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
+  "generated_for": "2026-10-06",
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "legacy_visual_authority": "FORBIDDEN"
+  },
+  "attachment": "AIO_IFTA_AUTHORITY_BUNDLE_LEAN.zip",
+  "bundle_dir": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE",
+  "ingest_status": "PASS — 12 images + README + manifest stored byte-for-byte with sha256; every file has an authority role.",
+  "pipeline": [
+    {
+      "step": "01",
+      "id": "LOCK_CLIENT_PARENT_AUTHORITY",
+      "status": "DONE_BY_FOUNDER"
+    },
+    {
+      "step": "02",
+      "id": "DERIVE_3_ACTOR_MODES",
+      "status": "DONE_BY_FOUNDER"
+    },
+    {
+      "step": "03",
+      "id": "DERIVE_TABLET_DESKTOP_PER_MODE",
+      "status": "DONE_BY_FOUNDER"
+    },
+    {
+      "step": "04",
+      "id": "DEFINE_PAGE_COMPONENT_INTERACTION_CONTRACT",
+      "status": "DONE_BY_FOUNDER"
+    },
+    {
+      "step": "05",
+      "id": "DEFINE_EVERY_TAB_AS_FIRST_CLASS_NODE",
+      "status": "DONE_BY_FOUNDER (tab contracts) · EXPANDED BY THIS SPRINT (tree)"
+    },
+    {
+      "step": "06",
+      "id": "CREATE_ICON_ASSET_SHEET",
+      "status": "DONE_BY_FOUNDER"
+    },
+    {
+      "step": "07",
+      "id": "LOCK_AUTHORITY_PACKAGE",
+      "status": "DONE_BY_FOUNDER"
+    },
+    {
+      "step": "08",
+      "id": "BRAIN_INGESTS_PACKAGE",
+      "status": "THIS_SPRINT"
+    },
+    {
+      "step": "09",
+      "id": "BRAIN_PRODUCES_PAGE_TAB_STATE_TREE",
+      "status": "THIS_SPRINT"
+    },
+    {
+      "step": "10",
+      "id": "FOUNDER_CONFIRMS_TREE",
+      "status": "PENDING_FOUNDER"
+    },
+    {
+      "step": "11",
+      "id": "IMPLEMENTATION_MAY_BEGIN",
+      "status": "BLOCKED_UNTIL_10"
+    }
+  ],
+  "doctrine": [
+    "AUTHOR FIRST.",
+    "DERIVE SECOND.",
+    "SPECIFY THIRD.",
+    "IMPLEMENT LAST.",
+    "UPSTREAM DEFINES INTENT.",
+    "DOWNSTREAM INCREASES FIDELITY."
+  ],
+  "manifest": {
+    "project": "ALL IN ONE ENTERPRISES INC",
+    "feature_family": "IFTA / FUEL TAX",
+    "bundle_name": "AIO_IFTA_AUTHORITY_BUNDLE",
+    "legacy_visual_authority": "FORBIDDEN",
+    "client_theme": "LIGHT_PRIMARY",
+    "founder_staff_theme": "LIGHT_PRIMARY_DENSE_OPERATIONAL",
+    "public_theme": "DARK_PRIMARY_CINEMATIC",
+    "top_nav_logo_rule": "SIMPLE_MARK_ONLY",
+    "lower_brand_band_logo_rule": "FULL_LOCKUP_ALLOWED",
+    "typography_rule": "UPPERCASE_PRIMARY"
+  },
+  "absent_folders": [
+    "05_* (no folder 05 in the package; numbering skips from 04 to 06)"
+  ],
+  "files": [
+    {
+      "ref_id": "BRAND_DNA_BOARD",
+      "bundle_path": "00_BRAND/AIO_BRAND_DNA_BOARD.jpeg",
+      "sha256": "9c032a722a4fcac1f5257cce2e85242c5aacbac136f0840e889cf717fd84284a",
+      "bytes": 680117,
+      "media": "image/jpeg",
+      "dimensions": "1448x1086",
+      "folder": "00_BRAND",
+      "authority_kind": "BRAND_AUTHORITY",
+      "role": "AIO brand DNA: palette, uppercase typography, logo lockup + app / nav mark, brand language, icon direction, photography direction, materials, principles.",
+      "actors": [
+        "PUBLIC",
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "viewports": [],
+      "theme": null,
+      "governs": [
+        "brand palette",
+        "typography system",
+        "icon direction",
+        "photography direction",
+        "material world",
+        "brand principles"
+      ],
+      "extracted": [
+        "Palette: OBSIDIAN #050505 (primary background) · CHARCOAL #1A1A1A (secondary surfaces) · SIGNATURE GOLD #D4A853 (primary accent) · CHAMPAGNE #EBD9B7 (supporting accent) · PLATINUM #C0C6CC (secondary metallic) · STONE WHITE #F6F6F4 (light background)",
+        "Typography (UPPERCASE ONLY): MONUMENT EXTENDED (primary headline) · INTER (secondary) · BEBAS NEUE (accent / label)",
+        "Icon direction: LINEAR · STRUCTURED · PREMIUM",
+        "Photography: TRUCKING · OPERATIONS · PEOPLE · INFRASTRUCTURE",
+        "Materials: GOLD · BRUSHED METAL · CARBON · MARBLE · ROAD",
+        "Principles: TRUSTED PARTNER · INDUSTRY EXPERIENCE · NATIONWIDE SUPPORT · BUILT FOR GROWTH",
+        "Shows website homepage expression and client portal expression thumbnails"
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/00_BRAND/AIO_BRAND_DNA_BOARD.jpeg",
+      "defects": [],
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "FULL_LOGO_LOCKUP",
+      "bundle_path": "00_BRAND/AIO_FULL_LOGO_LOCKUP.jpeg",
+      "sha256": "3864b9ea7faac5028d5ef83afa60f98515c9d6520489cdc40b20e1beec84861e",
+      "bytes": 183619,
+      "media": "image/jpeg",
+      "dimensions": "1448x1086",
+      "folder": "00_BRAND",
+      "authority_kind": "BRAND_AUTHORITY",
+      "role": "Full ALL IN ONE ENTERPRISES INC. lockup — allowed only in spacious lower brand bands / footer / exit regions.",
+      "actors": [
+        "PUBLIC",
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "viewports": [],
+      "theme": null,
+      "governs": [
+        "BRAND_EXIT_BAND logo",
+        "footer logo"
+      ],
+      "extracted": [
+        "Monogram + ALL IN ONE / ENTERPRISES INC. wordmark"
+      ],
+      "defects": [
+        "Raster reference on a background — no transparent production lockup for light and dark bands (runtime asset gap)."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/00_BRAND/AIO_FULL_LOGO_LOCKUP.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "SIMPLE_NAV_MARK",
+      "bundle_path": "00_BRAND/AIO_SIMPLE_NAV_MARK.jpeg",
+      "sha256": "31f7dfa144f9909af9281b544c6929e69ca7f117adc4d4624788320b4bda475a",
+      "bytes": 229241,
+      "media": "image/jpeg",
+      "dimensions": "1254x1254",
+      "folder": "00_BRAND",
+      "authority_kind": "BRAND_AUTHORITY",
+      "role": "Simple AIO mark — the only logo allowed in tight / top navigation, app launchers and favicons.",
+      "actors": [
+        "PUBLIC",
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "viewports": [],
+      "theme": null,
+      "governs": [
+        "TOP_NAV mark",
+        "favicon / app launcher"
+      ],
+      "extracted": [
+        "Monogram on a dark rounded tile with a silver rim"
+      ],
+      "defects": [
+        "Only a dark-tile raster exists — no light-theme or transparent vector mark for the LIGHT_PRIMARY client / staff nav (runtime asset gap)."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/00_BRAND/AIO_SIMPLE_NAV_MARK.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "CLIENT_3_TERRITORIES",
+      "bundle_path": "01_TERRITORY_SELECTION/AIO_IFTA_CLIENT_3_TERRITORIES.jpeg",
+      "sha256": "817f3c4f9adc7269d5c27d7f950a326965ac1af6296301c2f27acf0b53c9c91a",
+      "bytes": 694320,
+      "media": "image/jpeg",
+      "dimensions": "1448x1086",
+      "folder": "01_TERRITORY_SELECTION",
+      "authority_kind": "TERRITORY_SELECTION",
+      "role": "The three original client composition territories (gate step 04–05): 01 THE EXECUTIVE DOSSIER · 02 THE SPATIAL WORKROOM · 03 THE ANALYTICS COMMAND. The founder approved 03 rendered LIGHT (LIGHT ANALYTICS COMMAND).",
+      "actors": [
+        "CLIENT"
+      ],
+      "viewports": [
+        "MOBILE"
+      ],
+      "theme": "DARK (selection board)",
+      "governs": [
+        "territory lineage",
+        "distinctness proof"
+      ],
+      "extracted": [
+        "01 EXECUTIVE DOSSIER — cinematic office hero, quarter overview card, horizontal 4-step stepper, physical Q3 2026 IFTA FILING PACKET binder beside a 6-line checklist, recent uploads + jurisdiction breakdown, NEXT ACTION bar",
+        "02 SPATIAL WORKROOM — immersive glass-room hero, circular 4-step stepper, six glass cubes on a round platform (one per checklist line), jurisdiction map + recent uploads, CONTINUE bar",
+        "03 ANALYTICS COMMAND — highway hero with IN PROGRESS chip, metrics rail with sparklines, TAB BAR (PROGRESS · FUEL PURCHASES · MILEAGE · VEHICLES · JURISDICTIONS · DOCUMENTS), vertical 4-step workflow + AIO PREPARATION checklist panel, jurisdiction map, recent uploads, AIO insights, GO TO REVIEW MILEAGE SUMMARY rail"
+      ],
+      "defects": [
+        "01 copy “ORGANIZED. AUTOMATED. HANDLED BY AIO.” overstates automation (not selected; recorded only)."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_CLIENT_3_TERRITORIES.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "ACTOR_MODES_MOBILE",
+      "bundle_path": "01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg",
+      "sha256": "1be8c6926ac2966b51ddee7b409d60168786fd922777a73210582cd9db5c7164",
+      "bytes": 692739,
+      "media": "image/jpeg",
+      "dimensions": "1536x1024",
+      "folder": "01_TERRITORY_SELECTION",
+      "authority_kind": "ACTOR_MODE_DERIVATION",
+      "role": "Three actor modes derived from the client parent (gate derivation): CLIENT light · FOUNDER / STAFF light dense with dark operational accents · PUBLIC dark cinematic. Governs staff and public MOBILE.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "PUBLIC"
+      ],
+      "viewports": [
+        "MOBILE"
+      ],
+      "theme": "LIGHT · LIGHT_DENSE · DARK",
+      "governs": [
+        "FOUNDER_STAFF mobile",
+        "PUBLIC mobile",
+        "actor differentiation"
+      ],
+      "extracted": [
+        "CLIENT (ALEX R. CLIENT): parent composition; tabs PROGRESS … DOCUMENTS + NOTES",
+        "STAFF (TAYLOR M. AIO STAFF): CLIENT HEALTH dark panel (data completeness 98%, fuel receipts 24/24, jurisdictions 8/8, review readiness ON TRACK) + LOW RISK chip; tabs OVERVIEW · FUEL PURCHASES · MILEAGE · VEHICLES · JURISDICTIONS · DOCUMENTS · NOTES; FILING WORKFLOW with dates; QUARTER TASKS; MILEAGE BY JURISDICTION bars; FUEL PURCHASES donut; RECENT CLIENT ACTIVITY; AIO TEAM ACTIVITY; RISKS / FLAGS; OPEN RETURN DRAFT rail; band OPERATIONS · COMPLIANCE · CLIENT SUCCESS",
+        "PUBLIC: dark; GET STARTED + menu in nav; sample quarter hero + SEE HOW IT WORKS; sample metrics; A CLEAR PATH FROM MILES TO COMPLIANCE; 5 process tiles; 8 JURISDICTIONS ONE RETURN map; BUILT FOR OWNER OPERATORS AND FLEETS (ACCURATE · EFFICIENT · COMPLIANT); band DRIVEN BY COMPLIANCE. BUILT FOR WHAT MOVES YOU."
+      ],
+      "defects": [
+        "Staff persona TAYLOR M. here vs ALEX R. AIO STAFF on the staff tablet / desktop (sample-data inconsistency).",
+        "Public copy “simple, organized, and automated” and “we track your fuel, mileage, and routes” overstate current capability (content truth)."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "CLIENT_MOBILE_PARENT_AUTHORITY",
+      "bundle_path": "02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_PARENT_AUTHORITY.jpeg",
+      "sha256": "6d36ba747e42da733ed3395c3b53dd46f2b4fbb6df3e149a507e7a104b5e3e97",
+      "bytes": 497718,
+      "media": "image/jpeg",
+      "dimensions": "1206x2127",
+      "folder": "02_CLIENT_MODE",
+      "authority_kind": "PARENT_AUTHORITY",
+      "role": "APPROVED CLIENT PARENT AUTHORITY — LIGHT ANALYTICS COMMAND (mobile). Family composition DNA every tab, child, actor and viewport derives from.",
+      "actors": [
+        "CLIENT"
+      ],
+      "viewports": [
+        "MOBILE"
+      ],
+      "theme": "LIGHT_PRIMARY",
+      "governs": [
+        "family shell",
+        "hero logic",
+        "metrics rail",
+        "tab logic",
+        "process status",
+        "actionable panels",
+        "map / data viz",
+        "recent activity",
+        "AIO insights",
+        "next-action rail",
+        "lower brand band",
+        "CLIENT / PROGRESS / MOBILE"
+      ],
+      "extracted": [
+        "TOP NAV: simple mark · search · notifications · avatar",
+        "HERO: IFTA FILING ROOM · Q3 2026 · JUL 1 – SEP 30, 2026 · REAL DATA. REAL PROGRESS. EVERY MILE ACCOUNTED FOR. · IN PROGRESS chip · cinematic truck / mountain highway perimeter",
+        "METRICS RAIL: 48,320 TOTAL MILES · 7,420 TOTAL FUEL (GAL) · 8 JURISDICTIONS · $2,184.32 EST. TAX DUE",
+        "TAB BAR: PROGRESS · FUEL PURCHASES · MILEAGE · VEHICLES · JURISDICTIONS · DOCUMENTS (horizontal scroll)",
+        "CHECKLIST: FUEL PURCHASES 24 of 24 records · MILEAGE BY JURISDICTION processed · VEHICLE & TRIP DATA processed · IFTA RETURN PREPARATION in progress · YOUR REVIEW & APPROVAL pending · FILING & CONFIRMATION pending",
+        "FILING PROGRESS: 01 DATA COLLECTION complete · 02 AIO PREPARATION in progress · 03 REVIEW & APPROVE pending · 04 FILE & CONFIRM pending",
+        "JURISDICTION BREAKDOWN map: TX 24% · OK 18% · NM 12% · AR 10% · LA 9% · OTHER 27%",
+        "RECENT UPLOADS: fuel receipts (24 files) · TA mileage export · fleet CSV upload",
+        "AIO INSIGHTS · RECENT ACTIVITY",
+        "NEXT-ACTION RAIL (dark): GO TO REVIEW MILEAGE SUMMARY",
+        "LOWER BRAND BAND: full lockup · DATA · COMPLIANCE · REAL PROGRESS"
+      ],
+      "defects": [
+        "Upload row label typo “FUEL FUEL RECEIPTS”.",
+        "EST. TAX DUE shown during AIO PREPARATION although no tax figure exists until staff prepares the return summary (data truth — decision D-EST-TAX)."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_PARENT_AUTHORITY.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "FUEL_PURCHASES_CHILD_PROOF",
+      "bundle_path": "02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_FUEL_PURCHASES_PROOF.jpeg",
+      "sha256": "d6ac1238a7b21637c5114419db7dd00ea77699aeeefc708a234e531807f2af31",
+      "bytes": 428732,
+      "media": "image/jpeg",
+      "dimensions": "864x1536",
+      "folder": "02_CLIENT_MODE",
+      "authority_kind": "CHILD_PROOF",
+      "role": "DERIVATION PROOF (not a template): the parent authority propagates into tab-specific page logic for FUEL PURCHASES without reconceptualising the visual language. Founder approved the cohesion.",
+      "actors": [
+        "CLIENT"
+      ],
+      "viewports": [
+        "MOBILE"
+      ],
+      "theme": "LIGHT_PRIMARY",
+      "governs": [
+        "CLIENT / FUEL_PURCHASES / MOBILE",
+        "tab derivation rule (inherit shell, override task / data / modules / actions / states)"
+      ],
+      "extracted": [
+        "HERO: IFTA FILING ROOM / Q3 2026 FUEL PURCHASES (same perimeter, tab-specific title)",
+        "METRICS: TOTAL FUEL · RECEIPTS UPLOADED 24 · VENDORS 5 · EST. FUEL SPEND",
+        "UPLOAD ZONE: drag & drop · PDF, JPG, PNG (MAX 10MB EACH) · CHOOSE FILES",
+        "RECENT FUEL PURCHASES table: date · vendor · gallons · amount · status (PROCESSED · NEEDS REVIEW · MISSING DETAILS) · row menu",
+        "RECEIPT STATUS counts: processed 18 · needs review 4 · missing details 2",
+        "FUEL SPEND BY VENDOR donut · AIO INSIGHTS · RECENT ACTIVITY",
+        "NEXT-ACTION RAIL: CONTINUE TO MILEAGE BY JURISDICTION"
+      ],
+      "defects": [
+        "No STATE / jurisdiction column although the FUEL PURCHASES contract requires STATE (sprint §12) — implementation adds it inside the table component (content fit, not new design).",
+        "Third-party fuel-brand logos in vendor cells conflict with the asset sheet rule “do not include any third-party branding” — vendor names render as text.",
+        "Only three status chips; DUPLICATE and UNREADABLE are required by contract (mapped to the status chip family — see state registry)."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_FUEL_PURCHASES_PROOF.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "CLIENT_TABLET_DESKTOP",
+      "bundle_path": "02_CLIENT_MODE/AIO_IFTA_CLIENT_TABLET_DESKTOP.jpeg",
+      "sha256": "0984f4e3fb5b5b613a6fc08286e20e8ba1eec2345b819c7236bccbe01fd44a4f",
+      "bytes": 629532,
+      "media": "image/jpeg",
+      "dimensions": "1448x1086",
+      "folder": "02_CLIENT_MODE",
+      "authority_kind": "VIEWPORT_DERIVATION",
+      "role": "Client TABLET (recomposed two-column) + DESKTOP (expanded three-column workspace) derived from the parent.",
+      "actors": [
+        "CLIENT"
+      ],
+      "viewports": [
+        "TABLET",
+        "DESKTOP"
+      ],
+      "theme": "LIGHT_PRIMARY",
+      "governs": [
+        "CLIENT / * / TABLET",
+        "CLIENT / * / DESKTOP"
+      ],
+      "extracted": [
+        "TABLET: hero + metrics rail full width; tab bar; 2-col rows (FILING PROGRESS | QUICK ACTIONS), (JURISDICTION BREAKDOWN | RECENT UPLOADS), (AIO INSIGHTS | RECENT ACTIVITY); full-width GO TO REVIEW MILEAGE SUMMARY rail; lockup band",
+        "DESKTOP: hero with account card; metrics rail; tab bar + NOTES + quarter selector Q3 2026 ▾; 3-col rows (FILING PROGRESS WORKFLOW with dates | QUARTER TASKS | MILEAGE BY JURISDICTION bars), (JURISDICTION BREAKDOWN | FUEL PURCHASES donut | VEHICLE & TRIP DATA trucks 101–104), (RECENT UPLOADS table | RECENT ACTIVITY table | AIO INSIGHTS); CTA rail beside the lockup band (OPERATIONS · COMPLIANCE · CLIENT SUCCESS)"
+      ],
+      "defects": [
+        "Desktop shows staff-only content in client mode: CLIENT: ALEX R. / ACCOUNT #AIO-1042 card, CLIENT HEALTH button, QUARTER TASKS with “Internal QA” and “Check jurisdiction rates” (decision D-CLIENT-DESKTOP-STAFF-MODULES).",
+        "Desktop adds a NOTES tab not in the approved parent’s six tabs (decision D-NOTES-TAB)."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_TABLET_DESKTOP.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "FOUNDER_STAFF_TABLET_DESKTOP",
+      "bundle_path": "03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg",
+      "sha256": "dd249db9be9334d13265dc2c9ae48f6739121f2c04436a2bf0dbd781237052b2",
+      "bytes": 654197,
+      "media": "image/jpeg",
+      "dimensions": "1448x1086",
+      "folder": "03_FOUNDER_STAFF_MODE",
+      "authority_kind": "VIEWPORT_DERIVATION",
+      "role": "Founder / staff TABLET (1024×1366) + DESKTOP (1440×1024): the same filing room as a single client-quarter CASE FILE — light primary, denser, dark operational accents.",
+      "actors": [
+        "FOUNDER_STAFF"
+      ],
+      "viewports": [
+        "TABLET",
+        "DESKTOP"
+      ],
+      "theme": "LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
+      "governs": [
+        "FOUNDER_STAFF / CASE / TABLET",
+        "FOUNDER_STAFF / CASE / DESKTOP"
+      ],
+      "extracted": [
+        "HERO: IFTA FILING ROOM Q3 2026 · CLIENT: ALEX R. ACCOUNT #AIO-1042 · IN PROGRESS · dark CLIENT HEALTH panel (data completeness 98% · fuel receipts 24/24 · jurisdictions 8/8 · return readiness ON TRACK) + LOW RISK",
+        "METRICS with deltas vs Q2 2026 (+6% · +3% · no change · −12%)",
+        "TABS: OVERVIEW · FUEL PURCHASES · MILEAGE · VEHICLES · JURISDICTIONS · DOCUMENTS · NOTES + EXPORT REPORT",
+        "FILING WORKFLOW with dates · QUARTER TASKS with assignee initials + due dates · IMPORTANT DATES (return period · draft target Oct 28 · client review Oct 30 · file & pay deadline Oct 31)",
+        "MILEAGE BY JURISDICTION bars · FUEL PURCHASES donut with gallons · VEHICLES (Unit 101–105, view all 12)",
+        "RECENT CLIENT ACTIVITY (type · activity · date · by) · AIO TEAM ACTIVITY (user · activity · date) · RISKS / FLAGS (no issues · jurisdiction changes · review recommended · missing documents: 1 fuel receipt Unit 104)",
+        "OPEN RETURN DRAFT dark rail · lockup band OPERATIONS · COMPLIANCE · CLIENT SUCCESS"
+      ],
+      "defects": [
+        "Single client-quarter only — no authority for the multi-client FUEL TAX QUEUE (contract work_queue) → reference gap."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "PUBLIC_TABLET_DESKTOP",
+      "bundle_path": "04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg",
+      "sha256": "fba90e92f422552449c6f1986446d829d92fa94ed9d4fed69782fac25c86dcf1",
+      "bytes": 728775,
+      "media": "image/jpeg",
+      "dimensions": "1448x1086",
+      "folder": "04_PUBLIC_CUSTOMER_MODE",
+      "authority_kind": "VIEWPORT_DERIVATION",
+      "role": "Public / customer TABLET + DESKTOP: a dark cinematic service experience derived from the same family DNA — not the client app with data hidden.",
+      "actors": [
+        "PUBLIC"
+      ],
+      "viewports": [
+        "TABLET",
+        "DESKTOP"
+      ],
+      "theme": "DARK_PRIMARY_CINEMATIC",
+      "governs": [
+        "PUBLIC / ROOT / TABLET",
+        "PUBLIC / ROOT / DESKTOP"
+      ],
+      "extracted": [
+        "NAV (desktop): IFTA FILING ROOM · HOW IT WORKS · FEATURES · JURISDICTIONS · RESOURCES · search · GET STARTED; (tablet) search · GET STARTED · menu",
+        "HERO: sample Q3 2026 quarter · SEE HOW IT WORKS · sample metrics rail",
+        "A CLEAR PATH FROM MILES TO COMPLIANCE copy + GET STARTED + REAL DRIVERS. REAL ROADS. REAL COMPLIANCE. image card",
+        "OUR IFTA PROCESS KEEPS YOU ON TRACK: 01 FUEL PURCHASES · 02 MILEAGE BY JURISDICTION · 03 VEHICLE & TRIP DATA · 04 RETURN PREPARATION · 05 FILING & CONFIRMATION",
+        "8 JURISDICTIONS ONE RETURN map · BUILT FOR OWNER OPERATORS AND FLEETS: ACCURATE · EFFICIENT · COMPLIANT",
+        "Lower brand band: full lockup · DRIVEN BY COMPLIANCE. BUILT FOR WHAT MOVES YOU. · DATA | COMPLIANCE | REAL PROGRESS"
+      ],
+      "defects": [
+        "Copy claims (“calculate your return”, “we calculate your IFTA return for you”, “submit with confidence”, “automated tracking”, “track miles by state or province”) exceed current truth: staff-coordinated filing, no government API, no tax engine, US states only (decision D-PUBLIC-COPY-TRUTH).",
+        "Sample quarter metrics must be labelled SAMPLE — public mode never shows private client data.",
+        "RESOURCES nav item has no section composition in the reference."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "PAGE_COMPONENT_INTERACTION_CONTRACT",
+      "bundle_path": "06_CONTRACTS/AIO_IFTA_PAGE_COMPONENT_INTERACTION_CONTRACT.png",
+      "sha256": "b005a82c802910a4271341976eb15e00dbf6a323398e32e7cae5578db665ccce",
+      "bytes": 1836915,
+      "media": "image/png",
+      "dimensions": "1448x1086",
+      "folder": "06_CONTRACTS",
+      "authority_kind": "CONTRACT_AUTHORITY",
+      "role": "Page / component / interaction contract: page family overview, actor modes, tab contracts, component stack, interactions, states, responsive notes, data relationships.",
+      "actors": [
+        "PUBLIC",
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "viewports": [
+        "MOBILE",
+        "TABLET",
+        "DESKTOP"
+      ],
+      "theme": null,
+      "governs": [
+        "tab contracts",
+        "component stack",
+        "interaction list",
+        "UI states",
+        "responsive notes",
+        "data relationships"
+      ],
+      "extracted": [
+        "01 page family overview: purpose · trust tone · shared shell",
+        "02 actor modes: client light · founder / staff light · public dark",
+        "03 tab contracts: PROGRESS (track end-to-end filing progress) · FUEL PURCHASES (manage and verify fuel receipts) · MILEAGE (track mileage by jurisdiction) · VEHICLES (manage vehicle and trip data) · JURISDICTIONS (configure jurisdictions and tax rules) · DOCUMENTS (manage filing documents and records)",
+        "04 component stack: 01 hero banner · 02 metrics rail · 03 tab bar · 04 workflow status · 05 task list / cards · 06 map panel · 07 recent uploads · 08 insights panel · 09 recent activity · 10 bottom CTA rail · 11 footer lockup",
+        "05 interactions: 01 upload receipt · 02 import CSV · 03 open detail drawer · 04 filter / sort · 05 verify record · 06 request correction · 07 review draft · 08 message team · 09 (illegible) · 10 submit for approval · 11 file & confirm",
+        "06 states: DEFAULT · LOADING · EMPTY (“No fuel purchases yet. Upload receipts or import your CSV file.”) · SUCCESS (“Record verified and saved.”) · WARNING / EXCEPTION (“Mileage outside expected range. Please review.”) · ERROR (“File could not be processed. Please check and try again.”)",
+        "07 responsive: mobile single column, stacked cards, bottom CTA · tablet two-column flexible modules · desktop multi-column full workspace",
+        "08 data relationships: fuel receipts + mileage logs + vehicles → jurisdictions (rates, rules, allocation) → tax estimate (liabilities by jurisdiction) → filing documents"
+      ],
+      "defects": [
+        "Interaction 09 label is illegible (“…FAQS”) — recorded as ILLEGIBLE_IN_AUTHORITY, never guessed (decision D-INTERACTION-09).",
+        "JURISDICTIONS “configure jurisdictions and tax rules / manage settings” is a staff capability; AIO holds no tax-rate table (data reconciliation).",
+        "VEHICLES “add / deactivate” belongs to the fleet profile; the quarter only records participation."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/06_CONTRACTS/AIO_IFTA_PAGE_COMPONENT_INTERACTION_CONTRACT.png",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "ICON_ASSET_SHEET",
+      "bundle_path": "06_CONTRACTS/AIO_IFTA_ICON_ASSET_SHEET.png",
+      "sha256": "42931fe1c6f9d8da07bf7bbf931dcd02964a236ec658e223ca6f197cb020626e",
+      "bytes": 1497422,
+      "media": "image/png",
+      "dimensions": "1448x1086",
+      "folder": "06_CONTRACTS",
+      "authority_kind": "ASSET_AUTHORITY",
+      "role": "Icon / asset sheet: brand-mark usage, IFTA UI color tokens, icon families, UI asset tiles, micro-styles, theme rules, typography and usage notes.",
+      "actors": [
+        "PUBLIC",
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "viewports": [],
+      "theme": null,
+      "governs": [
+        "icon families",
+        "status chips",
+        "buttons",
+        "tabs",
+        "cards",
+        "file badges",
+        "map legend",
+        "shadow levels",
+        "IFTA UI color tokens"
+      ],
+      "extracted": [
+        "Brand mark usage: top nav icon mark only (top navigation, app launchers, favicons) · footer full lockup only (includes tagline)",
+        "Color tokens: WHITE #FFFFFF (backgrounds, surfaces) · BLACK #0B0B0B (primary text, headings) · CHARCOAL #1F2937 (nav, footers, containers) · WARM GOLD #F4B223 (CTAs, highlights, active states) · SOFT GRAY #E5E7EB (borders, dividers) · SUCCESS GREEN #10B981 (complete) · IN-PROGRESS BLUE #3B82F6 (in progress, active) · WARNING AMBER #F59E0B (attention, warnings)",
+        "Icon families: METRICS (miles · fuel · tax due · jurisdictions) · WORKFLOW (data collection · prepare return · review & approve · send · file & confirm) · NAVIGATION (overview · filing · documents · vehicles · support · settings) · FILE / DOCUMENT (PDF · Excel · CSV · Document · Image · Text · Archive · Upload) · STATUS (complete · in progress · pending · attention) · COMMUNICATION / ACTION (search · notification · users · message · open / launch · more)",
+        "UI asset tiles: hero truck image treatment · jurisdiction map style · upload / document row card · avatar chip · search · notification · tab pill · metric card · CTA rail · progress step badge",
+        "Micro-styles: buttons primary gold / secondary outline / tertiary text · tabs active / inactive / hover / disabled (NOTES shown disabled) · card radius 12px, subtle shadow · divider 1px · status chips complete green / in progress blue / pending gray / attention amber · file badges PDF / XLS / CSV / DOC · map legend · shadow levels 1–3",
+        "Theme rules: client light (full features, self-service workflow) · founder / staff light (advanced tools, client management) · public dark (simplified, education)",
+        "Typography: headings INTER TIGHT uppercase bold / semibold · subheadings INTER TIGHT uppercase medium · body INTER uppercase regular, wider tracking (+2%)",
+        "Usage notes: uppercase throughout · top nav icon mark only · full lockup only in footers · consistent spacing, corners (12px) and shadows · no legacy shell or third-party branding · approved AIO visual language, colors and icons"
+      ],
+      "defects": [
+        "Color tokens and typography differ from the brand DNA board (decisions D-BRAND-TOKENS and D-TYPOGRAPHY).",
+        "Raster only — no vector icon set (runtime asset gap)."
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/06_CONTRACTS/AIO_IFTA_ICON_ASSET_SHEET.png",
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "BUNDLE_README",
+      "bundle_path": "README.txt",
+      "sha256": "d025524142392d9cd3a3de8fd0b12e354a01ef20e9fcdef31e83d16956c31b19",
+      "bytes": 1311,
+      "media": "text/plain",
+      "dimensions": null,
+      "folder": ".",
+      "authority_kind": "PACKAGE_META",
+      "role": "Package rules and contents; next pipeline step: authority bundle ingest → tab / page / state tree proof → founder confirmation → authority-driven implementation.",
+      "actors": [],
+      "viewports": [],
+      "theme": null,
+      "governs": [
+        "package rules"
+      ],
+      "extracted": [
+        "Legacy AIO visuals have ZERO design authority",
+        "SIMPLE AIO MARK only in tight / top navigation; FULL LOGO LOCKUP reserved for spacious lower brand bands / footer-style areas",
+        "CLIENT LIGHT · FOUNDER / STAFF LIGHT with denser operational intelligence · PUBLIC DARK cinematic",
+        "Typography UPPERCASE primary",
+        "Parent authority defines family composition DNA; tabs / children derive from it",
+        "Implementation may increase fidelity but may not violate core composition logic"
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/README.txt",
+      "defects": [],
+      "runtime_asset": false
+    },
+    {
+      "ref_id": "BUNDLE_MANIFEST",
+      "bundle_path": "manifest.json",
+      "sha256": "220ac976a75c60d27f97ee2df0f8637e0c5017abc0893d349505f5742d65ba70",
+      "bytes": 1194,
+      "media": "application/json",
+      "dimensions": null,
+      "folder": ".",
+      "authority_kind": "PACKAGE_META",
+      "role": "Machine manifest of the bundle (12 images + README).",
+      "actors": [],
+      "viewports": [],
+      "theme": null,
+      "governs": [
+        "package rules"
+      ],
+      "extracted": [
+        "legacy_visual_authority FORBIDDEN",
+        "client_theme LIGHT_PRIMARY",
+        "founder_staff_theme LIGHT_PRIMARY_DENSE_OPERATIONAL",
+        "public_theme DARK_PRIMARY_CINEMATIC",
+        "top_nav_logo_rule SIMPLE_MARK_ONLY",
+        "lower_brand_band_logo_rule FULL_LOCKUP_ALLOWED",
+        "typography_rule UPPERCASE_PRIMARY"
+      ],
+      "path": "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/manifest.json",
+      "defects": [],
+      "runtime_asset": false
+    }
+  ],
+  "role_summary": {
+    "BRAND_AUTHORITY": 3,
+    "TERRITORY_SELECTION": 1,
+    "ACTOR_MODE_DERIVATION": 1,
+    "PARENT_AUTHORITY": 1,
+    "CHILD_PROOF": 1,
+    "VIEWPORT_DERIVATION": 3,
+    "CONTRACT_AUTHORITY": 1,
+    "ASSET_AUTHORITY": 1,
+    "PACKAGE_META": 2
+  },
+  "brand_authority": {
+    "source_refs": [
+      "BRAND_DNA_BOARD",
+      "FULL_LOGO_LOCKUP",
+      "SIMPLE_NAV_MARK",
+      "ICON_ASSET_SHEET",
+      "BUNDLE_MANIFEST",
+      "BUNDLE_README"
+    ],
+    "master_tagline": "WHERE BUSINESS MEETS THE ROAD.",
+    "positioning": "THE BUSINESS OFFICE BEHIND THE TRUCK.",
+    "product_promise": "FROM STARTUP TO EVERY MILE AFTER.",
+    "secondary_line": "ONE OFFICE. THE WHOLE ROAD AHEAD.",
+    "voice": [
+      "CLEAR",
+      "CAPABLE",
+      "CONNECTED",
+      "HUMAN"
+    ],
+    "visual_language": [
+      "EXECUTIVE INDUSTRIAL",
+      "MODERN INFRASTRUCTURE",
+      "OPERATIONAL LUXURY"
+    ],
+    "material_world": [
+      "BLACK",
+      "GOLD",
+      "SILVER",
+      "OBSIDIAN",
+      "CHARCOAL",
+      "STONE",
+      "CHAMPAGNE",
+      "WHITE / IVORY FOR AUTHENTICATED WORKSPACES"
+    ],
+    "palette": [
+      {
+        "token": "OBSIDIAN",
+        "hex": "#050505",
+        "role": "primary background (dark / public)",
+        "source": "BRAND_DNA_BOARD"
+      },
+      {
+        "token": "CHARCOAL",
+        "hex": "#1A1A1A",
+        "role": "secondary surfaces",
+        "source": "BRAND_DNA_BOARD"
+      },
+      {
+        "token": "SIGNATURE_GOLD",
+        "hex": "#D4A853",
+        "role": "primary accent",
+        "source": "BRAND_DNA_BOARD"
+      },
+      {
+        "token": "CHAMPAGNE",
+        "hex": "#EBD9B7",
+        "role": "supporting accent",
+        "source": "BRAND_DNA_BOARD"
+      },
+      {
+        "token": "PLATINUM",
+        "hex": "#C0C6CC",
+        "role": "secondary metallic",
+        "source": "BRAND_DNA_BOARD"
+      },
+      {
+        "token": "STONE_WHITE",
+        "hex": "#F6F6F4",
+        "role": "light background (authenticated workspaces)",
+        "source": "BRAND_DNA_BOARD"
+      }
+    ],
+    "ifta_ui_tokens": [
+      {
+        "token": "WHITE",
+        "hex": "#FFFFFF",
+        "role": "backgrounds, surfaces",
+        "source": "ICON_ASSET_SHEET"
+      },
+      {
+        "token": "BLACK",
+        "hex": "#0B0B0B",
+        "role": "primary text, headings",
+        "source": "ICON_ASSET_SHEET"
+      },
+      {
+        "token": "CHARCOAL",
+        "hex": "#1F2937",
+        "role": "nav, footers, containers",
+        "source": "ICON_ASSET_SHEET"
+      },
+      {
+        "token": "WARM_GOLD",
+        "hex": "#F4B223",
+        "role": "CTAs, highlights, active states",
+        "source": "ICON_ASSET_SHEET"
+      },
+      {
+        "token": "SOFT_GRAY",
+        "hex": "#E5E7EB",
+        "role": "borders, dividers",
+        "source": "ICON_ASSET_SHEET"
+      },
+      {
+        "token": "SUCCESS_GREEN",
+        "hex": "#10B981",
+        "role": "complete, success states",
+        "source": "ICON_ASSET_SHEET"
+      },
+      {
+        "token": "IN_PROGRESS_BLUE",
+        "hex": "#3B82F6",
+        "role": "in progress, active states",
+        "source": "ICON_ASSET_SHEET"
+      },
+      {
+        "token": "WARNING_AMBER",
+        "hex": "#F59E0B",
+        "role": "attention, warnings",
+        "source": "ICON_ASSET_SHEET"
+      }
+    ],
+    "token_conflicts": [
+      {
+        "role": "primary accent / CTA gold",
+        "brand": "SIGNATURE_GOLD #D4A853",
+        "ifta_sheet": "WARM_GOLD #F4B223"
+      },
+      {
+        "role": "charcoal surfaces / containers",
+        "brand": "CHARCOAL #1A1A1A",
+        "ifta_sheet": "CHARCOAL #1F2937"
+      },
+      {
+        "role": "darkest ink / background",
+        "brand": "OBSIDIAN #050505",
+        "ifta_sheet": "BLACK #0B0B0B"
+      },
+      {
+        "role": "light background",
+        "brand": "STONE_WHITE #F6F6F4",
+        "ifta_sheet": "WHITE #FFFFFF"
+      }
+    ],
+    "typography": {
+      "rule": "UPPERCASE_PRIMARY",
+      "locked": [
+        "UPPERCASE primary throughout the UI (sprint §3, manifest, README, asset sheet usage notes)"
+      ],
+      "brand_dna_board": {
+        "headline": "MONUMENT EXTENDED",
+        "secondary": "INTER",
+        "accent_label": "BEBAS NEUE"
+      },
+      "ifta_asset_sheet": {
+        "headings": "INTER TIGHT — uppercase, bold / semibold",
+        "subheadings": "INTER TIGHT — uppercase, medium",
+        "body": "INTER — uppercase, regular, wider tracking (+2%)"
+      },
+      "agreement": "INTER is common to both.",
+      "conflict": "Display face: MONUMENT EXTENDED (+ BEBAS NEUE labels) on the brand board vs INTER TIGHT on the IFTA sheet.",
+      "licensing": "MONUMENT EXTENDED is a commercial face (not on Google Fonts) — a licence is needed before it can ship; INTER / INTER TIGHT / BEBAS NEUE are open (SIL OFL).",
+      "supersedes": "Code tokens Plus Jakarta Sans / DM Sans (src/styles/aio.css) were never founder-locked and have no authority for IFTA.",
+      "decision": "D-TYPOGRAPHY"
+    },
+    "logo": {
+      "status": "LOCKED",
+      "top_nav": {
+        "rule": "SIMPLE_MARK_ONLY",
+        "asset_ref": "SIMPLE_NAV_MARK",
+        "applies_to": [
+          "top navigation",
+          "tight navigation",
+          "app launchers",
+          "favicons"
+        ],
+        "forbidden": "the full text lockup in tight navigation"
+      },
+      "lower_band": {
+        "rule": "FULL_LOCKUP_ALLOWED",
+        "asset_ref": "FULL_LOGO_LOCKUP",
+        "applies_to": [
+          "spacious lower brand band",
+          "footer",
+          "exit region"
+        ]
+      },
+      "source": [
+        "sprint §4 (THIS RULE IS LOCKED)",
+        "manifest top_nav_logo_rule / lower_brand_band_logo_rule",
+        "ICON_ASSET_SHEET §1 brand mark usage"
+      ]
+    },
+    "actor_themes": {
+      "PUBLIC": {
+        "theme": "DARK_PRIMARY",
+        "manifest": "DARK_PRIMARY_CINEMATIC",
+        "role": [
+          "CINEMATIC",
+          "BRAND-FORWARD",
+          "ASPIRATIONAL",
+          "SERVICE EXPLANATION",
+          "CONVERSION"
+        ],
+        "asset_sheet": "dark, simplified, focused on education"
+      },
+      "CLIENT": {
+        "theme": "LIGHT_PRIMARY",
+        "manifest": "LIGHT_PRIMARY",
+        "role": [
+          "CALM",
+          "CLEAR",
+          "GUIDED",
+          "OPERATIONAL",
+          "LONG-SESSION FRIENDLY"
+        ],
+        "asset_sheet": "light, full features, self-service workflow"
+      },
+      "FOUNDER_STAFF": {
+        "theme": "LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
+        "manifest": "LIGHT_PRIMARY_DENSE_OPERATIONAL",
+        "role": [
+          "DENSER",
+          "HIGHER VISIBILITY",
+          "MORE CONTROL",
+          "MORE EXCEPTIONS",
+          "MORE OPERATIONAL INTELLIGENCE"
+        ],
+        "asset_sheet": "light, advanced tools, client management",
+        "dark_operational_accents": [
+          "CLIENT HEALTH panel",
+          "OPEN RETURN DRAFT rail",
+          "LOW RISK / risk chips"
+        ]
+      }
+    },
+    "icon_direction": "LINEAR · STRUCTURED · PREMIUM",
+    "photography": [
+      "TRUCKING",
+      "OPERATIONS",
+      "PEOPLE",
+      "INFRASTRUCTURE"
+    ],
+    "materials": [
+      "GOLD",
+      "BRUSHED METAL",
+      "CARBON",
+      "MARBLE",
+      "ROAD"
+    ],
+    "principles": [
+      "TRUSTED PARTNER",
+      "INDUSTRY EXPERIENCE",
+      "NATIONWIDE SUPPORT",
+      "BUILT FOR GROWTH"
+    ],
+    "lower_band_lines": {
+      "CLIENT": "DATA · COMPLIANCE · REAL PROGRESS",
+      "FOUNDER_STAFF": "OPERATIONS · COMPLIANCE · CLIENT SUCCESS",
+      "PUBLIC": "DRIVEN BY COMPLIANCE. BUILT FOR WHAT MOVES YOU."
+    },
+    "imagery_supersession": "The founder-approved bundle uses cinematic truck-on-highway hero perimeters. This supersedes the earlier IDNTY guidance against generic semi hero shots for the IFTA family (the IDNTY record should be updated by the founder)."
+  },
+  "brand_context": {
+    "brand_context_id": "AIO.BRAND@2026-10-06+IFTA_AUTHORITY_BUNDLE",
+    "project_id": "AIO",
+    "positioning": "WHERE BUSINESS MEETS THE ROAD. THE BUSINESS OFFICE BEHIND THE TRUCK. FROM STARTUP TO EVERY MILE AFTER.",
+    "audience": "Owner-operators, small and growing fleets, office managers and shippers — interstate carriers who need the business side of trucking handled.",
+    "voice": [
+      "CLEAR",
+      "CAPABLE",
+      "CONNECTED",
+      "HUMAN"
+    ],
+    "color": [
+      "OBSIDIAN #050505 — primary background (dark / public)",
+      "CHARCOAL #1A1A1A — secondary surfaces",
+      "SIGNATURE_GOLD #D4A853 — primary accent",
+      "CHAMPAGNE #EBD9B7 — supporting accent",
+      "PLATINUM #C0C6CC — secondary metallic",
+      "STONE_WHITE #F6F6F4 — light background (authenticated workspaces)",
+      "material world: BLACK",
+      "material world: GOLD",
+      "material world: SILVER",
+      "material world: OBSIDIAN",
+      "material world: CHARCOAL",
+      "material world: STONE",
+      "material world: CHAMPAGNE",
+      "material world: WHITE / IVORY FOR AUTHENTICATED WORKSPACES"
+    ],
+    "materials": [
+      "GOLD",
+      "BRUSHED METAL",
+      "CARBON",
+      "MARBLE",
+      "ROAD",
+      "brushed / satin metal (silver)",
+      "obsidian glass",
+      "charcoal steel",
+      "stone",
+      "champagne-gold accents",
+      "clean light operational surfaces (authenticated workspaces)"
+    ],
+    "typography": "UPPERCASE PRIMARY (locked). Brand DNA board: MONUMENT EXTENDED (headline) · INTER (secondary) · BEBAS NEUE (accent / label). IFTA asset sheet: INTER TIGHT headings · INTER body (+2% tracking). Display face open (D-TYPOGRAPHY). Code tokens Plus Jakarta Sans / DM Sans carry no authority.",
+    "logo_rules": "LOCKED: SIMPLE AIO MARK ONLY in tight / top navigation (also app launchers, favicons) — never the full text lockup there. FULL LOCKUP only in spacious lower brand bands / footer / exit regions.",
+    "mood": "OPERATIONAL LUXURY — executive industrial × modern infrastructure; calm control over a moving operation. Actor themes: PUBLIC DARK_PRIMARY cinematic · CLIENT LIGHT_PRIMARY · FOUNDER / STAFF LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS.",
+    "references": [
+      "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/00_BRAND/AIO_BRAND_DNA_BOARD.jpeg",
+      "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/00_BRAND/AIO_FULL_LOGO_LOCKUP.jpeg",
+      "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/00_BRAND/AIO_SIMPLE_NAV_MARK.jpeg",
+      "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/06_CONTRACTS/AIO_IFTA_ICON_ASSET_SHEET.png",
+      "Photography direction: TRUCKING · OPERATIONS · PEOPLE · INFRASTRUCTURE (cinematic truck-on-highway perimeters per the IFTA authorities)"
+    ],
+    "architectural_language": "The business office behind the truck: a command office over road infrastructure — rooms, desks, filed packets, ledgers, gauges; never a generic SaaS dashboard.",
+    "avoid_list": [
+      "Frontal Slayer typography",
+      "generic SaaS dashboard chrome",
+      "cartoon trucks",
+      "legal / government seals implying AIO is a government system",
+      "stock smiles",
+      "alarm red as decoration",
+      "implying AIO is a government system",
+      "full lockup in tight navigation",
+      "generic emoji / other icon families / random colors",
+      "third-party fuel-brand logos",
+      "legacy AIO shell visuals"
+    ],
+    "history": [
+      "AIO structural completion F01–F18 (canonical product graph)",
+      "Workspace Experience Brain AIO proof (28 material features; IFTA deepest proof)",
+      "Known failure: IFTA experience coded onto legacy page geometry (OLD PAGE + NEW CONTENT)",
+      "AIO IFTA authority bundle ingested 2026-10-06 (docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE)"
+    ],
+    "approved_decisions": [
+      "Brand lines: WHERE BUSINESS MEETS THE ROAD. / THE BUSINESS OFFICE BEHIND THE TRUCK. / FROM STARTUP TO EVERY MILE AFTER.",
+      "Voice: CLEAR · CAPABLE · CONNECTED · HUMAN",
+      "Register: EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE; palette BLACK GOLD SILVER OBSIDIAN CHARCOAL STONE CHAMPAGNE",
+      "IFTA metaphor: QUARTERLY FILING ROOM (experience contract)",
+      "Secondary line: ONE OFFICE. THE WHOLE ROAD AHEAD.",
+      "Logo: SIMPLE MARK ONLY in tight / top navigation; FULL LOCKUP only in lower brand bands (LOCKED)",
+      "Typography: UPPERCASE PRIMARY",
+      "Actor themes: PUBLIC DARK_PRIMARY · CLIENT LIGHT_PRIMARY · FOUNDER / STAFF LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
+      "IFTA client parent authority: LIGHT ANALYTICS COMMAND",
+      "Legacy AIO visuals have ZERO design authority"
+    ],
+    "open_brand_questions": [
+      "D-BRAND-TOKENS — brand DNA board vs IFTA asset sheet values for gold (#D4A853 vs #F4B223), charcoal (#1A1A1A vs #1F2937), darkest ink (#050505 vs #0B0B0B), light background (#F6F6F4 vs #FFFFFF).",
+      "D-TYPOGRAPHY — display face MONUMENT EXTENDED (+ BEBAS NEUE labels; commercial licence) vs INTER TIGHT.",
+      "Production brand assets not in the package: light-theme / transparent simple mark, transparent full lockups, approved hero photographs (reference images are not runtime assets)."
+    ]
+  },
+  "logo_rules": {
+    "status": "LOCKED",
+    "top_nav": {
+      "rule": "SIMPLE_MARK_ONLY",
+      "asset_ref": "SIMPLE_NAV_MARK",
+      "applies_to": [
+        "top navigation",
+        "tight navigation",
+        "app launchers",
+        "favicons"
+      ],
+      "forbidden": "the full text lockup in tight navigation"
+    },
+    "lower_band": {
+      "rule": "FULL_LOCKUP_ALLOWED",
+      "asset_ref": "FULL_LOGO_LOCKUP",
+      "applies_to": [
+        "spacious lower brand band",
+        "footer",
+        "exit region"
+      ]
+    },
+    "source": [
+      "sprint §4 (THIS RULE IS LOCKED)",
+      "manifest top_nav_logo_rule / lower_brand_band_logo_rule",
+      "ICON_ASSET_SHEET §1 brand mark usage"
+    ]
+  },
+  "actor_themes": {
+    "PUBLIC": {
+      "theme": "DARK_PRIMARY",
+      "manifest": "DARK_PRIMARY_CINEMATIC",
+      "role": [
+        "CINEMATIC",
+        "BRAND-FORWARD",
+        "ASPIRATIONAL",
+        "SERVICE EXPLANATION",
+        "CONVERSION"
+      ],
+      "asset_sheet": "dark, simplified, focused on education"
+    },
+    "CLIENT": {
+      "theme": "LIGHT_PRIMARY",
+      "manifest": "LIGHT_PRIMARY",
+      "role": [
+        "CALM",
+        "CLEAR",
+        "GUIDED",
+        "OPERATIONAL",
+        "LONG-SESSION FRIENDLY"
+      ],
+      "asset_sheet": "light, full features, self-service workflow"
+    },
+    "FOUNDER_STAFF": {
+      "theme": "LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
+      "manifest": "LIGHT_PRIMARY_DENSE_OPERATIONAL",
+      "role": [
+        "DENSER",
+        "HIGHER VISIBILITY",
+        "MORE CONTROL",
+        "MORE EXCEPTIONS",
+        "MORE OPERATIONAL INTELLIGENCE"
+      ],
+      "asset_sheet": "light, advanced tools, client management",
+      "dark_operational_accents": [
+        "CLIENT HEALTH panel",
+        "OPEN RETURN DRAFT rail",
+        "LOW RISK / risk chips"
+      ]
+    }
+  },
+  "territories": {
+    "rows": [
+      {
+        "territory_id": "AIO.IFTA.CLIENT.T01_EXECUTIVE_DOSSIER",
+        "project_id": "AIO",
+        "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+        "feature_id": "AIO.IFTA",
+        "actor": "CLIENT",
+        "name": "01 THE EXECUTIVE DOSSIER",
+        "concept": "CINEMATIC · PREMIUM · STRUCTURED — a polished, editorial experience that treats the quarter like a formal dossier.",
+        "metaphor": "EXECUTIVE DOSSIER — a bound quarter filing packet",
+        "primary_object": "THE QUARTER as a physical filing packet (binder object)",
+        "composition_logic": "One hero object (the packet) anchors the page; the checklist is its table of contents.",
+        "mobile_logic": "Stacked: hero card → stepper → packet → checklist → panels → next action.",
+        "desktop_logic": "Not shown in the selection board.",
+        "brand_fit": "Executive industrial; operational luxury.",
+        "experience_fit": "Matches the packet-builder archetype of the experience contract.",
+        "status": "IN_REVIEW",
+        "founder_decision": "NOT SELECTED — retained as lineage (founder LOVE_IT went to T03 rendered LIGHT)."
+      },
+      {
+        "territory_id": "AIO.IFTA.CLIENT.T02_SPATIAL_WORKROOM",
+        "project_id": "AIO",
+        "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+        "feature_id": "AIO.IFTA",
+        "actor": "CLIENT",
+        "name": "02 THE SPATIAL WORKROOM",
+        "concept": "IMMERSIVE · INTERACTIVE · OPERATIONAL — an environment-driven experience where the quarter becomes a physical workroom.",
+        "metaphor": "SPATIAL WORKROOM — six glass cubes on a round platform",
+        "primary_object": "THE QUARTER as an immersive room of six step cubes",
+        "composition_logic": "Spatial navigation replaces lists: the room is the interface.",
+        "mobile_logic": "Hero → stepper → 2×3 cube grid → panels → continue.",
+        "desktop_logic": "Not shown in the selection board.",
+        "brand_fit": "Modern infrastructure; cinematic.",
+        "experience_fit": "Expresses the six-step quarter; weak on compartments-as-data.",
+        "status": "IN_REVIEW",
+        "founder_decision": "NOT SELECTED — retained as lineage (founder LOVE_IT went to T03 rendered LIGHT)."
+      },
+      {
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "project_id": "AIO",
+        "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+        "feature_id": "AIO.IFTA",
+        "actor": "CLIENT",
+        "name": "03 THE ANALYTICS COMMAND",
+        "concept": "DATA-RICH · MODERN · HIGH-CONTROL — a focused, analytical experience centred on live data, maps and actionable insights.",
+        "metaphor": "ANALYTICS COMMAND — the quarter as a live command view",
+        "primary_object": "THE QUARTER (Q3 2026) — high-visibility quarter identity with live metrics",
+        "composition_logic": "Hero perimeter → data → tabs → panels → one next action; tabs are compartments of one quarter.",
+        "mobile_logic": "Single column: hero → metrics rail → scrollable tab bar → stacked panels → next-action rail → lower band.",
+        "desktop_logic": "Three-column panel grid under hero + metrics + tabs (CLIENT_TABLET_DESKTOP).",
+        "brand_fit": "Executive industrial × modern infrastructure × operational luxury.",
+        "experience_fit": "Desktop behaviour of the contract already models compartments as tabs of one packet.",
+        "status": "SELECTED",
+        "founder_decision": "LOVE_IT — approved as LIGHT ANALYTICS COMMAND (client parent authority)."
+      }
+    ],
+    "structure": [
+      {
+        "territory_id": "AIO.IFTA.CLIENT.T01_EXECUTIVE_DOSSIER",
+        "structure": {
+          "spatial_logic": "editorial dossier — packet object and checklist side by side under a horizontal stepper",
+          "primary_zone": "the filing packet binder object",
+          "visual_hierarchy": "object first (the packet), then the checklist, then data",
+          "interaction_emphasis": "open a checklist line from the packet",
+          "information_density": "balanced",
+          "media_relationship": "cinematic office interior as hero backdrop; the packet rendered as a physical object"
+        },
+        "page_logic": "Cinematic office hero with a quarter-overview card → horizontal four-step stepper → the packet object beside a six-line checklist → recent uploads + jurisdiction breakdown → next-action bar + help.",
+        "major_zones": [
+          "cinematic office hero + quarter overview card",
+          "horizontal 4-step stepper",
+          "filing packet object + checklist",
+          "recent uploads + jurisdiction breakdown",
+          "next-action bar + help"
+        ]
+      },
+      {
+        "territory_id": "AIO.IFTA.CLIENT.T02_SPATIAL_WORKROOM",
+        "structure": {
+          "spatial_logic": "immersive 3D room — six glass cubes arranged on a round platform",
+          "primary_zone": "the cube platform (one cube per filing step)",
+          "visual_hierarchy": "environment and current step first",
+          "interaction_emphasis": "enter a cube / step",
+          "information_density": "sparse",
+          "media_relationship": "immersive environment wraps the whole page"
+        },
+        "page_logic": "Immersive glass-room hero with a metrics column → circular four-step stepper → six glass cubes (one per checklist line) on a platform → jurisdiction map + recent uploads → continue bar + help.",
+        "major_zones": [
+          "immersive hero + metrics column",
+          "circular 4-step stepper",
+          "six-cube platform",
+          "jurisdiction map + recent uploads",
+          "continue bar + help"
+        ]
+      },
+      {
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "structure": {
+          "spatial_logic": "command dashboard — metrics rail and a tab family over a modular panel grid",
+          "primary_zone": "metrics rail + tab bar + process status panel",
+          "visual_hierarchy": "live data first (metrics), then process status, then insights",
+          "interaction_emphasis": "switch tabs and drill into data panels",
+          "information_density": "dense",
+          "media_relationship": "cinematic highway hero as a perimeter band above a clean operational body"
+        },
+        "page_logic": "Cinematic perimeter hero with quarter identity + state chip → metrics rail → tab family (PROGRESS · FUEL PURCHASES · MILEAGE · VEHICLES · JURISDICTIONS · DOCUMENTS) → process status + actionable panels (map, uploads, insights, activity) → strong next-action rail → full lower brand band.",
+        "major_zones": [
+          "perimeter hero + quarter identity + state chip",
+          "metrics rail",
+          "tab bar",
+          "process status (filing workflow + preparation checklist)",
+          "actionable panels (map / data viz · recent uploads · AIO insights · recent activity)",
+          "next-action rail + help",
+          "lower brand band"
+        ]
+      }
+    ],
+    "distinctness": {
+      "status": "TERRITORIES_DISTINCT",
+      "count": 3,
+      "pairs": [
+        {
+          "a": "AIO.IFTA.CLIENT.T01_EXECUTIVE_DOSSIER",
+          "b": "AIO.IFTA.CLIENT.T02_SPATIAL_WORKROOM",
+          "differing": [
+            "spatial_logic",
+            "primary_zone",
+            "visual_hierarchy",
+            "interaction_emphasis",
+            "information_density",
+            "media_relationship"
+          ],
+          "distinct": true
+        },
+        {
+          "a": "AIO.IFTA.CLIENT.T01_EXECUTIVE_DOSSIER",
+          "b": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+          "differing": [
+            "spatial_logic",
+            "primary_zone",
+            "visual_hierarchy",
+            "interaction_emphasis",
+            "information_density",
+            "media_relationship"
+          ],
+          "distinct": true
+        },
+        {
+          "a": "AIO.IFTA.CLIENT.T02_SPATIAL_WORKROOM",
+          "b": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+          "differing": [
+            "spatial_logic",
+            "primary_zone",
+            "visual_hierarchy",
+            "interaction_emphasis",
+            "information_density",
+            "media_relationship"
+          ],
+          "distinct": true
+        }
+      ],
+      "page_logic_missing": [],
+      "reasons": []
+    }
+  },
+  "references": {
+    "must_show": [
+      "composition",
+      "hierarchy",
+      "zones",
+      "media_relationship",
+      "interaction_emphasis",
+      "actor_intent"
+    ],
+    "client": [
+      {
+        "reference_id": "REF.CLIENT.T01.SELECTION_BOARD",
+        "territory_id": "AIO.IFTA.CLIENT.T01_EXECUTIVE_DOSSIER",
+        "format": "COMPOSED_BOARD",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_CLIENT_3_TERRITORIES.jpeg"
+        ],
+        "viewport": "MOBILE",
+        "states_shown": [
+          "AIO_REVIEW"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.CLIENT.T02.SELECTION_BOARD",
+        "territory_id": "AIO.IFTA.CLIENT.T02_SPATIAL_WORKROOM",
+        "format": "COMPOSED_BOARD",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_CLIENT_3_TERRITORIES.jpeg"
+        ],
+        "viewport": "MOBILE",
+        "states_shown": [
+          "AIO_REVIEW"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.CLIENT.T03.SELECTION_BOARD",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "COMPOSED_BOARD",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_CLIENT_3_TERRITORIES.jpeg"
+        ],
+        "viewport": "MOBILE",
+        "states_shown": [
+          "AIO_REVIEW"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.CLIENT.PARENT.MOBILE",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_PARENT_AUTHORITY.jpeg"
+        ],
+        "viewport": "MOBILE",
+        "states_shown": [
+          "AIO_REVIEW"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.CLIENT.FUEL_PURCHASES.MOBILE",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_FUEL_PURCHASES_PROOF.jpeg"
+        ],
+        "viewport": "MOBILE",
+        "states_shown": [
+          "COLLECTING",
+          "NEEDS_CLIENT"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.CLIENT.TABLET",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_TABLET_DESKTOP.jpeg"
+        ],
+        "viewport": "TABLET",
+        "states_shown": [
+          "AIO_REVIEW"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.CLIENT.DESKTOP",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_TABLET_DESKTOP.jpeg"
+        ],
+        "viewport": "DESKTOP",
+        "states_shown": [
+          "AIO_REVIEW"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      }
+    ],
+    "founder_staff": [
+      {
+        "reference_id": "REF.STAFF.MOBILE",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg"
+        ],
+        "viewport": "MOBILE",
+        "states_shown": [
+          "AIO_REVIEW",
+          "RECONCILING"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.STAFF.TABLET",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg"
+        ],
+        "viewport": "TABLET",
+        "states_shown": [
+          "AIO_REVIEW",
+          "RECONCILING"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.STAFF.DESKTOP",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg"
+        ],
+        "viewport": "DESKTOP",
+        "states_shown": [
+          "AIO_REVIEW",
+          "RECONCILING"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      }
+    ],
+    "public": [
+      {
+        "reference_id": "REF.PUBLIC.MOBILE",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg"
+        ],
+        "viewport": "MOBILE",
+        "states_shown": [
+          "NOT_ENROLLED"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.PUBLIC.TABLET",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg"
+        ],
+        "viewport": "TABLET",
+        "states_shown": [
+          "NOT_ENROLLED"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      },
+      {
+        "reference_id": "REF.PUBLIC.DESKTOP",
+        "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+        "format": "GENERATED_FULL_PAGE_REFERENCE",
+        "reference_paths": [
+          "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg"
+        ],
+        "viewport": "DESKTOP",
+        "states_shown": [
+          "NOT_ENROLLED"
+        ],
+        "shows": [
+          "composition",
+          "hierarchy",
+          "zones",
+          "media_relationship",
+          "interaction_emphasis",
+          "actor_intent"
+        ],
+        "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+        "paid_generation": false
+      }
+    ],
+    "paid_generation_note": "paid_generation is false for every reference: they are founder-supplied; Studio OS triggered no generation."
+  },
+  "founder_decisions": {
+    "CLIENT": {
+      "verdict": "LOVE_IT",
+      "territory_ids": [
+        "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+      ],
+      "notes": "Approved client parent authority: LIGHT ANALYTICS COMMAND (T03 structure; LIGHT_PRIMARY theme per actor theme authority). FUEL PURCHASES child derivation cohesion approved. Source: founder manual authority test (sprint §6–7) + bundle 02_CLIENT_MODE.",
+      "decided_at": "2026-10-06"
+    },
+    "FOUNDER_STAFF": {
+      "verdict": "LOVE_IT",
+      "territory_ids": [
+        "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+      ],
+      "notes": "Founder / staff mode derived from the client parent (pipeline steps 02–03) and locked in the authority package: LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS, denser. Source: bundle 01 ACTOR_MODES_MOBILE + 03_FOUNDER_STAFF_MODE.",
+      "decided_at": "2026-10-06"
+    },
+    "PUBLIC": {
+      "verdict": "LOVE_IT",
+      "territory_ids": [
+        "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+      ],
+      "notes": "Public / customer mode derived from the same family DNA (pipeline steps 02–03) and locked in the authority package: DARK_PRIMARY cinematic service experience. Source: bundle 01 ACTOR_MODES_MOBILE + 04_PUBLIC_CUSTOMER_MODE.",
+      "decided_at": "2026-10-06"
+    }
+  },
+  "page_family_authorities": {
+    "CLIENT": {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "authority_id": "AIO.IFTA.CLIENT.PFA.v1",
+      "actor": "CLIENT",
+      "viewports": [
+        "MOBILE",
+        "TABLET",
+        "DESKTOP"
+      ],
+      "state_coverage": [
+        "NOT_ENROLLED",
+        "QUARTER_OPEN",
+        "COLLECTING",
+        "NEEDS_CLIENT",
+        "OVERDUE_RISK",
+        "AIO_REVIEW",
+        "RECONCILING",
+        "AWAITING_APPROVAL",
+        "FILING",
+        "FILED",
+        "ARCHIVED",
+        "FILING_REJECTED"
+      ],
+      "territory_source": [
+        "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+      ],
+      "founder_status": "APPROVED",
+      "authority_level": "PAGE_FAMILY_AUTHORITY",
+      "core_logic_locks": [
+        {
+          "kind": "PRIMARY_OBJECT",
+          "value": "THE QUARTER (Q{n} {YYYY}) — high-visibility quarter identity with state chip in the hero"
+        },
+        {
+          "kind": "PRIMARY_COMPOSITION",
+          "value": "cinematic perimeter hero → metrics rail → tab family → process status + actionable panels on a clean light operational body → next-action rail → full lower brand band"
+        },
+        {
+          "kind": "MAJOR_ZONES",
+          "value": "hero · metrics rail · tab bar · process status (filing workflow + checklist) · actionable panels (map / data viz · recent uploads · AIO insights · recent activity) · next-action rail + help · lower brand band"
+        },
+        {
+          "kind": "CORE_HIERARCHY",
+          "value": "quarter identity + state → live metrics → active tab → process status / blockers → supporting panels"
+        },
+        {
+          "kind": "CTA_HIERARCHY",
+          "value": "exactly one dark next-action rail per tab × state (the single next thing); help rail (message your AIO team) secondary"
+        },
+        {
+          "kind": "SPATIAL_LOGIC",
+          "value": "tabs are compartments of one quarter — shared shell, own logic"
+        },
+        {
+          "kind": "MEDIA_RELATIONSHIP",
+          "value": "cinematic trucking perimeter above the body, never behind operational data"
+        },
+        {
+          "kind": "METAPHOR",
+          "value": "QUARTERLY FILING ROOM rendered as LIGHT ANALYTICS COMMAND"
+        },
+        {
+          "kind": "STATE_TRANSITION_LOGIC",
+          "value": "DATA COLLECTION → AIO PREPARATION → CLIENT REVIEW → FILE & CONFIRM over the contract state machine"
+        },
+        {
+          "kind": "ACTOR_INTENT",
+          "value": "I know exactly what AIO needs from me — and that the quarter is under control."
+        },
+        {
+          "kind": "APPROVED_TERRITORY",
+          "value": "T03 THE ANALYTICS COMMAND (LIGHT)"
+        }
+      ],
+      "flexible_implementation_areas": [
+        "SPACING",
+        "MARGINS",
+        "MICRO_SPACING",
+        "BREAKPOINTS",
+        "RESPONSIVE_BEHAVIOR",
+        "ACCESSIBILITY",
+        "MICRO_INTERACTIONS",
+        "MOTION",
+        "TRANSITIONS",
+        "MATERIAL_REALISM",
+        "MATERIAL_DEPTH",
+        "DENSITY",
+        "STATE_CLARITY",
+        "TYPOGRAPHIC_OPTICS",
+        "IMAGE_TREATMENT",
+        "MEDIA_FRAMING"
+      ],
+      "reference_paths": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_PARENT_AUTHORITY.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_FUEL_PURCHASES_PROOF.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_TABLET_DESKTOP.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_CLIENT_3_TERRITORIES.jpeg"
+      ],
+      "brand_context_id": "AIO.BRAND@2026-10-06+IFTA_AUTHORITY_BUNDLE",
+      "experience_contract_id": "AIO.IFTA@1.0.0",
+      "supersedes": null,
+      "lineage": {
+        "created": "2026-10-06",
+        "territory_lineage": [
+          "AIO.IFTA.CLIENT.T01_EXECUTIVE_DOSSIER",
+          "AIO.IFTA.CLIENT.T02_SPATIAL_WORKROOM",
+          "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+        ],
+        "founder_decisions": [
+          "LOVE_IT T03 THE ANALYTICS COMMAND rendered LIGHT_PRIMARY (client parent authority)",
+          "FUEL PURCHASES child derivation cohesion approved",
+          "Authority package locked (pipeline step 07)"
+        ],
+        "superseded_by": null,
+        "reason": "First page-family authority for AIO IFTA. The earlier quarter-jacket concept (fsbw docs/aio/experience-driven/ifta, sprint P0.AIO.EXPERIENCE-DRIVEN-PAGE-REFINEMENT1) was a concept for founder review, never an authority; it is superseded by this package."
+      }
+    },
+    "FOUNDER_STAFF": {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "authority_id": "AIO.IFTA.FOUNDER_STAFF.PFA.v1",
+      "actor": "FOUNDER_STAFF",
+      "viewports": [
+        "MOBILE",
+        "TABLET",
+        "DESKTOP"
+      ],
+      "state_coverage": [
+        "NOT_ENROLLED",
+        "QUARTER_OPEN",
+        "COLLECTING",
+        "NEEDS_CLIENT",
+        "OVERDUE_RISK",
+        "AIO_REVIEW",
+        "RECONCILING",
+        "AWAITING_APPROVAL",
+        "FILING",
+        "FILED",
+        "ARCHIVED",
+        "FILING_REJECTED"
+      ],
+      "territory_source": [
+        "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+      ],
+      "founder_status": "APPROVED",
+      "authority_level": "PAGE_FAMILY_AUTHORITY",
+      "core_logic_locks": [
+        {
+          "kind": "PRIMARY_OBJECT",
+          "value": "THE CLIENT-QUARTER CASE — one client’s Q{n} {YYYY} with client identity, account and CLIENT HEALTH"
+        },
+        {
+          "kind": "PRIMARY_COMPOSITION",
+          "value": "same family shell as the client parent; hero carries client identity + dark CLIENT HEALTH panel; metrics with prior-quarter deltas; tab family (OVERVIEW first) + EXPORT REPORT; denser operational panel grid; dark OPEN RETURN DRAFT rail; lower brand band"
+        },
+        {
+          "kind": "MAJOR_ZONES",
+          "value": "hero + client identity + CLIENT HEALTH / risk · metrics rail with deltas · tab bar + export · filing workflow with dates · quarter tasks with assignees · important dates · mileage bars · fuel donut · vehicles · recent client activity · AIO team activity · risks / flags · next-action rail · lower brand band"
+        },
+        {
+          "kind": "CORE_HIERARCHY",
+          "value": "client health / risk → metrics vs prior quarter → workflow + tasks + dates → flags and activity"
+        },
+        {
+          "kind": "CTA_HIERARCHY",
+          "value": "one dark staff next-action rail per state (OPEN RETURN DRAFT in preparation); operational actions inline on tasks / flags"
+        },
+        {
+          "kind": "CLIENT_STAFF_DISTINCTION",
+          "value": "MIRROR, NOT COPY — the same quarter as a case file: health, tasks, team activity, risks, overrides and audit; never the client’s guided flow"
+        },
+        {
+          "kind": "ACTOR_INTENT",
+          "value": "I can see exactly what is blocking this filing and act on it."
+        },
+        {
+          "kind": "APPROVED_TERRITORY",
+          "value": "derived from T03 THE ANALYTICS COMMAND (client parent)"
+        }
+      ],
+      "flexible_implementation_areas": [
+        "SPACING",
+        "MARGINS",
+        "MICRO_SPACING",
+        "BREAKPOINTS",
+        "RESPONSIVE_BEHAVIOR",
+        "ACCESSIBILITY",
+        "MICRO_INTERACTIONS",
+        "MOTION",
+        "TRANSITIONS",
+        "MATERIAL_REALISM",
+        "MATERIAL_DEPTH",
+        "DENSITY",
+        "STATE_CLARITY",
+        "TYPOGRAPHIC_OPTICS",
+        "IMAGE_TREATMENT",
+        "MEDIA_FRAMING",
+        "CONTROL_DENSITY",
+        "CONTROL_PLACEMENT"
+      ],
+      "reference_paths": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg"
+      ],
+      "brand_context_id": "AIO.BRAND@2026-10-06+IFTA_AUTHORITY_BUNDLE",
+      "experience_contract_id": "AIO.IFTA@1.0.0",
+      "supersedes": null,
+      "lineage": {
+        "created": "2026-10-06",
+        "territory_lineage": [
+          "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+        ],
+        "founder_decisions": [
+          "Derived from the locked client parent (pipeline steps 02–03); locked in the authority package (step 07)"
+        ],
+        "superseded_by": null,
+        "reason": "Covers the single client-quarter CASE FILE. The multi-client FUEL TAX QUEUE has no reference authority in the package (gap G-STAFF-QUEUE)."
+      }
+    },
+    "PUBLIC": {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "authority_id": "AIO.IFTA.PUBLIC.PFA.v1",
+      "actor": "PUBLIC",
+      "viewports": [
+        "MOBILE",
+        "TABLET",
+        "DESKTOP"
+      ],
+      "state_coverage": [
+        "NOT_ENROLLED"
+      ],
+      "territory_source": [
+        "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+      ],
+      "founder_status": "APPROVED",
+      "authority_level": "PAGE_FAMILY_AUTHORITY",
+      "core_logic_locks": [
+        {
+          "kind": "PRIMARY_OBJECT",
+          "value": "THE IFTA FILING ROOM SERVICE — a clearly SAMPLE quarter as the hero object (never private client data)"
+        },
+        {
+          "kind": "PRIMARY_COMPOSITION",
+          "value": "dark cinematic hero with sample quarter + SEE HOW IT WORKS → sample metrics rail → clear-path explanation + image → five-step process → jurisdictions map → built-for pillars → full lockup band"
+        },
+        {
+          "kind": "MAJOR_ZONES",
+          "value": "nav (simple mark · sections · GET STARTED) · cinematic hero · sample metrics rail · clear-path explanation + image · process steps · jurisdictions map · built-for pillars · lower brand band"
+        },
+        {
+          "kind": "CORE_HIERARCHY",
+          "value": "promise → how it works → why it is different → how to start"
+        },
+        {
+          "kind": "CTA_HIERARCHY",
+          "value": "GET STARTED (gold, nav + explanation) starts the REQUEST FILING flow; SEE HOW IT WORKS (hero) scrolls to the process"
+        },
+        {
+          "kind": "MEDIA_RELATIONSHIP",
+          "value": "cinematic dark trucking imagery as hero and evidence card; map as the jurisdiction visual"
+        },
+        {
+          "kind": "ACTOR_INTENT",
+          "value": "I understand what AIO will handle every quarter and what I send."
+        },
+        {
+          "kind": "APPROVED_TERRITORY",
+          "value": "derived from T03 THE ANALYTICS COMMAND (client parent)"
+        }
+      ],
+      "flexible_implementation_areas": [
+        "SPACING",
+        "MARGINS",
+        "MICRO_SPACING",
+        "BREAKPOINTS",
+        "RESPONSIVE_BEHAVIOR",
+        "ACCESSIBILITY",
+        "MICRO_INTERACTIONS",
+        "MOTION",
+        "TRANSITIONS",
+        "MATERIAL_REALISM",
+        "MATERIAL_DEPTH",
+        "DENSITY",
+        "STATE_CLARITY",
+        "TYPOGRAPHIC_OPTICS",
+        "IMAGE_TREATMENT",
+        "MEDIA_FRAMING"
+      ],
+      "reference_paths": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg"
+      ],
+      "brand_context_id": "AIO.BRAND@2026-10-06+IFTA_AUTHORITY_BUNDLE",
+      "experience_contract_id": "AIO.IFTA@1.0.0",
+      "supersedes": null,
+      "lineage": {
+        "created": "2026-10-06",
+        "territory_lineage": [
+          "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+        ],
+        "founder_decisions": [
+          "Derived from the same family DNA (pipeline steps 02–03); locked in the authority package (step 07)"
+        ],
+        "superseded_by": null,
+        "reason": "Public mode is a service experience derived from the family DNA — not the client application with data hidden."
+      }
+    }
+  },
+  "derivations": {
+    "FOUNDER_STAFF": {
+      "parent_authority": "AIO.IFTA.CLIENT.PFA.v1",
+      "parent_territories": [
+        "AIO.IFTA.CLIENT.T01_EXECUTIVE_DOSSIER",
+        "AIO.IFTA.CLIENT.T02_SPATIAL_WORKROOM",
+        "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+      ],
+      "references": [
+        {
+          "reference_id": "REF.STAFF.MOBILE",
+          "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+          "format": "GENERATED_FULL_PAGE_REFERENCE",
+          "reference_paths": [
+            "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg"
+          ],
+          "viewport": "MOBILE",
+          "states_shown": [
+            "AIO_REVIEW",
+            "RECONCILING"
+          ],
+          "shows": [
+            "composition",
+            "hierarchy",
+            "zones",
+            "media_relationship",
+            "interaction_emphasis",
+            "actor_intent"
+          ],
+          "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+          "paid_generation": false
+        },
+        {
+          "reference_id": "REF.STAFF.TABLET",
+          "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+          "format": "GENERATED_FULL_PAGE_REFERENCE",
+          "reference_paths": [
+            "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg"
+          ],
+          "viewport": "TABLET",
+          "states_shown": [
+            "AIO_REVIEW",
+            "RECONCILING"
+          ],
+          "shows": [
+            "composition",
+            "hierarchy",
+            "zones",
+            "media_relationship",
+            "interaction_emphasis",
+            "actor_intent"
+          ],
+          "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+          "paid_generation": false
+        },
+        {
+          "reference_id": "REF.STAFF.DESKTOP",
+          "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+          "format": "GENERATED_FULL_PAGE_REFERENCE",
+          "reference_paths": [
+            "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg"
+          ],
+          "viewport": "DESKTOP",
+          "states_shown": [
+            "AIO_REVIEW",
+            "RECONCILING"
+          ],
+          "shows": [
+            "composition",
+            "hierarchy",
+            "zones",
+            "media_relationship",
+            "interaction_emphasis",
+            "actor_intent"
+          ],
+          "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+          "paid_generation": false
+        }
+      ],
+      "check": {
+        "status": "DERIVATION_VALID",
+        "parent_authority_id": "AIO.IFTA.CLIENT.PFA.v1",
+        "reasons": []
+      }
+    },
+    "PUBLIC": {
+      "parent_authority": "AIO.IFTA.CLIENT.PFA.v1",
+      "parent_territories": [
+        "AIO.IFTA.CLIENT.T01_EXECUTIVE_DOSSIER",
+        "AIO.IFTA.CLIENT.T02_SPATIAL_WORKROOM",
+        "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND"
+      ],
+      "references": [
+        {
+          "reference_id": "REF.PUBLIC.MOBILE",
+          "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+          "format": "GENERATED_FULL_PAGE_REFERENCE",
+          "reference_paths": [
+            "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg"
+          ],
+          "viewport": "MOBILE",
+          "states_shown": [
+            "NOT_ENROLLED"
+          ],
+          "shows": [
+            "composition",
+            "hierarchy",
+            "zones",
+            "media_relationship",
+            "interaction_emphasis",
+            "actor_intent"
+          ],
+          "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+          "paid_generation": false
+        },
+        {
+          "reference_id": "REF.PUBLIC.TABLET",
+          "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+          "format": "GENERATED_FULL_PAGE_REFERENCE",
+          "reference_paths": [
+            "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg"
+          ],
+          "viewport": "TABLET",
+          "states_shown": [
+            "NOT_ENROLLED"
+          ],
+          "shows": [
+            "composition",
+            "hierarchy",
+            "zones",
+            "media_relationship",
+            "interaction_emphasis",
+            "actor_intent"
+          ],
+          "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+          "paid_generation": false
+        },
+        {
+          "reference_id": "REF.PUBLIC.DESKTOP",
+          "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+          "format": "GENERATED_FULL_PAGE_REFERENCE",
+          "reference_paths": [
+            "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg"
+          ],
+          "viewport": "DESKTOP",
+          "states_shown": [
+            "NOT_ENROLLED"
+          ],
+          "shows": [
+            "composition",
+            "hierarchy",
+            "zones",
+            "media_relationship",
+            "interaction_emphasis",
+            "actor_intent"
+          ],
+          "role": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT",
+          "paid_generation": false
+        }
+      ],
+      "check": {
+        "status": "DERIVATION_VALID",
+        "parent_authority_id": "AIO.IFTA.CLIENT.PFA.v1",
+        "reasons": []
+      }
+    }
+  },
+  "gate": {
+    "CLIENT": {
+      "state": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+      "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+      "conditions": {
+        "BRAND_CONTEXT_LOADED": true,
+        "EXPERIENCE_CONTRACT_LOADED": true,
+        "LEGACY_VISUAL_STATUS_KNOWN": true,
+        "COMPOSITION_TERRITORIES_EXIST": true,
+        "REFERENCE_AUTHORITY_EXISTS": true,
+        "FOUNDER_APPROVAL_EXISTS": true,
+        "PAGE_FAMILY_AUTHORITY_LOCKED": true,
+        "PAGE_TREE_CONFIRMED": false
+      },
+      "implementation_ready": false,
+      "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
+      "reasons": [
+        "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+      ]
+    },
+    "FOUNDER_STAFF": {
+      "state": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+      "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+      "conditions": {
+        "BRAND_CONTEXT_LOADED": true,
+        "EXPERIENCE_CONTRACT_LOADED": true,
+        "LEGACY_VISUAL_STATUS_KNOWN": true,
+        "COMPOSITION_TERRITORIES_EXIST": true,
+        "REFERENCE_AUTHORITY_EXISTS": true,
+        "FOUNDER_APPROVAL_EXISTS": true,
+        "PAGE_FAMILY_AUTHORITY_LOCKED": true,
+        "PAGE_TREE_CONFIRMED": false
+      },
+      "implementation_ready": false,
+      "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
+      "reasons": [
+        "territories inherited from parent authority AIO.IFTA.CLIENT.PFA.v1",
+        "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+      ]
+    },
+    "PUBLIC": {
+      "state": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+      "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+      "conditions": {
+        "BRAND_CONTEXT_LOADED": true,
+        "EXPERIENCE_CONTRACT_LOADED": true,
+        "LEGACY_VISUAL_STATUS_KNOWN": true,
+        "COMPOSITION_TERRITORIES_EXIST": true,
+        "REFERENCE_AUTHORITY_EXISTS": true,
+        "FOUNDER_APPROVAL_EXISTS": true,
+        "PAGE_FAMILY_AUTHORITY_LOCKED": true,
+        "PAGE_TREE_CONFIRMED": false
+      },
+      "implementation_ready": false,
+      "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
+      "reasons": [
+        "territories inherited from parent authority AIO.IFTA.CLIENT.PFA.v1",
+        "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+      ]
+    }
+  },
+  "page_tree": {
+    "tree_id": "AIO.IFTA.PAGE_TREE.v1",
+    "status": "PRODUCED",
+    "produced_at": "2026-10-06",
+    "confirmed_at": null,
+    "founder_decision": null,
+    "open_decisions": [
+      "D-BRAND-TOKENS",
+      "D-TYPOGRAPHY",
+      "D-INTERACTION-09",
+      "D-ROUTES-SHELL",
+      "D-IFTA-AVAILABILITY",
+      "D-NOTES-TAB",
+      "D-CLIENT-DESKTOP-STAFF-MODULES",
+      "D-TAX-FIGURES",
+      "D-PUBLIC-COPY-TRUTH",
+      "D-STAFF-QUEUE-AUTHORITY"
+    ]
+  },
+  "legacy_firewall": {
+    "status": "PASS",
+    "surfaces": [
+      {
+        "surface_id": "AIO.LEGACY.PUBLIC.SERVICE_DETAIL",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.PUBLIC.SERVICES_HUB",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.PUBLIC.ROAD_READY",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.PORTAL_SHELL",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.SERVICES_CENTER",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.REQUESTS_CENTER",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.VAULT",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.ROAD_READY",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.IFTA_READINESS_ENGINE",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.STAFF.OFFICE_COMMAND_CENTER",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.STAFF.OFFICE_DOCUMENTS",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      },
+      {
+        "surface_id": "AIO.LEGACY.SHARED.NAV",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+      }
+    ],
+    "uses_this_sprint": [
+      {
+        "surface_id": "AIO.LEGACY.PUBLIC.SERVICE_DETAIL",
+        "uses": [
+          "CONTENT_TRUTH",
+          "CAPABILITIES"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.PORTAL_SHELL",
+        "uses": [
+          "PERMISSIONS",
+          "ROUTING"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.SERVICES_CENTER",
+        "uses": [
+          "ROUTING",
+          "DATA"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.REQUESTS_CENTER",
+        "uses": [
+          "FUNCTION",
+          "DATA"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.VAULT",
+        "uses": [
+          "DATA",
+          "FUNCTION"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.ROAD_READY",
+        "uses": [
+          "DATA",
+          "ROUTING"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.IFTA_READINESS_ENGINE",
+        "uses": [
+          "FUNCTION",
+          "STATE"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.STAFF.OFFICE_COMMAND_CENTER",
+        "uses": [
+          "DATA",
+          "PERMISSIONS",
+          "ROUTING"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.STAFF.OFFICE_DOCUMENTS",
+        "uses": [
+          "FUNCTION"
+        ]
+      },
+      {
+        "surface_id": "AIO.LEGACY.SHARED.NAV",
+        "uses": [
+          "ROUTING"
+        ]
+      }
+    ],
+    "may_inspect": [
+      "BUSINESS LOGIC",
+      "EXISTING FUNCTION",
+      "DATA",
+      "ROUTING",
+      "PERMISSIONS",
+      "CONTENT TRUTH",
+      "CURRENT CAPABILITIES",
+      "BACKEND CONTRACTS"
+    ],
+    "may_not_control": [
+      "HEADER",
+      "NAVIGATION GEOMETRY",
+      "SIDEBAR",
+      "FOOTER",
+      "PAGE WIDTH",
+      "GRID",
+      "CARD SYSTEM",
+      "PANEL SYSTEM",
+      "TYPOGRAPHY",
+      "SPACING",
+      "COLOR",
+      "RESPONSIVE RULES",
+      "LAYOUT",
+      "COMPOSITION",
+      "VISUAL PROPORTION",
+      "SHELL ARCHITECTURE"
+    ],
+    "leaks": {
+      "count": 0,
+      "leaks": []
+    }
+  },
+  "sidekick": {
+    "status": "SIDEKICK_FALLBACK_ONLY",
+    "primary_path": "COMPLETE AUTHORITY PACKAGE → IMPLEMENT",
+    "allowed_only_for": [
+      "TRUE MISSING RUNTIME ASSET",
+      "UNFORESEEN RESPONSIVE ASSET GAP",
+      "EXPLICIT NEW FOUNDER REQUEST",
+      "REQUIRED ASSET ABSENT FROM AUTHORITY PACKAGE"
+    ],
+    "invoked_this_sprint": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0
+  }
+}

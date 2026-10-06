@@ -8,7 +8,7 @@
  * hand-written. tests/studioosVisualAuthorityGate1.test.ts keeps the exports in sync.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { aio as brain, type ExperienceActor } from '../../shared/studioos-experience-brain/index.js';
+import { aio as brain } from '../../shared/studioos-experience-brain/index.js';
 import {
   AUTHORITY_FIDELITY_MODEL,
   AUTHORITY_IMPLEMENTATION_CONTRACT,
@@ -24,7 +24,9 @@ import {
   VISUAL_AUTHORITY_SPRINT,
   VISUAL_AUTHORITY_STATE_MODEL,
   aio,
+  aioIfta,
   samples,
+  territoryRow,
   visualAuthorityRow,
 } from '../../shared/studioos-visual-authority/index.js';
 
@@ -36,9 +38,9 @@ const head = (id: string) => ({ id, schema_version: VISUAL_AUTHORITY_SCHEMA_VERS
 export function buildVisualAuthorityExports(): Record<string, string> {
   const actors: ('PUBLIC' | 'CLIENT' | 'FOUNDER_STAFF')[] = ['PUBLIC', 'CLIENT', 'FOUNDER_STAFF'];
   const c = brain.AIO_IFTA_CONTRACT;
-  const aioRows = actors.map((actor) =>
-    visualAuthorityRow({ project_id: 'AIO', family_id: c.family_id, feature_id: c.feature_id, actor: actor as ExperienceActor, material: true, family_locked: true, experience_contract: c, brand_context: aio.AIO_BRAND_CONTEXT, legacy_surfaces: aio.AIO_IFTA_LEGACY_SURFACES, territories: [] }, AT),
-  );
+  // Since the authority-bundle ingest the AIO rows come from the bundle-driven gate input (client parent + derived actors).
+  const aioRows = actors.map((actor) => visualAuthorityRow(aio.aioIftaGateInput(actor), AT));
+  const gate = Object.fromEntries(actors.map((a) => [a, aio.aioIftaGateStatus(a)]));
   const portability = samples.portabilitySamples();
 
   return {
@@ -47,14 +49,14 @@ export function buildVisualAuthorityExports(): Record<string, string> {
     'COMPOSITION_TERRITORY_SCHEMA.json': json(COMPOSITION_TERRITORY_SCHEMA),
     'COMPOSITION_TERRITORY_REGISTRY.json': json({
       ...head('COMPOSITION_TERRITORY_REGISTRY'),
-      note: 'No territories are authored yet. AIO IFTA territories are authored by the founder + ChatGPT test-run from the actor input packages; rows are added here when they exist.',
-      territories: [],
-      open_slots: actors.map((actor) => ({ project_id: 'AIO', family_id: c.family_id, feature_id: c.feature_id, actor, required: DEFAULT_TERRITORY_COUNT, authored: 0, status: 'AUTHORITY_TERRITORIES_REQUIRED', input_package: `AIO_IFTA_${actor === 'FOUNDER_STAFF' ? 'FOUNDER' : actor}_AUTHORITY_INPUT.json` })),
+      note: 'AIO IFTA: the founder + ChatGPT test-run authored the three CLIENT territories (authority bundle 01_TERRITORY_SELECTION); the founder chose 03 THE ANALYTICS COMMAND rendered LIGHT. FOUNDER_STAFF and PUBLIC derive from the locked client parent (parent authority precedes actor / viewport derivation) and need no territories of their own.',
+      territories: aioIfta.AIO_IFTA_CLIENT_TERRITORIES.map(territoryRow),
+      open_slots: actors.map((actor) => ({ project_id: 'AIO', family_id: c.family_id, feature_id: c.feature_id, actor, required: actor === 'CLIENT' ? DEFAULT_TERRITORY_COUNT : 0, authored: actor === 'CLIENT' ? aioIfta.AIO_IFTA_CLIENT_TERRITORIES.length : 0, mode: actor === 'CLIENT' ? 'PARENT_TERRITORIES' : 'DERIVED_FROM_PARENT', status: gate[actor].state, guard: gate[actor].guard, input_package: `AIO_IFTA_${actor === 'FOUNDER_STAFF' ? 'FOUNDER' : actor}_AUTHORITY_INPUT.json` })),
       row_fields: ['territory_id', 'project_id', 'family_id', 'feature_id', 'actor', 'name', 'concept', 'metaphor', 'primary_object', 'composition_logic', 'mobile_logic', 'desktop_logic', 'brand_fit', 'experience_fit', 'status', 'founder_decision'],
     }),
     'VISUAL_AUTHORITY_REGISTRY.json': json({
       ...head('VISUAL_AUTHORITY_REGISTRY'),
-      row_fields: ['project_id', 'family_id', 'feature_id', 'actor', 'authority_id', 'authority_level', 'status', 'guard', 'reference_paths', 'brand_context_id', 'experience_contract_id', 'territory_id', 'core_logic_locks', 'flexible_areas', 'founder_decision', 'created_at', 'updated_at', 'supersedes'],
+      row_fields: ['project_id', 'family_id', 'feature_id', 'actor', 'authority_id', 'authority_level', 'status', 'guard', 'reference_paths', 'brand_context_id', 'experience_contract_id', 'territory_id', 'core_logic_locks', 'flexible_areas', 'founder_decision', 'derived_from_authority', 'page_tree', 'created_at', 'updated_at', 'supersedes'],
       rows: aioRows,
       portability: { projects: PORTABLE_PROJECTS, rows: portability.map((s) => ({ project_id: s.project_id, family_id: s.family_id, feature_id: s.feature_id, status: s.result.state, guard: s.result.guard, durable_rule: s.result.durable_rule, note: s.note })) },
       existing_authority_systems: {

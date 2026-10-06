@@ -9,6 +9,7 @@ import { aio as brain, type ExperienceContract } from '../shared/studioos-experi
 import {
   AUTHORITY_PRODUCTION_STATES,
   aio,
+  checkDerivation,
   checkLegacyUse,
   checkTerritoryDistinctness,
   classifyDeviation,
@@ -18,6 +19,7 @@ import {
   type AuthorityGateInput,
   type CompositionTerritory,
   type PageFamilyAuthority,
+  type PageTreeConfirmation,
   type ReferenceAuthority,
 } from '../shared/studioos-visual-authority/index';
 import { VISUAL_AUTHORITY_DOCS_DIR, buildVisualAuthorityExports } from '../scripts/studioos/visual-authority-export';
@@ -59,13 +61,15 @@ const AUTHORITY: PageFamilyAuthority = {
   lineage: { created: '2026-10-06', territory_lineage: ['T_A'], founder_decisions: ['LOVE_IT T_A (fixture)'], superseded_by: null },
 };
 
+const TREE_CONFIRMED: PageTreeConfirmation = { tree_id: 'fixture.tree', status: 'FOUNDER_CONFIRMED', produced_at: '2026-10-06', confirmed_at: '2026-10-06', founder_decision: 'fixture confirmed' };
+
 const base = (over: Partial<AuthorityGateInput> = {}): AuthorityGateInput => ({
   project_id: 'AIO', family_id: ifta.family_id, feature_id: ifta.feature_id, actor: 'CLIENT', material: true, family_locked: true,
   experience_contract: ifta, brand_context: aio.AIO_BRAND_CONTEXT, legacy_surfaces: aio.AIO_IFTA_LEGACY_SURFACES, ...over,
 });
 const reviewed = (over: Partial<AuthorityGateInput> = {}) => base({ territories: TERRITORIES, references: REFS, ...over });
 const approved = (over: Partial<AuthorityGateInput> = {}) =>
-  reviewed({ founder_decision: { verdict: 'LOVE_IT', territory_ids: ['T_A'], notes: 'fixture', decided_at: '2026-10-06' }, ...over });
+  reviewed({ founder_decision: { verdict: 'LOVE_IT', territory_ids: ['T_A'], notes: 'fixture', decided_at: '2026-10-06' }, page_tree: TREE_CONFIRMED, ...over });
 
 describe('gate states (sprint tests A–H)', () => {
   it('A. family locked + experience missing → EXPERIENCE_REQUIRED', () => {
@@ -87,14 +91,9 @@ describe('gate states (sprint tests A–H)', () => {
     expect(r.conditions.EXPERIENCE_CONTRACT_LOADED).toBe(true);
   });
 
-  it('C. brand + experience + no territories → AUTHORITY_TERRITORIES_REQUIRED (AIO IFTA today, all 3 actors)', () => {
+  it('C. brand + experience + no territories → AUTHORITY_TERRITORIES_REQUIRED', () => {
     expect(evaluateAuthorityGate(base({ territories: [] })).state).toBe('AUTHORITY_TERRITORIES_REQUIRED');
-    for (const a of ['PUBLIC', 'CLIENT', 'FOUNDER_STAFF'] as const) {
-      const g = aio.aioIftaGateStatus(a);
-      expect(g.state, a).toBe('AUTHORITY_TERRITORIES_REQUIRED');
-      expect(g.guard).toBe('VISUAL_AUTHORITY_REQUIRED');
-      expect(g.conditions.BRAND_CONTEXT_LOADED && g.conditions.EXPERIENCE_CONTRACT_LOADED && g.conditions.LEGACY_VISUAL_STATUS_KNOWN).toBe(true);
-    }
+    expect(evaluateAuthorityGate(base({ territories: [] })).guard).toBe('VISUAL_AUTHORITY_REQUIRED');
     // Territories without references are not reviewable yet.
     expect(evaluateAuthorityGate(base({ territories: TERRITORIES })).guard).toBe('REFERENCE_AUTHORITY_REQUIRED');
   });
@@ -116,7 +115,7 @@ describe('gate states (sprint tests A–H)', () => {
     expect(hybrid.state).toBe('AUTHORITY_APPROVED');
   });
 
-  it('F. authority approved + locked → IMPLEMENTATION_READY (all seven durable conditions)', () => {
+  it('F. authority approved + locked + tree confirmed → IMPLEMENTATION_READY (all eight durable conditions)', () => {
     const r = evaluateAuthorityGate(approved({ authority: AUTHORITY }));
     expect(r.state).toBe('IMPLEMENTATION_READY');
     expect(r.implementation_ready).toBe(true);
@@ -125,6 +124,14 @@ describe('gate states (sprint tests A–H)', () => {
     // Lock incomplete (core lock missing) stays AUTHORITY_APPROVED.
     const partial = { ...AUTHORITY, core_logic_locks: AUTHORITY.core_logic_locks.filter((l) => l.kind !== 'CTA_HIERARCHY') };
     expect(evaluateAuthorityGate(approved({ authority: partial })).state).toBe('AUTHORITY_APPROVED');
+    // Locked but the page / tab / state tree is only produced (or absent) → stays AUTHORITY_APPROVED behind the tree guard.
+    for (const page_tree of [null, { ...TREE_CONFIRMED, status: 'PRODUCED' as const, confirmed_at: null }, { ...TREE_CONFIRMED, confirmed_at: null }]) {
+      const t = evaluateAuthorityGate(approved({ authority: AUTHORITY, page_tree }));
+      expect(t.state).toBe('AUTHORITY_APPROVED');
+      expect(t.guard).toBe('PAGE_TREE_CONFIRMATION_REQUIRED');
+      expect(t.conditions.PAGE_FAMILY_AUTHORITY_LOCKED && !t.conditions.PAGE_TREE_CONFIRMED).toBe(true);
+      expect(t.implementation_ready).toBe(false);
+    }
   });
 
   it('G. legacy functional reference imported as layout → LEGACY_VISUAL_LEAK', () => {
@@ -178,8 +185,9 @@ describe('guards', () => {
     expect(guardPageGeneration({ ...req, route: 'portal/services/ifta', copy: 'Continue filing' }).status).toBe('EXPERIENCE_REQUIRED');
     expect(guardPageGeneration({ ...req, experience_contract: ifta }).status).toBe('BRAND_CONTEXT_REQUIRED');
     expect(guardPageGeneration({ ...req, experience_contract: ifta, brand_context: aio.AIO_BRAND_CONTEXT }).status).toBe('VISUAL_AUTHORITY_REQUIRED');
-    const ok = { ...req, experience_contract: ifta, brand_context: aio.AIO_BRAND_CONTEXT, authority: AUTHORITY };
-    expect(guardPageGeneration(ok)).toEqual({ status: 'GENERATE', inputs: ['BRAND_DNA', 'EXPERIENCE_CONTRACT', 'PAGE_FAMILY_AUTHORITY', 'STATE', 'VIEWPORT'] });
+    expect(guardPageGeneration({ ...req, experience_contract: ifta, brand_context: aio.AIO_BRAND_CONTEXT, authority: AUTHORITY }).status).toBe('PAGE_TREE_CONFIRMATION_REQUIRED');
+    const ok = { ...req, experience_contract: ifta, brand_context: aio.AIO_BRAND_CONTEXT, authority: AUTHORITY, page_tree: TREE_CONFIRMED };
+    expect(guardPageGeneration(ok)).toEqual({ status: 'GENERATE', inputs: ['BRAND_DNA', 'EXPERIENCE_CONTRACT', 'PAGE_FAMILY_AUTHORITY', 'PAGE_TREE', 'STATE', 'VIEWPORT'] });
     expect(guardPageGeneration({ ...ok, viewport: 'TABLET' }).status).toBe('RESPONSIVE_AUTHORITY_REQUIRED');
     expect(guardPageGeneration({ ...ok, runtime_assets: ['fixtures/T_A.png'] }).status).toBe('AUTHORITY_AS_RUNTIME_ASSET');
     expect(guardPageGeneration({ ...ok, legacy_surfaces: aio.AIO_IFTA_LEGACY_SURFACES, legacy_uses: [{ surface_id: 'AIO.LEGACY.CLIENT.SERVICES_CENTER', uses: ['COMPOSITION'] }] }).status).toBe('LEGACY_VISUAL_LEAK');
@@ -194,6 +202,51 @@ describe('guards', () => {
 
   it('production states are exactly the sprint list', () => {
     expect(AUTHORITY_PRODUCTION_STATES).toEqual(['FAMILY_LOCKED', 'EXPERIENCE_REQUIRED', 'EXPERIENCE_COMPLETE', 'BRAND_CONTEXT_REQUIRED', 'AUTHORITY_TERRITORIES_REQUIRED', 'AUTHORITY_IN_REVIEW', 'AUTHORITY_APPROVED', 'IMPLEMENTATION_READY', 'IMPLEMENTING', 'LIVE_REVIEW', 'LIVE_AUTHORITY']);
+  });
+});
+
+describe('parent authority precedes actor / viewport derivation (authority-bundle founder decision)', () => {
+  const STAFF_AUTHORITY: PageFamilyAuthority = { ...AUTHORITY, authority_id: 'AIO.IFTA.FOUNDER_STAFF.PFA.fixture', actor: 'FOUNDER_STAFF' };
+  const staffRefs: ReferenceAuthority[] = [{ ...REFS[0], reference_id: 'REF_STAFF', territory_id: 'T_A' }];
+  const derived = (over: Partial<AuthorityGateInput> = {}) => base({
+    actor: 'FOUNDER_STAFF', derivation: { parent: AUTHORITY, parent_territories: TERRITORIES, references: staffRefs },
+    founder_decision: { verdict: 'LOVE_IT', territory_ids: ['T_A'], notes: 'derived', decided_at: '2026-10-06' }, authority: STAFF_AUTHORITY, page_tree: TREE_CONFIRMED, ...over,
+  });
+
+  it('a derived actor inherits the territory step from a locked parent and reaches IMPLEMENTATION_READY', () => {
+    const r = evaluateAuthorityGate(derived());
+    expect(r.state).toBe('IMPLEMENTATION_READY');
+    expect(r.conditions.COMPOSITION_TERRITORIES_EXIST && r.conditions.REFERENCE_AUTHORITY_EXISTS).toBe(true);
+    expect(r.reasons.join(' ')).toMatch(/inherited from parent authority/);
+    expect(checkDerivation({ family_id: ifta.family_id, feature_id: ifta.feature_id, actor: 'FOUNDER_STAFF' }, derived().derivation).status).toBe('DERIVATION_VALID');
+  });
+
+  it('an unlocked parent, a same-actor parent or indistinct parent territories cannot be derived from', () => {
+    const unlocked = { ...AUTHORITY, founder_status: 'PENDING' as const };
+    expect(evaluateAuthorityGate(derived({ derivation: { parent: unlocked, parent_territories: TERRITORIES, references: staffRefs } })).state).toBe('AUTHORITY_TERRITORIES_REQUIRED');
+    expect(evaluateAuthorityGate(derived({ actor: 'CLIENT' })).guard).toBe('VISUAL_AUTHORITY_REQUIRED');
+    const flat = TERRITORIES.map((t) => ({ ...t, structure: TERRITORIES[0].structure }));
+    expect(evaluateAuthorityGate(derived({ derivation: { parent: AUTHORITY, parent_territories: flat, references: staffRefs } })).state).toBe('AUTHORITY_TERRITORIES_REQUIRED');
+  });
+
+  it('derived references must trace to a parent source territory and show all six proofs; the derived actor still needs its own approval + lock', () => {
+    expect(evaluateAuthorityGate(derived({ derivation: { parent: AUTHORITY, parent_territories: TERRITORIES, references: [{ ...staffRefs[0], territory_id: 'T_B' }] } })).guard).toBe('REFERENCE_AUTHORITY_REQUIRED');
+    expect(evaluateAuthorityGate(derived({ derivation: { parent: AUTHORITY, parent_territories: TERRITORIES, references: [{ ...staffRefs[0], shows: ['composition'] }] } })).guard).toBe('REFERENCE_AUTHORITY_REQUIRED');
+    expect(evaluateAuthorityGate(derived({ founder_decision: null })).state).toBe('AUTHORITY_IN_REVIEW');
+    expect(evaluateAuthorityGate(derived({ authority: null })).state).toBe('AUTHORITY_APPROVED');
+  });
+
+  it('AIO IFTA after the authority bundle: all 3 actors AUTHORITY_APPROVED, held only by PAGE_TREE_CONFIRMATION_REQUIRED', () => {
+    for (const a of ['PUBLIC', 'CLIENT', 'FOUNDER_STAFF'] as const) {
+      const g = aio.aioIftaGateStatus(a);
+      expect(g.state, a).toBe('AUTHORITY_APPROVED');
+      expect(g.guard, a).toBe('PAGE_TREE_CONFIRMATION_REQUIRED');
+      expect(Object.entries(g.conditions).filter(([, v]) => !v).map(([k]) => k), a).toEqual(['PAGE_TREE_CONFIRMED']);
+      // Founder confirms the tree → implementation-ready.
+      expect(evaluateAuthorityGate({ ...aio.aioIftaGateInput(a), page_tree: TREE_CONFIRMED }).state, a).toBe('IMPLEMENTATION_READY');
+    }
+    expect(aio.aioIftaGateInput('FOUNDER_STAFF').territories).toBeUndefined();
+    expect(aio.aioIftaGateInput('CLIENT').territories).toHaveLength(3);
   });
 });
 
@@ -212,7 +265,7 @@ describe('AIO IFTA input packages + portability', () => {
   });
 
   it('the gate core is project-agnostic and runs for every portable project', () => {
-    for (const f of ['schema.ts', 'gate.ts', 'contracts.ts', 'registry.ts']) {
+    for (const f of ['schema.ts', 'gate.ts', 'contracts.ts', 'registry.ts', 'tree.ts']) {
       expect(read(`shared/studioos-visual-authority/${f}`).replace(/AIO IFTA[^'\n]*/g, '').replace(/export const PORTABLE_PROJECTS[^\n]*/, ''), f).not.toMatch(/\bIFTA\b|fuel|truck|JURNL|Frontal/i);
     }
     const projects = new Set(samples.portabilitySamples().map((s) => s.project_id));

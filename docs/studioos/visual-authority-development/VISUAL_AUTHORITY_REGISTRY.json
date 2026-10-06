@@ -20,6 +20,8 @@
     "core_logic_locks",
     "flexible_areas",
     "founder_decision",
+    "derived_from_authority",
+    "page_tree",
     "created_at",
     "updated_at",
     "supersedes"
@@ -30,17 +32,72 @@
       "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
       "feature_id": "AIO.IFTA",
       "actor": "PUBLIC",
-      "authority_id": null,
-      "authority_level": null,
-      "status": "AUTHORITY_TERRITORIES_REQUIRED",
-      "guard": "VISUAL_AUTHORITY_REQUIRED",
-      "reference_paths": [],
-      "brand_context_id": "AIO.BRAND@2026-10-06",
+      "authority_id": "AIO.IFTA.PUBLIC.PFA.v1",
+      "authority_level": "PAGE_FAMILY_AUTHORITY",
+      "status": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+      "reference_paths": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg"
+      ],
+      "brand_context_id": "AIO.BRAND@2026-10-06+IFTA_AUTHORITY_BUNDLE",
       "experience_contract_id": "AIO.IFTA@1.0.0",
-      "territory_id": null,
-      "core_logic_locks": [],
-      "flexible_areas": [],
-      "founder_decision": null,
+      "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+      "core_logic_locks": [
+        {
+          "kind": "PRIMARY_OBJECT",
+          "value": "THE IFTA FILING ROOM SERVICE — a clearly SAMPLE quarter as the hero object (never private client data)"
+        },
+        {
+          "kind": "PRIMARY_COMPOSITION",
+          "value": "dark cinematic hero with sample quarter + SEE HOW IT WORKS → sample metrics rail → clear-path explanation + image → five-step process → jurisdictions map → built-for pillars → full lockup band"
+        },
+        {
+          "kind": "MAJOR_ZONES",
+          "value": "nav (simple mark · sections · GET STARTED) · cinematic hero · sample metrics rail · clear-path explanation + image · process steps · jurisdictions map · built-for pillars · lower brand band"
+        },
+        {
+          "kind": "CORE_HIERARCHY",
+          "value": "promise → how it works → why it is different → how to start"
+        },
+        {
+          "kind": "CTA_HIERARCHY",
+          "value": "GET STARTED (gold, nav + explanation) starts the REQUEST FILING flow; SEE HOW IT WORKS (hero) scrolls to the process"
+        },
+        {
+          "kind": "MEDIA_RELATIONSHIP",
+          "value": "cinematic dark trucking imagery as hero and evidence card; map as the jurisdiction visual"
+        },
+        {
+          "kind": "ACTOR_INTENT",
+          "value": "I understand what AIO will handle every quarter and what I send."
+        },
+        {
+          "kind": "APPROVED_TERRITORY",
+          "value": "derived from T03 THE ANALYTICS COMMAND (client parent)"
+        }
+      ],
+      "flexible_areas": [
+        "SPACING",
+        "MARGINS",
+        "MICRO_SPACING",
+        "BREAKPOINTS",
+        "RESPONSIVE_BEHAVIOR",
+        "ACCESSIBILITY",
+        "MICRO_INTERACTIONS",
+        "MOTION",
+        "TRANSITIONS",
+        "MATERIAL_REALISM",
+        "MATERIAL_DEPTH",
+        "DENSITY",
+        "STATE_CLARITY",
+        "TYPOGRAPHIC_OPTICS",
+        "IMAGE_TREATMENT",
+        "MEDIA_FRAMING"
+      ],
+      "founder_decision": "LOVE_IT: Public / customer mode derived from the same family DNA (pipeline steps 02–03) and locked in the authority package: DARK_PRIMARY cinematic service experience. Source: bundle 01 ACTOR_MODES_MOBILE + 04_PUBLIC_CUSTOMER_MODE.",
+      "derived_from_authority": "AIO.IFTA.CLIENT.PFA.v1",
+      "page_tree": "PRODUCED",
       "created_at": "2026-10-06",
       "updated_at": "2026-10-06",
       "supersedes": null
@@ -50,17 +107,86 @@
       "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
       "feature_id": "AIO.IFTA",
       "actor": "CLIENT",
-      "authority_id": null,
-      "authority_level": null,
-      "status": "AUTHORITY_TERRITORIES_REQUIRED",
-      "guard": "VISUAL_AUTHORITY_REQUIRED",
-      "reference_paths": [],
-      "brand_context_id": "AIO.BRAND@2026-10-06",
+      "authority_id": "AIO.IFTA.CLIENT.PFA.v1",
+      "authority_level": "PAGE_FAMILY_AUTHORITY",
+      "status": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+      "reference_paths": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_PARENT_AUTHORITY.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_FUEL_PURCHASES_PROOF.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_TABLET_DESKTOP.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_CLIENT_3_TERRITORIES.jpeg"
+      ],
+      "brand_context_id": "AIO.BRAND@2026-10-06+IFTA_AUTHORITY_BUNDLE",
       "experience_contract_id": "AIO.IFTA@1.0.0",
-      "territory_id": null,
-      "core_logic_locks": [],
-      "flexible_areas": [],
-      "founder_decision": null,
+      "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+      "core_logic_locks": [
+        {
+          "kind": "PRIMARY_OBJECT",
+          "value": "THE QUARTER (Q{n} {YYYY}) — high-visibility quarter identity with state chip in the hero"
+        },
+        {
+          "kind": "PRIMARY_COMPOSITION",
+          "value": "cinematic perimeter hero → metrics rail → tab family → process status + actionable panels on a clean light operational body → next-action rail → full lower brand band"
+        },
+        {
+          "kind": "MAJOR_ZONES",
+          "value": "hero · metrics rail · tab bar · process status (filing workflow + checklist) · actionable panels (map / data viz · recent uploads · AIO insights · recent activity) · next-action rail + help · lower brand band"
+        },
+        {
+          "kind": "CORE_HIERARCHY",
+          "value": "quarter identity + state → live metrics → active tab → process status / blockers → supporting panels"
+        },
+        {
+          "kind": "CTA_HIERARCHY",
+          "value": "exactly one dark next-action rail per tab × state (the single next thing); help rail (message your AIO team) secondary"
+        },
+        {
+          "kind": "SPATIAL_LOGIC",
+          "value": "tabs are compartments of one quarter — shared shell, own logic"
+        },
+        {
+          "kind": "MEDIA_RELATIONSHIP",
+          "value": "cinematic trucking perimeter above the body, never behind operational data"
+        },
+        {
+          "kind": "METAPHOR",
+          "value": "QUARTERLY FILING ROOM rendered as LIGHT ANALYTICS COMMAND"
+        },
+        {
+          "kind": "STATE_TRANSITION_LOGIC",
+          "value": "DATA COLLECTION → AIO PREPARATION → CLIENT REVIEW → FILE & CONFIRM over the contract state machine"
+        },
+        {
+          "kind": "ACTOR_INTENT",
+          "value": "I know exactly what AIO needs from me — and that the quarter is under control."
+        },
+        {
+          "kind": "APPROVED_TERRITORY",
+          "value": "T03 THE ANALYTICS COMMAND (LIGHT)"
+        }
+      ],
+      "flexible_areas": [
+        "SPACING",
+        "MARGINS",
+        "MICRO_SPACING",
+        "BREAKPOINTS",
+        "RESPONSIVE_BEHAVIOR",
+        "ACCESSIBILITY",
+        "MICRO_INTERACTIONS",
+        "MOTION",
+        "TRANSITIONS",
+        "MATERIAL_REALISM",
+        "MATERIAL_DEPTH",
+        "DENSITY",
+        "STATE_CLARITY",
+        "TYPOGRAPHIC_OPTICS",
+        "IMAGE_TREATMENT",
+        "MEDIA_FRAMING"
+      ],
+      "founder_decision": "LOVE_IT: Approved client parent authority: LIGHT ANALYTICS COMMAND (T03 structure; LIGHT_PRIMARY theme per actor theme authority). FUEL PURCHASES child derivation cohesion approved. Source: founder manual authority test (sprint §6–7) + bundle 02_CLIENT_MODE.",
+      "derived_from_authority": null,
+      "page_tree": "PRODUCED",
       "created_at": "2026-10-06",
       "updated_at": "2026-10-06",
       "supersedes": null
@@ -70,17 +196,74 @@
       "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
       "feature_id": "AIO.IFTA",
       "actor": "FOUNDER_STAFF",
-      "authority_id": null,
-      "authority_level": null,
-      "status": "AUTHORITY_TERRITORIES_REQUIRED",
-      "guard": "VISUAL_AUTHORITY_REQUIRED",
-      "reference_paths": [],
-      "brand_context_id": "AIO.BRAND@2026-10-06",
+      "authority_id": "AIO.IFTA.FOUNDER_STAFF.PFA.v1",
+      "authority_level": "PAGE_FAMILY_AUTHORITY",
+      "status": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+      "reference_paths": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg"
+      ],
+      "brand_context_id": "AIO.BRAND@2026-10-06+IFTA_AUTHORITY_BUNDLE",
       "experience_contract_id": "AIO.IFTA@1.0.0",
-      "territory_id": null,
-      "core_logic_locks": [],
-      "flexible_areas": [],
-      "founder_decision": null,
+      "territory_id": "AIO.IFTA.CLIENT.T03_ANALYTICS_COMMAND",
+      "core_logic_locks": [
+        {
+          "kind": "PRIMARY_OBJECT",
+          "value": "THE CLIENT-QUARTER CASE — one client’s Q{n} {YYYY} with client identity, account and CLIENT HEALTH"
+        },
+        {
+          "kind": "PRIMARY_COMPOSITION",
+          "value": "same family shell as the client parent; hero carries client identity + dark CLIENT HEALTH panel; metrics with prior-quarter deltas; tab family (OVERVIEW first) + EXPORT REPORT; denser operational panel grid; dark OPEN RETURN DRAFT rail; lower brand band"
+        },
+        {
+          "kind": "MAJOR_ZONES",
+          "value": "hero + client identity + CLIENT HEALTH / risk · metrics rail with deltas · tab bar + export · filing workflow with dates · quarter tasks with assignees · important dates · mileage bars · fuel donut · vehicles · recent client activity · AIO team activity · risks / flags · next-action rail · lower brand band"
+        },
+        {
+          "kind": "CORE_HIERARCHY",
+          "value": "client health / risk → metrics vs prior quarter → workflow + tasks + dates → flags and activity"
+        },
+        {
+          "kind": "CTA_HIERARCHY",
+          "value": "one dark staff next-action rail per state (OPEN RETURN DRAFT in preparation); operational actions inline on tasks / flags"
+        },
+        {
+          "kind": "CLIENT_STAFF_DISTINCTION",
+          "value": "MIRROR, NOT COPY — the same quarter as a case file: health, tasks, team activity, risks, overrides and audit; never the client’s guided flow"
+        },
+        {
+          "kind": "ACTOR_INTENT",
+          "value": "I can see exactly what is blocking this filing and act on it."
+        },
+        {
+          "kind": "APPROVED_TERRITORY",
+          "value": "derived from T03 THE ANALYTICS COMMAND (client parent)"
+        }
+      ],
+      "flexible_areas": [
+        "SPACING",
+        "MARGINS",
+        "MICRO_SPACING",
+        "BREAKPOINTS",
+        "RESPONSIVE_BEHAVIOR",
+        "ACCESSIBILITY",
+        "MICRO_INTERACTIONS",
+        "MOTION",
+        "TRANSITIONS",
+        "MATERIAL_REALISM",
+        "MATERIAL_DEPTH",
+        "DENSITY",
+        "STATE_CLARITY",
+        "TYPOGRAPHIC_OPTICS",
+        "IMAGE_TREATMENT",
+        "MEDIA_FRAMING",
+        "CONTROL_DENSITY",
+        "CONTROL_PLACEMENT"
+      ],
+      "founder_decision": "LOVE_IT: Founder / staff mode derived from the client parent (pipeline steps 02–03) and locked in the authority package: LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS, denser. Source: bundle 01 ACTOR_MODES_MOBILE + 03_FOUNDER_STAFF_MODE.",
+      "derived_from_authority": "AIO.IFTA.CLIENT.PFA.v1",
+      "page_tree": "PRODUCED",
       "created_at": "2026-10-06",
       "updated_at": "2026-10-06",
       "supersedes": null

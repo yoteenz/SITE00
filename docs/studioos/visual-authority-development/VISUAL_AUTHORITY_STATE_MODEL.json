@@ -81,10 +81,10 @@
     "EXPERIENCE_REQUIRED": "Experience contract missing or not experience-ready (validateExperienceContract) or ingest fields missing.",
     "EXPERIENCE_COMPLETE": "Experience contract experience-ready and ingest complete.",
     "BRAND_CONTEXT_REQUIRED": "Brand DNA missing or a required brand field is empty (too thin).",
-    "AUTHORITY_TERRITORIES_REQUIRED": "Brand + experience loaded, legacy classified; fewer than 3 live territories, territories not distinct, or reference authorities missing.",
+    "AUTHORITY_TERRITORIES_REQUIRED": "Brand + experience loaded, legacy classified; fewer than 3 live territories, territories not distinct, or reference authorities missing — or, for a derived actor, the parent authority is not locked / derived references are missing.",
     "AUTHORITY_IN_REVIEW": "3 distinct territories each with a reference authority; founder verdict absent or REVISE / REJECT / REQUEST_FOURTH_TERRITORY.",
-    "AUTHORITY_APPROVED": "Founder verdict LOVE_IT or COMBINE; page-family authority not yet fully locked.",
-    "IMPLEMENTATION_READY": "Authority locked: founder APPROVED, ≥ PAGE_FAMILY_AUTHORITY, required core locks, flexible areas, viewports, state coverage, lineage.",
+    "AUTHORITY_APPROVED": "Founder verdict LOVE_IT or COMBINE; page-family authority not yet fully locked — or locked while the page / tab / state tree is not founder-confirmed (guard PAGE_TREE_CONFIRMATION_REQUIRED).",
+    "IMPLEMENTATION_READY": "Authority locked (founder APPROVED, ≥ PAGE_FAMILY_AUTHORITY, required core locks, flexible areas, viewports, state coverage, lineage) AND the page / tab / state tree is founder-confirmed.",
     "IMPLEMENTING": "Implementation in progress against the locked authority.",
     "LIVE_REVIEW": "Implementation complete; founder reviewing live.",
     "LIVE_AUTHORITY": "Founder approved the live implementation; it becomes the authority with lineage retained.",
@@ -98,10 +98,11 @@
     "REFERENCE_AUTHORITY_REQUIRED": "A territory has no reference authority, or the reference does not show composition / hierarchy / zones / media / interaction / actor intent.",
     "FOUNDER_REVIEW_REQUIRED": "Implementation changed a core logic lock (material deviation).",
     "RESPONSIVE_AUTHORITY_REQUIRED": "Requested viewport not covered and the composition is not declared to scale — do not shrink desktop into mobile.",
-    "AUTHORITY_AS_RUNTIME_ASSET": "A reference authority image was shipped as a runtime asset. AUTHORITY ≠ RUNTIME ASSET."
+    "AUTHORITY_AS_RUNTIME_ASSET": "A reference authority image was shipped as a runtime asset. AUTHORITY ≠ RUNTIME ASSET.",
+    "PAGE_TREE_CONFIRMATION_REQUIRED": "Authority locked but the page / tab / state tree is not produced or not founder-confirmed — implementation may not begin."
   },
   "durable_rule": {
-    "statement": "No material page family moves from experience contract to implementation unless all seven conditions hold; otherwise STATUS: VISUAL_AUTHORITY_REQUIRED.",
+    "statement": "No material page family moves from experience contract to implementation unless all eight conditions hold (authority package + founder-confirmed page / tab / state tree); otherwise STATUS: VISUAL_AUTHORITY_REQUIRED or PAGE_TREE_CONFIRMATION_REQUIRED.",
     "conditions": [
       "BRAND_CONTEXT_LOADED",
       "EXPERIENCE_CONTRACT_LOADED",
@@ -109,7 +110,8 @@
       "COMPOSITION_TERRITORIES_EXIST",
       "REFERENCE_AUTHORITY_EXISTS",
       "FOUNDER_APPROVAL_EXISTS",
-      "PAGE_FAMILY_AUTHORITY_LOCKED"
+      "PAGE_FAMILY_AUTHORITY_LOCKED",
+      "PAGE_TREE_CONFIRMED"
     ],
     "implementation_blocker": "material && AUTHORITY_APPROVED != true → IMPLEMENTATION_READY = false"
   },

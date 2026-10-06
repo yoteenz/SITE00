@@ -1,0 +1,240 @@
+{
+  "id": "AIO_IFTA_ACTOR_MODE_MAP",
+  "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
+  "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
+  "generated_for": "2026-10-06",
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "legacy_visual_authority": "FORBIDDEN"
+  },
+  "actors": {
+    "CLIENT": {
+      "theme": {
+        "theme": "LIGHT_PRIMARY",
+        "manifest": "LIGHT_PRIMARY",
+        "role": [
+          "CALM",
+          "CLEAR",
+          "GUIDED",
+          "OPERATIONAL",
+          "LONG-SESSION FRIENDLY"
+        ],
+        "asset_sheet": "light, full features, self-service workflow"
+      },
+      "authority": "AIO.IFTA.CLIENT.PFA.v1",
+      "authority_mode": "PARENT (3 territories → LOVE_IT T03 LIGHT)",
+      "references": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_PARENT_AUTHORITY.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_MOBILE_FUEL_PURCHASES_PROOF.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/02_CLIENT_MODE/AIO_IFTA_CLIENT_TABLET_DESKTOP.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_CLIENT_3_TERRITORIES.jpeg"
+      ],
+      "gate": {
+        "state": "AUTHORITY_APPROVED",
+        "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "conditions": {
+          "BRAND_CONTEXT_LOADED": true,
+          "EXPERIENCE_CONTRACT_LOADED": true,
+          "LEGACY_VISUAL_STATUS_KNOWN": true,
+          "COMPOSITION_TERRITORIES_EXIST": true,
+          "REFERENCE_AUTHORITY_EXISTS": true,
+          "FOUNDER_APPROVAL_EXISTS": true,
+          "PAGE_FAMILY_AUTHORITY_LOCKED": true,
+          "PAGE_TREE_CONFIRMED": false
+        },
+        "implementation_ready": false,
+        "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
+        "reasons": [
+          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+        ]
+      },
+      "lower_band": "DATA · COMPLIANCE · REAL PROGRESS",
+      "logo": {
+        "top_nav": "SIMPLE_MARK_ONLY",
+        "lower_band": "FULL_LOCKUP_ALLOWED"
+      },
+      "viewports": {
+        "MOBILE": "RESP.CLIENT.MOBILE",
+        "TABLET": "RESP.CLIENT.TABLET",
+        "DESKTOP": "RESP.CLIENT.DESKTOP"
+      },
+      "page_families": [
+        "AIO.IFTA.CLIENT.FILING_ROOM"
+      ],
+      "pages": [
+        "AIO.IFTA.CLIENT.ROOM"
+      ],
+      "tabs_or_sections": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.NOTES"
+      ],
+      "material_nodes": 32,
+      "implementation_ready": 24,
+      "experience": {
+        "primary_question": "What does AIO still need from me for this quarter?",
+        "emotional_target": "I know exactly what AIO needs from me — and that the quarter is under control."
+      }
+    },
+    "FOUNDER_STAFF": {
+      "theme": {
+        "theme": "LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
+        "manifest": "LIGHT_PRIMARY_DENSE_OPERATIONAL",
+        "role": [
+          "DENSER",
+          "HIGHER VISIBILITY",
+          "MORE CONTROL",
+          "MORE EXCEPTIONS",
+          "MORE OPERATIONAL INTELLIGENCE"
+        ],
+        "asset_sheet": "light, advanced tools, client management",
+        "dark_operational_accents": [
+          "CLIENT HEALTH panel",
+          "OPEN RETURN DRAFT rail",
+          "LOW RISK / risk chips"
+        ]
+      },
+      "authority": "AIO.IFTA.FOUNDER_STAFF.PFA.v1",
+      "authority_mode": "DERIVED FROM THE CLIENT PARENT",
+      "references": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/03_FOUNDER_STAFF_MODE/AIO_IFTA_FOUNDER_STAFF_TABLET_DESKTOP.jpeg"
+      ],
+      "gate": {
+        "state": "AUTHORITY_APPROVED",
+        "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "conditions": {
+          "BRAND_CONTEXT_LOADED": true,
+          "EXPERIENCE_CONTRACT_LOADED": true,
+          "LEGACY_VISUAL_STATUS_KNOWN": true,
+          "COMPOSITION_TERRITORIES_EXIST": true,
+          "REFERENCE_AUTHORITY_EXISTS": true,
+          "FOUNDER_APPROVAL_EXISTS": true,
+          "PAGE_FAMILY_AUTHORITY_LOCKED": true,
+          "PAGE_TREE_CONFIRMED": false
+        },
+        "implementation_ready": false,
+        "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
+        "reasons": [
+          "territories inherited from parent authority AIO.IFTA.CLIENT.PFA.v1",
+          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+        ]
+      },
+      "lower_band": "OPERATIONS · COMPLIANCE · CLIENT SUCCESS",
+      "logo": {
+        "top_nav": "SIMPLE_MARK_ONLY",
+        "lower_band": "FULL_LOCKUP_ALLOWED"
+      },
+      "viewports": {
+        "MOBILE": "RESP.STAFF.MOBILE",
+        "TABLET": "RESP.STAFF.TABLET",
+        "DESKTOP": "RESP.STAFF.DESKTOP"
+      },
+      "page_families": [
+        "AIO.IFTA.STAFF.FUEL_TAX_OFFICE"
+      ],
+      "pages": [
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE"
+      ],
+      "tabs_or_sections": [
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.NOTES"
+      ],
+      "material_nodes": 23,
+      "implementation_ready": 12,
+      "experience": {
+        "primary_question": "What is blocking this filing, and who has to act?",
+        "emotional_target": "I can see exactly what is blocking this filing and act on it."
+      }
+    },
+    "PUBLIC": {
+      "theme": {
+        "theme": "DARK_PRIMARY",
+        "manifest": "DARK_PRIMARY_CINEMATIC",
+        "role": [
+          "CINEMATIC",
+          "BRAND-FORWARD",
+          "ASPIRATIONAL",
+          "SERVICE EXPLANATION",
+          "CONVERSION"
+        ],
+        "asset_sheet": "dark, simplified, focused on education"
+      },
+      "authority": "AIO.IFTA.PUBLIC.PFA.v1",
+      "authority_mode": "DERIVED FROM THE CLIENT PARENT",
+      "references": [
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/01_TERRITORY_SELECTION/AIO_IFTA_3_ACTOR_MODES_MOBILE.jpeg",
+        "docs/aio/ifta/authority-bundle/source/AIO_IFTA_AUTHORITY_BUNDLE/04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg"
+      ],
+      "gate": {
+        "state": "AUTHORITY_APPROVED",
+        "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "conditions": {
+          "BRAND_CONTEXT_LOADED": true,
+          "EXPERIENCE_CONTRACT_LOADED": true,
+          "LEGACY_VISUAL_STATUS_KNOWN": true,
+          "COMPOSITION_TERRITORIES_EXIST": true,
+          "REFERENCE_AUTHORITY_EXISTS": true,
+          "FOUNDER_APPROVAL_EXISTS": true,
+          "PAGE_FAMILY_AUTHORITY_LOCKED": true,
+          "PAGE_TREE_CONFIRMED": false
+        },
+        "implementation_ready": false,
+        "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
+        "reasons": [
+          "territories inherited from parent authority AIO.IFTA.CLIENT.PFA.v1",
+          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+        ]
+      },
+      "lower_band": "DRIVEN BY COMPLIANCE. BUILT FOR WHAT MOVES YOU.",
+      "logo": {
+        "top_nav": "SIMPLE_MARK_ONLY",
+        "lower_band": "FULL_LOCKUP_ALLOWED"
+      },
+      "viewports": {
+        "MOBILE": "RESP.PUBLIC.MOBILE",
+        "TABLET": "RESP.PUBLIC.TABLET",
+        "DESKTOP": "RESP.PUBLIC.DESKTOP"
+      },
+      "page_families": [
+        "AIO.IFTA.PUBLIC.SERVICE_FAMILY"
+      ],
+      "pages": [
+        "AIO.IFTA.PUBLIC.SERVICE"
+      ],
+      "tabs_or_sections": [
+        "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
+        "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS",
+        "AIO.IFTA.PUBLIC.SERVICE.FEATURES",
+        "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES",
+        "AIO.IFTA.PUBLIC.SERVICE.START"
+      ],
+      "material_nodes": 9,
+      "implementation_ready": 3,
+      "experience": {
+        "primary_question": "Can AIO handle my IFTA every quarter?",
+        "emotional_target": "I understand what AIO will handle every quarter and what I send."
+      }
+    }
+  },
+  "mirror_rule": "FOUNDER / STAFF mirror the client quarter as a CASE FILE (mirror, not copy); every material client state carries its staff interpretation.",
+  "public_rule": "PUBLIC MODE IS NOT THE CLIENT APPLICATION WITH DATA HIDDEN. It is a service experience; it never displays private client data (SAMPLE quarter only)."
+}

@@ -1,0 +1,1474 @@
+{
+  "id": "AIO_IFTA_STATE_REGISTRY",
+  "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
+  "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
+  "generated_for": "2026-10-06",
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "legacy_visual_authority": "FORBIDDEN"
+  },
+  "layers": {
+    "QUARTER": 17,
+    "UI": 9,
+    "RECORD": 22
+  },
+  "mirror": {
+    "sprint_client_state_family": [
+      {
+        "state_id": "COLLECTING",
+        "maps_to_contract": [
+          "QUARTER_OPEN",
+          "COLLECTING"
+        ],
+        "client": "COLLECTING — {pct}% READY · DUE {due_date}",
+        "staff_mirror": "RECORDS ARRIVING — {pct}% COMPLETE",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "NEEDS_YOU",
+        "maps_to_contract": [
+          "NEEDS_CLIENT"
+        ],
+        "client": "NEEDS YOU — {n} RECEIPTS",
+        "staff_mirror": "AWAITING CLIENT — {n} RECEIPT CORRECTIONS",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "READY_FOR_AIO",
+        "maps_to_contract": [
+          "COLLECTING"
+        ],
+        "client": "READY TO SEND TO AIO",
+        "staff_mirror": "CLIENT READY TO SUBMIT",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "AIO_REVIEWING",
+        "maps_to_contract": [
+          "AIO_REVIEW",
+          "RECONCILING"
+        ],
+        "client": "AIO REVIEWING",
+        "staff_mirror": "ACTIVE REVIEW",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "CORRECTION_REQUIRED",
+        "maps_to_contract": [
+          "NEEDS_CLIENT"
+        ],
+        "client": "CORRECTION REQUESTED — {n} ITEMS",
+        "staff_mirror": "AWAITING CLIENT — CORRECTION REQUESTED ({n})",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "READY_FOR_CLIENT_REVIEW",
+        "maps_to_contract": [
+          "AWAITING_APPROVAL"
+        ],
+        "client": "READY FOR YOUR REVIEW",
+        "staff_mirror": "AWAITING CLIENT APPROVAL",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "CLIENT_APPROVAL_PENDING",
+        "maps_to_contract": [
+          "AWAITING_APPROVAL"
+        ],
+        "client": "APPROVAL PENDING — AIO FILES AFTER YOU APPROVE",
+        "staff_mirror": "AWAITING CLIENT APPROVAL — REMINDER DUE",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "APPROVED_FOR_FILING",
+        "maps_to_contract": [
+          "FILING"
+        ],
+        "client": "APPROVED — AIO IS FILING",
+        "staff_mirror": "READY TO FILE",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "FILING",
+        "maps_to_contract": [
+          "FILING"
+        ],
+        "client": "AIO IS FILING YOUR RETURN",
+        "staff_mirror": "FILING IN PROGRESS",
+        "applicability": "ALWAYS",
+        "data_status": "PARTIAL"
+      },
+      {
+        "state_id": "FILED",
+        "maps_to_contract": [
+          "FILED"
+        ],
+        "client": "FILED — CONFIRMATION IN YOUR VAULT",
+        "staff_mirror": "FILED — CONFIRM PAYMENT STATUS",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "PAYMENT_PENDING",
+        "maps_to_contract": [
+          "FILED"
+        ],
+        "client": "FILED — PAYMENT PENDING",
+        "staff_mirror": "PAYMENT PENDING — RECORD WHEN PAID",
+        "applicability": "CONTRACTUALLY APPLICABLE when returnSummary.netPosition > 0",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "COMPLETE",
+        "maps_to_contract": [
+          "FILED",
+          "ARCHIVED"
+        ],
+        "client": "COMPLETE — PACKET IN YOUR VAULT",
+        "staff_mirror": "COMPLETE — AUDIT TRAIL CLOSED",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "ARCHIVED",
+        "maps_to_contract": [
+          "ARCHIVED"
+        ],
+        "client": "Q{n} {YYYY} FILED AND ARCHIVED",
+        "staff_mirror": "CLOSED — AUDIT TRAIL COMPLETE",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      },
+      {
+        "state_id": "NEXT_QUARTER_OPEN",
+        "maps_to_contract": [
+          "QUARTER_OPEN"
+        ],
+        "client": "Q{n+1} {YYYY} IS OPEN — START SENDING FUEL AND MILES",
+        "staff_mirror": "COLLECTION WINDOW OPEN — NOTHING RECEIVED",
+        "applicability": "ALWAYS",
+        "data_status": "EXISTING"
+      }
+    ],
+    "contract_state_coverage": [
+      {
+        "contract_state": "NOT_ENROLLED",
+        "covered_by": [
+          "NOT_ENROLLED"
+        ]
+      },
+      {
+        "contract_state": "QUARTER_OPEN",
+        "covered_by": [
+          "COLLECTING",
+          "NEXT_QUARTER_OPEN"
+        ]
+      },
+      {
+        "contract_state": "COLLECTING",
+        "covered_by": [
+          "COLLECTING",
+          "READY_FOR_AIO"
+        ]
+      },
+      {
+        "contract_state": "NEEDS_CLIENT",
+        "covered_by": [
+          "NEEDS_YOU",
+          "CORRECTION_REQUIRED"
+        ]
+      },
+      {
+        "contract_state": "OVERDUE_RISK",
+        "covered_by": [
+          "OVERDUE_RISK"
+        ]
+      },
+      {
+        "contract_state": "AIO_REVIEW",
+        "covered_by": [
+          "AIO_REVIEWING"
+        ]
+      },
+      {
+        "contract_state": "RECONCILING",
+        "covered_by": [
+          "AIO_REVIEWING"
+        ]
+      },
+      {
+        "contract_state": "AWAITING_APPROVAL",
+        "covered_by": [
+          "READY_FOR_CLIENT_REVIEW",
+          "CLIENT_APPROVAL_PENDING"
+        ]
+      },
+      {
+        "contract_state": "FILING",
+        "covered_by": [
+          "APPROVED_FOR_FILING",
+          "FILING"
+        ]
+      },
+      {
+        "contract_state": "FILED",
+        "covered_by": [
+          "FILED",
+          "PAYMENT_PENDING",
+          "COMPLETE"
+        ]
+      },
+      {
+        "contract_state": "ARCHIVED",
+        "covered_by": [
+          "COMPLETE",
+          "ARCHIVED"
+        ]
+      },
+      {
+        "contract_state": "FILING_REJECTED",
+        "covered_by": [
+          "FILING_REJECTED"
+        ]
+      }
+    ],
+    "founder_examples": [
+      {
+        "client": "NEEDS YOU — 2 RECEIPTS",
+        "staff": "AWAITING CLIENT — 2 RECEIPT CORRECTIONS",
+        "state_id": "NEEDS_YOU",
+        "registry_client": "NEEDS YOU — {n} RECEIPTS",
+        "registry_staff": "AWAITING CLIENT — {n} RECEIPT CORRECTIONS",
+        "pass": true
+      },
+      {
+        "client": "AIO REVIEWING",
+        "staff": "ACTIVE REVIEW",
+        "state_id": "AIO_REVIEWING",
+        "registry_client": "AIO REVIEWING",
+        "registry_staff": "ACTIVE REVIEW",
+        "pass": true
+      },
+      {
+        "client": "READY FOR YOUR REVIEW",
+        "staff": "AWAITING CLIENT APPROVAL",
+        "state_id": "READY_FOR_CLIENT_REVIEW",
+        "registry_client": "READY FOR YOUR REVIEW",
+        "registry_staff": "AWAITING CLIENT APPROVAL",
+        "pass": true
+      }
+    ]
+  },
+  "states": [
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "COLLECTING",
+      "label": "Collecting",
+      "meaning": "The quarter is open and fuel / miles are arriving.",
+      "maps_to": [
+        "QUARTER_OPEN",
+        "COLLECTING"
+      ],
+      "derivation": "effectiveState() ∈ {QUARTER_OPEN, COLLECTING} (QUARTER_OPEN = nothing received yet)",
+      "client_label": "COLLECTING — {pct}% READY · DUE {due_date}",
+      "staff_mirror": "RECORDS ARRIVING — {pct}% COMPLETE",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "NEEDS_YOU",
+      "label": "Needs you",
+      "meaning": "System flags only the client can answer (receipt questions, unreadable files, possible missing receipts, a truck without miles).",
+      "maps_to": [
+        "NEEDS_CLIENT"
+      ],
+      "derivation": "NEEDS_CLIENT with open client items from clientOpenItems() and no open staff correction request",
+      "client_label": "NEEDS YOU — {n} RECEIPTS",
+      "staff_mirror": "AWAITING CLIENT — {n} RECEIPT CORRECTIONS",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "READY_FOR_AIO",
+      "label": "Ready to send to AIO",
+      "meaning": "Every vehicle has fuel and a mileage source and nothing needs the client — the quarter can be sent.",
+      "maps_to": [
+        "COLLECTING"
+      ],
+      "derivation": "COLLECTING ∧ canSendToAio().ok",
+      "client_label": "READY TO SEND TO AIO",
+      "staff_mirror": "CLIENT READY TO SUBMIT",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "AIO_REVIEWING",
+      "label": "AIO reviewing",
+      "meaning": "AIO is checking records and reconciling fuel with miles.",
+      "maps_to": [
+        "AIO_REVIEW",
+        "RECONCILING"
+      ],
+      "derivation": "state ∈ {AIO_REVIEW, RECONCILING}",
+      "client_label": "AIO REVIEWING",
+      "staff_mirror": "ACTIVE REVIEW",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT",
+        "AIO.IFTA.STAFF.CASE.REOPEN"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "CORRECTION_REQUIRED",
+      "label": "Correction required",
+      "meaning": "AIO sent specific items back to the client.",
+      "maps_to": [
+        "NEEDS_CLIENT"
+      ],
+      "derivation": "NEEDS_CLIENT ∧ an open IftaCorrectionRequest (requestCorrection)",
+      "client_label": "CORRECTION REQUESTED — {n} ITEMS",
+      "staff_mirror": "AWAITING CLIENT — CORRECTION REQUESTED ({n})",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "READY_FOR_CLIENT_REVIEW",
+      "label": "Ready for your review",
+      "meaning": "The return summary is issued and waiting for the client’s decision.",
+      "maps_to": [
+        "AWAITING_APPROVAL"
+      ],
+      "derivation": "AWAITING_APPROVAL ∧ now − returnSummary.sentForApprovalAt < 2 days",
+      "client_label": "READY FOR YOUR REVIEW",
+      "staff_mirror": "AWAITING CLIENT APPROVAL",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "CLIENT_APPROVAL_PENDING",
+      "label": "Approval pending",
+      "meaning": "The decision window has been open past the contract reminder (approval pending after 2 days).",
+      "maps_to": [
+        "AWAITING_APPROVAL"
+      ],
+      "derivation": "AWAITING_APPROVAL ∧ now − returnSummary.sentForApprovalAt ≥ 2 days (contract reminder “approval pending after 2 days”)",
+      "client_label": "APPROVAL PENDING — AIO FILES AFTER YOU APPROVE",
+      "staff_mirror": "AWAITING CLIENT APPROVAL — REMINDER DUE",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "APPROVED_FOR_FILING",
+      "label": "Approved for filing",
+      "meaning": "The client approved; AIO has not recorded the filing yet.",
+      "maps_to": [
+        "FILING"
+      ],
+      "derivation": "FILING ∧ returnSummary.approvedAt",
+      "client_label": "APPROVED — AIO IS FILING",
+      "staff_mirror": "READY TO FILE",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "FILING",
+      "label": "Filing",
+      "meaning": "Staff are filing with the base jurisdiction.",
+      "maps_to": [
+        "FILING"
+      ],
+      "derivation": "FILING — no separate “filing started” marker exists; the contract treats READY TO FILE and FILING IN PROGRESS as one state",
+      "client_label": "AIO IS FILING YOUR RETURN",
+      "staff_mirror": "FILING IN PROGRESS",
+      "data_status": "PARTIAL",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "FILED",
+      "label": "Filed",
+      "meaning": "The filing confirmation is recorded.",
+      "maps_to": [
+        "FILED"
+      ],
+      "derivation": "state FILED ∧ filing.confirmationNumber (recordFiling)",
+      "client_label": "FILED — CONFIRMATION IN YOUR VAULT",
+      "staff_mirror": "FILED — CONFIRM PAYMENT STATUS",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "PAYMENT_PENDING",
+      "label": "Payment pending",
+      "meaning": "Filed with tax due; the carrier’s payment is not yet recorded. Applicable only when the return shows tax due (the tax is the carrier’s own liability, separate from AIO fees).",
+      "maps_to": [
+        "FILED"
+      ],
+      "derivation": "FILED ∧ payment.status = PAYMENT_PENDING (recordPayment)",
+      "applicability": "CONTRACTUALLY APPLICABLE when returnSummary.netPosition > 0",
+      "client_label": "FILED — PAYMENT PENDING",
+      "staff_mirror": "PAYMENT PENDING — RECORD WHEN PAID",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "COMPLETE",
+      "label": "Complete",
+      "meaning": "Filed, payment status recorded and the packet sealed in the Vault.",
+      "maps_to": [
+        "FILED",
+        "ARCHIVED"
+      ],
+      "derivation": "FILED ∧ payment.status ∈ {PAID, CREDIT_CARRIED, NO_TAX_DUE} ∧ vault packet sealed (sealPacketToVault)",
+      "client_label": "COMPLETE — PACKET IN YOUR VAULT",
+      "staff_mirror": "COMPLETE — AUDIT TRAIL CLOSED",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "ARCHIVED",
+      "label": "Archived",
+      "meaning": "The quarter is history in the filing room.",
+      "maps_to": [
+        "ARCHIVED"
+      ],
+      "derivation": "state ARCHIVED",
+      "client_label": "Q{n} {YYYY} FILED AND ARCHIVED",
+      "staff_mirror": "CLOSED — AUDIT TRAIL COMPLETE",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT",
+        "AIO.IFTA.STAFF.CASE.REOPEN"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "NEXT_QUARTER_OPEN",
+      "label": "Next quarter open",
+      "meaning": "The successor quarter is open with the fleet pre-filled.",
+      "maps_to": [
+        "QUARTER_OPEN"
+      ],
+      "derivation": "successor case from openNextQuarter() in QUARTER_OPEN (cross-feature IFTA_ARCHIVED_OPENS_NEXT)",
+      "client_label": "Q{n+1} {YYYY} IS OPEN — START SENDING FUEL AND MILES",
+      "staff_mirror": "COLLECTION WINDOW OPEN — NOTHING RECEIVED",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "NOT_ENROLLED",
+      "label": "Not set up",
+      "meaning": "No IFTA filing service for this client (public: the service offer).",
+      "maps_to": [
+        "NOT_ENROLLED"
+      ],
+      "derivation": "no quarter case for the organisation / service not activated",
+      "client_label": "SET UP IFTA FILING",
+      "staff_mirror": "CLIENT HAS NO IFTA FILING SERVICE",
+      "data_status": "PARTIAL",
+      "authority_refs": [
+        "PUBLIC_TABLET_DESKTOP"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.PUBLIC.SERVICE",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "OVERDUE_RISK",
+      "label": "Due soon — incomplete",
+      "meaning": "Due within 10 days and not ready.",
+      "maps_to": [
+        "OVERDUE_RISK"
+      ],
+      "derivation": "effectiveState() — due date within 10 days and readiness below READY_FOR_REPORTING",
+      "client_label": "DUE {due_date} — FINISH THE QUARTER",
+      "staff_mirror": "DEADLINE RISK — ESCALATE",
+      "data_status": "EXISTING",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW"
+      ]
+    },
+    {
+      "layer": "QUARTER",
+      "material": true,
+      "state_id": "FILING_REJECTED",
+      "label": "Returned by jurisdiction",
+      "meaning": "The base jurisdiction returned the filing; AIO is correcting it.",
+      "maps_to": [
+        "FILING_REJECTED"
+      ],
+      "derivation": "state FILING_REJECTED — the state exists in the contract; no AIO reducer records a rejection or opens an amendment yet",
+      "client_label": "RETURNED BY JURISDICTION — AIO IS CORRECTING",
+      "staff_mirror": "REJECTED — AMENDMENT REQUIRED",
+      "data_status": "PARTIAL",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.DEFAULT",
+      "label": "Default",
+      "meaning": "Normal content with data present.",
+      "derivation": "data loaded, no exception",
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.NOTES",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.NOTES",
+        "AIO.IFTA.STAFF.CASE.AUDIT",
+        "AIO.IFTA.STAFF.CASE.THREAD",
+        "AIO.IFTA.PUBLIC.SERVICE",
+        "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
+        "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS",
+        "AIO.IFTA.PUBLIC.SERVICE.FEATURES",
+        "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES",
+        "AIO.IFTA.PUBLIC.SERVICE.START",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.LOADING",
+      "label": "Loading",
+      "meaning": "Skeletons in the panel slots; hero + tab bar stay stable.",
+      "derivation": "read pending",
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.EMPTY",
+      "label": "Empty",
+      "meaning": "Nothing captured yet; the panel shows the capture action.",
+      "derivation": "zero records for the panel",
+      "client_label": "NO FUEL PURCHASES YET. UPLOAD RECEIPTS OR IMPORT YOUR CSV FILE.",
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.NOTES",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.NOTES"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.SUCCESS",
+      "label": "Success",
+      "meaning": "A write landed.",
+      "derivation": "mutation resolved",
+      "client_label": "RECORD VERIFIED AND SAVED.",
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT",
+        "AIO.IFTA.STAFF.CASE.THREAD",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.WARNING",
+      "label": "Warning / exception",
+      "meaning": "Data outside the expected band (MPG outlier, miles without fuel, unverified source).",
+      "derivation": "discrepancy / flag present",
+      "client_label": "MILEAGE OUTSIDE EXPECTED RANGE. PLEASE REVIEW.",
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.ERROR",
+      "label": "Error",
+      "meaning": "A file or write failed; nothing is dropped (unreadable files are kept with a retake request).",
+      "derivation": "mutation / parse failure",
+      "client_label": "FILE COULD NOT BE PROCESSED. PLEASE CHECK AND TRY AGAIN.",
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING",
+        "AIO.IFTA.STAFF.CASE.THREAD",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT",
+        "AIO.IFTA.STAFF.CASE.REOPEN",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.BLOCKED",
+      "label": "Blocked",
+      "meaning": "The next step is blocked by an upstream requirement (no IFTA account, items open, permission).",
+      "derivation": "blockingItems() non-empty or permission denied",
+      "client_label": "{blocker}",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.LOCKED_IN_REVIEW",
+      "label": "Inputs locked",
+      "meaning": "Capture tools quiet while AIO reviews / files (contract: review states quiet the inputs).",
+      "derivation": "state ∈ INPUTS_LOCKED_STATES",
+      "client_label": "AIO IS WORKING ON THIS — INPUTS ARE LOCKED",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES"
+      ]
+    },
+    {
+      "layer": "UI",
+      "maps_to": [],
+      "material": false,
+      "state_id": "UI.READ_ONLY",
+      "label": "Read only",
+      "meaning": "Archived quarter or actor without write rights.",
+      "derivation": "ARCHIVED or no write permission",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.STAFF.CASE.AUDIT"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "RECEIPT.PROCESSED",
+      "label": "Processed",
+      "meaning": "Readable, in the quarter, jurisdiction + gallons parsed, matched to a vehicle.",
+      "maps_to": [
+        "READY"
+      ],
+      "derivation": "receiptClass READY (verified by staff after review)",
+      "client_label": "PROCESSED",
+      "staff_mirror": "READY",
+      "authority_refs": [
+        "FUEL_PURCHASES_CHILD_PROOF",
+        "ICON_ASSET_SHEET"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "RECEIPT.NEEDS_REVIEW",
+      "label": "Needs review",
+      "meaning": "Parsed with low confidence — AIO is checking it.",
+      "maps_to": [
+        "UNDER_AIO_REVIEW"
+      ],
+      "derivation": "receiptClass UNDER_AIO_REVIEW",
+      "client_label": "NEEDS REVIEW",
+      "staff_mirror": "VERIFY",
+      "authority_refs": [
+        "FUEL_PURCHASES_CHILD_PROOF"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "RECEIPT.MISSING_DETAILS",
+      "label": "Missing details",
+      "meaning": "Something only the client can answer (which truck, which state, reefer vs road fuel, missing gallons).",
+      "maps_to": [
+        "NEEDS_YOU"
+      ],
+      "derivation": "receiptClass NEEDS_YOU (flag.question / options)",
+      "client_label": "MISSING DETAILS",
+      "staff_mirror": "WAITING ON CLIENT",
+      "authority_refs": [
+        "FUEL_PURCHASES_CHILD_PROOF"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "RECEIPT.DUPLICATE",
+      "label": "Duplicate",
+      "meaning": "Same station / date / amount / gallons as another receipt — held out of totals until confirmed.",
+      "maps_to": [
+        "DUPLICATE"
+      ],
+      "derivation": "receiptClass DUPLICATE (duplicateOfId)",
+      "client_label": "DUPLICATE",
+      "staff_mirror": "DUPLICATE — CONFIRM",
+      "authority_refs": [
+        "ICON_ASSET_SHEET"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "RECEIPT.UNREADABLE",
+      "label": "Unreadable",
+      "meaning": "Could not be parsed — retake / re-upload requested; never dropped.",
+      "maps_to": [
+        "UNREADABLE"
+      ],
+      "derivation": "receiptClass UNREADABLE",
+      "client_label": "UNREADABLE — RETAKE",
+      "staff_mirror": "UNREADABLE — RETAKE REQUESTED",
+      "authority_refs": [
+        "ICON_ASSET_SHEET"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "RECEIPT.POSSIBLE_MISSING",
+      "label": "Possible missing receipt",
+      "meaning": "Miles in a jurisdiction with no fuel, or a gap in a fueling pattern — a flag row, not a captured receipt.",
+      "maps_to": [
+        "POSSIBLE_MISSING"
+      ],
+      "derivation": "receiptClass POSSIBLE_MISSING with source SYSTEM_GAP · milesWithoutFuel()",
+      "client_label": "POSSIBLE MISSING RECEIPT — {state}",
+      "staff_mirror": "MILES WITHOUT FUEL — {state}",
+      "authority_refs": [
+        "ICON_ASSET_SHEET"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "MILEAGE.VERIFIED",
+      "label": "Verified",
+      "meaning": "ELD-verified source, or staff-verified manual / spreadsheet / assisted miles.",
+      "maps_to": [
+        "eld_verified",
+        "manual_verified (staffVerifiedAt)"
+      ],
+      "derivation": "assessIftaReadiness verified-source rule",
+      "client_label": "VERIFIED",
+      "staff_mirror": "VERIFIED",
+      "authority_refs": [
+        "ICON_ASSET_SHEET"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "MILEAGE.UNVERIFIED",
+      "label": "Awaiting verification",
+      "meaning": "Manual / spreadsheet / assisted miles waiting for staff verification.",
+      "maps_to": [
+        "driver_reported",
+        "manual (no staffVerifiedAt)"
+      ],
+      "derivation": "source needs staff verification",
+      "client_label": "AWAITING AIO VERIFICATION",
+      "staff_mirror": "VERIFY SOURCE",
+      "authority_refs": [
+        "ICON_ASSET_SHEET"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "MILEAGE.ESTIMATED",
+      "label": "Estimate",
+      "meaning": "Load-derived estimate — visually distinct and never filed.",
+      "maps_to": [
+        "loaded_miles"
+      ],
+      "derivation": "LOAD_DERIVED_ESTIMATE source",
+      "client_label": "ESTIMATE — ADD A VERIFIED SOURCE",
+      "staff_mirror": "ESTIMATED ONLY",
+      "authority_refs": [
+        "ICON_ASSET_SHEET"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.MILEAGE"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "MILEAGE.EXCEPTION",
+      "label": "Exception",
+      "meaning": "Outside the expected range (MPG band) or miles without fuel.",
+      "maps_to": [
+        "MPG_OUTLIER",
+        "MILES_WITHOUT_FUEL"
+      ],
+      "derivation": "IftaDiscrepancy kinds MPG_OUTLIER · MILES_WITHOUT_FUEL",
+      "client_label": "MILEAGE OUTSIDE EXPECTED RANGE",
+      "staff_mirror": "DISCREPANCY — RESOLVE",
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.MILEAGE"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "VEHICLE.ACTIVE",
+      "label": "In this quarter",
+      "meaning": "Operated this quarter; needs fuel + verified miles.",
+      "maps_to": [
+        "operated = true"
+      ],
+      "derivation": "IftaVehicle.operated",
+      "client_label": "RAN THIS QUARTER",
+      "staff_mirror": "QUALIFIED",
+      "authority_refs": [
+        "CLIENT_TABLET_DESKTOP"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.VEHICLES"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "VEHICLE.NOT_OPERATED",
+      "label": "Not operated / excluded",
+      "meaning": "Excluded from the return (with note).",
+      "maps_to": [
+        "operated = false"
+      ],
+      "derivation": "IftaVehicle.operated = false + notOperatedNote",
+      "client_label": "DID NOT RUN",
+      "staff_mirror": "EXCLUDED — NOTE ON FILE",
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "VEHICLE.MISSING_DATA",
+      "label": "Missing data",
+      "meaning": "Participation unconfirmed, or no fuel / no mileage source.",
+      "maps_to": [
+        "operated = null",
+        "no mileage source"
+      ],
+      "derivation": "vehicleReadiness()",
+      "client_label": "NEEDS MILES",
+      "staff_mirror": "MISSING VEHICLE DATA",
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.VEHICLES"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "JURISDICTION.OK",
+      "label": "Data complete",
+      "meaning": "Miles and fuel present and reconciled.",
+      "maps_to": [
+        "no open discrepancy"
+      ],
+      "derivation": "no open IftaDiscrepancy for the jurisdiction",
+      "client_label": "LOOKS GOOD",
+      "staff_mirror": "RECONCILED",
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "JURISDICTION.EXCEPTION",
+      "label": "Exception",
+      "meaning": "Miles without fuel, MPG outlier or unverified mileage in this jurisdiction.",
+      "maps_to": [
+        "open discrepancy"
+      ],
+      "derivation": "open IftaDiscrepancy with jurisdiction",
+      "client_label": "NEEDS ATTENTION",
+      "staff_mirror": "REVIEW RECOMMENDED",
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "DOC.SOURCE",
+      "label": "Source file",
+      "meaning": "Uploaded receipt / mileage report / CSV.",
+      "maps_to": [
+        "receipt fileLabel",
+        "mileage fileLabel"
+      ],
+      "derivation": "captured files",
+      "client_label": "UPLOADED",
+      "staff_mirror": "SOURCE",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "DOC.DRAFT",
+      "label": "Draft return",
+      "meaning": "Return summary prepared, not yet sent.",
+      "maps_to": [
+        "returnSummary.preparedAt"
+      ],
+      "derivation": "prepareReturnSummary",
+      "client_label": "AIO PREPARING",
+      "staff_mirror": "DRAFT",
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "used_by": [
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "DOC.REVIEW_COPY",
+      "label": "Client review copy",
+      "meaning": "Return summary sent for approval.",
+      "maps_to": [
+        "returnSummary.sentForApprovalAt"
+      ],
+      "derivation": "sendForApproval",
+      "client_label": "READY FOR YOUR REVIEW",
+      "staff_mirror": "SENT FOR APPROVAL",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "DOC.APPROVED",
+      "label": "Approved",
+      "meaning": "Client approved the summary.",
+      "maps_to": [
+        "returnSummary.approvedAt"
+      ],
+      "derivation": "approveReturn",
+      "client_label": "APPROVED",
+      "staff_mirror": "APPROVED",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "DOC.FINAL",
+      "label": "Final return + confirmation",
+      "meaning": "Filed return and confirmation recorded.",
+      "maps_to": [
+        "filing"
+      ],
+      "derivation": "recordFiling",
+      "client_label": "FILED",
+      "staff_mirror": "FILED",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "DOC.SEALED",
+      "label": "Sealed in the Vault",
+      "meaning": "Quarter packet sealed at VAULT › TAX & FUEL › IFTA › {YYYY} › Q{n}.",
+      "maps_to": [
+        "vault"
+      ],
+      "derivation": "sealPacketToVault",
+      "client_label": "IN YOUR VAULT",
+      "staff_mirror": "SEALED",
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS"
+      ]
+    },
+    {
+      "layer": "RECORD",
+      "material": false,
+      "state_id": "DOC.SUPERSEDED",
+      "label": "Superseded",
+      "meaning": "A newer version replaced this record (corrected receipt, newer mileage source, revised summary, amended return).",
+      "maps_to": [
+        "supersededById",
+        "revised summary"
+      ],
+      "derivation": "IftaMileageRecord.supersededById · receipt resolution history",
+      "client_label": "REPLACED BY NEWER VERSION",
+      "staff_mirror": "SUPERSEDED",
+      "data_status": "PARTIAL",
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW"
+      ]
+    }
+  ]
+}

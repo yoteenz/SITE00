@@ -1910,12 +1910,12 @@
     },
     "expression_refs": {
       "page_archetypes": [
-        "WORKBENCH / PACKET_BUILDER (client)",
-        "CASE_FILE / QUEUE (staff)",
-        "HUB (public service page)"
+        "LIGHT ANALYTICS COMMAND — quarter hero · metrics rail · tab family · process status · next-action rail (client parent authority)",
+        "CASE FILE — same family, LIGHT + dark operational accents (staff; the multi-client QUEUE has no authority yet)",
+        "CINEMATIC SERVICE PAGE — DARK (public)"
       ],
-      "authority_status": "NONE",
-      "notes": "No IFTA visual authority yet; first visual sprint consumes this contract."
+      "authority_status": "PARTIAL",
+      "notes": "Founder-approved AIO IFTA AUTHORITY BUNDLE ingested (docs/aio/ifta/authority-bundle/; shared/studioos-visual-authority/projects/aio/ifta-authority). Page / tab / state tree PRODUCED, awaiting founder confirmation. PARTIAL: no authority for the staff fuel tax queue."
     },
     "implementation_refs": {
       "functional_completion_pct": null,
@@ -1927,7 +1927,9 @@
     },
     "lineage": {
       "created": "2026-10-06 (P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1)",
-      "revised": [],
+      "revised": [
+        "2026-10-06 (P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1): expression_refs bound to the ingested authority bundle; experience semantics unchanged"
+      ],
       "approved": null,
       "superseded_by": null,
       "source_project_context": [
@@ -1947,7 +1949,12 @@
         "AIO.RENEWALS",
         "AIO.DISPATCH_OPERATIONS"
       ],
-      "related_authorities": []
+      "related_authorities": [
+        "AIO.IFTA.CLIENT.PFA.v1",
+        "AIO.IFTA.FOUNDER_STAFF.PFA.v1",
+        "AIO.IFTA.PUBLIC.PFA.v1",
+        "AIO.IFTA.PAGE_TREE.v1"
+      ]
     },
     "declared_completion": "EXPERIENCE_COMPLETE"
   },

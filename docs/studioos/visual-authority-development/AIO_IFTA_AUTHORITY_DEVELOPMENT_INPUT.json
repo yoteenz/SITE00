@@ -18,9 +18,9 @@
     "missing": [],
     "thin": [],
     "open_questions": [
-      "Is the code typography (Plus Jakarta Sans / DM Sans) the founder brand typography, or provisional?",
-      "Logo clear-space, minimum size and on-dark / on-light rules.",
-      "Approved photography set (which cinematic trucking images are brand-approved vs placeholder)."
+      "D-BRAND-TOKENS — brand DNA board vs IFTA asset sheet values for gold (#D4A853 vs #F4B223), charcoal (#1A1A1A vs #1F2937), darkest ink (#050505 vs #0B0B0B), light background (#F6F6F4 vs #FFFFFF).",
+      "D-TYPOGRAPHY — display face MONUMENT EXTENDED (+ BEBAS NEUE labels; commercial licence) vs INTER TIGHT.",
+      "Production brand assets not in the package: light-theme / transparent simple mark, transparent full lockups, approved hero photographs (reference images are not runtime assets)."
     ]
   },
   "experience_check": {
@@ -30,22 +30,22 @@
   },
   "gate_status": {
     "PUBLIC": {
-      "state": "AUTHORITY_TERRITORIES_REQUIRED",
-      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "state": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
       "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
-      "next_step": "Author 3 distinct composition territories."
+      "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions)."
     },
     "CLIENT": {
-      "state": "AUTHORITY_TERRITORIES_REQUIRED",
-      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "state": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
       "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
-      "next_step": "Author 3 distinct composition territories."
+      "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions)."
     },
     "FOUNDER_STAFF": {
-      "state": "AUTHORITY_TERRITORIES_REQUIRED",
-      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "state": "AUTHORITY_APPROVED",
+      "guard": "PAGE_TREE_CONFIRMATION_REQUIRED",
       "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
-      "next_step": "Author 3 distinct composition territories."
+      "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions)."
     }
   },
   "actor_packages": {
@@ -130,7 +130,7 @@
   "cross_actor_rules": [
     "PUBLIC page prepares the client for the real workspace (same six-step quarter, same quarter object) — continuity, not a copy of the portal.",
     "FOUNDER / STAFF mirrors the client quarter as a CASE FILE across many clients — mirror, not copy.",
-    "The three actor authorities share brand DNA and the QUARTERLY FILING ROOM metaphor; each still gets its own 3 territories."
+    "The three actor authorities share brand DNA and the QUARTERLY FILING ROOM metaphor. Founder decision (authority bundle): the CLIENT parent authority precedes actor / viewport derivation — FOUNDER_STAFF and PUBLIC derive from the locked client parent instead of running their own three territories."
   ],
   "founder_test_run": {
     "who": "Founder + ChatGPT",
@@ -140,7 +140,8 @@
       "Produce one reference authority per territory (no paid generation from this sprint)",
       "Founder verdict per actor",
       "Lock PAGE_FAMILY_AUTHORITY → AUTHORITY_APPROVED → IMPLEMENTATION_READY"
-    ]
+    ],
+    "status": "RAN — the founder + ChatGPT test produced the AIO IFTA AUTHORITY BUNDLE (client parent via 3 territories; staff + public derived). Ingested in docs/aio/ifta/authority-bundle/."
   },
   "constraints": {
     "new_paid_generations": 0,

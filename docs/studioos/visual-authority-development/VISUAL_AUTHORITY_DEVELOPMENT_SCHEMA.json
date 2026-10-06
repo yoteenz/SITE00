@@ -55,8 +55,20 @@
     {
       "step": "07",
       "id": "LOCK_PAGE_FAMILY_AUTHORITY",
-      "does": "Lock approved page logic: core logic locks + flexible implementation areas + lineage.",
+      "does": "Lock approved page logic: core logic locks + flexible implementation areas + lineage. Other actors / viewports may DERIVE from the locked parent authority (AuthorityDerivation) instead of running their own territories.",
       "produces": "PageFamilyAuthority (PAGE_FAMILY_AUTHORITY level)"
+    },
+    {
+      "step": "07A",
+      "id": "PRODUCE_PAGE_TAB_STATE_TREE",
+      "does": "The Brain ingests brand DNA + experience contract + authority package + page / tab / data / interaction / asset contracts and produces the page / tab / state tree. Tabs are first-class nodes; every material node carries a node contract, authority binding and readiness.",
+      "produces": "Experience tree (tree.ts) + PageTreeConfirmation PRODUCED"
+    },
+    {
+      "step": "07B",
+      "id": "FOUNDER_CONFIRMS_TREE",
+      "does": "Founder confirms the page / tab / state tree (and settles its open decisions). Only then may implementation begin.",
+      "produces": "PageTreeConfirmation FOUNDER_CONFIRMED"
     },
     {
       "step": "08",
@@ -72,6 +84,13 @@
     }
   ],
   "supersedes_methodology": "FAMILY LOCK → IMPLEMENTATION without experience + visual authority development.",
+  "pipeline_doctrine": [
+    "AUTHOR FIRST.",
+    "DERIVE SECOND.",
+    "SPECIFY THIRD.",
+    "IMPLEMENT LAST."
+  ],
+  "supersedes_pipeline": "DIRECT EXPERIENCE-CONTRACT → IMPLEMENTATION PIPELINE",
   "gate_inputs": [
     "brand DNA",
     "product ontology",
@@ -188,6 +207,12 @@
     },
     "authority": {
       "$ref": "#/$defs/PageFamilyAuthority"
+    },
+    "derivation": {
+      "$ref": "#/$defs/AuthorityDerivation"
+    },
+    "page_tree": {
+      "$ref": "#/$defs/PageTreeConfirmation"
     },
     "implementation": {
       "$ref": "AUTHORITY_IMPLEMENTATION_CONTRACT.json#/report_schema"
@@ -717,6 +742,82 @@
         "CTA_HIERARCHY"
       ],
       "is_not": "the final design — it locks page logic, composition, spatial relationship, visual direction, primary metaphor, information hierarchy, zone relationship and experience emphasis."
+    },
+    "AuthorityDerivation": {
+      "type": "object",
+      "required": [
+        "parent",
+        "parent_territories",
+        "references"
+      ],
+      "properties": {
+        "parent": {
+          "$ref": "#/$defs/PageFamilyAuthority"
+        },
+        "parent_territories": {
+          "type": "array",
+          "items": {
+            "$ref": "COMPOSITION_TERRITORY_SCHEMA.json"
+          }
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReferenceAuthority"
+          }
+        }
+      },
+      "rule": "Parent authority precedes actor / viewport derivation. A derived actor inherits the territory step from a LOCKED parent of the same family (another actor) whose territories are distinct; its own references trace to a parent source territory and show all six proofs; it still needs its own founder approval and lock.",
+      "evaluator": "checkDerivation(input, derivation)"
+    },
+    "PageTreeConfirmation": {
+      "type": "object",
+      "required": [
+        "tree_id",
+        "status",
+        "produced_at",
+        "confirmed_at",
+        "founder_decision"
+      ],
+      "properties": {
+        "tree_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "NOT_PRODUCED",
+            "PRODUCED",
+            "FOUNDER_CONFIRMED"
+          ]
+        },
+        "produced_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "confirmed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "founder_decision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "open_decisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "rule": "The Brain produces the page / tab / state tree (tabs are first-class nodes) from the locked authority package; implementation may begin only after FOUNDER_CONFIRMED.",
+      "on_missing": "PAGE_TREE_CONFIRMATION_REQUIRED"
     }
   }
 }

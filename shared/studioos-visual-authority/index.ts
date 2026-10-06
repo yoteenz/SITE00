@@ -7,5 +7,7 @@ export * from './schema.js';
 export * from './gate.js';
 export * from './contracts.js';
 export * from './registry.js';
+export * from './tree.js';
 export * as aio from './projects/aio/ifta.js';
+export * as aioIfta from './projects/aio/ifta-authority/index.js';
 export * as samples from './projects/samples/portability.js';
