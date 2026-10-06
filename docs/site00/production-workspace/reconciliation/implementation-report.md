@@ -89,7 +89,7 @@ CROSS-TAB           PASS (3 founder example flows + AIO resolve)
 MEDIA               PASS
 ROUTE PERSISTENCE   PASS
 WORKSPACE BASELINE  17 files: only the 2 pre-existing failures (same as main)
-FULL SUITE          see "Full suite" below — 0 new failures vs main
+FULL SUITE          10 630 tests · 0 new failures vs main · tsc clean
 
 REMOVED
 MOCK DATA SOURCES       LIBRARY static tabs / categories / collections / most-used / lineage-flow; generic DESIGN chamber outside NDXBOOK; 6 hard-coded formats; synthetic activity rows
@@ -125,4 +125,9 @@ READY FOR FOUNDER REVIEW  YES
 
 ## Full suite
 
-Filled at ship time from `npx vitest run` (compared with the pre-existing failure list of `main`).
+`npx vitest run` on the branch merged with `main @ 61a5e901`: **10 630 tests in 2 243 files**. 107 failures, of which 106 are
+on `main`'s pre-existing failure list and 1 was this sprint's — `productionHubDescendantsOpus1 › every HUB action targets an
+existing production route` (its allow-list predated the HUB BLOCKERS link to the existing ACTIVITY → BLOCKERS lens); the
+allow-list now includes that lens → **0 new failures**. Workspace baseline (17 files, 374 tests): only the 2 pre-existing
+failures (`productionAuthorityAlignmentSonnet1R1`, `productionAuthorityConvergenceOpus1` — host-chrome scaling, also on
+`main`). `tsc --noEmit` clean.

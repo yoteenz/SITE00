@@ -132,3 +132,4 @@ from what any route renders. Totals:
 |---|---|---|---|
 | `jurnlF01ProjectIngestion` | switch from `/production/queue` lands on `/production/jurnl/design` | `/production/queue?project=jurnl` | a project switch keeps the tab (founder decision) |
 | `productionInboxAuthorityFamilyOpus2 › 13` | chrome source contains `pathname.startsWith('/production/queue')` | `workspaceTabOf('/production/queue') === 'INBOX'` + `tab === 'INBOX'` branch | the active tab is resolved by the shared project-scope module |
+| `productionHubDescendantsOpus1 › every HUB action targets an existing production route` | allow-list without `/production/activity?view=blockers` | lens route added | the HUB BLOCKERS count opens the list it counts (existing ACTIVITY lens) |
