@@ -31,7 +31,13 @@
   },
   "required_proof": {
     "before_after_targets": "screenshots/before/* + screenshots/after/* (F05 F09 F10 F11 F13 F15 F16 × EMPTY/POPULATED)",
-    "multi_screen_continuation": "screenshots/pagination/multiscreen_F16_screen1..3.jpg + continuation_F05_screen1..2.jpg",
+    "multi_screen_continuation": [
+      "screenshots/pagination/multiscreen_F16_screen1.jpg",
+      "screenshots/pagination/multiscreen_F16_screen2.jpg",
+      "screenshots/pagination/multiscreen_F16_screen3.jpg",
+      "screenshots/pagination/continuation_F05_screen1.jpg",
+      "screenshots/pagination/continuation_F05_screen2.jpg"
+    ],
     "nav_centering_proof": "screenshots/boards/NAV_CENTERING_PROOF.jpg",
     "comparison_board": "screenshots/boards/COMPARISON_ALL_ROOTS_AFTER.jpg"
   },
