@@ -1,0 +1,1 @@
+{"owner":"F16","entity":"JurnlRecord","fields":["record_id","title","record_type","file_ref","linked_domain_type","linked_domain_id","status","source"],"statuses":["READY","PROCESSING","FAILED","ARCHIVED"],"forbidden_statuses":["VERIFIED","AUTHENTICATED"]}

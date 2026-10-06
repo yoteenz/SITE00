@@ -1,0 +1,1 @@
+{"owner":"F11","entity":"JurnlTrip","fields":["trip_id","title","destination","start_date","end_date","target_budget","reserved_amount","paid_amount","linked_plan_id","linked_goal_id","status"],"statuses":["ACTIVE","COMPLETE","ARCHIVED"]}

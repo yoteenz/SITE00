@@ -1,0 +1,1 @@
+{"gaps_before":5,"gaps_after":1,"closed":["purchase CRUD","trip CRUD","paydown plan upsert","record metadata CRUD"],"deferred":[{"gap":"remote file blob storage","owner":"F16","wave":5}]}

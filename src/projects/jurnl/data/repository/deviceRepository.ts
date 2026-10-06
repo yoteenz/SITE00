@@ -16,6 +16,10 @@ import { seedGoalsFromSetup, seedPlansFromSetup } from './wave3Seed';
 import type { JurnlPlanIntention } from '../foundation/plan';
 import type { JurnlGoal } from '../foundation/goals';
 import type { JurnlCreditAttributes } from '../foundation/creditAttributes';
+import type { JurnlPurchase } from '../foundation/purchases';
+import type { JurnlTrip } from '../foundation/trips';
+import type { JurnlPaydownPlan } from '../foundation/paydown';
+import type { JurnlRecord } from '../foundation/records';
 import {
   REPOSITORY_SCHEMA_VERSION,
   type JurnlRepository,
@@ -49,6 +53,10 @@ function legacyStorageKeyV3(userId: string) {
   return `jurnl.repository.v3.${userId}`;
 }
 
+function legacyStorageKeyV4(userId: string) {
+  return `jurnl.repository.v4.${userId}`;
+}
+
 function browserLocal(): KV | null {
   if (typeof localStorage === 'undefined') return null;
   return {
@@ -73,6 +81,10 @@ function emptySnapshot(userId: string): RepositorySnapshot {
     planIntentions: [],
     goals: [],
     creditAttributes: [],
+    purchases: [],
+    trips: [],
+    paydownPlan: null,
+    records: [],
     updatedAt: now,
   };
 }
@@ -88,6 +100,10 @@ function finalizeSnapshot(parsed: RepositorySnapshot): RepositorySnapshot {
     planIntentions: parsed.planIntentions ?? [],
     goals: parsed.goals ?? [],
     creditAttributes: parsed.creditAttributes ?? [],
+    purchases: parsed.purchases ?? [],
+    trips: parsed.trips ?? [],
+    paydownPlan: parsed.paydownPlan ?? null,
+    records: parsed.records ?? [],
   };
   return {
     ...base,
@@ -118,7 +134,7 @@ function readSnapshot(userId: string): RepositorySnapshot {
           return finalized;
         }
       }
-      for (const keyFn of [legacyStorageKeyV3, legacyStorageKeyV2, legacyStorageKey]) {
+      for (const keyFn of [legacyStorageKeyV4, legacyStorageKeyV3, legacyStorageKeyV2, legacyStorageKey]) {
         const legacyRaw = kv.get(keyFn(userId));
         if (!legacyRaw) continue;
         const legacy = JSON.parse(legacyRaw) as RepositorySnapshot;
@@ -429,6 +445,99 @@ class DeviceJurnlRepository implements JurnlRepository {
     return next;
   }
 
+  listPurchases(): JurnlPurchase[] {
+    return readSnapshot(this.userId).purchases;
+  }
+
+  upsertPurchase(purchase: JurnlPurchase): JurnlPurchase {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.purchases.findIndex((p) => p.purchase_id === purchase.purchase_id);
+    const purchases = [...snap.purchases];
+    const next = { ...purchase, updated_at: new Date().toISOString() };
+    if (idx >= 0) purchases[idx] = next;
+    else purchases.push(next);
+    persist({ ...snap, purchases, updatedAt: new Date().toISOString() });
+    emit('PURCHASE_CREATED', purchase.purchase_id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return next;
+  }
+
+  deletePurchase(id: string): boolean {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.purchases.findIndex((p) => p.purchase_id === id);
+    if (idx < 0) return false;
+    const purchases = [...snap.purchases];
+    purchases[idx] = { ...purchases[idx], status: 'ARCHIVED', archived_at: new Date().toISOString() };
+    persist({ ...snap, purchases, updatedAt: new Date().toISOString() });
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return true;
+  }
+
+  listTrips(): JurnlTrip[] {
+    return readSnapshot(this.userId).trips;
+  }
+
+  upsertTrip(trip: JurnlTrip): JurnlTrip {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.trips.findIndex((t) => t.trip_id === trip.trip_id);
+    const trips = [...snap.trips];
+    const next = { ...trip, updated_at: new Date().toISOString() };
+    if (idx >= 0) trips[idx] = next;
+    else trips.push(next);
+    persist({ ...snap, trips, updatedAt: new Date().toISOString() });
+    emit('TRIP_CREATED', trip.trip_id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return next;
+  }
+
+  deleteTrip(id: string): boolean {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.trips.findIndex((t) => t.trip_id === id);
+    if (idx < 0) return false;
+    const trips = [...snap.trips];
+    trips[idx] = { ...trips[idx], status: 'ARCHIVED', archived_at: new Date().toISOString() };
+    persist({ ...snap, trips, updatedAt: new Date().toISOString() });
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return true;
+  }
+
+  getPaydownPlan(): JurnlPaydownPlan | null {
+    return readSnapshot(this.userId).paydownPlan;
+  }
+
+  upsertPaydownPlan(plan: JurnlPaydownPlan): JurnlPaydownPlan {
+    const snap = readSnapshot(this.userId);
+    const next = { ...plan, updated_at: new Date().toISOString() };
+    persist({ ...snap, paydownPlan: next, updatedAt: new Date().toISOString() });
+    emit('DEBT_UPDATED');
+    return next;
+  }
+
+  listRecords(): JurnlRecord[] {
+    return readSnapshot(this.userId).records;
+  }
+
+  upsertRecord(record: JurnlRecord): JurnlRecord {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.records.findIndex((r) => r.record_id === record.record_id);
+    const records = [...snap.records];
+    const next = { ...record, updated_at: new Date().toISOString() };
+    if (idx >= 0) records[idx] = next;
+    else records.push(next);
+    persist({ ...snap, records, updatedAt: new Date().toISOString() });
+    return next;
+  }
+
+  deleteRecord(id: string): boolean {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.records.findIndex((r) => r.record_id === id);
+    if (idx < 0) return false;
+    const records = [...snap.records];
+    records[idx] = { ...records[idx], status: 'ARCHIVED', archived_at: new Date().toISOString() };
+    persist({ ...snap, records, updatedAt: new Date().toISOString() });
+    return true;
+  }
+
   onEvent(cb: (event: RepositoryEvent) => void): () => void {
     eventSubs.add(cb);
     return () => eventSubs.delete(cb);
@@ -457,6 +566,7 @@ export function resetRepositoryForDev() {
     kv.set(legacyStorageKey(activeUserId), '');
     kv.set(legacyStorageKeyV2(activeUserId), '');
     kv.set(legacyStorageKeyV3(activeUserId), '');
+    kv.set(legacyStorageKeyV4(activeUserId), '');
   }
   repo = new DeviceJurnlRepository(activeUserId);
 }

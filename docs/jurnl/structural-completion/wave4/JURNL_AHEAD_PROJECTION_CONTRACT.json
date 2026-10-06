@@ -1,0 +1,1 @@
+{"owner":"F15","derived":true,"outputs":["AheadProjectionItem","shortfall_risk","projected_net_30","completeness"],"certainty_semantics":{"KNOWN":"canonical upcoming with date","EXPECTED":"estimated upcoming or purchase/trip target","PLANNED":"committed reserve or plan assign","SIMULATED":"paydown extra payment model","UNKNOWN":"missing terms"}}

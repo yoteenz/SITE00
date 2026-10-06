@@ -139,22 +139,22 @@
   "interactions": [
     {
       "id": "F16.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F16.DOCUMENT"
     },
     {
       "id": "F16.IX.FIND",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": null
     },
     {
       "id": "F16.IN.ADD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F16.SH.ADD_DOCUMENT"
     },
     {
       "id": "F16.IN.REMOVE",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F16.MD.DELETE_DOCUMENT"
     },
     {
@@ -284,12 +284,12 @@
     "FINANCIAL_SERVICE_REFERRALS (REFERRAL, DISABLED)"
   ],
   "functional_status": {
-    "score": 12.7,
-    "strict": 10.5,
+    "score": 33.7,
+    "strict": 31.6,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 15,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 12,
+      "COMPLETE_FUNCTIONAL": 6,
       "LEGACY": 1
     }
   },

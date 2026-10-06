@@ -1,0 +1,1 @@
+{"family":"F10","routes":["purchases","purchases/:purchaseId"],"persistence":"repository.snapshot.purchases","mutations":["createPurchase","updatePurchase","archivePurchase","markPurchaseBought"],"reads":["computeSafeToSpend","planIntentions","goals"],"boundaries":["no second transaction store","PURCHASED requires linked_transaction_id"]}

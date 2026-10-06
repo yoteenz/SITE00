@@ -1,0 +1,1 @@
+{"family":"F13","routes":["paydown","paydown/what-if"],"persistence":"repository.snapshot.paydownPlan","mutations":["upsertPaydownPlan"],"reads":["creditAccounts","creditSummary","projectUpcoming"],"simulation":["simulatePaydownProjection"],"boundaries":["simulation never writes F12 balances"]}
