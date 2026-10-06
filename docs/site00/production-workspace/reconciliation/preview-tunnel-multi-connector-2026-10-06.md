@@ -61,3 +61,12 @@ Do **not** use `ensure-grok-environment-unified-preview.sh` for #1404+ workspace
 | Header `X-Site00-Preview-Commit` matches `origin/main` | No dev entry; old manifest SHA |
 
 Production marketing site: **site00.com** (GoDaddy ZIP) — not the tunnel.
+
+## Single git branch for founder preview (2026-10-06)
+
+| Branch | Purpose |
+| --- | --- |
+| **`preview/tunnel`** | What the canonical tunnel worktree mounts (`PREVIEW_AUTHORITY=origin/preview/tunnel`). |
+| **`main`** | All agent PRs merge here; CI fast-forwards `preview/tunnel` on every push to `main`. |
+
+Work on `cursor/*` is **not** on the tunnel until merged. After merge, run `bash .cursor/scripts/post-merge-preview-tunnel-refresh.sh` on the canonical preview environment (or wait for CI + vite restart).

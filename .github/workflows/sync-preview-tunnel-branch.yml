@@ -1,0 +1,26 @@
+name: Sync preview/tunnel branch
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fast-forward preview/tunnel to main
+        run: |
+          git fetch origin main preview/tunnel || true
+          if git show-ref --verify --quiet refs/remotes/origin/preview/tunnel; then
+            git push origin "origin/main:refs/heads/preview/tunnel"
+          else
+            git branch preview/tunnel origin/main
+            git push -u origin preview/tunnel
+          fi

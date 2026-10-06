@@ -1,0 +1,35 @@
+---
+description: Founder cloud preview — one git branch, one canonical tunnel connector
+alwaysApply: true
+---
+
+# Preview tunnel authority (founder mobile review)
+
+The public cloud preview tunnel is **not** whatever branch happens to be checked out on a random agent VM.
+
+## Git source (mandatory)
+
+| Ref | Role |
+| --- | --- |
+| **`preview/tunnel`** | Branch the tunnel worktree mounts (`origin/preview/tunnel`). Fast-forwarded from **`main`** after every merge (GitHub Action + `sync-preview-tunnel-branch.sh`). |
+| **`main`** | Production source of truth; all agent PRs merge here in-session. |
+| **`cursor/*` feature branches** | **Not founder-visible** on the tunnel until merged to `main` (then `preview/tunnel` updates). |
+
+Serve preview with **`serve-site00-preview-from-main.sh`** (name legacy; tracks **`preview/tunnel`**). Do **not** use `ensure-grok-environment-unified-preview.sh` for founder workspace review unless explicitly reviewing that Grok branch.
+
+## Cloud agent shipping (all models — Composer, Opus, etc.)
+
+1. Branch from **`main`**, PR to **`main`**, **merge in the same session** (unless founder says draft / wait).
+2. After merge, run **`bash .cursor/scripts/post-merge-preview-tunnel-refresh.sh`** on the **canonical preview environment** when you have pushed to `origin/main` (CI also syncs `preview/tunnel` on push to `main`).
+3. Do not leave founder-facing work only on a long-lived `cursor/*` branch.
+
+## Tunnel connector (mandatory)
+
+- Only the environment with **`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`** in Cursor Cloud Secrets may run `cloudflared`.
+- All other agents: tunnel script exits without registering a connector.
+- Docs: `docs/site00/production-workspace/reconciliation/preview-tunnel-multi-connector-2026-10-06.md`
+
+## Verify
+
+- `/tmp/site00-preview-runtime-lineage.txt` → `PREVIEW_AUTHORITY=origin/preview/tunnel` and SHA matches latest merged `main`.
+- Page source on tunnel: `/src/main.tsx?v=dev-local` (dev mode), not stale unrelated `index.*.js` from another connector.

@@ -2,12 +2,12 @@
   "name": "SITE 00",
   "user": "ubuntu",
   "install": "npm ci && bash .cursor/scripts/install-cloudflared.sh",
-  "start": "bash .cursor/scripts/bootstrap-cloud-preview-from-ci.sh && bash .cursor/scripts/ensure-site00-preview-url.sh && bash .cursor/scripts/ensure-site00-preview-main-authority.sh",
+  "start": "bash .cursor/scripts/bootstrap-site00-cloud-preview-runtime.sh",
   "terminals": [
     {
       "name": "site00-vite",
       "command": "bash .cursor/scripts/serve-site00-preview-from-main.sh",
-      "description": "Current origin/main on :5174, including JURNL parent pages. Override SITE00_CLOUD_PREVIEW_MODE=local for a production build."
+      "description": "origin/preview/tunnel worktree on :5174 (merged agent work). Override SITE00_CLOUD_PREVIEW_MODE=local for CI parity build."
     },
     {
       "name": "site00-preview-tunnel",

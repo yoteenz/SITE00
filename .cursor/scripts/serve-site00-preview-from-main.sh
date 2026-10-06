@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Point the preview tunnel at current origin/main so recent pages (JURNL parents included) are what the tunnel serves.
+# Point the preview tunnel at origin/preview/tunnel (synced from main after merges) — founder-visible integration branch.
 set -euo pipefail
 
 SCRIPT_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
