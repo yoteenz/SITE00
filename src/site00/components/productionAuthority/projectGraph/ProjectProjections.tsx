@@ -243,7 +243,7 @@ export function ProjectInboxBody() {
         <p>Every item resolves to a real production node of this project. Counts are the lists below.</p>
       </header>
       <Lenses lenses={lenses} active={view} href={href} testId="project-inbox-lenses" />
-      <GraphPanel title={lenses.find((l) => l.id === view)!.label} count={rows.length} testId={`project-inbox-${view}`}>
+      <GraphPanel title={lenses.find((l) => l.id === view)!.label} count={rows.length} testId="project-inbox-list">
         {rows.length ?
           <ul className="pgx-rows">
             {rows.map((d) => (
