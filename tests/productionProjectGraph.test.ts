@@ -255,7 +255,7 @@ describe('D — cross-tab propagation through the workspace ledger', () => {
 
 describe('H — route persistence and project switching', () => {
   it('every root tab carries the project; the tab resolves from the path', () => {
-    const tabs = ['HUB', 'INBOX', 'DESIGN', 'EXPERIENCE', 'EXPRESSION', 'LIBRARY', 'ACTIVITY'] as const;
+    const tabs = ['HUB', 'INBOX', 'EXPERIENCE', 'DESIGN', 'EXPRESSION', 'LIBRARY', 'ACTIVITY'] as const;
     for (const t of tabs) {
       const href = scopedTabHref(t, 'jurnl');
       const [p, q = ''] = href.split('?');

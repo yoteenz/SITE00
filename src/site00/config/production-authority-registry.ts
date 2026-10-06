@@ -10,7 +10,7 @@ export type ProductionViewportFamily = 'mobile' | 'tablet' | 'desktop';
 
 export const PRODUCTION_VIEWPORT_FAMILIES: readonly ProductionViewportFamily[] = ['mobile', 'tablet', 'desktop'];
 
-export const PRODUCTION_GLOBAL_TAB_ORDER = ['hub', 'inbox', 'design', 'experience', 'expression', 'library', 'activity'] as const;
+export const PRODUCTION_GLOBAL_TAB_ORDER = ['hub', 'inbox', 'experience', 'design', 'expression', 'library', 'activity'] as const;
 export type ProductionGlobalTab = (typeof PRODUCTION_GLOBAL_TAB_ORDER)[number];
 
 export const PRODUCTION_DESIGN_MODE_ORDER = ['brand', 'experience', 'surfaces', 'compiler', 'assets', 'viewport'] as const;
