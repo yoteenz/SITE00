@@ -1,0 +1,4 @@
+{
+  "status": "SKIPPED",
+  "reason": "Set JURNL_RLS_LIVE=1 with Supabase test users to run live matrix"
+}

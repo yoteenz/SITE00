@@ -12,6 +12,9 @@ import { F02_SCREENS } from '../data/f02/screens';
 import { JurnlOverlayHostContext, JurnlSuccessBanner } from './components/primitives';
 import { JurnlEntitlementsProvider } from './monetization/JurnlEntitlements';
 import { JurnlNavHostContext } from './components/ProductNav';
+import { JurnlProductionServiceScreen } from './components/JurnlProductionServiceScreen';
+import { JurnlRuntimeChrome } from './components/JurnlRuntimeChrome';
+import { jurnlProductionFailClosed } from '../data/production/productionConfig';
 import { JurnlStoreProvider, useJurnl } from './state/store';
 import { CreateAccountScreen, ReturningUnlockScreen, SignInScreen, VerifyEmailScreen, WelcomeScreen } from './screens/EntryScreens';
 import { ForgotPasswordScreen, NewPasswordScreen, ResetSentScreen, ResetSuccessScreen } from './screens/RecoveryScreens';
@@ -129,6 +132,9 @@ function JurnlRoutes() {
 export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps) {
   const [overlayHost, setOverlayHost] = useState<HTMLElement | null>(null);
   const [navHost, setNavHost] = useState<HTMLElement | null>(null);
+  if (mode === 'production' && jurnlProductionFailClosed(mode)) {
+    return <JurnlProductionServiceScreen />;
+  }
   return (
     <div className="jrn" data-project-runtime="jurnl" data-runtime-mode={mode} data-jrn-app-stage="canvas" lang="en">
       <JurnlNavHostContext.Provider value={navHost}>
@@ -136,6 +142,7 @@ export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps
         {/* Entitlements context only (no DOM): future families query capabilities; F01 never renders monetization UI. */}
         <JurnlEntitlementsProvider mode={mode}>
           <JurnlStoreProvider basePath={basePath} mode={mode}>
+            <JurnlRuntimeChrome />
             <JurnlRoutes />
             <Toast />
           </JurnlStoreProvider>

@@ -1,0 +1,6 @@
+{
+  "status": "PARTIAL",
+  "tool": "manual+existing core a11y e2e",
+  "axeAdded": false,
+  "note": "Full axe sweep deferred to follow-up CI job"
+}

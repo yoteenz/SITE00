@@ -1,0 +1,4 @@
+{
+  "allowList": "jurnl_* events in jurnlAnalytics.ts",
+  "forbiddenKeyPattern": "amount|balance|merchant|account_number|password|token|secret|prompt|transaction"
+}

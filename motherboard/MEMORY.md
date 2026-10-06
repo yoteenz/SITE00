@@ -13868,6 +13868,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — JURNL Wave 5 production hardening (P0.JURNL.WAVE5-PRODUCTION-HARDENING)
+
+- **Context:** After full-product E2E Gate 1 PASS on `main`, Composer hardened JURNL for production without visual redesign or new families. Canonical input: `docs/jurnl/e2e/JURNL_E2E_WAVE5_DEPENDENCIES.json` (5 dependencies).
+- **Implemented:** Supabase auth adapter (`SUPABASE` kind) + session restore in production; fail-closed `productionConfig` when `VITE_JURNL_SERVER_PERSISTENCE` + Supabase + API not all set; debounced server snapshot sync (`/api/jurnl/repository`) preserving device repository contract; migration `jurnl_user_snapshots` / `jurnl_record_files` / `jurnl_mutation_idempotency` + RLS; Ask context validation API; analytics allow-list + redaction; production `noindex` chrome; Wave 5 artifact pack under `docs/jurnl/structural-completion/wave5/`; CI workflow **JURNL Production Hardening E2E**.
+- **External / deferred (honest):** native financial provider, live Ask JURNL generation, F16 remote blob bytes (metadata table only). Status: **COMPLETE_WITH_EXTERNAL_DEPENDENCIES**.
+- **Live proof:** Local gates — full product E2E **82/82 PASS**; production hardening E2E **6/6 PASS**; re-run **JURNL Full Product E2E** + **JURNL Production Hardening E2E** on GitHub Actions after merge.
+- **Doctrine (Wave 5):** E2E pass ≠ production ready; no demo fallback in production; RLS owner-only; analytics/telemetry must not carry raw financial values.
+
+---
+
 ## 2026-10-05 — JURNL Wave 0 foundations active (P0.JURNL.WAVE0-FOUNDATIONS)
 
 - **Context:** After forensic blueprint (#1382), Composer implemented shared foundations before F05–F16 child expansion. F01/F02 visuals frozen; zero generation.

@@ -1,0 +1,9 @@
+{
+  "tables": [
+    "jurnl_user_snapshots",
+    "jurnl_record_files",
+    "jurnl_mutation_idempotency"
+  ],
+  "policies": "owner-only via auth.uid() = user_id",
+  "anon": "DENY private financial data"
+}

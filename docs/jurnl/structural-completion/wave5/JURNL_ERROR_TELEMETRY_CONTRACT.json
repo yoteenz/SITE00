@@ -1,0 +1,4 @@
+{
+  "client": "jurnl_error_shown analytics event",
+  "server": "API returns typed codes; no stack traces to client"
+}
