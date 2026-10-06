@@ -1,0 +1,5 @@
+{
+  "session_restore": "PARTIAL",
+  "session_expiry": "PARTIAL",
+  "cross_session": "FAIL"
+}

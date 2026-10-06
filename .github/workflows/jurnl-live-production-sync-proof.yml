@@ -1,0 +1,88 @@
+name: JURNL Live RLS & Production Sync Proof
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/projects/jurnl/data/repository/**'
+      - 'src/projects/jurnl/runtime/state/store.tsx'
+      - 'api/jurnl/**'
+      - 'supabase/migrations/*jurnl*'
+      - 'scripts/jurnl/run-live-rls-and-sync-proof.ts'
+      - 'scripts/jurnl/write-live-proof-artifacts.ts'
+      - 'scripts/jurnl/live-proof/**'
+      - '.github/workflows/jurnl-live-production-sync-proof.yml'
+
+concurrency:
+  group: jurnl-live-proof-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  live_proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      JURNL_LIVE_PROOF: '1'
+      JURNL_LIVE_QA_SETUP: '1'
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      JURNL_LIVE_API_BASE: ${{ secrets.JURNL_LIVE_API_BASE || secrets.VITE_API_BASE }}
+      JURNL_QA_USER_A_EMAIL: ${{ secrets.JURNL_QA_USER_A_EMAIL }}
+      JURNL_QA_USER_A_PASSWORD: ${{ secrets.JURNL_QA_USER_A_PASSWORD }}
+      JURNL_QA_USER_B_EMAIL: ${{ secrets.JURNL_QA_USER_B_EMAIL }}
+      JURNL_QA_USER_B_PASSWORD: ${{ secrets.JURNL_QA_USER_B_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test -- --run tests/jurnlDeviceServerMerge.test.ts tests/jurnlWave5Production.test.ts
+      - name: Check live proof secrets
+        id: secrets
+        run: |
+          missing=0
+          for v in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY JURNL_QA_USER_A_EMAIL JURNL_QA_USER_A_PASSWORD JURNL_QA_USER_B_EMAIL JURNL_QA_USER_B_PASSWORD; do
+            if [ -z "${!v}" ]; then echo "Missing $v"; missing=1; fi
+          done
+          echo "ready=$([ $missing -eq 0 ] && echo 1 || echo 0)" >> "$GITHUB_OUTPUT"
+      - name: Live RLS and sync proof
+        if: steps.secrets.outputs.ready == '1'
+        run: npm run jurnl:live-proof
+      - name: Write awaiting live proof artifacts
+        if: steps.secrets.outputs.ready != '1'
+        run: |
+          mkdir -p docs/jurnl/structural-completion/wave5-live-proof
+          npx tsx scripts/jurnl/write-live-proof-artifacts.ts
+          node -e "const fs=require('fs');const p='docs/jurnl/structural-completion/wave5-live-proof/JURNL_LIVE_PRODUCTION_SYNC_E2E_RESULT.json';const j=JSON.parse(fs.readFileSync(p,'utf8'));j.gate_status='AWAITING_GITHUB_ACTIONS_LIVE_PROOF';j.note='Add JURNL_QA_USER_A/B secrets and re-run workflow_dispatch';fs.writeFileSync(p,JSON.stringify(j,null,2));"
+      - name: Upload live proof artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jurnl-live-proof-artifacts
+          retention-days: 30
+          path: docs/jurnl/structural-completion/wave5-live-proof/
+
+  regression_gates:
+    needs: live_proof
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Full product E2E
+        env:
+          GITHUB_ACTIONS: 'true'
+        run: npm run jurnl:e2e:gate
+      - name: Production hardening E2E
+        env:
+          GITHUB_ACTIONS: 'true'
+        run: npm run jurnl:e2e:wave5

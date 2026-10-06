@@ -567,6 +567,23 @@ export function getRepository(): JurnlRepository {
 }
 
 /** Dev-only: drop cached snapshot for the active user. */
+/** Read persisted snapshot without creating an empty default (browser only). */
+export function peekDeviceSnapshot(userId: string): RepositorySnapshot | null {
+  const cached = memoryByUser.get(userId);
+  if (cached) return cached;
+  const kv = browserLocal();
+  if (!kv) return null;
+  try {
+    const raw = kv.get(storageKey(userId));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as RepositorySnapshot;
+    if (parsed.userId !== userId) return null;
+    return parsed.schemaVersion === REPOSITORY_SCHEMA_VERSION ? finalizeSnapshot(parsed) : migrateStored(parsed);
+  } catch {
+    return null;
+  }
+}
+
 /** Replace local snapshot (server hydrate / first-login merge). */
 export function importSnapshotForUser(userId: string, snapshot: RepositorySnapshot) {
   const snap = finalizeSnapshot({ ...snapshot, userId, updatedAt: snapshot.updatedAt || new Date().toISOString() });

@@ -11,8 +11,15 @@ import { f04ScreenForRoute } from '../../data/f04/screens';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
 import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
 import { resolveFamilyRoute } from '../../data/foundation/familyRegistry';
-import { importSnapshotForUser, setRepositoryUserId } from '../../data/repository/deviceRepository';
-import { configureServerSync, pullServerSnapshotForHydrate, subscribeServerSync, type ServerSyncState } from '../../data/repository/serverSyncCoordinator';
+import { decideDeviceServerMerge } from '../../data/repository/deviceServerMerge';
+import { importSnapshotForUser, peekDeviceSnapshot, setRepositoryUserId } from '../../data/repository/deviceRepository';
+import {
+  configureServerSync,
+  pullServerSnapshotForHydrate,
+  pushSnapshotAfterLogin,
+  subscribeServerSync,
+  type ServerSyncState,
+} from '../../data/repository/serverSyncCoordinator';
 import { resolveJurnlProductionConfig, type JurnlProductionConfig } from '../../data/production/productionConfig';
 import { getSupabase } from '../../../../utils/supabase';
 import {
@@ -281,8 +288,24 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
         emailVerified: Boolean(user.email_confirmed_at),
       };
       setRepositoryUserId(user.id);
-      const { snapshot } = await pullServerSnapshotForHydrate(mode);
-      if (snapshot) importSnapshotForUser(user.id, snapshot);
+      let serverSnap = null as Awaited<ReturnType<typeof pullServerSnapshotForHydrate>>['snapshot'];
+      try {
+        const pulled = await pullServerSnapshotForHydrate(mode);
+        serverSnap = pulled.snapshot;
+      } catch (e) {
+        if (String(e).includes('AUTH')) {
+          setSession({ ...DEFAULT_SESSION });
+          setRepositoryUserId('preview-guest');
+          return;
+        }
+      }
+      const emailKey = account.email.trim().toUpperCase();
+      const deviceSnap = peekDeviceSnapshot(user.id) ?? peekDeviceSnapshot(emailKey);
+      const decision = decideDeviceServerMerge(serverSnap, deviceSnap);
+      if (decision) {
+        importSnapshotForUser(user.id, { ...decision.snapshot, userId: user.id });
+        if (decision.action === 'UPLOAD_DEVICE') await pushSnapshotAfterLogin(mode, user.id);
+      }
       setSession({ account, status: 'ACTIVE' });
     };
 

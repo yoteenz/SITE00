@@ -1,0 +1,4 @@
+{
+  "user_b_read_deny": "PASS",
+  "anon_deny": "PASS"
+}
