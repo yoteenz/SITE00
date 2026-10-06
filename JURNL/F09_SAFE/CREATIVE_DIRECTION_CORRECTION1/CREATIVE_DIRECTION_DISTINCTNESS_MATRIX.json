@@ -1,0 +1,123 @@
+{
+  "id": "CREATIVE_DIRECTION_DISTINCTNESS_MATRIX",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "rule": {
+    "dimensions": [
+      "art_direction_premise",
+      "environmental_strategy",
+      "material_strategy",
+      "object_language",
+      "typographic_strategy",
+      "depth_model",
+      "brand_lockup_strategy",
+      "visual_wit",
+      "data_encoding",
+      "cta_expression"
+    ],
+    "min_differing": 8,
+    "anchors": [
+      "art_direction_premise",
+      "depth_model",
+      "material_strategy"
+    ],
+    "on_failure": "CREATIVE_DIRECTION_COLLAPSE"
+  },
+  "rows": [
+    {
+      "territory_id": "JURNL.F09.T01",
+      "art_direction_premise": "THE SURVEYED COURTYARD — overhead architectural photograph annotated like a survey",
+      "environmental_strategy": "Environment is the data object (courtyard proportions encode the breakdown)",
+      "material_strategy": "Travertine floor, limewashed walls, limestone courses, bronze inlay, brass plates, oak door",
+      "object_language": "Architecture: walls, courses, door, floor inlay",
+      "typographic_strategy": "Figure cast and inlaid in bronze in the floor; engraved plate labels",
+      "depth_model": "Orthographic top-down plan view",
+      "brand_lockup_strategy": "Carved cornerstone plaque + tagline engraved on the wall face",
+      "visual_wit": "Negative space is the money",
+      "data_encoding": "Area ratio (floor ÷ room) and wall-course length",
+      "cta_expression": "Emerald tile on the axis directly below the closed oak door — the door leads to the breakdown"
+    },
+    {
+      "territory_id": "JURNL.F09.T02",
+      "art_direction_premise": "THE ANSWER IN RAKING LIGHT — one carved sentence on a sunlit limestone wall",
+      "environmental_strategy": "Environment frames and lights the answer (window at the edge supplies clarity)",
+      "material_strategy": "Honed limestone, carving, emerald enamel, brass inlay, oak window",
+      "object_language": "Inscription: carved letters, inlaid metal words, hanging tag, maker’s plate",
+      "typographic_strategy": "Monumental carved serif sentence; metal vs stone distinguishes openable words",
+      "depth_model": "Frontal elevation in shallow relief (2.5D)",
+      "brand_lockup_strategy": "Brass maker’s plate with descriptor",
+      "visual_wit": "Only the words that hold money are made of metal",
+      "data_encoding": "Inline words + one half-filled brass rule (filled = clear, empty groove = held)",
+      "cta_expression": "Full-width emerald slab closing the column, under generous stone"
+    },
+    {
+      "territory_id": "JURNL.F09.T03",
+      "art_direction_premise": "THE SORTING RACK — entry-hall still life where money is sorted like post",
+      "environmental_strategy": "Environment is the organising system (rack, console, letter in layers)",
+      "material_strategy": "Oak, brass, cotton paper, linen envelopes, burgundy wax, travertine console, plaster wall",
+      "object_language": "Stationery and furniture: rack, sealed envelopes, released letter, broken seal",
+      "typographic_strategy": "Letterhead stationery layout with letterpress figure; engraved slot plates",
+      "depth_model": "Three-quarter frontal still life with real depth",
+      "brand_lockup_strategy": "Letterhead lockup + botanical emboss on every wax seal",
+      "visual_wit": "The broken seal — the only letter you have opened",
+      "data_encoding": "Envelope thickness ∝ amount; open vs sealed",
+      "cta_expression": "Emerald tile under the console, after the objects"
+    }
+  ],
+  "result": {
+    "status": "CREATIVE_DIRECTIONS_DISTINCT",
+    "pairs": [
+      {
+        "a": "JURNL.F09.T01",
+        "b": "JURNL.F09.T02",
+        "differing": [
+          "art_direction_premise",
+          "environmental_strategy",
+          "material_strategy",
+          "object_language",
+          "typographic_strategy",
+          "depth_model",
+          "brand_lockup_strategy",
+          "visual_wit",
+          "data_encoding",
+          "cta_expression"
+        ],
+        "distinct": true
+      },
+      {
+        "a": "JURNL.F09.T01",
+        "b": "JURNL.F09.T03",
+        "differing": [
+          "art_direction_premise",
+          "environmental_strategy",
+          "material_strategy",
+          "object_language",
+          "typographic_strategy",
+          "depth_model",
+          "brand_lockup_strategy",
+          "visual_wit",
+          "data_encoding",
+          "cta_expression"
+        ],
+        "distinct": true
+      },
+      {
+        "a": "JURNL.F09.T02",
+        "b": "JURNL.F09.T03",
+        "differing": [
+          "art_direction_premise",
+          "environmental_strategy",
+          "material_strategy",
+          "object_language",
+          "typographic_strategy",
+          "depth_model",
+          "brand_lockup_strategy",
+          "visual_wit",
+          "data_encoding",
+          "cta_expression"
+        ],
+        "distinct": true
+      }
+    ]
+  }
+}

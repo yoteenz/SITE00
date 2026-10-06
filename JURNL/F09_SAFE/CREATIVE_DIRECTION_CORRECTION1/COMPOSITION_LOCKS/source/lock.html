@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>F09 COMPOSITION LOCK</title>
+<style>
+  /* Composition locks for the F09 creative-direction round: zones, hierarchy and geometry the renderer must execute.
+     9:16 frame; the 393-pt viewport is x 9–91 %; the CENTER_STAGE field is x 14.5–85.5 %. ?t=1|2|3 &labels=1 */
+  @font-face { font-family: 'JRN Sans'; src: url('../../../../../public/site00/projects/jurnl/fonts/barlow-semi-condensed-500.woff2') format('woff2'); }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; }
+  body { position: relative; font: 500 22px/1.1 'JRN Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #15171c; }
+  .b { position: absolute; box-sizing: border-box; }
+  .lab { position: absolute; font-size: 19px; color: #6e1f2d; background: rgba(255,255,255,.82); padding: 3px 7px; border: 1px solid #6e1f2d; white-space: nowrap; z-index: 50; }
+  .guide { position: absolute; top: 0; bottom: 0; border-left: 2px dashed rgba(110,31,45,.55); z-index: 40; }
+  .hz { position: absolute; left: 0; right: 0; border-top: 2px dashed rgba(110,31,45,.35); z-index: 40; }
+  .bar { position: absolute; background: #2a2622; border-radius: 3px; }
+</style>
+</head>
+<body>
+<script>
+  const q = new URLSearchParams(location.search);
+  const T = Number(q.get('t') || 1);
+  const LABELS = q.get('labels') === '1';
+  const W = 1080, H = 1920;
+  const px = (v, d) => (v / 100) * (d === 'x' ? W : H);
+  function box(x1, y1, x2, y2, style = {}, cls = 'b') {
+    const e = document.createElement('div'); e.className = cls;
+    Object.assign(e.style, { left: px(x1, 'x') + 'px', top: px(y1, 'y') + 'px', width: px(x2 - x1, 'x') + 'px', height: px(y2 - y1, 'y') + 'px' }, style);
+    document.body.appendChild(e); return e;
+  }
+  const bar = (x1, y, x2, h = 0.6, color = '#2a2622') => box(x1, y, x2, y + h, { background: color, borderRadius: '3px' });
+  const label = (x, y, text) => { if (!LABELS) return; const e = document.createElement('div'); e.className = 'lab'; e.textContent = text; e.style.left = px(x, 'x') + 'px'; e.style.top = px(y, 'y') + 'px'; document.body.appendChild(e); };
+
+  function chromeAndNav(ground) {
+    // status bar + chrome (square-rounded icon buttons; no centred wordmark)
+    bar(13, 3.2, 18, 0.9);
+    bar(78, 3.2, 87, 0.9);
+    box(14.5, 7.4, 22.5, 11, { background: '#f9f6ef', border: '2px solid #cbbdab', borderRadius: '14px' });
+    box(69.5, 7.4, 77.5, 11, { background: '#f9f6ef', border: '2px solid #cbbdab', borderRadius: '14px' });
+    box(77.5 + 0.5, 7.4, 85.5, 11, { background: '#f9f6ef', border: '2px solid #cbbdab', borderRadius: '14px' });
+    // nav: five equal square-rounded cells, HOME active
+    const x0 = 14.5, x1 = 85.5, gap = 0.75, w = (x1 - x0 - gap * 4) / 5;
+    for (let i = 0; i < 5; i++) {
+      const a = x0 + i * (w + gap);
+      box(a, 89.4, a + w, 94.6, { background: i === 0 ? '#0f3d32' : '#f9f6ef', border: '2px solid ' + (i === 0 ? '#0f3d32' : '#cbbdab'), borderRadius: '18px' });
+    }
+    box(40, 97.2, 60, 97.7, { background: '#15171c', borderRadius: '6px' });
+    label(14.5, 95.2, 'NAV · HOME · MONEY · + · PLAN · CREDIT (HOME ACTIVE)');
+    label(24, 8.4, 'CHROME · BACK  |  ACCOUNT · ASK JURNL — NO CENTRED WORDMARK');
+    if (LABELS) {
+      for (const x of [9, 91]) { const g = document.createElement('div'); g.className = 'guide'; g.style.left = px(x, 'x') + 'px'; document.body.appendChild(g); }
+      for (const x of [14.5, 85.5]) { const g = document.createElement('div'); g.className = 'guide'; g.style.left = px(x, 'x') + 'px'; g.style.borderLeftStyle = 'dotted'; document.body.appendChild(g); }
+      label(0.6, 50, 'BLEED');
+      label(91.6, 50, 'BLEED');
+    }
+  }
+
+  if (T === 1) {
+    document.body.style.background = '#e7ded0'; // terrace paving around the courtyard
+    box(0, 0, 100, 100, { background: 'linear-gradient(210deg, rgba(255,250,238,.85), rgba(255,250,238,0) 45%)' });
+    // olive canopy in the top-right bleed
+    box(84, 10.5, 106, 29, { background: 'radial-gradient(closest-side, #76835f, rgba(118,131,95,.0))', borderRadius: '50%' });
+    // top band: label + state + survey rule
+    bar(14.5, 13.4, 33, 0.7); bar(14.5, 15.2, 30, 0.55, '#6b5f52');
+    box(20, 18.6, 80, 18.85, { background: '#c6a676' }); bar(20, 18.1, 20.25, 1.2, '#c6a676'); bar(79.75, 18.1, 80, 1.2, '#c6a676');
+    bar(42, 17.2, 58, 0.6, '#6b5f52');
+    // courtyard: wall ring (four courses) + floor
+    const X1 = 20, Y1 = 20.5, X2 = 80, Y2 = 63, t = 2.6, ty = t * 1080 / 1920;
+    box(X1, Y1, X2, Y2, { background: '#c9b89c' });
+    box(X1, Y1, X1 + t, Y2, { background: '#cdbb9b' });          // left — BILLS / PLAN
+    box(X1, Y1, X1 + 34, Y1 + ty, { background: '#d6c7ae' });    // top-left — PLAN
+    box(X1 + 34, Y1, X2, Y1 + ty, { background: '#bfae92' });    // top-right — GOALS
+    box(X2 - t, Y1, X2, Y2, { background: '#d3bfb0' });          // right — TRIPS
+    box(X1 + t, Y1 + ty, X2 - t, Y2 - ty, { background: '#f3ecdf' }); // open floor
+    for (let i = 1; i < 6; i++) box(X1 + t, Y1 + ty + i * (Y2 - Y1 - 2 * ty) / 6, X2 - t, Y1 + ty + i * (Y2 - Y1 - 2 * ty) / 6 + 0.06, { background: '#e4d9c7' });
+    box(X1 + 2, Y1 + 0.2, X1 + 11, Y1 + 5, { background: '#a8987d', borderRadius: '4px' }); // cornerstone
+    // door on the axis
+    box(44, Y2 - ty, 56, Y2, { background: '#e7ded0' }); box(44, Y2 - ty * 0.6, 56, Y2 - ty * 0.25, { background: '#8a6a45' });
+    // figure inlay + captions
+    bar(38, 36.4, 62, 0.6, '#6b5f52');
+    box(27, 38, 73, 45, { background: '#3a3324', borderRadius: '6px' });
+    bar(39, 46.6, 61, 0.6, '#6b5f52');
+    // brass plates
+    for (const [x, y] of [[X1 + 0.3, 50], [X1 + 14, Y1 + 0.2], [X1 + 44, Y1 + 0.2], [X2 - 2.3, 34]]) box(x, y, x + (y === Y1 + 0.2 ? 8 : 2), y + (y === Y1 + 0.2 ? 0.9 : 4.5), { background: '#c6a676' });
+    // paving band: tagline, CTA, inline actions
+    bar(20, 64.6, 40, 0.5, '#8a7a68');
+    box(50 - 0.08, 63.2, 50 + 0.08, 68.6, { background: 'rgba(110,31,45,.35)' });
+    box(26, 69, 74, 74, { background: '#0f3d32', borderRadius: '18px' });
+    bar(14.5, 78, 38, 0.6); bar(55, 78, 63, 0.6);
+    label(14.5, 12.4, 'SAFE TO SPEND + A FULL READING');
+    label(36, 16.0, 'BRASS SURVEY RULE · CASH $30,960');
+    label(20.5, 26, 'CORNERSTONE · JURNL LOCKUP');
+    label(30, 35.2, 'CLEAR TO SPEND');
+    label(27, 41, '$24,885 · BRONZE FLOOR INLAY (LARGEST)');
+    label(36, 47.6, 'HELD BACK $6,075');
+    label(20.5, 54.5, 'OPEN FLOOR = CLEAR (80 %)');
+    label(48, 22.2, 'WALL COURSES = HELD · BRASS PLATES');
+    label(42, 60.6, 'OAK DOOR (CLOSED) ON + AXIS');
+    label(14.5, 65.6, 'TAGLINE ENGRAVED');
+    label(27, 70.6, 'CTA · SEE THE FULL BREAKDOWN');
+    label(14.5, 79.6, 'CHANGE WHAT’S HELD ›   ·   PLAN ›');
+    label(80, 12, 'OLIVE · BLEED ONLY');
+  }
+
+  if (T === 2) {
+    document.body.style.background = '#e9dcc6';
+    box(0, 0, 100, 100, { background: 'linear-gradient(255deg, rgba(255,247,226,.95) 0%, rgba(255,247,226,.0) 55%), linear-gradient(255deg, rgba(0,0,0,0) 60%, rgba(90,72,52,.12) 100%)' });
+    // deep window reveal at the right edge below the chrome
+    box(82, 12, 100, 32, { background: '#b9a78b' }); box(84, 13.5, 100, 30.5, { background: '#d7e2d9' });
+    box(86, 14, 100, 22, { background: 'radial-gradient(closest-side, #7a8a62, rgba(122,138,98,0))' });
+    bar(14.5, 13.2, 33, 0.65);
+    box(14.5, 16.8, 62, 20.4, { background: '#5a4c3c', borderRadius: '4px' });          // YOU CAN SPEND
+    box(14.5, 22, 76, 33.5, { background: '#0f3d32', borderRadius: '8px' });           // figure
+    box(14.5, 35.2, 14.5 + 61.5 * 0.80, 35.6, { background: '#c6a676' });             // brass rule (80 %)
+    box(14.5 + 61.5 * 0.80 + 0.6, 35.2, 76, 35.6, { background: 'rgba(90,72,52,.35)' }); // empty groove
+    bar(58, 36.6, 76, 0.55, '#6b5f52');
+    // sentence lines with brass words
+    box(14.5, 40, 36, 43, { background: '#5a4c3c', borderRadius: '4px' }); box(37.5, 40, 52, 43, { background: '#c6a676', borderRadius: '4px' });
+    box(14.5, 44.5, 42, 47.5, { background: '#c6a676', borderRadius: '4px' }); box(44, 44.5, 60, 47.5, { background: '#c6a676', borderRadius: '4px' });
+    box(14.5, 49, 25, 52, { background: '#5a4c3c', borderRadius: '4px' }); box(26.5, 49, 43, 52, { background: '#c6a676', borderRadius: '4px' });
+    box(27, 47.6, 27.2, 49.8, { background: '#9c8460' }); box(22, 49.9, 40, 52.4, { background: '#d9bf8c', borderRadius: '6px', outline: '2px solid #9c8460' }); // tag (drawn over line 3 area)
+    // reading line, maker's plate, CTA, inline
+    box(14.5, 57.6, 17.2, 59.1, { background: '#0f3d32', borderRadius: '5px' }); bar(18.5, 58.1, 58, 0.55, '#6b5f52');
+    box(14.5, 62, 44, 67, { background: '#c6a676', borderRadius: '6px' });
+    box(14.5, 70, 85.5, 75, { background: '#0f3d32', borderRadius: '18px' });
+    bar(14.5, 78, 38, 0.6); bar(55, 78, 63, 0.6);
+    label(14.5, 12.2, 'SAFE TO SPEND');
+    label(14.5, 15.8, 'YOU CAN SPEND · CARVED');
+    label(16, 27, '$24,885 · CARVED + EMERALD ENAMEL (LARGEST)');
+    label(14.5, 36.6, 'BRASS RULE 80 % · EMPTY GROOVE 20 % · OF $30,960 CASH');
+    label(14.5, 38.6, 'NOW, AFTER [BILLS], [YOUR PLAN], [GOALS] AND [TRIPS]. — BRASS = OPENABLE');
+    label(41, 50.3, 'BRASS TAG · $2,400 ASSIGNED');
+    label(19, 59.6, 'A FULL READING. EVERY BILL HAS AN AMOUNT.');
+    label(15, 63.6, 'MAKER’S PLATE · JURNL + DESCRIPTOR');
+    label(16, 71.6, 'CTA · SEE THE FULL BREAKDOWN (FULL WIDTH)');
+    label(14.5, 79.6, 'CHANGE WHAT’S HELD ›   ·   PLAN ›');
+    label(66, 33, 'WINDOW · RAKING LIGHT · EDGE ONLY');
+  }
+
+  if (T === 3) {
+    document.body.style.background = '#ece4d6';
+    box(0, 0, 100, 100, { background: 'linear-gradient(125deg, rgba(255,251,242,.9) 0%, rgba(255,251,242,0) 42%)' });
+    bar(14.5, 13.3, 33, 0.65);
+    // oak rack with four sealed envelopes of different thickness
+    box(17, 26, 83, 38, { background: '#9a7650', borderRadius: '6px' });
+    const env = [[19, 31.5, 2.2, '#efe6d7'], [34.5, 47, 3.0, '#e6dccb'], [50, 64, 1.2, '#f1e8dc'], [66, 80, 1.2, '#efd9d2']];
+    for (const [a, b, depth, c] of env) {
+      box(a, 16.5, b, 27, { background: c, border: '2px solid #cbbdab', borderRadius: '4px' });
+      box(a, 16.5 - depth * 0.55, b, 16.5, { background: '#d8ccb9' }); // thickness seen from slightly above
+      box((a + b) / 2 - 1.6, 20, (a + b) / 2 + 1.6, 21.8, { background: '#6e1f2d', borderRadius: '45%' }); // wax seal (object, not a control)
+      box(a + 1.5, 33.6, b - 1.5, 35.8, { background: '#c6a676', borderRadius: '3px' }); // slot plate
+    }
+    box(17, 38.6, 83, 40.4, { background: '#c6a676' }); // brass strip
+    // travertine console top + released letter + broken seal
+    box(12, 42, 88, 68, { background: '#e3d6c1', clipPath: 'polygon(4% 0, 96% 0, 100% 100%, 0 100%)' });
+    const letter = box(24, 44.5, 76, 66, { background: '#fbf8f2', border: '2px solid #d8ccba', transform: 'rotate(-3.5deg)' });
+    box(47, 46, 53, 49.5, { background: '#c9949a', borderRadius: '4px' }); // letterhead mark
+    bar(40, 50.2, 60, 0.5, '#8a7a68');
+    bar(37, 52.6, 63, 0.6, '#6b5f52');
+    box(30, 54.5, 70, 61, { background: '#0f3d32', borderRadius: '6px' });
+    box(62, 61.8, 70, 64.6, { background: 'transparent', border: '3px solid #0f3d32', borderRadius: '6px' });
+    box(78.5, 55, 81.5, 56.8, { background: '#6e1f2d', borderRadius: '40%' }); box(80.5, 57.4, 82.5, 58.6, { background: '#6e1f2d', borderRadius: '40%' });
+    box(14.5, 70, 85.5, 75, { background: '#0f3d32', borderRadius: '18px' });
+    bar(14.5, 78, 38, 0.6); bar(55, 78, 63, 0.6);
+    label(14.5, 12.2, 'SAFE TO SPEND');
+    label(19, 14.6, 'SEALED ENVELOPES · THICKNESS = AMOUNT (PLAN THICKEST)');
+    label(19, 31.2, 'OAK RACK · BRASS SLOT PLATES BILLS · PLAN · GOALS · TRIPS');
+    label(19, 40.8, 'BRASS STRIP · HELD BACK $6,075 OF $30,960 CASH');
+    label(40, 47.6, 'LETTERHEAD · JURNL + TAGLINE');
+    label(31, 57.2, '$24,885 · LETTERPRESS EMERALD (LARGEST)');
+    label(52, 65, 'STAMP · FULL READING');
+    label(70, 59.4, 'BROKEN SEAL');
+    label(16, 71.6, 'CTA · SEE THE FULL BREAKDOWN');
+    label(14.5, 79.6, 'CHANGE WHAT’S HELD ›   ·   PLAN ›');
+  }
+
+  chromeAndNav();
+  if (LABELS) {
+    const t = document.createElement('div'); t.className = 'lab';
+    t.style.cssText += 'left:14.5%;top:85%;background:#6e1f2d;color:#fff;border-color:#6e1f2d';
+    t.textContent = ['', 'T01 THE SURVEYED COURTYARD — COMPOSITION LOCK', 'T02 THE ANSWER IN RAKING LIGHT — COMPOSITION LOCK', 'T03 THE SORTING RACK — COMPOSITION LOCK'][T];
+    document.body.appendChild(t);
+  }
+</script>
+</body>
+</html>

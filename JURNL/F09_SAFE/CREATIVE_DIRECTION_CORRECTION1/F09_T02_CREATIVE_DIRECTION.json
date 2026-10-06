@@ -1,0 +1,189 @@
+{
+  "id": "F09_T02_CREATIVE_DIRECTION",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "translation_id": "JURNL.F09.T02.CD.v1",
+  "project_id": "JURNL",
+  "profile_id": "JURNL.CREATIVE_DIRECTION.v1",
+  "territory_id": "JURNL.F09.T02",
+  "structural_premise": "The page is one plain sentence that answers the question, set into stone.",
+  "primary_object": "THE ANSWER SENTENCE — generated from the breakdown, the figure as its second line",
+  "functional_metaphor": "One plain sentence answers the question; each held-back thing is a word you can open.",
+  "bespoke_visual_idea": "ONLY THE WORDS THAT HOLD MONEY ARE MADE OF METAL. The sentence is carved into a limestone wall and revealed by raking morning light, but the held-back words — BILLS, YOUR PLAN, GOALS, TRIPS — are inlaid in brass: the material itself says \"this word opens\". One opened word hangs a small engraved brass tag on a fine chain ($2,400 ASSIGNED). Under the figure, a brass rule fills only the share of cash that is clear; the rest is an empty carved groove — what is held back is cut but not filled.",
+  "render_brief": "A finished mobile app screen for JURNL, a calm Mediterranean personal-finance app: one warm honed limestone wall seen straight on, lit by low morning sun raking in from a deep rectangular window cut into the right edge (olive leaves outside). Carved into the stone, left-aligned in elegant condensed high-contrast serif capitals: YOU CAN SPEND, then $24,885 at monumental size filled with deep emerald enamel, then a thin inlaid rule — four fifths polished brass, one fifth an empty carved groove — captioned OF $30,960 CASH, then NOW, AFTER BILLS, YOUR PLAN, GOALS AND TRIPS. The words BILLS, YOUR PLAN, GOALS and TRIPS are inlaid in polished brass instead of carved; a small engraved brass tag hangs on a fine chain beneath YOUR PLAN reading $2,400 ASSIGNED. Below: a small engraved reading line with a tiny emerald square, a brushed-brass maker’s plate at lower left with the JURNL botanical logo and FINANCIAL LIFE, BEAUTIFULLY ORGANIZED., a full-width deep-emerald square-cornered button SEE THE FULL BREAKDOWN, and the JURNL five-cell bottom navigation.",
+  "fields": {
+    "art_direction_premise": "THE ANSWER IN RAKING LIGHT — a frontal elevation of one sunlit limestone wall carrying a single carved sentence, read the way you read an inscription on a Mediterranean building.",
+    "brand_world_translation": "Calm confidence becomes architecture: the answer is permanent, plain and quietly assured; clarity is literal daylight raking across the letters from a deep window.",
+    "graphic_design_language": "Monumental editorial typesetting in relief: carved V-cut capitals, a giant figure with emerald enamel infill, brass-inlaid interactive words, one brass proportion rule with an empty groove, a hanging brass tag as inline disclosure, a small brass maker’s plate.",
+    "environmental_role": "Framing and meaning only: a deep window reveal at the top-right edge brings the light that makes the carving legible; outside it, a sliver of olive leaves. Nothing sits behind the text.",
+    "material_language": "Warm honed limestone wall; carved letters with crisp shadows; emerald enamel in the figure; champagne brass inlays, rule, tag and plate; an oak window frame.",
+    "tactile_object_language": "Inlaid brass letterforms flush in stone; a small rectangular brass tag with softened corners on a fine chain; a screwed brass maker’s plate.",
+    "typographic_art_direction": "One fashion-condensed high-contrast serif for the whole sentence (carved), the figure at monumental scale; tracked condensed sans only for the small engraved captions. Left-aligned column inside the centred field. All uppercase.",
+    "logo_behavior": "A small brushed-brass MAKER’S PLATE screwed to the wall at the lower left of the field — like an architect’s or foundry plate — engraved with the official botanical mark and JURNL. Quiet, asymmetric, never in the chrome.",
+    "brand_lockup_behavior": "Maker’s plate = BOTANICAL MARK + JURNL + descriptor FINANCIAL LIFE, BEAUTIFULLY ORGANIZED. (engraved, tiny). No tagline elsewhere: this is the most direct territory.",
+    "color_hierarchy": "Limestone cream (dominant) → taupe carving shadows → ONE emerald-enamel figure → champagne brass only on openable words, rule, tag and plate → deep emerald CTA and active nav cell.",
+    "lighting_direction": "Low early-morning sun from a window at the right, grazing leftward across the wall so every carved letter casts a crisp short shadow; a soft warm pool fades toward the lower left.",
+    "depth_model": "Frontal elevation, shallow relief (2.5D): one wall plane, carving and inlay depth only, plus the window reveal.",
+    "compositional_tension": "A monumental carved figure against a tiny swinging brass tag; the diagonal of the raking light against the rigid left-aligned column.",
+    "negative_space_strategy": "Generous untouched stone between the sentence and the CTA: the stone is the page; calm, not empty.",
+    "editorial_wit": "Metal means \"you can open this\": the material of a word tells you whether it is a statement or a door.",
+    "custom_designed_element": "The brass-inlaid openable words with the hanging engraved tag, and the half-filled brass proportion rule.",
+    "bespoke_detail": "The held-back part of the rule is a carved groove left unfilled — cut but not filled.",
+    "imagery_role": "Material and light, not a photo backdrop; the window and olive sliver justify the light and stay at the edge.",
+    "focal_priority": "1 $24,885 · 2 YOU CAN SPEND · 3 the brass words of the after-clause · 4 the proportion rule · 5 reading line · 6 CTA · 7 maker’s plate.",
+    "motion_implication": "Tapping a brass word lowers its tag on the chain (inline disclosure); a recalculation re-cuts the figure (cross-fade, still); the hold sheet rises.",
+    "anti_generic_rules": "No hero-number promo layout, no gradient background, no centred stack, no card, no stock wall texture, no marble.",
+    "anti_ai_look_rules": "Every carved word exactly as specified; no extra inscriptions; consistent letter depth; no warped serifs; brass only where specified."
+  },
+  "authorship_devices": [
+    "BESPOKE_TYPOGRAPHIC_RELATIONSHIP",
+    "EDITORIAL_SCALE_CONTRAST",
+    "TACTILE_DATA_ENCODING",
+    "BESPOKE_LABELS_TABS",
+    "CUSTOM_HIERARCHY",
+    "LAYERED_PHYSICAL_GRAPHIC_STRUCTURE",
+    "ASYMMETRIC_BRANDED_FRAMING"
+  ],
+  "locks": {
+    "primary_object": "The carved answer sentence with the figure as its second line, held-back words inlaid in brass.",
+    "major_zones": "WINDOW REVEAL (x 82–100 %, y 12–32 %, edge only) · SENTENCE COLUMN (x 14.5–80 %, y 13–56 %) · READING LINE (y 58–60 %) · MAKER’S PLATE (x 14.5–44 %, y 62–67 %) · CTA (y 70–75 %) · INLINE ACTIONS (y 77–80 %).",
+    "visual_hierarchy": "Figure ≫ lead line ≫ brass words ≫ rule ≫ reading ≫ CTA ≫ plate.",
+    "text_hierarchy": "1 $24,885 (monumental, emerald enamel) · 2 YOU CAN SPEND (carved, large) · 3 NOW, AFTER BILLS, YOUR PLAN, GOALS AND TRIPS. (carved, brass for the four held-back words) · 4 OF $30,960 CASH (small caption right under the rule) · 5 brass tag $2,400 ASSIGNED · 6 SAFE TO SPEND (small label, top) and A FULL READING. EVERY BILL HAS AN AMOUNT. · 7 CTA and inline actions · 8 plate text.",
+    "logo_placement": "Brass maker’s plate at the lower left of the field (x 14.5–44 %, y 62–67 %); composite the official asset if the mark mutates.",
+    "bottom_nav_placement": "Canonical JURNL nav (F09_FRAME_GEOMETRY.nav), HOME active.",
+    "cta_placement": "Full-stage-width emerald square-rounded tile SEE THE FULL BREAKDOWN (x 14.5–85.5 %, y 70–75 %); inline actions CHANGE WHAT’S HELD › and PLAN › at y 77–80 %.",
+    "image_focal_points": "Primary: the figure at x ≈ 40 %, y ≈ 28 %. Light source: window at top right. Secondary: brass tag at x ≈ 30 %, y ≈ 50 %.",
+    "material_hierarchy": "Limestone > carved shadow > emerald enamel > brass inlay > brass tag and plate > oak frame.",
+    "negative_space_regions": "Untouched stone between the reading line and the CTA, right of the plate; the left bleed.",
+    "environmental_geometry": "One flat wall plane filling the frame; deep rectangular window reveal cut into the right edge below the chrome; no floor, no ceiling.",
+    "custom_object_logic": "Brass words = openable held-back fields (non-zero only, fixed order). Proportion rule length = full column width; brass-filled 80 % (24,885 ÷ 30,960), the remaining 20 % an empty groove."
+  },
+  "text_must_render": [
+    "SAFE TO SPEND",
+    "YOU CAN SPEND",
+    "$24,885",
+    "OF $30,960 CASH",
+    "NOW, AFTER",
+    "BILLS",
+    "YOUR PLAN",
+    "GOALS",
+    "AND TRIPS.",
+    "$2,400 ASSIGNED",
+    "A FULL READING. EVERY BILL HAS AN AMOUNT.",
+    "SEE THE FULL BREAKDOWN",
+    "CHANGE WHAT’S HELD",
+    "PLAN",
+    "JURNL",
+    "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED.",
+    "HOME",
+    "MONEY",
+    "PLAN",
+    "CREDIT",
+    "9:41"
+  ],
+  "text_representational": [
+    "status-bar glyphs",
+    "botanical mark shape (official asset governs)",
+    "stone grain"
+  ],
+  "forbidden_elements": [
+    "any other inscription or words",
+    "arched window or arches",
+    "threshold lines or hatched bands",
+    "marble veining",
+    "a card or panel behind the text",
+    "gradients",
+    "circular buttons or round badges",
+    "a centred wordmark in the chrome",
+    "sea view"
+  ],
+  "prompt_path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T02_PLAIN_ANSWER.txt",
+  "creative_direction_check": {
+    "territory_id": "JURNL.F09.T02",
+    "status": "CREATIVE_DIRECTION_READY",
+    "missing": []
+  },
+  "brand_expression_check": {
+    "territory_id": "JURNL.F09.T02",
+    "status": "BRAND_EXPRESSION_READY",
+    "failed": []
+  },
+  "brand_expression_evidence": {
+    "VISUAL_WORLD_PRESENT": {
+      "pass": true,
+      "evidence": "Honed limestone, carved serif, brass inlay, oak window, olive sliver, morning light."
+    },
+    "PRODUCT_PHILOSOPHY_PRESENT": {
+      "pass": true,
+      "evidence": "Calm confidence: one plain answer, reasons on request (brass words open)."
+    },
+    "FAMILY_SPECIFIC_LOGIC_PRESENT": {
+      "pass": true,
+      "evidence": "Sentence generated from the breakdown; non-zero held-back fields only; proportion rule 80 % filled."
+    },
+    "CUSTOM_GRAPHIC_DESIGN_IDEA_PRESENT": {
+      "pass": true,
+      "evidence": "Metal words open; the held share is an empty groove."
+    },
+    "BESPOKE_MATERIAL_OBJECT_PRESENT": {
+      "pass": true,
+      "evidence": "Hanging engraved brass tag; brass maker’s plate."
+    },
+    "MEANINGFUL_ENVIRONMENTAL_ROLE": {
+      "pass": true,
+      "evidence": "The window’s raking light is what makes the answer legible (clarity)."
+    },
+    "LOGO_PLACEMENT_ART_DIRECTED": {
+      "pass": true,
+      "evidence": "Brass maker’s plate at lower left of the field."
+    },
+    "TAGLINE_DESCRIPTORS_HANDLED": {
+      "pass": true,
+      "evidence": "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED. engraved on the maker’s plate; no tagline elsewhere (most direct)."
+    },
+    "PRIMARY_SIGNAL_UNMISTAKABLE": {
+      "pass": true,
+      "evidence": "Monumental emerald-enamel figure as the sentence’s second line."
+    },
+    "SECONDARY_DATA_DOES_NOT_COMPETE": {
+      "pass": true,
+      "evidence": "One tag open at a time; amounts otherwise closed."
+    },
+    "NO_GENERIC_DASHBOARD": {
+      "pass": true,
+      "evidence": "Type only, no charts."
+    },
+    "NO_GENERIC_CARD_STACK": {
+      "pass": true,
+      "evidence": "No panels; carved directly into the wall."
+    },
+    "NO_DEFAULT_AI_COMPOSITION": {
+      "pass": true,
+      "evidence": "Left-aligned column, window at the right edge, plate lower left — not centred."
+    },
+    "NO_UNRELATED_DECORATION": {
+      "pass": true,
+      "evidence": "Only the window and its olive sliver, which justify the light."
+    },
+    "IDEA_SURVIVES_WITHOUT_MARKETING_COPY": {
+      "pass": true,
+      "evidence": "The sentence is functional copy; the idea is material (metal = opens)."
+    },
+    "MOBILE_GEOMETRY_WORKS": {
+      "pass": true,
+      "evidence": "Column inside the stage; window at the edge below the chrome."
+    },
+    "BOTTOM_NAV_WORKS": {
+      "pass": true,
+      "evidence": "Canonical five-cell nav, HOME active."
+    },
+    "NO_CIRCULAR_TAPPABLE_BUTTONS": {
+      "pass": true,
+      "evidence": "Tag is rectangular with softened corners; controls square-rounded."
+    },
+    "BRAND_EVIDENT_WITH_LOGO_HIDDEN": {
+      "pass": true,
+      "evidence": "Carved limestone, brass, morning light and the plain uppercase voice read as JURNL without the plate."
+    }
+  }
+}

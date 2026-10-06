@@ -1,0 +1,187 @@
+{
+  "id": "F09_T01_CREATIVE_DIRECTION",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "translation_id": "JURNL.F09.T01.CD.v1",
+  "project_id": "JURNL",
+  "profile_id": "JURNL.CREATIVE_DIRECTION.v1",
+  "territory_id": "JURNL.F09.T01",
+  "structural_premise": "What you can spend is the open floor of a room. Everything already held back is the wall around it.",
+  "primary_object": "THE OPEN FLOOR — a drawn room whose open area is the safe-to-spend value and whose wall mass is the held-back total",
+  "functional_metaphor": "Room = cash; walls = what is held back; open floor = what you can spend.",
+  "bespoke_visual_idea": "NEGATIVE SPACE IS THE MONEY. The emptiest, sunniest part of the screen — the open travertine floor of a courtyard seen from directly above — is literally the amount you are free to spend, with the figure inlaid in bronze into that floor like a piazza inscription. The commitments are the courtyard walls, one stone course each, so \"what is held back\" is what holds the room up. No UI generator puts the answer in the empty space.",
+  "render_brief": "A finished mobile app screen for JURNL, a calm Mediterranean personal-finance app, photographed straight down from above like an architect’s survey: a sunlit travertine courtyard enclosed by thin limewashed walls built from four limestone courses, each course with one small screwed brass plate (BILLS, PLAN, GOALS, TRIPS). In the middle of the empty, bright floor the amount $24,885 is inlaid flush in dark bronze like a piazza inscription, with CLEAR TO SPEND small above it and HELD BACK $6,075 small below it. A brass survey rule across the top of the courtyard reads CASH $30,960. A closed oak door in the bottom wall, on the centre line, leads down to a deep-emerald square-cornered button SEE THE FULL BREAKDOWN. A small carved limestone cornerstone with the JURNL botanical logo sits at the courtyard’s top-left corner; an olive canopy just enters the top-right edge. Small SAFE TO SPEND label and A FULL READING above the courtyard; iPhone status bar and square icon buttons at the top; the JURNL five-cell bottom navigation at the bottom.",
+  "fields": {
+    "art_direction_premise": "THE SURVEYED COURTYARD — an orthographic, directly-overhead architectural photograph of one Mediterranean courtyard, annotated like a surveyor’s plan. Built, not drawn.",
+    "brand_world_translation": "JURNL’s plaster-and-travertine world stops being a backdrop and becomes the measuring instrument: FINANCIAL LIFE, BEAUTIFULLY ORGANIZED is a well-proportioned room; GROW FREELY is the olive outside its walls.",
+    "graphic_design_language": "Surveyor’s drafting over photography: a brass survey rule across the top wall reading CASH $30,960 with end ticks; engraved brass course plates; one monumental bronze floor inlay; hairline captions. Editorial scale contrast between the inlaid figure and the plates.",
+    "environmental_role": "The environment IS the data object: courtyard proportions encode the breakdown (floor area ÷ room area = clear ÷ cash; wall course length = each held-back amount). Nothing in the scene is wallpaper.",
+    "material_language": "Honed open-pored travertine floor; limewashed plaster walls in bone and greige with limestone copings, one limestone per course (honey, cream, grey, faint rose); dark bronze inlay; brushed champagne brass plates and rule; a natural oak door leaf.",
+    "tactile_object_language": "Four stone courses joined by fine mortar lines, each with a small screwed brass plate; a flush bronze inlay you could run a finger over; an oak door leaf, closed.",
+    "typographic_art_direction": "Figure: fashion-condensed high-contrast serif cast in dark bronze, inlaid flush. Labels: tracked condensed sans capitals engraved into brass or printed on the plaster wall-top. All uppercase.",
+    "logo_behavior": "A small limestone CORNERSTONE plaque set into the top-left outer corner of the courtyard walls, carved with the official botanical mark and the vertical JURNL book-spine wordmark. The brand is the cornerstone of the room. Asymmetric; never in the chrome.",
+    "brand_lockup_behavior": "Cornerstone = BOTANICAL MARK + JURNL. Tagline PLAN TODAY. GROW FREELY. engraved small along the outer face of the bottom wall, left of the door, on the paving band.",
+    "color_hierarchy": "Travertine ivory (dominant field) → bone / greige plaster walls → ONE dark bronze-emerald figure → champagne brass only on plates and the survey rule → deep emerald only on the primary CTA and active nav cell.",
+    "lighting_direction": "High late-morning Mediterranean sun from the upper right; short, soft shadows only along the inner wall faces; the open floor evenly bright — clear means lit.",
+    "depth_model": "Orthographic top-down plan view (aerial). The only depth is wall height, read through the inner-face shadows.",
+    "compositional_tension": "Rigid orthographic geometry against the organic olive canopy breaking the top-right outer frame; four unequal wall courses inside a symmetric room.",
+    "negative_space_strategy": "The open floor is both the negative space and the answer; keep it empty except for the inlay. The bleed and the paving band stay quiet.",
+    "editorial_wit": "The emptiest part of the screen is the most valuable one — the money you can spend is the space you have left.",
+    "custom_designed_element": "The bronze floor inlay of the figure and the brass survey rule (CASH as the room’s measured width).",
+    "bespoke_detail": "Each commitment is its own limestone course with its own brass plate — the commitments literally hold the room up; the closed oak door sits on the + axis and leads straight down to the breakdown.",
+    "imagery_role": "Information, not decoration: the photographed courtyard carries the data. The olive canopy (top-right bleed only) is the single living element: GROW FREELY.",
+    "focal_priority": "1 bronze figure on the floor · 2 open-floor proportion · 3 SAFE TO SPEND + state · 4 course plates · 5 door → CTA · 6 cornerstone lockup · 7 tagline.",
+    "motion_implication": "Spending moves the walls inward course by course (still, one settle); SEE THE FULL BREAKDOWN swings the oak door open and the plates reveal amounts.",
+    "anti_generic_rules": "No isometric 3D dashboard, no floating cards over a photo, no pool, loungers or hotel courtyard, no tourist piazza, no fountains, no potted-plant clutter.",
+    "anti_ai_look_rules": "True orthographic overhead (no tilted perspective); straight walls; no HDR; no glitter gold; no glass; only the specified words; no extra plaques or numbers."
+  },
+  "authorship_devices": [
+    "CUSTOM_MATERIAL_INFORMATION_OBJECT",
+    "TACTILE_DATA_ENCODING",
+    "EDITORIAL_SCALE_CONTRAST",
+    "BESPOKE_LABELS_TABS",
+    "ASYMMETRIC_BRANDED_FRAMING",
+    "ENVIRONMENT_INTERFACE_TENSION",
+    "DESIGNED_PHYSICAL_METAPHOR"
+  ],
+  "locks": {
+    "primary_object": "The courtyard seen from directly above: walls = held back, open floor = clear to spend, figure inlaid in the floor.",
+    "major_zones": "TOP BAND (y 12.7–19.5 %): SAFE TO SPEND label + state + brass survey rule CASH $30,960 · COURTYARD (x 20–80 %, y 20.5–63 %) · PAVING BAND (y 63–83.8 %): oak door on axis, CTA, inline actions, tagline.",
+    "visual_hierarchy": "Figure ≫ open floor ≫ state ≫ plates ≫ door + CTA ≫ cornerstone ≫ tagline.",
+    "text_hierarchy": "1 $24,885 (largest, bronze) · 2 CLEAR TO SPEND above it, HELD BACK $6,075 below it (small) · 3 SAFE TO SPEND + A FULL READING (top band) · 4 BILLS / PLAN / GOALS / TRIPS on brass plates · 5 CTA text · 6 inline actions · 7 tagline (smallest).",
+    "logo_placement": "Cornerstone plaque at the courtyard’s top-left outer wall corner (x ≈ 20–31 %, y ≈ 20.5–27 %), carved official mark — composite the official asset if mutated.",
+    "bottom_nav_placement": "Canonical JURNL nav (F09_FRAME_GEOMETRY.nav), HOME active.",
+    "cta_placement": "Emerald square-rounded tile SEE THE FULL BREAKDOWN centred on the axis directly below the oak door (x 26–74 %, y 69–74 %); inline actions CHANGE WHAT’S HELD › (left) and PLAN › (right) on one row at y 77–80 %.",
+    "image_focal_points": "Primary: floor inlay at x 50 %, y ≈ 40 %. Secondary: the door at x 50 %, y 63 %. Environmental: olive canopy in the top-right bleed only.",
+    "material_hierarchy": "Travertine floor > plaster walls > limestone courses > bronze inlay > brass plates > oak door.",
+    "negative_space_regions": "Open floor (apart from the inlay); left and right bleed; the paving band between CTA and nav.",
+    "environmental_geometry": "Rectangular courtyard 60 % of frame width, walls ≈ 2.6 % of frame width thick (data: 80 % open), door gap ≈ 12 % wide on the axis in the bottom wall.",
+    "custom_object_logic": "Four courses clockwise from the door: BILLS ≈ 31 % of the wall length, PLAN ≈ 39.5 %, GOALS ≈ 15 %, TRIPS ≈ 15 % (QA-seed sample). One brass plate per course, names only (amounts stay closed)."
+  },
+  "text_must_render": [
+    "SAFE TO SPEND",
+    "A FULL READING",
+    "CASH $30,960",
+    "CLEAR TO SPEND",
+    "$24,885",
+    "HELD BACK $6,075",
+    "BILLS",
+    "PLAN",
+    "GOALS",
+    "TRIPS",
+    "SEE THE FULL BREAKDOWN",
+    "CHANGE WHAT’S HELD",
+    "PLAN TODAY. GROW FREELY.",
+    "JURNL",
+    "HOME",
+    "MONEY",
+    "PLAN",
+    "CREDIT",
+    "9:41"
+  ],
+  "text_representational": [
+    "status-bar glyphs",
+    "botanical mark shape (official asset governs)",
+    "stone grain and mortar lines"
+  ],
+  "forbidden_elements": [
+    "any other words or numbers",
+    "arched panels or arches",
+    "threshold lines or hatched bands",
+    "cards or panels floating over the photo",
+    "pool, loungers, umbrellas, fountain",
+    "circular buttons or round badges",
+    "a centred wordmark in the chrome",
+    "gold glitter",
+    "glass"
+  ],
+  "prompt_path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T01_OPEN_FLOOR.txt",
+  "creative_direction_check": {
+    "territory_id": "JURNL.F09.T01",
+    "status": "CREATIVE_DIRECTION_READY",
+    "missing": []
+  },
+  "brand_expression_check": {
+    "territory_id": "JURNL.F09.T01",
+    "status": "BRAND_EXPRESSION_READY",
+    "failed": []
+  },
+  "brand_expression_evidence": {
+    "VISUAL_WORLD_PRESENT": {
+      "pass": true,
+      "evidence": "Travertine, limewashed plaster, limestone courses, bronze and brass, oak, olive, Mediterranean sun."
+    },
+    "PRODUCT_PHILOSOPHY_PRESENT": {
+      "pass": true,
+      "evidence": "Money in service of life: the open floor (space to live) is the answer; commitments are built in, not hidden."
+    },
+    "FAMILY_SPECIFIC_LOGIC_PRESENT": {
+      "pass": true,
+      "evidence": "Floor area ÷ room area = clear ÷ cash; one course per non-zero held-back field."
+    },
+    "CUSTOM_GRAPHIC_DESIGN_IDEA_PRESENT": {
+      "pass": true,
+      "evidence": "Bronze floor inlay + brass survey rule CASH $30,960."
+    },
+    "BESPOKE_MATERIAL_OBJECT_PRESENT": {
+      "pass": true,
+      "evidence": "Four limestone courses with screwed brass plates; oak door on the axis."
+    },
+    "MEANINGFUL_ENVIRONMENTAL_ROLE": {
+      "pass": true,
+      "evidence": "The courtyard is the data object (environment = information)."
+    },
+    "LOGO_PLACEMENT_ART_DIRECTED": {
+      "pass": true,
+      "evidence": "Cornerstone plaque at the courtyard’s top-left corner."
+    },
+    "TAGLINE_DESCRIPTORS_HANDLED": {
+      "pass": true,
+      "evidence": "PLAN TODAY. GROW FREELY. engraved on the outer face of the bottom wall; the olive outside the walls carries GROW FREELY visually."
+    },
+    "PRIMARY_SIGNAL_UNMISTAKABLE": {
+      "pass": true,
+      "evidence": "Largest element, only dark-bronze mass, centred in the brightest empty area."
+    },
+    "SECONDARY_DATA_DOES_NOT_COMPETE": {
+      "pass": true,
+      "evidence": "Plates carry names only; amounts stay closed."
+    },
+    "NO_GENERIC_DASHBOARD": {
+      "pass": true,
+      "evidence": "No tiles, charts or KPI rows."
+    },
+    "NO_GENERIC_CARD_STACK": {
+      "pass": true,
+      "evidence": "No panels at all; information is built into stone."
+    },
+    "NO_DEFAULT_AI_COMPOSITION": {
+      "pass": true,
+      "evidence": "Locked zones; orthographic plan; asymmetric cornerstone and olive break."
+    },
+    "NO_UNRELATED_DECORATION": {
+      "pass": true,
+      "evidence": "The olive is the single living element and carries GROW FREELY."
+    },
+    "IDEA_SURVIVES_WITHOUT_MARKETING_COPY": {
+      "pass": true,
+      "evidence": "Remove the tagline and the room still says “this much space is left”."
+    },
+    "MOBILE_GEOMETRY_WORKS": {
+      "pass": true,
+      "evidence": "Courtyard inside the 340-pt stage on the + axis; bleed environment only."
+    },
+    "BOTTOM_NAV_WORKS": {
+      "pass": true,
+      "evidence": "Canonical five-cell nav, HOME active."
+    },
+    "NO_CIRCULAR_TAPPABLE_BUTTONS": {
+      "pass": true,
+      "evidence": "All controls square-rounded; no round plaques."
+    },
+    "BRAND_EVIDENT_WITH_LOGO_HIDDEN": {
+      "pass": true,
+      "evidence": "Travertine + plaster + bronze + olive + organised calm read as JURNL with the cornerstone covered."
+    }
+  }
+}
