@@ -207,7 +207,10 @@ function Sheet({ title, onClose, children, testId, wide = false }: { title: stri
 /* ── body ────────────────────────────────────────────────────────────────────────────────────────── */
 export function InboxBody() {
   const data = useProductionAuthorityData();
-  const requests = useProductionRequests();
+  // Only this project's requests — never another project's queue (P0 project isolation).
+  const slug = data?.project.projectId ?? '';
+  const stored = useProductionRequests();
+  const requests = useMemo(() => (slug ? stored.filter((r) => r.projectSlug === slug) : []), [stored, slug]);
   const [params] = useSearchParams();
   const raw = params.get('view') ?? '';
   const lens: InboxLens = (INBOX_LENSES as readonly string[]).includes(raw) ? (raw as InboxLens) : (LEGACY[raw] ?? 'needs');
@@ -215,7 +218,6 @@ export function InboxBody() {
   const threadId = params.get('thread');
   const noticeId = params.get('notice');
 
-  const slug = data?.project.projectId ?? 'ndxbook';
   const objects = useMemo(
     () =>
       buildInboxObjects(

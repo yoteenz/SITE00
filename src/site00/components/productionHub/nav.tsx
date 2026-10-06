@@ -1,27 +1,23 @@
 /** Canonical Production bottom navigation — Production owns its own nav (no global SITE 00 mobile bar). */
 import { Link } from 'react-router-dom';
-import { hubDeepLink } from '../../../../shared/site00-production-hub/model.js';
+import { scopedTabHref, type WorkspaceDomain } from '../../../../shared/site00-production-graph/index.js';
 import { ProductionNavIcon } from './productionNavIcon';
 
 export type ProductionNavId = 'hub' | 'inbox' | 'design' | 'experience' | 'expression' | 'library' | 'activity';
 
-export function productionNavHref(id: ProductionNavId, projectId: string): string {
-  switch (id) {
-    case 'hub':
-      return '/production';
-    case 'inbox':
-      return hubDeepLink({ projectId, target: 'queue' });
-    case 'design':
-      return hubDeepLink({ projectId, target: 'design' }).split('?')[0]!;
-    case 'experience':
-      return hubDeepLink({ projectId, target: 'experience' }).split('?')[0]!;
-    case 'expression':
-      return `/production/${projectId}/expression`;
-    case 'library':
-      return hubDeepLink({ projectId, target: 'libraries' });
-    case 'activity':
-      return '/production/activity';
-  }
+const NAV_TAB: Record<ProductionNavId, WorkspaceDomain> = {
+  hub: 'HUB',
+  inbox: 'INBOX',
+  design: 'DESIGN',
+  experience: 'EXPERIENCE',
+  expression: 'EXPRESSION',
+  library: 'LIBRARY',
+  activity: 'ACTIVITY',
+};
+
+/** Every tab link carries the active project (P0 project isolation). No project → the picker at /production. */
+export function productionNavHref(id: ProductionNavId, projectId: string | null): string {
+  return projectId ? scopedTabHref(NAV_TAB[id], projectId) : '/production';
 }
 
 const ITEMS: { id: ProductionNavId; label: string }[] = [
@@ -42,10 +38,13 @@ export function ProductionHostNav({
   active,
   projectId,
   inboxCount,
+  recentActivity = false,
 }: {
   active: ProductionNavId | null;
-  projectId: string;
+  projectId: string | null;
   inboxCount: number;
+  /** Real recent events for the project (never an always-on dot). */
+  recentActivity?: boolean;
 }) {
   return (
     <nav className="pxh-nav" aria-label="Production navigation" data-testid="hub-bottom-nav" data-nav-layout="horizontal" data-inbox-count={inboxCount}>
@@ -62,7 +61,7 @@ export function ProductionHostNav({
             <span className="pxh-nav__icon">
               <ProductionNavIcon variant={it.id} active={isActive} />
               {it.id === 'inbox' && inboxCount > 0 ? <i className="pxh-nav__dot" data-nav-notify="inbox" aria-hidden /> : null}
-              {it.id === 'activity' ? <i className="pxh-nav__dot" data-nav-notify="activity" aria-hidden /> : null}
+              {it.id === 'activity' && recentActivity ? <i className="pxh-nav__dot" data-nav-notify="activity" aria-hidden /> : null}
             </span>
             <span className="pxh-nav__label">{it.label}</span>
           </Link>
@@ -77,11 +76,13 @@ export function ProductionBottomNav({
   projectId,
   inboxCount,
   onActivity,
+  recentActivity = false,
 }: {
   active: ProductionNavId | null;
-  projectId: string;
+  projectId: string | null;
   inboxCount: number;
   onActivity?: () => void;
+  recentActivity?: boolean;
 }) {
   return (
     <nav className="ph-nav" aria-label="Production navigation" data-testid="hub-bottom-nav">
@@ -92,7 +93,7 @@ export function ProductionBottomNav({
             <span className="ph-nav__icon">
               <ProductionNavIcon variant={it.id} active={isActive} />
               {it.id === 'inbox' && inboxCount > 0 ? <sup data-nav-notify="inbox">{String(inboxCount).padStart(2, '0')}</sup> : null}
-              {it.id === 'activity' ? <i className="ph-nav__notify" data-nav-notify="activity" aria-hidden /> : null}
+              {it.id === 'activity' && recentActivity ? <i className="ph-nav__notify" data-nav-notify="activity" aria-hidden /> : null}
             </span>
             <span>{it.label}</span>
           </>

@@ -34,7 +34,7 @@ export type DeliverableState = 'PLANNED' | 'ASSEMBLED';
 export function useExpressionData(slugIn?: string) {
   const hub = useProductionAuthorityData();
   const prod = useEntry002Production();
-  const slug = (slugIn ?? hub?.project.projectId ?? 'ndxbook').toLowerCase();
+  const slug = (slugIn ?? hub?.project.projectId ?? '').toLowerCase();
   return useMemo(() => {
     const { plan, cast, gate, items, ready, total } = prod;
     const ok = isEntry002Project(slug);

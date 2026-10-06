@@ -88,12 +88,13 @@ export function ExpressionProductionShellPage() {
 }
 
 function ExpressionRoutes() {
-  const { projectSlug = 'ndxbook', '*': rest } = useParams<{ projectSlug: string; '*': string }>();
+  const { projectSlug = '', '*': rest } = useParams<{ projectSlug: string; '*': string }>();
   const [searchParams] = useSearchParams();
   const { context } = useProductionWorkspaceContext();
   const slug = projectSlug.toLowerCase();
   const sub = rest?.split('/')[0] ?? '';
-  const entry = searchParams.get('entry') ?? context.entryId ?? '002';
+  // The stored entry belongs to the project it was chosen in; it never carries over to another project.
+  const entry = searchParams.get('entry') ?? (context.projectSlug === slug ? context.entryId : null) ?? '002';
 
   // The 10 Expression families / 40 routes (narrative, casting, wardrobe, performance, sets, storyboard, review,
   // format-studio, content-package, campaign-board + their children and details) resolve through one route model.
@@ -111,7 +112,7 @@ function ExpressionRoutes() {
     case 'format-studio':
     case 'content-package':
     case 'campaign-board':
-      if (resolved) return <ExpressionFamilyScreen slug={slug} entry={entry} resolved={resolved} />;
+      if (resolved) return <ExpressionFamilyScreen key={slug} slug={slug} entry={entry} resolved={resolved} />;
       return <Landing slug={slug} entry={entry} />;
     default:
       return <Landing slug={slug} entry={entry} />;

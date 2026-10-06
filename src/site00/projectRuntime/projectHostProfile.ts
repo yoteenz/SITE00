@@ -7,6 +7,7 @@ import { hubAssetUrl } from '../../../shared/site00-production-hub/assets.js';
 import { getSite00ManagedProject, listDesignEnabledManagedProjects } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
 import { getIngestedProject } from '../../projects/registry';
 import { hasProjectRuntime } from './projectRuntimeRegistry';
+import { projectSwitchTarget } from '../../../shared/site00-production-graph/projectScope.js';
 
 export type HostProjectOption = {
   slug: string;
@@ -42,16 +43,10 @@ export function hostProjectName(slug: string): string {
 }
 
 /**
- * Where a project switch lands: same workspace (+ design mode) under the new project. Query state that belongs
- * to the previous project (screen / state / inspect / entry / campaign) is dropped so nothing stale carries over.
+ * Where a project switch lands: the SAME tab under the new project (P0 project isolation — never "the nearest
+ * populated tab"). Project-dependent child state (item / notice / milestone / node / scene / entry / inspect /
+ * screen / state …) is dropped; only view preferences survive (INBOX / ACTIVITY `view`, DESIGN `mode`).
  */
 export function projectSwitchPath(pathname: string, search: string, toSlug: string): string {
-  const m = /^\/production\/([^/]+)\/(design|experience|expression)(?:\/|$)/.exec(pathname);
-  const workspace = m?.[2] ?? 'design';
-  const params = new URLSearchParams(search);
-  const keep = new URLSearchParams();
-  const mode = params.get('mode');
-  if (workspace === 'design' && mode) keep.set('mode', mode);
-  const qs = keep.toString();
-  return `/production/${toSlug}/${workspace}${qs ? `?${qs}` : ''}`;
+  return projectSwitchTarget(pathname, search, toSlug);
 }

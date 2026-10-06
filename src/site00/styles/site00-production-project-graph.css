@@ -1,0 +1,430 @@
+/*
+ * P0.SITE00.PRODUCTION-WORKSPACE.PROJECT-ISOLATION-LOGIC-RECONCILIATION-PANEL-INTELLIGENCE1
+ * Graph-driven project projections (HUB · INBOX · DESIGN · EXPERIENCE · LIBRARY · ACTIVITY) and the project-scoped
+ * empty / select states. Panels reuse the INBOX/ACTIVITY panel grammar (.iax-*); type stays on the HUB scale
+ * (--pw-t0…--pw-t5, --pw-metric). Media declare their role (production-workspace-media.ts) — functional media is
+ * contained. Phones: one column, nothing wider than the screen.
+ */
+
+.pxa .pgx {
+  display: grid;
+  gap: var(--pw-gap, 14px);
+  padding: 12px var(--pw-pad, 12px) 20px;
+  min-width: 0;
+}
+.pxa .pgx > * {
+  min-width: 0;
+}
+.pxa .pgx-grid {
+  display: grid;
+  gap: var(--pw-gap, 14px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+@media (min-width: 700px) {
+  .pxa .pgx-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pxa .pgx-grid > .pgx-span {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 1120px) {
+  .pxa .pgx {
+    padding: 18px 28px 28px;
+  }
+  .pxa .pgx-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* head: project + phase + next action (no imagery — the project's truth is the header) */
+.pxa .pgx-head {
+  display: grid;
+  gap: 6px;
+  padding: 4px 2px 2px;
+}
+.pxa .pgx-head small {
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.14em;
+  color: var(--ibx-mute, #6b6b74);
+}
+.pxa .pgx-head h1 {
+  margin: 0;
+  font-size: var(--pw-t5, 26px);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-head p {
+  margin: 0;
+  font-size: var(--pw-t1, 12px);
+  overflow-wrap: anywhere;
+}
+
+/* count strip: every number is a link to the records it counts */
+.pxa .pgx-counts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+@media (min-width: 700px) {
+  .pxa .pgx-counts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.pxa .pgx-count {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-2, rgba(17, 17, 20, 0.12));
+  border-radius: 6px;
+  background: var(--ibx-card, #fff);
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+.pxa .pgx-count b {
+  font-size: var(--pw-metric, 24px);
+  line-height: 1;
+}
+.pxa .pgx-count strong {
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.12em;
+}
+.pxa .pgx-count small {
+  font-size: var(--pw-t0, 11px);
+  color: var(--ibx-mute, #6b6b74);
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-count[data-tone='red'] b {
+  color: var(--ibx-red, #c8161b);
+}
+
+/* rows */
+.pxa .pgx-rows {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .pgx-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 10px;
+  align-items: center;
+  padding: 9px 2px;
+  border-top: 1px solid var(--line-2, rgba(17, 17, 20, 0.1));
+  min-width: 0;
+}
+.pxa .pgx-row:first-child {
+  border-top: 0;
+}
+.pxa .pgx-row--media {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+.pxa .pgx-row a {
+  color: inherit;
+}
+.pxa .pgx-row__copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.pxa .pgx-row__copy b {
+  font-size: var(--pw-t1, 12px);
+  letter-spacing: 0.06em;
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-row__copy small,
+.pxa .pgx-row__copy span {
+  font-size: var(--pw-t0, 11px);
+  color: var(--ibx-mute, #6b6b74);
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-row__side {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+.pxa .pgx-row__thumb {
+  inline-size: 56px;
+  block-size: 56px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #eeeef1;
+}
+.pxa .pgx-row__thumb img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+/* actions */
+.pxa .pgx-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.pxa .pgx-note {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+.pxa .pgx-note textarea {
+  inline-size: 100%;
+  min-block-size: 64px;
+  font: inherit;
+  font-size: var(--pw-t1, 12px);
+  padding: 8px;
+  border: 1px solid var(--line-2, rgba(17, 17, 20, 0.2));
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* stage bar (canonical node stages, real counts) */
+.pxa .pgx-stages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 2px 0 6px;
+}
+.pxa .pgx-stage {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f1f1f4;
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.08em;
+}
+.pxa .pgx-stage b {
+  font-size: var(--pw-t1, 12px);
+}
+
+/* method strip (DESIGN 01–08) */
+.pxa .pgx-method {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: pgx-step;
+}
+@media (min-width: 700px) {
+  .pxa .pgx-method {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.pxa .pgx-method li {
+  display: grid;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid var(--line-2, rgba(17, 17, 20, 0.12));
+  border-radius: 6px;
+  min-width: 0;
+}
+.pxa .pgx-method li > a {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .pgx-method li.is-active {
+  border-color: var(--ibx-red, #c8161b);
+}
+.pxa .pgx-method li[data-count='0'] {
+  opacity: 0.62;
+}
+.pxa .pgx-method li em {
+  font-style: normal;
+  font-size: var(--pw-t0, 11px);
+  color: var(--ibx-mute, #6b6b74);
+}
+.pxa .pgx-method li b {
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.08em;
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-method li strong {
+  font-size: var(--pw-t3, 16px);
+}
+
+/* artifact tiles (LIBRARY / DESIGN / EXPERIENCE) — functional media contained, never cropped */
+.pxa .pgx-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 700px) {
+  .pxa .pgx-tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1120px) {
+  .pxa .pgx-tiles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.pxa .pgx-tile {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .pgx-tile__media {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #eeeef1;
+}
+.pxa .pgx-tile__media img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+.pxa .pgx-tile__media--none {
+  padding: 10px;
+  text-align: center;
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.08em;
+  color: var(--ibx-mute, #6b6b74);
+  border: 1px dashed var(--line-2, rgba(17, 17, 20, 0.2));
+  background: transparent;
+}
+.pxa .pgx-tile b {
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.06em;
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-tile small {
+  font-size: var(--pw-t0, 11px);
+  color: var(--ibx-mute, #6b6b74);
+}
+
+/* lineage / facts */
+.pxa .pgx-facts {
+  display: grid;
+  grid-template-columns: minmax(84px, max-content) minmax(0, 1fr);
+  gap: 6px 12px;
+  margin: 0;
+}
+.pxa .pgx-facts dt {
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.1em;
+  color: var(--ibx-mute, #6b6b74);
+}
+.pxa .pgx-facts dd {
+  margin: 0;
+  font-size: var(--pw-t1, 12px);
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-preview {
+  display: grid;
+  place-items: center;
+  max-block-size: 70vh;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #eeeef1;
+}
+.pxa .pgx-preview img {
+  max-inline-size: 100%;
+  max-block-size: 70vh;
+  object-fit: contain;
+}
+
+/* empty / select states */
+.pxa .pgx-empty,
+.pxa .pgx-select {
+  display: grid;
+  gap: 8px;
+  max-inline-size: 760px;
+  margin: 16px auto;
+}
+.pxa .pgx-kicker {
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.14em;
+  color: var(--ibx-mute, #6b6b74);
+}
+.pxa .pgx-headline {
+  font-size: var(--pw-t3, 16px);
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-empty p,
+.pxa .pgx-lede {
+  margin: 0;
+  font-size: var(--pw-t1, 12px);
+  overflow-wrap: anywhere;
+}
+.pxa .pgx-hint {
+  color: var(--ibx-mute, #6b6b74);
+}
+.pxa .pgx-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .pgx-list a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 10px;
+  align-items: center;
+  padding: 10px 2px;
+  border-top: 1px solid var(--line-2, rgba(17, 17, 20, 0.1));
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .pgx-list a b {
+  font-size: var(--pw-t1, 12px);
+  letter-spacing: 0.08em;
+}
+.pxa .pgx-list a small {
+  grid-column: 1;
+  font-size: var(--pw-t0, 11px);
+  color: var(--ibx-mute, #6b6b74);
+}
+.pxa .pgx-list a .iax-ic {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  inline-size: 14px;
+  block-size: 14px;
+}
+
+/* lens bar for graph projections */
+.pxa .pgx-lenses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pxa .pgx-lenses a {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+  padding: 6px 10px;
+  border: 1px solid var(--line-2, rgba(17, 17, 20, 0.14));
+  border-radius: 999px;
+  font-size: var(--pw-t0, 11px);
+  letter-spacing: 0.1em;
+  color: inherit;
+  text-decoration: none;
+}
+.pxa .pgx-lenses a.is-active {
+  border-color: var(--ibx-red, #c8161b);
+  color: var(--ibx-red, #c8161b);
+}
+.pxa .pgx-lenses a em {
+  font-style: normal;
+  font-weight: 700;
+}

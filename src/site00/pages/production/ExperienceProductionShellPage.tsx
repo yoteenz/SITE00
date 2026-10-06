@@ -42,7 +42,7 @@ export function ExperienceProductionShellPage() {
 }
 
 function ExperienceRoutes() {
-  const { projectSlug = 'ndxbook', '*': rest } = useParams<{ projectSlug: string; '*': string }>();
+  const { projectSlug = '', '*': rest } = useParams<{ projectSlug: string; '*': string }>();
   const slug = projectSlug.toLowerCase();
   const sub = rest?.split('/')[0] ?? '';
   const subs = subWorkspacesFor('EXPERIENCE');

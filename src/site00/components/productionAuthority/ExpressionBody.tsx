@@ -23,11 +23,11 @@ const FLOORS: { id: string; sub: string; title: string; node: HubNodeId; crop: s
   { id: 'motion-film', sub: 'storyboard', title: 'MOTION + FILM', node: 'storyboard', crop: '85% 55%' },
 ];
 
-const FORMATS = ['REEL', 'TIKTOK', 'CAROUSEL', 'STORY', 'FEED', 'X'];
-
 export function ExpressionBody({ entry }: { entry: string }) {
   const data = useProductionAuthorityData();
-  const slug = data?.project.projectId ?? 'ndxbook';
+  const slug = data?.project.projectId ?? '';
+  // Formats are the entry plan's real format adaptations — never a hard-coded wish list.
+  const formats = [...new Set((data?.plan?.formatAdaptations ?? []).map((f) => f.format))];
   const production = data?.production ?? null;
   const graph = data?.graph;
   const subs = subWorkspacesFor('EXPRESSION');
@@ -125,10 +125,10 @@ export function ExpressionBody({ entry }: { entry: string }) {
             <div>
               <em>01</em>
               <b>FORMAT STUDIO</b>
-              <ul className="pxa-chips">
-                {FORMATS.map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
+              <ul className="pxa-chips" data-testid="expression-formats" data-count={formats.length}>
+                {formats.length ?
+                  formats.map((f) => <li key={f}>{f}</li>)
+                : <li>NO FORMAT ADAPTATION RECORDED</li>}
               </ul>
             </div>
             <div>

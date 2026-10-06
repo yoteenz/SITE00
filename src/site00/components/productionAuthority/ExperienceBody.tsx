@@ -19,7 +19,7 @@ export const EXPERIENCE_CAPSULES: { label: string; sub: string }[] = [
 
 export function ExperienceBody() {
   const data = useProductionAuthorityData();
-  const slug = data?.project.projectId ?? 'ndxbook';
+  const slug = data?.project.projectId ?? '';
   const subs = subWorkspacesFor('EXPERIENCE');
   const blockers = data?.graph.blockers.length ?? 0;
   return (

@@ -59,6 +59,12 @@
     }
   }
 
+  /** Loader owned by a mounted React tree: never remove its DOM — dispatch the gate's force-reveal event instead. */
+  function revealLoaderThroughReact(reason) {
+    purgeStaticBootShellOnly();
+    window.dispatchEvent(new CustomEvent('site00-force-reveal-loader', { detail: { reason: reason } }));
+  }
+
   function releaseBootShell(reason) {
     purgeLoaderOverlays(reason);
     if (typeof window !== 'undefined') {
@@ -222,7 +228,10 @@
       purgeStaticBootShellOnly();
     }
     if (isImmersiveSessionComplete() && document.querySelector('.site00-immersive-loader')) {
-      purgeLoaderOverlays('watchdog-session-complete');
+      // React is mounted and owns the `.site00-immersive-loader` portal: ask the cold-start gate to reveal (it unmounts
+      // its portal itself). Removing the node here made React's later unmount throw `removeChild` and blank the page on
+      // every browser reload (the loader replays on reload while the session is already complete).
+      revealLoaderThroughReact('watchdog-session-complete');
     }
     if (Date.now() - watchdogStarted >= WATCHDOG_MAX_MS) {
       window.clearInterval(watchdog);

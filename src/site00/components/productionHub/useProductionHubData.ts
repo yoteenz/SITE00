@@ -32,7 +32,7 @@ import { useSite00ProjectsIndex } from '../../hooks/useSite00Projects';
 import { useExpressionEngineEntry002 } from '../founderWorkspace/expressionEngine/useExpressionEngineEntry002';
 import { ENTRY_002_NME_DISPLAY_TITLE } from '../founderWorkspace/expressionEngine/narrativeMomentumWizardModel';
 import { useProductionRequests } from '../../state/productionRequestStore';
-import { recordProductionActivity, useProductionActivity } from '../../state/productionActivityStore';
+import { activityProjectOf, recordProductionActivity, useProductionActivity } from '../../state/productionActivityStore';
 import { submitProductionRequest } from '../../state/productionRequestStore';
 
 export type HubProjectEntry = {
@@ -157,13 +157,20 @@ export function useProductionHubData(selectedProjectId: string) {
   const assetUrl = useCallback((slotId: string | null) => (slotId ? hubAssetUrl(slotId, runtimeUrls) : null), [runtimeUrls]);
   const slotMeta = useCallback((slotId: string | null) => slots.find((s) => s.slotId === slotId) ?? null, [slots]);
 
+  /* ── project scope: requests and recorded activity belong to ONE project (never another project's rows) ── */
+  const projectRequests = useMemo(() => requests.filter((r) => r.projectSlug.toLowerCase() === project.projectId), [requests, project.projectId]);
+  const projectRecorded = useMemo(
+    () => recorded.filter((a) => activityProjectOf(a, projects.map((p) => ({ projectId: p.projectId, name: p.name }))) === project.projectId),
+    [recorded, projects, project.projectId],
+  );
+
   /* ── attention + activity ── */
   const pendingRequests = useMemo(
     () =>
-      requests
+      projectRequests
         .filter((r) => r.status === 'QUEUED')
         .map((r) => ({ id: r.id, title: productionRequestTitle(r.kind), scope: productionRequestScope(r.kind), projectSlug: r.projectSlug })),
-    [requests],
+    [projectRequests],
   );
   const attention = useMemo(
     () =>
@@ -180,7 +187,7 @@ export function useProductionHubData(selectedProjectId: string) {
   );
 
   const activity: HubActivityItem[] = useMemo(() => {
-    const fromRequests: HubActivityItem[] = requests.map((r) => ({
+    const fromRequests: HubActivityItem[] = projectRequests.map((r) => ({
       id: `req.${r.id}`,
       category: 'REQUEST',
       title: productionRequestTitle(r.kind).toUpperCase(),
@@ -188,9 +195,10 @@ export function useProductionHubData(selectedProjectId: string) {
       at: r.createdAt,
       actor: null,
       assetSlotId: null,
+      projectId: project.projectId,
     }));
-    return sortActivity([...recorded, ...fromRequests]);
-  }, [recorded, requests]);
+    return sortActivity([...projectRecorded, ...fromRequests]);
+  }, [projectRecorded, projectRequests, project.projectId]);
 
   /* ── consequential actions (existing production action; no silent mutation) ── */
   const decideStoryboard = useCallback(
@@ -212,6 +220,7 @@ export function useProductionHubData(selectedProjectId: string) {
           title: decision === 'APPROVE' ? 'STORYBOARD AUTHORITY APPROVED' : 'STORYBOARD REVISION REQUESTED',
           detail: `${project.name.toUpperCase()} · ${production?.label ?? ''}${note ? ` · ${note}` : ''}`,
           assetSlotId: hubNodeAssetSlotId(project.projectId, production?.productionId ?? null, 'storyboard'),
+          projectId: project.projectId,
         });
         await engine.reload();
         return { ok: true };
@@ -246,6 +255,9 @@ export function useProductionHubData(selectedProjectId: string) {
     decideStoryboard,
     deciding,
     loading: engine.loading,
+    /** Expression Engine read error (only meaningful for a project that has an expression production). */
+    engineError: isEntry002 && engine.error ? String(engine.error) : null,
+    requests: projectRequests,
     projectsSource: index.sourceLabel,
     b48: engine.b48,
   };
