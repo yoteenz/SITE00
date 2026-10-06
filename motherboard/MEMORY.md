@@ -14097,3 +14097,23 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   1. The founder confirms the tree and settles the decisions.
   2. Authority-driven implementation of the ready nodes.
   3. In parallel, an AIO data-contract completion sprint.
+
+## 2026-10-06 — Production workspace project isolation + panel intelligence (P0.SITE00.PRODUCTION-WORKSPACE.PROJECT-ISOLATION-LOGIC-RECONCILIATION-PANEL-INTELLIGENCE1)
+
+- **Founder decision (durable):** the 7 root tabs are seven operational projections of ONE project-scoped production graph.
+  NO CROSS-PROJECT DATA FALLBACK. EVER. Missing truth renders a project-scoped NOT_ESTABLISHED state.
+- **Before:** global tabs (HUB / INBOX / LIBRARY / ACTIVITY) resolved to NDXBOOK; ~27 `'ndxbook'` defaults; requests / activity
+  unscoped; 7 synthetic "NOW" rows in ACTIVITY; DESIGN mock chamber (NDX GROTESK) for every project; EXPRESSION showed Entry 002
+  under JURNL; project switch dropped the tab.
+- **Landed:** `shared/site00-production-graph/` (graph, 4 adapters, ledger, query, projectScope, capabilities, methods,
+  panelContracts), `src/site00/production/*`, graph projections for HUB / INBOX / DESIGN / EXPERIENCE / LIBRARY / ACTIVITY,
+  EXPRESSION gate, active-project resolution (no default, per-tab), scoped nav + switch, NDX sanitize (dated activity only,
+  catalogued cast counts, plan formats), boot-watchdog reload fix (React-owned loader portal no longer removed → reload no
+  longer blanks every route; pre-existing on main).
+- **Truth today:** JURNL DESIGN (16 families, 4 NEED YOU, 12 blocked on visual authority); AIO DESIGN (IFTA package, 10 open
+  decisions); Astral World EXPERIENCE (world, 9 scenes, 19 interactions); NDXBOOK EXPRESSION (Entry 002, live). Studio World,
+  Frontal Slayer, SITE 00: no recorded production truth → empty states.
+- **Proof:** 55 new tests (graph + render A–H); live QA 105/105 routes · 49/49 flows · 0 leaks · 0 overflow at 393 / 834 / 1440.
+- **Next:** NDXBOOK DESIGN truth (twin golden master) and EXPERIENCE registries for Studio World / Frontal Slayer Mansion;
+  ProjectFamilyChamber beyond F01; continuity as graph nodes; expression deliverables pipeline.
+
