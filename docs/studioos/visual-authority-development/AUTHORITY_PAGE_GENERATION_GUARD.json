@@ -1,0 +1,20 @@
+{
+  "id": "AUTHORITY_PAGE_GENERATION_GUARD",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "source": "shared/studioos-visual-authority",
+  "rule": "Generators receive BRAND DNA + EXPERIENCE CONTRACT + PAGE-FAMILY AUTHORITY + STATE + VIEWPORT — never route + copy only.",
+  "evaluator": "guardPageGeneration(request)",
+  "order": [
+    "EXPERIENCE_REQUIRED — experience contract missing / not ready",
+    "BRAND_CONTEXT_REQUIRED — brand DNA missing / thin",
+    "LEGACY_VISUAL_LEAK — legacy visual dimension requested from a non-approved surface",
+    "VISUAL_AUTHORITY_REQUIRED — material family without a locked page-family authority, or state not covered",
+    "RESPONSIVE_AUTHORITY_REQUIRED — viewport not covered and not declared scalable",
+    "AUTHORITY_AS_RUNTIME_ASSET — reference path shipped as a runtime asset",
+    "GENERATE"
+  ],
+  "route_and_copy_only": "A request carrying only route + copy fails at the first missing input.",
+  "paid_generation": "This guard never triggers generation itself; paid generation stays a founder-approved action."
+}
