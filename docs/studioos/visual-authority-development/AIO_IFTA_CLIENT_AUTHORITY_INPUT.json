@@ -1,0 +1,874 @@
+{
+  "id": "AIO_IFTA_CLIENT_AUTHORITY_INPUT",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "package_id": "AIO.IFTA.CLIENT.AUTHORITY_INPUT",
+  "project_id": "AIO",
+  "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+  "feature_id": "AIO.IFTA",
+  "actor": "CLIENT",
+  "purpose": "Input for the founder + ChatGPT test-run of 3 composition territories. Not an implementation brief. Not a reference image.",
+  "gate_status": {
+    "state": "AUTHORITY_TERRITORIES_REQUIRED",
+    "guard": "VISUAL_AUTHORITY_REQUIRED",
+    "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+    "conditions": {
+      "BRAND_CONTEXT_LOADED": true,
+      "EXPERIENCE_CONTRACT_LOADED": true,
+      "LEGACY_VISUAL_STATUS_KNOWN": true,
+      "COMPOSITION_TERRITORIES_EXIST": false,
+      "REFERENCE_AUTHORITY_EXISTS": false,
+      "FOUNDER_APPROVAL_EXISTS": false,
+      "PAGE_FAMILY_AUTHORITY_LOCKED": false
+    },
+    "next_step": "Author 3 distinct composition territories."
+  },
+  "brand_dna": {
+    "brand_context_id": "AIO.BRAND@2026-10-06",
+    "positioning": "WHERE BUSINESS MEETS THE ROAD. THE BUSINESS OFFICE BEHIND THE TRUCK. FROM STARTUP TO EVERY MILE AFTER.",
+    "voice": [
+      "CLEAR",
+      "CAPABLE",
+      "CONNECTED",
+      "HUMAN"
+    ],
+    "color": [
+      "BLACK",
+      "GOLD",
+      "SILVER",
+      "OBSIDIAN",
+      "CHARCOAL",
+      "STONE",
+      "CHAMPAGNE"
+    ],
+    "emphasis_map": {
+      "NEUTRAL": "STONE on CHARCOAL",
+      "PROGRESS": "CHAMPAGNE progress line on OBSIDIAN",
+      "ATTENTION": "GOLD",
+      "BLOCKER": "GOLD outline + solid marker (never alarm red as decoration)",
+      "REVIEW": "SILVER",
+      "DECISION": "GOLD fill — the one decision on screen",
+      "SUCCESS": "CHAMPAGNE seal on BLACK",
+      "ARCHIVED": "STONE, muted, filed",
+      "ERROR": "GOLD on BLACK with explicit recovery copy"
+    },
+    "materials": [
+      "brushed / satin metal (silver)",
+      "obsidian glass",
+      "charcoal steel",
+      "stone",
+      "champagne-gold accents and seals",
+      "office paper / filed-packet surfaces"
+    ],
+    "typography": "Current code tokens: display Plus Jakarta Sans, body DM Sans (src/styles/aio.css). Not founder-locked brand typography; never Frontal Slayer typography.",
+    "mood": "OPERATIONAL LUXURY — executive industrial × modern infrastructure; calm control over a moving operation.",
+    "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles",
+    "architectural_language": "The business office behind the truck: a command office over road infrastructure — rooms, desks, filed packets, ledgers, gauges; never a generic SaaS dashboard.",
+    "avoid": [
+      "Frontal Slayer typography",
+      "generic SaaS dashboard chrome",
+      "cartoon trucks",
+      "legal / government seals implying AIO is a government system",
+      "stock smiles",
+      "alarm red as decoration",
+      "implying AIO is a government system"
+    ],
+    "open_brand_questions": [
+      "Is the code typography (Plus Jakarta Sans / DM Sans) the founder brand typography, or provisional?",
+      "Logo clear-space, minimum size and on-dark / on-light rules.",
+      "Approved photography set (which cinematic trucking images are brand-approved vs placeholder)."
+    ]
+  },
+  "experience_contract": {
+    "source": "docs/studioos/experience-brain/AIO_IFTA_FUEL_TAX_EXPERIENCE_CONTRACT.json",
+    "visual_contract": "docs/studioos/experience-brain/AIO_IFTA_FUEL_TAX_VISUAL_CONTRACT.json",
+    "e2e_contract": "docs/studioos/experience-brain/AIO_IFTA_FUEL_TAX_E2E_CONTRACT.json",
+    "ingest": {
+      "experience_contract_id": "AIO.IFTA@1.0.0",
+      "purpose": "Get a carrier’s quarterly IFTA fuel tax return built from complete, verified fuel and mileage records, approved by the client, filed by AIO, and archived — every quarter.",
+      "promise": "AIO handles the quarter: you send fuel and miles as they happen, AIO checks, reconciles, files and keeps the record.",
+      "primary_actor": "CLIENT",
+      "primary_task": "Send fuel and miles; resolve flags; approve",
+      "start_state": "QUARTER_OPEN",
+      "success_state": "FILED",
+      "blocked_state": "NEEDS_CLIENT",
+      "system_relationships": [
+        "AIO.IFTA_REGISTRATION (ifta-reg — account must be active)",
+        "AIO.ROAD_READY (IFTA requirement item)",
+        "Fleet profile (vehicles)",
+        "AIO.DISPATCH_OPERATIONS (load miles → estimates only)",
+        "AIO.VAULT (import receipts already stored)",
+        "ELD provider exports",
+        "AIO.VAULT (quarter packet)",
+        "AIO.INBOX (request thread)",
+        "AIO.MY_OFFICE activity + attention",
+        "AIO.ROAD_READY (IFTA item current)",
+        "AIO.FINANCES (AIO service fee quote / invoice)",
+        "AIO.BOOKKEEPING (fuel expense + tax payment categorisation)",
+        "AIO.RENEWALS (IFTA license / decals)",
+        "next IFTA quarter"
+      ],
+      "client_founder_mirror": "Staff see the same quarter as a CASE FILE across many clients: due-date × readiness queue, flag counts, MPG / jurisdiction discrepancies, override + audit trail, payment status — not the client’s guided packet builder.",
+      "metaphor": "QUARTERLY FILING ROOM",
+      "archetype": [
+        "PACKET_BUILDER",
+        "WORKBENCH",
+        "CHECKLIST"
+      ],
+      "information_hierarchy": {
+        "primary_question": "What does AIO still need from me for this quarter?",
+        "primary_status": "Quarter state + packet completeness % + due date",
+        "primary_task": "Send fuel and miles; resolve flags; approve",
+        "secondary_status": "Receipts by class · mileage source per truck · vehicles",
+        "blocker": "Open flags / truck without miles / approval pending",
+        "next_action": "The single next item (e.g. “Add 2 missing receipts for Oklahoma”)",
+        "completion_proof": "FILED seal + confirmation + packet in Vault"
+      },
+      "e2e_path": [
+        "PUBLIC_DISCOVERY: open the IFTA Filing service page",
+        "CLIENT_ENTRY: open the Q{n} attention card",
+        "CLIENT_ACTION: take a photo, upload receipts, import from Vault, upload an ELD report, mark a duplicate",
+        "CLIENT_ACTION: resolve flags and SEND QUARTER TO AIO",
+        "SYSTEM_PROCESSING: parse, duplicate-check, classify jurisdictions, recompute readiness",
+        "STAFF_REVIEW: review records, reconcile fuel vs miles, prepare return summary, send for approval",
+        "CLIENT_APPROVAL: approve the return summary",
+        "ARTIFACT_CREATION: record filing confirmation and payment status",
+        "DOWNSTREAM_MOVEMENT: propagate FILED",
+        "COMPLETION: view the filed quarter",
+        "ARCHIVE: open Vault › Fuel Tax › {YYYY} Q{n}",
+        "NEXT_STEP: see the next quarter"
+      ]
+    },
+    "entry": {
+      "surface": "Quarter card in My Office + Services › IFTA",
+      "route": "portal (attention: “Q{n} fuel tax — continue filing”) → portal/services/ifta (quarter workspace)",
+      "trigger": "Quarter collection window opens · reminder · Road Ready IFTA item"
+    },
+    "perspective": {
+      "entry_point": "My Office attention card “Q{n} fuel tax — {pct}% ready · due {due_date}” → CONTINUE FILING → quarter workspace",
+      "primary_task": "Get this quarter’s fuel and miles to AIO, then approve the return.",
+      "sees_first": "THE QUARTER: Q{n} {YYYY}, due date, packet completeness (receipts · mileage · vehicles), and the single next thing to do.",
+      "must_provide": [
+        "fuel receipts for the quarter",
+        "miles by state for every qualified truck",
+        "confirmation of trucks that ran",
+        "approval of the return summary"
+      ],
+      "input_methods": [
+        "TAKE PHOTO",
+        "UPLOAD FILES",
+        "IMPORT FROM VAULT",
+        "CONTINUOUS QUARTER CAPTURE",
+        "ELD / GPS IMPORT",
+        "ELD REPORT UPLOAD",
+        "MANUAL STATE ENTRY",
+        "SPREADSHEET",
+        "ASK AIO TO HELP"
+      ],
+      "system_already_knows": [
+        "fleet profile vehicles (pre-filled)",
+        "IFTA account / base jurisdiction",
+        "receipts already in the Vault for the quarter dates",
+        "load miles from Operations (as estimates)",
+        "previous quarter MPG per truck"
+      ],
+      "ready_signals": [
+        "receipt count by class (READY / NEEDS YOU / DUPLICATE / POSSIBLE MISSING / UNREADABLE)",
+        "per-truck mileage source badge (VERIFIED / ESTIMATED)",
+        "packet completeness %"
+      ],
+      "needs_you": [
+        "receipts flagged NEEDS YOU / UNREADABLE",
+        "POSSIBLE MISSING receipts for states driven without fuel",
+        "trucks without a mileage source",
+        "approval of the return"
+      ],
+      "under_review": [
+        "AIO checking receipts",
+        "AIO reconciling fuel vs miles by state",
+        "AIO filing with your base jurisdiction"
+      ],
+      "approves": [
+        "the IFTA return summary (miles, gallons, MPG, tax due / credit by state)"
+      ],
+      "completion_looks_like": "Quarter card shows FILED with the confirmation seal; the packet is in the Vault; nothing in Needs You.",
+      "artifacts_received": [
+        "IFTA return summary",
+        "Filed IFTA return",
+        "Filing confirmation",
+        "IFTA Q{n} {YYYY} filing packet"
+      ],
+      "what_happens_next": "The next quarter opens with your trucks pre-filled; keep capturing receipts as you fuel.",
+      "project_room": {
+        "status": "Quarter state + completeness",
+        "needs_you": "Open receipt / mileage flags and approval",
+        "next": "Single next action (e.g. “Add Texas miles for Truck 02”)",
+        "decisions": "Approve return",
+        "files": "Receipts, mileage records, return, confirmation",
+        "messages": "Quarter request thread",
+        "approvals": "Return summary approval",
+        "service_progress": "Open → Collect → Review → Reconcile → Approve → Filed → Vault"
+      }
+    },
+    "emotional_target": "I know exactly what AIO needs from me — and that the quarter is under control.",
+    "primary_visual_object": "THE QUARTER (Q{n} {YYYY} — due date, packet completeness, seal when filed)",
+    "secondary_visual_objects": [
+      "RECEIPTS (stack by class)",
+      "MILEAGE (per truck, per state, source badge)",
+      "VEHICLES (fleet strip)",
+      "FLAGS",
+      "RETURN (summary sheet)",
+      "CONFIRMATION (seal)"
+    ],
+    "composition_rules": [
+      "The quarter object leads every client state; receipts / mileage / vehicles are its three compartments, never three equal dashboard cards.",
+      "Exactly one primary action per state (CONTINUE FILING · RESOLVE n ITEMS · SEND QUARTER TO AIO · APPROVE RETURN · VIEW IN VAULT).",
+      "Flags sit inside the compartment they belong to, with the fix action inline.",
+      "Estimated mileage is visually distinct (stone, “ESTIMATE”) and can never look filed-ready.",
+      "Review states quiet the inputs and foreground who is working and what happens next.",
+      "Completion collapses the workbench into a sealed quarter that visibly moves to the Vault."
+    ],
+    "interaction_grammar": [
+      {
+        "verb": "TAKE PHOTO",
+        "actor": "CLIENT",
+        "meaning": "capture a receipt with the camera",
+        "moves_to": "COLLECTING"
+      },
+      {
+        "verb": "UPLOAD",
+        "actor": "CLIENT",
+        "meaning": "add receipt / mileage files",
+        "moves_to": "COLLECTING"
+      },
+      {
+        "verb": "IMPORT",
+        "actor": "CLIENT",
+        "meaning": "pull receipts from the Vault or an ELD export",
+        "moves_to": "COLLECTING"
+      },
+      {
+        "verb": "VERIFY",
+        "actor": "CLIENT",
+        "meaning": "confirm a parsed receipt / truck list"
+      },
+      {
+        "verb": "RESOLVE FLAG",
+        "actor": "CLIENT",
+        "meaning": "answer a NEEDS YOU / POSSIBLE MISSING / DUPLICATE flag",
+        "moves_to": "COLLECTING"
+      },
+      {
+        "verb": "SEND QUARTER TO AIO",
+        "actor": "CLIENT",
+        "meaning": "submit the packet for review",
+        "moves_to": "AIO_REVIEW"
+      },
+      {
+        "verb": "APPROVE",
+        "actor": "CLIENT",
+        "meaning": "approve the return summary",
+        "moves_to": "FILING"
+      },
+      {
+        "verb": "ASK A QUESTION",
+        "actor": "CLIENT",
+        "meaning": "question a line before approving",
+        "moves_to": "RECONCILING"
+      }
+    ],
+    "cta": "CONTINUE FILING",
+    "state_coverage": [
+      "NOT_ENROLLED",
+      "QUARTER_OPEN",
+      "COLLECTING",
+      "NEEDS_CLIENT",
+      "OVERDUE_RISK",
+      "AIO_REVIEW",
+      "RECONCILING",
+      "AWAITING_APPROVAL",
+      "FILING",
+      "FILED",
+      "ARCHIVED",
+      "FILING_REJECTED"
+    ],
+    "state_visual_relationships": [
+      {
+        "state": "NOT_ENROLLED",
+        "composition_emphasis": "single explanatory threshold: what IFTA filing with AIO is + set up",
+        "emphasis_role": "NEUTRAL",
+        "density": "SPARSE",
+        "primary_cta": "SET UP IFTA FILING",
+        "artifact_visibility": "HIDDEN",
+        "quiet": [
+          "flags",
+          "history"
+        ]
+      },
+      {
+        "state": "QUARTER_OPEN",
+        "composition_emphasis": "empty packet with three compartments and the capture method picker",
+        "emphasis_role": "PROGRESS",
+        "density": "SPARSE",
+        "primary_cta": "ADD FIRST RECEIPT",
+        "artifact_visibility": "HIDDEN",
+        "quiet": [
+          "review",
+          "history"
+        ]
+      },
+      {
+        "state": "COLLECTING",
+        "composition_emphasis": "packet filling: compartments show counts and classes; next item leads",
+        "emphasis_role": "PROGRESS",
+        "density": "BALANCED",
+        "primary_cta": "CONTINUE FILING",
+        "artifact_visibility": "PREVIEW",
+        "quiet": [
+          "return summary",
+          "history"
+        ]
+      },
+      {
+        "state": "NEEDS_CLIENT",
+        "composition_emphasis": "flags lead: one card per flag with the fix inline; packet dimmed behind",
+        "emphasis_role": "BLOCKER",
+        "density": "BALANCED",
+        "primary_cta": "RESOLVE {n} ITEMS",
+        "artifact_visibility": "PREVIEW",
+        "quiet": [
+          "completed compartments",
+          "history"
+        ]
+      },
+      {
+        "state": "OVERDUE_RISK",
+        "composition_emphasis": "deadline banner over the packet; remaining gaps listed by impact",
+        "emphasis_role": "BLOCKER",
+        "density": "BALANCED",
+        "primary_cta": "FINISH QUARTER",
+        "artifact_visibility": "PREVIEW",
+        "quiet": [
+          "history"
+        ]
+      },
+      {
+        "state": "AIO_REVIEW",
+        "composition_emphasis": "inputs locked; who is reviewing + what happens next foregrounded",
+        "emphasis_role": "REVIEW",
+        "density": "SPARSE",
+        "primary_cta": "MESSAGE AIO",
+        "artifact_visibility": "PREVIEW",
+        "quiet": [
+          "capture tools"
+        ]
+      },
+      {
+        "state": "RECONCILING",
+        "composition_emphasis": "client: calm progress; staff: jurisdiction × truck reconciliation table with discrepancies",
+        "emphasis_role": "REVIEW",
+        "density": "DENSE",
+        "primary_cta": "MESSAGE AIO",
+        "artifact_visibility": "PREVIEW",
+        "quiet": [
+          "capture tools"
+        ]
+      },
+      {
+        "state": "AWAITING_APPROVAL",
+        "composition_emphasis": "decision window: the return summary is the object, approve / ask beside it",
+        "emphasis_role": "DECISION",
+        "density": "BALANCED",
+        "primary_cta": "APPROVE RETURN",
+        "artifact_visibility": "PROMINENT",
+        "quiet": [
+          "receipts detail",
+          "capture tools"
+        ]
+      },
+      {
+        "state": "FILING",
+        "composition_emphasis": "approved summary with filing in progress",
+        "emphasis_role": "REVIEW",
+        "density": "SPARSE",
+        "primary_cta": "VIEW SUMMARY",
+        "artifact_visibility": "PROMINENT",
+        "quiet": [
+          "capture tools"
+        ]
+      },
+      {
+        "state": "FILED",
+        "composition_emphasis": "sealed quarter with confirmation; artifacts prominent; motion to the Vault",
+        "emphasis_role": "SUCCESS",
+        "density": "SPARSE",
+        "primary_cta": "VIEW IN VAULT",
+        "artifact_visibility": "PROMINENT",
+        "quiet": [
+          "flags",
+          "capture tools"
+        ]
+      },
+      {
+        "state": "ARCHIVED",
+        "composition_emphasis": "history row in the filing room; next quarter becomes the bench object",
+        "emphasis_role": "ARCHIVED",
+        "density": "SPARSE",
+        "primary_cta": "START Q{n+1}",
+        "artifact_visibility": "ARCHIVED",
+        "quiet": [
+          "everything except next quarter"
+        ]
+      },
+      {
+        "state": "FILING_REJECTED",
+        "composition_emphasis": "correction notice over the summary: what was returned and what AIO is doing",
+        "emphasis_role": "ERROR",
+        "density": "BALANCED",
+        "primary_cta": "MESSAGE AIO",
+        "artifact_visibility": "PROMINENT",
+        "quiet": [
+          "capture tools"
+        ]
+      }
+    ],
+    "avoid_list": [
+      "generic tax form",
+      "generic dashboard",
+      "card wall of equal tiles",
+      "long marketing copy inside the client workspace",
+      "implying AIO is the government / a tax authority",
+      "showing estimated mileage as filed-ready",
+      "raw workflow state names to the client"
+    ]
+  },
+  "viewport_targets": {
+    "primary": "MOBILE",
+    "targets": [
+      "MOBILE",
+      "TABLET",
+      "DESKTOP"
+    ],
+    "note": "Mobile = capture-first task flow at the pump; desktop = packet workbench. Never shrink the desktop bench into mobile.",
+    "behavior": {
+      "MOBILE": {
+        "task_model": "capture-first task flow: snap receipts at the pump, resolve one flag at a time, approve in one decision window",
+        "layout": "quarter header (state · % · due) → single next action → compartments as collapsible rows → sticky TAKE PHOTO / CONTINUE",
+        "primary_object_treatment": "quarter card pinned at top with a completeness ring",
+        "input_treatment": "camera + upload as full-width primary; mileage source picker as a sheet"
+      },
+      "TABLET": {
+        "task_model": "review-and-resolve: compartments side by side, flags resolved in place",
+        "layout": "quarter header + two-column compartments (receipts | mileage) with vehicles strip",
+        "primary_object_treatment": "quarter header with timeline of the six steps",
+        "input_treatment": "drag-and-drop upload + camera"
+      },
+      "DESKTOP": {
+        "task_model": "workbench: build and check the packet with everything visible",
+        "layout": "left: quarter + six-step progress; centre: active compartment (receipt grid / mileage table by state × truck); right: flags + messages",
+        "primary_object_treatment": "quarter as the bench object with compartments as tabs of one packet",
+        "input_treatment": "bulk upload, ELD report upload, spreadsheet mapping"
+      }
+    }
+  },
+  "legacy_visual_status": {
+    "default_class": "FUNCTIONAL_REFERENCE_ONLY",
+    "rule": "Read these for function / data / routing / permissions / content truth / state / interaction / capabilities only. Do NOT use old AIO page proportions, layout, geometry, panel system, nav visuals, spacing, typography, color, material, composition or responsive design.",
+    "surfaces": [
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.PORTAL_SHELL",
+        "route": "portal (AIOPortalLayout)",
+        "source": "yoteenz/fsbw · all-in-one-enterprises/ @ fd8bf3c src/layouts/AIOPortalLayout.tsx",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY",
+        "may_inform": [
+          "FUNCTION",
+          "DATA",
+          "ROUTING",
+          "PERMISSIONS",
+          "CONTENT_TRUTH",
+          "STATE",
+          "INTERACTION",
+          "CAPABILITIES"
+        ],
+        "may_not_control": [
+          "LAYOUT",
+          "GEOMETRY",
+          "PANEL_SYSTEM",
+          "NAV_VISUALS",
+          "SPACING",
+          "TYPOGRAPHY",
+          "COLOR",
+          "MATERIAL",
+          "COMPOSITION",
+          "RESPONSIVE_DESIGN"
+        ],
+        "functional_value": [
+          "auth + permissions",
+          "portal navigation targets",
+          "attention / next-action data"
+        ],
+        "note": "Portal shell chrome is not an IFTA authority."
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.SERVICES_CENTER",
+        "route": "portal/services (ServicesCenterPage)",
+        "source": "yoteenz/fsbw · all-in-one-enterprises/ @ fd8bf3c src/routes/AioCoreRoutes.tsx:275",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY",
+        "may_inform": [
+          "FUNCTION",
+          "DATA",
+          "ROUTING",
+          "PERMISSIONS",
+          "CONTENT_TRUTH",
+          "STATE",
+          "INTERACTION",
+          "CAPABILITIES"
+        ],
+        "may_not_control": [
+          "LAYOUT",
+          "GEOMETRY",
+          "PANEL_SYSTEM",
+          "NAV_VISUALS",
+          "SPACING",
+          "TYPOGRAPHY",
+          "COLOR",
+          "MATERIAL",
+          "COMPOSITION",
+          "RESPONSIVE_DESIGN"
+        ],
+        "functional_value": [
+          "active services list",
+          "service status data",
+          "entry into the IFTA quarter"
+        ],
+        "note": null
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.REQUESTS_CENTER",
+        "route": "portal/requests (ServiceRequestsCenterPage)",
+        "source": "yoteenz/fsbw · all-in-one-enterprises/ @ fd8bf3c src/routes/AioCoreRoutes.tsx:274",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY",
+        "may_inform": [
+          "FUNCTION",
+          "DATA",
+          "ROUTING",
+          "PERMISSIONS",
+          "CONTENT_TRUTH",
+          "STATE",
+          "INTERACTION",
+          "CAPABILITIES"
+        ],
+        "may_not_control": [
+          "LAYOUT",
+          "GEOMETRY",
+          "PANEL_SYSTEM",
+          "NAV_VISUALS",
+          "SPACING",
+          "TYPOGRAPHY",
+          "COLOR",
+          "MATERIAL",
+          "COMPOSITION",
+          "RESPONSIVE_DESIGN"
+        ],
+        "functional_value": [
+          "service request engine states",
+          "quote acceptance"
+        ],
+        "note": null
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.VAULT",
+        "route": "portal/vault (VaultPage)",
+        "source": "yoteenz/fsbw · all-in-one-enterprises/ @ fd8bf3c src/pages/portal/VaultPage.tsx · vault/vaultTaxonomy.ts tax_fuel",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY",
+        "may_inform": [
+          "FUNCTION",
+          "DATA",
+          "ROUTING",
+          "PERMISSIONS",
+          "CONTENT_TRUTH",
+          "STATE",
+          "INTERACTION",
+          "CAPABILITIES"
+        ],
+        "may_not_control": [
+          "LAYOUT",
+          "GEOMETRY",
+          "PANEL_SYSTEM",
+          "NAV_VISUALS",
+          "SPACING",
+          "TYPOGRAPHY",
+          "COLOR",
+          "MATERIAL",
+          "COMPOSITION",
+          "RESPONSIVE_DESIGN"
+        ],
+        "functional_value": [
+          "tax_fuel taxonomy",
+          "receipt import source",
+          "filed packet destination"
+        ],
+        "note": null
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.ROAD_READY",
+        "route": "portal/road-ready (RoadReadyPage)",
+        "source": "yoteenz/fsbw · all-in-one-enterprises/ @ fd8bf3c src/pages/portal/RoadReadyPage.tsx",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY",
+        "may_inform": [
+          "FUNCTION",
+          "DATA",
+          "ROUTING",
+          "PERMISSIONS",
+          "CONTENT_TRUTH",
+          "STATE",
+          "INTERACTION",
+          "CAPABILITIES"
+        ],
+        "may_not_control": [
+          "LAYOUT",
+          "GEOMETRY",
+          "PANEL_SYSTEM",
+          "NAV_VISUALS",
+          "SPACING",
+          "TYPOGRAPHY",
+          "COLOR",
+          "MATERIAL",
+          "COMPOSITION",
+          "RESPONSIVE_DESIGN"
+        ],
+        "functional_value": [
+          "IFTA requirement item state"
+        ],
+        "note": null
+      },
+      {
+        "surface_id": "AIO.LEGACY.CLIENT.IFTA_READINESS_ENGINE",
+        "route": "(engine — no page)",
+        "source": "yoteenz/fsbw · all-in-one-enterprises/ @ fd8bf3c src/fleet/ifta/iftaReadiness.ts",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY",
+        "may_inform": [
+          "FUNCTION",
+          "DATA",
+          "ROUTING",
+          "PERMISSIONS",
+          "CONTENT_TRUTH",
+          "STATE",
+          "INTERACTION",
+          "CAPABILITIES"
+        ],
+        "may_not_control": [
+          "LAYOUT",
+          "GEOMETRY",
+          "PANEL_SYSTEM",
+          "NAV_VISUALS",
+          "SPACING",
+          "TYPOGRAPHY",
+          "COLOR",
+          "MATERIAL",
+          "COMPOSITION",
+          "RESPONSIVE_DESIGN"
+        ],
+        "functional_value": [
+          "MileageSourceType",
+          "IftaReadinessStatus",
+          "assessIftaReadiness verified-source rule"
+        ],
+        "note": null
+      },
+      {
+        "surface_id": "AIO.LEGACY.SHARED.NAV",
+        "route": "AIONav",
+        "source": "yoteenz/fsbw · all-in-one-enterprises/ @ fd8bf3c src/components/AIONav.tsx",
+        "visual_class": "FUNCTIONAL_REFERENCE_ONLY",
+        "may_inform": [
+          "FUNCTION",
+          "DATA",
+          "ROUTING",
+          "PERMISSIONS",
+          "CONTENT_TRUTH",
+          "STATE",
+          "INTERACTION",
+          "CAPABILITIES"
+        ],
+        "may_not_control": [
+          "LAYOUT",
+          "GEOMETRY",
+          "PANEL_SYSTEM",
+          "NAV_VISUALS",
+          "SPACING",
+          "TYPOGRAPHY",
+          "COLOR",
+          "MATERIAL",
+          "COMPOSITION",
+          "RESPONSIVE_DESIGN"
+        ],
+        "functional_value": [
+          "route map",
+          "role-aware links"
+        ],
+        "note": null
+      }
+    ]
+  },
+  "territory_brief": {
+    "count": 3,
+    "must_differ_on": [
+      "spatial_logic",
+      "primary_zone",
+      "visual_hierarchy",
+      "interaction_emphasis",
+      "information_density",
+      "media_relationship"
+    ],
+    "never_distinct_by_alone": [
+      "color",
+      "hero_image",
+      "background",
+      "typeface",
+      "single_card_position"
+    ],
+    "each_territory_defines": [
+      "name",
+      "core_idea",
+      "metaphor",
+      "primary_object",
+      "page_logic",
+      "major_zones",
+      "actor_fit",
+      "state_fit",
+      "mobile_logic",
+      "desktop_logic",
+      "visual_language",
+      "risks",
+      "brand_fit",
+      "experience_fit"
+    ],
+    "composition_questions": [
+      "What is the spatial model of THE QUARTER: a room, a packet on a bench, a timeline, or a checklist ledger?",
+      "Where do receipts / mileage / vehicles live as compartments of one packet (never three equal cards)?",
+      "How does the single next action dominate in COLLECTING vs NEEDS_CLIENT vs AWAITING_APPROVAL?",
+      "How does mobile become capture-first (camera at the pump) while desktop becomes the workbench?",
+      "How does FILED visibly collapse into a sealed quarter moving to the Vault?"
+    ],
+    "quality_test": "If two territories could be produced by swapping the hero image, swapping colors or moving one card → TERRITORY_DISTINCTNESS_FAILURE."
+  },
+  "reference_authority_brief": {
+    "one_per_territory": true,
+    "must_show": [
+      "composition",
+      "hierarchy",
+      "zones",
+      "media_relationship",
+      "interaction_emphasis",
+      "actor_intent"
+    ],
+    "allowed_formats": [
+      "GENERATED_FULL_PAGE_REFERENCE",
+      "COMPOSED_BOARD",
+      "EXISTING_APPROVED_PAGE",
+      "HYBRID",
+      "WIREFRAME_PLUS_BRAND_RENDER",
+      "OTHER_APPROVED_PROOF"
+    ],
+    "not_acceptable": [
+      "mood collage",
+      "decorative art",
+      "generic hero",
+      "old AIO page with new copy"
+    ],
+    "states_to_show": [
+      "NOT_ENROLLED",
+      "QUARTER_OPEN",
+      "COLLECTING",
+      "NEEDS_CLIENT"
+    ],
+    "role": "Page-logic / composition / direction contract — not a final screenshot. Authority ≠ runtime asset."
+  },
+  "founder_review": {
+    "verdicts": [
+      "LOVE_IT",
+      "REVISE",
+      "REJECT",
+      "COMBINE",
+      "REQUEST_FOURTH_TERRITORY"
+    ],
+    "hybrid_allowed": "e.g. A structure + C material",
+    "lock_requires": "founder approval"
+  },
+  "lock_template": {
+    "fields": [
+      "AUTHORITY_ID",
+      "PROJECT_ID",
+      "FAMILY_ID",
+      "FEATURE_ID",
+      "ACTOR",
+      "VIEWPORT",
+      "STATE_COVERAGE",
+      "TERRITORY_SOURCE",
+      "FOUNDER_STATUS",
+      "CORE_LOGIC_LOCKS",
+      "FLEXIBLE_IMPLEMENTATION_AREAS",
+      "SUPERSEDES",
+      "LINEAGE"
+    ],
+    "authority_id": "AIO.IFTA.CLIENT.PFA.v1",
+    "core_logic_lock_kinds": [
+      "PRIMARY_COMPOSITION",
+      "PRIMARY_OBJECT",
+      "PRIMARY_AXIS",
+      "METAPHOR",
+      "SPATIAL_LOGIC",
+      "CORE_HIERARCHY",
+      "MAJOR_ZONES",
+      "ZONE_RELATIONSHIP",
+      "CTA_HIERARCHY",
+      "MEDIA_RELATIONSHIP",
+      "STATE_TRANSITION_LOGIC",
+      "ACTOR_INTENT",
+      "CLIENT_STAFF_DISTINCTION",
+      "APPROVED_TERRITORY",
+      "CORE_EXPERIENCE_LOGIC"
+    ],
+    "flexible_implementation_areas": [
+      "SPACING",
+      "MARGINS",
+      "MICRO_SPACING",
+      "RESPONSIVE_BEHAVIOR",
+      "BREAKPOINTS",
+      "MATERIAL_REALISM",
+      "MATERIAL_DEPTH",
+      "MICRO_INTERACTIONS",
+      "MOTION",
+      "TRANSITIONS",
+      "ACCESSIBILITY",
+      "PANEL_PROPORTIONS",
+      "IMAGE_TREATMENT",
+      "MEDIA_FRAMING",
+      "DENSITY",
+      "CONTROL_DENSITY",
+      "STATE_CLARITY",
+      "CONTROL_PLACEMENT",
+      "TYPOGRAPHIC_OPTICS",
+      "SMALL_TYPOGRAPHY_ADJUSTMENTS"
+    ]
+  },
+  "sequence": [
+    "01 LOAD_BRAND_DNA",
+    "02 LOAD_EXPERIENCE_CONTRACT",
+    "03 EXCLUDE_LEGACY_VISUALS",
+    "04 CREATE_3_COMPOSITION_TERRITORIES",
+    "05 GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES",
+    "06 FOUNDER_CHOOSES_OR_REVISES",
+    "07 LOCK_PAGE_FAMILY_AUTHORITY",
+    "08 IMPLEMENT",
+    "09 INCREASE_FIDELITY_WITHOUT_VIOLATING_CORE_LOGIC"
+  ],
+  "constraints": {
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "page_implementation": false
+  }
+}

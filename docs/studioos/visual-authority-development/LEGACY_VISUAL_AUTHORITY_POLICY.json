@@ -1,0 +1,68 @@
+{
+  "id": "LEGACY_VISUAL_AUTHORITY_POLICY",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "source": "shared/studioos-visual-authority",
+  "classes": {
+    "APPROVED_AUTHORITY": {
+      "meaning": "Founder-approved visual authority (promoted). May control visuals for its approved scope.",
+      "may_control_visuals": "ALL",
+      "may_inform_function": true
+    },
+    "PARTIAL_AUTHORITY": {
+      "meaning": "Founder promoted specific visual dimensions only (e.g. nav visuals); everything else is functional reference.",
+      "may_control_visuals": "PROMOTED_DIMENSIONS_ONLY",
+      "may_inform_function": true
+    },
+    "FUNCTIONAL_REFERENCE_ONLY": {
+      "meaning": "DEFAULT for pre-experience-brain legacy. Read for function / data / routing / permissions / content truth / state / interaction / capabilities. Never visual structure.",
+      "may_control_visuals": "NONE",
+      "may_inform_function": true
+    },
+    "VISUALLY_SUPERSEDED": {
+      "meaning": "A newer authority replaced its visuals. Functional reference only; its geometry is history.",
+      "may_control_visuals": "NONE",
+      "may_inform_function": true
+    },
+    "FORBIDDEN_VISUAL_SOURCE": {
+      "meaning": "Must not be used visually at all (wrong brand, another project, rejected direction).",
+      "may_control_visuals": "NONE",
+      "may_inform_function": true
+    }
+  },
+  "default_class": "FUNCTIONAL_REFERENCE_ONLY",
+  "default_rule": "Pre-experience-brain legacy surfaces are FUNCTIONAL_REFERENCE_ONLY unless the founder promotes them. A class of APPROVED / PARTIAL without a founder decision falls back to the default.",
+  "firewall": {
+    "may_inform": [
+      "FUNCTION",
+      "DATA",
+      "ROUTING",
+      "PERMISSIONS",
+      "CONTENT_TRUTH",
+      "STATE",
+      "INTERACTION",
+      "CAPABILITIES"
+    ],
+    "may_not_control": [
+      "LAYOUT",
+      "GEOMETRY",
+      "PANEL_SYSTEM",
+      "NAV_VISUALS",
+      "SPACING",
+      "TYPOGRAPHY",
+      "COLOR",
+      "MATERIAL",
+      "COMPOSITION",
+      "RESPONSIVE_DESIGN"
+    ],
+    "statement": "A non-approved legacy surface may be read for function, data, routing, permissions, content truth, state, interaction and capabilities. It may NOT control layout, geometry, panel system, nav visuals, spacing, typography, color, material, composition or responsive design."
+  },
+  "promotion": "Only a founder decision promotes a legacy surface (APPROVED_AUTHORITY, or PARTIAL_AUTHORITY with promoted_dimensions).",
+  "guard": {
+    "status": "LEGACY_VISUAL_LEAK",
+    "evaluator": "checkLegacyUse(surfaces, uses)",
+    "trigger": "Any visual dimension taken from a surface whose class does not allow it."
+  },
+  "known_failure": "AIO IFTA: OLD PAGE + NEW CONTENT — new experience content placed on legacy page geometry."
+}

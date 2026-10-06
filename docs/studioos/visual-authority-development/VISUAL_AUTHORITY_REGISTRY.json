@@ -1,0 +1,204 @@
+{
+  "id": "VISUAL_AUTHORITY_REGISTRY",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "row_fields": [
+    "project_id",
+    "family_id",
+    "feature_id",
+    "actor",
+    "authority_id",
+    "authority_level",
+    "status",
+    "guard",
+    "reference_paths",
+    "brand_context_id",
+    "experience_contract_id",
+    "territory_id",
+    "core_logic_locks",
+    "flexible_areas",
+    "founder_decision",
+    "created_at",
+    "updated_at",
+    "supersedes"
+  ],
+  "rows": [
+    {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "actor": "PUBLIC",
+      "authority_id": null,
+      "authority_level": null,
+      "status": "AUTHORITY_TERRITORIES_REQUIRED",
+      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "reference_paths": [],
+      "brand_context_id": "AIO.BRAND@2026-10-06",
+      "experience_contract_id": "AIO.IFTA@1.0.0",
+      "territory_id": null,
+      "core_logic_locks": [],
+      "flexible_areas": [],
+      "founder_decision": null,
+      "created_at": "2026-10-06",
+      "updated_at": "2026-10-06",
+      "supersedes": null
+    },
+    {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "actor": "CLIENT",
+      "authority_id": null,
+      "authority_level": null,
+      "status": "AUTHORITY_TERRITORIES_REQUIRED",
+      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "reference_paths": [],
+      "brand_context_id": "AIO.BRAND@2026-10-06",
+      "experience_contract_id": "AIO.IFTA@1.0.0",
+      "territory_id": null,
+      "core_logic_locks": [],
+      "flexible_areas": [],
+      "founder_decision": null,
+      "created_at": "2026-10-06",
+      "updated_at": "2026-10-06",
+      "supersedes": null
+    },
+    {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "actor": "FOUNDER_STAFF",
+      "authority_id": null,
+      "authority_level": null,
+      "status": "AUTHORITY_TERRITORIES_REQUIRED",
+      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "reference_paths": [],
+      "brand_context_id": "AIO.BRAND@2026-10-06",
+      "experience_contract_id": "AIO.IFTA@1.0.0",
+      "territory_id": null,
+      "core_logic_locks": [],
+      "flexible_areas": [],
+      "founder_decision": null,
+      "created_at": "2026-10-06",
+      "updated_at": "2026-10-06",
+      "supersedes": null
+    }
+  ],
+  "portability": {
+    "projects": [
+      "SITE00",
+      "JURNL",
+      "AIO",
+      "FRONTAL_SLAYER",
+      "ASTRAL_WORLD",
+      "FUTURE_CLIENT_PROJECT"
+    ],
+    "rows": [
+      {
+        "project_id": "JURNL",
+        "family_id": "F09",
+        "feature_id": "JURNL.SAFE_TO_SPEND",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "DECISION THRESHOLD — experience sample (drafted); treated as material to show the gate holds at EXPERIENCE_REQUIRED."
+      },
+      {
+        "project_id": "JURNL",
+        "family_id": "F10",
+        "feature_id": "JURNL.PURCHASES",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "OBJECT UNDER CONSIDERATION — experience sample (drafted); treated as material to show the gate holds at EXPERIENCE_REQUIRED."
+      },
+      {
+        "project_id": "JURNL",
+        "family_id": "F15",
+        "feature_id": "JURNL.AHEAD",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "FORWARD HORIZON — experience sample (drafted); treated as material to show the gate holds at EXPERIENCE_REQUIRED."
+      },
+      {
+        "project_id": "JURNL",
+        "family_id": "F16",
+        "feature_id": "JURNL.RECORDS",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "ARCHIVE / INDEX — experience sample (drafted); treated as material to show the gate holds at EXPERIENCE_REQUIRED."
+      },
+      {
+        "project_id": "FRONTAL_SLAYER",
+        "family_id": "BUILD",
+        "feature_id": "FS.BUILD_A_WIG",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "ATELIER / CONSTRUCTION — experience sample (drafted); treated as material to show the gate holds at EXPERIENCE_REQUIRED."
+      },
+      {
+        "project_id": "FRONTAL_SLAYER",
+        "family_id": "ANALYSIS",
+        "feature_id": "FS.HAIR_ANALYSIS",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "CONSULTATION / DIAGNOSTIC — experience sample (drafted); treated as material to show the gate holds at EXPERIENCE_REQUIRED."
+      },
+      {
+        "project_id": "FRONTAL_SLAYER",
+        "family_id": "SHOP",
+        "feature_id": "FS.SHOWROOM",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "DISCOVERY — experience sample (drafted); treated as material to show the gate holds at EXPERIENCE_REQUIRED."
+      },
+      {
+        "project_id": "FRONTAL_SLAYER",
+        "family_id": "SOCIAL",
+        "feature_id": "FS.SLAY_CAM",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "SOCIAL PERFORMANCE / GALLERY — experience sample (drafted); treated as material to show the gate holds at EXPERIENCE_REQUIRED."
+      },
+      {
+        "project_id": "SITE00",
+        "family_id": "SITE00.WORKSPACE",
+        "feature_id": "SITE00.PRODUCTION_WORKSPACE",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "SITE 00 production workspace — no experience contract yet."
+      },
+      {
+        "project_id": "ASTRAL_WORLD",
+        "family_id": "ASTRAL.WORLD",
+        "feature_id": "ASTRAL.WORLD_HOME",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "FAMILY_LOCK_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "Astral World — no family lock yet."
+      },
+      {
+        "project_id": "FUTURE_CLIENT_PROJECT",
+        "family_id": "CLIENT.FAMILY",
+        "feature_id": "CLIENT.FEATURE",
+        "status": "EXPERIENCE_REQUIRED",
+        "guard": "VISUAL_AUTHORITY_REQUIRED",
+        "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+        "note": "Future client project — the gate needs only data."
+      }
+    ]
+  },
+  "existing_authority_systems": {
+    "docs/studioos/experience-compiler/SITE00_AUTHORITY_REGISTRY.json": "SITE 00 route / screen authorities (Experience Compiler). Not replaced; SITE 00 page families enter this registry when they pass through the gate.",
+    "docs/studioos/experience-compiler/SITE00_FOUNDER_CREATIVE_GATES.md": "Compiler-level creative gates (which archetypes need new authority). This gate defines HOW that authority is developed and locked."
+  }
+}
