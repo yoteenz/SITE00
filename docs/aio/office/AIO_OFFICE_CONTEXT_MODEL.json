@@ -1,0 +1,873 @@
+{
+  "id": "AIO_OFFICE_CONTEXT_MODEL",
+  "sprint": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
+  "generated_by": "scripts/studioos/aio-office-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/operating-environment.ts",
+    "shared/studioos-experience-brain/projects/aio/office.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "20438a24c7e0f8d48782684315e4f73e82d48111",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "legacy_visual_authority": "FORBIDDEN",
+    "permissions_broadened": false
+  },
+  "models": {
+    "AIO_OFFICE": "CLIENT × WORKSPACE × SUBCONTEXT — client and workspace switch independently",
+    "CLIENT_OFFICE": "FIXED CLIENT × WORKSPACE × SUBCONTEXT — no client switcher",
+    "CASE": "PROJECT + CLIENT + WORKSPACE + CASE TYPE + SUBCONTEXT — one canonical identity; founder and client views are projections of the same case"
+  },
+  "environments": [
+    {
+      "environment_id": "AIO.OFFICE",
+      "name": "AIO OFFICE",
+      "kind": "INTERNAL_OFFICE",
+      "actor": "FOUNDER_STAFF",
+      "client": "SWITCHABLE",
+      "workspace": "SWITCHABLE",
+      "subcontext": "SWITCHABLE",
+      "hub": {
+        "hub_id": "AIO.OFFICE.HUB",
+        "name": "AIO OFFICE HUB",
+        "scope": "CROSS_CLIENT_CROSS_WORKSPACE",
+        "responsibilities": [
+          "ALL CLIENTS",
+          "NEEDS ATTENTION",
+          "DUE / UPCOMING",
+          "BLOCKED",
+          "WAITING ON CLIENT",
+          "WAITING ON AIO",
+          "RECENT ACTIVITY",
+          "ACTIVE WORKSPACES",
+          "SERVICE HEALTH",
+          "GLOBAL SEARCH / CLIENT LOOKUP"
+        ],
+        "feature_ref": "AIO.OFFICE_OPERATIONS"
+      },
+      "workspace_landing": "CROSS_CLIENT_QUEUE",
+      "switchers": [
+        {
+          "switcher_id": "AIO.SWITCHER.CLIENT",
+          "dimension": "CLIENT",
+          "label": "CLIENT",
+          "preserves": [
+            "WORKSPACE"
+          ],
+          "re_resolves": [
+            "CLIENT",
+            "SUBCONTEXT"
+          ],
+          "semantics": "Switch client, keep the workspace. Inactive workspace for the new client → WORKSPACE NOT ACTIVE FOR THIS CLIENT; another client is never selected silently. The subcontext is kept only when the new client has that case."
+        },
+        {
+          "switcher_id": "AIO.SWITCHER.WORKSPACE",
+          "dimension": "WORKSPACE",
+          "label": "WORKSPACE",
+          "preserves": [
+            "CLIENT"
+          ],
+          "re_resolves": [
+            "WORKSPACE",
+            "SUBCONTEXT"
+          ],
+          "semantics": "Switch workspace, keep the client. Lists ACTIVE, IN PROGRESS and (client office) relevant AVAILABLE workspaces; NOT_APPLICABLE workspaces are never listed to the client."
+        },
+        {
+          "switcher_id": "AIO.SWITCHER.SUBCONTEXT",
+          "dimension": "SUBCONTEXT",
+          "label": "SUBCONTEXT (IFTA: QUARTER)",
+          "preserves": [
+            "CLIENT",
+            "WORKSPACE"
+          ],
+          "re_resolves": [
+            "SUBCONTEXT"
+          ],
+          "semantics": "Switch the subcontext inside one client × workspace (IFTA quarter; insurance policy; registration year …)."
+        }
+      ],
+      "route_root": "/office"
+    },
+    {
+      "environment_id": "AIO.CLIENT_OFFICE",
+      "name": "CLIENT OFFICE",
+      "kind": "CLIENT_OFFICE",
+      "actor": "CLIENT",
+      "client": "FIXED",
+      "workspace": "SWITCHABLE",
+      "subcontext": "SWITCHABLE",
+      "hub": {
+        "hub_id": "AIO.CLIENT_OFFICE.HUB",
+        "name": "CLIENT OFFICE HUB (MY OFFICE)",
+        "scope": "ONE_CLIENT_CROSS_WORKSPACE",
+        "responsibilities": [
+          "ACTIVE WORKSPACES",
+          "CURRENT ACTIONS",
+          "UPCOMING DEADLINES",
+          "DOCUMENT REQUESTS",
+          "MESSAGES",
+          "RECENT ACTIVITY",
+          "AVAILABLE RELEVANT WORKSPACES"
+        ],
+        "feature_ref": "AIO.MY_OFFICE"
+      },
+      "workspace_landing": "CLIENT_WORKSPACE",
+      "switchers": [
+        {
+          "switcher_id": "AIO.SWITCHER.WORKSPACE",
+          "dimension": "WORKSPACE",
+          "label": "WORKSPACE",
+          "preserves": [
+            "CLIENT"
+          ],
+          "re_resolves": [
+            "WORKSPACE",
+            "SUBCONTEXT"
+          ],
+          "semantics": "Switch workspace, keep the client. Lists ACTIVE, IN PROGRESS and (client office) relevant AVAILABLE workspaces; NOT_APPLICABLE workspaces are never listed to the client."
+        },
+        {
+          "switcher_id": "AIO.SWITCHER.SUBCONTEXT",
+          "dimension": "SUBCONTEXT",
+          "label": "SUBCONTEXT (IFTA: QUARTER)",
+          "preserves": [
+            "CLIENT",
+            "WORKSPACE"
+          ],
+          "re_resolves": [
+            "SUBCONTEXT"
+          ],
+          "semantics": "Switch the subcontext inside one client × workspace (IFTA quarter; insurance policy; registration year …)."
+        }
+      ],
+      "route_root": "/portal"
+    },
+    {
+      "environment_id": "AIO.PUBLIC_SITE",
+      "name": "PUBLIC SITE",
+      "kind": "PUBLIC_SITE",
+      "actor": "PUBLIC",
+      "client": "NONE",
+      "workspace": "NONE",
+      "subcontext": "NONE",
+      "hub": null,
+      "workspace_landing": "SERVICE_PAGE",
+      "switchers": [],
+      "route_root": "/"
+    }
+  ],
+  "navigation_semantics": {
+    "GLOBAL_NAVIGATION": "Moves between broad areas of the environment (hub, inbox, documents, account). Never changes client or workspace context by itself.",
+    "WORKSPACE_SWITCHER": "Changes the active service workspace. Keeps the client.",
+    "CLIENT_SWITCHER": "Changes the client (internal office only). Keeps the workspace.",
+    "SUBCONTEXT_SELECTOR": "Changes the subcontext (quarter, policy, registration year, filing cycle …) inside one client × workspace."
+  },
+  "views": {
+    "HUB": "environment hub",
+    "WORKSPACE_LANDING": "cross-client workspace queue (AIO OFFICE)",
+    "CLIENT_OVERVIEW": "one client, every workspace (AIO OFFICE)",
+    "CLIENT_WORKSPACE": "workspace open for one client without a modelled case",
+    "CASE": "the canonical case",
+    "CASE_NOT_OPEN": "workspace active, no case for that subcontext",
+    "WORKSPACE_INACTIVE": "staff: WORKSPACE NOT ACTIVE FOR THIS CLIENT",
+    "WORKSPACE_EXPANSION": "client: NOT ACTIVE YET expansion state",
+    "WORKSPACE_HIDDEN": "client: NOT_APPLICABLE — nothing surfaced"
+  },
+  "state_propagation": {
+    "rule": "A context change re-resolves everything below from scratch — nothing is carried from the previous context; every render is keyed by scope_key.",
+    "re_resolves": [
+      "ACTIVE_CASE",
+      "TABS",
+      "COUNTS",
+      "ALERTS",
+      "TASKS",
+      "DOCUMENTS",
+      "MESSAGES",
+      "ACTIVITY",
+      "DEADLINES",
+      "AVAILABLE_ACTIONS",
+      "EXPANSION_SUGGESTIONS",
+      "PERMISSIONS",
+      "SUBCONTEXT_SELECTOR"
+    ]
+  },
+  "case_identity": {
+    "key_format": "{project}:{client}:{workspace}:{case_type}:{subcontext}",
+    "ifta_record_rule": "one IftaQuarterCase per organisation-quarter (id ifta-{org}-{year}-q{n}) — the same record serves client and staff",
+    "cases": [
+      {
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q2",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-c",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q2"
+        },
+        "record_id": "ifta-client-c-2026-q2",
+        "status": "ARCHIVED"
+      },
+      {
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q3",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-c",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q3"
+        },
+        "record_id": "ifta-client-c-2026-q3",
+        "status": "NEEDS_CLIENT"
+      },
+      {
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q4",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-c",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q4"
+        },
+        "record_id": "ifta-client-c-2026-q4",
+        "status": "COLLECTING"
+      },
+      {
+        "case_key": "AIO:client-b:IFTA:IFTA_QUARTER:2026-Q2",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-b",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q2"
+        },
+        "record_id": "ifta-client-b-2026-q2",
+        "status": "ARCHIVED"
+      },
+      {
+        "case_key": "AIO:client-b:IFTA:IFTA_QUARTER:2026-Q3",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-b",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q3"
+        },
+        "record_id": "ifta-client-b-2026-q3",
+        "status": "NEEDS_CLIENT"
+      },
+      {
+        "case_key": "AIO:client-b:IFTA:IFTA_QUARTER:2026-Q4",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-b",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q4"
+        },
+        "record_id": "ifta-client-b-2026-q4",
+        "status": "COLLECTING"
+      },
+      {
+        "case_key": "AIO:client-d:IFTA:IFTA_QUARTER:2026-Q2",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-d",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q2"
+        },
+        "record_id": "ifta-client-d-2026-q2",
+        "status": "ARCHIVED"
+      },
+      {
+        "case_key": "AIO:client-d:IFTA:IFTA_QUARTER:2026-Q3",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-d",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q3"
+        },
+        "record_id": "ifta-client-d-2026-q3",
+        "status": "RECONCILING"
+      },
+      {
+        "case_key": "AIO:client-d:IFTA:IFTA_QUARTER:2026-Q4",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-d",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q4"
+        },
+        "record_id": "ifta-client-d-2026-q4",
+        "status": "QUARTER_OPEN"
+      },
+      {
+        "case_key": "AIO:client-f:IFTA:IFTA_QUARTER:2026-Q2",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-f",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q2"
+        },
+        "record_id": "ifta-client-f-2026-q2",
+        "status": "ARCHIVED"
+      },
+      {
+        "case_key": "AIO:client-f:IFTA:IFTA_QUARTER:2026-Q3",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-f",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q3"
+        },
+        "record_id": "ifta-client-f-2026-q3",
+        "status": "FILING"
+      },
+      {
+        "case_key": "AIO:client-f:IFTA:IFTA_QUARTER:2026-Q4",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-f",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q4"
+        },
+        "record_id": "ifta-client-f-2026-q4",
+        "status": "QUARTER_OPEN"
+      },
+      {
+        "case_key": "AIO:client-g:IFTA:IFTA_QUARTER:2026-Q2",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-g",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q2"
+        },
+        "record_id": "ifta-client-g-2026-q2",
+        "status": "ARCHIVED"
+      },
+      {
+        "case_key": "AIO:client-g:IFTA:IFTA_QUARTER:2026-Q3",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-g",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q3"
+        },
+        "record_id": "ifta-client-g-2026-q3",
+        "status": "FILED"
+      },
+      {
+        "case_key": "AIO:client-g:IFTA:IFTA_QUARTER:2026-Q4",
+        "identity": {
+          "project_id": "AIO",
+          "client_id": "client-g",
+          "workspace_id": "IFTA",
+          "case_type": "IFTA_QUARTER",
+          "subcontext": "2026-Q4"
+        },
+        "record_id": "ifta-client-g-2026-q4",
+        "status": "QUARTER_OPEN"
+      }
+    ],
+    "uniqueness": {
+      "ok": true,
+      "duplicates": [],
+      "mismatched": []
+    }
+  },
+  "routes": [
+    {
+      "route": "/office",
+      "environment_id": "AIO.OFFICE",
+      "view": "HUB",
+      "status": "EXISTING",
+      "ref": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:185 OfficeDashboardPage",
+      "note": "Route + function reused; legacy visuals carry zero authority."
+    },
+    {
+      "route": "/office/clients",
+      "environment_id": "AIO.OFFICE",
+      "view": "HUB (ALL CLIENTS)",
+      "status": "EXISTING",
+      "ref": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:258",
+      "note": ""
+    },
+    {
+      "route": "/office/clients/:clientId",
+      "environment_id": "AIO.OFFICE",
+      "view": "CLIENT_OVERVIEW",
+      "status": "EXISTING",
+      "ref": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:261 Client 360",
+      "note": "Client-centric entry."
+    },
+    {
+      "route": "/office/workspaces/ifta",
+      "environment_id": "AIO.OFFICE",
+      "view": "WORKSPACE_LANDING (FUEL TAX QUEUE)",
+      "status": "PROPOSED",
+      "ref": "none — no /office/workspaces/* route exists (no collision)",
+      "note": "Static route inside OfficeRouteGuard."
+    },
+    {
+      "route": "/office/workspaces/ifta/:clientId/:quarter",
+      "environment_id": "AIO.OFFICE",
+      "view": "CASE",
+      "status": "PROPOSED",
+      "ref": "none",
+      "note": "Queue entry → canonical case AIO:{clientId}:IFTA:IFTA_QUARTER:{quarter}."
+    },
+    {
+      "route": "/office/clients/:clientId/ifta/:quarter",
+      "environment_id": "AIO.OFFICE",
+      "view": "CASE",
+      "status": "PROPOSED",
+      "ref": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:259 (existing /office/clients/:clientId/<x> pattern)",
+      "note": "Client entry → the SAME canonical case."
+    },
+    {
+      "route": "/office/permitting/fuel-tax(/:caseId)",
+      "environment_id": "AIO.OFFICE",
+      "view": "—",
+      "status": "HELPER_UNROUTED",
+      "ref": "all-in-one-enterprises/src/utils/paths.ts:217-218",
+      "note": "Superseded: redirect to /office/workspaces/ifta(/:clientId/:quarter); :caseId resolves through the record id to the canonical client + quarter."
+    },
+    {
+      "route": "/portal",
+      "environment_id": "AIO.CLIENT_OFFICE",
+      "view": "HUB (MY OFFICE)",
+      "status": "EXISTING",
+      "ref": "all-in-one-enterprises/src/pages/PortalPage.tsx:20",
+      "note": "Route + function reused; legacy visuals carry zero authority."
+    },
+    {
+      "route": "/portal/workspaces/ifta",
+      "environment_id": "AIO.CLIENT_OFFICE",
+      "view": "CASE (current quarter) · WORKSPACE_EXPANSION · WORKSPACE_HIDDEN",
+      "status": "PROPOSED",
+      "ref": "none — no /portal/workspaces/* route exists (no collision)",
+      "note": "Static route inside CustomerRouteGuard; the session organisation is the only client."
+    },
+    {
+      "route": "/portal/workspaces/ifta/:quarter",
+      "environment_id": "AIO.CLIENT_OFFICE",
+      "view": "CASE",
+      "status": "PROPOSED",
+      "ref": "none",
+      "note": "Quarter selector (subcontext)."
+    },
+    {
+      "route": "/portal/services/ifta(?quarter=)",
+      "environment_id": "AIO.CLIENT_OFFICE",
+      "view": "—",
+      "status": "HELPER_UNROUTED",
+      "ref": "all-in-one-enterprises/src/utils/paths.ts:151-154 (swallowed by services/:serviceRequestId, routes/AioCoreRoutes.tsx:337)",
+      "note": "Superseded by /portal/workspaces/ifta."
+    },
+    {
+      "route": "/services/ifta-filing",
+      "environment_id": "AIO.PUBLIC_SITE",
+      "view": "SERVICE_PAGE",
+      "status": "EXISTING",
+      "ref": "all-in-one-enterprises/src/routes/AioCoreRoutes.tsx:228 /services/:serviceSlug",
+      "note": "Public service page (new authority family; no private data)."
+    }
+  ],
+  "permissions": {
+    "rule": "Existing guards only — no permission is broadened. Client office = the session organisation (CustomerRouteGuard). AIO office = OfficeRouteGuard + office role permissions; every office role holds clients.read over every client today (officeContext.ts:75-166).",
+    "founder_role": "No founder role exists in AIO (no staff seeded owner / admin; Supabase internal_role not mapped). Recommended: founder = OfficeStaffRole owner — open founder question, not decided here.",
+    "ifta_staff": [
+      "clients.read",
+      "work.read",
+      "work.manage"
+    ]
+  },
+  "experience_brain_concepts": {
+    "PROJECT": "OfficeData.project_id (AIO)",
+    "OPERATING_ENVIRONMENT": "OperatingEnvironment (AIO.OFFICE · AIO.CLIENT_OFFICE · AIO.PUBLIC_SITE)",
+    "WORKSPACE": "WorkspaceDefinition",
+    "ACTOR": "OperatingEnvironment.actor (ExperienceActor)",
+    "CLIENT": "ClientRecord",
+    "CASE": "CaseIdentity / CaseRecord (canonicalCaseKey)",
+    "SUBCONTEXT": "CaseIdentity.subcontext + SUBCONTEXT switcher",
+    "PAGE_FAMILY": "tree PAGE_FAMILY nodes (visual authority)",
+    "NODE": "ExperienceTreeNode with NodeContextMeta (environment · workspace · client scope · case type · subcontext)"
+  },
+  "proofs": {
+    "A_FOUNDER_CLIENT_SWITCH": {
+      "from": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "IFTA",
+        "subcontext": "2026-Q3",
+        "view": "CASE",
+        "workspace_state": "ACTIVE",
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q3",
+        "record_id": "ifta-client-c-2026-q3",
+        "scope_key": "AIO.OFFICE|client-c|IFTA|2026-Q3|CASE"
+      },
+      "to_client_with_case": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-b",
+        "workspace_id": "IFTA",
+        "subcontext": "2026-Q3",
+        "view": "CASE",
+        "workspace_state": "ACTIVE",
+        "case_key": "AIO:client-b:IFTA:IFTA_QUARTER:2026-Q3",
+        "record_id": "ifta-client-b-2026-q3",
+        "scope_key": "AIO.OFFICE|client-b|IFTA|2026-Q3|CASE"
+      },
+      "to_client_without_workspace": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-a",
+        "workspace_id": "IFTA",
+        "subcontext": null,
+        "view": "WORKSPACE_INACTIVE",
+        "workspace_state": "AVAILABLE_NOT_ACTIVATED",
+        "case_key": null,
+        "record_id": null,
+        "scope_key": "AIO.OFFICE|client-a|IFTA|*|WORKSPACE_INACTIVE"
+      },
+      "workspace_preserved": true,
+      "subcontext_preserved_when_case_exists": true,
+      "never_another_client": true
+    },
+    "B_FOUNDER_WORKSPACE_SWITCH": {
+      "from": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "IFTA",
+        "subcontext": "2026-Q3",
+        "view": "CASE",
+        "workspace_state": "ACTIVE",
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q3",
+        "record_id": "ifta-client-c-2026-q3",
+        "scope_key": "AIO.OFFICE|client-c|IFTA|2026-Q3|CASE"
+      },
+      "to_active": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "DISPATCH",
+        "subcontext": null,
+        "view": "CLIENT_WORKSPACE",
+        "workspace_state": "ACTIVE",
+        "case_key": null,
+        "record_id": null,
+        "scope_key": "AIO.OFFICE|client-c|DISPATCH|*|CLIENT_WORKSPACE"
+      },
+      "to_inactive": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "TAGS_REGISTRATION",
+        "subcontext": null,
+        "view": "WORKSPACE_INACTIVE",
+        "workspace_state": "AVAILABLE_NOT_ACTIVATED",
+        "case_key": null,
+        "record_id": null,
+        "scope_key": "AIO.OFFICE|client-c|TAGS_REGISTRATION|*|WORKSPACE_INACTIVE"
+      },
+      "client_preserved": true,
+      "subcontext_switch": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "IFTA",
+        "subcontext": "2026-Q4",
+        "view": "CASE",
+        "workspace_state": "ACTIVE",
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q4",
+        "record_id": "ifta-client-c-2026-q4",
+        "scope_key": "AIO.OFFICE|client-c|IFTA|2026-Q4|CASE"
+      }
+    },
+    "C_CLIENT_WORKSPACE_SWITCH": {
+      "from": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "IFTA",
+        "subcontext": "2026-Q3",
+        "view": "CASE",
+        "workspace_state": "ACTIVE",
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q3",
+        "record_id": "ifta-client-c-2026-q3",
+        "scope_key": "AIO.CLIENT_OFFICE|client-c|IFTA|2026-Q3|CASE"
+      },
+      "to_active": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "BOOKKEEPING",
+        "subcontext": null,
+        "view": "CLIENT_WORKSPACE",
+        "workspace_state": "ACTIVE",
+        "case_key": null,
+        "record_id": null,
+        "scope_key": "AIO.CLIENT_OFFICE|client-c|BOOKKEEPING|*|CLIENT_WORKSPACE"
+      },
+      "to_available": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "TAGS_REGISTRATION",
+        "subcontext": null,
+        "view": "WORKSPACE_EXPANSION",
+        "workspace_state": "AVAILABLE_NOT_ACTIVATED",
+        "case_key": null,
+        "record_id": null,
+        "scope_key": "AIO.CLIENT_OFFICE|client-c|TAGS_REGISTRATION|*|WORKSPACE_EXPANSION"
+      },
+      "client_fixed": true
+    },
+    "D_CLIENT_HAS_NO_CLIENT_SWITCHER": {
+      "switchers": [
+        "WORKSPACE",
+        "SUBCONTEXT"
+      ],
+      "switch_client_error": "NO_CLIENT_SWITCHER",
+      "foreign_client_error": "CLIENT_FIXED",
+      "context_switchers": {
+        "client": false,
+        "workspace": true,
+        "subcontext": true
+      }
+    },
+    "E_INACTIVE_FOUNDER_WORKSPACE": {
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-a",
+        "workspace_id": "IFTA",
+        "subcontext": null,
+        "view": "WORKSPACE_INACTIVE",
+        "workspace_state": "AVAILABLE_NOT_ACTIVATED",
+        "case_key": null,
+        "record_id": null,
+        "scope_key": "AIO.OFFICE|client-a|IFTA|*|WORKSPACE_INACTIVE"
+      },
+      "supported_actions": [
+        "VIEW CLIENT OVERVIEW",
+        "RETURN TO WORKSPACE QUEUE",
+        "VIEW ELIGIBILITY"
+      ],
+      "not_offered": {
+        "START SERVICE": "no staff activation writer for IFTA"
+      }
+    },
+    "F_INACTIVE_CLIENT_WORKSPACE_EXPANSION": {
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "TAGS_REGISTRATION",
+        "subcontext": null,
+        "view": "WORKSPACE_EXPANSION",
+        "workspace_state": "AVAILABLE_NOT_ACTIVATED",
+        "case_key": null,
+        "record_id": null,
+        "scope_key": "AIO.CLIENT_OFFICE|client-c|TAGS_REGISTRATION|*|WORKSPACE_EXPANSION"
+      },
+      "expansion": {
+        "workspace_id": "TAGS_REGISTRATION",
+        "client_id": "client-c",
+        "eligibility": "ELIGIBLE",
+        "relevance_class": "HIGH",
+        "reasons": [
+          "3 vehicles already filed through AIO IFTA",
+          "2 registration / IRP deadline(s) open on file"
+        ],
+        "current_related_workspaces": [
+          "IFTA"
+        ],
+        "trigger_context": {
+          "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+          "current_workspace_id": "IFTA",
+          "critical_state": false,
+          "error_recovery": false
+        },
+        "placement": "WORKSPACE_SWITCHER_AVAILABLE",
+        "rule_id": "X.TAGS.FROM_IFTA.DEADLINES",
+        "message_key": "expansion.tags.from_ifta.deadlines",
+        "headline": "YOU’RE ALREADY MANAGING 3 VEHICLES WITH AIO.",
+        "body": "BRING REGISTRATION INTO THE SAME OFFICE — 2 REGISTRATION DEADLINE(S) ARE OPEN.",
+        "cta": {
+          "label": "EXPLORE TAGS",
+          "action": "I.EXPLORE_WORKSPACE"
+        },
+        "availability_truth": "IRP LIMITED_PILOT · tag services HOLD · title / UCR PREPARING (request model) · request / quote",
+        "suppressed": false,
+        "suppressed_by": []
+      },
+      "during_critical_state": {
+        "workspace_id": "TAGS_REGISTRATION",
+        "client_id": "client-c",
+        "eligibility": "ELIGIBLE",
+        "relevance_class": "NONE",
+        "reasons": [],
+        "current_related_workspaces": [],
+        "trigger_context": {
+          "placement": "CLIENT_OFFICE_HUB",
+          "current_workspace_id": null,
+          "critical_state": true,
+          "error_recovery": false
+        },
+        "placement": "CLIENT_OFFICE_HUB",
+        "rule_id": null,
+        "message_key": null,
+        "headline": null,
+        "body": null,
+        "cta": null,
+        "availability_truth": "IRP LIMITED_PILOT · tag services HOLD · title / UCR PREPARING (request model) · request / quote",
+        "suppressed": true,
+        "suppressed_by": [
+          "CRITICAL_STATE"
+        ]
+      }
+    },
+    "G_NOT_APPLICABLE_NOT_AGGRESSIVE": {
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "client_id": "client-e",
+        "workspace_id": "IFTA",
+        "subcontext": null,
+        "view": "WORKSPACE_HIDDEN",
+        "workspace_state": "NOT_APPLICABLE",
+        "case_key": null,
+        "record_id": null,
+        "scope_key": "AIO.CLIENT_OFFICE|client-e|IFTA|*|WORKSPACE_HIDDEN"
+      },
+      "switcher": {
+        "active": [
+          "FACTORING",
+          "BROKERAGE"
+        ],
+        "in_progress": [
+          {
+            "workspace_id": "DISPATCH",
+            "state": "PENDING_SETUP"
+          }
+        ],
+        "available": [
+          "BOOKKEEPING"
+        ],
+        "hidden": [
+          "IFTA",
+          "TAGS_REGISTRATION",
+          "PERMITTING",
+          "COMPLIANCE",
+          "INSURANCE",
+          "FLEETCARE",
+          "DRIVERLINK",
+          "BUSINESS_FORMATION"
+        ],
+        "conflicts": [
+          "FACTORING",
+          "DISPATCH"
+        ]
+      },
+      "expansion": {
+        "workspace_id": "IFTA",
+        "client_id": "client-e",
+        "eligibility": "NOT_ELIGIBLE",
+        "relevance_class": "NONE",
+        "reasons": [],
+        "current_related_workspaces": [],
+        "trigger_context": {
+          "placement": "CLIENT_OFFICE_HUB",
+          "current_workspace_id": null,
+          "critical_state": false,
+          "error_recovery": false
+        },
+        "placement": "CLIENT_OFFICE_HUB",
+        "rule_id": null,
+        "message_key": null,
+        "headline": null,
+        "body": null,
+        "cta": null,
+        "availability_truth": "REQUEST / QUOTE (D-IFTA-AVAILABILITY) — sources disagree: catalog ifta-filing PREPARING · launch fuel-tax INTERNAL_ONLY · public CTA falls back to GO · request / quote",
+        "suppressed": true,
+        "suppressed_by": [
+          "NOT_APPLICABLE",
+          "MISLEADING",
+          "NO_MATCHING_RULE"
+        ]
+      }
+    },
+    "H_SAME_CASE_TWO_ENTRY_PATHS": {
+      "from_queue": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "IFTA",
+        "subcontext": "2026-Q3",
+        "view": "CASE",
+        "workspace_state": "ACTIVE",
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q3",
+        "record_id": "ifta-client-c-2026-q3",
+        "scope_key": "AIO.OFFICE|client-c|IFTA|2026-Q3|CASE"
+      },
+      "from_client": {
+        "environment_id": "AIO.OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "IFTA",
+        "subcontext": "2026-Q3",
+        "view": "CASE",
+        "workspace_state": "ACTIVE",
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q3",
+        "record_id": "ifta-client-c-2026-q3",
+        "scope_key": "AIO.OFFICE|client-c|IFTA|2026-Q3|CASE"
+      },
+      "same_case": true,
+      "client_projection": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "client_id": "client-c",
+        "workspace_id": "IFTA",
+        "subcontext": "2026-Q3",
+        "view": "CASE",
+        "workspace_state": "ACTIVE",
+        "case_key": "AIO:client-c:IFTA:IFTA_QUARTER:2026-Q3",
+        "record_id": "ifta-client-c-2026-q3",
+        "scope_key": "AIO.CLIENT_OFFICE|client-c|IFTA|2026-Q3|CASE"
+      },
+      "same_record_for_client": true,
+      "uniqueness": {
+        "ok": true,
+        "duplicates": [],
+        "mismatched": []
+      }
+    },
+    "STALE_STATE": {
+      "before": [
+        "client-c Q3 receipt"
+      ],
+      "after_client_switch": [
+        "client-b Q3 receipt"
+      ],
+      "after_inactive_switch": [
+        "client-a dispatch load"
+      ],
+      "scope_keys_differ": true,
+      "re_resolves": [
+        "ACTIVE_CASE",
+        "TABS",
+        "COUNTS",
+        "ALERTS",
+        "TASKS",
+        "DOCUMENTS",
+        "MESSAGES",
+        "ACTIVITY",
+        "DEADLINES",
+        "AVAILABLE_ACTIONS",
+        "EXPANSION_SUGGESTIONS",
+        "PERMISSIONS",
+        "SUBCONTEXT_SELECTOR"
+      ]
+    }
+  }
+}

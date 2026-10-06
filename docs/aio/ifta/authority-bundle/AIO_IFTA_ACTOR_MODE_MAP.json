@@ -1,6 +1,8 @@
 {
   "id": "AIO_IFTA_ACTOR_MODE_MAP",
   "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": 2,
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
   "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
   "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
   "generated_for": "2026-10-06",
@@ -10,8 +12,63 @@
     "credits_spent": 0,
     "legacy_visual_authority": "FORBIDDEN"
   },
+  "architecture": "Actor modes sit inside operating environments: FOUNDER / STAFF in AIO OFFICE (client × workspace × subcontext), CLIENT in CLIENT OFFICE (fixed client × workspace × subcontext), PUBLIC on the PUBLIC SITE.",
   "actors": {
     "CLIENT": {
+      "operating_environment": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "name": "CLIENT OFFICE",
+        "kind": "CLIENT_OFFICE",
+        "actor": "CLIENT",
+        "client": "FIXED",
+        "workspace": "SWITCHABLE",
+        "subcontext": "SWITCHABLE",
+        "hub": {
+          "hub_id": "AIO.CLIENT_OFFICE.HUB",
+          "name": "CLIENT OFFICE HUB (MY OFFICE)",
+          "scope": "ONE_CLIENT_CROSS_WORKSPACE",
+          "responsibilities": [
+            "ACTIVE WORKSPACES",
+            "CURRENT ACTIONS",
+            "UPCOMING DEADLINES",
+            "DOCUMENT REQUESTS",
+            "MESSAGES",
+            "RECENT ACTIVITY",
+            "AVAILABLE RELEVANT WORKSPACES"
+          ],
+          "feature_ref": "AIO.MY_OFFICE"
+        },
+        "workspace_landing": "CLIENT_WORKSPACE",
+        "switchers": [
+          {
+            "switcher_id": "AIO.SWITCHER.WORKSPACE",
+            "dimension": "WORKSPACE",
+            "label": "WORKSPACE",
+            "preserves": [
+              "CLIENT"
+            ],
+            "re_resolves": [
+              "WORKSPACE",
+              "SUBCONTEXT"
+            ],
+            "semantics": "Switch workspace, keep the client. Lists ACTIVE, IN PROGRESS and (client office) relevant AVAILABLE workspaces; NOT_APPLICABLE workspaces are never listed to the client."
+          },
+          {
+            "switcher_id": "AIO.SWITCHER.SUBCONTEXT",
+            "dimension": "SUBCONTEXT",
+            "label": "SUBCONTEXT (IFTA: QUARTER)",
+            "preserves": [
+              "CLIENT",
+              "WORKSPACE"
+            ],
+            "re_resolves": [
+              "SUBCONTEXT"
+            ],
+            "semantics": "Switch the subcontext inside one client × workspace (IFTA quarter; insurance policy; registration year …)."
+          }
+        ],
+        "route_root": "/portal"
+      },
       "theme": {
         "theme": "LIGHT_PRIMARY",
         "manifest": "LIGHT_PRIMARY",
@@ -49,7 +106,7 @@
         "implementation_ready": false,
         "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
         "reasons": [
-          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED"
         ]
       },
       "lower_band": "DATA · COMPLIANCE · REAL PROGRESS",
@@ -74,17 +131,86 @@
         "AIO.IFTA.CLIENT.ROOM.MILEAGE",
         "AIO.IFTA.CLIENT.ROOM.VEHICLES",
         "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
-        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
-        "AIO.IFTA.CLIENT.ROOM.NOTES"
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS"
       ],
-      "material_nodes": 32,
-      "implementation_ready": 24,
+      "material_nodes": 31,
+      "implementation_ready": 28,
       "experience": {
         "primary_question": "What does AIO still need from me for this quarter?",
         "emotional_target": "I know exactly what AIO needs from me — and that the quarter is under control."
       }
     },
     "FOUNDER_STAFF": {
+      "operating_environment": {
+        "environment_id": "AIO.OFFICE",
+        "name": "AIO OFFICE",
+        "kind": "INTERNAL_OFFICE",
+        "actor": "FOUNDER_STAFF",
+        "client": "SWITCHABLE",
+        "workspace": "SWITCHABLE",
+        "subcontext": "SWITCHABLE",
+        "hub": {
+          "hub_id": "AIO.OFFICE.HUB",
+          "name": "AIO OFFICE HUB",
+          "scope": "CROSS_CLIENT_CROSS_WORKSPACE",
+          "responsibilities": [
+            "ALL CLIENTS",
+            "NEEDS ATTENTION",
+            "DUE / UPCOMING",
+            "BLOCKED",
+            "WAITING ON CLIENT",
+            "WAITING ON AIO",
+            "RECENT ACTIVITY",
+            "ACTIVE WORKSPACES",
+            "SERVICE HEALTH",
+            "GLOBAL SEARCH / CLIENT LOOKUP"
+          ],
+          "feature_ref": "AIO.OFFICE_OPERATIONS"
+        },
+        "workspace_landing": "CROSS_CLIENT_QUEUE",
+        "switchers": [
+          {
+            "switcher_id": "AIO.SWITCHER.CLIENT",
+            "dimension": "CLIENT",
+            "label": "CLIENT",
+            "preserves": [
+              "WORKSPACE"
+            ],
+            "re_resolves": [
+              "CLIENT",
+              "SUBCONTEXT"
+            ],
+            "semantics": "Switch client, keep the workspace. Inactive workspace for the new client → WORKSPACE NOT ACTIVE FOR THIS CLIENT; another client is never selected silently. The subcontext is kept only when the new client has that case."
+          },
+          {
+            "switcher_id": "AIO.SWITCHER.WORKSPACE",
+            "dimension": "WORKSPACE",
+            "label": "WORKSPACE",
+            "preserves": [
+              "CLIENT"
+            ],
+            "re_resolves": [
+              "WORKSPACE",
+              "SUBCONTEXT"
+            ],
+            "semantics": "Switch workspace, keep the client. Lists ACTIVE, IN PROGRESS and (client office) relevant AVAILABLE workspaces; NOT_APPLICABLE workspaces are never listed to the client."
+          },
+          {
+            "switcher_id": "AIO.SWITCHER.SUBCONTEXT",
+            "dimension": "SUBCONTEXT",
+            "label": "SUBCONTEXT (IFTA: QUARTER)",
+            "preserves": [
+              "CLIENT",
+              "WORKSPACE"
+            ],
+            "re_resolves": [
+              "SUBCONTEXT"
+            ],
+            "semantics": "Switch the subcontext inside one client × workspace (IFTA quarter; insurance policy; registration year …)."
+          }
+        ],
+        "route_root": "/office"
+      },
       "theme": {
         "theme": "LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
         "manifest": "LIGHT_PRIMARY_DENSE_OPERATIONAL",
@@ -126,7 +252,7 @@
         "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
         "reasons": [
           "territories inherited from parent authority AIO.IFTA.CLIENT.PFA.v1",
-          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED"
         ]
       },
       "lower_band": "OPERATIONS · COMPLIANCE · CLIENT SUCCESS",
@@ -155,14 +281,27 @@
         "AIO.IFTA.STAFF.CASE.DOCUMENTS",
         "AIO.IFTA.STAFF.CASE.NOTES"
       ],
-      "material_nodes": 23,
-      "implementation_ready": 12,
+      "material_nodes": 24,
+      "implementation_ready": 15,
       "experience": {
         "primary_question": "What is blocking this filing, and who has to act?",
         "emotional_target": "I can see exactly what is blocking this filing and act on it."
       }
     },
     "PUBLIC": {
+      "operating_environment": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "name": "PUBLIC SITE",
+        "kind": "PUBLIC_SITE",
+        "actor": "PUBLIC",
+        "client": "NONE",
+        "workspace": "NONE",
+        "subcontext": "NONE",
+        "hub": null,
+        "workspace_landing": "SERVICE_PAGE",
+        "switchers": [],
+        "route_root": "/"
+      },
       "theme": {
         "theme": "DARK_PRIMARY",
         "manifest": "DARK_PRIMARY_CINEMATIC",
@@ -199,7 +338,7 @@
         "next_step": "Founder confirms the page / tab / state tree (and settles its open decisions).",
         "reasons": [
           "territories inherited from parent authority AIO.IFTA.CLIENT.PFA.v1",
-          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED (10 open decisions)"
+          "page tree AIO.IFTA.PAGE_TREE.v1: PRODUCED"
         ]
       },
       "lower_band": "DRIVEN BY COMPLIANCE. BUILT FOR WHAT MOVES YOU.",
@@ -228,7 +367,7 @@
         "AIO.IFTA.PUBLIC.SERVICE.START"
       ],
       "material_nodes": 9,
-      "implementation_ready": 3,
+      "implementation_ready": 6,
       "experience": {
         "primary_question": "Can AIO handle my IFTA every quarter?",
         "emotional_target": "I understand what AIO will handle every quarter and what I send."

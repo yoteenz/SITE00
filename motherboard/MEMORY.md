@@ -14097,3 +14097,55 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   1. The founder confirms the tree and settles the decisions.
   2. Authority-driven implementation of the ready nodes.
   3. In parallel, an AIO data-contract completion sprint.
+
+## 2026-10-06 — AIO OFFICE / CLIENT OFFICE workspace architecture + IFTA tree founder lock (P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1)
+
+- **Founder decision (durable):** AIO services are **workspaces inside a connected business office**.
+  - **AIO OFFICE** (founder / staff) = CLIENT × WORKSPACE × SUBCONTEXT. Client and workspace switch independently.
+  - **CLIENT OFFICE** (client) = FIXED CLIENT × WORKSPACE × SUBCONTEXT. There is no client switcher.
+  - **CASE** = PROJECT + CLIENT + WORKSPACE + CASE TYPE + SUBCONTEXT. It has one canonical identity; founder and client views are projections of the same case.
+  - Hubs and queues stay distinct: AIO OFFICE HUB (cross-service, cross-client) · IFTA queue (cross-client, IFTA only) · CLIENT OFFICE HUB (one client, cross-workspace) · IFTA client workspace.
+- **Generic Experience Brain layer:** `shared/studioos-experience-brain/operating-environment.ts` (project-agnostic; portability test extended).
+  - It defines environments, switchers, workspaces and states (required: ACTIVE · AVAILABLE_NOT_ACTIVATED · NOT_APPLICABLE; optional only when a record supports them).
+  - Eligibility runs over recorded signals.
+  - The expansion contract has 11 named suppressions and no generic fallback. Availability CONFLICT → MISLEADING. An active record that contradicts eligibility is reported as a conflict and never grounds a suggestion.
+  - Canonical case key + uniqueness check.
+  - `resolveContext` / `switchClient` / `switchWorkspace` / `switchSubcontext`; scope keys mean no stale state.
+- **AIO data:** `shared/studioos-experience-brain/projects/aio/office.ts`, from a read-only audit of fsbw @ 20438a2.
+  - 3 environments.
+  - 12 workspaces, each with entitlement sources and availability truth. IFTA is TREE_PROVEN; the rest are CONTRACT_ONLY.
+  - Routes reconciled: `/office/workspaces/ifta(/:clientId/:quarter)`, `/office/clients/:clientId/ifta/:quarter`, `/portal/workspaces/ifta(/:quarter)`. All are proposed; there are no collisions; the old helpers are superseded.
+  - 8 expansion rules over 12 record-based signals.
+  - Demo-seed client fixtures and 15 canonical IFTA cases.
+  - Proof scenarios A–H.
+- **Ten founder decisions locked (DECIDED + founder_decision):**
+  - Brand DNA board wins brand roles; the asset sheet supplies functional tokens only.
+  - INTER TIGHT / INTER for client and staff UI; MONUMENT EXTENDED is public / hero only, if licensed.
+  - Interaction 09 = **RUN FAQS**: identity resolved, behaviour description partial, bound to no material node.
+  - Planned static routes with the new family shell.
+  - REQUEST / QUOTE availability.
+  - STAFF NOTES is a secondary tab; the client has no NOTES tab (MESSAGE AIO).
+  - Client desktop shows no staff modules.
+  - Tax figures come only from the staff-prepared summary ("PENDING AIO PREPARATION" until then).
+  - Truthful public copy.
+  - The staff queue may be **derived** from the staff case authority.
+- **IFTA tree revision 2:** rebased as AIO → environment → hub | workspace → actor mode → family → (staff) QUEUE → CLIENT CONTEXT → CASE / (client) QUARTER SELECTOR → ROOM.
+  - New node types: OPERATING_ENVIRONMENT, HUB, WORKSPACE, CONTEXT. Every node carries a context.
+  - Material IDs are preserved: 64 nodes, minus the client NOTES candidate, plus the staff WORKSPACE NOT ACTIVE state.
+  - New components WORKSPACE_SWITCHER, CLIENT_SWITCHER, WORKSPACE_STATE_PANEL, all DERIVED; placement is a proposal.
+  - 7 office-context interactions.
+  - OFFICE_CONTEXT data domain with 4 contracts.
+- **Status:**
+  - Reference package COMPLETE: the queue is DERIVED_AUTHORITY; interaction 09 is a non-blocking clarification.
+  - Environment hubs and the client overview have authority MISSING (outside the IFTA package).
+  - **49 / 64 IMPLEMENTATION_READY** (was 39). All remaining blockers are data: CSV import · escalate · mark not operated · worksheet · rejection / reopen · reclassify · export · notes model · availability truth.
+  - The tree is PRODUCED, revision 2, AWAITING_FINAL_FOUNDER_CONFIRMATION. PAGE_TREE_CONFIRMED is NOT marked.
+  - 0 paid generations; OpenArt not accessed; LEGACY_VISUAL_LEAK 0; no page implemented.
+- **Landed:**
+  - 10 artifacts in `docs/aio/office/` (`npx tsx scripts/studioos/aio-office-export.ts`).
+  - 16 artifacts in `docs/aio/ifta/authority-bundle/`, including the new DECISION_REGISTRY, QUEUE_DERIVATION_CONTRACT and INTERACTION_09_CORRECTION_PROOF.
+  - Tests: `tests/aioOfficeWorkspaceArchitecture1.test.ts` (A–J), plus updates to the IFTA tree and brain tests.
+- **Next:**
+  1. The founder confirms the revised tree.
+  2. Authority-driven implementation of the 49 ready nodes.
+  3. AIO data sprint: the data blockers, availability reconciliation, an IFTA OfficeWorkItem domain, one canonical workspace resolver replacing the two "active services" heuristics, a founder role, and production persistence.

@@ -1,6 +1,8 @@
 {
   "id": "AIO_IFTA_REFERENCE_PACKAGE_GAP_REPORT",
   "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": 2,
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
   "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
   "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
   "generated_for": "2026-10-06",
@@ -10,135 +12,67 @@
     "credits_spent": 0,
     "legacy_visual_authority": "FORBIDDEN"
   },
-  "status": "REFERENCE_PACKAGE_INCOMPLETE",
+  "status": "REFERENCE_PACKAGE_COMPLETE",
   "rule": "IF INCOMPLETE: DO NOT INVENT VISUAL DESIGN. RETURN EXACTLY WHICH AUTHORITY IS MISSING.",
-  "authority_gaps": [
+  "authority_vocabulary": {
+    "DEDICATED_REFERENCE": "a bundle image governs the node × viewport directly",
+    "DERIVED_AUTHORITY": "derived from the approved family with all four derivation conditions (or by explicit founder authorisation)",
+    "MISSING_AUTHORITY": "no usable authority — never invented"
+  },
+  "authority_gaps": [],
+  "missing_bindings": [],
+  "resolved_gaps": [
     {
       "gap_id": "G-STAFF-QUEUE",
-      "kind": "MISSING_AUTHORITY",
-      "missing": "FOUNDER / STAFF fuel tax QUEUE page (multi-client, due date × readiness, hub buckets) — MOBILE · TABLET · DESKTOP",
+      "previous_status": "MISSING_AUTHORITY",
+      "status": "DERIVED_AUTHORITY",
+      "resolution": "DERIVATION AUTHORIZED BY FOUNDER — designed as the IFTA workspace cross-client landing state (MULTI-CLIENT FILING QUEUE), not a duplicate of the case page.",
+      "decision": "D-STAFF-QUEUE-AUTHORITY",
       "nodes": [
         "AIO.IFTA.STAFF.QUEUE"
       ],
       "components": [
         "QUEUE_TABLE"
       ],
-      "decision": "D-STAFF-QUEUE-AUTHORITY",
-      "why_not_derived": "The package shows one client-quarter only; the queue’s primary object (many client-quarters) and its composition are not in any reference. Deriving it would invent composition."
+      "contract": "docs/aio/ifta/authority-bundle/AIO_IFTA_QUEUE_DERIVATION_CONTRACT.json"
     },
     {
       "gap_id": "G-INTERACTION-09",
-      "kind": "ILLEGIBLE_CONTRACT_ITEM",
-      "missing": "Page / component / interaction contract §05 item 09 label (“…FAQS”)",
-      "nodes": [],
-      "components": [],
-      "interactions": [
-        "I.CONTRACT_09"
-      ],
+      "previous_status": "ILLEGIBLE_CONTRACT_ITEM",
+      "status": "IDENTITY_RESOLVED / BEHAVIOR_DESCRIPTION_PARTIAL",
+      "resolution": "Label “09 RUN FAQS” supplied by the founder (clearer image); sequence MESSAGE TEAM → RUN FAQS → SUBMIT FOR APPROVAL preserved. Behaviour description is not legible — never invented.",
       "decision": "D-INTERACTION-09",
-      "why_not_derived": "Unreadable — never guessed."
+      "interactions": [
+        "I.RUN_FAQS"
+      ],
+      "blocking": "NON_BLOCKING — bound to the page families only, no material node"
     }
   ],
-  "missing_bindings": [
+  "contract_clarifications": [
     {
-      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-      "viewport": "MOBILE",
-      "binding": "DERIVED",
-      "note": "Tab label only in references (no NOTES content composition); asset sheet shows the tab DISABLED.",
-      "derivation": {
-        "family_composition_clear": true,
-        "component_contract_clear": true,
-        "tab_logic_clear": false,
-        "asset_family_clear": true
-      }
-    },
-    {
-      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-      "viewport": "TABLET",
-      "binding": "DERIVED",
-      "note": "Tab label only.",
-      "derivation": {
-        "family_composition_clear": true,
-        "component_contract_clear": true,
-        "tab_logic_clear": false,
-        "asset_family_clear": true
-      }
-    },
-    {
-      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-      "viewport": "DESKTOP",
-      "binding": "DERIVED",
-      "note": "Tab label only.",
-      "derivation": {
-        "family_composition_clear": true,
-        "component_contract_clear": true,
-        "tab_logic_clear": false,
-        "asset_family_clear": true
-      }
-    },
-    {
-      "node_id": "AIO.IFTA.STAFF.QUEUE",
-      "viewport": "MOBILE",
-      "binding": "MISSING",
-      "note": "No queue reference in the package (G-STAFF-QUEUE).",
-      "derivation": null
-    },
-    {
-      "node_id": "AIO.IFTA.STAFF.QUEUE",
-      "viewport": "TABLET",
-      "binding": "MISSING",
-      "note": "No queue reference in the package.",
-      "derivation": null
-    },
-    {
-      "node_id": "AIO.IFTA.STAFF.QUEUE",
-      "viewport": "DESKTOP",
-      "binding": "MISSING",
-      "note": "No queue reference in the package.",
-      "derivation": null
-    },
-    {
-      "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
-      "viewport": "MOBILE",
-      "binding": "DERIVED",
-      "note": "Tab label only (no NOTES content composition).",
-      "derivation": {
-        "family_composition_clear": true,
-        "component_contract_clear": true,
-        "tab_logic_clear": false,
-        "asset_family_clear": true
-      }
-    },
-    {
-      "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
-      "viewport": "TABLET",
-      "binding": "DERIVED",
-      "note": "Tab label only.",
-      "derivation": {
-        "family_composition_clear": true,
-        "component_contract_clear": true,
-        "tab_logic_clear": false,
-        "asset_family_clear": true
-      }
-    },
-    {
-      "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
-      "viewport": "DESKTOP",
-      "binding": "DERIVED",
-      "note": "Tab label only.",
-      "derivation": {
-        "family_composition_clear": true,
-        "component_contract_clear": true,
-        "tab_logic_clear": false,
-        "asset_family_clear": true
-      }
+      "interaction_id": "I.RUN_FAQS",
+      "label": "Run FAQs",
+      "needs": "Behaviour description: actor, target surface, data effect, success / failure — the founder supplies it; until then the interaction is registered but bound to no material node."
     }
   ],
-  "pending_scope_decision": {
-    "note": "Bindings unusable only because the node itself is a founder SCOPE decision (tab label in references, no content composition). Not counted as a reference gap; resolved by D-NOTES-TAB.",
+  "environment_authority_gaps": {
+    "note": "Outside the IFTA reference package: the AIO OFFICE / CLIENT OFFICE environment pages have no authority yet. They are environment-level nodes (non-material in the IFTA tree) and block no IFTA node.",
     "nodes": [
-      "AIO.IFTA.CLIENT.ROOM.NOTES",
-      "AIO.IFTA.STAFF.CASE.NOTES"
+      {
+        "node_id": "AIO.OFFICE.HUB",
+        "title": "AIO OFFICE HUB — CROSS-SERVICE · CROSS-CLIENT",
+        "status": "MISSING_AUTHORITY"
+      },
+      {
+        "node_id": "AIO.OFFICE.CLIENT_OVERVIEW",
+        "title": "CLIENT OVERVIEW — ONE CLIENT, EVERY WORKSPACE",
+        "status": "MISSING_AUTHORITY"
+      },
+      {
+        "node_id": "AIO.CLIENT_OFFICE.HUB",
+        "title": "CLIENT OFFICE HUB — ONE CLIENT · CROSS-WORKSPACE",
+        "status": "MISSING_AUTHORITY"
+      }
     ]
   },
   "derived_not_gaps": {
@@ -173,6 +107,8 @@
       "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
       "AIO.IFTA.CLIENT.ROOM.RETURNED",
       "AIO.IFTA.CLIENT.NOT_ENROLLED",
+      "AIO.IFTA.STAFF.QUEUE",
+      "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
       "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
       "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
       "AIO.IFTA.STAFF.CASE.MILEAGE",
@@ -183,6 +119,7 @@
       "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
       "AIO.IFTA.STAFF.CASE.DOCUMENTS",
       "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW",
+      "AIO.IFTA.STAFF.CASE.NOTES",
       "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
       "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM",
       "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION",
@@ -197,44 +134,13 @@
       "AIO.IFTA.PUBLIC.REQUEST_FILING"
     ],
     "founder_spot_check_recommended": [
+      "AIO.IFTA.STAFF.QUEUE (founder-authorised derivation — first page with no dedicated reference)",
       "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW (highest-stakes client decision window)",
-      "AIO.IFTA.CLIENT.ROOM.FILED (sealed quarter — no dedicated seal asset)"
+      "AIO.IFTA.CLIENT.ROOM.FILED (sealed quarter — no dedicated seal asset)",
+      "WORKSPACE_SWITCHER · CLIENT_SWITCHER placement in the TOP_NAV (proposal)"
     ]
   },
-  "blocked_by_founder_decision": [
-    {
-      "decision_id": "D-INTERACTION-09",
-      "question": "Interaction 09 on the page / component / interaction contract is illegible (“…FAQS”). What is it?",
-      "blocks_nodes": []
-    },
-    {
-      "decision_id": "D-ROUTES-SHELL",
-      "question": "Where do the new IFTA pages mount? The planned helpers (/portal/services/ifta, /office/permitting/fuel-tax/:caseId) are unrouted today (the client path is caught by services/:serviceRequestId), and the legacy portal / office layouts carry legacy chrome with zero design authority.",
-      "blocks_nodes": []
-    },
-    {
-      "decision_id": "D-NOTES-TAB",
-      "question": "NOTES appears as a tab on the client desktop, the 3-actor mobile sheet and every staff reference, but not in the approved parent’s six tabs (and is drawn DISABLED on the asset sheet). Is NOTES a tab, and for whom?",
-      "blocks_nodes": [
-        "AIO.IFTA.CLIENT.ROOM.NOTES",
-        "AIO.IFTA.STAFF.CASE.NOTES"
-      ]
-    },
-    {
-      "decision_id": "D-CLIENT-DESKTOP-STAFF-MODULES",
-      "question": "The client DESKTOP reference shows staff-only content (CLIENT: ALEX R. / ACCOUNT #AIO-1042 card, CLIENT HEALTH button, QUARTER TASKS incl. “Internal QA” and “Check jurisdiction rates”). What does the client desktop show in those slots?",
-      "blocks_nodes": [
-        "AIO.IFTA.CLIENT.ROOM.PROGRESS"
-      ]
-    },
-    {
-      "decision_id": "D-STAFF-QUEUE-AUTHORITY",
-      "question": "The package has no reference for the multi-client FUEL TAX QUEUE (contract work_queue: client-quarters by due date × readiness with hub buckets). How is its authority supplied?",
-      "blocks_nodes": [
-        "AIO.IFTA.STAFF.QUEUE"
-      ]
-    }
-  ],
+  "blocked_by_founder_decision": [],
   "runtime_asset_gaps": {
     "note": "Not authority gaps: the package directs composition; these production files are absent. SIDEKICK_FALLBACK_ONLY candidates (TRUE MISSING RUNTIME ASSET) — nothing generated.",
     "assets": [
@@ -439,7 +345,7 @@
         "note": ""
       }
     ],
-    "fonts": "MONUMENT EXTENDED requires a commercial licence if chosen (D-TYPOGRAPHY)."
+    "fonts": "INTER TIGHT + INTER (open licence) for client / staff UI (D-TYPOGRAPHY). MONUMENT EXTENDED only for PUBLIC / HERO if licensed and approved; the runtime never depends on it."
   },
   "reference_defects": [
     {
@@ -492,7 +398,7 @@
     {
       "ref_id": "FOUNDER_STAFF_TABLET_DESKTOP",
       "defects": [
-        "Single client-quarter only — no authority for the multi-client FUEL TAX QUEUE (contract work_queue) → reference gap."
+        "Single client-quarter only — no dedicated image for the multi-client FUEL TAX QUEUE (contract work_queue). Founder authorised derivation from this authority (D-STAFF-QUEUE-AUTHORITY) → DERIVED_AUTHORITY."
       ]
     },
     {
@@ -506,7 +412,7 @@
     {
       "ref_id": "PAGE_COMPONENT_INTERACTION_CONTRACT",
       "defects": [
-        "Interaction 09 label is illegible (“…FAQS”) — recorded as ILLEGIBLE_IN_AUTHORITY, never guessed (decision D-INTERACTION-09).",
+        "Interaction 09 label glyphs are garbled in this image (“…FAQS”); the founder supplied a clearer image confirming “09 RUN FAQS” (D-INTERACTION-09, DECIDED). No behaviour line is legible — IDENTITY_RESOLVED / BEHAVIOR_DESCRIPTION_PARTIAL, behaviour never guessed.",
         "JURISDICTIONS “configure jurisdictions and tax rules / manage settings” is a staff capability; AIO holds no tax-rate table (data reconciliation).",
         "VEHICLES “add / deactivate” belongs to the fleet profile; the quarter only records participation."
       ]

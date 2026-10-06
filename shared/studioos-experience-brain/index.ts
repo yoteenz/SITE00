@@ -8,5 +8,6 @@ export * from './validate.js';
 export * from './query.js';
 export * from './e2e.js';
 export * from './registry.js';
+export * from './operating-environment.js';
 export * as aio from './projects/aio/index.js';
 export * as samples from './projects/samples/portability.js';

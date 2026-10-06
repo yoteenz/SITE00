@@ -1,6 +1,8 @@
 {
   "id": "AIO_IFTA_INTERACTION_REGISTRY",
   "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": 2,
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
   "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
   "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
   "generated_for": "2026-10-06",
@@ -23,23 +25,123 @@
   ],
   "analytics": "AIO has no product analytics pipeline (scan G-ANALYTICS); analytics_event keys are proposed and carried by the activity + audit trail.",
   "by_status": {
-    "DEFINED": 59,
+    "DEFINED": 67,
     "ROADMAP_NOT_SUPPORTED": 1,
-    "CANDIDATE_FOUNDER_DECISION": 1,
-    "ILLEGIBLE_IN_AUTHORITY": 1
+    "IDENTITY_RESOLVED_BEHAVIOR_PARTIAL": 1
   },
   "contract_sheet_items": [
     "01 UPLOAD RECEIPT → I.UPLOAD_RECEIPT",
     "02 IMPORT CSV → I.IMPORT_CSV · I.IMPORT_MILEAGE_REPORT",
-    "03 OPEN DETAIL DRAWER → I.OPEN_RECEIPT · I.OPEN_MILEAGE_RECORD · I.OPEN_VEHICLE · I.OPEN_JURISDICTION · I.OPEN_FILE",
+    "03 OPEN DETAIL DRAWER → I.OPEN_RECEIPT · I.EDIT_RECEIPT · I.OPEN_MILEAGE_RECORD · I.OPEN_VEHICLE · I.OPEN_JURISDICTION · I.OPEN_FILE · I.RECLASSIFY_RECEIPT",
     "04 FILTER / SORT → I.FILTER_SORT",
     "05 VERIFY RECORD → I.CONFIRM_VEHICLES · I.STAFF_VERIFY_RECEIPT · I.VERIFY_MILEAGE_SOURCE",
     "06 REQUEST CORRECTION → I.REQUEST_CORRECTION",
-    "07 REVIEW DRAFT → I.REVIEW_DRAFT",
+    "07 REVIEW DRAFT → I.REVIEW_DRAFT · I.ASK_QUESTION",
     "08 MESSAGE TEAM → I.MESSAGE_AIO",
-    "09 (illegible) → I.CONTRACT_09",
+    "09 RUN FAQS → I.RUN_FAQS (IDENTITY_RESOLVED / BEHAVIOR_DESCRIPTION_PARTIAL)",
     "10 SUBMIT FOR APPROVAL → I.SEND_QUARTER_TO_AIO · I.SEND_FOR_APPROVAL",
     "11 FILE & CONFIRM → I.RECORD_FILING"
+  ],
+  "contract_sheet_sequence": [
+    {
+      "item": "01",
+      "label": "UPLOAD RECEIPT",
+      "interactions": [
+        "I.UPLOAD_RECEIPT"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "02",
+      "label": "IMPORT CSV",
+      "interactions": [
+        "I.IMPORT_CSV",
+        "I.IMPORT_MILEAGE_REPORT"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "03",
+      "label": "OPEN DETAIL DRAWER",
+      "interactions": [
+        "I.OPEN_RECEIPT",
+        "I.EDIT_RECEIPT",
+        "I.OPEN_MILEAGE_RECORD",
+        "I.OPEN_VEHICLE",
+        "I.OPEN_JURISDICTION",
+        "I.OPEN_FILE",
+        "I.RECLASSIFY_RECEIPT"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "04",
+      "label": "FILTER / SORT",
+      "interactions": [
+        "I.FILTER_SORT"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "05",
+      "label": "VERIFY RECORD",
+      "interactions": [
+        "I.CONFIRM_VEHICLES",
+        "I.STAFF_VERIFY_RECEIPT",
+        "I.VERIFY_MILEAGE_SOURCE"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "06",
+      "label": "REQUEST CORRECTION",
+      "interactions": [
+        "I.REQUEST_CORRECTION"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "07",
+      "label": "REVIEW DRAFT",
+      "interactions": [
+        "I.REVIEW_DRAFT",
+        "I.ASK_QUESTION"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "08",
+      "label": "MESSAGE TEAM",
+      "interactions": [
+        "I.MESSAGE_AIO"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "09",
+      "label": "RUN FAQS",
+      "interactions": [
+        "I.RUN_FAQS"
+      ],
+      "status": "IDENTITY_RESOLVED / BEHAVIOR_DESCRIPTION_PARTIAL"
+    },
+    {
+      "item": "10",
+      "label": "SUBMIT FOR APPROVAL",
+      "interactions": [
+        "I.SEND_QUARTER_TO_AIO",
+        "I.SEND_FOR_APPROVAL"
+      ],
+      "status": "DEFINED"
+    },
+    {
+      "item": "11",
+      "label": "FILE & CONFIRM",
+      "interactions": [
+        "I.RECORD_FILING"
+      ],
+      "status": "DEFINED"
+    }
   ],
   "interactions": [
     {
@@ -93,7 +195,8 @@
       ],
       "used_by": [
         "AIO.IFTA.CLIENT.ROOM",
-        "AIO.IFTA.CLIENT.ROOM.ARCHIVED"
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.STAFF.CASE"
       ],
       "write_contract_status": null
     },
@@ -150,7 +253,7 @@
       "state_transition": null,
       "contract_refs": [],
       "authority_refs": [
-        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+        "PAGE_COMPONENT_INTERACTION_CONTRACT #04"
       ],
       "used_by": [
         "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
@@ -215,6 +318,7 @@
       ],
       "used_by": [
         "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.STAFF.QUEUE",
         "AIO.IFTA.STAFF.CASE",
         "AIO.IFTA.PUBLIC.SERVICE"
       ],
@@ -971,7 +1075,6 @@
       "used_by": [
         "AIO.IFTA.CLIENT.ROOM",
         "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
-        "AIO.IFTA.CLIENT.ROOM.NOTES",
         "AIO.IFTA.CLIENT.ROOM.MESSAGES",
         "AIO.IFTA.CLIENT.ROOM.RETURNED"
       ],
@@ -1033,32 +1136,180 @@
       "write_contract_status": "CONFLICT"
     },
     {
-      "status": "CANDIDATE_FOUNDER_DECISION",
-      "interaction_id": "I.SAVE_NOTE",
-      "label": "Save note",
+      "status": "DEFINED",
+      "interaction_id": "I.SWITCH_WORKSPACE",
+      "label": "Switch workspace",
       "actor": "CLIENT · FOUNDER_STAFF",
-      "trigger": "NOTES tab",
-      "target": "NOTES tab (candidate)",
-      "data_effect": "no notes model exists",
-      "ui_effect": "note list",
-      "success": "note saved",
-      "failure": "UI.ERROR",
-      "permission": "pending founder decision D-NOTES-TAB",
-      "analytics_event": "ifta.note_saved",
-      "write_contract": "NOTES.write",
+      "trigger": "WORKSPACE_SWITCHER item",
+      "target": "the chosen workspace for the SAME client (client office: the fixed session client)",
+      "data_effect": "none — context re-resolves (resolveContext): active case, tabs, counts, alerts, tasks, documents, messages, activity, deadlines, actions, expansion suggestions, permissions, subcontext selector",
+      "ui_effect": "workspace landing / case for the same client; inactive → staff WORKSPACE NOT ACTIVE · client NOT ACTIVE YET expansion state",
+      "success": "new workspace shown with only its own client-scoped records (no stale state)",
+      "failure": "workspace unknown → stays; context error shown in the body",
+      "permission": "client: own organisation’s workspaces · staff: office role with access to the client (existing guards — not broadened)",
+      "analytics_event": "office.workspace_switched",
+      "write_contract": null,
       "state_transition": null,
       "contract_refs": [
-        "optional_inputs NOTES_FOR_AIO"
+        "AIO_OFFICE_CONTEXT_MODEL switchers.WORKSPACE"
       ],
-      "authority_refs": [
-        "CLIENT_TABLET_DESKTOP",
-        "FOUNDER_STAFF_TABLET_DESKTOP"
-      ],
+      "authority_refs": [],
       "used_by": [
-        "AIO.IFTA.CLIENT.ROOM.NOTES",
-        "AIO.IFTA.STAFF.CASE.NOTES"
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+        "AIO.IFTA.STAFF.CASE"
       ],
-      "write_contract_status": "MISSING"
+      "write_contract_status": null
+    },
+    {
+      "status": "DEFINED",
+      "interaction_id": "I.SWITCH_CLIENT",
+      "label": "Switch client",
+      "actor": "FOUNDER_STAFF",
+      "trigger": "CLIENT_SWITCHER item / client lookup",
+      "target": "the SAME workspace for the chosen client",
+      "data_effect": "none — context re-resolves for the new client; subcontext kept only if that client has the same case",
+      "ui_effect": "IFTA case (or queue row) for the new client; workspace inactive for that client → WORKSPACE NOT ACTIVE FOR THIS CLIENT",
+      "success": "new client shown in the same workspace",
+      "failure": "client inactive in this workspace → truthful inactive state (never another client)",
+      "permission": "AIO OFFICE only — CLIENT OFFICE has no client switcher (ContextError NO_CLIENT_SWITCHER)",
+      "analytics_event": "office.client_switched",
+      "write_contract": null,
+      "state_transition": null,
+      "contract_refs": [
+        "AIO_OFFICE_CONTEXT_MODEL switchers.CLIENT"
+      ],
+      "authority_refs": [],
+      "used_by": [
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+        "AIO.IFTA.STAFF.CASE"
+      ],
+      "write_contract_status": null
+    },
+    {
+      "status": "DEFINED",
+      "interaction_id": "I.RETURN_TO_HUB",
+      "label": "Return to office hub",
+      "actor": "CLIENT · FOUNDER_STAFF",
+      "trigger": "AIO mark / OFFICE in the top nav",
+      "target": "AIO OFFICE HUB (staff) · CLIENT OFFICE HUB (client)",
+      "data_effect": "none",
+      "ui_effect": "hub view for the environment",
+      "success": "hub shown",
+      "failure": "UI.ERROR in the body",
+      "permission": "environment member",
+      "analytics_event": "office.hub_opened",
+      "write_contract": null,
+      "state_transition": null,
+      "contract_refs": [
+        "AIO_OFFICE_ARCHITECTURE hubs"
+      ],
+      "authority_refs": [],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.STAFF.QUEUE"
+      ],
+      "write_contract_status": null
+    },
+    {
+      "status": "DEFINED",
+      "interaction_id": "I.OPEN_CLIENT_OVERVIEW",
+      "label": "View client overview",
+      "actor": "FOUNDER_STAFF",
+      "trigger": "VIEW CLIENT OVERVIEW (client identity / inactive-workspace state)",
+      "target": "AIO OFFICE client context (one client, every workspace)",
+      "data_effect": "none",
+      "ui_effect": "client overview with that client’s workspace states",
+      "success": "client overview shown",
+      "failure": "client not accessible → access error",
+      "permission": "FOUNDER_STAFF (office role; assigned staff or founder)",
+      "analytics_event": "office.client_overview_opened",
+      "write_contract": null,
+      "state_transition": null,
+      "contract_refs": [
+        "AIO_OFFICE_CONTEXT_MODEL routes /office/clients/:clientId"
+      ],
+      "authority_refs": [],
+      "used_by": [
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+        "AIO.IFTA.STAFF.CASE"
+      ],
+      "write_contract_status": null
+    },
+    {
+      "status": "DEFINED",
+      "interaction_id": "I.RETURN_TO_QUEUE",
+      "label": "Return to workspace queue",
+      "actor": "FOUNDER_STAFF",
+      "trigger": "RETURN TO FUEL TAX QUEUE",
+      "target": "AIO.IFTA.STAFF.QUEUE",
+      "data_effect": "none",
+      "ui_effect": "cross-client IFTA queue",
+      "success": "queue shown",
+      "failure": "UI.ERROR",
+      "permission": "FOUNDER_STAFF (office role; assigned staff or founder)",
+      "analytics_event": "office.queue_opened",
+      "write_contract": null,
+      "state_transition": null,
+      "contract_refs": [
+        "AIO_OFFICE_CONTEXT_MODEL workspace_landing CROSS_CLIENT_QUEUE"
+      ],
+      "authority_refs": [],
+      "used_by": [
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+        "AIO.IFTA.STAFF.CASE"
+      ],
+      "write_contract_status": null
+    },
+    {
+      "status": "DEFINED",
+      "interaction_id": "I.VIEW_ELIGIBILITY",
+      "label": "View eligibility",
+      "actor": "FOUNDER_STAFF",
+      "trigger": "VIEW ELIGIBILITY on WORKSPACE NOT ACTIVE",
+      "target": "WORKSPACE_STATE_PANEL",
+      "data_effect": "none — evaluates the workspace eligibility rule against recorded client signals (reasons listed; UNKNOWN when a signal is missing)",
+      "ui_effect": "eligibility reasons beside the state panel",
+      "success": "reasons shown",
+      "failure": "signals missing → ELIGIBILITY UNKNOWN (never guessed)",
+      "permission": "FOUNDER_STAFF (office role; assigned staff or founder)",
+      "analytics_event": null,
+      "write_contract": null,
+      "state_transition": null,
+      "contract_refs": [
+        "WORKSPACE_AVAILABILITY_MODEL eligibility"
+      ],
+      "authority_refs": [],
+      "used_by": [
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE"
+      ],
+      "write_contract_status": null
+    },
+    {
+      "status": "DEFINED",
+      "interaction_id": "I.EXPLORE_WORKSPACE",
+      "label": "Explore a workspace",
+      "actor": "CLIENT",
+      "trigger": "AVAILABLE item in the workspace switcher / expansion card CTA",
+      "target": "that workspace’s NOT ACTIVE YET expansion state",
+      "data_effect": "none until the client requests the service",
+      "ui_effect": "expansion state: name · not active yet · why it may matter · what AIO handles · what you provide · request",
+      "success": "expansion state shown",
+      "failure": "suppressed (not applicable / unavailable / eligibility unknown / critical state) → no surface",
+      "permission": "CLIENT (own organisation)",
+      "analytics_event": "office.expansion_opened",
+      "write_contract": null,
+      "state_transition": null,
+      "contract_refs": [
+        "WORKSPACE_EXPANSION_CONTRACT"
+      ],
+      "authority_refs": [],
+      "used_by": [],
+      "write_contract_status": null
     },
     {
       "status": "DEFINED",
@@ -1613,6 +1864,34 @@
     },
     {
       "status": "DEFINED",
+      "interaction_id": "I.SAVE_NOTE",
+      "label": "Save staff note",
+      "actor": "FOUNDER_STAFF",
+      "trigger": "ADD NOTE on the staff NOTES tab",
+      "target": "AIO.IFTA.STAFF.CASE.NOTES",
+      "data_effect": "append an internal note to the client-quarter case (no IFTA note model exists — NOTES.write MISSING)",
+      "ui_effect": "note appended to the internal list; never visible to the client",
+      "success": "note saved",
+      "failure": "UI.ERROR, draft kept",
+      "permission": "FOUNDER_STAFF (office role; assigned staff or founder)",
+      "analytics_event": "ifta.staff_note_saved",
+      "write_contract": "NOTES.write",
+      "state_transition": null,
+      "contract_refs": [
+        "perspectives.founder_staff.audit_history",
+        "output_artifacts.DISCREPANCY_LOG"
+      ],
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "note": "D-NOTES-TAB (DECIDED): staff-only SECONDARY tab. The client has no NOTES tab — client notes travel through I.MESSAGE_AIO.",
+      "used_by": [
+        "AIO.IFTA.STAFF.CASE.NOTES"
+      ],
+      "write_contract_status": "MISSING"
+    },
+    {
+      "status": "DEFINED",
       "interaction_id": "I.FILTER_QUEUE",
       "label": "Filter / sort queue",
       "actor": "FOUNDER_STAFF",
@@ -1774,17 +2053,17 @@
       "write_contract_status": null
     },
     {
-      "status": "ILLEGIBLE_IN_AUTHORITY",
-      "interaction_id": "I.CONTRACT_09",
-      "label": "(illegible in the contract sheet — “…FAQS”)",
-      "actor": "unknown",
-      "trigger": "unknown",
-      "target": "unknown",
-      "data_effect": "unknown",
-      "ui_effect": "unknown",
-      "success": "unknown",
-      "failure": "unknown",
-      "permission": "unknown",
+      "status": "IDENTITY_RESOLVED_BEHAVIOR_PARTIAL",
+      "interaction_id": "I.RUN_FAQS",
+      "label": "Run FAQs",
+      "actor": "NEEDS_CLARIFICATION — the contract sheet lists item 09 in the family-wide interaction set without naming the actor",
+      "trigger": "RUN FAQS control (contract sheet §05 item 09; sequence 08 MESSAGE TEAM → 09 RUN FAQS → 10 SUBMIT FOR APPROVAL)",
+      "target": "NEEDS_CLARIFICATION — family-level contract item; not bound to a material node until the behaviour is described",
+      "data_effect": "NEEDS_CLARIFICATION",
+      "ui_effect": "NEEDS_CLARIFICATION",
+      "success": "NEEDS_CLARIFICATION",
+      "failure": "NEEDS_CLARIFICATION",
+      "permission": "NEEDS_CLARIFICATION",
       "analytics_event": null,
       "write_contract": null,
       "state_transition": null,
@@ -1792,7 +2071,7 @@
       "authority_refs": [
         "PAGE_COMPONENT_INTERACTION_CONTRACT #09"
       ],
-      "note": "Decision D-INTERACTION-09. Not bound to any node.",
+      "note": "D-INTERACTION-09 (DECIDED): label “09 RUN FAQS” supplied by the founder; position + icon confirmed in the bundle image; no behaviour line is legible. Only the behaviour description needs clarification — nothing is invented. Bound to the client and staff page families (contract interaction set), never to a material node, so it blocks no unrelated node.",
       "used_by": [],
       "write_contract_status": null
     }

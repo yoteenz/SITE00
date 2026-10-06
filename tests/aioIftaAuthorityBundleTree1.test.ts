@@ -7,7 +7,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { aio as brain } from '../shared/studioos-experience-brain/index';
-import { ALL_VIEWPORTS, MATERIAL_NODE_TYPES, NODE_CONTRACT_FIELDS, aio, aioIfta, bindingUsable, checkLegacyUse, evaluateNodeReadiness } from '../shared/studioos-visual-authority/index';
+import { ALL_VIEWPORTS, MATERIAL_NODE_TYPES, NODE_CONTRACT_FIELDS, aio, aioIfta, authorityStatusOf, bindingUsable, checkLegacyUse, evaluateNodeReadiness } from '../shared/studioos-visual-authority/index';
 import { AIO_IFTA_BUNDLE_DOCS_DIR, aioIftaProofStatus, buildAioIftaAuthorityBundleExports } from '../scripts/studioos/aio-ifta-authority-bundle-export';
 
 const ROOT = path.resolve(__dirname, '..');
@@ -33,7 +33,7 @@ describe('1–4 · bundle ingest, brand, logo', () => {
     expect(existsSync(abs(`${aioIfta.AIO_IFTA_BUNDLE_DIR}/05_CONTRACTS`))).toBe(false);
   });
 
-  it('brand authority: positioning, uppercase typography, actor themes; token + typography conflicts are surfaced, not resolved silently', () => {
+  it('brand authority: positioning, uppercase typography, actor themes; token + typography conflicts settled by the founder (brand board wins brand roles)', () => {
     const b = aioIfta.AIO_BRAND_AUTHORITY;
     expect([b.master_tagline, b.positioning, b.product_promise, b.secondary_line]).toEqual(['WHERE BUSINESS MEETS THE ROAD.', 'THE BUSINESS OFFICE BEHIND THE TRUCK.', 'FROM STARTUP TO EVERY MILE AFTER.', 'ONE OFFICE. THE WHOLE ROAD AHEAD.']);
     expect(b.voice).toEqual(['CLEAR', 'CAPABLE', 'CONNECTED', 'HUMAN']);
@@ -41,10 +41,19 @@ describe('1–4 · bundle ingest, brand, logo', () => {
     expect(aioIfta.AIO_ACTOR_THEMES.PUBLIC.theme).toBe('DARK_PRIMARY');
     expect(aioIfta.AIO_ACTOR_THEMES.CLIENT.theme).toBe('LIGHT_PRIMARY');
     expect(aioIfta.AIO_ACTOR_THEMES.FOUNDER_STAFF.theme).toBe('LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS');
-    const open = aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'OPEN').map((d) => d.decision_id);
-    expect(open).toEqual(expect.arrayContaining(['D-BRAND-TOKENS', 'D-TYPOGRAPHY']));
+    for (const id of ['D-BRAND-TOKENS', 'D-TYPOGRAPHY']) {
+      const d = aioIfta.AIO_IFTA_DECISIONS.find((x) => x.decision_id === id)!;
+      expect(d.status, id).toBe('DECIDED');
+      expect(d.founder_decision, id).toBeTruthy();
+    }
+    const t = aioIfta.AIO_RESOLVED_TOKENS;
+    expect(t.brand_roles.map((x) => `${x.token} ${x.hex}`)).toEqual(['OBSIDIAN #050505', 'CHARCOAL #1A1A1A', 'SIGNATURE_GOLD #D4A853', 'CHAMPAGNE #EBD9B7', 'PLATINUM #C0C6CC', 'STONE_WHITE #F6F6F4']);
+    expect(t.functional_tokens.map((x) => x.token).sort()).toEqual(['IN_PROGRESS_BLUE', 'SOFT_GRAY', 'SUCCESS_GREEN', 'WARNING_AMBER', 'WHITE']);
+    expect(t.not_adopted.map((x) => x.token).sort()).toEqual(['BLACK', 'CHARCOAL', 'WARM_GOLD']);
+    expect(aioIfta.AIO_TYPOGRAPHY_AUTHORITY.resolved.client_staff_ui).toEqual({ headings: 'INTER TIGHT', body: 'INTER' });
     expect(aio.AIO_BRAND_CONTEXT.brand_context_id).toBe(aioIfta.AIO_BRAND_CONTEXT_ID);
-    expect(aio.AIO_BRAND_CONTEXT.typography).toMatch(/UPPERCASE PRIMARY/);
+    expect(aio.AIO_BRAND_CONTEXT.typography).toMatch(/UPPERCASE PRIMARY.*INTER TIGHT headings · INTER body/);
+    expect((aio.AIO_BRAND_CONTEXT.open_brand_questions ?? []).join(' ')).not.toMatch(/D-BRAND-TOKENS|D-TYPOGRAPHY/);
   });
 
   it('top-nav simple-mark rule and lower-band full-lockup rule are LOCKED and enforced by the component registry', () => {
@@ -78,13 +87,19 @@ describe('5–10 · actors, viewports, tabs, children, states', () => {
     expect(material.every((n) => MATERIAL_NODE_TYPES.includes(n.node_type))).toBe(true);
   });
 
-  it('all six client tabs are first-class TAB nodes with a staff mirror; NOTES is a candidate, not a seventh primary tab', () => {
+  it('the client keeps exactly the six primary tabs (no NOTES); STAFF NOTES is a secondary staff tab (D-NOTES-TAB)', () => {
     const clientTabs = aioIfta.AIO_IFTA_TREE.filter((n) => n.parent_node === 'AIO.IFTA.CLIENT.ROOM' && n.node_type === 'TAB');
-    expect(clientTabs.filter((t) => t.tab_class === 'PRIMARY').map((t) => t.tab_id)).toEqual(CLIENT_TABS);
-    expect(clientTabs.filter((t) => t.tab_class === 'SECONDARY_CANDIDATE').map((t) => t.tab_id)).toEqual(['NOTES']);
-    const staffTabs = aioIfta.AIO_IFTA_TREE.filter((n) => n.parent_node === 'AIO.IFTA.STAFF.CASE' && n.node_type === 'TAB' && n.tab_class === 'PRIMARY').map((t) => t.tab_id);
-    expect(staffTabs).toEqual(['OVERVIEW', ...CLIENT_TABS.slice(1)]);
-    expect(aioIfta.AIO_IFTA_DECISIONS.find((d) => d.decision_id === 'D-NOTES-TAB')!.status).toBe('OPEN');
+    expect(clientTabs.map((t) => t.tab_id)).toEqual(CLIENT_TABS);
+    expect(clientTabs.every((t) => t.tab_class === 'PRIMARY')).toBe(true);
+    expect(aioIfta.AIO_IFTA_TREE.some((n) => n.actor === 'CLIENT' && n.tab_id === 'NOTES')).toBe(false);
+    const staffTabs = aioIfta.AIO_IFTA_TREE.filter((n) => n.parent_node === 'AIO.IFTA.STAFF.CASE' && n.node_type === 'TAB');
+    expect(staffTabs.filter((t) => t.tab_class === 'PRIMARY').map((t) => t.tab_id)).toEqual(['OVERVIEW', ...CLIENT_TABS.slice(1)]);
+    expect(staffTabs.filter((t) => t.tab_class === 'SECONDARY').map((t) => t.tab_id)).toEqual(['NOTES']);
+    expect(aioIfta.AIO_IFTA_TREE.some((n) => n.tab_class === 'SECONDARY_CANDIDATE')).toBe(false);
+    expect(aioIfta.AIO_IFTA_COVERAGE).toMatchObject({ primary_tabs: 12, secondary_tabs: 1, candidate_tabs: 0 });
+    expect(aioIfta.AIO_IFTA_DECISIONS.find((d) => d.decision_id === 'D-NOTES-TAB')!.status).toBe('DECIDED');
+    const save = aioIfta.AIO_IFTA_INTERACTIONS.find((x) => x.interaction_id === 'I.SAVE_NOTE')!;
+    expect(save.actor).toBe('FOUNDER_STAFF');
   });
 
   it('tabs have individual logic / data / interaction contracts (shared design ≠ shared logic) and cover every sprint MUST item', () => {
@@ -137,14 +152,18 @@ describe('11–16 · components, interactions, authority binding, inheritance, a
     for (const c of ['QUARTER_HERO', 'METRICS_RAIL', 'TAB_BAR', 'FILING_WORKFLOW', 'TASK_LIST', 'RECEIPT_ROW', 'UPLOAD_ZONE', 'MAP_PANEL', 'JURISDICTION_TABLE', 'ACTIVITY_TIMELINE', 'INSIGHTS_PANEL', 'STATUS_CHIP', 'FILE_ROW', 'VEHICLE_ROW', 'RISK_FLAG_PANEL', 'NEXT_ACTION_RAIL', 'BRAND_EXIT_BAND']) expect(ids.has(c), c).toBe(true);
   });
 
-  it('interaction registry: every defined interaction has actor, trigger, target, data / UI effect, success, failure, permission; sprint examples present; the illegible item is not bound', () => {
+  it('interaction registry: every defined interaction has actor, trigger, target, data / UI effect, success, failure, permission; sprint examples present; 09 RUN FAQS is kept but bound to no material node', () => {
     for (const x of aioIfta.AIO_IFTA_INTERACTIONS.filter((i) => i.status === 'DEFINED')) {
       for (const f of ['actor', 'trigger', 'target', 'data_effect', 'ui_effect', 'success', 'failure', 'permission'] as const) expect(x[f].length, `${x.interaction_id}.${f}`).toBeGreaterThan(0);
       if (x.write_contract) expect(aioIfta.dataContract(x.write_contract), x.interaction_id).toBeDefined();
     }
     const ids = new Set(aioIfta.AIO_IFTA_INTERACTIONS.map((x) => x.interaction_id));
     for (const x of ['I.UPLOAD_RECEIPT', 'I.IMPORT_CSV', 'I.OPEN_RECEIPT', 'I.EDIT_RECEIPT', 'I.STAFF_VERIFY_RECEIPT', 'I.REQUEST_CORRECTION', 'I.REVIEW_DRAFT', 'I.APPROVE_RETURN', 'I.MESSAGE_AIO', 'I.OPEN_JURISDICTION', 'I.DOWNLOAD_FILE', 'I.OPEN_VAULT_RECORD']) expect(ids.has(x), x).toBe(true);
-    expect(aioIfta.AIO_IFTA_MATERIAL_NODES.some((n) => n.interactions.includes('I.CONTRACT_09'))).toBe(false);
+    expect(ids.has('I.CONTRACT_09')).toBe(false);
+    const faqs = aioIfta.AIO_IFTA_INTERACTIONS.find((x) => x.interaction_id === 'I.RUN_FAQS')!;
+    expect(faqs.status).toBe('IDENTITY_RESOLVED_BEHAVIOR_PARTIAL');
+    expect(aioIfta.AIO_IFTA_MATERIAL_NODES.some((n) => n.interactions.includes('I.RUN_FAQS'))).toBe(false);
+    expect(aioIfta.AIO_IFTA_CONTRACT_INTERACTION_SEQUENCE.map((x) => x.label).slice(7, 10)).toEqual(['MESSAGE TEAM', 'RUN FAQS', 'SUBMIT FOR APPROVAL']);
   });
 
   it('authority reference binding: sprint examples pass; references are bundle files only; derived bindings carry computed conditions', () => {
@@ -154,8 +173,13 @@ describe('11–16 · components, interactions, authority binding, inheritance, a
       for (const r of b.refs) expect(aioIfta.AIO_IFTA_BUNDLE_REF_IDS, `${n.node_id}/${b.viewport}`).toContain(r);
       if (b.binding === 'DERIVED') expect(b.derivation, n.node_id).toBeDefined();
     }
-    // The queue has no authority and is never treated as derivable.
-    expect(node('AIO.IFTA.STAFF.QUEUE').authority_refs.every((b) => b.binding === 'MISSING' && !bindingUsable(b))).toBe(true);
+    // The queue is a founder-authorised derivation from the staff case authority (D-STAFF-QUEUE-AUTHORITY).
+    const queue = node('AIO.IFTA.STAFF.QUEUE');
+    expect(queue.authority_refs.map(authorityStatusOf)).toEqual(['DERIVED_AUTHORITY', 'DERIVED_AUTHORITY', 'DERIVED_AUTHORITY']);
+    expect(queue.authority_refs.every((b) => b.refs.includes('FOUNDER_STAFF_TABLET_DESKTOP'))).toBe(true);
+    expect(aioIfta.AIO_IFTA_COMPONENTS.find((c) => c.component_id === 'QUEUE_TABLE')!.authority_status).toBe('DERIVED_FROM_FAMILY');
+    expect(queue.components).not.toContain('QUARTER_HERO');
+    expect(queue.components).not.toContain('TAB_BAR');
   });
 
   it('family inheritance rule exists (inherit shell · typography · material · color · hero · tab logic · band · icons; override task · data · modules · actions · states)', () => {
@@ -181,10 +205,11 @@ describe('17–22 · legacy firewall, data, readiness, package, no implementatio
     expect(aio.AIO_IFTA_LEGACY_SURFACES.every((s) => s.visual_class === 'FUNCTIONAL_REFERENCE_ONLY')).toBe(true);
   });
 
-  it('data reconciliation: 21 domains × 7 evidence kinds, valid statuses, every node contract resolves; IFTA has no Supabase table and no tax computation', () => {
+  it('data reconciliation: 21 IFTA domains + OFFICE_CONTEXT × 7 evidence kinds, valid statuses, every node contract resolves; IFTA has no Supabase table and no tax computation', () => {
     const kinds = ['TABLES', 'SERVICES', 'ROUTES', 'MUTATIONS', 'RLS', 'FILES', 'REQUESTS'];
     const ok = ['EXISTING', 'PARTIAL', 'MISSING', 'LEGACY_DUPLICATE', 'CONFLICT', 'NOT_APPLICABLE'];
-    expect(aioIfta.AIO_IFTA_DATA_DOMAINS).toHaveLength(21);
+    expect(aioIfta.AIO_IFTA_DATA_DOMAINS).toHaveLength(22);
+    expect(aioIfta.AIO_IFTA_DATA_DOMAINS.at(-1)!.domain_id).toBe('OFFICE_CONTEXT');
     for (const d of aioIfta.AIO_IFTA_DATA_DOMAINS) {
       expect(Object.keys(d.evidence).sort(), d.domain_id).toEqual([...kinds].sort());
       for (const k of kinds) expect(ok, `${d.domain_id}.${k}`).toContain(d.evidence[k as keyof typeof d.evidence].status);
@@ -213,7 +238,11 @@ describe('17–22 · legacy firewall, data, readiness, package, no implementatio
       const writesMissing = n.write_contracts.some((c) => aioIfta.dataContract(c)!.status === 'MISSING');
       if (writesMissing || (n.open_decisions ?? []).length || n.authority_refs.some((b) => !bindingUsable(b))) expect(readiness.get(n.node_id)!.IMPLEMENTATION_READY, n.node_id).toBe(false);
     }
-    expect(readiness.get('AIO.IFTA.STAFF.QUEUE')!.IMPLEMENTATION_READY).toBe(false);
+    expect(readiness.get('AIO.IFTA.STAFF.QUEUE')!.IMPLEMENTATION_READY).toBe(true);
+    expect(readiness.get('AIO.IFTA.CLIENT.NOT_ENROLLED')!.IMPLEMENTATION_READY).toBe(false);
+    expect(aioIfta.AIO_IFTA_READINESS.filter((r) => r.IMPLEMENTATION_READY).length).toBeGreaterThan(aioIfta.AIO_IFTA_PAGE_TREE_REVISION.previous.implementation_ready);
+    // Every remaining blocker is data (sprint §31) — no authority or interaction blocker is left.
+    for (const r of aioIfta.AIO_IFTA_READINESS.filter((x) => !x.IMPLEMENTATION_READY)) expect(r.blockers.every((b) => b.startsWith('data:')), r.node_id).toBe(true);
     // Readiness is recomputed, not stored: removing a component's authority flips the node.
     const ctx = { ...aioIfta.AIO_IFTA_TREE_CONTEXT, components: new Map([...aioIfta.AIO_IFTA_TREE_CONTEXT.components].map(([k, v]) => [k, k === 'MILEAGE_ROW' ? { ...v, authority_status: 'MISSING_AUTHORITY' as const } : v])) };
     expect(evaluateNodeReadiness(node('AIO.IFTA.CLIENT.ROOM.MILEAGE'), ctx).AUTHORITY_READY).toBe(false);
@@ -221,12 +250,19 @@ describe('17–22 · legacy firewall, data, readiness, package, no implementatio
     expect(new Set(aioIfta.AIO_IFTA_READINESS.map((r) => `${r.visual_status}/${r.functional_status}`)).size).toBeGreaterThan(2);
   });
 
-  it('reference package completeness is reported honestly: INCOMPLETE with the staff queue authority named; nothing invented', () => {
+  it('reference package completeness is reported honestly: the queue is DERIVED (founder-authorised), interaction 09 is a non-blocking clarification, environment hubs are named separately', () => {
     const gap = aioIfta.buildGapReport();
-    expect(gap.status).toBe('REFERENCE_PACKAGE_INCOMPLETE');
-    expect(gap.authority_gaps.map((g) => g.gap_id)).toEqual(['G-STAFF-QUEUE', 'G-INTERACTION-09']);
-    expect(gap.authority_gaps[0].nodes).toEqual(['AIO.IFTA.STAFF.QUEUE']);
-    expect(aioIfta.AIO_IFTA_COMPONENTS.find((c) => c.component_id === 'QUEUE_TABLE')!.authority_status).toBe('MISSING_AUTHORITY');
+    expect(gap.status).toBe('REFERENCE_PACKAGE_COMPLETE');
+    expect(gap.authority_gaps).toEqual([]);
+    expect(gap.resolved_gaps.map((g) => [g.gap_id, g.previous_status, g.status])).toEqual([
+      ['G-STAFF-QUEUE', 'MISSING_AUTHORITY', 'DERIVED_AUTHORITY'],
+      ['G-INTERACTION-09', 'ILLEGIBLE_CONTRACT_ITEM', 'IDENTITY_RESOLVED / BEHAVIOR_DESCRIPTION_PARTIAL'],
+    ]);
+    expect(gap.resolved_gaps[1].blocking).toMatch(/^NON_BLOCKING/);
+    expect(gap.contract_clarifications.map((c) => c.interaction_id)).toEqual(['I.RUN_FAQS']);
+    expect(gap.environment_authority_gaps.nodes.map((n) => n.node_id)).toEqual(['AIO.OFFICE.HUB', 'AIO.OFFICE.CLIENT_OVERVIEW', 'AIO.CLIENT_OFFICE.HUB']);
+    expect(gap.blocked_by_founder_decision).toEqual([]);
+    expect(aioIfta.AIO_IFTA_DECISIONS.filter((d) => d.status === 'OPEN')).toEqual([]);
   });
 
   it('no page implementation, no paid generation: the gate holds every actor at PAGE_TREE_CONFIRMATION_REQUIRED', () => {
@@ -244,15 +280,16 @@ describe('17–22 · legacy firewall, data, readiness, package, no implementatio
 });
 
 describe('exports stay generated from the TypeScript source', () => {
-  it('the 13 required artifacts on disk match the generator', () => {
+  it('the 16 required artifacts on disk match the generator', () => {
     const files = buildAioIftaAuthorityBundleExports();
     expect(Object.keys(files).sort()).toEqual([
       'AIO_IFTA_ACTOR_MODE_MAP.json', 'AIO_IFTA_AUTHORITY_BUNDLE_REGISTRY.json', 'AIO_IFTA_AUTHORITY_REFERENCE_MAP.json', 'AIO_IFTA_COMPONENT_REGISTRY.json',
-      'AIO_IFTA_DATA_CONTRACT_RECONCILIATION.json', 'AIO_IFTA_IMPLEMENTATION_READINESS.json', 'AIO_IFTA_INTERACTION_REGISTRY.json', 'AIO_IFTA_PAGE_TREE.json',
-      'AIO_IFTA_PAGE_TREE_PROOF.md', 'AIO_IFTA_REFERENCE_PACKAGE_GAP_REPORT.json', 'AIO_IFTA_RESPONSIVE_AUTHORITY_MAP.json', 'AIO_IFTA_STATE_REGISTRY.json', 'AIO_IFTA_TAB_TREE.json',
+      'AIO_IFTA_DATA_CONTRACT_RECONCILIATION.json', 'AIO_IFTA_DECISION_REGISTRY.json', 'AIO_IFTA_IMPLEMENTATION_READINESS.json', 'AIO_IFTA_INTERACTION_09_CORRECTION_PROOF.md',
+      'AIO_IFTA_INTERACTION_REGISTRY.json', 'AIO_IFTA_PAGE_TREE.json', 'AIO_IFTA_PAGE_TREE_PROOF.md', 'AIO_IFTA_QUEUE_DERIVATION_CONTRACT.json',
+      'AIO_IFTA_REFERENCE_PACKAGE_GAP_REPORT.json', 'AIO_IFTA_RESPONSIVE_AUTHORITY_MAP.json', 'AIO_IFTA_STATE_REGISTRY.json', 'AIO_IFTA_TAB_TREE.json',
     ]);
     for (const [name, body] of Object.entries(files)) expect(readFileSync(abs(`${AIO_IFTA_BUNDLE_DOCS_DIR}/${name}`), 'utf8'), name).toBe(body);
     const s = aioIftaProofStatus();
-    expect(files['AIO_IFTA_PAGE_TREE_PROOF.md']).toContain(`| Implementation-ready nodes | ${s.implementation_ready_nodes.ready} / ${s.implementation_ready_nodes.total} |`);
+    expect(files['AIO_IFTA_PAGE_TREE_PROOF.md']).toContain(`| Implementation-ready nodes | ${s.implementation_ready_nodes.ready} / ${s.implementation_ready_nodes.total} (revision 1: 39 / 64) |`);
   });
 });

@@ -11,7 +11,7 @@
 import type { Viewport } from '../studioos-experience-brain/schema.js';
 
 export const TREE_NODE_TYPES = [
-  'PROJECT', 'FEATURE_FAMILY', 'ACTOR_MODE', 'PAGE_FAMILY', 'PAGE', 'SECTION', 'TAB', 'CHILD_PAGE', 'DRAWER', 'MODAL', 'FLOW', 'STATE_VIEW',
+  'PROJECT', 'OPERATING_ENVIRONMENT', 'HUB', 'WORKSPACE', 'CONTEXT', 'FEATURE_FAMILY', 'ACTOR_MODE', 'PAGE_FAMILY', 'PAGE', 'SECTION', 'TAB', 'CHILD_PAGE', 'DRAWER', 'MODAL', 'FLOW', 'STATE_VIEW',
 ] as const;
 export type TreeNodeType = (typeof TREE_NODE_TYPES)[number];
 
@@ -56,10 +56,25 @@ export const derivationClear = (d: DerivationConditions | undefined): boolean =>
 export const bindingUsable = (b: NodeAuthorityBinding): boolean =>
   b.refs.length > 0 && (b.binding === 'DIRECT' || (b.binding === 'DERIVED' && derivationClear(b.derivation)));
 
+/** Authority status vocabulary: a dedicated reference image, an authority derived from the family, or none. */
+export type NodeAuthorityStatus = 'DEDICATED_REFERENCE' | 'DERIVED_AUTHORITY' | 'MISSING_AUTHORITY';
+export const authorityStatusOf = (b: NodeAuthorityBinding): NodeAuthorityStatus =>
+  !bindingUsable(b) ? 'MISSING_AUTHORITY' : b.binding === 'DIRECT' ? 'DEDICATED_REFERENCE' : 'DERIVED_AUTHORITY';
+
 /* ─────────────────────────────── node ─────────────────────────────── */
 
 export type NodeRight = 'VIEW' | 'CREATE' | 'EDIT' | 'VERIFY' | 'APPROVE' | 'OVERRIDE' | 'FILE' | 'DOWNLOAD' | 'SHARE' | 'MESSAGE' | 'CONFIGURE';
 export type NodePermission = { actor: string; rights: NodeRight[]; scope: string };
+
+/** Where a node lives in the operating model (durable product truth the Brain can query). */
+export type NodeContextMeta = {
+  environment_id: string;
+  workspace_id: string | null;
+  /** How the client dimension behaves on this node. */
+  client_scope: 'NONE' | 'FIXED' | 'SWITCHABLE' | 'CROSS_CLIENT';
+  case_type: string | null;
+  subcontext_type: string | null;
+};
 
 export type NodeResponsiveMode = {
   viewport: Viewport;
@@ -103,8 +118,10 @@ export type ExperienceTreeNode = {
   blocked_condition: string;
   /** Anchors into the experience contract (e.g. `states.COLLECTING`, `perspectives.client.primary_task`). */
   experience_refs: string[];
-  /** PRIMARY tab of the family, or a SECONDARY_CANDIDATE that needs a founder decision. */
-  tab_class?: 'PRIMARY' | 'SECONDARY_CANDIDATE';
+  /** PRIMARY tab, a founder-approved SECONDARY tab, or a SECONDARY_CANDIDATE that needs a founder decision. */
+  tab_class?: 'PRIMARY' | 'SECONDARY' | 'SECONDARY_CANDIDATE';
+  /** Operating-environment / workspace placement. */
+  context?: NodeContextMeta;
   /** Open decision ids (project decision registry) that block this node's authority. */
   open_decisions?: string[];
   /** What this node overrides from its family (inheritance is declared once per family). */
@@ -149,7 +166,7 @@ export type ComponentContract = {
   rules?: string[];
 };
 
-export type InteractionStatus = 'DEFINED' | 'ROADMAP_NOT_SUPPORTED' | 'ILLEGIBLE_IN_AUTHORITY' | 'CANDIDATE_FOUNDER_DECISION';
+export type InteractionStatus = 'DEFINED' | 'ROADMAP_NOT_SUPPORTED' | 'ILLEGIBLE_IN_AUTHORITY' | 'IDENTITY_RESOLVED_BEHAVIOR_PARTIAL' | 'CANDIDATE_FOUNDER_DECISION';
 
 export type InteractionContract = {
   interaction_id: string;
@@ -251,6 +268,9 @@ export type OpenDecision = {
   blocks_nodes: string[];
   status: 'OPEN' | 'DECIDED';
   evidence: string[];
+  /** The founder's decision text once DECIDED (rule-decided items carry the rule in recommendation). */
+  founder_decision?: string;
+  decided_in?: string;
 };
 
 /* ─────────────────────────────── readiness ─────────────────────────────── */
@@ -327,7 +347,7 @@ export function evaluateNodeReadiness(n: ExperienceTreeNode, ctx: TreeContext): 
     if (!x) return [`${id} undefined`];
     // ROADMAP_NOT_SUPPORTED is a defined interaction that renders its unsupported state + fallback; illegible or
     // candidate interactions are not defined.
-    if (x.status === 'ILLEGIBLE_IN_AUTHORITY' || x.status === 'CANDIDATE_FOUNDER_DECISION') return [`${id} ${x.status}`];
+    if (x.status === 'ILLEGIBLE_IN_AUTHORITY' || x.status === 'CANDIDATE_FOUNDER_DECISION' || x.status === 'IDENTITY_RESOLVED_BEHAVIOR_PARTIAL') return [`${id} ${x.status}`];
     const miss = INTERACTION_REQUIRED_FIELDS.filter((f) => !filled(x[f]));
     if (miss.length) return [`${id} missing ${miss.join(', ')}`];
     if (x.write_contract && !n.write_contracts.includes(x.write_contract)) return [`${id} writes ${x.write_contract} not bound on node`];
@@ -388,10 +408,14 @@ export function checkTreeIntegrity(nodes: ExperienceTreeNode[], ctx: TreeContext
 }
 
 export type TreeCoverage = {
+  operating_environments: number;
+  hubs: number;
+  workspaces: number;
   pages: number;
   sections: number;
   tabs: number;
   primary_tabs: number;
+  secondary_tabs: number;
   candidate_tabs: number;
   children: number;
   drawers: number;
@@ -412,11 +436,16 @@ export function treeCoverage(nodes: ExperienceTreeNode[], ctx: TreeContext): Tre
   const count = (t: TreeNodeType) => nodes.filter((n) => n.node_type === t).length;
   const material = nodes.filter((n) => MATERIAL_NODE_TYPES.includes(n.node_type));
   const viewports = new Set(material.flatMap((n) => n.responsive_modes.map((r) => r.viewport)));
+  const actorNodes = nodes.filter((n) => n.node_type === 'ACTOR_MODE' || n.node_type === 'OPERATING_ENVIRONMENT');
   return {
+    operating_environments: count('OPERATING_ENVIRONMENT'),
+    hubs: count('HUB'),
+    workspaces: count('WORKSPACE'),
     pages: count('PAGE'),
     sections: count('SECTION'),
     tabs: count('TAB'),
-    primary_tabs: nodes.filter((n) => n.node_type === 'TAB' && n.tab_class !== 'SECONDARY_CANDIDATE').length,
+    primary_tabs: nodes.filter((n) => n.node_type === 'TAB' && (n.tab_class ?? 'PRIMARY') === 'PRIMARY').length,
+    secondary_tabs: nodes.filter((n) => n.node_type === 'TAB' && n.tab_class === 'SECONDARY').length,
     candidate_tabs: nodes.filter((n) => n.node_type === 'TAB' && n.tab_class === 'SECONDARY_CANDIDATE').length,
     children: count('CHILD_PAGE'),
     drawers: count('DRAWER'),
@@ -428,7 +457,7 @@ export function treeCoverage(nodes: ExperienceTreeNode[], ctx: TreeContext): Tre
     interactions: ctx.interactions.size,
     components: ctx.components.size,
     data_domains: ctx.domains.size,
-    actor_modes: count('ACTOR_MODE'),
+    actor_modes: new Set(actorNodes.map((n) => n.actor)).size,
     viewport_modes: viewports.size,
     page_families: count('PAGE_FAMILY'),
   };

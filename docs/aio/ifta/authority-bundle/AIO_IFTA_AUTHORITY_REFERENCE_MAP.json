@@ -1,6 +1,8 @@
 {
   "id": "AIO_IFTA_AUTHORITY_REFERENCE_MAP",
   "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": 2,
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
   "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
   "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
   "generated_for": "2026-10-06",
@@ -1474,60 +1476,6 @@
       }
     },
     {
-      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-      "actor": "CLIENT",
-      "node_type": "TAB",
-      "tab_id": "NOTES",
-      "viewports": {
-        "MOBILE": {
-          "binding": "DERIVED",
-          "usable": false,
-          "refs": [
-            "CLIENT_TABLET_DESKTOP",
-            "ACTOR_MODES_MOBILE",
-            "ICON_ASSET_SHEET"
-          ],
-          "derivation": {
-            "family_composition_clear": true,
-            "component_contract_clear": true,
-            "tab_logic_clear": false,
-            "asset_family_clear": true
-          },
-          "note": "Tab label only in references (no NOTES content composition); asset sheet shows the tab DISABLED."
-        },
-        "TABLET": {
-          "binding": "DERIVED",
-          "usable": false,
-          "refs": [
-            "CLIENT_TABLET_DESKTOP",
-            "ICON_ASSET_SHEET"
-          ],
-          "derivation": {
-            "family_composition_clear": true,
-            "component_contract_clear": true,
-            "tab_logic_clear": false,
-            "asset_family_clear": true
-          },
-          "note": "Tab label only."
-        },
-        "DESKTOP": {
-          "binding": "DERIVED",
-          "usable": false,
-          "refs": [
-            "CLIENT_TABLET_DESKTOP",
-            "ICON_ASSET_SHEET"
-          ],
-          "derivation": {
-            "family_composition_clear": true,
-            "component_contract_clear": true,
-            "tab_logic_clear": false,
-            "asset_family_clear": true
-          },
-          "note": "Tab label only."
-        }
-      }
-    },
-    {
       "node_id": "AIO.IFTA.CLIENT.ROOM.MESSAGES",
       "actor": "CLIENT",
       "node_type": "DRAWER",
@@ -1843,7 +1791,7 @@
             "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Parent hero with the explainer pattern from the public family (light)."
+          "note": "Parent hero + family empty-state card (WORKSPACE_STATE_PANEL) + the explainer pattern from the public family (light)."
         },
         "TABLET": {
           "binding": "DERIVED",
@@ -1860,7 +1808,7 @@
             "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Parent hero with the explainer pattern from the public family (light)."
+          "note": "Parent hero + family empty-state card (WORKSPACE_STATE_PANEL) + the explainer pattern from the public family (light)."
         },
         "DESKTOP": {
           "binding": "DERIVED",
@@ -1877,7 +1825,7 @@
             "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Parent hero with the explainer pattern from the public family (light)."
+          "note": "Parent hero + family empty-state card (WORKSPACE_STATE_PANEL) + the explainer pattern from the public family (light)."
         }
       }
     },
@@ -1888,22 +1836,110 @@
       "tab_id": null,
       "viewports": {
         "MOBILE": {
-          "binding": "MISSING",
-          "usable": false,
-          "refs": [],
-          "note": "No queue reference in the package (G-STAFF-QUEUE)."
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "DERIVED_AUTHORITY (founder-authorised, D-STAFF-QUEUE-AUTHORITY): staff mobile column — bucket chips + stacked client-quarter cards with status chips and next action."
         },
         "TABLET": {
-          "binding": "MISSING",
-          "usable": false,
-          "refs": [],
-          "note": "No queue reference in the package."
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "DERIVED_AUTHORITY: staff case authority light body + dark accents → metrics strip, bucket chips, dense queue table."
         },
         "DESKTOP": {
-          "binding": "MISSING",
-          "usable": false,
-          "refs": [],
-          "note": "No queue reference in the package."
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "DERIVED_AUTHORITY: staff case authority → metrics strip, bucket chips, full dense table (risk + next-action columns), dark operational accent panel for blockers."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "STATE_VIEW",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Staff case shell in its empty state: client identity row + family EMPTY_STATE card (WORKSPACE_STATE_PANEL) — no case content."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Staff case shell in its empty state: client identity row + family EMPTY_STATE card (WORKSPACE_STATE_PANEL) — no case content."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Staff case shell in its empty state: client identity row + family EMPTY_STATE card (WORKSPACE_STATE_PANEL) — no case content."
         }
       }
     },
@@ -2558,7 +2594,7 @@
       "viewports": {
         "MOBILE": {
           "binding": "DERIVED",
-          "usable": false,
+          "usable": true,
           "refs": [
             "ACTOR_MODES_MOBILE",
             "ICON_ASSET_SHEET"
@@ -2566,14 +2602,14 @@
           "derivation": {
             "family_composition_clear": true,
             "component_contract_clear": true,
-            "tab_logic_clear": false,
+            "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Tab label only (no NOTES content composition)."
+          "note": "Founder-valid SECONDARY tab (D-NOTES-TAB): tab label from the staff references; note list from the ACTIVITY_TIMELINE row family; composer from MESSAGE_THREAD."
         },
         "TABLET": {
           "binding": "DERIVED",
-          "usable": false,
+          "usable": true,
           "refs": [
             "FOUNDER_STAFF_TABLET_DESKTOP",
             "ICON_ASSET_SHEET"
@@ -2581,14 +2617,14 @@
           "derivation": {
             "family_composition_clear": true,
             "component_contract_clear": true,
-            "tab_logic_clear": false,
+            "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Tab label only."
+          "note": "SECONDARY tab after the primary tabs; list + composer from family parts."
         },
         "DESKTOP": {
           "binding": "DERIVED",
-          "usable": false,
+          "usable": true,
           "refs": [
             "FOUNDER_STAFF_TABLET_DESKTOP",
             "ICON_ASSET_SHEET"
@@ -2596,10 +2632,10 @@
           "derivation": {
             "family_composition_clear": true,
             "component_contract_clear": true,
-            "tab_logic_clear": false,
+            "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Tab label only."
+          "note": "SECONDARY tab after the primary tabs; list + composer from family parts."
         }
       }
     },
@@ -3487,7 +3523,8 @@
         "AIO.IFTA.PUBLIC.SERVICE.START/MOBILE"
       ],
       "informs_derived": [
-        "AIO.IFTA.CLIENT.ROOM.NOTES/MOBILE",
+        "AIO.IFTA.STAFF.QUEUE/MOBILE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/MOBILE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/MOBILE",
         "AIO.IFTA.STAFF.CASE.MILEAGE/MOBILE",
@@ -3642,6 +3679,7 @@
         "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/MOBILE",
         "AIO.IFTA.CLIENT.ROOM.RETURNED/MOBILE",
         "AIO.IFTA.CLIENT.NOT_ENROLLED/MOBILE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/MOBILE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/TABLET",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/DESKTOP",
@@ -3728,9 +3766,6 @@
         "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/DESKTOP",
         "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/TABLET",
         "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/DESKTOP",
-        "AIO.IFTA.CLIENT.ROOM.NOTES/MOBILE",
-        "AIO.IFTA.CLIENT.ROOM.NOTES/TABLET",
-        "AIO.IFTA.CLIENT.ROOM.NOTES/DESKTOP",
         "AIO.IFTA.CLIENT.ROOM.MESSAGES/TABLET",
         "AIO.IFTA.CLIENT.ROOM.MESSAGES/DESKTOP",
         "AIO.IFTA.CLIENT.ROOM.FILED/TABLET",
@@ -3754,6 +3789,11 @@
         "AIO.IFTA.STAFF.CASE.OVERVIEW/DESKTOP"
       ],
       "informs_derived": [
+        "AIO.IFTA.STAFF.QUEUE/MOBILE",
+        "AIO.IFTA.STAFF.QUEUE/TABLET",
+        "AIO.IFTA.STAFF.QUEUE/DESKTOP",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/TABLET",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/DESKTOP",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/TABLET",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/DESKTOP",
@@ -3918,6 +3958,12 @@
         "AIO.IFTA.CLIENT.NOT_ENROLLED/MOBILE",
         "AIO.IFTA.CLIENT.NOT_ENROLLED/TABLET",
         "AIO.IFTA.CLIENT.NOT_ENROLLED/DESKTOP",
+        "AIO.IFTA.STAFF.QUEUE/MOBILE",
+        "AIO.IFTA.STAFF.QUEUE/TABLET",
+        "AIO.IFTA.STAFF.QUEUE/DESKTOP",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/MOBILE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/TABLET",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/DESKTOP",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/TABLET",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/DESKTOP",
@@ -4048,9 +4094,6 @@
         "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/MOBILE",
         "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/TABLET",
         "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/DESKTOP",
-        "AIO.IFTA.CLIENT.ROOM.NOTES/MOBILE",
-        "AIO.IFTA.CLIENT.ROOM.NOTES/TABLET",
-        "AIO.IFTA.CLIENT.ROOM.NOTES/DESKTOP",
         "AIO.IFTA.CLIENT.ROOM.MESSAGES/MOBILE",
         "AIO.IFTA.CLIENT.ROOM.MESSAGES/TABLET",
         "AIO.IFTA.CLIENT.ROOM.MESSAGES/DESKTOP",
@@ -4069,6 +4112,12 @@
         "AIO.IFTA.CLIENT.NOT_ENROLLED/MOBILE",
         "AIO.IFTA.CLIENT.NOT_ENROLLED/TABLET",
         "AIO.IFTA.CLIENT.NOT_ENROLLED/DESKTOP",
+        "AIO.IFTA.STAFF.QUEUE/MOBILE",
+        "AIO.IFTA.STAFF.QUEUE/TABLET",
+        "AIO.IFTA.STAFF.QUEUE/DESKTOP",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/MOBILE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/TABLET",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE/DESKTOP",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/TABLET",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/DESKTOP",

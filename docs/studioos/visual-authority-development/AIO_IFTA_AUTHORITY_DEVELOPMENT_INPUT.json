@@ -18,8 +18,6 @@
     "missing": [],
     "thin": [],
     "open_questions": [
-      "D-BRAND-TOKENS — brand DNA board vs IFTA asset sheet values for gold (#D4A853 vs #F4B223), charcoal (#1A1A1A vs #1F2937), darkest ink (#050505 vs #0B0B0B), light background (#F6F6F4 vs #FFFFFF).",
-      "D-TYPOGRAPHY — display face MONUMENT EXTENDED (+ BEBAS NEUE labels; commercial licence) vs INTER TIGHT.",
       "Production brand assets not in the package: light-theme / transparent simple mark, transparent full lockups, approved hero photographs (reference images are not runtime assets)."
     ]
   },

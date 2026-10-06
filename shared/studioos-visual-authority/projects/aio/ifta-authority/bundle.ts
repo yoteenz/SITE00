@@ -146,7 +146,7 @@ export const AIO_IFTA_BUNDLE_FILES: BundleFile[] = [
     authority_kind: 'VIEWPORT_DERIVATION', role: 'Founder / staff TABLET (1024×1366) + DESKTOP (1440×1024): the same filing room as a single client-quarter CASE FILE — light primary, denser, dark operational accents.', actors: ['FOUNDER_STAFF'], viewports: ['TABLET', 'DESKTOP'], theme: 'LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS',
     governs: ['FOUNDER_STAFF / CASE / TABLET', 'FOUNDER_STAFF / CASE / DESKTOP'],
     extracted: ['HERO: IFTA FILING ROOM Q3 2026 · CLIENT: ALEX R. ACCOUNT #AIO-1042 · IN PROGRESS · dark CLIENT HEALTH panel (data completeness 98% · fuel receipts 24/24 · jurisdictions 8/8 · return readiness ON TRACK) + LOW RISK', 'METRICS with deltas vs Q2 2026 (+6% · +3% · no change · −12%)', 'TABS: OVERVIEW · FUEL PURCHASES · MILEAGE · VEHICLES · JURISDICTIONS · DOCUMENTS · NOTES + EXPORT REPORT', 'FILING WORKFLOW with dates · QUARTER TASKS with assignee initials + due dates · IMPORTANT DATES (return period · draft target Oct 28 · client review Oct 30 · file & pay deadline Oct 31)', 'MILEAGE BY JURISDICTION bars · FUEL PURCHASES donut with gallons · VEHICLES (Unit 101–105, view all 12)', 'RECENT CLIENT ACTIVITY (type · activity · date · by) · AIO TEAM ACTIVITY (user · activity · date) · RISKS / FLAGS (no issues · jurisdiction changes · review recommended · missing documents: 1 fuel receipt Unit 104)', 'OPEN RETURN DRAFT dark rail · lockup band OPERATIONS · COMPLIANCE · CLIENT SUCCESS'],
-    defects: ['Single client-quarter only — no authority for the multi-client FUEL TAX QUEUE (contract work_queue) → reference gap.'],
+    defects: ['Single client-quarter only — no dedicated image for the multi-client FUEL TAX QUEUE (contract work_queue). Founder authorised derivation from this authority (D-STAFF-QUEUE-AUTHORITY) → DERIVED_AUTHORITY.'],
   }),
   f({
     ref_id: 'PUBLIC_TABLET_DESKTOP', bundle_path: '04_PUBLIC_CUSTOMER_MODE/AIO_IFTA_PUBLIC_TABLET_DESKTOP.jpeg', sha256: 'fba90e92f422552449c6f1986446d829d92fa94ed9d4fed69782fac25c86dcf1', bytes: 728775, media: 'image/jpeg', dimensions: '1448x1086', folder: '04_PUBLIC_CUSTOMER_MODE',
@@ -159,8 +159,8 @@ export const AIO_IFTA_BUNDLE_FILES: BundleFile[] = [
     ref_id: 'PAGE_COMPONENT_INTERACTION_CONTRACT', bundle_path: '06_CONTRACTS/AIO_IFTA_PAGE_COMPONENT_INTERACTION_CONTRACT.png', sha256: 'b005a82c802910a4271341976eb15e00dbf6a323398e32e7cae5578db665ccce', bytes: 1836915, media: 'image/png', dimensions: '1448x1086', folder: '06_CONTRACTS',
     authority_kind: 'CONTRACT_AUTHORITY', role: 'Page / component / interaction contract: page family overview, actor modes, tab contracts, component stack, interactions, states, responsive notes, data relationships.', actors: ['PUBLIC', 'CLIENT', 'FOUNDER_STAFF'], viewports: ['MOBILE', 'TABLET', 'DESKTOP'], theme: null,
     governs: ['tab contracts', 'component stack', 'interaction list', 'UI states', 'responsive notes', 'data relationships'],
-    extracted: ['01 page family overview: purpose · trust tone · shared shell', '02 actor modes: client light · founder / staff light · public dark', '03 tab contracts: PROGRESS (track end-to-end filing progress) · FUEL PURCHASES (manage and verify fuel receipts) · MILEAGE (track mileage by jurisdiction) · VEHICLES (manage vehicle and trip data) · JURISDICTIONS (configure jurisdictions and tax rules) · DOCUMENTS (manage filing documents and records)', '04 component stack: 01 hero banner · 02 metrics rail · 03 tab bar · 04 workflow status · 05 task list / cards · 06 map panel · 07 recent uploads · 08 insights panel · 09 recent activity · 10 bottom CTA rail · 11 footer lockup', '05 interactions: 01 upload receipt · 02 import CSV · 03 open detail drawer · 04 filter / sort · 05 verify record · 06 request correction · 07 review draft · 08 message team · 09 (illegible) · 10 submit for approval · 11 file & confirm', '06 states: DEFAULT · LOADING · EMPTY (“No fuel purchases yet. Upload receipts or import your CSV file.”) · SUCCESS (“Record verified and saved.”) · WARNING / EXCEPTION (“Mileage outside expected range. Please review.”) · ERROR (“File could not be processed. Please check and try again.”)', '07 responsive: mobile single column, stacked cards, bottom CTA · tablet two-column flexible modules · desktop multi-column full workspace', '08 data relationships: fuel receipts + mileage logs + vehicles → jurisdictions (rates, rules, allocation) → tax estimate (liabilities by jurisdiction) → filing documents'],
-    defects: ['Interaction 09 label is illegible (“…FAQS”) — recorded as ILLEGIBLE_IN_AUTHORITY, never guessed (decision D-INTERACTION-09).', 'JURISDICTIONS “configure jurisdictions and tax rules / manage settings” is a staff capability; AIO holds no tax-rate table (data reconciliation).', 'VEHICLES “add / deactivate” belongs to the fleet profile; the quarter only records participation.'],
+    extracted: ['01 page family overview: purpose · trust tone · shared shell', '02 actor modes: client light · founder / staff light · public dark', '03 tab contracts: PROGRESS (track end-to-end filing progress) · FUEL PURCHASES (manage and verify fuel receipts) · MILEAGE (track mileage by jurisdiction) · VEHICLES (manage vehicle and trip data) · JURISDICTIONS (configure jurisdictions and tax rules) · DOCUMENTS (manage filing documents and records)', '04 component stack: 01 hero banner · 02 metrics rail · 03 tab bar · 04 workflow status · 05 task list / cards · 06 map panel · 07 recent uploads · 08 insights panel · 09 recent activity · 10 bottom CTA rail · 11 footer lockup', '05 interactions: 01 upload receipt · 02 import CSV · 03 open detail drawer · 04 filter / sort · 05 verify record · 06 request correction · 07 review draft · 08 message team · 09 run FAQs (label founder-supplied — glyphs garbled in this image; no behaviour line) · 10 submit for approval · 11 file & confirm', '06 states: DEFAULT · LOADING · EMPTY (“No fuel purchases yet. Upload receipts or import your CSV file.”) · SUCCESS (“Record verified and saved.”) · WARNING / EXCEPTION (“Mileage outside expected range. Please review.”) · ERROR (“File could not be processed. Please check and try again.”)', '07 responsive: mobile single column, stacked cards, bottom CTA · tablet two-column flexible modules · desktop multi-column full workspace', '08 data relationships: fuel receipts + mileage logs + vehicles → jurisdictions (rates, rules, allocation) → tax estimate (liabilities by jurisdiction) → filing documents'],
+    defects: ['Interaction 09 label glyphs are garbled in this image (“…FAQS”); the founder supplied a clearer image confirming “09 RUN FAQS” (D-INTERACTION-09, DECIDED). No behaviour line is legible — IDENTITY_RESOLVED / BEHAVIOR_DESCRIPTION_PARTIAL, behaviour never guessed.', 'JURISDICTIONS “configure jurisdictions and tax rules / manage settings” is a staff capability; AIO holds no tax-rate table (data reconciliation).', 'VEHICLES “add / deactivate” belongs to the fleet profile; the quarter only records participation.'],
   }),
   f({
     ref_id: 'ICON_ASSET_SHEET', bundle_path: '06_CONTRACTS/AIO_IFTA_ICON_ASSET_SHEET.png', sha256: '42931fe1c6f9d8da07bf7bbf931dcd02964a236ec658e223ca6f197cb020626e', bytes: 1497422, media: 'image/png', dimensions: '1448x1086', folder: '06_CONTRACTS',
@@ -237,11 +237,23 @@ export const AIO_IFTA_UI_TOKENS: BrandToken[] = [
 
 /** Where the two sources define the same role differently. Functional tokens the DNA board does not define are not conflicts. */
 export const AIO_TOKEN_CONFLICTS = [
-  { role: 'primary accent / CTA gold', brand: 'SIGNATURE_GOLD #D4A853', ifta_sheet: 'WARM_GOLD #F4B223' },
-  { role: 'charcoal surfaces / containers', brand: 'CHARCOAL #1A1A1A', ifta_sheet: 'CHARCOAL #1F2937' },
-  { role: 'darkest ink / background', brand: 'OBSIDIAN #050505', ifta_sheet: 'BLACK #0B0B0B' },
-  { role: 'light background', brand: 'STONE_WHITE #F6F6F4', ifta_sheet: 'WHITE #FFFFFF' },
+  { role: 'primary accent / CTA gold', brand: 'SIGNATURE_GOLD #D4A853', ifta_sheet: 'WARM_GOLD #F4B223', resolution: 'SIGNATURE_GOLD #D4A853 (D-BRAND-TOKENS)' },
+  { role: 'charcoal surfaces / containers', brand: 'CHARCOAL #1A1A1A', ifta_sheet: 'CHARCOAL #1F2937', resolution: 'CHARCOAL #1A1A1A (D-BRAND-TOKENS)' },
+  { role: 'darkest ink / background', brand: 'OBSIDIAN #050505', ifta_sheet: 'BLACK #0B0B0B', resolution: 'OBSIDIAN #050505 (D-BRAND-TOKENS)' },
+  { role: 'light background', brand: 'STONE_WHITE #F6F6F4', ifta_sheet: 'WHITE #FFFFFF', resolution: 'STONE_WHITE #F6F6F4 for the brand light background; WHITE #FFFFFF stays only as the functional surface (cards / panels on light bodies)' },
 ];
+
+/**
+ * D-BRAND-TOKENS (DECIDED): the brand DNA board wins every shared brand role; the IFTA asset sheet supplies functional
+ * tokens only where the board is silent and never redefines a brand role.
+ */
+export const AIO_RESOLVED_TOKENS = {
+  decision: 'D-BRAND-TOKENS',
+  brand_roles: AIO_BRAND_PALETTE,
+  functional_tokens: AIO_IFTA_UI_TOKENS.filter((t) => ['SUCCESS_GREEN', 'IN_PROGRESS_BLUE', 'WARNING_AMBER', 'SOFT_GRAY', 'WHITE'].includes(t.token))
+    .map((t) => (t.token === 'WHITE' ? { ...t, role: 'functional white surface (cards / panels on light bodies) — not the brand light background' } : t)),
+  not_adopted: AIO_IFTA_UI_TOKENS.filter((t) => ['WARM_GOLD', 'BLACK', 'CHARCOAL'].includes(t.token)).map((t) => ({ ...t, reason: 'redefines a brand role the DNA board already governs' })),
+};
 
 export const AIO_TYPOGRAPHY_AUTHORITY = {
   rule: 'UPPERCASE_PRIMARY',
@@ -253,6 +265,13 @@ export const AIO_TYPOGRAPHY_AUTHORITY = {
   licensing: 'MONUMENT EXTENDED is a commercial face (not on Google Fonts) — a licence is needed before it can ship; INTER / INTER TIGHT / BEBAS NEUE are open (SIL OFL).',
   supersedes: 'Code tokens Plus Jakarta Sans / DM Sans (src/styles/aio.css) were never founder-locked and have no authority for IFTA.',
   decision: 'D-TYPOGRAPHY',
+  resolved: {
+    status: 'DECIDED',
+    client_staff_ui: { headings: 'INTER TIGHT', body: 'INTER' },
+    case: 'UPPERCASE PRIMARY (canonical)',
+    public_hero_display: 'MONUMENT EXTENDED only if licensed and approved; otherwise INTER TIGHT',
+    runtime_rule: 'The runtime never depends on an unavailable commercial font.',
+  },
 } as const;
 
 export const AIO_BRAND_AUTHORITY = {
@@ -267,6 +286,7 @@ export const AIO_BRAND_AUTHORITY = {
   palette: AIO_BRAND_PALETTE,
   ifta_ui_tokens: AIO_IFTA_UI_TOKENS,
   token_conflicts: AIO_TOKEN_CONFLICTS,
+  resolved_tokens: AIO_RESOLVED_TOKENS,
   typography: AIO_TYPOGRAPHY_AUTHORITY,
   logo: AIO_LOGO_RULES,
   actor_themes: AIO_ACTOR_THEMES,
