@@ -14233,3 +14233,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - 0 generations, 0 credits.
 - **Next:** pick the renderer route, generate 3 candidates, then anti-AI audit, review board, previous-vs-corrected scores and founder verdict.
 - **Correction (founder, same day):** the no-OpenArt rule applies to **ChatGPT only**; Opus may use OpenArt once it is connected (credential or connector plus a new session). Interim route: the founder runs ChatGPT image generation with `CHATGPT_PROMPTS/*_CHATGPT.txt`, attaching the territory value study and the official logo, then sends the images back for audit and review. The ChatGPT prompts are generated from the same locked translations (`buildChatGptPrompt`).
+
+---
+
+## 2026-10-06 — JURNL F09 Sunburst 3-territory render (P0.JURNL.F09-SAFE-TO-SPEND.SUNBURST-3-TERRITORY-RENDER1)
+
+- **Context:** Opus completed creative-direction + brand-expression on `claude/safe-to-spend-territories-g62f6l` (`f64620f7`); rendering was blocked. Founder directed **OpenArt · GPT IMAGE 2.5 SUNBURST · 4K · 9:16 · auto-enhance OFF** — render operator only, no concept changes.
+- **Delivered:** Three reference-guided Sunburst jobs (OpenArt project `VdiPtgVqb21sYl003uox`) from exact `SUNBURST_PROMPTS/T0*.txt` + composition value studies + logo references. Outputs **2016×3584** under `JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/` (T01 Surveyed Courtyard, T02 Answer in Raking Light, T03 Sorting Rack). Founder review board `F09_FOUNDER_REVIEW_BOARD_CORRECTED_4K.png`; `F09_SUNBURST_RENDER1_REPORT.json` + `RENDER_LOG.json`. **3 primary gens, 0 retries, ~951 credits.**
+- **Authority sync:** `f09-creative-direction.ts` — `JURNL_F09_CORRECTED_CANDIDATES`, audits, `GENERATION_LEDGER` status `GENERATED`, `CORRECTED_ROUND_SCORES`, gate **REFERENCE_AUTHORITIES_READY** (founder territory verdict still null). Helper scripts: `scripts/jurnl/f09-sunburst-generate-one.py`, `f09-build-founder-review-board.py`, `f09-openart-generate-from-json.mjs`. Test `jurnlF09CreativeDirectionCorrection1.test.ts` updated.
+- **QA:** Typography / logo / anti-AI **PASS** on all three; T02 — founder should zoom carved line for full **AND TRIPS.** at 4K. Ignore truncated OpenArt job `BtaPQBn9ja50o02vbAgR`.
+- **Not done:** No F09 React/production UI. **Founder verdict PENDING** — ready for four-way comparison (three corrected 4K + founder hybrid).
