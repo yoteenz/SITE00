@@ -1,0 +1,59 @@
+{
+  "id": "JURNL_F09_GENERATION_LEDGER",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1",
+  "workflow": "Hand-authored HTML / CSS / SVG reference compositions rendered locally by Playwright Chromium (scripts/jurnl/f09-territory-proof-render.mjs). Format WIREFRAME_PLUS_BRAND_RENDER. Brand fonts and palette from the repository; all imagery is procedural SVG (plaster, travertine, linen, olive, liner). No legacy plate, photograph or screen crop was used.",
+  "why_this_workflow": "OpenArt is out of scope for this sprint. A deterministic local render is reproducible from source, costs nothing, keeps imagery separable for the blur test (every decorative layer carries data-imagery), and binds every figure to real breakdown fields in code.",
+  "provider": "NONE",
+  "openart_accessed": false,
+  "paid_generation": false,
+  "credits_spent": 0,
+  "cost_usd": 0,
+  "primary_authority_candidates": 3,
+  "candidates": [
+    {
+      "territory": "JURNL.F09.T01",
+      "file": "REFERENCE_CANDIDATES/F09_T01_THE_OPEN_FLOOR_MOBILE_393x852.png",
+      "corrective_rerenders": 3,
+      "reasons": [
+        "Draft 1: unfilled template tokens broke the chrome and nav; the plan read as a framed box, not a room (no paving, weak walls)",
+        "Balance pass: wall-course contrast raised; olive moved off the dimension line to the right outer frame",
+        "Final check: the olive sat mostly off-canvas and its two leaf tips read as arrow glyphs (UI-like). It was redrawn as a full small sprig in the gap beside the right wall."
+      ]
+    },
+    {
+      "territory": "JURNL.F09.T02",
+      "file": "REFERENCE_CANDIDATES/F09_T02_THE_PLAIN_ANSWER_MOBILE_393x852.png",
+      "corrective_rerenders": 1,
+      "reasons": [
+        "Balance pass: reading line moved up to the sentence (empty mid-stage gap); after-clause 31→32px; perimeter shade +25% opacity"
+      ]
+    },
+    {
+      "territory": "JURNL.F09.T03",
+      "file": "REFERENCE_CANDIDATES/F09_T03_THE_OPEN_ENVELOPE_MOBILE_393x852.png",
+      "corrective_rerenders": 2,
+      "reasons": [
+        "Draft 1: the flap liner hid behind the slip; the state stamp collided with CLEAR TO SPEND; the linen weave read as graph paper",
+        "Balance pass: the composition shifted down 20–26px to centre the object stage"
+      ]
+    }
+  ],
+  "evidence_rerenders": [
+    {
+      "what": "REFERENCE_CANDIDATES/F09_TERRITORY_BOARD.png",
+      "reason": "The first board was blank: page.setContent cannot load file:// images. Fixed by embedding the candidates as data URIs."
+    },
+    {
+      "what": "BLUR_TEST/*_IMAGERY_REMOVED.png",
+      "reason": "The first removal pass used visibility:hidden on SVG roots, and Chromium still painted their filtered children, so 'removed' equalled the authority. Fixed with display:none and verified by pixel difference (mean abs diff 3.1 / 6.3 / 5.6)."
+    }
+  ],
+  "not_produced": [
+    "tablet authorities",
+    "desktop authorities",
+    "variants per territory",
+    "alternate colourways",
+    "asset sheets",
+    "child-state authorities"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "id": "BRAND_EXPRESSION_GATE",
+  "schema_version": "1.0.0",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "gate_status": {
+    "ready": "BRAND_EXPRESSION_READY",
+    "blocked": "BRAND_EXPRESSION_REQUIRED"
+  },
+  "evaluator": "checkBrandExpression(check, territory_id)",
+  "checklist": [
+    "VISUAL_WORLD_PRESENT",
+    "PRODUCT_PHILOSOPHY_PRESENT",
+    "FAMILY_SPECIFIC_LOGIC_PRESENT",
+    "CUSTOM_GRAPHIC_DESIGN_IDEA_PRESENT",
+    "BESPOKE_MATERIAL_OBJECT_PRESENT",
+    "MEANINGFUL_ENVIRONMENTAL_ROLE",
+    "LOGO_PLACEMENT_ART_DIRECTED",
+    "TAGLINE_DESCRIPTORS_HANDLED",
+    "PRIMARY_SIGNAL_UNMISTAKABLE",
+    "SECONDARY_DATA_DOES_NOT_COMPETE",
+    "NO_GENERIC_DASHBOARD",
+    "NO_GENERIC_CARD_STACK",
+    "NO_DEFAULT_AI_COMPOSITION",
+    "NO_UNRELATED_DECORATION",
+    "IDEA_SURVIVES_WITHOUT_MARKETING_COPY",
+    "MOBILE_GEOMETRY_WORKS",
+    "BOTTOM_NAV_WORKS",
+    "NO_CIRCULAR_TAPPABLE_BUTTONS",
+    "BRAND_EVIDENT_WITH_LOGO_HIDDEN"
+  ],
+  "critical": "BRAND_EVIDENT_WITH_LOGO_HIDDEN — if the logo is hidden, the screen must still feel like the brand.",
+  "rule": "Every item PASS with evidence before any generation call.",
+  "candidate_authority": {
+    "evaluator": "checkCandidateAuthority({ territory, profile, translation, brand_expression, candidate, audit })",
+    "ready": "REFERENCE_AUTHORITY_READY",
+    "blocked": [
+      "CREATIVE_DIRECTION_REQUIRED",
+      "BRAND_EXPRESSION_REQUIRED",
+      "CANDIDATE_REQUIRED",
+      "RENDERER_MISMATCH",
+      "ANTI_AI_FAILURE",
+      "TYPOGRAPHY_FAILURE"
+    ],
+    "renderer_rule": "The profile renderer (model, quality, aspect, auto-enhance, mode). Local HTML/CSS renders are never final candidates. A deviation counts only with a recorded founder exception."
+  },
+  "anti_ai_audit": {
+    "flags": [
+      "GENERIC_LUXURY_APP",
+      "GENERIC_FINTECH",
+      "GENERIC_MEDITERRANEAN",
+      "CARD_STACK_DRIFT",
+      "GLASSMORPHISM_DEFAULT",
+      "OVERLY_CENTERED_AI_LAYOUT",
+      "DECORATIVE_ICON_NOISE",
+      "RANDOM_BOTANICALS",
+      "RANDOM_GOLD_ACCENTS",
+      "FAKE_EDITORIAL_COPY",
+      "MATERIAL_OVERLOAD",
+      "UNJUSTIFIED_3D_OBJECT",
+      "PHOTOREAL_SCENE_WITH_UI_PASTED_ON",
+      "AI_TYPOGRAPHY_ARTIFACTS",
+      "ILLEGIBLE_TEXT",
+      "GENERIC_PROMO_LAYOUT",
+      "TEMPLATE_DASHBOARD",
+      "MOODBOARD_NOT_PRODUCT"
+    ],
+    "material_flag_blocks": true,
+    "typography_defects": [
+      "MISSPELLING",
+      "FAKE_WORD",
+      "RANDOM_LABEL",
+      "DUPLICATED_NAV_ITEM",
+      "MUTATED_WORDMARK",
+      "GARBLED_AMOUNT",
+      "BROKEN_TAGLINE"
+    ],
+    "typography_rule": "Regenerate or repair (repair = composite the official asset, recorded); no candidate passes with an unrepaired defect."
+  },
+  "gate_integration": "evaluateAuthorityGate: for every non-grandfathered material family, CREATIVE_DIRECTION_REQUIRED / BRAND_EXPRESSION_REQUIRED stop the line before references; references count only when every territory is REFERENCE_AUTHORITY_READY and the creative directions are distinct."
+}

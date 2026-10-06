@@ -1,0 +1,185 @@
+{
+  "id": "F09_T03_CREATIVE_DIRECTION",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "translation_id": "JURNL.F09.T03.CD.v1",
+  "project_id": "JURNL",
+  "profile_id": "JURNL.CREATIVE_DIRECTION.v1",
+  "territory_id": "JURNL.F09.T03",
+  "structural_premise": "One envelope is open: what you can spend. Everything held back is sealed beside it.",
+  "primary_object": "THE OPEN ENVELOPE and the slip that carries the safe-to-spend figure",
+  "functional_metaphor": "One envelope is released and open — what you can spend; every held-back commitment stays sealed in its slot.",
+  "bespoke_visual_idea": "THE BROKEN SEAL. Money you are free to spend is the only letter you have opened: it lies unfolded on the ledge, and its burgundy wax seal — pressed with the JURNL botanical mark — lies broken beside it. The held-back commitments stand sealed in an oak sorting rack, and their thickness is their amount: PLAN is visibly the fattest envelope, GOALS and TRIPS the slimmest. Data you can read by touch.",
+  "render_brief": "A finished mobile app screen for JURNL, a calm Mediterranean personal-finance app: a quiet morning still life in an entry hall. On a limewashed plaster wall hangs an oak letter rack with four slots, each with an engraved brass label (BILLS, PLAN, GOALS, TRIPS); in each slot stands one sealed linen envelope closed with a burgundy wax seal pressed with a botanical sprig, and the envelopes differ in thickness — PLAN the fattest, GOALS and TRIPS the slimmest. A thin brass strip along the rack base reads HELD BACK $6,075 OF $30,960 CASH. Below, on a deep honed travertine console seen from slightly above, lies the one letter that has been opened, unfolded and slightly askew: a cotton-paper letterhead with the small JURNL botanical logo and PLAN TODAY. GROW FREELY., the words CLEAR TO SPEND and the amount $24,885 letterpressed in deep emerald, and a small square emerald stamp FULL READING; its broken wax seal lies beside it. A deep-emerald square-cornered button SEE THE FULL BREAKDOWN below, and the JURNL five-cell bottom navigation at the bottom.",
+  "fields": {
+    "art_direction_premise": "THE SORTING RACK — a quiet corner of a Mediterranean entry hall at morning: an oak-and-brass letter rack on a limewashed wall above a deep travertine console, the household’s money sorted like post.",
+    "brand_world_translation": "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED as a physical habit: things already decided are sealed and put away carefully; the one released letter is life money. The botanical mark lives in the wax.",
+    "graphic_design_language": "A stationer’s letterhead layout on the released letter (lockup, figure, stamp), engraved brass slot plates on the rack, thickness-encoded sealed envelopes, a grid break where the opened letter lies askew across the rack’s order.",
+    "environmental_role": "The environment is the organising system — where the post lives. Wall, rack, console and letter are one layered information structure; nothing is wallpaper.",
+    "material_language": "Limewashed plaster wall; natural oak rack with brushed brass slot plates; cotton-rag letter paper with soft fold creases; linen-weave envelopes in bone, greige, ivory and pale blush; burgundy wax seals; honed travertine console top.",
+    "tactile_object_language": "Sealed envelopes of different thicknesses standing in slots; wax seals embossed with the botanical mark; broken seal fragments; a letterpress-debossed figure.",
+    "typographic_art_direction": "Letterhead set like fine stationery: the vertical JURNL lockup small at the top, the figure letterpressed in deep emerald ink in fashion-condensed serif, captions in tracked condensed sans; slot plates engraved in condensed sans. All uppercase.",
+    "logo_behavior": "The official lockup is the LETTERHEAD of the released letter (botanical mark + JURNL), and the botanical mark is pressed into every wax seal — even with the wordmark hidden, the seals say JURNL. Never in the chrome.",
+    "brand_lockup_behavior": "Letterhead = BOTANICAL MARK + JURNL + tagline PLAN TODAY. GROW FREELY. in tiny tracked capitals beneath it.",
+    "color_hierarchy": "Plaster bone (dominant) → oak and travertine warmth → ivory paper → ONE emerald figure → burgundy seals (the only strong red, and functional) → champagne brass only on slot plates → emerald CTA and active nav cell.",
+    "lighting_direction": "Soft morning window light from the upper left; gentle long shadows of the envelopes on the wall; the open letter catches the most light.",
+    "depth_model": "Three-quarter frontal still life with real depth: wall plane → rack → console top → open letter nearest the viewer, seen from slightly above.",
+    "compositional_tension": "The orderly rhythm of the rack against the one released letter lying slightly askew — the intentional grid break is the release.",
+    "negative_space_strategy": "Calm plaster above the rack and the bare travertine to the right of the letter; the bleed stays wall only.",
+    "editorial_wit": "The broken seal: what you can spend is the only letter you have opened.",
+    "custom_designed_element": "The oak sorting rack with engraved brass slot plates and thickness-encoded sealed envelopes.",
+    "bespoke_detail": "The broken wax seal beside the released letter, embossed with the JURNL botanical mark.",
+    "imagery_role": "Still life as information: every object carries data or frames it; no decorative props, no flowers.",
+    "focal_priority": "1 $24,885 on the letter · 2 CLEAR TO SPEND + FULL READING stamp · 3 the sealed envelopes and their plates · 4 HELD BACK total · 5 broken seal · 6 CTA · 7 letterhead lockup.",
+    "motion_implication": "Tapping a sealed envelope lifts it from its slot and breaks its seal to show its amount; spending lowers the letter back toward the console; the hold sheet rises like a folio.",
+    "anti_generic_rules": "Not a folio with labelled pockets, not a card grid, not cute stationery, no flowers or candles, no gold foil, no flat-lay desk clutter.",
+    "anti_ai_look_rules": "Exactly four sealed envelopes and four plates; legible plate words; one opened letter; seals with one consistent botanical emboss; no extra papers, pens or props."
+  },
+  "authorship_devices": [
+    "DESIGNED_PHYSICAL_METAPHOR",
+    "TACTILE_DATA_ENCODING",
+    "BESPOKE_LABELS_TABS",
+    "INTENTIONAL_GRID_BREAK",
+    "LAYERED_PHYSICAL_GRAPHIC_STRUCTURE",
+    "CONTROLLED_OBJECT_COMPOSITION",
+    "CUSTOM_STATE_TRANSITION"
+  ],
+  "locks": {
+    "primary_object": "The released letter lying open on the console with CLEAR TO SPEND $24,885; the held-back commitments sealed in the rack above.",
+    "major_zones": "SAFE TO SPEND label (top-left of field, y 13–15 %) · RACK (x 17–83 %, y 16–38 %) · HELD-BACK STRIP (brass strip along the rack base, y 38.5–40.5 %) · CONSOLE + RELEASED LETTER (x 18–82 %, y 43–66 %) · CTA (y 70–75 %) · INLINE ACTIONS (y 77–80 %).",
+    "visual_hierarchy": "Letter figure ≫ stamp ≫ sealed envelopes ≫ held-back strip ≫ broken seal ≫ CTA ≫ letterhead.",
+    "text_hierarchy": "1 $24,885 (letterpress emerald, largest) · 2 CLEAR TO SPEND above it · 3 FULL READING stamp · 4 slot plates BILLS / PLAN / GOALS / TRIPS · 5 HELD BACK $6,075 OF $30,960 CASH on the brass strip · 6 SAFE TO SPEND label · 7 CTA and inline actions · 8 letterhead JURNL + PLAN TODAY. GROW FREELY.",
+    "logo_placement": "Letterhead at the top centre of the released letter (small) + the botanical emboss on every seal; composite the official asset if mutated.",
+    "bottom_nav_placement": "Canonical JURNL nav (F09_FRAME_GEOMETRY.nav), HOME active.",
+    "cta_placement": "Emerald square-rounded tile SEE THE FULL BREAKDOWN across the field below the console (x 14.5–85.5 %, y 70–75 %); inline actions CHANGE WHAT’S HELD › and PLAN › at y 77–80 %.",
+    "image_focal_points": "Primary: the letter’s figure at x 50 %, y ≈ 55 %. Secondary: the PLAN envelope (thickest) in the rack. Light: window off-frame upper left.",
+    "material_hierarchy": "Paper > oak > linen envelopes > wax > travertine > brass > plaster.",
+    "negative_space_regions": "Plaster above the rack; travertine right of the letter; the bleed.",
+    "environmental_geometry": "Wall plane parallel to the frame; rack mounted at y 16–38 %; console top seen from slightly above occupying y 42–68 %.",
+    "custom_object_logic": "Exactly four sealed envelopes, left to right BILLS · PLAN · GOALS · TRIPS, thickness ∝ amount (QA seed 1,875 · 2,400 · 900 · 900 → PLAN thickest, BILLS next, GOALS = TRIPS slimmest). Zero fields get no envelope."
+  },
+  "text_must_render": [
+    "SAFE TO SPEND",
+    "CLEAR TO SPEND",
+    "$24,885",
+    "FULL READING",
+    "BILLS",
+    "PLAN",
+    "GOALS",
+    "TRIPS",
+    "HELD BACK $6,075 OF $30,960 CASH",
+    "SEE THE FULL BREAKDOWN",
+    "CHANGE WHAT’S HELD",
+    "JURNL",
+    "PLAN TODAY. GROW FREELY.",
+    "HOME",
+    "MONEY",
+    "PLAN",
+    "CREDIT",
+    "9:41"
+  ],
+  "text_representational": [
+    "status-bar glyphs",
+    "botanical emboss on seals (official mark governs)",
+    "paper and linen texture"
+  ],
+  "forbidden_elements": [
+    "a folio or portfolio with labelled pockets",
+    "more or fewer than four sealed envelopes",
+    "pens, flowers, candles, coffee cups",
+    "gold foil",
+    "circular buttons or round badges (wax seals are objects, not controls)",
+    "a centred wordmark in the chrome",
+    "any other words or numbers",
+    "arches"
+  ],
+  "prompt_path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T03_OPEN_ENVELOPE.txt",
+  "creative_direction_check": {
+    "territory_id": "JURNL.F09.T03",
+    "status": "CREATIVE_DIRECTION_READY",
+    "missing": []
+  },
+  "brand_expression_check": {
+    "territory_id": "JURNL.F09.T03",
+    "status": "BRAND_EXPRESSION_READY",
+    "failed": []
+  },
+  "brand_expression_evidence": {
+    "VISUAL_WORLD_PRESENT": {
+      "pass": true,
+      "evidence": "Limewashed plaster, oak, brass, cotton paper, linen, burgundy wax, travertine, morning light."
+    },
+    "PRODUCT_PHILOSOPHY_PRESENT": {
+      "pass": true,
+      "evidence": "Financial life beautifully organised: decided things sealed and put away; one letter released for life."
+    },
+    "FAMILY_SPECIFIC_LOGIC_PRESENT": {
+      "pass": true,
+      "evidence": "Open = value; sealed = each non-zero held-back field; thickness ∝ amount."
+    },
+    "CUSTOM_GRAPHIC_DESIGN_IDEA_PRESENT": {
+      "pass": true,
+      "evidence": "Letterhead layout on the released letter; engraved slot plates; grid break."
+    },
+    "BESPOKE_MATERIAL_OBJECT_PRESENT": {
+      "pass": true,
+      "evidence": "Oak sorting rack; seals embossed with the botanical mark; broken seal."
+    },
+    "MEANINGFUL_ENVIRONMENTAL_ROLE": {
+      "pass": true,
+      "evidence": "The entry-hall corner is the organising system (where the post lives)."
+    },
+    "LOGO_PLACEMENT_ART_DIRECTED": {
+      "pass": true,
+      "evidence": "Letterhead of the released letter + seal emboss."
+    },
+    "TAGLINE_DESCRIPTORS_HANDLED": {
+      "pass": true,
+      "evidence": "PLAN TODAY. GROW FREELY. under the letterhead."
+    },
+    "PRIMARY_SIGNAL_UNMISTAKABLE": {
+      "pass": true,
+      "evidence": "Largest figure, emerald letterpress on the brightest object nearest the viewer."
+    },
+    "SECONDARY_DATA_DOES_NOT_COMPETE": {
+      "pass": true,
+      "evidence": "Plates carry names; amounts sealed; one strip carries the total."
+    },
+    "NO_GENERIC_DASHBOARD": {
+      "pass": true,
+      "evidence": "Still life, no widgets."
+    },
+    "NO_GENERIC_CARD_STACK": {
+      "pass": true,
+      "evidence": "Envelopes stand in a rack with real thickness — not a row of equal cards."
+    },
+    "NO_DEFAULT_AI_COMPOSITION": {
+      "pass": true,
+      "evidence": "Layered depth, askew letter, light from the left."
+    },
+    "NO_UNRELATED_DECORATION": {
+      "pass": true,
+      "evidence": "No flowers, pens or cups; the botanical lives only in the seals and letterhead."
+    },
+    "IDEA_SURVIVES_WITHOUT_MARKETING_COPY": {
+      "pass": true,
+      "evidence": "Open vs sealed and the broken seal need no copy."
+    },
+    "MOBILE_GEOMETRY_WORKS": {
+      "pass": true,
+      "evidence": "Rack and console inside the stage; bleed is wall only."
+    },
+    "BOTTOM_NAV_WORKS": {
+      "pass": true,
+      "evidence": "Canonical five-cell nav, HOME active."
+    },
+    "NO_CIRCULAR_TAPPABLE_BUTTONS": {
+      "pass": true,
+      "evidence": "Wax seals are objects, not controls; every control is square-rounded."
+    },
+    "BRAND_EVIDENT_WITH_LOGO_HIDDEN": {
+      "pass": true,
+      "evidence": "The botanical seals, oak, linen and plaster organised calm read as JURNL with the letterhead hidden."
+    }
+  }
+}

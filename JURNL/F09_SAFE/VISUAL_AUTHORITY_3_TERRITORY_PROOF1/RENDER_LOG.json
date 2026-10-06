@@ -1,0 +1,103 @@
+{
+  "renderer": "playwright chromium (local)",
+  "viewport": [
+    393,
+    852
+  ],
+  "device_scale_factor": 3,
+  "paid_generation": false,
+  "provider": "NONE",
+  "outputs": [
+    {
+      "id": "t01",
+      "mode": "AUTHORITY",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/REFERENCE_CANDIDATES/F09_T01_THE_OPEN_FLOOR_MOBILE_393x852.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "t01",
+      "mode": "IMAGERY_REMOVED",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/BLUR_TEST/F09_T01_THE_OPEN_FLOOR_MOBILE_393x852_IMAGERY_REMOVED.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "t01",
+      "mode": "IMAGERY_BLURRED",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/BLUR_TEST/F09_T01_THE_OPEN_FLOOR_MOBILE_393x852_IMAGERY_BLURRED.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "t02",
+      "mode": "AUTHORITY",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/REFERENCE_CANDIDATES/F09_T02_THE_PLAIN_ANSWER_MOBILE_393x852.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "t02",
+      "mode": "IMAGERY_REMOVED",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/BLUR_TEST/F09_T02_THE_PLAIN_ANSWER_MOBILE_393x852_IMAGERY_REMOVED.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "t02",
+      "mode": "IMAGERY_BLURRED",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/BLUR_TEST/F09_T02_THE_PLAIN_ANSWER_MOBILE_393x852_IMAGERY_BLURRED.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "t03",
+      "mode": "AUTHORITY",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/REFERENCE_CANDIDATES/F09_T03_THE_OPEN_ENVELOPE_MOBILE_393x852.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "t03",
+      "mode": "IMAGERY_REMOVED",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/BLUR_TEST/F09_T03_THE_OPEN_ENVELOPE_MOBILE_393x852_IMAGERY_REMOVED.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "t03",
+      "mode": "IMAGERY_BLURRED",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/BLUR_TEST/F09_T03_THE_OPEN_ENVELOPE_MOBILE_393x852_IMAGERY_BLURRED.png",
+      "page_scroll": {
+        "w": 393,
+        "h": 852
+      }
+    },
+    {
+      "id": "board",
+      "mode": "REVIEW_BOARD",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/REFERENCE_CANDIDATES/F09_TERRITORY_BOARD.png"
+    },
+    {
+      "id": "board",
+      "mode": "REVIEW_BOARD",
+      "path": "JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/BLUR_TEST/F09_BLUR_TEST_BOARD.png"
+    }
+  ]
+}

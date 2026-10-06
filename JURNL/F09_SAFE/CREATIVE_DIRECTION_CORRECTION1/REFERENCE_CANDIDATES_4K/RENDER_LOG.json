@@ -1,0 +1,38 @@
+{
+  "batch": "F09 Sunburst CREATIVE_DIRECTION_CORRECTION1",
+  "model": "gpt-image-2-5-sunburst",
+  "mode": "image2image",
+  "projectId": "VdiPtgVqb21sYl003uox",
+  "renderedAt": "2026-10-06T18:55:00Z",
+  "territories": {
+    "T01": {
+      "historyId": "QDZEELmPJXmJaZ11of8j",
+      "status": "COMPLETED",
+      "retries": 0,
+      "credits": null,
+      "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791312884902_712faa83.png",
+      "path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T01_SURVEYED_COURTYARD_MOBILE_9x16_4K.png",
+      "dimensions": "2016x3584"
+    },
+    "T02": {
+      "historyId": "MPIVS89jXzIspxu1tSC9",
+      "status": "COMPLETED",
+      "retries": 0,
+      "credits": null,
+      "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791312982851_5187bbc1.png",
+      "path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_9x16_4K.png",
+      "dimensions": "2016x3584"
+    },
+    "T03": {
+      "historyId": "0VOiDUP8GJyPFbAmK57H",
+      "status": "COMPLETED",
+      "retries": 0,
+      "credits": null,
+      "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791313122253_47edd120.png",
+      "path": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/REFERENCE_CANDIDATES_4K/F09_T03_SORTING_RACK_MOBILE_9x16_4K.png",
+      "dimensions": "2016x3584"
+    }
+  },
+  "totalCreditsEstimate": 951,
+  "notes": "Fresh full-prompt jobs from /tmp/t01-full.json, t02-full.json, t03-full.json. Ignored truncated job BtaPQBn9ja50o02vbAgR."
+}

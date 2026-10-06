@@ -2,6 +2,7 @@
  * Visual Authority Development Gate — evaluators and guards. Pure functions over data; no project assumptions.
  */
 import { validateExperienceContract } from '../studioos-experience-brain/validate.js';
+import { creativeDirectionRequired, evaluateCreativeGate } from './creative-direction.js';
 import { isNotApplicable, type ExperienceActor, type ExperienceContract, type Viewport } from '../studioos-experience-brain/schema.js';
 import {
   APPROVING_VERDICTS,
@@ -358,10 +359,25 @@ export function evaluateAuthorityGate(i: AuthorityGateInput): AuthorityGateResul
     }
     conditions.COMPOSITION_TERRITORIES_EXIST = true;
 
+    // Creative direction → brand expression come BEFORE generation: a structural territory is not yet a visual authority.
+    const needsCreative = creativeDirectionRequired(i.project_id, i.feature_id);
+    const creative = needsCreative ? evaluateCreativeGate(i.territories ?? [], i.creative_direction, i.references ?? []) : null;
+    if (creative && (creative.status === 'CREATIVE_DIRECTION_REQUIRED' || creative.status === 'BRAND_EXPRESSION_REQUIRED')) {
+      reasons.push(...creative.per_territory.filter((p) => p.status === creative.status).map((p) => `${p.territory_id}: ${p.reasons.slice(0, 4).join('; ')}`));
+      return out('AUTHORITY_TERRITORIES_REQUIRED', creative.status, creative.status === 'CREATIVE_DIRECTION_REQUIRED'
+        ? 'Translate each territory through the project creative-direction profile and lock it before generation.'
+        : 'Pass the brand-expression checklist for each territory before generation.');
+    }
+
     const refs = checkReferences(i.territories, i.references);
     if (refs.status !== 'REFERENCES_COMPLETE') {
       reasons.push(...refs.missing_territories.map((t) => `no reference authority for ${t}`), ...refs.insufficient.map((x) => `${x.reference_id} does not show ${x.missing_proof.join(', ')}`));
       return out('AUTHORITY_TERRITORIES_REQUIRED', 'REFERENCE_AUTHORITY_REQUIRED', 'Generate / assemble one reference authority per territory.');
+    }
+    if (creative && creative.status !== 'REFERENCE_AUTHORITIES_READY') {
+      reasons.push(`creative gate: ${creative.status}`, ...creative.per_territory.filter((p) => p.status !== 'REFERENCE_AUTHORITY_READY').map((p) => `${p.territory_id} ${p.status}: ${p.reasons.slice(0, 3).join('; ')}`));
+      if (creative.status === 'CREATIVE_DIRECTION_COLLAPSE') reasons.push('creative directions collapse into one look (≥ 8 of 10 creative dimensions, incl. premise / depth / material, must differ)');
+      return out('AUTHORITY_TERRITORIES_REQUIRED', 'REFERENCE_AUTHORITY_REQUIRED', 'Render each locked translation with the profile renderer, pass the anti-AI audit and typography guard.');
     }
     conditions.REFERENCE_AUTHORITY_EXISTS = true;
   }
