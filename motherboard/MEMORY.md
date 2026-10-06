@@ -13868,6 +13868,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — JURNL Wave 5 live RLS & sync proof gate (P0.JURNL.WAVE5-LIVE-RLS-AND-PRODUCTION-SYNC-PROOF)
+
+- **Context:** After Wave 5 merged (#1392), narrow sprint to close live auth/RLS/sync gaps — not another broad hardening pass.
+- **Delivered:** Device→server merge (`deviceServerMerge.ts`, `peekDeviceSnapshot`, login hydrate + first-upload); session invalid clears auth on pull failure; live proof runner `scripts/jurnl/run-live-rls-and-sync-proof.ts` (user JWT RLS matrix, API snapshot round-trip, idempotency, cross-session, ask-context boundary); artifact writer `docs/jurnl/structural-completion/wave5-live-proof/`; CI **JURNL Live RLS & Production Sync Proof** (skips to AWAITING when `JURNL_QA_USER_*` secrets missing); `npm run jurnl:live-proof`.
+- **Founder:** Add GitHub secrets per `wave5-live-proof/README.md`; run workflow_dispatch; apply Supabase migration if not already; Railway API must expose `/api/jurnl/repository`.
+- **VM note:** Supabase auth health timed out from cloud agent — live PASS requires GitHub Actions with secrets against reachable Supabase.
+
+---
+
 ## 2026-10-06 — JURNL Wave 5 production hardening (P0.JURNL.WAVE5-PRODUCTION-HARDENING)
 
 - **Context:** After full-product E2E Gate 1 PASS on `main`, Composer hardened JURNL for production without visual redesign or new families. Canonical input: `docs/jurnl/e2e/JURNL_E2E_WAVE5_DEPENDENCIES.json` (5 dependencies).
