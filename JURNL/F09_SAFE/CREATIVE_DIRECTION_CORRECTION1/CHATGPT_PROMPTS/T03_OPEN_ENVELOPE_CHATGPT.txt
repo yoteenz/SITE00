@@ -1,0 +1,73 @@
+Create ONE image only: a finished mobile app screen for JURNL, in 9:16 portrait. It is a flat screen design, not a photo of a phone and not a mockup.
+
+ATTACHMENTS
+1. F09_T03_SORTING_RACK_VALUE_STUDY_9x16.png is the composition lock. Follow its layout exactly: where each zone sits, how big it is, the hierarchy, the centred field, the top chrome and the five-cell bottom navigation. It is a tonal blocking study, not the style. Render the real materials, light and type described below.
+2. JURNL_LOGO_OFFICIAL.png is the official logo. Wherever the JURNL logo appears, reproduce this mark and its lettering exactly. Never invent other letterforms.
+
+TEXT RULE: render only the words listed under TEXT THAT MUST RENDER, spelled exactly in uppercase. If a word cannot be rendered cleanly, leave that surface plain rather than inventing letters.
+
+## IMAGE
+A finished mobile app screen for JURNL, a calm Mediterranean personal-finance app: a quiet morning still life in an entry hall. On a limewashed plaster wall hangs an oak letter rack with four slots, each with an engraved brass label (BILLS, PLAN, GOALS, TRIPS); in each slot stands one sealed linen envelope closed with a burgundy wax seal pressed with a botanical sprig, and the envelopes differ in thickness — PLAN the fattest, GOALS and TRIPS the slimmest. A thin brass strip along the rack base reads HELD BACK $6,075 OF $30,960 CASH. Below, on a deep honed travertine console seen from slightly above, lies the one letter that has been opened, unfolded and slightly askew: a cotton-paper letterhead with the small JURNL botanical logo and PLAN TODAY. GROW FREELY., the words CLEAR TO SPEND and the amount $24,885 letterpressed in deep emerald, and a small square emerald stamp FULL READING; its broken wax seal lies beside it. A deep-emerald square-cornered button SEE THE FULL BREAKDOWN below, and the JURNL five-cell bottom navigation at the bottom.
+
+## RENDER SETTINGS
+GPT Image 2.5 (Sunburst) at its highest quality, 9:16 portrait, no auto-enhancement or style preset. 9:16 portrait. Height = the 852-pt JURNL mobile viewport. The 393-pt viewport is the central 82 % of the width (x 9.0–91.0 %); the outer 9 % on each side is environment bleed only — no text, control or data object there.
+
+## JURNL BRAND WORLD
+JURNL — MONEY IN SERVICE OF LIFE. FINANCIAL LIFE, BEAUTIFULLY ORGANIZED. PLAN TODAY. GROW FREELY. A personal finance and lifestyle app with calm confidence. World: Mediterranean / coastal architecture; natural light with a direction and a time of day; quiet luxury with human warmth; architectural lifestyle; considered object placement; visual breathing room. Colour: BONE / CREAM #F9F6EF and IVORY #F3EDE2 — the field; GREIGE #D2C8BA and TAUPE #B6A594 — material shadow, borders, quiet text; BLUSH #EBCFC8 and MUTED ROSE #C9949A — the brand mark and soft warmth, used sparingly; DEEP EMERALD #0F3D32 — the primary action and the one decisive figure; BURGUNDY #6E1F2D — seals, error, wax; never decoration; CHAMPAGNE #C6A676 — soft metal details only where they do a job (plates, rules, inlays); OBSIDIAN — deep ink for type, never a dark theme. Materials: plaster / limewash, travertine, limestone, paper (cotton rag, letterpress), linen, textile, stone, soft metal (brushed brass, bronze — functional), natural oak where appropriate, wax. Must not become: generic beige luxury, Pinterest Mediterranean, luxury hotel app, fashion editorial without product meaning, dark bank vault, futuristic tech, industrial loft.
+
+## F09 PRODUCT JOB
+SAFE TO SPEND: give one clear signal of what the user can spend now without undermining bills, plans or what they are holding. Under five seconds the user must see the amount, that it is a full reading, and that something is already held back. Details stay closed until asked.
+
+## TERRITORY STRUCTURE
+03 THE OPEN ENVELOPE: One envelope is open: what you can spend. Everything held back is sealed beside it. Creative direction — THE SORTING RACK — a quiet corner of a Mediterranean entry hall at morning: an oak-and-brass letter rack on a limewashed wall above a deep travertine console, the household’s money sorted like post. Bespoke idea: THE BROKEN SEAL. Money you are free to spend is the only letter you have opened: it lies unfolded on the ledge, and its burgundy wax seal — pressed with the JURNL botanical mark — lies broken beside it. The held-back commitments stand sealed in an oak sorting rack, and their thickness is their amount: PLAN is visibly the fattest envelope, GOALS and TRIPS the slimmest. Data you can read by touch.
+
+## PRIMARY OBJECT
+The released letter lying open on the console with CLEAR TO SPEND $24,885; the held-back commitments sealed in the rack above. Exactly four sealed envelopes, left to right BILLS · PLAN · GOALS · TRIPS, thickness ∝ amount (sample 1,875 · 2,400 · 900 · 900 → PLAN thickest, BILLS next, GOALS = TRIPS slimmest). Zero fields get no envelope.
+
+## MOBILE COMPOSITION
+y 0–6.9 %: iPhone status bar inside the viewport — time 9:41 at left, signal / wi-fi / battery glyphs at right, in obsidian ink. y 6.9–11.2 %: three square-rounded 34-pt icon buttons on bone with a hairline greige border — BACK (left chevron) at the left edge of the stage; ACCOUNT (gear) and ASK JURNL (lowercase-free "i" glyph) side by side at the right edge of the stage. No centred wordmark in the chrome (the lockup lives in the scene). x 14.5–85.5 %, y 12.7–83.8 %: the functional field, centred on the vertical axis x 50 % (the + axis). Zones: SAFE TO SPEND label (top-left of field, y 13–15 %) · RACK (x 17–83 %, y 16–38 %) · HELD-BACK STRIP (brass strip along the rack base, y 38.5–40.5 %) · CONSOLE + RELEASED LETTER (x 18–82 %, y 43–66 %) · CTA (y 70–75 %) · INLINE ACTIONS (y 77–80 %). Hierarchy: Letter figure ≫ stamp ≫ sealed envelopes ≫ held-back strip ≫ broken seal ≫ CTA ≫ letterhead. Focal points: Primary: the letter’s figure at x 50 %, y ≈ 55 %. Secondary: the PLAN envelope (thickest) in the rack. Light: window off-frame upper left. Negative space: Plaster above the rack; travertine right of the letter; the bleed. Geometry: Wall plane parallel to the frame; rack mounted at y 16–38 %; console top seen from slightly above occupying y 42–68 %. y 83.8–88.5 %: empty.
+
+## LOGO / LOCKUP PLACEMENT
+The official lockup is the LETTERHEAD of the released letter (botanical mark + JURNL), and the botanical mark is pressed into every wax seal — even with the wordmark hidden, the seals say JURNL. Never in the chrome. Letterhead = BOTANICAL MARK + JURNL + tagline PLAN TODAY. GROW FREELY. in tiny tracked capitals beneath it. Placement lock: Letterhead at the top centre of the released letter (small) + the botanical emboss on every seal; reproduce the attached official JURNL logo exactly. The mark is a single slender stem with five leaves in muted rose beside the letters J U R N L set vertically like a book spine in a high-contrast serif. Do not invent other letterforms.
+
+## SAFE TO SPEND SIGNAL
+1 $24,885 (letterpress emerald, largest) · 2 CLEAR TO SPEND above it · 3 FULL READING stamp · 4 slot plates BILLS / PLAN / GOALS / TRIPS · 5 HELD BACK $6,075 OF $30,960 CASH on the brass strip · 6 SAFE TO SPEND label · 7 CTA and inline actions · 8 letterhead JURNL + PLAN TODAY. GROW FREELY. The figure $24,885 is the single largest element and the only one in its colour.
+
+## SECONDARY BREAKDOWN
+Held back: BILLS, PLAN, GOALS, TRIPS (four commitments, sample values). Exactly four sealed envelopes, left to right BILLS · PLAN · GOALS · TRIPS, thickness ∝ amount (sample 1,875 · 2,400 · 900 · 900 → PLAN thickest, BILLS next, GOALS = TRIPS slimmest). Zero fields get no envelope. Amounts beyond those listed in TEXT THAT MUST RENDER stay closed.
+
+## ENVIRONMENT
+The environment is the organising system — where the post lives. Wall, rack, console and letter are one layered information structure; nothing is wallpaper. Still life as information: every object carries data or frames it; no decorative props, no flowers.
+
+## MATERIALS
+Limewashed plaster wall; natural oak rack with brushed brass slot plates; cotton-rag letter paper with soft fold creases; linen-weave envelopes in bone, greige, ivory and pale blush; burgundy wax seals; honed travertine console top. Hierarchy: Paper > oak > linen envelopes > wax > travertine > brass > plaster.
+
+## LIGHTING
+Soft morning window light from the upper left; gentle long shadows of the envelopes on the wall; the open letter catches the most light.
+
+## GRAPHIC DESIGN ELEMENTS
+A stationer’s letterhead layout on the released letter (lockup, figure, stamp), engraved brass slot plates on the rack, thickness-encoded sealed envelopes, a grid break where the opened letter lies askew across the rack’s order. Typography: Letterhead set like fine stationery: the vertical JURNL lockup small at the top, the figure letterpressed in deep emerald ink in fashion-condensed serif, captions in tracked condensed sans; slot plates engraved in condensed sans. All uppercase. Colour hierarchy: Plaster bone (dominant) → oak and travertine warmth → ivory paper → ONE emerald figure → burgundy seals (the only strong red, and functional) → champagne brass only on slot plates → emerald CTA and active nav cell. Depth: Three-quarter frontal still life with real depth: wall plane → rack → console top → open letter nearest the viewer, seen from slightly above. Tension: The orderly rhythm of the rack against the one released letter lying slightly askew — the intentional grid break is the release.
+
+## TACTILE OBJECTS
+Sealed envelopes of different thicknesses standing in slots; wax seals embossed with the botanical mark; broken seal fragments; a letterpress-debossed figure. Bespoke detail: The broken wax seal beside the released letter, embossed with the JURNL botanical mark.
+
+## BOTTOM NAV
+y 89.4–94.6 %, x 14.5–85.5 %: the JURNL product nav — five equal square-rounded cells (8-pt corner radius) with 4-pt gaps, exactly in this order: HOME (active: deep emerald #0F3D32 fill, bone person icon over the label HOME), MONEY (banknote icon), the centre cell with a single thin plus sign and no label (QUICK ADD), PLAN (clock icon), CREDIT (document icon). Inactive cells: bone #F9F6EF fill at 90 % opacity, 1-pt greige border, obsidian thin-line icon above a tiny tracked uppercase label. Never circles, never pills, never a sixth item. y ≈ 97.5 %: the short dark system home-indicator bar, centred.
+
+## CTA
+Emerald square-rounded tile SEE THE FULL BREAKDOWN across the field below the console (x 14.5–85.5 %, y 70–75 %); inline actions CHANGE WHAT’S HELD › and PLAN › at y 77–80 %. The CTA tile: deep emerald #0F3D32, 8-pt square-rounded corners, bone uppercase tracked label SEE THE FULL BREAKDOWN. Inline actions: tracked uppercase label, a fine taupe rule, and a thin chevron — never pills or circles.
+
+## ANTI-GENERIC RULES
+No card stacks over a pretty background. No fintech dashboard grammar (KPI tiles, donut charts, sparkline rows). No glassmorphism, no excessive gradients, no random gold accents. No generic serif + sans pairing without the brand logic above. No stock-feeling lifestyle photography; no tourist postcard Mediterranean (no pools, loungers, sea-view balconies). No botanical flourish unless it is the JURNL mark or a single justified plant in the scene. No weak floating pill controls. Not a folio with labelled pockets, not a card grid, not cute stationery, no flowers or candles, no gold foil, no flat-lay desk clutter.
+
+## ANTI-AI RULES
+No mutated letterforms, fake words, random labels or duplicated nav items. Every visible word is specified in the prompt; anything else is forbidden. No symmetric AI-default composition; follow the locked zones. No HDR glow, no plastic 3D, no over-sharpened textures, no material overload. No photoreal scene with UI pasted on — the information object belongs to the scene. The renderer executes the locked translation; it never invents layout, hierarchy or extra elements. Exactly four sealed envelopes and four plates; legible plate words; one opened letter; seals with one consistent botanical emboss; no extra papers, pens or props.
+
+## TEXT THAT MUST RENDER
+Only these words and figures may appear anywhere, uppercase and spelled exactly (a word may repeat only where the zones above place it): "SAFE TO SPEND", "CLEAR TO SPEND", "$24,885", "FULL READING", "BILLS", "PLAN", "GOALS", "TRIPS", "HELD BACK $6,075 OF $30,960 CASH", "SEE THE FULL BREAKDOWN", "CHANGE WHAT’S HELD", "JURNL", "PLAN TODAY. GROW FREELY.", "HOME", "MONEY", "PLAN", "CREDIT", "9:41". No other words, numbers or letters.
+
+## TEXT THAT MAY BE REPRESENTATIONAL
+status-bar glyphs; botanical emboss on seals (match the attached logo); paper and linen texture
+
+## FORBIDDEN ELEMENTS
+a folio or portfolio with labelled pockets; more or fewer than four sealed envelopes; pens, flowers, candles, coffee cups; gold foil; circular buttons or round badges (wax seals are objects, not controls); a centred wordmark in the chrome; any other words or numbers; arches

@@ -117,6 +117,19 @@ describe('Sunburst prompts', () => {
   });
 });
 
+describe('ChatGPT hand-off prompts (founder-run interim)', () => {
+  it('name both attachments, keep the locked text and drop pipeline-internal wording', () => {
+    for (const c of CD) {
+      const p = jurnlF09CD.buildChatGptPrompt(c);
+      expect(p).toContain(jurnlF09CD.CHATGPT_REFERENCE_FILES[c.territory_id]!);
+      expect(p).toContain('JURNL_LOGO_OFFICIAL.png');
+      for (const t of c.text_must_render) expect(p).toContain(`"${t}"`);
+      expect(p).not.toMatch(/official asset|QA.seed|composite/i);
+      expect(existsSync(path.join(ROOT, jurnlF09CD.JURNL_F09_CD_DIR, 'COMPOSITION_LOCKS', jurnlF09CD.CHATGPT_REFERENCE_FILES[c.territory_id]!))).toBe(true);
+    }
+  });
+});
+
 describe('state of the round', () => {
   it('nothing generated, nothing decided, nothing implemented; corrected round waits only on candidates', () => {
     expect(jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES).toHaveLength(0);

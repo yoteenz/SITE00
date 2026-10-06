@@ -486,7 +486,8 @@ export const JURNL_F09_CD_GENERATION_LEDGER = {
   credits_spent: 0,
   openart_accessed: false,
   routes_checked: [
-    { route: 'OpenArt (JURNL’s canonical provider: per-family projects, gpt-image-2-5-sunburst, 4K, image2image)', status: 'NOT USED — this sprint forbids OpenArt access; the founder asked how to grant OpenArt access, which would override that rule. Needs an OpenArt credential or connector available to a NEW session.' },
+    { route: 'OpenArt (JURNL’s canonical provider: per-family projects, gpt-image-2-5-sunburst, 4K, image2image)', status: 'ALLOWED FOR OPUS — the founder clarified the no-OpenArt rule applies to ChatGPT only. Not yet connected: needs an OpenArt credential or connector available to a NEW session.' },
+    { route: 'ChatGPT image generation (founder-run, interim)', status: 'IN USE BY THE FOUNDER UNTIL OPENART IS CONNECTED — CHATGPT_PROMPTS/*.txt + the territory value study + the official logo as attachments. Outputs come back for the anti-AI audit, review board and comparison.' },
     { route: 'Figma MCP generate_image (model gpt-image-2.5-sunburst)', status: 'AVAILABLE NOW — text-only (no reference image), max 2048 px per side (≈1152×2048 at 9:16, not 4K), paid Figma AI credits on the founder’s starter plan. Breaks JURNL REFERENCE_GUIDED canon and the 4K spec unless the founder records an exception.' },
     { route: 'Figma Weave model run', status: 'UNAVAILABLE — the Figma account is not linked to Weave.' },
     { route: 'Repo provider gateway (FAL / Railway)', status: 'NOT AVAILABLE in this session (no provider credential; production systems out of scope).' },
@@ -499,3 +500,40 @@ export const JURNL_F09_CD_GENERATION_LEDGER = {
     'Then: anti-AI audit per candidate, founder review board, previous-vs-corrected scores.',
   ],
 };
+
+/* ─────────────────────────────── ChatGPT hand-off prompts (founder-run, interim) ─────────────────────────────── */
+
+export const CHATGPT_REFERENCE_FILES: Record<string, string> = {
+  'JURNL.F09.T01': 'F09_T01_SURVEYED_COURTYARD_VALUE_STUDY_9x16.png',
+  'JURNL.F09.T02': 'F09_T02_ANSWER_IN_RAKING_LIGHT_VALUE_STUDY_9x16.png',
+  'JURNL.F09.T03': 'F09_T03_SORTING_RACK_VALUE_STUDY_9x16.png',
+};
+
+/**
+ * The same locked translation, phrased for a founder pasting it into ChatGPT image generation with two attachments:
+ * the territory's composition value study (layout to follow) and the official JURNL logo (mark to reproduce exactly).
+ * Pipeline-internal wording is removed; nothing about the design changes.
+ */
+export function buildChatGptPrompt(t: CreativeDirectionTranslation): string {
+  const body = buildSunburstPrompt(t)
+    .replace(/^## RENDER SETTINGS\n.*$/m, `## RENDER SETTINGS\nGPT Image 2.5 (Sunburst) at its highest quality, 9:16 portrait, no auto-enhancement or style preset. ${F09_FRAME_GEOMETRY.frame}`)
+    .replace(/ — composite the official asset if mutated/g, ' — reproduce the attached official JURNL logo exactly')
+    .replace(/; composite the official asset if mutated/g, '; reproduce the attached official JURNL logo exactly')
+    .replace(/; composite the official asset if the mark mutates/g, '; reproduce the attached official JURNL logo exactly')
+    .replace(/\(official asset governs\)/g, '(match the attached logo)')
+    .replace(/\(official mark governs\)/g, '(match the attached logo)')
+    .replace(/ \(QA-seed sample\)/g, ' (sample values)')
+    .replace(/QA seed /g, 'sample ');
+  const head = [
+    'Create ONE image only: a finished mobile app screen for JURNL, in 9:16 portrait. It is a flat screen design, not a photo of a phone and not a mockup.',
+    '',
+    'ATTACHMENTS',
+    `1. ${CHATGPT_REFERENCE_FILES[t.territory_id]} is the composition lock. Follow its layout exactly: where each zone sits, how big it is, the hierarchy, the centred field, the top chrome and the five-cell bottom navigation. It is a tonal blocking study, not the style. Render the real materials, light and type described below.`,
+    '2. JURNL_LOGO_OFFICIAL.png is the official logo. Wherever the JURNL logo appears, reproduce this mark and its lettering exactly. Never invent other letterforms.',
+    '',
+    'TEXT RULE: render only the words listed under TEXT THAT MUST RENDER, spelled exactly in uppercase. If a word cannot be rendered cleanly, leave that surface plain rather than inventing letters.',
+    '',
+    '',
+  ].join('\n');
+  return `${head}${body}`;
+}

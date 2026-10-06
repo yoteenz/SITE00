@@ -28,6 +28,7 @@ export function buildJurnlF09CreativeExports(): Record<string, string> {
       brand_expression_evidence: jurnlF09CD.JURNL_F09_BRAND_EXPRESSION[i]!.items,
     });
     files[`SUNBURST_PROMPTS/${PROMPT_FILES[t.territory_id]}`] = jurnlF09CD.buildSunburstPrompt(t);
+    files[`CHATGPT_PROMPTS/${PROMPT_FILES[t.territory_id]!.replace('.txt', '_CHATGPT.txt')}`] = jurnlF09CD.buildChatGptPrompt(t);
   });
   files['CREATIVE_DIRECTION_DISTINCTNESS_MATRIX.json'] = json({
     ...head('CREATIVE_DIRECTION_DISTINCTNESS_MATRIX'),
@@ -63,6 +64,7 @@ export function buildJurnlF09CreativeExports(): Record<string, string> {
 
 if (process.argv[1] && /jurnl-f09-creative-direction-export\.ts$/.test(process.argv[1])) {
   mkdirSync(`${D}/SUNBURST_PROMPTS`, { recursive: true });
+  mkdirSync(`${D}/CHATGPT_PROMPTS`, { recursive: true });
   const files = buildJurnlF09CreativeExports();
   for (const [name, body] of Object.entries(files)) writeFileSync(`${D}/${name}`, body);
   console.log(`exported ${Object.keys(files).length} files to ${D}`);

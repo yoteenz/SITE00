@@ -14232,3 +14232,4 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Weave is not linked.
   - 0 generations, 0 credits.
 - **Next:** pick the renderer route, generate 3 candidates, then anti-AI audit, review board, previous-vs-corrected scores and founder verdict.
+- **Correction (founder, same day):** the no-OpenArt rule applies to **ChatGPT only**; Opus may use OpenArt once it is connected (credential or connector plus a new session). Interim route: the founder runs ChatGPT image generation with `CHATGPT_PROMPTS/*_CHATGPT.txt`, attaching the territory value study and the official logo, then sends the images back for audit and review. The ChatGPT prompts are generated from the same locked translations (`buildChatGptPrompt`).
