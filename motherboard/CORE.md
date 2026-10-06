@@ -246,6 +246,16 @@ Canonical upstream-to-downstream layers (methodology v20+):
 
 ---
 
+## Production workspace — responsive density authority (HUB)
+
+- **HUB is the authority** for responsive type scale, panel density and media / thumbnail framing; other tabs (INBOX, DESIGN, EXPERIENCE, EXPRESSION, LIBRARY, ACTIVITY) keep their own compositions and normalize their **internal layers** to it. Child pages inherit the same system.
+- **Contract:** `src/site00/config/production-workspace-density.ts` (T0–T6 + METRIC, panel density, 9 fit modes, 10 slot types) mirrored by `src/site00/styles/site00-production-workspace-density.css` (loaded last by `ProductionAuthorityFrame` + `PwFrame`, `data-density="hub-authority"`). Roots carry at most one T6 display title (HUB's own display size); children top out at T5.
+- **Media:** every media-bearing panel declares `data-media-slot` + `data-media-fit` (focal via `--pw-focal`); the source never sizes the panel; caps never crush a frame; `WorkspaceMediaSlot` / `WorkspacePanel` are the shared primitives.
+- **Forbidden:** `zoom`, `transform: scale()`, root font-size shrink, page-width hacks, `overflow: hidden` without a slot / fit / focal contract, `object-fit: fill`.
+- Audit / stress tooling: `scripts/production-workspace/density-*.mjs`; artifacts: `docs/site00/production-workspace/refinements/responsive-density-media1/`.
+
+---
+
 ## Docs
 
 | Path | Purpose |

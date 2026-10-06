@@ -58,7 +58,7 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
       <div className="exf-frames" data-testid={testId}>
         {d.frames.map((f, i) => (
           <button key={f.frameId} type="button" className={`exf-frame${sel === i ? ' is-active' : ''}`} onClick={() => onSel(i)} aria-pressed={sel === i} data-testid="storyboard-frame">
-            <Img url={url(i)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} />
+            <Img url={url(i)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} slot="STRIP_THUMB" />
             <small>F{pad2(f.number)}</small>
           </button>
         ))}
@@ -156,7 +156,7 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
           <Panel title="BOARD INSPECTOR" meta={f ? `F${pad2(f.number)}` : undefined} at={{ d: [3, 2], t: [4, 1], m: [3, 1] }} testId="storyboard-inspector">
             {f ?
               <>
-                <Img url={url(frame)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} className="exf-fill" />
+                <Img url={url(frame)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} slot="STRIP_THUMB" className="exf-fill" />
                 <Kv rows={[['FRAME', `F${pad2(f.number)} OF ${d.frames.length}`], ['STATE', url(frame) ? 'RENDERED' : 'SLOT EMPTY']]} />
               </>
             : <Empty title="NO FRAME SELECTED" />}

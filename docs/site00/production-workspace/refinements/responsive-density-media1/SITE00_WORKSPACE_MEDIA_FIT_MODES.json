@@ -1,0 +1,68 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1",
+  "fitModes": {
+    "THUMBNAIL_COVER": {
+      "fit": "cover",
+      "focal": "50% 50%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Row / strip thumbnails (HUB ops + feed thumbs)."
+    },
+    "THUMBNAIL_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 50%",
+      "crop": "NONE",
+      "backdrop": "NEUTRAL",
+      "purpose": "Small previews whose whole subject must stay visible."
+    },
+    "PORTRAIT_COVER": {
+      "fit": "cover",
+      "focal": "50% 22%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Cast / actor / character portraits — keeps the face in frame."
+    },
+    "LANDSCAPE_COVER": {
+      "fit": "cover",
+      "focal": "50% 45%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Landscape tiles and card media (HUB entry / feature)."
+    },
+    "LOGO_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 50%",
+      "crop": "NONE",
+      "backdrop": "NONE",
+      "purpose": "Logos, marks, transparent brand assets — never cropped, never stretched."
+    },
+    "UI_CAPTURE_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 0%",
+      "crop": "NONE",
+      "backdrop": "NEUTRAL",
+      "purpose": "UI screenshots / authority captures — nav, title and key state stay visible."
+    },
+    "AUTHORITY_PREVIEW_COVER": {
+      "fit": "cover",
+      "focal": "50% 0%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Authority previews framed from the top so the title band survives."
+    },
+    "WIDE_SCENE_COVER": {
+      "fit": "cover",
+      "focal": "50% 42%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Environment / hero plates — crops to the visual anchor, never squashes."
+    },
+    "DOCUMENT_PREVIEW_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 50%",
+      "crop": "NONE",
+      "backdrop": "NEUTRAL",
+      "purpose": "Documents / records — page bounds preserved."
+    }
+  }
+}

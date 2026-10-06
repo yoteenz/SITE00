@@ -1,0 +1,610 @@
+[
+  {
+    "id": "design-brand",
+    "tab": "DESIGN",
+    "route": "/production/ndxbook/design?mode=brand",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": null,
+      "sectionTitle": 11,
+      "body": 5,
+      "control": 7.5,
+      "maxText": 11,
+      "oversizedLayers": 0,
+      "samples": []
+    },
+    "after": {
+      "pageTitle": null,
+      "sectionTitle": 8.5,
+      "body": 5,
+      "control": 7,
+      "maxText": 10,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "design-surfaces",
+    "tab": "DESIGN",
+    "route": "/production/ndxbook/design?mode=surfaces",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": null,
+      "sectionTitle": 11,
+      "body": 3.8,
+      "control": 7.5,
+      "maxText": 11,
+      "oversizedLayers": 0,
+      "samples": []
+    },
+    "after": {
+      "pageTitle": null,
+      "sectionTitle": 8.5,
+      "body": 3.8,
+      "control": 7,
+      "maxText": 9.68,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "design-assets",
+    "tab": "DESIGN",
+    "route": "/production/ndxbook/design?mode=assets",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": null,
+      "sectionTitle": 11,
+      "body": 3.8,
+      "control": 7.5,
+      "maxText": 11,
+      "oversizedLayers": 0,
+      "samples": []
+    },
+    "after": {
+      "pageTitle": null,
+      "sectionTitle": 8.5,
+      "body": 3.8,
+      "control": 7,
+      "maxText": 9.68,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "design-viewport",
+    "tab": "DESIGN",
+    "route": "/production/ndxbook/design?mode=viewport",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": null,
+      "sectionTitle": 11,
+      "body": 5.5,
+      "control": 7.5,
+      "maxText": 11,
+      "oversizedLayers": 0,
+      "samples": []
+    },
+    "after": {
+      "pageTitle": null,
+      "sectionTitle": 8.5,
+      "body": 5.5,
+      "control": 7,
+      "maxText": 8.5,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "experience-world",
+    "tab": "EXPERIENCE",
+    "route": "/production/ndxbook/experience/world",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 27.2,
+      "sectionTitle": 10.88,
+      "body": 11,
+      "control": 9,
+      "maxText": 27.2,
+      "oversizedLayers": 3,
+      "samples": [
+        "h1.pw-head__title 27.2px \"World Architecture\"",
+        "b 15px \"WORLD\"",
+        "small 10px \"WORLD ARCHITECTURE\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 7,
+      "body": 7,
+      "control": 7,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "experience-environments",
+    "tab": "EXPERIENCE",
+    "route": "/production/ndxbook/experience/environments",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 27.2,
+      "sectionTitle": 10.88,
+      "body": 11,
+      "control": 9,
+      "maxText": 27.2,
+      "oversizedLayers": 3,
+      "samples": [
+        "h1.pw-head__title 27.2px \"Environments\"",
+        "b 15px \"PATHS\"",
+        "small 10px \"ENVIRONMENT SYSTEMS\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 7,
+      "body": 7,
+      "control": 7,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "expression-narrative",
+    "tab": "EXPRESSION",
+    "route": "/production/ndxbook/expression/narrative",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 19,
+      "sectionTitle": 10.5,
+      "body": 7,
+      "control": 6.5,
+      "maxText": 19,
+      "oversizedLayers": 6,
+      "samples": [
+        "h1 19px \"EXPRESSION\"",
+        "b 15.3px \"07\"",
+        "b 15.3px \"03\"",
+        "b 15.3px \"2/3\"",
+        "b 15.3px \"02\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 9.78,
+      "body": 7,
+      "control": 6.5,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "expression-casting-actors",
+    "tab": "EXPRESSION",
+    "route": "/production/ndxbook/expression/casting/actors",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 19,
+      "sectionTitle": 10.5,
+      "body": 8.64,
+      "control": 6.5,
+      "maxText": 19,
+      "oversizedLayers": 4,
+      "samples": [
+        "h1 19px \"EXPRESSION\"",
+        "b 15.3px \"01\"",
+        "b 15.3px \"05\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 9.78,
+      "body": 7,
+      "control": 6.5,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "expression-wardrobe-looks",
+    "tab": "EXPRESSION",
+    "route": "/production/ndxbook/expression/wardrobe/looks",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 19,
+      "sectionTitle": 10.5,
+      "body": 7,
+      "control": 6.5,
+      "maxText": 19,
+      "oversizedLayers": 1,
+      "samples": [
+        "h1 19px \"EXPRESSION\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 9.78,
+      "body": 7,
+      "control": 6.5,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "expression-sets-environments",
+    "tab": "EXPRESSION",
+    "route": "/production/ndxbook/expression/sets/environments",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 19,
+      "sectionTitle": 10.5,
+      "body": 7,
+      "control": 7,
+      "maxText": 19,
+      "oversizedLayers": 1,
+      "samples": [
+        "h1 19px \"EXPRESSION\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 9.78,
+      "body": 7,
+      "control": 7,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "expression-storyboard",
+    "tab": "EXPRESSION",
+    "route": "/production/ndxbook/expression/storyboard",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 19,
+      "sectionTitle": 10.5,
+      "body": 9,
+      "control": 6.5,
+      "maxText": 19,
+      "oversizedLayers": 1,
+      "samples": [
+        "h1 19px \"EXPRESSION\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 9.78,
+      "body": 7,
+      "control": 6.5,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "library-collection-open",
+    "tab": "LIBRARY",
+    "route": "/production/libraries",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": null,
+      "sectionTitle": 22,
+      "body": 10,
+      "control": 9.5,
+      "maxText": 22,
+      "oversizedLayers": 17,
+      "samples": [
+        "h2 22px \"ENTRY 002 CANONICAL ASSE\"",
+        "small 10px \"RED GEOMETRY · STUDIO WO\"",
+        "small 10px \"STATUS\"",
+        "small 10px \"SOURCE\"",
+        "small 10px \"VERSION\"",
+        "small 10px \"USED BY\""
+      ]
+    },
+    "after": {
+      "pageTitle": null,
+      "sectionTitle": 13.27,
+      "body": 7,
+      "control": 7,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "library-in-review",
+    "tab": "LIBRARY",
+    "route": "/production/libraries",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": null,
+      "sectionTitle": null,
+      "body": 13,
+      "control": 9.5,
+      "maxText": 13,
+      "oversizedLayers": 1,
+      "samples": [
+        "b 13px \"NOTHING IN REVIEW\""
+      ]
+    },
+    "after": {
+      "pageTitle": null,
+      "sectionTitle": null,
+      "body": 7,
+      "control": 7,
+      "maxText": 8.5,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "activity-approvals",
+    "tab": "ACTIVITY",
+    "route": "/production/activity?view=approvals",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 34,
+      "sectionTitle": 18,
+      "body": 13,
+      "control": 11,
+      "maxText": 34,
+      "oversizedLayers": 43,
+      "samples": [
+        "h1 34px \"ACTIVITY\"",
+        "strong 18px \"APPROVALS\"",
+        "b 22px \"04\"",
+        "b 22px \"00\"",
+        "b 22px \"06\"",
+        "time 11px \"NOW\""
+      ]
+    },
+    "after": {
+      "pageTitle": 20.26,
+      "sectionTitle": 9.78,
+      "body": 7,
+      "control": 7,
+      "maxText": 20.26,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "activity-milestone",
+    "tab": "ACTIVITY",
+    "route": "/production/activity?milestone=narrative",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 24,
+      "sectionTitle": 15,
+      "body": 13,
+      "control": 11,
+      "maxText": 24,
+      "oversizedLayers": 47,
+      "samples": [
+        "h1 24px \"NARRATIVE\"",
+        "p 13px \"Narrative awaiting found\"",
+        "small 10.5px \"STAGE\"",
+        "b 18px \"1 / 7\"",
+        "a.iax-btn.iax-btn--line 12px \"VIEW IN PROJECT\"",
+        "dt 10.5px \"PROJECT\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 9.78,
+      "body": 7,
+      "control": 7,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "inbox-watching",
+    "tab": "INBOX",
+    "route": "/production/queue?view=watching",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": null,
+      "sectionTitle": null,
+      "body": 10.5,
+      "control": 10,
+      "maxText": 21,
+      "oversizedLayers": 19,
+      "samples": [
+        "a 14px \"NEEDS YOU\"",
+        "a.is-active 14px \"WATCHING\"",
+        "a 14px \"RESOLVED\"",
+        "b 21px \"03\"",
+        "b 21px \"00\"",
+        "b 14px \"SET — LOCKED\""
+      ]
+    },
+    "after": {
+      "pageTitle": null,
+      "sectionTitle": null,
+      "body": 7,
+      "control": 7,
+      "maxText": 11.88,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "inbox-all",
+    "tab": "INBOX",
+    "route": "/production/queue?view=all",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 22,
+      "sectionTitle": null,
+      "body": 10,
+      "control": 10,
+      "maxText": 22,
+      "oversizedLayers": 11,
+      "samples": [
+        "a.is-active 14px \"NEEDS YOU\"",
+        "a 14px \"WATCHING\"",
+        "a 14px \"RESOLVED\"",
+        "h1 22px \"ALL INBOX\"",
+        "b 14px \"NARRATIVE APPROVAL\"",
+        "b 14px \"LOOK — REVIEW REQUIRED\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": null,
+      "body": 7,
+      "control": 6.5,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  },
+  {
+    "id": "inbox-decision-detail",
+    "tab": "INBOX",
+    "route": "/production/queue",
+    "ceilingPx": {
+      "pageTitle": 13.27,
+      "sectionTitle": 13.27,
+      "bodyControl": 9.78,
+      "label": 8.5,
+      "metric": 11.88
+    },
+    "before": {
+      "pageTitle": 19,
+      "sectionTitle": 17,
+      "body": 12,
+      "control": 10.5,
+      "maxText": 19,
+      "oversizedLayers": 23,
+      "samples": [
+        "span 11.5px \"INBOX\"",
+        "b 11.5px \"NEEDS YOU\"",
+        "h1 19px \"ENTRY 002 — NARRATIVE AP\"",
+        "dt 10px \"SOURCE\"",
+        "dd 12px \"ENTRY 002\"",
+        "dt 10px \"AREA\""
+      ]
+    },
+    "after": {
+      "pageTitle": 13.27,
+      "sectionTitle": 8.5,
+      "body": 7,
+      "control": 7,
+      "maxText": 13.27,
+      "oversizedLayers": 0,
+      "samples": []
+    }
+  }
+]

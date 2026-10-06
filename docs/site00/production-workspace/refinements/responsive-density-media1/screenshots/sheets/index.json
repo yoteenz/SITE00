@@ -1,0 +1,1098 @@
+{
+  "mobile/activity-1": {
+    "sheet": "sheets/mobile-activity.jpg",
+    "row": 0,
+    "before": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/activity-2": {
+    "sheet": "sheets/mobile-activity.jpg",
+    "row": 1,
+    "before": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/activity-approvals-1": {
+    "sheet": "sheets/mobile-activity.jpg",
+    "row": 2,
+    "before": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/activity-approvals-2": {
+    "sheet": "sheets/mobile-activity.jpg",
+    "row": 3,
+    "before": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/activity-milestone-1": {
+    "sheet": "sheets/mobile-activity.jpg",
+    "row": 4,
+    "before": {
+      "x": 0,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/activity-milestone-2": {
+    "sheet": "sheets/mobile-activity.jpg",
+    "row": 5,
+    "before": {
+      "x": 0,
+      "y": 4404,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 4404,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/design-1": {
+    "sheet": "sheets/mobile-design.jpg",
+    "row": 0,
+    "before": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/design-assets-1": {
+    "sheet": "sheets/mobile-design.jpg",
+    "row": 1,
+    "before": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/design-brand-1": {
+    "sheet": "sheets/mobile-design.jpg",
+    "row": 2,
+    "before": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/design-surfaces-1": {
+    "sheet": "sheets/mobile-design.jpg",
+    "row": 3,
+    "before": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/design-viewport-1": {
+    "sheet": "sheets/mobile-design.jpg",
+    "row": 4,
+    "before": {
+      "x": 0,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/experience-1": {
+    "sheet": "sheets/mobile-experience.jpg",
+    "row": 0,
+    "before": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/experience-environments-1": {
+    "sheet": "sheets/mobile-experience.jpg",
+    "row": 1,
+    "before": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/experience-world-1": {
+    "sheet": "sheets/mobile-experience.jpg",
+    "row": 2,
+    "before": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/expression-1": {
+    "sheet": "sheets/mobile-expression.jpg",
+    "row": 0,
+    "before": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/expression-2": {
+    "sheet": "sheets/mobile-expression.jpg",
+    "row": 1,
+    "before": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/expression-casting-actors-1": {
+    "sheet": "sheets/mobile-expression.jpg",
+    "row": 2,
+    "before": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/expression-narrative-1": {
+    "sheet": "sheets/mobile-expression.jpg",
+    "row": 3,
+    "before": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/expression-sets-environments-1": {
+    "sheet": "sheets/mobile-expression.jpg",
+    "row": 4,
+    "before": {
+      "x": 0,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/expression-storyboard-1": {
+    "sheet": "sheets/mobile-expression.jpg",
+    "row": 5,
+    "before": {
+      "x": 0,
+      "y": 4404,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 4404,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/expression-wardrobe-looks-1": {
+    "sheet": "sheets/mobile-expression.jpg",
+    "row": 6,
+    "before": {
+      "x": 0,
+      "y": 5280,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 5280,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/hub-1": {
+    "sheet": "sheets/mobile-hub.jpg",
+    "row": 0,
+    "before": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/inbox-1": {
+    "sheet": "sheets/mobile-inbox.jpg",
+    "row": 0,
+    "before": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/inbox-all-1": {
+    "sheet": "sheets/mobile-inbox.jpg",
+    "row": 1,
+    "before": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/inbox-decision-detail-1": {
+    "sheet": "sheets/mobile-inbox.jpg",
+    "row": 2,
+    "before": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/inbox-watching-1": {
+    "sheet": "sheets/mobile-inbox.jpg",
+    "row": 3,
+    "before": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/library-1": {
+    "sheet": "sheets/mobile-library.jpg",
+    "row": 0,
+    "before": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/library-2": {
+    "sheet": "sheets/mobile-library.jpg",
+    "row": 1,
+    "before": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/library-collection-open-1": {
+    "sheet": "sheets/mobile-library.jpg",
+    "row": 2,
+    "before": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/library-collection-open-2": {
+    "sheet": "sheets/mobile-library.jpg",
+    "row": 3,
+    "before": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "mobile/library-in-review-1": {
+    "sheet": "sheets/mobile-library.jpg",
+    "row": 4,
+    "before": {
+      "x": 0,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "after": {
+      "x": 405,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    }
+  },
+  "tablet/activity-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 0,
+    "after": {
+      "x": 0,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/activity-2": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 1,
+    "after": {
+      "x": 425,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/activity-approvals-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 2,
+    "after": {
+      "x": 850,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/activity-approvals-2": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 3,
+    "after": {
+      "x": 1275,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/activity-milestone-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 4,
+    "after": {
+      "x": 1700,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/activity-milestone-2": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 5,
+    "after": {
+      "x": 0,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/design-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 6,
+    "after": {
+      "x": 425,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/design-assets-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 7,
+    "after": {
+      "x": 850,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/design-brand-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 8,
+    "after": {
+      "x": 1275,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/design-surfaces-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 9,
+    "after": {
+      "x": 1700,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/design-viewport-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 10,
+    "after": {
+      "x": 0,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/experience-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 11,
+    "after": {
+      "x": 425,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/experience-environments-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 12,
+    "after": {
+      "x": 850,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/experience-world-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 13,
+    "after": {
+      "x": 1275,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/expression-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 14,
+    "after": {
+      "x": 1700,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/expression-casting-actors-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 15,
+    "after": {
+      "x": 0,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/expression-narrative-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 16,
+    "after": {
+      "x": 425,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/expression-sets-environments-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 17,
+    "after": {
+      "x": 850,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/expression-storyboard-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 18,
+    "after": {
+      "x": 1275,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/expression-wardrobe-looks-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 19,
+    "after": {
+      "x": 1700,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/hub-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 20,
+    "after": {
+      "x": 0,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/inbox-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 21,
+    "after": {
+      "x": 425,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/inbox-all-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 22,
+    "after": {
+      "x": 850,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/inbox-decision-detail-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 23,
+    "after": {
+      "x": 1275,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/inbox-watching-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 24,
+    "after": {
+      "x": 1700,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/library-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 25,
+    "after": {
+      "x": 0,
+      "y": 3169,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/library-collection-open-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 26,
+    "after": {
+      "x": 425,
+      "y": 3169,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/library-collection-open-2": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 27,
+    "after": {
+      "x": 850,
+      "y": 3169,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "tablet/library-in-review-1": {
+    "sheet": "sheets/tablet-after.jpg",
+    "cell": 28,
+    "after": {
+      "x": 1275,
+      "y": 3169,
+      "w": 417,
+      "h": 597
+    }
+  },
+  "desktop/activity-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 0,
+    "after": {
+      "x": 0,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/activity-2": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 1,
+    "after": {
+      "x": 488,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/activity-approvals-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 2,
+    "after": {
+      "x": 976,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/activity-approvals-2": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 3,
+    "after": {
+      "x": 1464,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/activity-milestone-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 4,
+    "after": {
+      "x": 1952,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/activity-milestone-2": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 5,
+    "after": {
+      "x": 0,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/design-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 6,
+    "after": {
+      "x": 488,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/design-assets-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 7,
+    "after": {
+      "x": 976,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/design-brand-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 8,
+    "after": {
+      "x": 1464,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/design-surfaces-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 9,
+    "after": {
+      "x": 1952,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/design-viewport-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 10,
+    "after": {
+      "x": 0,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/experience-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 11,
+    "after": {
+      "x": 488,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/experience-environments-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 12,
+    "after": {
+      "x": 976,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/experience-world-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 13,
+    "after": {
+      "x": 1464,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/expression-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 14,
+    "after": {
+      "x": 1952,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/expression-2": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 15,
+    "after": {
+      "x": 0,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/expression-casting-actors-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 16,
+    "after": {
+      "x": 488,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/expression-narrative-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 17,
+    "after": {
+      "x": 976,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/expression-sets-environments-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 18,
+    "after": {
+      "x": 1464,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/expression-storyboard-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 19,
+    "after": {
+      "x": 1952,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/expression-wardrobe-looks-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 20,
+    "after": {
+      "x": 0,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/hub-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 21,
+    "after": {
+      "x": 488,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/inbox-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 22,
+    "after": {
+      "x": 976,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/inbox-all-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 23,
+    "after": {
+      "x": 1464,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/inbox-decision-detail-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 24,
+    "after": {
+      "x": 1952,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/inbox-watching-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 25,
+    "after": {
+      "x": 0,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/library-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 26,
+    "after": {
+      "x": 488,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/library-2": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 27,
+    "after": {
+      "x": 976,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/library-collection-open-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 28,
+    "after": {
+      "x": 1464,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/library-collection-open-2": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 29,
+    "after": {
+      "x": 1952,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    }
+  },
+  "desktop/library-in-review-1": {
+    "sheet": "sheets/desktop-after.jpg",
+    "cell": 30,
+    "after": {
+      "x": 0,
+      "y": 2016,
+      "w": 480,
+      "h": 300
+    }
+  }
+}

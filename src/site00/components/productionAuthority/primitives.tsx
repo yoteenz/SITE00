@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { HubImage } from '../productionHub/HubImage';
+import { workspaceMediaAttrs, type WorkspaceMediaProps } from './WorkspaceMediaSlot';
 
 export function agoLabel(iso: string | null | undefined): string {
   if (!iso) return '—';
@@ -91,6 +92,9 @@ export function Thumb({
   label,
   plate,
   className = '',
+  slot,
+  fit,
+  focal,
 }: {
   slotId?: string | null;
   url?: string | null;
@@ -98,10 +102,14 @@ export function Thumb({
   /** Existing canonical plate (production-mobile pack) used where no hub slot exists. */
   plate?: string;
   className?: string;
-}) {
-  if (plate) return <span className={`pxa-thumb ${className}`} style={{ backgroundImage: `url(${plate})` }} aria-hidden />;
+} & WorkspaceMediaProps) {
+  // Media slot contract: the slot (when declared) owns the box, the fit decides crop vs contain, focal
+  // metadata positions the crop. Undeclared thumbs keep their composed geometry and the default cover fit.
+  const media = workspaceMediaAttrs({ slot, fit, focal });
+  if (plate)
+    return <span className={`pxa-thumb ${className}`} {...media} style={{ ...media.style, backgroundImage: `url(${plate})` }} aria-hidden />;
   return (
-    <span className={`pxa-thumb ${className}`}>
+    <span className={`pxa-thumb ${className}`} {...media}>
       <HubImage slotId={slotId ?? null} url={url ?? null} label={label ?? ''} />
     </span>
   );
